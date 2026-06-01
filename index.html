@@ -835,7 +835,10 @@
     })();
 
     /* ---------- 2. Reveal-on-scroll via IntersectionObserver -------------------
-       Any element with .reveal lifts into view when it enters the viewport.       */
+       Any element with .reveal lifts into view when it enters the viewport.
+       Elements that are already in (or partially in) the initial viewport
+       reveal immediately so the IO's -8% bottom margin can't strand items
+       like the logo strip that sit just barely above the fold.               */
     (function setupReveals() {
       const els = document.querySelectorAll('.reveal');
       if (!('IntersectionObserver' in window)) {
@@ -850,7 +853,15 @@
           }
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-      els.forEach(el => io.observe(el));
+      const vh = window.innerHeight;
+      els.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) {
+          el.classList.add('is-visible');
+        } else {
+          io.observe(el);
+        }
+      });
     })();
 
     /* ---------- 2b. "Why I design" sticky scroll story ------------------------
