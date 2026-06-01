@@ -1,0 +1,1816 @@
+/* ============================================================
+   Adam Hickey — Portfolio
+   Static reproduction of adamhickey.com (Figma Make source).
+   ============================================================ */
+
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-dark:        #111111;     /* body text */
+  --color-charcoal:    #252525;     /* section bg dark + secondary text */
+  --color-warm:        #f5f5f0;     /* tan/warm bg & light text on dark */
+  --color-tea-light:   #e8ede5;     /* hero card bg */
+  --color-muted-light: #e5e5dd;     /* section bg */
+  --color-muted-gray:  #5c5f5c;     /* secondary borders */
+  --color-tag-border:  #E5E5E0;
+  --color-accent:      #6D8768;     /* primary sage green */
+  --color-accent-soft: rgba(109, 135, 104, 0.10);
+
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
+
+  --radius-xl: 20px;
+  --radius-pill: 9999px;
+
+  --container-max: 1280px;
+  --nav-height: 80px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; tab-size: 4; font-size: 16px; }
+body {
+  background: var(--color-white);
+  color: var(--color-dark);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; }
+button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+strong { font-weight: 700; }
+
+/* ---------- typography ---------- */
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; line-height: 1.1; color: var(--color-dark); }
+h1 { font-size: clamp(1.875rem, 4.5vw + 0.5rem, 4.5rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(2.25rem, 3.5vw + 0.5rem, 3rem); letter-spacing: -0.015em; }
+h3 { font-size: clamp(1.625rem, 2.2vw + 0.4rem, 2.125rem); letter-spacing: -0.01em; }
+h4 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 2vw + 0.4rem, 2.125rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--color-dark); }
+h6 { font-family: var(--font-sans); font-weight: 600; font-size: 1.125rem; line-height: 1.35; color: var(--color-charcoal); }
+p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
+
+/* ---------- a11y ---------- */
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--color-charcoal); color: var(--color-warm);
+  padding: 0.5rem 1rem; z-index: 1000;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) { .container { padding-inline: 2rem; } }
+
+/* ============================== NAVIGATION ============================== */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  background: var(--color-white);
+  z-index: 50;
+  transition: box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+}
+.site-nav.is-scrolled { box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 100%; }
+.logo-btn { color: var(--color-charcoal); display: inline-flex; align-items: center; transition: color 0.25s var(--ease); }
+.logo-btn:hover { color: var(--color-accent); }
+/* Match the case-study nav exactly (Tailwind h-12 md:h-16 = 48px / 64px)
+   so the logo doesn't shift size when navigating between home and a case
+   study page. */
+.logo-img { height: 48px; width: auto; }
+@media (min-width: 768px) { .logo-img { height: 64px; } }
+.nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+@media (min-width: 768px) { .nav-actions { gap: 2rem; } }
+.icon-link {
+  position: relative;
+  color: var(--color-charcoal);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: opacity 0.3s var(--ease);
+}
+.icon-link:hover { opacity: 0.7; }
+.icon-link svg { width: 24px; height: 24px; }
+
+/* Refined tooltip for nav icons: a small charcoal pill that drops in
+   from above with a tiny upward-pointing notch. Built from pseudo-
+   elements so no extra DOM is needed. Triggers on hover and keyboard
+   focus, so it's reachable for keyboard users too. */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 0.625rem);
+  left: 50%;
+  transform: translate(-50%, -4px);
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border: 5px solid transparent;
+  border-bottom-color: var(--color-charcoal);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity 0.2s var(--ease);
+}
+[data-tooltip]:hover::after,
+[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  [data-tooltip]::after { transform: translate(-50%, 0); transition: opacity 0.15s linear; }
+  [data-tooltip]:hover::after,
+  [data-tooltip]:focus-visible::after { transform: translate(-50%, 0); }
+}
+
+/* ============================== HERO ============================== */
+.hero {
+  background: var(--color-white);
+  padding-top: calc(var(--nav-height) + 1rem);
+  padding-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 768px) { .hero { padding-top: calc(var(--nav-height) + 2rem); padding-bottom: 3rem; } }
+
+.hero-grid {
+  display: flex; flex-direction: column;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .hero-grid { flex-direction: row; align-items: center; gap: 3rem; margin-bottom: 3rem; }
+}
+
+.hero-photo { display: flex; justify-content: center; margin-top: 1.875rem; margin-bottom: -1.25rem; }
+@media (min-width: 768px) { .hero-photo { width: 33%; margin-top: 2rem; margin-bottom: 0; } }
+.hero-photo-frame {
+  width: 100%; max-width: 380px;
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  overflow: hidden;
+  position: relative;
+}
+.hero-photo-frame::before { content: ""; display: block; padding-bottom: 133.33%; }
+.hero-photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.hero-copy { flex: 1; }
+@media (min-width: 768px) { .hero-copy { width: 66%; } }
+/* Eyebrow above the hero headline — small-caps sage, sitting just
+   above the title with tight margins. */
+.hero-eyebrow {
+  margin-top: 2.875rem;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+@media (min-width: 768px) {
+  .hero-eyebrow { margin-top: 3rem; margin-bottom: 0.75rem; font-size: 0.8125rem; }
+}
+.hero-eyebrow + .hero-title { margin-top: 0; }
+.hero-title { margin-top: 2.875rem; margin-bottom: 1rem; word-break: break-word; }
+@media (max-width: 767.98px) { .hero-title { font-size: 2.25rem; line-height: 1.05; } }
+@media (min-width: 768px) { .hero-title { margin-top: 3rem; margin-bottom: 2rem; } }
+.hero-title .accent { color: var(--color-accent); }
+.hero-sub { font-size: 1.25rem; color: var(--color-dark); line-height: 1.5; }
+@media (min-width: 768px) { .hero-sub { font-size: 1.375rem; } }
+
+
+/* Hero value cards */
+.hero-cards {
+  display: grid; gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media (min-width: 768px) { .hero-cards { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; margin-top: -1rem; } }
+@media (min-width: 1024px) { .hero-cards { gap: 3rem; } }
+.hero-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  background: var(--color-tea-light);
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+}
+.hero-card-head { display: flex; align-items: center; gap: 0.625rem; }
+.hero-card-icon { flex-shrink: 0; color: var(--color-accent); display: inline-flex; }
+.hero-card-icon svg { width: 22px; height: 22px; }
+.hero-card-title { font-family: var(--font-sans); font-weight: 600; font-size: 1.0625rem; line-height: 1.25; color: var(--color-charcoal); }
+.hero-card p { font-size: 0.9375rem; line-height: 1.5; color: var(--color-muted-gray); }
+
+/* Logo strip */
+.logo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 768px) { .logo-strip { grid-template-columns: repeat(6, 1fr); gap: 1.5rem; } }
+.logo-cell {
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.5rem 0.25rem;
+  border-radius: 0.5rem;
+}
+@media (min-width: 768px) { .logo-cell { padding: 0.5rem 1rem; } }
+.logo-cell img { max-height: 5rem; width: 100%; height: auto; object-fit: contain; opacity: 0.85; transition: opacity 0.25s var(--ease); }
+.logo-cell:hover img { opacity: 1; }
+
+/* ============================== CASE STUDIES ============================== */
+.case-studies {
+  background: var(--color-warm);
+  padding: 5rem 0;
+}
+@media (min-width: 768px) { .case-studies { padding: 6.5rem 0; } }
+
+.section-head { margin-bottom: 3rem; max-width: 56rem; }
+.section-head h2 { margin-bottom: 1rem; }
+@media (min-width: 768px) { .section-head h2 { margin-bottom: 1.5rem; } }
+.section-head p { max-width: 42rem; color: var(--color-dark); font-size: 1.0625rem; }
+.section-head.archive-head { margin-top: 1rem; margin-bottom: 3rem; }
+
+.case-grid {
+  display: grid; gap: 2rem;
+  margin-bottom: 3rem;
+}
+@media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 4rem; } }
+
+.case-card { display: block; text-align: left; cursor: pointer; }
+.case-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-muted-light);
+  border-radius: var(--radius-xl);
+  margin-bottom: 0.7rem;
+}
+@media (min-width: 768px) { .case-thumb { margin-bottom: 1rem; } }
+.case-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+.case-card:hover .case-thumb img { transform: scale(1.05); }
+.case-card h4 {
+  /* Mobile (<768): tighter title→description gap so the description and
+     tag row read as one tightly grouped unit beneath the headline. */
+  margin-bottom: 0.45rem;
+  color: var(--color-dark);
+  transition: color 0.25s var(--ease);
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  /* Desktop: still a touch breezier than mobile, but tighter than before
+     so the headline, description, and tag row feel like one block. */
+  .case-card h4 { margin-bottom: 0.65rem; font-size: 2.125rem; }
+}
+.case-card:hover h4 { color: var(--color-accent); }
+
+/* Single-line human description under each case card title. Sentence case,
+   no italics, no all caps. Sits between the title and the tag row. */
+.case-desc {
+  margin-top: -0.35rem;
+  /* Mobile: pull the tag row noticeably closer so description + tags
+     read as one cohesive group. */
+  margin-bottom: 0.4rem;
+  color: var(--color-muted-gray);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 32rem;
+}
+@media (min-width: 768px) {
+  /* Desktop: slightly tighter description→tags gap than the original,
+     while keeping a touch more breathing room than mobile. */
+  .case-desc { font-size: 1.0625rem; margin-bottom: 0.85rem; }
+}
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-tag-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.8125rem;
+  letter-spacing: 0.025em;
+  color: var(--color-dark);
+}
+
+/* ============================== CAPABILITIES ============================== */
+.capabilities { background: var(--color-white); padding: 5rem 0; }
+@media (min-width: 768px) { .capabilities { padding: 6.5rem 0; } }
+.capabilities .section-head h2 { color: var(--color-charcoal); }
+.capabilities .section-head p { color: var(--color-dark); }
+
+/* CAPABILITIES: editorial rail + feature card.
+   Desktop (≥900px): sticky vertical rail on the left listing all 10
+   capabilities grouped under their three categories, paired with a
+   large feature card on the right showing image + body for the active
+   capability. Below the card, Prev/Next + a "01 / 10" counter let the
+   user flip through the set without leaving the keyboard.
+   Mobile (<900px): rail collapses to a horizontal pill scroller above
+   the card; everything else stacks. */
+.cap-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  position: relative;
+}
+@media (min-width: 900px) {
+  .cap-shell {
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+  }
+}
+@media (min-width: 1200px) {
+  .cap-shell {
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+}
+
+/* RAIL: sticky vertical nav on desktop. */
+.cap-rail { position: relative; }
+@media (min-width: 900px) {
+  .cap-rail {
+    position: sticky;
+    top: calc(var(--nav-height, 80px) + 1.5rem);
+  }
+}
+.cap-rail-group + .cap-rail-group { margin-top: 1.5rem; }
+.cap-rail-group-title {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.625rem;
+  padding-left: 1.125rem;
+}
+.cap-rail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RAIL ITEM: serif number + sans label, with a sage indicator bar that
+   slides in on the active item. */
+.cap-rail-item {
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  column-gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.625rem 0.75rem 0.625rem 1.125rem;
+  position: relative;
+  border-radius: 0.375rem;
+  width: 100%;
+  font: inherit;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+.cap-rail-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 1.5rem;
+  background: var(--color-accent);
+  border-radius: 2px;
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  transition: transform 0.2s var(--ease);
+}
+.cap-rail-item:hover { background: rgba(109, 135, 104, 0.06); }
+.cap-rail-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.cap-rail-item.is-active { background: rgba(109, 135, 104, 0.08); }
+.cap-rail-item.is-active::before { transform: translateY(-50%) scaleY(1); }
+.cap-rail-num {
+  font-family: var(--font-serif);
+  font-feature-settings: "lnum" 1;
+  font-size: 0.875rem;
+  color: var(--color-muted-gray);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  transition: color 0.18s var(--ease);
+}
+.cap-rail-item.is-active .cap-rail-num { color: var(--color-accent); }
+.cap-rail-label {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.35;
+  letter-spacing: -0.003em;
+  color: var(--color-dark);
+  font-weight: 500;
+  transition: color 0.18s var(--ease);
+}
+/* Active state intentionally keeps the same font-weight as inactive so
+   the label width doesn't change — preventing the regular→bold reflow
+   that pushes longer labels to a second line. The active state is
+   carried by the sage indicator bar, the tinted background, the
+   accent-green number, and a slightly darker label color. */
+.cap-rail-item.is-active .cap-rail-label {
+  color: var(--color-charcoal);
+}
+
+/* MOBILE RAIL: horizontal pill scroller. Group titles hidden; items
+   become compact pill buttons that scroll horizontally. */
+@media (max-width: 899.98px) {
+  .cap-rail {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem 0.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Lay groups out as siblings in a single flex row */
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .cap-rail::-webkit-scrollbar { display: none; }
+  .cap-rail-group { margin: 0 !important; flex: 0 0 auto; }
+  .cap-rail-group-title { display: none; }
+  .cap-rail-list {
+    flex-direction: row;
+    gap: 0.5rem;
+    width: max-content;
+  }
+  .cap-rail-list li { flex: 0 0 auto; }
+  .cap-rail-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 999px;
+    border: 1px solid rgba(109, 135, 104, 0.22);
+    background: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    width: auto;
+  }
+  .cap-rail-item::before { display: none; }
+  .cap-rail-item.is-active {
+    background: var(--color-charcoal);
+    border-color: var(--color-charcoal);
+  }
+  .cap-rail-item.is-active .cap-rail-num,
+  .cap-rail-item.is-active .cap-rail-label { color: #ffffff; }
+  .cap-rail-num { font-size: 0.8125rem; }
+  .cap-rail-label { font-size: 0.875rem; }
+}
+
+/* Per-card meta strip (slide number + group eyebrow) defaults to
+   hidden — the rail conveys both on desktop. The mobile breakpoint
+   below re-enables it. */
+.cap-feature-meta { display: none; }
+
+/* MOBILE (<768px): the pill rail goes away and the stage becomes a
+   horizontal scroll-snap carousel. Cards bleed past the viewport edges
+   so the next / previous card peeks in, signalling swipeability without
+   needing any chrome (no dots, no arrows, no tabs). */
+@media (max-width: 767.98px) {
+  .cap-rail { display: none; }
+
+  .cap-shell { gap: 0; }
+
+  .cap-stage {
+    /* Break out of the container's 1.5rem inset so the carousel touches
+       both viewport edges; restore the inset as padding AND as
+       scroll-padding so cards snap with a comfortable left margin
+       rather than the snap engine auto-scrolling past the inset. */
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1.5rem;
+    scrollbar-width: none;
+    display: flex;
+    gap: 1rem;
+    /* Soft fade on both edges: the peeking cards melt into the page
+       instead of being hard-cut at the viewport boundary. Reads as a
+       cinematic carousel rather than a clipped row. */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 1.5rem,
+      #000 calc(100% - 1.75rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 1.5rem,
+      #000 calc(100% - 1.75rem),
+      transparent 100%
+    );
+  }
+  .cap-stage::-webkit-scrollbar { display: none; }
+
+  /* All ten cards live side-by-side. Card width is set so the next
+     card always peeks ~35px past the right edge — clear enough that
+     the swipe gesture is obvious from a glance. Snap to the start so
+     each settle lands a card flush against the left inset. */
+  .cap-feature {
+    flex: 0 0 80vw;
+    scroll-snap-align: start;
+    /* Subtle elevation so the cards feel like physical objects on the
+       page rather than flat fills — pairs with the edge fade above. */
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 10px 24px -10px rgba(0, 0, 0, 0.10);
+    /* The desktop entrance animation would replay every time the JS
+       toggles is-active; here the carousel shows all cards at once so
+       the animation has nothing to do. */
+    animation: none !important;
+  }
+  /* Override the JS [hidden] attribute on mobile — desktop hides every
+     card except the active one, but here we want all of them visible. */
+  .cap-feature[hidden] { display: flex !important; }
+
+  /* Per-card meta strip (slide number + group name) shown above the
+     title. On desktop the rail already conveys both, so the meta is
+     hidden there; on mobile it tells the user where they are in the
+     ten-card swipe set. */
+  .cap-feature-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted-gray);
+  }
+  .cap-feature-num {
+    color: var(--color-accent);
+    font-feature-settings: "tnum" 1;
+  }
+  .cap-feature-num::after {
+    content: "·";
+    margin-left: 0.55rem;
+    color: var(--color-muted-gray);
+    font-weight: 400;
+  }
+}
+
+
+/* STAGE: holds the active feature card + the Prev/Next controls. */
+.cap-stage {
+  position: relative;
+  min-width: 0;
+}
+
+/* FEATURE CARD: large image on top, content stack below. */
+.cap-feature {
+  display: flex;
+  flex-direction: column;
+  background: rgba(109, 135, 104, 0.05);
+  border: 1px solid rgba(109, 135, 104, 0.10);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.cap-feature[hidden] { display: none; }
+/* Default fade-up entrance (initial load / no direction known). */
+.cap-feature[data-state="active"] {
+  animation: capFeatureIn 320ms var(--ease) both;
+}
+/* Directional swap: the new card slides in from whichever side the
+   user is moving toward. Curve is cubic-bezier(.22, 1, .36, 1) — a
+   gentle ease-out that lets the card glide to rest rather than snap. */
+.cap-feature[data-state="active"][data-dir="next"] {
+  animation: capFeatureInRight 420ms cubic-bezier(.22, 1, .36, 1) both;
+}
+.cap-feature[data-state="active"][data-dir="prev"] {
+  animation: capFeatureInLeft 420ms cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes capFeatureIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes capFeatureInRight {
+  from { opacity: 0; transform: translate3d(28px, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes capFeatureInLeft {
+  from { opacity: 0; transform: translate3d(-28px, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cap-feature[data-state="active"],
+  .cap-feature[data-state="active"][data-dir="next"],
+  .cap-feature[data-state="active"][data-dir="prev"] {
+    animation: none !important;
+  }
+}
+
+/* PAGER: small Prev/Next pair pinned to the upper-right of the card
+   area, with a tight numeric meter between them. Designed to read as
+   an editorial pager rather than a heavy nav bar — circle buttons,
+   sage hairline, charcoal on hover. Floats above the card via
+   absolute positioning so the card body stays a clean text column. */
+.cap-pager {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 3;
+  /* The pill backdrop separates the pager from busy card content
+     (numbers, image edges) without dominating the corner. */
+  padding: 0.25rem 0.4rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(109, 135, 104, 0.18);
+  border-radius: 999px;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+}
+@media (min-width: 768px) {
+  .cap-pager { top: 1.25rem; right: 1.25rem; }
+}
+.cap-pager-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease),
+              color 0.18s var(--ease),
+              transform 0.1s var(--ease);
+}
+.cap-pager-btn:hover {
+  background: var(--color-charcoal);
+  color: #ffffff;
+}
+.cap-pager-btn:active { transform: translateY(1px); }
+.cap-pager-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.cap-pager-btn svg { width: 16px; height: 16px; }
+.cap-pager-meter {
+  font-family: var(--font-serif);
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-muted-gray);
+  min-width: 3.25rem;
+  text-align: center;
+}
+/* Mobile uses the horizontal rail of pills above the card for nav,
+   so the pager isn't needed and would only crowd the title. */
+@media (max-width: 767.98px) {
+  .cap-pager { display: none; }
+}
+
+/* IMAGE: dark frame sized to the photos' native ratio so nothing is
+   cropped. The container mirrors the source images' aspect ratio
+   (1916 × 821 ≈ 2.33:1); object-fit:contain on the photo guarantees
+   the full image stays visible even if a future swap is slightly off.
+   The padding extends the dark area uniformly around the photo so the
+   image reads as framed rather than flush. The image lives inside the
+   feature body (between the sub and the bullets), so it picks up the
+   body's horizontal padding and we round its own corners to read as a
+   self-contained element rather than an extension of the card. */
+.cap-feature-image {
+  aspect-ratio: 3 / 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e1011;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+.cap-feature-image:not(.has-photo) {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.05), transparent 60%),
+    #0e1011;
+}
+.cap-feature-image::after {
+  content: attr(data-label);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, 0.4);
+  text-align: center;
+  padding: 0 2rem;
+}
+.cap-feature-image-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none;
+  transition: transform 0.4s var(--ease);
+}
+.cap-feature-image-photo:not([hidden]) { display: block; }
+.cap-feature-image.has-photo::after { display: none; }
+
+/* Inline HTML capability image (used by capability 01). The container
+   keeps its 3:1 dark frame; inside, three equally-weighted columns each
+   stack a placeholder glyph, a sentence-case semi-bold heading, and a
+   sentence-case caption ending with a period. */
+.cap-feature-image.has-html::after { display: none; }
+.cap-html-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  align-items: start;
+  justify-items: center;
+}
+.cap-html-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  max-width: 22ch;
+}
+/* Pull the heading + caption further from the icon than from each
+   other, so each column reads as "glyph, then label". */
+.cap-html-col .cap-html-heading { margin-top: 0.25rem; }
+.cap-html-col .cap-html-sub { margin-top: -0.5rem; }
+.cap-html-icon {
+  width: 52px;
+  height: 52px;
+  /* Sage green — bright enough to read clearly against the dark
+     #0e1011 panel without feeling neon. */
+  color: #a8c19e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cap-html-icon svg { width: 100%; height: 100%; }
+.cap-html-heading {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: #f5f5f0;
+}
+.cap-html-sub {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.45;
+  color: rgba(245, 245, 240, 0.72);
+}
+/* Mobile: drop the dark photo from each card so the carousel stays
+   compact — the text + eyebrow carry each card on their own.
+   Declared AFTER the base rules above so source order overrides
+   their display:flex. */
+@media (max-width: 767.98px) {
+  .cap-feature-image { display: none; }
+}
+
+/* BODY: title → sub → image → bullets → citation. */
+.cap-feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+@media (min-width: 768px) {
+  .cap-feature-body { padding: 2.25rem 2.25rem 1.75rem; gap: 1.25rem; }
+}
+@media (min-width: 1200px) {
+  .cap-feature-body { padding: 2.75rem 2.75rem 2rem; }
+}
+
+.cap-feature-title {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+  color: var(--color-charcoal);
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .cap-feature-title { font-size: 2.5rem; }
+}
+@media (min-width: 1200px) {
+  .cap-feature-title { font-size: 2.25rem; }
+}
+
+.cap-feature-sub {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-dark);
+  margin: 0;
+  max-width: 58ch;
+}
+@media (min-width: 768px) {
+  .cap-feature-sub { font-size: 1rem; }
+}
+
+.cap-feature-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.cap-feature-bullets li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-charcoal);
+}
+@media (min-width: 768px) {
+  .cap-feature-bullets li { font-size: 1rem; }
+}
+.cap-feature-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.cap-feature-citation {
+  margin: 0.75rem 0 0;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(109, 135, 104, 0.18);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-muted-gray);
+  font-style: italic;
+}
+/* Small-caps eyebrow that introduces the citation. Decorative only —
+   the citation itself reads as a complete sentence so the label is
+   safe to render via ::before without losing meaning for screen
+   readers (and the italic body inherits its non-italic upright). */
+.cap-feature-citation::before {
+  content: "Grounded in";
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-style: normal;
+}
+
+/* Reduced motion: drop the entrance animation entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .cap-group-pane[data-state="active"] { animation: none; }
+  .cap-tab { transition: none; }
+  .cap-card-image-photo { transition: none; }
+}
+
+/* ============================== WHY I DESIGN — sticky scroll story ==============================
+   A two-column "scrollytelling" section. The text steps scroll normally on the
+   left; the media column on the right is sticky-pinned and cross-fades a
+   layered image pair per step. A vertical progress rail tracks the active step.
+   Falls back to a simple stacked layout below the sticky breakpoint. */
+.story {
+  /* Per-step theme tokens. JS sets data-active="0|1|2" on the section as you
+     scroll, and the whole panel cross-fades through three moods: calm light,
+     soft sage, then a deep warm close. */
+  --story-bg:       var(--color-muted-light);
+  --story-ink:      var(--color-charcoal);
+  --story-body:     var(--color-dark);
+  --story-ink-soft: var(--color-muted-gray);
+  --story-accent:   var(--color-accent);
+  --story-rail:     var(--color-tag-border);
+  --story-grid:     #b0b8a2;
+
+  background: var(--story-bg);
+  color: var(--story-ink);
+  padding: 5rem 0 6rem;
+  position: relative;
+  /* overflow-x: clip guards against horizontal overflow from the scaled
+     frames WITHOUT establishing a scroll container (which `hidden` would,
+     breaking the sticky media pin). */
+  overflow-x: clip;
+  transition: background-color 1s var(--ease), color 1s var(--ease);
+}
+/* The section drifts through four light earth-tone environments as you scroll
+   — pale green, sage, a cooler muted blue-green, then a warm clay close. Text
+   stays charcoal throughout; only the background hue shifts, so it feels like
+   the air changing rather than the lights going out. */
+
+/* Each slide sets its background plus a slightly darker tonal grid line. */
+/* Entry — pale green; the calm arrival before the first belief. */
+.story[data-active="intro"] { --story-bg: #eaeee2; --story-grid: #b7bab0; }
+/* Slide 01 — a clear light sage; bright and observational. */
+.story[data-active="0"]     { --story-bg: #d7e1c6; --story-grid: #a8b09a; }
+/* Slide 02 — a cooler muted blue-green; a shift in the air. */
+.story[data-active="1"]     { --story-bg: #c4d5d2; --story-grid: #99a6a4; }
+/* Slide 03 — a desaturated warm greige; the earthy, humane close. */
+.story[data-active="2"]     { --story-bg: #ded7ca; --story-grid: #ada89e; }
+@media (min-width: 768px) { .story { padding: 7rem 0 8rem; } }
+
+/* ---------- Decorative layer (desktop): faint architectural grid + a
+   hand-drawn "line of thought" that draws in as you scroll. Sits behind all
+   content and never intercepts pointer events, so it never impedes reading. */
+.story-deco {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* clip (not hidden) so it contains the line without establishing a scroll
+     container. Shown on every breakpoint so the line follows on mobile too. */
+  overflow: clip;
+}
+.story > .container { position: relative; z-index: 1; }
+/* The weaving line = the human line of thought moving through the structure. */
+/* Latitude/longitude wireframe sitting *behind* the dotted trail. The SVG
+   fills the section exactly; overflow is visible so the inner <g> can
+   translate beyond the viewBox bounds for the parallax glide. The
+   .story-deco parent (overflow: clip) keeps anything spilling outside the
+   section invisible. */
+.story-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.story-grid-line {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.11;
+}
+.story-line { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* Invisible guide path — geometry is sampled by JS to position the dotted
+   trail and the airplane. Stroke is set to none so it never paints. */
+.story-line-path { fill: none; stroke: none; }
+/* The dotted trail. Charcoal so the line reads as a quiet, neutral thread
+   regardless of which belief-tone the section is currently in. */
+.story-line-dot {
+  fill: var(--color-charcoal);
+  opacity: 0.5;
+}
+/* The Swiss-style airplane silhouette flying at the head of the trail.
+   Always rendered in charcoal; sits inside .story-deco (z-index: 0), so it
+   stays beneath every image and text block in the section. */
+.story-line-plane {
+  fill: var(--color-charcoal);
+  opacity: 0.9;
+  transition: opacity 0.25s var(--ease);
+}
+/* A faint static grain over the whole decorative layer gives the grid and the
+   line a soft hand-made, paper-like texture. Static, so it costs nothing as
+   you scroll. */
+.story-deco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.story-head {
+  max-width: 56rem;
+  margin-bottom: 1rem;
+}
+.story-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--story-accent);
+  margin-bottom: 1rem;
+  transition: color 1s var(--ease);
+}
+.story-lead {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--story-ink);
+  max-width: 36rem;
+  transition: color 1s var(--ease);
+}
+/* The "(now powered by AI)" aside reads as a lighter, smaller sub-note. */
+.story-lead-note {
+  font-size: 0.46em;
+  color: var(--story-ink-soft);
+  white-space: nowrap;
+  transition: color 1s var(--ease);
+}
+/* Mobile: larger header, "(now powered by AI)" on its own line, and a clear
+   gap below the header before the first belief. */
+@media (max-width: 899px) {
+  .story-lead { font-size: clamp(2.25rem, 8.5vw, 2.75rem); line-height: 1.1; }
+  .story-lead-note { display: block; margin-top: 0.6rem; font-size: 0.5em; }
+  .story-head { margin-bottom: 60px; }
+}
+
+/* ----- Layout ----- */
+.story-track {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 900px) {
+  /* Asymmetric grid: image dominates. The right column is the
+     storytelling element so it carries more weight than the text. */
+  .story-track {
+    grid-template-columns: 5fr 7fr;
+    gap: 4.5rem;
+    align-items: start;
+  }
+}
+/* Inline per-step circular media — mobile only (desktop uses the pinned stage). */
+.story-step-media { display: none; }
+
+/* Left: scrolling text steps. Each step is tall to give scroll distance. */
+.story-step {
+  padding: 1.5rem 0;
+}
+@media (min-width: 900px) {
+  .story-step {
+    min-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Dim the inactive steps so the active one leads the eye. */
+    opacity: 0.35;
+    transition: opacity 0.5s var(--ease);
+  }
+  .story-step.is-active { opacity: 1; }
+}
+.story-num {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--story-accent);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  transition: color 1s var(--ease);
+}
+.story-step h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 2.2vw + 0.75rem, 2.625rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--story-ink);
+  margin-bottom: 1rem;
+  transition: color 1s var(--ease);
+}
+.story-step p {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--story-body);
+  max-width: 30rem;
+  transition: color 1s var(--ease);
+}
+@media (min-width: 768px) { .story-step p { font-size: 1.125rem; } }
+
+/* Right: sticky media column. */
+.story-sticky {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;   /* images, then the rail on the right */
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .story-sticky {
+    position: sticky;
+    top: calc(var(--nav-height) + 3rem);
+    height: calc(100vh - var(--nav-height) - 6rem);
+  }
+}
+
+/* Vertical progress rail — sits to the right of the images. */
+.story-progress {
+  order: 1;
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  max-height: 22rem;
+  justify-content: center;
+}
+.story-progress li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.story-progress-num {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--story-ink-soft);
+  transition: color 0.6s var(--ease);
+}
+.story-progress-track {
+  width: 2px;
+  height: 3.5rem;
+  background: var(--story-rail);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 1s var(--ease);
+}
+.story-progress li:last-child .story-progress-track { display: none; }
+.story-progress-track::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 100% 0;
+  background: var(--story-accent);
+  transition: bottom 0.5s var(--ease), background-color 1s var(--ease);
+}
+/* Past steps: filled rail + sage number. Active: sage number. */
+.story-progress li.is-active .story-progress-num { color: var(--story-accent); font-weight: 600; }
+.story-progress li.is-done .story-progress-num { color: var(--story-accent); }
+.story-progress li.is-done .story-progress-track::after { inset: 0; }
+
+/* Media stage holds the stacked frames. */
+.story-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+@media (min-width: 900px) {
+  /* Square stage at desktop+ so the circle commands the column without
+     wasted headroom. The max-height check still keeps it inside the
+     sticky viewport. */
+  .story-stage {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-height: calc(100vh - var(--nav-height) - 6rem);
+    align-self: center;
+  }
+}
+
+.story-frame {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.story-frame.is-active { pointer-events: auto; z-index: 2; }
+
+/* Layered imagery: a large back image + a smaller framed front image.
+   The wrapper defines the visible circle (fixed size, border-radius,
+   overflow:hidden). The <img> inside fills the wrapper. Motion has been
+   removed — the photos sit still so the section reads calmly. */
+.story-frame-back-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-tea-light);
+  opacity: 0;
+  transition: opacity .5s var(--ease);
+}
+.story-frame.is-active .story-frame-back-wrap {
+  opacity: 1;
+  transition: opacity .7s var(--ease);
+}
+.story-frame-back {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Front disc: a small charcoal "sticker" pressed against the photo. The
+   compound box-shadow stack reads as die-cut rim + soft contact shadow +
+   inset depth highlights, and the radial-gradient adds a subtle grazing
+   light on the surface so the disc feels physical rather than flat. The
+   Swiss-minimal line-art icon draws itself in once when the parent frame
+   first becomes active (see setupStoryIconAnimations).
+
+   The sticker's position varies per frame (see .story-frame[data-frame]
+   overrides below) so each step's waypoint sits in a different clock
+   position on the photo — reinforcing the "different stop on the
+   journey" feeling.                                                     */
+.story-frame-front {
+  position: absolute;
+  /* Step 1 default position (~4 o'clock). Step 2 and 3 override below. */
+  right: 10.5%;
+  bottom: 25.4%;
+  width: 22%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.07), transparent 62%),
+    var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    /* die-cut rim — barely-visible warm ring */
+    0 0 0 1px rgba(245, 245, 240, 0.09),
+    /* soft contact shadow: the sticker is adhered, not floating */
+    0 4px 10px rgba(0, 0, 0, 0.22),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    /* inset top highlight catches ambient light on the raised edge */
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    /* inset bottom shadow gives the sticker a touch of physical depth */
+    inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity .45s var(--ease), transform .5s var(--ease);
+}
+.story-frame.is-active .story-frame-front {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s var(--ease), transform .8s var(--ease);
+  transition-delay: .2s;
+}
+
+/* Live coordinate readout: sits above the circular photo, centered
+   horizontally on the stage. Text is driven by scroll progress in
+   setupStoryLine. Uses tabular numerals so digits tick in place
+   rather than jiggling as they cycle. */
+.story-coord {
+  position: absolute;
+  /* Anchor to the top of the stage (the photo's top edge), then nudge
+     the pill up so it sits with a comfortable gap above the circle. */
+  left: 50%;
+  bottom: calc(100% + 1rem);
+  transform: translateX(-50%) translateY(-4px);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--color-charcoal);
+  background: rgba(245, 245, 240, 0.92);
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+  pointer-events: none;
+}
+/* Fade the readout in once the section has been scrolled into view —
+   the JS sets data-coord-in on the stage when it adds the first scroll
+   tick, mirroring how the rest of the section reveals on entry. */
+.story-stage[data-coord-in="1"] .story-coord {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (max-width: 899px) {
+  /* Mobile uses the inline-step media; the pinned stage and its readout
+     don't render below 900px. */
+  .story-coord { display: none; }
+}
+
+/* Swiss-minimal line-art icon inside the charcoal disc. The geometry is
+   drawn in 48-unit viewBox space; CSS sizes the icon to ~52% of its disc
+   so there is generous negative space around it. Path lengths and a small
+   per-path stagger are set in JS, then the stroke "draws" on .is-drawn. */
+/* Icon inside the sticker. Now an <img> pointing at an icons8 GIF; the
+   GIF carries its own gentle loop animation. The source GIFs are dark
+   artwork on a solid white canvas, so we (a) invert the image — white
+   becomes black, the dark icon becomes white — and (b) blend it onto
+   the charcoal disc with mix-blend-mode: screen, which leaves black
+   areas indistinguishable from charcoal while keeping the inverted
+   white icon fully visible. Antialiased edges blend cleanly. */
+.story-icon {
+  width: 58%;
+  height: 58%;
+  display: block;
+  object-fit: contain;
+  filter: invert(1);
+  mix-blend-mode: screen;
+  /* Soothing reveal: slow opacity + scale-settle on a gentle ease-out-quint
+     (no overshoot, no bounce). Plays once when the sticker first appears. */
+  opacity: 0;
+  transform: scale(0.93);
+  transition:
+    opacity 1.6s cubic-bezier(.16, 1, .3, 1),
+    transform 1.9s cubic-bezier(.16, 1, .3, 1);
+  transition-delay: var(--draw-delay, 0.55s);
+}
+.story-frame-front.is-drawn .story-icon,
+.ssm-front.is-drawn .story-icon {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-icon {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ----- Head reveal (intro fade-up) ----- */
+.story-anim {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.story-head.is-in .story-anim { opacity: 1; transform: none; }
+.story-head.is-in .story-lead { transition-delay: 0.08s; }
+
+/* ----- Mobile: media pins to the top, text steps scroll beneath it -----
+   The single-column track puts the media first (order: -1) and pins it just
+   below the nav. The text steps scroll up behind it; the same observer keeps
+   the pinned image cross-fading to the active step. */
+@media (max-width: 899px) {
+  .story-track { gap: 2.5rem; }
+  .story-progress { display: none; }
+
+  /* No pinned media on mobile — the section flows as natural step groups,
+     each with its own inline circular image. */
+  .story-sticky { display: none; }
+
+  .story-steps { display: flex; flex-direction: column; gap: 3rem; }
+  .story-step {
+    min-height: 0;
+    opacity: 1;
+    padding: 0;
+  }
+
+  /* Inline circular media per step: a back circle + smaller front circle. */
+  .story-step-media {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    margin: 1.75rem 0 0;
+  }
+  .ssm-back-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-tea-light);
+  }
+  .ssm-back {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ssm-front {
+    /* Centred on the back circle's bottom-right edge so the sticker sits
+       ~50/50 on the photo and the page background.                        */
+    position: absolute;
+    right: 19%;
+    bottom: 19%;
+    width: 26%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.07), transparent 62%),
+      var(--color-charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 1px rgba(245, 245, 240, 0.09),
+      0 4px 10px rgba(0, 0, 0, 0.22),
+      0 1px 2px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-anim { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .story-step { opacity: 1 !important; }
+  .story-frame-back, .story-frame-front, .ssm-back {
+    transform: none !important;
+    clip-path: none !important;
+    transition: opacity 0.25s linear !important;
+  }
+  /* Coord readout: skip the slide-in, just fade. Keep the centering
+     translateX so the pill stays centered on the sticker. */
+  .story-coord {
+    transform: translateX(-50%) !important;
+    transition: opacity 0.25s linear !important;
+  }
+}
+
+/* Career evolution timeline (now lives inside .still-evolving on a dark bg) */
+.still-copy {
+  display: flex; flex-direction: column; gap: 1.25rem;
+  max-width: 56rem;
+  margin-bottom: 2.5rem;
+}
+.still-copy p {
+  color: var(--color-warm);
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+@media (min-width: 768px) {
+  .still-copy p { font-size: 1.0625rem; }
+  .still-copy { margin-bottom: 3rem; }
+}
+
+.evolution-steps {
+  display: flex; align-items: center; gap: 1.5rem;
+  max-width: 42rem;
+  list-style: none;
+  margin-bottom: 3rem;
+}
+@media (min-width: 768px) { .evolution-steps { gap: 2rem; } }
+.evolution-steps li { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+.evolution-steps .dot {
+  width: 0.75rem; height: 0.75rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+.evolution-steps .step-label {
+  color: var(--color-warm);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.evolution-steps .link {
+  flex: 1;
+  height: 1px;
+  background: var(--color-muted-gray);
+}
+
+/* ============================== STILL EVOLVING ============================== */
+.still-evolving {
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  padding: 5rem 0;
+  overflow: hidden;
+}
+@media (min-width: 768px) { .still-evolving { padding: 6.5rem 0; } }
+.still-evolving h2 { color: var(--color-warm); margin-bottom: 2rem; }
+@media (min-width: 768px) { .still-evolving h2 { margin-bottom: 2.5rem; } }
+.still-evolving p { color: var(--color-warm); }
+
+.cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.75rem 2rem;
+  color: var(--color-warm);
+  transition: all 0.3s var(--ease);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-primary { background: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 90%, transparent); }
+.btn-ghost { border: 1px solid var(--color-muted-gray); }
+.btn-ghost:hover { background: var(--color-dark); }
+
+.lucy {
+  display: flex; align-items: center; gap: 1rem;
+  color: var(--color-warm);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  flex-wrap: wrap;
+}
+.lucy img { width: 100px; height: auto; }
+
+/* ============================== FOCUS STATES ============================== */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================== ANIMATIONS / REVEALS ==============================
+   Mirror the live adamhickey.com pattern: elements start hidden a bit below their
+   final position, then fade & lift into view as they intersect the viewport.
+   The hero title animates per-letter on load.
+   ================================================================================ */
+
+/* Smooth scroll for in-page anchors (handles #hash landing too) */
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+
+/* Base reveal: items start hidden, transition in when .is-visible is added */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger helper: each direct child .reveal gets an incremental delay */
+.stagger > .reveal:nth-child(1)  { --reveal-delay: 0.00s; }
+.stagger > .reveal:nth-child(2)  { --reveal-delay: 0.06s; }
+.stagger > .reveal:nth-child(3)  { --reveal-delay: 0.12s; }
+.stagger > .reveal:nth-child(4)  { --reveal-delay: 0.18s; }
+.stagger > .reveal:nth-child(5)  { --reveal-delay: 0.24s; }
+.stagger > .reveal:nth-child(6)  { --reveal-delay: 0.30s; }
+.stagger > .reveal:nth-child(7)  { --reveal-delay: 0.36s; }
+.stagger > .reveal:nth-child(8)  { --reveal-delay: 0.42s; }
+.stagger > .reveal:nth-child(9)  { --reveal-delay: 0.48s; }
+.stagger > .reveal:nth-child(10) { --reveal-delay: 0.54s; }
+.stagger > .reveal:nth-child(n+11) { --reveal-delay: 0.60s; }
+
+/* Hero title — per-word + per-letter reveal. Tuned snappier than the
+   adamhickey.com source: 80ms intro pause + 26ms per-letter stagger +
+   380ms per-char ease-out. Full sweep finishes in ~1.5s.
+   The whole h1 is hidden until JS finishes splitting it so the
+   unsplit text never flashes (FOUC). */
+.hero-title { visibility: hidden; }
+.hero-title.is-split { visibility: visible; }
+.hero-title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: charIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(80ms + var(--char-i, 0) * 26ms);
+}
+@keyframes charIn {
+  to { opacity: 1; transform: none; }
+}
+/* Mobile: drop the per-letter reveal animation and let long words like
+   "human-centered" break naturally. Declared after the base .word /
+   .char rules above so source order wins. */
+@media (max-width: 767.98px) {
+  .hero-title .word { display: inline; white-space: normal; }
+  .hero-title .char {
+    display: inline;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Hero cascade timing — snappier. Title ends ≈ 80ms intro + 45×26ms
+   stagger + 380ms char anim ≈ ~1.6s. The rest cascades from ~0.7s. */
+.hero-photo.reveal { transition-delay: 0.05s; }
+.hero-sub.reveal   { transition-delay: 0.70s; }
+.hero-cards.stagger > .reveal:nth-child(1) { --reveal-delay: 0.90s; }
+.hero-cards.stagger > .reveal:nth-child(2) { --reveal-delay: 1.00s; }
+.hero-cards.stagger > .reveal:nth-child(3) { --reveal-delay: 1.10s; }
+.logo-strip.reveal { transition-delay: 1.30s; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .hero-title .char { animation: none !important; opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ============================== CASE STUDY PAGES ============================== */
+.case-hero {
+  background: var(--color-warm);
+  padding-top: calc(var(--nav-height) + 3rem);
+  padding-bottom: 3rem;
+}
+@media (min-width: 768px) { .case-hero { padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 4rem; } }
+
+.case-kicker {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+.case-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 4.5vw + 0.5rem, 4.25rem);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  color: var(--color-dark);
+  max-width: 64rem;
+  margin-bottom: 1.5rem;
+}
+.case-tag-row { margin-bottom: 2rem; }
+
+.case-hero-img {
+  margin-top: 2rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-muted-light);
+  aspect-ratio: 16 / 9;
+}
+.case-hero-img img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.case-section { padding: 4rem 0; }
+@media (min-width: 768px) { .case-section { padding: 5rem 0; } }
+.case-overview { background: var(--color-white); }
+.case-approach { background: var(--color-muted-light); }
+.case-impact-section { background: var(--color-warm); }
+
+.case-narrow { max-width: 56rem; margin: 0 auto; }
+
+.case-section h2 {
+  margin-bottom: 2rem;
+  color: var(--color-dark);
+}
+.case-section h3 {
+  margin-top: 3rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-dark);
+  font-family: var(--font-serif);
+  font-size: clamp(1.625rem, 2vw + 0.4rem, 2.125rem);
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+.case-section h4 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.case-section h5 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.case-section h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.case-section p {
+  color: var(--color-dark);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.case-section p:last-child { margin-bottom: 0; }
+
+/* Special: "The problem" / "The solution" subheadings (h3 immediately under Overview)
+   Original site shows them in sage green sans-serif as small kickers. */
+.case-overview h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+.case-overview h3:first-of-type { margin-top: 0; }
+
+.case-bullets {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 1.25rem;
+}
+.case-bullets li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.case-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.65em;
+  width: 0.4rem; height: 0.4rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.case-inline-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1rem 0 1.5rem;
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.case-footer {
+  background: var(--color-white);
+  padding: 3rem 0 5rem;
+}
+.btn-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  color: var(--color-charcoal);
+  transition: all 0.25s var(--ease);
+}
+.btn-back:hover { background: var(--color-charcoal); color: var(--color-warm); border-color: var(--color-charcoal); }
+.btn-back svg { width: 18px; height: 18px; }
+
+/* ============================== MOTION PREFERENCES ============================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing a platform where global innovators connect and grow | Adam Hickey</title>
+  <meta name="description" content="Case study: a global internal platform connecting intrapreneurs with a unified visual ecosystem." />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'warm':        '#f5f5f0',
+            'tea-light':   '#e8ede5',
+            'muted-light': '#e5e5dd',
+            'muted-gray':  '#5c5f5c',
+            'charcoal':    '#252525',
+            'dark':        '#111111',
+            'border-light':'#E5E5E0',
+          },
+          fontFamily: {
+            'sans':   ['Montserrat', 'system-ui', 'sans-serif'],
+            'serif':  ['"Crimson Text"', 'Georgia', 'serif'],
+          },
+          borderRadius: {
+            '4xl': '20px',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style id="case-study-base">
+    html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px; }
+    body { font-family: 'Montserrat', system-ui, sans-serif; color: #111; background: #fff; }
+
+    /* Higher specificity beats Tailwind preflight. */
+    body h1, body h2, body h3 {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-weight: 400; line-height: 1.1; color: #111;
+    }
+    body h1 { font-size: 5rem; letter-spacing: -0.02em; }
+    body h2 { font-size: 3rem; letter-spacing: -0.015em; }
+    body h3 { font-size: 2.125rem; letter-spacing: -0.01em; }
+    body h4 { font-size: 1.5rem;   font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h5 { font-size: 1.25rem;  font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h6 { font-size: 1.125rem; font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body p { color: #111; line-height: 1.6; }
+
+    /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
+    .min-h-screen [style*="opacity: 0"],
+    .min-h-screen [style*="opacity:0"] {
+      transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .min-h-screen [style*="opacity: 0"],
+      .min-h-screen [style*="opacity:0"] {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; background: #252525; color: #f5f5f0; padding: .5rem 1rem; z-index: 1000; }
+    .skip-link:focus { left: 0; }
+
+    .border-border-light { border-color: #E5E5E0 !important; }
+
+    /* ---------- Scroll progress bar ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: #6D8768;
+      z-index: 100;
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+
+    /* ---------- Read-time line in the hero ---------- */
+    .case-readtime {
+      display: block;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: #5c5f5c;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---------- Sticky in-page section nav ---------- */
+    .case-toc {
+      position: sticky;
+      top: 80px;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid #E5E5E0;
+    }
+    .case-toc-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.875rem 2rem;
+      display: flex; gap: 1.75rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .case-toc-inner::-webkit-scrollbar { display: none; }
+    .case-toc-inner a {
+      color: #5c5f5c;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .case-toc-inner a:hover { color: #111; }
+    .case-toc-inner a.is-active { color: #6D8768; border-bottom-color: #6D8768; }
+    @media (max-width: 640px) {
+      .case-toc-inner { padding: 0.75rem 1rem; gap: 1.25rem; }
+      .case-toc-inner a { font-size: 0.875rem; }
+    }
+
+    /* ---------- Closing block at end of page ---------- */
+    .case-closing {
+      background: #f5f5f0;
+      border-top: 1px solid #E5E5E0;
+      padding: 4rem 0;
+    }
+    @media (min-width: 768px) { .case-closing { padding: 5rem 0; } }
+    .case-closing-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .case-closing-inner { padding: 0 2rem; }
+    }
+    .case-closing-next {
+      display: block;
+      padding: 1.5rem 0;
+      border-top: 1px solid #6D8768;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next { padding: 2rem 0; }
+    }
+    .case-closing-next-eyebrow {
+      display: block;
+      color: #6D8768;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .case-closing-next-title {
+      display: block;
+      color: #111;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next-title { font-size: 2.125rem; }
+    }
+    .case-closing-next:hover .case-closing-next-title { color: #6D8768; }
+
+    /* ---------- Breathing room between hero image and the first section ----------
+       The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
+       then begins the next section with very tight pt-2 / md:pt-3. That makes
+       the Overview heading feel pinned to the image. Add explicit bottom
+       margin to the image's wrapper so the page has room to breathe. */
+    .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 2.5rem; }
+    @media (min-width: 768px) {
+      .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 4.5rem; }
+    }
+
+    /* ---------- Body paragraph readability ----------
+       The captured markup lets prose paragraphs span the full content
+       container (~1200px), which is far wider than comfortable reading
+       length. Cap to ~70 characters by giving the common prose class
+       combinations a max-width. Card content + centered diagram captions
+       use different class signatures and stay untouched. */
+    .min-h-screen p.text-dark.leading-relaxed,
+    .min-h-screen p.mb-10.text-dark,
+    .min-h-screen p.mb-2.pb-\[30px\].text-dark,
+    .min-h-screen p[class="mb-4"] {
+      max-width: 42rem;
+    }
+
+/* ---------- Role list (replaces team avatar grid on SAP) ---------- */
+    .case-role-group {
+      background: #ffffff;
+      padding: 1.5rem;
+    }
+    .case-role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.5rem;
+    }
+    .case-role-grid li {
+      position: relative;
+      padding-left: 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.35;
+      list-style: none;
+    }
+    .case-role-grid li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.55em;
+      width: 0.35rem; height: 0.35rem;
+      border-radius: 50%;
+      background: #6D8768;
+    }
+  
+    /* ---------- Header icon tooltips ---------- */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 0.625rem);
+      left: 50%;
+      transform: translate(-50%, -4px);
+      background: #252525;
+      color: #f5f5f0;
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1),
+                  transform 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border: 5px solid transparent;
+      border-bottom-color: #252525;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::before { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      [data-tooltip]::after  { transform: translate(-50%, 0); transition: opacity 0.15s linear; }
+      [data-tooltip]:hover::after, [data-tooltip]:focus-visible::after { transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <main id="main">
+    <div class="min-h-screen bg-white w-full overflow-x-hidden"><nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"><div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between gap-4"><div class="flex items-center gap-4"><a href="../index.html#case-studies" class="text-charcoal hover:text-[#6D8768] transition-colors cursor-pointer flex-shrink-0" aria-label="Adam Hickey - back to case studies"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" alt="Adam Hickey" class="h-12 md:h-16"></a></div><div class="flex items-center gap-6 md:gap-8"><a href="mailto:adamdhickey@gmail.com" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Email Adam Hickey" data-tooltip="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-6 h-6 translate-y-[2px]"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></a><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Visit Adam Hickey's LinkedIn profile" data-tooltip="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-6 h-6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://docs.google.com/document/d/11EZCx68pcmhxCeWxwMzYnASgqq-ZkjOhC210jOtS4uI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="View Résumé" data-tooltip="Résumé"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-6 h-6"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></a></div></div></nav>
+<nav class="case-toc" aria-label="Section navigation">
+  <div class="case-toc-inner">
+    <a href="#overview">Overview</a><a href="#the-digital-ecosystem">The digital ecosystem</a><a href="#impact">Impact</a>
+  </div>
+</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-20 px-4 md:px-8 pb-0 md:pb-0 pt-24 md:pt-32"><span class="case-readtime">3 min read</span><h1 class="text-[48px] md:text-[3.5rem] lg:text-[68px] leading-[1.1] max-w-4xl text-dark">Designing a platform where global innovators connect and grow</h1><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Client</div><div class="text-dark">Global agribusiness (Market insights team)</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-dark">Visual design lead &amp; brand strategist</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-dark">4 fiscal years</div></div></div></div><div class="mt-14 md:mt-20"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Group%20100008%20(1).png" alt="Innovators Studio Platform" class="w-full h-auto rounded-[20px]" style="box-shadow: 0 1px 3px rgba(0,0,0,0.10), 0 18px 36px -12px rgba(0,0,0,0.20);"></div></div><div class="px-4 md:px-8 bg-white pt-2 md:pt-3 pb-20"><div class="mb-10 mt-0"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="overview" class="mb-6 text-dark">Overview</h2><div class="flex flex-col gap-8 mb-10"><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">Innovators Studio</h4><p class="text-dark leading-relaxed">A global internal platform connecting intrapreneurs to share knowledge, standardize practices, and drive strategic growth initiatives across the enterprise.</p></div><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">The problem</h4><p class="text-dark leading-relaxed">Innovation efforts were trapped in silos, buried in jargon and disconnected from the people they needed to reach. Without a consistent visual voice, internal audiences felt the work was meant for someone else, and intrapreneurs across the network struggled to find each other.</p></div><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">The solution</h4><p class="text-dark leading-relaxed">I helped build a unified visual ecosystem (Innovators Studio) that translated abstract concepts into human narratives. People stopped feeling like outsiders looking in. The system gave the network a shared sense of belonging, and made it easier for ideas to find one another.</p></div></div></div><div class="mb-20 mt-16 md:mt-24"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="the-digital-ecosystem" class="mb-8 text-dark">The digital ecosystem</h2><div class="pt-10 px-4 pb-10 md:px-[80px] md:py-[70px] rounded-[20px] bg-[#F5F5F0]"><h4 class="text-center text-dark text-[24px] md:text-[28px] mb-6">Marketing communication deliverables</h4><p class="text-center mb-10 text-dark max-w-3xl mx-auto font-normal">I led the creation of these deliverables in collaboration with a marketing manager and production designer from the market insights team.</p><div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-6"><div class="bg-white rounded-[16px] p-6 shadow-sm border border-[#E5E5E0]"><div class="flex items-center gap-2 mb-3"><div class="w-6 h-6 bg-[#6D8768] rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 relative -top-[1px]">1</div><h6 class="font-normal text-dark text-[24px] md:text-[26px] font-['Crimson_Text'] leading-tight">Visual identity</h6></div><p class="text-[#6D8768] text-[11px] font-semibold tracking-[0.18em] uppercase mb-4">Recognize</p><div class="space-y-3"><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-5 h-5 text-[#6D8768] flex-shrink-0"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg><span class="text-dark text-[15px] leading-tight">Branding</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"></path><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"></path><path d="m2.3 2.3 7.286 7.286"></path><circle cx="11" cy="11" r="2"></circle></svg><span class="text-dark text-[15px] leading-tight">Illustrations</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span class="text-dark text-[15px] leading-tight">Badges</span></div></div></div><div class="bg-white rounded-[16px] p-6 shadow-sm border border-[#E5E5E0]"><div class="flex items-center gap-2 mb-3"><div class="w-6 h-6 bg-[#6D8768] rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 relative -top-[1px]">2</div><h6 class="font-normal text-dark text-[24px] md:text-[26px] font-['Crimson_Text'] leading-tight">Storytelling</h6></div><p class="text-[#6D8768] text-[11px] font-semibold tracking-[0.18em] uppercase mb-4">Translate</p><div class="space-y-3"><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M2 3h20"></path><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path><path d="m7 21 5-5 5 5"></path></svg><span class="text-dark text-[15px] leading-tight">Presentations</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5 text-[#6D8768] flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><span class="text-dark text-[15px] leading-tight">Newsletters</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg><span class="text-dark text-[15px] leading-tight">Podcast promos</span></div></div></div><div class="bg-white rounded-[16px] p-6 shadow-sm border border-[#E5E5E0]"><div class="flex items-center gap-2 mb-3"><div class="w-6 h-6 bg-[#6D8768] rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 relative -top-[1px]">3</div><h6 class="font-normal text-dark text-[24px] md:text-[26px] font-['Crimson_Text'] leading-tight">Campaigns</h6></div><p class="text-[#6D8768] text-[11px] font-semibold tracking-[0.18em] uppercase mb-4">Mobilize</p><div class="space-y-3"><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg><span class="text-dark text-[15px] leading-tight">Promotions</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg><span class="text-dark text-[15px] leading-tight">One pagers</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg><span class="text-dark text-[15px] leading-tight">Business models</span></div></div></div><div class="bg-white rounded-[16px] p-6 shadow-sm border border-[#E5E5E0]"><div class="flex items-center gap-2 mb-3"><div class="w-6 h-6 bg-[#6D8768] rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 relative -top-[1px]">4</div><h6 class="font-normal text-dark text-[24px] md:text-[26px] font-['Crimson_Text'] leading-tight">Studio portal</h6></div><p class="text-[#6D8768] text-[11px] font-semibold tracking-[0.18em] uppercase mb-4">Sustain</p><div class="space-y-3"><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-app-window w-5 h-5 text-[#6D8768] flex-shrink-0"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M10 4v4"></path><path d="M2 8h20"></path><path d="M6 4v4"></path></svg><span class="text-dark text-[15px] leading-tight">Community hub</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-contact w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M16 2v2"></path><path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"></path><path d="M8 2v2"></path><circle cx="12" cy="11" r="3"></circle><rect x="3" y="4" width="18" height="18" rx="2"></rect></svg><span class="text-dark text-[15px] leading-tight">Innovators directory</span></div><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap w-5 h-5 text-[#6D8768] flex-shrink-0"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg><span class="text-dark text-[15px] leading-tight">Innovation academy</span></div></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#6D8768] rounded-full flex items-center justify-center text-white font-medium text-xl">1</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Visual identity</h3></div><p class="mb-10 text-dark">Before any of the work could spread, the audience had to recognize where it was coming from. We built a confident, distinct visual system of branding, illustrations, and badges. The illustrations turned abstract concepts into scenes people could see themselves in, and the badges turned individual progress into something worth showing off. Every surface signaled belonging the moment anyone encountered it.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] h-full"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Branding</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><div><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Branding3.png" alt="Branding showcase" class="w-full h-auto object-cover shadow-md"></div><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Standing out while fitting in</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Distinct identity within corporate guidelines</li><li>High-energy, colorful aesthetic</li><li>Engaging, usable templates</li><li>Consistent system for internal teams</li></ul></div></div></div><div class="flex flex-col gap-6 h-full"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Illustrations</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Illustrations2.png" alt="Illustrations showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Turning ideas into pictures</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Custom scenes narrating Studio goals</li><li>Visuals that humanize user journeys</li></ul></div></div></div><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Badges</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Badges2.png" alt="Badges showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Making progress visible</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Gamification of skills and milestones</li><li>Collectible designs to boost motivation</li></ul></div></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#6D8768] rounded-full flex items-center justify-center text-white font-medium text-xl">2</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Storytelling</h3></div><p class="mb-10 text-dark">Once the look landed, we translated the language. Innovation work tends to drown in its own vocabulary, so we built templates for presentations, newsletters, and podcast promos that handled the heavy lifting: clear hierarchy, consistent pacing, one idea per slide instead of five. Anyone in the network could pick one up and tell a credible story without losing the substance underneath.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] h-full"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Presentations</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><div><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Presentations3.png" alt="Presentations showcase" class="w-full h-auto object-cover shadow-md"></div><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Making every slide count</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Standardized branded templates</li><li>Visual patterns for data</li><li>Flexible structures for speakers</li><li>Pacing designed for engagement</li></ul></div></div></div><div class="flex flex-col gap-6 h-full"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Newsletters</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Newsletters2.png" alt="Newsletters showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Getting read, not deleted</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Updates reinforcing strategic priorities</li><li>Hierarchy aiding rapid decision-making</li></ul></div></div></div><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Podcast promos</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Podcast%20Promos2.png" alt="Podcast promos showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Giving voice visual form</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Promotion of key internal voices</li><li>Visual framing for episode themes</li></ul></div></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#6D8768] rounded-full flex items-center justify-center text-white font-medium text-xl">3</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Campaign assets</h3></div><p class="mb-10 text-dark">With a shared voice in place, we put it to work. Campaigns, one-pagers, and business models each gave intrapreneurs a clear next step: apply to a program, attend an event, or carry an idea into the next quarter&rsquo;s planning. The campaigns held a consistent thematic identity across email, intranet, and event surfaces, so a single launch felt like a single launch, not five disconnected nudges.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] h-full"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Campaigns</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><div><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Campaigns7.png" alt="Campaigns showcase" class="w-full h-auto object-cover shadow-md"></div><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Creating momentum that lasts</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Consistent identity enforcement</li><li>Thematic graphics for launches</li><li>Templated messaging and headlines</li><li>Layouts for multi-touch comms</li><li>Adaptations for various formats</li></ul></div></div></div><div class="flex flex-col gap-6 h-full"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">One pagers</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/One%20Pagers2.png" alt="One pagers showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">The essentials only</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Concise program summaries</li><li>Defined purpose and value</li><li>Actionable participation steps</li></ul></div></div></div><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Business models</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Business%20Models2.png" alt="Business models showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Complexity made clear</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Frameworks simplifying complex concepts</li></ul></div></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#6D8768] rounded-full flex items-center justify-center text-white font-medium text-xl">4</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Studio portal</h3></div><p class="mb-10 text-dark">And once people showed up, we needed somewhere for them to stay. The Studio portal pulled the work into one connected home: a community hub that surfaced what others were trying, a directory that made finding the right person feel like searching for a colleague, and an academy that turned scattered learning into a real path. The portal carried the network between launches, so energy from one program didn&rsquo;t bleed out before the next began.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] h-full"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Community hub</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><div><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Community%20Hub2.png" alt="Community hub showcase" class="w-full h-auto object-cover shadow-md"></div><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Where everyone connects</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Structure guiding user decisions</li><li>Layouts for news and spotlights</li><li>Visual cues for exploration</li><li>Organization aligned to workflows</li><li>Pathways to deep resources</li></ul></div></div></div><div class="flex flex-col gap-6 h-full"><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Innovators directory</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Find%20an%20Innovator2.png" alt="Innovators directory showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Find your people</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Profiles highlighting specific skills</li><li>Discovery tools for collaboration</li></ul></div></div></div><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] flex-1"><h5 class="mb-5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Innovation academy</h5><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Innovation%20Academy2.png" alt="Innovation academy showcase" class="w-full h-auto object-cover shadow-md"><div class="flex flex-col justify-center"><div class="text-base font-semibold text-[#6D8768] mb-2">Charting your growth</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Paths for distinct roles</li><li>Visualized skill progression</li></ul></div></div></div></div></div></div></div></div></div></div>
+  </main>
+
+  <section class="case-closing" aria-label="Continue reading">
+    <div class="case-closing-inner">
+      <a href="usda-operational-overhead.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Next case study</span><span class="case-closing-next-title">Reducing operational overhead by 80% for the USDA &rarr;</span></a>
+    </div>
+  </section>
+
+  <script>
+    /* Reveal items as they scroll into view (replaces Framer Motion). */
+    (function () {
+      const els = document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('revealed')); return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.10, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(el => io.observe(el));
+    })();
+
+    /* Nav drop shadow on scroll. */
+    (function () {
+      const nav = document.querySelector('nav.fixed');
+      if (!nav) return;
+      const update = () => {
+        nav.style.boxShadow = window.scrollY > 8 ? '0 1px 8px rgba(0,0,0,0.05)' : '';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    /* Scroll progress bar. */
+    (function () {
+      const bar = document.querySelector('.scroll-progress');
+      if (!bar) return;
+      const update = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+        bar.style.width = pct + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    /* Section nav: highlight the link whose section is in view. */
+    (function () {
+      const links = document.querySelectorAll('.case-toc-inner a');
+      if (!links.length) return;
+      const targets = Array.from(links).map(a => {
+        const id = a.getAttribute('href').slice(1);
+        return { link: a, target: document.getElementById(id) };
+      }).filter(x => x.target);
+      const setActive = () => {
+        // Find the section whose top is just above the viewport midline.
+        const probe = window.innerHeight * 0.35;
+        let active = targets[0];
+        for (const t of targets) {
+          const rect = t.target.getBoundingClientRect();
+          if (rect.top - probe <= 0) active = t;
+        }
+        links.forEach(a => a.classList.remove('is-active'));
+        if (active) active.link.classList.add('is-active');
+      };
+      window.addEventListener('scroll', setActive, { passive: true });
+      setActive();
+    })();
+
+    /* Smooth in-page anchor scrolling. */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>

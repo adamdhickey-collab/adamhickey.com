@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>8 years as a hybrid designer / developer (2005-2013) | Adam Hickey</title>
+  <meta name="description" content="Project archive: 8 years as a hybrid designer / developer at Pixel Farm (2005-2013)." />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'warm':        '#f5f5f0',
+            'tea-light':   '#e8ede5',
+            'muted-light': '#e5e5dd',
+            'muted-gray':  '#5c5f5c',
+            'charcoal':    '#252525',
+            'dark':        '#111111',
+            'border-light':'#E5E5E0',
+          },
+          fontFamily: {
+            'sans':   ['Montserrat', 'system-ui', 'sans-serif'],
+            'serif':  ['"Crimson Text"', 'Georgia', 'serif'],
+          },
+          borderRadius: {
+            '4xl': '20px',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style id="case-study-base">
+    html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px; }
+    body { font-family: 'Montserrat', system-ui, sans-serif; color: #111; background: #fff; }
+
+    /* Higher specificity beats Tailwind preflight. */
+    body h1, body h2, body h3 {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-weight: 400; line-height: 1.1; color: #111;
+    }
+    body h1 { font-size: 5rem; letter-spacing: -0.02em; }
+    body h2 { font-size: 3rem; letter-spacing: -0.015em; }
+    body h3 { font-size: 2.125rem; letter-spacing: -0.01em; }
+    body h4 { font-size: 1.5rem;   font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h5 { font-size: 1.25rem;  font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h6 { font-size: 1.125rem; font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body p { color: #111; line-height: 1.6; }
+
+    /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
+    .min-h-screen [style*="opacity: 0"],
+    .min-h-screen [style*="opacity:0"] {
+      transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .min-h-screen [style*="opacity: 0"],
+      .min-h-screen [style*="opacity:0"] {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; background: #252525; color: #f5f5f0; padding: .5rem 1rem; z-index: 1000; }
+    .skip-link:focus { left: 0; }
+
+    .border-border-light { border-color: #E5E5E0 !important; }
+
+    /* ---------- Scroll progress bar ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: #6D8768;
+      z-index: 100;
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+
+    /* ---------- Read-time line in the hero ---------- */
+    .case-readtime {
+      display: block;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: #5c5f5c;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---------- Sticky in-page section nav ---------- */
+    .case-toc {
+      position: sticky;
+      top: 80px;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid #E5E5E0;
+    }
+    .case-toc-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.875rem 2rem;
+      display: flex; gap: 1.75rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .case-toc-inner::-webkit-scrollbar { display: none; }
+    .case-toc-inner a {
+      color: #5c5f5c;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .case-toc-inner a:hover { color: #111; }
+    .case-toc-inner a.is-active { color: #6D8768; border-bottom-color: #6D8768; }
+    @media (max-width: 640px) {
+      .case-toc-inner { padding: 0.75rem 1rem; gap: 1.25rem; }
+      .case-toc-inner a { font-size: 0.875rem; }
+    }
+
+    /* ---------- Closing block at end of page ---------- */
+    .case-closing {
+      background: #f5f5f0;
+      border-top: 1px solid #E5E5E0;
+      padding: 4rem 0;
+    }
+    @media (min-width: 768px) { .case-closing { padding: 5rem 0; } }
+    .case-closing-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .case-closing-inner { padding: 0 2rem; }
+    }
+    .case-closing-next {
+      display: block;
+      padding: 1.5rem 0;
+      border-top: 1px solid #6D8768;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next { padding: 2rem 0; }
+    }
+    .case-closing-next-eyebrow {
+      display: block;
+      color: #6D8768;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .case-closing-next-title {
+      display: block;
+      color: #111;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next-title { font-size: 2.125rem; }
+    }
+    .case-closing-next:hover .case-closing-next-title { color: #6D8768; }
+
+    /* ---------- Breathing room between hero image and the first section ----------
+       The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
+       then begins the next section with very tight pt-2 / md:pt-3. That makes
+       the Overview heading feel pinned to the image. Add explicit bottom
+       margin to the image's wrapper so the page has room to breathe. */
+    .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 2.5rem; }
+    @media (min-width: 768px) {
+      .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 4.5rem; }
+    }
+
+    /* ---------- Body paragraph readability ----------
+       The captured markup lets prose paragraphs span the full content
+       container (~1200px), which is far wider than comfortable reading
+       length. Cap to ~70 characters by giving the common prose class
+       combinations a max-width. Card content + centered diagram captions
+       use different class signatures and stay untouched. */
+    .min-h-screen p.text-dark.leading-relaxed,
+    .min-h-screen p.mb-10.text-dark,
+    .min-h-screen p.mb-2.pb-\[30px\].text-dark,
+    .min-h-screen p[class="mb-4"] {
+      max-width: 42rem;
+    }
+
+/* ---------- Role list (replaces team avatar grid on SAP) ---------- */
+    .case-role-group {
+      background: #ffffff;
+      padding: 1.5rem;
+    }
+    .case-role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.5rem;
+    }
+    .case-role-grid li {
+      position: relative;
+      padding-left: 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.35;
+      list-style: none;
+    }
+    .case-role-grid li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.55em;
+      width: 0.35rem; height: 0.35rem;
+      border-radius: 50%;
+      background: #6D8768;
+    }
+  
+    /* ---------- Header icon tooltips ---------- */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 0.625rem);
+      left: 50%;
+      transform: translate(-50%, -4px);
+      background: #252525;
+      color: #f5f5f0;
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1),
+                  transform 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border: 5px solid transparent;
+      border-bottom-color: #252525;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::before { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      [data-tooltip]::after  { transform: translate(-50%, 0); transition: opacity 0.15s linear; }
+      [data-tooltip]:hover::after, [data-tooltip]:focus-visible::after { transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <main id="main">
+    <div class="min-h-screen bg-white w-full overflow-x-hidden"><nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"><div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between gap-4"><div class="flex items-center gap-4"><a href="../index.html#case-studies" class="text-charcoal hover:text-[#6D8768] transition-colors cursor-pointer flex-shrink-0" aria-label="Adam Hickey - back to case studies"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" alt="Adam Hickey" class="h-12 md:h-16"></a></div><div class="flex items-center gap-6 md:gap-8"><a href="mailto:adamdhickey@gmail.com" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Email Adam Hickey" data-tooltip="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-6 h-6 translate-y-[2px]"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></a><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Visit Adam Hickey's LinkedIn profile" data-tooltip="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-6 h-6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://docs.google.com/document/d/11EZCx68pcmhxCeWxwMzYnASgqq-ZkjOhC210jOtS4uI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="View Résumé" data-tooltip="Résumé"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-6 h-6"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></a></div></div></nav>
+<nav class="case-toc" aria-label="Section navigation">
+  <div class="case-toc-inner">
+    <a href="#overview">Overview</a><a href="#project-highlights">Project highlights</a>
+  </div>
+</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-20 px-4 md:px-8 pb-2 md:pb-0 pt-24 md:pt-32"><div class="mb-[-10px]"><span class="case-readtime">2 min read</span><h1 class="text-[48px] md:text-[3.5rem] lg:text-[68px] leading-[1.1] max-w-4xl">8 years as a hybrid designer / developer (2005-2013)</h1></div><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Employer</div><div class="text-[#252525]">Pixel Farm</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-[#252525]">Interactive designer / developer</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-[#252525]">2005-2013</div></div></div></div><div class="mt-[46px] md:mt-[70px] mb-5"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Pixel%20Farm%20Building.png?updatedAt=1769539306496" alt="8 years as a hybrid designer / developer (2005-2013) Hero" class="w-full h-auto object-cover"></div></div><div class="px-4 md:px-8 bg-white pt-3 md:pt-7 pb-20"><div class="mb-12"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="overview" class="mb-6 text-[#252525]">Overview</h2><p class="mb-4">For eight years at Pixel Farm, I crafted interactive websites and apps that brought warmth to the screen, turning corporate ideas into human experiences through storytelling and motion.</p><p class="mb-4">The internet is a noisy place. Everyone is shouting. Our job was to be the ones whispering something interesting in the corner. We had to take big, corporate ideas and make them feel human. Sometimes we succeeded. Sometimes we just made really nice looking buttons. But we always tried to tell a story.</p></div><div class="mb-20"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="project-highlights" class="mb-8 text-[#252525]">Project highlights</h2><div class="grid md:grid-cols-1 gap-12"><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Lund Boats website</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Lund%20Boats%20Website.png" alt="Lund Boats website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Digital showroom</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete website redesign for legendary boat manufacturer</li><li class="leading-relaxed">Interactive 'Build Your Boat' configurator tool</li><li class="leading-relaxed">Immersive lifestyle photography integration</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Fulton Beer website</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Fulton%20Beer%20Website.png" alt="Fulton Beer website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Craft culture</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Brand-centric digital experience for Minneapolis brewery</li><li class="leading-relaxed">Custom beer finder locator integration</li><li class="leading-relaxed">Event calendar and taproom information system</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Northern Spark iOS app</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Northern%20Spark%20iOS%20App.png" alt="Northern Spark iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Festival companion</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Native iOS application for all-night arts festival</li><li class="leading-relaxed">Real-time event scheduling and mapping</li><li class="leading-relaxed">Social sharing features for attendees</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Learn to Live identity &amp; website</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Learn%20to%20Live%20Identity%20and%20Website.png" alt="Learn to Live identity &amp; website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Mental health online</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete brand identity development</li><li class="leading-relaxed">Responsive marketing website design</li><li class="leading-relaxed">User-friendly intake and assessment flows</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Feed Friendsy iOS app</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Feed%20Friendsy%20iOS%20App.png" alt="Feed Friendsy iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Social gaming</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Character design and illustration</li><li class="leading-relaxed">Game mechanic development</li><li class="leading-relaxed">Fluid animation and interaction design</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Hazelden campaign and website</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Hazelden%20Campaign%20and%20Website.png" alt="Hazelden campaign and website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Recovery resources</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Integrated digital campaign for addiction recovery</li><li class="leading-relaxed">Resource library architecture</li><li class="leading-relaxed">Donation and support pathway optimization</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Dorsey and Whitney 100 year anniversary app</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Dorsey%20and%20Whitney%20100%20Year%20Anniversary%20App.png" alt="Dorsey and Whitney 100 year anniversary app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Interactive history</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">iPad application celebrating centennial milestone</li><li class="leading-relaxed">Interactive timeline of firm history</li><li class="leading-relaxed">Rich media integration with video and archival photos</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-['Montserrat']">Pixel Farm family of websites</h5><div class="mb-8"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Pixel%20Farm%20Family%20of%20Websites.png" alt="Pixel Farm family of websites" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#6D8768] font-semibold text-base tracking-wide mb-3">Agency portfolio</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Unified digital presence for multiple studio divisions</li><li class="leading-relaxed">Video-forward portfolio showcases</li><li class="leading-relaxed">Distinct visual identities under one umbrella</li></ul></div></div></div></div></div></div></div></div>
+  </main>
+
+  <section class="case-closing" aria-label="Continue reading">
+    <div class="case-closing-inner">
+      <a href="../index.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Up next</span><span class="case-closing-next-title">Back to the home page &rarr;</span></a>
+    </div>
+  </section>
+
+  <script>
+    /* Reveal items as they scroll into view (replaces Framer Motion). */
+    (function () {
+      const els = document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('revealed')); return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.10, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(el => io.observe(el));
+    })();
+
+    /* Nav drop shadow on scroll. */
+    (function () {
+      const nav = document.querySelector('nav.fixed');
+      if (!nav) return;
+      const update = () => {
+        nav.style.boxShadow = window.scrollY > 8 ? '0 1px 8px rgba(0,0,0,0.05)' : '';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    /* Scroll progress bar. */
+    (function () {
+      const bar = document.querySelector('.scroll-progress');
+      if (!bar) return;
+      const update = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+        bar.style.width = pct + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    /* Section nav: highlight the link whose section is in view. */
+    (function () {
+      const links = document.querySelectorAll('.case-toc-inner a');
+      if (!links.length) return;
+      const targets = Array.from(links).map(a => {
+        const id = a.getAttribute('href').slice(1);
+        return { link: a, target: document.getElementById(id) };
+      }).filter(x => x.target);
+      const setActive = () => {
+        // Find the section whose top is just above the viewport midline.
+        const probe = window.innerHeight * 0.35;
+        let active = targets[0];
+        for (const t of targets) {
+          const rect = t.target.getBoundingClientRect();
+          if (rect.top - probe <= 0) active = t;
+        }
+        links.forEach(a => a.classList.remove('is-active'));
+        if (active) active.link.classList.add('is-active');
+      };
+      window.addEventListener('scroll', setActive, { passive: true });
+      setActive();
+    })();
+
+    /* Smooth in-page anchor scrolling. */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reducing operational overhead by 80% for the USDA | Adam Hickey</title>
+  <meta name="description" content="Case study: reducing operational overhead by 80% for the USDA Nutrition Incentive Hub." />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'warm':        '#f5f5f0',
+            'tea-light':   '#e8ede5',
+            'muted-light': '#e5e5dd',
+            'muted-gray':  '#5c5f5c',
+            'charcoal':    '#252525',
+            'dark':        '#111111',
+            'border-light':'#E5E5E0',
+          },
+          fontFamily: {
+            'sans':   ['Montserrat', 'system-ui', 'sans-serif'],
+            'serif':  ['"Crimson Text"', 'Georgia', 'serif'],
+          },
+          borderRadius: {
+            '4xl': '20px',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style id="case-study-base">
+    html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px; }
+    body { font-family: 'Montserrat', system-ui, sans-serif; color: #111; background: #fff; }
+
+    /* Higher specificity beats Tailwind preflight. */
+    body h1, body h2, body h3 {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-weight: 400; line-height: 1.1; color: #111;
+    }
+    body h1 { font-size: 5rem; letter-spacing: -0.02em; }
+    body h2 { font-size: 3rem; letter-spacing: -0.015em; }
+    body h3 { font-size: 2.125rem; letter-spacing: -0.01em; }
+    body h4 { font-size: 1.5rem;   font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h5 { font-size: 1.25rem;  font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body h6 { font-size: 1.125rem; font-weight: 600; line-height: 1.1; color: #252525; font-family: 'Montserrat', sans-serif; }
+    body p { color: #111; line-height: 1.6; }
+
+    /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
+    .min-h-screen [style*="opacity: 0"],
+    .min-h-screen [style*="opacity:0"] {
+      transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .min-h-screen [style*="opacity: 0"],
+      .min-h-screen [style*="opacity:0"] {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; background: #252525; color: #f5f5f0; padding: .5rem 1rem; z-index: 1000; }
+    .skip-link:focus { left: 0; }
+
+    .border-border-light { border-color: #E5E5E0 !important; }
+
+    /* ---------- Scroll progress bar ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: #6D8768;
+      z-index: 100;
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+
+    /* ---------- Read-time line in the hero ---------- */
+    .case-readtime {
+      display: block;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: #5c5f5c;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---------- Sticky in-page section nav ---------- */
+    .case-toc {
+      position: sticky;
+      top: 80px;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid #E5E5E0;
+    }
+    .case-toc-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.875rem 2rem;
+      display: flex; gap: 1.75rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .case-toc-inner::-webkit-scrollbar { display: none; }
+    .case-toc-inner a {
+      color: #5c5f5c;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .case-toc-inner a:hover { color: #111; }
+    .case-toc-inner a.is-active { color: #6D8768; border-bottom-color: #6D8768; }
+    @media (max-width: 640px) {
+      .case-toc-inner { padding: 0.75rem 1rem; gap: 1.25rem; }
+      .case-toc-inner a { font-size: 0.875rem; }
+    }
+
+    /* ---------- Closing block at end of page ---------- */
+    .case-closing {
+      background: #f5f5f0;
+      border-top: 1px solid #E5E5E0;
+      padding: 4rem 0;
+    }
+    @media (min-width: 768px) { .case-closing { padding: 5rem 0; } }
+    .case-closing-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .case-closing-inner { padding: 0 2rem; }
+    }
+    .case-closing-next {
+      display: block;
+      padding: 1.5rem 0;
+      border-top: 1px solid #6D8768;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next { padding: 2rem 0; }
+    }
+    .case-closing-next-eyebrow {
+      display: block;
+      color: #6D8768;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .case-closing-next-title {
+      display: block;
+      color: #111;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+    @media (min-width: 768px) {
+      .case-closing-next-title { font-size: 2.125rem; }
+    }
+    .case-closing-next:hover .case-closing-next-title { color: #6D8768; }
+
+    /* ---------- Breathing room between hero image and the first section ----------
+       The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
+       then begins the next section with very tight pt-2 / md:pt-3. That makes
+       the Overview heading feel pinned to the image. Add explicit bottom
+       margin to the image's wrapper so the page has room to breathe. */
+    .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 2.5rem; }
+    @media (min-width: 768px) {
+      .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 4.5rem; }
+    }
+
+    /* ---------- Body paragraph readability ----------
+       The captured markup lets prose paragraphs span the full content
+       container (~1200px), which is far wider than comfortable reading
+       length. Cap to ~70 characters by giving the common prose class
+       combinations a max-width. Card content + centered diagram captions
+       use different class signatures and stay untouched. */
+    .min-h-screen p.text-dark.leading-relaxed,
+    .min-h-screen p.mb-10.text-dark,
+    .min-h-screen p.mb-2.pb-\[30px\].text-dark,
+    .min-h-screen p[class="mb-4"] {
+      max-width: 42rem;
+    }
+
+/* ---------- Role list (replaces team avatar grid on SAP) ---------- */
+    .case-role-group {
+      background: #ffffff;
+      padding: 1.5rem;
+    }
+    .case-role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.5rem;
+    }
+    .case-role-grid li {
+      position: relative;
+      padding-left: 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.35;
+      list-style: none;
+    }
+    .case-role-grid li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.55em;
+      width: 0.35rem; height: 0.35rem;
+      border-radius: 50%;
+      background: #6D8768;
+    }
+  
+    /* ---------- Header icon tooltips ---------- */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 0.625rem);
+      left: 50%;
+      transform: translate(-50%, -4px);
+      background: #252525;
+      color: #f5f5f0;
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1),
+                  transform 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border: 5px solid transparent;
+      border-bottom-color: #252525;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity 0.2s cubic-bezier(.22,1,.36,1);
+    }
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::before { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      [data-tooltip]::after  { transform: translate(-50%, 0); transition: opacity 0.15s linear; }
+      [data-tooltip]:hover::after, [data-tooltip]:focus-visible::after { transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <main id="main">
+    <div class="min-h-screen bg-white w-full overflow-x-hidden"><nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"><div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between gap-4"><div class="flex items-center gap-4"><a href="../index.html#case-studies" class="text-charcoal hover:text-[#6D8768] transition-colors cursor-pointer flex-shrink-0" aria-label="Adam Hickey - back to case studies"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" alt="Adam Hickey" class="h-12 md:h-16"></a></div><div class="flex items-center gap-6 md:gap-8"><a href="mailto:adamdhickey@gmail.com" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Email Adam Hickey" data-tooltip="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-6 h-6 translate-y-[2px]"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></a><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="Visit Adam Hickey's LinkedIn profile" data-tooltip="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-6 h-6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://docs.google.com/document/d/11EZCx68pcmhxCeWxwMzYnASgqq-ZkjOhC210jOtS4uI/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-charcoal hover:opacity-70 transition-all duration-300 cursor-pointer" aria-label="View Résumé" data-tooltip="Résumé"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-6 h-6"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></a></div></div></nav>
+<nav class="case-toc" aria-label="Section navigation">
+  <div class="case-toc-inner">
+    <a href="#overview">Overview</a><a href="#my-approach">My approach</a><a href="#impact">Impact</a>
+  </div>
+</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-20 px-4 md:px-8 pb-2 md:pb-4 pt-24 md:pt-32"><span class="case-readtime">3 min read</span><h1 class="text-[48px] md:text-[3.5rem] lg:text-[68px] leading-[1.1] max-w-4xl text-dark">Reducing operational overhead by 80% for the USDA</h1><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Client</div><div class="text-dark">USDA Nutrition Incentive Hub Program</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-dark">Lead product designer</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#6D8768] font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-dark">6 months</div></div></div></div><div class="mt-14 md:mt-20"><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Hero%20Img.png" alt="Nutrition Incentive Hub Platform" class="w-full h-auto rounded-[12px]"></div></div><div class="px-4 md:px-8 bg-white pt-2 md:pt-3 pb-20"><div class="mb-10 mt-0"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="overview" class="mb-6 text-dark">Overview</h2><div class="flex flex-col gap-8 mb-10"><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">Nutrition Incentive Hub</h4><p class="text-dark leading-relaxed">A coalition created by the USDA to support nutrition incentive and produce prescription projects. It connects practitioners, researchers, and experts to build stronger, more effective programs that put healthy food on the tables of families who need it most.</p></div><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">The problem</h4><p class="text-dark leading-relaxed">The network was transitioning from various platforms, spreadsheets, and systems, lacking a single source of truth for data. Grantees were spending more time chasing paperwork than running programs, and the people supporting them were buried in operational friction.</p></div><div><h4 class="text-[#6D8768] font-bold text-lg mb-3 font-['Montserrat']">The solution</h4><p class="text-dark leading-relaxed">We designed an interactive, consolidated website and Power BI solution that served as a single source of truth. The platform replaced anxiety with orientation, and gave both grantees and administrators a system they could trust to be current, accurate, and accessible.</p></div></div></div><div class="mb-20"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="my-approach" class="mb-10 text-dark">My approach</h2><div class="mb-20"><div class="bg-[#F5F5F0] pt-10 px-6 pb-10 md:px-[80px] md:py-[40px] rounded-[20px]"><h4 class="mb-4 text-center text-dark">User experience design process</h4><p class="text-center text-dark max-w-2xl mx-auto" style="margin-bottom: 0px; padding-bottom: 30px;">A structured path from raw data to a working solution that the people running the programs could actually use.</p><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Design%20Process%202.png" alt="User Experience Design Process" class="w-full h-auto rounded-[12px]"><p class="text-center w-full mx-auto text-sm text-gray-500 mt-4 font-medium italic">Size of circle = Amount of effort</p></div></div><div class="mb-20"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full flex items-center justify-center font-medium text-xl" style="background-color: rgb(209, 79, 85); color: white;">1</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Research</h3></div><p class="text-dark leading-relaxed mb-10">Before designing anything, we needed to understand where the friction actually lived. We paired a system audit with stakeholder interviews to map how grantees, administrators, and researchers experienced the network day to day. The data told us what was slow. The interviews told us what was stressful, and the two rarely pointed at the same thing.</p><div class="grid md:grid-cols-2 gap-8 mb-12"><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">System audit &amp; analysis</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Onboarding%20and%20Analysis%2004.png" alt="System audit &amp; analysis" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">What we discovered</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Identified bottlenecks in spreadsheet processes</li><li>Mapped federal reporting to system constraints</li><li>Documented ecosystem to replace manual paper trails</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Stakeholder inquiry</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Stakeholder%20and%20User%20Interviews%2004.png" alt="Stakeholder inquiry" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">The human truth</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Interviewed users to pinpoint burdens</li><li>Shifted strategy to dynamic portal</li><li>Isolated confusion points in application lifecycle</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Persona development</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Persona%20Workshop%2004.png?updatedAt=1769188208078" alt="Persona development" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Building empathy</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Created personas for all user types</li><li>Identified high-friction user groups</li><li>Humanized data for development team</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Journey mapping</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Journey%20Mapping%20Workshop%2004.png?updatedAt=1769188207685" alt="Journey mapping" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Mapping pain points</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Mapped journeys from application to funding</li><li>Pinpointed moments of user confusion</li><li>Added guidance at critical moments</li></ul></div></div></div></div></div><div class="mb-20"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full flex items-center justify-center font-medium text-xl" style="background-color: rgb(253, 213, 49); color: rgb(37, 37, 37);">2</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Information architecture</h3></div><p class="text-dark leading-relaxed mb-10">A coalition this size accumulates content faster than anyone can organize it. We restructured the information around how people actually look for things, not how the organization happened to be filed. The goal was simple: anyone, from a first-time grantee to a seasoned administrator, should be able to find what they need without already knowing where it lives.</p><div class="grid md:grid-cols-2 gap-8 mb-12"><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Strategic content org</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Sitemap%20and%20Content%20Strategy%2004.png" alt="Strategic content org" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Making complexity simple</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Restructured terminology into intuitive navigation</li><li>Ensured resources are two clicks away</li><li>Built framework for 40% network growth</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Workflow optimization</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/User%20Flows%2004.png" alt="Workflow optimization" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Removing friction</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Reduced processing time from 55 to 10 hours</li><li>Visualized logic trees to prevent dead ends</li><li>Connected submission to administrative review</li></ul></div></div></div></div></div><div class="mb-20"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full flex items-center justify-center font-medium text-xl" style="background-color: rgb(126, 209, 225); color: rgb(37, 37, 37);">3</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">Visual design</h3></div><p class="text-dark leading-relaxed mb-10">Public-sector tools often feel cold, and that coldness quietly tells people the system wasn’t built for them. We developed a visual language that balanced the authority a federal program requires with the warmth its community deserves. Consistency here wasn’t about looking polished. It was about making the platform feel trustworthy and calm under the weight of real work.</p><div class="grid md:grid-cols-2 gap-8 mb-12"><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Conceptual exploration</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Design%20Concepts%2004.png" alt="Conceptual exploration" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Finding the right balance</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Balanced authority with community focus</li><li>Explored directions for compliance and usability</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Prototyping &amp; validation</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Low%20Fidelity%20Wireframes%2004.png" alt="Prototyping &amp; validation" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">De-risking the design</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Validated assumptions with low-fidelity frames</li><li>Applied WCAG standards early</li><li>Simulated data entry to catch errors</li></ul></div></div></div></div></div><div class="mb-20"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 rounded-full flex items-center justify-center font-medium text-xl" style="background-color: rgb(78, 154, 205); color: white;">4</div><h3 class="text-dark text-[28px] md:text-[2.125rem]">User interface</h3></div><p class="text-dark leading-relaxed mb-10">The last layer was making the system durable. We built a component library and design system so the platform could grow without fragmenting again. Every pattern was documented, checked for accessibility, and handed to the development team ready to use, so the clarity we designed would outlast the launch.</p><div class="grid md:grid-cols-2 gap-8 mb-12"><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Digital design system</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Digital%20Style%20Guide%2004.png" alt="Digital design system" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">The foundation</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Built robust grid for all devices</li><li>Defined feedback states to reduce anxiety</li><li>Baked accessibility into design foundation</li></ul></div></div></div><div class="bg-[#F5F5F0] rounded-[20px] overflow-hidden"><div class="p-6 md:p-[40px] md:pb-1.5 pb-1.5"><h5 class="mb-1.5 text-dark font-semibold text-lg md:text-xl font-['Montserrat']">Scalable component library</h5><img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Component%20Library%2004.png" alt="Scalable component library" class="w-full object-contain block"></div><div class="p-6 md:p-[40px] md:pt-2 pt-2"><div class="mb-3"><div class="text-base font-semibold text-[#6D8768] mb-2">Built to last</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Established single source of truth</li><li>Delivered production-ready specs</li><li>Designed atomic components for expansion</li></ul></div></div></div></div></div></div><div class="mb-20"><div class="w-16 h-1 bg-[#6D8768] mb-3"></div><h2 id="impact" class="mb-8 text-dark">Impact</h2><div class="bg-[#F5F5F0] p-4 md:p-[40px] rounded-[20px] mb-6 font-[Montserrat]"><div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] border-b border-[#CCCCCC] pb-2 items-center"><div class="text-dark font-semibold">Dimension</div><div class="text-dark font-semibold">Outcome</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-[#CCCCCC] items-center"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-[#6D8768] rounded-full flex items-center justify-center flex-shrink-0"><div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div></div><div class="text-dark font-semibold">Operational velocity</div></div><div class="text-dark">Reduced data analysis request processing time by more than 80%, freeing analysts for higher-value work.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-[#CCCCCC] items-center"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-[#6D8768] rounded-full flex items-center justify-center flex-shrink-0"><div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg></div></div><div class="text-dark font-semibold">Data integrity</div></div><div class="text-dark">Cut data checking and validation time roughly in half while meaningfully reducing submission errors.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-[#CCCCCC] items-center"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-[#6D8768] rounded-full flex items-center justify-center flex-shrink-0"><div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg></div></div><div class="text-dark font-semibold">Rapid scale</div></div><div class="text-dark">Nearly doubled the number of grantees served by the platform with no growth in the operations team.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-[#CCCCCC] items-center"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-[#6D8768] rounded-full flex items-center justify-center flex-shrink-0"><div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div></div><div class="text-dark font-semibold">Network growth</div></div><div class="text-dark">Platform supports a growing network of grantees and grants, sustaining high weekly request volume with consistently strong uptime.</div></div></div><div class="bg-[#6D8768] text-white p-6 pb-6 mt-6 rounded-[20px]"><p class="mb-0 text-white">A scalable platform supporting a growing network of grantees and grants at high weekly request volume. The system gave program administrators their time back, gave grantees confidence in the information they needed, and lifted the operational ceiling for the whole network.</p></div></div></div></div></div></div></div>
+  </main>
+
+  <section class="case-closing" aria-label="Continue reading">
+    <div class="case-closing-inner">
+      <a href="dispatch-complexity.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Next case study</span><span class="case-closing-next-title">Orchestrating real-time logistics for a 450+ truck fleet &rarr;</span></a>
+    </div>
+  </section>
+
+  <script>
+    /* Reveal items as they scroll into view (replaces Framer Motion). */
+    (function () {
+      const els = document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('revealed')); return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.10, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(el => io.observe(el));
+    })();
+
+    /* Nav drop shadow on scroll. */
+    (function () {
+      const nav = document.querySelector('nav.fixed');
+      if (!nav) return;
+      const update = () => {
+        nav.style.boxShadow = window.scrollY > 8 ? '0 1px 8px rgba(0,0,0,0.05)' : '';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    /* Scroll progress bar. */
+    (function () {
+      const bar = document.querySelector('.scroll-progress');
+      if (!bar) return;
+      const update = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+        bar.style.width = pct + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    /* Section nav: highlight the link whose section is in view. */
+    (function () {
+      const links = document.querySelectorAll('.case-toc-inner a');
+      if (!links.length) return;
+      const targets = Array.from(links).map(a => {
+        const id = a.getAttribute('href').slice(1);
+        return { link: a, target: document.getElementById(id) };
+      }).filter(x => x.target);
+      const setActive = () => {
+        // Find the section whose top is just above the viewport midline.
+        const probe = window.innerHeight * 0.35;
+        let active = targets[0];
+        for (const t of targets) {
+          const rect = t.target.getBoundingClientRect();
+          if (rect.top - probe <= 0) active = t;
+        }
+        links.forEach(a => a.classList.remove('is-active'));
+        if (active) active.link.classList.add('is-active');
+      };
+      window.addEventListener('scroll', setActive, { passive: true });
+      setActive();
+    })();
+
+    /* Smooth in-page anchor scrolling. */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>
