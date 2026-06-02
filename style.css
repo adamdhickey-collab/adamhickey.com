@@ -336,32 +336,32 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 
 /* Thumbnail tile.
-   The PNG is a full-bleed colored block with the logo centered. To give
-   the logo more breathing room "within the square," we shrink the image
-   itself via padding on the thumb container, with the container's
-   background set to the section's warm bg so the padded area reads as
-   continuous with the surface — effectively making the visible colored
-   tile smaller while preserving the row's overall proportions. The
-   inner image gets a smaller corner radius so its rounded shape feels
-   intentional rather than clipped. */
+   Padding is intentionally asymmetric: no left padding so the colored
+   tile sits flush with the left edge of the row, a small amount above
+   and below for breathing room, and ~2× that on the right so the image
+   reads as anchored to the left rather than floating in a centered
+   frame. The pattern (right = 2× top = 2× bottom) keeps the inner
+   content box perfectly square so the image doesn't distort.
+   Background is warm to match the section, so the padded area reads
+   as continuous with the surface. */
 .case-grid.case-grid-compact .case-thumb {
   aspect-ratio: 1 / 1;
   margin-bottom: 0;
   flex: 0 0 auto;
   width: 100%;
   background: var(--color-warm);
-  padding: 14px;
+  padding: 6px 12px 6px 0;
 }
 @media (min-width: 640px) {
   .case-grid.case-grid-compact .case-thumb {
     width: 140px;
-    padding: 18px;
+    padding: 7px 14px 7px 0;
   }
 }
 @media (min-width: 1100px) {
   .case-grid.case-grid-compact .case-thumb {
     width: 160px;
-    padding: 22px;
+    padding: 8px 16px 8px 0;
   }
 }
 .case-grid.case-grid-compact .case-thumb img {
@@ -375,18 +375,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   flex-direction: column;
   gap: 0.5rem;
 }
-/* Push the title down so its cap-height optically lines up with the
-   top of the visible colored tile inside the thumb (which sits the
-   thumb's padding amount below the thumb's outer top edge). Each
-   breakpoint subtracts ~5px from the matching thumb padding-top to
-   account for the natural line-height leading above the title's
-   first line. */
-@media (min-width: 640px) {
-  .case-grid.case-grid-compact .case-content { padding-top: 13px; }
-}
-@media (min-width: 1100px) {
-  .case-grid.case-grid-compact .case-content { padding-top: 17px; }
-}
+/* With the thumb's top padding now only 7-8px, the title's natural
+   line-height leading (~4-5px above its cap-height) already accounts
+   for almost the entire gap. No extra padding-top needed — the box
+   alignment from align-items: flex-start does the rest. */
 
 .case-grid.case-grid-compact .case-card h4 {
   font-size: 1.25rem;
