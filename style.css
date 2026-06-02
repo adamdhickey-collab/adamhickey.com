@@ -1308,53 +1308,26 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (min-width: 900px) {
   .story-lead-ai { font-size: 1.125rem; margin-top: 1.25rem; }
 }
+/* AI icon: the source GIF is solid-black animated sparkles on a white
+   background. The #ai-tint SVG filter (defined at the top of body)
+   converts white to transparent and black to sage in one pass so the
+   icon visually matches the rest of the brand while the GIF's frame
+   animation continues to play. */
 .story-lead-ai-icon {
   width: 1.5em;
   height: 1.5em;
   flex-shrink: 0;
-  color: var(--color-accent);
+  display: inline-block;
+  object-fit: contain;
+  filter: url(#ai-tint);
 }
 .story-lead-ai-text { line-height: 1; }
-
-/* Sparkles animation.
-   The main star breathes gently (3.2s cycle) while the two small
-   cross-sparkles each twinkle on their own rhythm (2.4s cycle, offset
-   by 0.6s and 1.4s). Different durations + offsets mean the three
-   never sync up, which keeps the motion ambient and intentional
-   rather than metronomic. */
-@keyframes ai-pulse-main {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.78; transform: scale(0.94); }
-}
-@keyframes ai-twinkle {
-  0%, 70%, 100% { opacity: 0.95; transform: scale(1); }
-  35%           { opacity: 0.18; transform: scale(0.55); }
-}
-.ai-spark-main {
-  transform-origin: 12px 12px;
-  transform-box: fill-box;
-  animation: ai-pulse-main 3.2s ease-in-out infinite;
-}
-.ai-spark-tr {
-  transform-origin: 20px 5px;
-  transform-box: fill-box;
-  animation: ai-twinkle 2.4s ease-in-out infinite 0.6s;
-}
-.ai-spark-bl {
-  transform-origin: 4px 18px;
-  transform-box: fill-box;
-  animation: ai-twinkle 2.4s ease-in-out infinite 1.4s;
-}
 
 /* Mobile: larger header and a clear gap below the header before the
    first belief. */
 @media (max-width: 899px) {
   .story-lead { font-size: clamp(2.25rem, 8.5vw, 2.75rem); line-height: 1.1; }
   .story-head { margin-bottom: 60px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-spark-main, .ai-spark-tr, .ai-spark-bl { animation: none; }
 }
 
 /* ----- Layout ----- */
