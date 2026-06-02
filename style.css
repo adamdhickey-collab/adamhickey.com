@@ -235,11 +235,21 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .hero-card p { font-size: 0.9375rem; line-height: 1.5; color: var(--color-muted-gray); }
 
 /* Logo strip */
+.logo-strip-label {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
 .logo-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-top: 2.5rem;
+  margin-top: 0;
   margin-bottom: 2.5rem;
 }
 @media (min-width: 768px) { .logo-strip { grid-template-columns: repeat(6, 1fr); gap: 1.5rem; } }
@@ -263,13 +273,34 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .section-head h2 { margin-bottom: 1rem; }
 @media (min-width: 768px) { .section-head h2 { margin-bottom: 1.5rem; } }
 .section-head p { max-width: 42rem; color: var(--color-dark); font-size: 1.0625rem; }
-.section-head.archive-head { margin-top: 1rem; margin-bottom: 3rem; }
+.section-head.archive-head { margin-top: 1rem; margin-bottom: 2rem; }
+/* Earlier-experience heading sits visually lighter than "Case studies"
+   so recruiters don't read it with the same weight as the main work. */
+.section-head.archive-head h2 { font-size: 1.875rem; }
+@media (min-width: 768px) { .section-head.archive-head h2 { font-size: 2.25rem; } }
+.section-head.archive-head p { font-size: 0.9375rem; color: var(--color-muted-gray); }
 
 .case-grid {
   display: grid; gap: 2rem;
   margin-bottom: 3rem;
 }
 @media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 4rem; } }
+
+/* Compact variant for "Earlier experience" — keeps the same 2-col grid
+   on desktop but the cards are noticeably lighter: shorter thumbnails,
+   smaller title, fewer tags shown by default. The goal is to acknowledge
+   the depth of experience without letting a 20-year career timeline
+   dominate the page over the senior product-design case studies. */
+.case-grid.case-grid-compact .case-thumb { aspect-ratio: 16 / 7; }
+.case-grid.case-grid-compact .case-card h4 { font-size: 1.5rem; line-height: 1.2; margin-bottom: 0.35rem; }
+@media (min-width: 768px) {
+  .case-grid.case-grid-compact .case-card h4 { font-size: 1.625rem; }
+}
+.case-grid.case-grid-compact .case-desc { font-size: 0.9375rem; color: var(--color-muted-gray); }
+@media (min-width: 768px) {
+  .case-grid.case-grid-compact .case-desc { font-size: 0.9375rem; }
+}
+.case-grid.case-grid-compact .tag { font-size: 0.75rem; padding: 0.2rem 0.6rem; }
 
 .case-card { display: block; text-align: left; cursor: pointer; }
 .case-thumb {
@@ -305,10 +336,28 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 .case-card:hover h4 { color: var(--color-accent); }
 
+/* "My role" line — sits directly under the title in the same sage accent
+   color used elsewhere in the case study pages. Tells recruiters what
+   the candidate actually owned on the project. */
+.case-role {
+  margin-top: -0.15rem;
+  margin-bottom: 0.45rem;
+  color: var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  max-width: 36rem;
+}
+@media (min-width: 768px) {
+  .case-role { font-size: 0.875rem; margin-bottom: 0.55rem; }
+}
+
 /* Single-line human description under each case card title. Sentence case,
    no italics, no all caps. Sits between the title and the tag row. */
 .case-desc {
-  margin-top: -0.35rem;
+  margin-top: 0;
   /* Mobile: pull the tag row noticeably closer so description + tags
      read as one cohesive group. */
   margin-bottom: 0.4rem;
@@ -333,6 +382,64 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   font-size: 0.8125rem;
   letter-spacing: 0.025em;
   color: var(--color-dark);
+}
+
+/* ============================== STRENGTHS ==============================
+   Sits between the case studies (warm bg) and Capabilities (white bg).
+   Uses the same warm background as case-studies so it reads as one
+   continuous section visually, separated only by spacing. Compact
+   4-card grid, no icons — restraint keeps the editorial calm and
+   lets the keyword-heavy titles do the positioning work for senior
+   product / enterprise UX roles.                                     */
+.strengths {
+  background: var(--color-warm);
+  padding: 0 0 4rem;
+}
+@media (min-width: 768px) { .strengths { padding: 0 0 5rem; } }
+.strengths .section-head { margin-bottom: 2.25rem; }
+
+/* Earlier experience continues the warm-section flow that started with
+   case studies. Top padding is intentionally light (0) so it reads as
+   "more of the same surface" rather than a freshly-introduced section. */
+.earlier-experience {
+  background: var(--color-warm);
+  padding: 0 0 5rem;
+}
+@media (min-width: 768px) { .earlier-experience { padding: 0 0 6.5rem; } }
+
+.strength-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .strength-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+@media (min-width: 1100px) {
+  .strength-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.strength-card {
+  background: var(--color-white);
+  border-radius: 1rem;
+  padding: 1.5rem 1.5rem 1.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+.strength-card h4 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: var(--color-charcoal);
+}
+.strength-card p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-muted-gray);
 }
 
 /* ============================== CAPABILITIES ============================== */
