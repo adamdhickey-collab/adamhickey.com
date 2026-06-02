@@ -116,10 +116,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   background: var(--color-charcoal);
   color: var(--color-warm);
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   padding: 0.4rem 0.7rem;
   border-radius: 999px;
   white-space: nowrap;
@@ -195,19 +194,18 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   margin-top: 2.875rem;
   margin-bottom: 0.6rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-accent);
 }
 @media (min-width: 768px) {
-  .hero-eyebrow { margin-top: 3rem; margin-bottom: 0.75rem; font-size: 0.8125rem; }
+  .hero-eyebrow { margin-top: 3rem; margin-bottom: 0.75rem; font-size: 0.9375rem; }
 }
 .hero-eyebrow + .hero-title { margin-top: 0; }
 .hero-title { margin-top: 2.875rem; margin-bottom: 1rem; word-break: break-word; }
 @media (max-width: 767.98px) { .hero-title { font-size: 2.25rem; line-height: 1.05; } }
-@media (min-width: 768px) { .hero-title { margin-top: 3rem; margin-bottom: 2rem; } }
+@media (min-width: 768px) { .hero-title { margin-top: 3rem; margin-bottom: 1rem; } }
 .hero-title .accent { color: var(--color-accent); }
 .hero-sub { font-size: 1.25rem; color: var(--color-dark); line-height: 1.5; }
 @media (min-width: 768px) { .hero-sub { font-size: 1.375rem; } }
@@ -239,10 +237,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   margin-top: 2.5rem;
   margin-bottom: 0.75rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--color-muted-gray);
 }
 .logo-strip {
@@ -265,15 +262,23 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* ============================== CASE STUDIES ============================== */
 .case-studies {
   background: var(--color-warm);
-  padding: 5rem 0;
+  /* Asymmetric padding: full top reset from hero, tighter bottom because
+     the dark strengths section below provides its own emphasis and the
+     warm color band doesn't need extra space to "land." */
+  padding: 5rem 0 3.5rem;
 }
-@media (min-width: 768px) { .case-studies { padding: 6.5rem 0; } }
+@media (min-width: 768px) { .case-studies { padding: 6.5rem 0 4.5rem; } }
 
 .section-head { margin-bottom: 3rem; max-width: 56rem; }
 .section-head h2 { margin-bottom: 1rem; }
 @media (min-width: 768px) { .section-head h2 { margin-bottom: 1.5rem; } }
 .section-head p { max-width: 42rem; color: var(--color-dark); font-size: 1.0625rem; }
-.section-head.archive-head { margin-top: 1rem; margin-bottom: 2rem; }
+/* No margin-top here — the parent .earlier-experience has padding-top
+   that handles the spacing. A margin-top would collapse out of the
+   section (since margins of the first child collapse through a
+   padding-less parent) and expose the body's white background as a
+   visible white band between this section and the strengths above. */
+.section-head.archive-head { margin-top: 0; margin-bottom: 2rem; }
 /* Earlier-experience heading sits visually lighter than "Case studies"
    so recruiters don't read it with the same weight as the main work. */
 .section-head.archive-head h2 { font-size: 1.875rem; }
@@ -282,9 +287,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 
 .case-grid {
   display: grid; gap: 2rem;
-  margin-bottom: 3rem;
+  /* No margin-bottom — the parent section's padding-bottom handles
+     trailing space. The earlier 3-4rem margin-bottom existed when this
+     grid sat above the Archive header inside the same section; now
+     each grid lives in its own section, so a compounding margin would
+     just bloat the rhythm. */
+  margin-bottom: 0;
 }
-@media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 4rem; } }
+@media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 0; } }
 
 /* Compact variant for "Earlier experience" — keeps the same 2-col grid
    on desktop but the cards are noticeably lighter: shorter thumbnails,
@@ -336,22 +346,23 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 .case-card:hover h4 { color: var(--color-accent); }
 
-/* "My role" line — sits directly under the title in the same sage accent
-   color used elsewhere in the case study pages. Tells recruiters what
-   the candidate actually owned on the project. */
+/* "My role" line — sits directly under the title. Styled to match the
+   compact descriptions in the Earlier experience section (muted gray,
+   regular weight, same body size) so the four senior case study cards
+   read as one coherent typographic system across the homepage. */
 .case-role {
-  margin-top: -0.15rem;
-  margin-bottom: 0.45rem;
-  color: var(--color-accent);
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  color: var(--color-muted-gray);
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.45;
-  letter-spacing: 0.01em;
-  max-width: 36rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  max-width: 32rem;
 }
 @media (min-width: 768px) {
-  .case-role { font-size: 0.875rem; margin-bottom: 0.55rem; }
+  .case-role { margin-bottom: 0.85rem; }
 }
 
 /* Single-line human description under each case card title. Sentence case,
@@ -385,61 +396,76 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 
 /* ============================== STRENGTHS ==============================
-   Sits between the case studies (warm bg) and Capabilities (white bg).
-   Uses the same warm background as case-studies so it reads as one
-   continuous section visually, separated only by spacing. Compact
-   4-card grid, no icons — restraint keeps the editorial calm and
-   lets the keyword-heavy titles do the positioning work for senior
-   product / enterprise UX roles.                                     */
+   A dark, reverse-color island between the warm case studies and the
+   warm earlier-experience block. The color break is the emphasis: the
+   reader has just left a stretch of warm content, and the charcoal
+   surface signals "this is the part to pay attention to." Editorial
+   restraint stays in place — no card backgrounds, just type with a
+   small sage accent line above each title, echoing the same accent
+   line used on the case study impact sections.                       */
 .strengths {
-  background: var(--color-warm);
-  padding: 0 0 4rem;
+  background: var(--color-charcoal);
+  padding: 4.5rem 0;
 }
-@media (min-width: 768px) { .strengths { padding: 0 0 5rem; } }
-.strengths .section-head { margin-bottom: 2.25rem; }
+@media (min-width: 768px) { .strengths { padding: 5.5rem 0; } }
+.strengths .section-head { margin-bottom: 2.5rem; }
+.strengths .section-head h2 { color: var(--color-warm); }
+.strengths .section-head p { color: rgba(245, 245, 240, 0.72); }
 
-/* Earlier experience continues the warm-section flow that started with
-   case studies. Top padding is intentionally light (0) so it reads as
-   "more of the same surface" rather than a freshly-introduced section. */
+/* Earlier experience reads as a quieter coda after the dark strengths
+   island. Warm bg matches the case studies above; a touch of top
+   padding (instead of the previous 0) restores breathing room without
+   competing with the dark section above. */
 .earlier-experience {
   background: var(--color-warm);
-  padding: 0 0 5rem;
+  padding: 3rem 0 5rem;
 }
-@media (min-width: 768px) { .earlier-experience { padding: 0 0 6.5rem; } }
+@media (min-width: 768px) { .earlier-experience { padding: 4rem 0 6.5rem; } }
 
 .strength-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 @media (min-width: 768px) {
-  .strength-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .strength-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
 }
 @media (min-width: 1100px) {
-  .strength-grid { grid-template-columns: repeat(4, 1fr); }
+  .strength-grid { grid-template-columns: repeat(4, 1fr); gap: 2.75rem; }
 }
 
+/* No card chrome on dark — the sage accent line + type carries the
+   visual weight. Keeps the section feeling editorial rather than
+   ad-card-y, and reads cleanly against the charcoal surface. */
 .strength-card {
-  background: var(--color-white);
-  border-radius: 1rem;
-  padding: 1.5rem 1.5rem 1.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: transparent;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+.strength-card::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--color-accent);
+  margin-bottom: 1rem;
 }
 .strength-card h4 {
   margin: 0 0 0.5rem;
   font-family: var(--font-serif);
-  font-size: 1.25rem;
-  line-height: 1.25;
+  font-size: 1.375rem;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   font-weight: 400;
-  color: var(--color-charcoal);
+  color: var(--color-warm);
 }
 .strength-card p {
   margin: 0;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--color-muted-gray);
+  line-height: 1.6;
+  color: rgba(245, 245, 240, 0.68);
 }
 
 /* ============================== CAPABILITIES ============================== */
@@ -487,10 +513,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .cap-rail-group + .cap-rail-group { margin-top: 1.5rem; }
 .cap-rail-group-title {
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--color-accent);
   margin: 0 0 0.625rem;
   padding-left: 1.125rem;
@@ -694,10 +719,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     gap: 0.55rem;
     margin-bottom: 0.4rem;
     font-family: var(--font-sans);
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--color-muted-gray);
   }
   .cap-feature-num {
@@ -858,8 +882,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   content: attr(data-label);
   font-family: var(--font-sans);
   font-size: 0.8125rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: rgba(245, 245, 240, 0.4);
   text-align: center;
   padding: 0 2rem;
@@ -1030,10 +1053,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   display: block;
   margin-bottom: 0.5rem;
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--color-accent);
   font-style: normal;
 }
