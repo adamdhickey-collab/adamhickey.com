@@ -1285,19 +1285,76 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   max-width: 36rem;
   transition: color 1s var(--ease);
 }
-/* The "(now powered by AI)" aside reads as a lighter, smaller sub-note. */
-.story-lead-note {
-  font-size: 0.46em;
-  color: var(--story-ink-soft);
-  white-space: nowrap;
+/* "Now powered by AI" — promoted from a small parenthetical aside to a
+   labeled line beneath the headline. Sits on its own line at all sizes,
+   sage-accented, in the sans-serif voice so it reads as a distinct
+   signal rather than a continuation of the serif title. The sparkles
+   icon to the left animates continuously (see ai-spark-* below) so the
+   label feels alive without being noisy. */
+.story-lead-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-accent);
   transition: color 1s var(--ease);
+  /* Force onto its own line beneath the title text. */
+  width: 100%;
 }
-/* Mobile: larger header, "(now powered by AI)" on its own line, and a clear
-   gap below the header before the first belief. */
+@media (min-width: 900px) {
+  .story-lead-ai { font-size: 1.125rem; margin-top: 1.25rem; }
+}
+.story-lead-ai-icon {
+  width: 1.5em;
+  height: 1.5em;
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+.story-lead-ai-text { line-height: 1; }
+
+/* Sparkles animation.
+   The main star breathes gently (3.2s cycle) while the two small
+   cross-sparkles each twinkle on their own rhythm (2.4s cycle, offset
+   by 0.6s and 1.4s). Different durations + offsets mean the three
+   never sync up, which keeps the motion ambient and intentional
+   rather than metronomic. */
+@keyframes ai-pulse-main {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.78; transform: scale(0.94); }
+}
+@keyframes ai-twinkle {
+  0%, 70%, 100% { opacity: 0.95; transform: scale(1); }
+  35%           { opacity: 0.18; transform: scale(0.55); }
+}
+.ai-spark-main {
+  transform-origin: 12px 12px;
+  transform-box: fill-box;
+  animation: ai-pulse-main 3.2s ease-in-out infinite;
+}
+.ai-spark-tr {
+  transform-origin: 20px 5px;
+  transform-box: fill-box;
+  animation: ai-twinkle 2.4s ease-in-out infinite 0.6s;
+}
+.ai-spark-bl {
+  transform-origin: 4px 18px;
+  transform-box: fill-box;
+  animation: ai-twinkle 2.4s ease-in-out infinite 1.4s;
+}
+
+/* Mobile: larger header and a clear gap below the header before the
+   first belief. */
 @media (max-width: 899px) {
   .story-lead { font-size: clamp(2.25rem, 8.5vw, 2.75rem); line-height: 1.1; }
-  .story-lead-note { display: block; margin-top: 0.6rem; font-size: 0.5em; }
   .story-head { margin-bottom: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-spark-main, .ai-spark-tr, .ai-spark-bl { animation: none; }
 }
 
 /* ----- Layout ----- */
