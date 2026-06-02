@@ -296,22 +296,26 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 @media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-bottom: 0; } }
 
-/* Compact variant for "Earlier experience" — horizontal row layout.
-   Square thumbnail anchors the left, all text (title + one-line
-   description + three focused tags) sits in a content column to the
-   right. The result reads more like a credentialed magazine listing
-   than a project card, which fits the section's purpose: acknowledge
-   the depth of experience without competing with the senior case
-   studies above. Falls back to a stacked layout on small screens. */
+/* Compact variant for "Earlier experience" — two-column grid of
+   horizontal mini-cards. RBA and Pixel Farm sit side by side on
+   desktop, each row pairing a small square thumbnail (130-160px) on
+   the left with title + one-line description + three focused tags on
+   the right. The smaller thumbs leave generous whitespace around the
+   logos so the section reads as a quiet credentialed listing rather
+   than a second wave of project cards. Stacks gracefully back to a
+   single column with vertical cards on mobile. */
 .case-grid.case-grid-compact {
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 @media (min-width: 768px) {
   .case-grid.case-grid-compact {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
   }
+}
+@media (min-width: 1100px) {
+  .case-grid.case-grid-compact { gap: 3rem; }
 }
 
 .case-grid.case-grid-compact .case-card {
@@ -323,29 +327,45 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (min-width: 640px) {
   .case-grid.case-grid-compact .case-card {
     flex-direction: row;
-    align-items: center;
-    gap: 2rem;
+    /* Top-align so each title sits flush with the top of its thumbnail.
+       Centering felt awkward once the logos got smaller — the headline
+       is the entry point and should anchor the row visually. */
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 }
-@media (min-width: 1024px) {
-  .case-grid.case-grid-compact .case-card { gap: 2.5rem; }
-}
 
+/* Thumbnail tile.
+   The PNG is a full-bleed colored block with the logo centered. To give
+   the logo more breathing room "within the square," we shrink the image
+   itself via padding on the thumb container, with the container's
+   background set to the section's warm bg so the padded area reads as
+   continuous with the surface — effectively making the visible colored
+   tile smaller while preserving the row's overall proportions. The
+   inner image gets a smaller corner radius so its rounded shape feels
+   intentional rather than clipped. */
 .case-grid.case-grid-compact .case-thumb {
   aspect-ratio: 1 / 1;
   margin-bottom: 0;
   flex: 0 0 auto;
   width: 100%;
+  background: var(--color-warm);
+  padding: 14px;
 }
 @media (min-width: 640px) {
   .case-grid.case-grid-compact .case-thumb {
-    width: 180px;
+    width: 140px;
+    padding: 18px;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1100px) {
   .case-grid.case-grid-compact .case-thumb {
-    width: 220px;
+    width: 160px;
+    padding: 22px;
   }
+}
+.case-grid.case-grid-compact .case-thumb img {
+  border-radius: 10px;
 }
 
 .case-grid.case-grid-compact .case-content {
@@ -353,27 +373,34 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   min-width: 0; /* let the flex item shrink so text wraps properly */
   display: flex;
   flex-direction: column;
-  /* The horizontal layout has plenty of room — let the title, description
-     and tag row breathe without the compressed mobile gaps. */
   gap: 0.5rem;
+}
+/* Push the title down so its cap-height optically lines up with the
+   top of the visible colored tile inside the thumb (which sits the
+   thumb's padding amount below the thumb's outer top edge). Each
+   breakpoint subtracts ~5px from the matching thumb padding-top to
+   account for the natural line-height leading above the title's
+   first line. */
+@media (min-width: 640px) {
+  .case-grid.case-grid-compact .case-content { padding-top: 13px; }
+}
+@media (min-width: 1100px) {
+  .case-grid.case-grid-compact .case-content { padding-top: 17px; }
 }
 
 .case-grid.case-grid-compact .case-card h4 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1.2;
   margin: 0;
 }
-@media (min-width: 768px) {
-  .case-grid.case-grid-compact .case-card h4 { font-size: 1.625rem; }
+@media (min-width: 1100px) {
+  .case-grid.case-grid-compact .case-card h4 { font-size: 1.375rem; }
 }
 .case-grid.case-grid-compact .case-desc {
   font-size: 0.9375rem;
   color: var(--color-muted-gray);
   margin: 0;
-  max-width: 40rem;
-}
-@media (min-width: 768px) {
-  .case-grid.case-grid-compact .case-desc { font-size: 1rem; }
+  max-width: 32rem;
 }
 .case-grid.case-grid-compact .tag-row {
   margin: 0.25rem 0 0;
