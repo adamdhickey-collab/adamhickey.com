@@ -320,17 +320,18 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 
 .case-grid.case-grid-compact .case-card {
   display: flex;
-  flex-direction: column;
+  /* Row layout at all widths: small logo tile sits flush left next to
+     title + description. Mobile used to stack with a full-width thumb,
+     which made the logos compete with the headlines for attention. */
+  flex-direction: row;
+  /* Top-align so each title sits flush with the top of its thumbnail.
+     Centering felt awkward once the logos got smaller — the headline
+     is the entry point and should anchor the row visually. */
+  align-items: flex-start;
   gap: 1rem;
-  align-items: stretch;
 }
 @media (min-width: 640px) {
   .case-grid.case-grid-compact .case-card {
-    flex-direction: row;
-    /* Top-align so each title sits flush with the top of its thumbnail.
-       Centering felt awkward once the logos got smaller — the headline
-       is the entry point and should anchor the row visually. */
-    align-items: flex-start;
     gap: 1.5rem;
   }
 }
@@ -348,9 +349,15 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   aspect-ratio: 1 / 1;
   margin-bottom: 0;
   flex: 0 0 auto;
-  width: 100%;
+  /* Mobile: icon-sized tile, not full width. Keeps the logo readable
+     while letting title + tags carry the row. Steps up to 140 / 160 on
+     larger screens. Mobile uses zero padding so the colored logo tile
+     fills the cell and reads as a clean app-icon shape; the asymmetric
+     left-anchored padding only kicks in at 640px+ where the row
+     treatment benefits from a visible warm frame. */
+  width: 96px;
   background: var(--color-warm);
-  padding: 6px 12px 6px 0;
+  padding: 0;
 }
 @media (min-width: 640px) {
   .case-grid.case-grid-compact .case-thumb {
