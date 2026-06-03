@@ -97,6 +97,11 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   position: relative;
   color: var(--color-charcoal);
   display: inline-flex; align-items: center; justify-content: center;
+  /* Expand the touch area to the Apple/Material recommended 44px without
+     resizing the visible icon. The svg keeps its 24px footprint; the
+     wrapper grows around it so taps from a touch device don't miss. */
+  min-width: 44px;
+  min-height: 44px;
   transition: opacity 0.3s var(--ease);
 }
 .icon-link:hover { opacity: 0.7; }
@@ -387,13 +392,13 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    for almost the entire gap. No extra padding-top needed — the box
    alignment from align-items: flex-start does the rest. */
 
-.case-grid.case-grid-compact .case-card h4 {
+.case-grid.case-grid-compact .case-card h3 {
   font-size: 1.25rem;
   line-height: 1.2;
   margin: 0;
 }
 @media (min-width: 1100px) {
-  .case-grid.case-grid-compact .case-card h4 { font-size: 1.375rem; }
+  .case-grid.case-grid-compact .case-card h3 { font-size: 1.375rem; }
 }
 .case-grid.case-grid-compact .case-desc {
   font-size: 0.9375rem;
@@ -421,7 +426,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   transition: transform 0.7s var(--ease);
 }
 .case-card:hover .case-thumb img { transform: scale(1.05); }
-.case-card h4 {
+.case-card h3 {
   /* Mobile (<768): tighter title→description gap so the description and
      tag row read as one tightly grouped unit beneath the headline. */
   margin-bottom: 0.45rem;
@@ -436,9 +441,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
-  .case-card h4 { margin-bottom: 0.65rem; font-size: 2.125rem; }
+  .case-card h3 { margin-bottom: 0.65rem; font-size: 2.125rem; }
 }
-.case-card:hover h4 { color: var(--color-accent); }
+.case-card:hover h3 { color: var(--color-accent); }
 
 /* "My role" line — sits directly under the title. Styled to match the
    compact descriptions in the Earlier experience section (muted gray,
@@ -545,7 +550,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   background: var(--color-accent);
   margin-bottom: 1rem;
 }
-.strength-card h4 {
+.strength-card h3 {
   margin: 0 0 0.5rem;
   font-family: var(--font-serif);
   font-size: 1.375rem;
@@ -610,7 +615,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0;
-  color: var(--color-accent);
+  /* Charcoal (not sage) so this 14px label clears WCAG 4.5:1 on white.
+     The sage accent still groups the rail visually via the 3px active
+     indicator bar and the sage-tinted active-state background. */
+  color: var(--color-charcoal);
   margin: 0 0 0.625rem;
   padding-left: 1.125rem;
 }
@@ -669,7 +677,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   line-height: 1.2;
   transition: color 0.18s var(--ease);
 }
-.cap-rail-item.is-active .cap-rail-num { color: var(--color-accent); }
+/* Active state: number stays charcoal so it reads cleanly against the
+   sage-tinted active background. The selection signal is carried by
+   the sage indicator bar (.cap-rail-item::before) plus the background. */
+.cap-rail-item.is-active .cap-rail-num { color: var(--color-charcoal); }
 .cap-rail-label {
   font-family: var(--font-sans);
   font-size: 0.875rem;
