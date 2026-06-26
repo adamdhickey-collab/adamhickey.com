@@ -69,7 +69,7 @@
         <img src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
       </button>
       <div class="nav-actions">
-        <a href="mailto:adamdhickey@gmail.com" class="icon-link" aria-label="Email Adam Hickey">
+        <a href="mailto:adamdhickey@gmail.com" data-email-popover="adamdhickey@gmail.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
@@ -1554,6 +1554,151 @@
     } catch (e) {
       console.warn('gifuct-js failed to load; GIFs loop at native speed.', e);
     }
+  </script>
+
+  <!-- Email copy popover: the email nav link opens a small card with a
+       selectable/editable address, a Copy button, and a Close button
+       instead of launching the mail client. Self-contained (injects its
+       own scoped styles); falls back to mailto: if JS is unavailable. -->
+  <script>
+  (function () {
+    var trigger = document.querySelector('[data-email-popover]');
+    if (!trigger) return;
+    var email = trigger.getAttribute('data-email-popover');
+
+    var style = document.createElement('style');
+    style.textContent =
+      '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
+      'background:#fff;border:1px solid rgba(37,37,37,.10);border-radius:12px;' +
+      'box-shadow:0 10px 30px rgba(37,37,37,.16);padding:13px 14px 14px;' +
+      "font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
+      'opacity:0;visibility:hidden;transform:translateY(-4px);' +
+      'transition:opacity .16s ease,transform .16s ease,visibility .16s ease;}' +
+      '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
+      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:#fff;' +
+      'border-left:1px solid rgba(37,37,37,.10);border-top:1px solid rgba(37,37,37,.10);' +
+      'transform:translateX(-50%) rotate(45deg);}' +
+      '.ah-emailpop-head{display:flex;align-items:center;justify-content:space-between;' +
+      'margin:0 0 8px;}' +
+      '.ah-emailpop-title{font-size:.6875rem;font-weight:700;letter-spacing:.08em;' +
+      'text-transform:uppercase;color:#5c5f5c;}' +
+      '.ah-emailpop-close{display:inline-flex;align-items:center;justify-content:center;' +
+      'width:26px;height:26px;margin:-4px -4px -4px 0;border:0;background:transparent;' +
+      'color:#5c5f5c;border-radius:7px;cursor:pointer;transition:color .2s ease,background .2s ease;}' +
+      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:#252525;background:rgba(37,37,37,.06);}' +
+      '.ah-emailpop-close:focus-visible{outline:2px solid #6D8768;outline-offset:2px;}' +
+      '.ah-emailpop-row{display:flex;align-items:stretch;gap:8px;}' +
+      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:.875rem;' +
+      'color:#252525;padding:8px 10px;border:1px solid rgba(37,37,37,.16);border-radius:8px;' +
+      'background:#fafafa;transition:border-color .2s ease,box-shadow .2s ease;}' +
+      '.ah-emailpop-input:focus{outline:none;border-color:#6D8768;box-shadow:0 0 0 3px rgba(109,135,104,.18);}' +
+      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:.8125rem;font-weight:600;' +
+      'color:#fff;background:#6D8768;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
+      'transition:background .2s ease,transform .1s ease;}' +
+      '.ah-emailpop-copy:hover{background:#5d7559;}' +
+      '.ah-emailpop-copy:active{transform:translateY(1px);}' +
+      '.ah-emailpop-copy:focus-visible{outline:2px solid #6D8768;outline-offset:2px;}' +
+      '.ah-emailpop-copy.is-copied{background:#252525;}' +
+      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity .12s linear,visibility .12s linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
+    document.head.appendChild(style);
+
+    var pop = document.createElement('div');
+    pop.className = 'ah-emailpop';
+    pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-label', 'Email address');
+    pop.innerHTML =
+      '<span class="ah-emailpop-arrow" aria-hidden="true"></span>' +
+      '<div class="ah-emailpop-head">' +
+        '<span class="ah-emailpop-title">Email</span>' +
+        '<button type="button" class="ah-emailpop-close" aria-label="Close">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="ah-emailpop-row">' +
+        '<input class="ah-emailpop-input" type="text" spellcheck="false" autocomplete="off" aria-label="Email address" />' +
+        '<button type="button" class="ah-emailpop-copy">Copy</button>' +
+      '</div>';
+    document.body.appendChild(pop);
+
+    var input = pop.querySelector('.ah-emailpop-input');
+    var copyBtn = pop.querySelector('.ah-emailpop-copy');
+    var closeBtn = pop.querySelector('.ah-emailpop-close');
+    var arrow = pop.querySelector('.ah-emailpop-arrow');
+    input.value = email;
+    var isOpen = false, copyTimer;
+
+    function position() {
+      var r = trigger.getBoundingClientRect();
+      var pw = pop.offsetWidth;
+      var margin = 8;
+      var left = r.left + r.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      pop.style.left = left + 'px';
+      pop.style.top = (r.bottom + 10) + 'px';
+      var ax = (r.left + r.width / 2) - left;
+      arrow.style.left = Math.max(16, Math.min(ax, pw - 16)) + 'px';
+    }
+
+    function open() {
+      isOpen = true;
+      pop.classList.add('ah-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      copyBtn.textContent = 'Copy';
+      copyBtn.classList.remove('is-copied');
+      position();
+      setTimeout(function () { input.focus(); input.select(); }, 0);
+      document.addEventListener('keydown', onKey);
+      document.addEventListener('pointerdown', onOutside, true);
+      window.addEventListener('resize', position);
+      window.addEventListener('scroll', position, true);
+    }
+
+    function close(returnFocus) {
+      if (!isOpen) return;
+      isOpen = false;
+      pop.classList.remove('ah-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onOutside, true);
+      window.removeEventListener('resize', position);
+      window.removeEventListener('scroll', position, true);
+      if (returnFocus === true) trigger.focus();
+    }
+
+    function onKey(e) { if (e.key === 'Escape') { e.preventDefault(); close(true); } }
+    function onOutside(e) {
+      if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
+    }
+
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      isOpen ? close(true) : open();
+    });
+
+    copyBtn.addEventListener('click', function () {
+      var mark = function () {
+        copyBtn.textContent = 'Copied';
+        copyBtn.classList.add('is-copied');
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(function () {
+          copyBtn.textContent = 'Copy';
+          copyBtn.classList.remove('is-copied');
+        }, 1800);
+      };
+      var fallback = function () {
+        input.focus(); input.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        mark();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).then(mark, fallback);
+      } else { fallback(); }
+    });
+
+    closeBtn.addEventListener('click', function () { close(true); });
+  })();
   </script>
 </body>
 </html>
