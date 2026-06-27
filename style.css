@@ -1261,23 +1261,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   opacity: 0.9;
   transition: opacity 0.25s var(--ease);
 }
-/* Soft sage beacon pinging out from the plane's nose: a "you are here" pulse
-   that keeps the eye on the moving aircraft. Scales around its own centre and
-   fades, riding along with the plane group's translate. */
-.story-line-beacon {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 1.5;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: story-beacon 2.6s ease-out infinite;
-}
-@keyframes story-beacon {
-  0%   { transform: scale(0.4); opacity: 0.75; }
-  70%  { opacity: 0; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
-
 /* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude
    (--story-alt, set per scroll tick in setupStoryLine). Behind all copy, so it
    adds cinematic depth without touching legibility. */
@@ -1786,10 +1769,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     clip-path: none !important;
     transition: opacity 0.25s linear !important;
   }
-  /* No slow zoom, beacon ping, depth push, parallax, or vignette under
-     reduced motion. */
+  /* No slow zoom, depth push, parallax, or vignette under reduced motion. */
   .story-frame.is-active .story-frame-back { animation: none !important; }
-  .story-line-beacon { animation: none !important; opacity: 0 !important; }
   .story-frame-back-wrap { transform: none !important; }
   .story-stage { transform: none !important; }
   .story-atmos { display: none !important; }
