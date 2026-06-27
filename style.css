@@ -1127,6 +1127,37 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   font-style: normal;
 }
 
+/* "Applied in": a parallel block to "Grounded in" that links one relevant
+   case study showing the capability in practice. Same visual language; the
+   link reads as a quiet invitation into the work. */
+.cap-feature-applied {
+  margin: 0.75rem 0 0;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(109, 135, 104, 0.18);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-muted-gray);
+}
+.cap-feature-applied::before {
+  content: "Applied in";
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+.cap-feature-applied a {
+  color: var(--color-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.2s var(--ease);
+}
+.cap-feature-applied a:hover { opacity: 0.7; }
+
 /* Reduced motion: drop the entrance animation entirely. */
 @media (prefers-reduced-motion: reduce) {
   .cap-group-pane[data-state="active"] { animation: none; }
@@ -1228,86 +1259,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   fill: var(--color-charcoal);
   opacity: 0.9;
   transition: opacity 0.25s var(--ease);
-}
-
-/* ---------- Drifting clouds over the globe grid ----------
-   Soft white ellipses softened + morphed by a turbulence/displacement filter.
-   Movement (parallax drift) and morph (displacement scale) are scroll-driven
-   in setupStoryCockpit(), so they cost nothing when the page is still. They
-   sit above the grid but inside .story-deco, so the plane and all copy stay
-   on top. */
-.story-clouds {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  opacity: 0.92;
-}
-.story-cloud ellipse { fill: #ffffff; }
-.story-cloud { opacity: 0.8; }
-
-/* ---------- Minimalist cockpit HUD ----------
-   Thin charcoal instruments with monospace numerals, parked in the section's
-   top/bottom margins (never under copy). Driven by scroll so the panel reads
-   as if you're flying the page. */
-/* Fixed to the viewport so the panel frames the screen like a canopy while you
-   fly through the section; setupStoryCockpit() fades it in (.is-flying) only
-   while the story is on screen, and below the fixed nav (z 50). */
-.story-hud {
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-  color: var(--color-charcoal);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
-.story-hud.is-flying { opacity: 1; }
-
-.hud-bracket { position: absolute; width: 22px; height: 22px; border: 1.5px solid currentColor; opacity: 0.3; }
-.hud-bracket--tl { top: 92px; left: 22px; border-right: 0; border-bottom: 0; }
-.hud-bracket--tr { top: 92px; right: 22px; border-left: 0; border-bottom: 0; }
-.hud-bracket--bl { bottom: 22px; left: 22px; border-right: 0; border-top: 0; }
-.hud-bracket--br { bottom: 22px; right: 22px; border-left: 0; border-top: 0; }
-
-.hud-readout { position: absolute; display: flex; align-items: baseline; gap: 0.45ch; font-size: 0.66rem; letter-spacing: 0.1em; opacity: 0.58; }
-.hud-readout--alt { bottom: 54px; left: 26px; }
-.hud-readout--spd { bottom: 54px; right: 26px; }
-.hud-cap { font-size: 0.58rem; opacity: 0.6; }
-.hud-num { color: var(--color-accent); font-weight: 600; font-variant-numeric: tabular-nums; }
-
-.hud-heading {
-  position: absolute; top: 96px; left: 50%; transform: translateX(-50%);
-  width: 220px; height: 30px; overflow: hidden; opacity: 0.55;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
-}
-.hud-heading-strip {
-  position: absolute; top: 2px; left: 50%; width: 640px; margin-left: -320px; height: 9px;
-  background-image: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 16px);
-}
-.hud-heading-mark { position: absolute; top: 0; left: 50%; width: 1px; height: 13px; background: var(--color-accent); transform: translateX(-50%); }
-.hud-heading-val { position: absolute; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 0.6rem; letter-spacing: 0.14em; }
-
-.hud-attitude { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); width: 116px; height: 76px; opacity: 0.55; overflow: hidden; }
-.hud-att-horizon { transform-origin: 60px 40px; }
-.hud-att-craft line { stroke: var(--color-accent); stroke-width: 1.5; }
-.hud-att-craft circle { fill: var(--color-accent); }
-
-.hud-status { position: absolute; top: 124px; right: 26px; display: flex; gap: 11px; font-size: 0.58rem; letter-spacing: 0.12em; opacity: 0.58; }
-.hud-chip { display: inline-flex; align-items: center; gap: 5px; }
-.hud-chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); animation: hud-blink 2.6s steps(1, end) infinite; }
-.hud-chip:nth-child(2) i { animation-delay: 0.9s; }
-.hud-chip:nth-child(3) i { animation-delay: 1.8s; }
-@keyframes hud-blink { 0%, 72% { opacity: 1; } 73%, 100% { opacity: 0.22; } }
-
-@media (max-width: 767px) {
-  /* Keep mobile calm: just the corner brackets + clouds, no instruments. */
-  .hud-readout, .hud-attitude, .hud-status, .hud-heading { display: none; }
-  .hud-bracket { width: 16px; height: 16px; }
-  .hud-bracket--tl, .hud-bracket--tr { top: 70px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hud-chip i { animation: none; }
 }
 
 /* A faint static grain over the whole decorative layer gives the grid and the
