@@ -1181,6 +1181,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   --story-accent:   var(--color-accent);
   --story-rail:     var(--color-tag-border);
   --story-grid:     #b0b8a2;
+  --story-alt:      0; /* scroll "altitude" 0..1, set by setupStoryLine */
 
   background: var(--story-bg);
   color: var(--story-ink);
@@ -1259,6 +1260,36 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   fill: var(--color-charcoal);
   opacity: 0.9;
   transition: opacity 0.25s var(--ease);
+}
+/* Soft sage beacon pinging out from the plane's nose: a "you are here" pulse
+   that keeps the eye on the moving aircraft. Scales around its own centre and
+   fades, riding along with the plane group's translate. */
+.story-line-beacon {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-beacon 2.6s ease-out infinite;
+}
+@keyframes story-beacon {
+  0%   { transform: scale(0.4); opacity: 0.75; }
+  70%  { opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude
+   (--story-alt, set per scroll tick in setupStoryLine). Behind all copy, so it
+   adds cinematic depth without touching legibility. */
+.story-atmos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(var(--story-alt, 0) * 0.6);
+  background:
+    radial-gradient(120% 90% at 50% 42%, transparent 52%, rgba(37, 37, 37, 0.16) 84%, rgba(37, 37, 37, 0.32) 100%),
+    linear-gradient(180deg, rgba(120, 140, 158, 0.10), transparent 32%);
+  transition: opacity 0.2s linear;
 }
 
 /* A faint static grain over the whole decorative layer gives the grid and the
@@ -1480,6 +1511,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
+  /* Gentle parallax: the media disc drifts up a touch as you climb, giving the
+     pinned column depth against the faster-scrolling grid. */
+  transform: translateY(calc(var(--story-alt, 0) * -18px));
+  will-change: transform;
 }
 @media (min-width: 900px) {
   /* Square stage at desktop+ so the circle commands the column without
@@ -1516,17 +1551,32 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   overflow: hidden;
   background: var(--color-tea-light);
   opacity: 0;
-  transition: opacity .5s var(--ease);
+  transform: scale(0.92);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
 }
+/* Depth cross-dissolve: the incoming photo eases up from slightly back, so
+   step changes feel like the camera pushing forward rather than a flat fade. */
 .story-frame.is-active .story-frame-back-wrap {
   opacity: 1;
-  transition: opacity .7s var(--ease);
+  transform: scale(1);
+  transition: opacity .7s var(--ease), transform .8s var(--ease);
 }
 .story-frame-back {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 0.7s var(--ease);
+}
+/* Cinematic slow zoom on whichever step is active: the photo drifts in a touch
+   while you read it, then resets, so the imagery feels alive instead of static. */
+.story-frame.is-active .story-frame-back {
+  animation: story-kenburns 14s ease-out forwards;
+}
+@keyframes story-kenburns {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.13); }
 }
 /* Front disc: a small charcoal "sticker" pressed against the photo. The
    compound box-shadow stack reads as die-cut rim + soft contact shadow +
@@ -1736,6 +1786,13 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     clip-path: none !important;
     transition: opacity 0.25s linear !important;
   }
+  /* No slow zoom, beacon ping, depth push, parallax, or vignette under
+     reduced motion. */
+  .story-frame.is-active .story-frame-back { animation: none !important; }
+  .story-line-beacon { animation: none !important; opacity: 0 !important; }
+  .story-frame-back-wrap { transform: none !important; }
+  .story-stage { transform: none !important; }
+  .story-atmos { display: none !important; }
   /* Coord readout: skip the slide-in, just fade. Keep the centering
      translateX so the pill stays centered on the sticker. */
   .story-coord {

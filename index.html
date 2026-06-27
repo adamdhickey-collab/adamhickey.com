@@ -733,9 +733,15 @@
                local origin; JS sets transform=translate(x y) rotate(theta)
                where theta = tangent-angle + 90, so the nose follows the line. -->
           <g class="story-line-plane">
+            <!-- A soft "you are here" beacon that pings out from the plane's
+                 nose as it flies, drawing the eye to the current position. -->
+            <circle class="story-line-beacon" cx="0" cy="0" r="6"/>
             <path d="M 0 -12 L 1.8 -8.6 L 1.8 -3.2 L 12 1 L 12 2.8 L 1.8 0.8 L 1.8 6 L 4.6 8.2 L 4.6 9.8 L 0 8.6 L -4.6 9.8 L -4.6 8.2 L -1.8 6 L -1.8 0.8 L -12 2.8 L -12 1 L -1.8 -3.2 L -1.8 -8.6 Z"/>
           </g>
         </svg>
+        <!-- Atmosphere: a vignette that deepens with scroll "altitude" (driven
+             by --story-alt), so climbing through the section feels cinematic. -->
+        <div class="story-atmos"></div>
       </div>
       <div class="container">
         <header class="story-head">
@@ -1249,6 +1255,10 @@
         // Parallax the lat/long grid in lockstep with the same scroll tick,
         // so a single rAF drives both the plane and the surface beneath it.
         updateGrid();
+
+        // Expose scroll progress as an "altitude" custom property so CSS can
+        // deepen the atmosphere and parallax the media as you climb.
+        section.style.setProperty('--story-alt', drawn.toFixed(3));
 
         // Tick the coordinate readout on the same scroll signal as the
         // plane. The pill fades in the first time updateCoord runs.
