@@ -1235,6 +1235,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   width: 100%;
   height: 100%;
   overflow: visible;
+  /* Static edge vignette (replaces an SVG <mask> that was rebuilt every
+     frame). A CSS gradient mask composites once and never re-rasterizes on
+     scroll, which removes the large-monitor background flicker. */
+  -webkit-mask: radial-gradient(135% 115% at 50% 44%, #000 58%, transparent 100%);
+          mask: radial-gradient(135% 115% at 50% 44%, #000 58%, transparent 100%);
+  /* Own compositor layer so the contour draw-in repaints stay isolated from
+     the paper grain and atmosphere painted behind the copy. */
+  transform: translateZ(0);
 }
 .story-grid-line {
   fill: none;
@@ -1334,7 +1342,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   .story-coord-line { opacity: 0.16; }
 }
 
-.story-line { position: absolute; inset: 0; width: 100%; height: 100%; }
+.story-line { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(0); }
 /* Invisible guide path — geometry is sampled by JS to position the dotted
    trail and the airplane. Stroke is set to none so it never paints. */
 .story-line-path { fill: none; stroke: none; }
@@ -1351,6 +1359,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   fill: var(--color-charcoal);
   opacity: 0.9;
   transition: opacity 0.25s var(--ease);
+  /* The plane's transform is rewritten every scroll tick; hint the compositor
+     so it animates on the GPU instead of jittering on mobile. */
+  will-change: transform;
 }
 /* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude
    (--story-alt, set per scroll tick in setupStoryLine). Behind all copy, so it
