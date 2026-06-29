@@ -1235,14 +1235,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   width: 100%;
   height: 100%;
   overflow: visible;
-  /* Static edge vignette (replaces an SVG <mask> that was rebuilt every
-     frame). A CSS gradient mask composites once and never re-rasterizes on
-     scroll, which removes the large-monitor background flicker. */
-  -webkit-mask: radial-gradient(135% 115% at 50% 44%, #000 58%, transparent 100%);
-          mask: radial-gradient(135% 115% at 50% 44%, #000 58%, transparent 100%);
-  /* Own compositor layer so the contour draw-in repaints stay isolated from
-     the paper grain and atmosphere painted behind the copy. */
-  transform: translateZ(0);
 }
 .story-grid-line {
   fill: none;
@@ -1251,108 +1243,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   vector-effect: non-scaling-stroke;
   opacity: 0.11;
 }
-
-/* ---------- Topographic survey map (replaces the lat/long globe grid) -------
-   A quiet cartographic field — contour hills, a dotted coordinate frame and
-   survey marks — drawn into .story-grid-inner by setupStoryLine(). Contours
-   ink themselves in via stroke-dashoffset as you scroll; an SVG radial mask
-   fades the terrain out toward the section edges so it never reads as
-   wallpaper. All strokes are 1px non-scaling and low-opacity, so the layer
-   stays a calm background the copy sits comfortably on top of. */
-.story-topo-line {
-  fill: none;
-  stroke: var(--color-charcoal);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.15;
-}
-/* The contour field is drawn once and always present; it just deepens gently
-   as scroll "altitude" climbs. This is a compositor-only opacity change (no
-   per-frame JS, no line-drawing), and it starts clearly visible so the terrain
-   never reads as empty corners waiting to fill. */
-.story-topo {
-  opacity: calc(0.6 + var(--story-alt, 0) * 0.4);
-  transition: opacity 0.2s linear;
-}
-.story-coord-line {
-  fill: none;
-  stroke: var(--color-charcoal);
-  stroke-width: 1;
-  stroke-dasharray: 1 6;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.22;
-}
-.story-coord-label,
-.story-mark-label {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  fill: var(--color-muted-gray);
-  opacity: 0.55;
-}
-/* Survey marks (crosshairs, corner dot grid, tick scale) settle in as the
-   scroll "altitude" climbs. */
-.story-marks {
-  opacity: calc(0.18 + var(--story-alt, 0) * 0.55);
-  transition: opacity 0.2s linear;
-}
-.story-mark-line {
-  fill: none;
-  stroke: var(--color-muted-gray);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.5;
-}
-.story-mark-dot { fill: var(--color-muted-gray); opacity: 0.4; }
-
-/* Route waypoints + boxed chips: a faint sage ring by default; the filled
-   core and the A.01/B.02/C.03 chip fade in once the plane has flown past
-   (.is-active toggled per scroll tick in setupStoryLine.updateWaypoints). */
-.story-wpt-ring {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 1.25;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.4;
-}
-.story-wpt-core {
-  fill: var(--color-accent);
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-}
-.story-wpt.is-active .story-wpt-core { opacity: 1; }
-.story-chip-box {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  opacity: 0;
-  transition: opacity 0.5s var(--ease);
-}
-.story-wpt.is-active .story-chip-box { opacity: 0.5; }
-.story-chip-text {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  fill: var(--color-accent);
-  opacity: 0;
-  transition: opacity 0.5s var(--ease);
-}
-.story-wpt.is-active .story-chip-text { opacity: 0.85; }
-
-/* On mobile the flight path runs down the centre (vs. offset-right on
-   desktop), so the waypoint chips would sit on top of the body copy. Drop
-   them there and soften the coordinate lines so the map stays a calm
-   background; contours, coordinate labels and the route/plane carry it. */
-@media (max-width: 899px) {
-  .story-wpts { display: none; }
-  .story-coord-line { opacity: 0.16; }
-  /* Gentler labels over the full-width mobile text column. */
-  .story-coord-label { opacity: 0.4; }
-}
-
-.story-line { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(0); }
+.story-line { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* Invisible guide path — geometry is sampled by JS to position the dotted
    trail and the airplane. Stroke is set to none so it never paints. */
 .story-line-path { fill: none; stroke: none; }
@@ -1369,9 +1260,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   fill: var(--color-charcoal);
   opacity: 0.9;
   transition: opacity 0.25s var(--ease);
-  /* The plane's transform is rewritten every scroll tick; hint the compositor
-     so it animates on the GPU instead of jittering on mobile. */
-  will-change: transform;
 }
 /* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude
    (--story-alt, set per scroll tick in setupStoryLine). Behind all copy, so it
