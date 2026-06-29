@@ -1264,7 +1264,15 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   stroke: var(--color-charcoal);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
-  opacity: 0.17;
+  opacity: 0.15;
+}
+/* The contour field is drawn once and always present; it just deepens gently
+   as scroll "altitude" climbs. This is a compositor-only opacity change (no
+   per-frame JS, no line-drawing), and it starts clearly visible so the terrain
+   never reads as empty corners waiting to fill. */
+.story-topo {
+  opacity: calc(0.6 + var(--story-alt, 0) * 0.4);
+  transition: opacity 0.2s linear;
 }
 .story-coord-line {
   fill: none;
@@ -1340,6 +1348,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (max-width: 899px) {
   .story-wpts { display: none; }
   .story-coord-line { opacity: 0.16; }
+  /* Gentler labels over the full-width mobile text column. */
+  .story-coord-label { opacity: 0.4; }
 }
 
 .story-line { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(0); }

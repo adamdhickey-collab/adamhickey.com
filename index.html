@@ -1108,7 +1108,6 @@
       // marks are (re)built into gridG on every layout; contourItems and
       // wptItems remember per-element draw-in data so each scroll tick can
       // ink the contours and light up the route waypoints in place.
-      let contourItems = []; // { el, L, t0, hidden, done }
       let wptItems     = []; // { grp, dist }
       let topoG = null, wptG = null;
       let dotShown   = 0;    // incremental trail-dot reveal cursor
@@ -1150,13 +1149,18 @@
       /* Topographic contour field. A handful of elevation "centres" each emit
          a stack of concentric, gently perturbed closed loops — the look of a
          survey map's hills. Loops are squashed vertically (×0.82) so the
-         terrain reads as seen from altitude. Each contour records a draw-in
-         threshold (t0) keyed to its centre's vertical position, so the map
-         inks itself roughly top-to-bottom as you descend the section. */
+         terrain reads as seen from altitude. The whole field is drawn up front
+         and always present; it only deepens in opacity as you scroll (handled
+         in CSS via --story-alt), so there's no line-drawing and no empty
+         corners waiting to fill in. */
       const buildContours = (W, H, rnd, parent) => {
+        // Centres spread evenly down the full (tall) section, alternating
+        // sides, so every horizontal band has terrain — no empty corners as
+        // the sticky content scrolls past.
         const centres = [
-          { x: 0.26, y: 0.30 }, { x: 0.70, y: 0.22 },
-          { x: 0.80, y: 0.66 }, { x: 0.20, y: 0.76 }
+          { x: 0.32, y: 0.07 }, { x: 0.74, y: 0.18 }, { x: 0.20, y: 0.30 },
+          { x: 0.82, y: 0.42 }, { x: 0.40, y: 0.54 }, { x: 0.78, y: 0.66 },
+          { x: 0.24, y: 0.78 }, { x: 0.60, y: 0.90 }
         ];
         const span = Math.min(W, H);
         centres.forEach((c) => {
@@ -1174,9 +1178,7 @@
               const rr = base * (1 + a1 * Math.sin(th * f1 + p1) + a2 * Math.sin(th * f2 + p2));
               pts.push([cx + rr * Math.cos(th), cy + rr * Math.sin(th) * 0.82]);
             }
-            const p = mk('path', { d: smoothClosed(pts) }, 'story-topo-line');
-            parent.appendChild(p);
-            contourItems.push({ el: p, L: 0, t0: Math.min(0.42, c.y * 0.38 + (k / rings) * 0.05) });
+            parent.appendChild(mk('path', { d: smoothClosed(pts) }, 'story-topo-line'));
           }
         });
       };
@@ -1192,10 +1194,21 @@
           const t = mk('text', { x: W * 0.04, y: y - 7, 'font-size': 11 }, 'story-coord-label');
           t.textContent = o.t; g.appendChild(t);
         });
+        // Drop the longitude lines + labels below BOTH the section headline and
+        // the first step's sub-headline, so a label never sits under a title;
+        // it lands in the body-text band as a quiet watermark instead.
+        const secOriginTop = section.getBoundingClientRect().top;
+        const relBottom = (sel) => { const el = section.querySelector(sel); return el ? (el.getBoundingClientRect().bottom - secOriginTop) : -Infinity; };
+        let topClear = H * 0.10;
+        const hb = relBottom('.story-head');
+        const sb = relBottom('.story-step[data-step="0"] h3');
+        if (isFinite(hb)) topClear = Math.max(topClear, hb + 40);
+        if (isFinite(sb)) topClear = Math.max(topClear, sb + 38);
+        topClear = Math.min(topClear, H * 0.30);
         [{ fx: 0.30, t: '7° 26′ 30″ E' }, { fx: 0.62, t: '7° 30′ 00″ E' }].forEach((o) => {
           const x = o.fx * W;
-          g.appendChild(mk('line', { x1: x, y1: H * 0.06, x2: x, y2: H * 0.94 }, 'story-coord-line'));
-          const t = mk('text', { x: x, y: H * 0.06 - 9, 'font-size': 11, 'text-anchor': 'middle' }, 'story-coord-label');
+          g.appendChild(mk('line', { x1: x, y1: topClear, x2: x, y2: H * 0.94 }, 'story-coord-line'));
+          const t = mk('text', { x: x, y: topClear - 9, 'font-size': 11, 'text-anchor': 'middle' }, 'story-coord-label');
           t.textContent = o.t; g.appendChild(t);
         });
         parent.appendChild(g);
@@ -1230,46 +1243,18 @@
         const W = section.clientWidth, H = section.clientHeight;
         gridSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
         gridG.innerHTML = '';
-        contourItems = [];
-        gridPad = Math.round(H * 0.5);
 
-        // The edge vignette is now a static CSS mask on .story-grid (composited
+        // The edge vignette is a static CSS mask on .story-grid (composited
         // once) rather than an SVG <mask> that re-rasterized over the whole
         // section every frame — that was the main cause of the background
-        // flicker on large monitors.
+        // flicker on large monitors. The contour field is drawn once here and
+        // never touched per-frame; CSS deepens it via --story-alt.
         topoG = mk('g', {}, 'story-topo');
         gridG.appendChild(topoG);
         buildContours(W, H, mulberry32(0x9E3779B1), topoG);
-        contourItems.forEach((it) => {
-          const L = it.el.getTotalLength();
-          it.L = L;
-          it.el.style.strokeDasharray = L.toFixed(1);
-          it.el.style.strokeDashoffset = L.toFixed(1); // start hidden; inked in by updateContours
-          it.hidden = true;  // currently fully hidden
-          it.done = false;   // not yet fully inked
-        });
 
         buildCoords(W, H, gridG);
         buildMarks(W, H, gridG);
-      };
-
-      // Ink the contours: each loop draws in over a 30%-of-scroll window once
-      // the "altitude" passes its threshold. Only the few loops currently
-      // mid-draw get a style write each frame — fully-hidden and fully-inked
-      // loops are skipped, so a scroll tick touches a handful of nodes, not 24.
-      const updateContours = (alt) => {
-        for (let i = 0; i < contourItems.length; i++) {
-          const it = contourItems[i];
-          const r = (alt - it.t0) / 0.30;
-          if (r <= 0) {
-            if (!it.hidden) { it.el.style.strokeDashoffset = it.L.toFixed(1); it.hidden = true; it.done = false; }
-          } else if (r >= 1) {
-            if (!it.done) { it.el.style.strokeDashoffset = '0'; it.done = true; it.hidden = false; }
-          } else {
-            it.hidden = false; it.done = false;
-            it.el.style.strokeDashoffset = (it.L * (1 - r)).toFixed(1);
-          }
-        }
       };
 
       /* Route waypoints: three survey markers pinned to the flight path,
@@ -1384,12 +1369,10 @@
           plane.style.opacity = '0';
         }
 
-        // Ink the contours (only the loops mid-draw actually write).
-        updateContours(drawn);
-
-        // Expose scroll progress as an "altitude" custom property so CSS can
-        // deepen the atmosphere and parallax the media as you climb. Written
-        // only when the rounded value actually changes.
+        // Expose scroll progress as an "altitude" custom property. CSS uses it
+        // to gently deepen the contour field, survey marks and atmosphere, and
+        // to parallax the media as you climb. Written only when the rounded
+        // value actually changes.
         const altStr = drawn.toFixed(3);
         if (altStr !== lastAltStr) { section.style.setProperty('--story-alt', altStr); lastAltStr = altStr; }
 
