@@ -1645,6 +1645,145 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   .story-coord { display: none; }
 }
 
+/* ---------- Flight-deck HUD cells (inside the .story-coord pill) ----------
+   The pill grew from a single coordinate readout into a compact instrument
+   strip: position, altitude, heading (with a live compass needle), and the
+   routes-explored counter. All values tick in setupStoryLine.update.
+   Scoped to >=900px so the earlier mobile display:none keeps winning. */
+@media (min-width: 900px) {
+  .story-coord { display: flex; align-items: center; }
+}
+.story-hud-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0 0.6em;
+}
+.story-hud-cell:first-child { padding-left: 0.15em; }
+.story-hud-cell:last-child { padding-right: 0.15em; }
+.story-hud-cell + .story-hud-cell { border-left: 1px solid rgba(37, 37, 37, 0.16); }
+.story-hud-key { opacity: 0.5; font-size: 0.9em; }
+.story-hud-compass { width: 1.1em; height: 1.1em; flex: none; }
+.story-hud-compass circle { fill: none; stroke: rgba(37, 37, 37, 0.35); stroke-width: 1; }
+.story-hud-needle { stroke: var(--story-accent); stroke-width: 1.75; stroke-linecap: round; }
+.story-hud-routes.is-locked .story-hud-routes-n { color: var(--story-accent); font-weight: 700; }
+
+/* ---------- Candidate routes (the "Altitude" belief beat) ----------
+   Five dashed dead ends fan off the trunk line and dissolve; the solid
+   survivor draws in via dashoffset, then locks sage and thickens. All
+   opacity/draw values are set inline per scroll tick in update(). */
+.story-branch {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+.story-branch-chosen {
+  transition: stroke 0.5s var(--ease), stroke-width 0.5s var(--ease);
+}
+.story-branch-chosen.is-locked {
+  stroke: var(--story-accent);
+  stroke-width: 2;
+}
+
+/* ---------- Waypoints pinned to the flight path ----------
+   Core dot starts hollow (section-bg fill), pulses a ring while the plane
+   is near, then fills sage once passed. Labels sit beside each point. */
+.story-wp-core {
+  fill: var(--story-bg);
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+  transition: fill 0.4s var(--ease), stroke 0.4s var(--ease);
+}
+.story-wp.is-passed .story-wp-core { fill: var(--story-accent); stroke: var(--story-accent); }
+.story-wp-ring {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.story-wp.is-active .story-wp-ring {
+  animation: story-wp-pulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes story-wp-pulse {
+  0%        { opacity: 0.7; transform: scale(0.4); }
+  70%, 100% { opacity: 0;   transform: scale(2.4); }
+}
+.story-wp-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: var(--color-charcoal);
+  opacity: 0.35;
+  transition: opacity 0.4s var(--ease), fill 0.4s var(--ease);
+}
+.story-wp.is-active .story-wp-label,
+.story-wp.is-passed .story-wp-label { opacity: 0.9; }
+.story-wp.is-passed .story-wp-label { fill: var(--story-accent); }
+
+/* ---------- Kinetic lead-in quotes ----------
+   setupKineticLeadIns splits each belief's bold lead-in into masked words;
+   they rise into place with a per-word stagger when .kt-in lands. */
+.story-lead-in .ktw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.story-lead-in .kti {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--w, 0) * 42ms);
+}
+.story-lead-in.kt-in .kti { transform: none; }
+
+/* ---------- Cursor reticle (story section, fine pointers only) ---------- */
+.story-reticle {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 90;
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(37, 37, 37, 0.55);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+  display: none;
+}
+.story-reticle::before,
+.story-reticle::after {
+  content: "";
+  position: absolute;
+  background: rgba(37, 37, 37, 0.55);
+}
+/* Crosshair ticks: each pseudo draws one tick and box-shadows its twin. */
+.story-reticle::before { left: 50%; top: -7px; width: 1px; height: 6px; box-shadow: 0 41px 0 rgba(37, 37, 37, 0.55); }
+.story-reticle::after  { top: 50%; left: -7px; height: 1px; width: 6px; box-shadow: 41px 0 0 rgba(37, 37, 37, 0.55); }
+.story-reticle-dot {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 4px; height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+@media (pointer: fine) { .story-reticle { display: block; } }
+.story.has-cursor,
+.story.has-cursor * { cursor: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .story-lead-in .kti { transform: none !important; transition: none !important; }
+  .story-reticle { display: none !important; }
+  .story-wp.is-active .story-wp-ring { animation: none !important; }
+}
+
 /* Swiss-minimal line-art icon inside the charcoal disc. The geometry is
    drawn in 48-unit viewBox space; CSS sizes the icon to ~52% of its disc
    so there is generous negative space around it. Path lengths and a small

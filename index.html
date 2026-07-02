@@ -727,8 +727,16 @@
           <!-- Invisible guide path — its geometry is sampled by JS to position
                both the dotted trail and the airplane that flies along it.    -->
           <path class="story-line-path"></path>
+          <!-- Candidate routes for the "Altitude" belief: six branches fan
+               off the trunk line as you scroll through step 02, the weak
+               ones dissolve, and one survivor locks sage and rejoins.
+               Geometry is generated in JS from the guide path.              -->
+          <g class="story-line-branches"></g>
           <!-- The dotted trail. Circles are generated in JS along the path.  -->
           <g class="story-line-dots"></g>
+          <!-- Waypoints pinned to the path: each belief's marker arms as the
+               plane nears it, pulses while passing, then locks sage.         -->
+          <g class="story-line-waypoints"></g>
           <!-- The Swiss-minimal airplane silhouette. Drawn pointing UP at
                local origin; JS sets transform=translate(x y) rotate(theta)
                where theta = tangent-angle + 90, so the nose follows the line. -->
@@ -789,15 +797,25 @@
                 <div class="story-frame-back-wrap"><img class="story-frame-back" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/03%20Orientation.jpg" alt="" loading="lazy" /></div>
                 <div class="story-frame-front" aria-hidden="true"><img class="story-icon" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/icons8-location.gif" alt="" /></div>
               </figure>
-              <!-- Live coordinate readout: ticks in sync with the plane's
-                   scroll progress (see setupStoryLine.update). Positioned
-                   centered under the fixed-position sticker disc.        -->
-              <span class="story-coord" aria-hidden="true">47.3&deg;N &middot; 8.5&deg;E</span>
+              <!-- Flight-deck readout: position, altitude, heading, and the
+                   routes-explored counter all tick in sync with the plane's
+                   scroll progress (see setupStoryLine.update).            -->
+              <div class="story-coord" aria-hidden="true">
+                <span class="story-hud-cell"><span class="story-hud-key">POS</span><span class="story-hud-pos">47.3&deg;N &middot; 8.5&deg;E</span></span>
+                <span class="story-hud-cell"><span class="story-hud-key">ALT</span><span class="story-hud-alt">0</span><span class="story-hud-key">FT</span></span>
+                <span class="story-hud-cell"><svg class="story-hud-compass" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7"/><line class="story-hud-needle" x1="8" y1="8" x2="8" y2="2.5"/></svg><span class="story-hud-key">HDG</span><span class="story-hud-hdg">000&deg;</span></span>
+                <span class="story-hud-cell story-hud-routes"><span class="story-hud-key">ROUTES</span><span class="story-hud-routes-n">--</span></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Cursor reticle for the story section (fine pointers only): while the
+         visitor is inside the flight, their pointer becomes the navigator.
+         Positioned by setupStoryReticle; hidden for reduced motion.        -->
+    <div class="story-reticle" aria-hidden="true"><span class="story-reticle-dot"></span></div>
 
     <!-- ============================== STILL EVOLVING (merged with Evolution) ============================== -->
     <section id="still-evolving" class="still-evolving">
@@ -896,6 +914,42 @@
           io.observe(el);
         }
       });
+    })();
+
+    /* ---------- 2a-bis. Kinetic lead-in quotes ---------------------------------
+       Each belief's bolded lead-in line splits into masked words that rise
+       into place with a small stagger the first time the line scrolls into
+       view. Pure enhancement: without JS or with reduced motion the text
+       simply renders normally.                                                 */
+    (function setupKineticLeadIns() {
+      const leads = document.querySelectorAll('#how-i-think .story-lead-in');
+      if (!leads.length) return;
+      leads.forEach(el => {
+        const words = el.textContent.trim().split(/\s+/);
+        el.textContent = '';
+        words.forEach((w, i) => {
+          const mask = document.createElement('span');
+          mask.className = 'ktw';
+          const inner = document.createElement('span');
+          inner.className = 'kti';
+          inner.style.setProperty('--w', i);
+          inner.textContent = w;
+          mask.appendChild(inner);
+          el.appendChild(mask);
+          if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+        });
+      });
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        leads.forEach(el => el.classList.add('kt-in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('kt-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.6 });
+      leads.forEach(el => io.observe(el));
     })();
 
     /* ---------- 2b. "Why I design" sticky scroll story ------------------------
@@ -1061,11 +1115,19 @@
       const svg     = section.querySelector('.story-line');
       const path    = section.querySelector('.story-line-path');
       const dotsG   = section.querySelector('.story-line-dots');
+      const branchG = section.querySelector('.story-line-branches');
+      const wpG     = section.querySelector('.story-line-waypoints');
       const plane   = section.querySelector('.story-line-plane');
       const gridSvg = section.querySelector('.story-grid');
       const gridG   = section.querySelector('.story-grid-inner');
       const stage   = section.querySelector('.story-stage');
-      const coord   = section.querySelector('.story-coord');
+      /* Flight-deck HUD cells (inside the .story-coord pill). */
+      const coordPos   = section.querySelector('.story-hud-pos');
+      const hudAlt     = section.querySelector('.story-hud-alt');
+      const hudHdg     = section.querySelector('.story-hud-hdg');
+      const hudNeedle  = section.querySelector('.story-hud-needle');
+      const hudRoutes  = section.querySelector('.story-hud-routes');
+      const hudRoutesN = section.querySelector('.story-hud-routes-n');
       if (!svg || !path || !dotsG || !plane) return;
 
       // The coord readout interpolates between a starting and ending
@@ -1077,10 +1139,10 @@
       const formatLat = (v) => Math.abs(v).toFixed(1) + '°' + (v >= 0 ? 'N' : 'S');
       const formatLng = (v) => Math.abs(v).toFixed(1) + '°' + (v >= 0 ? 'E' : 'W');
       const updateCoord = (t) => {
-        if (!coord) return;
+        if (!coordPos) return;
         const lat = COORD_START.lat + (COORD_END.lat - COORD_START.lat) * t;
         const lng = COORD_START.lng + (COORD_END.lng - COORD_START.lng) * t;
-        coord.textContent = formatLat(lat) + ' · ' + formatLng(lng);
+        coordPos.textContent = formatLat(lat) + ' · ' + formatLng(lng);
         if (stage && stage.dataset.coordIn !== '1') stage.dataset.coordIn = '1';
       };
 
@@ -1095,8 +1157,23 @@
       const DOT_SPACING = 22; // px between dots in viewBox units
       const DOT_RADIUS  = 1.1;
 
+      /* Waypoints sit at these fractions of the path's arc length. The
+         candidate-route "exploration" beat plays out across the scroll
+         window BRANCH_T0..BRANCH_T1, leaving the trunk line at the ANCHOR
+         path fraction and rejoining at REJOIN. MAX_ALT (ft) drives the
+         HUD altitude readout, peaking at cruise mid-section.             */
+      const WP_T     = [0.20, 0.50, 0.80];
+      const WP_NAMES = ['01 Destination', '02 Altitude', '03 Orientation'];
+      const BRANCH_T0 = 0.34, BRANCH_T1 = 0.62;
+      const BRANCH_ANCHOR = 0.40, BRANCH_REJOIN = 0.58;
+      const N_WEAK  = 5;
+      const MAX_ALT = 38000;
+
       let len = 0;
       let dotItems = []; // { el, dist }
+      let wpItems  = []; // { el, t }
+      let weakBranches = []; // { el, len }
+      let chosenBranch = null; // { el, len }
       let gridPad = 0;
 
       /* The lat/long grid: gently bowed horizontal lines (latitudes) and
@@ -1177,6 +1254,110 @@
         gridG.setAttribute('transform', 'translate(0 ' + offsetY.toFixed(1) + ')');
       };
 
+      /* --- Guide-path sampling helpers (branches + waypoints) --- */
+      const pointAt = (dist) => path.getPointAtLength(Math.max(0, Math.min(len, dist)));
+      const tangentAt = (dist) => {
+        const ahead = dist < len - 1;
+        const p1 = pointAt(dist), p2 = pointAt(ahead ? dist + 1 : dist - 1);
+        let dx = p2.x - p1.x, dy = p2.y - p1.y;
+        if (!ahead) { dx = -dx; dy = -dy; }
+        const m = Math.hypot(dx, dy) || 1;
+        return { x: dx / m, y: dy / m };
+      };
+      const rot = (v, deg) => {
+        const r = deg * Math.PI / 180, c = Math.cos(r), s = Math.sin(r);
+        return { x: v.x * c - v.y * s, y: v.x * s + v.y * c };
+      };
+
+      /* Candidate routes for the "Altitude" belief: five dashed dead ends
+         fan out from the trunk line and later dissolve; one solid survivor
+         bows out, banks back into the trunk at the rejoin point, and locks
+         sage. Opacity/draw states are driven per scroll tick in update(). */
+      const buildBranches = (W) => {
+        if (!branchG) return;
+        branchG.innerHTML = '';
+        weakBranches = [];
+        chosenBranch = null;
+
+        const A    = pointAt(len * BRANCH_ANCHOR);
+        const dirA = tangentAt(len * BRANCH_ANCHOR);
+        const R    = pointAt(len * BRANCH_REJOIN);
+        const dirR = tangentAt(len * BRANCH_REJOIN);
+        const L    = Math.min(0.24 * W, 260);
+
+        const angles = [-78, -48, -22, 26, 55];
+        for (let k = 0; k < N_WEAK; k++) {
+          const th = angles[k % angles.length];
+          const dEnd  = rot(dirA, th);
+          const dCtrl = rot(dirA, th * 0.45);
+          const Lk = L * (0.7 + 0.3 * ((k * 37) % 10) / 10);
+          const p = document.createElementNS(SVG_NS, 'path');
+          p.setAttribute('d',
+            'M ' + A.x.toFixed(1) + ' ' + A.y.toFixed(1) +
+            ' Q ' + (A.x + dCtrl.x * Lk * 0.6).toFixed(1) + ' ' + (A.y + dCtrl.y * Lk * 0.6).toFixed(1) +
+            ' '   + (A.x + dEnd.x * Lk).toFixed(1) + ' ' + (A.y + dEnd.y * Lk).toFixed(1));
+          p.setAttribute('class', 'story-branch');
+          p.style.strokeDasharray = '4 5';
+          p.style.opacity = '0';
+          branchG.appendChild(p);
+          weakBranches.push({ el: p, len: p.getTotalLength() });
+        }
+
+        const c1v = rot(dirA, -34);
+        const c2v = rot(dirR, 22);
+        const p = document.createElementNS(SVG_NS, 'path');
+        p.setAttribute('d',
+          'M ' + A.x.toFixed(1) + ' ' + A.y.toFixed(1) +
+          ' C ' + (A.x + c1v.x * L).toFixed(1) + ' ' + (A.y + c1v.y * L).toFixed(1) +
+          ' '   + (R.x - c2v.x * L * 0.9).toFixed(1) + ' ' + (R.y - c2v.y * L * 0.9).toFixed(1) +
+          ' '   + R.x.toFixed(1) + ' ' + R.y.toFixed(1));
+        p.setAttribute('class', 'story-branch story-branch-chosen');
+        branchG.appendChild(p);
+        const cl = p.getTotalLength();
+        p.style.strokeDasharray = cl + ' ' + cl;
+        p.style.strokeDashoffset = String(cl);
+        p.style.opacity = '0';
+        chosenBranch = { el: p, len: cl };
+      };
+
+      /* Waypoints pinned to the path: a core dot, a pulse ring, and a small
+         uppercase label that flips to the left side when the point sits in
+         the right half of the canvas so text never runs off-screen.       */
+      const buildWaypoints = (W) => {
+        if (!wpG) return;
+        wpG.innerHTML = '';
+        wpItems = [];
+        WP_T.forEach((t, i) => {
+          const pt = pointAt(len * t);
+          const g = document.createElementNS(SVG_NS, 'g');
+          g.setAttribute('class', 'story-wp');
+
+          const ring = document.createElementNS(SVG_NS, 'circle');
+          ring.setAttribute('cx', pt.x.toFixed(1));
+          ring.setAttribute('cy', pt.y.toFixed(1));
+          ring.setAttribute('r', 9);
+          ring.setAttribute('class', 'story-wp-ring');
+
+          const core = document.createElementNS(SVG_NS, 'circle');
+          core.setAttribute('cx', pt.x.toFixed(1));
+          core.setAttribute('cy', pt.y.toFixed(1));
+          core.setAttribute('r', 4);
+          core.setAttribute('class', 'story-wp-core');
+
+          const label = document.createElementNS(SVG_NS, 'text');
+          const flip = pt.x > W * 0.62;
+          label.setAttribute('x', (pt.x + (flip ? -14 : 14)).toFixed(1));
+          label.setAttribute('y', (pt.y + 3).toFixed(1));
+          label.setAttribute('text-anchor', flip ? 'end' : 'start');
+          label.setAttribute('class', 'story-wp-label');
+          label.textContent = WP_NAMES[i];
+
+          g.appendChild(ring); g.appendChild(core); g.appendChild(label);
+          wpG.appendChild(g);
+          wpItems.push({ el: g, t: t });
+        });
+      };
+
       const build = () => {
         const W = section.clientWidth, H = section.clientHeight;
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
@@ -1212,6 +1393,11 @@
           dotItems.push({ el: c, dist: dist });
         }
 
+        // Candidate routes + waypoints ride the same path geometry, so they
+        // regenerate together with the dots on every (re)build.
+        buildBranches(W);
+        buildWaypoints(W);
+
         // (Re)build the lat/long grid lines at the same time.
         buildGrid();
         update();
@@ -1245,6 +1431,14 @@
           plane.setAttribute('transform',
             'translate(' + pt.x.toFixed(2) + ' ' + pt.y.toFixed(2) + ') rotate(' + angle.toFixed(1) + ')');
           plane.style.opacity = '';
+
+          // Live heading for the HUD (0 = up-screen "north"): the readout
+          // and the little compass needle both follow the plane's tangent.
+          if (hudHdg) {
+            const hdg = ((angle % 360) + 360) % 360;
+            hudHdg.textContent = String(Math.round(hdg)).padStart(3, '0') + '°';
+            if (hudNeedle) hudNeedle.setAttribute('transform', 'rotate(' + hdg.toFixed(1) + ' 8 8)');
+          }
         } else {
           plane.style.opacity = '0';
         }
@@ -1260,6 +1454,50 @@
         // Tick the coordinate readout on the same scroll signal as the
         // plane. The pill fades in the first time updateCoord runs.
         updateCoord(drawn);
+
+        // Waypoints: armed → pulsing while the plane is near → locked sage
+        // once passed. Class toggles let CSS carry the transitions.
+        for (let i = 0; i < wpItems.length; i++) {
+          const wp = wpItems[i];
+          wp.el.classList.toggle('is-passed', drawn > wp.t + 0.02);
+          wp.el.classList.toggle('is-active', Math.abs(drawn - wp.t) <= 0.06);
+        }
+
+        // Altitude belief beat: sketch every candidate route in during the
+        // first half of the window, then dissolve the weak ones while the
+        // survivor locks. Fully scrubbed — scrolling back up reverses it.
+        const local  = clamp01((drawn - BRANCH_T0) / (BRANCH_T1 - BRANCH_T0));
+        const draw   = clamp01(local / 0.45);
+        const settle = clamp01((local - 0.55) / 0.45);
+        for (let i = 0; i < weakBranches.length; i++) {
+          // Slight per-branch stagger so the fan sketches in organically.
+          const dk = clamp01(draw * 1.25 - i * 0.06);
+          weakBranches[i].el.style.opacity = (dk * (1 - settle) * 0.5).toFixed(3);
+        }
+        if (chosenBranch) {
+          chosenBranch.el.style.strokeDashoffset = (chosenBranch.len * (1 - draw)).toFixed(1);
+          chosenBranch.el.style.opacity = draw > 0 ? (0.4 + settle * 0.5).toFixed(3) : '0';
+          chosenBranch.el.classList.toggle('is-locked', settle > 0.55);
+        }
+
+        // ROUTES readout mirrors the same signal: idle, then 06 counting
+        // down to 01 as weak routes dissolve, sage once locked.
+        if (hudRoutesN) {
+          if (local <= 0) {
+            hudRoutesN.textContent = '--';
+            if (hudRoutes) hudRoutes.classList.remove('is-locked');
+          } else {
+            hudRoutesN.textContent = '0' + Math.max(1, 6 - Math.round(settle * 5));
+            if (hudRoutes) hudRoutes.classList.toggle('is-locked', settle >= 1);
+          }
+        }
+
+        // Altitude readout: climbs to cruise mid-section, eases off on the
+        // descent into the last belief.
+        if (hudAlt) {
+          const arc = Math.sin(Math.PI * drawn);
+          hudAlt.textContent = Math.round(MAX_ALT * Math.pow(arc, 1.1)).toLocaleString('en-US');
+        }
       };
 
       build();
@@ -1272,6 +1510,43 @@
       let rt;
       window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 150); });
       if (mobileMq.addEventListener) mobileMq.addEventListener('change', build);
+    })();
+
+    /* ---------- 2d. Story cursor reticle ---------------------------------------
+       While the pointer is inside the flight section it becomes a small
+       navigation reticle (crosshair ring + sage dot) that lerps toward the
+       cursor, so it feels instrumented rather than attached. Fine pointers
+       only; skipped entirely under reduced motion.                            */
+    (function setupStoryReticle() {
+      const section = document.getElementById('how-i-think');
+      const reticle = document.querySelector('.story-reticle');
+      if (!section || !reticle) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+
+      let mx = 0, my = 0, rx = 0, ry = 0, raf = null, inside = false;
+      const tick = () => {
+        rx += (mx - rx) * 0.22;
+        ry += (my - ry) * 0.22;
+        reticle.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px)';
+        if (inside || Math.abs(mx - rx) + Math.abs(my - ry) > 0.5) raf = requestAnimationFrame(tick);
+        else raf = null;
+      };
+      section.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        if (!inside) {
+          inside = true;
+          rx = mx; ry = my; // appear under the cursor, no fly-in from a corner
+          reticle.style.opacity = '1';
+          section.classList.add('has-cursor');
+        }
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+      section.addEventListener('mouseleave', () => {
+        inside = false;
+        reticle.style.opacity = '0';
+        section.classList.remove('has-cursor');
+      });
     })();
 
     /* ---------- 3. Smooth-scroll for in-page anchors --------------------------- */
