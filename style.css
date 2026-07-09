@@ -169,6 +169,19 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 .hero-photo-frame::before { content: ""; display: block; padding-bottom: 133.33%; }
 .hero-photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Cap the portrait's height on phones so the eyebrow and headline land in
+   the first viewport instead of scrolling below a near-full-height photo.
+   Height-driven (not width-driven like the desktop ::before hack) so it
+   shrinks with short viewports, not just narrow ones. */
+@media (max-width: 767.98px) {
+  .hero-photo-frame {
+    width: auto;
+    max-width: none;
+    height: min(46vh, 320px);
+    aspect-ratio: 3 / 4;
+  }
+  .hero-photo-frame::before { content: none; }
+}
 
 .hero-copy { flex: 1; }
 @media (min-width: 768px) { .hero-copy { width: 66%; } }
