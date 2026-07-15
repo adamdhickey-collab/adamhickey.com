@@ -238,9 +238,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* ============================== CASE STUDIES ============================== */
 .case-studies {
   background: var(--color-warm);
-  /* Asymmetric padding: full top reset from hero, tighter bottom because
-     the dark strengths section below provides its own emphasis and the
-     warm color band doesn't need extra space to "land." */
+  /* Asymmetric padding: full top reset from hero, tighter bottom so the
+     white "Designing Beyond the Screen" band below reads as its own
+     deliberate break. */
   padding: 3.75rem 0 3.5rem;
 }
 @media (min-width: 768px) { .case-studies { padding: 5rem 0 4.5rem; } }
@@ -253,7 +253,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    that handles the spacing. A margin-top would collapse out of the
    section (since margins of the first child collapse through a
    padding-less parent) and expose the body's white background as a
-   visible white band between this section and the strengths above. */
+   visible seam between this section and the white band above. */
 .section-head.archive-head { margin-top: 0; margin-bottom: 2rem; }
 /* Earlier-experience heading sits visually lighter than "Case studies"
    so recruiters don't read it with the same weight as the main work. */
@@ -470,70 +470,339 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   color: var(--color-dark);
 }
 
-/* ============================== STRENGTHS ==============================
-   A dark, reverse-color island between the warm case studies and the
-   warm earlier-experience block. The color break is the emphasis: the
-   reader has just left a stretch of warm content, and the charcoal
-   surface signals "this is the part to pay attention to." Editorial
-   restraint stays in place — no card backgrounds, just type with a
-   small sage accent line above each title, echoing the same accent
-   line used on the case study impact sections.                       */
-.strengths {
+/* ============================== DESIGNING BEYOND THE SCREEN ==============
+   A dark charcoal island between the two warm sections (the same
+   reverse-color emphasis the old strengths block carried). Three
+   principle cards: animated inline-SVG illustration, serif title, short
+   green rule, and a plain list. No card chrome; white space and shared
+   baselines carry the structure.
+
+   Tune the whole system here: cycle length, easing, stroke weight, and
+   the illustration inks (structure = warm white on charcoal, activation
+   = the site's sage accent, node interiors = the section background).
+   The .capabilities section reuses this entire engine with light-variant
+   variables scoped on .capabilities.                                    */
+.beyond-screen {
+  --bts-stroke: var(--color-warm);
+  --bts-accent: var(--color-accent);
+  --bts-fill: var(--color-charcoal);
+  --bts-text: rgba(245, 245, 240, 0.68);
+  --bts-stroke-w: 2px;
+  --bts-cycle: 7s;
+  --bts-ease: cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--color-charcoal);
   padding: 4.5rem 0;
 }
-@media (min-width: 768px) { .strengths { padding: 5.5rem 0; } }
-.strengths .section-head { margin-bottom: 2.5rem; }
-.strengths .section-head h2 { color: var(--color-warm); }
-.strengths .section-head p { color: rgba(245, 245, 240, 0.72); }
+@media (min-width: 768px) { .beyond-screen { padding: 5.5rem 0; } }
+.beyond-screen .section-head { margin-bottom: 2.5rem; }
+.beyond-screen .section-head h2 { color: var(--color-warm); }
+.beyond-screen .section-head p { color: rgba(245, 245, 240, 0.72); }
 
-/* Earlier experience reads as a quieter coda after the dark strengths
-   island. Warm bg matches the case studies above; a touch of top
-   padding (instead of the previous 0) restores breathing room without
-   competing with the dark section above. */
+.bts-grid { display: grid; grid-template-columns: 1fr; gap: 2.75rem; }
+@media (min-width: 768px) { .bts-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+@media (min-width: 1100px) { .bts-grid { gap: 3rem; } }
+
+.bts-card { background: transparent; padding: 0; border: 0; }
+.bts-card:focus-visible {
+  outline: 2px solid var(--bts-accent);
+  outline-offset: 10px;
+  border-radius: 4px;
+}
+/* Fixed aspect ratio reserves the box before the SVG paints: no layout
+   shift. The SVG scales uniformly (viewBox + meet), so circles stay
+   mathematically circular at every width. */
+.bts-illo { width: 50%; aspect-ratio: 4 / 3; margin-bottom: 1.1rem; }
+.bts-illo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  stroke-width: var(--bts-stroke-w);
+  /* Default ink inherits to every stroked shape; accent/fill classes
+     override per element. */
+  stroke: var(--bts-stroke);
+}
+.bts-card h3 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: var(--bts-accent);
+}
+.bts-rule { display: block; width: 2.5rem; height: 2px; background: var(--bts-accent); margin: 0.75rem 0 0.9rem; }
+.bts-card ul { list-style: none; margin: 0; padding: 0; }
+.bts-card li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin: 0.4rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--bts-text);
+}
+/* Ring markers echo the illustrations' node language. */
+.bts-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  /* line box is 1.55em; center the 6px ring on the first line */
+  top: calc(0.775em - 3px);
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--bts-stroke);
+  border-radius: 50%;
+}
+
+/* --- Shared animation engine -------------------------------------------
+   Every animated element carries .bts-anim plus a role class whose
+   keyframes encode its slice of one absolute 7s timeline (so the whole
+   card stays choreographed). Each story plays ONCE when the card first
+   scrolls into view and then holds its final frame (fill-mode both);
+   every timeline ends in the resolved composition, which also equals
+   the elements' BASE styles - what no-JS, no-animation, and
+   reduced-motion users see. Hover, focus, or tap restarts via
+   .bts-reset (see setupBeyondScreen).                                  */
+.bts-anim {
+  animation-duration: var(--bts-cycle);
+  animation-timing-function: var(--bts-ease);
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+.bts-card.is-live .bts-anim { animation-play-state: running; }
+.bts-card.bts-reset .bts-anim { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .bts-anim { animation: none !important; }
+}
+
+/* Card 1 base states (resolved: connected, settled structure ink) */
+.b1-core { opacity: 1; fill: var(--bts-accent); animation-name: b1-core; }
+.b1-pulse {
+  opacity: 0;
+  stroke: var(--bts-accent);
+  transform: scale(.12);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: b1-pulse;
+}
+.b1-l1, .b1-l2, .b1-l3, .b1-l4, .b1-l5, .b1-l6 {
+  stroke: var(--bts-stroke);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+.b1-n1, .b1-n2, .b1-n3, .b1-n4, .b1-n5, .b1-n6 { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+.b1-l1 { animation-name: b1-l1; } .b1-n1 { animation-name: b1-n1; }
+.b1-l2 { animation-name: b1-l2; } .b1-n2 { animation-name: b1-n2; }
+.b1-l3 { animation-name: b1-l3; } .b1-n3 { animation-name: b1-n3; }
+.b1-l4 { animation-name: b1-l4; } .b1-n4 { animation-name: b1-n4; }
+.b1-l5 { animation-name: b1-l5; } .b1-n5 { animation-name: b1-n5; }
+.b1-l6 { animation-name: b1-l6; } .b1-n6 { animation-name: b1-n6; }
+
+@keyframes b1-core {
+  0%, 6% { opacity: .25; }
+  10%, 100% { opacity: 1; }
+}
+@keyframes b1-pulse {
+  0%, 8% { opacity: 0; transform: scale(.12); }
+  11% { opacity: .8; transform: scale(.22); }
+  30%, 100% { opacity: 0; transform: scale(1); }
+}
+/* Connections draw clockwise (staggered starts), hold green, settle to
+   charcoal together, then fade for the seamless reset. */
+@keyframes b1-l1 {
+  0%, 16% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  25%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+@keyframes b1-l2 {
+  0%, 23% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  32%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+@keyframes b1-l3 {
+  0%, 30% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  39%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+@keyframes b1-l4 {
+  0%, 37% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  46%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+@keyframes b1-l5 {
+  0%, 44% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  53%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+@keyframes b1-l6 {
+  0%, 51% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: 1; }
+  60%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: 1; }
+  80%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: 1; }
+}
+/* Nodes flash as their connection arrives, then settle with the lines. */
+@keyframes b1-n1 {
+  0%, 25% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  28% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  34%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b1-n2 {
+  0%, 32% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  35% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  41%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b1-n3 {
+  0%, 39% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  42% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  48%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b1-n4 {
+  0%, 46% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  49% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  55%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b1-n5 {
+  0%, 53% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  56% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  62%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b1-n6 {
+  0%, 60% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  63% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  69%, 80% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  88%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+
+/* Card 2 base states (resolved: the component and its instances in
+   place, equal-gap ticks settled as quiet structure). */
+.b2-hub { stroke-dasharray: 100; stroke-dashoffset: 0; animation-name: b2-hub; }
+.b2-core { opacity: 1; fill: var(--bts-accent); animation-name: b2-core; }
+.b2-c1, .b2-c2, .b2-c3, .b2-c4 { transform-box: fill-box; transform-origin: center; }
+.b2-c1 { animation-name: b2-c1; }
+.b2-c2 { animation-name: b2-c2; }
+.b2-c3 { animation-name: b2-c3; }
+.b2-c4 { animation-name: b2-c4; }
+.b2-t1, .b2-t2, .b2-t3, .b2-t4 {
+  stroke: var(--bts-stroke);
+  opacity: .45;
+  animation-name: b2-tick;
+}
+
+/* The component draws itself, its core activates, identical instances
+   replicate outward, and the ticks verify equal spacing in green before
+   settling to charcoal: build once, reuse consistently. */
+@keyframes b2-hub {
+  0%, 4% { stroke-dashoffset: 100; opacity: 1; }
+  15%, 100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes b2-core {
+  0%, 15% { opacity: 0; }
+  19%, 100% { opacity: 1; }
+}
+@keyframes b2-c1 {
+  0%, 26% { opacity: 0; transform: scale(.85); }
+  33%, 100% { opacity: 1; transform: none; }
+}
+@keyframes b2-c2 {
+  0%, 33% { opacity: 0; transform: scale(.85); }
+  40%, 100% { opacity: 1; transform: none; }
+}
+@keyframes b2-c3 {
+  0%, 40% { opacity: 0; transform: scale(.85); }
+  47%, 100% { opacity: 1; transform: none; }
+}
+@keyframes b2-c4 {
+  0%, 47% { opacity: 0; transform: scale(.85); }
+  54%, 100% { opacity: 1; transform: none; }
+}
+@keyframes b2-tick {
+  0%, 56% { opacity: 0; stroke: var(--bts-accent); }
+  61%, 74% { opacity: 1; stroke: var(--bts-accent); }
+  82%, 100% { opacity: .45; stroke: var(--bts-stroke); }
+}
+
+/* Card 3 base states (resolved: point resting at waypoint one, learning
+   contour present as quiet structure). */
+.b3-orbit1, .b3-orbit2 { transform-box: view-box; transform-origin: 160px 122px; }
+.b3-orbit1 { animation-name: b3-orbit1; }
+.b3-orbit2 { animation-name: b3-orbit2; }
+.b3-dot1 { opacity: 1; fill: var(--bts-accent); animation-name: b3-dot1; }
+.b3-dot2 { opacity: 0; fill: var(--bts-accent); animation-name: b3-dot2; }
+.b3-contour {
+  stroke: var(--bts-stroke);
+  opacity: .45;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation-name: b3-contour;
+}
+.b3-w1, .b3-w2, .b3-w3 { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+.b3-w1 { animation-name: b3-w1; }
+.b3-w2 { animation-name: b3-w2; }
+.b3-w3 { animation-name: b3-w3; }
+
+/* Lap one pauses at each waypoint (eased legs); the contour then draws;
+   lap two glides the larger route in one smooth pass: the improvement. */
+@keyframes b3-orbit1 {
+  0%, 8% { transform: rotate(0deg); }
+  18%, 22% { transform: rotate(120deg); }
+  32%, 36% { transform: rotate(240deg); }
+  46%, 100% { transform: rotate(360deg); }
+}
+@keyframes b3-dot1 {
+  0%, 5% { opacity: 0; }
+  8%, 46% { opacity: 1; }
+  51%, 88% { opacity: 0; }
+  93%, 100% { opacity: 1; }
+}
+@keyframes b3-contour {
+  0%, 50% { stroke-dashoffset: 100; stroke: var(--bts-accent); opacity: .9; }
+  63%, 88% { stroke-dashoffset: 0; stroke: var(--bts-accent); opacity: .9; }
+  96%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); opacity: .45; }
+}
+@keyframes b3-orbit2 {
+  0%, 62% { transform: rotate(0deg); }
+  85%, 100% { transform: rotate(360deg); }
+}
+@keyframes b3-dot2 {
+  0%, 61% { opacity: 0; }
+  64%, 84% { opacity: 1; }
+  88%, 100% { opacity: 0; }
+}
+@keyframes b3-w1 {
+  0%, 6% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  9% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  15%, 44% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  47% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  52%, 86% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  93%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b3-w2 {
+  0%, 17% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  20% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  26%, 86% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  93%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+@keyframes b3-w3 {
+  0%, 31% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+  34% { fill: var(--bts-accent); stroke: var(--bts-accent); }
+  40%, 86% { fill: var(--bts-fill); stroke: var(--bts-accent); }
+  93%, 100% { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+}
+
+/* Earlier experience reads as a quieter coda after the white
+   Beyond-the-Screen band. Warm bg matches the case studies above; a
+   touch of top padding keeps breathing room between the two. */
 .earlier-experience {
   background: var(--color-warm);
   padding: 3rem 0 5rem;
 }
 @media (min-width: 768px) { .earlier-experience { padding: 4rem 0 6.5rem; } }
 
-.strength-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-@media (min-width: 768px) {
-  .strength-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-}
-@media (min-width: 1100px) {
-  .strength-grid { gap: 3rem; }
-}
-
-/* No card chrome on dark — the line-art icon + type carries the
-   visual weight. Keeps the section feeling editorial rather than
-   ad-card-y, and reads cleanly against the charcoal surface. */
-.strength-card {
-  background: transparent;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-}
-.strength-card h3 {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-serif);
-  font-size: 1.375rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  font-weight: 400;
-  color: var(--color-warm);
-}
-.strength-card p {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: rgba(245, 245, 240, 0.68);
-}
 
 /* ============================== CAPABILITIES ============================== */
 .capabilities { background: var(--color-white); padding: 5rem 0; }
@@ -541,70 +810,150 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .capabilities .section-head h2 { color: var(--color-charcoal); }
 .capabilities .section-head p { color: var(--color-dark); }
 
-/* Distilled capabilities: the three practice areas as one calm row.
-   Borrows the strengths-card language (sage rule, serif title, muted
-   one-liner) so the section reads as a sibling, not a new pattern.
-   The single line under each title names the disciplines inside. */
+/* Light variant of the .bts-* illustration engine: same cycle, same
+   engine, ink strokes and sage accent on white. */
+.capabilities {
+  --bts-stroke: #2E2E2E;
+  --bts-accent: var(--color-accent);
+  --bts-fill: var(--color-white);
+  --bts-text: var(--color-muted-gray);
+  --bts-stroke-w: 2px;
+  --bts-cycle: 7s;
+  --bts-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
 .cap-groups {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.75rem;
 }
 @media (min-width: 768px) {
   .cap-groups { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
 }
-/* Shared line-art icons (Capabilities + Strengths): 1px strokes
-   (non-scaling, so the weight holds at any rendered size) that draw
-   themselves in when the reveal observer adds .is-visible to the host
-   card. Each shape carries pathLength="100" so one dash rule animates
-   every geometry uniformly; nth-child delays sequence the strokes like
-   pen order. Ink on light sections, warm white on the dark strengths
-   island. */
-.draw-icon {
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 1rem;
-  color: var(--color-dark);
+@media (min-width: 1100px) {
+  .cap-groups { gap: 3rem; }
 }
-.strengths .draw-icon { color: var(--color-warm); }
-.draw-icon svg { width: 100%; height: 100%; overflow: visible; }
-.draw-icon svg > * {
+
+/* Capability illustration 1 base states (resolved: signals gathered,
+   route drawn, destination chosen). */
+.c1-dot-a, .c1-dot-b, .c1-dot-c { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+.c1-dot-a { animation-name: c1-dot-a; }
+.c1-dot-b { animation-name: c1-dot-b; }
+.c1-dot-c { animation-name: c1-dot-c; }
+.c1-path { stroke: var(--bts-stroke); stroke-dasharray: 100; stroke-dashoffset: 0; animation-name: c1-path; }
+.c1-dest { fill: var(--bts-fill); stroke: var(--bts-stroke); animation-name: c1-dest; }
+.c1-destdot { fill: var(--bts-accent); opacity: 1; animation-name: c1-destdot; }
+
+@keyframes c1-dot-a { 0%, 4% { opacity: 0; } 9%, 100% { opacity: 1; } }
+@keyframes c1-dot-b { 0%, 9% { opacity: 0; } 14%, 100% { opacity: 1; } }
+@keyframes c1-dot-c { 0%, 14% { opacity: 0; } 19%, 100% { opacity: 1; } }
+@keyframes c1-path {
+  0%, 22% { stroke-dashoffset: 100; stroke: var(--bts-accent); }
+  50%, 72% { stroke-dashoffset: 0; stroke: var(--bts-accent); }
+  82%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); }
+}
+@keyframes c1-dest {
+  0%, 50% { stroke: var(--bts-stroke); }
+  54%, 74% { stroke: var(--bts-accent); }
+  84%, 100% { stroke: var(--bts-stroke); }
+}
+@keyframes c1-destdot { 0%, 52% { opacity: 0; } 58%, 100% { opacity: 1; } }
+
+/* Capability illustration 2 base states (resolved: sketch, build, and
+   validated delivery all present, green mark held). */
+.c2-s1 { stroke: var(--bts-stroke); animation-name: c2-s1; }
+.c2-a1, .c2-a2 { stroke: var(--bts-stroke); }
+.c2-a1 { animation-name: c2-a1; }
+.c2-a2 { animation-name: c2-a2; }
+.c2-s2, .c2-s3, .c2-s2l, .c2-s3l {
+  stroke: var(--bts-stroke);
   stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-.reveal.is-visible .draw-icon svg > * {
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.8s var(--ease);
 }
-.reveal.is-visible .draw-icon svg > :nth-child(1) { transition-delay: 0.15s; }
-.reveal.is-visible .draw-icon svg > :nth-child(2) { transition-delay: 0.5s; }
-.reveal.is-visible .draw-icon svg > :nth-child(3) { transition-delay: 0.8s; }
-.reveal.is-visible .draw-icon svg > :nth-child(4) { transition-delay: 1.1s; }
-.reveal.is-visible .draw-icon svg > :nth-child(5) { transition-delay: 1.4s; }
-.reveal.is-visible .draw-icon svg > :nth-child(6) { transition-delay: 1.7s; }
-@media (prefers-reduced-motion: reduce) {
-  .draw-icon svg > * {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    transition: none;
-  }
+.c2-s2 { animation-name: c2-s2; }
+.c2-s2l { animation-name: c2-s2l; }
+.c2-s3 { animation-name: c2-s3; }
+.c2-s3l { animation-name: c2-s3l; }
+.c2-ok {
+  fill: var(--bts-accent);
+  opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: c2-ok;
 }
-.cap-group h3 {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-serif);
-  font-size: 1.375rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  font-weight: 400;
-  color: var(--color-charcoal);
+.c2-okring {
+  stroke: var(--bts-accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: c2-okring;
 }
-.cap-group p {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--color-muted-gray);
+
+@keyframes c2-s1 { 0%, 3% { opacity: 0; } 10%, 100% { opacity: 1; } }
+@keyframes c2-a1 {
+  0%, 12% { opacity: 0; stroke: var(--bts-accent); }
+  16%, 26% { opacity: 1; stroke: var(--bts-accent); }
+  34%, 100% { opacity: 1; stroke: var(--bts-stroke); }
+}
+@keyframes c2-s2 { 0%, 16% { stroke-dashoffset: 100; } 30%, 100% { stroke-dashoffset: 0; } }
+@keyframes c2-s2l { 0%, 32% { stroke-dashoffset: 100; } 38%, 100% { stroke-dashoffset: 0; } }
+@keyframes c2-a2 {
+  0%, 38% { opacity: 0; stroke: var(--bts-accent); }
+  42%, 52% { opacity: 1; stroke: var(--bts-accent); }
+  60%, 100% { opacity: 1; stroke: var(--bts-stroke); }
+}
+@keyframes c2-s3 { 0%, 42% { stroke-dashoffset: 100; } 56%, 100% { stroke-dashoffset: 0; } }
+@keyframes c2-s3l { 0%, 56% { stroke-dashoffset: 100; } 62%, 100% { stroke-dashoffset: 0; } }
+@keyframes c2-ok {
+  0%, 62% { opacity: 0; transform: scale(.5); }
+  68% { opacity: 1; transform: scale(1.15); }
+  74%, 100% { opacity: 1; transform: scale(1); }
+}
+@keyframes c2-okring {
+  0%, 64% { opacity: 0; transform: scale(.4); }
+  70% { opacity: .7; }
+  82%, 100% { opacity: 0; transform: scale(1); }
+}
+
+/* Capability illustration 3 base states (resolved: foundation set,
+   everyone standing on it, the lead holding the green). */
+.c3-base { stroke: var(--bts-stroke); stroke-dasharray: 100; stroke-dashoffset: 0; animation-name: c3-base; }
+.c3-stem1, .c3-stem2, .c3-stem3 {
+  stroke: var(--bts-stroke);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+.c3-stem1 { animation-name: c3-stem1; }
+.c3-stem2 { animation-name: c3-stem2; }
+.c3-stem3 { animation-name: c3-stem3; }
+.c3-tip1, .c3-tip2, .c3-tip3 { fill: var(--bts-fill); stroke: var(--bts-stroke); }
+.c3-tip1 { animation-name: c3-tip1; }
+.c3-tip2 { animation-name: c3-tip2; }
+.c3-tip3 { animation-name: c3-tip3; }
+.c3-dot2 { fill: var(--bts-accent); opacity: 1; animation-name: c3-dot2; }
+
+@keyframes c3-base {
+  0%, 4% { stroke-dashoffset: 100; stroke: var(--bts-accent); }
+  20%, 58% { stroke-dashoffset: 0; stroke: var(--bts-accent); }
+  70%, 100% { stroke-dashoffset: 0; stroke: var(--bts-stroke); }
+}
+@keyframes c3-stem2 { 0%, 22% { stroke-dashoffset: 100; } 32%, 100% { stroke-dashoffset: 0; } }
+@keyframes c3-tip2 {
+  0%, 30% { opacity: 0; stroke: var(--bts-accent); }
+  35%, 42% { opacity: 1; stroke: var(--bts-accent); }
+  48%, 100% { opacity: 1; stroke: var(--bts-stroke); }
+}
+@keyframes c3-dot2 { 0%, 50% { opacity: 0; } 56%, 100% { opacity: 1; } }
+@keyframes c3-stem1 { 0%, 36% { stroke-dashoffset: 100; } 44%, 100% { stroke-dashoffset: 0; } }
+@keyframes c3-tip1 {
+  0%, 42% { opacity: 0; stroke: var(--bts-accent); }
+  47%, 52% { opacity: 1; stroke: var(--bts-accent); }
+  58%, 100% { opacity: 1; stroke: var(--bts-stroke); }
+}
+@keyframes c3-stem3 { 0%, 42% { stroke-dashoffset: 100; } 50%, 100% { stroke-dashoffset: 0; } }
+@keyframes c3-tip3 {
+  0%, 48% { opacity: 0; stroke: var(--bts-accent); }
+  53%, 58% { opacity: 1; stroke: var(--bts-accent); }
+  64%, 100% { opacity: 1; stroke: var(--bts-stroke); }
 }
 
 /* ============================== WHY I DESIGN — sticky scroll story ==============================
