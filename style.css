@@ -439,6 +439,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     content: "";
     position: absolute;
     inset: 0;
+    /* Above the thumbnail even while its hover transform promotes it
+       into its own stacking layer - without this the blueprint hides
+       behind the scaled img at exactly the moment the lens opens. */
+    z-index: 1;
     pointer-events: none;
     transition: transform 0.7s var(--ease), --lens-r 0.45s var(--ease);
     -webkit-mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), #000 0 var(--lens-r), transparent calc(var(--lens-r) + 16px));
@@ -454,6 +458,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   /* Layer 2: drafting grid + the lens ring, drawn just inside the
      mask's solid zone so the soft edge doesn't eat it. */
   .case-grid:not(.case-grid-compact) .case-thumb::after {
+    z-index: 2;
     background-image:
       radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent calc(var(--lens-r) - 3px), rgba(109, 135, 104, 0.9) calc(var(--lens-r) - 2px), rgba(109, 135, 104, 0.9) calc(var(--lens-r) - 1px), transparent var(--lens-r)),
       repeating-linear-gradient(0deg, rgba(109, 135, 104, 0.22) 0 1px, transparent 1px 18px),
