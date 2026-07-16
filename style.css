@@ -501,24 +501,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (min-width: 1100px) { .bts-grid { gap: 3rem; } }
 
 .bts-card { background: transparent; padding: 0; border: 0; }
-.bts-card:focus-visible {
-  outline: 2px solid var(--bts-accent);
-  outline-offset: 10px;
-  border-radius: 4px;
-}
 /* Fixed aspect ratio reserves the box before the SVG paints: no layout
    shift. The SVG scales uniformly (viewBox + meet), so circles stay
    mathematically circular at every width. */
-.bts-illo { width: 50%; aspect-ratio: 4 / 3; margin-bottom: 0.5rem; cursor: pointer; }
-/* Hover/focus is a quiet affordance only - a slight dim - while
-   click/tap replays the story (see setupBeyondScreen). */
-.bts-card:hover .bts-illo svg,
-.bts-card:focus-visible .bts-illo svg { opacity: 0.7; }
+.bts-illo { width: 50%; aspect-ratio: 4 / 3; margin-bottom: 0.5rem; }
 .bts-illo svg {
   width: 100%;
   height: 100%;
   display: block;
-  transition: opacity 0.25s var(--bts-ease);
   stroke-width: var(--bts-stroke-w);
   /* Default ink inherits to every stroked shape; accent/fill classes
      override per element. */
@@ -559,21 +549,20 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* --- Shared animation engine -------------------------------------------
    Every animated element carries .bts-anim plus a role class whose
    keyframes encode its slice of one absolute 7s timeline (so the whole
-   card stays choreographed). Each story plays ONCE when the card first
-   scrolls into view and then holds its final frame (fill-mode both);
-   every timeline ends in the resolved composition, which also equals
-   the elements' BASE styles - what no-JS, no-animation, and
-   reduced-motion users see. Click/tap restarts via .bts-reset
-   (see setupBeyondScreen).                                             */
+   card stays choreographed). The animations are permanently PAUSED; the
+   scroll scrubber (setupBeyondScreenScrub in index.html) positions the
+   playhead through a negative animation-delay via --bts-scrub, so the
+   scrollbar plays the stories forward and rewinds them. Every timeline
+   ends in the resolved composition, which equals the elements' BASE
+   styles - what no-JS, no-animation, and reduced-motion users see.    */
 .bts-anim {
   animation-duration: var(--bts-cycle);
   animation-timing-function: var(--bts-ease);
+  animation-delay: var(--bts-scrub, 0s);
   animation-iteration-count: 1;
   animation-fill-mode: both;
   animation-play-state: paused;
 }
-.bts-card.is-live .bts-anim { animation-play-state: running; }
-.bts-card.bts-reset .bts-anim { animation: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .bts-anim { animation: none !important; }
 }
