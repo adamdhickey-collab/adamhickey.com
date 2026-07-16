@@ -1608,6 +1608,56 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   flex: 1;
   height: 1px;
   background: var(--color-muted-gray);
+  transform-origin: left center;
+}
+
+/* Career-timeline choreography: when the existing reveal observer marks
+   the list .is-visible, activation travels left to right - each dot
+   pops with its label, the connector draws toward the next stage in
+   sage before settling to structure gray, and the final dot (the stage
+   in progress) closes with one soft pulse. Base styles above are the
+   resolved end state, so reduced-motion and no-animation users see the
+   finished timeline; fill-mode both holds each element at its 0% frame
+   until its turn. */
+.evolution-steps.is-visible li:nth-child(1) .dot        { animation: evo-dot   0.5s var(--ease) 0.10s both; }
+.evolution-steps.is-visible li:nth-child(1) .step-label { animation: evo-label 0.45s var(--ease) 0.18s both; }
+.evolution-steps.is-visible li:nth-child(2)             { animation: evo-link  0.85s var(--ease) 0.55s both; }
+.evolution-steps.is-visible li:nth-child(3) .dot        { animation: evo-dot   0.5s var(--ease) 1.05s both; }
+.evolution-steps.is-visible li:nth-child(3) .step-label { animation: evo-label 0.45s var(--ease) 1.13s both; }
+.evolution-steps.is-visible li:nth-child(4)             { animation: evo-link  0.85s var(--ease) 1.50s both; }
+.evolution-steps.is-visible li:nth-child(5) .dot        { animation: evo-dot   0.5s var(--ease) 2.00s both; }
+.evolution-steps.is-visible li:nth-child(5) .step-label { animation: evo-label 0.45s var(--ease) 2.08s both; }
+/* One quiet pulse on the current stage, then rest. */
+.evolution-steps .dot { position: relative; }
+.evolution-steps li:nth-child(5) .dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent);
+  opacity: 0;
+}
+.evolution-steps.is-visible li:nth-child(5) .dot::after {
+  animation: evo-pulse 0.9s var(--ease) 2.55s both;
+}
+
+@keyframes evo-dot {
+  0% { transform: scale(.3); opacity: 0; box-shadow: 0 0 0 0 var(--color-accent-soft); }
+  55% { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 4px var(--color-accent-soft); }
+}
+@keyframes evo-label {
+  0% { transform: translateY(6px); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes evo-link {
+  0% { transform: scaleX(0); background: var(--color-accent); }
+  60% { transform: scaleX(1); background: var(--color-accent); }
+  100% { transform: scaleX(1); background: var(--color-muted-gray); }
+}
+@keyframes evo-pulse {
+  0% { opacity: .8; transform: scale(.5); }
+  100% { opacity: 0; transform: scale(2.8); }
 }
 
 /* ============================== STILL EVOLVING ============================== */
