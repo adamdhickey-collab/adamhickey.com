@@ -415,7 +415,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 
 /* --- Magnetic 3D tilt (fine-pointer devices only) -----------------------
-   Hovering a main thumbnail lifts it slightly and tilts it toward the
+   Hovering a case thumbnail (main shots and the compact logo tiles in
+   Earlier experience alike) lifts it slightly and tilts it toward the
    cursor - the corner under the pointer rises as if attracted to it.
    setupCaseTilt feeds --rx/--ry from the pointer position; the lift and
    a soft grounding shadow come from .is-tilting. Angles stay shallow
@@ -424,12 +425,12 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    motion feels weighted rather than twitchy. Touch and reduced-motion
    users keep the static card. */
 @media (hover: hover) and (pointer: fine) {
-  .case-grid:not(.case-grid-compact) .case-thumb {
+  .case-grid .case-thumb {
     transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--lift, 1));
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
     will-change: transform;
   }
-  .case-grid:not(.case-grid-compact) .case-thumb.is-tilting {
+  .case-grid .case-thumb.is-tilting {
     --lift: 1.04;
     transition: transform 0.12s ease-out, box-shadow 0.5s var(--ease);
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
@@ -442,10 +443,11 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 
 .case-card h3 {
   /* Mobile (<768): tighter title→description gap so the description and
-     tag row read as one tightly grouped unit beneath the headline. */
+     tag row read as one tightly grouped unit beneath the headline.
+     No hover color shift: the thumbnail tilt carries the hover
+     feedback, so the headline stays ink at all times. */
   margin-bottom: 0.45rem;
   color: var(--color-dark);
-  transition: color 0.25s var(--ease);
   font-family: var(--font-serif);
   font-size: 2rem;
   line-height: 1.1;
@@ -457,7 +459,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
      so the headline, description, and tag row feel like one block. */
   .case-card h3 { margin-bottom: 0.65rem; font-size: 2.125rem; }
 }
-.case-card:hover h3 { color: var(--color-accent); }
 
 /* "My role" line — sits directly under the title. Styled to match the
    compact descriptions in the Earlier experience section (muted gray,
