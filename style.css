@@ -509,11 +509,16 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* Fixed aspect ratio reserves the box before the SVG paints: no layout
    shift. The SVG scales uniformly (viewBox + meet), so circles stay
    mathematically circular at every width. */
-.bts-illo { width: 50%; aspect-ratio: 4 / 3; margin-bottom: 0.5rem; }
+.bts-illo { width: 50%; aspect-ratio: 4 / 3; margin-bottom: 0.5rem; cursor: pointer; }
+/* Hover/focus is a quiet affordance only - a slight dim - while
+   click/tap replays the story (see setupBeyondScreen). */
+.bts-card:hover .bts-illo svg,
+.bts-card:focus-visible .bts-illo svg { opacity: 0.7; }
 .bts-illo svg {
   width: 100%;
   height: 100%;
   display: block;
+  transition: opacity 0.25s var(--bts-ease);
   stroke-width: var(--bts-stroke-w);
   /* Default ink inherits to every stroked shape; accent/fill classes
      override per element. */
@@ -558,8 +563,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    scrolls into view and then holds its final frame (fill-mode both);
    every timeline ends in the resolved composition, which also equals
    the elements' BASE styles - what no-JS, no-animation, and
-   reduced-motion users see. Hover, focus, or tap restarts via
-   .bts-reset (see setupBeyondScreen).                                  */
+   reduced-motion users see. Click/tap restarts via .bts-reset
+   (see setupBeyondScreen).                                             */
 .bts-anim {
   animation-duration: var(--bts-cycle);
   animation-timing-function: var(--bts-ease);

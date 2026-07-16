@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260709q" />
+  <link rel="stylesheet" href="style.css?v=20260709t" />
   <!-- Preload the client-logo strip: small SVGs sitting below the fold.
        Without this they don't start fetching until the browser's preload
        scanner reaches the markup, so on slower connections there's a
@@ -233,7 +233,7 @@
          state: green (#4EA275) marks activation and progress, warm-white
          strokes are structure on the charcoal island. Pure CSS keyframes
          drive the motion; setupBeyondScreen() only decides WHEN they run
-         (first view, then hover / focus / tap to replay; reduced-motion
+         (first view, then click / tap to replay; reduced-motion
          static). Each headline is the principle; the bullets beneath are
          the concrete disciplines that back it (absorbed from the former
          Capabilities section, which this section replaced). No card
@@ -1202,8 +1202,10 @@
        first scrolls into view, then freezes on the resolved composition
        (pure CSS keyframes; see .bts-anim). This controller only decides
        WHEN they run: play on view, pause while off screen mid-story, and
-       replay from the top on hover, keyboard focus, or tap/click. Never
-       starts for reduced-motion users (CSS shows the resolved state).    */
+       replay from the top on click/tap (or Enter/Space for keyboard
+       users); hovering only dims the artwork slightly as an affordance
+       (see .bts-illo svg in style.css). Never starts for reduced-motion
+       users (CSS shows the resolved state).                              */
     (function setupBeyondScreen() {
       const cards = Array.from(document.querySelectorAll('.bts-card'));
       if (!cards.length) return;
@@ -1226,9 +1228,13 @@
         card.classList.remove('bts-reset');
       };
       cards.forEach(card => {
-        card.addEventListener('mouseenter', () => replay(card));
-        card.addEventListener('focusin', () => replay(card));
         card.addEventListener('click', () => replay(card));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            replay(card);
+          }
+        });
       });
     })();
 
