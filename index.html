@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260709x" />
+  <link rel="stylesheet" href="style.css?v=20260709y" />
   <!-- Preload the client-logo strip: small SVGs sitting below the fold.
        Without this they don't start fetching until the browser's preload
        scanner reaches the markup, so on slower connections there's a
@@ -1229,26 +1229,30 @@
       update();
     })();
 
-    /* ---------- 5d. Case-study x-ray lens --------------------------------------
-       Feeds the CSS lens (see .case-thumb::before/::after): stores each
-       main thumbnail's image URL in --thumb so the blueprint layer can
-       re-render it, tracks the pointer into --mx/--my, and toggles
-       .is-lensed so --lens-r irises open and closed. Skipped entirely
-       for touch, coarse pointers, and reduced motion.                    */
-    (function setupCaseLens() {
+    /* ---------- 5d. Case-study magnetic tilt -----------------------------------
+       Feeds the CSS tilt (see .case-thumb under the hover/fine-pointer
+       media block): pointer position maps to --rx/--ry so the thumbnail
+       tilts toward the cursor, and .is-tilting applies the lift and
+       shadow. Max angles are set here. Skipped for touch, coarse
+       pointers, and reduced motion.                                      */
+    (function setupCaseTilt() {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const MAX_RX = 6, MAX_RY = 8; // degrees
       document.querySelectorAll('.case-grid:not(.case-grid-compact) .case-thumb').forEach(thumb => {
-        const img = thumb.querySelector('img');
-        if (!img) return;
-        thumb.style.setProperty('--thumb', 'url("' + (img.currentSrc || img.src) + '")');
-        thumb.addEventListener('pointerenter', () => thumb.classList.add('is-lensed'));
+        thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
-          const rect = thumb.getBoundingClientRect();
-          thumb.style.setProperty('--mx', (e.clientX - rect.left).toFixed(1) + 'px');
-          thumb.style.setProperty('--my', (e.clientY - rect.top).toFixed(1) + 'px');
+          const r = thumb.getBoundingClientRect();
+          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;  // -1 left .. 1 right
+          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;  // -1 top .. 1 bottom
+          thumb.style.setProperty('--ry', (-nx * MAX_RY).toFixed(2) + 'deg');
+          thumb.style.setProperty('--rx', (ny * MAX_RX).toFixed(2) + 'deg');
         });
-        thumb.addEventListener('pointerleave', () => thumb.classList.remove('is-lensed'));
+        thumb.addEventListener('pointerleave', () => {
+          thumb.classList.remove('is-tilting');
+          thumb.style.setProperty('--rx', '0deg');
+          thumb.style.setProperty('--ry', '0deg');
+        });
       });
     })();
 
