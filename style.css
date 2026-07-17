@@ -390,9 +390,15 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    Clicking a case card morphs its thumbnail into the case study page's
    hero image (setupCaseMorph names the clicked thumb; each case page's
    hero carries the matching view-transition-name). Browsers without
-   support simply navigate normally, and reduced-motion users opt out. */
+   support simply navigate normally, and reduced-motion users opt out.
+   Disabled on mobile widths too: the morph is a desktop flourish, and
+   on phones (where this navigation is the primary way through the
+   site) a plain, instant page change reads as more responsive. */
 @view-transition { navigation: auto; }
 @media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+@media (max-width: 767.98px) {
   @view-transition { navigation: none; }
 }
 ::view-transition-group(case-hero) {
@@ -542,14 +548,26 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   --bts-cycle: 7s;
   --bts-ease: cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--color-charcoal);
-  padding: 4.5rem 0;
+  /* Mobile padding tightened (was 4.5rem): a stacked column of three
+     illustrated cards doesn't need the same breathing room a 3-up row
+     does, and the section was reading tall on phones. Desktop keeps
+     its original 5.5rem via the override below. */
+  padding: 2.75rem 0;
 }
 @media (min-width: 768px) { .beyond-screen { padding: 5.5rem 0; } }
 .beyond-screen .section-head { margin-bottom: 2.5rem; }
+@media (max-width: 767.98px) {
+  /* Tighter intro-to-grid gap on mobile (was 2.5rem); desktop untouched. */
+  .beyond-screen .section-head { margin-bottom: 1.75rem; }
+}
 .beyond-screen .section-head h2 { color: var(--color-warm); }
 .beyond-screen .section-head p { color: rgba(245, 245, 240, 0.72); }
 
-.bts-grid { display: grid; grid-template-columns: 1fr; gap: 2.75rem; }
+/* Mobile card-to-card gap tightened (was 2.75rem): three stacked
+   illustrated cards with that much air between them read as three
+   separate sections rather than one set. Desktop's row gaps
+   (768px/1100px overrides below) are untouched. */
+.bts-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; }
 @media (min-width: 768px) { .bts-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
 @media (min-width: 1100px) { .bts-grid { gap: 3rem; } }
 
@@ -585,6 +603,15 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--bts-text);
+}
+@media (max-width: 767.98px) {
+  /* Tighten the remaining mobile-only gaps: heading-to-bullets and
+     bullet line spacing. Placed after the base h3/li rules so these
+     longhand overrides win the cascade (equal specificity, source
+     order decides). Desktop is untouched since this only matches
+     <768px. */
+  .bts-card h3 { margin-bottom: 0.6rem; }
+  .bts-card li { margin: 0.3rem 0; }
 }
 /* Ring markers echo the illustrations' node language. */
 .bts-card li::before {
