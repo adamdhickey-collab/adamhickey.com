@@ -431,23 +431,18 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    reduced-motion users keep the static card.
 
    The 3D transform is applied ONLY while .is-tilting (not as a
-   permanent base style): leaving `transform` unset at rest keeps small,
-   high-contrast tiles crisp. An always-on perspective(), even at
-   0deg/scale(1), forces the element onto its own compositing layer and
-   visibly degrades the border-radius clip.
+   permanent base style), so nothing is layer-promoted at rest.
 
-   The compact Earlier-experience logo tiles (RBA, Pixel Farm) carry NO
-   transform at all on hover, only the box-shadow: a 2D-only scale() was
-   tried and still produced the same clip halo in real-world Chrome,
-   even with the 3D rotation removed - some engines promote an element
-   onto its own compositing layer for ANY non-none transform, not just
-   perspective()/rotate(), and that layer promotion is what degrades
-   the border-radius + overflow:hidden clip on a small flat-color tile
-   (the rounded corner gets rasterized at a different pass than the
-   unpromoted content and loses its crisp edge). Dropping the transform
-   entirely removes the whole bug category rather than chasing which
-   transform values trigger it in which browser. Shadow-only still
-   reads as "this lifted" without risking the halo. */
+   COMPACT TILES (RBA, Pixel Farm): the "broken shadow" that kept
+   reappearing here was never a rendering bug. The compact .case-thumb
+   is a padded warm FRAME (140x140) around the smaller logo <img>
+   (126x126, anchored flush left with 7px above/below and 14px right).
+   The frame is invisible at rest - warm on the warm section - but
+   putting the hover box-shadow ON THE FRAME outlined that whole
+   invisible box, revealing it as a pale offset shape floating behind
+   the logo. So the shadow now goes on the img itself (the visible
+   tile), the frame stays shadowless and transform-free, and overflow
+   is opened up so the img's shadow isn't clipped by the frame. */
 @media (hover: hover) and (pointer: fine) {
   .case-grid .case-thumb {
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
@@ -457,14 +452,25 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     transition: transform 0.12s ease-out, box-shadow 0.5s var(--ease);
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
   }
+  /* Frame: never shadowed, never transformed. overflow visible lets the
+     img's own hover shadow render past the frame edge (the img is flush
+     left, so a clipped shadow would slice off there). The img keeps its
+     own 10px radius, so losing the frame's corner clip changes nothing
+     visually at rest. */
+  .case-grid.case-grid-compact .case-thumb { overflow: visible; }
   .case-grid.case-grid-compact .case-thumb.is-tilting {
     transform: none;
+    box-shadow: none;
+  }
+  .case-grid.case-grid-compact .case-thumb img {
     transition: box-shadow 0.3s var(--ease);
-    box-shadow: 0 8px 16px rgba(17, 17, 17, 0.14);
+  }
+  .case-grid.case-grid-compact .case-thumb.is-tilting img {
+    box-shadow: 0 6px 14px rgba(17, 17, 17, 0.18);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .case-thumb { transform: none !important; box-shadow: none !important; }
+  .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
 }
 
 
