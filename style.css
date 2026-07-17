@@ -436,14 +436,18 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    0deg/scale(1), forces the element onto its own compositing layer and
    visibly degrades the border-radius clip.
 
-   The compact Earlier-experience logo tiles (RBA, Pixel Farm) do NOT
-   get the rotation, only a plain scale: that same clip-softening
-   artifact reappears on ANY active perspective()+rotate transform, not
-   just the permanent at-rest one - it's not a shadow-size problem, it's
-   inherent to 3D-transforming a small flat-color rounded tile (the
-   compositor rasterizes it into a texture and the border-radius edge
-   loses its crisp anti-aliasing). A 2D-only scale keeps these tiles
-   sharp while still giving a lift + shadow on hover. */
+   The compact Earlier-experience logo tiles (RBA, Pixel Farm) carry NO
+   transform at all on hover, only the box-shadow: a 2D-only scale() was
+   tried and still produced the same clip halo in real-world Chrome,
+   even with the 3D rotation removed - some engines promote an element
+   onto its own compositing layer for ANY non-none transform, not just
+   perspective()/rotate(), and that layer promotion is what degrades
+   the border-radius + overflow:hidden clip on a small flat-color tile
+   (the rounded corner gets rasterized at a different pass than the
+   unpromoted content and loses its crisp edge). Dropping the transform
+   entirely removes the whole bug category rather than chasing which
+   transform values trigger it in which browser. Shadow-only still
+   reads as "this lifted" without risking the halo. */
 @media (hover: hover) and (pointer: fine) {
   .case-grid .case-thumb {
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
@@ -454,7 +458,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
   }
   .case-grid.case-grid-compact .case-thumb.is-tilting {
-    transform: scale(1.04);
+    transform: none;
+    transition: box-shadow 0.3s var(--ease);
     box-shadow: 0 8px 16px rgba(17, 17, 17, 0.14);
   }
 }
