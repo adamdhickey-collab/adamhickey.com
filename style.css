@@ -441,6 +441,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     transition: transform 0.12s ease-out, box-shadow 0.5s var(--ease);
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
   }
+  /* The 480px-photo shadow above is oversized for the 96-160px compact
+     logo tiles: box-shadow isn't clipped by the tile's own
+     overflow:hidden, so a 48px blur on a 160px box spills past its
+     rounded frame and reads as a stray ghost shape on the warm page
+     background rather than a grounding shadow. Scaled down to match. */
+  .case-grid.case-grid-compact .case-thumb.is-tilting {
+    box-shadow: 0 8px 16px rgba(17, 17, 17, 0.14);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb { transform: none !important; box-shadow: none !important; }
