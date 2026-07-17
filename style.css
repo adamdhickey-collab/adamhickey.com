@@ -421,23 +421,29 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 
 /* --- Magnetic 3D tilt (fine-pointer devices only) -----------------------
-   Hovering a case thumbnail (main shots and the compact logo tiles in
-   Earlier experience alike) lifts it slightly and tilts it toward the
-   cursor - the corner under the pointer rises as if attracted to it.
-   setupCaseTilt feeds --rx/--ry from the pointer position; the lift and
-   a soft grounding shadow come from .is-tilting. Angles stay shallow
-   (6-8 degrees) and there is no gloss layer: matte, editorial. Rest
-   state eases back over 0.5s; tracking uses a short 0.12s follow so the
-   motion feels weighted rather than twitchy. Touch and reduced-motion
-   users keep the static card.
+   Hovering a main case thumbnail lifts it slightly and tilts it toward
+   the cursor - the corner under the pointer rises as if attracted to
+   it. setupCaseTilt feeds --rx/--ry from the pointer position; the lift
+   and a soft grounding shadow come from .is-tilting. Angles stay
+   shallow (6-8 degrees) and there is no gloss layer: matte, editorial.
+   Rest state eases back over 0.5s; tracking uses a short 0.12s follow
+   so the motion feels weighted rather than twitchy. Touch and
+   reduced-motion users keep the static card.
 
    The 3D transform is applied ONLY while .is-tilting (not as a
    permanent base style): leaving `transform` unset at rest keeps small,
-   high-contrast tiles like the compact logo cards crisp. An always-on
-   perspective(), even at 0deg/scale(1), forces the element onto its own
-   compositing layer and visibly degrades the border-radius clip on
-   small stark tiles (the black Pixel Farm square rendered with a soft
-   uneven halo instead of a clean edge). */
+   high-contrast tiles crisp. An always-on perspective(), even at
+   0deg/scale(1), forces the element onto its own compositing layer and
+   visibly degrades the border-radius clip.
+
+   The compact Earlier-experience logo tiles (RBA, Pixel Farm) do NOT
+   get the rotation, only a plain scale: that same clip-softening
+   artifact reappears on ANY active perspective()+rotate transform, not
+   just the permanent at-rest one - it's not a shadow-size problem, it's
+   inherent to 3D-transforming a small flat-color rounded tile (the
+   compositor rasterizes it into a texture and the border-radius edge
+   loses its crisp anti-aliasing). A 2D-only scale keeps these tiles
+   sharp while still giving a lift + shadow on hover. */
 @media (hover: hover) and (pointer: fine) {
   .case-grid .case-thumb {
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
@@ -447,12 +453,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     transition: transform 0.12s ease-out, box-shadow 0.5s var(--ease);
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
   }
-  /* The 480px-photo shadow above is oversized for the 96-160px compact
-     logo tiles: box-shadow isn't clipped by the tile's own
-     overflow:hidden, so a 48px blur on a 160px box spills past its
-     rounded frame and reads as a stray ghost shape on the warm page
-     background rather than a grounding shadow. Scaled down to match. */
   .case-grid.case-grid-compact .case-thumb.is-tilting {
+    transform: scale(1.04);
     box-shadow: 0 8px 16px rgba(17, 17, 17, 0.14);
   }
 }
