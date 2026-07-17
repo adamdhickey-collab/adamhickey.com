@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260710c" />
+  <link rel="stylesheet" href="style.css?v=20260710d" />
   <!-- Preload the client-logo strip: small SVGs sitting below the fold.
        Without this they don't start fetching until the browser's preload
        scanner reaches the markup, so on slower connections there's a
@@ -1202,24 +1202,35 @@
        shared 7s keyframe timeline (see .bts-anim), but the animations
        stay permanently paused and a negative animation-delay - driven by
        --bts-scrub here - positions the playhead. Scrolling down plays the
-       stories forward; scrolling up rewinds them. The mapping runs from
-       "grid top enters the viewport" (0%) to "grid top reaches 10% from
-       the viewport top" (100%). rAF-throttled; never runs for
-       reduced-motion users (CSS shows the resolved static state).        */
+       stories forward; scrolling up rewinds them.
+
+       --bts-scrub is set on each CARD individually, not once on the
+       section: on desktop the three cards share a row so their progress
+       is nearly identical anyway, but on mobile they stack, and a single
+       section-level value tracked only the first card's position - by
+       the time card 2 or 3 scrolled into view the shared value had
+       already reached 100%, so they sat frozen on their end frame no
+       matter how far you scrolled. Per-card tracking fixes both layouts
+       with one code path. Each card's mapping runs from "card top enters
+       the viewport" (0%) to "card top reaches 10% from the viewport
+       top" (100%). rAF-throttled; never runs for reduced-motion users
+       (CSS shows the resolved static state).                             */
     (function setupBeyondScreenScrub() {
       const section = document.getElementById('beyond-screen');
       if (!section) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const grid = section.querySelector('.bts-grid');
-      if (!grid) return;
+      const cards = Array.from(section.querySelectorAll('.bts-card'));
+      if (!cards.length) return;
       const CYCLE = 7; // seconds; keep in sync with --bts-cycle
       let ticking = false;
       const update = () => {
         ticking = false;
         const vh = window.innerHeight;
-        const top = grid.getBoundingClientRect().top;
-        const progress = Math.min(1, Math.max(0, (vh - top) / (vh * 0.9)));
-        section.style.setProperty('--bts-scrub', (-progress * CYCLE).toFixed(3) + 's');
+        cards.forEach(card => {
+          const top = card.getBoundingClientRect().top;
+          const progress = Math.min(1, Math.max(0, (vh - top) / (vh * 0.9)));
+          card.style.setProperty('--bts-scrub', (-progress * CYCLE).toFixed(3) + 's');
+        });
       };
       const onScroll = () => {
         if (!ticking) { ticking = true; requestAnimationFrame(update); }
