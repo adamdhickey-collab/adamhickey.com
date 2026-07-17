@@ -423,15 +423,21 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
    (6-8 degrees) and there is no gloss layer: matte, editorial. Rest
    state eases back over 0.5s; tracking uses a short 0.12s follow so the
    motion feels weighted rather than twitchy. Touch and reduced-motion
-   users keep the static card. */
+   users keep the static card.
+
+   The 3D transform is applied ONLY while .is-tilting (not as a
+   permanent base style): leaving `transform` unset at rest keeps small,
+   high-contrast tiles like the compact logo cards crisp. An always-on
+   perspective(), even at 0deg/scale(1), forces the element onto its own
+   compositing layer and visibly degrades the border-radius clip on
+   small stark tiles (the black Pixel Farm square rendered with a soft
+   uneven halo instead of a clean edge). */
 @media (hover: hover) and (pointer: fine) {
   .case-grid .case-thumb {
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--lift, 1));
     transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
-    will-change: transform;
   }
   .case-grid .case-thumb.is-tilting {
-    --lift: 1.04;
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(1.04);
     transition: transform 0.12s ease-out, box-shadow 0.5s var(--ease);
     box-shadow: 0 24px 48px rgba(17, 17, 17, 0.16);
   }
@@ -443,17 +449,20 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 
 .case-card h3 {
   /* Mobile (<768): tighter title→description gap so the description and
-     tag row read as one tightly grouped unit beneath the headline.
-     No hover color shift: the thumbnail tilt carries the hover
-     feedback, so the headline stays ink at all times. */
+     tag row read as one tightly grouped unit beneath the headline. */
   margin-bottom: 0.45rem;
   color: var(--color-dark);
+  transition: color 0.25s var(--ease);
   font-family: var(--font-serif);
   font-size: 2rem;
   line-height: 1.1;
   letter-spacing: -0.01em;
   font-weight: 400;
 }
+/* Burnt red-orange on hover, 5.58:1 against the warm section background
+   (WCAG AA requires 4.5:1 for this size) - verified against both the
+   case-studies and earlier-experience surfaces, which share --color-warm. */
+.case-card:hover h3 { color: #A6431A; }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
