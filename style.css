@@ -1277,14 +1277,29 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   transform: scale(1.04);
   transition: transform 0.7s var(--ease);
 }
-/* Cinematic slow zoom on whichever step is active: the photo drifts in a touch
-   while you read it, then resets, so the imagery feels alive instead of static. */
+/* Cinematic Ken Burns on whichever step is active: a clearly visible
+   push-in (1.04 -> 1.26 over 12s) with a directional pan, so the camera
+   feels like it's moving through the scene while you read. Each frame
+   pans a different way (a/b/c variants below) so consecutive steps
+   don't feel like the same move replayed. The circular crop hides the
+   drifted edges; ease-out front-loads the motion so it registers within
+   the first few seconds of a step becoming active. */
 .story-frame.is-active .story-frame-back {
-  animation: story-kenburns 14s ease-out forwards;
+  animation: story-kenburns-a 12s ease-out forwards;
 }
-@keyframes story-kenburns {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1.13); }
+.story-frame[data-frame="1"].is-active .story-frame-back { animation-name: story-kenburns-b; }
+.story-frame[data-frame="2"].is-active .story-frame-back { animation-name: story-kenburns-c; }
+@keyframes story-kenburns-a {
+  from { transform: scale(1.04) translate(0, 0); }
+  to   { transform: scale(1.26) translate(-2.2%, -1.6%); }
+}
+@keyframes story-kenburns-b {
+  from { transform: scale(1.04) translate(0, 0); }
+  to   { transform: scale(1.26) translate(2.4%, 0.8%); }
+}
+@keyframes story-kenburns-c {
+  from { transform: scale(1.04) translate(0, 0); }
+  to   { transform: scale(1.26) translate(-1.6%, 2%); }
 }
 /* Front disc: a small charcoal "sticker" pressed against the photo. The
    compound box-shadow stack reads as die-cut rim + soft contact shadow +
@@ -1603,7 +1618,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(1.04);
   }
+  /* Same Ken Burns as desktop while this step is the active one. */
+  .story-step.is-active .ssm-back {
+    animation: story-kenburns-a 12s ease-out forwards;
+  }
+  .story-step[data-step="1"].is-active .ssm-back { animation-name: story-kenburns-b; }
+  .story-step[data-step="2"].is-active .ssm-back { animation-name: story-kenburns-c; }
   .ssm-front {
     /* Centred on the back circle's bottom-right edge so the sticker sits
        ~50/50 on the photo and the page background.                        */
@@ -1638,6 +1660,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   }
   /* No slow zoom, depth push, parallax, or vignette under reduced motion. */
   .story-frame.is-active .story-frame-back { animation: none !important; }
+  .story-step.is-active .ssm-back { animation: none !important; }
   .story-frame-back-wrap { transform: none !important; }
   .story-stage { transform: none !important; }
   .story-atmos { display: none !important; }
