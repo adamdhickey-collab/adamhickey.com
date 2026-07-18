@@ -1,0 +1,92 @@
+/* ==========================================================================
+   case-motion.css — scroll-driven motion for the case study pages.
+
+   case-motion.js decorates the captured markup with these classes and
+   drives one custom property, --cmp (progress 0→1, eased in JS), from
+   scroll position — the same scrub pattern as the home page, so scrolling
+   forward plays each element in and scrolling back rewinds it.
+
+   Every rule resolves to the finished state when --cmp is absent, so the
+   page is fully readable with no JS, for search engines, and for
+   reduced-motion users (the script never runs, so no classes are added —
+   the reduced-motion block below is only a belt-and-braces guard).
+   ========================================================================== */
+
+:root {
+  --cm-rise-lg: 32px;   /* section headings */
+  --cm-rise: 22px;      /* sub-headings, medium elements */
+  --cm-rise-sm: 14px;   /* prose, list rows */
+  --cm-card-rise: 44px; /* content cards */
+  --cm-hero-drift: 52px;
+}
+@media (max-width: 640px) {
+  :root {
+    --cm-rise-lg: 22px;
+    --cm-rise: 14px;
+    --cm-rise-sm: 10px;
+    --cm-card-rise: 28px;
+    --cm-hero-drift: 26px;
+  }
+}
+
+/* Opacity finishes ahead of the transform (×1.4) so text is fully legible
+   while the last few pixels of travel settle. */
+.cm-rise,
+.cm-rise-lg,
+.cm-rise-sm {
+  opacity: min(1, calc(var(--cmp, 1) * 1.4));
+}
+.cm-rise    { transform: translateY(calc((1 - var(--cmp, 1)) * var(--cm-rise))); }
+.cm-rise-lg { transform: translateY(calc((1 - var(--cmp, 1)) * var(--cm-rise-lg))); }
+.cm-rise-sm { transform: translateY(calc((1 - var(--cmp, 1)) * var(--cm-rise-sm))); }
+
+/* Cards rise and settle from 96.5% scale — a soft "landing" without any
+   layout shift (transform only). Their opacity ramp is slower than text
+   (×1.15) so the whole approach reads on the way in. */
+.cm-card {
+  opacity: min(1, calc(var(--cmp, 1) * 1.15));
+  transform:
+    translateY(calc((1 - var(--cmp, 1)) * var(--cm-card-rise)))
+    scale(calc(0.965 + 0.035 * var(--cmp, 1)));
+}
+
+/* Sage accent bars draw in from the left. */
+.cm-bar {
+  transform: scaleX(var(--cmp, 1));
+  transform-origin: 0 50%;
+}
+
+/* Numbered step circles pop. The JS easing (ease-out-back) pushes --cmp
+   slightly past 1 mid-scrub, so the circle overshoots and settles. */
+.cm-pop {
+  opacity: min(1, calc(var(--cmp, 1) * 2));
+  transform: scale(calc(0.4 + 0.6 * var(--cmp, 1)));
+}
+
+/* Hero image: parallax lag + gentle grow as the page scrolls away from
+   the top. Identity at scrollY 0, so the cross-document view-transition
+   morph lands cleanly. */
+.cm-hero {
+  transform:
+    translateY(calc(var(--cmp, 0) * var(--cm-hero-drift)))
+    scale(calc(1 + var(--cmp, 0) * 0.045));
+}
+
+/* Page-load choreography for the hero copy (read time → title → meta).
+   Classes are added by JS only, so there is no flash without it. */
+.cm-load {
+  animation: cmLoad 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cm-load-2 { animation-delay: 0.09s; }
+.cm-load-3 { animation-delay: 0.18s; }
+@keyframes cmLoad {
+  from { opacity: 0; transform: translateY(14px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
