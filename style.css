@@ -1619,13 +1619,23 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     height: 100%;
     object-fit: cover;
     transform: scale(1.04);
+    /* Gentle 1.4s ease back to rest when the step deactivates. */
+    transition: transform 1.4s var(--ease);
   }
-  /* Same Ken Burns as desktop while this step is the active one. */
+  /* Same Ken Burns move as desktop, but as a TRANSITION rather than an
+     animation: on mobile these images sit inline and stay visible while
+     steps flip active/inactive, so an animation restarts from its 0%
+     frame on every activation and snaps back hard on deactivation
+     (desktop masks that behind the stage's opacity cross-fade; mobile
+     has no such cover). A transition drifts in over 12s, and when the
+     step deactivates - or reactivates mid-move - it eases smoothly
+     from wherever it currently is instead of jumping. */
   .story-step.is-active .ssm-back {
-    animation: story-kenburns-a 12s ease-out forwards;
+    transform: scale(1.26) translate(-2.2%, -1.6%);
+    transition: transform 12s ease-out;
   }
-  .story-step[data-step="1"].is-active .ssm-back { animation-name: story-kenburns-b; }
-  .story-step[data-step="2"].is-active .ssm-back { animation-name: story-kenburns-c; }
+  .story-step[data-step="1"].is-active .ssm-back { transform: scale(1.26) translate(2.4%, 0.8%); }
+  .story-step[data-step="2"].is-active .ssm-back { transform: scale(1.26) translate(-1.6%, 2%); }
   .ssm-front {
     /* Centred on the back circle's bottom-right edge so the sticker sits
        ~50/50 on the photo and the page background.                        */
@@ -1660,7 +1670,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   }
   /* No slow zoom, depth push, parallax, or vignette under reduced motion. */
   .story-frame.is-active .story-frame-back { animation: none !important; }
-  .story-step.is-active .ssm-back { animation: none !important; }
   .story-frame-back-wrap { transform: none !important; }
   .story-stage { transform: none !important; }
   .story-atmos { display: none !important; }
