@@ -356,9 +356,6 @@
           <g class="story-line-branches"></g>
           <!-- The dotted trail. Circles are generated in JS along the path.  -->
           <g class="story-line-dots"></g>
-          <!-- Waypoints pinned to the path: each belief's marker arms as the
-               plane nears it, pulses while passing, then locks sage.         -->
-          <g class="story-line-waypoints"></g>
           <!-- The Swiss-minimal airplane silhouette. Drawn pointing UP at
                local origin; JS sets transform=translate(x y) rotate(theta)
                where theta = tangent-angle + 90, so the nose follows the line. -->
@@ -738,7 +735,6 @@
       const path    = section.querySelector('.story-line-path');
       const dotsG   = section.querySelector('.story-line-dots');
       const branchG = section.querySelector('.story-line-branches');
-      const wpG     = section.querySelector('.story-line-waypoints');
       const plane   = section.querySelector('.story-line-plane');
       const gridSvg = section.querySelector('.story-grid');
       const gridG   = section.querySelector('.story-grid-inner');
@@ -779,13 +775,10 @@
       const DOT_SPACING = 22; // px between dots in viewBox units
       const DOT_RADIUS  = 1.1;
 
-      /* Waypoints sit at these fractions of the path's arc length. The
-         candidate-route "exploration" beat plays out across the scroll
+      /* The candidate-route "exploration" beat plays out across the scroll
          window BRANCH_T0..BRANCH_T1, leaving the trunk line at the ANCHOR
          path fraction and rejoining at REJOIN. MAX_ALT (ft) drives the
          HUD altitude readout, peaking at cruise mid-section.             */
-      const WP_T     = [0.20, 0.50, 0.80];
-      const WP_NAMES = ['01 Destination', '02 Altitude', '03 Orientation'];
       const BRANCH_T0 = 0.34, BRANCH_T1 = 0.62;
       const BRANCH_ANCHOR = 0.40, BRANCH_REJOIN = 0.58;
       const N_WEAK  = 5;
@@ -793,7 +786,6 @@
 
       let len = 0;
       let dotItems = []; // { el, dist }
-      let wpItems  = []; // { el, t }
       let weakBranches = []; // { el, len }
       let chosenBranch = null; // { el, len }
       let gridPad = 0;
@@ -802,7 +794,7 @@
       // head just crossed instead of restyling all ~130 every scroll tick.
       let revealed = 0;
       // Mobile keeps the plane and its trail only; the grid, atmosphere,
-      // candidate routes, waypoints and HUD are all hidden below 900px, so
+      // candidate routes and HUD are all hidden below 900px, so
       // there is no point building them or ticking them per frame.
       let isMobile = mobileMq.matches;
 
@@ -884,7 +876,7 @@
         gridG.setAttribute('transform', 'translate(0 ' + offsetY.toFixed(1) + ')');
       };
 
-      /* --- Guide-path sampling helpers (branches + waypoints) --- */
+      /* --- Guide-path sampling helpers (candidate routes) --- */
       const pointAt = (dist) => path.getPointAtLength(Math.max(0, Math.min(len, dist)));
       const tangentAt = (dist) => {
         const ahead = dist < len - 1;
@@ -950,44 +942,6 @@
         chosenBranch = { el: p, len: cl };
       };
 
-      /* Waypoints pinned to the path: a core dot, a pulse ring, and a small
-         uppercase label that flips to the left side when the point sits in
-         the right half of the canvas so text never runs off-screen.       */
-      const buildWaypoints = (W) => {
-        if (!wpG) return;
-        wpG.innerHTML = '';
-        wpItems = [];
-        WP_T.forEach((t, i) => {
-          const pt = pointAt(len * t);
-          const g = document.createElementNS(SVG_NS, 'g');
-          g.setAttribute('class', 'story-wp');
-
-          const ring = document.createElementNS(SVG_NS, 'circle');
-          ring.setAttribute('cx', pt.x.toFixed(1));
-          ring.setAttribute('cy', pt.y.toFixed(1));
-          ring.setAttribute('r', 9);
-          ring.setAttribute('class', 'story-wp-ring');
-
-          const core = document.createElementNS(SVG_NS, 'circle');
-          core.setAttribute('cx', pt.x.toFixed(1));
-          core.setAttribute('cy', pt.y.toFixed(1));
-          core.setAttribute('r', 4);
-          core.setAttribute('class', 'story-wp-core');
-
-          const label = document.createElementNS(SVG_NS, 'text');
-          const flip = pt.x > W * 0.62;
-          label.setAttribute('x', (pt.x + (flip ? -14 : 14)).toFixed(1));
-          label.setAttribute('y', (pt.y + 3).toFixed(1));
-          label.setAttribute('text-anchor', flip ? 'end' : 'start');
-          label.setAttribute('class', 'story-wp-label');
-          label.textContent = WP_NAMES[i];
-
-          g.appendChild(ring); g.appendChild(core); g.appendChild(label);
-          wpG.appendChild(g);
-          wpItems.push({ el: g, t: t });
-        });
-      };
-
       const build = () => {
         const W = section.clientWidth, H = section.clientHeight;
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
@@ -1031,17 +985,14 @@
           // Tear down anything the mobile breakpoint doesn't paint, so a
           // desktop → mobile resize doesn't leave orphaned geometry behind.
           if (branchG) branchG.innerHTML = '';
-          if (wpG) wpG.innerHTML = '';
           if (gridG) gridG.innerHTML = '';
           weakBranches = [];
           chosenBranch = null;
-          wpItems = [];
           section.style.setProperty('--story-alt', '0');
         } else {
-          // Candidate routes + waypoints ride the same path geometry, so they
-          // regenerate together with the dots on every (re)build.
+          // Candidate routes ride the same path geometry, so they regenerate
+          // together with the dots on every (re)build.
           buildBranches(W);
-          buildWaypoints(W);
 
           // (Re)build the lat/long grid lines at the same time.
           buildGrid();
@@ -1097,8 +1048,8 @@
 
         // Everything below this point paints only at the desktop breakpoint:
         // the parallax grid, the atmosphere vignette, the coord pill, the
-        // waypoints, the candidate routes and the flight-deck HUD. Skipping
-        // it on mobile leaves the tick as one layout read plus the plane
+        // candidate routes and the flight-deck HUD. Skipping it on
+        // mobile leaves the tick as one layout read plus the plane
         // transform, which is what keeps the section smooth on a phone.
         if (isMobile) return;
 
@@ -1113,14 +1064,6 @@
         // Tick the coordinate readout on the same scroll signal as the
         // plane. The pill fades in the first time updateCoord runs.
         updateCoord(drawn);
-
-        // Waypoints: armed → pulsing while the plane is near → locked sage
-        // once passed. Class toggles let CSS carry the transitions.
-        for (let i = 0; i < wpItems.length; i++) {
-          const wp = wpItems[i];
-          wp.el.classList.toggle('is-passed', drawn > wp.t + 0.02);
-          wp.el.classList.toggle('is-active', Math.abs(drawn - wp.t) <= 0.06);
-        }
 
         // Altitude belief beat: sketch every candidate route in during the
         // first half of the window, then dissolve the weak ones while the
