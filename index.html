@@ -797,6 +797,14 @@
       let weakBranches = []; // { el, len }
       let chosenBranch = null; // { el, len }
       let gridPad = 0;
+      // How many leading dots are currently revealed. The trail is monotonic
+      // in arc length, so this cursor lets update() touch only the dots the
+      // head just crossed instead of restyling all ~130 every scroll tick.
+      let revealed = 0;
+      // Mobile keeps the plane and its trail only; the grid, atmosphere,
+      // candidate routes, waypoints and HUD are all hidden below 900px, so
+      // there is no point building them or ticking them per frame.
+      let isMobile = mobileMq.matches;
 
       /* The lat/long grid: gently bowed horizontal lines (latitudes) and
          vertical lines (longitudes) drawn to extend beyond the section by
@@ -1011,17 +1019,33 @@
           c.setAttribute('cy', pt.y.toFixed(2));
           c.setAttribute('r', DOT_RADIUS);
           c.setAttribute('class', 'story-line-dot');
+          // Start hidden so the reveal cursor below has a known baseline.
+          c.style.opacity = '0';
           dotsG.appendChild(c);
           dotItems.push({ el: c, dist: dist });
         }
+        revealed = 0;
 
-        // Candidate routes + waypoints ride the same path geometry, so they
-        // regenerate together with the dots on every (re)build.
-        buildBranches(W);
-        buildWaypoints(W);
+        isMobile = mobile;
+        if (mobile) {
+          // Tear down anything the mobile breakpoint doesn't paint, so a
+          // desktop → mobile resize doesn't leave orphaned geometry behind.
+          if (branchG) branchG.innerHTML = '';
+          if (wpG) wpG.innerHTML = '';
+          if (gridG) gridG.innerHTML = '';
+          weakBranches = [];
+          chosenBranch = null;
+          wpItems = [];
+          section.style.setProperty('--story-alt', '0');
+        } else {
+          // Candidate routes + waypoints ride the same path geometry, so they
+          // regenerate together with the dots on every (re)build.
+          buildBranches(W);
+          buildWaypoints(W);
 
-        // (Re)build the lat/long grid lines at the same time.
-        buildGrid();
+          // (Re)build the lat/long grid lines at the same time.
+          buildGrid();
+        }
         update();
       };
 
@@ -1031,10 +1055,16 @@
         const drawn = reduce ? 1 : clamp01((window.innerHeight - r.top) / (r.height + window.innerHeight));
         const head = len * drawn;
 
-        // Reveal dots that the head has reached.
-        for (let i = 0; i < dotItems.length; i++) {
-          const it = dotItems[i];
-          it.el.style.opacity = it.dist <= head ? '' : '0';
+        // Reveal dots that the head has reached. Walking the cursor in both
+        // directions keeps this proportional to the dots crossed on this
+        // tick rather than restyling the whole trail every frame.
+        while (revealed < dotItems.length && dotItems[revealed].dist <= head) {
+          dotItems[revealed].el.style.opacity = '';
+          revealed++;
+        }
+        while (revealed > 0 && dotItems[revealed - 1].dist > head) {
+          revealed--;
+          dotItems[revealed].el.style.opacity = '0';
         }
 
         // Place the airplane at the head, rotated to match the path tangent.
@@ -1056,7 +1086,7 @@
 
           // Live heading for the HUD (0 = up-screen "north"): the readout
           // and the little compass needle both follow the plane's tangent.
-          if (hudHdg) {
+          if (hudHdg && !isMobile) {
             const hdg = ((angle % 360) + 360) % 360;
             hudHdg.textContent = String(Math.round(hdg)).padStart(3, '0') + '°';
             if (hudNeedle) hudNeedle.setAttribute('transform', 'rotate(' + hdg.toFixed(1) + ' 8 8)');
@@ -1064,6 +1094,13 @@
         } else {
           plane.style.opacity = '0';
         }
+
+        // Everything below this point paints only at the desktop breakpoint:
+        // the parallax grid, the atmosphere vignette, the coord pill, the
+        // waypoints, the candidate routes and the flight-deck HUD. Skipping
+        // it on mobile leaves the tick as one layout read plus the plane
+        // transform, which is what keeps the section smooth on a phone.
+        if (isMobile) return;
 
         // Parallax the lat/long grid in lockstep with the same scroll tick,
         // so a single rAF drives both the plane and the surface beneath it.
@@ -1125,10 +1162,24 @@
       build();
       if (reduce) { return; } // build() already painted the final state via update()
 
+      // Only tick while the section is on (or near) screen. Without this the
+      // trail keeps recomputing for the entire length of the page, which
+      // taxes every other scroll on the site for nothing.
       let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); }
-      }, { passive: true });
+      let inView  = true;
+      const onScroll = () => {
+        if (!inView || ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      if ('IntersectionObserver' in window) {
+        inView = false;
+        new IntersectionObserver((entries) => {
+          inView = entries[0].isIntersecting;
+          if (inView) onScroll(); // resync after any ticks missed while away
+        }, { rootMargin: '200px 0px' }).observe(section);
+      }
       let rt;
       window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 150); });
       if (mobileMq.addEventListener) mobileMq.addEventListener('change', build);

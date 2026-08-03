@@ -1386,6 +1386,14 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   /* The three pulsing destination markers add visual noise on the narrow
      canvas; keep just the plane and its path so mobile stays quiet. */
   .story-wp { display: none; }
+  /* The parallax lat/long wireframe and the altitude vignette are the two
+     most expensive things in this section on a phone: the grid re-rasterises
+     ~47 bezier paths across a taller-than-viewport layer on every scroll
+     tick, and the vignette repaints the full section width behind it. Both
+     are atmosphere rather than story, so mobile drops them and keeps the
+     plane, its trail and the per-step background drift. */
+  .story-grid,
+  .story-atmos { display: none; }
 }
 
 /* ---------- Flight-deck HUD cells (inside the .story-coord pill) ----------
@@ -1613,29 +1621,17 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     overflow: hidden;
     background: var(--color-tea-light);
   }
+  /* No Ken Burns on mobile. Desktop can afford it because the pinned stage
+     composites one frame at a time behind an opacity cross-fade; here the
+     images sit inline in a circular clip, and a 12s transform inside
+     `border-radius: 50% + overflow: hidden` repaints the clipped layer on
+     every frame — right as you are scrolling past it. Static instead. */
   .ssm-back {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.04);
-    /* Gentle 1.4s ease back to rest when the step deactivates. */
-    transition: transform 1.4s var(--ease);
   }
-  /* Same Ken Burns move as desktop, but as a TRANSITION rather than an
-     animation: on mobile these images sit inline and stay visible while
-     steps flip active/inactive, so an animation restarts from its 0%
-     frame on every activation and snaps back hard on deactivation
-     (desktop masks that behind the stage's opacity cross-fade; mobile
-     has no such cover). A transition drifts in over 12s, and when the
-     step deactivates - or reactivates mid-move - it eases smoothly
-     from wherever it currently is instead of jumping. */
-  .story-step.is-active .ssm-back {
-    transform: scale(1.26) translate(-2.2%, -1.6%);
-    transition: transform 12s ease-out;
-  }
-  .story-step[data-step="1"].is-active .ssm-back { transform: scale(1.26) translate(2.4%, 0.8%); }
-  .story-step[data-step="2"].is-active .ssm-back { transform: scale(1.26) translate(-1.6%, 2%); }
   .ssm-front {
     /* Centred on the back circle's bottom-right edge so the sticker sits
        ~50/50 on the photo and the page background.                        */
