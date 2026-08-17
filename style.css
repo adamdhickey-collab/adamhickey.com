@@ -681,7 +681,20 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   vector-effect: non-scaling-stroke;
   opacity: 0.11;
 }
-.story-line { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* Sibling of .story-deco, not a child of it — see the note in index.html.
+   z-index 3 clears both .container (1) and .story-frame.is-active (2), so the
+   trail and the plane read as the topmost layer, flying over the step imagery
+   rather than behind it. pointer-events stay off so it never blocks reading,
+   and the SVG's default overflow keeps it clipped to the section exactly as
+   .story-deco's overflow: clip used to. */
+.story-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
 /* Invisible guide path — geometry is sampled by JS to position the dotted
    trail and the airplane. Stroke is set to none so it never paints. */
 .story-line-path { fill: none; stroke: none; }
@@ -692,11 +705,23 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   opacity: 0.5;
 }
 /* The Swiss-style airplane silhouette flying at the head of the trail.
-   Always rendered in charcoal; sits inside .story-deco (z-index: 0), so it
-   stays beneath every image and text block in the section. */
+   Charcoal, and now on the topmost layer (see .story-line), so it crosses the
+   step imagery instead of passing behind it.
+
+   The halo is what makes that readable. Charcoal-on-photo is unreliable - over
+   a dark region the silhouette all but disappears - so the plane carries a
+   stroke in the section's own background colour. paint-order puts that stroke
+   behind the fill, so it reads as a clean cut-out rather than eroding the
+   shape. Because the colour is --story-bg, which cross-fades per step, the
+   halo is invisible against the background and only does work where the plane
+   is actually over a photo. Stroke, not a filter: this repaints every frame. */
 .story-line-plane {
   fill: var(--color-charcoal);
   opacity: 0.9;
+  paint-order: stroke fill;
+  stroke: var(--story-bg);
+  stroke-width: 3;
+  stroke-linejoin: round;
   transition: opacity 0.25s var(--ease);
 }
 /* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude

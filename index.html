@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260817c" />
+  <link rel="stylesheet" href="style.css?v=20260817d" />
   <link rel="stylesheet" href="site-nav.css?v=20260804a" />
   <!-- Preload the client-logo strip: small SVGs sitting below the fold.
        Without this they don't start fetching until the browser's preload
@@ -302,28 +302,34 @@
         <svg class="story-grid" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g class="story-grid-inner"></g>
         </svg>
-        <svg class="story-line" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Invisible guide path — its geometry is sampled by JS to position
-               both the dotted trail and the airplane that flies along it.    -->
-          <path class="story-line-path"></path>
-          <!-- Candidate routes for the "Altitude" belief: six branches fan
-               off the trunk line as you scroll through step 02, the weak
-               ones dissolve, and one survivor locks sage and rejoins.
-               Geometry is generated in JS from the guide path.              -->
-          <g class="story-line-branches"></g>
-          <!-- The dotted trail. Circles are generated in JS along the path.  -->
-          <g class="story-line-dots"></g>
-          <!-- The Swiss-minimal airplane silhouette. Drawn pointing UP at
-               local origin; JS sets transform=translate(x y) rotate(theta)
-               where theta = tangent-angle + 90, so the nose follows the line. -->
-          <g class="story-line-plane">
-            <path d="M 0 -12 L 1.8 -8.6 L 1.8 -3.2 L 12 1 L 12 2.8 L 1.8 0.8 L 1.8 6 L 4.6 8.2 L 4.6 9.8 L 0 8.6 L -4.6 9.8 L -4.6 8.2 L -1.8 6 L -1.8 0.8 L -12 2.8 L -12 1 L -1.8 -3.2 L -1.8 -8.6 Z"/>
-          </g>
-        </svg>
         <!-- Atmosphere: a vignette that deepens with scroll "altitude" (driven
              by --story-alt), so climbing through the section feels cinematic. -->
         <div class="story-atmos"></div>
       </div>
+      <!-- The flight layer lives OUTSIDE .story-deco on purpose. .story-deco
+           carries a z-index, so it opens a stacking context its children can
+           never climb out of - the plane would stay pinned beneath the step
+           imagery no matter what z-index it was given. As a sibling of
+           .story-deco it competes with .container directly, so it can fly
+           over the photos. The grid, atmosphere and grain stay behind. -->
+      <svg class="story-line" preserveAspectRatio="none" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <!-- Invisible guide path — its geometry is sampled by JS to position
+             both the dotted trail and the airplane that flies along it.    -->
+        <path class="story-line-path"></path>
+        <!-- Candidate routes for the "Altitude" belief: six branches fan
+             off the trunk line as you scroll through step 02, the weak
+             ones dissolve, and one survivor locks sage and rejoins.
+             Geometry is generated in JS from the guide path.              -->
+        <g class="story-line-branches"></g>
+        <!-- The dotted trail. Circles are generated in JS along the path.  -->
+        <g class="story-line-dots"></g>
+        <!-- The Swiss-minimal airplane silhouette. Drawn pointing UP at
+             local origin; JS sets transform=translate(x y) rotate(theta)
+             where theta = tangent-angle + 90, so the nose follows the line. -->
+        <g class="story-line-plane">
+          <path d="M 0 -12 L 1.8 -8.6 L 1.8 -3.2 L 12 1 L 12 2.8 L 1.8 0.8 L 1.8 6 L 4.6 8.2 L 4.6 9.8 L 0 8.6 L -4.6 9.8 L -4.6 8.2 L -1.8 6 L -1.8 0.8 L -12 2.8 L -12 1 L -1.8 -3.2 L -1.8 -8.6 Z"/>
+        </g>
+      </svg>
       <div class="container">
         <header class="story-head">
           <h2 class="story-lead story-anim">My approach to design<span class="story-lead-ai" aria-label="now powered by AI"><img class="story-lead-ai-icon" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/icons8-ai.gif" alt="" aria-hidden="true"><span class="story-lead-ai-text">Now powered by AI</span></span></h2>
