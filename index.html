@@ -22,8 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260817i" />
-  <link rel="stylesheet" href="site-nav.css?v=20260804a" />
+  <link rel="stylesheet" href="style.css?v=20260817j" />
+  <link rel="stylesheet" href="site-nav.css?v=20260817a" />
   <!-- Preload the client-logo strip: small SVGs sitting below the fold.
        Without this they don't start fetching until the browser's preload
        scanner reaches the markup, so on slower connections there's a
@@ -242,7 +242,7 @@
          Ten capabilities rather than the previous three claims, so the grid
          runs 1 / 2 / 5 columns. Those factor 10 cleanly at every step; 3 or
          4 columns would leave a ragged last row.                        -->
-    <section id="strengths" class="strengths">
+    <section id="strengths" class="strengths" data-cursor="light">
       <div class="container">
         <header class="section-head reveal">
           <h2>What I Bring</h2>
@@ -471,10 +471,9 @@
     <!-- Cursor reticle for the story section (fine pointers only): while the
          visitor is inside the flight, their pointer becomes the navigator.
          Positioned by setupStoryReticle; hidden for reduced motion.        -->
-    <div class="story-reticle" aria-hidden="true"><span class="story-reticle-dot"></span></div>
 
     <!-- ============================== STILL EVOLVING (merged with Evolution) ============================== -->
-    <section id="still-evolving" class="still-evolving">
+    <section id="still-evolving" class="still-evolving" data-cursor="light">
       <div class="container">
         <h2 class="reveal">Still evolving</h2>
         <div class="still-copy">
@@ -1165,42 +1164,6 @@
       if (mobileMq.addEventListener) mobileMq.addEventListener('change', build);
     })();
 
-    /* ---------- 2d. Story cursor reticle ---------------------------------------
-       While the pointer is inside the flight section it becomes a small
-       navigation reticle (crosshair ring + sage dot) that lerps toward the
-       cursor, so it feels instrumented rather than attached. Fine pointers
-       only; skipped entirely under reduced motion.                            */
-    (function setupStoryReticle() {
-      const section = document.getElementById('how-i-think');
-      const reticle = document.querySelector('.story-reticle');
-      if (!section || !reticle) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (!window.matchMedia('(pointer: fine)').matches) return;
-
-      let mx = 0, my = 0, rx = 0, ry = 0, raf = null, inside = false;
-      const tick = () => {
-        rx += (mx - rx) * 0.22;
-        ry += (my - ry) * 0.22;
-        reticle.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px)';
-        if (inside || Math.abs(mx - rx) + Math.abs(my - ry) > 0.5) raf = requestAnimationFrame(tick);
-        else raf = null;
-      };
-      section.addEventListener('mousemove', (e) => {
-        mx = e.clientX; my = e.clientY;
-        if (!inside) {
-          inside = true;
-          rx = mx; ry = my; // appear under the cursor, no fly-in from a corner
-          reticle.style.opacity = '1';
-          section.classList.add('has-cursor');
-        }
-        if (!raf) raf = requestAnimationFrame(tick);
-      });
-      section.addEventListener('mouseleave', () => {
-        inside = false;
-        reticle.style.opacity = '0';
-        section.classList.remove('has-cursor');
-      });
-    })();
 
     /* ---------- 3. Smooth-scroll for in-page anchors --------------------------- */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1553,5 +1516,6 @@
     closeBtn.addEventListener('click', function () { close(true); });
   })();
   </script>
+  <script src="cursor.js?v=20260817a" defer></script>
 </body>
 </html>

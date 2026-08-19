@@ -1182,44 +1182,8 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 .story-lead-in.kt-in .kti { transform: none; }
 
-/* ---------- Cursor reticle (story section, fine pointers only) ---------- */
-.story-reticle {
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 90;
-  width: 34px; height: 34px;
-  margin: -17px 0 0 -17px;
-  border: 1px solid rgba(37, 37, 37, 0.55);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s var(--ease);
-  pointer-events: none;
-  display: none;
-}
-.story-reticle::before,
-.story-reticle::after {
-  content: "";
-  position: absolute;
-  background: rgba(37, 37, 37, 0.55);
-}
-/* Crosshair ticks: each pseudo draws one tick and box-shadows its twin. */
-.story-reticle::before { left: 50%; top: -7px; width: 1px; height: 6px; box-shadow: 0 41px 0 rgba(37, 37, 37, 0.55); }
-.story-reticle::after  { top: 50%; left: -7px; height: 1px; width: 6px; box-shadow: 41px 0 0 rgba(37, 37, 37, 0.55); }
-.story-reticle-dot {
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 4px; height: 4px;
-  margin: -2px 0 0 -2px;
-  border-radius: 50%;
-  background: var(--color-accent);
-}
-@media (pointer: fine) { .story-reticle { display: block; } }
-.story.has-cursor,
-.story.has-cursor * { cursor: none; }
-
 @media (prefers-reduced-motion: reduce) {
   .story-lead-in .kti { transform: none !important; transition: none !important; }
-  .story-reticle { display: none !important; }
 }
 
 /* Swiss-minimal line-art icon inside the charcoal disc. The geometry is

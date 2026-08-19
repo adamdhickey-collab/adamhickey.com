@@ -112,3 +112,84 @@
   .icon-link svg { width: 24px; height: 24px; }
   .icon-link-label { font-size: 0.75rem; }
 }
+
+/* ==========================================================================
+   Custom cursor — shared by every page.
+
+   Two parts: a dot that tracks the pointer exactly, and a ring that lerps
+   after it, so the pointer reads as instrumented rather than glued on. It
+   replaces the reticle that used to live in the flight section alone, which
+   meant the cursor changed character halfway down the home page.
+
+   Lives here rather than in style.css because this is the only stylesheet
+   every page loads. Same rule as the rest of this file: every token carries
+   a literal fallback, since the case study pages do not load style.css and
+   would otherwise resolve these to nothing.
+
+   Fine pointers only, and the script does not run under reduced motion, so
+   the native cursor stays for anyone who asked for less movement.
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor summary,
+  html.has-custom-cursor input,
+  html.has-custom-cursor select,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor [role="button"] { cursor: none; }
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  /* Hidden until the first mousemove, otherwise both park at 0,0 and a stray
+     ring sits in the top-left corner until the pointer is used. */
+  opacity: 0;
+}
+html.cursor-ready .cursor-dot,
+html.cursor-ready .cursor-ring { opacity: 1; }
+html.cursor-out .cursor-dot,
+html.cursor-out .cursor-ring { opacity: 0; }
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--color-charcoal, #252525);
+  transition: background-color 0.25s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+              opacity 0.2s ease;
+}
+.cursor-ring {
+  width: 34px; height: 34px;
+  border: 1px solid var(--color-charcoal, #252525);
+  transition: width 0.25s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+              height 0.25s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+              border-color 0.25s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+              background-color 0.25s var(--ease, cubic-bezier(0.4, 0, 0.2, 1)),
+              opacity 0.2s ease;
+}
+/* Over anything clickable the ring swells and fills sage. The fill is
+   translucent but the border stays solid — dropping the whole ring to 10%
+   opacity, as the reference does, loses the edge exactly when the ring is
+   largest and needs it most. rgba literal rather than color-mix so this
+   holds up without style.css present; the value is --color-accent #6D8768. */
+.cursor-ring.is-hovering {
+  width: 60px; height: 60px;
+  background-color: rgba(109, 135, 104, 0.18);
+  border-color: var(--color-accent, #6D8768);
+}
+
+/* Charcoal sections would swallow a charcoal cursor whole, so over anything
+   marked data-cursor="light" both parts flip to the warm white the type on
+   those surfaces already uses, and the hover state moves to the lifted sage
+   that the icons there use (--color-accent-on-dark #9DBE95). */
+html.cursor-on-dark .cursor-dot { background: var(--color-warm, #f5f5f0); }
+html.cursor-on-dark .cursor-ring { border-color: var(--color-warm, #f5f5f0); }
+html.cursor-on-dark .cursor-ring.is-hovering {
+  background-color: rgba(157, 190, 149, 0.22);
+  border-color: var(--color-accent-on-dark, #9DBE95);
+}
