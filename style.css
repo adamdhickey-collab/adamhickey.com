@@ -20,6 +20,9 @@
      replaces - the opposite of an accent. Same hue (108 vs 110 degrees),
      lightened and slightly more saturated: 7.5:1, and still clearly sage. */
   --color-accent-on-dark: #9DBE95;
+  /* Sage darkened for small text on light surfaces, where the standard
+     accent falls under 4.5:1. */
+  --color-accent-deep: #556B51;
 
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
@@ -87,12 +90,12 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* ============================== HERO ============================== */
 .hero {
   background: var(--color-white);
-  padding-top: calc(var(--nav-height) + 1rem);
-  padding-bottom: 2rem;
+  padding-top: calc(var(--nav-height) + 1.75rem);
+  padding-bottom: 1.25rem;
   position: relative;
   overflow: hidden;
 }
-@media (min-width: 768px) { .hero { padding-top: calc(var(--nav-height) + 0.75rem); padding-bottom: 3rem; } }
+@media (min-width: 768px) { .hero { padding-top: calc(var(--nav-height) + 2.5rem); padding-bottom: 1.75rem; } }
 
 .hero-grid {
   display: flex; flex-direction: column;
@@ -107,7 +110,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 @media (min-width: 768px) { .hero-photo { width: 33%; margin-top: 1.5rem; margin-bottom: 0; } }
 .hero-photo-frame {
   width: 100%; max-width: 380px;
-  border-radius: var(--radius-xl);
+  /* Circle crop: the frame is exactly square, so 50% is a true circle.
+     Echoes the circular scene plate in the design-to-build story below. */
+  border-radius: 50%;
   background: var(--color-white);
   overflow: hidden;
   position: relative;
@@ -133,36 +138,29 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* Eyebrow above the hero headline — small-caps sage, sitting just
    above the title with tight margins. */
 .hero-eyebrow {
+  /* Same eyebrow treatment as .logo-label, so the
+     page opens in the voice it keeps. Accent rather than gray: it is the
+     one place the role is named. */
   margin-top: 2.875rem;
   margin-bottom: 0.6rem;
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--color-muted-gray);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  /* Deeper than --color-accent: at 12px uppercase the sage measured
+     3.95:1 on white, under the 4.5:1 floor for text this size. */
+  color: var(--color-accent-deep);
 }
 @media (min-width: 768px) {
-  .hero-eyebrow { margin-top: 0; margin-bottom: 0.75rem; font-size: 0.9375rem; }
+  .hero-eyebrow { margin-top: 0; margin-bottom: 0.75rem; font-size: 0.75rem; }
 }
 .hero-eyebrow + .hero-title { margin-top: 0; }
 .hero-title { margin-top: 2.875rem; margin-bottom: 1rem; word-break: break-word; }
 @media (max-width: 767.98px) { .hero-title { font-size: 2.25rem; line-height: 1.05; } }
 @media (min-width: 768px) { .hero-title { margin-top: 3rem; margin-bottom: 0; } }
-.hero-title .accent { color: var(--color-accent); }
-.hero-sub { font-size: 1.25rem; color: var(--color-dark); line-height: 1.5; }
-@media (min-width: 768px) { .hero-sub { font-size: 1.375rem; } }
-
 
 /* Logo strip */
-.logo-strip-label {
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--color-muted-gray);
-}
 .logo-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -183,17 +181,25 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* ============================== CASE STUDIES ============================== */
 .case-studies {
   background: var(--color-warm);
-  /* Asymmetric padding: full top reset from hero, minimal bottom because
-     Earlier experience follows directly on the same warm surface - the
-     two read as one continuous body of work, not two stacked sections. */
-  padding: 3.75rem 0 0.5rem;
+  /* The minimal bottom padding was for when Earlier experience followed
+     directly on this same warm surface. The white Built section sits
+     between them now, so the bottom needs real air again. */
+  padding: 3.75rem 0 3.25rem;
 }
-@media (min-width: 768px) { .case-studies { padding: 5rem 0 1rem; } }
+@media (min-width: 768px) { .case-studies { padding: 5rem 0 4.5rem; } }
 
 .section-head { margin-bottom: 3rem; max-width: 56rem; }
 .section-head h2 { margin-bottom: 1rem; }
 @media (min-width: 768px) { .section-head h2 { margin-bottom: 1.5rem; } }
 .section-head p { max-width: 42rem; color: var(--color-dark); font-size: 1.0625rem; }
+.earlier-experience {
+  /* Same warm surface as Selected work, so the two bodies of client work
+     read as one material and the white Built section stands apart. */
+  background: var(--color-warm);
+  padding: 3.5rem 0 5rem;
+}
+@media (min-width: 768px) { .earlier-experience { padding: 4.5rem 0 6.5rem; } }
+
 /* No margin-top here — the parent .earlier-experience has padding-top
    that handles the spacing. A margin-top would collapse out of the
    section (since margins of the first child collapse through a
@@ -277,21 +283,11 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
      left-anchored padding only kicks in at 640px+ where the row
      treatment benefits from a visible warm frame. */
   width: 96px;
-  background: var(--color-warm);
+  background: transparent;
   padding: 0;
 }
-@media (min-width: 640px) {
-  .case-grid.case-grid-compact .case-thumb {
-    width: 140px;
-    padding: 7px 14px 7px 0;
-  }
-}
-@media (min-width: 1100px) {
-  .case-grid.case-grid-compact .case-thumb {
-    width: 160px;
-    padding: 8px 16px 8px 0;
-  }
-}
+@media (min-width: 640px)  { .case-grid.case-grid-compact .case-thumb { width: 128px; } }
+@media (min-width: 1100px) { .case-grid.case-grid-compact .case-thumb { width: 144px; } }
 .case-grid.case-grid-compact .case-thumb img {
   border-radius: 10px;
 }
@@ -418,7 +414,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
 }
 
-
 .case-card h3 {
   /* Mobile (<768): tighter title→description gap so the description and
      tag row read as one tightly grouped unit beneath the headline. */
@@ -475,6 +470,9 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   .case-desc { font-size: 1.0625rem; margin-bottom: 0.85rem; }
 }
 
+/* Selected work cards lost their role line, so the tags sat right under
+   the title. This is the gap that line used to provide. */
+.case-grid .case-card .tag-row { margin-top: 0.9rem; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
 .tag {
   display: inline-block;
@@ -487,144 +485,21 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   color: var(--color-dark);
 }
 
-/* ============================== WHERE I'M STRONGEST ==============================
-   Restored to this slot (it was replaced by "Designing beyond the screen"
-   in July 2026). A dark, reverse-color island: warm case studies and
-   earlier experience above, the light story section below. The color
-   break IS the emphasis - the reader has just left a long stretch of warm
-   content, and the charcoal surface signals "this is the part to pay
-   attention to." Editorial restraint stays in place: no card
-   backgrounds, just a line-art icon, a serif title, and one paragraph. */
-.strengths {
-  background: var(--color-charcoal);
-  padding: 4.5rem 0;
-}
-@media (min-width: 768px) { .strengths { padding: 5.5rem 0; } }
-.strengths .section-head { margin-bottom: 2.5rem; }
-.strengths .section-head h2 { color: var(--color-warm); }
-.strengths .section-head p { color: rgba(245, 245, 240, 0.72); }
-
-/* 10 items, so the column counts are chosen to factor 10 exactly: 1, then
-   2, then 5. Three or four columns would strand one or two cards on a
-   ragged last row, which reads as a mistake in a section that is itself a
-   claim about systematic thinking. */
-.strength-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-@media (min-width: 600px) {
-  .strength-grid { grid-template-columns: repeat(2, 1fr); gap: 2.25rem 2.5rem; }
-}
-@media (min-width: 1100px) {
-  .strength-grid { grid-template-columns: repeat(5, 1fr); gap: 2.75rem 2rem; }
-}
-
-/* No card chrome on dark - the line-art icon + type carries the
-   visual weight. Keeps the section feeling editorial rather than
-   ad-card-y, and reads cleanly against the charcoal surface. */
-.strength-card {
-  background: transparent;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-}
-.strength-card h3 {
-  margin: 0 0 0.4rem;
-  /* Sans rather than the serif used elsewhere for card titles: these are ten
-     short labels, not headlines, and the sans reads as a taxonomy. Weight 500
-     rather than 400 because the descriptions beneath are also sans - at the
-     same weight the title stops being a title and the pair reads as one
-     block. */
-  font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 500;
-  color: var(--color-warm);
-}
-.strength-card p {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: rgba(245, 245, 240, 0.68);
-}
-/* Titles and descriptions each hold one size at every breakpoint: 17px over
-   14px. The 3px gap plus the weight step (500 over 400) is what separates
-   them, since both are set in the same sans. Only the leading and the icon
-   tighten at five across, where a column is only ~205px. */
-@media (min-width: 1100px) {
-  .strength-card p  { line-height: 1.5; }
-  .strengths .draw-icon { width: 34px; height: 34px; margin-bottom: 0.8rem; }
-}
-
-/* Line-art icons: 1px strokes (non-scaling, so the weight holds at any
-   rendered size) that draw themselves in when the shared reveal observer
-   adds .is-visible to the host card - no JS of their own. Each shape
-   carries pathLength="100" so a single dash rule animates every geometry
-   uniformly; the nth-child delays sequence the strokes like pen order.
-   The base colour is ink for light surfaces; the override below carries
-   the warm white used on this charcoal island. */
-.draw-icon {
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 1rem;
-  color: var(--color-dark);
-}
-.strengths .draw-icon { color: var(--color-accent-on-dark); }
-.draw-icon svg { width: 100%; height: 100%; overflow: visible; }
-/* The draw-on works because every shape carries pathLength="100", which
-   normalises its length so dasharray/dashoffset of 100 always means
-   "exactly one full path" no matter the real geometry.
-
-   Do NOT add vector-effect="non-scaling-stroke" to these shapes. It makes
-   the browser resolve dash lengths in screen pixels instead, which discards
-   the pathLength normalisation: 100 stops meaning "the whole path" and
-   starts meaning "100 device pixels". The icons then render as fragments,
-   and worse at larger sizes or on higher-DPR displays. Stroke weight is
-   handled with stroke-width="1.2" in the markup instead (48-unit viewBox
-   drawn at 40px, so 1.2 lands back on ~1px). */
-.draw-icon svg > * {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-.reveal.is-visible .draw-icon svg > * {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.8s var(--ease);
-}
-.reveal.is-visible .draw-icon svg > :nth-child(1) { transition-delay: 0.15s; }
-.reveal.is-visible .draw-icon svg > :nth-child(2) { transition-delay: 0.5s; }
-.reveal.is-visible .draw-icon svg > :nth-child(3) { transition-delay: 0.8s; }
-.reveal.is-visible .draw-icon svg > :nth-child(4) { transition-delay: 1.1s; }
-.reveal.is-visible .draw-icon svg > :nth-child(5) { transition-delay: 1.4s; }
-.reveal.is-visible .draw-icon svg > :nth-child(6) { transition-delay: 1.7s; }
-@media (prefers-reduced-motion: reduce) {
-  .draw-icon svg > * {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    transition: none;
-  }
-}
-
-/* Earlier experience continues directly from Case studies on the same
-   warm surface - same section in effect, just a quieter second act.
-   Light top padding separates it from the last case card; generous
-   bottom padding closes out the whole warm block before the dark
-   Where I'm strongest island begins. */
-.earlier-experience {
-  background: var(--color-warm);
-  padding: 1.75rem 0 5rem;
-}
-@media (min-width: 768px) { .earlier-experience { padding: 2rem 0 6.5rem; } }
-
-
 /* ============================== WHY I DESIGN — sticky scroll story ==============================
    A two-column "scrollytelling" section. The text steps scroll normally on the
-   left; the media column on the right is sticky-pinned and cross-fades a
-   layered image pair per step. A vertical progress rail tracks the active step.
-   Falls back to a simple stacked layout below the sticky breakpoint. */
+   left; the right column pins a single SVG scene that anime.js scrubs against
+   scroll (see the story-scene module in index.html): one product card drawn as
+   a wireframe, assembled inside a closing loop, then chosen and finished. A
+   vertical progress rail tracks the active step. Falls back to a stacked
+   layout with static per-step renders below the sticky breakpoint. */
+/* Registered so the wash gradients ease with the section fill instead of
+   snapping to each step's tone. Browsers without @property keep the snap,
+   which is the pre-registration behavior, not a break. */
+@property --story-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e5e5dd;
+}
 .story {
   /* Per-step theme tokens. JS sets data-active="0|1|2" on the section as you
      scroll, and the whole panel cross-fades through three moods: calm light,
@@ -635,8 +510,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   --story-ink-soft: var(--color-muted-gray);
   --story-accent:   var(--color-accent);
   --story-rail:     var(--color-tag-border);
-  --story-grid:     #b0b8a2;
-  --story-alt:      0; /* scroll "altitude" 0..1, set by setupStoryLine */
 
   background: var(--story-bg);
   color: var(--story-ink);
@@ -646,115 +519,35 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
      frames WITHOUT establishing a scroll container (which `hidden` would,
      breaking the sticky media pin). */
   overflow-x: clip;
-  transition: background-color 1s var(--ease), color 1s var(--ease);
+  transition: background-color 1s var(--ease), color 1s var(--ease), --story-bg 1s var(--ease);
 }
 /* The section drifts through four light earth-tone environments as you scroll
    — pale green, sage, a cooler muted blue-green, then a warm clay close. Text
    stays charcoal throughout; only the background hue shifts, so it feels like
    the air changing rather than the lights going out. */
 
-/* Each slide sets its background plus a slightly darker tonal grid line. */
 /* Entry — pale green; the calm arrival before the first belief. */
-.story[data-active="intro"] { --story-bg: #eaeee2; --story-grid: #b7bab0; }
+.story[data-active="intro"] { --story-bg: #eaeee2; }
 /* Slide 01 — a clear light sage; bright and observational. */
-.story[data-active="0"]     { --story-bg: #d7e1c6; --story-grid: #a8b09a; }
+.story[data-active="0"]     { --story-bg: #d7e1c6; }
 /* Slide 02 — a cooler muted blue-green; a shift in the air. */
-.story[data-active="1"]     { --story-bg: #c4d5d2; --story-grid: #99a6a4; }
+.story[data-active="1"]     { --story-bg: #c4d5d2; }
 /* Slide 03 — a desaturated warm greige; the earthy, humane close. */
-.story[data-active="2"]     { --story-bg: #ded7ca; --story-grid: #ada89e; }
+.story[data-active="2"]     { --story-bg: #ded7ca; }
 @media (min-width: 768px) { .story { padding: 7rem 0 8rem; } }
 
-/* ---------- Decorative layer (desktop): faint architectural grid + a
-   hand-drawn "line of thought" that draws in as you scroll. Sits behind all
-   content and never intercepts pointer events, so it never impedes reading. */
-.story-deco {
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  /* clip (not hidden) so it contains the line without establishing a scroll
-     container. Shown on every breakpoint so the line follows on mobile too. */
-  overflow: clip;
-}
 .story > .container { position: relative; z-index: 1; }
-/* The weaving line = the human line of thought moving through the structure. */
-/* Latitude/longitude wireframe sitting *behind* the dotted trail. The SVG
-   fills the section exactly; overflow is visible so the inner <g> can
-   translate beyond the viewBox bounds for the parallax glide. The
-   .story-deco parent (overflow: clip) keeps anything spilling outside the
-   section invisible. */
-.story-grid {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.story-grid-line {
-  fill: none;
-  stroke: var(--color-charcoal);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.11;
-}
-.story-line { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* Invisible guide path — geometry is sampled by JS to position the dotted
-   trail and the airplane. Stroke is set to none so it never paints. */
-.story-line-path { fill: none; stroke: none; }
-/* The dotted trail. Charcoal so the line reads as a quiet, neutral thread
-   regardless of which belief-tone the section is currently in. */
-.story-line-dot {
-  fill: var(--color-charcoal);
-  opacity: 0.5;
-}
-/* The Swiss-style airplane silhouette flying at the head of the trail.
-   Always rendered in charcoal; sits inside .story-deco (z-index: 0), so it
-   stays beneath every image and text block in the section. */
-.story-line-plane {
-  fill: var(--color-charcoal);
-  opacity: 0.9;
-  transition: opacity 0.25s var(--ease);
-}
-/* Atmosphere: a vignette + faint cool wash that deepens with scroll altitude
-   (--story-alt, set per scroll tick in setupStoryLine). Behind all copy, so it
-   adds cinematic depth without touching legibility. */
-.story-atmos {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: calc(var(--story-alt, 0) * 0.6);
-  background:
-    radial-gradient(120% 90% at 50% 42%, transparent 52%, rgba(37, 37, 37, 0.16) 84%, rgba(37, 37, 37, 0.32) 100%),
-    linear-gradient(180deg, rgba(120, 140, 158, 0.10), transparent 32%);
-  transition: opacity 0.2s linear;
-}
 
-/* A faint static grain over the whole decorative layer gives the grid and the
-   line a soft hand-made, paper-like texture. Static, so it costs nothing as
-   you scroll. */
-.story-deco::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  opacity: 0.05;
-  pointer-events: none;
+/* Mobile keeps the simpler, faster treatment: the steps and their inline
+   scene renders (revealed once via the shared .reveal observer, with a
+   touch of scale below). */
+@media (max-width: 899px) {
+  .js .story-step-media.reveal:not(.is-visible) { transform: translateY(24px) scale(0.97); }
 }
 
 .story-head {
   max-width: 56rem;
   margin-bottom: 1rem;
-}
-.story-eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--story-accent);
-  margin-bottom: 1rem;
-  transition: color 1s var(--ease);
 }
 .story-lead {
   font-family: var(--font-serif);
@@ -766,44 +559,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   max-width: 36rem;
   transition: color 1s var(--ease);
 }
-/* "Now powered by AI" — promoted from a small parenthetical aside to a
-   labeled line beneath the headline. Sits on its own line at all sizes,
-   sage-accented, in the sans-serif voice so it reads as a distinct
-   signal rather than a continuation of the serif title. The sparkles
-   icon to the left animates continuously (see ai-spark-* below) so the
-   label feels alive without being noisy. */
-.story-lead-ai {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-top: 1rem;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--color-accent);
-  transition: color 1s var(--ease);
-  /* Force onto its own line beneath the title text. */
-  width: 100%;
-}
-@media (min-width: 900px) {
-  .story-lead-ai { font-size: 1.125rem; margin-top: 1.25rem; }
-}
-/* AI icon: the source GIF is solid-black animated sparkles on a white
-   background. The #ai-tint SVG filter (defined at the top of body)
-   converts white to transparent and black to sage in one pass so the
-   icon visually matches the rest of the brand while the GIF's frame
-   animation continues to play. */
-.story-lead-ai-icon {
-  width: 1.5em;
-  height: 1.5em;
-  flex-shrink: 0;
-  display: inline-block;
-  object-fit: contain;
-  filter: url(#ai-tint);
-}
-.story-lead-ai-text { line-height: 1; }
-
 /* Mobile: larger header and a clear gap below the header before the
    first belief. */
 @media (max-width: 899px) {
@@ -835,15 +590,19 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 }
 @media (min-width: 900px) {
   .story-step {
-    min-height: 86vh;
+    min-height: 73vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Dim the inactive steps so the active one leads the eye. */
+  }
+  /* Dim the inactive steps so the active one leads the eye. Gated on .js:
+     only the observer ever adds is-active, so without the script the dim
+     would be permanent. */
+  .js .story-step {
     opacity: 0.35;
     transition: opacity 0.5s var(--ease);
   }
-  .story-step.is-active { opacity: 1; }
+  .js .story-step.is-active { opacity: 1; }
 }
 .story-num {
   display: block;
@@ -900,13 +659,18 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .story-progress {
   order: 1;
   list-style: none;
-  margin: 0; padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 0;
-  height: 100%;
-  max-height: 22rem;
   justify-content: center;
+  /* A pill of the section's own tone keeps the rail readable now that
+     the photograph shows through more strongly behind it. */
+  padding: 1.1rem 0.6rem;
+  background: var(--story-bg);
+  border-radius: 999px;
+  box-shadow: 0 1px 8px rgba(37, 37, 37, 0.07);
+  transition: background-color 1s var(--ease);
 }
 .story-progress li {
   display: flex;
@@ -914,13 +678,28 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   align-items: center;
   gap: 0.5rem;
 }
+/* The numbers are buttons now: same quiet look, but clickable to jump
+   between steps. Padding widens the hit area and the negative margins
+   give it back so the rail's layout doesn't move. */
 .story-progress-num {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0.2rem 0.4rem;
+  margin: -0.2rem -0.4rem;
+  cursor: pointer;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   color: var(--story-ink-soft);
   transition: color 0.6s var(--ease);
+}
+.story-progress-num:hover { color: var(--story-accent); }
+.story-progress-num:focus-visible {
+  outline: 2px solid var(--story-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .story-progress-track {
   width: 2px;
@@ -949,10 +728,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  /* Gentle parallax: the media disc drifts up a touch as you climb, giving the
-     pinned column depth against the faster-scrolling grid. */
-  transform: translateY(calc(var(--story-alt, 0) * -18px));
-  will-change: transform;
 }
 @media (min-width: 900px) {
   /* Square stage at desktop+ so the circle commands the column without
@@ -966,204 +741,70 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   }
 }
 
-.story-frame {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  pointer-events: none;
-  z-index: 1;
+/* ---------- Interactive dot grid ----------
+   A quiet field of dots behind the section, drawn on a canvas that rides a
+   viewport-height sticky frame (same pin the old photographic backdrops
+   used, so the field paints one viewport, not three). The scene module
+   prerenders the resting grid once and, on pointer movement, repaints only
+   the dots inside the cursor's influence radius: they grow, brighten and
+   tint sage with a smooth falloff, easing back when the pointer leaves. */
+.story-dots {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; overflow: clip;
 }
-.story-frame.is-active { pointer-events: auto; z-index: 2; }
-
-/* Layered imagery: a large back image + a smaller framed front image.
-   The wrapper defines the visible circle (fixed size, border-radius,
-   overflow:hidden). The <img> inside fills the wrapper. Motion has been
-   removed — the photos sit still so the section reads calmly. */
-.story-frame-back-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--color-tea-light);
-  opacity: 0;
-  transform: scale(0.92);
-  transition: opacity .5s var(--ease), transform .5s var(--ease);
+.story-dots-frame {
+  position: sticky; top: 0;
+  height: 100vh;
 }
-/* Depth cross-dissolve: the incoming photo eases up from slightly back, so
-   step changes feel like the camera pushing forward rather than a flat fade. */
-.story-frame.is-active .story-frame-back-wrap {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity .7s var(--ease), transform .8s var(--ease);
-}
-.story-frame-back {
+.story-dots canvas {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: scale(1.04);
-  transition: transform 0.7s var(--ease);
 }
-/* Cinematic Ken Burns on whichever step is active: a clearly visible
-   push-in (1.04 -> 1.26 over 12s) with a directional pan, so the camera
-   feels like it's moving through the scene while you read. Each frame
-   pans a different way (a/b/c variants below) so consecutive steps
-   don't feel like the same move replayed. The circular crop hides the
-   drifted edges; ease-out front-loads the motion so it registers within
-   the first few seconds of a step becoming active. */
-.story-frame.is-active .story-frame-back {
-  animation: story-kenburns-a 12s ease-out forwards;
-}
-.story-frame[data-frame="1"].is-active .story-frame-back { animation-name: story-kenburns-b; }
-.story-frame[data-frame="2"].is-active .story-frame-back { animation-name: story-kenburns-c; }
-@keyframes story-kenburns-a {
-  from { transform: scale(1.04) translate(0, 0); }
-  to   { transform: scale(1.26) translate(-2.2%, -1.6%); }
-}
-@keyframes story-kenburns-b {
-  from { transform: scale(1.04) translate(0, 0); }
-  to   { transform: scale(1.26) translate(2.4%, 0.8%); }
-}
-@keyframes story-kenburns-c {
-  from { transform: scale(1.04) translate(0, 0); }
-  to   { transform: scale(1.26) translate(-1.6%, 2%); }
-}
-/* Front disc: a small charcoal "sticker" pressed against the photo. The
-   compound box-shadow stack reads as die-cut rim + soft contact shadow +
-   inset depth highlights, and the radial-gradient adds a subtle grazing
-   light on the surface so the disc feels physical rather than flat. The
-   Swiss-minimal line-art icon draws itself in once when the parent frame
-   first becomes active (see setupStoryIconAnimations).
-
-   The sticker's position varies per frame (see .story-frame[data-frame]
-   overrides below) so each step's waypoint sits in a different clock
-   position on the photo — reinforcing the "different stop on the
-   journey" feeling.                                                     */
-.story-frame-front {
-  position: absolute;
-  /* Step 1 default position (~4 o'clock). Step 2 and 3 override below. */
-  right: 10.5%;
-  bottom: 25.4%;
-  width: 22%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.07), transparent 62%),
-    var(--color-charcoal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    /* die-cut rim — barely-visible warm ring */
-    0 0 0 1px rgba(245, 245, 240, 0.09),
-    /* soft contact shadow: the sticker is adhered, not floating */
-    0 4px 10px rgba(0, 0, 0, 0.22),
-    0 1px 2px rgba(0, 0, 0, 0.18),
-    /* inset top highlight catches ambient light on the raised edge */
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    /* inset bottom shadow gives the sticker a touch of physical depth */
-    inset 0 -2px 3px rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  transform: scale(0.7);
-  transition: opacity .45s var(--ease), transform .5s var(--ease);
-}
-.story-frame.is-active .story-frame-front {
-  opacity: 1;
-  transform: none;
-  transition: opacity .6s var(--ease), transform .8s var(--ease);
-  transition-delay: .2s;
-}
-
-/* Live coordinate readout: sits above the circular photo, centered
-   horizontally on the stage. Text is driven by scroll progress in
-   setupStoryLine. Uses tabular numerals so digits tick in place
-   rather than jiggling as they cycle. */
-.story-coord {
-  position: absolute;
-  /* Anchor to the top of the stage (the photo's top edge), then nudge
-     the pill up so it sits with a comfortable gap above the circle. */
-  left: 50%;
-  bottom: calc(100% + 1rem);
-  transform: translateX(-50%) translateY(-4px);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.75rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
-  color: var(--color-charcoal);
-  background: rgba(245, 245, 240, 0.92);
-  padding: 0.28rem 0.6rem;
-  border-radius: 999px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity .6s var(--ease), transform .6s var(--ease);
-  pointer-events: none;
-}
-/* Fade the readout in once the section has been scrolled into view —
-   the JS sets data-coord-in on the stage when it adds the first scroll
-   tick, mirroring how the rest of the section reveals on entry. */
-.story-stage[data-coord-in="1"] .story-coord {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+/* The field sits at the very back: it eases off under the reading column
+   on the left so the step text keeps a calm ground, and runs full
+   strength under the stage side. */
+.story-dots-frame {
+  -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 32%, #000 54%);
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 32%, #000 54%);
 }
 @media (max-width: 899px) {
-  /* Mobile uses the inline-step media; the pinned stage and its readout
-     don't render below 900px. */
-  .story-coord { display: none; }
-  /* The parallax lat/long wireframe and the altitude vignette are the two
-     most expensive things in this section on a phone: the grid re-rasterises
-     ~47 bezier paths across a taller-than-viewport layer on every scroll
-     tick, and the vignette repaints the full section width behind it. Both
-     are atmosphere rather than story, so mobile drops them and keeps the
-     plane, its trail and the per-step background drift. */
-  .story-grid,
-  .story-atmos { display: none; }
+  .story-dots { display: none; }
 }
 
-/* ---------- Flight-deck HUD cells (inside the .story-coord pill) ----------
-   The pill grew from a single coordinate readout into a compact instrument
-   strip: position, altitude, heading (with a live compass needle), and the
-   routes-explored counter. All values tick in setupStoryLine.update.
-   Scoped to >=900px so the earlier mobile display:none keeps winning. */
-@media (min-width: 900px) {
-  .story-coord { display: flex; align-items: center; }
+/* The scene fills the stage. Everything inside it is driven by the anime.js
+   timeline; the stylesheet only supplies the transform anchors, because the
+   script animates CSS transforms and SVG elements default to a view-box
+   origin. fill-box re-anchors each animated group to its own bounds. The
+   whole scene also leans a couple of pixels with the pointer, kept subtle
+   so the tree itself stays the star. */
+.story-scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+  translate: calc(var(--mx, 0) * 3px) calc(var(--my, 0) * 2px);
+  transition: translate 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.story-hud-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  padding: 0 0.6em;
+.story-scene .sc-center { transform-box: fill-box; transform-origin: 50% 50%; }
+/* Leaves scale open from their stem end, not their middle. */
+.story-scene .sc-stem { transform-box: fill-box; transform-origin: 0% 50%; }
+/* Once grown, the leaves keep a slow breeze-sway about their stems. The
+   sway lives on a wrapper between the placement transform and the scale
+   the timeline animates, so the three transforms never fight. */
+.leaf-sway {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  animation: leafSway 5.5s ease-in-out infinite alternate;
+  animation-delay: var(--sd, 0s);
 }
-.story-hud-cell:first-child { padding-left: 0.15em; }
-.story-hud-cell:last-child { padding-right: 0.15em; }
-.story-hud-cell + .story-hud-cell { border-left: 1px solid rgba(37, 37, 37, 0.16); }
-.story-hud-key { opacity: 0.5; font-size: 0.9em; }
-.story-hud-compass { width: 1.1em; height: 1.1em; flex: none; }
-.story-hud-compass circle { fill: none; stroke: rgba(37, 37, 37, 0.35); stroke-width: 1; }
-.story-hud-needle { stroke: var(--story-accent); stroke-width: 1.75; stroke-linecap: round; }
-.story-hud-routes.is-locked .story-hud-routes-n { color: var(--story-accent); font-weight: 700; }
-
-/* ---------- Candidate routes (the "Altitude" belief beat) ----------
-   Five dashed dead ends fan off the trunk line and dissolve; the solid
-   survivor draws in via dashoffset, then locks sage and thickens. All
-   opacity/draw values are set inline per scroll tick in update(). */
-.story-branch {
-  fill: none;
-  stroke: var(--color-charcoal);
-  stroke-width: 1.25;
-  stroke-linecap: round;
+@keyframes leafSway {
+  from { transform: rotate(-1.6deg); }
+  to   { transform: rotate(2.4deg); }
 }
-.story-branch-chosen {
-  transition: stroke 0.5s var(--ease), stroke-width 0.5s var(--ease);
+@media (prefers-reduced-motion: reduce) {
+  .story-scene { translate: none; transition: none; }
+  .leaf-sway { animation: none; }
 }
-.story-branch-chosen.is-locked {
-  stroke: var(--story-accent);
-  stroke-width: 2;
-}
-
 /* ---------- Kinetic lead-in quotes ----------
    setupKineticLeadIns splits each belief's bold lead-in into masked words;
    they rise into place with a per-word stagger when .kt-in lands. */
@@ -1184,46 +825,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 
 @media (prefers-reduced-motion: reduce) {
   .story-lead-in .kti { transform: none !important; transition: none !important; }
-}
-
-/* Swiss-minimal line-art icon inside the charcoal disc. The geometry is
-   drawn in 48-unit viewBox space; CSS sizes the icon to ~52% of its disc
-   so there is generous negative space around it. Path lengths and a small
-   per-path stagger are set in JS, then the stroke "draws" on .is-drawn. */
-/* Icon inside the sticker. Now an <img> pointing at an icons8 GIF; the
-   GIF carries its own gentle loop animation. The source GIFs are dark
-   artwork on a solid white canvas, so we (a) invert the image — white
-   becomes black, the dark icon becomes white — and (b) blend it onto
-   the charcoal disc with mix-blend-mode: screen, which leaves black
-   areas indistinguishable from charcoal while keeping the inverted
-   white icon fully visible. Antialiased edges blend cleanly. */
-.story-icon {
-  width: 58%;
-  height: 58%;
-  display: block;
-  object-fit: contain;
-  filter: invert(1);
-  mix-blend-mode: screen;
-  /* Soothing reveal: slow opacity + scale-settle on a gentle ease-out-quint
-     (no overshoot, no bounce). Plays once when the sticker first appears. */
-  opacity: 0;
-  transform: scale(0.93);
-  transition:
-    opacity 1.6s cubic-bezier(.16, 1, .3, 1),
-    transform 1.9s cubic-bezier(.16, 1, .3, 1);
-  transition-delay: var(--draw-delay, 0.55s);
-}
-.story-frame-front.is-drawn .story-icon,
-.ssm-front.is-drawn .story-icon {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .story-icon {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
 }
 
 /* ----- Head reveal (intro fade-up) ----- */
@@ -1254,78 +855,50 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
     padding: 0;
   }
 
-  /* Inline circular media per step: a back circle + smaller front circle. */
+  /* Inline circular media per step. The container used to be a full
+     square with the circle at 80%, leaving room for the charcoal sticker
+     to overhang; with the sticker gone the wrap sizes the container. */
   .story-step-media {
     display: block;
     position: relative;
     width: 100%;
-    aspect-ratio: 1;
     margin: 1.75rem 0 0;
   }
   .ssm-back-wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80%;
+    width: 100%;
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
     background: var(--color-tea-light);
   }
-  /* No Ken Burns on mobile. Desktop can afford it because the pinned stage
-     composites one frame at a time behind an opacity cross-fade; here the
-     images sit inline in a circular clip, and a 12s transform inside
-     `border-radius: 50% + overflow: hidden` repaints the clipped layer on
-     every frame — right as you are scrolling past it. Static instead. */
-  .ssm-back {
+  .ssm-scene {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
-  .ssm-front {
-    /* Centred on the back circle's bottom-right edge so the sticker sits
-       ~50/50 on the photo and the page background.                        */
-    position: absolute;
-    right: 19%;
-    bottom: 19%;
-    width: 26%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.07), transparent 62%),
-      var(--color-charcoal);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-      0 0 0 1px rgba(245, 245, 240, 0.09),
-      0 4px 10px rgba(0, 0, 0, 0.22),
-      0 1px 2px rgba(0, 0, 0, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+  /* One-shot draw-in for the baked scenes, armed by JS (.ssm-anim) and
+     fired on scroll (.ssm-live). Strokes sweep along their length, fills
+     and dashed shapes fade in after; fill-mode backwards holds elements
+     hidden through their stagger delay, and the implicit end state is
+     each element's own authored value, so nothing loses its opacity or
+     dash pattern once the animation lands. */
+  .ssm-anim:not(.ssm-live) .sd { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .ssm-anim:not(.ssm-live) .sp { opacity: 0; }
+  .ssm-live .sd {
+    animation: ssm-draw 0.7s ease-out backwards;
+    animation-delay: calc(var(--i) * 30ms);
   }
+  .ssm-live .sp {
+    animation: ssm-pop 0.45s ease-out backwards;
+    animation-delay: calc(150ms + var(--i) * 12ms);
+  }
+  @keyframes ssm-draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } }
+  @keyframes ssm-pop { from { opacity: 0; } }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .story-anim { opacity: 1 !important; transform: none !important; transition: none !important; }
   .story-step { opacity: 1 !important; }
-  .story-frame-back, .story-frame-front, .ssm-back {
-    transform: none !important;
-    clip-path: none !important;
-    transition: opacity 0.25s linear !important;
-  }
-  /* No slow zoom, depth push, parallax, or vignette under reduced motion. */
-  .story-frame.is-active .story-frame-back { animation: none !important; }
-  .story-frame-back-wrap { transform: none !important; }
-  .story-stage { transform: none !important; }
-  .story-atmos { display: none !important; }
-  /* Coord readout: skip the slide-in, just fade. Keep the centering
-     translateX so the pill stays centered on the sticker. */
-  .story-coord {
-    transform: translateX(-50%) !important;
-    transition: opacity 0.25s linear !important;
-  }
 }
 
 /* Career evolution timeline (now lives inside .still-evolving on a dark bg) */
@@ -1345,82 +918,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   .still-copy { margin-bottom: 3rem; }
 }
 
-.evolution-steps {
-  display: flex; align-items: center; gap: 1.5rem;
-  max-width: 42rem;
-  list-style: none;
-  margin-bottom: 3rem;
-}
-@media (min-width: 768px) { .evolution-steps { gap: 2rem; } }
-.evolution-steps li { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
-.evolution-steps .dot {
-  width: 0.75rem; height: 0.75rem;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 0 4px var(--color-accent-soft);
-}
-.evolution-steps .step-label {
-  color: var(--color-warm);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-.evolution-steps .link {
-  flex: 1;
-  height: 1px;
-  background: var(--color-muted-gray);
-  transform-origin: left center;
-}
-
-/* Career-timeline choreography: when the existing reveal observer marks
-   the list .is-visible, activation travels left to right - each dot
-   pops with its label, the connector draws toward the next stage in
-   sage before settling to structure gray, and the final dot (the stage
-   in progress) closes with one soft pulse. Base styles above are the
-   resolved end state, so reduced-motion and no-animation users see the
-   finished timeline; fill-mode both holds each element at its 0% frame
-   until its turn. */
-.evolution-steps.is-visible li:nth-child(1) .dot        { animation: evo-dot   0.5s var(--ease) 0.10s both; }
-.evolution-steps.is-visible li:nth-child(1) .step-label { animation: evo-label 0.45s var(--ease) 0.18s both; }
-.evolution-steps.is-visible li:nth-child(2)             { animation: evo-link  0.85s var(--ease) 0.55s both; }
-.evolution-steps.is-visible li:nth-child(3) .dot        { animation: evo-dot   0.5s var(--ease) 1.05s both; }
-.evolution-steps.is-visible li:nth-child(3) .step-label { animation: evo-label 0.45s var(--ease) 1.13s both; }
-.evolution-steps.is-visible li:nth-child(4)             { animation: evo-link  0.85s var(--ease) 1.50s both; }
-.evolution-steps.is-visible li:nth-child(5) .dot        { animation: evo-dot   0.5s var(--ease) 2.00s both; }
-.evolution-steps.is-visible li:nth-child(5) .step-label { animation: evo-label 0.45s var(--ease) 2.08s both; }
-/* One quiet pulse on the current stage, then rest. */
-.evolution-steps .dot { position: relative; }
-.evolution-steps li:nth-child(5) .dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid var(--color-accent);
-  opacity: 0;
-}
-.evolution-steps.is-visible li:nth-child(5) .dot::after {
-  animation: evo-pulse 0.9s var(--ease) 2.55s both;
-}
-
-@keyframes evo-dot {
-  0% { transform: scale(.3); opacity: 0; box-shadow: 0 0 0 0 var(--color-accent-soft); }
-  55% { transform: scale(1.18); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 4px var(--color-accent-soft); }
-}
-@keyframes evo-label {
-  0% { transform: translateY(6px); opacity: 0; }
-  100% { transform: none; opacity: 1; }
-}
-@keyframes evo-link {
-  0% { transform: scaleX(0); background: var(--color-accent); }
-  60% { transform: scaleX(1); background: var(--color-accent); }
-  100% { transform: scaleX(1); background: var(--color-muted-gray); }
-}
-@keyframes evo-pulse {
-  0% { opacity: .8; transform: scale(.5); }
-  100% { opacity: 0; transform: scale(2.8); }
-}
-
 /* ============================== STILL EVOLVING ============================== */
 .still-evolving {
   background: var(--color-charcoal);
@@ -1434,6 +931,13 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .still-evolving p { color: var(--color-warm); }
 
 .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+/* On phones the actions stack and span the viewport: full-width targets
+   are easier to hit and stop the row from reading as leftover space. */
+@media (max-width: 640px) {
+  .cta-row { flex-direction: column; gap: 0.75rem; }
+  .cta-row .btn { width: 100%; }
+  .about-media { max-width: none; }
+}
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 0.75rem 2rem;
@@ -1448,15 +952,6 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 .btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 90%, transparent); }
 .btn-ghost { border: 1px solid var(--color-muted-gray); }
 .btn-ghost:hover { background: var(--color-dark); }
-
-.lucy {
-  display: flex; align-items: center; gap: 1rem;
-  color: var(--color-warm);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  flex-wrap: wrap;
-}
-.lucy img { width: 100px; height: auto; }
 
 /* ============================== FOCUS STATES ============================== */
 a:focus-visible, button:focus-visible {
@@ -1474,8 +969,12 @@ a:focus-visible, button:focus-visible {
 /* Smooth scroll for in-page anchors (handles #hash landing too) */
 html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 
-/* Base reveal: items start hidden, transition in when .is-visible is added */
-.reveal {
+/* Base reveal: items start hidden, transition in when .is-visible is added.
+   Gated behind .js so the hidden state only exists once the script that
+   un-hides it is running. Without this the whole page renders blank when
+   JavaScript fails, is blocked, or is absent (text-only crawlers, strict
+   corporate proxies): 36 of 37 blocks stay at opacity 0 forever. */
+.js .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition:
@@ -1539,7 +1038,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 /* Hero cascade timing — snappier. Title ends ≈ 80ms intro + 45×26ms
    stagger + 380ms char anim ≈ ~1.6s. The rest cascades from ~0.7s. */
 .hero-photo.reveal { transition-delay: 0.05s; }
-.hero-sub.reveal   { transition-delay: 0.70s; }
 .logo-strip.reveal { transition-delay: 0.50s; }
 
 /* Respect reduced motion */
@@ -1549,14 +1047,1052 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   html { scroll-behavior: auto; }
 }
 
-/* ============================== CASE STUDY PAGES ============================== */
+/* ============================== MOTION PREFERENCES ============================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* ================================================================
+   V2 — INDEPENDENT PRACTICE ADDITIONS
+   Everything below this line was added for the practice-positioning
+   version of the site (the GitHub Pages staging build). It only adds
+   components — the tokens, typography and section styles above are
+   the live site's, unchanged, so the visual identity carries over.
+   ================================================================ */
+
+/* ---------- Nav: primary section links ----------
+   site-nav.css lays .nav-inner out with space-between, so this block
+   floated wherever the leftover space happened to put it: close to the
+   hero copy's left edge below, but never on it. A near-miss reads as a
+   mistake in a way that being obviously elsewhere does not.
+
+   So above 900px the bar becomes a grid using the hero's own column
+   geometry (.hero-photo is 33% with a 3rem gap). Column two therefore
+   starts exactly where the hero eyebrow and headline start, and the
+   nav links sit on that same line. Change the hero split and this
+   follows it.
+
+   Below 900px the links are hidden and site-nav.css's flex
+   space-between still applies, which is correct for logo + icons. */
+.nav-links {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 900px) {
+  /* .site-nav prefix: site-nav.css loads after this file, so a bare
+     .nav-inner selector would lose the cascade tie to its display:flex. */
+  .site-nav .nav-inner {
+    display: grid;
+    grid-template-columns: 33% 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+  .site-nav .logo-btn { justify-self: start; }
+  .nav-links { display: flex; align-items: center; gap: 2.25rem; }
+}
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-charcoal);
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.nav-links a:hover { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+
+/* ---------- Hero CTA row ----------
+   The CTAs land one beat after the promise line, not after the whole
+   title sweep: at 0.85s the buttons were the last thing on an otherwise
+   settled screen. Mobile has no per-letter title animation at all, so
+   there the buttons arrive almost with the copy. */
+.hero-cta { margin-top: 1.75rem; }
+.hero-cta.reveal { transition-delay: 0.35s; }
+@media (max-width: 767.98px) { .hero-cta.reveal { transition-delay: 0.1s; } }
+@media (min-width: 768px) { .hero-cta { margin-top: 2.25rem; } }
+
+/* Ghost button for light surfaces — the base .btn-ghost is tuned for
+   the charcoal section and its warm border disappears on white. */
+.btn-ghost-light {
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-muted-gray);
+}
+.btn-ghost-light:hover {
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  border-color: var(--color-charcoal);
+}
+
+/* ---------- When people bring me in ----------
+   A charcoal island between the warm work sections and the light story
+   below. The content is the .engagement-card grid, defined further down:
+   each card pairs a situation with the engagement that answers it. */
+.problems {
+  background: var(--color-charcoal);
+  padding: 4.5rem 0;
+}
+@media (min-width: 768px) { .problems { padding: 5.5rem 0; } }
+.problems .section-head { margin-bottom: 2.5rem; }
+.problems .section-head h2 { color: var(--color-warm); }
+.problems .section-head p { color: rgba(245, 245, 240, 0.72); }
+
+/* ---------- Selected clients strip ----------
+   The logos were doing social-proof work with no label, so nobody could tell
+   whether they were clients, employers or tools. */
+.logo-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+  margin-bottom: 1.25rem;
+}
+.logo-block { margin-top: 1.5rem; margin-bottom: 1.75rem; }
+.logo-block .logo-strip { margin-top: 0; margin-bottom: 0; }
+
+/* ---------- Engagements grid ----------
+   The card styles themselves live in the V2 block further down. */
+.engagement-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; }
+@media (min-width: 700px)  { .engagement-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 2.5rem; } }
+@media (min-width: 1100px) { .engagement-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
+
+/* ---------- Visual shelf ----------
+   The creative lane, shown as work rather than claimed: identity,
+   illustration and art direction pieces on their own tea-tinted surface
+   so the register shift from the white Built section is visible. Four
+   across on wide screens reads as a shelf of specimens, not a second
+   case-study grid. */
+.shelf { background: var(--color-tea-light); padding: 4.5rem 0; }
+@media (min-width: 768px) { .shelf { padding: 5.5rem 0; } }
+.shelf-row { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+@media (min-width: 640px)  { .shelf-row { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1.75rem; } }
+@media (min-width: 1100px) { .shelf-row { grid-template-columns: repeat(4, 1fr); gap: 1.75rem; } }
+.shelf-item { display: block; text-align: left; color: inherit; }
+.shelf-thumb {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  margin-bottom: 0.9rem;
+}
+.shelf-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.45s var(--ease);
+}
+.shelf-item:hover .shelf-thumb img { transform: scale(1.04); }
+/* A card that shows work without linking anywhere: no zoom on hover and
+   no pointer, so nothing about it invites a click that goes nowhere. */
+.shelf-item.is-static { cursor: default; }
+.shelf-item.is-static:hover .shelf-thumb img { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .shelf-thumb img { transition: none; }
+  .shelf-item:hover .shelf-thumb img { transform: none; }
+}
+.shelf-item h3 { font-size: 1.125rem; line-height: 1.3; margin-bottom: 0.4rem; }
+.shelf-desc {
+  font-size: 0.9375rem; line-height: 1.55;
+  color: var(--color-dark);
+  margin-bottom: 0.85rem;
+}
+.shelf-item .tag-row { margin-bottom: 0; }
+
+/* ---------- Engagement pages (v3) ----------
+   Shared layout for the four engagement pages, on the case-study chrome:
+   a plain dark hero band with the title on it, a facts strip, a numbered
+   process list with small real-work fragments, a checklist of outcomes,
+   and the shared one-person cards. The hero carries no artwork: its
+   container is the same case-narrow column the sections below use, so the
+   title starts on the same left edge as every paragraph after it. */
+.eng3-hero { background: #22241f; }
+.eng3-hero-inner { padding: 6.5rem 0 4rem; max-width: 46rem; }
+@media (min-width: 768px) { .eng3-hero-inner { padding: 9rem 0 5.5rem; } }
+.eng3-kicker {
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--color-accent-on-dark);
+  margin-bottom: 1rem;
+}
+.eng3-hero h1 {
+  color: var(--color-warm);
+  font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.08;
+  margin-bottom: 1.1rem;
+}
+.eng3-dek { font-size: 1.125rem; line-height: 1.6; color: rgba(245, 245, 240, 0.85); max-width: 36rem; }
+
+.eng3-proof { margin: 1.75rem 0 0; }
+.eng3-proof a {
+  color: var(--color-dark); font-weight: 600;
+  border-bottom: 2px solid var(--color-accent); padding-bottom: 1px;
+  transition: color 0.2s var(--ease);
+}
+.eng3-proof a:hover { color: var(--color-accent-deep); }
+
+/* The process gets its own warm band with generous air above and below,
+   so the page breathes: white situation, tan process, white gap, charcoal
+   one-person band, tea CTA. The leave panel turns white here because its
+   sage tint would vanish against the tan. */
+.case-section.eng3-how { background: var(--color-warm); padding: 4.5rem 0 5rem; margin-top: 0; }
+@media (min-width: 768px) { .case-section.eng3-how { padding: 5.5rem 0 6rem; } }
+.eng3-how .eng3-leave { background: var(--color-white); margin-top: 4rem; }
+
+/* Each step is a white card on the tan band: a numbered disc, a serif
+   title, the body copy, and for the illustrated steps a framed figure in
+   its own right column, vertically centered so the text sits balanced
+   beside a tall image instead of floating above leftover space. */
+.eng3-steps { list-style: none; margin: 2.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 1.25rem; counter-reset: eng3step; }
+.eng3-step {
+  counter-increment: eng3step;
+  background: var(--color-white);
+  border: 1px solid rgba(27, 29, 26, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(27, 29, 26, 0.05);
+  padding: 1.75rem 1.5rem;
+  display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 1.5rem;
+}
+@media (min-width: 768px) { .eng3-step { padding: 2.25rem 2.5rem; } }
+@media (min-width: 860px) { .eng3-step.has-fig { grid-template-columns: minmax(0, 1fr) auto; column-gap: 2.25rem; align-items: center; } }
+/* The number rides with its headline: disc and text are one unit, always
+   top-aligned to each other, and the unit as a whole centers beside a
+   tall figure. */
+.eng3-step-main { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 0.5rem 1.25rem; align-items: start; }
+.eng3-num {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--color-accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.05rem; letter-spacing: 0.03em;
+}
+.eng3-num::before { content: counter(eng3step, decimal-leading-zero); }
+/* Doubled selector: the case-study chrome styles h3 as a small sage label,
+   which is right for its cards but wrong for the step titles, the core of
+   the page. Serif and dark, so the number disc carries the color. Regular
+   weight only: 400 is the sole Crimson Text weight the site loads, and a
+   heavier value would render as synthesized faux bold. */
+.eng3-steps .eng3-step h3 {
+  font-family: var(--font-serif);
+  font-size: 1.65rem; font-weight: 400; line-height: 1.2;
+  letter-spacing: 0; text-transform: none;
+  color: var(--color-dark);
+  margin: 0.5rem 0 0.6rem;
+}
+.eng3-step p { line-height: 1.65; max-width: 40rem; }
+.eng3-step-fig { margin: 0 0 0 calc(48px + 1.25rem); max-width: 320px; }
+@media (min-width: 860px) { .eng3-step.has-fig .eng3-step-fig { margin: 0; width: 280px; } }
+.eng3-step-fig img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
+.eng3-step-fig figcaption { font-size: 0.75rem; line-height: 1.5; color: var(--color-muted-gray); margin-top: 0.65rem; }
+
+/* Phone chrome for portrait app captures: a simple dark bezel with the
+   screen clipped inside, so a capture reads as an app on a device rather
+   than a tall floating rectangle. */
+.eng3-phone {
+  display: inline-block;
+  padding: 10px;
+  background: #1b1d22;
+  border-radius: 30px;
+  box-shadow: 0 14px 30px rgba(27, 29, 26, 0.2);
+}
+.eng3-phone img { display: block; width: 100%; height: auto; border-radius: 21px; box-shadow: none; }
+@media (max-width: 640px) {
+  .eng3-step { padding: 1.5rem 1.25rem; }
+  .eng3-steps .eng3-step h3 { font-size: 1.35rem; }
+}
+
+.eng3-leave { background: #eef2ec; border-radius: 16px; padding: 2rem 2.25rem; margin: 3.25rem 0 0; }
+/* A panel heading, not a section heading: step it down from the 48px
+   section scale so the panel does not shout. */
+.eng3-leave .eng3-panel-title { font-size: 1.75rem; margin-bottom: 1.1rem; }
+.eng3-checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.eng3-checklist li { display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.55; }
+.eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: 0.2rem; }
+
+/* The one-person section: a charcoal band for emphasis, four items with
+   hand-drawn-feel line icons that draw themselves on as the section enters
+   the viewport. The caution item's icon goes terracotta, lifted for dark
+   ground the same way the sage accent is. */
+/* Uniform heading rhythm in the prose column: 3rem of top margin
+   collapses with whatever precedes (16px paragraph margins, 40px figure
+   margins), so every prose-to-heading gap lands at 48px. */
+.case-narrow h2:not(:first-child) { margin-top: 3rem; }
+
+.eng3-one { background: var(--color-charcoal); padding: 4rem 0 4.5rem; margin-top: 0; }
+.eng3-one h2 { color: var(--color-warm); margin-bottom: 2rem; }
+.eng3-one-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem 3.5rem; }
+@media (min-width: 768px) { .eng3-one-grid { grid-template-columns: 1fr 1fr; } }
+.eng3-one-item h3 {
+  font-family: var(--font-sans);
+  font-size: 1rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--color-warm);
+  margin: 1.1rem 0 0.5rem;
+}
+.eng3-one-item p { color: rgba(245, 245, 240, 0.75); font-size: 0.9375rem; line-height: 1.65; max-width: 34rem; }
+/* Overrides the markup's stroke-width="1.5" for a lighter line. */
+.eng3-icon { width: 44px; height: 44px; color: var(--color-accent-on-dark); display: block; stroke-width: 1.2; }
+.eng3-one-item.is-caution .eng3-icon { color: #d98e6a; }
+
+/* Draw-on: every path carries pathLength=1, so one dasharray fits all.
+   The hidden initial state is gated behind .eng3-js (set by the page's
+   inline script), so the section renders complete without JavaScript. */
+.eng3-icon path, .eng3-icon circle { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.eng3-js .eng3-one-item { opacity: 0; transform: translateY(14px); }
+.eng3-js .eng3-one-item .eng3-icon path,
+.eng3-js .eng3-one-item .eng3-icon circle { stroke-dashoffset: 1; }
+.eng3-js .eng3-one-item.is-inview {
+  opacity: 1; transform: none;
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+.eng3-js .eng3-one-item.is-inview .eng3-icon path,
+.eng3-js .eng3-one-item.is-inview .eng3-icon circle {
+  animation: eng3-draw 0.9s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 0.15s);
+}
+@keyframes eng3-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .eng3-js .eng3-one-item { opacity: 1; transform: none; transition: none; }
+  .eng3-js .eng3-one-item .eng3-icon path,
+  .eng3-js .eng3-one-item .eng3-icon circle { stroke-dashoffset: 0; animation: none; }
+}
+
+/* The CTA butts straight against the charcoal band above: dark to tea
+   with no white sliver between them. */
+.eng3-cta { background: var(--color-tea-light); padding: 4rem 0; margin-top: 0; }
+.eng3-cta .eng3-cta-title { font-size: 1.9rem; margin-bottom: 1rem; }
+.eng3-cta p { max-width: 40rem; margin-bottom: 1.5rem; }
+
+/* Portrait fragments (phone screens) would tower at the standard column
+   width; narrow them so the step card keeps its rhythm. */
+.eng3-step-fig.is-tall { max-width: 200px; }
+@media (min-width: 860px) { .eng3-step.has-fig .eng3-step-fig.is-tall { width: 190px; } }
+.eng3-step-fig.is-tall figcaption { text-align: center; }
+
+/* ---------- Contact ---------- */
+.contact { background: var(--color-white); padding: 4.5rem 0; }
+@media (min-width: 768px) { .contact { padding: 6rem 0; } }
+.contact .section-head { margin-bottom: 2rem; }
+.contact .cta-row { margin-bottom: 1.25rem; }
+.contact-plain { font-size: 0.9375rem; color: var(--color-muted-gray); }
+.contact-plain a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.contact-plain a:hover { color: var(--color-charcoal); }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--color-charcoal); color: var(--color-warm); padding: 2.5rem 0; }
+.footer-inner { display: flex; flex-direction: column; gap: 1rem; }
+@media (min-width: 768px) {
+  .footer-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+.footer-name {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-warm);
+}
+.footer-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.footer-links a {
+  /* Padded to clear the 24px WCAG 2.2 minimum target; at 0.875rem the text
+     box alone was only 17px tall. */
+  display: inline-block;
+  padding-block: 4px;
+  min-height: 24px;
+  font-size: 0.875rem;
+  color: var(--color-warm);
+  opacity: 0.85;
+  border-bottom: 1px solid transparent;
+  transition: opacity 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.footer-links a:hover { opacity: 1; border-bottom-color: var(--color-accent-on-dark); }
+.footer-note { font-size: 0.8125rem; color: var(--color-warm); opacity: 0.6; }
+
+/* A single prompt at the end of the proof, where the reader has just finished
+   the products. Deliberately a sentence rather than a button block: the hero
+   and the contact section already carry the hard CTAs. */
+.work-cta {
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-tag-border);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-charcoal);
+}
+.work-cta a {
+  color: var(--color-dark);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 2px;
+  transition: color 0.2s var(--ease);
+}
+.work-cta a:hover { color: var(--color-accent); }
+
+/* About: the career arc gets three scannable beats. Labels ride inside the
+   paragraphs so the prose still reads as prose, but a skimmer gets
+   Craft -> Systems -> Building in three glances, echoed by the evolution
+   rail below. Dark section, so the accent needs its on-dark value. */
+.about-beat {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-on-dark);
+  margin-bottom: 0.4rem;
+}
+
+/* ---------- Hero, recomposed ----------
+   Everything hangs off the container's left rail: eyebrow, headline,
+   invitation, buttons and the client band all share one edge, which is
+   also the edge every section head below uses. The square portrait sits
+   right and the client band tucks into the leftover column beside it,
+   so the hero closes as one interlocked block instead of three stacked
+   bands. */
+@media (min-width: 768px) {
+  .hero-grid {
+    display: grid;
+    /* Wider text column so the headline holds two lines, tighter gap so
+       the copy sits close to the photo. Symmetric margins on the photo
+       keep the copy truly centered against it while giving the image
+       air above and below. */
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: 3rem;
+    align-items: center;
+  }
+  .hero-photo { grid-column: 1; grid-row: 1; width: auto; justify-content: flex-start; margin: 0.9rem 0; }
+  /* Nudged below true center at Adam's request; a transform so the
+     grid's centering math stays untouched. */
+  .hero-copy  { grid-column: 2; grid-row: 1; width: auto; transform: translateY(1.85rem); }
+}
+.hero-title {
+  /* Nine words wrap to three lines and stranded "sense." on its own; balance
+     evens the rag so no line is left an orphan. Applies to the block, so the
+     per-character spans the kinetic reveal adds do not interfere. */
+  text-wrap: balance;
+  font-size: clamp(2.4rem, 4.7vw, 3.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+@media (min-width: 768px) { .hero-title { margin-top: 0; } }
+/* On phones the shared clamp bottomed out at 2.4rem and stayed there from
+   320px all the way to 767px, so the headline sat short of the measure and
+   the column looked half-used. Scaling with the viewport instead keeps all
+   three lines running to the edge of the container: 11.6vw fills 93-97% of
+   the available width from 320px up, and the wrap stays at three lines
+   throughout. The floor protects the narrowest phones; the ceiling is the
+   value 11.6vw already reaches at the 768px breakpoint, so nothing jumps. */
+@media (max-width: 767.98px) {
+  .hero-title {
+    font-size: clamp(2.25rem, 11.6vw, 5.6rem);
+    /* The bigger type closed the gap to the sub-line, so give it back. */
+    margin-bottom: 1.15rem;
+  }
+}
+.hero-photo-frame { max-width: 470px; }
+.hero-photo-frame::before { padding-bottom: 100%; }
+@media (max-width: 767.98px) {
+  .hero-photo-frame { aspect-ratio: 1; height: min(44vh, 320px); }
+}
+
+/* ---------- Hero caption ----------
+   Set inside the circle, centred along its bottom. The frame is the
+   <figure>, so the caption is a real figcaption and still lands inside the
+   border-radius clip.
+
+   The scrim is not decoration. Measured across the band the caption covers,
+   the artwork averages 9:1 against white, but 8% of its pixels fail 4.5:1:
+   the pen cup on the right and the lit rim of the mug on the left. A
+   bottom-up gradient floors those highlights so the type is legible over
+   any of them, and keeps it legible if the portrait is swapped again. */
+.hero-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  /* Every value is a percentage of the frame's width, which is the circle's
+     diameter, so the plate scales with the circle at every breakpoint
+     instead of needing a value per size.
+
+     The geometry: a chord at height y sits 2*sqrt(0.25 - (y-0.5)^2) wide.
+     The bottom 11% puts the last baseline near y=0.89, where the chord is
+     ~63% of the diameter; the 22% side padding leaves the text 56% wide, so
+     it clears the curve at both ends with room to spare. The 26% top is the
+     gradient's fade distance, not space around the text. */
+  padding: 26% 22% 11%;
+  background: linear-gradient(to top,
+    rgba(20, 20, 18, 0.78) 0%,
+    rgba(20, 20, 18, 0.62) 34%,
+    rgba(20, 20, 18, 0.24) 66%,
+    rgba(20, 20, 18, 0) 100%);
+  text-align: center;
+  font-family: var(--font-sans);
+  pointer-events: none;
+}
+.hero-caption-name,
+.hero-caption-where { display: block; }
+.hero-caption-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: #fff;
+}
+.hero-caption-where {
+  margin-top: 0.14rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.82);
+}
+/* The padding scales itself; only the type needs stepping down for the
+   smaller circle on phones. */
+@media (max-width: 767.98px) {
+  .hero-caption-name  { font-size: 0.875rem; }
+  .hero-caption-where { font-size: 0.72rem; }
+}
+/* Browser default figure margin would push the circle off the grid. */
+figure.hero-photo-frame { margin: 0; }
+
+/* The invitation line: serif, sage, doubling as the contact link. */
+.hero-invite {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+  margin: 0 0 1.4rem;
+}
+.hero-invite a { color: var(--color-accent); text-decoration: none; transition: color 0.25s var(--ease); }
+.hero-invite a:hover { color: var(--color-charcoal); }
+
+/* ---------- When people bring me in: situation + engagement cards ----------
+   Each card opens with the situation (number, draw-in icon, sans eyebrow)
+   and answers it with the engagement the visitor can actually buy: a serif
+   name, one description, and a link into the contact section. Real panels,
+   because answers should not whisper. */
+.engagement-card {
+  /* Column so the affordance can sit on the card's floor via margin-top
+     auto: the four descriptions differ in length, and four links at four
+     different heights reads as an accident. */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-decoration: none;
+  background: rgba(245, 245, 240, 0.045);
+  border: 1px solid rgba(245, 245, 240, 0.12);
+  border-radius: 0.75rem;
+  padding: 1.6rem 1.5rem 1.4rem;
+  transition: background 0.28s var(--ease), border-color 0.28s var(--ease), transform 0.28s var(--ease);
+}
+.engagement-card:hover,
+.engagement-card:focus-visible {
+  background: rgba(245, 245, 240, 0.075);
+  border-color: var(--color-accent-on-dark);
+  transform: translateY(-3px);
+}
+/* The card opens on its number alone. A small line icon used to sit
+   opposite it, from back when the card had no picture; with an
+   illustration below, that icon was a second mark competing with the
+   thing it was standing in for. */
+.engagement-num {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-accent-on-dark);
+}
+/* The situation the reader recognizes as theirs, carried by a flat
+   illustration where the sans line used to be. 4:3 rather than square:
+   four square figures would push the engagement names most of a screen
+   apart. Full bleed to the card's padding, so the picture is a band
+   across the card rather than a stamp floating in it. */
+.engagement-figure {
+  aspect-ratio: 3 / 2;
+  margin: 0 0 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--color-warm);
+}
+.engagement-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The picture settles into the frame a beat after the card arrives: a
+   4.5% push back to true scale, with the ink coming up from 60%, so it
+   reads as the illustration landing on paper rather than a box fading
+   in. Starting oversized rather than undersized means the frame never
+   shows a gap at its edges mid-transition.
+
+   The delay chains off the grid's own stagger: --reveal-delay is set on
+   the card and inherits, so the four pictures land in the same order the
+   four cards do. Gated behind .js for the same reason the base reveal
+   is: without the script that adds .is-visible, these would otherwise
+   sit dimmed and oversized forever. */
+.js .engagement-card .engagement-figure img {
+  opacity: 0.6;
+  transform: scale(1.045);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  transition-delay: calc(var(--reveal-delay, 0s) + 0.12s);
+  will-change: opacity, transform;
+}
+.js .engagement-card.is-visible .engagement-figure img {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .engagement-card .engagement-figure img,
+  .js .engagement-card.is-visible .engagement-figure img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+.engagement-card h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-warm);
+  margin: 0 0 0.6rem;
+}
+.engagement-card p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(245, 245, 240, 0.68);
+  margin: 0 0 1.15rem;
+}
+.engagement-card .engagement-go { margin-top: auto; }
+/* The affordance sits quiet until the card is hovered or focused, so four
+   of them do not read as four competing buttons. */
+.engagement-go {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-accent-on-dark);
+  opacity: 0.55;
+  transition: opacity 0.28s var(--ease), gap 0.28s var(--ease);
+}
+.engagement-go svg { width: 15px; height: 15px; }
+.engagement-card:hover .engagement-go,
+.engagement-card:focus-visible .engagement-go { opacity: 1; gap: 0.65rem; }
+@media (prefers-reduced-motion: reduce) {
+  .engagement-card, .engagement-go { transition: none; }
+  .engagement-card:hover, .engagement-card:focus-visible { transform: none; }
+}
+
+/* The one-person note closes the section as a statement, not a caption. */
+.engagement-note {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--color-warm);
+  max-width: 54ch;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(245, 245, 240, 0.14);
+}
+
+/* ---------- About: the three beats get a visual each ----------
+   Same ledger grammar as When people bring me in: hairline rows, media
+   left, prose right. Every frame now holds a graded image that opens in
+   the lightbox, so the dashed placeholder styling that used to live here
+   is gone. */
+.about-beats { max-width: none; }
+.about-beat-row {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.9rem 0;
+  border-top: 1px solid rgba(245, 245, 240, 0.14);
+}
+.about-beat-row:first-child { border-top: 0; padding-top: 0.5rem; }
+@media (min-width: 768px) {
+  .about-beat-row { grid-template-columns: 250px minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+}
+.about-media {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  max-width: 300px;
+  border-radius: 0.75rem;
+}
+.about-media img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+
+/* Each frame opens its picture full size. The 4:3 crop is a window onto
+   something wider, so the corner badge has to say that there is more to
+   see; a hover-only affordance would never appear on a phone, which is
+   where the crop hides the most. */
+a.about-media img { transition: transform 0.5s var(--ease); }
+a.about-media:hover img,
+a.about-media:focus-visible img { transform: scale(1.03); }
+a.about-media:focus-visible {
+  outline: 2px solid var(--color-accent-on-dark);
+  outline-offset: 3px;
+}
+.about-media .about-media-zoom {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(20, 20, 18, 0.55);
+  color: #fff;
+  opacity: 0.85;
+  transition: opacity 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+a.about-media:hover .about-media-zoom,
+a.about-media:focus-visible .about-media-zoom {
+  opacity: 1;
+  background: rgba(20, 20, 18, 0.8);
+}
+.about-media .about-media-zoom svg { width: 14px; height: 14px; }
+
+/* ---------- Lightbox ----------
+   Built by the script at the bottom of index.html on first open, so a
+   visitor who never clicks a photograph never downloads one at full size.
+   Marked data-cursor="light" in the script: the overlay is dark, and the
+   custom cursor is charcoal until something tells it otherwise. */
+.ah-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(16, 17, 15, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  /* Visibility is switched, not interpolated. Given a duration it changes
+     discretely at the end of the run, which on opening means the overlay
+     computes to hidden for the first frame and the close button refuses
+     focus. Held instead: instant on open, delayed by the fade on close. */
+  transition: opacity 0.24s var(--ease), visibility 0s linear 0.24s;
+}
+.ah-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.24s var(--ease), visibility 0s linear 0s;
+}
+.ah-lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
+  transform: scale(0.985);
+  transition: transform 0.3s var(--ease);
+}
+.ah-lightbox.is-open .ah-lightbox-figure { transform: scale(1); }
+.ah-lightbox-figure img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(1200px, 100%);
+  max-height: 78vh;
+  border-radius: 0.5rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.ah-lightbox-figure figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, 0.66);
+}
+/* Phones only: a landscape picture fits in a third of a portrait screen,
+   so the picture is tap-to-zoom and drag-to-pan there. The hint says so,
+   because nothing else about the picture would. */
+.ah-lightbox-hint {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(245, 245, 240, 0.42);
+}
+@media (min-width: 768px) {
+  .ah-lightbox-hint { display: none; }
+}
+.ah-lightbox-figure img.is-zoomed {
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+  max-height: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* Transform origin centre so the zoom grows from the middle of what you
+   were already looking at, and no transition while dragging: the pan has
+   to track the finger, not lag a third of a second behind it. */
+.ah-lightbox-figure img {
+  transform-origin: 50% 50%;
+  transition: transform 0.28s var(--ease);
+}
+.ah-lightbox-figure img.is-zoomed { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ah-lightbox-figure img { transition: none; }
+}
+.ah-lightbox-close {
+  position: absolute;
+  top: clamp(0.75rem, 2.5vw, 1.5rem);
+  right: clamp(0.75rem, 2.5vw, 1.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 245, 240, 0.22);
+  background: rgba(245, 245, 240, 0.06);
+  color: var(--color-warm);
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.ah-lightbox-close:hover { background: rgba(245, 245, 240, 0.14); border-color: rgba(245, 245, 240, 0.4); }
+.ah-lightbox-close:focus-visible { outline: 2px solid var(--color-accent-on-dark); outline-offset: 3px; }
+.ah-lightbox-close svg { width: 18px; height: 18px; }
+/* Scroll is locked while the overlay is up. The script pads the body by the
+   width of the scrollbar it removes, so the page underneath does not jump
+   sideways as the lightbox opens. */
+html.ah-lightbox-open body { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-lightbox { transition: opacity 0.15s linear, visibility 0s linear 0.15s; }
+  .ah-lightbox.is-open { transition: opacity 0.15s linear, visibility 0s linear 0s; }
+  .ah-lightbox-figure,
+  .ah-lightbox.is-open .ah-lightbox-figure { transform: none; transition: none; }
+  a.about-media img,
+  a.about-media:hover img,
+  a.about-media:focus-visible img { transform: none; transition: none; }
+}
+.about-beat-text p { margin: 0 0 1rem; }
+.about-beat-text p:last-child { margin-bottom: 0; }
+.about-close {
+  border-top: 1px solid rgba(245, 245, 240, 0.14);
+  padding-top: 2rem;
+  margin-top: 0;
+}
+
+/* ---------- Hero: the promise line ----------
+   No longer an invitation fragment, so it carries body weight and a
+   readable measure rather than sitting at display size. */
+.hero-invite {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--color-muted-gray);
+  max-width: 44ch;
+  margin: 0 0 1.6rem;
+}
+
+/* ---------- Proof strip ----------
+   Three figures between the hero and the client logos. Serif numerals so
+   they read as statements rather than dashboard tiles, and a hairline
+   above to separate them from the copy without adding a box. */
+.hero-proof { margin-top: 0.5rem; margin-bottom: 2.5rem; }
+.proof-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--color-muted-light);
+}
+@media (min-width: 700px) {
+  .proof-row { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+}
+.proof-row dt {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.2vw, 2.05rem);
+  line-height: 1.05;
+  color: var(--color-charcoal);
+  margin-bottom: 0.3rem;
+}
+.proof-row dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-muted-gray);
+}
+/* The measure cap belongs to the three-column layout; stacked on a phone
+   it was wrapping single words onto their own line with room to spare. */
+@media (min-width: 700px) { .proof-row dd { max-width: 26ch; } }
+
+/* About opens with the line the hero used to carry. */
+.about-lede {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  line-height: 1.4;
+  color: var(--color-warm);
+  max-width: 46ch;
+  margin: 0 0 2.25rem;
+}
+.build-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem 2rem;
+  margin: 0 0 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-tag-border);
+  max-width: 60rem;
+}
+@media (min-width: 620px)  { .build-facts { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .build-facts { grid-template-columns: repeat(4, 1fr); } }
+.build-facts dt {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.35rem;
+}
+.build-facts dd { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--color-dark); }
+.build-phone {
+  border-radius: 26px;
+  padding: 8px;
+  background: var(--color-charcoal);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 22px 44px -26px rgba(0,0,0,0.45);
+}
+.build-phone img { display: block; width: 100%; height: auto; border-radius: 19px; }
+.build-diagram figcaption,
+.build-pilot figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-muted-gray);
+  margin-top: 0.75rem;
+  max-width: 40rem;
+}
+
+/* A drawn argument rather than a described one. */
+.build-diagram { margin: 2rem 0 2.5rem; }
+.build-diagram svg { display: block; width: 100%; height: auto; }
+
+/* The comprehension pilot, made visible: eight slots, the redrawn ones
+   marked. Placeholders until the illustrations are exported. */
+.build-pilot { margin: 2rem 0 2.5rem; }
+.build-pilot-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 560px) {
+  .build-pilot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.build-pilot-cell {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-muted-light);
+  border: 1px solid var(--color-tag-border);
+}
+.build-pilot-cell img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.build-pilot-cell.is-redrawn { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent); }
+.build-pilot-n {
+  position: absolute; top: 6px; left: 6px;
+  font-family: var(--font-sans); font-size: 0.625rem; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--color-charcoal);
+  background: rgba(255, 255, 255, 0.85); padding: 0.1rem 0.4rem; border-radius: 999px;
+}
+.build-pilot-tag {
+  position: absolute; right: 6px; bottom: 6px;
+  font-family: var(--font-sans); font-size: 0.5625rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--color-white); background: var(--color-accent-deep);
+  padding: 0.15rem 0.5rem; border-radius: 999px; white-space: nowrap;
+}
+
+/* The two session postures: one hand, or propped on a stand. */
+.build-modes { margin: 2rem 0 2.5rem; }
+.build-modes-row {
+  display: grid; gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 720px;
+}
+@media (max-width: 640px) {
+  .build-modes-row { grid-template-columns: minmax(0, 1fr); }
+}
+.build-mode h4 {
+  margin: 1rem 0 0.4rem;
+  font-family: var(--font-sans); font-size: 0.9375rem; font-weight: 600;
+  color: var(--color-dark);
+}
+.build-mode p { margin: 0; font-size: 0.9375rem; line-height: 1.65; }
+/* Placeholder until the illustrations are generated; holds the 4:3 the
+   images will ship at so the section does not reflow when they land. */
+/* The posture illustrations are square on purpose; the frame just rounds
+   and clips them. Replaced the dashed 4:3 placeholder slots. */
+.build-mode-shot { border-radius: 10px; overflow: hidden; }
+.build-mode-shot img { display: block; width: 100%; height: auto; }
+.build-mode-note span {
+  font-family: var(--font-sans); font-size: 0.625rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-deep);
+}
+.build-mode-note p { margin: 0.4rem 0 0; font-size: 0.75rem; line-height: 1.5; color: var(--color-muted-gray); }
+
+/* One redraw, before and after: the pilot's clearest artifact. */
+.build-pair { margin: 2rem 0 2.5rem; }
+.build-pair-row {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 720px;
+}
+@media (max-width: 560px) {
+  .build-pair-row { grid-template-columns: minmax(0, 1fr); }
+}
+.build-pair-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--color-tag-border); }
+.build-pair-item.is-after { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent); }
+.build-pair-item img { display: block; width: 100%; height: auto; }
+.build-pair-label {
+  position: absolute; top: 8px; left: 8px;
+  font-family: var(--font-sans); font-size: 0.625rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--color-charcoal); background: rgba(255, 255, 255, 0.85);
+  padding: 0.15rem 0.5rem; border-radius: 999px;
+}
+.build-pair-item.is-after .build-pair-label { color: var(--color-white); background: var(--color-accent-deep); }
+
+/* Also removed by the distill pass, and also only dead because the card was
+   held back. `.visually-hidden` is the load-bearing one: without it the
+   screen-reader note printed on the page, so the link read "View live
+   product ↗ (opens in a new tab)" to everybody. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The case-study page shell: the chrome every write-up in case-study/
+   shares. */
 .case-hero {
   background: var(--color-warm);
   padding-top: calc(var(--nav-height) + 3rem);
   padding-bottom: 3rem;
 }
-@media (min-width: 768px) { .case-hero { padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 4rem; } }
-
 .case-kicker {
   display: inline-block;
   font-size: 0.8125rem;
@@ -1575,27 +2111,9 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   max-width: 64rem;
   margin-bottom: 1.5rem;
 }
-.case-tag-row { margin-bottom: 2rem; }
-
-.case-hero-img {
-  margin-top: 2rem;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  background: var(--color-muted-light);
-  aspect-ratio: 16 / 9;
-}
-.case-hero-img img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-
 .case-section { padding: 4rem 0; }
-@media (min-width: 768px) { .case-section { padding: 5rem 0; } }
 .case-overview { background: var(--color-white); }
-.case-approach { background: var(--color-muted-light); }
-.case-impact-section { background: var(--color-warm); }
-
 .case-narrow { max-width: 56rem; margin: 0 auto; }
-
 .case-section h2 {
   margin-bottom: 2rem;
   color: var(--color-dark);
@@ -1643,9 +2161,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   margin-bottom: 1rem;
 }
 .case-section p:last-child { margin-bottom: 0; }
-
-/* Special: "The problem" / "The solution" subheadings (h3 immediately under Overview)
-   Original site shows them in sage green sans-serif as small kickers. */
 .case-overview h3 {
   margin-top: 2.25rem;
   margin-bottom: 0.5rem;
@@ -1656,39 +2171,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   color: var(--color-accent);
 }
 .case-overview h3:first-of-type { margin-top: 0; }
-
-.case-bullets {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.5rem 0 1.25rem;
-}
-.case-bullets li {
-  position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-dark);
-  font-size: 1rem;
-  line-height: 1.55;
-}
-.case-bullets li::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0.65em;
-  width: 0.4rem; height: 0.4rem;
-  background: var(--color-accent);
-  border-radius: 50%;
-}
-
-.case-inline-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 1rem 0 1.5rem;
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
-}
-
 .case-footer {
   background: var(--color-white);
   padding: 3rem 0 5rem;
@@ -1702,10 +2184,20 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   color: var(--color-charcoal);
   transition: all 0.25s var(--ease);
 }
-.btn-back:hover { background: var(--color-charcoal); color: var(--color-warm); border-color: var(--color-charcoal); }
 .btn-back svg { width: 18px; height: 18px; }
 
-/* ============================== MOTION PREFERENCES ============================== */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+/* ---------- Engagements: the before -> after line ----------
+   Each engagement leads with the change it produces, not its activities
+   (the essays' "sell the change, not the artifact"). Serif italic so it
+   reads as the card's thesis, not a second description. */
+.engagement-card .engagement-shift {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  /* The on-dark sage, at full opacity: 6.6:1 against the card's resting
+     background and 6.0:1 on hover, both past the 4.5:1 AA bar for this
+     text size. Dimming it would spend that headroom for nothing. */
+  color: var(--color-accent-on-dark);
+  margin: 0 0 0.75rem;
 }
