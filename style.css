@@ -1671,21 +1671,56 @@ figure.hero-photo-frame { margin: 0; }
     transition: none;
   }
 }
+/* The deliverable name is the thing being compared across four cards, so
+   it leads in the sans at a size the serif was not carrying. Serif stays
+   on the shift line below it, which keeps the two apart by voice as well
+   as by size. */
 .engagement-card h3 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 1.3rem;
-  line-height: 1.2;
-  letter-spacing: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   text-transform: none;
   color: var(--color-warm);
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.65rem;
 }
 .engagement-card p {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   color: rgba(245, 245, 240, 0.68);
   margin: 0 0 1.15rem;
+}
+/* What the engagement leaves behind, lifted verbatim from that page's own
+   "What you leave with" list. A list rather than prose because the job
+   here is comparing four options, and the dash keeps four of them from
+   reading as four bulleted stacks. */
+.engagement-points {
+  list-style: none;
+  margin: 0 0 1.3rem;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.engagement-points li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: rgba(245, 245, 240, 0.68);
+}
+.engagement-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 0.5rem;
+  /* 2px, not 1.5: a half pixel lands differently depending on where each
+     item's line box falls, so the last dash in a list rendered heavier
+     than the ones above it. */
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-accent-on-dark);
 }
 .engagement-card .engagement-go { margin-top: auto; }
 /* The affordance sits quiet until the card is hovered or focused, so four
@@ -1696,14 +1731,14 @@ figure.hero-photo-frame { margin: 0; }
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-sans);
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--color-accent-on-dark);
   opacity: 0.55;
   transition: opacity 0.28s var(--ease), gap 0.28s var(--ease);
 }
-.engagement-go svg { width: 15px; height: 15px; }
+.engagement-go svg { width: 17px; height: 17px; }
 .engagement-card:hover .engagement-go,
 .engagement-card:focus-visible .engagement-go { opacity: 1; gap: 0.65rem; }
 @media (prefers-reduced-motion: reduce) {
@@ -2211,7 +2246,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .engagement-card .engagement-shift {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1.02rem;
+  font-size: 1.12rem;
   line-height: 1.45;
   /* The on-dark sage, at full opacity: 6.6:1 against the card's resting
      background and 6.0:1 on hover, both past the 4.5:1 AA bar for this
