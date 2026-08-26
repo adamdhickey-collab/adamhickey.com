@@ -123,17 +123,13 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* Safari paints a video's own corners over an ancestor's radius clip,
    so the circle is restated on the element itself. */
 .hero-portrait-video { border-radius: 50%; background: var(--color-white); }
-/* Cap the portrait's height on phones so the eyebrow and headline land in
-   the first viewport instead of scrolling below a near-full-height photo.
-   Height-driven (not width-driven like the desktop ::before hack) so it
-   shrinks with short viewports, not just narrow ones. */
+/* The phone sizing itself lives further down this file, where the frame
+   is given its full-width treatment. All that is left here is clearing
+   the spacer the desktop rule depends on. */
 @media (max-width: 767.98px) {
-  .hero-photo-frame {
-    width: auto;
-    max-width: none;
-    height: min(46vh, 320px);
-    aspect-ratio: 3 / 4;
-  }
+  /* The ::before spacer is what drives the frame's shape on desktop. On
+     phones the frame is sized outright further down this file, so the
+     spacer has to go or it fights the explicit height. */
   .hero-photo-frame::before { content: none; }
 }
 
@@ -1502,8 +1498,26 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 }
 .hero-photo-frame { max-width: 470px; }
 .hero-photo-frame::before { padding-bottom: 100%; }
+/* On phones the portrait runs the full width of the screen rather than
+   sitting inset. It is width-driven now, not height-driven: the old rule
+   fixed the height and let the width fall out, which meant that on a
+   320px screen the container clipped the frame to 272 wide against a 308
+   height, and a "circle" with a 50% radius came out an ellipse.
+
+   The negative inline margin cancels the container's own gutter, so the
+   circle reaches both edges. 58vh is the guard, and it is set where it is
+   so that it never binds in portrait: the tightest common case is a 320px
+   wide screen at 568 tall, which needs 56.3vh to reach the edges. What it
+   does catch is landscape, where an unguarded full-width circle would be
+   taller than the viewport (767x390 resolves to 222 instead of 767). */
 @media (max-width: 767.98px) {
-  .hero-photo-frame { aspect-ratio: 1; height: min(44vh, 320px); }
+  .hero-photo { margin-inline: -1.5rem; }
+  .hero-photo-frame {
+    width: 100%;
+    max-width: min(100%, 58vh);
+    height: auto;
+    aspect-ratio: 1;
+  }
 }
 
 /* ---------- Hero caption ----------
