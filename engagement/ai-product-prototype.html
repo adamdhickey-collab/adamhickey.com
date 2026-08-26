@@ -14,9 +14,9 @@
   <title>AI Product Prototype | Adam Hickey</title>
   <meta name="description" content="Work out where AI genuinely helps, build a working experience real people can use, and get an honest build, kill or park recommendation." />
 
-  <link rel="icon" href="../img/favicon-32.png?v=3" sizes="32x32" type="image/png" />
-  <link rel="icon" href="../img/icon-192.png?v=3" sizes="192x192" type="image/png" />
-  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=3" />
+  <link rel="icon" href="../img/favicon-32.png?v=4" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=4" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=4" />
   <meta name="color-scheme" content="light" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +24,43 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
   <link rel="stylesheet" href="../style.css?v=20260826f" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260817a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260826a" />
+  <!-- The header logo plays a one-shot reveal clip on load and holds its last
+       frame. The class is set here, before first paint, so the static mark
+       never flashes ahead of the animation; anything that stops the clip from
+       running puts the static mark straight back. The 1.2s deadline is the
+       slow-fetch case: rather than leave the header empty while the clip
+       arrives, or pop it in half a second late, this load simply keeps the
+       static mark and skips the animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var armed = true;
+        var revert = function () {
+          if (!armed) return;
+          armed = false;
+          el.classList.remove('logo-reveal');
+          try { v.pause(); } catch (e) {}
+        };
+        /* Once a frame is actually on screen the animation is committed and
+           the deadline below stops applying. */
+        v.addEventListener('playing', function () { armed = false; });
+        v.addEventListener('error', revert);
+        var p = v.play();
+        if (p && p.catch) p.catch(revert);
+        setTimeout(revert, 1200);
+      });
+    })();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -32,7 +68,12 @@
   <nav class="site-nav">
     <div class="nav-inner">
       <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
-        <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=1"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
       </a>
       <ul class="nav-links" aria-label="Site sections">
         <li><a href="../index.html#case-studies">Work</a></li>
@@ -48,10 +89,6 @@
         <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
-        </a>
-        <a href="../Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="View Résumé">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-          <span class="icon-link-label">Résumé</span>
         </a>
       </div>
     </div>

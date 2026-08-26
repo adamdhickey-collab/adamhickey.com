@@ -66,6 +66,30 @@
 .logo-img { display: block; height: 48px; width: auto; max-width: 100%; }
 @media (min-width: 768px) { .logo-img { height: 64px; } }
 
+/* The logo plays a one-shot reveal clip on load and then holds its last
+   frame. The <img> stays in flow and sets the box, so the header never
+   shifts and the wordmark is still there for anyone the clip does not
+   reach: no JavaScript, no video support, reduced motion, a blocked
+   autoplay or a slow fetch all leave the static mark standing. The
+   .logo-reveal class on <html> is what swaps the two, and it is set before
+   first paint so the static mark never flashes ahead of the animation. */
+.logo-mark { position: relative; display: block; }
+.logo-video {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* contain, matching what the <img> already does: the SVG honours its own
+     aspect ratio inside the box, so in the narrow header, where the flex row
+     squeezes the box, the mark letterboxes rather than stretching. The clip
+     has to letterbox with it or the two states drift apart. */
+  object-fit: contain;
+  pointer-events: none;
+}
+.logo-reveal .logo-video { display: block; }
+.logo-reveal .logo-img { visibility: hidden; }
+
 .nav-actions { display: flex; align-items: stretch; gap: 0.25rem; }
 @media (min-width: 768px) { .nav-actions { gap: 0.5rem; } }
 
