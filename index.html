@@ -31,10 +31,9 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" type="image/svg+xml" />
+  <link rel="icon" href="img/site/adam-logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="style.css?v=20260826f" />
   <link rel="stylesheet" href="site-nav.css?v=20260817a" />
@@ -44,10 +43,11 @@
        visible blank gap when the user scrolls past the hero. Preloading
        them here makes the strip render instantly once it's in view. -->
   <link rel="preload" as="image" href="img/CBRE.svg" />
-  <link rel="preload" as="image" href="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Dr%20Pepper.svg" />
-  <link rel="preload" as="image" href="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Intel.svg" />
-  <link rel="preload" as="image" href="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Lund.svg" />
-  <link rel="preload" as="image" href="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Toro.svg" />
+  <link rel="preload" as="image" href="img/site/dr-pepper.svg" />
+  <link rel="preload" as="image" href="img/site/intel.svg" />
+  <link rel="preload" as="image" href="img/site/lund.svg" />
+  <link rel="preload" as="image" href="img/site/toro.svg" />
+  <script>document.documentElement.classList.add("js-logo-intro");</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -56,7 +56,9 @@
   <nav class="site-nav">
     <div class="nav-inner">
       <button class="logo-btn" aria-label="Adam Hickey home" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        <img decoding="async" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+        <span class="logo-figure">
+          <img decoding="async" src="img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+        </span>
       </button>
       <ul class="nav-links" aria-label="Site sections">
         <li><a href="#case-studies">Work</a></li>
@@ -91,12 +93,16 @@
                an illustration cannot do for itself: without it a visitor has
                no way to know the drawing is Adam rather than stock art. -->
           <figure class="hero-photo-frame">
-            <!-- Flat-vector illustration of the studio portrait. Kept at
-                 native framing: zooming in clipped the wall prints and the
-                 plant that make it a room rather than a headshot. Its greens
-                 and warm neutrals are close enough to the site palette that
-                 the circle sits inside the page rather than on top of it. -->
-            <img fetchpriority="high" src="img/portrait-illus.webp?v=6" width="900" height="900" alt="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him." />
+            <!-- The portrait is now a silent looping clip of the same studio
+                 scene. The still illustration stays on as the poster, so the
+                 circle is filled on first paint and whenever the clip is
+                 paused: no layout shift when the video takes over, and the
+                 same picture for anyone who prefers reduced motion. -->
+            <video class="hero-portrait-video" src="img/hero-portrait.mp4?v=1"
+                   poster="img/portrait-illus.webp?v=6" width="900" height="900"
+                   autoplay loop muted playsinline preload="auto"
+                   aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
+            </video>
             <figcaption class="hero-caption">
               <span class="hero-caption-name">Adam Hickey</span>
               <span class="hero-caption-where">Minneapolis, most days.</span>
@@ -136,12 +142,12 @@
       <div class="container logo-block reveal">
         <p class="logo-label" id="logo-label">Selected clients</p>
         <div class="logo-strip" role="list" aria-labelledby="logo-label">
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Cargill.svg" alt="Cargill" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/cargill.svg" alt="Cargill" /></div>
         <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/CBRE.svg" alt="CBRE" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Dr%20Pepper.svg" alt="Dr Pepper" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Intel.svg" alt="Intel" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Lund.svg" alt="Lund" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Toro.svg" alt="Toro" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/dr-pepper.svg" alt="Dr Pepper" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/intel.svg" alt="Intel" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/lund.svg" alt="Lund" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/toro.svg" alt="Toro" /></div>
         </div>
       </div>
     </section>
@@ -157,7 +163,7 @@
         <div class="case-grid stagger">
           <a class="case-card reveal" href="case-study/sap-product-maturity.html" aria-label="View case study: Scaling enterprise product design across 40+ SAP apps">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/sap%20hero%2002.png" alt="Scaling enterprise product design across 40+ SAP apps" />
+              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.png" alt="Scaling enterprise product design across 40+ SAP apps" />
             </div>
             <h3>Scaling enterprise product design across 40+ SAP apps</h3>
             <div class="tag-row">
@@ -169,7 +175,7 @@
 
           <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: Reducing operational overhead by 80% through a grant-management portal">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/nutrition%20incentive%20hub%2012.png" alt="Reducing operational overhead by 80% through a grant-management portal" />
+              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.png" alt="Reducing operational overhead by 80% through a grant-management portal" />
             </div>
             <h3>Reducing operational overhead by 80% through a grant-management portal</h3>
             <div class="tag-row">
@@ -181,7 +187,7 @@
 
           <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: Orchestrating real-time logistics for a 450+ truck fleet">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/ChatGPT%20Image%20May%209,%202026,%2010_54_57%20AM.png" alt="Orchestrating real-time logistics for a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" />
+              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.png" alt="Orchestrating real-time logistics for a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" />
             </div>
             <h3>Orchestrating real-time logistics for a 450+ truck fleet</h3>
             <div class="tag-row">
@@ -193,7 +199,7 @@
 
           <a class="case-card reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="View case study: Designing an internal product platform for a global innovation network">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Group%20100817.png?updatedAt=1761069243649" alt="Designing an internal product platform for a global innovation network" />
+              <img decoding="async" loading="lazy" src="img/site/group-100817.png?updatedAt=1761069243649" alt="Designing an internal product platform for a global innovation network" />
             </div>
             <h3>Designing an internal product platform for a global innovation network</h3>
             <div class="tag-row">
@@ -558,7 +564,7 @@
         <div class="case-grid case-grid-compact stagger">
           <a class="case-card reveal" href="case-study/enterprise-consulting.html" aria-label="View case study: 12 years as an enterprise design consultant (2013-2026)">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Group%20100814.png?updatedAt=1761069243299" alt="12 years as an enterprise design consultant (2013-2026)" />
+              <img decoding="async" loading="lazy" src="img/site/group-100814.png?updatedAt=1761069243299" alt="12 years as an enterprise design consultant (2013-2026)" />
             </div>
             <div class="case-content">
               <h3>12 years as an enterprise design consultant (2013-2026)</h3>
@@ -573,7 +579,7 @@
 
           <a class="case-card reveal" href="case-study/hybrid-designer.html" aria-label="View case study: 8 years as a hybrid designer / developer (2005-2013)">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="https://ik.imagekit.io/2q5moxpnf/Adam%20Hickey%20Dot%20Com/Group%20100815.png?updatedAt=1761069243438" alt="8 years as a hybrid designer / developer (2005-2013)" />
+              <img decoding="async" loading="lazy" src="img/site/group-100815.png?updatedAt=1761069243438" alt="8 years as a hybrid designer / developer (2005-2013)" />
             </div>
             <div class="case-content">
               <h3>8 years as a hybrid designer / developer (2005-2013)</h3>
@@ -1725,6 +1731,21 @@
     })();
   </script>
 
+  <script>
+    /* Honour prefers-reduced-motion for the hero clip. CSS cannot stop
+       playback, so pause it and let the poster stand in. */
+    (function () {
+      var v = document.querySelector('.hero-portrait-video');
+      if (!v) return;
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var apply = function () {
+        if (mq.matches) { v.pause(); v.removeAttribute('autoplay'); }
+        else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      };
+      apply();
+      if (mq.addEventListener) mq.addEventListener('change', apply);
+    })();
+  </script>
   <script src="cursor.js?v=20260817a" defer></script>
 </body>
 </html>

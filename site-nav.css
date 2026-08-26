@@ -62,6 +62,49 @@
   outline-offset: 2px;
   border-radius: 8px;
 }
+/* ---------- Logo intro ----------
+   One pass on first paint: the mark wipes in from the left behind a soft
+   sage sweep, as if it were being inked onto the page. It is a load
+   flourish, so it runs once and never on hover or navigation-by-anchor.
+
+   Built on a wrapper rather than the <img> itself because the wipe needs a
+   clip that the sweep can ride inside, and because the mark is an external
+   SVG whose paths this page cannot reach. No layout is animated: the
+   wrapper holds the logo's box from the first frame, so nothing reflows.
+
+   The whole thing is gated behind .js-logo-intro, set by the inline script
+   in the header. Without JavaScript, or for a visitor who prefers reduced
+   motion, the logo is simply present. */
+.logo-figure { position: relative; display: block; overflow: hidden; }
+.js-logo-intro .logo-figure .logo-img {
+  clip-path: inset(0 100% 0 0);
+  animation: logo-wipe 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s forwards;
+}
+.js-logo-intro .logo-figure::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 42%;
+  background: linear-gradient(90deg,
+    rgba(109, 135, 104, 0) 0%,
+    rgba(109, 135, 104, 0.22) 45%,
+    rgba(109, 135, 104, 0) 100%);
+  transform: translateX(-120%);
+  animation: logo-sweep 0.95s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s forwards;
+  pointer-events: none;
+}
+@keyframes logo-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes logo-sweep {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(320%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-logo-intro .logo-figure .logo-img { clip-path: none; animation: none; }
+  .js-logo-intro .logo-figure::after { content: none; animation: none; }
+}
+
 /* Explicit height beats Tailwind preflight's `img { height: auto }`. */
 .logo-img { display: block; height: 48px; width: auto; max-width: 100%; }
 @media (min-width: 768px) { .logo-img { height: 64px; } }

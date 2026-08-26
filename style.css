@@ -118,7 +118,11 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
   position: relative;
 }
 .hero-photo-frame::before { content: ""; display: block; padding-bottom: 133.33%; }
-.hero-photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-photo-frame img,
+.hero-photo-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Safari paints a video's own corners over an ancestor's radius clip,
+   so the circle is restated on the element itself. */
+.hero-portrait-video { border-radius: 50%; background: var(--color-white); }
 /* Cap the portrait's height on phones so the eyebrow and headline land in
    the first viewport instead of scrolling below a near-full-height photo.
    Height-driven (not width-driven like the desktop ::before hack) so it
