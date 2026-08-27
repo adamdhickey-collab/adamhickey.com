@@ -1993,27 +1993,48 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: 46ch;
   margin: 0 0 2.25rem;
 }
+/* The case studies' own metadata treatment: each fact stands in its own
+   column behind a left rule, under a charcoal sentence-case label, rather
+   than sharing one rule across the top under uppercase sage. The rules
+   only appear once the row is multi-column; stacked on a phone they would
+   read as an indent, not a divider. */
 .build-facts {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem 2rem;
+  gap: 1.5rem 2rem;
   margin: 0 0 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-tag-border);
   max-width: 60rem;
 }
-@media (min-width: 620px)  { .build-facts { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 620px) {
+  .build-facts { grid-template-columns: repeat(2, 1fr); }
+  .build-facts > div {
+    border-left: 1px solid var(--color-tag-border);
+    padding-left: 1rem;
+  }
+}
 @media (min-width: 1000px) { .build-facts { grid-template-columns: repeat(4, 1fr); } }
 .build-facts dt {
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+  letter-spacing: 0.01em;
+  color: var(--color-dark);
   margin-bottom: 0.35rem;
 }
 .build-facts dd { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--color-dark); }
+
+/* The short sage rule the case studies set above each body heading, so the
+   three page families mark a new section the same way. Light grounds only:
+   the dark bands carry their own treatment. */
+.case-overview h2::before,
+.eng3-how > .container > h2::before {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-bottom: 0.85rem;
+  background: var(--color-accent);
+}
 /* Dash list for the write-up body: the light-ground twin of
    .engagement-points, for facts that scan better as a list than as a
    sentence with nine commas. */
