@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260826l" />
+  <link rel="stylesheet" href="style.css?v=20260826m" />
   <link rel="stylesheet" href="site-nav.css?v=20260826a" />
   <!-- The header logo plays a one-shot reveal clip on load and holds its last
        frame. The class is set here, before first paint, so the static mark
@@ -58,20 +58,34 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        var armed = true;
-        var revert = function () {
-          if (!armed) return;
-          armed = false;
+        /* Hand the header back to the static mark. The clip's settled frame
+           registers with the SVG to the pixel, so this swap is invisible,
+           and it is what keeps the logo on screen: a backgrounded page can
+           have its paused video's decoded frame dropped, and the element
+           would come back empty with the mark behind it still hidden. */
+        var settle = function () {
           el.classList.remove('logo-reveal');
           try { v.pause(); } catch (e) {}
         };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; settle(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the deadline below stops applying. */
+           the start deadline stops applying. */
         v.addEventListener('playing', function () { armed = false; });
-        v.addEventListener('error', revert);
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so settle
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) settle();
+        });
         var p = v.play();
-        if (p && p.catch) p.catch(revert);
-        setTimeout(revert, 1200);
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(settle, 3000);
       });
     })();
   </script>
@@ -156,7 +170,7 @@
           <!-- No year count here: the proof strip 200px below opens with
                "20 years", and having both in one screen read as a stutter
                rather than reinforcement. The number belongs with the proof. -->
-          <p class="hero-invite reveal">Enterprise platforms, design systems and products that outgrew their original shape. I work out what is worth building, then build enough of it to be sure.</p>
+          <p class="hero-invite reveal">Enterprise platforms, design systems and products that outgrew their original shape. I help you decide what to build, then build enough of it to know it works.</p>
           <div class="cta-row hero-cta reveal">
             <a href="#contact" class="btn btn-primary">Start a conversation</a>
             <a href="#case-studies" class="btn btn-ghost btn-ghost-light">See selected work</a>
@@ -197,51 +211,51 @@
         </header>
 
         <div class="case-grid stagger">
-          <a class="case-card reveal" href="case-study/sap-product-maturity.html" aria-label="View case study: Scaling enterprise product design across 40+ SAP apps">
+          <a class="case-card reveal" href="case-study/sap-product-maturity.html" aria-label="View case study: One design system for 40+ SAP apps">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.png" alt="Scaling enterprise product design across 40+ SAP apps" />
+              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.png" alt="One design system for 40+ SAP apps" />
             </div>
-            <h3>Scaling enterprise product design across 40+ SAP apps</h3>
+            <h3>One design system for 40+ SAP apps</h3>
             <div class="tag-row">
-              <span class="tag">Enterprise UX</span>
+              <span class="tag">Enterprise software</span>
               <span class="tag">Design systems</span>
               <span class="tag">Governance</span>
             </div>
           </a>
 
-          <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: Reducing operational overhead by 80% through a grant-management portal">
+          <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: A grant portal that cut overhead 80%">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.png" alt="Reducing operational overhead by 80% through a grant-management portal" />
+              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.png" alt="A grant portal that cut overhead 80%" />
             </div>
-            <h3>Reducing operational overhead by 80% through a grant-management portal</h3>
+            <h3>A grant portal that cut overhead 80%</h3>
             <div class="tag-row">
-              <span class="tag">Service design</span>
-              <span class="tag">Accessibility</span>
               <span class="tag">Public sector</span>
+              <span class="tag">Accessibility</span>
+              <span class="tag">Process redesign</span>
             </div>
           </a>
 
-          <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: Orchestrating real-time logistics for a 450+ truck fleet">
+          <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: Dispatch software for a 450+ truck fleet">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.png" alt="Orchestrating real-time logistics for a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" />
+              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.png" alt="Dispatch software for a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" />
             </div>
-            <h3>Orchestrating real-time logistics for a 450+ truck fleet</h3>
+            <h3>Dispatch software for a 450+ truck fleet</h3>
             <div class="tag-row">
-              <span class="tag">Complex systems</span>
-              <span class="tag">Real-time data</span>
               <span class="tag">Logistics</span>
+              <span class="tag">Real-time data</span>
+              <span class="tag">Operations software</span>
             </div>
           </a>
 
-          <a class="case-card reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="View case study: Designing an internal product platform for a global innovation network">
+          <a class="case-card reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="View case study: An internal platform for a global innovation network">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/group-100817.png?updatedAt=1761069243649" alt="Designing an internal product platform for a global innovation network" />
+              <img decoding="async" loading="lazy" src="img/site/group-100817.png?updatedAt=1761069243649" alt="An internal platform for a global innovation network" />
             </div>
-            <h3>Designing an internal product platform for a global innovation network</h3>
+            <h3>An internal platform for a global innovation network</h3>
             <div class="tag-row">
               <span class="tag">Brand identity</span>
-              <span class="tag">Campaigns</span>
-              <span class="tag">SharePoint</span>
+              <span class="tag">Illustration</span>
+              <span class="tag">Internal platform</span>
             </div>
           </a>
         </div>

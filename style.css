@@ -90,7 +90,7 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-dark); }
 /* ============================== HERO ============================== */
 .hero {
   background: var(--color-white);
-  padding-top: calc(var(--nav-height) + 1.75rem);
+  padding-top: calc(var(--nav-height) + 0.5rem);
   padding-bottom: 1.25rem;
   position: relative;
   overflow: hidden;
@@ -1507,14 +1507,13 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    320px screen the container clipped the frame to 272 wide against a 308
    height, and a "circle" with a 50% radius came out an ellipse.
 
-   The negative inline margin cancels the container's own gutter, so the
-   circle reaches both edges. 58vh is the guard, and it is set where it is
-   so that it never binds in portrait: the tightest common case is a 320px
-   wide screen at 568 tall, which needs 56.3vh to reach the edges. What it
-   does catch is landscape, where an unguarded full-width circle would be
-   taller than the viewport (767x390 resolves to 222 instead of 767). */
+   The frame sits inside the container's own gutter, like every other
+   block on the page, rather than bleeding to the screen edges. 58vh is
+   the guard, and it is set where it is so that it never binds in
+   portrait: the tightest common case is a 320px wide screen at 568 tall.
+   What it does catch is landscape, where an unguarded full-width circle
+   would be taller than the viewport. */
 @media (max-width: 767.98px) {
-  .hero-photo { margin-inline: -1.5rem; }
   .hero-photo-frame {
     width: 100%;
     max-width: min(100%, 58vh);

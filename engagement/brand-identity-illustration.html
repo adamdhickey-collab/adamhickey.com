@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
-  <link rel="stylesheet" href="../style.css?v=20260826l" />
+  <link rel="stylesheet" href="../style.css?v=20260826m" />
   <link rel="stylesheet" href="../site-nav.css?v=20260826a" />
   <!-- The header logo plays a one-shot reveal clip on load and holds its last
        frame. The class is set here, before first paint, so the static mark
@@ -44,20 +44,34 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        var armed = true;
-        var revert = function () {
-          if (!armed) return;
-          armed = false;
+        /* Hand the header back to the static mark. The clip's settled frame
+           registers with the SVG to the pixel, so this swap is invisible,
+           and it is what keeps the logo on screen: a backgrounded page can
+           have its paused video's decoded frame dropped, and the element
+           would come back empty with the mark behind it still hidden. */
+        var settle = function () {
           el.classList.remove('logo-reveal');
           try { v.pause(); } catch (e) {}
         };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; settle(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the deadline below stops applying. */
+           the start deadline stops applying. */
         v.addEventListener('playing', function () { armed = false; });
-        v.addEventListener('error', revert);
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so settle
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) settle();
+        });
         var p = v.play();
-        if (p && p.catch) p.catch(revert);
-        setTimeout(revert, 1200);
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(settle, 3000);
       });
     })();
   </script>
