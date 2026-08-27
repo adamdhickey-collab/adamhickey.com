@@ -92,7 +92,7 @@
      skip blocks that already contain finer-grained motion (impact rows). */
   var cards = $$('div').filter(function (d) {
     if (!hasCls(d, 'rounded-[20px]')) return false;
-    return hasCls(d, 'bg-[#F5F5F0]') || hasCls(d, 'bg-warm') || hasCls(d, 'bg-[#6D8768]');
+    return hasCls(d, 'bg-[#F5F5F0]') || hasCls(d, 'bg-warm') || hasCls(d, 'bg-[#556B51]');
   });
   var siblings = []; /* per-parent counters for same-row stagger */
   cards.forEach(function (d) {
