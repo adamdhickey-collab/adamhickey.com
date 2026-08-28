@@ -1957,11 +1957,15 @@ html.ah-lightbox-open body { overflow: hidden; }
    they read as statements rather than dashboard tiles, and a hairline
    above to separate them from the copy without adding a box. */
 .hero-proof { margin-top: 0.5rem; margin-bottom: 2.5rem; }
-@keyframes glance-draw { to { stroke-dashoffset: 0; } }
-@keyframes glance-rail { to { transform: scale(1); } }
 /* The hero's three arcs, as a timeline: tea stations on one rail, the way
    the build write-ups draw their approach. The years sit at the station
-   rather than inside the sentence, so the span reads before the story. */
+   rather than inside the sentence, so the span reads before the story.
+
+   The entrance is one idea, not parts fading independently: the rail draws
+   itself across the full container, each station scales up as the line
+   reaches it, its icon sketches in, and the words rise after. Gated on the
+   reveal observer's .is-visible so it plays when seen, with the container's
+   own reveal fade switched off so the choreography is the entrance. */
 .proof-row {
   list-style: none;
   display: grid;
@@ -1969,42 +1973,76 @@ html.ah-lightbox-open body { overflow: hidden; }
   gap: 1rem;
   margin: 0;
   padding: 1.5rem 0 0;
-  border-top: 1px solid var(--color-muted-light);
 }
 .proof-step { position: relative; margin: 0; }
 .proof-step::before {
-  content: ""; position: absolute;
+  content: "";
+  position: absolute;
   background: var(--color-tag-border);
-  animation: glance-rail 0.7s ease-out forwards;
+  animation: proof-rail 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-.proof-step:nth-child(1)::before { animation-delay: 0s; }
-.proof-step:nth-child(2)::before { animation-delay: 0.2s; }
-.proof-step:nth-child(3)::before { animation-delay: 0.4s; }
 .proof-node {
   position: relative; z-index: 1;
   display: inline-flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 50%;
+  width: 52px; height: 52px; border-radius: 50%;
   background: var(--color-tea-light);
   border: 1px solid rgba(101, 125, 96, 0.22);
+  opacity: 0;
+  transform: scale(0.4);
+  animation: proof-pop 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.proof-icon { width: 21px; height: 21px; color: var(--color-accent-deep); }
+.proof-icon { width: 26px; height: 26px; color: var(--color-accent-deep); }
 .proof-icon path,
 .proof-icon circle {
   fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: glance-draw 0.9s ease forwards;
+  animation: proof-draw 0.8s ease forwards;
 }
+.proof-body {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: proof-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+/* The line of a career, drawn left to right: each segment starts as the
+   previous one lands, the station pops as the line arrives, the icon and
+   words follow. One clock for the whole row. */
+.proof-step:nth-child(1)::before { animation-delay: 0.10s; }
+.proof-step:nth-child(2)::before { animation-delay: 0.55s; }
+.proof-step:nth-child(3)::before { animation-delay: 1.00s; }
+.proof-step:nth-child(1) .proof-node { animation-delay: 0.10s; }
+.proof-step:nth-child(2) .proof-node { animation-delay: 0.60s; }
+.proof-step:nth-child(3) .proof-node { animation-delay: 1.05s; }
 .proof-step:nth-child(1) .proof-icon path,
-.proof-step:nth-child(1) .proof-icon circle { animation-delay: 0.15s; }
+.proof-step:nth-child(1) .proof-icon circle { animation-delay: 0.35s; }
 .proof-step:nth-child(2) .proof-icon path,
-.proof-step:nth-child(2) .proof-icon circle { animation-delay: 0.4s; }
+.proof-step:nth-child(2) .proof-icon circle { animation-delay: 0.85s; }
 .proof-step:nth-child(3) .proof-icon path,
-.proof-step:nth-child(3) .proof-icon circle { animation-delay: 0.65s; }
+.proof-step:nth-child(3) .proof-icon circle { animation-delay: 1.30s; }
+.proof-step:nth-child(1) .proof-body { animation-delay: 0.30s; }
+.proof-step:nth-child(2) .proof-body { animation-delay: 0.80s; }
+.proof-step:nth-child(3) .proof-body { animation-delay: 1.25s; }
+@keyframes proof-rail { to { transform: scale(1); } }
+@keyframes proof-pop  { to { opacity: 1; transform: scale(1); } }
+@keyframes proof-rise { to { opacity: 1; transform: translateY(0); } }
+@keyframes proof-draw { to { stroke-dashoffset: 0; } }
+/* Hold at frame zero until the reveal observer says the row is on screen;
+   the delays then run off that moment rather than page load. */
+.js .hero-proof:not(.is-visible) .proof-step::before,
+.js .hero-proof:not(.is-visible) .proof-node,
+.js .hero-proof:not(.is-visible) .proof-icon path,
+.js .hero-proof:not(.is-visible) .proof-icon circle,
+.js .hero-proof:not(.is-visible) .proof-body { animation-play-state: paused; }
+/* The container's own reveal fade would put a second entrance on top of
+   this one, so it is switched off here and only here. */
+.js .hero-proof.reveal,
+.js .hero-proof.reveal.is-visible { opacity: 1; transform: none; transition: none; }
 @media (prefers-reduced-motion: reduce) {
+  .proof-step::before, .proof-node, .proof-body {
+    animation: none; opacity: 1; transform: none;
+  }
   .proof-icon path,
   .proof-icon circle { animation: none; stroke-dashoffset: 0; }
-  .proof-step::before { animation: none; transform: none !important; }
 }
 /* the span, sitting with the station rather than inside the sentence */
 .proof-years {
@@ -2029,29 +2067,30 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--color-muted-gray);
+  /* wide enough that each sentence settles on two lines, not three */
+  max-width: 42ch;
 }
 @media (min-width: 768px) {
   .proof-row { grid-template-columns: repeat(3, 1fr); gap: 0 2.5rem; }
   .proof-node { margin-bottom: 1rem; }
-  /* the rail reaches exactly across the column gap to the next station */
+  /* Each segment spans its column plus the gap, so the three read as one
+     line running the full width of the container, edge to edge. */
   .proof-step::before {
-    top: 21px; left: 0; right: calc(2.5rem * -1); height: 1px;
+    top: 26px; left: 0; right: calc(2.5rem * -1); height: 1px;
     transform: scaleX(0); transform-origin: 0 50%;
   }
-  .proof-step:first-child::before { left: 21px; }
-  .proof-step:last-child::before { right: calc(100% - 21px); }
-  .proof-note { max-width: 26ch; }
+  .proof-step:last-child::before { right: 0; }
 }
 @media (max-width: 767.98px) {
   .proof-row { gap: 0; }
   .proof-step {
-    display: grid; grid-template-columns: 42px minmax(0, 1fr);
+    display: grid; grid-template-columns: 52px minmax(0, 1fr);
     column-gap: 1rem;
     padding-bottom: 1.5rem;
   }
   .proof-step:last-child { padding-bottom: 0; }
   .proof-step::before {
-    left: 21px; top: 42px; bottom: 0; width: 1px;
+    left: 26px; top: 52px; bottom: 0; width: 1px;
     transform: scaleY(0); transform-origin: 50% 0;
   }
   .proof-step:last-child::before { display: none; }
