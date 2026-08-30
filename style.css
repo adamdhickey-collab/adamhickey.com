@@ -1547,10 +1547,28 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
      it clears the curve at both ends with room to spare. The 26% top is the
      gradient's fade distance, not space around the text. */
   padding: 26% 22% 11%;
+  /* The 0.62 stop sits at 50%, not 34%, and the reason is a measurement.
+     This caption is white 14px/600 -- under the bold threshold, so 4.5:1
+     applies -- and it sits on a scrim over a ten-second clip rather than a
+     still. A still has one lightest pixel; a loop has one per frame. Sampled
+     across eight points of hero-portrait.mp4 at 390px, the worst pixel put a
+     lit wall at rgb(232,228,220) under the name's top edge, where the old 34%
+     stop had already thinned the scrim to 0.475. That measured 3.88:1.
+
+     The glyphs reach the mid-40s as a percentage of the box's height, so the
+     plateau has to outlast them: at 50% the shallowest alpha any glyph sees is
+     0.63. The 0.24 stop moves to 74% so the fade does not become a step.
+
+     Computed style cannot see this. A scrim is a background-image, so
+     backgroundColor reports transparent and an audit walking up the tree finds
+     the page ground instead -- it reads the caption as white on white. The only
+     honest method is to render it, hide the glyphs, and take the ratio against
+     the lightest pixel in the box they occupied, across the clip rather than
+     one frame of it. Re-measure that way if the video is ever recut. */
   background: linear-gradient(to top,
     rgba(20, 20, 18, 0.78) 0%,
-    rgba(20, 20, 18, 0.62) 34%,
-    rgba(20, 20, 18, 0.24) 66%,
+    rgba(20, 20, 18, 0.62) 50%,
+    rgba(20, 20, 18, 0.24) 74%,
     rgba(20, 20, 18, 0) 100%);
   text-align: center;
   font-family: var(--font-sans);
