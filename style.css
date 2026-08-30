@@ -2112,7 +2112,22 @@ html.ah-lightbox-open body { overflow: hidden; }
     transform: scaleY(0); transform-origin: 50% 0;
   }
   .proof-step:last-child::before { display: none; }
-  .proof-body { padding-top: 0.25rem; }
+  /* The title centres on its station instead of hanging below it. Aligning
+     the boxes cannot do it -- the body is taller than the 52px node, so
+     centring them centres the whole stack, years and note included, and the
+     title lands lower still. The years line has to come up out of the row,
+     which is what a negative margin buys and padding cannot.
+
+     11.09px, measured at rest on this site. Measure it before the entrance
+     plays and you get 21.09: proof-rise starts the body at translateY(10px)
+     and .hero-proof holds the animation paused until the reveal observer
+     fires, so ten of those pixels are the animation, not the layout.
+
+     Dropping the 4px of padding and lifting half a rem closes 12 of the
+     11.09, landing 0.91px past centre. Written in rem rather than a token
+     because this stylesheet has no spacing scale; the staging tree spells the
+     same change calc(var(--space-xs) * -1). */
+  .proof-body { padding-top: 0; margin-top: -0.5rem; }
 }
 
 /* About opens with the line the hero used to carry. */
