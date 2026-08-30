@@ -153,6 +153,15 @@
                    autoplay loop muted playsinline preload="auto"
                    aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
             </video>
+            <!-- WCAG 2.2.2: the clip runs past five seconds and loops, so a way
+                 to stop it has to exist for everyone, not only for readers who
+                 have set prefers-reduced-motion. Quiet until hovered or
+                 focused, always in the tab order, and always visible on touch
+                 where there is no hover to reveal it. -->
+            <button type="button" class="hero-portrait-toggle" aria-label="Pause the portrait">
+              <svg class="hero-portrait-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
+              <svg class="hero-portrait-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
+            </button>
             <figcaption class="hero-caption">
               <span class="hero-caption-name">Adam Hickey</span>
               <span class="hero-caption-where">Minneapolis, most days.</span>
@@ -1838,6 +1847,37 @@
       };
       apply();
       if (mq.addEventListener) mq.addEventListener('change', apply);
+
+      /* The manual control. It reads the video's own state rather than
+         keeping a flag of its own, so the reduced-motion pause above and a
+         media query changing mid-session both leave the button telling the
+         truth about what it will do. */
+      var btn = document.querySelector('.hero-portrait-toggle');
+      if (!btn) return;
+      var pauseIcon = btn.querySelector('.hero-portrait-toggle-pause');
+      var playIcon  = btn.querySelector('.hero-portrait-toggle-play');
+      /* setAttribute rather than el.hidden = : `hidden` is an HTMLElement IDL
+         attribute and SVGElement has no such reflection, so `svg.hidden = true`
+         sets a plain expando that never reaches the attribute and so never
+         reaches CSS. Worse for anyone testing it, the expando reads back as
+         whatever was assigned, so a check on el.hidden confirms its own
+         assignment rather than the DOM. */
+      var show = function (el, on) {
+        if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+      };
+      var sync = function () {
+        var playing = !v.paused;
+        show(pauseIcon, playing);
+        show(playIcon, !playing);
+        btn.setAttribute('aria-label', playing ? 'Pause the portrait' : 'Play the portrait');
+      };
+      btn.addEventListener('click', function () {
+        if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+      v.addEventListener('play', sync);
+      v.addEventListener('pause', sync);
+      sync();
     })();
   </script>
   <script src="cursor.js?v=20260817a" defer></script>

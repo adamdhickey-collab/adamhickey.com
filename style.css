@@ -54,6 +54,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 img, svg { display: block; max-width: 100%; }
+/* ...and display:block above is an AUTHOR rule, where the browser's own
+   [hidden] { display: none } is a user-agent one, so this wins and a hidden
+   svg keeps drawing. The pause control below swaps two icons that way; without
+   this it renders both, stacked. Fixed for the class rather than the one call
+   site, because the next person to toggle an icon will not know the rule
+   either -- an author rule outranking a user-agent one looks like a rendering
+   glitch, so the hunt starts in the markup rather than in specificity. */
+img[hidden], svg[hidden] { display: none; }
 button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 strong { font-weight: 700; }
@@ -125,6 +133,51 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
 /* Safari paints a video's own corners over an ancestor's radius clip,
    so the circle is restated on the element itself. */
 .hero-portrait-video { border-radius: 50%; background: var(--color-white); }
+/* The clip's pause control. A solid ground rather than an alpha over the
+   illustration on purpose: a translucent one makes its contrast depend on
+   whichever frame is underneath, which is the trap the caption above fell
+   into. Warm ink on the solid scrim colour is 17.4:1.
+
+   Placed at 15% rather than a fixed corner inset because the frame is square
+   and the portrait is a circle inside it -- a corner would park the button off
+   the illustration. At 15% its centre sits 46.8% of the way out from the
+   middle, inside the 50% radius at every breakpoint, since both numbers are
+   percentages of the same box.
+
+   36px of visible button, 44px of target via the ::after. */
+.hero-portrait-toggle {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(20, 20, 18);
+  color: var(--color-warm);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.25s var(--ease);
+}
+.hero-portrait-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
+}
+.hero-portrait-toggle svg { width: 18px; height: 18px; }
+.hero-photo-frame:hover .hero-portrait-toggle,
+.hero-portrait-toggle:hover,
+.hero-portrait-toggle:focus-visible { opacity: 1; }
+/* Touch has no hover to reveal it, so it never hides there. */
+@media (hover: none) {
+  .hero-portrait-toggle { opacity: 1; }
+}
 /* The phone sizing itself lives further down this file, where the frame
    is given its full-width treatment. All that is left here is clearing
    the spacer the desktop rule depends on. */
