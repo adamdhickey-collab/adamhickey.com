@@ -651,7 +651,21 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
 }
 @media (min-width: 900px) {
   .story-step {
-    min-height: 73vh;
+    /* Scroll runway for the pinned scene, not room for the copy: the three
+       steps carry 226, 242 and 287px of content and reserved 73vh (526px at
+       a 720px viewport) each, so roughly half of every step was empty
+       distance rather than anything to read.
+
+       55vh still leaves the tallest step 109px of slack and gives each one
+       over half a screen of scrolling, which is what the scene needs to read
+       as a change rather than a cut. The step observer is unaffected: it
+       activates off a viewport-relative band (rootMargin -64% 0px -24% 0px,
+       about 86px here) and picks whichever intersecting step has its centre
+       nearest it, so step height only has to clear the band -- 396px is
+       4.6x. The steps simply arrive sooner in scroll terms.
+
+       Section 1887px -> 1498px, down 20.6%, with nothing removed. */
+    min-height: 55vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
