@@ -649,35 +649,50 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
 .story-step {
   padding: 1.5rem 0;
 }
+/* Below the sticky breakpoint the stage is layout-transparent: the steps
+   stay direct flex items of .story-steps, whose gap lays them out. Only the
+   desktop media block below turns it into a real pinned box. */
+.story-text-stage { display: contents; }
 @media (min-width: 900px) {
-  .story-step {
-    /* Scroll runway for the pinned scene, not room for the copy: the three
-       steps carry 226, 242 and 287px of content and reserved 73vh (526px at
-       a 720px viewport) each, so roughly half of every step was empty
-       distance rather than anything to read.
+  /* The steps no longer scroll past the pinned scene; they cross-fade in a
+     stage pinned beside it. That is what makes the text stay centred against
+     the circle: .story-text-stage is given exactly the scene's box -- the
+     same top and the same height as .story-sticky -- and centres its
+     content, so the alignment is geometry rather than an offset tuned to
+     one viewport. The old arrangement could only line up at the single
+     instant a step's centre crossed the midline, and drifted by up to half
+     a step either side of it.
 
-       55vh still leaves the tallest step 109px of slack and gives each one
-       over half a screen of scrolling, which is what the scene needs to read
-       as a change rather than a cut. The step observer is unaffected: it
-       activates off a viewport-relative band (rootMargin -64% 0px -24% 0px,
-       about 86px here) and picks whichever intersecting step has its centre
-       nearest it, so step height only has to clear the band -- 396px is
-       4.6x. The steps simply arrive sooner in scroll terms.
-
-       Section 1887px -> 1498px, down 20.6%, with nothing removed. */
-    min-height: 55vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+     .story-steps stops being three tall blocks and becomes pure runway: its
+     height is the scroll distance that drives the three steps. Pinning costs
+     distance, because the stage's own height comes out of that runway:
+     180vh leaves each step roughly 250-300px of scroll depending on the
+     viewport. This one number is the section's pace -- raise it and the
+     steps linger, lower it and they arrive faster. */
+  .story-steps { height: 180vh; }
+  .story-text-stage {
+    display: grid;
+    position: sticky;
+    top: calc(var(--nav-height) + 3rem);
+    height: calc(100vh - var(--nav-height) - 6rem);
+    align-items: center;
   }
-  /* Dim the inactive steps so the active one leads the eye. Gated on .js:
-     only the observer ever adds is-active, so without the script the dim
-     would be permanent. */
+  .story-step {
+    /* All three in one grid cell, so they stack and cross-fade in place. */
+    grid-area: 1 / 1;
+    min-height: 0;
+    padding: 0;
+  }
+  /* Gated on .js: only the observer ever adds is-active, so without the
+     script every step would sit at opacity 0 and the section would be blank.
+     This used to dim the inactive steps to 0.35; stacked, they have to go to
+     0 or they print on top of each other. */
   .js .story-step {
-    opacity: 0.35;
+    opacity: 0;
+    pointer-events: none;
     transition: opacity 0.5s var(--ease);
   }
-  .js .story-step.is-active { opacity: 1; }
+  .js .story-step.is-active { opacity: 1; pointer-events: auto; }
 }
 .story-num {
   display: block;
