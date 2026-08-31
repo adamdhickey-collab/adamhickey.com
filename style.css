@@ -565,6 +565,12 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
   --story-ink-soft: var(--color-muted-gray);
   --story-accent:   var(--color-accent-text);
   --story-rail:     var(--color-tag-border);
+  /* The same white the scene's plate is drawn with -- #FFFFFF at 0.78 -- so
+     the progress rail sits on the circle's optical plane instead of the
+     section's. The circle keeps its own fill and fill-opacity attributes
+     rather than sharing this token, because a CSS alpha underneath the
+     plate would multiply against them. */
+  --story-plate:    rgba(255, 255, 255, 0.78);
 
   background: var(--story-bg);
   color: var(--story-ink);
@@ -719,13 +725,17 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
   flex-direction: column;
   gap: 0;
   justify-content: center;
-  /* A pill of the section's own tone keeps the rail readable now that
-     the photograph shows through more strongly behind it. */
+  /* The pill took the section's own tone, which meant it cross-faded through
+     all four step moods behind the numbers -- greenish on 01, teal on 02,
+     greige on 03. The rail is furniture, not part of the scene's mood, so it
+     now takes the plate's white and holds still while the panel changes
+     around it. The transition goes with it: there is nothing left to animate.
+     Composited over the four steps this lands between 5.34:1 and 6.23:1 for
+     both the resting and active number colours. */
   padding: 1.1rem 0.6rem;
-  background: var(--story-bg);
+  background: var(--story-plate);
   border-radius: 999px;
   box-shadow: 0 1px 8px rgba(37, 37, 37, 0.07);
-  transition: background-color 1s var(--ease);
 }
 .story-progress li {
   display: flex;
