@@ -37,7 +37,47 @@
      not exist. */
   var INTERACTIVE = 'a, button, summary, input, select, textarea, label,' +
                     '[role="button"], [onclick], .case-card';
+  /* The cursor is charcoal, so it disappears on any dark surface. Listing
+     the dark ones by class does not hold: an audit of every element whose
+     computed background is under 0.18 luminance found the footer, the
+     portrait toggle, both primary buttons, the .mini-phone cards and the
+     e-mail popover's copy button -- and that is only the surfaces that
+     exist today. The footer was dark on all seven pages and marked on none,
+     which is the failure mode of a hand-kept list.
+
+     So measure instead of listing. Walk up from whatever the pointer is
+     over to the first element that actually paints a background, and read
+     its luminance. Anything genuinely dark lights the cursor, including
+     surfaces added later.
+
+     data-cursor="light" stays, checked inside the same walk, because
+     measuring cannot see a dark photograph or canvas: those paint no
+     background-color, so the walk falls through them to whatever is behind.
+     Checking it per level rather than with closest() also fixes the inverse
+     case, where a light card inside a marked dark section lit the cursor and
+     made it vanish against the card. */
   var DARK = '[data-cursor="light"]';
+
+  function channel(c) {
+    c = c / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  }
+
+  function onDarkSurface(node) {
+    for (var n = node; n && n.nodeType === 1; n = n.parentElement) {
+      /* An explicit mark decides at the level it sits on, so a dark
+         photograph or canvas -- which paints no background-color for the
+         walk to read -- still lights the cursor. */
+      if (n.matches(DARK)) return true;
+      var m = /rgba?\(([^)]+)\)/.exec(getComputedStyle(n).backgroundColor);
+      if (!m) continue;
+      var p = m[1].split(',');
+      /* See-through: it does not decide the colour, so keep walking up. */
+      if (p.length > 3 && parseFloat(p[3]) < 0.5) continue;
+      return 0.2126 * channel(+p[0]) + 0.7152 * channel(+p[1]) + 0.0722 * channel(+p[2]) < 0.18;
+    }
+    return false;
+  }
 
   var mx = 0, my = 0, rx = 0, ry = 0, raf = null, started = false;
 
@@ -67,7 +107,7 @@
     var t = e.target;
     if (!t || !t.closest) return;
     ring.classList.toggle('is-hovering', !!t.closest(INTERACTIVE));
-    document.documentElement.classList.toggle('cursor-on-dark', !!t.closest(DARK));
+    document.documentElement.classList.toggle('cursor-on-dark', onDarkSurface(t));
   }, { passive: true });
 
   /* Hide both parts when the pointer leaves the window, so neither is left
