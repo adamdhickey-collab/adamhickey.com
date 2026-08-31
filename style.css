@@ -610,6 +610,23 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
   max-width: 56rem;
   margin-bottom: 1rem;
 }
+@media (min-width: 900px) {
+  /* The title holds under the nav for the whole section, so the reader
+     always knows what the three steps belong to. The two pinned boxes
+     below it start 2.5rem lower than they used to, clearing the line. */
+  .story-head {
+    position: sticky;
+    top: calc(var(--nav-height) + 1rem);
+    z-index: 2;
+    margin-bottom: 0;
+    transition: opacity 0.2s var(--ease);
+  }
+  /* Set by the step driver once scroll passes the end of the runway: the
+     stage is moving away, so the title bows out instead of hovering over
+     the departing text. Its sticky range outlives the stage's, which is
+     what would otherwise cause the overlap. */
+  .story-leaving .story-head { opacity: 0; }
+}
 .story-lead {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -664,17 +681,22 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
      a step either side of it.
 
      .story-steps stops being three tall blocks and becomes pure runway: its
-     height is the scroll distance that drives the three steps. Pinning costs
-     distance, because the stage's own height comes out of that runway:
-     180vh leaves each step roughly 250-300px of scroll depending on the
-     viewport. This one number is the section's pace -- raise it and the
-     steps linger, lower it and they arrive faster. */
-  .story-steps { height: 180vh; }
+     height is the scroll distance that drives the three steps, and this one
+     number is the section's pace -- raise it and the steps linger, lower it
+     and they arrive faster. It was 180vh, chosen for page length, and the
+     scene read as rushed: each step got about 250px of travel and the
+     assembly animation went by almost unseen. 300vh gives each step
+     500-650px, more than the original layout ever did, which is the point:
+     the scrub is the section's whole show. */
+  .story-steps { height: 300vh; }
   .story-text-stage {
     display: grid;
     position: sticky;
-    top: calc(var(--nav-height) + 3rem);
-    height: calc(100vh - var(--nav-height) - 6rem);
+    /* 5.5rem, not 3rem: the sticky title above holds 1rem under the nav and
+       needs its line's worth of clearance. .story-sticky moves in step --
+       the two boxes must stay identical for the centring to hold. */
+    top: calc(var(--nav-height) + 5.5rem);
+    height: calc(100vh - var(--nav-height) - 8.5rem);
     align-items: center;
   }
   .story-step {
@@ -740,8 +762,10 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
 @media (min-width: 900px) {
   .story-sticky {
     position: sticky;
-    top: calc(var(--nav-height) + 3rem);
-    height: calc(100vh - var(--nav-height) - 6rem);
+    /* Keep identical to .story-text-stage: the text centring depends on the
+       two pinned boxes sharing one geometry. */
+    top: calc(var(--nav-height) + 5.5rem);
+    height: calc(100vh - var(--nav-height) - 8.5rem);
   }
 }
 
