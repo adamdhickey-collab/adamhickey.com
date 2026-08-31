@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260831b" />
+  <link rel="stylesheet" href="style.css?v=20260831c" />
   <link rel="stylesheet" href="site-nav.css?v=20260826a" />
   <!-- The header logo plays a one-shot reveal clip on load and holds its last
        frame. The class is set here, before first paint, so the static mark
@@ -954,7 +954,10 @@
           if (!runwayEl) return;
           const r = runwayEl.getBoundingClientRect();
           const travel = r.height - (stageEl ? stageEl.getBoundingClientRect().height : 0);
-          const top = window.scrollY + r.top + travel * ((i + 0.5) / steps.length);
+          const pinTop = stageEl ? parseFloat(getComputedStyle(stageEl).top) || 0 : 0;
+          /* Position the runway so pinned progress lands mid-step: p is
+             measured from the pin point, so the pin offset comes off. */
+          const top = window.scrollY + r.top - pinTop + travel * ((i + 0.5) / steps.length);
           window.scrollTo({ top, behavior: rm ? 'auto' : 'smooth' });
         });
       });
@@ -1035,7 +1038,20 @@
           const r = runway.getBoundingClientRect();
           const travel = r.height - (stage ? stage.getBoundingClientRect().height : 0);
           if (travel <= 0) return;
-          const p = -r.top / travel;
+          /* Progress through the PINNED span, not through the raw runway.
+             The stage pins when the runway's top reaches the sticky offset
+             (its computed `top`, which resolves the calc to pixels), so a
+             plain -top/travel runs about a tenth early: the stage would
+             detach at p = 0.9 and the finale would play while the section
+             was already scrolling away. */
+          const pinTop = stage ? parseFloat(getComputedStyle(stage).top) || 0 : 0;
+          const p = (pinTop - r.top) / travel;
+          /* Past the end of the runway the pinned pair starts scrolling away
+             (travel is runway minus stage, so that is exactly p = 1). The
+             title is sticky with a longer range than the stage, so without
+             this it would hang under the nav while the departing step text
+             slid beneath it. */
+          section.classList.toggle('story-leaving', p >= 1);
           if (p < 0) {
             if (active !== 0) { active = 0; setStep(0); }
             setTheme('intro');
@@ -1854,7 +1870,11 @@
         const r = runwayEl.getBoundingClientRect();
         const travel = r.height - (stageEl ? stageEl.getBoundingClientRect().height : 0);
         if (travel <= 0) return TIMES[0];
-        const p = -r.top / travel;
+        /* Measured from the pin point, like the step driver: the stage pins
+           when the runway top reaches its computed sticky `top`, and the
+           scrub should spend its whole range inside that pinned span. */
+        const pinTop = stageEl ? parseFloat(getComputedStyle(stageEl).top) || 0 : 0;
+        const p = (pinTop - r.top) / travel;
         const cs = [1 / 6, 3 / 6, 5 / 6];
         const ramp = (window.innerHeight * 0.55) / travel;
         if (p <= cs[0]) return mapRange(p, cs[0] - ramp, cs[0], 0, TIMES[0]);
