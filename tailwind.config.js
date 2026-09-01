@@ -45,6 +45,15 @@ module.exports = {
         'dark':        '#252525',
         'border-light':'#E5E5E0',
       },
+      /* Tailwind's own text-3xl and text-4xl are 30px and 36px, and neither is
+         on the fourteen-step scale (…24 28 34 40…). Every other default in the
+         range already lands on it. Mapping just these two keeps the utility and
+         the scale from disagreeing -- md:text-3xl was the last off-scale size
+         on the site that was not the hero. */
+      fontSize: {
+        '3xl': '1.75rem',    /* 28px, was 30 */
+        '4xl': '2.125rem',   /* 34px, was 36 */
+      },
       fontFamily: {
         'sans':   ['var(--font-sans)'],
         'serif':  ['var(--font-serif)'],
