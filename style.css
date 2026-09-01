@@ -1070,8 +1070,12 @@ p  { font-size: 1rem; line-height: 1.6; color: var(--color-charcoal); }
   font-size: 1rem;
   cursor: pointer;
 }
-.btn-primary { background: var(--color-accent-deep); }
-.btn-primary:hover { background: color-mix(in srgb, var(--color-accent-deep) 90%, transparent); }
+/* accent-text, not accent-deep, and the difference is the text sitting on it:
+   a fill that CARRIES text has to clear the text floor against that text, not
+   the 3:1 floor a bare fill would. Warm on accent-deep is 4.12:1 and failed;
+   on accent-text the same warm reads 5.32:1. */
+.btn-primary { background: var(--color-accent-text); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent-text) 90%, transparent); }
 .btn-ghost { border: 1px solid var(--color-muted-gray); }
 .btn-ghost:hover { background: var(--color-charcoal); }
 
