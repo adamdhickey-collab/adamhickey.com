@@ -1,0 +1,112 @@
+# The checks, run by something other than whoever remembers.
+#
+# This does NOT deploy. Deployment is pages.yml, which publishes the repository
+# root on every push to main; this file only reports. The two are deliberately
+# separate workflows so a failing check reads as a failing check rather than as
+# a failed deploy.
+#
+# WHY THIS EXISTS AT ALL. Until now nothing here ran on a pull request. The
+# contrast failures fixed in #13 -- 27 of them, including the fill sage used as
+# text at 4.12:1 -- were found by pointing another repository's scripts at this
+# tree by hand. Nothing would have caught them, and nothing would have caught
+# them coming back.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The six case studies ship a built stylesheet rather than compiling
+      # Tailwind in the browser (#14). Built output can fall behind its markup
+      # the moment somebody adds a class and does not rebuild -- and the page
+      # would NOT look wrong, because the new class would simply do nothing.
+      # That is the failure this step exists for, and it is a risk #14 created.
+      #
+      # The report is class-level on purpose. Both files are one minified line,
+      # so a plain diff prints 15KB twice and says nothing; what a reader needs
+      # is which selectors moved.
+      - name: Built Tailwind CSS is current
+        run: |
+          npm install --no-save --no-audit --no-fund tailwindcss@3.4.19
+          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tw-input.css
+          npx tailwindcss -c tailwind.config.js -i /tmp/tw-input.css -o /tmp/tw-built.css --minify
+          if diff -q /tmp/tw-built.css case-study/case-tailwind.css >/dev/null; then
+            echo "built stylesheet matches its source"
+            exit 0
+          fi
+          echo "::error title=Built CSS is stale::case-study/case-tailwind.css is not what tailwind.config.js and the markup produce. Rebuild it with the command in the config header and commit the result."
+          cat > /tmp/tw-report.mjs <<'REPORT'
+          import fs from 'node:fs';
+          /* A selector token, honouring Tailwind's escapes. The escape branch
+             has to come first, or the negated class eats the backslash and
+             truncates .md\:p-10 to .md. */
+          const TOKEN = /\.((?:\\.|[^\\\s{},.:>+~[\]()#*="'])+)/g;
+          const sel = (f) => new Set([...fs.readFileSync(f, 'utf8').matchAll(TOKEN)]
+            .map((m) => m[1].replace(/\\(.)/g, '$1')));
+          const fresh = sel('/tmp/tw-built.css');
+          const committed = sel('case-study/case-tailwind.css');
+          const missing = [...fresh].filter((s) => !committed.has(s)).sort();
+          const extra = [...committed].filter((s) => !fresh.has(s)).sort();
+          for (const s of missing) console.log('  the markup uses it, the committed file lacks it: .' + s);
+          for (const s of extra) console.log('  in the committed file, no longer built: .' + s);
+          if (!missing.length && !extra.length)
+            console.log('  same selectors, different bytes -- a Tailwind version change, most likely.');
+          REPORT
+          sed -i 's/^          //' /tmp/tw-report.mjs
+          node /tmp/tw-report.mjs
+          exit 1
+
+      # No page may go back to compiling its CSS in the browser. #14 removed the
+      # cdn.tailwindcss.com script from all six case studies; this is one grep
+      # rather than a browser, and it costs nothing to keep.
+      - name: No page compiles Tailwind in the browser
+        run: |
+          if grep -rl 'cdn\.tailwindcss\.com' --include='*.html' .; then
+            echo "::error title=CDN Tailwind is back::A page loads the browser-side compiler. Build the stylesheet instead -- see tailwind.config.js."
+            exit 1
+          fi
+          echo "no page loads the browser-side compiler"
+
+# ---------------------------------------------------------------------------
+# NOT HERE YET, and the reason is access rather than appetite.
+#
+# The four browser checks -- resting.mjs, states.mjs, typescale.mjs, curves.mjs
+# -- live in adamdhickey-collab/adamhickey-next and all take `--root <path>`,
+# which exists precisely so they can be aimed at this tree:
+#
+#     node ../adamhickey-next/scripts/resting.mjs --root . --strict
+#
+# adamhickey-next is PRIVATE and this repository is PUBLIC, so its GITHUB_TOKEN
+# cannot check that repository out. Running them here needs a fine-grained
+# token with read access to adamhickey-next, stored as a secret, and creating
+# that is the owner's decision rather than something a workflow should assume.
+#
+# Vendoring copies of the scripts into this repository is the other option and
+# is deliberately not taken: two copies of the same check drift, and they drift
+# invisibly. That is not hypothetical -- resting.mjs and states.mjs resolved
+# their root one way and typescale.mjs and curves.mjs another, undocumented,
+# until one of them confidently reported this site's numbers for a tree it had
+# never opened.
+#
+# When the token exists, three of the four go in --strict and pass today:
+# resting (829 measurements), states (334 across 300 rules), curves (3134
+# elements). typescale does NOT pass: 24 distinct sizes sit off the fourteen-step
+# scale, 15px and 17px among them in the hundreds. It has no lenient mode, so
+# adding it before those are resolved would mean a workflow that is red on
+# arrival -- which is how a check gets switched off rather than fixed.
+# ---------------------------------------------------------------------------
