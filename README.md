@@ -39,7 +39,7 @@ case-study scroll motion) carries over unchanged.
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/about/*.webp` | Three About images, each as a frame thumbnail and a full size for the lightbox |
 | `img/engagement/*.webp` | Four flat illustrations, one per engagement card |
-| `Adam Hickey Resume.pdf` | Résumé linked from the header and footer |
+| `Adam Hickey Resume.pdf` | Résumé linked from the header and footer; rendered by `scripts/resume.mjs` in the staging repository and copied here |
 | `TYPOGRAPHY.md` | Type notes, carried over from live |
 | `archive/adam-hickey-portfolio/` | Older portfolio snapshot, kept for reference |
 
@@ -70,47 +70,57 @@ covers 2x of the widest the slot ever gets.
 
 ### Deployment
 
-**This repository does not publish anything.** It has no Pages workflow and
-Pages is switched off in its settings. The portfolio files here are the
-*source*; the site is served from its own repository:
+**This repository is the live site.** `.github/workflows/pages.yml` uploads
+the repository root to GitHub Pages on every push to `main`, and `CNAME` plus
+the custom-domain setting on the Pages page put that upload at
+https://adamhickey.com. There is no build step and nothing in between: a merge
+is public about a minute after the workflow finishes.
 
 | | |
 | --- | --- |
-| Published from | `adamdhickey-collab/adamhickey-next` |
-| Staged at | https://adamdhickey-collab.github.io/adamhickey-next/ |
+| Live at | https://adamhickey.com |
+| Deploys from | `main`, repository root, via `pages.yml` |
+| Staged first in | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/ |
 
-Editing `index.html` or `style.css` here changes nothing online until the
-change is copied across and pushed to that repository.
+Changes are made and checked in the staging repository and carried here once
+they have been looked at there, so a file here and its copy in staging are
+expected to match after a change has moved across. What does not move is the
+staging apparatus: every staging page carries a `noindex` meta marked
+`STAGING ONLY`, omits the analytics snippet at a `STAGING NOTE` comment, and
+omits the canonical link. This site has none of that: no `noindex` anywhere,
+the Google Analytics tag `G-BLY8X4YCNK` on every page, and `index.html`
+carrying `<link rel="canonical">` and `og:url` for https://adamhickey.com/.
+A page copied across from staging needs those three restored before it merges.
 
-It used to work the other way: this repo deployed its own root, which also put
-the client prototypes and the archive on the internet for anyone who guessed a
-path. That is why the split happened.
+`checks.yml` is the other workflow. It runs on every pull request and push to
+`main`, reports, and deploys nothing; the two are separate on purpose so a
+failing check reads as a failing check rather than as a failed deploy.
+
+**Two things the workflow will not do for you.**
+
+- **The deploy has not always fired on a merge.** The squash-merge of #17 on
+  2026-09-03 ran `checks` and never ran `pages.yml`; the merge before it did
+  run both. After merging, look at the Actions list for a *Deploy static site
+  to GitHub Pages* run on the merge commit, and if there is none, start one:
+
+  ```
+  gh workflow run pages.yml --ref main
+  ```
+
+- **Pages caches for ten minutes** (`cache-control: max-age=600`), so a fetch
+  straight after a deploy can still return the old bytes. Add a query string
+  to see past the cache before deciding the deploy failed.
+
+It used to be worse than a stale README: this repository once deployed its
+root with the client prototypes and the archive inside it, reachable by anyone
+who guessed a path. They moved out, to the repositories under "What lives
+where", and what remains here is only what should be public.
 
 All internal links and assets are **relative** (no root-absolute `/...`
-paths), so the site works identically from a project subpath and from a root
+paths), so the same files work from the staging subpath and from this root
 domain. The one exception is `og:image` in `index.html`, which has to be
-absolute because scrapers do not resolve relative URLs, and so needs updating
-whenever the host changes.
-
-### Search indexing (staging noindex)
-
-Every page carries:
-
-```html
-<meta name="robots" content="noindex, nofollow" />
-```
-
-in its `<head>`, marked with a `STAGING ONLY` comment directly above it:
-`index.html` plus the six `case-study/*.html` files, 7 in total. This is the
-only noindex mechanism (a `robots.txt` cannot work from a Pages project
-subpath), and it exists only in this repo.
-
-### Analytics
-
-The live site's Google Analytics tag (`G-BLY8X4YCNK`) is **deliberately
-omitted** from every staged page, so traffic to the staging URL doesn't mix
-into the production property's data. Each page has a `STAGING NOTE` comment
-where the snippet was, and the original lives in the `adamhickey.com` repo.
+absolute because scrapers do not resolve relative URLs, and so names
+https://adamhickey.com/img/og-card.jpg explicitly.
 
 ## Making this the production site
 
