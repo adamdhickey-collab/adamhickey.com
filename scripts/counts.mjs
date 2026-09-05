@@ -120,9 +120,20 @@ const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
  * `n` is the number that sentence asserts; `of` recounts it from the tree.
  * ------------------------------------------------------------------------- */
 const CLAIMS = [
+  /* The headline, and the summary table at the top of the file that had been
+     contradicting it. README opened with "18 pages in seven families" while
+     saying "Fifteen pages in six families" six hundred lines down, and only
+     the second one was registered here -- so the check passed, every run,
+     with the wrong number in the first paragraph a reader meets. A claim
+     that is checked somewhere is not the same as a claim that is checked
+     everywhere it is made. */
   { doc: 'README.md',
     says: 'Fifteen pages in six families',
     n: 15, what: 'pages', of: () => PAGES.length },
+
+  { doc: 'README.md',
+    says: 'The site: 15 pages in six families',
+    n: 15, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
     says: 'Fifteen pages in six families',
@@ -149,8 +160,8 @@ const CLAIMS = [
     says: 'Fifteen pages: everything live has',
     n: 15, what: 'staging-root pages', of: () => PAGES.length },
   { doc: 'design-system/index.html',
-    says: 'Seventeen of them',
-    n: 17, what: 'component entries on the page',
+    says: 'Sixteen of them',
+    n: 16, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
