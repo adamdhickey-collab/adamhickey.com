@@ -5,11 +5,21 @@
 # separate workflows so a failing check reads as a failing check rather than as
 # a failed deploy.
 #
-# WHY THIS EXISTS AT ALL. Until now nothing here ran on a pull request. The
+# WHY THIS EXISTS AT ALL. Until #15 nothing here ran on a pull request. The
 # contrast failures fixed in #13 -- 27 of them, including the fill sage used as
-# text at 4.12:1 -- were found by pointing another repository's scripts at this
-# tree by hand. Nothing would have caught them, and nothing would have caught
-# them coming back.
+# text at 4.12:1 -- were found by pointing staging's scripts at this tree by
+# hand. Nothing would have caught them, and nothing would have caught them
+# coming back.
+#
+# For its first weeks this file ran two checks, both about the built Tailwind
+# stylesheet, and ended with a note saying the other seven could not run here:
+# they lived in staging, which is private, so this public repository's token
+# could not check them out. #20 copied the scripts into this tree, and this
+# file now runs all nine. It is staging's checks.yml with the two Tailwind
+# steps this repository already had, and it differs from staging's in one
+# script rather than in any step: counts.mjs here does not carry the claim
+# about how many of staging's pages the live site holds, because this is the
+# live site (README, "What still differs").
 name: checks
 
 on:
@@ -31,6 +41,63 @@ jobs:
         with:
           node-version: '22'
 
+      # Ahead of every check about the site, because it is not about the site:
+      # it asks whether the tree can be tarred into a Pages artifact at all. A
+      # pull request that passes every other check and cannot deploy is the
+      # worst shape a repository like this can produce -- green marks on a
+      # commit whose bytes never left the runner, and a site that looks
+      # unchanged because it is. Staging's #111 was that: an image set nobody
+      # could see, behind a node_modules symlink to a path on one Mac.
+      # pages.yml runs this too, immediately before the upload; here is where
+      # it stops being main's problem.
+      - name: The tree can be tarred
+        run: node scripts/deployable.mjs
+
+      # Goes first among the checks proper because it is the only one that
+      # needs nothing installed: no browser, no Tailwind, about a second. A
+      # stale token name in the specs should not wait behind a Chromium
+      # download to be reported.
+      #
+      # It asks what the browser checks do not. They read the specs as RULES
+      # and the rendered pages as evidence. This reads the specs as CLAIMS:
+      # every token they name either exists or is declared retired in the
+      # script.
+      - name: Every token the documentation names exists
+        run: node scripts/tokens.mjs
+
+      # Beside it, and for the same reason: the numbers the documentation
+      # asserts about the site, recounted from the tree. Also no browser.
+      - name: Every counted claim still counts
+        run: node scripts/counts.mjs
+
+      # The third static check, and the same kind of question as the other
+      # two: something the documentation asserts, recounted from the tree. What
+      # it holds is the metadata no reader ever sees -- a canonical URL per
+      # page, an Open Graph card per page, a JSON-LD graph per page, and a
+      # sitemap listing every page exactly once. It matters more here than in
+      # staging, because here the addresses are the ones a crawler acts on.
+      #
+      # It goes here because none of that renders. A missing canonical does not
+      # move a pixel; a sitemap that lists fourteen of fifteen pages looks
+      # exactly like a site with fourteen pages. The browser checks below
+      # measure what a reader can see, and by construction cannot see any of
+      # this.
+      - name: What the site tells a machine still matches the site
+        run: node scripts/seo.mjs
+
+      # No package.json in this repository, and the check scripts are the only
+      # thing that would want one. Install what they need for the length of the
+      # job rather than committing a manifest for two dependencies.
+      #
+      # Both in ONE command, and that is not a tidiness preference. With no
+      # package.json, `npm install --no-save` rebuilds node_modules around the
+      # package it was given: a second call removes what the first installed.
+      # Two separate steps looked correct in staging, passed review, and made
+      # the Tailwind step delete playwright-core out from under the contrast
+      # check two steps later -- "added 72 packages, and removed 1 package".
+      - name: Install the checks' dependencies
+        run: npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
+
       # The six case studies ship a built stylesheet rather than compiling
       # Tailwind in the browser (#14). Built output can fall behind its markup
       # the moment somebody adds a class and does not rebuild -- and the page
@@ -42,7 +109,6 @@ jobs:
       # is which selectors moved.
       - name: Built Tailwind CSS is current
         run: |
-          npm install --no-save --no-audit --no-fund tailwindcss@3.4.19
           printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tw-input.css
           npx tailwindcss -c tailwind.config.js -i /tmp/tw-input.css -o /tmp/tw-built.css --minify
           if diff -q /tmp/tw-built.css case-study/case-tailwind.css >/dev/null; then
@@ -82,31 +148,72 @@ jobs:
           fi
           echo "no page loads the browser-side compiler"
 
-# ---------------------------------------------------------------------------
-# NOT HERE YET, and the reason is access rather than appetite.
-#
-# The four browser checks -- resting.mjs, states.mjs, typescale.mjs, curves.mjs
-# -- live in adamdhickey-collab/adamhickey-next and all take `--root <path>`,
-# which exists precisely so they can be aimed at this tree:
-#
-#     node ../adamhickey-next/scripts/resting.mjs --root . --strict
-#
-# adamhickey-next is PRIVATE and this repository is PUBLIC, so its GITHUB_TOKEN
-# cannot check that repository out. Running them here needs a fine-grained
-# token with read access to adamhickey-next, stored as a secret, and creating
-# that is the owner's decision rather than something a workflow should assume.
-#
-# Vendoring copies of the scripts into this repository is the other option and
-# is deliberately not taken: two copies of the same check drift, and they drift
-# invisibly. That is not hypothetical -- resting.mjs and states.mjs resolved
-# their root one way and typescale.mjs and curves.mjs another, undocumented,
-# until one of them confidently reported this site's numbers for a tree it had
-# never opened.
-#
-# When the token exists, three of the four go in --strict and pass today:
-# resting (829 measurements), states (334 across 300 rules), curves (3134
-# elements). typescale does NOT pass: 24 distinct sizes sit off the fourteen-step
-# scale, 15px and 17px among them in the hundreds. It has no lenient mode, so
-# adding it before those are resolved would mean a workflow that is red on
-# arrival -- which is how a check gets switched off rather than fixed.
-# ---------------------------------------------------------------------------
+      # The two contrast checks. They ask different questions and neither
+      # covers the other: resting.mjs measures every color a reader can SEE
+      # without touching anything, states.mjs forces every hover, focus and
+      # script-applied state and measures what a reader can REACH. A color can
+      # be perfect at rest and fail on hover, and it can fail sitting still,
+      # which no amount of state-forcing notices -- the resting color is the
+      # one state that is never forced.
+      #
+      # One browser, resolved once, for both. It is found rather than assumed:
+      # states.mjs takes CHROME at its word without stat-ing it, so a hardcoded
+      # path the runner image later moves would surface as a launch failure
+      # rather than as a missing browser. Prefer whatever the image ships --
+      # that costs nothing -- and fall back to fetching Chromium, so these
+      # checks do not quietly depend on a property of the runner nobody here
+      # controls.
+      - name: Contrast, at rest and in every reachable state
+        run: |
+          for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
+                   /usr/bin/chromium-browser /usr/bin/chromium; do
+            if [ -x "$c" ]; then export CHROME="$c"; break; fi
+          done
+          if [ -n "$CHROME" ]; then
+            echo "using the image's browser: $CHROME"
+          else
+            echo "no browser on this image; fetching Chromium"
+            export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
+            node node_modules/playwright-core/cli.js install chromium
+          fi
+          node scripts/resting.mjs --strict
+          node scripts/states.mjs --strict
+
+      # A border on a curved surface either follows the whole curve or is not
+      # there. Rendered rather than grepped, because it takes two rules to
+      # make: the radius on the base, the border on the state. Computed style
+      # is the only place they are ever in the same room. States are forced for
+      # the same reason states.mjs forces them.
+      - name: No partial border on a curved surface
+        run: |
+          for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
+                   /usr/bin/chromium-browser /usr/bin/chromium; do
+            if [ -x "$c" ]; then CHROME="$c"; break; fi
+          done
+          if [ -n "$CHROME" ]; then
+            CHROME="$CHROME" node scripts/curves.mjs
+          else
+            export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
+            node scripts/curves.mjs
+          fi
+
+      # Every rendered type size against the fourteen steps. This file used to
+      # say the check could not be added because it was red on this tree -- 24
+      # sizes off the scale, 15px and 17px among them in the hundreds. #16
+      # resolved those and #20 carried the rest; it passes here now, at 10680
+      # sizes. Needs the same browser as the contrast check, so it reuses
+      # whatever that step found -- and it goes after it, because a page that
+      # cannot render is a contrast failure first and a type failure only
+      # incidentally.
+      - name: Every type size is on the scale
+        run: |
+          for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
+                   /usr/bin/chromium-browser /usr/bin/chromium; do
+            if [ -x "$c" ]; then CHROME="$c"; break; fi
+          done
+          if [ -n "$CHROME" ]; then
+            CHROME="$CHROME" node scripts/typescale.mjs
+          else
+            export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
+            node scripts/typescale.mjs
+          fi
