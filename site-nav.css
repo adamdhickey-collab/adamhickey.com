@@ -107,6 +107,61 @@
 .logo-playing .logo-img { opacity: 1; }
 .logo-settled .logo-video { opacity: 0; }
 
+/* Primary section links: Work, Services, About, Contact. These lived in
+   style.css, which regime B does not load, so the six Tailwind case studies
+   rendered the header without them -- logo and icons on the same pixels,
+   and an empty middle. Arriving on RBA or Pixel Farm from About, the four
+   links simply vanished, and the header read as having shifted. README has
+   said all along that the nav links are hand-written into all fifteen
+   pages; this is what makes that true.
+
+   site-nav.css lays .nav-inner out with space-between, so as a flex child
+   this block floated wherever the leftover space put it: close to the
+   hero copy's left edge below, but never on it. Above 900px the bar becomes
+   a grid using the home hero's own column geometry (.hero-photo is 33% with
+   a 3rem gap), so column two starts exactly where the hero eyebrow and
+   headline start, and the links sit on that line -- on every page, not only
+   the one with the hero, because the point is that nothing in the header
+   moves between pages. Below 900px the links are hidden and the flex
+   space-between above still applies, which is correct for logo + icons.
+   SPACING.md has the reason 900 is the number. */
+.nav-links {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 900px) {
+  .site-nav .nav-inner {
+    display: grid;
+    grid-template-columns: 33% 1fr auto;
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+  .site-nav .logo-btn { justify-self: start; }
+  .nav-links { display: flex; align-items: center; gap: var(--space-2xl); }
+}
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+  text-decoration: none;
+  padding: var(--space-2xs) 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
+}
+.nav-links a:hover,
+.nav-links a:focus-visible { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
+/* The same ring style.css gives every link on regime A, stated here so the
+   six pages that cannot see style.css get it too. */
+.nav-links a:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .nav-actions { display: flex; align-items: stretch; gap: var(--space-2xs); }
 @media (min-width: 768px) { .nav-actions { gap: var(--space-xs); } }
 

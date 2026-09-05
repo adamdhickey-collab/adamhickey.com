@@ -1077,48 +1077,10 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    ================================================================ */
 
 /* ---------- Nav: primary section links ----------
-   site-nav.css lays .nav-inner out with space-between, so this block
-   floated wherever the leftover space happened to put it: close to the
-   hero copy's left edge below, but never on it. A near-miss reads as a
-   mistake in a way that being obviously elsewhere does not.
-
-   So above 900px the bar becomes a grid using the hero's own column
-   geometry (.hero-photo is 33% with a 3rem gap). Column two therefore
-   starts exactly where the hero eyebrow and headline start, and the
-   nav links sit on that same line. Change the hero split and this
-   follows it.
-
-   Below 900px the links are hidden and site-nav.css's flex
-   space-between still applies, which is correct for logo + icons. */
-.nav-links {
-  display: none;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-@media (min-width: 900px) {
-  /* .site-nav prefix: site-nav.css loads after this file, so a bare
-     .nav-inner selector would lose the cascade tie to its display:flex. */
-  .site-nav .nav-inner {
-    display: grid;
-    grid-template-columns: 33% 1fr auto;
-    gap: var(--space-4xl);
-    align-items: center;
-  }
-  .site-nav .logo-btn { justify-self: start; }
-  .nav-links { display: flex; align-items: center; gap: var(--space-2xl); }
-}
-.nav-links a {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
-  padding: var(--space-2xs) 0;
-  border-bottom: 2px solid transparent;
-  transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
-}
-.nav-links a:hover { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
+   Moved to site-nav.css, which every page loads. They were here, and the
+   six Tailwind case studies -- which cannot see this file -- rendered the
+   header without them. The header is one component, and it lives in one
+   file. */
 
 /* ---------- Hero CTA row ----------
    The CTAs land one beat after the promise line, not after the whole
@@ -1798,9 +1760,14 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    the whole image and untreated, so a project looks the same everywhere it
    is named; Lucy Learns is the one exception, and it borrows the homepage
    card's three framed screens rather than inventing a fourth way to show
-   it. Nothing moves on hover: a screen that shifts under the pointer reads
-   as a control, and these are evidence. The link to the case study sits
-   under the picture it summarizes. */
+   it. The picture is a link to the same case study as the line under it,
+   and says so the way the homepage's product shots do: the image grows
+   inside a frame that does not, at the same --motion-lift and
+   --motion-enter, so a thumbnail means the same thing on every page it
+   appears on. The frame is the link itself rather than the figure, so the
+   focus ring is drawn outside the clipped box instead of being cut by it.
+   The Lucy Learns phones are a.mini-phone, as on the homepage, and lift
+   whole under the rule up there. */
 .eng3-proof-card {
   display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
   background: var(--color-warm); border-radius: 16px;
@@ -1811,9 +1778,19 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-proof-media { display: flex; flex-direction: column; gap: var(--space-lg); }
 .eng3-proof-shot { margin: 0; }
+.eng3-proof-link {
+  display: block; color: inherit; text-decoration: none;
+  border-radius: 0.5rem; overflow: hidden; box-shadow: var(--shadow-media);
+}
 .eng3-proof-shot img {
   display: block; width: 100%; height: auto;
-  border-radius: 0.5rem; box-shadow: var(--shadow-media);
+  transition: transform var(--motion-enter) var(--ease);
+}
+.eng3-proof-link:hover img,
+.eng3-proof-link:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (prefers-reduced-motion: reduce) {
+  .eng3-proof-shot img { transition: none; }
+  .eng3-proof-link:hover img, .eng3-proof-link:focus-visible img { transform: none; }
 }
 .eng3-proof-shot.is-single { max-width: none; }
 /* .case-section p sets prose at --text-lg, and beats a bare class on

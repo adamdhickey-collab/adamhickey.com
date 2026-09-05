@@ -14,7 +14,7 @@ see Checks.
 | **What this is** | The site: 15 pages in six families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where it is staged** | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/, carrying `noindex` |
-| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #147 |
+| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #150 |
 
 ## Two repositories
 
@@ -61,8 +61,12 @@ the two career case studies are linked from About instead (#143); body copy
 is primary ink on every light ground (#147); and
 `engagement/ai-product-prototype.html` became
 `engagement/working-product-prototype.html`, which is the second 404 below.
-`git log` on staging's `main` from `5f79932` forward is the list of what is
-not here yet.
+#26 carried the three after that: the header's section links on every
+page (#149), the proof-card pictures on the engagement pages moving to where
+their captions go (#148), and the editions list on the design system page
+reading the same on both hosts (#150, which had already come across on its
+own as #25). `git log` on staging's `main` from `9d30c6e` forward is the list
+of what is not here yet.
 
 **Two live URLs now 404.** `engagement/brand-identity-illustration.html` was
 retired in staging (its #49) and has been gone here since #20. Nothing on this
@@ -264,9 +268,9 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #24 the four browser checks measure 2462 resting colors, 644 state
-rules, 10444 type sizes and 6076 elements checked for a partial border,
-across fifteen pages -- staging's own numbers for the same tree. Nothing verifies those four numbers; treat them as a
+result. At #26 the four browser checks measure 2486 resting colors, 680 state
+rules, 10540 type sizes and 6133 elements checked for a partial border,
+across fifteen pages. Nothing verifies those four numbers; treat them as a
 tripwire, and a run that comes back materially smaller means something
 stopped being measured.
 
@@ -344,3 +348,5 @@ are the way they are:
 | #22 | This file describes the tree #20 left behind, and `counts.mjs` stops asking how many pages the live site carries |
 | #23 | `checks.yml` runs all seven scripts, not just the two Tailwind steps, and `pages.yml` refuses a tree it cannot tar |
 | #24 | Level with staging again, at its #147: eight pull requests carried as one three-way merge, the prototype engagement page renamed, and `.gitignore` stops matching `node_modules/` with a slash, which is how staging once committed a symlink |
+| #25 | The editions list on the design system page reads the same on both hosts; staging's #150 |
+| #26 | Level with staging at its #150: the header's section links on every page and the engagement proof cards, staging's #148 and #149 |
