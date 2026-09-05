@@ -9,6 +9,13 @@ committed (#14); the header of that config says how to rebuild it. The check
 scripts under `scripts/` need `playwright-core` and Tailwind installed ad hoc;
 see Checks.
 
+| | |
+| --- | --- |
+| **What this is** | The site: 15 pages in six families |
+| **Where it goes** | https://adamhickey.com, on every push to `main` |
+| **Where it is staged** | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/, carrying `noindex` |
+| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #147 |
+
 ## Two repositories
 
 | | | |
@@ -41,36 +48,44 @@ carrying them is that they are the longest and most specific writing on the
 site, and they were sitting on a host that told every crawler to ignore them.
 
 **Where the carry stands.** #20 brought this tree level with staging at its
-#136, on 2026-09-05. Staging has merged nine pull requests since -- #138
-through #144 and #146 -- and none of them is here yet. Among them: the
-homepage lost the four-step "How each of these got made" panel and the
-three-station proof strip and gained an ask at the foot of every case study
-(#142); `engagement/ai-product-prototype.html` became
-`engagement/working-product-prototype.html` in the same pass, which is a live
-URL changing and so wants a redirect decision before it is carried (see the
-404 note below); the two career case studies got visible links from About
-(#143); and the era notes on the Lucy Learns write-up lost their file listings
-(#138). Staging's #145, the American English sweep, arrived here as #21, run
-as its own sweep over this tree rather than as a diff. Read `git log` on
-staging's `main` from `4e17002` forward for the current list.
+#136, on 2026-09-05, and #24 brought it level again at #147 the same day,
+carrying the eight pull requests between (#138 through #144, and #146; #145,
+the American English sweep, had already arrived as #21, run as its own sweep
+over this tree) and #147. The carry was staging's diff from #136 to #147,
+applied as a three-way merge with the live apparatus kept on every page, and
+the four browser checks measure this tree at staging's own numbers
+afterward. Among what came across: the homepage lost the four-step "How each
+of these got made" panel, the three-station proof strip and the Earlier
+experience cards, and gained an ask at the foot of every case study (#142);
+the two career case studies are linked from About instead (#143); body copy
+is primary ink on every light ground (#147); and
+`engagement/ai-product-prototype.html` became
+`engagement/working-product-prototype.html`, which is the second 404 below.
+`git log` on staging's `main` from `5f79932` forward is the list of what is
+not here yet.
 
-**One live URL now 404s.** `engagement/brand-identity-illustration.html` was
+**Two live URLs now 404.** `engagement/brand-identity-illustration.html` was
 retired in staging (its #49) and has been gone here since #20. Nothing on this
 site links it any more -- the engagement cards came across from staging, which
 dropped it -- but anything outside that does will get a 404 rather than a
 redirect. GitHub Pages cannot serve a 301, so the options are to leave it, or
 to put a stub at that path that canonicals to the engagements section. It is
 left, deliberately; a stub is a page, and `seo.mjs` would then want it in the
-sitemap, where a redirect does not belong. The engagement page rename above is
-the same question again, and is why that one is not carried yet.
+sitemap, where a redirect does not belong. `engagement/ai-product-prototype.html`
+is the same question again: it was the prototype engagement's address from
+the day the engagement pages shipped until #24, and the homepage card linked
+it the whole time, so it is the likelier of the two to be sitting in someone's
+history. It is left the same way, for the same reason, and this paragraph is
+where to look if that turns out to be the wrong call.
 
 **What still differs.** Staging keeps `CLAUDE.md` and its own README and
 workflows; this repository keeps `CNAME`, its own README and its own
 workflows. Staging's pages carry the staging apparatus described under
 Deployment. `scripts/counts.mjs` here drops the one entry in staging's
 registry that describes the live site from the outside, because from here that
-is the inside. Everything a reader can reach is the same in both, at the carry
-point above.
+is the inside; staging keeps an empty held-back list for the day a page is
+held back again, and this copy has nowhere to hold one back from. Everything a
+reader can reach is the same in both, at the carry point above.
 
 ## What is here
 
@@ -100,12 +115,14 @@ point above.
 Sections in file order: the hero (the portrait clip with its pause control and
 the client logos) → When people bring me in (the four engagement cards) →
 Selected work → The design-to-build shift (the scroll story) → Built end to
-end, which also holds the four-step "How each of these got made" panel, the
-"Identity and illustration, for clients" shelf and the Craft / Systems /
-Independent proof strip → Earlier experience → About → the contact section,
-headed "Describe what is happening". The header carries Work, Services, About
-and Contact, an email icon and a LinkedIn icon, and every page loads it from
-`site-nav.css`.
+end, which also holds the "Identity and illustration, for clients" shelf →
+About, which links the two career case studies → the contact section, headed
+"Describe what is happening". Since #24 there is no Earlier experience
+section, no four-step panel under the products and no proof strip; staging's
+#142 cut the second half of the page by about a third, and #143 gave the two
+career case studies their route in from About. The header carries Work,
+Services, About and Contact, an email icon and a LinkedIn icon, and every page
+loads it from `site-nav.css`.
 
 ## The pages, by family
 
@@ -150,12 +167,12 @@ content model is a list of many small pieces rather than one deep one.
 directory as the client work, different family: these load `style.css` and
 carry no Tailwind.
 
-**Engagements** -- `engagement/ai-product-prototype.html`,
+**Engagements** -- `engagement/working-product-prototype.html`,
 `engagement/design-system-foundation.html`,
 `engagement/embedded-senior-product-design.html`,
-`engagement/product-clarity.html`. The first is
-`engagement/working-product-prototype.html` in staging since its #142; see
-"Where the carry stands".
+`engagement/product-clarity.html`. The first was
+`engagement/ai-product-prototype.html` until #24; see "Two live URLs now
+404".
 
 **Reference** -- `design-system/index.html`
 
@@ -247,9 +264,9 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #21 the four browser checks measure 2522 resting colors, 605 state
-rules, 10680 type sizes and 6245 elements checked for a partial border,
-across fifteen pages. Nothing verifies those four numbers; treat them as a
+result. At #24 the four browser checks measure 2462 resting colors, 644 state
+rules, 10444 type sizes and 6076 elements checked for a partial border,
+across fifteen pages -- staging's own numbers for the same tree. Nothing verifies those four numbers; treat them as a
 tripwire, and a run that comes back materially smaller means something
 stopped being measured.
 
@@ -326,3 +343,4 @@ are the way they are:
 | #21 | American English throughout, the same sweep as staging's #145 |
 | #22 | This file describes the tree #20 left behind, and `counts.mjs` stops asking how many pages the live site carries |
 | #23 | `checks.yml` runs all seven scripts, not just the two Tailwind steps, and `pages.yml` refuses a tree it cannot tar |
+| #24 | Level with staging again, at its #147: eight pull requests carried as one three-way merge, the prototype engagement page renamed, and `.gitignore` stops matching `node_modules/` with a slash, which is how staging once committed a symlink |

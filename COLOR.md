@@ -53,7 +53,7 @@ the alpha steps in §4.
 | Token | Value | Use |
 |---|---|---|
 | `--color-white` | `#ffffff` | The page ground. Case studies, build write-ups, the default. |
-| `--color-warm` | `#f5f5f0` | The warm ground. Selected work, Earlier experience, the footer. Also the primary ink **on** charcoal. |
+| `--color-warm` | `#f5f5f0` | The warm ground. Selected work, the case-study closings, the footer. Also the primary ink **on** charcoal. |
 | `--color-tea-light` | `#e8ede5` | The feature ground. Hero card, pull-outs. |
 | `--color-muted-light` | `#e5e5dd` | The alternate ground, for a section that must separate from its neighbor without changing temperature. |
 | `--color-charcoal` | `#252525` | The dark band. Also the primary ink on every light ground. |
@@ -529,10 +529,18 @@ position the type scale was in before `type.css`.
 The last of these to be caught was the one that also failed a floor: a chart
 caption in the USDA study on Tailwind's own `text-gray-500`, 4.42:1 against
 4.5. It now takes `text-muted-gray`, which is `--color-muted-gray` and 5.91:1
-on the warm ground. Fifteen uses of `text-gray-700` remain in two case
-studies; at 9.42:1 they clear the floor comfortably, so they are a
-tokenization debt rather than an accessibility one — a cool gray in a
-warm-neutral palette, not an illegible one.
+on the warm ground. Fifteen uses of `text-gray-700` remained in two case
+studies until 2026-09-05; at 9.42:1 they cleared the floor comfortably, so
+they were a tokenization debt rather than an accessibility one — a cool gray
+in a warm-neutral palette, not an illegible one. They take `text-charcoal`
+now, for a reason the ratio does not show: every one was a bulleted list
+sitting between charcoal paragraphs, and a list a shade lighter than the
+prose around it reads as less important, not as a different color. The same
+day, the homepage's two paragraphs in `--color-muted-gray` — the hero's
+promise line and the identity shelf's intro — went to charcoal for the same
+reason. The rule that came out of it: a sentence a reader is meant to take
+in is primary ink on every light ground; the secondary gray is for captions,
+labels, stats and the read-time line.
 
 ### A retired color that never left — finished in step 3
 

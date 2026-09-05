@@ -3,5 +3,14 @@
 .idea/
 .vscode/
 
-# Installed only to build case-study/case-tailwind.css; see tailwind.config.js.
-node_modules/
+# Transient: the check scripts install playwright-core and tailwindcss with
+# --no-save; see checks.yml.
+#
+# No trailing slash, deliberately. `node_modules/` matches the directory and
+# not a symlink standing where it would be, and staging's #111 committed
+# exactly that -- a link to the path on one Mac -- with git raising no
+# objection, because as far as it was concerned the path was never ignored.
+# The Pages artifact is a tar of the whole root, so that one entry failed the
+# deploy while every check passed. Unslashed, the same `git add` needs a -f,
+# and scripts/deployable.mjs refuses the tree either way.
+node_modules
