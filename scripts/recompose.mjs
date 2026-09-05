@@ -4,9 +4,9 @@
  * token.
  *
  * WHY THIS EXISTS AS A FILE. `built-steps.mjs` draws the scenes and README
- * described what happened to each PNG afterwards -- clustered by column, the
+ * described what happened to each PNG afterward -- clustered by column, the
  * largest cluster the subject, the others moved to a fixed gap, the frame the
- * content bounding box plus a margin, centred, at 4:3. It described it and
+ * content bounding box plus a margin, centered, at 4:3. It described it and
  * nothing implemented it. Every change to these drawings therefore began by
  * rebuilding the step from that paragraph and hoping the numbers came out the
  * same, which is a reproducibility problem dressed up as a formatting detail:
@@ -16,7 +16,7 @@
  * THE GROUND IS THE PART THAT BITES. These files sit in the tea panel with no
  * border, no radius and no plate, so what makes them read as ink on the panel
  * rather than four pictures pasted onto it is that the file's own ground IS
- * --color-tea-light. A lossy encoder moves a flat colour by a few levels and a
+ * --color-tea-light. A lossy encoder moves a flat color by a few levels and a
  * few levels is a visible rectangle at that size -- step 02 once encoded three
  * levels down and read as a lighter box in the row while the other three were
  * invisible. So this does not merely fill the ground with the token and hope:
@@ -118,7 +118,7 @@ const result = await page.evaluate(async ([url, W, H, FILL, GAP, Q, G, MERGE]) =
   const subject = cl.reduce((a, b) => (b.ink > a.ink ? b : a), cl[0]);
   const inkH = y1 - y0 + 1;
 
-  /* Move every other cluster to sit GAP frame pixels from its neighbour. The
+  /* Move every other cluster to sit GAP frame pixels from its neighbor. The
      gap is stated in the frame, the move happens in the source, and the scale
      between them depends on the width the move produces -- so solve it rather
      than assume it. Four passes is far more than it needs. */
@@ -151,7 +151,7 @@ const result = await page.evaluate(async ([url, W, H, FILL, GAP, Q, G, MERGE]) =
   const x0 = Math.min(...cl.map((k, i) => k.x0 + shifts[i]));
   const x1 = Math.max(...cl.map((k, i) => k.x1 + shifts[i]));
 
-  // the frame: the content box plus a margin, centred, at 4:3
+  // the frame: the content box plus a margin, centered, at 4:3
   const cw = W / scale, ch = H / scale;
   const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
   const o = document.createElement('canvas');

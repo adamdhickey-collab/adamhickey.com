@@ -38,7 +38,7 @@
  * consider the path ignored, so it did not object to adding it. The slash is
  * gone from .gitignore now, so the same `git add` would need a -f.
  *
- * The net stays because it catches the neighbouring accident: a file that IS
+ * The net stays because it catches the neighboring accident: a file that IS
  * ignored, staged by name anyway -- built output, a local config, an installed
  * dependency. .gitignore has nothing to say about a path you name explicitly,
  * so nothing else here would notice.

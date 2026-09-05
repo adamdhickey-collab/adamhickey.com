@@ -58,7 +58,7 @@ workflows. Everything a reader can reach is the same in both.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages and the three build write-ups load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all fifteen pages. Colour, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all fifteen pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `case-study/*.html` | Nine case studies: six client engagements and three build write-ups |
@@ -99,12 +99,12 @@ About, Contact and Email, and every page loads it from `site-nav.css`.
 
 Two things are worth knowing before swapping any of them out.
 
-**The About photographs are exposure-matched, not colour-matched.** All three
-keep their own colour at full strength; what makes them read as a set is one
+**The About photographs are exposure-matched, not color-matched.** All three
+keep their own color at full strength; what makes them read as a set is one
 shared contrast curve (1.06) and a per-image exposure shift solved so each
 lands on the same mean luminance of 122. Drop a new photograph in without
-that solve and it will sit visibly brighter or darker than its neighbours,
-whatever its colour.
+that solve and it will sit visibly brighter or darker than its neighbors,
+whatever its color.
 
 **The engagement illustrations follow one written style spec**, so a
 replacement has to match it or the four stop being a set: flat vector on a

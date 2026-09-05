@@ -11,9 +11,9 @@
  * hover, focus and script-applied state and measures what a reader can REACH.
  * This measures what a reader can SEE without touching anything: every element
  * holding visible text, at rest, on the ground actually behind it. Neither
- * covers the other. A colour can be perfect at rest and fail on hover; it can
+ * covers the other. A color can be perfect at rest and fail on hover; it can
  * also fail sitting still, which no amount of state-forcing will notice
- * because the resting colour is the one state that is never forced.
+ * because the resting color is the one state that is never forced.
  *
  * WHAT CHANGED IN THE MOVE. The scratchpad version read backgroundColor and
  * nothing else, so text over a photograph or a gradient was measured against
@@ -21,7 +21,7 @@
  * page hero caption as 1:1, a total failure of a caption that is perfectly
  * legible. A wrong number is worse than no number: it trains you to skim past
  * the list. This one uses the shared ground(), which returns a REASON instead
- * of a colour when an ancestor paints an image or a gradient, and those are
+ * of a color when an ancestor paints an image or a gradient, and those are
  * reported separately as unmeasurable rather than counted as failures.
  *
  * It also no longer stubs cdn.tailwindcss.com. The scratchpad version had to
@@ -55,7 +55,7 @@
  *   node scripts/resting.mjs --probes        # also list what it measured by pixel
  */
 import path from 'node:path';
-import { COLOUR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { decodePNG, pixels } from './lib/png.mjs';
 
 const strict = process.argv.includes('--strict');
@@ -68,17 +68,17 @@ const say = (s = '') => console.log(s);
 const chromium = loadChromium('resting.mjs');
 
 /* ---------------------------------------------------------------------------
- * Runs inside the page. The colour machinery arrives from lib/harness.mjs so
+ * Runs inside the page. The color machinery arrives from lib/harness.mjs so
  * that both checks answer "what is behind this text" the same way.
  * ------------------------------------------------------------------------- */
 const IN_PAGE = String.raw`
 (() => {
-${COLOUR_TOOLKIT}
+${COLOR_TOOLKIT}
 
   /* Every element that directly holds visible text. "Directly" is the whole
-     point: a wrapper's textContent is its children's, and the colour that
+     point: a wrapper's textContent is its children's, and the color that
      applies is the one on the node the glyphs are actually in. Measuring the
-     wrapper reports its inherited colour against a ground its children may
+     wrapper reports its inherited color against a ground its children may
      have painted over. */
   function restingText() {
     const out = [];
@@ -94,9 +94,9 @@ ${COLOUR_TOOLKIT}
       const text = ownText(el);
       if (!text || text.length < 2) continue;
 
-      /* The floor comes from the SMALLEST visible type the colour lands on,
+      /* The floor comes from the SMALLEST visible type the color lands on,
          not from the element the rule names -- a 32px heading with a 13px
-         label inside it inheriting the same colour is judged at 13px. */
+         label inside it inheriting the same color is judged at 13px. */
       const { px, weight } = smallestText(el);
       const large = px >= 24 || (px >= 18.66 && weight >= 700);
       const floor = large ? 3 : 4.5;
@@ -104,7 +104,7 @@ ${COLOUR_TOOLKIT}
       const sel = el.className && typeof el.className === 'string'
         ? '.' + el.className.trim().split(/\s+/)[0]
         : el.tagName.toLowerCase();
-      const rec = { sel, text: text.replace(/\s+/g, ' ').slice(0, 44), colour: cs.color,
+      const rec = { sel, text: text.replace(/\s+/g, ' ').slice(0, 44), color: cs.color,
                     size: px + 'px', weight: String(weight), floor };
 
       const g = ground(el);
@@ -128,15 +128,15 @@ ${COLOUR_TOOLKIT}
       }
 
       /* Translucent ink is composited over the ground it sits on, or a
-         half-opacity label reads as its own full-strength colour. */
+         half-opacity label reads as its own full-strength color. */
       const ink = parse(cs.color);
       const fg = ink.a < 1
-        ? { r: ink.r * ink.a + g.colour.r * (1 - ink.a),
-            g: ink.g * ink.a + g.colour.g * (1 - ink.a),
-            b: ink.b * ink.a + g.colour.b * (1 - ink.a) }
+        ? { r: ink.r * ink.a + g.color.r * (1 - ink.a),
+            g: ink.g * ink.a + g.color.g * (1 - ink.a),
+            b: ink.b * ink.a + g.color.b * (1 - ink.a) }
         : ink;
 
-      out.push({ ...rec, ratio: +ratio(fg, g.colour).toFixed(2) });
+      out.push({ ...rec, ratio: +ratio(fg, g.color).toFixed(2) });
     }
     return out;
   }
@@ -180,7 +180,7 @@ const PROBE_FRAMES = 8;
 const relLum = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
 const lumOf = (p) => 0.2126 * relLum(p.r) + 0.7152 * relLum(p.g) + 0.0722 * relLum(p.b);
 const ratioOf = (a, b) => { const x = lumOf(a), y = lumOf(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
-const parseColour = (c) => {
+const parseColor = (c) => {
   const v = (c.match(/[\d.]+/g) || []).map(Number);
   return { r: v[0] || 0, g: v[1] || 0, b: v[2] || 0, a: v.length > 3 ? v[3] : 1 };
 };
@@ -219,7 +219,7 @@ async function measureProbes(page, records) {
   if (!probes.length) return;
 
   for (const rec of probes) {
-    const ink = parseColour(rec.colour);
+    const ink = parseColor(rec.color);
     let worst = Infinity, where = null;
 
     for (const width of PROBE_WIDTHS) {
@@ -305,7 +305,7 @@ const failures = [];
 const unmeasurable = [];
 const thin = [];
 const byPixels = [];   // answered by looking at the rendered pixels, not computed style
-const moving = [];   // still repainting a colour when measured, so sampled mid-flight
+const moving = [];   // still repainting a color when measured, so sampled mid-flight
 let checked = 0;
 
 const page = await ctx.newPage();
@@ -322,7 +322,7 @@ if (!chosen.length) {
 for (const file of chosen) {
   /* 'load' rather than 'domcontentloaded': stylesheets are not parsed at
      DOMContentLoaded, and a page measured before its CSS arrives reports the
-     browser's defaults as the site's colours. */
+     browser's defaults as the site's colors. */
   await page.goto(`${origin}/${file}`, { waitUntil: 'load' });
 
   /* A web font that swaps in after measurement changes the size the floor is
@@ -331,7 +331,7 @@ for (const file of chosen) {
 
   /* Then wait out the page's own animation, which is the same lesson states.mjs
      learned one element at a time, applied to the whole page. Reading straight
-     after load gives the colour on its way to the answer, not the answer:
+     after load gives the color on its way to the answer, not the answer:
      .story-progress-num carries transition: color 0.5s and reads rgb(89,100,87)
      at load, settling to rgb(85,107,81) about a second later.
 
@@ -339,16 +339,16 @@ for (const file of chosen) {
      is. This script's first version reported 3317 measurements here and 3320 on
      a CI runner from the same commit, and called one element 4.95:1 that CI saw
      as 4.6:1 -- close enough to the 4.5 floor that a slower runner could have
-     failed a colour that is fine. A check whose count moves with the hardware
+     failed a color that is fine. A check whose count moves with the hardware
      cannot be watched for drift, which is the one thing this repository asks of
      its checks.
 
      Endless animations are excluded rather than awaited, because their .finished
      never resolves; the cap catches anything else pathological.
 
-     What is still moving afterwards is then filtered by WHAT it animates. The
+     What is still moving afterward is then filtered by WHAT it animates. The
      home page keeps 27 endless animations running, and every one of them
-     animates transform -- they cannot change a colour, so reporting them would
+     animates transform -- they cannot change a color, so reporting them would
      be a warning that fires on every run and means nothing, which is how a
      reader learns to skip the whole section. Only motion that could move a
      measurement is worth a line. */
@@ -361,7 +361,7 @@ for (const file of chosen) {
     ]);
 
     /* Anything that can repaint an ink or a ground. transform and the like
-       move a box around without changing what colour it is. */
+       move a box around without changing what color it is. */
     const MATTERS = /color|background|opacity|filter|border|box-shadow|text-decoration/i;
     const props = new Set();
     for (const a of document.getAnimations()) {
@@ -396,7 +396,7 @@ server.close();
 
 say('');
 if (!failures.length) {
-  say('  ✓ every resting colour clears its floor');
+  say('  ✓ every resting color clears its floor');
   say(`    ${checked} measurements across ${chosen.length} ` +
       `page${chosen.length === 1 ? '' : 's'}${only.length ? ' matching ' + only.join(', ') : ''}`);
 } else {
@@ -404,7 +404,7 @@ if (!failures.length) {
   for (const f of failures) {
     say(`      ${f.file}`);
     say(`        ${f.sel}`);
-    say(`        ${f.ratio}:1 against ${f.floor} — ${f.colour} at ${f.size}/${f.weight}`);
+    say(`        ${f.ratio}:1 against ${f.floor} — ${f.color} at ${f.size}/${f.weight}`);
     say(`        "${f.text}"`);
     say('');
   }
@@ -425,13 +425,13 @@ if (thin.length) {
    snapshot of a moving thing and the reader deserves to know which ones. */
 if (moving.length) {
   say(`  ~ still repainting when measured on ${moving.length} ` +
-      `page${moving.length === 1 ? '' : 's'} — those colours are a snapshot:\n`);
+      `page${moving.length === 1 ? '' : 's'} — those colors are a snapshot:\n`);
   for (const m of moving) say(`      ${m.file}  ${m.props.join(', ')}`);
   say('');
 }
 
 /* Said out loud, because these are the numbers no other check can produce and
-   the ones a reader is most entitled to be sceptical of. The count belongs in
+   the ones a reader is most entitled to be skeptical of. The count belongs in
    the summary for the same reason every other count does: if it drops to zero
    one day, something stopped being looked at. */
 if (byPixels.length) {

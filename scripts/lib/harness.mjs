@@ -8,7 +8,7 @@
  *
  * They shared nothing until this file existed, and the resting audit was the
  * one that lived in a session scratchpad rather than the repository. That is
- * the reason to extract rather than copy: two implementations of "what colour
+ * the reason to extract rather than copy: two implementations of "what color
  * is behind this text" would agree on the day they were written and quietly
  * stop agreeing later, and the one nobody could run is the one that would
  * drift. The compositing below is subtle enough that having two of it is a
@@ -202,7 +202,7 @@ export async function serve(root) {
        zero, and a check that steps through the clip measures the same picture
        eight times and calls it eight samples.
        GitHub Pages serves ranges, so this is also the more faithful of the
-       two behaviours -- the old one was a difference between how the check
+       two behaviors -- the old one was a difference between how the check
        fetched the page and how a reader does. */
     const range = req.headers.range && /^bytes=(\d*)-(\d*)$/.exec(req.headers.range);
     if (range) {
@@ -238,7 +238,7 @@ export async function serve(root) {
  * place -- which is how this text broke twice while it still lived in
  * states.mjs.
  * ------------------------------------------------------------------------- */
-export const COLOUR_TOOLKIT = String.raw`
+export const COLOR_TOOLKIT = String.raw`
   const rel = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
   const lum = ({ r, g, b }) => 0.2126 * rel(r) + 0.7152 * rel(g) + 0.0722 * rel(b);
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
@@ -248,7 +248,7 @@ export const COLOUR_TOOLKIT = String.raw`
   };
 
   /* The ground under an element, compositing every translucent layer over what
-     is behind it. Returns a reason instead of a colour when an ancestor paints
+     is behind it. Returns a reason instead of a color when an ancestor paints
      an image or a gradient, because then computed style cannot answer. */
   function ground(el) {
     const layers = [];
@@ -260,9 +260,9 @@ export const COLOUR_TOOLKIT = String.raw`
       }
       const bg = parse(cs.backgroundColor);
       if (bg.a > 0) layers.push(bg);
-      if (bg.a === 1) return { colour: composite(layers) };
+      if (bg.a === 1) return { color: composite(layers) };
     }
-    return { colour: composite(layers) };
+    return { color: composite(layers) };
   }
   function composite(layers) {
     let out = { r: 255, g: 255, b: 255 };
@@ -292,7 +292,7 @@ export const COLOUR_TOOLKIT = String.raw`
 
   /* Every element at or under this one that directly holds visible text.
      "Directly" matters: a wrapper's textContent is its children's, and the
-     colour that applies is the one on the node the glyphs are in. */
+     color that applies is the one on the node the glyphs are in. */
   function textNodesIn(root) {
     const out = [];
     const consider = (n) => {
@@ -305,9 +305,9 @@ export const COLOUR_TOOLKIT = String.raw`
     return out.slice(0, 24);
   }
 
-  /* The floor is set by the SMALLEST visible type the colour lands on, not by
+  /* The floor is set by the SMALLEST visible type the color lands on, not by
      the element carrying the rule. .icon-link is 16px and holds an 11px label
-     that inherits its colour; judging the container would apply the wrong
+     that inherits its color; judging the container would apply the wrong
      threshold to the only text a reader actually squints at. */
   function smallestText(el) {
     let px = parseFloat(getComputedStyle(el).fontSize);

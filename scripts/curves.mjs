@@ -21,7 +21,7 @@
  * where one rule sets both, and misses every case where it takes two: a base
  * rule with the radius, a state rule adding the border. The nav was exactly
  * that shape -- .ds-side-link carried border-radius and a transparent
- * border-left, and .is-active only supplied the colour. Computed style is the
+ * border-left, and .is-active only supplied the color. Computed style is the
  * only place the two are ever in the same room.
  *
  * States are forced, not just measured at rest, for the same reason states.mjs
@@ -55,7 +55,7 @@ const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } }
 await ctx.route(/^https?:/, r => new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
 const page = await ctx.newPage();
 
-/* A side counts as drawn only if it has width, a style, and a colour that is
+/* A side counts as drawn only if it has width, a style, and a color that is
    not fully transparent. The nav reserved its space with a transparent
    border-left for years without ever showing one, and flagging that would be
    reporting the absence of the defect. */
