@@ -7,7 +7,7 @@
  * file comes first on all fifteen pages.
  *
  * It is deliberately step 1 of COLOR.md section 8 rather than step 6. The type
- * sequence tokenised site-nav.css -- a stylesheet both regimes load -- while
+ * sequence tokenized site-nav.css -- a stylesheet both regimes load -- while
  * only one regime could resolve the tokens, and shipped a live regression for
  * two commits. A token is only safe to use in a stylesheet if every page that
  * loads that stylesheet also loads the tokens. So the tokens go everywhere
@@ -43,10 +43,10 @@
      accent-text on muted-light: 4.60 against a 4.5 floor. If either value ever
      moves, that is the pair to re-measure first.
 
-     THE SAGE IS TWO COLOURS, and the split is load-bearing rather than
-     decorative. One sage cannot serve both jobs: a colour dark enough to
+     THE SAGE IS TWO COLORS, and the split is load-bearing rather than
+     decorative. One sage cannot serve both jobs: a color dark enough to
      carry 12px text on the muted ground is darker than the fill wants, and a
-     colour light enough to read as sage in a filled button fails 4.5:1 as
+     color light enough to read as sage in a filled button fails 4.5:1 as
      text on three of the four light grounds.
 
        --color-accent-text (#556b51)  TEXT. Small type, links, eyebrows,
@@ -76,16 +76,16 @@
 
   /* The soft ring behind a focused input and under the hovering cursor.
      color-mix, not an rgba literal, because the whole reason this token needed
-     fixing is that a derived colour was written out by hand and then drifted
+     fixing is that a derived color was written out by hand and then drifted
      from what it was derived from: it held the RAW sage, rgb(109,135,104), a
-     colour the reference has claimed was retired since two colours left this
+     color the reference has claimed was retired since two colors left this
      palette. Written this way it cannot drift again -- move accent-deep and
      the ring moves with it. */
   --color-accent-ring: color-mix(in srgb, var(--color-accent-deep) 18%, transparent);
 
   /* --color-accent-soft is gone. It was the last formal trace of the raw sage
      -- and nothing consumed it, so it was a dead token holding a retired
-     colour. Deleted rather than redefined; a wash token can come back when
+     color. Deleted rather than redefined; a wash token can come back when
      something actually needs one. */
 
   /* ---------------------------------------------------------------------
@@ -125,7 +125,7 @@
   --wash-on-light-hover: rgba(37, 37, 37, 0.06);    /* the same idea on a light ground */
 
   /* The ring's counterpart on charcoal, where accent-deep is invisible.
-     22% rather than the 18% its light twin uses: different base colour,
+     22% rather than the 18% its light twin uses: different base color,
      different ground, and the pair is tuned to look equal rather than to
      share a number. */
   --color-accent-ring-on-dark: color-mix(in srgb, var(--color-accent-on-dark) 22%, transparent);
@@ -145,18 +145,18 @@
      it, because the match depends on what is behind the scrim (0.84 over
      white, 0.79 over a mid-tone photo). It replaces two near-blacks that were
      5.8 apart -- #141412 and #10110f -- which is inside the distance at which
-     a colour is a duplicate rather than a decision.
+     a color is a duplicate rather than a decision.
      --------------------------------------------------------------------- */
   --color-scrim: #141412;
 
   /* --color-black is gone. It had no consumers: the shadow tokens are written
-     with a literal rgba(0,0,0,...), and the scrims are the colour above.
+     with a literal rgba(0,0,0,...), and the scrims are the color above.
      Black is not a palette decision -- it is the absence of one -- and a token
      implies somebody could usefully change it centrally. Nobody can. */
 
 
   /* Artwork -- the flight-story scene, the illustrations, the screenshots --
-     keeps its own palette and is NOT tokenised here. See COLOR.md section 6:
-     an artwork colour never styles an interface element, and an interface
-     colour is never sampled out of an artwork. */
+     keeps its own palette and is NOT tokenized here. See COLOR.md section 6:
+     an artwork color never styles an interface element, and an interface
+     color is never sampled out of an artwork. */
 }

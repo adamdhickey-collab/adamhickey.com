@@ -11,7 +11,7 @@ the least tested against the code it describes. Check before correcting. The
 audit in §7 says which is which today.
 
 Motion is the fourth axis to be written down, and it starts from a different
-place than the other three. Type had five ordering bugs, colour had two
+place than the other three. Type had five ordering bugs, color had two
 contrast failures, spacing had no tokens at all. **Motion's hard part is
 already right**: nothing animates for a reader who asks it not to, on any of
 the fifteen pages, and both JavaScript motion files check before they run.
@@ -46,7 +46,7 @@ right in service of the job.
 | Token | ms | The job |
 |---|---|---|
 | `--motion-response` | 80 | The interface tracking the reader in real time: the scroll-progress bar, a pointer follow. Anything slower reads as lag rather than motion. |
-| `--motion-state` | 200 | A property changing under the pointer or the keyboard: colour, opacity, background, border. The most common motion on the site. |
+| `--motion-state` | 200 | A property changing under the pointer or the keyboard: color, opacity, background, border. The most common motion on the site. |
 | `--motion-move` | 300 | Something shifting a short distance or lifting: a card on hover, a shadow deepening, the nav gaining its edge. |
 | `--motion-enter` | 500 | An element arriving: a reveal, a thumbnail settling, a step becoming active. |
 | `--motion-draw` | 900 | A line describing itself. SVG stroke animations only — a drawing takes the time a drawing takes. |
@@ -54,8 +54,8 @@ right in service of the job.
 
 **Why six and not four.** The gaps are perceptual, not tidy. 80 to 200 is
 the difference between tracking and responding. 200 to 300 is the difference
-between a colour change and a thing that moves — a moving object needs
-longer to be read as having travelled rather than teleported. 500 to 900 is
+between a color change and a thing that moves — a moving object needs
+longer to be read as having traveled rather than teleported. 500 to 900 is
 the difference between arriving and being drawn. Halving that set would put
 two different jobs on one number and the site would look like it had one
 speed.
@@ -101,7 +101,7 @@ Four different rises are in use today: 8, 14, 20 and 24px.
 A fifth value, 29.6px, was counted here in the first draft of this audit and
 should not have been: `.hero-copy` carries `translateY(1.85rem)`, but nothing
 animates it. The transform is doing layout — it nudges the copy below true
-centre without disturbing the grid's centring — so the distance answers to
+center without disturbing the grid's centering — so the distance answers to
 SPACING.md, not to this document. It has since been put on the spacing grid.
 The lesson is worth keeping: a transform is not evidence of motion. Look for
 a transition or an animation before counting a distance as a rise.
@@ -158,7 +158,7 @@ is wrong, and say in a comment why.
 linear fade under reduced motion rather than snapping. An overlay that
 appears between one frame and the next is more disorienting than one that
 takes an eighth of a second. Reduced motion means no *motion* — a cross-fade
-with nothing travelling is not motion, and the guideline it comes from is
+with nothing traveling is not motion, and the guideline it comes from is
 about vestibular triggers, not about forbidding change.
 
 ---
@@ -210,8 +210,8 @@ JavaScript strings, both of which the first pass at this audit missed.
 | Loop | 5500 | 1 |
 
 Five values for the state change. 200 and 250 alone are 44 of the 58, and
-nothing distinguishes them: `.nav-links a` fades its colour in 200ms and
-`.case-card h3` fades its colour in 250ms, on the same page, for the same
+nothing distinguishes them: `.nav-links a` fades its color in 200ms and
+`.case-card h3` fades its color in 250ms, on the same page, for the same
 reason.
 
 ### The easing spread
@@ -258,8 +258,8 @@ Three things the application taught that the spec had not anticipated.
 
 **One declaration gets one duration.** Mapping each property independently
 split `transition: opacity .16s, transform .16s, visibility .16s` into
-200/300/200ms — three properties synchronised on purpose, with the transform
-now lagging. 51 declarations on the site synchronise several properties on
+200/300/200ms — three properties synchronized on purpose, with the transform
+now lagging. 51 declarations on the site synchronize several properties on
 one duration. The token is chosen by what the declaration as a whole does.
 
 **Not every delay sequence is a stagger.** `--motion-stagger` is for
@@ -279,7 +279,7 @@ three more durations. §7 now reports the true baseline.
 
 - **Motion confirms, directs, or sets a place.** If a new animation does
   none of those three, it is decoration; cut it.
-- **The name is the job.** `--motion-state` is 200ms because a colour change
+- **The name is the job.** `--motion-state` is 200ms because a color change
   is 200ms, not the other way round. If a value needs a different number, it
   probably needs a different job.
 - **Never write a curve as a literal.** Seven copies of `--ease` are seven

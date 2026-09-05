@@ -8,10 +8,10 @@ This document is normative. If it and the stylesheet say different things, one
 of the two has gone stale; find out which before editing either. The audit in §7
 says which is which today.
 
-Spacing is the last of the three axes to be written down. Type and colour
+Spacing is the last of the three axes to be written down. Type and color
 already have specs; this one is the biggest of the three by volume — 536
 box-spacing declarations against **zero** tokens — and the easiest to get
-wrong quietly, because a wrong colour is visible and a wrong margin just
+wrong quietly, because a wrong color is visible and a wrong margin just
 looks like slightly worse taste.
 
 ---
@@ -69,7 +69,7 @@ Nine steps. Fixed — a 16px gap is 16px on every screen.
 
 | Token | px | rem | Tailwind | Job |
 |---|---|---|---|---|
-| `--space-2xs` | 4 | 0.25 | `1` | Hairline separation. A label off its icon; a tag off its neighbour. |
+| `--space-2xs` | 4 | 0.25 | `1` | Hairline separation. A label off its icon; a tag off its neighbor. |
 | `--space-xs` | 8 | 0.5 | `2` | The tightest real gap. Inside a pill, between stacked metadata lines. |
 | `--space-sm` | 12 | 0.75 | `3` | A dense inset, a tight row gap. |
 | `--space-md` | 16 | 1 | `4` | The default. When no reason says otherwise, this. |
@@ -315,7 +315,7 @@ seven considered decisions — they are five spellings of "a rounded panel":
 | `4px`, `2px`, `1px` | 6 | yes | rings and list bullets, not panels |
 | `inherit` | 1 | n/a | `.about-media img` taking its frame's corner, which is right |
 
-That is 37, and 37 plus the thirteen tokenised is the 50. The rows are listed so
+That is 37, and 37 plus the thirteen tokenized is the 50. The rows are listed so
 the arithmetic can be checked rather than trusted.
 
 Two things in that table are bugs rather than variety.
@@ -328,7 +328,7 @@ has two pill radii differing by a factor of ten.
 **Panels are rounded at 8, 10, 12, 16 and 20px** across five spellings, with one
 token covering only the 20. That is the shape of the problem COLOR.md §7
 describes for shadows: a token exists, most consumers bypass it, and each new
-panel picks a plausible neighbour. `10px` is how it ends — a value on no grid,
+panel picks a plausible neighbor. `10px` is how it ends — a value on no grid,
 chosen four times because 8 looked tight and 12 looked loose.
 
 This section states the rule. Applying it is a separate change: every value
@@ -339,7 +339,7 @@ measurement the ramps got in §3, not a search and replace.
 
 A phone mockup's frame is a drawing of a physical object, not space around
 content, so it does not answer to the scale — the carve-out COLOR.md section 6
-makes for the same artwork's colour. Changing how much room a card gives its
+makes for the same artwork's color. Changing how much room a card gives its
 contents must never change how a phone looks.
 
 That exemption is from the *scale*, not from having one value. The three live
@@ -446,7 +446,7 @@ six Tailwind case studies' inline `<style>` blocks.
 | **Spacing tokens defined** | **0** |
 | **Spacing tokens used** | **0** |
 
-Zero. Not "few" — none. Colour had thirteen tokens before it had a spec and
+Zero. Not "few" — none. Color had thirteen tokens before it had a spec and
 type had its two families; spacing has never had a single one. Every margin,
 every padding and every gap on this site is a literal, and there are 536 of
 them.
@@ -487,7 +487,7 @@ times.
 
 Regime A and regime B agree on the unit (4px), on the container (1280px), and
 on the primary breakpoint (768px). They disagree on the mobile gutter (24px
-vs 16px) and on nothing else that matters. After the type and colour work
+vs 16px) and on nothing else that matters. After the type and color work
 this is a much narrower seam than it was, and closing it is step 5.
 
 ---
@@ -501,7 +501,7 @@ and after across fifteen pages at 375, 768 and 1440.
 |---|---|---|
 | 1 | Tokens into `shell.css`, no consumers | Provably inert |
 | 2 | 33 off-grid values snapped, 110 uses | No move over 2.4px |
-| 3a | 230 step literals tokenised in `style.css` | Zero computed change |
+| 3a | 230 step literals tokenized in `style.css` | Zero computed change |
 | 3b | 28, 36 and 52px folded to their steps | 158 values, every one exactly 4px |
 | 4 | Ten section pairs became two ramps | Engagement pages +5.7% at 1440 |
 | 5 | One gutter across both regimes | Case studies +1.4–2.9% at 375 |
@@ -538,13 +538,13 @@ text overlap is zero at every width for all three — so this is a choice
 between comfortable and more comfortable.
 
 **Nearest is the default, not the rule.** Where two steps bracket a value,
-measure what each does to its neighbours before picking.
+measure what each does to its neighbors before picking.
 
 And measure against what a reader can see. The first version of this note
 argued for 24px from a near-collision at 1023–1024px, which was measured
 against the proof block's padded wrapper rather than its text; the wrapper's
 top edge sits 80px above the first line it contains, so the "3.4px gap" was
-never a gap anyone could see. Box geometry is not the artefact. Compare the
+never a gap anyone could see. Box geometry is not the artifact. Compare the
 ink.
 
 ## 9. Rules of thumb

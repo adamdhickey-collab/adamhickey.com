@@ -159,12 +159,12 @@
       <div class="container">
         <span class="ds-num">01</span>
         <h2>Color</h2>
-        <p class="ds-lede">Warm ground, dark ink, one sage hue in three steps. Neutrals do the layout work; sage is the only colour, and it splits because no single value does every job. <strong>accent-text</strong> carries small type, <strong>accent-deep</strong> fills buttons and draws borders, and <strong>accent-on-dark</strong> is the one that survives charcoal. Putting the fill step on small text is the mistake the split exists to prevent &mdash; it reads 3.56:1 on muted light against a 4.5 floor. When something needs emphasis it gets size or the accent, never both. <a href="../COLOR.md">COLOR.md</a> is normative for all of it, and it is the companion to TYPOGRAPHY.md.</p>
+        <p class="ds-lede">Warm ground, dark ink, one sage hue in three steps. Neutrals do the layout work; sage is the only color, and it splits because no single value does every job. <strong>accent-text</strong> carries small type, <strong>accent-deep</strong> fills buttons and draws borders, and <strong>accent-on-dark</strong> is the one that survives charcoal. Putting the fill step on small text is the mistake the split exists to prevent &mdash; it reads 3.56:1 on muted light against a 4.5 floor. When something needs emphasis it gets size or the accent, never both. <a href="../COLOR.md">COLOR.md</a> is normative for all of it, and it is the companion to TYPOGRAPHY.md.</p>
         <ul class="ds-swatches" id="ds-swatches">
           <li class="ds-swatch" data-token="--color-charcoal"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Charcoal</strong><code></code><span>Primary ink on every light ground, and the dark ground itself.</span></div></li>
           <li class="ds-swatch" data-token="--color-warm" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Warm</strong><code></code><span>The warm ground &mdash; and the primary ink on charcoal.</span></div></li>
           <li class="ds-swatch" data-token="--color-tea-light" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Tea</strong><code></code><span>The feature ground: hero card, pull-outs.</span></div></li>
-          <li class="ds-swatch" data-token="--color-muted-light" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Muted light</strong><code></code><span>The alternate ground, for separating neighbours without changing temperature.</span></div></li>
+          <li class="ds-swatch" data-token="--color-muted-light" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Muted light</strong><code></code><span>The alternate ground, for separating neighbors without changing temperature.</span></div></li>
           <li class="ds-swatch" data-token="--color-muted-gray"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Muted gray</strong><code></code><span>Secondary ink on light grounds. Never on charcoal.</span></div></li>
           <li class="ds-swatch" data-token="--color-accent-text"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, for text</strong><code></code><span>Small type, links, eyebrows, kickers. Clears 4.5:1 on all four light grounds &mdash; 4.60 at worst.</span></div></li>
           <li class="ds-swatch" data-token="--color-accent-hover"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, pressed</strong><code></code><span>The hover and active step under the sage above it &mdash; darker, so a press reads as a press.</span></div></li>
@@ -173,7 +173,7 @@
         </ul>
 
         <h3 class="ds-sub">Ink on ground</h3>
-        <p class="ds-lede">One line decides it: <strong>pick the ink from the ground, and check the number.</strong> Every cell below is computed in your browser from the live token values &mdash; if a colour moves in the stylesheet, the number here moves with it rather than going quietly stale.</p>
+        <p class="ds-lede">One line decides it: <strong>pick the ink from the ground, and check the number.</strong> Every cell below is computed in your browser from the live token values &mdash; if a color moves in the stylesheet, the number here moves with it rather than going quietly stale.</p>
         <table class="ds-table ds-table-wide" id="ds-contrast">
           <thead><tr><th>Ink</th><th>White</th><th>Warm</th><th>Tea</th><th>Muted</th><th>Charcoal</th></tr></thead>
           <tbody>
@@ -214,14 +214,14 @@
             <tr><td><code>--color-tag-border</code></td><td><code>#e5e5e0</code></td><td>The quiet hairline: tag outlines, card edges. 1.22:1 &mdash; decorative only.</td></tr>
             <tr><td><code>--color-accent-ring</code></td><td>accent-deep at 18%</td><td>Focus and hover rings on a light ground</td></tr>
             <tr><td><code>--color-accent-ring-on-dark</code></td><td>accent-on-dark at 22%</td><td>The same, on charcoal</td></tr>
-            <tr><td><code>--color-caution</code></td><td><code>#d98e6a</code></td><td>The one semantic colour. 4.17:1 on charcoal &mdash; icon-only line art at 1.2px, so it answers to the 3:1 non-text floor rather than 4.5.</td></tr>
+            <tr><td><code>--color-caution</code></td><td><code>#d98e6a</code></td><td>The one semantic color. 4.17:1 on charcoal &mdash; icon-only line art at 1.2px, so it answers to the 3:1 non-text floor rather than 4.5.</td></tr>
           </tbody>
         </table>
-        <p class="ds-demo-note">Both rings are written as <code>color-mix()</code> rather than an equivalent <code>rgba()</code> literal, and that is the point: the ring&rsquo;s predecessor was a derived colour written out by hand, which then drifted from what it was derived from. Written this way it cannot &mdash; move the accent and the ring moves with it.</p>
-        <p class="ds-demo-note">Below 0.55 is not text. Warm carried <strong>fourteen</strong> distinct alphas &mdash; six under 2:1 doing the same decorative job, five above 4.5:1 doing the same text job &mdash; and charcoal six more. Both are collapsed onto the seven above. <strong>39 elements changed colour and every one still passes AA</strong>; only one moved down, an engagement dek from 0.85 to 0.75, which is 8.49:1 either way. Applying it turned up a role with no token: three background values were neither ink nor rule but a <em>surface tint</em>, so washes exist now &mdash; and step 2 had set a hover background to <code>--rule-on-dark</code> because the number happened to be right, which is not the same as the token being right.</p>
+        <p class="ds-demo-note">Both rings are written as <code>color-mix()</code> rather than an equivalent <code>rgba()</code> literal, and that is the point: the ring&rsquo;s predecessor was a derived color written out by hand, which then drifted from what it was derived from. Written this way it cannot &mdash; move the accent and the ring moves with it.</p>
+        <p class="ds-demo-note">Below 0.55 is not text. Warm carried <strong>fourteen</strong> distinct alphas &mdash; six under 2:1 doing the same decorative job, five above 4.5:1 doing the same text job &mdash; and charcoal six more. Both are collapsed onto the seven above. <strong>39 elements changed color and every one still passes AA</strong>; only one moved down, an engagement dek from 0.85 to 0.75, which is 8.49:1 either way. Applying it turned up a role with no token: three background values were neither ink nor rule but a <em>surface tint</em>, so washes exist now &mdash; and step 2 had set a hover background to <code>--rule-on-dark</code> because the number happened to be right, which is not the same as the token being right.</p>
 
         <h3 class="ds-sub">Elevation</h3>
-        <p class="ds-lede">A different axis from alpha: an alpha step answers &ldquo;how loud is this ink&rdquo;, an elevation answers &ldquo;how far off the page is this object&rdquo;. Eight tokens, named by <strong>what is lifting</strong> rather than by how far, all built on literal <code>rgba(0, 0, 0, &hellip;)</code>.</p>
+        <p class="ds-lede">A different axis from alpha: an alpha step answers &ldquo;how loud is this ink,&rdquo; an elevation answers &ldquo;how far off the page is this object.&rdquo; Eight tokens, named by <strong>what is lifting</strong> rather than by how far, all built on literal <code>rgba(0, 0, 0, &hellip;)</code>.</p>
         <table class="ds-table ds-table-wide">
           <thead><tr><th>Token</th><th>For</th></tr></thead>
           <tbody>
@@ -235,28 +235,28 @@
           </tbody>
         </table>
         <p class="ds-demo-note">This page and the spec both said two tokens covered the site. Neither half held: there were <strong>19 hand-written <code>box-shadow</code> values</strong>, and the two tokens were barely the point &mdash; <code>--shadow-sm</code> had <strong>no consumers at all</strong> and <code>--shadow-card</code> only three, all of them on this page&rsquo;s own chrome. The site&rsquo;s shadows were in practice entirely hand-written, five of them the same lifted-screen idea written five ways. 15 distinct rendered values are now 9. A keyline is not an elevation: <code>0 0 0 1px</code> and its inset form draw a border and take a rule token, never a <code>--shadow-*</code>.</p>
-        <p class="ds-demo-note">They live in <code>color.css</code>, which is a taxonomy compromise made on purpose. A shadow is a physical property that happens to be drawn in colour, so it belongs with radius and easing &mdash; but <code>site-nav.css</code> needs one and the case studies&rsquo; inline styles need two, and neither can see <code>style.css</code>. <strong>What decides where a token lives is reach, not taxonomy.</strong></p>
+        <p class="ds-demo-note">They live in <code>color.css</code>, which is a taxonomy compromise made on purpose. A shadow is a physical property that happens to be drawn in color, so it belongs with radius and easing &mdash; but <code>site-nav.css</code> needs one and the case studies&rsquo; inline styles need two, and neither can see <code>style.css</code>. <strong>What decides where a token lives is reach, not taxonomy.</strong></p>
 
         <h3 class="ds-sub">Artwork is not interface</h3>
-        <p class="ds-lede">The palette governs interface colour, and the boundary is deliberate rather than an oversight. An illustration is allowed its own palette; a rendering of a physical object is allowed to look like the object. All three specs draw the same line &mdash; <a href="../COLOR.md">COLOR.md</a> section 6 for colour, <a href="../SPACING.md">SPACING.md</a> section 4 for the space steps, <a href="../MOTION.md">MOTION.md</a> section 6 for the scale of durations.</p>
+        <p class="ds-lede">The palette governs interface color, and the boundary is deliberate rather than an oversight. An illustration is allowed its own palette; a rendering of a physical object is allowed to look like the object. All three specs draw the same line &mdash; <a href="../COLOR.md">COLOR.md</a> section 6 for color, <a href="../SPACING.md">SPACING.md</a> section 4 for the space steps, <a href="../MOTION.md">MOTION.md</a> section 6 for the scale of durations.</p>
         <ul class="ds-rules">
-          <li><strong>The story scene has six colours of its own</strong><span><code>--story-bg</code>, <code>--story-ink</code>, <code>--story-ink-soft</code>, <code>--story-body</code>, <code>--story-rail</code> and <code>--story-accent</code>, scoped to <code>.story[data-active]</code> in <code>style.css</code>. Snapping them onto the palette would flatten the scene into one ground, which is the opposite of the point. They are named, scoped and deliberate &mdash; not literals that escaped the audit.</span></li>
+          <li><strong>The story scene has six colors of its own</strong><span><code>--story-bg</code>, <code>--story-ink</code>, <code>--story-ink-soft</code>, <code>--story-body</code>, <code>--story-rail</code> and <code>--story-accent</code>, scoped to <code>.story[data-active]</code> in <code>style.css</code>. Snapping them onto the palette would flatten the scene into one ground, which is the opposite of the point. They are named, scoped and deliberate &mdash; not literals that escaped the audit.</span></li>
           <li><strong>So is the device chrome</strong><span><code>--device-chrome</code> is off the palette for the same reason, and lives in <code>style.css</code> rather than <code>color.css</code> so that naming it cannot quietly make it palette. See Media below.</span></li>
-          <li><strong>&ldquo;Artwork&rdquo; is a claim about the thing, not an excuse</strong><span>The test is whether it renders something that exists outside the interface. A card is not artwork because its colour is inconvenient. And the exemption is from the <em>scale</em>, never from legibility: text over an illustration still has to clear its floor, measured in pixels where a token cannot answer.</span></li>
+          <li><strong>&ldquo;Artwork&rdquo; is a claim about the thing, not an excuse</strong><span>The test is whether it renders something that exists outside the interface. A card is not artwork because its color is inconvenient. And the exemption is from the <em>scale</em>, never from legibility: text over an illustration still has to clear its floor, measured in pixels where a token cannot answer.</span></li>
         </ul>
 
         <h3 class="ds-sub">Where the stylesheet stands</h3>
-        <p class="ds-lede"><strong>Eighty distinct colour values against eleven tokens</strong> &mdash; 26 hex and 54 <code>rgba()</code>. The interesting part is that this is the opposite of what the type audit found. Typography had no tokens at all; colour has had them all along and does not use them.</p>
+        <p class="ds-lede"><strong>Eighty distinct color values against eleven tokens</strong> &mdash; 26 hex and 54 <code>rgba()</code>. The interesting part is that this is the opposite of what the type audit found. Typography had no tokens at all; color has had them all along and does not use them.</p>
         <ul class="ds-rules">
-          <li><strong>867 literals against 224 token references &mdash; and where they actually were</strong><span>A value a token already names, written out by hand: <code>#252525</code> 395 times, <code>#556b51</code> 278, <code>#f5f5f0</code> 69. Only 21% of colour uses went through a token. But the bulk turned out not to be in the stylesheets at all: <strong>319 are SVG attributes inside the <code>aria-hidden</code> illustration scenes</strong>, which the artwork rule exempts, and 486 are in the six Tailwind case studies. The twelve pages that load <code>style.css</code> had about 30, and they are gone.</span></li>
-          <li><strong>A token that was never defined</strong><span><code>site-nav.css</code> referenced <code>var(--color-accent, #657D60)</code> five times. There is no <code>--color-accent</code> &mdash; it is <code>--color-accent-deep</code> &mdash; so all five had always resolved through the literal fallback. It rendered correctly, which is exactly why nobody noticed: the shared header&rsquo;s accent looked right and was not connected to the palette at all. Four non-colour fallbacks in that file are still load-bearing, because <code>--nav-height</code>, <code>--ease</code>, <code>--container-max</code> and <code>--font-sans</code> live in <code>style.css</code> and six pages cannot see it.</span></li>
-          <li><strong>A retired colour that never left &mdash; now it has</strong><span>This page said a single darker sage replaced a raw-plus-deep pair. The raw sage was still here nine times, and <code>--color-accent-soft</code> &mdash; a token, in the palette &mdash; was defined as exactly that. Eight of the nine were one thing wearing two hats: the focus ring behind the email popover&rsquo;s input, duplicated inline across seven pages, and the hovering cursor ring. Both take <code>--color-accent-ring</code> now, written as <code>color-mix()</code> off the accent so it cannot drift from it again. The ninth was the token, and it had <strong>no consumers at all</strong> &mdash; the last formal trace of the retired colour was a dead token, so it was deleted rather than redefined. No raw sage remains in any file.</span></li>
+          <li><strong>867 literals against 224 token references &mdash; and where they actually were</strong><span>A value a token already names, written out by hand: <code>#252525</code> 395 times, <code>#556b51</code> 278, <code>#f5f5f0</code> 69. Only 21% of color uses went through a token. But the bulk turned out not to be in the stylesheets at all: <strong>319 are SVG attributes inside the <code>aria-hidden</code> illustration scenes</strong>, which the artwork rule exempts, and 486 are in the six Tailwind case studies. The twelve pages that load <code>style.css</code> had about 30, and they are gone.</span></li>
+          <li><strong>A token that was never defined</strong><span><code>site-nav.css</code> referenced <code>var(--color-accent, #657D60)</code> five times. There is no <code>--color-accent</code> &mdash; it is <code>--color-accent-deep</code> &mdash; so all five had always resolved through the literal fallback. It rendered correctly, which is exactly why nobody noticed: the shared header&rsquo;s accent looked right and was not connected to the palette at all. Four non-color fallbacks in that file are still load-bearing, because <code>--nav-height</code>, <code>--ease</code>, <code>--container-max</code> and <code>--font-sans</code> live in <code>style.css</code> and six pages cannot see it.</span></li>
+          <li><strong>A retired color that never left &mdash; now it has</strong><span>This page said a single darker sage replaced a raw-plus-deep pair. The raw sage was still here nine times, and <code>--color-accent-soft</code> &mdash; a token, in the palette &mdash; was defined as exactly that. Eight of the nine were one thing wearing two hats: the focus ring behind the email popover&rsquo;s input, duplicated inline across seven pages, and the hovering cursor ring. Both take <code>--color-accent-ring</code> now, written as <code>color-mix()</code> off the accent so it cannot drift from it again. The ninth was the token, and it had <strong>no consumers at all</strong> &mdash; the last formal trace of the retired color was a dead token, so it was deleted rather than redefined. No raw sage remains in any file.</span></li>
           <li><strong>Two accessibility failures, both in the lightbox &mdash; fixed</strong><span><code>.ah-lightbox-hint</code> was 11px text at 3.62:1 where 4.5 is required, and it is the line telling a phone user the picture zooms and pans, so it is the opposite of decorative. It takes <code>--ink-on-dark-muted</code> now: 5.13:1. <code>.ah-lightbox-close</code> was a 42px control whose only boundary was a 1px border at 1.93:1 against a required 3:1; it takes <code>--rule-on-dark-strong</code>: 3.79 outside the button, 3.18 inside. Fixing the second turned up a third thing &mdash; the hover border was already 0.4, so raising the resting state to clear the floor would have flattened the hover into no change at all. It steps up to 0.55, and the state stays a state.</span></li>
           <li><strong>Six near-blacks and the near-duplicates &mdash; resolved</strong><span>Six near-blacks were in use. Three were shadow bases and went to black in step 5; two were scrims and became one <code>--color-scrim</code> in step 6. The duplicates went the same way: <code>#fafafa</code> to white, <code>#cccccc</code> to <code>--color-rule</code>, <code>#22241f</code> to charcoal. <strong>Every off-palette value left in live CSS is now a documented exception</strong> &mdash; the artwork, the story section&rsquo;s four scroll grounds, and the phone bezel.</span></li>
-          <li><strong>Ranking by luminance was the wrong tool</strong><span>The first pass sorted near-duplicate candidates by luminance and got two wrong: <code>#eaeee2</code> looked like tea-light but is one of the story grounds, and <code>#56718c</code> came up as a near-match for the sage <code>#5d7559</code> &mdash; a slate blue and a green, identical in lightness and nothing alike. Distance in RGB sorted both correctly. Luminance answers &ldquo;how light is it&rdquo;, which is exactly right for contrast and exactly wrong for &ldquo;is this the same colour&rdquo;.</span></li>
-          <li><strong>The Tailwind colour list is copied six times &mdash; fixed</strong><span>Each case study declared the same seven colours inline, 42 hardcoded copies, two of them the same value under two names &mdash; and then bypassed even that with 138 arbitrary <code>text-[#&hellip;]</code> values. Every config now reads <code>var(--color-*)</code>, the way <code>fontSize</code> already reads the type scale, and the alias is gone: <code>text-dark</code> said nothing, and its 263 uses say <code>text-charcoal</code>. <strong>510 utility replacements, zero rendered colours changed.</strong></span></li>
+          <li><strong>Ranking by luminance was the wrong tool</strong><span>The first pass sorted near-duplicate candidates by luminance and got two wrong: <code>#eaeee2</code> looked like tea-light but is one of the story grounds, and <code>#56718c</code> came up as a near-match for the sage <code>#5d7559</code> &mdash; a slate blue and a green, identical in lightness and nothing alike. Distance in RGB sorted both correctly. Luminance answers &ldquo;how light is it,&rdquo; which is exactly right for contrast and exactly wrong for &ldquo;is this the same color.&rdquo;</span></li>
+          <li><strong>The Tailwind color list is copied six times &mdash; fixed</strong><span>Each case study declared the same seven colors inline, 42 hardcoded copies, two of them the same value under two names &mdash; and then bypassed even that with 138 arbitrary <code>text-[#&hellip;]</code> values. Every config now reads <code>var(--color-*)</code>, the way <code>fontSize</code> already reads the type scale, and the alias is gone: <code>text-dark</code> said nothing, and its 263 uses say <code>text-charcoal</code>. <strong>510 utility replacements, zero rendered colors changed.</strong></span></li>
         </ul>
-        <p class="ds-demo-note">COLOR.md &sect;8 is the order to fix it in, and it puts the shared token file first rather than sixth &mdash; the one thing the type sequence got wrong, when tokenising a stylesheet both regimes load, before both regimes could resolve the tokens, shipped a live regression for two commits. <strong>Steps 1 and 2 are done:</strong> the palette lives in <code>color.css</code>, all eighteen pages load it, and both lightbox failures are closed. Step 1 was verified additive by reading six colour properties off every element on every page &mdash; 34,867 values, none of which moved.</p>
+        <p class="ds-demo-note">COLOR.md &sect;8 is the order to fix it in, and it puts the shared token file first rather than sixth &mdash; the one thing the type sequence got wrong, when tokenizing a stylesheet both regimes load, before both regimes could resolve the tokens, shipped a live regression for two commits. <strong>Steps 1 and 2 are done:</strong> the palette lives in <code>color.css</code>, all eighteen pages load it, and both lightbox failures are closed. Step 1 was verified additive by reading six color properties off every element on every page &mdash; 34,867 values, none of which moved.</p>
       </div>
     </section>
     <section class="ds-section" id="surfaces">
@@ -304,7 +304,7 @@
         <h2>Type</h2>
         <p class="ds-lede">Two families split by job: Crimson Text at regular weight for anything that speaks, Montserrat for anything that labels. Headings never take bold &mdash; hierarchy comes from size, and the serif&rsquo;s own contrast does the rest. Every size below is a step on one scale; the specimens render at the live token and report the pixel value the browser computed, so a step that drifts shows here first. <a href="../TYPOGRAPHY.md">TYPOGRAPHY.md</a> is normative for all of it.</p>
 
-        <p class="ds-demo-note" style="margin-bottom:2rem"><strong>On the words.</strong> A <strong>dek</strong> is the short line between the headline and the body; a <strong>lede</strong> is the opening passage of the body. Both are American newsroom spellings, misspelled on purpose so an editor&rsquo;s note could never be typeset as copy &mdash; the same tradition as <em>hed</em> and <em>graf</em>. They are the terms the class names use. Not &ldquo;standfirst&rdquo;, which is the British word for a dek: the site carried both for the same element until they were reconciled, and <code>.build-standfirst</code> is <code>.build-dek</code> now. One element, one word, one English. The full list is in <a href="../TYPOGRAPHY.md">TYPOGRAPHY.md &sect;1</a>.</p>
+        <p class="ds-demo-note" style="margin-bottom:2rem"><strong>On the words.</strong> A <strong>dek</strong> is the short line between the headline and the body; a <strong>lede</strong> is the opening passage of the body. Both are American newsroom spellings, misspelled on purpose so an editor&rsquo;s note could never be typeset as copy &mdash; the same tradition as <em>hed</em> and <em>graf</em>. They are the terms the class names use. Not &ldquo;standfirst,&rdquo; which is the British word for a dek: the site carried both for the same element until they were reconciled, and <code>.build-standfirst</code> is <code>.build-dek</code> now. One element, one word, one English. The full list is in <a href="../TYPOGRAPHY.md">TYPOGRAPHY.md &sect;1</a>.</p>
 
         <h3 class="ds-sub">The two families</h3>
         <ul class="ds-type">
@@ -319,8 +319,8 @@
         </ul>
 
         <h3 class="ds-sub">The scale</h3>
-        <p class="ds-lede">Fourteen steps, base 16px, 11px to 80px. Two tiers on two different principles. The <strong>text tier</strong> steps arithmetically, because at small sizes the eye reads the absolute difference and not the ratio. The <strong>display tier</strong> is geometric, and the rule that generates it is worth memorising: <strong>every step doubles four steps later</strong> &mdash; 20&#8202;&rarr;&#8202;40, 24&#8202;&rarr;&#8202;48, 28&#8202;&rarr;&#8202;56, 34&#8202;&rarr;&#8202;68, 40&#8202;&rarr;&#8202;80. That is a ratio of 2<sup>1/4</sup>, about 1.189, rounded to whole pixels. You can extend it in either direction without a calculator: halve or double, then fill the three between.</p>
-        <p class="ds-demo-note" style="margin-bottom:1.5rem">Not invented for this page. Of the 587 type-size declarations across the stylesheets and the sixteen pages, 78% already land exactly on one of these steps and 95% land within a pixel; the scale is the site&rsquo;s own centre of gravity with the rounding noise taken out.</p>
+        <p class="ds-lede">Fourteen steps, base 16px, 11px to 80px. Two tiers on two different principles. The <strong>text tier</strong> steps arithmetically, because at small sizes the eye reads the absolute difference and not the ratio. The <strong>display tier</strong> is geometric, and the rule that generates it is worth memorizing: <strong>every step doubles four steps later</strong> &mdash; 20&#8202;&rarr;&#8202;40, 24&#8202;&rarr;&#8202;48, 28&#8202;&rarr;&#8202;56, 34&#8202;&rarr;&#8202;68, 40&#8202;&rarr;&#8202;80. That is a ratio of 2<sup>1/4</sup>, about 1.189, rounded to whole pixels. You can extend it in either direction without a calculator: halve or double, then fill the three between.</p>
+        <p class="ds-demo-note" style="margin-bottom:1.5rem">Not invented for this page. Of the 587 type-size declarations across the stylesheets and the sixteen pages, 78% already land exactly on one of these steps and 95% land within a pixel; the scale is the site&rsquo;s own center of gravity with the rounding noise taken out.</p>
 
         <p class="ds-scale-tier">Text tier &middot; arithmetic &middot; never fluid</p>
         <ul class="ds-scale">
@@ -398,7 +398,7 @@
             <tr data-token="--type-title-inset"><td><code>--type-title-inset</code></td><td>2xs&nbsp;h1 &rarr; 4xl</td><td>36 &rarr; 64</td><td class="ds-ramp-now"></td><td>The homepage hero, which shares its row with the portrait.</td></tr>
           </tbody>
         </table>
-        <p class="ds-demo-note">One ramp is deliberately outside that window. <code>--type-title-inset</code> runs 768 to 1280 rather than 400 to 1280, because the thing it is sized against only exists in that range: above 768 the homepage hero shares its row with the portrait and gets about 47% of the container, and below it the row stacks and the title takes <code>--type-title</code> like every other h1. A ramp is sized against the column it lands in, not against the page. The shared window is the whole point for the other four, not a tidiness preference. At any width every ramp sits at the same progress between its own endpoints, so an ordering that holds at 400px and at 1280px holds at every width in between &mdash; provably, with nothing to test. The bespoke <code>vw</code> coefficients this replaces are exactly why the base ladder inverts today: <code>h2</code> outranks <code>h1</code> on every viewport under 622px, and <code>h3</code> and <code>h4</code> cross at 982px.</p>
+        <p class="ds-demo-note">One ramp is deliberately outside that window. <code>--type-title-inset</code> runs 768 to 1280 rather than 400 to 1280, because the thing it is sized against only exists in that range: above 768 the homepage hero shares its row with the portrait and gets about 47% of the container, and below it the row stacks and the title takes <code>--type-title</code> like every other h1. A ramp is sized against the column it lands in, not against the page. The shared window is the whole point for the other four, not a tidiness preference. At any width every ramp sits at the same progress between its own endpoints, so an ordering that holds at 400px and at 1280px holds at every width in between &mdash; provably, with nothing to test. The custom <code>vw</code> coefficients this replaces are exactly why the base ladder inverts today: <code>h2</code> outranks <code>h1</code> on every viewport under 622px, and <code>h3</code> and <code>h4</code> cross at 982px.</p>
 
         <h3 class="ds-sub">The heading ladder</h3>
         <p class="ds-lede">Sizes come from the ladder; the ladder comes from the document outline. Never skip a level to reach a size.</p>
@@ -490,7 +490,7 @@
 
         <h3 class="ds-sub">What is left, and it is not typography</h3>
         <ul class="ds-rules">
-          <li><strong>Colour has the drift type used to have</strong><span><code>text-[#252525]</code> appears 101 times across the case studies and <code>text-[#657D60]</code> 37 times. Those are <code>--color-charcoal</code> and <code>--color-accent-deep</code>, which already exist &mdash; and <code>type.css</code> now proves a token file can reach those pages.</span></li>
+          <li><strong>Color has the drift type used to have</strong><span><code>text-[#252525]</code> appears 101 times across the case studies and <code>text-[#657D60]</code> 37 times. Those are <code>--color-charcoal</code> and <code>--color-accent-deep</code>, which already exist &mdash; and <code>type.css</code> now proves a token file can reach those pages.</span></li>
           <li><strong>Dead rules beyond the three</strong><span><code>.build-hero-img</code> and <code>.build-mode-note</code> have zero references in any page. Left alone: dead-CSS cleanup is its own pass, and a proper one would check all of <code>style.css</code> rather than whatever a type change happened to touch.</span></li>
         </ul>
       </div>
@@ -509,7 +509,7 @@
             <span class="ds-space-bar"><i style="width:var(--space-2xs)"></i></span>
             <span class="ds-space-px"></span>
             <span class="ds-space-tw"><code>p-1</code></span>
-            <p class="ds-space-job">Hairline separation. A label off its icon; a tag off its neighbour.</p>
+            <p class="ds-space-job">Hairline separation. A label off its icon; a tag off its neighbor.</p>
           </li>
           <li class="ds-space" data-token="--space-xs">
             <span><code>--space-xs</code></span>
@@ -631,7 +631,7 @@
         <p class="ds-lede">Motion here confirms, directs, or sets a place. Confirm: something the reader did had an effect. Direct: something arrived and is worth looking at. Set a place: the story drifts through four grounds while nobody watches. Anything that is none of those three is decoration, and the test for a new animation is whether a reader who missed it would have lost something. <span class="ds-docref">MOTION.md</span> is normative for all of it.</p>
 
         <h3 class="ds-sub">The six durations</h3>
-        <p class="ds-demo-note" style="margin-bottom:1.25rem">The name is the job, not the number. The gaps are perceptual rather than tidy: 80 to 200 is the difference between tracking the reader and responding to them, 200 to 300 between a colour changing and a thing that moved, 500 to 900 between arriving and being drawn. Each dot below runs on its own live token and reports what the browser computed.</p>
+        <p class="ds-demo-note" style="margin-bottom:1.25rem">The name is the job, not the number. The gaps are perceptual rather than tidy: 80 to 200 is the difference between tracking the reader and responding to them, 200 to 300 between a color changing and a thing that moved, 500 to 900 between arriving and being drawn. Each dot below runs on its own live token and reports what the browser computed.</p>
         <div class="ds-demo-head">
           <h3 id="motion-scale-label" class="ds-sub" style="margin:0">Six speeds, side by side</h3>
           <button type="button" class="ds-replay" data-replay="scale">Play</button>
@@ -647,7 +647,7 @@
             <span><code>--motion-state</code></span>
             <span class="ds-mtrack"><span class="ds-mdot"></span></span>
             <span class="ds-mval"></span>
-            <p class="ds-mjob">A property changing under the pointer or the keyboard &mdash; colour, opacity, background. The most common motion on the site.</p>
+            <p class="ds-mjob">A property changing under the pointer or the keyboard &mdash; color, opacity, background. The most common motion on the site.</p>
           </li>
           <li class="ds-mrow" data-token="--motion-move" style="--ds-dur: var(--motion-move)">
             <span><code>--motion-move</code></span>
@@ -691,7 +691,7 @@
             <span class="ds-mtrack"><span class="ds-mdot"></span></span>
           </div>
         </div>
-        <p class="ds-demo-note">A third is written out rather than tokenised: <code>linear</code>, for progress bars and cross-fades, where there is nothing to accelerate. Reaching for it should be a decision.</p>
+        <p class="ds-demo-note">A third is written out rather than tokenized: <code>linear</code>, for progress bars and cross-fades, where there is nothing to accelerate. Reaching for it should be a decision.</p>
 
         <h3 class="ds-sub">The reveal</h3>
         <div class="ds-demo-head">
@@ -759,7 +759,7 @@
             <span class="tag">Design systems</span>
             <span class="tag">Governance</span>
           </div>
-          <p class="ds-demo-note">White pills with a warm hairline, 0.8125rem. Descriptive only; never interactive. <strong>Three, never more</strong>, and they name the domain and the capability rather than disciplines only a designer would recognise. One component with two homes: the case study cards and the product cards, which used to set a middot-separated run of their own. On white ground the fill does not read and the hairline does the work; that is the same component on a different surface, not a second treatment.</p>
+          <p class="ds-demo-note">White pills with a warm hairline, 0.8125rem. Descriptive only; never interactive. <strong>Three, never more</strong>, and they name the domain and the capability rather than disciplines only a designer would recognize. One component with two homes: the case study cards and the product cards, which used to set a middot-separated run of their own. On white ground the fill does not read and the hairline does the work; that is the same component on a different surface, not a second treatment.</p>
           <details class="ds-usage">
             <summary>Markup</summary>
             <pre class="ds-code"><code>&lt;span class=&quot;tag&quot;&gt;Enterprise software&lt;/span&gt;
@@ -1075,7 +1075,7 @@
         </div>
         <div class="ds-component">
           <h3>Section table of contents</h3>
-          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. It is a sticky bar under the header on a case study, listing the page&rsquo;s three sections. Its ground stays <code>rgba()</code> rather than a token on purpose: the tokenised spelling computes to <code>color(srgb ...)</code>, which the contrast checks cannot composite, and they read the bar as opaque charcoal and report 38 false failures.</p>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. It is a sticky bar under the header on a case study, listing the page&rsquo;s three sections. Its ground stays <code>rgba()</code> rather than a token on purpose: the tokenized spelling computes to <code>color(srgb ...)</code>, which the contrast checks cannot composite, and they read the bar as opaque charcoal and report 38 false failures.</p>
           <details class="ds-usage">
             <summary>Markup</summary>
             <pre class="ds-code"><code>&lt;nav class=&quot;case-toc&quot; aria-label=&quot;Section navigation&quot;&gt;
@@ -1087,9 +1087,9 @@
 &lt;/nav&gt;</code></pre>
           </details>
           <ul class="ds-guide">
-            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give it an <code>aria-label</code>. A page with a site nav and a section nav has two <code>nav</code> landmarks, and unlabelled they are indistinguishable.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give it an <code>aria-label</code>. A page with a site nav and a section nav has two <code>nav</code> landmarks, and unlabeled they are indistinguishable.</span></li>
             <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep the links to the sections that actually exist on the page.</span></li>
-            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> tokenise its background. The comment sits on the declaration explaining why, and removing it costs the checks their sight of 38 pieces of text.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> tokenize its background. The comment sits on the declaration explaining why, and removing it costs the checks their sight of 38 pieces of text.</span></li>
           </ul>
         </div>
         <div class="ds-component">
@@ -1170,15 +1170,15 @@
         <p class="ds-lede">Two clips run on this site: the header logo reveal and the hero portrait. Both follow one rule, learned the hard way.</p>
 
         <h3 class="ds-sub">Device chrome</h3>
-        <p class="ds-lede">A phone mockup is a drawing of a physical object, so its frame answers to the artwork rule rather than to the scales &mdash; <a href="../SPACING.md">SPACING.md</a> section 4 carves it out of the space steps and <a href="../COLOR.md">COLOR.md</a> section 6 carves its colour out of the palette. Changing how much room a card gives its contents must never change how a phone looks. Both tokens live in <code>style.css</code>, not <code>shell.css</code>, for exactly that reason.</p>
+        <p class="ds-lede">A phone mockup is a drawing of a physical object, so its frame answers to the artwork rule rather than to the scales &mdash; <a href="../SPACING.md">SPACING.md</a> section 4 carves it out of the space steps and <a href="../COLOR.md">COLOR.md</a> section 6 carves its color out of the palette. Changing how much room a card gives its contents must never change how a phone looks. Both tokens live in <code>style.css</code>, not <code>shell.css</code>, for exactly that reason.</p>
         <ul class="ds-rules">
           <li><strong><code>--bezel</code> &mdash; 8px, one thickness</strong><span>The frames were 5, 8, 8 and 10px. Measured at 1440, the 218px mockup carried the 5px frame and the 190px one carried 10px, so the thickness ran <em>inversely</em> to the device: drift, not a ramp.</span></li>
-          <li><strong><code>--device-chrome</code> &mdash; <code>#1b1d22</code></strong><span>A shade darker and a few degrees cooler than the charcoal, which is what lets a shell read as a moulded object beside charcoal type. The two are 1.10:1 apart, which is why three frames sat on the interface charcoal for months without anyone noticing.</span></li>
+          <li><strong><code>--device-chrome</code> &mdash; <code>#1b1d22</code></strong><span>A shade darker and a few degrees cooler than the charcoal, which is what lets a shell read as a molded object beside charcoal type. The two are 1.10:1 apart, which is why three frames sat on the interface charcoal for months without anyone noticing.</span></li>
           <li><strong>The screen&rsquo;s corner is derived, never authored</strong><span>A frame reads as a constant-width ring only when the screen&rsquo;s corner is concentric with the shell&rsquo;s: inner radius = outer &minus; bezel. Three of the four were a pixel out. Each device now declares its own <code>--shell-radius</code> and the screen derives its corner with <code>calc()</code>, so the relationship cannot drift again.</span></li>
         </ul>
         <ul class="ds-rules">
           <li><strong>A clip that plays once hands the element back</strong><span>When the reveal finishes it fades out over the static mark and removes itself. Leaving a paused video holding a required element looks fine until the page is backgrounded: browsers are free to drop a paused video&rsquo;s decoded frame, and it returns empty. That is a real bug this site shipped and fixed.</span></li>
-          <li><strong>The static state sets the box</strong><span>The mark or poster stays in flow and defines the space; the clip is layered over it, and the mark is painted beneath from the clip&rsquo;s first frame. The header never shifts, the fallback is already there rather than swapped in late, and the hand-back is a fade between two things on screen, not a swap that waits on a phone to rasterise the SVG.</span></li>
+          <li><strong>The static state sets the box</strong><span>The mark or poster stays in flow and defines the space; the clip is layered over it, and the mark is painted beneath from the clip&rsquo;s first frame. The header never shifts, the fallback is already there rather than swapped in late, and the hand-back is a fade between two things on screen, not a swap that waits on a phone to rasterize the SVG.</span></li>
           <li><strong>Every clip has a deadline</strong><span>A start deadline for one that never begins, an end handler for one that finishes, and a backstop for one that stalls in between. All three land on the same finished state.</span></li>
           <li><strong>Silent, and never required</strong><span>Muted, <code>playsinline</code>, and skipped entirely under reduced motion. Nothing the clip carries is information the page needs.</span></li>
         </ul>
@@ -1205,7 +1205,7 @@
           <li><strong>Reduced motion is a contract</strong><span>Every animation carries a <code>prefers-reduced-motion</code> path that lands on the finished state. The custom cursor opts out entirely and leaves the native one.</span></li>
           <li><strong>No JavaScript, no blank page</strong><span>Hidden-until-revealed states are gated behind a <code>.js</code> class the script sets. When the script never runs, everything simply renders complete.</span></li>
           <li><strong>Decoration declares itself</strong><span>Icons and ornamental media carry <code>aria-hidden="true"</code>; the text beside them carries the meaning. Real images get alt text that describes the composition, not the filename.</span></li>
-          <li><strong>Contrast floors are load-bearing</strong><span>Text is meant to sit at 4.5:1 or better on its ground, and a control&rsquo;s boundary at 3:1. This is why sage exists in three steps rather than one: the text step manages 2.63:1 on charcoal where the lifted step reaches 7.47:1, and the fill step clears 3:1 everywhere but falls to 3.56:1 as small text on muted light. Every pair is measured live in Color. Two places did not meet it, both in the lightbox, and both are fixed &mdash; see Color. This said &ldquo;text sits at 4.5:1 or better&rdquo; as a flat claim until the colour audit showed it was not true.</span></li>
+          <li><strong>Contrast floors are load-bearing</strong><span>Text is meant to sit at 4.5:1 or better on its ground, and a control&rsquo;s boundary at 3:1. This is why sage exists in three steps rather than one: the text step manages 2.63:1 on charcoal where the lifted step reaches 7.47:1, and the fill step clears 3:1 everywhere but falls to 3.56:1 as small text on muted light. Every pair is measured live in Color. Two places did not meet it, both in the lightbox, and both are fixed &mdash; see Color. This said &ldquo;text sits at 4.5:1 or better&rdquo; as a flat claim until the color audit showed it was not true.</span></li>
         </ul>
       </div>
     </section>
@@ -1215,7 +1215,7 @@
         <h2>Writing</h2>
         <p class="ds-lede">The copy is part of the system. These rules are already enforced across the site; new copy follows them.</p>
         <ul class="ds-rules">
-          <li><strong>No em dashes, anywhere</strong><span>Commas, colons, and full stops carry the rhythm. This holds in body copy, captions, commit messages, and alt text alike.</span></li>
+          <li><strong>No em dashes, anywhere</strong><span>Commas, colons, and periods carry the rhythm. This holds in body copy, captions, commit messages, and alt text alike.</span></li>
           <li><strong>Only confirmed numbers</strong><span>Every figure on the site traces to a real, verified fact. No invented metrics, no unattributed testimonials, no &ldquo;up to.&rdquo; A section waits empty rather than shipping a plausible number.</span></li>
           <li><strong>Sell the change, not the artifact</strong><span>Cards and bullets lead with what the client gets. The deliverables themselves are itemized on the page behind the card, not on it.</span></li>
           <li><strong>Two lines, then stop</strong><span>A list item that needs a third line needs a shorter item. Cut the sentence in half, then do it again.</span></li>
@@ -1234,7 +1234,7 @@
           <li><strong>Staging root</strong><span>Fifteen pages: everything live has except the retired Brand, Identity &amp; Illustration engagement, plus the three build write-ups, plus this reference. Carries <code>noindex</code>. This is the edition you are reading, and the one Pages inventories.</span></li>
         </ul>
         <ul class="ds-rules">
-          <li><strong>Withholding is a decision, not a build artefact</strong><span>Door County Found, Lucy Learns, and While We&rsquo;re Here are held out of live deliberately. Nothing about the code decides that; a person does, and it can be reversed the moment they say so. It runs the other way too: the Brand, Identity &amp; Illustration engagement is still on live and no longer here, because the offer behind it was retired and live has not caught up yet.</span></li>
+          <li><strong>Withholding is a decision, not a build artifact</strong><span>Door County Found, Lucy Learns, and While We&rsquo;re Here are held out of live deliberately. Nothing about the code decides that; a person does, and it can be reversed the moment they say so. It runs the other way too: the Brand, Identity &amp; Illustration engagement is still on live and no longer here, because the offer behind it was retired and live has not caught up yet.</span></li>
           <li><strong>Only one edition has to be right today</strong><span>Live can be held back while the others move. Publishing is the hard step to undo, so when in doubt it waits.</span></li>
           <li><strong>Everything else stays in step</strong><span>A shared change lands in every edition in the same pass. Two editions drifting is how a fix gets made twice and lands once.</span></li>
         </ul>
@@ -1247,10 +1247,10 @@
         <p class="ds-lede">Rules earned the hard way. Each of these exists because skipping it broke something real.</p>
         <ul class="ds-rules">
           <li><strong>Every asset change bumps its token</strong><span>Stylesheets, scripts, images, the favicon, the clips: all carry <code>?v=</code>. A returning visitor holds the old file otherwise, and the bug that follows is invisible to whoever shipped it, because their own browser fetched the new one.</span></li>
-          <li><strong>There is no include step</strong><span>The header and footer are hand-written into every page. A change to either is a change to every file that carries it, in every edition. Grep, do not assume; and prefer shared JavaScript over pasted markup for anything with behaviour.</span></li>
+          <li><strong>There is no include step</strong><span>The header and footer are hand-written into every page. A change to either is a change to every file that carries it, in every edition. Grep, do not assume; and prefer shared JavaScript over pasted markup for anything with behavior.</span></li>
           <li><strong>Measure, do not eyeball</strong><span>Read the number back out of the browser: computed styles, bounding boxes, contrast ratios, line counts. Twice this year a change looked right and was not, and both times the measurement caught it before it shipped.</span></li>
           <li><strong>The staging build is assembled, not pushed</strong><span>Its tree is composed from the source branch plus the client-safe branch. The deploy workflow lives only in the staging repository, so an assembled tree that omits it lands with no deploy at all, and the site silently stops updating. That has happened; the assembly step re-adds it every time.</span></li>
-          <li><strong>Retire, do not accumulate</strong><span>When two tokens differ only where a rule forced them apart, the rule is the thing to fix. Two colours left this palette that way, and both had been quietly failing contrast at small sizes.</span></li>
+          <li><strong>Retire, do not accumulate</strong><span>When two tokens differ only where a rule forced them apart, the rule is the thing to fix. Two colors left this palette that way, and both had been quietly failing contrast at small sizes.</span></li>
           <li><strong>The reference is only true if it ships with the change</strong><span>A specimen copied by hand goes stale the moment the site moves. Three tags on this page said four for a week. Update the section in the same pass as the code, or it becomes fiction.</span></li>
         </ul>
       </div>
@@ -1383,7 +1383,7 @@
 
     /* Contrast matrix: computed here, from the live token values, rather
        than transcribed. WCAG 2.x relative luminance and ratio -- the same
-       arithmetic a checker uses, so a colour that moves in the stylesheet
+       arithmetic a checker uses, so a color that moves in the stylesheet
        moves the number on this page instead of quietly disagreeing with it. */
     (function () {
       var cs = getComputedStyle(document.documentElement);
@@ -1418,7 +1418,7 @@
           td.textContent = r.toFixed(2);
           td.classList.add(r >= 4.5 ? 'ds-cr-pass' : (r >= 3 ? 'ds-cr-large' : 'ds-cr-fail'));
           /* The number is the fact; the class is a reading of it, so say the
-             reading out loud for anyone not seeing the colour. */
+             reading out loud for anyone not seeing the color. */
           td.title = r >= 4.5 ? 'passes AA at any size'
                    : (r >= 3 ? 'large text and control boundaries only'
                              : 'decoration only');
@@ -1442,7 +1442,7 @@
          prefers-reduced-motion every property transitions -- font-size
          included. Setting fontSize on a probe that is already in the document
          then starts a 0.01ms transition, and getComputedStyle read
-         immediately afterwards returns the value at time zero: the previous
+         immediately afterward returns the value at time zero: the previous
          one. Reusing a single probe made every reading here report 11px, the
          first token in the list, for any visitor who has reduce motion turned
          on. A newly inserted element has no previous value to transition

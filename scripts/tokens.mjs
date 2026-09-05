@@ -2,7 +2,7 @@
 /* Every token the documentation names, checked against the tokens that exist.
  *
  * The other three checks measure the SITE against the specs: resting.mjs and
- * states.mjs ask whether a rendered colour clears its floor, typescale.mjs asks
+ * states.mjs ask whether a rendered color clears its floor, typescale.mjs asks
  * whether a rendered size is on the scale. All three read the specs as rules
  * and the pages as evidence. None of them reads the specs as CLAIMS -- and the
  * specs are full of claims, one per token name in prose, every one of them

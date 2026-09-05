@@ -253,7 +253,7 @@ if (missing.length) {
     say(`    ${c.doc}`);
     say(`        "${c.says}"   (${c.what})`);
   }
-  say('\n  The prose was reworded and this entry was not. That is not a licence to');
+  say('\n  The prose was reworded and this entry was not. That is not a license to');
   say('  delete the entry: without it the claim goes unchecked and the output still');
   say('  reads green, which is the one outcome worse than a failure.\n');
 }

@@ -8,7 +8,7 @@
  * so a re-run after the app changes is the whole swap, and the cache-buster
  * on the tag is the only thing left to bump by hand.
  *
- * Why a script. The screens were captured by hand three times in a fortnight,
+ * Why a script. The screens were captured by hand three times in two weeks,
  * once per restyle, and each time the set drifted a little: a different
  * activity in the session, a different day in the seeded history, one
  * capture at a different width. The write-up shows the screens as one flow,
@@ -80,7 +80,7 @@ const SCREENS = [
  * because a copy is a second source of truth and the history already is one.
  * The revision is the last commit that shipped that style: after it, the next
  * restyle had begun. The `lavender` era is the one the write-up had never
- * shown -- the first terminal-drawn set, before the wall changed colour. */
+ * shown -- the first terminal-drawn set, before the wall changed color. */
 const ERAS = [
   { n: '01', name: 'painted',  rev: '145bd18', file: 'sr-01' },     // 2026-08-08, the eighteen new painted illustrations
   { n: '02', name: 'warm',     rev: '4727a23', file: 'plan-mat' },  // 2026-08-19, the last warm-vector commit

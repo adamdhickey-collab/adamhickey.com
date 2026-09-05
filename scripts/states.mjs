@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Does every colour still clear its floor once the pointer, the keyboard or a
+/* Does every color still clear its floor once the pointer, the keyboard or a
  * script changes it?
  *
  *   node scripts/states.mjs                  report on every page
@@ -24,7 +24,7 @@
  * HOW IT DECIDES WHAT TO FORCE. It does not carry a list of states. A list
  * goes stale the first time someone adds a hover. Instead it reads the site's
  * own stylesheets through the CSSOM, keeps every rule whose selector carries a
- * state AND whose body sets a colour, and forces exactly those. Add a
+ * state AND whose body sets a color, and forces exactly those. Add a
  * `:focus-visible` rule tomorrow and this finds it without being told.
  *
  * A state is forced by rewriting the rule rather than by driving the mouse:
@@ -35,7 +35,7 @@
  * elements per page affordable.
  *
  * IT WAITS FOR THE TRANSITION. Reading straight after applying a class gives
- * you the colour on its way to the answer, not the answer. That mistake made
+ * you the color on its way to the answer, not the answer. That mistake made
  * the TOC link look like it PASSED at 6.47:1 when it settles at 4.51:1. Every
  * measurement here waits out the element's own transition-duration and delay.
  *
@@ -51,7 +51,7 @@
  * and for the boundary of a control.
  */
 import path from 'node:path';
-import { COLOUR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 
 const strict = process.argv.includes('--strict');
 const listOnly = process.argv.includes('--list');
@@ -72,7 +72,7 @@ const say = (s = '') => console.log(s);
 const IN_PAGE = String.raw`
 (() => {
   const PSEUDO = ['hover', 'focus-visible', 'focus', 'active'];
-  const COLOUR = ['color', 'background-color', 'border-color', 'border-top-color',
+  const COLOR = ['color', 'background-color', 'border-color', 'border-top-color',
                   'border-right-color', 'border-bottom-color', 'border-left-color', 'outline-color'];
 
   /* The longhands above are not enough, and the gap widens as the code
@@ -80,16 +80,16 @@ const IN_PAGE = String.raw`
      Written with a hex, outline:2px solid #657D60 fills outline-color; written
      with a token, outline:2px solid var(--color-accent-deep) leaves it EMPTY
      while the shorthand keeps the text. Reading longhands alone therefore goes
-     blind to exactly the rules that have been tokenised properly -- tokenising
+     blind to exactly the rules that have been tokenized properly -- tokenizing
      the email popover dropped this script from 416 rules to 398 without
-     changing a single rendered colour.
+     changing a single rendered color.
 
-     So the shorthands are read too, and any value carrying a var() or a colour
-     literal counts. Over-including is free: a rule with no colour in it simply
-     measures the resting colour and passes. */
+     So the shorthands are read too, and any value carrying a var() or a color
+     literal counts. Over-including is free: a rule with no color in it simply
+     measures the resting color and passes. */
   const SHORTHAND = ['outline', 'background', 'border', 'border-top', 'border-right',
                      'border-bottom', 'border-left', 'box-shadow', 'text-decoration'];
-  const CARRIES_COLOUR = /var\(|#[0-9a-f]{3}|rgb|hsl|currentcolor|transparent/i;
+  const CARRIES_COLOR = /var\(|#[0-9a-f]{3}|rgb|hsl|currentcolor|transparent/i;
 
   /* A state class is one a script toggles, matched on shape rather than from a
      list so a new one is found without being added here.
@@ -101,9 +101,9 @@ const IN_PAGE = String.raw`
      the handful of state classes the site sets without a prefix. */
   const STATE_CLASS = /\.((?:is|has)-[a-z0-9-]+|revealed|is-inview|logo-reveal)\b/;
 
-${COLOUR_TOOLKIT}
+${COLOR_TOOLKIT}
 
-  /* Read every rule the page loaded, and keep the ones that put a colour behind
+  /* Read every rule the page loaded, and keep the ones that put a color behind
      a state. Cross-origin sheets throw on .cssRules; the site's are all local. */
   function stateRules() {
     const found = [];
@@ -121,8 +121,8 @@ ${COLOUR_TOOLKIT}
     for (const rule of rules) {
       if (rule.cssRules && rule.cssRules.length) walk(rule.cssRules, found);
       if (!rule.selectorText || !rule.style) continue;
-      const sets = COLOUR.some(p => rule.style.getPropertyValue(p))
-        || SHORTHAND.some(p => CARRIES_COLOUR.test(rule.style.getPropertyValue(p)));
+      const sets = COLOR.some(p => rule.style.getPropertyValue(p))
+        || SHORTHAND.some(p => CARRIES_COLOR.test(rule.style.getPropertyValue(p)));
       if (!sets) continue;
       for (const sel of rule.selectorText.split(',').map(s => s.trim())) {
         const pseudo = PSEUDO.find(p => sel.includes(':' + p));
@@ -158,7 +158,7 @@ const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 
-/* Nothing off this machine. Webfonts do not change a colour, and font-size is
+/* Nothing off this machine. Webfonts do not change a color, and font-size is
  * set by CSS whichever family resolves, so the size that picks the floor is the
  * same either way. Blocking them makes the run hermetic and fast — and stops
  * `document.fonts.ready` hanging forever behind a request that cannot complete,
@@ -206,7 +206,7 @@ for (const file of chosen) {
     s.textContent = css.map(sel => sel + '{}').join('\n');
     document.head.appendChild(s);
     /* Re-declare each forced rule with the ORIGINAL declarations, so the copy
-       actually carries the colours rather than an empty body. */
+       actually carries the colors rather than an empty body. */
     const out = [];
     for (const sheet of document.styleSheets) {
       let rs; try { rs = sheet.cssRules; } catch { continue; }
@@ -276,11 +276,11 @@ for (const file of chosen) {
           const large = px >= 24 || (px >= 18.66 && weight >= 700);
           const floor = large ? 3 : 4.5;
           const rec = { sel, state, text: text.replace(/\s+/g, ' ').slice(0, 40),
-                        colour: cs.color, size: px + 'px', weight: String(weight), floor };
+                        color: cs.color, size: px + 'px', weight: String(weight), floor };
           if (g.unmeasurable) out.push({ ...rec, unmeasurable: g.unmeasurable });
           else {
             const fg = (c => { const v = c.match(/[\d.]+/g).map(Number); return { r: v[0], g: v[1], b: v[2] }; })(cs.color);
-            out.push({ ...rec, ratio: +api.ratio(fg, g.colour).toFixed(2) });
+            out.push({ ...rec, ratio: +api.ratio(fg, g.color).toFixed(2) });
           }
         }
         if (marker) el.classList.remove(marker);
@@ -301,7 +301,7 @@ await browser.close();
 server.close();
 
 if (listOnly) {
-  say(`\n  ${list.length} state rules that set a colour:\n`);
+  say(`\n  ${list.length} state rules that set a color:\n`);
   for (const l of list) say('    ' + l);
   say('');
   process.exit(0);
@@ -317,7 +317,7 @@ if (!failures.length) {
   for (const f of failures) {
     say(`      ${f.file}`);
     say(`        ${f.sel}  [:${f.state}]`);
-    say(`        ${f.ratio}:1 against ${f.floor} — ${f.colour} at ${f.size}/${f.weight}`);
+    say(`        ${f.ratio}:1 against ${f.floor} — ${f.color} at ${f.size}/${f.weight}`);
     say(`        "${f.text}"`);
     say('');
   }

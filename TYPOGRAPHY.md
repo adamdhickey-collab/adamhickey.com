@@ -92,7 +92,7 @@ not a hand-written size, and it is the only one.
 `scripts/typescale.mjs` holds this section to its word. It renders every page
 at the widths where the ramps are pinned, reads the computed size off every
 element that shows text, and fails on anything that is neither a step nor that
-one ramp's two endpoints. Until it existed the claim was honoured by attention,
+one ramp's two endpoints. Until it existed the claim was honored by attention,
 and attention had already missed three sizes — 13, 15 and 17px, hand-written in
 the glance block on the build write-ups, on pages this section covered.
 
@@ -135,7 +135,7 @@ every step. You can extend the scale in either direction without a
 calculator: halve or double, then fill the three between.
 
 The two tiers meet cleanly: 18 → 20 is a 1.11 step, tighter than the display
-ratio, which is right, because that is where labelling stops and speaking
+ratio, which is right, because that is where labeling stops and speaking
 starts.
 
 ### Why these numbers and not others
@@ -143,7 +143,7 @@ starts.
 Of the **587 type-size declarations** across the stylesheets and pages,
 **78% already land exactly on one of these fourteen steps, and 95% land
 within one pixel.** The scale is not imposed on the site; it is the site's
-own centre of gravity with the noise removed. Only 27 declarations move by
+own center of gravity with the noise removed. Only 27 declarations move by
 more than a pixel, and they are listed in §7.
 
 ---
@@ -191,7 +191,7 @@ then the sizes are strictly ordered **at every width in between, with no
 exceptions and nothing to test.**
 
 This is not a nicety. The site's current headings each carry their own
-bespoke `vw` coefficient, twenty different ones, and as a direct result the
+custom `vw` coefficient, twenty different ones, and as a direct result the
 ladder inverts: `h2` is larger than `h1` on every viewport under 622px, and
 `h3` and `h4` swap places at 982px (§7). A shared window makes that class of
 bug unrepresentable.
@@ -368,7 +368,7 @@ Two things sit outside the scale on purpose:
   in user units, and it scales with the diagram's `viewBox`, not with the
   page. The labels in the Lucy Learns build diagrams render between 12.5 and
   15px depending on container width, and that is correct — they belong to the
-  drawing. Do not tokenise them.
+  drawing. Do not tokenize them.
 - **`.product-link-ext`**, the external-link arrow, at `0.875em`. It sits
   inside links of several sizes and is meant to track whatever it is set in.
   The only relative font-size on the site.
@@ -437,7 +437,7 @@ title, 34px on a phone and 68px at 1280 — the same 68 it already reached, and
 
 All three were real, all three were measured in a browser across twelve
 viewport widths, and §8 step 2 closed all three at once. Kept here because
-each one names a way a bespoke `clamp()` fails, and the next person reaching
+each one names a way a custom `clamp()` fails, and the next person reaching
 for one should know what it costs.
 
 1. **`h2` was bigger than `h1` on every viewport below 622px.** `h1` floored
@@ -445,7 +445,7 @@ for one should know what it costs.
    against 3.5), so they did not cross until 622px. On a phone the section
    heading outranked the page title. Masked only because every `h1` on the
    site is overridden by `.hero-title`, `.case-title`, `.eng3-hero h1`, or
-   `.ds-hero h1` — four more bespoke clamps, which is step 3.
+   `.ds-hero h1` — four more custom clamps, which is step 3.
 
 2. **`h3` and `h4` swapped places at 982px.** `h4` was larger below that
    width, `h3` above it. Mismatched floors (26 against 28) and mismatched
@@ -533,17 +533,17 @@ None of this was visible from reading the stylesheet — the first needed the
 cascade resolved, the third needed the DOM. It only surfaced because each
 change was measured rather than assumed.
 
-Two more, found by a sweep afterwards and **not** removed, because they are
+Two more, found by a sweep afterward and **not** removed, because they are
 not clamps and dead-CSS cleanup is its own pass: `.build-hero-img` and
 `.build-mode-note` have zero references in any of the fifteen pages.
-`.build-mode-note` has the distinction of being tokenised in step 4, which is
+`.build-mode-note` has the distinction of being tokenized in step 4, which is
 effort spent on rules nothing reaches.
 
 ### A regression steps 4 and 5 shipped, and step 6 fixed
 
 Worth writing down because the mechanism will recur.
 
-Step 4 tokenised `site-nav.css` — three declarations on `.icon-link-label`,
+Step 4 tokenized `site-nav.css` — three declarations on `.icon-link-label`,
 the small "Email" / "LinkedIn" text in the fixed header. **Every page loads
 `site-nav.css`, but at that point only the nine Regime A pages had the
 tokens.** On the six case studies `var(--text-2xs)` resolved to nothing, which
@@ -560,7 +560,7 @@ it, 11px / 12px again once `type.css` reached those pages in step 6.
 
 **The rule it teaches:** a token is only safe to use in a stylesheet if every
 page that loads that stylesheet also loads the tokens. `site-nav.css` is
-shared by both regimes and was tokenised while only one of them could resolve
+shared by both regimes and was tokenized while only one of them could resolve
 them. `type.css` exists partly so this cannot happen again — and partly
 because the alternative, duplicating fourteen custom properties into six
 inline `<style>` blocks, is the same trap with more copies.
@@ -576,7 +576,7 @@ references and exactly two numeric font-sizes left**, both deliberate and both
 documented above — the 16px root anchor and `.product-link-ext` at `0.875em`.
 
 Step 7 then took the last nine `clamp()` expressions. **There are now zero
-bespoke clamps on the site**: the only four that exist are the ramps in
+custom clamps on the site**: the only four that exist are the ramps in
 `type.css`, which is what they are for.
 
 Final state, both regimes: every rendered type size on all fifteen pages sits
@@ -599,7 +599,7 @@ the two box-control `line-height`s (§5).
 
 ### `:root` had no type tokens
 
-Before step 1, `style.css`'s `:root` defined colour, radius, container,
+Before step 1, `style.css`'s `:root` defined color, radius, container,
 shadow, and easing tokens, and exactly two typographic ones — the two font
 families. Every size, line-height, and tracking value on the site was written
 inline at its use site, which is why there were sixty of them. The scale, the
@@ -652,7 +652,7 @@ stylesheet by `design-system/index.html` rather than transcribed.
 
 **All seven steps are done.** Kept in order because it is the order to repeat
 if the scale ever changes, and because each step's measured cost is the honest
-record of what a systematisation like this actually moves.
+record of what a systematization like this actually moves.
 
 1. ~~**Add the tokens.**~~ Fourteen sizes, four ramps, six leadings, six
    trackings, four weights. They live in `type.css`, which all fifteen pages
@@ -672,8 +672,8 @@ record of what a systematisation like this actually moves.
    six case studies' inline base reads §4 from it; their Tailwind config maps
    `fontSize` onto the same tokens. Eleven arbitrary bracket sizes gone. Also
    fixed a regression steps 4 and 5 had shipped (§7).
-7. ~~**Delete the bespoke clamps.**~~ The last nine. Three of them were
-   styling nothing (§7). **Zero bespoke clamps remain.**
+7. ~~**Delete the custom clamps.**~~ The last nine. Three of them were
+   styling nothing (§7). **Zero custom clamps remain.**
 
 ### Where it landed
 
@@ -698,7 +698,7 @@ rather than leading.
 
 Found in the same sweeps, untouched:
 
-- **Colour has the drift type used to have.** `text-[#252525]` appears 101
+- **Color has the drift type used to have.** `text-[#252525]` appears 101
   times across the case studies and `text-[#556B51]` 37 times. Those are
   `--color-charcoal` and `--color-accent-deep`, which already exist and which
   `type.css` now proves can reach those pages.

@@ -7,7 +7,7 @@
  * cheaper than a dependency.
  *
  * It handles exactly what Chromium emits for a screenshot: 8 bits per channel,
- * colour type 2 or 6, no interlacing. Anything else throws rather than guesses,
+ * color type 2 or 6, no interlacing. Anything else throws rather than guesses,
  * because a decoder that silently mangles a channel would produce contrast
  * numbers that look plausible and are wrong -- and a wrong number that clears
  * the floor is worse than no number at all.
@@ -20,7 +20,7 @@ export function decodePNG(buf) {
   for (let i = 0; i < SIG.length; i++) {
     if (buf[i] !== SIG[i]) throw new Error('not a PNG');
   }
-  let pos = 8, width = 0, height = 0, depth = 0, colour = -1, interlace = 0;
+  let pos = 8, width = 0, height = 0, depth = 0, color = -1, interlace = 0;
   const idat = [];
   while (pos < buf.length) {
     const len = buf.readUInt32BE(pos);
@@ -28,16 +28,16 @@ export function decodePNG(buf) {
     const body = buf.subarray(pos + 8, pos + 8 + len);
     if (type === 'IHDR') {
       width = body.readUInt32BE(0); height = body.readUInt32BE(4);
-      depth = body[8]; colour = body[9]; interlace = body[12];
+      depth = body[8]; color = body[9]; interlace = body[12];
     } else if (type === 'IDAT') idat.push(body);
     else if (type === 'IEND') break;
     pos += 12 + len;                     // length + type + data + CRC
   }
   if (depth !== 8) throw new Error(`unsupported bit depth ${depth}`);
-  if (colour !== 2 && colour !== 6) throw new Error(`unsupported colour type ${colour}`);
+  if (color !== 2 && color !== 6) throw new Error(`unsupported color type ${color}`);
   if (interlace !== 0) throw new Error('interlaced PNG unsupported');
 
-  const channels = colour === 6 ? 4 : 3;
+  const channels = color === 6 ? 4 : 3;
   const raw = zlib.inflateSync(Buffer.concat(idat));
   const stride = width * channels;
   const out = Buffer.alloc(height * stride);

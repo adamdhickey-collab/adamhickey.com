@@ -14,7 +14,7 @@
  *
  *   crop     A generator batch sometimes comes back with a pale border baked
  *            in, rounded corners and all. The border is measured from the
- *            corner colour inward, a fixed 24px is taken past it, and the
+ *            corner color inward, a fixed 24px is taken past it, and the
  *            largest rectangle of the slot's aspect inside that is kept. A
  *            fixed step rather than a search for the first non-pale pixel,
  *            because a scene with a legitimately pale floor loses a figure
@@ -34,7 +34,7 @@
  *
  * `wall` re-exposes a drawing that is already in the set so that it carries
  * its page's wall. The README has said since 2026-09-04 that each page's six
- * drawings share the colour its hero was solved to, and nothing enforced it:
+ * drawings share the color its hero was solved to, and nothing enforced it:
  * the hero is solved and the other five take the flat 1.15, which multiplies
  * whatever exposure the generator happened to return. So the walls drifted
  * apart while every file stayed inside the set's 126-184 mean, which is a
@@ -50,7 +50,7 @@
  * contrast 1.06 is already in these files and applying it twice compounds.
  * Re-exposure only, at the same pixel size.
  *
- * The probe is the modal colour of the top eighth, quantised to 8 levels a
+ * The probe is the modal color of the top eighth, quantized to 8 levels a
  * channel, not the hero's mean of the left two-fifths. A hero's wall is
  * specified to be empty there because the title sits on it; a step's subject
  * can be anywhere, and a mean of a box a monitor intrudes into is a reading of
@@ -62,7 +62,7 @@
 /* Through the harness, like the other five browser scripts. This one imported
    playwright-core and launched with no executablePath, so it found a browser
    only where Playwright's own download happened to be current -- and CHROME,
-   which every other script here honours, did nothing. */
+   which every other script here honors, did nothing. */
 import { findChrome, loadChromium } from './lib/harness.mjs';
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { extname } from 'node:path';
@@ -154,8 +154,8 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
   const wallBox = (w, h) => [Math.round(w * 0.03), Math.round(h * 0.08), Math.round(w * 0.35), Math.round(h * 0.47)];
 
   /* Which pixels of the top eighth are wall: the ones in the modal bin, with
-     the strip quantised to 8 levels a channel. It returns the offsets, not a
-     colour, and that is the whole trick. Re-running the mode after each step
+     the strip quantized to 8 levels a channel. It returns the offsets, not a
+     color, and that is the whole trick. Re-running the mode after each step
      of the search reads a DIFFERENT set of pixels, because a bin boundary
      moves under the picture as it brightens, so the measurement jumps and the
      search does not converge -- three of the twenty files stopped 0.1 to 0.2
@@ -219,7 +219,7 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
     if (g0.n < 2000) return { width: W, height: H, before: +before.toFixed(3), interior: g0.n, share: +mask.share.toFixed(2), tooLittle: true };
     if (before < floor) {
       /* Add rather than take away. Zero-mean monochrome noise, so the wall the
-         file was solved to keeps its colour; the amplitude is searched the same
+         file was solved to keeps its color; the amplitude is searched the same
          way and through the encoder for the same reason. Seeded, so a re-run
          reproduces the file byte for byte. */
       let seed = 0x9e3779b9;
@@ -372,10 +372,10 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
   }
 
   // Border: walk inward from each of the four edges along its middle line
-  // until the pixel leaves the corner colour. A frame is a frame only when
+  // until the pixel leaves the corner color. A frame is a frame only when
   // all four sides find one and the widest is within half again of the
   // narrowest -- the generator's frames are near-equal, not equal. A
-  // mottled wall leaves the corner colour at a different distance on every
+  // mottled wall leaves the corner color at a different distance on every
   // side and touches the subject on at least one, and a scan from one edge
   // alone once took 147px of plain wall for a border and cropped the
   // composition out of a hero. Under 6px is grain, not a frame.
@@ -388,7 +388,7 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
   const border = agree ? Math.min(...sides) : 0;
   const inset = border >= 6 ? border + 24 : 0;
 
-  // Largest rectangle of the slot's aspect inside the inset, centred --
+  // Largest rectangle of the slot's aspect inside the inset, centered --
   // unless a rectangle was given by hand.
   const aw = W - 2 * inset, ah = H - 2 * inset, aspect = slot.w / slot.h;
   let cw = aw, ch = Math.round(aw / aspect);
@@ -433,7 +433,7 @@ if (role === 'report') {
 if (grainMode) {
   const dest = outPath || inPath;
   console.log(`  ${inPath}` + (result.untouched ? '' : (dest === inPath ? ' (in place)' : ` -> ${dest}`)));
-  if (result.share < 0.33) { console.log(`  \u2717 the top eighth is only ${(result.share * 100).toFixed(0)}% one colour; this picture has no wall to measure`); process.exit(1); }
+  if (result.share < 0.33) { console.log(`  \u2717 the top eighth is only ${(result.share * 100).toFixed(0)}% one color; this picture has no wall to measure`); process.exit(1); }
   if (result.tooLittle) { console.log(`  \u25cf only ${result.interior}px of interior wall; too little to measure grain on, left alone`); process.exit(0); }
   if (result.untouched) { console.log(`  wall grain ${result.before} over ${result.interior}px of wall, inside the ${floor ? floor + '-' : ''}${ceiling} band; left alone`); process.exit(0); }
   if (result.added !== undefined) {
@@ -463,11 +463,11 @@ if (wallMode) {
   console.log(`  wall ${b.hex} ${b.ratio}:1 -> ${a.hex} ${a.ratio}:1 at brightness ${result.brightness}, mean ${b.mean} -> ${a.mean}`);
   /* A strip the wall does not mostly own is not a wall reading, and solving
      against it moves the picture to put a monitor where the wall should be. */
-  if (b.share < 0.33) { console.log(`  ✗ the top eighth is only ${(b.share * 100).toFixed(0)}% one colour; this picture has no wall to match`); process.exit(1); }
+  if (b.share < 0.33) { console.log(`  ✗ the top eighth is only ${(b.share * 100).toFixed(0)}% one color; this picture has no wall to match`); process.exit(1); }
   if (Math.abs(a.ratio - r.ratio) > 0.05) { console.log(`  ✗ did not reach ${r.ratio}:1`); process.exit(1); }
   writeFileSync(dest, Buffer.from(result.webp, 'base64'));
   console.log(`  ${result.width}x${result.height}, ${(statSync(dest).size / 1024).toFixed(0)}KB`);
-  if (a.mean < 126 || a.mean > 184) console.log(`  ● mean luminance ${a.mean} is outside the set's 126-184; look at it beside its neighbours before committing`);
+  if (a.mean < 126 || a.mean > 184) console.log(`  ● mean luminance ${a.mean} is outside the set's 126-184; look at it beside its neighbors before committing`);
   process.exit(0);
 }
 
@@ -478,4 +478,4 @@ console.log(`  source ${s.width}x${s.height}` + (s.border ? `, border ${s.border
 console.log(`  ${SLOT[role].w}x${SLOT[role].h}, brightness ${result.brightness} contrast ${LIFT.contrast}, mean luminance ${result.meanLuminance}` +
   (result.wallRatio ? `, wall ${result.wallHex} at ${result.wallRatio}:1 against charcoal` : '') + `, ${(statSync(outPath).size / 1024).toFixed(0)}KB`);
 if (role === 'hero' && Math.abs(result.wallRatio - WALL_TARGET) > 0.05) { console.log(`  ✗ wall did not reach ${WALL_TARGET}:1; the left two-fifths may not be empty wall`); process.exit(1); }
-if (result.meanLuminance < 126 || result.meanLuminance > 184) console.log(`  ● mean luminance is outside the set's 126-184; look at it beside its neighbours before committing`);
+if (result.meanLuminance < 126 || result.meanLuminance > 184) console.log(`  ● mean luminance is outside the set's 126-184; look at it beside its neighbors before committing`);

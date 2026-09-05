@@ -72,7 +72,7 @@
       var m = /rgba?\(([^)]+)\)/.exec(getComputedStyle(n).backgroundColor);
       if (!m) continue;
       var p = m[1].split(',');
-      /* See-through: it does not decide the colour, so keep walking up. */
+      /* See-through: it does not decide the color, so keep walking up. */
       if (p.length > 3 && parseFloat(p[3]) < 0.5) continue;
       return 0.2126 * channel(+p[0]) + 0.7152 * channel(+p[1]) + 0.0722 * channel(+p[2]) < 0.18;
     }

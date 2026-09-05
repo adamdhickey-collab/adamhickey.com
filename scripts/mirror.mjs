@@ -16,7 +16,7 @@
  * announced that they had stopped being in step. On 23 Aug 2026 Lucy Learns was
  * restored here, committed, and pushed — and was still not live, because the
  * change had gone to the repository that does not deploy. They had to be
- * mirrored by hand afterwards.
+ * mirrored by hand afterward.
  *
  * That copy was only safe because the two trees happened to be byte-identical
  * beforehand. They will not always be. Copying a file from one to the other
@@ -28,7 +28,7 @@
  * the local files with `git hash-object`. No clone, no file transfer, exact.
  *
  * THE THREE EXCEPTIONS ARE NOT A FUDGE. Each repository is allowed to describe
- * itself: its README says what it is, its .gitignore names the neighbours it has
+ * itself: its README says what it is, its .gitignore names the neighbors it has
  * to ignore, and only the publishing one carries a Pages workflow. Those three
  * differ ON PURPOSE and are listed below. Everything else — every page, every
  * stylesheet, every image — must match, and this fails when it does not.
@@ -47,7 +47,7 @@ const BRANCH = 'main';
 /* Files each repository is allowed to hold its own version of. */
 const OWN = new Set([
   'README.md',                    // each repo says what it is
-  '.gitignore',                   // this one ignores neighbouring project repos
+  '.gitignore',                   // this one ignores neighboring project repos
   '.github/workflows/pages.yml',  // only the published repo deploys
 ]);
 
@@ -145,7 +145,7 @@ for (const entry of tree) {
   const local = path.join(root, entry.path);
   if (!fs.existsSync(local)) { absent.push(entry.path); continue; }
   /* `git hash-object` is the same hash git itself stores, so this compares
-     content exactly — no normalisation, no guessing about line endings. */
+     content exactly — no normalization, no guessing about line endings. */
   const sha = execFileSync('git', ['hash-object', local], { encoding: 'utf8' }).trim();
   if (sha === entry.sha) matched += 1;
   else drifted.push(entry.path);
