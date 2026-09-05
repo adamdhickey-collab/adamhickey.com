@@ -22,30 +22,107 @@
   <meta property="og:title" content="Adam Hickey | Independent Product Designer in Minneapolis" />
   <meta property="og:description" content="Product design for software that got complicated. Twenty years inside enterprise platforms, design systems, and products that outgrew their original shape." />
   <meta property="og:type" content="website" />
-  <!-- Absolute because scrapers do not resolve a relative og:image, so the
-       host is hard-coded here. The apex is the canonical origin: it is what
-       the CNAME file publishes, and GitHub Pages redirects www to it. -->
+  <!-- Absolute because scrapers do not resolve a relative og:image, and the
+       canonical origin is the production one whichever host is serving this:
+       that is what "canonical" means, and it is why go-live needs no edit
+       here. See README.md -> "Making this the production site". -->
   <link rel="canonical" href="https://adamhickey.com/" />
   <meta property="og:url" content="https://adamhickey.com/" />
   <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://adamhickey.com/#adam",
+          "name": "Adam Hickey",
+          "jobTitle": "Independent Product Designer",
+          "url": "https://adamhickey.com/",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "email": "mailto:adam@adamhickey.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Minneapolis",
+            "addressRegion": "MN",
+            "addressCountry": "US"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/in/adamdhickey/"
+          ],
+          "knowsAbout": [
+            "Product design",
+            "Design systems",
+            "Design tokens",
+            "Enterprise software",
+            "User research",
+            "Accessibility",
+            "Brand identity",
+            "Illustration"
+          ]
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://adamhickey.com/#practice",
+          "name": "Adam Hickey — Product Design",
+          "description": "Adam Hickey is an independent product designer in Minneapolis: product design for software that got complicated, plus identity and illustration made end to end. Twenty years inside enterprise platforms, design systems, and products that outgrew their original shape.",
+          "url": "https://adamhickey.com/",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "founder": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Minneapolis",
+            "addressRegion": "MN",
+            "addressCountry": "US"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://adamhickey.com/#website",
+          "name": "Adam Hickey",
+          "url": "https://adamhickey.com/",
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "inLanguage": "en"
+        }
+      ]
+    }
+  </script>
   <link rel="icon" href="img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
   <link rel="icon" href="img/icon-192.png?v=5" sizes="192x192" type="image/png" />
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20260831d" />
-  <link rel="stylesheet" href="site-nav.css?v=20260826a" />
-  <!-- The header logo plays a one-shot reveal clip on load and holds its last
-       frame. The class is set here, before first paint, so the static mark
-       never flashes ahead of the animation; anything that stops the clip from
-       running puts the static mark straight back. The 1.2s deadline is the
-       slow-fetch case: rather than leave the header empty while the clip
-       arrives, or pop it in half a second late, this load simply keeps the
-       static mark and skips the animation. -->
+  <link rel="stylesheet" href="color.css?v=6" />
+  <link rel="stylesheet" href="shell.css?v=3" />
+  <link rel="stylesheet" href="type.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=20260905b" />
+  <link rel="stylesheet" href="site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
   <script>
     (function () {
       var el = document.documentElement;
@@ -58,26 +135,57 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        /* Hand the header back to the static mark. The clip's settled frame
-           registers with the SVG to the pixel, so this swap is invisible,
-           and it is what keeps the logo on screen: a backgrounded page can
-           have its paused video's decoded frame dropped, and the element
-           would come back empty with the mark behind it still hidden. */
-        var settle = function () {
-          el.classList.remove('logo-reveal');
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
           try { v.pause(); } catch (e) {}
         };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
         var armed = true;
-        var giveUp = function () { if (armed) { armed = false; settle(); } };
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the start deadline stops applying. */
-        v.addEventListener('playing', function () { armed = false; });
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
         v.addEventListener('error', giveUp);
         v.addEventListener('ended', settle);
-        /* Backgrounded mid-clip the animation is already missed, so settle
+        /* Backgrounded mid-clip the animation is already missed, so finish
            rather than leave a half-played video holding the header. */
         document.addEventListener('visibilitychange', function () {
-          if (document.hidden) settle();
+          if (document.hidden) finish();
         });
         var p = v.play();
         if (p && p.catch) p.catch(giveUp);
@@ -85,7 +193,7 @@
         /* Backstop for a clip that starts and then stalls without ever
            firing ended: the clip runs two seconds, so by three it is over
            one way or another. */
-        setTimeout(settle, 3000);
+        setTimeout(finish, 3000);
       });
     })();
   </script>
@@ -111,7 +219,7 @@
           <img decoding="async" src="img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
           <video class="logo-video" src="img/site/logo-reveal.mp4?v=3"
                  width="896" height="288" autoplay muted playsinline
-                 preload="auto" aria-hidden="true"></video>
+                 preload="metadata" aria-hidden="true"></video>
         </span>
       </button>
       <ul class="nav-links" aria-label="Site sections">
@@ -147,17 +255,23 @@
                  scene. The still illustration stays on as the poster, so the
                  circle is filled on first paint and whenever the clip is
                  paused: no layout shift when the video takes over, and the
-                 same picture for anyone who prefers reduced motion. -->
+                 same picture for anyone who prefers reduced motion.
+
+                 No autoplay attribute, deliberately. With it, preload is
+                 ignored and the browser fetches all 2.9MB before any code can
+                 ask whether it should -- so a reduced-motion reader paid for a
+                 clip that the script below pauses on arrival and that they
+                 never see. The script starts it instead, which is the same
+                 first frame either way because the poster is that frame. -->
             <video class="hero-portrait-video" src="img/hero-portrait.mp4?v=1"
                    poster="img/portrait-illus.webp?v=6" width="900" height="900"
-                   autoplay loop muted playsinline preload="auto"
+                   loop muted playsinline preload="metadata"
                    aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
             </video>
-            <!-- WCAG 2.2.2: the clip runs past five seconds and loops, so a way
-                 to stop it has to exist for everyone, not only for readers who
-                 have set prefers-reduced-motion. Quiet until hovered or
-                 focused, always in the tab order, and always visible on touch
-                 where there is no hover to reveal it. -->
+            <!-- WCAG 2.2.2: the clip runs longer than five seconds and loops,
+                 so a way to stop it has to exist for everyone, not only for
+                 readers who have set prefers-reduced-motion. It is quiet until
+                 hovered or focused, but it is always in the tab order. -->
             <button type="button" class="hero-portrait-toggle" aria-label="Pause the portrait">
               <svg class="hero-portrait-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
               <svg class="hero-portrait-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
@@ -179,7 +293,7 @@
           <!-- No year count here: the proof strip 200px below opens with
                "20 years", and having both in one screen read as a stutter
                rather than reinforcement. The number belongs with the proof. -->
-          <p class="hero-invite reveal">Enterprise platforms, design systems, and products that outgrew their original shape. I work alongside your team to make sense of the complexity, find a clear way forward, and bring it to life.</p>
+          <p class="hero-invite reveal">I help product teams untangle complex software, decide what&rsquo;s worth changing, and carry the clearest direction into a working product.</p>
           <div class="cta-row hero-cta reveal">
             <a href="#contact" class="btn btn-primary">Start a conversation</a>
             <a href="#case-studies" class="btn btn-ghost btn-ghost-light">See selected work</a>
@@ -190,34 +304,7 @@
       <!-- Proof inside the first screen, so a visitor knows within ten
            seconds that this is not a freelance UI designer. Every figure
            here is one already carried by a case study below. -->
-      <div class="container hero-proof reveal">
-        <ol class="proof-row">
-          <li class="proof-step">
-            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M4.6 19.4 5.9 15.2 16.3 4.8a1.9 1.9 0 0 1 2.7 0 1.9 1.9 0 0 1 0 2.7L8.6 17.9z"/><path pathLength="1" d="M15.1 6 18 8.9"/><path pathLength="1" d="M6 15.3 8.6 17.9"/></svg></span>
-            <div class="proof-body">
-              <p class="proof-years">2005-2013</p>
-              <h2 class="proof-title">Craft</h2>
-              <p class="proof-note">A hybrid designer and developer, hand-building the interfaces I designed.</p>
-            </div>
-          </li>
-          <li class="proof-step">
-            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="2.6"/><circle pathLength="1" cx="5.4" cy="6.2" r="1.7"/><circle pathLength="1" cx="18.6" cy="6.6" r="1.7"/><circle pathLength="1" cx="12" cy="19.6" r="1.7"/><path pathLength="1" d="M10.1 10.2 6.7 7.4"/><path pathLength="1" d="M13.9 10.3 17.2 7.7"/><path pathLength="1" d="M12 14.6v3.3"/></svg></span>
-            <div class="proof-body">
-              <p class="proof-years">2013-2026</p>
-              <h2 class="proof-title">Systems</h2>
-              <p class="proof-note">An enterprise consultant, making 40+ apps feel like one product.</p>
-            </div>
-          </li>
-          <li class="proof-step">
-            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 20.6V11.4"/><path pathLength="1" d="M12 13.4C9.2 13.4 7 11.2 7 8.4c2.8 0 5 2.2 5 5z"/><path pathLength="1" d="M12.5 11.8c0-2.8 2.2-5 5-5 0 2.8-2.2 5-5 5z"/></svg></span>
-            <div class="proof-body">
-              <p class="proof-years">2026 to now</p>
-              <h2 class="proof-title">Independent</h2>
-              <p class="proof-note">My own practice, shipping products of my own alongside client work.</p>
-            </div>
-          </li>
-        </ol>
-      </div>
+      
 
       <div class="container logo-block reveal">
         <p class="logo-label" id="logo-label">Selected clients</p>
@@ -233,6 +320,75 @@
     </section>
 
     <!-- ============================== CASE STUDIES ============================== -->
+    <section id="problems" class="problems" data-cursor="light">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2>When people bring me in</h2>
+          <p>Most engagements start with a situation, not a request for deliverables. Screens are getting cheap. Decisions are not.</p>
+        </header>
+        <div class="engagement-grid stagger">
+          <a class="engagement-card reveal" href="engagement/product-clarity.html">
+            <span class="engagement-num" aria-hidden="true">01</span>
+            <div class="engagement-figure"><img src="img/engagement/01-clarity.webp?v=5" width="1080" height="720" alt="A dense tangle of pinned cords crossing and doubling back on the left, gathering to the right into three clean parallel lines, one of them terracotta" loading="lazy" decoding="async" /></div>
+            <p class="engagement-situation">The product grew faster than its structure.</p>
+            <h3>Product Clarity</h3>
+            <ul class="engagement-points">
+              <li>The problem stated in one sentence everyone recognizes</li>
+              <li>What to decide next, in order</li>
+              <li>A direction made tangible enough to judge</li>
+            </ul>
+            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="engagement-card reveal" href="engagement/design-system-foundation.html">
+            <span class="engagement-num" aria-hidden="true">02</span>
+            <div class="engagement-figure"><img src="img/engagement/02-system.webp?v=3" width="1080" height="720" alt="A loose pile of index cards on a slate-blue surface, each with the same layout sketched a little differently in pencil, beside a tidy grid of identical cards stamped in navy ink and the terracotta rubber stamp that printed them" loading="lazy" decoding="async" /></div>
+            <p class="engagement-situation">Several teams now solve the same problem differently.</p>
+            <h3>Design System Foundation</h3>
+            <ul class="engagement-points">
+              <li>One consistent product across every team</li>
+              <li>Tokens in the code, rules your AI tools can read</li>
+              <li>Governance that keeps it alive after I leave</li>
+            </ul>
+            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="engagement-card reveal" href="engagement/embedded-senior-product-design.html">
+            <span class="engagement-num" aria-hidden="true">03</span>
+            <div class="engagement-figure"><img src="img/engagement/03-embedded.webp?v=3" width="1080" height="720" alt="A spill of curling, unclaimed pages with paper clips and sage tabs on a clay-coloured surface, beside the same pages squared into a neat stack under one smooth grey stone paperweight with a sage ribbon running out from under it" loading="lazy" decoding="async" /></div>
+            <p class="engagement-situation">An important initiative exists, but no one senior owns it.</p>
+            <h3>Embedded Senior Product Design</h3>
+            <ul class="engagement-points">
+              <li>Your initiative gets a senior design owner</li>
+              <li>Full ownership without a permanent hire</li>
+              <li>A clean handover, never a cliff</li>
+            </ul>
+            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="engagement-card reveal" href="engagement/ai-product-prototype.html">
+            <span class="engagement-num" aria-hidden="true">04</span>
+            <div class="engagement-figure"><img src="img/engagement/04-ai.webp?v=4" width="1080" height="720" alt="Dozens of sticky notes with small pencil sketches and a few crumpled into balls on a dusty plum surface, thinning out to the right where one crisp sage paper aeroplane sits on a pencil-drawn runway above a sharpened pencil" loading="lazy" decoding="async" /></div>
+            <p class="engagement-situation">The organization has plenty of ideas and not enough clarity.</p>
+            <h3>Working Product Prototype</h3>
+            <ul class="engagement-points">
+              <li>Your AI concept, working in real hands</li>
+              <li>Know what works and what falls over</li>
+              <li>A clear build, kill, or park decision</li>
+            </ul>
+            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+        </div>
+
+      </section>
+
+    <!-- ============================== WHEN PEOPLE BRING ME IN =====================
+         Situations rather than services: clients arrive with a problem, not a
+         shopping list of UX deliverables. Each card opens with the situation
+         (the thing the reader recognizes as theirs) and answers it with a
+         named engagement, so the problem and the shape of the work read as
+         one unit instead of a ledger restated by a grid. The situation is
+         carried twice: the illustration gives it a feeling, and one italic
+         line above the name gives it words a reader can say back. The line
+         is the test each card is held to -- a situation a client has to
+         already understand is a card that failed.                           -->
     <section id="case-studies" class="case-studies">
       <div class="container">
         <header class="section-head reveal">
@@ -243,7 +399,7 @@
         <div class="case-grid stagger">
           <a class="case-card reveal" href="case-study/sap-product-maturity.html" aria-label="View case study: Making 40+ enterprise apps feel like one product">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.png" alt="Making 40+ enterprise apps feel like one product" />
+              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.webp" alt="Making 40+ enterprise apps feel like one product" width="1672" height="941"/>
             </div>
             <h3>Making 40+ enterprise apps feel like one product</h3>
             <div class="tag-row">
@@ -255,7 +411,7 @@
 
           <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: Turning disconnected grant tools into one trusted platform">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.png" alt="Turning disconnected grant tools into one trusted platform" />
+              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.webp" alt="Turning disconnected grant tools into one trusted platform" width="1812" height="1020"/>
             </div>
             <h3>Turning disconnected grant tools into one trusted platform</h3>
             <div class="tag-row">
@@ -267,7 +423,7 @@
 
           <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: Giving dispatchers one real-time view of a 450+ truck fleet">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.png" alt="Giving dispatchers one real-time view of a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" />
+              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.webp" alt="Giving dispatchers one real-time view of a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" width="1672" height="941"/>
             </div>
             <h3>Giving dispatchers one real-time view of a 450+ truck fleet</h3>
             <div class="tag-row">
@@ -279,7 +435,7 @@
 
           <a class="case-card reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="View case study: Connecting a global innovation network with one brand and platform">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/group-100817.png?updatedAt=1761069243649" alt="Connecting a global innovation network with one brand and platform" />
+              <img decoding="async" loading="lazy" src="img/site/group-100817.webp?updatedAt=1761069243649" alt="Connecting a global innovation network with one brand and platform" width="1812" height="1020"/>
             </div>
             <h3>Connecting a global innovation network with one brand and platform</h3>
             <div class="tag-row">
@@ -292,76 +448,6 @@
 
       </div>
     </section>
-
-    <!-- ============================== WHEN PEOPLE BRING ME IN =====================
-         Situations rather than services: clients arrive with a problem, not a
-         shopping list of UX deliverables. Each card opens with the situation
-         (the thing the reader recognizes as theirs) and answers it with a
-         named engagement, so the problem and the shape of the work read as
-         one unit instead of a ledger restated by a grid. The situation is
-         carried by the illustration at the top of each card rather than by
-         a line of type.                                                     -->
-    <section id="problems" class="problems" data-cursor="light">
-      <div class="container">
-        <header class="section-head reveal">
-          <h2>When people bring me in</h2>
-          <p>Most engagements start with one of these situations, not with a request for deliverables. Each one has a defined shape. Screens are getting cheap. Decisions are not.</p>
-        </header>
-        <div class="engagement-grid stagger">
-          <a class="engagement-card reveal" href="engagement/ai-product-prototype.html">
-            <span class="engagement-num" aria-hidden="true">01</span>
-            <div class="engagement-figure"><img src="img/engagement/02-ai.webp?v=2" width="1080" height="720" alt="A hand-sketched wireframe spec arcing into an open laptop where the interface has become real, drawn in sage greens" loading="lazy" decoding="async" /></div>
-            <h3>Working AI Product Prototype</h3>
-            <ul class="engagement-points">
-              <li>Your AI concept, working in real hands</li>
-              <li>Know what works and what falls over</li>
-              <li>A clear build, kill, or park decision</li>
-              <li>The shape and cost of the next step</li>
-            </ul>
-            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-          <a class="engagement-card reveal" href="engagement/design-system-foundation.html">
-            <span class="engagement-num" aria-hidden="true">02</span>
-            <div class="engagement-figure"><img src="img/engagement/03-system.webp?v=2" width="1080" height="720" alt="A desktop, tablet and phone screen all wired into one shared component rail below them, drawn in slate blues" loading="lazy" decoding="async" /></div>
-            <h3>Design System Foundation</h3>
-            <ul class="engagement-points">
-              <li>One consistent product across every team</li>
-              <li>A component set your teams actually use</li>
-              <li>New screens assembled, not redesigned</li>
-              <li>Governance that keeps it alive after I leave</li>
-            </ul>
-            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-          <a class="engagement-card reveal" href="engagement/embedded-senior-product-design.html">
-            <span class="engagement-num" aria-hidden="true">03</span>
-            <div class="engagement-figure"><img src="img/engagement/04-embedded.webp?v=2" width="1080" height="720" alt="A designer in terracotta arriving with a laptop to join three teammates at a table in front of a planning board" loading="lazy" decoding="async" /></div>
-            <h3>Embedded Senior Product Design</h3>
-            <ul class="engagement-points">
-              <li>Your initiative gets a senior design owner</li>
-              <li>Full ownership without a permanent hire</li>
-              <li>Patterns and decisions your team keeps</li>
-              <li>A clean handover, never a cliff</li>
-            </ul>
-            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-          <a class="engagement-card reveal" href="engagement/brand-identity-illustration.html">
-            <span class="engagement-num" aria-hidden="true">04</span>
-            <div class="engagement-figure"><img src="img/engagement/04-brand.webp?v=2" width="1080" height="720" alt="One warm caramel identity, a sun mark over rolling hills with a leaf sprig, applied across a poster, a tablet and a phone, with its palette swatches below" loading="lazy" decoding="async" /></div>
-            <h3>Brand, Identity &amp; Illustration</h3>
-            <ul class="engagement-points">
-              <li>A product that no longer looks generic</li>
-              <li>One visual language, applied in place</li>
-              <li>An identity your team can extend alone</li>
-              <li>Honest guidance on AI-assisted production</li>
-            </ul>
-            <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-        </div>
-
-      </section>
 
     <!-- ============================== WHY I DESIGN (sticky scroll story) ============================== -->
     <section id="how-i-think" class="story" aria-label="My approach to design">
@@ -392,7 +478,7 @@
               <p><span class="story-lead-in">I designed the product. Somebody else built it.</span> Then a specification, and months before anyone could see what survived the translation.</p>
               <!-- Mobile-only static render of the scene at this step's held
                    state: the grid, the blueprint and the bare stem. Desktop scrubs the live scene. -->
-              <div class="story-step-media reveal" aria-hidden="true"><div class="ssm-back-wrap"><svg class="ssm-scene" viewBox="28.3 281.6 364.5 364.5" focusable="false" aria-hidden="true"><g opacity="0.5"><path pathLength="1" style="--i:0" class="sd" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /><path pathLength="1" style="--i:1" class="sd" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /></g><path style="--i:2" class="sp" d="M152.2,413 L243.1,465.5 L152.2,518 L61.2,465.5 Z" fill="none" stroke="#252525" stroke-width="2" stroke-dasharray="7 7" /><polygon style="--i:3" class="sp sc-chip" points="152.2,425 163.9,431.8 152.2,438.5 140.5,431.8" fill="#657D60" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:4" class="sp sc-chip" points="175.5,438.5 187.2,445.3 175.5,452 163.9,445.3" fill="#C0714E" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:5" class="sp sc-chip" points="198.9,452 210.6,458.8 198.9,465.5 187.2,458.8" fill="#56718C" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><line style="--i:6" class="sp sc-specline" x1="126.2" y1="440" x2="193.7" y2="479" stroke="#252525" stroke-width="2.5" stroke-opacity="0.7" /><line style="--i:7" class="sp sc-specline" x1="110.6" y1="449" x2="160" y2="477.5" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><line style="--i:8" class="sp sc-specline" x1="97.6" y1="456.5" x2="131.4" y2="476" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><path pathLength="1" style="--i:9" class="sd" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 MM79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" /><path style="--i:10" class="sp" d="M206.7,495.5 Q276.4,478.3 346,489" fill="none" stroke="#252525" stroke-width="2.25" stroke-dasharray="6 7" stroke-linecap="round" /><polygon style="--i:11" class="sp" points="355.9,490.5 343.3,493.6 344.8,483.8" fill="#252525" /><path pathLength="1" style="--i:12" class="sd" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="2.2" stroke-linecap="round" /><circle style="--i:13" class="sp" cx="360" cy="409.8" r="5" fill="#252525" /></svg></div></div>
+              <div class="story-step-media reveal" aria-hidden="true"><div class="ssm-back-wrap"><svg class="ssm-scene" viewBox="28.3 281.6 364.5 364.5" focusable="false" aria-hidden="true"><g opacity="0.5"><path pathLength="1" style="--i:0" class="sd" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /><path pathLength="1" style="--i:1" class="sd" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /></g><path style="--i:2" class="sp" d="M152.2,413 L243.1,465.5 L152.2,518 L61.2,465.5 Z" fill="none" stroke="#252525" stroke-width="2" stroke-dasharray="7 7" /><polygon style="--i:3" class="sp sc-chip" points="152.2,425 163.9,431.8 152.2,438.5 140.5,431.8" fill="#657D60" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:4" class="sp sc-chip" points="175.5,438.5 187.2,445.3 175.5,452 163.9,445.3" fill="#C0714E" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:5" class="sp sc-chip" points="198.9,452 210.6,458.8 198.9,465.5 187.2,458.8" fill="#56718C" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><line style="--i:6" class="sp sc-specline" x1="126.2" y1="440" x2="193.7" y2="479" stroke="#252525" stroke-width="2.5" stroke-opacity="0.7" /><line style="--i:7" class="sp sc-specline" x1="110.6" y1="449" x2="160" y2="477.5" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><line style="--i:8" class="sp sc-specline" x1="97.6" y1="456.5" x2="131.4" y2="476" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><path pathLength="1" style="--i:9" class="sd" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 M79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" /><path style="--i:10" class="sp" d="M206.7,495.5 Q276.4,478.3 346,489" fill="none" stroke="#252525" stroke-width="2.25" stroke-dasharray="6 7" stroke-linecap="round" /><polygon style="--i:11" class="sp" points="355.9,490.5 343.3,493.6 344.8,483.8" fill="#252525" /><path pathLength="1" style="--i:12" class="sd" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="2.2" stroke-linecap="round" /><circle style="--i:13" class="sp" cx="360" cy="409.8" r="5" fill="#252525" /></svg></div></div>
             </article>
             <article class="story-step" data-step="1">
               <span class="story-num">02</span>
@@ -442,7 +528,7 @@
                   <path id="scSpecR" d="M152.2,413 L243.1,465.5 L152.2,518 L61.2,465.5 Z" fill="none" stroke="#252525" stroke-width="2" stroke-dasharray="7 7" />
                   <polygon class="sc-chip" points="152.2,425 163.9,431.8 152.2,438.5 140.5,431.8" fill="#657D60" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon class="sc-chip" points="175.5,438.5 187.2,445.3 175.5,452 163.9,445.3" fill="#C0714E" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon class="sc-chip" points="198.9,452 210.6,458.8 198.9,465.5 187.2,458.8" fill="#56718C" stroke="#252525" stroke-width="1" stroke-opacity="0.5" />
                   <line class="sc-specline" x1="126.2" y1="440" x2="193.7" y2="479" stroke="#252525" stroke-width="2.5" stroke-opacity="0.7" /><line class="sc-specline" x1="110.6" y1="449" x2="160" y2="477.5" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><line class="sc-specline" x1="97.6" y1="456.5" x2="131.4" y2="476" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" />
-                  <path id="scSpecFork" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 MM79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" />
+                  <path id="scSpecFork" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 M79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" />
                 </g>
                 <g id="scArrowG" opacity="0">
                   <path id="scArrow" d="M206.7,495.5 Q276.4,478.3 346,489" fill="none" stroke="#252525" stroke-width="2.25" stroke-dasharray="6 7" stroke-linecap="round" />
@@ -582,80 +668,263 @@
       </div>
     </section>
 
-    <!-- ============================== VISUAL SHELF ===========================
-         The creative lane shown as work rather than claimed, the way a
-         studio site mixes an icon set in with its websites. Every piece
-         is real and already lives elsewhere on the site; this shelf is
-         the surface that lets the range read at a glance.              -->
-    <section id="visual-work" class="shelf" aria-label="Identity and illustration work">
+    <!-- ============================== BUILT INDEPENDENTLY ====================
+         Proof of the section above: products conceived, designed and built
+         end to end. Sits immediately after the shift so the claim and the
+         evidence read as one argument.
+
+         Lucy Learns came back on 23 Aug 2026 at Adam's request, with its
+         build write-up and the .product-link / .build-* rules the distill
+         pass had removed as dead code, dead only because the card that used
+         them had been held back the day before. Its card now shows the app
+         as three screens rather than one product shot.
+
+         Each eyebrow names who the thing was made for rather than repeating
+         "Independent product" three times: that is the practice's own thesis
+         said three times, which is that the client is the person who cares.
+         Growing With Gritty had a card here for part of 2026-09-03 and is
+         held back until Kim's site goes live on its own address. Under the
+         products, the four steps every one of them went through; under
+         those, the identity and illustration work, because it is the same
+         hands making things and does not need a section of its own. -->
+    <section id="built" class="built">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Brand, identity, illustration</h2>
-          <p>The practice has a second lane: identity systems, illustration, and brand experiences, for clients from an online mental health startup to Dr Pepper Snapple, plus a living design system for RBA itself. Different scale, same judgment.</p>
+          <h2>Built end to end</h2>
+          <p>The product thinking, the design, and the code, all mine. Not concepts: working products you can open right now. They are also the proof behind the AI engagements: what one experienced person can build, verify, and stand behind. Below them, the identity and illustration work: the same hands, on client work.</p>
         </header>
-        <div class="shelf-row stagger">
 
-          <a class="shelf-item reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="See the Innovators Studio identity case study">
-            <div class="shelf-thumb">
-              <img decoding="async" loading="lazy" src="img/shelf/innovators.webp?v=4" width="1200" height="900"
-                   alt="The Innovators Studio identity system: the STUDIO logo lockup with its fingerprint mark, the brand palette, and a network invitation card with illustrated people." />
+        <div class="product-list">
+          <article class="product reveal">
+            <a class="product-shot" href="case-study/door-county-found.html">
+              <img src="img/products/door-county-found.webp" width="1400" height="897" loading="lazy" decoding="async"
+                   alt="Door County Found homepage: a vintage travel-poster layout with the headline &ldquo;Door County, the way we know it&rdquo; over a topographic map and three photo prints labelled Sister Bay, Baileys Harbor and Jacksonport." />
+            </a>
+            <div class="product-body">
+              <p class="product-eyebrow">For my sister</p>
+              <h3>Door County Found</h3>
+              <p class="product-lead">A regional travel guide where every place is structured data rather than a blog post, so dog-friendly and vegetarian work as real filters instead of tags. I built the product, the identity, and the editing workflow my sister uses to keep it current.</p>
+              <ul class="product-tags">
+                <li>Visual identity</li>
+                <li>Information architecture</li>
+                <li>Astro build</li>
+              </ul>
+              <p class="product-actions">
+                <a class="product-link" href="case-study/door-county-found.html">How I built it</a>
+              </p>
             </div>
-            <h3>Innovators Studio identity</h3>
-            <p class="shelf-desc">Brand identity, badges, and custom illustration for a global innovation network&rsquo;s internal platform.</p>
-            <div class="tag-row">
-              <span class="tag">Brand identity</span>
-              <span class="tag">Badges</span>
-              <span class="tag">Illustration</span>
+          </article>
+
+          <article class="product product-reverse product-flow reveal">
+            <!-- Three screens instead of one: the app in the order you meet
+                 it, so the card explains the product before the copy does. -->
+            <ol class="product-screens">
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns-splash.webp?v=2" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="The Lucy Learns splash screen: the app name in a tall serif above an illustration of a black Labrador and her person crouched nose to nose, with the build version below." />
+                </a>
+                <p class="mini-cap"><span>01</span> Built for one dog in particular</p>
+              </li>
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="Lucy Learns home screen: the Calm Door Greetings track and today&rsquo;s homework with a Start session button." />
+                </a>
+                <p class="mini-cap"><span>02</span> Today&rsquo;s session, already chosen</p>
+              </li>
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="End of session: Level 1 cleared, ready for the next step." />
+                </a>
+                <p class="mini-cap"><span>03</span> End on a win, next one queued</p>
+              </li>
+            </ol>
+            <div class="product-body">
+              <p class="product-eyebrow">For Lucy</p>
+              <h3>Lucy Learns</h3>
+              <p class="product-lead">A mobile app that turns a professional trainer&rsquo;s handouts into guided sessions you can run with a leash in one hand. One instruction per screen, a live rep tally, hands-free voice, and progress tracked in the levels the trainer already uses. Installs to the phone and works offline.</p>
+              <ul class="product-tags">
+                <li>Product design</li>
+                <li>Illustration</li>
+                <li>Mobile / PWA</li>
+              </ul>
+              <p class="product-actions">
+                <a class="product-link" href="case-study/lucy-learns.html">How I built it</a>
+              </p>
             </div>
+          </article>
+
+        <!-- The third product is a print book, so the card carries no live
+             link: there is nothing to open yet. The shot shows the object
+             rather than a screen. -->
+        <article class="product reveal">
+          <a class="product-shot" href="case-study/while-were-here.html">
+            <img src="img/products/while-were-here.webp?v=2" width="1400" height="897" loading="lazy" decoding="async"
+                 alt="While We&rsquo;re Here as a square hardcover, the title set in tall black Didone capitals over a watercolour bloom crossed by fine technical draughting. Behind it lie two open spreads: a cream chapter opener with a honeycomb photograph, and a dark part opener with a vaulted stone cistern." />
           </a>
-
-          <!-- The Connect card shows the work but does not link out: the
-               design system belongs to the client, so this card is a
-               presentation surface rather than a door. Rendered as a div,
-               not a disabled link, so nothing is focusable or hoverable. -->
-          <div class="shelf-item is-static reveal">
-            <div class="shelf-thumb">
-              <img decoding="async" loading="lazy" src="img/shelf/connect-design-system.webp?v=16" width="1200" height="900"
-                   alt="A landscape tablet showing the Connect design system: the red RBA mark at masthead size above a hairline rule, then the RBA site&rsquo;s hero, a pale blue panel reading Powered by People, Enhanced by AI over the brand&rsquo;s rounded dot-and-track pattern. The five core brand colours and their hex values run in a row beneath it." />
-            </div>
-            <h3>Connect design system</h3>
-            <p class="shelf-desc">The brand foundation behind RBA Consulting&rsquo;s site: colors, type, and logos with the rules attached, templates and component specs with the numbers underneath.</p>
-            <div class="tag-row">
-              <span class="tag">Design system</span>
-              <span class="tag">Documentation</span>
-            </div>
+          <div class="product-body">
+            <p class="product-eyebrow">For myself</p>
+            <h3>While We&rsquo;re Here</h3>
+            <p class="product-lead">A 300mm square hardcover of small essays on attention, time, and being alive. HTML and CSS are the production system and the deliverable is a press-ready PDF, not a website. Of the 174 pictures in it, 95 are photographs I took.</p>
+            <ul class="product-tags">
+              <li>Writing</li>
+              <li>Book design</li>
+              <li>CSS paged media</li>
+            </ul>
+            <p class="product-actions">
+              <a class="product-link" href="case-study/while-were-here.html">How I built it</a>
+            </p>
           </div>
-
-          <a class="shelf-item reveal" href="case-study/hybrid-designer.html#learn-to-live" aria-label="See the Learn to Live identity in the hybrid-designer years">
-            <div class="shelf-thumb">
-              <img decoding="async" loading="lazy" src="img/shelf/learn-to-live.webp?v=6" width="1200" height="900"
-                   alt="The Learn to Live marketing site on a silver laptop: the orange circle mark and green lowercase wordmark in the site header beside its tagline, a tan navigation row under it, and a Get help online headline next to a video still." />
-            </div>
-            <h3>Learn to Live identity</h3>
-            <p class="shelf-desc">Complete brand identity, character illustration, and a marketing site for an online mental health platform.</p>
-            <div class="tag-row">
-              <span class="tag">Identity</span>
-              <span class="tag">Illustration</span>
-              <span class="tag">Web design</span>
-            </div>
-          </a>
-
-          <a class="shelf-item reveal" href="case-study/enterprise-consulting.html#dr-pepper" aria-label="See the Dr Pepper Snapple fundraising app in the consulting-years case study">
-            <div class="shelf-thumb">
-              <img decoding="async" loading="lazy" src="img/shelf/dr-pepper.webp?v=12" width="1200" height="900"
-                   alt="Three white iPhones filling the frame, running the Dr Pepper Snapple United Way app: a Project Give sign-in screen with a countdown, a campaign progress ring at 75 percent, and a team leaderboard." />
-            </div>
-            <h3>Dr Pepper Snapple fundraising app</h3>
-            <p class="shelf-desc">A United Way campaign app that made giving feel like a game: live progress, team leaderboards, and a countdown.</p>
-            <div class="tag-row">
-              <span class="tag">App design</span>
-              <span class="tag">Gamification</span>
-            </div>
-          </a>
+        </article>
 
         </div>
+
+        <!-- How each of the three above got made: the four steps that were
+             engagement/the-whole-thing.html's, one line each, without that
+             page's composite. The page itself retired off staging on
+             2026-09-03 once these carried what it said; its drawings stay in
+             img/engagement/. The section showed what was made and never
+             how; this is the how, and it is true of all three. A real
+             sequence, so the steps are numbered.
+
+             The four drawings are their own set, not the engagement set.
+             That was the whole reason these ran as text for a year: the
+             step drawings in img/engagement/ all carry a ceramicist, which
+             would have put pots beside a dog-training app and a book. These
+             show the thing each step produces -- a wireframe, a design
+             system, the site in a browser, the editor and its guide -- with
+             no person in them, so nothing contradicts the three things
+             above. Literal on purpose: the story scene higher up is already
+             an isometric wireframe tree, and the one figure of speech this
+             page carries is that one. A first set stacked three more on top
+             of it (a ghost building, a bare room, a plant in a planter) and
+             lasted a day. Same charcoal line and terracotta as the tree, so
+             the two read as one hand. scripts/built-steps.mjs draws them.
+
+             Isometric line on the panel's own ground rather than painterly
+             on a wall, because they sit inside the panel with no frame of
+             their own: each file's background IS --color-tea-light, so
+             there is no box edge to see and none is drawn. That is a
+             constraint on any replacement, not a description of these four.
+             The ground has to be pinned to #e8ede5 before encoding, because
+             a lossy encoder moves a flat colour a few levels and a few
+             levels is a visible plate on this panel -- step 02 came back
+             three levels down on the first pass and read as a lighter
+             rectangle. One level, which is where these sit, does not. -->
+        <div class="built-steps">
+          <header class="section-head archive-head reveal">
+            <h2>How each of these got made</h2>
+            <p>The same four steps, whatever the thing turned out to be.</p>
+          </header>
+          <ol class="built-step-list stagger">
+            <li class="built-step reveal">
+              <figure class="built-step-figure">
+                <img src="img/site/built-step-01-shape.webp?v=4" width="900" height="675" loading="lazy" decoding="async" alt="An isometric line drawing of two page wireframes on paper, one for a desktop screen and one for a phone, blocked out in outlines, with a terracotta pen lying across the larger sheet." />
+              </figure>
+              <h3>Start with the shape of it</h3>
+              <p>What the thing should be, what it would take, and whether it should exist at all, decided before anything gets built.</p>
+            </li>
+            <li class="built-step reveal">
+              <figure class="built-step-figure">
+                <img src="img/site/built-step-02-world.webp?v=4" width="900" height="675" loading="lazy" decoding="async" alt="An isometric line drawing of a design-system board: a row of colour swatches with one in terracotta, a type specimen, a button, a component card and a grid of icons." />
+              </figure>
+              <h3>Make the world before the pages</h3>
+              <p>The identity, the voice, the pictures and how they are made, the structure everything hangs on: decided once, so the pages can be quick.</p>
+            </li>
+            <li class="built-step reveal">
+              <figure class="built-step-figure">
+                <img src="img/site/built-step-03-open.webp?v=4" width="900" height="675" loading="lazy" decoding="async" alt="An isometric line drawing of a laptop showing a website in a browser, its address bar picked out in terracotta, with a phone beside it showing the same page." />
+              </figure>
+              <h3>Build it whole, in the open</h3>
+              <p>The real thing on a real address early, with the writing, the interaction and the code by the same hand.</p>
+            </li>
+            <li class="built-step reveal">
+              <figure class="built-step-figure">
+                <img src="img/site/built-step-04-alive.webp?v=5" width="900" height="675" loading="lazy" decoding="async" alt="An isometric line drawing of a thick printed guide lying open on a table, its block of pages visible along the edges, the left page showing the content editor the client will use &mdash; a list of pages, a form, a button &mdash; and the right page a numbered list of steps, with a terracotta ribbon running from the spine over the fore-edge." />
+              </figure>
+              <h3>Hand it over alive</h3>
+              <p>The editing workflow, the guide written for the person rather than a developer, and a way to keep it current without me.</p>
+            </li>
+          </ol>
+        </div>
+
+        <!-- The identity and illustration work was a section of its own,
+             "Selected visual work", sold as the practice's second lane. It
+             is client work by the same hands, so it sits here instead, as a
+             lighter second row under the products, on the one surface where
+             everything made by hand lives. The id stays so the #visual-work
+             anchor still lands. -->
+        <div id="visual-work" class="built-shelf">
+          <header class="section-head archive-head reveal">
+            <h2>Identity and illustration, for clients</h2>
+            <p>Brand identity, character illustration and design systems, for clients from an online mental health startup to Dr Pepper Snapple, plus a living design system for RBA itself. Different scale, same judgment.</p>
+          </header>
+          <div class="shelf-row stagger">
+
+            <a class="shelf-item reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="See the Innovators Studio identity case study">
+              <div class="shelf-thumb">
+                <img decoding="async" loading="lazy" src="img/shelf/innovators.webp?v=4" width="1200" height="900"
+                     alt="The Innovators Studio identity system: the STUDIO logo lockup with its fingerprint mark, the brand palette, and a network invitation card with illustrated people." />
+              </div>
+              <h3>Innovators Studio identity</h3>
+              <p class="shelf-desc">Brand identity, badges, and custom illustration for a global innovation network&rsquo;s internal platform.</p>
+              <div class="tag-row">
+                <span class="tag">Brand identity</span>
+                <span class="tag">Badges</span>
+                <span class="tag">Illustration</span>
+              </div>
+            </a>
+
+            <div class="shelf-item is-static reveal">
+              <div class="shelf-thumb">
+                <img decoding="async" loading="lazy" src="img/shelf/connect-design-system.webp?v=16" width="1200" height="900"
+                     alt="A landscape tablet showing the Connect design system: the red RBA mark at masthead size above a hairline rule, then the RBA site&rsquo;s hero, a pale blue panel reading Powered by People, Enhanced by AI over the brand&rsquo;s rounded dot-and-track pattern. The five core brand colours and their hex values run in a row beneath it." />
+              </div>
+              <h3>Connect design system</h3>
+              <p class="shelf-desc">The brand foundation behind RBA Consulting&rsquo;s site: colors, type, and logos with the rules attached, templates and component specs with the numbers underneath.</p>
+              <div class="tag-row">
+                <span class="tag">Design system</span>
+                <span class="tag">Documentation</span>
+              </div>
+            </div>
+
+            <a class="shelf-item reveal" href="case-study/hybrid-designer.html#learn-to-live" aria-label="See the Learn to Live identity in the hybrid-designer years">
+              <div class="shelf-thumb">
+                <img decoding="async" loading="lazy" src="img/shelf/learn-to-live.webp?v=6" width="1200" height="900"
+                     alt="The Learn to Live marketing site on a silver laptop: the orange circle mark and green lowercase wordmark in the site header beside its tagline, a tan navigation row under it, and a Get help online headline next to a video still." />
+              </div>
+              <h3>Learn to Live identity</h3>
+              <p class="shelf-desc">Complete brand identity, character illustration, and a marketing site for an online mental health platform.</p>
+              <div class="tag-row">
+                <span class="tag">Identity</span>
+                <span class="tag">Illustration</span>
+                <span class="tag">Web design</span>
+              </div>
+            </a>
+
+            <a class="shelf-item reveal" href="case-study/enterprise-consulting.html#dr-pepper" aria-label="See the Dr Pepper Snapple fundraising app in the consulting-years case study">
+              <div class="shelf-thumb">
+                <img decoding="async" loading="lazy" src="img/shelf/dr-pepper.webp?v=12" width="1200" height="900"
+                     alt="Three white iPhones filling the frame, running the Dr Pepper Snapple United Way app: a Project Give sign-in screen with a countdown, a campaign progress ring at 75 percent, and a team leaderboard." />
+              </div>
+              <h3>Dr Pepper Snapple fundraising app</h3>
+              <p class="shelf-desc">A United Way campaign app that made giving feel like a game: live progress, team leaderboards, and a countdown.</p>
+              <div class="tag-row">
+                <span class="tag">App design</span>
+                <span class="tag">Gamification</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <p class="work-cta reveal">Something here look like the problem you have? <a href="#contact">Start a conversation</a>.</p>
       </div>
     </section>
+
+    
 
     <!-- ============================== EARLIER EXPERIENCE =========================
          Sits directly after the four senior case studies so the full body
@@ -664,32 +933,77 @@
          Visual weight is reduced via case-grid-compact and the lighter
          archive-head heading; same warm background as case studies above,
          so the two flow together as one surface.                          -->
+    <div class="container hero-proof reveal">
+        <ol class="proof-row">
+          <li class="proof-step">
+            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M4.6 19.4 5.9 15.2 16.3 4.8a1.9 1.9 0 0 1 2.7 0 1.9 1.9 0 0 1 0 2.7L8.6 17.9z"/><path pathLength="1" d="M15.1 6 18 8.9"/><path pathLength="1" d="M6 15.3 8.6 17.9"/></svg></span>
+            <div class="proof-body">
+              <p class="proof-years">2005-2013</p>
+              <h2 class="proof-title">Craft</h2>
+              <p class="proof-note">A hybrid designer and developer, hand-building the interfaces I designed.</p>
+            </div>
+          </li>
+          <li class="proof-step">
+            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="2.6"/><circle pathLength="1" cx="5.4" cy="6.2" r="1.7"/><circle pathLength="1" cx="18.6" cy="6.6" r="1.7"/><circle pathLength="1" cx="12" cy="19.6" r="1.7"/><path pathLength="1" d="M10.1 10.2 6.7 7.4"/><path pathLength="1" d="M13.9 10.3 17.2 7.7"/><path pathLength="1" d="M12 14.6v3.3"/></svg></span>
+            <div class="proof-body">
+              <p class="proof-years">2013-2026</p>
+              <h2 class="proof-title">Systems</h2>
+              <p class="proof-note">An enterprise consultant, making 40+ apps feel like one product.</p>
+            </div>
+          </li>
+          <li class="proof-step">
+            <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 20.6V11.4"/><path pathLength="1" d="M12 13.4C9.2 13.4 7 11.2 7 8.4c2.8 0 5 2.2 5 5z"/><path pathLength="1" d="M12.5 11.8c0-2.8 2.2-5 5-5 0 2.8-2.2 5-5 5z"/></svg></span>
+            <div class="proof-body">
+              <p class="proof-years">2026 to now</p>
+              <h2 class="proof-title">Independent</h2>
+              <p class="proof-note">My own practice, shipping products of my own alongside client work.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+    <!-- This section is two case studies, and its intro used to open by
+         summarising the career a third time. The strip that closes "Built end
+         to end" gives the three spans (Craft 2005-2013, Systems 2013-2026,
+         Independent 2026), these two cards give the same span cut in two, and
+         About gives all three again as dated paragraphs -- three tellings
+         inside about 450 consecutive words, the first and third using
+         identical labels and dates.
+
+         The cards stay: they are the only route into
+         `case-study/enterprise-consulting.html` and
+         `case-study/hybrid-designer.html` from anywhere above them, and the
+         field guide anchors two shipped claims to this section's copy. What
+         went is the sentence that made the section read as career summary
+         rather than as two things you can open. "Experience is compressed
+         time" stays -- it sells the years rather than restating them, and it
+         is one of the anchored lines. -->
     <section id="earlier-experience" class="earlier-experience">
       <div class="container">
         <header class="section-head archive-head reveal">
           <h2>Earlier experience</h2>
-          <p>Two decades of work that built the foundation for the case studies above. Experience is compressed time: decades of pattern recognition, delivered in days.</p>
+          <p>Experience is compressed time: decades of pattern recognition, delivered in days. Two case studies, one for each stretch of it.</p>
         </header>
 
         <div class="case-grid case-grid-compact stagger">
           <a class="case-card reveal" href="case-study/enterprise-consulting.html" aria-label="View case study: 13 years as an enterprise design consultant (2013-2026)">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/group-100814.png?updatedAt=1761069243299" alt="13 years as an enterprise design consultant (2013-2026)" />
+              <img decoding="async" loading="lazy" src="img/site/group-100814.webp?updatedAt=1761069243299" alt="13 years as an enterprise design consultant (2013-2026)" width="1812" height="1020"/>
             </div>
             <div class="case-content">
               <h3>13 years as an enterprise design consultant (2013-2026)</h3>
               <p class="case-desc">The longest engagement was not project delivery. It was building and operating a UX practice inside a global enterprise: standards, governance, research, measurement, direction.</p>
               <div class="tag-row">
                 <span class="tag">Legacy modernization</span>
+                <span class="tag">Regulated industries</span>
                 <span class="tag">Stakeholder alignment</span>
-                <span class="tag">Product strategy</span>
               </div>
             </div>
           </a>
 
           <a class="case-card reveal" href="case-study/hybrid-designer.html" aria-label="View case study: 8 years as a hybrid designer / developer (2005-2013)">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/group-100815.png?updatedAt=1761069243438" alt="8 years as a hybrid designer / developer (2005-2013)" />
+              <img decoding="async" loading="lazy" src="img/site/group-100815.webp?updatedAt=1761069243438" alt="8 years as a hybrid designer / developer (2005-2013)" width="1812" height="1020"/>
             </div>
             <div class="case-content">
               <h3>8 years as a hybrid designer / developer (2005-2013)</h3>
@@ -770,22 +1084,40 @@
             </a>
             <div class="about-beat-text">
               <p><strong class="about-beat">Independent &middot; 2026</strong>After thirteen years of consulting inside one firm, I left to run my own practice. The loop has closed back to where it started, and I build again. The difference is what I know now about the parts that get complicated.</p>
+              <p>Design systems have a third reader now, the AI tools teams build with, and it sees only what the system makes legible. So the tokens live in the code, the design file mirrors them, and the rules are written for that reader as well as for people.</p>
+              <!-- The growth answer for a practice that is not trying to get
+                   larger. Twenty years is only a number until you say what
+                   accumulated during it; this says the methods did, which is
+                   also the client-facing reason the experience is worth
+                   buying. Source: Essay 11, "Build Assets While You Work". -->
+              <p>Twenty years is not only a length: the questions that get to the real problem, the structures that make a kickoff work. Those accumulate, and the practice doesn&rsquo;t need to get bigger to keep getting better at this.</p>
             </div>
           </div>
-          <p class="about-close reveal">What I still look for is whether the work keeps guiding people long after the project ends. That&rsquo;s the test.</p>
+          <!-- The test, said so a client can apply it rather than only admire
+               it. It named a property of the work; the second sentence names a
+               property of the people, which is what the engagement pages now
+               promise and this line was one clause short of.
+               Source: Essay 25, "Leave the Client Better Than You Found Them". -->
+          <p class="about-close reveal">What I still look for is whether the work keeps guiding people long after the project ends. Not whether the deliverables were good, but whether the team is better at this than it was. That&rsquo;s the test.</p>
         </div>
+        <p class="lucy reveal"><img decoding="async" loading="lazy" src="img/site/lucy.webp" alt="Lucy" width="370" height="370"/>(Lucy approves of this message from her curled-up spot nearby)</p>
       </div>
     </section>
+
   </main>
 
   <!-- ============================== CONTACT ==============================
        Deliberately plain: an email address and a LinkedIn link. No intake
-       form, no scheduling widget, no discovery-call funnel.             -->
+       form, no scheduling widget, no discovery-call funnel. The heading and
+       the paragraph carry the same ask the four engagement pages open and
+       close on, so a reader sent here from one of them lands on the sentence
+       they just read rather than a generic contact block. The button says
+       what it does instead of repeating the paragraph back.              -->
   <section id="contact" class="contact">
     <div class="container">
       <header class="section-head reveal">
-        <h2>Start a conversation</h2>
-        <p>I&rsquo;d like to hear what you&rsquo;re working on. The first conversation is diagnosis, not a pitch: what is happening that makes this important now? Agencies and studios: I take senior freelance workstreams too, after thirteen years of delivering through a consultancy. Based in Minneapolis, working remote.</p>
+        <h2>Describe what is happening</h2>
+        <p>Send me a few sentences about your product and what makes this important now. The first conversation is diagnosis, not a pitch: I will tell you plainly which engagement fits, and if none of them do, I will say so. Agencies and studios: I take senior freelance workstreams too, after thirteen years of delivering through a consultancy. Based in Minneapolis, working remote.</p>
       </header>
       <div class="cta-row reveal">
         <a href="mailto:adam@adamhickey.com" class="btn btn-primary">Email me</a>
@@ -1091,11 +1423,10 @@
         if (mq.addEventListener) mq.addEventListener('change', build);
         else if (mq.addListener) mq.addListener(build);
       } else {
-        // No IntersectionObserver: rest on the final state, but keep every
-        // step readable since nothing will ever toggle is-active again.
-        // Only the last step keeps is-active: on desktop the three now
-        // share one grid cell, so lighting them all would print them on top
-        // of each other. Mobile CSS keeps every step readable anyway.
+        // No IntersectionObserver: rest on the final state. Only the last
+        // step keeps is-active -- on desktop the three now share one grid
+        // cell, so lighting them all would print them on top of each other.
+        // On mobile the media-query CSS keeps every step readable anyway.
         setStep(steps.length - 1);
         setTheme(String(steps.length - 1));
       }
@@ -1244,37 +1575,37 @@
     var style = document.createElement('style');
     style.textContent =
       '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
-      'background:#fff;border:1px solid rgba(37,37,37,.10);border-radius:12px;' +
-      'box-shadow:0 10px 30px rgba(37,37,37,.16);padding:13px 14px 14px;' +
+      'background:var(--color-white);border:1px solid var(--rule-hairline);border-radius:12px;' +
+      'box-shadow:var(--shadow-popover);padding:13px 14px 14px;' +
       "font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
       'opacity:0;visibility:hidden;transform:translateY(-4px);' +
-      'transition:opacity .16s ease,transform .16s ease,visibility .16s ease;}' +
+      'transition:opacity var(--motion-move) var(--ease), transform var(--motion-move) var(--ease), visibility var(--motion-move) var(--ease);}' +
       '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
-      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:#fff;' +
-      'border-left:1px solid rgba(37,37,37,.10);border-top:1px solid rgba(37,37,37,.10);' +
+      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:var(--color-white);' +
+      'border-left:1px solid var(--rule-hairline);border-top:1px solid var(--rule-hairline);' +
       'transform:translateX(-50%) rotate(45deg);}' +
       '.ah-emailpop-head{display:flex;align-items:center;justify-content:space-between;' +
       'margin:0 0 8px;}' +
-      '.ah-emailpop-title{font-size:.6875rem;font-weight:700;letter-spacing:.08em;' +
-      'text-transform:uppercase;color:#5c5f5c;}' +
+      '.ah-emailpop-title{font-size:var(--text-2xs);font-weight:700;letter-spacing:var(--tracking-caps);' +
+      'text-transform:uppercase;color:var(--color-muted-gray);}' +
       '.ah-emailpop-close{display:inline-flex;align-items:center;justify-content:center;' +
       'width:26px;height:26px;margin:-4px -4px -4px 0;border:0;background:transparent;' +
-      'color:#5c5f5c;border-radius:7px;cursor:pointer;transition:color .2s ease,background .2s ease;}' +
-      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:#252525;background:rgba(37,37,37,.06);}' +
-      '.ah-emailpop-close:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
+      'color:var(--color-muted-gray);border-radius:7px;cursor:pointer;transition:color var(--motion-state) var(--ease), background var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:var(--color-charcoal);background:var(--wash-on-light-hover);}' +
+      '.ah-emailpop-close:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
       '.ah-emailpop-row{display:flex;align-items:stretch;gap:8px;}' +
-      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:.875rem;' +
-      'color:#252525;padding:8px 10px;border:1px solid rgba(37,37,37,.16);border-radius:8px;' +
-      'background:#fafafa;transition:border-color .2s ease,box-shadow .2s ease;}' +
-      '.ah-emailpop-input:focus{outline:none;border-color:#657D60;box-shadow:0 0 0 3px rgba(109,135,104,.18);}' +
-      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:.75rem;font-weight:600;' +
-      'color:#fff;background:#657D60;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
-      'transition:background .2s ease,transform .1s ease;}' +
-      '.ah-emailpop-copy:hover{background:#5d7559;}' +
+      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:var(--text-sm);' +
+      'color:var(--color-charcoal);padding:8px 10px;border:1px solid var(--rule-strong);border-radius:8px;' +
+      'background:var(--color-white);transition:border-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-input:focus{outline:none;border-color:var(--color-accent-deep);box-shadow:0 0 0 3px var(--color-accent-ring);}' +
+      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:var(--text-xs);font-weight:600;' +
+      'color:var(--color-white);background:var(--color-accent-text);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
+      'transition:background var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);}' +
+      '.ah-emailpop-copy:hover{background:var(--color-accent-hover);}' +
       '.ah-emailpop-copy:active{transform:translateY(1px);}' +
-      '.ah-emailpop-copy:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
-      '.ah-emailpop-copy.is-copied{background:#252525;}' +
-      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity .12s linear,visibility .12s linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
+      '.ah-emailpop-copy:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
+      '.ah-emailpop-copy.is-copied{background:var(--color-charcoal);}' +
+      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity var(--motion-state) linear, visibility var(--motion-state) linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
     document.head.appendChild(style);
 
     var pop = document.createElement('div');
@@ -1324,6 +1655,7 @@
       setTimeout(function () { input.focus(); input.select(); }, 0);
       document.addEventListener('keydown', onKey);
       document.addEventListener('pointerdown', onOutside, true);
+      pop.addEventListener('focusout', onFocusOut);
       window.addEventListener('resize', position);
       window.addEventListener('scroll', position, true);
     }
@@ -1335,6 +1667,7 @@
       trigger.setAttribute('aria-expanded', 'false');
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onOutside, true);
+      pop.removeEventListener('focusout', onFocusOut);
       window.removeEventListener('resize', position);
       window.removeEventListener('scroll', position, true);
       if (returnFocus === true) trigger.focus();
@@ -1343,6 +1676,16 @@
     function onKey(e) { if (e.key === 'Escape') { e.preventDefault(); close(true); } }
     function onOutside(e) {
       if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
+    }
+    /* A pointer leaving the popover closes it; a Tab key leaving it did not,
+       so a keyboard user could walk past the Copy button and leave an open
+       dialog floating over content they could no longer reach by Tab. This is
+       the same rule as onOutside, asked of focus instead of the pointer.
+       relatedTarget is where focus is going, and it is null when focus leaves
+       the document entirely -- which is a close, not an exception. */
+    function onFocusOut(e) {
+      var to = e.relatedTarget;
+      if (!to || (!pop.contains(to) && !trigger.contains(to))) close(false);
     }
 
     trigger.setAttribute('aria-haspopup', 'dialog');
@@ -1936,9 +2279,8 @@
       if (mq.addEventListener) mq.addEventListener('change', apply);
 
       /* The manual control. It reads the video's own state rather than
-         keeping a flag of its own, so the reduced-motion pause above and a
-         media query changing mid-session both leave the button telling the
-         truth about what it will do. */
+         keeping its own flag, so the reduced-motion pause above and a media
+         query changing mid-session both leave the button telling the truth. */
       var btn = document.querySelector('.hero-portrait-toggle');
       if (!btn) return;
       var pauseIcon = btn.querySelector('.hero-portrait-toggle-pause');
@@ -1967,6 +2309,6 @@
       sync();
     })();
   </script>
-  <script src="cursor.js?v=20260831a" defer></script>
+  <script src="cursor.js?v=20260831c" defer></script>
 </body>
 </html>

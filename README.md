@@ -1,7 +1,8 @@
 # adamhickey.com
 
 The live public site of Adam Hickey's independent product design practice: a
-single-page portfolio, six case studies and four engagement pages. Static
+single-page portfolio, nine case studies, four engagement pages and a design
+system reference. Static
 HTML, CSS and JavaScript, no build step and no `package.json`. The one
 exception is the case studies' Tailwind stylesheet, built once from
 `tailwind.config.js` into `case-study/case-tailwind.css` and committed (#14);
@@ -20,39 +21,57 @@ hand, and a file here and its copy in staging are expected to match once it
 has. There is no script that compares the two trees; staging's `mirror.mjs`
 names staging as both sides and reports clean whatever has drifted.
 
-**Where the two differ on purpose.** This site is the client-safe edition of
-the portfolio:
+**The two editions have converged.** This site was the client-safe edition of
+the portfolio: no "Built end to end" section, the three independently built
+products absent from the homepage and their write-ups not here at all, so
+nothing was reachable by URL. That distinction is over. This tree is now the
+staging tree, page for page -- fifteen pages, including Door County Found,
+Lucy Learns and While We're Here.
 
-- No "Built end to end" section. The independently built products (Door
-  County Found, Lucy Learns, While We're Here) are absent from the homepage,
-  the stylesheet and the image folders, and their build write-ups are not here
-  at all, so nothing is reachable by URL.
-- The Connect design system card on the shelf is a static `div`, not a link.
-  It shows the work without opening the client's design system.
+That was a decision about positioning rather than about confidentiality, and
+it is worth saying which, because one of the two reasons the section gave has
+quietly stopped being true and the other never was. The Connect design system
+card on the shelf is a static `div` here and a static `div` in staging -- both
+show the work without opening the client's system, so nothing about carrying
+the tree across changes what a client's system is exposed to. The build
+write-ups are the author's own products, and the case for holding them back
+was that they read as a side pursuit next to enterprise work. The case for
+carrying them is that they are the longest and most specific writing on the
+site, and they were sitting on a host that told every crawler to ignore them.
 
-**Where they differ because staging has moved on.** Staging retired
-`engagement/brand-identity-illustration.html` (its #49); this site still serves
-it and links it from the engagement cards. Staging has a Writing section and
-the pages under `writing/`; this site has neither. Neither change has been
-carried across yet, and each is a decision about the live site rather than
-drift to fix in passing.
+**One live URL now 404s.** `engagement/brand-identity-illustration.html` was
+retired in staging (its #49) and is gone here with this change. Nothing on
+this site links it any more -- the engagement cards came across from staging,
+which dropped it -- but anything outside that does will get a 404 rather than
+a redirect. GitHub Pages cannot serve a 301, so the options are to leave it,
+or to put a stub at that path that canonicals to the engagements section. It
+is left, deliberately; a stub is a page, and `seo.mjs` would then want it in
+the sitemap, where a redirect does not belong.
+
+**What still differs.** Staging keeps `CLAUDE.md` and its own README and
+workflows; this repository keeps `CNAME`, its own README and its own
+workflows. Everything a reader can reach is the same in both.
 
 ## What is here
 
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet, tokens in `:root`; the homepage and the engagement pages load it |
+| `style.css` | The stylesheet; the homepage, the engagement pages and the three build write-ups load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all fifteen pages. Colour, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
-| `case-study/*.html` | Six case studies |
+| `case-study/*.html` | Nine case studies: six client engagements and three build write-ups |
 | `case-study/case-motion.{css,js}` | The case studies' scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
+| `design-system/index.html` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
+| `robots.txt`, `sitemap.xml` | What a crawler is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- and `node scripts/seo.mjs` fails if it stops matching the pages on disk |
+| `scripts/` | The check scripts, copied from the staging repository. `checks.yml` used to have to borrow these from a sibling checkout by hand; the comment there saying so is now out of date |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs` in staging and copied here |
-| `TYPOGRAPHY.md` | The type system: two families chosen by the role the text plays, and the sizes |
+| `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`, `MOTION.md` | The four normative specs. The check scripts read them as rules and this tree as evidence |
 | `CNAME`, `.nojekyll` | Pages configuration: the custom domain, and no Jekyll pass over the tree |
 | `.github/workflows/` | `pages.yml` deploys, `checks.yml` reports; see below |
 

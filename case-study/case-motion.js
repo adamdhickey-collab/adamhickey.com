@@ -113,11 +113,6 @@
   $$('main h3').forEach(function (h) { if (!guarded(h)) reg(h, 'cm-rise', { span: 0.32 }); });
   $$('main p').forEach(function (p) { if (!guarded(p)) reg(p, 'cm-rise-sm', { span: 0.22 }); });
 
-  /* ---- role list entries: read down the two columns ---- */
-  $$('.case-role-grid li').forEach(function (li, i) {
-    if (!guarded(li)) reg(li, 'cm-rise-sm', { span: 0.22, lead: (i % 2) * 0.04 + Math.floor(i / 2) * 0.02 });
-  });
-
   /* ---- closing next-case link ---- */
   reg(document.querySelector('.case-closing-next'), 'cm-rise', { span: 0.3 });
 

@@ -1,0 +1,290 @@
+/* ==========================================================================
+   CASE STUDY BASE -- the six Tailwind-built case studies.
+
+   Loaded by exactly the six pages that do NOT load style.css: dispatch,
+   enterprise, hybrid, innovators, sap and usda. It is the sibling of
+   case-motion.css, which those same six pages already shared as a file while
+   this block stayed inline and copied.
+
+   WHY THIS FILE EXISTS. It used to be a <style id="case-study-base"> block
+   pasted into all six pages. Comments stripped, 112 of its 137 code lines were
+   byte-identical across the copies -- and the 25 that were not had drifted into
+   five versions, none of them on purpose. Two pages, enterprise and hybrid,
+   never received two fixes the other four got:
+
+     - the table-of-contents link kept 4px of vertical padding, so its tap
+       target was 31px tall against the 44px this code aims for (24px is the
+       WCAG 2.5.8 floor, which it did clear);
+     - its active state kept var(--color-accent-deep), 4.51:1, where the others read 15.33:1.
+
+   Both variants date from the same import commit, so neither was newer; they
+   had simply disagreed since the site arrived, with nothing able to notice.
+   That is the argument for one file rather than six copies, and it is the same
+   argument the tokens in color.css, type.css and shell.css already won.
+
+   WHAT THIS FILE IS NOT. It is not a merge of style.css. Of the 41 selectors
+   here, 5 exist there; the other 36 -- .case-toc, .case-closing, .case-readtime,
+   .scroll-progress -- are components only a case study has. Regime A's nine
+   pages would download all of it and render none of it.
+   ========================================================================== */
+
+/* Cross-document view transitions: this page's hero pairs with the
+   clicked case card's thumbnail on the home page (and with other
+   case pages' heroes via the next-case links). Reduced motion and
+   unsupported browsers navigate normally. */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+@media (max-width: 767.98px) {
+  @view-transition { navigation: none; }
+}
+.vt-case-hero { view-transition-name: case-hero; }
+::view-transition-group(case-hero) {
+  animation-duration: var(--motion-enter);
+  animation-timing-function: var(--ease);
+}
+
+html {
+  /* Absolute, and must be: this is what every rem here resolves
+     against, --text-base included. */
+  font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px;
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
+}
+body { font-family: var(--font-sans); color: var(--color-charcoal); background: var(--color-white); }
+
+/* Higher specificity beats Tailwind preflight. */
+/* The heading ladder, same as style.css. TYPOGRAPHY.md section 4 is
+   normative; the tokens come from type.css, which every page now loads.
+   `body h*` rather than `h*` because Tailwind's preflight would otherwise
+   win on specificity.
+
+   This used to be a second, flat ladder: 80/48/34 with no viewport
+   response at all, so an 80px h1 was 80px on a phone unless a utility
+   overrode it -- which is why every hero carried three hand-tuned
+   breakpoint sizes and a hand-set leading. It also disagreed with
+   style.css on what an h4 is. Both regimes now read one ladder.
+
+   Class names are deliberately not written out in these comments:
+   Tailwind's scanner reads the whole document, comments included, and
+   would generate a dead utility for each one it found. */
+body h1, body h2, body h3 {
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular); color: var(--color-charcoal);
+}
+body h4, body h5, body h6 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal);
+}
+body h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); }
+body h2 { font-size: var(--type-section);    line-height: var(--leading-heading); letter-spacing: var(--tracking-title); }
+body h3 { font-size: var(--type-subsection); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+body h4 { font-size: var(--text-xl);  letter-spacing: var(--tracking-heading); }
+body h5 { font-size: var(--text-lg);  letter-spacing: var(--tracking-normal); }
+body h6 { font-size: var(--text-base); letter-spacing: var(--tracking-normal); }
+body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height: var(--leading-body); }
+
+/* Framer-motion fade-up: keep initial state, reveal via JS observer. */
+.min-h-screen [style*="opacity: 0"],
+.min-h-screen [style*="opacity:0"] {
+  transition:
+    opacity var(--motion-enter) var(--ease-enter), 
+    transform var(--motion-enter) var(--ease-enter);
+  will-change: opacity, transform;
+}
+.min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .min-h-screen [style*="opacity: 0"],
+  .min-h-screen [style*="opacity:0"] {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+.skip-link { position: absolute; left: -9999px; top: 0; background: var(--color-charcoal); color: var(--ink-on-dark); padding: var(--space-xs) var(--space-md); z-index: 1000; }
+.skip-link:focus { left: 0; }
+
+.border-border-light { border-color: var(--color-tag-border) !important; }
+
+/* ---------- Scroll progress bar ---------- */
+.scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: var(--color-accent-deep);
+  z-index: 100;
+  transition: width var(--motion-response) linear;
+  pointer-events: none;
+}
+
+/* ---------- Read-time line in the hero ---------- */
+.case-readtime {
+  display: block;
+  margin-bottom: var(--space-xl);
+  font-size: var(--text-sm);
+  color: var(--color-muted-gray);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Sticky in-page section nav ---------- */
+/* The captured markup wraps the whole page in `overflow-x-hidden`, and
+   `overflow-x: hidden` turns that wrapper into a scroll container, which
+   silently broke `position: sticky` on .case-toc below, so the section
+   nav scrolled away instead of pinning under the header. `clip` clips the
+   same overflow without creating a scrollport, so sticky resolves against
+   the viewport again. */
+.min-h-screen.overflow-x-hidden { overflow-x: clip; }
+
+.case-toc {
+  position: sticky;
+  top: 80px;
+  z-index: 30;
+  /* The one literal left in this file, and it stays on purpose. Written as
+     color-mix(in srgb, var(--color-white) 94%, transparent) it is the same
+     colour, but it COMPUTES to color(srgb 1 1 1 / 0.94), which resting.mjs
+     and states.mjs cannot composite -- they read the bar as opaque charcoal
+     and report every link in the table of contents at 1.24:1. The tokenised
+     spelling costs the check its ability to see 38 pieces of text. rgba()
+     keeps it measurable, which matters more here than the token does. */
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--color-tag-border);
+}
+.case-toc-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  /* Horizontal padding tracks site-nav.css's .nav-inner (1.5rem / 2rem)
+     so the section links line up under the logo at every width. */
+  padding: var(--space-sm) var(--gutter);
+  display: flex; gap: var(--space-xl);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.case-toc-inner::-webkit-scrollbar { display: none; }
+.case-toc-inner a {
+  color: var(--color-muted-gray);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  /* Vertical padding bumped from 0.25rem to 0.75rem so the link
+     hits the 44px touch target minimum without resizing text. */
+  padding: var(--space-sm) 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
+  display: inline-flex;
+  align-items: center;
+}
+.case-toc-inner a:hover { color: var(--color-charcoal); }
+/* Active state: charcoal text (was sage var(--color-accent-deep) which failed 4.5:1
+   at this size). The sage underline still signals which section
+   the user is in. */
+.case-toc-inner a.is-active { color: var(--color-charcoal); border-bottom-color: var(--color-accent-deep); }
+@media (max-width: 640px) {
+  .case-toc-inner { padding: var(--space-sm) var(--space-xl); gap: var(--space-lg); }
+  .case-toc-inner a { font-size: var(--text-sm); }
+}
+
+/* ---------- Closing block at end of page ---------- */
+.case-closing {
+  background: var(--color-warm);
+  border-top: 1px solid var(--color-tag-border);
+  padding: var(--space-section) 0;
+}
+.case-closing-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.case-closing-next {
+  display: block;
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--color-accent-deep);
+}
+@media (min-width: 768px) {
+  .case-closing-next { padding: var(--space-2xl) 0; }
+}
+.case-closing-next-eyebrow {
+  display: block;
+  /* Sage, and specifically --color-accent-text (var(--color-accent-text)) rather than the
+     var(--color-accent-deep) this once was. That older sage is --color-accent-deep, a FILL
+     colour, and this eyebrow sits on the WARM ground at 12px, where deep
+     measures 4.12:1 -- a real failure, which is why four of the six pages
+     had already retreated to charcoal. accent-text is the darker step the
+     palette keeps for small type: 5.32:1 here, and over 4.5 on all four
+     light grounds. So the sage is keepable; it just has to be the right
+     one. COLOR.md section 2 has the split. */
+  color: var(--color-accent-text);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-xs);
+}
+.case-closing-next-title {
+  display: block;
+  color: var(--color-charcoal);
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (min-width: 768px) {
+  .case-closing-next-title { font-size: var(--text-4xl); }
+}
+.case-closing-next:hover .case-closing-next-title { color: var(--color-accent-deep); }
+
+/* The engagement a case study is evidence for, named on the case study.
+   The link already ran the other way -- each engagement page closes on the
+   client work that proves it, through .eng3-proof-cta -- and only that way,
+   so a reader who arrived at the proof had no way back to the offer it
+   proves. One direction of a two-way relationship is the easiest kind of
+   link to leave out, because from either page the site looks joined up.
+
+   Small type, so the sage has to be the darker step: --color-accent-text
+   measures 5.32:1 on this warm ground where --color-accent-deep is 4.12:1.
+   That is also why the hover goes to charcoal rather than to deep, the way
+   the next-case title above it does. The title can take deep because it is
+   --text-3xl and answers to the 3:1 large-text floor; this line is
+   --text-sm and answers to 4.5. Same palette, different floor, and the
+   difference is the whole reason COLOR.md keeps two sages. */
+.case-closing-service {
+  margin: 0 0 var(--space-xl);
+  color: var(--color-charcoal);
+  font-size: var(--text-sm);
+}
+.case-closing-service a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-closing-service a:hover,
+.case-closing-service a:focus-visible { color: var(--color-charcoal); }
+
+/* ---------- Breathing room between hero image and the first section ----------
+   The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
+   then begins the next section with very tight pt-2 / md:pt-3. That makes
+   the Overview heading feel pinned to the image. Add explicit bottom
+   margin to the image's wrapper so the page has room to breathe. */
+.min-h-screen .mt-14.md\:mt-20 { margin-bottom: var(--space-3xl); }
+@media (min-width: 768px) {
+  .min-h-screen .mt-14.md\:mt-20 { margin-bottom: var(--space-block); }
+}
+
+/* ---------- Body paragraph readability ----------
+   The captured markup lets prose paragraphs span the full content
+   container (~1200px), which is far wider than comfortable reading
+   length. Cap to ~70 characters by giving the common prose class
+   combinations a max-width. Card content + centered diagram captions
+   use different class signatures and stay untouched. */
+.min-h-screen p.text-charcoal.leading-relaxed,
+.min-h-screen p.mb-10.text-charcoal,
+.min-h-screen p.mb-2.pb-\[30px\].text-charcoal,
+.min-h-screen p[class="mb-4"] {
+  max-width: 42rem;
+}

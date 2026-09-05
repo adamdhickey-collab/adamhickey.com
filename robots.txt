@@ -1,0 +1,60 @@
+# adamhickey.com
+#
+# Written for production, and it needs no edit at go-live. While this tree is
+# served from the GitHub Pages staging host, every page also carries
+#
+#     <meta name="robots" content="noindex, nofollow">
+#
+# and a meta noindex outranks anything this file permits. Allowing a crawler
+# here does not put staging in an index; removing those fifteen meta lines is
+# what publishes the site. Nothing in this file is the staging switch, which is
+# the reason it can be written once and left alone.
+#
+# WHY THE ASSISTANTS ARE NAMED. Every agent below is already allowed by the
+# wildcard -- absent a robots.txt entirely, all of them are. Naming them changes
+# no behaviour and is not meant to: it is the record of a decision, so that
+# turning one off later is an edit to a line that exists rather than an argument
+# from silence. This site's whole job is being found, and being read by an
+# assistant is now one of the ways a person finds a designer.
+#
+# Two of these are not crawlers and are worth understanding separately.
+# Google-Extended and Applebot-Extended do not fetch anything; they are the
+# opt-out tokens governing whether already-crawled pages may be used for model
+# training. Allowing them is a permission, not a visit. That is a rights
+# decision rather than a technical one, and the way to reverse it is to change
+# Allow to Disallow on those two blocks alone -- which does not affect search
+# indexing, because they do not control it.
+
+User-agent: *
+Allow: /
+
+# Retrieval: fetches a page because someone asked a question it may answer.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Training permission, not a crawler. See the note above before changing these.
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://adamhickey.com/sitemap.xml

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How I built Door County Found | Adam Hickey</title>
+  <meta name="description" content="A build write-up for Door County Found: a curated travel guide where every place is structured data, built on Astro and edited by a non-developer through a web form." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/door-county-found.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/door-county-found.html" />
+  <meta property="og:title" content="How I built Door County Found | Adam Hickey" />
+  <meta property="og:description" content="A build write-up for Door County Found: a curated travel guide where every place is structured data, built on Astro and edited by a non-developer through a web form." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/door-county-found.html#article",
+          "headline": "How I built Door County Found",
+          "description": "A build write-up for Door County Found: a curated travel guide where every place is structured data, built on Astro and edited by a non-developer through a web form.",
+          "url": "https://adamhickey.com/case-study/door-county-found.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/door-county-found.html",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/door-county-found.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Built end to end",
+              "item": "https://adamhickey.com/#built"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How I built Door County Found",
+              "item": "https://adamhickey.com/case-study/door-county-found.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- Site stylesheet rather than the Tailwind CDN the older captured case
+       studies load: one request, no framework. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260905b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Build write-up &middot; 3 min read</p>
+        <h1 class="case-title">How I built Door County Found</h1>
+        <p class="build-dek">A curated guide to a Wisconsin peninsula, built as a real product: every place is structured data, the filters are real, and the person who keeps it current has never touched the code.</p>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Everything: product, identity, build</dd></div>
+            <div><dt>Built with</dt><dd>Astro 5, markdown content collections, Leaflet, Pages CMS</dd></div>
+            <div><dt>Runs on</dt><dd>Cloudflare Pages and one edge function, about $12 a year all in</dd></div>
+            <div><dt>Editor</dt><dd>My sister, through a web form</dd></div>
+          </dl>
+        </div>
+
+        <div class="glance">
+          <p class="glance-kicker">My approach</p>
+          <ol class="glance-row">
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>01</span>Research</p>
+                <ul class="glance-points">
+                  <li>Decades of family summers, in one long family document</li>
+                  <li>49 places seeded by script, then geocoded</li>
+                  <li>No AI: the knowledge is the product</li>
+                </ul>
+                <a class="glance-more" href="#the-problem">The problem</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(3,-0.25)"><circle pathLength="1" cx="9" cy="5.8" r="1.8"/><path pathLength="1" d="M8.2 7.4 3 20.5"/><path pathLength="1" d="M9.8 7.4 15 20.5"/><path pathLength="1" d="M3.9 15.6a10.5 10.5 0 0 0 10.2 0"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>02</span>Design</p>
+                <ul class="glance-points">
+                  <li>Hand-built identity from an approved brand board</li>
+                  <li>The real design is a typed schema: town, dog policy, veg flags</li>
+                  <li>Every filter is a query over it</li>
+                </ul>
+                <a class="glance-more" href="#place-as-data">Every place is data</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>03</span>Build</p>
+                <ul class="glance-points">
+                  <li>Astro 5, statically built, markdown validated by a Zod schema</li>
+                  <li>Leaflet map, Python image ladder, one Cloudflare edge function</li>
+                  <li>AI wrote the code. I chose the stack and cut what needed a server</li>
+                </ul>
+                <a class="glance-more" href="#the-stack">Boring technology</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.5,-4.5)"><circle pathLength="1" cx="6.5" cy="16.5" r="3.5"/><path pathLength="1" d="M10 16.5h10"/><path pathLength="1" d="M16.5 16.5v3.2"/><path pathLength="1" d="M19.6 16.5v2.4"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>04</span>Handover</p>
+                <ul class="glance-points">
+                  <li>Pages CMS: a hosted form over the private repo, no code added</li>
+                  <li>A push to main is live about two minutes later</li>
+                  <li>A half-filled form cannot break the build</li>
+                </ul>
+                <a class="glance-more" href="#for-its-editor">Built for its editor</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+
+        <figure class="build-shot">
+          <img src="../img/dcf/campaign.webp?v=3" width="2172" height="724" fetchpriority="high" decoding="async"
+               alt="The Door County Found identity laid out flat: at left the Door County Found logo &mdash; a white lighthouse in a navy disc, gold beams spreading either side of it, the name in navy capitals above the word &ldquo;found&rdquo; underlined in rust script &mdash; then the headline &ldquo;Found slowly, shared honestly.&rdquo; and beneath it &ldquo;a digital guide to Door County, Wisconsin.&rdquo; At right a laptop stands open on the site&rsquo;s front page &mdash; &ldquo;Door County, the way we know it,&rdquo; a drawn map of the peninsula, and pinned polaroids of Sister Bay, Baileys Harbor and Jacksonport. Around it on cream paper: a folded nautical chart of the shoreline, a Baileys Harbor lighthouse postcard, a leather motel keyfob stamped &ldquo;stay curious,&rdquo; a fifteen-cent cherry stamp, a strip of five cloth swatches in navy, gold, rust, teal and green, and a handwritten note reading &ldquo;pack light, leave room for unexpected finds.&rdquo;" />
+          <figcaption>The identity and the site in one frame. The palette is the peninsula&rsquo;s own ephemera &mdash; motel fobs, cherry stamps, folded charts &mdash; and the front page is built from the same 58 vouched-for entries the guide runs on. Cream paper, harbor navy, beacon gold, hand-built rather than themed.</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="the-problem">The problem</h2>
+        <p>Decades of family summers built up real knowledge of the peninsula, and it lived where that knowledge usually lives: in heads, in a long document, in &ldquo;ask your aunt.&rdquo; The big guide sites, meanwhile, compete on completeness and list every restaurant whether or not anyone would send a friend there.</p>
+        <p>So the product bet is the opposite: fewer places, every one vouched for, each led by a &ldquo;why we love it&rdquo; written the way the family actually talks. Best perch you will ever have. Real goats on the roof. Sentences a directory cannot produce.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="place-as-data">Every place is data, not a blog post</h2>
+        <p>The decision everything else hangs on: a place is a structured record, not an article. Name, town, category, address, dog policy, vegetarian flags, badges, good-to-know notes, photos, and one paragraph in the family voice. There are 58 live today.</p>
+        
+        <figure class="build-shot">
+          <div class="build-laptop"><div class="build-laptop-lid">
+              <img src="../img/dcf/index-cards.webp?v=1" width="1200" height="771" loading="lazy" decoding="async"
+                   alt="The index page: a count reading 58 places above a row of three cards &mdash; Al Johnson&rsquo;s Swedish Restaurant, Analog Ice Cream &amp; Coffee, and Barringer&rsquo;s &mdash; each with its own photograph, its town and category stamped above the name, and its own row of badges." />
+            </div></div>
+          <figcaption>The index, counting itself. Three categories, three different badge rows, and not one stamp on any of them typed by hand: every one renders from the record.</figcaption>
+        </figure>
+
+        <p>Because everything is a field, the product parts come free:</p>
+        <ul class="build-list">
+          <li>Dog-friendly and vegetarian are real filters, not tags someone remembers to add</li>
+          <li>Every card&rsquo;s town and category stamps render from the record</li>
+          <li>The directions button and the good-to-know panel draw from the same place, so nothing drifts</li>
+        </ul>
+
+        <figure class="build-shot">
+          <div class="build-laptop"><div class="build-laptop-lid">
+              <img src="../img/dcf/place-record.webp?v=1" width="1200" height="771" loading="lazy" decoding="async"
+                   alt="A place page for Al Johnson&rsquo;s Swedish Restaurant: the photograph runs behind a card carrying the category and town, the name, and badges reading Found Favorite, Kid Approved and Live Music, above a Why we love it paragraph beside a panel with the address, a directions link, and good-to-know notes on dogs and vegetarian options." />
+            </div></div>
+          <figcaption>A place page: the voice on the left, the record on the right, and the badges over the photograph drawn from the same fields. The dog line reads &ldquo;we need to check&rdquo; &mdash; a policy field can hold an honest gap as well as a caveat.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2>The signature feature is a filter</h2>
+        <p>The first note in the family document was &ldquo;add where dogs are welcome.&rdquo; That became the sharpest edge: every place carries a dog policy with room for the caveat that matters, leashed at all times, keep them back from the edge. A dedicated Door County with your dog page is built from those fields, and vegetarian and vegan flags get the same treatment on every restaurant.</p>
+        <p>One deliberate omission: no lodging. That is where every competitor fights, and skipping it keeps the guide personal and maintainable.</p>
+
+        <figure class="build-shot">
+          <div class="build-laptop"><div class="build-laptop-lid">
+              <img src="../img/dcf/dogs-query.webp?v=1" width="1200" height="771" loading="lazy" decoding="async"
+                   alt="The Door County with your dog page: three cards each badged Dogs welcome, and under them a heading reading With caveats, 9, over the line &ldquo;usually trails yes, beach no &mdash; the caveat is on each card and page.&rdquo;" />
+            </div></div>
+          <figcaption>The dogs page is not an article somebody wrote. It is a query over the records, sorted into the places where the answer is plainly yes and the nine that come with fine print.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="the-stack">Boring technology, chosen on purpose</h2>
+        <p>Every piece is chosen so there is nothing to maintain:</p>
+        <ul class="build-list">
+          <li>Astro, statically built; the vintage identity of cream paper, harbor navy, and beacon gold is hand-built, not themed</li>
+          <li>Cloudflare Pages hosting, about $12 a year all in, nothing to patch</li>
+          <li>Pages CMS for editing: a hosted form over the repository&rsquo;s own content, zero code added to the site</li>
+          <li>An honest exit: everything is structured markdown, so migrating it anywhere is mechanical, not a rewrite</li>
+        </ul>
+        <p>The one mid-build switch proves the criterion. The first editing tool turned out to need a server runtime and a GitHub App, exactly the moving parts this site exists to avoid, so it went.</p>
+
+        <figure class="build-flow">
+          <ol class="build-flow-row build-flow-row--pair">
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/dcf/phone-map.webp?v=2" width="810" height="1753" loading="lazy" decoding="async" alt="The map on a phone: filter chips reading All 57, Eat 15, Drink 10, Do 20, Art 8, Shows 4 and Dogs 11, above a map of the peninsula where every town carries its own count and a circle sized to it." /></div>
+              <p class="build-flow-cap">The map, and chips that count themselves</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/dcf/phone-dogs.webp?v=3" width="810" height="1753" loading="lazy" decoding="async" alt="The dog guide on a phone: the headline Door County with your dog, a paragraph on how the list is checked, two polaroids of dogs named Lucia and Scout, and the start of the Dogs welcome list beneath them." /></div>
+              <p class="build-flow-cap">The dog guide, polaroids intact</p>
+            </li>
+          </ol>
+          <figcaption>Hand-built holds up at phone size, and so does the one moving part &mdash; the whole peninsula and every filter fit on a phone screen. Nothing here is a theme.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="for-its-editor">Built for its editor, not its builder</h2>
+        <p>The real user of the workflow is my sister, who is not a developer and should never have to become one. She signs into a web form, fills in the fields, hits save, and the change is live about two minutes later. The product ships with its own operating manual, down to how the photo cropping works.</p>
+        <p>That is the part I would show a client. Building the site is the visible work; designing the workflow so the right person can keep it alive without me is the product thinking, whether the editor is my sister or your content team.</p>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <p class="build-links">
+          <a class="product-link" href="https://doorcountyfound.com" target="_blank" rel="noopener noreferrer">Open Door County Found<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </p>
+        <a class="build-next" href="while-were-here.html">
+          <span class="build-next-eyebrow">Built end to end</span>
+          <span class="build-next-title">How I built While We&rsquo;re Here &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#built">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

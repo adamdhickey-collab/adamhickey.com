@@ -13,6 +13,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>8 years as a hybrid designer / developer (2005-2013) | Adam Hickey</title>
   <meta name="description" content="Project archive: 8 years as a hybrid designer / developer across three Minneapolis studios, the last five at Pixel Farm (2005-2013)." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/hybrid-designer.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/hybrid-designer.html" />
+  <meta property="og:title" content="8 years as a hybrid designer / developer (2005-2013) | Adam Hickey" />
+  <meta property="og:description" content="Project archive: 8 years as a hybrid designer / developer across three Minneapolis studios, the last five at Pixel Farm (2005-2013)." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/hybrid-designer.html#article",
+          "headline": "8 years as a hybrid designer / developer (2005-2013)",
+          "description": "Project archive: 8 years as a hybrid designer / developer across three Minneapolis studios, the last five at Pixel Farm (2005-2013).",
+          "url": "https://adamhickey.com/case-study/hybrid-designer.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/hybrid-designer.html",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/hybrid-designer.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "8 years as a hybrid designer / developer (2005-2013)",
+              "item": "https://adamhickey.com/case-study/hybrid-designer.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
   <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
   <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
@@ -22,241 +88,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
 
-  <link rel="stylesheet" href="case-tailwind.css?v=1" />
+  <link rel="stylesheet" href="case-tailwind.css?v=2" />
 
-  <style id="case-study-base">
-    /* Cross-document view transitions: this page's hero pairs with the
-       clicked case card's thumbnail on the home page (and with other
-       case pages' heroes via the next-case links). Reduced motion and
-       unsupported browsers navigate normally. */
-    @view-transition { navigation: auto; }
-    @media (prefers-reduced-motion: reduce) {
-      @view-transition { navigation: none; }
-    }
-    @media (max-width: 767.98px) {
-      @view-transition { navigation: none; }
-    }
-    .vt-case-hero { view-transition-name: case-hero; }
-    ::view-transition-group(case-hero) {
-      animation-duration: 0.45s;
-      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    html {
-      font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px;
-      --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
-    }
-    body { font-family: var(--font-sans); color: #252525; background: #fff; }
-
-    /* Higher specificity beats Tailwind preflight. */
-    body h1, body h2, body h3 {
-      font-family: var(--font-serif);
-      font-weight: 400; line-height: 1.1; color: #252525;
-    }
-    body h1 { font-size: 5rem; letter-spacing: -0.02em; }
-    body h2 { font-size: 3rem; letter-spacing: -0.015em; }
-    body h3 { font-size: 2.125rem; letter-spacing: -0.01em; }
-    body h4 { font-size: 1.5rem;   font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body h5 { font-size: 1.25rem;  font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body h6 { font-size: 1.125rem; font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body p { color: #252525; line-height: 1.6; }
-
-    /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
-    .min-h-screen [style*="opacity: 0"],
-    .min-h-screen [style*="opacity:0"] {
-      transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
-    }
-    .min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
-    @media (prefers-reduced-motion: reduce) {
-      .min-h-screen [style*="opacity: 0"],
-      .min-h-screen [style*="opacity:0"] {
-        opacity: 1 !important; transform: none !important; transition: none !important;
-      }
-      html { scroll-behavior: auto; }
-    }
-
-    .skip-link { position: absolute; left: -9999px; top: 0; background: #252525; color: #f5f5f0; padding: .5rem 1rem; z-index: 1000; }
-    .skip-link:focus { left: 0; }
-
-    .border-border-light { border-color: #E5E5E0 !important; }
-
-    /* ---------- Scroll progress bar ---------- */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0;
-      height: 2px; width: 0%;
-      background: #657D60;
-      z-index: 100;
-      transition: width 80ms linear;
-      pointer-events: none;
-    }
-
-    /* ---------- Read-time line in the hero ---------- */
-    .case-readtime {
-      display: block;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      color: #5c5f5c;
-      letter-spacing: 0.02em;
-    }
-
-    /* ---------- Sticky in-page section nav ---------- */
-    /* The captured markup wraps the whole page in `overflow-x-hidden`, and
-       `overflow-x: hidden` turns that wrapper into a scroll container — which
-       silently broke `position: sticky` on .case-toc below, so the section
-       nav scrolled away instead of pinning under the header. `clip` clips the
-       same overflow without creating a scrollport, so sticky resolves against
-       the viewport again. */
-    .min-h-screen.overflow-x-hidden { overflow-x: clip; }
-
-    .case-toc {
-      position: sticky;
-      top: 80px;
-      z-index: 30;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: saturate(180%) blur(10px);
-      -webkit-backdrop-filter: saturate(180%) blur(10px);
-      border-bottom: 1px solid #E5E5E0;
-    }
-    .case-toc-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      /* Horizontal padding tracks site-nav.css's .nav-inner (1.5rem / 2rem)
-         so the section links line up under the logo at every width. */
-      padding: 0.875rem 1.5rem;
-      display: flex; gap: 1.75rem;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .case-toc-inner::-webkit-scrollbar { display: none; }
-    @media (min-width: 768px) { .case-toc-inner { padding-inline: 2rem; } }
-    .case-toc-inner a {
-      color: #5c5f5c;
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-      padding: 0.25rem 0;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-    .case-toc-inner a:hover { color: #252525; }
-    .case-toc-inner a.is-active { color: #657D60; border-bottom-color: #657D60; }
-    @media (max-width: 640px) {
-      .case-toc-inner { padding: 0.75rem 1.5rem; gap: 1.25rem; }
-      .case-toc-inner a { font-size: 0.875rem; }
-    }
-
-    /* ---------- Closing block at end of page ---------- */
-    .case-closing {
-      background: #f5f5f0;
-      border-top: 1px solid #E5E5E0;
-      padding: 4rem 0;
-    }
-    @media (min-width: 768px) { .case-closing { padding: 5rem 0; } }
-    .case-closing-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-    @media (min-width: 768px) {
-      .case-closing-inner { padding: 0 2rem; }
-    }
-    .case-closing-next {
-      display: block;
-      padding: 1.5rem 0;
-      border-top: 1px solid #657D60;
-    }
-    @media (min-width: 768px) {
-      .case-closing-next { padding: 2rem 0; }
-    }
-    .case-closing-next-eyebrow {
-      display: block;
-      color: #556B51;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
-    }
-    .case-closing-next-title {
-      display: block;
-      color: #252525;
-      font-family: var(--font-serif);
-      font-size: 1.75rem;
-      font-weight: 400;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      transition: color 0.2s ease;
-    }
-    @media (min-width: 768px) {
-      .case-closing-next-title { font-size: 2.125rem; }
-    }
-    .case-closing-next:hover .case-closing-next-title { color: #657D60; }
-
-    /* ---------- Breathing room between hero image and the first section ----------
-       The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
-       then begins the next section with very tight pt-2 / md:pt-3. That makes
-       the Overview heading feel pinned to the image. Add explicit bottom
-       margin to the image's wrapper so the page has room to breathe. */
-    .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 2.5rem; }
-    @media (min-width: 768px) {
-      .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 4.5rem; }
-    }
-
-    /* ---------- Body paragraph readability ----------
-       The captured markup lets prose paragraphs span the full content
-       container (~1200px), which is far wider than comfortable reading
-       length. Cap to ~70 characters by giving the common prose class
-       combinations a max-width. Card content + centered diagram captions
-       use different class signatures and stay untouched. */
-    .min-h-screen p.text-dark.leading-relaxed,
-    .min-h-screen p.mb-10.text-dark,
-    .min-h-screen p.mb-2.pb-\[30px\].text-dark,
-    .min-h-screen p[class="mb-4"] {
-      max-width: 42rem;
-    }
-
-/* ---------- Role list (replaces team avatar grid on SAP) ---------- */
-    .case-role-group {
-      background: #ffffff;
-      padding: 1.5rem;
-    }
-    .case-role-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem 1.5rem;
-    }
-    .case-role-grid li {
-      position: relative;
-      padding-left: 1rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #252525;
-      line-height: 1.35;
-      list-style: none;
-    }
-    .case-role-grid li::before {
-      content: "";
-      position: absolute;
-      left: 0; top: 0.55em;
-      width: 0.35rem; height: 0.35rem;
-      border-radius: 50%;
-      background: #657D60;
-    }
-  
-  </style>
-  <link rel="stylesheet" href="../site-nav.css?v=20260826a" />
-  <!-- The header logo plays a one-shot reveal clip on load and holds its last
-       frame. The class is set here, before first paint, so the static mark
-       never flashes ahead of the animation; anything that stops the clip from
-       running puts the static mark straight back. The 1.2s deadline is the
-       slow-fetch case: rather than leave the header empty while the clip
-       arrives, or pop it in half a second late, this load simply keeps the
-       static mark and skips the animation. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="case-study-base.css?v=3" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
   <script>
     (function () {
       var el = document.documentElement;
@@ -269,26 +115,57 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        /* Hand the header back to the static mark. The clip's settled frame
-           registers with the SVG to the pixel, so this swap is invisible,
-           and it is what keeps the logo on screen: a backgrounded page can
-           have its paused video's decoded frame dropped, and the element
-           would come back empty with the mark behind it still hidden. */
-        var settle = function () {
-          el.classList.remove('logo-reveal');
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
           try { v.pause(); } catch (e) {}
         };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
         var armed = true;
-        var giveUp = function () { if (armed) { armed = false; settle(); } };
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the start deadline stops applying. */
-        v.addEventListener('playing', function () { armed = false; });
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
         v.addEventListener('error', giveUp);
         v.addEventListener('ended', settle);
-        /* Backgrounded mid-clip the animation is already missed, so settle
+        /* Backgrounded mid-clip the animation is already missed, so finish
            rather than leave a half-played video holding the header. */
         document.addEventListener('visibilitychange', function () {
-          if (document.hidden) settle();
+          if (document.hidden) finish();
         });
         var p = v.play();
         if (p && p.catch) p.catch(giveUp);
@@ -296,11 +173,11 @@
         /* Backstop for a clip that starts and then stalls without ever
            firing ended: the clip runs two seconds, so by three it is over
            one way or another. */
-        setTimeout(settle, 3000);
+        setTimeout(finish, 3000);
       });
     })();
   </script>
-  <link rel="stylesheet" href="case-motion.css" />
+  <link rel="stylesheet" href="case-motion.css?v=4" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -332,12 +209,12 @@
   <div class="case-toc-inner">
     <a href="#overview">Overview</a><a href="#project-highlights">Project highlights</a>
   </div>
-</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-20 px-4 md:px-8 pb-2 md:pb-0 pt-24 md:pt-32"><div class="mb-[-10px]"><span class="case-readtime">2 min read</span><h1 class="text-[48px] md:text-[3.5rem] lg:text-[68px] leading-[1.1] max-w-4xl">8 years as a hybrid designer / developer (2005-2013)</h1></div><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#556B51] font-semibold text-sm tracking-wide mb-1">Employers</div><div class="text-[#252525]">Pixel Farm, LEVEL, ByDesign</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#556B51] font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-[#252525]">Interactive designer / developer</div></div><div class="md:border-l border-[#D0D0C8] md:pl-4"><div class="text-[#556B51] font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-[#252525]">2005-2013</div></div></div></div><div class="mt-14 md:mt-20"><img src="../img/site/pixel-farm-building.png?updatedAt=1769539306496" alt="8 years as a hybrid designer / developer (2005-2013) Hero" class="vt-case-hero w-full h-auto object-cover"></div></div><div class="px-4 md:px-8 bg-white pt-2 md:pt-3 pb-20"><div class="mb-12"><div class="w-16 h-1 bg-[#657D60] mt-10 mb-3"></div><h2 id="overview" class="mb-6 text-[#252525]">Overview</h2><p class="mb-4">For eight years across three Minneapolis studios, the last five of them at Pixel Farm, I built interactive websites and apps with some warmth to them, turning corporate ideas into something people would actually want to spend time with.</p><p class="mb-4">The internet is a noisy place. Everyone is shouting. Our job was to be the ones whispering something interesting in the corner. We had to take big, corporate ideas and make them feel human. Sometimes we succeeded. Sometimes we just made really nice looking buttons. But we always tried to tell a story.</p></div><div class="mb-20"><div class="w-16 h-1 bg-[#657D60] mb-3"></div><h2 id="project-highlights" class="mb-8 text-[#252525]">Project highlights</h2><div class="grid md:grid-cols-1 gap-12"><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Lund Boats website</h5><div class="mb-8"><img src="../img/site/lund-boats-website.png" alt="Lund Boats website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Digital showroom</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete website redesign for legendary boat manufacturer</li><li class="leading-relaxed">Interactive 'Build Your Boat' configurator tool</li><li class="leading-relaxed">Big lifestyle photography woven all the way through</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 id="fulton-beer" class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Fulton Beer website</h5><div class="mb-8"><img src="../img/site/fulton-beer-website.png" alt="Fulton Beer website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Craft culture</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">A brand-led site for a Minneapolis brewery</li><li class="leading-relaxed">Custom beer finder locator integration</li><li class="leading-relaxed">Event calendar and taproom information system</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 id="northern-spark" class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Northern Spark iOS app</h5><div class="mb-8"><img src="../img/site/northern-spark-ios-app.png" alt="Northern Spark iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Festival companion</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Native iOS application for all-night arts festival</li><li class="leading-relaxed">Real-time event scheduling and mapping</li><li class="leading-relaxed">Social sharing features for attendees</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 id="learn-to-live" class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Learn to Live identity &amp; website</h5><div class="mb-8"><img src="../img/casework/learn-to-live.webp?v=1" width="1673" height="876" loading="lazy" decoding="async" alt="The Learn to Live marketing site on a laptop: round leaf logotype, tan navigation and a Get help online headline beside a plaid video still." class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Mental health online</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete brand identity development</li><li class="leading-relaxed">Responsive marketing website design</li><li class="leading-relaxed">Intake and assessment that didn’t feel like paperwork</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Feed Friendsy iOS app</h5><div class="mb-8"><img src="../img/site/feed-friendsy-ios-app.png" alt="Feed Friendsy iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Social gaming</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Character design and illustration</li><li class="leading-relaxed">Game mechanic development</li><li class="leading-relaxed">Fluid animation and interaction design</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Hazelden campaign and website</h5><div class="mb-8"><img src="../img/site/hazelden-campaign-and-website.png" alt="Hazelden campaign and website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Recovery resources</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Integrated digital campaign for addiction recovery</li><li class="leading-relaxed">A resource library people could actually navigate</li><li class="leading-relaxed">A clearer path from wanting to help to actually helping</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Dorsey and Whitney 100 year anniversary app</h5><div class="mb-8"><img src="../img/site/dorsey-and-whitney-100-year-anniversary-app.png" alt="Dorsey and Whitney 100 year anniversary app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Interactive history</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">iPad application celebrating centennial milestone</li><li class="leading-relaxed">Interactive timeline of firm history</li><li class="leading-relaxed">Rich media integration with video and archival photos</li></ul></div></div><div class="bg-[#F5F5F0] p-6 md:p-[40px] rounded-[20px]"><h5 class="mb-6 text-[#252525] font-semibold text-lg md:text-xl font-sans">Pixel Farm family of websites</h5><div class="mb-8"><img src="../img/site/pixel-farm-family-of-websites.png" alt="Pixel Farm family of websites" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-[#556B51] font-semibold text-base tracking-wide mb-3">Agency portfolio</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Unified digital presence for multiple studio divisions</li><li class="leading-relaxed">Video-forward portfolio showcases</li><li class="leading-relaxed">Distinct visual identities under one umbrella</li></ul></div></div></div></div></div></div></div></div>
+</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-section px-gutter pb-0 md:pb-0 pt-section md:pt-section-lg"><div class="-mb-2"><span class="case-readtime">2 min read</span><h1 class="max-w-4xl">8 years as a hybrid designer / developer (2005-2013)</h1></div><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"><div class="md:border-l border-[var(--color-rule)] md:pl-4"><div class="text-accent-text font-semibold text-sm tracking-wide mb-1">Employers</div><div class="text-charcoal">Pixel Farm, LEVEL, ByDesign</div></div><div class="md:border-l border-[var(--color-rule)] md:pl-4"><div class="text-accent-text font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-charcoal">Interactive designer / developer</div></div><div class="md:border-l border-[var(--color-rule)] md:pl-4"><div class="text-accent-text font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-charcoal">2005-2013</div></div></div></div><div class="mt-12 md:mt-block"><img src="../img/site/pixel-farm-building.webp?updatedAt=1769539306496" alt="8 years as a hybrid designer / developer (2005-2013) Hero" class="vt-case-hero w-full h-auto object-cover" width="1800" height="851" fetchpriority="high"></div></div><div class="px-gutter bg-white pt-10 pb-section"><div class="mb-12"><div class="w-16 h-1 bg-accent mb-3"></div><h2 id="overview" class="mb-6 text-charcoal">Overview</h2><p class="mb-4">For eight years across three Minneapolis studios, the last five of them at Pixel Farm, I built interactive websites and apps with some warmth to them, turning corporate ideas into something people would actually want to spend time with.</p><p class="mb-4">The internet is a noisy place. Everyone is shouting. Our job was to be the ones whispering something interesting in the corner. We had to take big, corporate ideas and make them feel human. Sometimes we succeeded. Sometimes we just made really nice looking buttons. But we always tried to tell a story.</p></div><div class="mb-section"><div class="w-16 h-1 bg-accent mb-3"></div><h2 id="project-highlights" class="mb-8 text-charcoal">Project highlights</h2><div class="grid md:grid-cols-1 gap-12"><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Lund Boats website</h3><div class="mb-8"><img src="../img/site/lund-boats-website.webp" alt="Lund Boats website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Digital showroom</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete website redesign for legendary boat manufacturer</li><li class="leading-relaxed">Interactive 'Build Your Boat' configurator tool</li><li class="leading-relaxed">Big lifestyle photography woven all the way through</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 id="fulton-beer" class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Fulton Beer website</h3><div class="mb-8"><img src="../img/site/fulton-beer-website.webp" alt="Fulton Beer website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Craft culture</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">A brand-led site for a Minneapolis brewery</li><li class="leading-relaxed">Custom beer finder locator integration</li><li class="leading-relaxed">Event calendar and taproom information system</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 id="northern-spark" class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Northern Spark iOS app</h3><div class="mb-8"><img src="../img/site/northern-spark-ios-app.webp" alt="Northern Spark iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Festival companion</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Native iOS application for all-night arts festival</li><li class="leading-relaxed">Real-time event scheduling and mapping</li><li class="leading-relaxed">Social sharing features for attendees</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 id="learn-to-live" class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Learn to Live identity &amp; website</h3><div class="mb-8"><img src="../img/casework/learn-to-live.webp?v=1" width="1673" height="876" loading="lazy" decoding="async" alt="The Learn to Live marketing site on a laptop: round leaf logotype, tan navigation and a Get help online headline beside a plaid video still." class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Mental health online</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Complete brand identity development</li><li class="leading-relaxed">Responsive marketing website design</li><li class="leading-relaxed">Intake and assessment that didn’t feel like paperwork</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Feed Friendsy iOS app</h3><div class="mb-8"><img src="../img/site/feed-friendsy-ios-app.webp" alt="Feed Friendsy iOS app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Social gaming</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Character design and illustration</li><li class="leading-relaxed">Game mechanic development</li><li class="leading-relaxed">Fluid animation and interaction design</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Hazelden campaign and website</h3><div class="mb-8"><img src="../img/site/hazelden-campaign-and-website.webp" alt="Hazelden campaign and website" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Recovery resources</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Integrated digital campaign for addiction recovery</li><li class="leading-relaxed">A resource library people could actually navigate</li><li class="leading-relaxed">A clearer path from wanting to help to actually helping</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Dorsey and Whitney 100 year anniversary app</h3><div class="mb-8"><img src="../img/site/dorsey-and-whitney-100-year-anniversary-app.webp" alt="Dorsey and Whitney 100 year anniversary app" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Interactive history</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">iPad application celebrating centennial milestone</li><li class="leading-relaxed">Interactive timeline of firm history</li><li class="leading-relaxed">Rich media integration with video and archival photos</li></ul></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px]"><h3 class="mb-6 text-charcoal font-semibold text-lg md:text-xl font-sans">Pixel Farm family of websites</h3><div class="mb-8"><img src="../img/site/pixel-farm-family-of-websites.webp" alt="Pixel Farm family of websites" class="w-full h-auto object-contain rounded-[12px] shadow-sm bg-white" width="1802" height="1012" loading="lazy" decoding="async"></div><div class="md:pl-2"><div class="text-accent-text font-semibold text-base tracking-wide mb-3">Agency portfolio</div><ul class="text-gray-700 space-y-2 list-disc pl-5"><li class="leading-relaxed">Unified digital presence for multiple studio divisions</li><li class="leading-relaxed">Video-forward portfolio showcases</li><li class="leading-relaxed">Distinct visual identities under one umbrella</li></ul></div></div></div></div></div></div></div></div>
   </main>
 
   <section class="case-closing" aria-label="Continue reading">
     <div class="case-closing-inner">
-      <a href="../index.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Up next</span><span class="case-closing-next-title">Back to the home page &rarr;</span></a>
+      <a href="lucy-learns.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Built end to end</span><span class="case-closing-next-title">How I built Lucy Learns &rarr;</span></a>
     </div>
   </section>
 
@@ -429,37 +306,37 @@
     var style = document.createElement('style');
     style.textContent =
       '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
-      'background:#fff;border:1px solid rgba(37,37,37,.10);border-radius:12px;' +
-      'box-shadow:0 10px 30px rgba(37,37,37,.16);padding:13px 14px 14px;' +
+      'background:var(--color-white);border:1px solid var(--rule-hairline);border-radius:12px;' +
+      'box-shadow:var(--shadow-popover);padding:13px 14px 14px;' +
       "font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
       'opacity:0;visibility:hidden;transform:translateY(-4px);' +
-      'transition:opacity .16s ease,transform .16s ease,visibility .16s ease;}' +
+      'transition:opacity var(--motion-move) var(--ease), transform var(--motion-move) var(--ease), visibility var(--motion-move) var(--ease);}' +
       '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
-      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:#fff;' +
-      'border-left:1px solid rgba(37,37,37,.10);border-top:1px solid rgba(37,37,37,.10);' +
+      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:var(--color-white);' +
+      'border-left:1px solid var(--rule-hairline);border-top:1px solid var(--rule-hairline);' +
       'transform:translateX(-50%) rotate(45deg);}' +
       '.ah-emailpop-head{display:flex;align-items:center;justify-content:space-between;' +
       'margin:0 0 8px;}' +
-      '.ah-emailpop-title{font-size:.6875rem;font-weight:700;letter-spacing:.08em;' +
-      'text-transform:uppercase;color:#5c5f5c;}' +
+      '.ah-emailpop-title{font-size:var(--text-2xs);font-weight:700;letter-spacing:var(--tracking-caps);' +
+      'text-transform:uppercase;color:var(--color-muted-gray);}' +
       '.ah-emailpop-close{display:inline-flex;align-items:center;justify-content:center;' +
       'width:26px;height:26px;margin:-4px -4px -4px 0;border:0;background:transparent;' +
-      'color:#5c5f5c;border-radius:7px;cursor:pointer;transition:color .2s ease,background .2s ease;}' +
-      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:#252525;background:rgba(37,37,37,.06);}' +
-      '.ah-emailpop-close:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
+      'color:var(--color-muted-gray);border-radius:7px;cursor:pointer;transition:color var(--motion-state) var(--ease), background var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:var(--color-charcoal);background:var(--wash-on-light-hover);}' +
+      '.ah-emailpop-close:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
       '.ah-emailpop-row{display:flex;align-items:stretch;gap:8px;}' +
-      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:.875rem;' +
-      'color:#252525;padding:8px 10px;border:1px solid rgba(37,37,37,.16);border-radius:8px;' +
-      'background:#fafafa;transition:border-color .2s ease,box-shadow .2s ease;}' +
-      '.ah-emailpop-input:focus{outline:none;border-color:#657D60;box-shadow:0 0 0 3px rgba(109,135,104,.18);}' +
-      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:.75rem;font-weight:600;' +
-      'color:#fff;background:#657D60;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
-      'transition:background .2s ease,transform .1s ease;}' +
-      '.ah-emailpop-copy:hover{background:#5d7559;}' +
+      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:var(--text-sm);' +
+      'color:var(--color-charcoal);padding:8px 10px;border:1px solid var(--rule-strong);border-radius:8px;' +
+      'background:var(--color-white);transition:border-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-input:focus{outline:none;border-color:var(--color-accent-deep);box-shadow:0 0 0 3px var(--color-accent-ring);}' +
+      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:var(--text-xs);font-weight:600;' +
+      'color:var(--color-white);background:var(--color-accent-text);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
+      'transition:background var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);}' +
+      '.ah-emailpop-copy:hover{background:var(--color-accent-hover);}' +
       '.ah-emailpop-copy:active{transform:translateY(1px);}' +
-      '.ah-emailpop-copy:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
-      '.ah-emailpop-copy.is-copied{background:#252525;}' +
-      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity .12s linear,visibility .12s linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
+      '.ah-emailpop-copy:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
+      '.ah-emailpop-copy.is-copied{background:var(--color-charcoal);}' +
+      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity var(--motion-state) linear, visibility var(--motion-state) linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
     document.head.appendChild(style);
 
     var pop = document.createElement('div');
@@ -509,6 +386,7 @@
       setTimeout(function () { input.focus(); input.select(); }, 0);
       document.addEventListener('keydown', onKey);
       document.addEventListener('pointerdown', onOutside, true);
+      pop.addEventListener('focusout', onFocusOut);
       window.addEventListener('resize', position);
       window.addEventListener('scroll', position, true);
     }
@@ -520,6 +398,7 @@
       trigger.setAttribute('aria-expanded', 'false');
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onOutside, true);
+      pop.removeEventListener('focusout', onFocusOut);
       window.removeEventListener('resize', position);
       window.removeEventListener('scroll', position, true);
       if (returnFocus === true) trigger.focus();
@@ -528,6 +407,16 @@
     function onKey(e) { if (e.key === 'Escape') { e.preventDefault(); close(true); } }
     function onOutside(e) {
       if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
+    }
+    /* A pointer leaving the popover closes it; a Tab key leaving it did not,
+       so a keyboard user could walk past the Copy button and leave an open
+       dialog floating over content they could no longer reach by Tab. This is
+       the same rule as onOutside, asked of focus instead of the pointer.
+       relatedTarget is where focus is going, and it is null when focus leaves
+       the document entirely -- which is a close, not an exception. */
+    function onFocusOut(e) {
+      var to = e.relatedTarget;
+      if (!to || (!pop.contains(to) && !trigger.contains(to))) close(false);
     }
 
     trigger.setAttribute('aria-haspopup', 'dialog');
@@ -561,6 +450,6 @@
   })();
   </script>
   <script src="case-motion.js" defer></script>
-  <script src="../cursor.js?v=20260831a" defer></script>
+  <script src="../cursor.js?v=20260831c" defer></script>
 </body>
 </html>

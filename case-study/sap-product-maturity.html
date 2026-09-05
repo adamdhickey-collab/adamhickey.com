@@ -13,6 +13,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Making 40+ enterprise apps feel like one product | Adam Hickey</title>
   <meta name="description" content="Lead UX for a global corporation: 40+ SAP Fiori apps made to feel like one product, under a governed design system and an accessibility standard." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/sap-product-maturity.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/sap-product-maturity.html" />
+  <meta property="og:title" content="Making 40+ enterprise apps feel like one product | Adam Hickey" />
+  <meta property="og:description" content="Lead UX for a global corporation: 40+ SAP Fiori apps made to feel like one product, under a governed design system and an accessibility standard." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/sap-product-maturity.html#article",
+          "headline": "Making 40+ enterprise apps feel like one product",
+          "description": "Lead UX for a global corporation: 40+ SAP Fiori apps made to feel like one product, under a governed design system and an accessibility standard.",
+          "url": "https://adamhickey.com/case-study/sap-product-maturity.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/sap-product-maturity.html",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/sap-product-maturity.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Making 40+ enterprise apps feel like one product",
+              "item": "https://adamhickey.com/case-study/sap-product-maturity.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
   <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
   <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
@@ -22,228 +88,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
 
-  <link rel="stylesheet" href="case-tailwind.css?v=1" />
+  <link rel="stylesheet" href="case-tailwind.css?v=2" />
 
-  <style id="case-study-base">
-    /* Cross-document view transitions: this page's hero pairs with the
-       clicked case card's thumbnail on the home page (and with other
-       case pages' heroes via the next-case links). Reduced motion and
-       unsupported browsers navigate normally. */
-    @view-transition { navigation: auto; }
-    @media (prefers-reduced-motion: reduce) {
-      @view-transition { navigation: none; }
-    }
-    @media (max-width: 767.98px) {
-      @view-transition { navigation: none; }
-    }
-    .vt-case-hero { view-transition-name: case-hero; }
-    ::view-transition-group(case-hero) {
-      animation-duration: 0.45s;
-      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    html {
-      font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 140px;
-      --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
-    }
-    body { font-family: var(--font-sans); color: #252525; background: #fff; }
-
-    /* Higher specificity beats Tailwind preflight. */
-    body h1, body h2, body h3 {
-      font-family: var(--font-serif);
-      font-weight: 400; line-height: 1.1; color: #252525;
-    }
-    body h1 { font-size: 5rem; letter-spacing: -0.02em; }
-    body h2 { font-size: 3rem; letter-spacing: -0.015em; }
-    body h3 { font-size: 2.125rem; letter-spacing: -0.01em; }
-    body h4 { font-size: 1.5rem;   font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body h5 { font-size: 1.25rem;  font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body h6 { font-size: 1.125rem; font-weight: 600; line-height: 1.1; color: #252525; font-family: var(--font-sans); }
-    body p { color: #252525; line-height: 1.6; }
-
-    /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
-    .min-h-screen [style*="opacity: 0"],
-    .min-h-screen [style*="opacity:0"] {
-      transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
-    }
-    .min-h-screen .revealed { opacity: 1 !important; transform: none !important; }
-    @media (prefers-reduced-motion: reduce) {
-      .min-h-screen [style*="opacity: 0"],
-      .min-h-screen [style*="opacity:0"] {
-        opacity: 1 !important; transform: none !important; transition: none !important;
-      }
-      html { scroll-behavior: auto; }
-    }
-
-    .skip-link { position: absolute; left: -9999px; top: 0; background: #252525; color: #f5f5f0; padding: .5rem 1rem; z-index: 1000; }
-    .skip-link:focus { left: 0; }
-
-    .border-border-light { border-color: #E5E5E0 !important; }
-
-    /* ---------- Scroll progress bar ---------- */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0;
-      height: 2px; width: 0%;
-      background: #657D60;
-      z-index: 100;
-      transition: width 80ms linear;
-      pointer-events: none;
-    }
-
-    /* ---------- Read-time line in the hero ---------- */
-    .case-readtime {
-      display: block;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      color: #5c5f5c;
-      letter-spacing: 0.02em;
-    }
-
-    /* ---------- Sticky in-page section nav ---------- */
-    /* The captured markup wraps the whole page in `overflow-x-hidden`, and
-       `overflow-x: hidden` turns that wrapper into a scroll container — which
-       silently broke `position: sticky` on .case-toc below, so the section
-       nav scrolled away instead of pinning under the header. `clip` clips the
-       same overflow without creating a scrollport, so sticky resolves against
-       the viewport again. */
-    .min-h-screen.overflow-x-hidden { overflow-x: clip; }
-
-    .case-toc {
-      position: sticky;
-      top: 80px;
-      z-index: 30;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: saturate(180%) blur(10px);
-      -webkit-backdrop-filter: saturate(180%) blur(10px);
-      border-bottom: 1px solid #E5E5E0;
-    }
-    .case-toc-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      /* Horizontal padding tracks site-nav.css's .nav-inner (1.5rem / 2rem)
-         so the section links line up under the logo at every width. */
-      padding: 0.875rem 1.5rem;
-      display: flex; gap: 1.75rem;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .case-toc-inner::-webkit-scrollbar { display: none; }
-    @media (min-width: 768px) { .case-toc-inner { padding-inline: 2rem; } }
-    .case-toc-inner a {
-      color: #5c5f5c;
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-      /* Vertical padding bumped from 0.25rem to 0.75rem so the link
-         hits the 44px touch target minimum without resizing text. */
-      padding: 0.75rem 0;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s ease, border-color 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-    }
-    .case-toc-inner a:hover { color: #252525; }
-    /* Active state: charcoal text (was sage #657D60 which failed 4.5:1
-       at this size). The sage underline still signals which section
-       the user is in. */
-    .case-toc-inner a.is-active { color: #252525; border-bottom-color: #657D60; }
-    @media (max-width: 640px) {
-      .case-toc-inner { padding: 0.75rem 1.5rem; gap: 1.25rem; }
-      .case-toc-inner a { font-size: 0.875rem; }
-    }
-
-    /* ---------- Closing block at end of page ---------- */
-    .case-closing {
-      background: #f5f5f0;
-      border-top: 1px solid #E5E5E0;
-      padding: 4rem 0;
-    }
-    @media (min-width: 768px) { .case-closing { padding: 5rem 0; } }
-    .case-closing-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-    @media (min-width: 768px) {
-      .case-closing-inner { padding: 0 2rem; }
-    }
-    .case-closing-next {
-      display: block;
-      padding: 1.5rem 0;
-      border-top: 1px solid #657D60;
-    }
-    @media (min-width: 768px) {
-      .case-closing-next { padding: 2rem 0; }
-    }
-    .case-closing-next-eyebrow {
-      display: block;
-      /* Charcoal at this 13px size (was sage #657D60 which failed 4.5:1).
-         The sage accent is preserved in the 1px top border of the parent
-         .case-closing-next link. */
-      color: #252525;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
-    }
-    .case-closing-next-title {
-      display: block;
-      color: #252525;
-      font-family: var(--font-serif);
-      font-size: 1.75rem;
-      font-weight: 400;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      transition: color 0.2s ease;
-    }
-    @media (min-width: 768px) {
-      .case-closing-next-title { font-size: 2.125rem; }
-    }
-    .case-closing-next:hover .case-closing-next-title { color: #657D60; }
-
-    /* ---------- Breathing room between hero image and the first section ----------
-       The captured markup wraps the hero image in a `mt-14 md:mt-20` div and
-       then begins the next section with very tight pt-2 / md:pt-3. That makes
-       the Overview heading feel pinned to the image. Add explicit bottom
-       margin to the image's wrapper so the page has room to breathe. */
-    .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 2.5rem; }
-    @media (min-width: 768px) {
-      .min-h-screen .mt-14.md\:mt-20 { margin-bottom: 4.5rem; }
-    }
-
-    /* ---------- Body paragraph readability ----------
-       The captured markup lets prose paragraphs span the full content
-       container (~1200px), which is far wider than comfortable reading
-       length. Cap to ~70 characters by giving the common prose class
-       combinations a max-width. Card content + centered diagram captions
-       use different class signatures and stay untouched. */
-    .min-h-screen p.text-dark.leading-relaxed,
-    .min-h-screen p.mb-10.text-dark,
-    .min-h-screen p.mb-2.pb-\[30px\].text-dark,
-    .min-h-screen p[class="mb-4"] {
-      max-width: 42rem;
-    }
-
-/* ---------- "Who I worked with": role inventory as icon tiles.
-       Mirrors the "What I worked on" card exactly so the two read as a
-       matched pair: a white inner panel holding six icon + label tiles in
-       the same 3-column grid. */
-
-  </style>
-  <link rel="stylesheet" href="../site-nav.css?v=20260826a" />
-  <!-- The header logo plays a one-shot reveal clip on load and holds its last
-       frame. The class is set here, before first paint, so the static mark
-       never flashes ahead of the animation; anything that stops the clip from
-       running puts the static mark straight back. The 1.2s deadline is the
-       slow-fetch case: rather than leave the header empty while the clip
-       arrives, or pop it in half a second late, this load simply keeps the
-       static mark and skips the animation. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="case-study-base.css?v=3" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
   <script>
     (function () {
       var el = document.documentElement;
@@ -256,26 +115,57 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        /* Hand the header back to the static mark. The clip's settled frame
-           registers with the SVG to the pixel, so this swap is invisible,
-           and it is what keeps the logo on screen: a backgrounded page can
-           have its paused video's decoded frame dropped, and the element
-           would come back empty with the mark behind it still hidden. */
-        var settle = function () {
-          el.classList.remove('logo-reveal');
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
           try { v.pause(); } catch (e) {}
         };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
         var armed = true;
-        var giveUp = function () { if (armed) { armed = false; settle(); } };
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the start deadline stops applying. */
-        v.addEventListener('playing', function () { armed = false; });
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
         v.addEventListener('error', giveUp);
         v.addEventListener('ended', settle);
-        /* Backgrounded mid-clip the animation is already missed, so settle
+        /* Backgrounded mid-clip the animation is already missed, so finish
            rather than leave a half-played video holding the header. */
         document.addEventListener('visibilitychange', function () {
-          if (document.hidden) settle();
+          if (document.hidden) finish();
         });
         var p = v.play();
         if (p && p.catch) p.catch(giveUp);
@@ -283,11 +173,11 @@
         /* Backstop for a clip that starts and then stalls without ever
            firing ended: the clip runs two seconds, so by three it is over
            one way or another. */
-        setTimeout(settle, 3000);
+        setTimeout(finish, 3000);
       });
     })();
   </script>
-  <link rel="stylesheet" href="case-motion.css" />
+  <link rel="stylesheet" href="case-motion.css?v=4" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -319,20 +209,21 @@
   <div class="case-toc-inner">
     <a href="#overview">Overview</a><a href="#my-approach">My approach</a><a href="#the-impact">The impact</a>
   </div>
-</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-20 px-4 md:px-8 pb-2 md:pb-0 pt-24 md:pt-32"><span class="case-readtime">4 min read</span><h1 class="text-[48px] md:text-[3.5rem] lg:text-[68px] leading-[1.1] max-w-4xl text-dark">Making 40+ enterprise apps feel like one product</h1><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"><div class="md:border-l border-border-light md:pl-4"><div class="text-[#252525] font-semibold text-sm tracking-wide mb-1">Client</div><div class="text-dark">Global corporation (SAP product team)</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-[#252525] font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-dark">Lead UX design consultant</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-[#252525] font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-dark">2 fiscal years</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-[#556B51] font-semibold text-sm tracking-wide mb-1">What changed</div><div class="text-dark">One design system and accessibility standard across all 40+ apps</div></div></div></div><div class="mt-14 md:mt-20"><img src="../img/site/sap-hero-02.png" alt="SAP Enterprise Platform" class="vt-case-hero w-full h-auto rounded-[20px]"></div></div><div class="px-4 md:px-8 bg-white pt-2 md:pt-3 pb-8"><div class="mt-0"><div class="w-16 h-1 bg-[#657D60] mt-10 mb-3"></div><h2 id="overview" class="mb-6 text-dark">Overview</h2><div class="flex flex-col gap-8 mb-10"><div><h3 class="text-[#252525] font-bold text-lg mb-3 font-sans">The problem</h3><p class="text-dark leading-relaxed">The company ran more than 40 SAP apps, and each one had been built by a different team at a different time. Someone in the field might open four of them before lunch and have to relearn the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all. And no one could say whether any of it was working, because no one was measuring it.</p></div><div><h3 class="text-[#252525] font-bold text-lg mb-3 font-sans">The solution</h3><p class="text-dark leading-relaxed">I built one design system and one accessibility standard for all 40+ apps, then made them easy to use with a shared component library and design checkpoints written into the release process. The apps started to look and work alike. People stopped relearning the same screens. And design quality finally had numbers behind it, so the business could see what it was getting.</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-warm p-6 md:p-10 rounded-[20px] h-full flex flex-col"><h3 class="mb-2 text-dark font-semibold text-xl flex-shrink-0 font-sans">Who I worked with</h3>
-  <p class="text-sm font-semibold mb-6 text-[#252525]">Partners from strategy through delivery</p>
+</nav><div class="bg-white enterprise-modal min-h-screen"><div class="max-w-7xl mx-auto"><div class="relative w-full py-12 md:py-section px-gutter pb-0 md:pb-0 pt-section md:pt-section-lg"><span class="case-readtime">4 min read</span><h1 class="max-w-4xl text-charcoal">Making 40+ enterprise apps feel like one product</h1><div class="mt-8 md:mt-12 max-w-4xl mb-0"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"><div class="md:border-l border-border-light md:pl-4"><div class="text-charcoal font-semibold text-sm tracking-wide mb-1">Client</div><div class="text-charcoal">Global corporation (SAP product team)</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-charcoal font-semibold text-sm tracking-wide mb-1">My role</div><div class="text-charcoal">Lead UX design consultant</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-charcoal font-semibold text-sm tracking-wide mb-1">Timeline</div><div class="text-charcoal">2 fiscal years</div></div><div class="md:border-l border-border-light md:pl-4"><div class="text-accent-text font-semibold text-sm tracking-wide mb-1">What changed</div><div class="text-charcoal">One design system and accessibility standard across all 40+ apps</div></div></div></div><div class="mt-block md:mt-section"><img src="../img/site/sap-hero-02.webp" alt="SAP Enterprise Platform" class="vt-case-hero w-full h-auto rounded-[20px]" width="1672" height="941" fetchpriority="high"></div></div><div class="px-gutter bg-white pt-10 pb-8"><div class="mt-0"><div class="w-16 h-1 bg-accent mb-3"></div><h2 id="overview" class="mb-6 text-charcoal">Overview</h2><div class="flex flex-col gap-8 mb-10"><div><h3 class="text-charcoal font-bold text-lg mb-3 font-sans">The problem</h3><p class="text-charcoal leading-relaxed">The company ran more than 40 SAP apps, and each one had been built by a different team at a different time. Someone in the field might open four of them before lunch and have to relearn the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all. And no one could say whether any of it was working, because no one was measuring it.</p></div><div><h3 class="text-charcoal font-bold text-lg mb-3 font-sans">The solution</h3><p class="text-charcoal leading-relaxed">I built one design system and one accessibility standard for all 40+ apps, then made them easy to use with a shared component library and design checkpoints written into the release process. The apps started to look and work alike. People stopped relearning the same screens. And design quality finally had numbers behind it, so the business could see what it was getting.</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-warm p-6 md:p-10 rounded-[20px] h-full flex flex-col"><h3 class="mb-2 text-charcoal font-semibold text-xl flex-shrink-0 font-sans">Who I worked with</h3>
+  <p class="text-sm font-semibold mb-6 text-charcoal">Partners from strategy through delivery</p>
   <div class="bg-white p-8 shadow-sm flex-1 flex flex-col justify-center"><div class="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-y-12">
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-8 h-8 text-[#556B51] stroke-1"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg><div class="text-sm font-semibold text-dark leading-tight">SAP application manager</div></div>
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase w-8 h-8 text-[#556B51] stroke-1"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg><div class="text-sm font-semibold text-dark leading-tight">SAP general manager</div></div>
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-8 h-8 text-[#556B51] stroke-1"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Product owners</div></div>
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart w-8 h-8 text-[#556B51] stroke-1"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="m19 9-5 5-4-4-3 3"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Business analysts</div></div>
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code w-8 h-8 text-[#556B51] stroke-1"><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Developers</div></div>
-    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list w-8 h-8 text-[#556B51] stroke-1"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Project managers</div></div>
-  </div></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px] flex flex-col h-full"><h3 class="mb-2 text-dark font-semibold text-xl font-sans">What I worked on</h3><p class="text-sm font-semibold mb-6 text-[#252525]">A portfolio of 40+ SAP Fiori business apps</p><div class="bg-white p-8 shadow-sm flex-1 flex flex-col justify-center"><div class="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-y-12"><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ship w-8 h-8 text-[#556B51] stroke-1"><path d="M12 10.189V14"></path><path d="M12 2v3"></path><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"></path><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"></path><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Logistics &amp; dispatch</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity w-8 h-8 text-[#556B51] stroke-1"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Asset health &amp; maintenance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-hat w-8 h-8 text-[#556B51] stroke-1"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"></path><path d="M14 6a6 6 0 0 1 6 6v3"></path><path d="M4 15v-3a6 6 0 0 1 6-6"></path><rect x="2" y="15" width="20" height="4" rx="1"></rect></svg><div class="text-sm font-semibold text-dark leading-tight">Safety &amp; compliance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-8 h-8 text-[#556B51] stroke-1"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Workforce &amp; HR management</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge w-8 h-8 text-[#556B51] stroke-1"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg><div class="text-sm font-semibold text-dark leading-tight">Analytics &amp; performance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route w-8 h-8 text-[#556B51] stroke-1"><circle cx="6" cy="19" r="3"></circle><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path><circle cx="18" cy="5" r="3"></circle></svg><div class="text-sm font-semibold text-dark leading-tight">Workflow &amp; process</div></div></div></div></div></div></div></div><div class="px-4 md:px-8 bg-white pb-20"><div class="mb-20 mt-8"><div class="w-16 h-1 bg-[#657D60] mb-3"></div><h2 id="my-approach" class="mb-8 text-dark">My approach</h2><div class="pt-10 px-4 pb-10 md:px-[80px] md:py-[70px] mb-20 rounded-[20px] bg-warm"><h3 class="text-center mb-2 text-2xl md:text-3xl text-dark">Building an enterprise UX practice that scales</h3><p class="text-center text-dark mb-6 md:mb-10 max-w-none">Four moves that turned scattered, one-off design work into a system, and made 40+ apps feel like one product.</p><div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 relative"><div class="hidden md:block absolute top-[64px] left-[10%] right-[10%] h-[1px] bg-[#D0D0C8] z-0"></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/1-establish-the-foundation.png" alt="Establish the foundation" class="w-full h-full object-cover"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-dark font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Establish the foundation</h3><div class="w-full"><p class="text-dark text-sm leading-snug">Build one design system that all 40+ apps share.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/2-create-feedback-loops.png" alt="Create feedback loops" class="w-full h-full object-cover"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-dark font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Create feedback loops</h3><div class="w-full"><p class="text-dark text-sm leading-snug">Trade guesswork for feedback from the people using the apps.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/3-embed-ux-in-governance.png" alt="Make quality routine" class="w-full h-full object-cover"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-dark font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Make quality routine</h3><div class="w-full"><p class="text-dark text-sm leading-snug">Check design and accessibility at every step, not just at the end.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/4-drive-cultural-adoption.png" alt="Get teams to own it" class="w-full h-full object-cover"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-dark font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Get teams to own it</h3><div class="w-full"><p class="text-dark text-sm leading-snug">Train teams, show what’s working, make UX everyone’s job.</p></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#657D60] rounded-full flex items-center justify-center text-white font-medium text-xl">1</div><h3 class="text-dark text-[34px] md:text-[34px] font-normal font-serif">Establish the foundation</h3></div><p class="mb-10 text-dark">Before any of the bigger work, the apps needed to look and behave like they came from the same company. We reviewed all of them, then built a Fiori style guide with a reusable component library and accessibility rules everyone worked from. Once a button looked like a button everywhere, people could stop thinking about the interface and get on with the job. Designers and developers stopped guessing, too.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:h-full"><h4 class="mb-5 text-dark font-semibold text-lg">User experience audits</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4 mb-4"><img src="../img/site/user-experience-audits.png" alt="User experience audits" class="w-full h-full object-contain shadow-sm p-0"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Focus areas</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Visual hierarchy</li><li>Form clarity</li><li>Feedback &amp; alerts</li><li>Accessibility &amp; contrast</li><li>Error recovery</li><li>Readability</li><li>Button alignment</li></ul></div></div></div><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">Fiori style guide</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/fiori-style-guide.png" alt="Fiori style guide" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Unified standards</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Colors &amp; typography</li><li>Core UI elements</li><li>Accessibility rules</li></ul></div></div></div><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">Fiori pattern library</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/fiori-pattern-library.png" alt="Fiori pattern library" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Reusable components</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Progress stepper</li><li>Filter bar</li><li>Dialog / Message box</li></ul></div></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#657D60] rounded-full flex items-center justify-center text-white font-medium text-xl">2</div><h3 class="text-dark text-[34px] md:text-[34px] font-normal font-serif">Create feedback loops</h3></div><p class="mb-10 text-dark">Most enterprise teams design without ever hearing from the people on the other end of the screen. We added feedback right inside the apps, sat with people during their workday, and tracked where they got stuck, so the teams building the apps could feel what their users were feeling. Assumptions gave way to evidence, and the conversation shifted from “what should we ship next” to “what’s actually getting in people’s way.”</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">In-app user feedback</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/in-app-user-feedback.png" alt="In-app user feedback" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Highlights</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Capture feedback at the moment of use</li><li>Turn what people tell us into quick fixes</li></ul></div></div></div><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">Closing the loop</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/closing-the-loop.png" alt="Closing the loop" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Highlights</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Keep product teams and users talking</li><li>Track feedback over time</li></ul></div></div></div></div><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:h-full"><h4 class="mb-5 text-dark font-semibold text-lg">“Day in the life” interviews</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4 mb-4"><img src="../img/site/day-in-the-life-interviews.png" alt="“Day in the life” interviews" class="w-full h-full object-contain shadow-sm p-0"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Focus Areas</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Workflow optimization</li><li>Pain points</li><li>Workarounds</li><li>What slows people down</li><li>How information moves</li><li>Collaboration gaps</li><li>User expectations</li></ul></div></div></div></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#657D60] rounded-full flex items-center justify-center text-white font-medium text-xl">3</div><h3 class="text-dark text-[34px] md:text-[34px] font-normal font-serif">Make quality routine</h3></div><p class="mb-10 text-dark">Design quality is decided between the moment a request comes in and the day the app ships. We added UX and accessibility checks at every step in between, so quality wasn’t something bolted on at the end. The standards stopped being a document and started showing up in every release.</p><div class="bg-warm p-4 md:p-[40px] rounded-[20px]"><h4 class="mb-5 text-dark font-semibold text-lg">Cross-functional workflow for app feedback</h4><img src="../img/site/cross-functional-workflow.png?updatedAt=1768931705790" alt="Cross-functional workflow for app feedback" class="w-full h-auto object-contain shadow-sm"></div></div><div class="mb-16"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-[#657D60] rounded-full flex items-center justify-center text-white font-medium text-xl">4</div><h3 class="text-dark text-[34px] md:text-[34px] font-normal font-serif">Get teams to own it</h3></div><p class="mb-10 text-dark">Tools and standards don’t change a culture on their own. We ran training, told the stories of what was working, and made it normal to talk about user experience the same way teams already talked about uptime or revenue. UX went from “someone else’s job” to a shared craft.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:h-full"><h4 class="mb-5 text-dark font-semibold text-lg">Design thinking workshops</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/design-thinking-workshops.png?updatedAt=1768931705766" alt="Design thinking workshops" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Focus areas</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Usability</li><li>Accessibility</li><li>Visual design</li><li>Information architecture</li><li>Performance</li><li>Adoption</li><li>Business alignment</li></ul></div></div></div><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">Success stories</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/success-stories.png?updatedAt=1768931705792" alt="Success stories" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Benefits</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Build awareness</li><li>Inspire teams</li><li>Strengthen credibility</li></ul></div></div></div><div class="bg-warm p-4 md:p-[40px] rounded-[20px] md:flex-1"><h4 class="mb-5 text-dark font-semibold text-lg">Product health scorecard</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/ux-design-scorecard.png?updatedAt=1768931705798" alt="Product health scorecard" class="w-full object-contain shadow-sm block"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-base font-semibold text-[#252525] mb-2">Benefits</div><ul class="space-y-1 text-dark text-base list-disc pl-5"><li>Let teams run their own UX checks</li><li>Identify areas to improve</li></ul></div></div></div></div></div></div></div><div class="mb-20"><div class="w-16 h-1 bg-[#657D60] mb-3"></div><h2 id="the-impact" class="mb-6 text-dark">The impact</h2><div class="bg-warm p-4 md:p-[40px] rounded-[20px] mb-6 font-sans"><div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] border-b border-border-light pb-2 items-center"><div class="text-dark font-semibold text-base">Dimension</div><div class="text-dark font-semibold text-base">The outcome</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-border-light items-center"><div class="text-dark font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-[#657D60] rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize w-4 h-4"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></div><span>Scalability</span></div><div class="text-dark text-base">Brought 40+ applications under one design system, replacing hundreds of one-off UI components with a small, reusable library.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-border-light items-center"><div class="text-dark font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-[#657D60] rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap w-4 h-4"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg></div><span>Velocity</span></div><div class="text-dark text-base">The shared library cut the average time from design to development by about a third. Designers stopped rebuilding the same things and spent their time on the work only they could do.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-border-light items-center"><div class="text-dark font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-[#657D60] rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check w-4 h-4"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></div><span>Quality</span></div><div class="text-dark text-base">Standards and accessibility checks built into the process cut UI defects in production by more than half, quarter over quarter.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-border-light items-center"><div class="text-dark font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-[#657D60] rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div><span>ROI</span></div><div class="text-dark text-base">Clearer flows cut new-user training time in half, with real annual savings in support and onboarding.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-[60px] py-5 border-b border-border-light items-center"><div class="text-dark font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-[#657D60] rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-4 h-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><span>Adoption</span></div><div class="text-dark text-base">Changes we made from user data lifted NPS by roughly 20 points across several release cycles. People who used to work around the apps started recommending them.</div></div></div><div class="bg-[#657D60] text-white p-6 pb-6 mt-6 rounded-[20px]"><p class="mb-0 text-white">True design isn't just about pixels. It's about the system that produces them. And it kept working after I left.</p></div></div></div></div></div></div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-8 h-8 text-accent-text stroke-1"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg><div class="text-sm font-semibold text-charcoal leading-tight">SAP application manager</div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase w-8 h-8 text-accent-text stroke-1"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg><div class="text-sm font-semibold text-charcoal leading-tight">SAP general manager</div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-8 h-8 text-accent-text stroke-1"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Product owners</div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart w-8 h-8 text-accent-text stroke-1"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="m19 9-5 5-4-4-3 3"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Business analysts</div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code w-8 h-8 text-accent-text stroke-1"><path d="m16 18 6-6-6-6"></path><path d="m8 6-6 6 6 6"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Developers</div></div>
+    <div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list w-8 h-8 text-accent-text stroke-1"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Project managers</div></div>
+  </div></div></div><div class="bg-warm p-6 md:p-10 rounded-[20px] flex flex-col h-full"><h3 class="mb-2 text-charcoal font-semibold text-xl font-sans">What I worked on</h3><p class="text-sm font-semibold mb-6 text-charcoal">A portfolio of 40+ SAP Fiori business apps</p><div class="bg-white p-8 shadow-sm flex-1 flex flex-col justify-center"><div class="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-y-12"><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ship w-8 h-8 text-accent-text stroke-1"><path d="M12 10.189V14"></path><path d="M12 2v3"></path><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"></path><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"></path><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Logistics &amp; dispatch</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity w-8 h-8 text-accent-text stroke-1"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Asset health &amp; maintenance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-hat w-8 h-8 text-accent-text stroke-1"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"></path><path d="M14 6a6 6 0 0 1 6 6v3"></path><path d="M4 15v-3a6 6 0 0 1 6-6"></path><rect x="2" y="15" width="20" height="4" rx="1"></rect></svg><div class="text-sm font-semibold text-charcoal leading-tight">Safety &amp; compliance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-8 h-8 text-accent-text stroke-1"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Workforce &amp; HR management</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge w-8 h-8 text-accent-text stroke-1"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg><div class="text-sm font-semibold text-charcoal leading-tight">Analytics &amp; performance</div></div><div class="flex flex-col gap-3 items-center text-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route w-8 h-8 text-accent-text stroke-1"><circle cx="6" cy="19" r="3"></circle><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path><circle cx="18" cy="5" r="3"></circle></svg><div class="text-sm font-semibold text-charcoal leading-tight">Workflow &amp; process</div></div></div></div></div></div></div></div><div class="px-gutter bg-white pb-section"><div class="mb-section mt-8"><div class="w-16 h-1 bg-accent mb-3"></div><h2 id="my-approach" class="mb-8 text-charcoal">My approach</h2><div class="pt-10 px-4 pb-10 md:px-block md:py-block mb-section rounded-[20px] bg-warm"><h3 class="text-center mb-2 text-2xl md:text-3xl text-charcoal">Building an enterprise UX practice that scales</h3><p class="text-center text-charcoal mb-6 md:mb-10 max-w-none">Four moves that turned scattered, one-off design work into a system, and made 40+ apps feel like one product.</p><div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 relative"><div class="hidden md:block absolute top-[64px] left-[10%] right-[10%] h-[1px] bg-rule z-0"></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/1-establish-the-foundation.webp" alt="Establish the foundation" class="w-full h-full object-cover" width="250" height="250" loading="lazy" decoding="async"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-charcoal font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Establish the foundation</h3><div class="w-full"><p class="text-charcoal text-sm leading-snug">Build one design system that all 40+ apps share.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/2-create-feedback-loops.png" alt="Create feedback loops" class="w-full h-full object-cover" width="250" height="250" loading="lazy" decoding="async"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-charcoal font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Create feedback loops</h3><div class="w-full"><p class="text-charcoal text-sm leading-snug">Trade guesswork for feedback from the people using the apps.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/3-embed-ux-in-governance.png" alt="Make quality routine" class="w-full h-full object-cover" width="250" height="250" loading="lazy" decoding="async"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-charcoal font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Make quality routine</h3><div class="w-full"><p class="text-charcoal text-sm leading-snug">Check design and accessibility at every step, not just at the end.</p></div></div></div><div class="flex flex-col items-center w-full mx-auto relative z-10" style="opacity: 0; "><div class="relative mb-3 md:mb-4 flex-shrink-0"><div class="w-20 h-20 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden"><img src="../img/site/4-drive-cultural-adoption.png" alt="Get teams to own it" class="w-full h-full object-cover" width="250" height="250" loading="lazy" decoding="async"></div></div><div class="flex flex-col items-center text-center w-full"><h3 class="mb-1 md:mb-2 text-charcoal font-normal text-xl md:text-2xl font-serif max-w-[120px] md:max-w-[160px] leading-[1.2] md:leading-[1.2] min-h-[3rem] md:min-h-0">Get teams to own it</h3><div class="w-full"><p class="text-charcoal text-sm leading-snug">Train teams, show what’s working, make UX everyone’s job.</p></div></div></div></div></div><div class="mb-block"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-medium text-xl">1</div><h3 class="text-charcoal font-normal font-serif">Establish the foundation</h3></div><p class="mb-10 text-charcoal">Before any of the bigger work, the apps needed to look and behave like they came from the same company. We reviewed all of them, then built a Fiori style guide with a reusable component library and accessibility rules everyone worked from. Once a button looked like a button everywhere, people could stop thinking about the interface and get on with the job. Designers and developers stopped guessing, too.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-warm p-4 md:p-10 rounded-[20px] md:h-full"><h4 class="mb-5 text-charcoal font-semibold text-lg">User experience audits</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4 mb-4"><img src="../img/site/user-experience-audits.webp" alt="User experience audits" class="w-full h-full object-contain shadow-sm p-0" width="328" height="774" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Focus areas</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Visual hierarchy</li><li>Form clarity</li><li>Feedback &amp; alerts</li><li>Accessibility &amp; contrast</li><li>Error recovery</li><li>Readability</li><li>Button alignment</li></ul></div></div></div><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">Fiori style guide</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/fiori-style-guide.webp" alt="Fiori style guide" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Unified standards</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Colors &amp; typography</li><li>Core UI elements</li><li>Accessibility rules</li></ul></div></div></div><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">Fiori pattern library</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/fiori-pattern-library.webp" alt="Fiori pattern library" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Reusable components</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Progress stepper</li><li>Filter bar</li><li>Dialog / Message box</li></ul></div></div></div></div></div></div><div class="mb-block"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-medium text-xl">2</div><h3 class="text-charcoal font-normal font-serif">Create feedback loops</h3></div><p class="mb-10 text-charcoal">Most enterprise teams design without ever hearing from the people on the other end of the screen. We added feedback right inside the apps, sat with people during their workday, and tracked where they got stuck, so the teams building the apps could feel what their users were feeling. Assumptions gave way to evidence, and the conversation shifted from “what should we ship next” to “what’s actually getting in people’s way.”</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">In-app user feedback</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/in-app-user-feedback.webp" alt="In-app user feedback" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Highlights</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Capture feedback at the moment of use</li><li>Turn what people tell us into quick fixes</li></ul></div></div></div><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">Closing the loop</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/closing-the-loop.webp" alt="Closing the loop" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Highlights</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Keep product teams and users talking</li><li>Track feedback over time</li></ul></div></div></div></div><div class="bg-warm p-4 md:p-10 rounded-[20px] md:h-full"><h4 class="mb-5 text-charcoal font-semibold text-lg">“Day in the life” interviews</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4 mb-4"><img src="../img/site/day-in-the-life-interviews.webp" alt="“Day in the life” interviews" class="w-full h-full object-contain shadow-sm p-0" width="328" height="770" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Focus Areas</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Workflow optimization</li><li>Pain points</li><li>Workarounds</li><li>What slows people down</li><li>How information moves</li><li>Collaboration gaps</li><li>User expectations</li></ul></div></div></div></div></div><div class="mb-block"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-medium text-xl">3</div><h3 class="text-charcoal font-normal font-serif">Make quality routine</h3></div><p class="mb-10 text-charcoal">Design quality is decided between the moment a request comes in and the day the app ships. We added UX and accessibility checks at every step in between, so quality wasn’t something bolted on at the end. The standards stopped being a document and started showing up in every release.</p><div class="bg-warm p-4 md:p-10 rounded-[20px]"><h4 class="mb-5 text-charcoal font-semibold text-lg">Cross-functional workflow for app feedback</h4><img src="../img/site/cross-functional-workflow.webp?updatedAt=1768931705790" alt="Cross-functional workflow for app feedback" class="w-full h-auto object-contain shadow-sm" width="1782" height="854" loading="lazy" decoding="async"></div></div><div class="mb-block"><div class="flex items-center gap-3 mb-4"><div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-medium text-xl">4</div><h3 class="text-charcoal font-normal font-serif">Get teams to own it</h3></div><p class="mb-10 text-charcoal">Tools and standards don’t change a culture on their own. We ran training, told the stories of what was working, and made it normal to talk about user experience the same way teams already talked about uptime or revenue. UX went from “someone else’s job” to a shared craft.</p><div class="grid md:grid-cols-2 gap-6 md:items-stretch"><div class="bg-warm p-4 md:p-10 rounded-[20px] md:h-full"><h4 class="mb-5 text-charcoal font-semibold text-lg">Design thinking workshops</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/design-thinking-workshops.webp?updatedAt=1768931705766" alt="Design thinking workshops" class="w-full object-contain shadow-sm block" width="328" height="774" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Focus areas</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Usability</li><li>Accessibility</li><li>Visual design</li><li>Information architecture</li><li>Performance</li><li>Adoption</li><li>Business alignment</li></ul></div></div></div><div class="flex flex-col gap-6 md:h-full"><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">Success stories</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/success-stories.webp?updatedAt=1768931705792" alt="Success stories" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Benefits</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Build awareness</li><li>Inspire teams</li><li>Strengthen credibility</li></ul></div></div></div><div class="bg-warm p-4 md:p-10 rounded-[20px] md:flex-1"><h4 class="mb-5 text-charcoal font-semibold text-lg">Product health scorecard</h4><div class="grid grid-cols-[45%_55%] gap-3 md:gap-4"><img src="../img/site/ux-design-scorecard.webp?updatedAt=1768931705798" alt="Product health scorecard" class="w-full object-contain shadow-sm block" width="384" height="260" loading="lazy" decoding="async"><div class="pl-0 md:pl-2 flex flex-col justify-center"><div class="text-sm lg:text-base font-semibold text-charcoal mb-2">Benefits</div><ul class="space-y-1 text-charcoal text-sm lg:text-base list-disc pl-5"><li>Let teams run their own UX checks</li><li>Identify areas to improve</li></ul></div></div></div></div></div></div></div><div class="mb-section"><div class="w-16 h-1 bg-accent mb-3"></div><h2 id="the-impact" class="mb-6 text-charcoal">The impact</h2><div class="bg-warm p-4 md:p-10 rounded-[20px] mb-6 font-sans"><div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 border-b border-border-light pb-2 items-center"><div class="text-charcoal font-semibold text-base">Dimension</div><div class="text-charcoal font-semibold text-base">The outcome</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 py-5 border-b border-border-light items-center"><div class="text-charcoal font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize w-4 h-4"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></div><span>Scalability</span></div><div class="text-charcoal text-base">Brought 40+ applications under one design system, replacing hundreds of one-off UI components with a small, reusable library.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 py-5 border-b border-border-light items-center"><div class="text-charcoal font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap w-4 h-4"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg></div><span>Velocity</span></div><div class="text-charcoal text-base">The shared library cut the average time from design to development by about a third. Designers stopped rebuilding the same things and spent their time on the work only they could do.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 py-5 border-b border-border-light items-center"><div class="text-charcoal font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check w-4 h-4"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></div><span>Quality</span></div><div class="text-charcoal text-base">Standards and accessibility checks built into the process cut UI defects in production by more than half, quarter over quarter.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 py-5 border-b border-border-light items-center"><div class="text-charcoal font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div><span>ROI</span></div><div class="text-charcoal text-base">Clearer flows cut new-user training time in half, with real annual savings in support and onboarding.</div></div><div class="grid grid-cols-[130px_1fr] md:grid-cols-[250px_1fr] gap-6 md:gap-12 py-5 border-b border-border-light items-center"><div class="text-charcoal font-semibold text-base flex items-center gap-3"><div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0 text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-4 h-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><span>Adoption</span></div><div class="text-charcoal text-base">Changes we made from user data lifted NPS by roughly 20 points across several release cycles. People who used to work around the apps started recommending them.</div></div></div><div class="bg-accent text-white p-6 pb-6 mt-6 rounded-[20px]"><p class="mb-0 text-white">True design isn't just about pixels. It's about the system that produces them. And it kept working after I left.</p></div></div></div></div></div></div></div>
   </main>
 
   <section class="case-closing" aria-label="Continue reading">
     <div class="case-closing-inner">
+      <p class="case-closing-service">One shared foundation and the operating rules that keep it: <a href="../engagement/design-system-foundation.html">Design System Foundation</a>, a two-to-three-month engagement.</p>
       <a href="usda-operational-overhead.html" class="case-closing-next"><span class="case-closing-next-eyebrow">Next case study</span><span class="case-closing-next-title">Turning disconnected grant tools into one trusted platform &rarr;</span></a>
     </div>
   </section>
@@ -425,37 +316,37 @@
     var style = document.createElement('style');
     style.textContent =
       '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
-      'background:#fff;border:1px solid rgba(37,37,37,.10);border-radius:12px;' +
-      'box-shadow:0 10px 30px rgba(37,37,37,.16);padding:13px 14px 14px;' +
+      'background:var(--color-white);border:1px solid var(--rule-hairline);border-radius:12px;' +
+      'box-shadow:var(--shadow-popover);padding:13px 14px 14px;' +
       "font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
       'opacity:0;visibility:hidden;transform:translateY(-4px);' +
-      'transition:opacity .16s ease,transform .16s ease,visibility .16s ease;}' +
+      'transition:opacity var(--motion-move) var(--ease), transform var(--motion-move) var(--ease), visibility var(--motion-move) var(--ease);}' +
       '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
-      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:#fff;' +
-      'border-left:1px solid rgba(37,37,37,.10);border-top:1px solid rgba(37,37,37,.10);' +
+      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:var(--color-white);' +
+      'border-left:1px solid var(--rule-hairline);border-top:1px solid var(--rule-hairline);' +
       'transform:translateX(-50%) rotate(45deg);}' +
       '.ah-emailpop-head{display:flex;align-items:center;justify-content:space-between;' +
       'margin:0 0 8px;}' +
-      '.ah-emailpop-title{font-size:.6875rem;font-weight:700;letter-spacing:.08em;' +
-      'text-transform:uppercase;color:#5c5f5c;}' +
+      '.ah-emailpop-title{font-size:var(--text-2xs);font-weight:700;letter-spacing:var(--tracking-caps);' +
+      'text-transform:uppercase;color:var(--color-muted-gray);}' +
       '.ah-emailpop-close{display:inline-flex;align-items:center;justify-content:center;' +
       'width:26px;height:26px;margin:-4px -4px -4px 0;border:0;background:transparent;' +
-      'color:#5c5f5c;border-radius:7px;cursor:pointer;transition:color .2s ease,background .2s ease;}' +
-      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:#252525;background:rgba(37,37,37,.06);}' +
-      '.ah-emailpop-close:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
+      'color:var(--color-muted-gray);border-radius:7px;cursor:pointer;transition:color var(--motion-state) var(--ease), background var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-close:hover,.ah-emailpop-close:focus-visible{color:var(--color-charcoal);background:var(--wash-on-light-hover);}' +
+      '.ah-emailpop-close:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
       '.ah-emailpop-row{display:flex;align-items:stretch;gap:8px;}' +
-      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:.875rem;' +
-      'color:#252525;padding:8px 10px;border:1px solid rgba(37,37,37,.16);border-radius:8px;' +
-      'background:#fafafa;transition:border-color .2s ease,box-shadow .2s ease;}' +
-      '.ah-emailpop-input:focus{outline:none;border-color:#657D60;box-shadow:0 0 0 3px rgba(109,135,104,.18);}' +
-      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:.75rem;font-weight:600;' +
-      'color:#fff;background:#657D60;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
-      'transition:background .2s ease,transform .1s ease;}' +
-      '.ah-emailpop-copy:hover{background:#5d7559;}' +
+      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:var(--text-sm);' +
+      'color:var(--color-charcoal);padding:8px 10px;border:1px solid var(--rule-strong);border-radius:8px;' +
+      'background:var(--color-white);transition:border-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-input:focus{outline:none;border-color:var(--color-accent-deep);box-shadow:0 0 0 3px var(--color-accent-ring);}' +
+      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:var(--text-xs);font-weight:600;' +
+      'color:var(--color-white);background:var(--color-accent-text);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
+      'transition:background var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);}' +
+      '.ah-emailpop-copy:hover{background:var(--color-accent-hover);}' +
       '.ah-emailpop-copy:active{transform:translateY(1px);}' +
-      '.ah-emailpop-copy:focus-visible{outline:2px solid #657D60;outline-offset:2px;}' +
-      '.ah-emailpop-copy.is-copied{background:#252525;}' +
-      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity .12s linear,visibility .12s linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
+      '.ah-emailpop-copy:focus-visible{outline:2px solid var(--color-accent-deep);outline-offset:2px;}' +
+      '.ah-emailpop-copy.is-copied{background:var(--color-charcoal);}' +
+      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity var(--motion-state) linear, visibility var(--motion-state) linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
     document.head.appendChild(style);
 
     var pop = document.createElement('div');
@@ -505,6 +396,7 @@
       setTimeout(function () { input.focus(); input.select(); }, 0);
       document.addEventListener('keydown', onKey);
       document.addEventListener('pointerdown', onOutside, true);
+      pop.addEventListener('focusout', onFocusOut);
       window.addEventListener('resize', position);
       window.addEventListener('scroll', position, true);
     }
@@ -516,6 +408,7 @@
       trigger.setAttribute('aria-expanded', 'false');
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onOutside, true);
+      pop.removeEventListener('focusout', onFocusOut);
       window.removeEventListener('resize', position);
       window.removeEventListener('scroll', position, true);
       if (returnFocus === true) trigger.focus();
@@ -524,6 +417,16 @@
     function onKey(e) { if (e.key === 'Escape') { e.preventDefault(); close(true); } }
     function onOutside(e) {
       if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
+    }
+    /* A pointer leaving the popover closes it; a Tab key leaving it did not,
+       so a keyboard user could walk past the Copy button and leave an open
+       dialog floating over content they could no longer reach by Tab. This is
+       the same rule as onOutside, asked of focus instead of the pointer.
+       relatedTarget is where focus is going, and it is null when focus leaves
+       the document entirely -- which is a close, not an exception. */
+    function onFocusOut(e) {
+      var to = e.relatedTarget;
+      if (!to || (!pop.contains(to) && !trigger.contains(to))) close(false);
     }
 
     trigger.setAttribute('aria-haspopup', 'dialog');
@@ -557,6 +460,6 @@
   })();
   </script>
   <script src="case-motion.js" defer></script>
-  <script src="../cursor.js?v=20260831a" defer></script>
+  <script src="../cursor.js?v=20260831c" defer></script>
 </body>
 </html>

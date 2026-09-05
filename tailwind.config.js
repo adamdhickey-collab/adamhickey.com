@@ -1,26 +1,20 @@
 /** Tailwind configuration for the six case studies.
  *
- * This was an inline `tailwind.config = {...}` block, byte-identical in all six
- * pages, fed to the browser-side compiler at cdn.tailwindcss.com. That compiler
- * is not for production: it rebuilds the stylesheet on every page load, on the
- * critical path, from a third-party script. The CSS is built once from here
- * into case-study/case-tailwind.css instead.
+ * This was an inline `tailwind.config = {...}` block, duplicated byte for byte
+ * in all six pages and fed to the browser-side compiler at cdn.tailwindcss.com.
+ * That compiler is not for production -- it rebuilds the stylesheet on every
+ * page load, on the critical path, from a third-party script. The CSS is now
+ * built once from this file into case-study/case-tailwind.css.
  *
- * THE THEME BELOW IS THE INLINE BLOCK, UNCHANGED. Not the richer config the
- * staging repository uses -- that one maps Tailwind keys onto CSS tokens, which
- * is the better arrangement and also a different change. These pages still
- * carry arbitrary bracket values that a token-mapped config would silently
- * re-resolve. The only thing being changed here is WHERE the CSS comes from,
- * so the theme has to stay exactly what the CDN was compiling.
+ * The `content` globs are the six pages themselves: Tailwind emits only the
+ * classes they actually use, which is why the built file is a fraction of the
+ * framework.
  *
- * `dark` and `charcoal` are both #252525 -- the same value under two names.
- * Left as-is for the same reason: retiring one is a markup change, not a
- * build change.
+ * No typography plugin. The CDN URL asked for `?plugins=typography` and not one
+ * page uses a `prose` class -- the only occurrences of the word are English.
  *
- * No typography plugin. The CDN URL asked for `?plugins=typography` and no page
- * carries a `prose` class -- checked, zero occurrences across all six.
- *
- * To rebuild after adding or removing a class:
+ * To rebuild after adding or removing a class -- the CI check runs exactly this
+ * and fails if the committed file differs:
  *
  *   npm install --no-save tailwindcss@3.4.19
  *   printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tw-input.css
@@ -28,31 +22,93 @@
  *     -o case-study/case-tailwind.css --minify
  *
  * A caution the extractor earns: it scans each page as text, not as markup, so
- * a class name written in an English sentence becomes a real rule. That is also
- * what the CDN did, and the point of this change is that nothing renders
- * differently -- so those rules stay.
+ * a class name written in an English sentence becomes a real rule. The block
+ * this file replaced described the pages' own "sticky table of contents" and
+ * called [40px] "p-10 spelled the long way", and the CDN duly shipped .sticky,
+ * .contents and .p-10 for elements that carry none of them. Removing the prose
+ * removed the rules. Several utilities still here -- .visible, .table, .ring,
+ * .shadow, .filter -- exist for the same reason and are left alone, because
+ * they are what the CDN emitted too and the point of this change is that
+ * nothing renders differently.
  */
 module.exports = {
   content: ['./case-study/*.html'],
   theme: {
     extend: {
       colors: {
-        'warm':        '#f5f5f0',
-        'tea-light':   '#e8ede5',
-        'muted-light': '#e5e5dd',
-        'muted-gray':  '#5c5f5c',
-        'charcoal':    '#252525',
-        'dark':        '#252525',
-        'border-light':'#E5E5E0',
+        /* Read from color.css, so a Tailwind utility and a CSS token
+           cannot drift apart -- the same arrangement fontSize already has
+           with the type scale. These were seven hardcoded hexes copied
+           into all six pages, two of them ('charcoal' and 'dark') the same
+           value under two names; 'dark' is gone and its 101 uses now say
+           what they mean. */
+        'white':       'var(--color-white)',
+        'warm':        'var(--color-warm)',
+        'tea-light':   'var(--color-tea-light)',
+        'muted-light': 'var(--color-muted-light)',
+        'muted-gray':  'var(--color-muted-gray)',
+        'charcoal':    'var(--color-charcoal)',
+        'accent':      'var(--color-accent-deep)',
+        /* The sage is two steps. accent is the fill; accent-text is the
+           darker one small type needs. text-accent-text on the warm ground is
+           4.12:1 against a 4.5 floor -- that is why this key exists. */
+        'accent-text': 'var(--color-accent-text)',
+        'accent-dark': 'var(--color-accent-on-dark)',
+        'rule':        'var(--color-rule)',
+        'border-light':'var(--color-tag-border)',
       },
-      /* Tailwind's own text-3xl and text-4xl are 30px and 36px, and neither is
-         on the fourteen-step scale (…24 28 34 40…). Every other default in the
-         range already lands on it. Mapping just these two keeps the utility and
-         the scale from disagreeing -- md:text-3xl was the last off-scale size
-         on the site that was not the hero. */
+      /* Read from shell.css, so a Tailwind utility and a CSS token cannot
+         drift apart -- the same arrangement colors and fontSize already
+         have.
+
+         The nine numeric keys are Tailwind's own most-used steps and they
+         already held these exact values; naming them here changes nothing
+         that renders, it just means p-6 and --space-xl are the same 24px
+         by construction rather than by coincidence.
+
+         gutter, block, section and section-lg are the fluid ramps. The
+         gutter replaced a mobile page inset of 16px, where the rest of
+         the site and these pages' own sticky table of contents already
+         used 24 -- the body copy had been sitting 8px inside the links
+         pointing at it. The ramps are also what the 109 arbitrary bracket
+         values became: [40px], sixty-seven times, was p-10 spelled the
+         long way, and [70px], [30px], [46px] and [-10px] were not even on
+         the 4px grid. */
+      spacing: {
+        'gutter':     'var(--gutter)',
+        'block':      'var(--space-block)',
+        'section':    'var(--space-section)',
+        'section-lg': 'var(--space-section-lg)',
+        '1':  'var(--space-2xs)',
+        '2':  'var(--space-xs)',
+        '3':  'var(--space-sm)',
+        '4':  'var(--space-md)',
+        '5':  'var(--space-lg)',
+        '6':  'var(--space-xl)',
+        '8':  'var(--space-2xl)',
+        '10': 'var(--space-3xl)',
+        '12': 'var(--space-4xl)',
+      },
+      /* The same fourteen steps, read from type.css, so a Tailwind
+         utility and a CSS token cannot drift apart. xs through 2xl
+         already matched Tailwind's defaults exactly; 3xl upward did not,
+         and 2xs did not exist. This is what retires the eleven arbitrary
+         bracket sizes the pages used to carry. */
       fontSize: {
-        '3xl': '1.75rem',    /* 28px, was 30 */
-        '4xl': '2.125rem',   /* 34px, was 36 */
+        '2xs':  'var(--text-2xs)',
+        'xs':   'var(--text-xs)',
+        'sm':   'var(--text-sm)',
+        'base': 'var(--text-base)',
+        'lg':   'var(--text-lg)',
+        'xl':   'var(--text-xl)',
+        '2xl':  'var(--text-2xl)',
+        '3xl':  'var(--text-3xl)',
+        '4xl':  'var(--text-4xl)',
+        '5xl':  'var(--text-5xl)',
+        '6xl':  'var(--text-6xl)',
+        '7xl':  'var(--text-7xl)',
+        '8xl':  'var(--text-8xl)',
+        '9xl':  'var(--text-9xl)',
       },
       fontFamily: {
         'sans':   ['var(--font-sans)'],

@@ -1,0 +1,1527 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design System | Adam Hickey</title>
+  <meta name="description" content="The tokens, type, spacing, and components behind adamhickey.com, documented from the stylesheet itself." />
+
+  <link rel="canonical" href="https://adamhickey.com/design-system/index.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/design-system/index.html" />
+  <meta property="og:title" content="Design System | Adam Hickey" />
+  <meta property="og:description" content="The tokens, type, spacing, and components behind adamhickey.com, documented from the stylesheet itself." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TechArticle",
+          "@id": "https://adamhickey.com/design-system/index.html#article",
+          "headline": "Design System",
+          "description": "The tokens, type, spacing, and components behind adamhickey.com, documented from the stylesheet itself.",
+          "url": "https://adamhickey.com/design-system/index.html",
+          "mainEntityOfPage": "https://adamhickey.com/design-system/index.html",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/design-system/index.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Design System",
+              "item": "https://adamhickey.com/design-system/index.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- The site stylesheet IS the system; this page documents it. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260905b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <link rel="stylesheet" href="ds.css?v=34" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+        </span>
+      </a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="ds-hero">
+      <div class="container">
+        <span class="ds-num">Internal reference</span>
+        <h1>Design system</h1>
+        <p class="ds-dek">The tokens, type, spacing, and components behind adamhickey.com. Every value on this page is read from the site stylesheet at load, so what you see here is what ships.</p>
+      </div>
+    </header>
+
+    <div class="ds-shell">
+      <aside class="ds-side" aria-label="Sections">
+        <a class="ds-side-link ds-side-lead" href="#principles"><span class="ds-side-num"></span><span>Principles</span></a>
+        <div class="ds-side-group" data-nav-group>
+          <p class="ds-side-title">Foundations</p>
+          <div class="ds-side-body"><div class="ds-side-body-inner">
+            <a class="ds-side-link" href="#color"><span class="ds-side-num">01</span><span>Color</span></a>
+            <a class="ds-side-link" href="#surfaces"><span class="ds-side-num">02</span><span>Surfaces</span></a>
+            <a class="ds-side-link" href="#type"><span class="ds-side-num">03</span><span>Type</span></a>
+            <a class="ds-side-link" href="#spacing"><span class="ds-side-num">04</span><span>Spacing</span></a>
+            <a class="ds-side-link" href="#layout"><span class="ds-side-num">05</span><span>Layout</span></a>
+            <a class="ds-side-link" href="#motion"><span class="ds-side-num">06</span><span>Motion</span></a>
+          </div></div>
+        </div>
+        <div class="ds-side-group" data-nav-group>
+          <p class="ds-side-title">Library</p>
+          <div class="ds-side-body"><div class="ds-side-body-inner">
+            <a class="ds-side-link" href="#components"><span class="ds-side-num">01</span><span>Components</span></a>
+            <a class="ds-side-link" href="#icons"><span class="ds-side-num">02</span><span>Icons</span></a>
+            <a class="ds-side-link" href="#media"><span class="ds-side-num">03</span><span>Media</span></a>
+          </div></div>
+        </div>
+        <div class="ds-side-group" data-nav-group>
+          <p class="ds-side-title">Standards</p>
+          <div class="ds-side-body"><div class="ds-side-body-inner">
+            <a class="ds-side-link" href="#a11y"><span class="ds-side-num">01</span><span>Accessibility</span></a>
+            <a class="ds-side-link" href="#writing"><span class="ds-side-num">02</span><span>Writing</span></a>
+          </div></div>
+        </div>
+        <div class="ds-side-group" data-nav-group>
+          <p class="ds-side-title">Governance</p>
+          <div class="ds-side-body"><div class="ds-side-body-inner">
+            <a class="ds-side-link" href="#editions"><span class="ds-side-num">01</span><span>Editions</span></a>
+            <a class="ds-side-link" href="#changing"><span class="ds-side-num">02</span><span>Changing it</span></a>
+          </div></div>
+        </div>
+      </aside>
+      <div class="ds-content">
+    <section class="ds-section" id="principles">
+      <div class="container">
+        <h2>Principles</h2>
+        <p class="ds-lede">Warm ground, dark ink, one sage accent. Serif at regular weight carries the headings; Montserrat carries labels and UI. Motion is a reveal, not a decoration: content rises once as it enters, then holds still. When something needs emphasis, it gets size or the accent, never both.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="color">
+      <div class="container">
+        <span class="ds-num">01</span>
+        <h2>Color</h2>
+        <p class="ds-lede">Warm ground, dark ink, one sage hue in three steps. Neutrals do the layout work; sage is the only colour, and it splits because no single value does every job. <strong>accent-text</strong> carries small type, <strong>accent-deep</strong> fills buttons and draws borders, and <strong>accent-on-dark</strong> is the one that survives charcoal. Putting the fill step on small text is the mistake the split exists to prevent &mdash; it reads 3.56:1 on muted light against a 4.5 floor. When something needs emphasis it gets size or the accent, never both. <a href="../COLOR.md">COLOR.md</a> is normative for all of it, and it is the companion to TYPOGRAPHY.md.</p>
+        <ul class="ds-swatches" id="ds-swatches">
+          <li class="ds-swatch" data-token="--color-charcoal"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Charcoal</strong><code></code><span>Primary ink on every light ground, and the dark ground itself.</span></div></li>
+          <li class="ds-swatch" data-token="--color-warm" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Warm</strong><code></code><span>The warm ground &mdash; and the primary ink on charcoal.</span></div></li>
+          <li class="ds-swatch" data-token="--color-tea-light" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Tea</strong><code></code><span>The feature ground: hero card, pull-outs.</span></div></li>
+          <li class="ds-swatch" data-token="--color-muted-light" data-light><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Muted light</strong><code></code><span>The alternate ground, for separating neighbours without changing temperature.</span></div></li>
+          <li class="ds-swatch" data-token="--color-muted-gray"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Muted gray</strong><code></code><span>Secondary ink on light grounds. Never on charcoal.</span></div></li>
+          <li class="ds-swatch" data-token="--color-accent-text"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, for text</strong><code></code><span>Small type, links, eyebrows, kickers. Clears 4.5:1 on all four light grounds &mdash; 4.60 at worst.</span></div></li>
+          <li class="ds-swatch" data-token="--color-accent-hover"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, pressed</strong><code></code><span>The hover and active step under the sage above it &mdash; darker, so a press reads as a press.</span></div></li>
+          <li class="ds-swatch" data-token="--color-accent-deep"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, for fills</strong><code></code><span>Button grounds, borders, icons, focus rings. Clears the 3:1 non-text floor everywhere. Never small text: 3.56:1 on muted light.</span></div></li>
+          <li class="ds-swatch" data-token="--color-accent-on-dark"><div class="ds-swatch-chip"></div><div class="ds-swatch-meta"><strong>Sage, on dark</strong><code></code><span>The counterpart on charcoal at 7.47:1, where the text sage manages only 2.63:1 and must never go.</span></div></li>
+        </ul>
+
+        <h3 class="ds-sub">Ink on ground</h3>
+        <p class="ds-lede">One line decides it: <strong>pick the ink from the ground, and check the number.</strong> Every cell below is computed in your browser from the live token values &mdash; if a colour moves in the stylesheet, the number here moves with it rather than going quietly stale.</p>
+        <table class="ds-table ds-table-wide" id="ds-contrast">
+          <thead><tr><th>Ink</th><th>White</th><th>Warm</th><th>Tea</th><th>Muted</th><th>Charcoal</th></tr></thead>
+          <tbody>
+            <tr data-ink="--color-charcoal"><td><code>--color-charcoal</code></td><td class="ds-cr" data-ground="--color-white"></td><td class="ds-cr" data-ground="--color-warm"></td><td class="ds-cr" data-ground="--color-tea-light"></td><td class="ds-cr" data-ground="--color-muted-light"></td><td class="ds-cr" data-ground="--color-charcoal"></td></tr>
+            <tr data-ink="--color-muted-gray"><td><code>--color-muted-gray</code></td><td class="ds-cr" data-ground="--color-white"></td><td class="ds-cr" data-ground="--color-warm"></td><td class="ds-cr" data-ground="--color-tea-light"></td><td class="ds-cr" data-ground="--color-muted-light"></td><td class="ds-cr" data-ground="--color-charcoal"></td></tr>
+            <tr data-ink="--color-accent-deep"><td><code>--color-accent-deep</code></td><td class="ds-cr" data-ground="--color-white"></td><td class="ds-cr" data-ground="--color-warm"></td><td class="ds-cr" data-ground="--color-tea-light"></td><td class="ds-cr" data-ground="--color-muted-light"></td><td class="ds-cr" data-ground="--color-charcoal"></td></tr>
+            <tr data-ink="--color-accent-on-dark"><td><code>--color-accent-on-dark</code></td><td class="ds-cr" data-ground="--color-white"></td><td class="ds-cr" data-ground="--color-warm"></td><td class="ds-cr" data-ground="--color-tea-light"></td><td class="ds-cr" data-ground="--color-muted-light"></td><td class="ds-cr" data-ground="--color-charcoal"></td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note"><span class="ds-cr-key ds-cr-pass">4.50+</span> passes AA for text at any size. <span class="ds-cr-key ds-cr-large">3.00+</span> is legal for text at 24px and up, and for the boundary of a control. <span class="ds-cr-key ds-cr-fail">under 3</span> is decoration only.</p>
+        <ul class="ds-rules" style="margin-top:1.75rem">
+          <li><strong>The four light grounds share one ink system</strong><span>Charcoal, muted gray, and sage are all legal as body text on white, warm, tea, and muted. That is the whole reason four grounds are allowed to exist: four surfaces, one set of inks, nothing to remember.</span></li>
+          <li><strong>Charcoal flips completely</strong><span>Muted gray drops to 2.37:1 on it and sage to 2.63:1. Neither may appear there. The dark band takes warm, and the lifted sage. This is the most plausible mistake in the system, because muted gray is the right answer on all four other grounds.</span></li>
+          <li><strong>Sage on muted light has no headroom</strong><span>4.60:1 against a 4.5 floor. It passes, and it is the first pair to re-measure if either value ever moves.</span></li>
+        </ul>
+
+        <h3 class="ds-sub">Alpha</h3>
+        <p class="ds-lede">Alpha is how ink and rules soften, and it is not a free parameter: each step exists because it clears a stated threshold. Five on dark, two on light, and the two existing shadows.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Token</th><th>Alpha</th><th>On charcoal</th><th>For</th></tr></thead>
+          <tbody>
+            <tr><td><code>--ink-on-dark</code></td><td>1</td><td>14.02</td><td>Body and headings on a dark band</td></tr>
+            <tr><td><code>--ink-on-dark-secondary</code></td><td>0.75</td><td>8.49</td><td>Supporting copy, captions</td></tr>
+            <tr><td><code>--ink-on-dark-muted</code></td><td>0.55</td><td>5.24</td><td>The quietest text allowed &mdash; still clears 4.5:1</td></tr>
+            <tr><td><code>--rule-on-dark</code></td><td>0.14</td><td>1.52</td><td>Dividers. Decorative only.</td></tr>
+            <tr><td><code>--rule-on-dark-strong</code></td><td>0.40</td><td>3.47</td><td>The boundary of a control. Clears 3:1 on both sides of it.</td></tr>
+            <tr><td><code>--wash-on-dark</code></td><td>0.06</td><td>1.19</td><td>Card and control fill on a dark band</td></tr>
+            <tr><td><code>--wash-on-dark-hover</code></td><td>0.12</td><td>1.43</td><td>Its hover</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">Every alpha above is on charcoal. The light grounds have their own set, and they are the ones a page is far more likely to need.</p>
+        <table class="ds-table">
+          <thead><tr><th>Token</th><th>Value</th><th>For</th></tr></thead>
+          <tbody>
+            <tr><td><code>--rule-hairline</code></td><td>charcoal at 10%</td><td>Card edges, table rules</td></tr>
+            <tr><td><code>--rule-strong</code></td><td>charcoal at 16%</td><td>A divider that has to read as one</td></tr>
+            <tr><td><code>--wash-on-light-hover</code></td><td>charcoal at 6%</td><td>The hover fill on a light ground</td></tr>
+            <tr><td><code>--color-tag-border</code></td><td><code>#e5e5e0</code></td><td>The quiet hairline: tag outlines, card edges. 1.22:1 &mdash; decorative only.</td></tr>
+            <tr><td><code>--color-accent-ring</code></td><td>accent-deep at 18%</td><td>Focus and hover rings on a light ground</td></tr>
+            <tr><td><code>--color-accent-ring-on-dark</code></td><td>accent-on-dark at 22%</td><td>The same, on charcoal</td></tr>
+            <tr><td><code>--color-caution</code></td><td><code>#d98e6a</code></td><td>The one semantic colour. 4.17:1 on charcoal &mdash; icon-only line art at 1.2px, so it answers to the 3:1 non-text floor rather than 4.5.</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">Both rings are written as <code>color-mix()</code> rather than an equivalent <code>rgba()</code> literal, and that is the point: the ring&rsquo;s predecessor was a derived colour written out by hand, which then drifted from what it was derived from. Written this way it cannot &mdash; move the accent and the ring moves with it.</p>
+        <p class="ds-demo-note">Below 0.55 is not text. Warm carried <strong>fourteen</strong> distinct alphas &mdash; six under 2:1 doing the same decorative job, five above 4.5:1 doing the same text job &mdash; and charcoal six more. Both are collapsed onto the seven above. <strong>39 elements changed colour and every one still passes AA</strong>; only one moved down, an engagement dek from 0.85 to 0.75, which is 8.49:1 either way. Applying it turned up a role with no token: three background values were neither ink nor rule but a <em>surface tint</em>, so washes exist now &mdash; and step 2 had set a hover background to <code>--rule-on-dark</code> because the number happened to be right, which is not the same as the token being right.</p>
+
+        <h3 class="ds-sub">Elevation</h3>
+        <p class="ds-lede">A different axis from alpha: an alpha step answers &ldquo;how loud is this ink&rdquo;, an elevation answers &ldquo;how far off the page is this object&rdquo;. Eight tokens, named by <strong>what is lifting</strong> rather than by how far, all built on literal <code>rgba(0, 0, 0, &hellip;)</code>.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Token</th><th>For</th></tr></thead>
+          <tbody>
+            <tr><td><code>--shadow-card</code></td><td>A card at rest, with its keyline</td></tr>
+            <tr><td><code>--shadow-resting</code></td><td>A bar or rail sitting on the page: nav, progress rail, step card</td></tr>
+            <tr><td><code>--shadow-media</code></td><td>A framed image or figure</td></tr>
+            <tr><td><code>--shadow-device</code></td><td>A screen mockup lifted off the page &mdash; contact shadow plus soft drop</td></tr>
+            <tr><td><code>--shadow-popover</code></td><td>Floating UI on a light page</td></tr>
+            <tr><td><code>--shadow-lightbox</code></td><td>A photo over the scrim</td></tr>
+            <tr><td><code>--shadow-lift</code> / <code>-sm</code></td><td>A work-card thumbnail on hover, full grid, and compact</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">This page and the spec both said two tokens covered the site. Neither half held: there were <strong>19 hand-written <code>box-shadow</code> values</strong>, and the two tokens were barely the point &mdash; <code>--shadow-sm</code> had <strong>no consumers at all</strong> and <code>--shadow-card</code> only three, all of them on this page&rsquo;s own chrome. The site&rsquo;s shadows were in practice entirely hand-written, five of them the same lifted-screen idea written five ways. 15 distinct rendered values are now 9. A keyline is not an elevation: <code>0 0 0 1px</code> and its inset form draw a border and take a rule token, never a <code>--shadow-*</code>.</p>
+        <p class="ds-demo-note">They live in <code>color.css</code>, which is a taxonomy compromise made on purpose. A shadow is a physical property that happens to be drawn in colour, so it belongs with radius and easing &mdash; but <code>site-nav.css</code> needs one and the case studies&rsquo; inline styles need two, and neither can see <code>style.css</code>. <strong>What decides where a token lives is reach, not taxonomy.</strong></p>
+
+        <h3 class="ds-sub">Artwork is not interface</h3>
+        <p class="ds-lede">The palette governs interface colour, and the boundary is deliberate rather than an oversight. An illustration is allowed its own palette; a rendering of a physical object is allowed to look like the object. All three specs draw the same line &mdash; <a href="../COLOR.md">COLOR.md</a> section 6 for colour, <a href="../SPACING.md">SPACING.md</a> section 4 for the space steps, <a href="../MOTION.md">MOTION.md</a> section 6 for the scale of durations.</p>
+        <ul class="ds-rules">
+          <li><strong>The story scene has six colours of its own</strong><span><code>--story-bg</code>, <code>--story-ink</code>, <code>--story-ink-soft</code>, <code>--story-body</code>, <code>--story-rail</code> and <code>--story-accent</code>, scoped to <code>.story[data-active]</code> in <code>style.css</code>. Snapping them onto the palette would flatten the scene into one ground, which is the opposite of the point. They are named, scoped and deliberate &mdash; not literals that escaped the audit.</span></li>
+          <li><strong>So is the device chrome</strong><span><code>--device-chrome</code> is off the palette for the same reason, and lives in <code>style.css</code> rather than <code>color.css</code> so that naming it cannot quietly make it palette. See Media below.</span></li>
+          <li><strong>&ldquo;Artwork&rdquo; is a claim about the thing, not an excuse</strong><span>The test is whether it renders something that exists outside the interface. A card is not artwork because its colour is inconvenient. And the exemption is from the <em>scale</em>, never from legibility: text over an illustration still has to clear its floor, measured in pixels where a token cannot answer.</span></li>
+        </ul>
+
+        <h3 class="ds-sub">Where the stylesheet stands</h3>
+        <p class="ds-lede"><strong>Eighty distinct colour values against eleven tokens</strong> &mdash; 26 hex and 54 <code>rgba()</code>. The interesting part is that this is the opposite of what the type audit found. Typography had no tokens at all; colour has had them all along and does not use them.</p>
+        <ul class="ds-rules">
+          <li><strong>867 literals against 224 token references &mdash; and where they actually were</strong><span>A value a token already names, written out by hand: <code>#252525</code> 395 times, <code>#556b51</code> 278, <code>#f5f5f0</code> 69. Only 21% of colour uses went through a token. But the bulk turned out not to be in the stylesheets at all: <strong>319 are SVG attributes inside the <code>aria-hidden</code> illustration scenes</strong>, which the artwork rule exempts, and 486 are in the six Tailwind case studies. The twelve pages that load <code>style.css</code> had about 30, and they are gone.</span></li>
+          <li><strong>A token that was never defined</strong><span><code>site-nav.css</code> referenced <code>var(--color-accent, #657D60)</code> five times. There is no <code>--color-accent</code> &mdash; it is <code>--color-accent-deep</code> &mdash; so all five had always resolved through the literal fallback. It rendered correctly, which is exactly why nobody noticed: the shared header&rsquo;s accent looked right and was not connected to the palette at all. Four non-colour fallbacks in that file are still load-bearing, because <code>--nav-height</code>, <code>--ease</code>, <code>--container-max</code> and <code>--font-sans</code> live in <code>style.css</code> and six pages cannot see it.</span></li>
+          <li><strong>A retired colour that never left &mdash; now it has</strong><span>This page said a single darker sage replaced a raw-plus-deep pair. The raw sage was still here nine times, and <code>--color-accent-soft</code> &mdash; a token, in the palette &mdash; was defined as exactly that. Eight of the nine were one thing wearing two hats: the focus ring behind the email popover&rsquo;s input, duplicated inline across seven pages, and the hovering cursor ring. Both take <code>--color-accent-ring</code> now, written as <code>color-mix()</code> off the accent so it cannot drift from it again. The ninth was the token, and it had <strong>no consumers at all</strong> &mdash; the last formal trace of the retired colour was a dead token, so it was deleted rather than redefined. No raw sage remains in any file.</span></li>
+          <li><strong>Two accessibility failures, both in the lightbox &mdash; fixed</strong><span><code>.ah-lightbox-hint</code> was 11px text at 3.62:1 where 4.5 is required, and it is the line telling a phone user the picture zooms and pans, so it is the opposite of decorative. It takes <code>--ink-on-dark-muted</code> now: 5.13:1. <code>.ah-lightbox-close</code> was a 42px control whose only boundary was a 1px border at 1.93:1 against a required 3:1; it takes <code>--rule-on-dark-strong</code>: 3.79 outside the button, 3.18 inside. Fixing the second turned up a third thing &mdash; the hover border was already 0.4, so raising the resting state to clear the floor would have flattened the hover into no change at all. It steps up to 0.55, and the state stays a state.</span></li>
+          <li><strong>Six near-blacks and the near-duplicates &mdash; resolved</strong><span>Six near-blacks were in use. Three were shadow bases and went to black in step 5; two were scrims and became one <code>--color-scrim</code> in step 6. The duplicates went the same way: <code>#fafafa</code> to white, <code>#cccccc</code> to <code>--color-rule</code>, <code>#22241f</code> to charcoal. <strong>Every off-palette value left in live CSS is now a documented exception</strong> &mdash; the artwork, the story section&rsquo;s four scroll grounds, and the phone bezel.</span></li>
+          <li><strong>Ranking by luminance was the wrong tool</strong><span>The first pass sorted near-duplicate candidates by luminance and got two wrong: <code>#eaeee2</code> looked like tea-light but is one of the story grounds, and <code>#56718c</code> came up as a near-match for the sage <code>#5d7559</code> &mdash; a slate blue and a green, identical in lightness and nothing alike. Distance in RGB sorted both correctly. Luminance answers &ldquo;how light is it&rdquo;, which is exactly right for contrast and exactly wrong for &ldquo;is this the same colour&rdquo;.</span></li>
+          <li><strong>The Tailwind colour list is copied six times &mdash; fixed</strong><span>Each case study declared the same seven colours inline, 42 hardcoded copies, two of them the same value under two names &mdash; and then bypassed even that with 138 arbitrary <code>text-[#&hellip;]</code> values. Every config now reads <code>var(--color-*)</code>, the way <code>fontSize</code> already reads the type scale, and the alias is gone: <code>text-dark</code> said nothing, and its 263 uses say <code>text-charcoal</code>. <strong>510 utility replacements, zero rendered colours changed.</strong></span></li>
+        </ul>
+        <p class="ds-demo-note">COLOR.md &sect;8 is the order to fix it in, and it puts the shared token file first rather than sixth &mdash; the one thing the type sequence got wrong, when tokenising a stylesheet both regimes load, before both regimes could resolve the tokens, shipped a live regression for two commits. <strong>Steps 1 and 2 are done:</strong> the palette lives in <code>color.css</code>, all eighteen pages load it, and both lightbox failures are closed. Step 1 was verified additive by reading six colour properties off every element on every page &mdash; 34,867 values, none of which moved.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="surfaces">
+      <div class="container">
+        <span class="ds-num">02</span>
+        <h2>Surfaces</h2>
+        <p class="ds-lede">Five grounds, each with its own legal ink and accent. Sections alternate between them so the page has rhythm without decoration; each tile below is painted with the real ground and carries the pairing that belongs on it.</p>
+        <ul class="ds-surfaces">
+          <li class="ds-surface" data-ground="warm">
+            <span class="ds-surface-kicker">Warm</span>
+            <h3>The page ground</h3>
+            <p>Dark ink, charcoal secondary. Small accent text uses the deep sage.</p>
+            <span class="ds-surface-use">Hero, proof strip, case studies band</span>
+          </li>
+          <li class="ds-surface" data-ground="white">
+            <span class="ds-surface-kicker">White</span>
+            <h3>The working surface</h3>
+            <p>For content-dense sections. The one ground where cards carry a shadow.</p>
+            <span class="ds-surface-use">Write-up bodies, products</span>
+          </li>
+          <li class="ds-surface" data-ground="muted">
+            <span class="ds-surface-kicker">Muted light</span>
+            <h3>The alternate</h3>
+            <p>Breaks up runs of warm and white. Also the color of rules and hairlines.</p>
+            <span class="ds-surface-use">Alternating sections, borders</span>
+          </li>
+          <li class="ds-surface" data-ground="tea">
+            <span class="ds-surface-kicker">Tea</span>
+            <h3>The feature ground</h3>
+            <p>A touch of green in the neutral. Frames what deserves a moment.</p>
+            <span class="ds-surface-use">Hero card, the shelf</span>
+          </li>
+          <li class="ds-surface" data-ground="dark">
+            <span class="ds-surface-kicker">Charcoal</span>
+            <h3>The dark band</h3>
+            <p>Warm text at 68% for body, and only the lifted sage as accent.</p>
+            <span class="ds-surface-use">Engagements, contact, footer</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="type">
+      <div class="container">
+        <span class="ds-num">03</span>
+        <h2>Type</h2>
+        <p class="ds-lede">Two families split by job: Crimson Text at regular weight for anything that speaks, Montserrat for anything that labels. Headings never take bold &mdash; hierarchy comes from size, and the serif&rsquo;s own contrast does the rest. Every size below is a step on one scale; the specimens render at the live token and report the pixel value the browser computed, so a step that drifts shows here first. <a href="../TYPOGRAPHY.md">TYPOGRAPHY.md</a> is normative for all of it.</p>
+
+        <p class="ds-demo-note" style="margin-bottom:2rem"><strong>On the words.</strong> A <strong>dek</strong> is the short line between the headline and the body; a <strong>lede</strong> is the opening passage of the body. Both are American newsroom spellings, misspelled on purpose so an editor&rsquo;s note could never be typeset as copy &mdash; the same tradition as <em>hed</em> and <em>graf</em>. They are the terms the class names use. Not &ldquo;standfirst&rdquo;, which is the British word for a dek: the site carried both for the same element until they were reconciled, and <code>.build-standfirst</code> is <code>.build-dek</code> now. One element, one word, one English. The full list is in <a href="../TYPOGRAPHY.md">TYPOGRAPHY.md &sect;1</a>.</p>
+
+        <h3 class="ds-sub">The two families</h3>
+        <ul class="ds-type">
+          <li><span class="ds-spec">Crimson Text 400 &middot; the voice &middot; titles, headings, deks, pull quotes</span>
+            <p style="font-family:var(--font-serif);font-size:var(--text-4xl);line-height:var(--leading-heading);color:var(--color-charcoal);margin:0">Judgment you can hold in your hand</p></li>
+          <li><span class="ds-spec">Crimson Text 400 italic &middot; deks and pull quotes</span>
+            <p style="font-family:var(--font-serif);font-style:italic;font-size:var(--text-2xl);line-height:var(--leading-tight);color:var(--color-charcoal);margin:0">From an idea everyone talks about to a working experience you can judge.</p></li>
+          <li><span class="ds-spec">Montserrat 400 &middot; the interface &middot; body, labels, UI</span>
+            <p style="max-width:42rem;font-size:var(--text-base);line-height:var(--leading-body);margin:0">Most engagements start with a situation, not a request for deliverables. Each one has a defined shape, and when the problem is still taking shape the first step is a smaller one.</p></li>
+          <li><span class="ds-spec">Montserrat 600 &middot; tracked 0.12em &middot; kickers and eyebrows</span>
+            <span style="font-family:var(--font-sans);font-size:var(--text-xs);font-weight:600;letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--color-accent-text)">Engagement 01 &middot; AI, with no clear product yet</span></li>
+        </ul>
+
+        <h3 class="ds-sub">The scale</h3>
+        <p class="ds-lede">Fourteen steps, base 16px, 11px to 80px. Two tiers on two different principles. The <strong>text tier</strong> steps arithmetically, because at small sizes the eye reads the absolute difference and not the ratio. The <strong>display tier</strong> is geometric, and the rule that generates it is worth memorising: <strong>every step doubles four steps later</strong> &mdash; 20&#8202;&rarr;&#8202;40, 24&#8202;&rarr;&#8202;48, 28&#8202;&rarr;&#8202;56, 34&#8202;&rarr;&#8202;68, 40&#8202;&rarr;&#8202;80. That is a ratio of 2<sup>1/4</sup>, about 1.189, rounded to whole pixels. You can extend it in either direction without a calculator: halve or double, then fill the three between.</p>
+        <p class="ds-demo-note" style="margin-bottom:1.5rem">Not invented for this page. Of the 587 type-size declarations across the stylesheets and the sixteen pages, 78% already land exactly on one of these steps and 95% land within a pixel; the scale is the site&rsquo;s own centre of gravity with the rounding noise taken out.</p>
+
+        <p class="ds-scale-tier">Text tier &middot; arithmetic &middot; never fluid</p>
+        <ul class="ds-scale">
+            <li class="ds-step" data-token="--text-2xs">
+              <div class="ds-step-meta"><code>--text-2xs</code><span class="ds-step-px"></span><span class="ds-step-job">Micro caps. Tracked uppercase, four words or fewer. The floor.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-2xs);font-family:var(--font-sans)">Engagement 01</div>
+            </li>
+            <li class="ds-step" data-token="--text-xs">
+              <div class="ds-step-meta"><code>--text-xs</code><span class="ds-step-px"></span><span class="ds-step-job">Kickers, tags, figure captions, footnotes.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-xs);font-family:var(--font-sans)">Minneapolis, 2026</div>
+            </li>
+            <li class="ds-step" data-token="--text-sm">
+              <div class="ds-step-meta"><code>--text-sm</code><span class="ds-step-px"></span><span class="ds-step-job">Dense UI: nav, footer links, table cells, dt labels.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-sm);font-family:var(--font-sans)">Selected work</div>
+            </li>
+            <li class="ds-step" data-token="--text-base">
+              <div class="ds-step-meta"><code>--text-base</code><span class="ds-step-px"></span><span class="ds-step-job">Body copy, card copy, list items, buttons.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-base);font-family:var(--font-sans)">Most engagements start with a situation, not a request for deliverables.</div>
+            </li>
+            <li class="ds-step" data-token="--text-lg">
+              <div class="ds-step-meta"><code>--text-lg</code><span class="ds-step-px"></span><span class="ds-step-job">Long-form prose. The smallest heading level.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-lg);font-family:var(--font-sans)">Most engagements start with a situation.</div>
+            </li>
+        </ul>
+
+        <p class="ds-scale-tier">Display tier &middot; geometric &middot; ratio 2^(1/4)</p>
+        <ul class="ds-scale">
+            <li class="ds-step" data-token="--text-xl">
+              <div class="ds-step-meta"><code>--text-xl</code><span class="ds-step-px"></span><span class="ds-step-job">h4, block titles.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-xl);font-family:var(--font-sans);font-weight:600">Working Product Prototype</div>
+            </li>
+            <li class="ds-step" data-token="--text-2xl">
+              <div class="ds-step-meta"><code>--text-2xl</code><span class="ds-step-px"></span><span class="ds-step-job">Card titles at their largest.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-2xl);font-family:var(--font-serif)">Judgment you can hold</div>
+            </li>
+            <li class="ds-step" data-token="--text-3xl">
+              <div class="ds-step-meta"><code>--text-3xl</code><span class="ds-step-px"></span><span class="ds-step-job">h2 at its floor.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-3xl);font-family:var(--font-serif)">Judgment you can hold</div>
+            </li>
+            <li class="ds-step" data-token="--text-4xl">
+              <div class="ds-step-meta"><code>--text-4xl</code><span class="ds-step-px"></span><span class="ds-step-job">h3 at its ceiling; h1 at its floor.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-4xl);font-family:var(--font-serif)">Judgment you can hold</div>
+            </li>
+            <li class="ds-step" data-token="--text-5xl">
+              <div class="ds-step-meta"><code>--text-5xl</code><span class="ds-step-px"></span><span class="ds-step-job">Hero title at its floor.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-5xl);font-family:var(--font-serif)">Judgment</div>
+            </li>
+            <li class="ds-step" data-token="--text-6xl">
+              <div class="ds-step-meta"><code>--text-6xl</code><span class="ds-step-px"></span><span class="ds-step-job">h2 at its ceiling.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-6xl);font-family:var(--font-serif)">Judgment</div>
+            </li>
+            <li class="ds-step" data-token="--text-7xl">
+              <div class="ds-step-meta"><code>--text-7xl</code><span class="ds-step-px"></span><span class="ds-step-job"></span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-7xl);font-family:var(--font-serif)">Judgment</div>
+            </li>
+            <li class="ds-step" data-token="--text-8xl">
+              <div class="ds-step-meta"><code>--text-8xl</code><span class="ds-step-px"></span><span class="ds-step-job">h1 at its ceiling.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-8xl);font-family:var(--font-serif)">Judgment</div>
+            </li>
+            <li class="ds-step" data-token="--text-9xl">
+              <div class="ds-step-meta"><code>--text-9xl</code><span class="ds-step-px"></span><span class="ds-step-job">Hero title at its ceiling.</span></div>
+              <div class="ds-step-spec" style="font-size:var(--text-9xl);font-family:var(--font-serif)">Judgment</div>
+            </li>
+        </ul>
+
+        <h3 class="ds-sub">The four fluid ramps</h3>
+        <p class="ds-lede">You never hand-write <code>clamp()</code>. There are four ramps, each interpolating between two named steps, and all four share one viewport window: <strong>400px to 1280px</strong>. Nothing below <code>h3</code> is fluid &mdash; a 20px label is 20px on every screen. The last column is live: resize this window and watch it move.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Ramp</th><th>Steps</th><th>min &rarr; max</th><th>Here, now</th><th>Use</th></tr></thead>
+          <tbody id="ds-ramps">
+            <tr data-token="--type-title"><td><code>--type-title</code></td><td>4xl &rarr; 8xl</td><td>34 &rarr; 68</td><td class="ds-ramp-now"></td><td><code>h1</code>, every page title, the homepage hero included.</td></tr>
+            <tr data-token="--type-section"><td><code>--type-section</code></td><td>3xl &rarr; 6xl</td><td>28 &rarr; 48</td><td class="ds-ramp-now"></td><td><code>h2</code>, a section heading.</td></tr>
+            <tr data-token="--type-subsection"><td><code>--type-subsection</code></td><td>2xl &rarr; 4xl</td><td>24 &rarr; 34</td><td class="ds-ramp-now"></td><td><code>h3</code>, a subsection heading.</td></tr>
+            <tr data-token="--type-lede"><td><code>--type-lede</code></td><td>lg &rarr; 2xl</td><td>18 &rarr; 24</td><td class="ds-ramp-now"></td><td>Deks, ledes, pull quotes.</td></tr>
+            <tr data-token="--type-title-inset"><td><code>--type-title-inset</code></td><td>2xs&nbsp;h1 &rarr; 4xl</td><td>36 &rarr; 64</td><td class="ds-ramp-now"></td><td>The homepage hero, which shares its row with the portrait.</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">One ramp is deliberately outside that window. <code>--type-title-inset</code> runs 768 to 1280 rather than 400 to 1280, because the thing it is sized against only exists in that range: above 768 the homepage hero shares its row with the portrait and gets about 47% of the container, and below it the row stacks and the title takes <code>--type-title</code> like every other h1. A ramp is sized against the column it lands in, not against the page. The shared window is the whole point for the other four, not a tidiness preference. At any width every ramp sits at the same progress between its own endpoints, so an ordering that holds at 400px and at 1280px holds at every width in between &mdash; provably, with nothing to test. The bespoke <code>vw</code> coefficients this replaces are exactly why the base ladder inverts today: <code>h2</code> outranks <code>h1</code> on every viewport under 622px, and <code>h3</code> and <code>h4</code> cross at 982px.</p>
+
+        <h3 class="ds-sub">The heading ladder</h3>
+        <p class="ds-lede">Sizes come from the ladder; the ladder comes from the document outline. Never skip a level to reach a size.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Level</th><th>Token</th><th>px</th><th>Family</th><th>Wt</th><th>LH</th><th>Track</th></tr></thead>
+          <tbody>
+            <tr><td><code>h1</code> page title</td><td><code>--type-title</code></td><td>34 &rarr; 68</td><td>Serif</td><td>400</td><td>1.05</td><td>&minus;0.02em</td></tr>
+            <tr><td><code>h1</code> in a narrow column</td><td><code>--type-title-inset</code></td><td>36 &rarr; 64</td><td>Serif</td><td>400</td><td>1.05</td><td>&minus;0.02em</td></tr>
+            <tr><td><code>h2</code> section</td><td><code>--type-section</code></td><td>28 &rarr; 48</td><td>Serif</td><td>400</td><td>1.15</td><td>&minus;0.015em</td></tr>
+            <tr><td><code>h3</code> subsection</td><td><code>--type-subsection</code></td><td>24 &rarr; 34</td><td>Serif</td><td>400</td><td>1.15</td><td>&minus;0.01em</td></tr>
+            <tr><td><code>h4</code> block title</td><td><code>--text-xl</code></td><td>20</td><td>Sans</td><td>600</td><td>1.35</td><td>&minus;0.01em</td></tr>
+            <tr><td><code>h5</code> card title</td><td><code>--text-lg</code></td><td>18</td><td>Sans</td><td>600</td><td>1.35</td><td>0</td></tr>
+            <tr><td><code>h6</code> label heading</td><td><code>--text-base</code></td><td>16</td><td>Sans</td><td>600</td><td>1.35</td><td>0</td></tr>
+          </tbody>
+        </table>
+        <ul class="ds-rules" style="margin-top:1.75rem">
+          <li><strong>The seam at h3/h4 is deliberate</strong><span><code>h3</code> is the last serif level and <code>h4</code> the first sans one, so the ladder changes voice there. A family change carries hierarchy on its own, which is why the size may drop 34 to 20 across that one gap without reading as broken. There is no in-between size to close it with.</span></li>
+          <li><strong>h6 is body size</strong><span>It is separated from body copy by weight and family, not by size. That is what the last heading level is for; a step below 16px would only push it into the label sizes.</span></li>
+          <li><strong>A title that does not fit steps down a ramp</strong><span>Not into a media query, not into a nudged <code>vw</code> coefficient, and never into a new <code>clamp()</code>. That one rule is what keeps the count at four ramps instead of back at twenty &mdash; and it is what retired the fifth, below.</span></li>
+          <li><strong>There is no display ramp, and that is a finding</strong><span>A fifth ramp, 40 to 80, was drafted for the homepage hero. Applying it killed it. Its 80px ceiling had been read off the Tailwind pages&rsquo; <code>body h1 { 5rem }</code> &mdash; which all six of them override in the hero with <code>text-[48px] md:text-[68px]</code>, so <strong>80px was never rendered anywhere</strong>; 68px is the largest type the site puts on screen. Nor was the homepage hero ever the biggest thing on the site: <code>.case-title</code> topped out at 68px against the hero&rsquo;s 61.6px. And at 80px the seven-word headline ran to three lines and swamped its own block. The homepage hero is a page title like any other.</span></li>
+        </ul>
+
+        <h3 class="ds-sub">Weight</h3>
+        <p class="ds-lede">Four, and the site uses all four. Named rather than written as numerals so a weight is chosen by what it is doing, not by how heavy it looks in isolation.</p>
+        <table class="ds-table">
+          <thead><tr><th>Token</th><th>Value</th><th>For</th></tr></thead>
+          <tbody>
+            <tr><td><code>--weight-regular</code></td><td>400</td><td>Body copy, and every serif heading &mdash; the display family carries headings at regular weight</td></tr>
+            <tr><td><code>--weight-medium</code></td><td>500</td><td>UI labels that need to sit slightly forward of body copy</td></tr>
+            <tr><td><code>--weight-semibold</code></td><td>600</td><td>Eyebrows, kickers, table headers, buttons</td></tr>
+            <tr><td><code>--weight-bold</code></td><td>700</td><td>The sans headings inside a case study, where family alone does not separate them</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">Weight is also what separates <code>h6</code> from body copy, since it is the same size &mdash; see the ladder above.</p>
+
+        <h3 class="ds-sub">Line height and tracking</h3>
+        <p class="ds-lede">Both are functions of <strong>size</strong>, not of component. Bigger type needs less leading and tighter tracking; uppercase always gets tracking, lowercase never gets a positive value.</p>
+        <div class="ds-two-tables">
+          <table class="ds-table">
+            <thead><tr><th>Leading</th><th>Value</th><th>Applies to</th></tr></thead>
+            <tbody>
+              <tr><td><code>--leading-display</code></td><td>1.05</td><td>34px and up</td></tr>
+              <tr><td><code>--leading-heading</code></td><td>1.15</td><td>24&ndash;28px</td></tr>
+              <tr><td><code>--leading-tight</code></td><td>1.35</td><td>16&ndash;20px headings</td></tr>
+              <tr><td><code>--leading-ui</code></td><td>1.45</td><td>11&ndash;14px labels, nav, cells</td></tr>
+              <tr><td><code>--leading-body</code></td><td>1.6</td><td>16px paragraphs</td></tr>
+              <tr><td><code>--leading-reading</code></td><td>1.7</td><td>long-form prose columns</td></tr>
+            </tbody>
+          </table>
+          <table class="ds-table">
+            <thead><tr><th>Tracking</th><th>Value</th><th>Applies to</th></tr></thead>
+            <tbody>
+              <tr><td><code>--tracking-display</code></td><td>&minus;0.02em</td><td>56px and up</td></tr>
+              <tr><td><code>--tracking-title</code></td><td>&minus;0.015em</td><td>34&ndash;48px</td></tr>
+              <tr><td><code>--tracking-heading</code></td><td>&minus;0.01em</td><td>20&ndash;28px</td></tr>
+              <tr><td><code>--tracking-normal</code></td><td>0</td><td>16&ndash;18px, all lowercase</td></tr>
+              <tr><td><code>--tracking-label</code></td><td>0.08em</td><td>14px uppercase labels</td></tr>
+              <tr><td><code>--tracking-caps</code></td><td>0.12em</td><td>11&ndash;13px uppercase kickers</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ds-demo-note">Six and six, against the thirteen line-heights and sixteen tracking values live in the stylesheet today. Numerals that align in a column take <code>font-variant-numeric: tabular-nums</code> in Montserrat, never a second font.</p>
+
+        <h3 class="ds-sub">Where the stylesheet stands</h3>
+        <p class="ds-lede">Eight passes in, and now measured rather than asserted. <strong>Every rendered type size on all eighteen pages sits on one of the fourteen steps, or on <code>--type-title-inset</code>&rsquo;s own two endpoints, at every width where the ramps are pinned, in both regimes.</strong> Forty distinct fixed sizes became fourteen; twenty <code>clamp()</code> expressions, no two alike, became the four shared ramps above and, later, the one that deliberately is not; thirteen line-heights and sixteen trackings became six and six.</p>
+        <p class="ds-demo-note">Pass seven said the same sentence in the past tense and nothing ran it against the site. It was wrong: the glance block on the three build write-ups carried <strong>13, 15 and 17px hand-written</strong> &mdash; none of them a step, on pages the claim named. They are <code>--text-sm</code> and <code>--text-base</code> now, and the two that pair inside a step card kept the 2px relationship they already had. <code>scripts/typescale.mjs</code> is the difference between a claim and a fact: 13,944 rendered sizes across eighteen pages at 375, 400, 1280 and 1440px, and it runs in CI beside the contrast check. Its two exemptions are written down rather than assumed &mdash; the inset ramp by name, and <code>aria-hidden</code> decoration, on the same argument that exempts the illustration scenes from the palette rule.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th></th><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td>Distinct fixed sizes</td><td>40</td><td>14, and they are the scale</td></tr>
+            <tr><td>Distinct <code>clamp()</code></td><td>20, no two alike</td><td>4, and they are the ramps</td></tr>
+            <tr><td>Line-height values</td><td>13</td><td>6</td></tr>
+            <tr><td>Letter-spacing values</td><td>16</td><td>6</td></tr>
+            <tr><td>Type tokens in <code>:root</code></td><td>2 (the families)</td><td>34, in <code>type.css</code></td></tr>
+            <tr><td>Base heading ladders</td><td>2, disagreeing</td><td>1</td></tr>
+            <tr><td>Ordering bugs</td><td>3 in the base, 2 in overrides</td><td>0</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">What survives as a literal is deliberate and annotated where it sits: the 16px root anchor on each page, which cannot be written in <code>rem</code> because it is what <code>rem</code> resolves against; <code>.product-link-ext</code> at <code>0.875em</code>, an arrow meant to track whatever size link it sits in; and two <code>line-height</code>s that are box control rather than leading.</p>
+
+        <h3 class="ds-sub">Three rules that were styling nothing</h3>
+        <p class="ds-lede">The last pass was meant to be mechanical &mdash; move nine <code>clamp()</code> expressions onto ramps. Three of the nine turned out to be dead, and none of it was visible from reading the stylesheet:</p>
+        <ul class="ds-rules">
+          <li><strong>A second <code>.hero-invite</code></strong><span>Two top-level rules, a serif one carrying its own clamp and a sans one further down. The sans one wins at every width and overrides every property the serif one sets &mdash; including the comment describing the invitation line as serif. The page has always rendered it sans.</span></li>
+          <li><strong><code>.engagement-note</code> matches no markup</strong><span>The class appears nowhere in any of the eighteen files.</span></li>
+          <li><strong><code>.case-section h3</code> never wins</strong><span>Measured across the seven pages that use <code>.case-section</code>: 0 of 20 <code>h3</code> elements inside one take it, because <code>.case-overview h3</code> and <code>.eng3-steps .eng3-step h3</code> catch every one. And once its clamp became <code>--type-subsection</code> it was restating what the base ladder already gives an <code>h3</code>, so it is a spacing rule now.</span></li>
+        </ul>
+        <p class="ds-demo-note">The first needed the cascade resolved, the third needed the DOM. Neither is legible from the source. They surfaced only because every change in this work was measured in a browser rather than assumed &mdash; which is the same reason the reference reads its own values back instead of quoting them.</p>
+
+        <h3 class="ds-sub">What is left, and it is not typography</h3>
+        <ul class="ds-rules">
+          <li><strong>Colour has the drift type used to have</strong><span><code>text-[#252525]</code> appears 101 times across the case studies and <code>text-[#657D60]</code> 37 times. Those are <code>--color-charcoal</code> and <code>--color-accent-deep</code>, which already exist &mdash; and <code>type.css</code> now proves a token file can reach those pages.</span></li>
+          <li><strong>Dead rules beyond the three</strong><span><code>.build-hero-img</code> and <code>.build-mode-note</code> have zero references in any page. Left alone: dead-CSS cleanup is its own pass, and a proper one would check all of <code>style.css</code> rather than whatever a type change happened to touch.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="spacing">
+      <div class="container">
+        <span class="ds-num">04</span>
+        <h2>Spacing</h2>
+        <p class="ds-lede">Every space on this site is a multiple of 4px. That was already true of 78.5% of it before a single token existed &mdash; the grid was finished here, not introduced. Below 48px space is fixed and comes off the nine steps; above it space is fluid and comes off a ramp, for the same reason type does. The bars render at their live token and report the pixel value the browser computed, so a step that drifts shows here first. <a href="../SPACING.md">SPACING.md</a> is normative for all of it.</p>
+
+        <h3 class="ds-sub">The nine steps</h3>
+        <p class="ds-demo-note" style="margin-bottom:1.5rem">Two tiers, and the change of tier is the point. 4 to 24 in steps of 4, because at 8px a 4px error is half the value. 24 to 48 in steps of 8, because at 40px it is 10% and invisible &mdash; a step nobody can see is a step nobody should have to choose between. The Tailwind column is not a coincidence: the eight most-used numeric utilities across the six case studies are eight of these nine, in rank order, and the config now reads them from the same tokens.</p>
+        <ul class="ds-spaces">
+          <li class="ds-space" data-token="--space-2xs">
+            <span><code>--space-2xs</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-2xs)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-1</code></span>
+            <p class="ds-space-job">Hairline separation. A label off its icon; a tag off its neighbour.</p>
+          </li>
+          <li class="ds-space" data-token="--space-xs">
+            <span><code>--space-xs</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-xs)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-2</code></span>
+            <p class="ds-space-job">The tightest real gap. Inside a pill, between stacked metadata lines.</p>
+          </li>
+          <li class="ds-space" data-token="--space-sm">
+            <span><code>--space-sm</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-sm)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-3</code></span>
+            <p class="ds-space-job">A dense inset, a tight row gap.</p>
+          </li>
+          <li class="ds-space" data-token="--space-md">
+            <span><code>--space-md</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-md)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-4</code></span>
+            <p class="ds-space-job">The default. When no reason says otherwise, this.</p>
+          </li>
+          <li class="ds-space" data-token="--space-lg">
+            <span><code>--space-lg</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-lg)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-5</code></span>
+            <p class="ds-space-job">A comfortable inset for a small card.</p>
+          </li>
+          <li class="ds-space" data-token="--space-xl">
+            <span><code>--space-xl</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-xl)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-6</code></span>
+            <p class="ds-space-job">The most-used space on the site. Card padding, grid gap, the standard stack.</p>
+          </li>
+          <li class="ds-space" data-token="--space-2xl">
+            <span><code>--space-2xl</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-2xl)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-8</code></span>
+            <p class="ds-space-job">Between components. A card off the next card.</p>
+          </li>
+          <li class="ds-space" data-token="--space-3xl">
+            <span><code>--space-3xl</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-3xl)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-10</code></span>
+            <p class="ds-space-job">A generous inset for a large card or a panel.</p>
+          </li>
+          <li class="ds-space" data-token="--space-4xl">
+            <span><code>--space-4xl</code></span>
+            <span class="ds-space-bar"><i style="width:var(--space-4xl)"></i></span>
+            <span class="ds-space-px"></span>
+            <span class="ds-space-tw"><code>p-12</code></span>
+            <p class="ds-space-job">The largest fixed step. Beyond this, a ramp.</p>
+          </li>
+        </ul>
+
+        <h3 class="ds-sub">The four ramps</h3>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Token</th><th>px range</th><th>Here, now</th><th>Job</th></tr></thead>
+          <tbody id="ds-space-ramps">
+            <tr data-token="--gutter"><td><code>--gutter</code></td><td>24 &rarr; 32</td><td class="ds-ramp-now"></td><td>Container padding: the page edge to the content.</td></tr>
+            <tr data-token="--space-block"><td><code>--space-block</code></td><td>48 &rarr; 72</td><td class="ds-ramp-now"></td><td>Between major blocks inside a section.</td></tr>
+            <tr data-token="--space-section"><td><code>--space-section</code></td><td>64 &rarr; 96</td><td class="ds-ramp-now"></td><td>The vertical padding on a standard full-width band.</td></tr>
+            <tr data-token="--space-section-lg"><td><code>--space-section-lg</code></td><td>80 &rarr; 128</td><td class="ds-ramp-now"></td><td>The same, for a band with a full-bleed treatment: the hero, the story.</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">All four share the type ramps&rsquo; window, 400px to 1280px, so at any width every ramp sits at the same fractional progress between its own endpoints and an ordering that holds at both ends holds everywhere between. What the shared window does <em>not</em> buy is a constant ratio between type and space: <code>h1</code> doubles across the window while <code>--space-section</code> grows by half, so the page reads denser at 1280 than at 400. That is the right direction for a wide screen, but it is a consequence rather than a property. Resize this page and the middle column moves.</p>
+
+        <h3 class="ds-sub">The measure</h3>
+        <p class="ds-lede" style="margin-bottom:1.25rem">Prose is measured in characters, not pixels. Comfortable is 60 to 75, and <code>--measure</code> is <strong>52ch</strong> &mdash; 70 characters. In <code>ch</code> rather than <code>rem</code> because a rem measure can only be right at one size, and this site sets prose at five. The proof was in the stylesheet: figcaptions were capped at the same 40rem as the 18px body copy, which is 70 characters at 18px and 115 at 12px.</p>
+        <div class="ds-measure-demo">
+          <p>This paragraph is capped at <code>--measure</code>. One ch is 1.349 average characters in Montserrat and 1.324 in Crimson Text, measured in Chromium against a real paragraph, so a single token serves both families and stays correct at every size.</p>
+          <p>Apply it to the text element, never to a wrapper: <code>ch</code> resolves against the element&rsquo;s own font-size, so a 16px container capping an 18px paragraph would measure the wrong glyph.</p>
+          <div class="ds-measure-rule"></div>
+          <span class="ds-measure-read" id="ds-measure-read"></span>
+        </div>
+        <p class="ds-demo-note">The measure caps prose, not the column that holds it. <code>.case-narrow</code> is 896px and stays there, because the figures, fact lists, and step cards inside it want the room &mdash; capping the container instead would have shrunk every figure on the build write-ups by 23%. The five engagement pages take <code>.case-wide</code>, the same column at the full 1280px frame, because a step card needs about 1200px to give its prose the measure beside a readable illustration. Short display prose sits deliberately tighter: <code>.hero-invite</code> at 44ch and <code>.about-lede</code> at 46ch, both around 60 characters, because large type wants fewer characters per line.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="layout">
+      <div class="container">
+        <span class="ds-num">05</span>
+        <h2>Layout, radius, and elevation</h2>
+        <table class="ds-table">
+          <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+          <tbody id="ds-tokens">
+            <tr data-token="--container-max"><td><code>--container-max</code></td><td><code></code></td><td>Single content container; side gutters come from <code>--gutter</code>.</td></tr>
+            <tr data-token="--gutter"><td><code>--gutter</code></td><td><code></code></td><td>Page edge to content, 24 &rarr; 32px. One value for both regimes; see Spacing.</td></tr>
+            <tr data-token="--measure"><td><code>--measure</code></td><td><code></code></td><td>The reading measure, 52ch. Goes on the text, not its wrapper.</td></tr>
+            <tr data-token="--nav-height"><td><code>--nav-height</code></td><td><code></code></td><td>Fixed header; anchor targets offset by it.</td></tr>
+            <tr data-token="--radius-xl"><td><code>--radius-xl</code></td><td><code></code></td><td>Cards and framed media.</td></tr>
+            <tr data-token="--radius-pill"><td><code>--radius-pill</code></td><td><code></code></td><td>Tags and pill buttons.</td></tr>
+            <tr data-token="--shadow-card"><td><code>--shadow-card</code></td><td><code></code></td><td>Resting card elevation: a hairline plus a soft drop.</td></tr>
+            <tr data-token="--ease"><td><code>--ease</code></td><td><code></code></td><td>State changes at 0.25&ndash;0.3s. Reveals use their own spring curve; see Motion.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="ds-sub" style="margin:2.5rem 0 0.75rem">Breakpoints</h3>
+        <p class="ds-lede" style="margin-bottom:1.25rem">Four, down from twelve distinct widths describing nine boundaries. Three are Tailwind&rsquo;s, which the six case studies were already using; the fourth is earned. New work reaches for these before adding another.</p>
+        <table class="ds-table ds-table-wide">
+          <thead><tr><th>Axis</th><th>Query</th><th>What changes</th></tr></thead>
+          <tbody>
+            <tr><td><code>640px</code></td><td><code>min-width: 640px</code></td><td>Small tablet: two-up grids begin, the compact case cards and the shelf split.</td></tr>
+            <tr><td><code>768px</code></td><td><code>min-width: 768px</code></td><td>The main axis, and by a distance &mdash; 53 of the site&rsquo;s 93 queries. Single column becomes multi-column, the hero recomposes, full-width mobile media returns to inset.</td></tr>
+            <tr><td><code>900px</code></td><td><code>min-width: 900px</code></td><td>The earned one. The story section lays out beside its progress rail, and the primary nav links appear. Both were tried at 1024 and both were worse: the story&rsquo;s two-column layout works from 900, and moving the nav hid it entirely from 900 to 1023.</td></tr>
+            <tr><td><code>1024px</code></td><td><code>min-width: 1024px</code></td><td>Wide step: four-across grids, the reference page&rsquo;s own two-column shell, the engagement figure beside its text.</td></tr>
+          </tbody>
+        </table>
+        <p class="ds-demo-note">The widths that went: 560, 620, 700, 860, 1000 and 1100, each chosen for one component rather than for the page. Every <code>max-width</code> query is the paired form of one of the four above (<code>767.98</code>, <code>1023.98</code>), which is correct technique for a single boundary rather than a fifth axis.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="motion">
+      <div class="container">
+        <span class="ds-num">01</span>
+        <h2>Motion</h2>
+        <p class="ds-lede">Motion here confirms, directs, or sets a place. Confirm: something the reader did had an effect. Direct: something arrived and is worth looking at. Set a place: the story drifts through four grounds while nobody watches. Anything that is none of those three is decoration, and the test for a new animation is whether a reader who missed it would have lost something. <span class="ds-docref">MOTION.md</span> is normative for all of it.</p>
+
+        <h3 class="ds-sub">The six durations</h3>
+        <p class="ds-demo-note" style="margin-bottom:1.25rem">The name is the job, not the number. The gaps are perceptual rather than tidy: 80 to 200 is the difference between tracking the reader and responding to them, 200 to 300 between a colour changing and a thing that moved, 500 to 900 between arriving and being drawn. Each dot below runs on its own live token and reports what the browser computed.</p>
+        <div class="ds-demo-head">
+          <h3 id="motion-scale-label" class="ds-sub" style="margin:0">Six speeds, side by side</h3>
+          <button type="button" class="ds-replay" data-replay="scale">Play</button>
+        </div>
+        <ul class="ds-motion-scale" id="ds-motion-scale" aria-labelledby="motion-scale-label">
+          <li class="ds-mrow" data-token="--motion-response" style="--ds-dur: var(--motion-response)">
+            <span><code>--motion-response</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">The interface tracking the reader in real time: the scroll-progress bar, a pointer follow. Anything slower reads as lag rather than as motion.</p>
+          </li>
+          <li class="ds-mrow" data-token="--motion-state" style="--ds-dur: var(--motion-state)">
+            <span><code>--motion-state</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">A property changing under the pointer or the keyboard &mdash; colour, opacity, background. The most common motion on the site.</p>
+          </li>
+          <li class="ds-mrow" data-token="--motion-move" style="--ds-dur: var(--motion-move)">
+            <span><code>--motion-move</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">Something shifting a short distance or lifting: a card on hover, a shadow deepening.</p>
+          </li>
+          <li class="ds-mrow" data-token="--motion-enter" style="--ds-dur: var(--motion-enter)">
+            <span><code>--motion-enter</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">An element arriving: a reveal, a thumbnail settling, a step becoming active.</p>
+          </li>
+          <li class="ds-mrow" data-token="--motion-draw" style="--ds-dur: var(--motion-draw)">
+            <span><code>--motion-draw</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">A line describing itself. SVG stroke animations only &mdash; a drawing takes the time a drawing takes.</p>
+          </li>
+          <li class="ds-mrow" data-token="--motion-ambient" style="--ds-dur: var(--motion-ambient)">
+            <span><code>--motion-ambient</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+            <span class="ds-mval"></span>
+            <p class="ds-mjob">The environment changing behind the content: the story ground drifting between beats. Not meant to be watched.</p>
+          </li>
+        </ul>
+
+        <h3 class="ds-sub">The two curves</h3>
+        <p class="ds-demo-note" style="margin-bottom:1.25rem">Same distance, same duration &mdash; only the shape of the acceleration differs, which is the only way to see why there are two. <code>--ease</code> is the default for everything that is not entering. <code>--ease-enter</code> decelerates hard, so an arriving element reads as caught rather than stopped. It replaced two curves that were doing the same job and that no reader could tell apart.</p>
+        <div class="ds-demo-head">
+          <h3 id="motion-curve-label" class="ds-sub" style="margin:0">Both curves, racing</h3>
+          <button type="button" class="ds-replay" data-replay="curves">Play</button>
+        </div>
+        <div class="ds-curves" id="ds-curves" aria-labelledby="motion-curve-label">
+          <div class="ds-curve-row" style="--ds-curve: var(--ease)">
+            <span><code>--ease</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+          </div>
+          <div class="ds-curve-row" style="--ds-curve: var(--ease-enter)">
+            <span><code>--ease-enter</code></span>
+            <span class="ds-mtrack"><span class="ds-mdot"></span></span>
+          </div>
+        </div>
+        <p class="ds-demo-note">A third is written out rather than tokenised: <code>linear</code>, for progress bars and cross-fades, where there is nothing to accelerate. Reaching for it should be a decision.</p>
+
+        <h3 class="ds-sub">The reveal</h3>
+        <div class="ds-demo-head">
+          <h3 id="motion-demo-label" class="ds-sub" style="margin:0">One pattern, used everywhere</h3>
+          <button type="button" class="ds-replay" data-replay="motion">Replay</button>
+        </div>
+        <div class="ds-demo" style="display:block">
+          <div class="ds-motion-demo" id="ds-motion" aria-labelledby="motion-demo-label">
+            <div class="ds-rv">01</div>
+            <div class="ds-rv">02</div>
+            <div class="ds-rv">03</div>
+          </div>
+        </div>
+        <p class="ds-demo-note"><code>.reveal</code> rises <code>--motion-rise</code> (20px) and fades in once as it enters the viewport, over <code>--motion-enter</code> on <code>--ease-enter</code>. Siblings offset by <code>--motion-stagger</code> (60ms), multiplied by index. Two more distances complete the vocabulary: <code>--motion-lift</code> (1.03) is how much a hoverable thing grows, and <code>--motion-press</code> (0.985) how much a pressed thing shrinks &mdash; a 3% shrink reads as a flinch on a large surface, which is why it is not 0.97. The hidden state is gated behind a <code>.js</code> class, so without JavaScript the page renders complete rather than blank &mdash; an animation that reveals content is never the only thing that reveals it.</p>
+
+        <h3 class="ds-sub">Reduced motion</h3>
+        <div class="ds-rm" id="ds-rm">
+          <span class="ds-rm-dot" aria-hidden="true"></span>
+          <span id="ds-rm-text">Reading your setting&hellip;</span>
+        </div>
+        <p class="ds-demo-note">A reader who asks for reduced motion sees no motion and loses no content. Both halves matter. One blanket rule in <code>style.css</code> neuters every CSS animation and transition on the site without naming any of them, and both JavaScript motion files check the query and return before running. So a new animation needs no reduced-motion rule of its own &mdash; add one only when the element&rsquo;s un-animated resting state is wrong, and say why in a comment. The lightbox is the one deliberate exception: it keeps a 150ms linear fade rather than snapping, because an overlay that appears between one frame and the next is more disorienting than one that takes an eighth of a second.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="components">
+      <div class="container">
+        <span class="ds-num">01</span>
+        <h2>Components</h2>
+        <p class="ds-lede">Seventeen of them, and where a specimen is live it is built from the site&rsquo;s own stylesheet rather than rebuilt here. Four have no specimen: they belong to <code>case-study-base.css</code>, which this page does not load, and a hand-made copy would go stale the moment the case studies changed. Those four carry their markup instead.</p>
+
+        <div class="ds-component">
+          <h3>Buttons</h3>
+          <div class="ds-demo is-dark">
+            <a href="#components" class="btn btn-primary">Start a conversation</a>
+            <a href="#components" class="btn btn-ghost">See the work</a>
+          </div>
+          <div class="ds-demo">
+            <a class="btn-back" href="#components">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              Back to the work
+            </a>
+          </div>
+          <p class="ds-demo-note">Primary carries the raw sage; ghost is a hairline that fills dark on hover. Both live on dark ground. On light ground the only button is the pill back link at the foot of a detail page; everything else is a text link.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;a class=&quot;btn btn-primary&quot; href=&quot;/contact&quot;&gt;Start a conversation&lt;/a&gt;
+&lt;a class=&quot;btn btn-ghost&quot; href=&quot;/work&quot;&gt;See the work&lt;/a&gt;
+
+&lt;!-- light ground, foot of a detail page --&gt;
+&lt;a class=&quot;btn-back&quot; href=&quot;/work&quot;&gt;
+  &lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;...&lt;/svg&gt;
+  Back to the work
+&lt;/a&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give a view one primary at most &mdash; a second one is two things claiming to be the next step.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> pair primary with ghost on the dark band, where both were measured.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> put a filled button on light ground. The only light-ground button is the back pill; everything else is a text link.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Tags</h3>
+          <div class="ds-demo is-warm">
+            <span class="tag">Enterprise software</span>
+            <span class="tag">Design systems</span>
+            <span class="tag">Governance</span>
+          </div>
+          <p class="ds-demo-note">White pills with a warm hairline, 0.8125rem. Descriptive only; never interactive. <strong>Three, never more</strong>, and they name the domain and the capability rather than disciplines only a designer would recognise. One component with two homes: the case study cards and the product cards, which used to set a middot-separated run of their own. On white ground the fill does not read and the hairline does the work; that is the same component on a different surface, not a second treatment.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;span class=&quot;tag&quot;&gt;Enterprise software&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;Design systems&lt;/span&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> use them for flat classification: sector, discipline, tooling.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> make one a link or a filter. Nothing on the site filters by tag, so a tag that looks clickable is a promise it cannot keep.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Deliverables list</h3>
+          <div class="ds-demo is-dark" style="display:block">
+            <ul class="engagement-points" style="margin:0">
+              <li>A prototype real people can use</li>
+              <li>What works, and where it falls over</li>
+              <li>A build, kill, or park call</li>
+            </ul>
+          </div>
+          <p class="ds-demo-note">Dash-marked list for comparisons: the 2px sage dash reads as a mark, not a bullet stack. Items hold to two lines; if one needs three, shorten the item.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;ul class=&quot;engagement-points&quot;&gt;
+  &lt;li&gt;A prototype real people can use&lt;/li&gt;
+  &lt;li&gt;What works, and where it falls over&lt;/li&gt;
+  &lt;li&gt;A build, kill, or park call&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep every item to one line, and name a thing the client receives.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> run prose in it. If an item needs a second clause it belongs in the body.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Kicker</h3>
+          <div class="ds-demo is-dark">
+            <p class="eng3-kicker" style="margin:0">Engagement 01 &middot; AI, with no clear product yet</p>
+          </div>
+          <p class="ds-demo-note">The eyebrow above a page title: 0.8125rem Montserrat 600, tracked 0.08em, uppercase, in the accent for its surface. A middot separates the number from the situation.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;p class=&quot;eng3-kicker&quot;&gt;Engagement 01 &amp;middot; AI, with no clear product yet&lt;/p&gt;
+&lt;h1&gt;...&lt;/h1&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> put it directly above the title, naming position and subject.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use it beneath a title as a subtitle. It is an eyebrow; below the title it reads as a stray label.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Proof row</h3>
+          <div class="ds-demo" style="display:block">
+            <ol class="proof-row" style="border-top:0;padding-top:0">
+              <li class="proof-step">
+                <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M4.6 19.4 5.9 15.2 16.3 4.8a1.9 1.9 0 0 1 2.7 0 1.9 1.9 0 0 1 0 2.7L8.6 17.9z"/><path pathLength="1" d="M15.1 6 18 8.9"/><path pathLength="1" d="M6 15.3 8.6 17.9"/></svg></span>
+                <div class="proof-body">
+                  <p class="proof-years">2005-2013</p>
+                  <h4 class="proof-title">Craft</h4>
+                  <p class="proof-note">A hybrid designer and developer, hand-building the interfaces I designed.</p>
+                </div>
+              </li>
+              <li class="proof-step">
+                <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="2.6"/><circle pathLength="1" cx="5.4" cy="6.2" r="1.7"/><circle pathLength="1" cx="18.6" cy="6.6" r="1.7"/><circle pathLength="1" cx="12" cy="19.6" r="1.7"/><path pathLength="1" d="M10.1 10.2 6.7 7.4"/><path pathLength="1" d="M13.9 10.3 17.2 7.7"/><path pathLength="1" d="M12 14.6v3.3"/></svg></span>
+                <div class="proof-body">
+                  <p class="proof-years">2013-2026</p>
+                  <h4 class="proof-title">Systems</h4>
+                  <p class="proof-note">An enterprise consultant, making 40+ apps feel like one product.</p>
+                </div>
+              </li>
+              <li class="proof-step">
+                <span class="proof-node"><svg class="proof-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 20.6V11.4"/><path pathLength="1" d="M12 13.4C9.2 13.4 7 11.2 7 8.4c2.8 0 5 2.2 5 5z"/><path pathLength="1" d="M12.5 11.8c0-2.8 2.2-5 5-5 0 2.8-2.2 5-5 5z"/></svg></span>
+                <div class="proof-body">
+                  <p class="proof-years">2026 to now</p>
+                  <h4 class="proof-title">Independent</h4>
+                  <p class="proof-note">My own practice, shipping products of my own alongside client work.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+          <p class="ds-demo-note">Three stations on one rail, the span at the station and the story beneath it. Only confirmed numbers ever appear here; see Writing.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;ol class=&quot;proof-row&quot;&gt;
+  &lt;li class=&quot;proof-step&quot;&gt;
+    &lt;span class=&quot;proof-node&quot;&gt;
+      &lt;svg class=&quot;proof-icon&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;...&lt;/svg&gt;
+    &lt;/span&gt;
+    &lt;div class=&quot;proof-body&quot;&gt;
+      &lt;p class=&quot;proof-years&quot;&gt;2005&amp;ndash;2013&lt;/p&gt;
+      &lt;h4 class=&quot;proof-title&quot;&gt;Craft&lt;/h4&gt;
+      &lt;p&gt;...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> use an <code>ol</code>. The steps are ordered in time and the markup should say so.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> reach for it when the items are not sequential. Three unordered facts want the fact table.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Engagement card</h3>
+          <div class="ds-demo is-dark">
+            <a class="engagement-card" href="../engagement/ai-product-prototype.html">
+              <span class="engagement-num" aria-hidden="true">01</span>
+              <p class="engagement-situation">The organization has plenty of ideas and not enough clarity.</p>
+              <h3>Working Product Prototype</h3>
+              <ul class="engagement-points">
+                <li>Your AI concept, working in real hands</li>
+                <li>Know what works and what falls over</li>
+                <li>A clear build, kill, or park decision</li>
+              </ul>
+              <span class="engagement-go" aria-hidden="true">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </a>
+          </div>
+          <p class="ds-demo-note">The whole card is the link. Name in serif regular on two lines, bullets that say what the client gets (two lines each, at most), and the forward link pinned to the card's floor so four cards' links align whatever their copy length. Hover lifts the card and wakes the arrow.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;a class=&quot;engagement-card&quot; href=&quot;/engagement/ai-product-prototype.html&quot;&gt;
+  &lt;span class=&quot;engagement-num&quot;&gt;01&lt;/span&gt;
+  &lt;h3&gt;...&lt;/h3&gt;
+  &lt;ul class=&quot;engagement-points&quot;&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;
+  &lt;span class=&quot;engagement-go&quot;&gt;How this works&lt;svg aria-hidden=&quot;true&quot;&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> let the whole card be the link, as here &mdash; the target is then the card, not a phrase inside it.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> nest a second link inside. An anchor inside an anchor is invalid, and the inner one is what a keyboard finds.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Fact table and dash list, on light</h3>
+          <div class="ds-demo" style="display:block">
+            <dl class="build-facts" style="margin-bottom:1.5rem">
+              <div><dt>Role</dt><dd>Everything: product, identity, build</dd></div>
+              <div><dt>Built with</dt><dd>Astro, structured content, Pages CMS</dd></div>
+            </dl>
+            <ul class="build-list" style="margin-bottom:0">
+              <li>Dog-friendly and vegetarian are real filters, not tags someone remembers to add</li>
+              <li>Every card&rsquo;s town and category stamps render from the record</li>
+            </ul>
+          </div>
+          <p class="ds-demo-note">The write-up pages' pair: uppercase sage labels over facts, and the light-ground twin of the card dash list for anything that scans better as a list than a sentence with nine commas.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;dl class=&quot;build-facts&quot;&gt;
+  &lt;div&gt;&lt;dt&gt;Role&lt;/dt&gt;&lt;dd&gt;Everything: product, identity, build&lt;/dd&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;dt&gt;Built with&lt;/dt&gt;&lt;dd&gt;Astro, structured content, Pages CMS&lt;/dd&gt;&lt;/div&gt;
+&lt;/dl&gt;
+
+&lt;ul class=&quot;build-list&quot;&gt;
+  &lt;li&gt;Dog-friendly and vegetarian are real filters, not tags someone remembers to add&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> wrap each pair in its own <code>div</code>. The grid is laid on the wrapper, not on <code>dt</code>/<code>dd</code>.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep it to four facts. Past four it stops scanning and becomes a table.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use <code>dl</code> for a list that has no pairs. The dash list is there for that.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Figures and captions</h3>
+          <div class="ds-demo" style="display:block">
+            <figure class="build-shot" style="margin:0">
+              <img src="../img/shelf/connect-design-system.webp?v=16" width="1200" height="900" alt="The Connect design system thumbnail, used here as a figure specimen." />
+              <figcaption>Every figure earns a caption that says what the picture proves, not what it contains.</figcaption>
+            </figure>
+          </div>
+          <p class="ds-demo-note">A 12px radius and the same hairline the tags use, so framed media sits in the system rather than floating on the page. Captions are sans 0.8125rem in muted gray, capped at 40rem so they stay a caption rather than becoming body copy. A figure with nothing to prove is decoration; cut it instead.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;figure class=&quot;build-shot&quot;&gt;
+  &lt;img src=&quot;../img/shelf/connect-design-system.webp?v=16&quot;
+       width=&quot;1200&quot; height=&quot;900&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;
+       alt=&quot;The Connect design system thumbnail.&quot; /&gt;
+  &lt;figcaption&gt;Every figure earns a caption that says what the picture proves.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> always ship <code>width</code> and <code>height</code>. Without them the page reflows as each image decodes.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> write a caption that says what the picture <em>proves</em>, not what it contains.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> repeat the caption in <code>alt</code>. A screen reader then hears the same sentence twice.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Page furniture</h3>
+          <p class="ds-demo-note" style="margin-top:0">The header and footer are live at the top and bottom of this page rather than reproduced here, since duplicating a sticky element in a specimen only invites the two to drift.</p>
+          <ul class="ds-rules">
+            <li><strong>The header</strong><span>Sticky, <code>--nav-height</code> at 80px, which is also what <code>scroll-padding-top</code> uses so an anchor never lands under it. The mark returns home; the links are section anchors on the homepage and absolute paths elsewhere. It carries the reveal clip covered under Media.</span></li>
+            <li><strong>The footer</strong><span>Charcoal, warm text, one line naming the practice and the place, the two contact links, and a closing note at 60% opacity. No navigation: anything worth reaching is reachable above it.</span></li>
+            <li><strong>Both are hand-written per page</strong><span>There is no include step, so the two page families keep their own copies. That is exactly how the header drifted once before, which is why the cursor and the reveal are built in shared JavaScript rather than pasted markup.</span></li>
+          </ul>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> change the header in every page that carries it. There is no include step: the shell is copied into all nineteen files.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> reproduce the header or footer as a specimen. Two copies of a sticky element drift, and the live ones are at the top and bottom of this page already.</span></li>
+          </ul>
+        </div>
+
+        <div class="ds-component">
+          <h3>Forward link</h3>
+          <div class="ds-demo is-dark">
+            <span class="engagement-go">How this works<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+          <p class="ds-demo-note">Uppercase Montserrat with an arrow that eases forward on hover. Used at the foot of a card as its single call to action.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;span class=&quot;engagement-go&quot;&gt;
+  How this works
+  &lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;...&lt;/svg&gt;
+&lt;/span&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> use it inside a card that is itself a link, as the visible affordance.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use it standalone as a link. It is a <code>span</code> &mdash; on its own it is unfocusable and unreachable by keyboard.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Work card</h3>
+          <div class="ds-demo" style="display:block">
+            <div class="case-grid" style="margin:0">
+              <a class="case-card" href="#components" aria-label="View case study: an example">
+                <div class="case-thumb">
+                  <img decoding="async" loading="lazy" src="../img/site/sap-hero-02.webp" alt="A work-card thumbnail, used here as a specimen." width="1672" height="941" />
+                </div>
+                <h3>Making 40+ enterprise apps feel like one product</h3>
+                <div class="tag-row">
+                  <span class="tag">Enterprise software</span>
+                  <span class="tag">Design systems</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <p class="ds-demo-note">The homepage&rsquo;s selected work, and the most-seen component on the site. The whole card is one link; the thumbnail lifts on hover with <code>--shadow-lift</code>, or <code>--shadow-lift-sm</code> on the compact grid. The <code>aria-label</code> is what a screen reader announces instead of the three separate pieces inside.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;div class=&quot;case-grid&quot;&gt;
+  &lt;a class=&quot;case-card&quot; href=&quot;/case-study/sap-product-maturity.html&quot;
+     aria-label=&quot;View case study: Making 40+ enterprise apps feel like one product&quot;&gt;
+    &lt;div class=&quot;case-thumb&quot;&gt;
+      &lt;img src=&quot;/img/site/sap-hero-02.webp&quot; width=&quot;1672&quot; height=&quot;941&quot;
+           loading=&quot;lazy&quot; decoding=&quot;async&quot; alt=&quot;...&quot; /&gt;
+    &lt;/div&gt;
+    &lt;h3&gt;Making 40+ enterprise apps feel like one product&lt;/h3&gt;
+    &lt;div class=&quot;tag-row&quot;&gt;
+      &lt;span class=&quot;tag&quot;&gt;Enterprise software&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give the card an <code>aria-label</code> naming the destination. Without it the link announces as the thumbnail alt plus a heading plus three tags.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> ship <code>width</code> and <code>height</code> on the thumbnail. The grid reflows as each image decodes otherwise.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> put a second link or button inside. The card is already the link, and the inner one is what a keyboard reaches first.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Case hero</h3>
+          <div class="ds-demo" style="display:block">
+            <p class="case-kicker" style="margin:0">Build write-up &middot; 3 min read</p>
+            <h1 class="case-title" style="margin:0.25rem 0 0">How I built Lucy Learns</h1>
+            <p class="build-dek" style="margin:0.5rem 0 0">An offline-first training app for one household: designed, built and illustrated solo.</p>
+          </div>
+          <p class="ds-demo-note">The top of every detail page: kicker, title, dek. The kicker names the family and the read time; the title is the only <code>h1</code> on the page; the dek is one sentence and stops. Regime A pages set it in <code>--type-title</code>; the homepage hero is the one exception, on <code>--type-title-inset</code>, because it is sized against the 47% column it shares with the portrait.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;header class=&quot;case-hero&quot;&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;p class=&quot;case-kicker&quot;&gt;Build write-up &amp;middot; 3 min read&lt;/p&gt;
+    &lt;h1 class=&quot;case-title&quot;&gt;How I built Lucy Learns&lt;/h1&gt;
+    &lt;p class=&quot;build-dek&quot;&gt;An offline-first training app for one household.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep the dek to one sentence. It is a standfirst, not an abstract.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use a second <code>h1</code> further down the page. The title here is it.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> reach for <code>--type-title-inset</code>. It exists for the homepage hero and its column, and nothing else.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Glance block</h3>
+          <div class="ds-demo" style="display:block">
+            <div class="glance" style="margin:0">
+              <dl class="glance-facts">
+                <div><dt>Role</dt><dd>Everything: product, design, build</dd></div>
+                <div><dt>Built with</dt><dd>Plain JavaScript, no framework, no build step</dd></div>
+                <div><dt>Runs as</dt><dd>An installable phone app that works offline</dd></div>
+                <div><dt>Status</dt><dd>In use, still in development</dd></div>
+              </dl>
+            </div>
+          </div>
+          <p class="ds-demo-note">Four facts at the top of a build write-up, before the prose. The sibling of the fact table lower down: same <code>dl</code> shape, different ground and position. Four is the number &mdash; it is a glance, and a fifth row turns it into a table nobody reads.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;div class=&quot;glance&quot;&gt;
+  &lt;dl class=&quot;glance-facts&quot;&gt;
+    &lt;div&gt;&lt;dt&gt;Role&lt;/dt&gt;&lt;dd&gt;Everything: product, design, build&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;Built with&lt;/dt&gt;&lt;dd&gt;Plain JavaScript, no framework&lt;/dd&gt;&lt;/div&gt;
+  &lt;/dl&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> wrap each pair in its own <code>div</code>. The grid is on the wrapper, not on <code>dt</code>/<code>dd</code>.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> go past four rows. Past four it stops being a glance, and the fact table lower down is the thing you want.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Section table of contents</h3>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. It is a sticky bar under the header on a case study, listing the page&rsquo;s three sections. Its ground stays <code>rgba()</code> rather than a token on purpose: the tokenised spelling computes to <code>color(srgb ...)</code>, which the contrast checks cannot composite, and they read the bar as opaque charcoal and report 38 false failures.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;nav class=&quot;case-toc&quot; aria-label=&quot;Section navigation&quot;&gt;
+  &lt;div class=&quot;case-toc-inner&quot;&gt;
+    &lt;a href=&quot;#overview&quot;&gt;Overview&lt;/a&gt;
+    &lt;a href=&quot;#my-approach&quot;&gt;My approach&lt;/a&gt;
+    &lt;a href=&quot;#the-impact&quot;&gt;The impact&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give it an <code>aria-label</code>. A page with a site nav and a section nav has two <code>nav</code> landmarks, and unlabelled they are indistinguishable.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep the links to the sections that actually exist on the page.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> tokenise its background. The comment sits on the declaration explaining why, and removing it costs the checks their sight of 38 pieces of text.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Read time</h3>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. A single line above the title on a case study, in the same position the kicker occupies on regime A. It is written by hand, not computed &mdash; there is no build step to compute it in.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;span class=&quot;case-readtime&quot;&gt;3 min read&lt;/span&gt;
+&lt;h1&gt;Giving dispatchers one real-time view of a 450+ truck fleet&lt;/h1&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> write it as a round number of minutes. Precision no reader can verify is noise.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> put it after the title. It is an eyebrow, and below the title it reads as a caption on the heading.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Next-case closing</h3>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. The foot of every case study: one link to the next one, with an eyebrow above the title. It is the only navigation at the bottom of a detail page, and it is deliberately a single destination rather than a grid &mdash; a reader who finished one case study is offered the next, not a menu.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;section class=&quot;case-closing&quot; aria-label=&quot;Continue reading&quot;&gt;
+  &lt;div class=&quot;case-closing-inner&quot;&gt;
+    &lt;a href=&quot;innovators-studio-visual-identity.html&quot; class=&quot;case-closing-next&quot;&gt;
+      &lt;span class=&quot;case-closing-next-eyebrow&quot;&gt;Next case study&lt;/span&gt;
+      &lt;span class=&quot;case-closing-next-title&quot;&gt;Connecting a global innovation network &amp;rarr;&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> let the whole block be one link, and label the section so the landmark is named.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> offer more than one onward case. The point is a next step, not a choice.</span></li>
+          </ul>
+        </div>
+        <div class="ds-component">
+          <h3>Scroll progress rail</h3>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. A hairline at the top of a case study showing how far through the reader is. It carries <code>aria-hidden</code> and is empty: it reports position to the eye and to nothing else, because a screen reader already knows where it is in the document.</p>
+          <details class="ds-usage">
+            <summary>Markup</summary>
+            <pre class="ds-code"><code>&lt;div class=&quot;scroll-progress&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep it <code>aria-hidden</code> and empty. It is decoration for a fact assistive technology already has.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use it on a page short enough to need no scrolling. A rail that never moves reads as a broken one.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="ds-section" id="icons">
+      <div class="container">
+        <span class="ds-num">02</span>
+        <h2>Icons</h2>
+        <p class="ds-lede">All icons are line art in the accent color, drawn on as they enter. Two grids are in use: the capability icons on the homepage sit on a 48 viewBox at a 1.2px stroke with <code>pathLength="100"</code>, and the engagement-page icons sit on a 24 viewBox at a 1px hairline (set in CSS, overriding the markup's 1.5) with <code>pathLength="1"</code>. Everything else is shared law:</p>
+        <ul class="ds-rules" style="margin-bottom:2rem">
+          <li><strong>Stroke only, never fill</strong><span><code>stroke="currentColor"</code> with round caps and joins, so the icon takes its color from context: lifted sage on dark, deep sage on light.</span></li>
+          <li><strong>Every shape carries pathLength</strong><span>One normalized length means one <code>stroke-dasharray</code> rule animates every icon uniformly, whatever its real geometry.</span></li>
+          <li><strong>Decorative, always</strong><span><code>aria-hidden="true"</code> on every icon. The heading beside it carries the meaning; the icon never carries it alone.</span></li>
+          <li><strong>Two to four shapes</strong><span>More than four strokes stops reading as a mark at 44px. Simplify the idea before adding a line.</span></li>
+        </ul>
+        <div class="ds-demo-head">
+          <h3 id="icon-demo-label">The draw-on, live</h3>
+          <button type="button" class="ds-replay" data-replay="icons">Replay</button>
+        </div>
+        <div class="ds-demo is-dark">
+          <div class="ds-icon-row" id="ds-icons" aria-labelledby="icon-demo-label">
+            <svg class="eng3-icon" style="--i:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle pathLength="1" cx="10" cy="7.5" r="3.5"/><path pathLength="1" d="M3 21c0-4 3.2-6.5 7-6.5 1 0 1.9.16 2.8.47"/><path pathLength="1" d="M21.3 12.7a1.7 1.7 0 0 0-2.4-2.4l-5.6 5.6-.8 3.2 3.2-.8z"/></svg>
+            <svg class="eng3-icon" style="--i:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="7.5"/><circle pathLength="1" cx="12" cy="12" r="2.4"/><path pathLength="1" d="M12 2v2.6"/><path pathLength="1" d="M12 19.4V22"/><path pathLength="1" d="M2 12h2.6"/><path pathLength="1" d="M19.4 12H22"/></svg>
+            <svg class="eng3-icon" style="--i:2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M12 22V11.5"/><path pathLength="1" d="M12 11.5 4.5 4"/><path pathLength="1" d="M12 11.5 19.5 4"/><path pathLength="1" d="M15.5 3.5h4.5v4.5"/><path pathLength="1" d="M8.5 3.5H4v4.5"/></svg>
+          </div>
+        </div>
+        <p class="ds-demo-note">Three engagement-page icons at their real size, color, and hairline, drawing on with the site's own keyframes and 110ms stagger.</p>
+      </div>
+    </section>
+    <section class="ds-section" id="media">
+      <div class="container">
+        <span class="ds-num">03</span>
+        <h2>Media</h2>
+        <p class="ds-lede">Two clips run on this site: the header logo reveal and the hero portrait. Both follow one rule, learned the hard way.</p>
+
+        <h3 class="ds-sub">Device chrome</h3>
+        <p class="ds-lede">A phone mockup is a drawing of a physical object, so its frame answers to the artwork rule rather than to the scales &mdash; <a href="../SPACING.md">SPACING.md</a> section 4 carves it out of the space steps and <a href="../COLOR.md">COLOR.md</a> section 6 carves its colour out of the palette. Changing how much room a card gives its contents must never change how a phone looks. Both tokens live in <code>style.css</code>, not <code>shell.css</code>, for exactly that reason.</p>
+        <ul class="ds-rules">
+          <li><strong><code>--bezel</code> &mdash; 8px, one thickness</strong><span>The frames were 5, 8, 8 and 10px. Measured at 1440, the 218px mockup carried the 5px frame and the 190px one carried 10px, so the thickness ran <em>inversely</em> to the device: drift, not a ramp.</span></li>
+          <li><strong><code>--device-chrome</code> &mdash; <code>#1b1d22</code></strong><span>A shade darker and a few degrees cooler than the charcoal, which is what lets a shell read as a moulded object beside charcoal type. The two are 1.10:1 apart, which is why three frames sat on the interface charcoal for months without anyone noticing.</span></li>
+          <li><strong>The screen&rsquo;s corner is derived, never authored</strong><span>A frame reads as a constant-width ring only when the screen&rsquo;s corner is concentric with the shell&rsquo;s: inner radius = outer &minus; bezel. Three of the four were a pixel out. Each device now declares its own <code>--shell-radius</code> and the screen derives its corner with <code>calc()</code>, so the relationship cannot drift again.</span></li>
+        </ul>
+        <ul class="ds-rules">
+          <li><strong>A clip that plays once hands the element back</strong><span>When the reveal finishes it fades out over the static mark and removes itself. Leaving a paused video holding a required element looks fine until the page is backgrounded: browsers are free to drop a paused video&rsquo;s decoded frame, and it returns empty. That is a real bug this site shipped and fixed.</span></li>
+          <li><strong>The static state sets the box</strong><span>The mark or poster stays in flow and defines the space; the clip is layered over it, and the mark is painted beneath from the clip&rsquo;s first frame. The header never shifts, the fallback is already there rather than swapped in late, and the hand-back is a fade between two things on screen, not a swap that waits on a phone to rasterise the SVG.</span></li>
+          <li><strong>Every clip has a deadline</strong><span>A start deadline for one that never begins, an end handler for one that finishes, and a backstop for one that stalls in between. All three land on the same finished state.</span></li>
+          <li><strong>Silent, and never required</strong><span>Muted, <code>playsinline</code>, and skipped entirely under reduced motion. Nothing the clip carries is information the page needs.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="a11y">
+      <div class="container">
+        <span class="ds-num">03</span>
+        <h2>Accessibility</h2>
+        <p class="ds-lede">Not a checklist pass at the end; these are standing patterns every page ships with.</p>
+        <ul class="ds-rules" style="margin-bottom:2.25rem">
+          <li><strong>A skip link on every page</strong><span>First focusable element, off-screen until focused, jumps to <code>#main</code>. Its focused state:</span></li>
+        </ul>
+        <div class="ds-demo is-warm" style="margin-bottom:2.25rem">
+          <span class="ds-skip-demo">Skip to main content</span>
+        </div>
+        <ul class="ds-rules" style="margin-bottom:2.25rem">
+          <li><strong>One focus ring, everywhere</strong><span>Every link and button: a 2px accent outline, offset 3px, on <code>:focus-visible</code> so keyboard users get it and mouse clicks stay clean.</span></li>
+        </ul>
+        <div class="ds-demo is-dark" style="margin-bottom:2.25rem">
+          <a href="#a11y" class="btn btn-primary ds-focus-demo">Start a conversation</a>
+        </div>
+        <ul class="ds-rules">
+          <li><strong>Reduced motion is a contract</strong><span>Every animation carries a <code>prefers-reduced-motion</code> path that lands on the finished state. The custom cursor opts out entirely and leaves the native one.</span></li>
+          <li><strong>No JavaScript, no blank page</strong><span>Hidden-until-revealed states are gated behind a <code>.js</code> class the script sets. When the script never runs, everything simply renders complete.</span></li>
+          <li><strong>Decoration declares itself</strong><span>Icons and ornamental media carry <code>aria-hidden="true"</code>; the text beside them carries the meaning. Real images get alt text that describes the composition, not the filename.</span></li>
+          <li><strong>Contrast floors are load-bearing</strong><span>Text is meant to sit at 4.5:1 or better on its ground, and a control&rsquo;s boundary at 3:1. This is why sage exists in three steps rather than one: the text step manages 2.63:1 on charcoal where the lifted step reaches 7.47:1, and the fill step clears 3:1 everywhere but falls to 3.56:1 as small text on muted light. Every pair is measured live in Color. Two places did not meet it, both in the lightbox, and both are fixed &mdash; see Color. This said &ldquo;text sits at 4.5:1 or better&rdquo; as a flat claim until the colour audit showed it was not true.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="writing">
+      <div class="container">
+        <span class="ds-num">04</span>
+        <h2>Writing</h2>
+        <p class="ds-lede">The copy is part of the system. These rules are already enforced across the site; new copy follows them.</p>
+        <ul class="ds-rules">
+          <li><strong>No em dashes, anywhere</strong><span>Commas, colons, and full stops carry the rhythm. This holds in body copy, captions, commit messages, and alt text alike.</span></li>
+          <li><strong>Only confirmed numbers</strong><span>Every figure on the site traces to a real, verified fact. No invented metrics, no unattributed testimonials, no &ldquo;up to.&rdquo; A section waits empty rather than shipping a plausible number.</span></li>
+          <li><strong>Sell the change, not the artifact</strong><span>Cards and bullets lead with what the client gets. The deliverables themselves are itemized on the page behind the card, not on it.</span></li>
+          <li><strong>Two lines, then stop</strong><span>A list item that needs a third line needs a shorter item. Cut the sentence in half, then do it again.</span></li>
+          <li><strong>Say it once</strong><span>No heading restating its intro, no paragraph repeating its own figure&rsquo;s caption. If it is said nearby, it is not said here.</span></li>
+          <li><strong>Headings speak, labels label</strong><span>Anything with a voice sets in Crimson Text at regular weight. Anything that names or navigates sets in Montserrat. Emphasis comes from size or the accent, never both.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="editions">
+      <div class="container">
+        <span class="ds-num">01</span>
+        <h2>Editions</h2>
+        <p class="ds-lede">The same source builds two sites. They are not variants of a design; they are the same design with different things withheld.</p>
+        <ul class="ds-rules" style="margin-bottom:2rem">
+          <li><strong>Live &middot; adamhickey.com</strong><span>Eleven pages. The public practice. This is the only edition without <code>noindex</code>, and the only one where a change is visible to a stranger.</span></li>
+          <li><strong>Staging root</strong><span>Fifteen pages: everything live has except the retired Brand, Identity &amp; Illustration engagement, plus the three build write-ups, plus this reference. Carries <code>noindex</code>. This is the edition you are reading, and the one Pages inventories.</span></li>
+        </ul>
+        <ul class="ds-rules">
+          <li><strong>Withholding is a decision, not a build artefact</strong><span>Door County Found, Lucy Learns, and While We&rsquo;re Here are held out of live deliberately. Nothing about the code decides that; a person does, and it can be reversed the moment they say so. It runs the other way too: the Brand, Identity &amp; Illustration engagement is still on live and no longer here, because the offer behind it was retired and live has not caught up yet.</span></li>
+          <li><strong>Only one edition has to be right today</strong><span>Live can be held back while the others move. Publishing is the hard step to undo, so when in doubt it waits.</span></li>
+          <li><strong>Everything else stays in step</strong><span>A shared change lands in every edition in the same pass. Two editions drifting is how a fix gets made twice and lands once.</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ds-section" id="changing">
+      <div class="container">
+        <span class="ds-num">02</span>
+        <h2>Changing it</h2>
+        <p class="ds-lede">Rules earned the hard way. Each of these exists because skipping it broke something real.</p>
+        <ul class="ds-rules">
+          <li><strong>Every asset change bumps its token</strong><span>Stylesheets, scripts, images, the favicon, the clips: all carry <code>?v=</code>. A returning visitor holds the old file otherwise, and the bug that follows is invisible to whoever shipped it, because their own browser fetched the new one.</span></li>
+          <li><strong>There is no include step</strong><span>The header and footer are hand-written into every page. A change to either is a change to every file that carries it, in every edition. Grep, do not assume; and prefer shared JavaScript over pasted markup for anything with behaviour.</span></li>
+          <li><strong>Measure, do not eyeball</strong><span>Read the number back out of the browser: computed styles, bounding boxes, contrast ratios, line counts. Twice this year a change looked right and was not, and both times the measurement caught it before it shipped.</span></li>
+          <li><strong>The staging build is assembled, not pushed</strong><span>Its tree is composed from the source branch plus the client-safe branch. The deploy workflow lives only in the staging repository, so an assembled tree that omits it lands with no deploy at all, and the site silently stops updating. That has happened; the assembly step re-adds it every time.</span></li>
+          <li><strong>Retire, do not accumulate</strong><span>When two tokens differ only where a rule forced them apart, the rule is the thing to fix. Two colours left this palette that way, and both had been quietly failing contrast at small sizes.</span></li>
+          <li><strong>The reference is only true if it ships with the change</strong><span>A specimen copied by hand goes stale the moment the site moves. Three tags on this page said four for a week. Update the section in the same pass as the code, or it becomes fiction.</span></li>
+        </ul>
+      </div>
+    </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p style="font-size:var(--text-sm);color:var(--ink-on-dark-secondary)">Internal reference. Values render from style.css at load.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Fill every swatch and token row from the stylesheet itself. */
+    /* Sidebar: groups collapse, and the section under the reading line is
+       marked. rootMargin pins the trigger line near the top of the
+       viewport so the active item is the one being read, not the one
+       merely intersecting somewhere down the page. */
+    (function () {
+      var links = [].slice.call(document.querySelectorAll('.ds-side-link'));
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+      var mark = function (id) {
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        if (byId[id]) byId[id].classList.add('is-active');
+      };
+      /* Which section is being read is decided against a trigger line just
+         under the sticky header: the active one is the last whose top has
+         crossed it. Picking the topmost box that merely intersects a band
+         is wrong here, because a tall section still overlaps the band long
+         after the next one has started. */
+      var LINE = 120;
+      var ids = Object.keys(byId).filter(function (id) { return document.getElementById(id); });
+      var current = null;
+      var update = function () {
+        var pick = ids[0];
+        for (var i = 0; i < ids.length; i++) {
+          if (document.getElementById(ids[i]).getBoundingClientRect().top - LINE <= 0) pick = ids[i];
+        }
+        /* at the very bottom the last section may never cross the line */
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) pick = ids[ids.length - 1];
+        if (pick !== current) { current = pick; mark(pick); }
+      };
+      var ticking = false;
+      var onScroll = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; update(); });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+
+    /* Replay buttons re-arm their demo by dropping and re-adding .play
+       on the next frame, so the transition or animation runs again. */
+    (function () {
+      var targets = { motion: 'ds-motion', icons: 'ds-icons',
+                      scale: 'ds-motion-scale', curves: 'ds-curves' };
+      document.querySelectorAll('.ds-replay').forEach(function (btn) {
+        var el = document.getElementById(targets[btn.dataset.replay]);
+        if (!el) return;
+        btn.addEventListener('click', function () {
+          el.classList.remove('play');
+          void el.offsetWidth;
+          requestAnimationFrame(function () { el.classList.add('play'); });
+        });
+      });
+      /* Each duration row travels the same distance, so what differs between
+         the six is only the time. The track width is read once and written
+         back as a ratio, because the dot is positioned in percent. */
+      var scale = document.getElementById('ds-motion-scale');
+      var readDurations = function () {
+        if (!scale) return;
+        var root = getComputedStyle(document.documentElement);
+        scale.querySelectorAll('.ds-mrow').forEach(function (li) {
+          /* Read the token, not a probe element's computed duration. Under
+             prefers-reduced-motion the blanket rule in style.css sets
+             transition-duration on *, so a probe reports 0ms for all six and
+             the scale looks like it does not exist. The token is what this
+             row documents; the panel below says whether it is running. */
+          var raw = root.getPropertyValue(li.dataset.token).trim();
+          var ms = raw.slice(-2) === 'ms' ? parseFloat(raw) : parseFloat(raw) * 1000;
+          li.querySelector('.ds-mval').textContent = isNaN(ms) ? '--' : Math.round(ms) + 'ms';
+          li.style.setProperty('--ds-track', '1');
+        });
+      };
+      readDurations();
+
+      /* First run on load, so the demos do not sit empty. */
+      requestAnimationFrame(function () {
+        Object.keys(targets).forEach(function (k) {
+          var el = document.getElementById(targets[k]);
+          if (el) el.classList.add('play');
+        });
+      });
+
+      /* What the reader's own setting is, read rather than assumed. */
+      var rm = document.getElementById('ds-rm');
+      var rmText = document.getElementById('ds-rm-text');
+      if (rm && rmText && window.matchMedia) {
+        var q = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var say = function () {
+          rm.classList.toggle('is-reduced', q.matches);
+          rmText.innerHTML = q.matches
+            ? 'Your system asks for <strong>reduced motion</strong>. Every demo on this page is stopped, and so is every animation on the site.'
+            : 'Your system allows <strong>full motion</strong>. Turn reduced motion on in your OS settings and this page, and the site, stop animating.';
+        };
+        say();
+        if (q.addEventListener) q.addEventListener('change', say);
+      }
+    })();
+
+    (function () {
+      var cs = getComputedStyle(document.documentElement);
+      document.querySelectorAll('.ds-swatch').forEach(function (el) {
+        var v = cs.getPropertyValue(el.dataset.token).trim();
+        var chip = el.querySelector('.ds-swatch-chip');
+        chip.style.background = v;
+        if (el.hasAttribute('data-light')) chip.classList.add('is-light');
+        el.querySelector('code').textContent = el.dataset.token + ': ' + v;
+      });
+      document.querySelectorAll('#ds-tokens tr').forEach(function (tr) {
+        tr.querySelectorAll('code')[1].textContent =
+          cs.getPropertyValue(tr.dataset.token).trim();
+      });
+    })();
+
+    /* Contrast matrix: computed here, from the live token values, rather
+       than transcribed. WCAG 2.x relative luminance and ratio -- the same
+       arithmetic a checker uses, so a colour that moves in the stylesheet
+       moves the number on this page instead of quietly disagreeing with it. */
+    (function () {
+      var cs = getComputedStyle(document.documentElement);
+      var rgb = function (token) {
+        var v = cs.getPropertyValue(token).trim();
+        var probe = document.createElement('span');
+        probe.style.color = v;
+        document.body.appendChild(probe);
+        var c = getComputedStyle(probe).color;
+        probe.remove();
+        var m = c.match(/(\d+(?:\.\d+)?)/g);
+        return m ? [+m[0], +m[1], +m[2]] : null;
+      };
+      var lum = function (c) {
+        var f = c.map(function (v) {
+          v /= 255;
+          return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * f[0] + 0.7152 * f[1] + 0.0722 * f[2];
+      };
+      var ratio = function (a, b) {
+        var l1 = lum(a), l2 = lum(b);
+        if (l2 > l1) { var s = l1; l1 = l2; l2 = s; }
+        return (l1 + 0.05) / (l2 + 0.05);
+      };
+      document.querySelectorAll('#ds-contrast tbody tr').forEach(function (tr) {
+        var ink = rgb(tr.dataset.ink);
+        tr.querySelectorAll('.ds-cr').forEach(function (td) {
+          var ground = rgb(td.dataset.ground);
+          if (!ink || !ground) { td.textContent = '--'; return; }
+          var r = ratio(ink, ground);
+          td.textContent = r.toFixed(2);
+          td.classList.add(r >= 4.5 ? 'ds-cr-pass' : (r >= 3 ? 'ds-cr-large' : 'ds-cr-fail'));
+          /* The number is the fact; the class is a reading of it, so say the
+             reading out loud for anyone not seeing the colour. */
+          td.title = r >= 4.5 ? 'passes AA at any size'
+                   : (r >= 3 ? 'large text and control boundaries only'
+                             : 'decoration only');
+        });
+      });
+    })();
+
+    /* Type scale: report the pixel value the browser actually computed for
+       each step, rather than the value this page believes it should be. A
+       step that drifts in style.css then shows up here as a wrong number
+       instead of hiding behind a specimen that was typed by hand.
+
+       The ramps are measured the same way and re-measured on resize, so the
+       "here, now" column is a live reading of the clamp at whatever width
+       the page is being read at. */
+    (function () {
+      /* A fresh probe per reading, deliberately, rather than one reused span.
+
+         The reduced-motion block in style.css sets transition-duration on *,
+         and transition-property defaults to `all`, so under
+         prefers-reduced-motion every property transitions -- font-size
+         included. Setting fontSize on a probe that is already in the document
+         then starts a 0.01ms transition, and getComputedStyle read
+         immediately afterwards returns the value at time zero: the previous
+         one. Reusing a single probe made every reading here report 11px, the
+         first token in the list, for any visitor who has reduce motion turned
+         on. A newly inserted element has no previous value to transition
+         from, so it computes directly. */
+      var px = function (token) {
+        var probe = document.createElement('span');
+        probe.setAttribute('aria-hidden', 'true');
+        probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;font-size:var(' + token + ')';
+        document.body.appendChild(probe);
+        var v = parseFloat(getComputedStyle(probe).fontSize);
+        probe.remove();
+        return isNaN(v) ? '--' : (Math.round(v * 100) / 100) + 'px';
+      };
+
+      document.querySelectorAll('.ds-step').forEach(function (li) {
+        li.querySelector('.ds-step-px').textContent = px(li.dataset.token);
+      });
+
+      /* Spacing reads a width, not a font-size, so it needs its own probe. */
+      var wpx = function (token) {
+        var probe = document.createElement('div');
+        probe.style.cssText = 'position:absolute;visibility:hidden;height:0;width:var(' + token + ')';
+        document.body.appendChild(probe);
+        var v = probe.getBoundingClientRect().width;
+        probe.remove();
+        return isNaN(v) ? '--' : (Math.round(v * 100) / 100) + 'px';
+      };
+      document.querySelectorAll('.ds-space').forEach(function (li) {
+        li.querySelector('.ds-space-px').textContent = wpx(li.dataset.token);
+      });
+      var spaceRamps = [].slice.call(document.querySelectorAll('#ds-space-ramps tr'));
+      var measureRead = document.getElementById('ds-measure-read');
+      var measureP = document.querySelector('.ds-measure-demo p');
+      var readSpace = function () {
+        spaceRamps.forEach(function (tr) {
+          tr.querySelector('.ds-ramp-now').textContent = wpx(tr.dataset.token);
+        });
+        if (measureRead && measureP) {
+          /* Count the characters the browser actually laid out rather than
+             asserting the number: average glyph width from a canvas measure of
+             this paragraph's text, divided into its rendered width.
+
+             Only the text nodes in the paragraph's own font are sampled. The
+             <code> spans inside it are monospace and much wider per glyph, and
+             including them dragged the average up far enough to under-report
+             the count by five characters. */
+          var cs = getComputedStyle(measureP);
+          var own = '';
+          measureP.childNodes.forEach(function (n) {
+            if (n.nodeType === 3) own += n.nodeValue;
+          });
+          own = own.trim();
+          var ctx = document.createElement('canvas').getContext('2d');
+          ctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+          var per = ctx.measureText(own).width / own.length;
+          var w = measureP.getBoundingClientRect().width;
+          measureRead.textContent = Math.round(w) + 'px \u00b7 ' + Math.round(w / per) +
+            ' characters at ' + cs.fontSize;
+        }
+      };
+      readSpace();
+      /* ch is a font metric, so a read taken before the webfont lands measures
+         the fallback -- 596px rather than 620px for the same 52ch. */
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(readSpace);
+
+      var ramps = [].slice.call(document.querySelectorAll('#ds-ramps tr'));
+      var readRamps = function () {
+        ramps.forEach(function (tr) {
+          tr.querySelector('.ds-ramp-now').textContent = px(tr.dataset.token);
+        });
+      };
+      readRamps();
+      var ticking = false;
+      window.addEventListener('resize', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; readRamps(); readSpace(); });
+      });
+    })();
+  </script>
+</body>
+</html>

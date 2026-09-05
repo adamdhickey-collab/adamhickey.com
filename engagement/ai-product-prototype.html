@@ -11,9 +11,70 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Product Prototype | Adam Hickey</title>
-  <meta name="description" content="Work out where AI genuinely helps, build a working experience real people can use, and get an honest build, kill, or park recommendation." />
+  <title>Working Product Prototype | Adam Hickey</title>
+  <meta name="description" content="From an AI concept everyone talks about to a working experience real people can use, and an honest build, kill, or park call. A four-to-six-week, fixed-scope engagement." />
 
+  <link rel="canonical" href="https://adamhickey.com/engagement/ai-product-prototype.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adamhickey.com/engagement/ai-product-prototype.html" />
+  <meta property="og:title" content="Working Product Prototype | Adam Hickey" />
+  <meta property="og:description" content="From an AI concept everyone talks about to a working experience real people can use, and an honest build, kill, or park call. A four-to-six-week, fixed-scope engagement." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "@id": "https://adamhickey.com/engagement/ai-product-prototype.html#service",
+          "name": "Working Product Prototype",
+          "description": "From an AI concept everyone talks about to a working experience real people can use, and an honest build, kill, or park call. A four-to-six-week, fixed-scope engagement.",
+          "serviceType": "Product design",
+          "provider": {
+            "@id": "https://adamhickey.com/#practice"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+          },
+          "url": "https://adamhickey.com/engagement/ai-product-prototype.html"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/engagement/ai-product-prototype.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Services",
+              "item": "https://adamhickey.com/#problems"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Working Product Prototype",
+              "item": "https://adamhickey.com/engagement/ai-product-prototype.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
   <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
   <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
@@ -23,15 +84,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
-  <link rel="stylesheet" href="../style.css?v=20260826n" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260826a" />
-  <!-- The header logo plays a one-shot reveal clip on load and holds its last
-       frame. The class is set here, before first paint, so the static mark
-       never flashes ahead of the animation; anything that stops the clip from
-       running puts the static mark straight back. The 1.2s deadline is the
-       slow-fetch case: rather than leave the header empty while the clip
-       arrives, or pop it in half a second late, this load simply keeps the
-       static mark and skips the animation. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260905b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
   <script>
     (function () {
       var el = document.documentElement;
@@ -44,26 +109,57 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        /* Hand the header back to the static mark. The clip's settled frame
-           registers with the SVG to the pixel, so this swap is invisible,
-           and it is what keeps the logo on screen: a backgrounded page can
-           have its paused video's decoded frame dropped, and the element
-           would come back empty with the mark behind it still hidden. */
-        var settle = function () {
-          el.classList.remove('logo-reveal');
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
           try { v.pause(); } catch (e) {}
         };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
         var armed = true;
-        var giveUp = function () { if (armed) { armed = false; settle(); } };
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
         /* Once a frame is actually on screen the animation is committed and
-           the start deadline stops applying. */
-        v.addEventListener('playing', function () { armed = false; });
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
         v.addEventListener('error', giveUp);
         v.addEventListener('ended', settle);
-        /* Backgrounded mid-clip the animation is already missed, so settle
+        /* Backgrounded mid-clip the animation is already missed, so finish
            rather than leave a half-played video holding the header. */
         document.addEventListener('visibilitychange', function () {
-          if (document.hidden) settle();
+          if (document.hidden) finish();
         });
         var p = v.play();
         if (p && p.catch) p.catch(giveUp);
@@ -71,7 +167,7 @@
         /* Backstop for a clip that starts and then stalls without ever
            firing ended: the clip runs two seconds, so by three it is over
            one way or another. */
-        setTimeout(settle, 3000);
+        setTimeout(finish, 3000);
       });
     })();
   </script>
@@ -109,55 +205,187 @@
   </nav>
 
   <main id="main">
-    <header class="eng3-hero">
-      <div class="container case-narrow">
-        <div class="eng3-hero-inner">
-          <p class="eng3-kicker">Engagement 01 &middot; AI, with no clear product yet</p>
-          <h1>AI Product Prototype</h1>
-          <p class="eng3-dek">From an AI concept everyone talks about to a working experience you can judge, with an honest read on whether to keep going.</p>
+    <!-- The hero carries the picture, as Product Clarity's does: the scene
+         runs the full width, and the text sits on the left in charcoal over
+         the picture and nothing else. No scrim: the picture is drawn with
+         its left half empty so the text has room, and charcoal clears its
+         floor on the wall. The wrapper around the container paints an
+         invisible gradient so resting.mjs probes the type by the pixel
+         (style.css says why). The picture drifts as the reader scrolls
+         past, at a fraction of their speed, by the script at the foot of
+         the page; nothing moves under reduced motion.
+
+         The picture is this engagement's own, 2:1 with the subject
+         centre-right and the left half an unbroken wall, which is what lets
+         the text sit on it with nothing in between. -->
+    <header class="eng3-hero eng3-hero-art">
+      <div class="eng3-hero-scrim">
+        <div class="container case-wide">
+          <div class="eng3-hero-inner">
+            <p class="eng3-kicker">Engagement 04 &middot; AI, with no clear product yet</p>
+            <h1>Working Product Prototype</h1>
+            <p class="eng3-dek">From an AI concept everyone talks about to a working experience real people can use, and an honest build, kill, or park call.</p>
+          </div>
         </div>
       </div>
+      <img class="eng3-hero-bg" src="../img/engagement/ai-hero.webp?v=9" width="1774" height="887" fetchpriority="high" decoding="async" alt="" />
     </header>
 
-    <section class="case-section case-overview">
-      <div class="container case-narrow">
+    <!-- The facts a buyer needs before the story: how long, who it needs
+         from their side, and what it costs to have around. The strip used
+         to say "long enough to test on real scenarios, short enough to stay
+         a judgment tool", which is true and not a number. The length is the
+         practice's own terms for a fixed project; the fee is for the
+         judgment, not the hours the build takes, and the page says so. -->
+    <section class="case-section case-overview eng3-facts">
+      <div class="container case-wide">
         <dl class="build-facts">
-          <div><dt>The situation</dt><dd>An AI mandate, demos everywhere, no product</dd></div>
-          <div><dt>The team</dt><dd>You and me; ML engineers join for production</dd></div>
-          <div><dt>You leave with</dt><dd>A working prototype and a build, kill, or park call</dd></div>
-          <div><dt>Timeline</dt><dd>Weeks, not quarters, and scoped in the first conversation</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8"/><circle pathLength="1" cx="12" cy="12" r="3.4"/><circle pathLength="1" cx="12" cy="12" r="0.7"/></svg></span>Best for</dt><dd>An AI mandate, a demo or three, and no way to tell which of the ideas are real</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:1" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="M12 7.1v5l3.3 2"/></svg></span>Typical length</dt><dd>Four to six weeks, fixed scope and fixed fee, set after a first conversation</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:2" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.2" cy="8.4" r="3.1"/><path pathLength="1" d="M3.6 19.4c0-3.3 2.5-5.4 5.6-5.4s5.6 2.1 5.6 5.4"/><circle pathLength="1" cx="17.6" cy="9.6" r="2.2"/><path pathLength="1" d="M17.2 14.3c2 .3 3.2 2.1 3.2 5.1"/></svg></span>Your team&rsquo;s involvement</dt><dd>One sponsor, the people who do the work today, and real inputs; ML engineers only if the call is build</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:3" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6.2 3.4h7.4l4.2 4.2v13H6.2z"/><path pathLength="1" d="M13.4 3.4v4.4h4.4"/><path pathLength="1" d="m9.4 14.6 2.1 2.1 4-4"/></svg></span>You leave with</dt><dd>A working prototype, what works and where it falls over, and a build, kill, or park call with the cost of the next step</dd></div>
         </dl>
 
+      </div>
+    </section>
+
+    <!-- The first ask, and the low-pressure one, as its own band framed as
+         the step BEFORE choosing: you do not have to know whether this is
+         the right engagement to send the note, because sorting that out is
+         what the note is for. The same ask closes the page, beside "How I
+         work". The picture is this engagement's own: the same note being
+         written, with one object on the desk that belongs to this page. -->
+    <section class="eng3-invite" aria-labelledby="invite-title">
+      <div class="container case-wide">
+        <div class="eng3-invite-grid">
+          <div class="eng3-invite-body">
+            <p class="eng3-invite-kicker">Before you decide anything</p>
+            <h2 id="invite-title" class="eng3-invite-title">Not sure this is the one? Start with a few sentences.</h2>
+            <p>Tell me about the ideas on the list and who they are meant to help, in your own words: what leadership expects, what the demos do, who would use the thing on a Tuesday. No deck, no call to book. I will read it and tell you plainly whether this engagement fits, and if it does not, what would.</p>
+            <!-- What happens when the number does not fit. Every one of these pages
+                 names a fee model and none of them said this, so a reader who
+                 assumes the answer is no never writes the note the band is
+                 asking for. The smaller version is this page's own, and it is
+                 named as a different engagement rather than a discount:
+                 reduce the work with the price. Source: Essay 06. -->
+            <p>If the number that comes back is more than you have, say so. There is usually a smaller version
+               &mdash; one bet rather than the list &mdash; and it is a different engagement rather than this one
+               discounted.</p>
+            <a href="mailto:adam@adamhickey.com?subject=Working%20Product%20Prototype" class="btn btn-primary">Describe what is happening</a>
+          </div>
+          <figure class="eng3-invite-art">
+            <img src="../img/engagement/ai-invite.webp?v=4" width="1536" height="1024" loading="lazy" decoding="async" alt="" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-overview">
+      <div class="container case-wide">
         <h2>The situation</h2>
-        <p>Leadership wants AI in the product. The team has a demo, or three, and no product. Nobody can say what it is for, who it helps, or whether it is worth what it will cost to run.</p>
+        <!-- The prose keeps the measure on the left; the sentence the
+             engagement turns on is pulled out on a plate to the right, so the
+             column reads as a spread. The pull-out is the paragraph's own
+             claim in fewer words, not a new one. -->
+        <div class="eng3-situation">
+          <div class="eng3-situation-prose">
+            <p>Leadership wants AI in the product. The team has a demo, or three, and no product. Nobody can say what it is
+               for, who it helps, or whether it is worth what it will cost to run.</p>
+            <p>If a prototype that once took two weeks can now be produced in two days, the question becomes whether you prototyped the right thing. That judgment is what this engagement is for. The speed you can now get anywhere, and where AI does not help, you will hear that too.</p>
+          </div>
+          <aside class="eng3-pull" aria-label="The moment this engagement is for">
+            <p class="eng3-pull-quote">If a prototype that once took two weeks can now be produced in two days, the question becomes whether you prototyped the right thing.</p>
+          </aside>
+        </div>
+
+        <!-- The proof is the real one, and it is my own product rather than a
+             client's, which the paragraph says out loud: the point of showing
+             it is that every decision on that page is mine, and the write-up
+             says which ones the AI made faster and which it never touched.
+             Every figure here is from the write-up, none from memory. -->
+        <h2>Where it has worked</h2>
+        <p>One product where the judgment, not the speed, was the work. Every figure is from the write-up it sits beside.</p>
+
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">Lucy Learns &middot; my own product</p>
+            <h3>AI built working versions in an afternoon. I judged them.</h3>
+            <p>A training app for one household, built when a trainer&rsquo;s handouts turned out to be written for a person sitting still, and practice happens in a hallway with a leash in one hand. One bet, tightly drawn: run the handouts one instruction at a time, and record enough that &ldquo;is this working&rdquo; has an answer. It reads the steps aloud by default and listens only on request, because the two cost different things and listening fails where practice happens.</p>
+            <ul class="eng3-proof-stats">
+              <li><b>8</b><span>scenes put through a blind comprehension check</span></li>
+              <li><b>2</b><span>failed outright, and were redrawn until fresh viewers passed them</span></li>
+            </ul>
+            <p class="eng3-proof-more">Every decision on that page is mine, and the write-up says which ones the AI made faster and which it never touched. That is the shape of this engagement, with your problem and your people in place of mine.</p>
+          </div>
+          <!-- The same three screens the homepage card shows, in the same
+               frames and the same order: the product is an app, and one
+               illustration from its write-up read as an illustration piece
+               rather than as software. These are plain frames, not links,
+               because nothing in a proof card moves under the pointer. -->
+          <div class="eng3-proof-media">
+            <ol class="product-screens">
+              <li>
+                <div class="mini-phone">
+                  <img src="../img/products/lucy-learns-splash.webp?v=2" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="The Lucy Learns splash screen: the app name in a tall serif above an illustration of a black Labrador and her person crouched nose to nose, with the build version below." />
+                </div>
+                <p class="mini-cap"><span>01</span> Built for one dog in particular</p>
+              </li>
+              <li>
+                <div class="mini-phone">
+                  <img src="../img/products/lucy-learns.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="Lucy Learns home screen: the Calm Door Greetings track and today&rsquo;s homework with a Start session button." />
+                </div>
+                <p class="mini-cap"><span>02</span> Today&rsquo;s session, already chosen</p>
+              </li>
+              <li>
+                <div class="mini-phone">
+                  <img src="../img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="End of session: Level 1 cleared, ready for the next step." />
+                </div>
+                <p class="mini-cap"><span>03</span> End on a win, next one queued</p>
+              </li>
+            </ol>
+            <a class="eng3-proof-cta" href="../case-study/lucy-learns.html">The full account, with the screens &rarr;</a>
+          </div>
+        </article>
 
       </div>
     </section>
 
     <section class="case-section eng3-how">
-      <div class="container case-narrow">
+      <div class="container case-wide">
         <h2>How it works, step by step</h2>
-        <p>Four steps, in order, each one something you can check off.</p>
+        <p>Four steps, each one something you can check off. To show what each produces, they follow one company through, a composite rather than a client: a parts distributor whose inside-sales team still quotes by
+           hand, with fourteen AI ideas on a list and one budget.</p>
         <ol class="eng3-steps">
-          <li class="eng3-step">
+          <li class="eng3-step has-fig">
             <div class="eng3-step-main">
               <span class="eng3-num" aria-hidden="true"></span>
               <div>
               <h3>Find where it genuinely helps</h3>
-              <p>And, just as usefully, where it does not. Most products have one or two places where this technology removes real work, surrounded by a dozen where it adds a slower way to do something that already worked.</p>
+              <p>And where it does not. Most products have one or two places where this technology removes real work, surrounded by a dozen where it adds a slower way to do something that already worked.</p>
               </div>
             </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-ai-01.webp?v=7" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop showing a shared screen on a call: fourteen cards in two rows with two of them marked, and a strip of five call tiles along the bottom, Adam at the end." />
+              <figcaption><b>Two of fourteen survive contact with the work.</b> The quoting desk and the returns triage.</figcaption>
+            </figure>
           </li>
-          <li class="eng3-step">
+          <li class="eng3-step has-fig">
             <div class="eng3-step-main">
               <span class="eng3-num" aria-hidden="true"></span>
               <div>
               <h3>Cut to one bet worth testing</h3>
-              <p>One use, defined tightly enough to build and judge. The demos that go nowhere are usually the ones that tried to show everything at once and proved nothing in particular.</p>
+              <p>One use, defined tightly enough to build and judge. The demos that go nowhere tried to show everything at once and proved nothing in particular.</p>
               </div>
             </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-ai-02.webp?v=9" width="1080" height="720" loading="lazy" decoding="async" alt="Seen from above: a single one-page brief with a sketched phone screen and one boxed heading, beside a squared stack of index cards turned face down." />
+              <figcaption><b>One bet: draft the quote, leave the price alone.</b> The chatbot everyone expected did not make the cut.</figcaption>
+            </figure>
           </li>
-          <li class="eng3-step">
+          <li class="eng3-step has-fig">
             <div class="eng3-step-main">
               <span class="eng3-num" aria-hidden="true"></span>
               <div>
@@ -165,8 +393,12 @@
               <p>Something real people can use on real inputs, with the failure cases visible rather than staged away. A demo that only works on the happy path tells you nothing you did not already hope.</p>
               </div>
             </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-ai-03.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="Adam at his desk, seen from his webcam, pressing one button on a working screen on the phone in his hand." />
+              <figcaption><b>Built on last quarter&rsquo;s real requests.</b> A third of them are photographs of faxes.</figcaption>
+            </figure>
           </li>
-          <li class="eng3-step">
+          <li class="eng3-step has-fig">
             <div class="eng3-step-main">
               <span class="eng3-num" aria-hidden="true"></span>
               <div>
@@ -174,75 +406,148 @@
               <p>Build, kill, or park, with the reasoning and the likely cost of the next step. An engagement that talks you out of something expensive has paid for itself.</p>
               </div>
             </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-ai-04.webp?v=8" width="1080" height="720" loading="lazy" decoding="async" alt="A woman in a cardigan using the working thing on a phone at a table while Adam sits across the corner from her, notebook open, watching her rather than the phone." />
+              <figcaption><b>Kept, with a limit written down.</b> It drafts, a person prices, it never sends.</figcaption>
+            </figure>
           </li>
         </ol>
 
+        <!-- The facts strip's third station in full: what the weeks take from the
+             client's side, and the situations this engagement is not for,
+             each pointed at the one that is. There is no matching "What you
+             leave with" panel: the facts strip's fourth station says it, in the
+             same words, and the step captions show it. -->
         <div class="eng3-leave">
-          <h2 class="eng3-panel-title">What you leave with</h2>
+          <h2 class="eng3-panel-title">What it asks of you</h2>
           <ul class="eng3-checklist">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>A prototype real people can use</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>What works, and where it falls over</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>A build, kill, or park call</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>The shape and cost of the next step</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>One sponsor who can kill an idea, including the one leadership expected</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>The people who do the work today, for about an hour each, and again when there is something to try</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>Last quarter&rsquo;s real inputs, malformed ones included</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> <span>One session at the end where build, kill, or park gets said out loud</span></li>
+          </ul>
+        </div>
+
+        <!-- Three situations where a different engagement is the right one,
+             each in its own column with the engagement named under it. It
+             was one sentence beginning "Not the one when", which asked a
+             reader to hold three conditions and three links in one clause. -->
+        <div class="eng3-leave eng3-fit">
+          <h2 class="eng3-panel-title">When a different engagement is the right one</h2>
+          <ul class="eng3-fit-grid">
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="m15.4 8.6-2.2 4.6-4.6 2.2 2.2-4.6z"/></svg></span>
+              <p>The product is complicated and AI is not the question.</p>
+              <a href="product-clarity.html">Product Clarity&nbsp;&rarr;</a>
+            </li>
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:1" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.8" cy="7.8" r="3.3"/><path pathLength="1" d="M3.6 20.2c0-3.7 2.8-6.2 6.2-6.2s6.2 2.5 6.2 6.2"/><path pathLength="1" d="m15.4 8.8 1.9 1.9 3.5-3.5"/></svg></span>
+              <p>The idea is decided and needs a senior owner to ship it.</p>
+              <a href="embedded-senior-product-design.html">Embedded Senior Product Design&nbsp;&rarr;</a>
+            </li>
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:2" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M4.2 4.2h6.4v6.4H4.2z"/><path pathLength="1" d="M13.4 4.2h6.4v6.4h-6.4z"/><path pathLength="1" d="M4.2 13.4h6.4v6.4H4.2z"/><path pathLength="1" d="M13.4 13.4h6.4v6.4h-6.4z"/></svg></span>
+              <p>Several teams need one shared foundation.</p>
+              <a href="design-system-foundation.html">Design System Foundation&nbsp;&rarr;</a>
+            </li>
           </ul>
         </div>
 
         </div>
     </section>
 
-    <section class="eng3-one" aria-label="Working with one person">
-      <div class="container case-narrow">
-        <h2>Working with one person</h2>
-        <div class="eng3-one-grid">
-          <div class="eng3-one-item" style="--i: 0;">
-            <svg class="eng3-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle pathLength="1" cx="10" cy="7.5" r="3.5"/><path pathLength="1" d="M3 21c0-4 3.2-6.5 7-6.5 1 0 1.9.16 2.8.47"/><path pathLength="1" d="M21.3 12.7a1.7 1.7 0 0 0-2.4-2.4l-5.6 5.6-.8 3.2 3.2-.8z"/></svg>
-            <h3>You talk to the person doing the work</h3>
-            <p>No account layer, no juniors briefed second-hand, no rewriting of what you said before it reaches the designer. You explain the problem once, to the person who solves it.</p>
+    <!-- One compact statement, and this page's own: what the facts strip
+         cannot say, which is who you talk to and what the weeks feel like.
+         The length, the fee model and the participants are the strip's and
+         are not repeated here.
+
+         That last sentence was the intent and not the fact until 2026-09-04.
+         The paragraph opened its second half with "The weeks run on a
+         kickoff, ..." and then listed the participants a third time: the
+         strip says them, "What it asks of you" says them again with the
+         durations attached, and this said them once more a screen below
+         that. Three tellings of one fact on a page a reader meets once, and
+         the two pages carrying it were the two written to the same template.
+         The cadence -- a written update every week -- is the only part of
+         that sentence the page says nowhere else, so it is the part that
+         stayed. -->
+    <!-- "How I work" and the closing ask share one band, side by side: the
+         shape of the work on the left, the thing to do about it on the right.
+         The page ends the way the case studies do, on the next engagement. -->
+    <section class="eng3-one eng3-one-compact eng3-one-split" aria-label="How I work">
+      <div class="container case-wide">
+        <div class="eng3-split">
+          <div class="eng3-split-how">
+            <!-- The capability claim, which the page used to leave to the
+                 artifacts. Every "you leave with" on this site named a thing:
+                 the reasoning in writing, the tokens, the components, the
+                 editing workflow. None of them said the people would be
+                 better at this, which is the actual measure. Embedded already
+                 carried it ("the measure of the work is what your team can do
+                 without me"); this is the same argument in each page's own
+                 terms. Source: Essay 25, "Leave the Client Better Than You
+                 Found Them" -- a clean handoff cannot be created on the last
+                 Friday, and a system nobody else understands was rented
+                 rather than built. -->
+            <h2>How I work</h2>
+            <p>You talk to the person doing the work: whoever hears the ideas in the first week builds the prototype and makes the call. I design it and build it, in real code on real inputs, and building is the cheap part: the fee is for choosing what to build and judging it honestly. You get a working version early enough to be wrong about, a written update every week, and the reasoning behind the call written down beside it &mdash; because the next idea on the list is one your team should be able to judge without me.</p>
           </div>
-          <div class="eng3-one-item" style="--i: 1;">
-            <svg class="eng3-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="7.5"/><circle pathLength="1" cx="12" cy="12" r="2.4"/><path pathLength="1" d="M12 2v2.6"/><path pathLength="1" d="M12 19.4V22"/><path pathLength="1" d="M2 12h2.6"/><path pathLength="1" d="M19.4 12H22"/></svg>
-            <h3>The attention is undivided and it is finite</h3>
-            <p>A one-person practice runs few engagements at once. That is the point: yours gets the whole of the attention. It is also the constraint, so start the conversation earlier than you need to.</p>
-          </div>
-          <div class="eng3-one-item is-caution" style="--i: 2;">
-            <svg class="eng3-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M12 22V11.5"/><path pathLength="1" d="M12 11.5 4.5 4"/><path pathLength="1" d="M12 11.5 19.5 4"/><path pathLength="1" d="M15.5 3.5h4.5v4.5"/><path pathLength="1" d="M8.5 3.5H4v4.5"/></svg>
-            <h3>Where this is not the right fit</h3>
-            <p>You need production ML engineering, model training or infrastructure. I design and build the product around the technology, and work with the people who build the technology itself.</p>
-          </div>
-          <div class="eng3-one-item" style="--i: 3;">
-            <svg class="eng3-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" d="M13.5 8.5a2 2 0 0 1-2 2H6.5l-3.5 3.5V4a2 2 0 0 1 2-2h6.5a2 2 0 0 1 2 2z"/><path pathLength="1" d="M17.5 8.5H19a2 2 0 0 1 2 2V21l-3.5-3.5H11a2 2 0 0 1-2-2v-1"/></svg>
-            <h3>Shape, scope, and cost</h3>
-            <p>Scoped to the problem in front of it, so length and price come out of a first conversation rather than a menu. That conversation is free and short. If the problem is still taking shape, we start with a smaller piece that produces clarity.</p>
+          <div class="eng3-split-cta">
+            <h2 class="eng3-cta-title">Describe what is happening</h2>
+            <p>A few sentences about the ideas on the list and who they are meant to help are enough to start. If a different engagement fits better, or none of them do, I will say so.</p>
+            <a href="mailto:adam@adamhickey.com?subject=Working%20Product%20Prototype" class="btn btn-primary">Send me a few sentences</a>
           </div>
         </div>
       </div>
     </section>
 
-
-    <section class="eng3-cta">
-      <div class="container case-narrow">
-        <h2 class="eng3-cta-title">Is this the one?</h2>
-        <p>Tell me what is happening with your product. If a different engagement fits better, or none of them do, I will say so.</p>
-        <a href="../index.html#contact" class="btn btn-primary">Start a conversation</a>
-      </div>
-    </section>
-
-    <section class="case-footer">
-      <div class="container case-narrow">
-        <a class="btn-back" href="../index.html#problems">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-          All engagements
+    <section class="eng3-closing" aria-label="Continue reading">
+      <div class="container case-wide">
+        <a href="product-clarity.html" class="eng3-closing-next">
+          <span class="eng3-closing-next-eyebrow">Next engagement &middot; 01</span>
+          <span class="eng3-closing-next-title">Product Clarity &rarr;</span>
+          <span class="eng3-closing-next-dek">The product has become complicated</span>
         </a>
       </div>
     </section>
   </main>
   <script>
-    /* Draw-on for the one-person icons: items get .is-inview as they enter
-       the viewport. The eng3-js class gates the hidden initial state so the
-       section renders complete without JavaScript. */
+    /* The hero picture drifts as the reader scrolls past it, at 15% of their
+       speed: the picture is 130% of the hero tall and starts 5% above it, so
+       the drift never shows an edge -- the strip it opens at the hero's top
+       is above the fold before it exists; style.css has the arithmetic.
+       --motion-response is the budget for
+       the interface tracking the reader, and this tracks them directly, one
+       transform per frame with nothing to ease. Off under reduced motion and
+       below 1280, where the picture is a static band under the text. */
+    addEventListener('DOMContentLoaded', function () {
+      var img = document.querySelector('.eng3-hero-bg');
+      var hero = img && img.closest('.eng3-hero-art');
+      if (!img || !hero) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var wide = window.matchMedia('(min-width: 1280px)');
+      var ticking = false;
+      var place = function () {
+        ticking = false;
+        if (still.matches || !wide.matches) { img.style.transform = ''; return; }
+        var rect = hero.getBoundingClientRect();
+        var passed = Math.min(Math.max(-rect.top, 0), rect.height);
+        img.style.transform = 'translate3d(0, ' + (passed * 0.15).toFixed(1) + 'px, 0)';
+      };
+      var ask = function () { if (!ticking) { ticking = true; requestAnimationFrame(place); } };
+      addEventListener('scroll', ask, { passive: true });
+      addEventListener('resize', ask);
+      still.addEventListener('change', ask);
+      wide.addEventListener('change', ask);
+      place();
+    });
+    /* Draw-on for the facts strip's icons (and the one-person icons, whose
+       section this page no longer renders): each gets .is-inview as it enters
+       the viewport. The eng3-js class gates the hidden initial state, so
+       without JavaScript the icons render finished rather than blank. */
     document.documentElement.classList.add('eng3-js');
     addEventListener('DOMContentLoaded', function () {
-      var items = document.querySelectorAll('.eng3-one-item');
+      var items = document.querySelectorAll('.eng3-one-item, .eng3-facts, .eng3-fit');
       if (!('IntersectionObserver' in window)) {
         items.forEach(function (el) { el.classList.add('is-inview'); });
         return;

@@ -70,17 +70,37 @@
   transform:
     translateY(calc(var(--cmp, 0) * var(--cm-hero-drift)))
     scale(calc(1 + var(--cmp, 0) * 0.045));
+  /* Pin the bottom edge, so the zoom grows the hero upward only. With the
+     default centre origin the bottom edge gained half the growth as well --
+     2.25% of the rendered height, which is a different number on every page
+     and at every width (15px on the 16:9 heroes at 1280, 11px on the 5000px
+     one). Pinned, the bottom edge moves by exactly --cm-hero-drift, which is
+     what makes the reserve below a single value rather than six. */
+  transform-origin: 50% 100%;
+}
+
+/* Reserve that travel. Nothing below the hero used to, so at full scrub the
+   image ran over the accent bar heading the next section -- 15px into it at
+   1440 on four of the six pages, and under 40px of clearance on all six. The
+   bar's own mt-10 is 40px and now means it.
+
+   A media query rather than a .cm-hero rule, because case-motion.js is
+   deferred: a margin that arrived with the class would shift the page after
+   first paint. Reduced-motion readers get neither the drift nor the reserve,
+   which is the pairing that keeps the resting layout untouched. */
+@media (prefers-reduced-motion: no-preference) {
+  img.vt-case-hero { margin-bottom: var(--cm-hero-drift); }
 }
 
 /* Page-load choreography for the hero copy (read time → title → meta).
    Classes are added by JS only, so there is no flash without it. */
 .cm-load {
-  animation: cmLoad 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: cmLoad var(--motion-enter) var(--ease-enter) both;
 }
-.cm-load-2 { animation-delay: 0.09s; }
-.cm-load-3 { animation-delay: 0.18s; }
+.cm-load-2 { animation-delay: var(--motion-stagger); }
+.cm-load-3 { animation-delay: calc(var(--motion-stagger) * 2); }
 @keyframes cmLoad {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(var(--motion-rise)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
