@@ -87,7 +87,7 @@ point above.
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `robots.txt`, `sitemap.xml` | What a crawler is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- and `node scripts/seo.mjs` fails if it stops matching the pages on disk |
-| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20. `checks.yml` runs two of the checks; see Checks |
+| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20. `checks.yml` runs all of them; see Checks |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs`, which is here as well as in staging |
@@ -198,9 +198,21 @@ the path alone will not tell a browser anything moved.
 
 `checks.yml` runs on every pull request and push to `main`. It reports and
 deploys nothing; the two workflows are separate on purpose so a failing check
-reads as a failing check rather than as a failed deploy. Today it asks two
-things:
+reads as a failing check rather than as a failed deploy. Since #23 it is
+staging's `checks.yml` plus the two Tailwind steps this repository had first,
+nine steps in all:
 
+- **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
+  nothing tracked that `.gitignore` matches, because the Pages artifact is a
+  tar of the root and one entry tar cannot follow loses the whole deploy.
+  `pages.yml` runs it too, immediately before the upload.
+- **Every token the documentation names exists** -- `tokens.mjs`. The specs
+  read as claims: every `--token` they name exists or is declared retired.
+- **Every counted claim still counts** -- `counts.mjs`. The numbers the specs
+  and this file assert, recounted from the tree.
+- **What the site tells a machine still matches the site** -- `seo.mjs`. A
+  canonical, an Open Graph card and a JSON-LD graph per page, and a sitemap
+  listing every page once. None of it renders, so none of it looks wrong.
 - **The built Tailwind stylesheet is current.** It rebuilds from
   `tailwind.config.js` and the markup and compares; when the bytes differ it
   reports at the class level, which selectors the markup uses that the
@@ -208,12 +220,16 @@ things:
   both files are one minified line and a plain diff says nothing.
 - **No page compiles Tailwind in the browser.** One grep for the CDN
   compiler, which #14 removed from all six case studies.
+- **Contrast, at rest and in every reachable state** -- `resting.mjs` and
+  `states.mjs`, both `--strict`. Neither covers the other: a color can be
+  perfect at rest and fail on hover, and it can fail sitting still, which no
+  amount of state-forcing notices.
+- **No partial border on a curved surface** -- `curves.mjs`.
+- **Every type size is on the scale** -- `typescale.mjs`.
 
-**The other seven checks are here and are not wired in.** Until #20 they lived
-only in staging, which is private, so this repository's `GITHUB_TOKEN` could
-not check them out; the closing comment in `checks.yml` still says so, and
-still says `typescale.mjs` does not pass on this tree. Both predate #20. The
-scripts are under `scripts/` now, and all seven pass here:
+The three static checks need nothing installed and report before anything
+is; the browser checks use the runner image's Chrome and fall back to
+fetching Chromium. Locally, the same nine:
 
 ```
 npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
@@ -228,22 +244,19 @@ node scripts/typescale.mjs                # every rendered size against the four
 node scripts/curves.mjs                   # no partial border on a rounded surface
 ```
 
-The first four need nothing installed and finish in about a second between
-them. The last four need Playwright and a browser; `CHROME` has to name one
-that exists, and the scripts check. Each prints the path, page count and
-commit it measured before doing anything else; read that line first, because
-a wrong target you cannot see is a false result. At #21 the four measure 2522
-resting colors, 605 state rules, 10680 type sizes and 6245 elements checked
-for a partial border, across fifteen pages. Nothing verifies those four
-numbers; treat them as a tripwire, and a run that comes back materially
-smaller means something stopped being measured.
+`CHROME` has to name a browser that exists, and the scripts check. Each
+prints the path, page count and commit it measured before doing anything
+else; read that line first, because a wrong target you cannot see is a false
+result. At #21 the four browser checks measure 2522 resting colors, 605 state
+rules, 10680 type sizes and 6245 elements checked for a partial border,
+across fifteen pages. Nothing verifies those four numbers; treat them as a
+tripwire, and a run that comes back materially smaller means something
+stopped being measured.
 
-Wiring all seven into `checks.yml` is the open step, and staging's
-`checks.yml` is the model: it runs them on every pull request and needs no
-token now that the scripts are in the tree. `counts.mjs` is the one script
-that differs from its staging copy, by one entry: staging's registry holds a
-claim about how many of its pages the live site carries, which cannot be
-counted from here because here is the live site.
+The scripts are staging's, copied with #20, and `counts.mjs` is the one that
+differs from its staging copy, by one entry: staging's registry holds a claim
+about how many of its pages the live site carries, which cannot be counted
+from here because here is the live site.
 
 ## Deployment
 
@@ -311,3 +324,5 @@ are the way they are:
 | #19 | This file describes this repository, not the one it was copied from |
 | #20 | The live site catches up with staging at its #136: fifteen pages, the four specs, the scripts, canonicals and structured data on every page; the brand page retired; `noindex` gone |
 | #21 | American English throughout, the same sweep as staging's #145 |
+| #22 | This file describes the tree #20 left behind, and `counts.mjs` stops asking how many pages the live site carries |
+| #23 | `checks.yml` runs all seven scripts, not just the two Tailwind steps, and `pages.yml` refuses a tree it cannot tar |

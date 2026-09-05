@@ -22,6 +22,20 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Before the upload, so the failure has a name. Without it the whole
+      # report is `tar: ./node_modules: File removed before we read it` under a
+      # step called "Run actions/upload-pages-artifact@v3", which says what
+      # broke and nothing about what to do. Needs no browser and nothing
+      # installed; it runs in checks.yml too, so a pull request goes red before
+      # a tree like this can reach main at all.
+      - name: The tree can be tarred
+        run: node scripts/deployable.mjs
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
