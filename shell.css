@@ -1,0 +1,167 @@
+/* shell.css -- the frame: the measurements and the motion, not the colour or
+ * the type. Nav height, container width, corner radii, the easing curve, and
+ * elevation.
+ *
+ * The third of three token files, and all three are loaded by all fifteen
+ * pages. That is not a taxonomy: it is scope. style.css is loaded by nine, so
+ * anything defined there is invisible to the six Tailwind case studies -- and
+ * site-nav.css, which every page loads, was reaching --nav-height, --ease and
+ * --container-max through literal fallbacks because of exactly that. The
+ * fallbacks matched, so nothing looked wrong; change one of the tokens and the
+ * shared header would have been one height on nine pages and another on six.
+ *
+ * Elevation was in color.css for two steps for the same reason. It is here now
+ * that there is a file it actually belongs in.
+ */
+:root {
+  --radius-xl: 20px;
+  --radius-pill: 9999px;
+  --container-max: 1280px;
+  --nav-height: 80px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------------------------------------------------------------------
+     MOTION -- six durations, named for the job rather than the number, and
+     a second curve. MOTION.md is normative.
+
+     The number is only right in service of the job, and the gaps between
+     these are perceptual rather than tidy. 80 to 200 is the difference
+     between tracking the reader and responding to them. 200 to 300 is the
+     difference between a colour changing and a thing that moved -- an
+     object needs the longer one to read as having travelled rather than
+     teleported. 500 to 900 is the difference between arriving and being
+     drawn.
+
+     There were 21 distinct durations against 133 uses. Five of them served
+     the state change alone, and two of those five -- 200 and 250 -- were 44
+     of its 58 uses with nothing to tell them apart: .nav-links a fades its
+     colour in 200ms and .case-card h3 fades its colour in 250ms, on the
+     same page, for the same reason. */
+  --motion-response:  80ms;   /* the interface tracking the reader: scroll progress, a pointer follow */
+  --motion-state:    200ms;   /* a property changing under pointer or keyboard: colour, opacity, background */
+  --motion-move:     300ms;   /* something shifting a short distance or lifting */
+  --motion-enter:    500ms;   /* an element arriving: a reveal, a thumbnail settling */
+  --motion-draw:     900ms;   /* a line describing itself; SVG stroke only */
+  --motion-ambient: 1000ms;   /* the environment changing behind the content, not meant to be watched */
+
+  /* --ease above is the default: everything that is not entering. This is
+     the arrival curve -- it decelerates hard, so the element reads as caught
+     rather than stopped. It replaces two curves that were doing the same
+     job, cubic-bezier(0.22, 1, 0.36, 1) and cubic-bezier(0.16, 1, 0.3, 1),
+     which no reader could tell apart on a 500ms reveal.
+
+     There is no --ease-linear. `linear` is written out where it belongs --
+     progress bars and cross-fades -- because reaching for it should be a
+     decision rather than a token pick. */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Motion is a duration, a curve and a distance. These are the distances.
+     Four rises were in use (8, 14, 20 and 24px), three lifts within half a
+     percent of each other, and 21 distinct delays serving 30 uses, which is
+     a stagger hand-written nearly every time it appeared.
+
+     A fifth rise of 29.6px was counted here at first and was never one:
+     .hero-copy's translateY does layout, not motion, and now takes a space
+     step. A transform is not evidence of movement. */
+  --motion-rise:    20px;     /* how far a revealing element travels */
+  --motion-lift:    1.03;     /* how much a hoverable thing grows */
+  --motion-press:   0.985;    /* how much a pressed thing shrinks */
+  --motion-stagger: 60ms;     /* between siblings in a sequence, multiplied by index */
+
+  /* ---------------------------------------------------------------------
+     SPACE -- nine fixed steps, then four ramps. SPACING.md is normative.
+
+     Every one of these is a multiple of 4px, and that is not an import: of
+     the 511 rem-valued spacing declarations on this site, 401 already
+     landed on a 4px multiple before a single token existed. The 110 that
+     missed were all off by 0.8px or 1.6px -- 0.05rem or 0.1rem -- because
+     a round decimal of a rem is not a round number of pixels. The steps
+     are therefore listed in pixels first and rem second.
+
+     The nine steps are also exactly Tailwind's 1 2 3 4 5 6 8 10 12, which
+     matters because six of the fifteen pages space themselves entirely in
+     Tailwind utilities. The eight most-used numeric utilities on those six
+     pages are eight of these nine, in rank order. Both halves of the site
+     had already agreed on this scale; nobody had written it down.
+
+     Two tiers. 4 -> 24 in steps of 4, because at 8px a 4px error is half
+     the value. 24 -> 48 in steps of 8, because at 40px it is 10% and
+     invisible, and a step nobody can see is a step nobody should have to
+     choose between. Same shape as the type scale, reached from the other
+     end. */
+  --space-2xs: 0.25rem;  /*  4px  hairline: a label off its icon */
+  --space-xs:  0.5rem;   /*  8px  the tightest real gap */
+  --space-sm:  0.75rem;  /* 12px  a dense inset, a tight row gap */
+  --space-md:  1rem;     /* 16px  the default, when nothing says otherwise */
+  --space-lg:  1.25rem;  /* 20px  a comfortable inset for a small card */
+  --space-xl:  1.5rem;   /* 24px  the most-used space on the site */
+  --space-2xl: 2rem;     /* 32px  between components */
+  --space-3xl: 2.5rem;   /* 40px  a generous inset for a panel */
+  --space-4xl: 3rem;     /* 48px  the largest fixed step; above this, a ramp */
+
+  /* Above 48px space is fluid, for the reason type is: a 96px band that is
+     right on a monitor is a quarter of the viewport on a phone. Ten
+     sections currently carry ten different padding pairs, each jumping at a
+     breakpoint; --space-section and --space-section-lg replace all ten.
+
+     All four share the type ramps' window -- 400px -> 1280px, the 25rem and
+     55 below -- so at any width every ramp sits at the same fractional
+     progress between its own endpoints, and an ordering that holds at both
+     ends holds everywhere between. What that does NOT buy is a constant
+     ratio between type and space: h1 doubles across the window while
+     --space-section grows by half, so the page reads denser at 1280 than at
+     400. That is the right direction for a wide screen, but it is a
+     consequence, not a property. */
+  --space-section:    clamp(4rem,   calc(4rem   + 2   * (100vw - 25rem) / 55), 6rem);   /*  64 ->  96  a standard full-width band */
+  --space-section-lg: clamp(5rem,   calc(5rem   + 3   * (100vw - 25rem) / 55), 8rem);   /*  80 -> 128  a band with a full-bleed treatment: hero, story */
+  --space-block:      clamp(3rem,   calc(3rem   + 1.5 * (100vw - 25rem) / 55), 4.5rem); /*  48 ->  72  between major blocks inside a band */
+  --gutter:           clamp(1.5rem, calc(1.5rem + 0.5 * (100vw - 25rem) / 55), 2rem);   /*  24 ->  32  page edge to content, on .container */
+
+  /* Prose is measured in characters, not pixels; comfortable is 60-75. So
+     the measure is written in ch, which scales with the element's own font
+     size, and one token is correct at every size.
+
+     A rem value cannot be. The site had figcaptions capped at the same 40rem
+     as its 18px body copy: 70 characters at 18px and 115 at 12px, from one
+     number. That is the whole argument for ch in a single rule.
+
+     52ch is 70 characters. Measured in Chromium against a real paragraph:
+     one ch is 1.349 average characters in Montserrat and 1.324 in Crimson
+     Text -- close enough that one token serves both families, and constant
+     across sizes by construction. The site already used ch in three places
+     before this, so the idiom is native rather than imported.
+
+     Apply it to the text element, never to a wrapper: ch resolves against
+     the element's own font-size, so a 16px container capping an 18px
+     paragraph would measure the wrong glyph. */
+  --measure: 52ch;       /* 70 characters, at any size, in either family */
+
+  /* ---------------------------------------------------------------------
+     ELEVATION -- named by what is lifting, not by how far.
+
+     A different axis from the alpha steps in color.css: an alpha answers how
+     loud a piece of ink is, an elevation answers how far off the page an
+     object sits. It lives here with radius and easing rather than in
+     color.css, because a shadow is a physical property that happens to be
+     drawn in colour.
+
+     There were 19 hand-written box-shadow values against two tokens, and the
+     two tokens were barely the point: --shadow-sm had no consumers at all and
+     --shadow-card only three, all of them on the reference page's own chrome.
+     The site's shadows were, in practice, entirely hand-written -- five of
+     them the same lifted-screen idea written five ways, with the offsets and
+     alphas drifting a little each time.
+
+     All of them are built on --color-black. The four near-blacks that were in
+     use for shadows -- #000, #111111, #1b1d1a and #252525 -- differ by less
+     than a shadow can show. */
+  --shadow-card:     0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04); /* a card at rest, with its keyline */
+  --shadow-resting:  0 1px 8px rgba(0,0,0,0.06);        /* a bar or rail sitting on the page: nav, progress rail, step card */
+  --shadow-media:    0 8px 24px rgba(0,0,0,0.08);       /* a framed image or figure */
+  --shadow-device:   0 1px 2px rgba(0,0,0,0.06),
+                     0 20px 40px -24px rgba(0,0,0,0.42); /* a screen mockup lifted off the page -- contact shadow plus soft drop */
+  --shadow-popover:  0 10px 30px rgba(0,0,0,0.14);      /* floating UI on a light page */
+  --shadow-lightbox: 0 24px 60px rgba(0,0,0,0.45);      /* a photo over the scrim */
+  --shadow-lift:     0 24px 48px rgba(0,0,0,0.16);      /* a work-card thumbnail on hover */
+  --shadow-lift-sm:  0 6px 14px rgba(0,0,0,0.16);       /* the same, on the compact grid */
+}

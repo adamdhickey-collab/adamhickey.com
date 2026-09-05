@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How I built Lucy Learns | Adam Hickey</title>
+  <meta name="description" content="A build write-up for Lucy Learns: an offline-first dog-training app designed, built and illustrated solo, with the AI driven from a terminal." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/lucy-learns.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/lucy-learns.html" />
+  <meta property="og:title" content="How I built Lucy Learns | Adam Hickey" />
+  <meta property="og:description" content="A build write-up for Lucy Learns: an offline-first dog-training app designed, built and illustrated solo, with the AI driven from a terminal." />
+  <meta property="og:image" content="https://adamhickey.com/img/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/lucy-learns.html#article",
+          "headline": "How I built Lucy Learns",
+          "description": "A build write-up for Lucy Learns: an offline-first dog-training app designed, built and illustrated solo, with the AI driven from a terminal.",
+          "url": "https://adamhickey.com/case-study/lucy-learns.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/lucy-learns.html",
+          "image": "https://adamhickey.com/img/og-card.jpg",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/lucy-learns.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Built end to end",
+              "item": "https://adamhickey.com/#built"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How I built Lucy Learns",
+              "item": "https://adamhickey.com/case-study/lucy-learns.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- This page uses the site's own stylesheet rather than the Tailwind CDN the
+       older captured case studies load, so it costs one request instead of a
+       framework. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260905b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260904a" />
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Build write-up &middot; 5 min read</p>
+        <h1 class="case-title">How I built Lucy Learns</h1>
+        <p class="build-dek">An offline-first training app for one household: designed, built, and illustrated solo, with the AI driven from a terminal. What that changed about my work, and what it did not.</p>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Everything: product, design, build</dd></div>
+            <div><dt>Built with</dt><dd>Plain JavaScript, a service worker and the Web Speech API; no framework, no build step</dd></div>
+            <div><dt>Runs as</dt><dd>An installable phone app that works offline, served from GitHub Pages</dd></div>
+            <div><dt>Status</dt><dd>In use, still in development</dd></div>
+          </dl>
+        </div>
+
+        <div class="glance">
+          <p class="glance-kicker">My approach</p>
+          <ol class="glance-row">
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>01</span>Research</p>
+                <ul class="glance-points">
+                  <li>A trainer&rsquo;s handouts, written for someone sitting still</li>
+                  <li>Practice watched where it happens: leash in one hand, five minutes</li>
+                  <li>Acceptance criteria written to be falsifiable on a real phone</li>
+                </ul>
+                <a class="glance-more" href="#the-problem">The problem</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(3,-0.25)"><circle pathLength="1" cx="9" cy="5.8" r="1.8"/><path pathLength="1" d="M8.2 7.4 3 20.5"/><path pathLength="1" d="M9.8 7.4 15 20.5"/><path pathLength="1" d="M3.9 15.6a10.5 10.5 0 0 0 10.2 0"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>02</span>Design</p>
+                <ul class="glance-points">
+                  <li>Progress in the trainer&rsquo;s levels, not points and streaks</li>
+                  <li>One instruction per screen, one tap per rep</li>
+                  <li>Speaking and listening as two switches, not one</li>
+                </ul>
+                <a class="glance-more" href="#three-decisions">Three decisions</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>03</span>Build</p>
+                <ul class="glance-points">
+                  <li>Plain JavaScript modules: no framework, no build step, no dependencies</li>
+                  <li>Service worker for offline, local storage for state, Web Speech API for voice</li>
+                  <li>Illustrations from JSON specs a Node script posts to an image model</li>
+                  <li>AI built working versions in an afternoon. I judged them</li>
+                </ul>
+                <a class="glance-more" href="#the-terminal">A terminal, not a chat window</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.5,0)"><circle pathLength="1" cx="11.5" cy="12" r="8.5"/><path pathLength="1" d="M7.8 12.3l2.5 2.5 4.9-5.2"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>04</span>Test</p>
+                <ul class="glance-points">
+                  <li>On a real phone: installed, offline, one-handed</li>
+                  <li>A contrast script gates every commit against the WCAG floor</li>
+                  <li>A blind pilot: four models, shuffled order, filenames hidden</li>
+                  <li>Two pictures failed and were redrawn until strangers read them right</li>
+                </ul>
+                <a class="glance-more" href="#how-i-checked">How I checked it</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- The whole app in three screens. One picture of a home screen
+             made a reader work out the product from prose; the flow says what
+             it is before the first paragraph does. -->
+        <figure class="build-flow">
+          <ol class="build-flow-row">
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns.webp?v=6" width="620" height="1342" fetchpriority="high" decoding="async"
+                     alt="The Calm Door Greetings track across five stages, with today&rsquo;s homework and a Start session button." />
+              </div>
+              <p class="build-flow-cap"><span>01</span> Pick up where the trainer left off</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns-2.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
+                     alt="Mid-session: step 1 of 6, ring or knock once, with the rep tally and a count-as-a-miss control under one large instruction." />
+              </div>
+              <p class="build-flow-cap"><span>02</span> Run it one instruction at a time</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                     alt="End of session: Ready for the next step, 100% success calm throughout, with Lucy trotting across a gold field above it. Level 1 cleared, 1 of 5 in Doorbell Means Place." />
+              </div>
+              <p class="build-flow-cap"><span>03</span> Finish on a win</p>
+            </li>
+          </ol>
+          <figcaption>Three taps of context: the app in the order you meet it.</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="the-problem">The problem</h2>
+        <p>We hired a professional trainer for our dog. What came back was a stack of handouts: good instructions, written for a person sitting still. Practice happens in a hallway, leash in one hand and treat pouch in the other, five minutes at a time, and by evening nobody remembers whether the barking is actually getting better or whether it was just a bad Tuesday.</p>
+        <p>So the app has a narrow job: turn the handouts into something you can run one-handed, and record enough that &ldquo;is this working&rdquo; has an answer. It supports the trainer. It does not replace one, and it does not diagnose behavior.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="three-decisions">Three decisions that shaped it</h2>
+
+        <h3>Progress is measured in the trainer&rsquo;s units, not mine</h3>
+        <p>The obvious move is points, streaks, a satisfying progress bar. The unit here is the level, because the level is what the trainer talks in: the number on the app&rsquo;s program map is the number in her lesson report, so nobody reconciles the two in their head. Points would have looked more like a product and been worse at the job.</p>
+
+        <figure class="build-flow">
+          <ol class="build-flow-row">
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-activities.webp?v=4" width="620" height="1342" loading="lazy" decoding="async" alt="The Activities library, grouped by what you are trying to change: the Calm Door Greetings track with five stations, and activity cards for Doorbell Predicts Rewards and Stay While the Door Opens, each carrying its level and last practice." /></div>
+              <p class="build-flow-cap">The program, in her levels</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-progress.webp?v=4" width="620" height="1342" loading="lazy" decoding="async" alt="The Progress tab: Jumping showed up in two sessions this week after none last week, a Summary for your trainer card, six sessions, 83 percent stayed calm, and per-behavior counts against last week." /></div>
+              <p class="build-flow-cap">The week, ready to hand to the trainer</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-profile.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The Profile tab: Lucy&rsquo;s card noting she gets over-aroused around arrivals, who practices with her, and Commands we use &mdash; move to bed reads &ldquo;Go to bed&rdquo;, stay behind boundary reads &ldquo;Back&rdquo;, remain in position reads &ldquo;Stay&rdquo;, above a line asking you to confirm the wording with the trainer first." /></div>
+              <p class="build-flow-cap">The cues, in her words</p>
+            </li>
+          </ol>
+          <figcaption>All three run in her units, not mine: her levels, a week written to be handed over at the next lesson, and the exact words she says out loud, set once here and repeated by every activity screen.</figcaption>
+        </figure>
+
+        <h3>Logging happens during the session, not after it</h3>
+        <p>One tap after each repetition, one more on arousal to save the session. That is the entire logging burden, capped deliberately: anything heavier does not get used with a dog attached to your other arm. The tally is a record of what happened, not a reconstruction at the end of the day.</p>
+
+        <h3>Voice, because both hands are already busy</h3>
+        <p>Speaking and listening got split, because they cost completely different things. Speaking runs on the device, needs no permission, and works with no signal, so the app reads the steps aloud by default. Listening ships audio to a server, needs a microphone permission an installed web app does not reliably keep, and fails where practice actually happens.</p>
+
+        <!-- The two-switch decision, drawn: the asymmetry is the whole
+               argument, and a diagram carries it faster than the paragraph. -->
+          <figure class="build-diagram">
+            <!-- The viewBox is cropped to the two cards' painted edges, strokes
+                 included, so their borders sit on the same left and right
+                 margin as the paragraphs. At 0 0 640 214 the cards carried ten
+                 units of their own padding and landed 13px inside the text
+                 column. -->
+            <svg viewBox="9.5 13.5 621 187.5" role="img" aria-labelledby="voice-t" xmlns="http://www.w3.org/2000/svg">
+              <title id="voice-t">Speaking runs on the device, needs no permission, and works with no signal. Listening ships audio to a server, needs a microphone grant and a connection.</title>
+              <rect x="10" y="14" width="292" height="186" rx="12" fill="var(--color-tea-light)" stroke="var(--color-accent-deep)"/>
+              <rect x="338" y="14" width="292" height="186" rx="12" fill="var(--color-warm)" stroke="var(--color-tag-border)"/>
+              <text x="32" y="48" font-family="var(--font-sans)" font-size="15" font-weight="600" fill="var(--color-charcoal)">Speaking</text>
+              <text x="360" y="48" font-family="var(--font-sans)" font-size="15" font-weight="600" fill="var(--color-charcoal)">Listening</text>
+              <text x="32" y="70" font-family="var(--font-sans)" font-size="12" fill="var(--color-muted-gray)">on by default</text>
+              <text x="360" y="70" font-family="var(--font-sans)" font-size="12" fill="var(--color-muted-gray)">off by default</text>
+              <g font-family="var(--font-sans)" font-size="12.5" fill="var(--color-charcoal)">
+                <text x="58" y="110">Runs on the device</text>
+                <text x="58" y="140">No permission needed</text>
+                <text x="58" y="170">Works with no signal</text>
+                <text x="386" y="110">Ships audio to a server</text>
+                <text x="386" y="140">Needs a microphone grant</text>
+                <text x="386" y="170">Needs a connection</text>
+              </g>
+              <g fill="var(--color-accent-deep)"><circle cx="42" cy="106" r="5"/><circle cx="42" cy="136" r="5"/><circle cx="42" cy="166" r="5"/></g>
+              <g fill="none" stroke="var(--color-muted-gray)" stroke-width="2" stroke-linecap="round">
+                <path d="M364 102 l9 9 M373 102 l-9 9"/><path d="M364 132 l9 9 M373 132 l-9 9"/><path d="M364 162 l9 9 M373 162 l-9 9"/>
+              </g>
+            </svg>
+            <figcaption>Two switches, not one. Bundling them would have made the reliable half hostage to the fragile one.</figcaption>
+          </figure>
+
+        <h3>And two ways to hold a session</h3>
+        <p>The session screen was designed around where your hands actually are, and that turns out to be two different places.</p>
+        <!-- The two postures, illustrated. -->
+        <figure class="build-modes">
+          <div class="build-modes-row">
+            <div class="build-mode">
+              <div class="build-mode-shot">
+                <img src="../img/lucy/mode-hands-full.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A woman stands in a hallway with a phone in one hand and the leash in the other, looking down at a black dog with a white chest sitting at her feet. A treat pouch hangs at her hip, and the front door is visible past her." />
+              </div>
+              <h4>In one hand</h4>
+              <p>Phone in whichever hand the leash leaves free. The app reads each step aloud so you never look down, and with listening on, the session runs on a handful of spoken phrases: next step, went well, finish session.</p>
+            </div>
+            <div class="build-mode">
+              <div class="build-mode-shot">
+                <img src="../img/lucy/mode-hands-free.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A tablet upright on a wooden stand at the edge of a living-room coffee table. Beyond it a woman crouches with both hands open and empty, facing a black dog with a white chest sitting on a grey floor bed." />
+              </div>
+              <h4>On a stand</h4>
+              <p>The setup for the busiest moments: the phone, or an iPad, propped upright in portrait where you practice. The instruction reads from a step away, the next rep is one tap or one phrase, and both hands stay with the dog the whole time.</p>
+            </div>
+          </div>
+          <figcaption>Same session, two postures. The screen is built for both: one instruction in large type, and every control a thumb or a phrase away.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="how-i-checked">How I checked it before shipping it</h2>
+        <p>Two things, both cheap.</p>
+        <p>The acceptance criteria are falsifiable. Every line is observably true or false on a real phone, and someone who has never seen the code reaches the same verdict I would. Written that way they are testable rather than admirable.</p>
+        <p>The illustrations got a comprehension pilot before I spent a real panel on them:</p>
+        <ul class="build-list">
+          <li>Four language models, no knowledge of the project, saw the same eight images in different orders</li>
+          <li>One question each: what is the person doing, and what is the dog doing</li>
+          <li>Two pictures failed outright, all four viewers misreading them the same way</li>
+          <li>Both were redrawn and passed the same blind check with fresh viewers before shipping</li>
+        </ul>
+        <p>Not a substitute for testing with people. A way to catch the obvious failures for free, before the expensive test is worth running.</p>
+
+          <!-- The clearest single artifact of the method: one failure, its
+               fix, and the fact that strangers arbitrated both. -->
+          <figure class="build-pair">
+            <div class="build-pair-row">
+              <div class="build-pair-item">
+                <img src="../img/lucy/release-before.webp" width="800" height="600" loading="lazy" decoding="async"
+                     alt="The first version: Lucy with all four feet on the bed, facing the handler&rsquo;s open hands." />
+                <span class="build-pair-label">Before &middot; 0 of 4</span>
+              </div>
+              <div class="build-pair-item is-after">
+                <img src="../img/lucy/release-after.webp" width="800" height="600" loading="lazy" decoding="async"
+                     alt="The redraw: most of Lucy off the bed, one back foot still touching its edge, moving toward the open hands." />
+                <span class="build-pair-label">After &middot; redrawn</span>
+              </div>
+            </div>
+            <figcaption>Scene 07, before and after, both in the art style of the time. The claim was &ldquo;coming off the bed&rdquo; and every viewer read the first version as a dog standing on it. The redraw puts most of her off, one back foot still touching, and fresh viewers read a departure. The whole set has since been redrawn twice in the flat style it ships in now, and this composition survived both unchanged.</figcaption>
+          </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="the-terminal">A terminal, not a chat window</h2>
+        <p>It did not decide what to build. Every decision above came from watching two people fail to practice consistently, and from twenty years of knowing which shortcuts turn into support tickets later.</p>
+        <p>What it changed is how far I can carry something alone. The illustrations have been redrawn twice from the terminal, not a chat window: each scene is a JSON spec that a Node script assembles and posts to OpenAI&rsquo;s image model. Ordered reference images, the prose to prepend, one sentence naming what the picture has to get right, which is what every round is checked against before anyone looks at it twice.</p>
+        <p>A chat window drew the first eight and worked. It also lost what makes a bad picture diagnosable: which references were attached, and in what order, the strongest lever on consistency there is. So they became ordered data, the prompt&rsquo;s numbered list is generated from that same array, and the script refuses a wrong request before it costs anything.</p>
+        <p>That is where the time went, and the four styles the app has had are the receipt for it.</p>
+        <!-- Four styles in a month, one picture each. The same composition
+             exists in every era -- the handler in a chair, Lucy asleep on her
+             bed beside her -- so the rows compare the drawing rather than the
+             subject, which four different scenes could not. Until 2026-09-05
+             this was the eight pilot scenes drawn three times: twenty-four
+             thumbnails, none of them large enough to see a style in, and the
+             lavender era missing entirely because the page only ever showed
+             the sets that were still on disk. The strip under each title is
+             the effort in rounds and hours rather than money: the rounds are
+             what the terminal made countable, and the two chat window eras
+             say so by having nothing to put there. -->
+        <figure class="build-eras">
+          <ol class="build-eras-list">
+            <li class="build-era">
+              <div class="build-era-art">
+                <img src="../img/lucy/era-01-painted.webp?v=1" width="1040" height="780" loading="lazy" decoding="async"
+                     alt="Painted era: a photographic living room in warm lamplight, the handler reading in an armchair, Lucy asleep on a grey mat on a patterned rug, with bookshelves, plants and framed pictures behind them." />
+              </div>
+              <div class="build-era-note">
+                <p class="build-era-title"><span>01</span>Painted, in a chat window</p>
+                <p>The set the app launched with. It is a picture of a house rather than an instruction: the room carries more detail than the step does, and at the 56 pixels the program map gives it, none of that detail survives. Lucy is also not the same dog twice &mdash; twelve of the thirty put her in a harness she does not own.</p>
+                <dl class="build-era-stats">
+                  <div><dt>When</dt><dd>6 to 8 August</dd></div>
+                  <div><dt>Pictures</dt><dd>30</dd></div>
+                  <div><dt>Rounds</dt><dd>Not recorded</dd></div>
+                  <div><dt>Took</dt><dd>Two sittings</dd></div>
+                </dl>
+              </div>
+            </li>
+            <li class="build-era">
+              <div class="build-era-art">
+                <img src="../img/lucy/era-02-warm.webp?v=1" width="1040" height="780" loading="lazy" decoding="async"
+                     alt="Warm vector era: the same scene drawn flat on a tan wall over a warm wooden floor, the handler reading in a wooden-armed chair, Lucy asleep on a grey bed, nothing else in the room." />
+              </div>
+              <div class="build-era-note">
+                <p class="build-era-title"><span>02</span>Warm vector, still in a chat window</p>
+                <p>The room empties out and the rules about the dog get absolute: flat fills, one action per frame, a collar with a round blue tag and never a harness, in any image, ever. Still drawn by pasting prose into a chat window, though, so no round was recorded and no picture could be asked for the same way twice.</p>
+                <dl class="build-era-stats">
+                  <div><dt>When</dt><dd>10 to 19 August</dd></div>
+                  <div><dt>Pictures</dt><dd>37</dd></div>
+                  <div><dt>Rounds</dt><dd>Not recorded</dd></div>
+                  <div><dt>Took</dt><dd>Five working days</dd></div>
+                </dl>
+              </div>
+            </li>
+            <li class="build-era">
+              <div class="build-era-art">
+                <img src="../img/lucy/era-03-lavender.webp?v=1" width="1040" height="780" loading="lazy" decoding="async"
+                     alt="Lavender era: the same flat scene again with the wall repainted a pale violet, the chair now upholstered blue, the floor a cooler grey-brown." />
+              </div>
+              <div class="build-era-note">
+                <p class="build-era-title"><span>03</span>Cool and flat, from the terminal</p>
+                <p>The first set a script drew rather than a conversation: every scene a JSON spec, the reference images ordered, every round on file. It also took the app&rsquo;s chrome a little too literally and painted the violet onto the walls, which is the one thing nobody asked it for.</p>
+                <dl class="build-era-stats">
+                  <div><dt>When</dt><dd>27 to 29 August</dd></div>
+                  <div><dt>Pictures</dt><dd>59</dd></div>
+                  <div><dt>Rounds</dt><dd>91</dd></div>
+                  <div><dt>Took</dt><dd>6&frac12; hours over two days</dd></div>
+                </dl>
+              </div>
+            </li>
+            <li class="build-era">
+              <div class="build-era-art">
+                <img src="../img/lucy/era-04-plaster.webp?v=1" width="1040" height="780" loading="lazy" decoding="async"
+                     alt="The shipping era: the same flat scene on a warm plaster wall over a pale wood floor, the blue chair and grey bed unchanged from the previous version." />
+              </div>
+              <div class="build-era-note">
+                <p class="build-era-title"><span>04</span>The wall repainted, in one afternoon</p>
+                <p>The violet belonged to the app, not the room, and taking it back out meant repainting every wall in the library. That is the whole argument for the pipeline: the same change a month earlier would have been another five days in a chat window, and this time it was an afternoon with every round on file.</p>
+                <dl class="build-era-stats">
+                  <div><dt>When</dt><dd>4 September</dd></div>
+                  <div><dt>Pictures</dt><dd>All 63</dd></div>
+                  <div><dt>Rounds</dt><dd>72</dd></div>
+                  <div><dt>Took</dt><dd>One afternoon</dd></div>
+                </dl>
+              </div>
+            </li>
+          </ol>
+          <figcaption>One scene, drawn four ways in a month. What changed at the end was not the drawing but where the request came from: a chat window can make a picture, and it cannot repaint sixty-three of them between lunch and dinner.</figcaption>
+        </figure>
+
+        <!-- Where those sixty-three pictures sit in the product: the three
+             screens that are nothing without them. -->
+        <figure class="build-flow">
+          <ol class="build-flow-row">
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/welcome.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The first-launch welcome: an illustration of the handler and Lucy on her bed as a guest waits at the open door, above the heading Five minutes of practice at a time and a note that it supports your trainer and does not replace one." /></div>
+              <p class="build-flow-cap"><span>01</span> First launch, explained with a picture</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/session-ready.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The get-ready screen for Doorbell Means Place, Level 1: the scene of the handler crouched at Lucy&rsquo;s bed, the instruction Lead her to the bed with a treat in your hand, a checklist of what to have ready, and a Start practice button." /></div>
+              <p class="build-flow-cap"><span>02</span> Every level opens on its scene</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/avatars-people.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The Choose your avatar sheet on the profile: fourteen drawn portraits of people of different ages in a grid, the handler&rsquo;s selected, with Cancel and That is me buttons." /></div>
+              <p class="build-flow-cap"><span>03</span> Twenty-four portraits from the same pipeline</p>
+            </li>
+          </ol>
+          <figcaption>Where the pictures sit. The welcome, every level&rsquo;s opening scene, and the ten dogs and fourteen people a household picks itself from all come out of the same script, in the same room.</figcaption>
+        </figure>
+        <p>The judgment did not change. The distance between thinking and making did.</p>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <p class="build-links">
+          <a class="product-link" href="https://adamdhickey-collab.github.io/lucy-learns/" target="_blank" rel="noopener noreferrer">Open Lucy Learns<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </p>
+        <p class="build-service">The same path from a concept everyone talks about to a thing people can actually use: <a href="../engagement/ai-product-prototype.html">Working Product Prototype</a>, four to six weeks.</p>
+        <a class="build-next" href="door-county-found.html">
+          <span class="build-next-eyebrow">Built end to end</span>
+          <span class="build-next-title">How I built Door County Found &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#built">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

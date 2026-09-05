@@ -1,0 +1,114 @@
+/* type.css -- the type scale, and nothing else.
+ *
+ * This file exists because the six Tailwind case studies do not load
+ * style.css and never will: they carry their own inline base and a CDN
+ * Tailwind build, and dropping 2,500 lines of site CSS on them to reach
+ * fourteen custom properties would be a far larger change than the one it
+ * serves. So the scale moved out of style.css into here, and every page
+ * loads this first. One definition, two regimes.
+ *
+ * TYPOGRAPHY.md is normative for all of it. Load order matters only in that
+ * this must come before anything that consumes the tokens.
+ */
+:root {
+  /* The two families. TYPOGRAPHY.md section 1 is normative: pick the font by
+     the role the text plays, not by its HTML tag. */
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
+  /* Code specimens only. The site has no prose in monospace; this exists so the
+     component library can show markup you can copy, and nothing else. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* ---------------------------------------------------------------------
+     TYPE SCALE  --  see TYPOGRAPHY.md, which is normative for all of this.
+
+     Fourteen steps, base 16px, 11px to 80px. Every type size on the site is
+     one of these; there are no others. The text tier steps arithmetically,
+     because at small sizes the eye reads the absolute difference, not the
+     ratio. The display tier is geometric: every step doubles four steps
+     later (20->40, 24->48, 28->56, 34->68, 40->80), a ratio of 2^(1/4).
+
+     Consumed by the base ladder in style.css, by the components there, and
+     by the Tailwind fontSize scale the case studies configure -- so a change
+     here moves every page in both regimes at once. That is the point.
+     --------------------------------------------------------------------- */
+
+  /* Text tier -- arithmetic, never fluid */
+  --text-2xs:   0.6875rem;  /* 11px  micro caps; the floor, nothing is smaller */
+  --text-xs:    0.75rem;    /* 12px  kickers, tags, figcaptions, footnotes */
+  --text-sm:    0.875rem;   /* 14px  nav, footer links, table cells, dt labels */
+  --text-base:  1rem;       /* 16px  body copy, card copy, list items, buttons */
+  --text-lg:    1.125rem;   /* 18px  long-form prose; smallest heading level */
+
+  /* Display tier -- geometric, ratio 2^(1/4) ~= 1.189 */
+  --text-xl:    1.25rem;    /* 20px */
+  --text-2xl:   1.5rem;     /* 24px */
+  --text-3xl:   1.75rem;    /* 28px */
+  --text-4xl:   2.125rem;   /* 34px */
+  --text-5xl:   2.5rem;     /* 40px */
+  --text-6xl:   3rem;       /* 48px */
+  --text-7xl:   3.5rem;     /* 56px */
+  --text-8xl:   4.25rem;    /* 68px */
+  --text-9xl:   5rem;       /* 80px */
+
+  /* Fluid ramps -- the only four. Never hand-write clamp(); a title that
+     does not fit steps DOWN a ramp, it does not get a query or a new curve.
+
+     All four share one window, 400px (25rem) -> 1280px (80rem), span 55rem.
+     That is what guarantees the ladder: at any width every ramp sits at the
+     same progress t between its own endpoints, so an ordering that holds at
+     both ends holds at every width between them. The bespoke vw coefficients
+     these replaced are why h2 used to outrank h1 below 622px.
+
+     There was a fifth, --type-display, ramping 40 to 80 for the homepage
+     hero. It is gone. Its 80px ceiling was read off Regime B's
+     `body h1 { 5rem }`, which those pages always override in the hero with
+     text-[48px] md:text-[68px] -- so 80px was never rendered anywhere, and at
+     80 the homepage hero ran to three lines and swamped its own block. The
+     site had also never treated the homepage hero as its largest type:
+     .case-title topped out at 68 while .hero-title topped out at 61.6. So the
+     homepage hero is a page title like any other and takes --type-title. */
+  --type-title:      clamp(2.125rem, calc(2.125rem + 2.125 * (100vw - 25rem) / 55), 4.25rem); /* 34 -> 68  h1; the homepage hero only while stacked */
+  --type-section:    clamp(1.75rem,  calc(1.75rem  + 1.25  * (100vw - 25rem) / 55), 3rem);    /* 28 -> 48  h2 */
+  --type-subsection: clamp(1.5rem,   calc(1.5rem   + 0.625 * (100vw - 25rem) / 55), 2.125rem);/* 24 -> 34  h3 */
+  --type-lede:       clamp(1.125rem, calc(1.125rem + 0.375 * (100vw - 25rem) / 55), 1.5rem);  /* 18 -> 24  deks, ledes */
+
+  /* One h1 does not get the full measure. From 768 up the homepage hero
+     shares its row with the portrait and is left about 47% of the
+     container: 388px at the breakpoint, 681px once the container caps.
+     --type-title is sized for a title that spans the page, so at its 68px
+     ceiling the ninth word fell to a third line inside that column.
+
+     Same idiom as the four ramps above, over the window where the column
+     exists: 768px (48rem) -> 1280px (80rem), span 32rem. 36px fills those
+     388px in two lines, 64px fills the 681px in two. Below 768 the row
+     stacks, the title spans the container again, and it takes --type-title
+     like every other h1. The seam is the layout's own breakpoint rather
+     than an unreconciled second curve. */
+  --type-title-inset: clamp(2.25rem, calc(2.25rem + 1.75 * (100vw - 48rem) / 32), 4rem); /* 36 -> 64  the hero title, beside the portrait */
+
+  /* Line height -- a function of size, not of component. Bigger type needs
+     less leading; at 80px, 1.05 already opens more space than 1.6 at 16px. */
+  --leading-display: 1.05;  /* 34px and up */
+  --leading-heading: 1.15;  /* 24-28px */
+  --leading-tight:   1.35;  /* 16-20px headings, block and card titles */
+  --leading-ui:      1.45;  /* 11-14px labels, captions, nav, table cells */
+  --leading-body:    1.6;   /* 16px paragraphs; the default */
+  --leading-reading: 1.7;   /* long-form prose columns */
+
+  /* Letter spacing -- a function of size and case. Bigger is tighter;
+     uppercase always gets tracking, lowercase never gets a positive value. */
+  --tracking-display: -0.02em;  /* 56px and up */
+  --tracking-title:   -0.015em; /* 34-48px */
+  --tracking-heading: -0.01em;  /* 20-28px */
+  --tracking-normal:  0;        /* 16-18px, all lowercase, all body copy */
+  --tracking-label:   0.08em;   /* 14px uppercase labels */
+  --tracking-caps:    0.12em;   /* 11-13px uppercase kickers, tags, eyebrows */
+
+  /* Weights -- only these four cuts are loaded. Adding one means editing the
+     font <link> on every page first, or the browser fakes it. */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+}

@@ -1,0 +1,691 @@
+/* ---------- Design system documentation chrome ----------
+   Docs-only styles. Everything the examples themselves wear comes from
+   ../style.css, so a component here is the component on the site, not a
+   copy of it. Token values in the swatches and spec tables are filled in
+   at runtime from the stylesheet's own custom properties, which keeps
+   this page from ever disagreeing with the source. */
+
+/* clear the fixed header */
+.ds-hero { padding: calc(var(--nav-height) + var(--space-block)) 0 var(--space-4xl); }
+/* No font-size: the page title takes the base ladder, which is --type-title. */
+.ds-hero h1 { margin-bottom: var(--space-md); }
+.ds-hero .ds-dek {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  max-width: 42rem;
+}
+
+.ds-section { padding: var(--space-4xl) 0; border-top: 1px solid var(--color-muted-light); }
+.ds-section > .container > h2 { margin-bottom: var(--space-xs); }
+.ds-lede {
+  max-width: 42rem;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-2xl);
+  line-height: var(--leading-body);
+}
+
+/* section index number, echoing the engagement cards */
+.ds-num {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-accent-text);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+/* ---------- color ---------- */
+.ds-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ds-swatch {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.ds-swatch-chip { height: 96px; }
+/* the warm neutrals disappear against the page without a keyline */
+.ds-swatch-chip.is-light { box-shadow: inset 0 0 0 1px var(--rule-hairline); }
+.ds-swatch-meta { padding: var(--space-sm) var(--space-md) var(--space-md); }
+.ds-swatch-meta strong {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+.ds-swatch-meta code {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-muted-gray);
+  margin: var(--space-2xs) 0 var(--space-2xs);
+}
+.ds-swatch-meta span {
+  display: block;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+
+/* ---------- type specimens ---------- */
+.ds-type { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xl); }
+.ds-type li { border-top: 1px solid var(--color-muted-light); padding-top: var(--space-lg); }
+.ds-type li:first-child { border-top: 0; padding-top: 0; }
+.ds-spec {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-muted-gray);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+/* ---------- spec tables (spacing, radius, motion) ---------- */
+.ds-table { width: 100%; border-collapse: collapse; max-width: 46rem; }
+.ds-table th {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+  padding: 0 var(--space-md) var(--space-xs) 0;
+  border-bottom: 1px solid var(--color-muted-light);
+}
+.ds-table td {
+  padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-muted-light);
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+  vertical-align: top;
+}
+.ds-table td code { font-size: var(--text-sm); color: var(--color-charcoal); }
+
+/* ---------- component demos ---------- */
+.ds-demo {
+  border-radius: 12px;
+  padding: var(--space-2xl);
+  margin: 0 0 var(--space-sm);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.ds-demo.is-dark { background: var(--color-charcoal); }
+.ds-demo.is-warm { background: var(--color-tea-light); box-shadow: none; }
+.ds-demo-note {
+  font-size: var(--text-sm);
+  color: var(--color-muted-gray);
+  max-width: 42rem;
+  margin-bottom: var(--space-2xl);
+  line-height: var(--leading-body);
+}
+.ds-component + .ds-component { margin-top: var(--space-3xl); }
+/* direct child only: component specimens carry their own real h3s
+   (the engagement card), which must keep the site's styling */
+.ds-component > h3 { font-size: var(--text-xl); margin-bottom: var(--space-sm); }
+.ds-demo-head h3 { font-size: var(--text-xl); }
+
+/* outside a card, the go link hides itself until hover; in a specimen it
+   should just be visible. */
+.ds-demo .engagement-go { opacity: 1; }
+
+/* ---------- replay control for the live demos ---------- */
+.ds-replay {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: all var(--motion-move) var(--ease);
+}
+.ds-replay:hover { background: var(--color-charcoal); color: var(--ink-on-dark); }
+.ds-demo-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+.ds-demo-head h3 { margin: 0; }
+
+/* ---------- motion demo ----------
+   Mirrors the site's reveal exactly: 20px rise, 0.5s on
+   cubic-bezier(0.22, 1, 0.36, 1), siblings offset 60ms. Values are
+   restated here because the site gates its hidden state behind .js and
+   an IntersectionObserver this page does not load; the numbers must be
+   kept in step with .reveal/.stagger in ../style.css. */
+.ds-motion-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); width: 100%; }
+.ds-motion-demo .ds-rv {
+  background: var(--color-tea-light);
+  border-radius: 12px;
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent-text);
+  opacity: 0;
+  transform: translateY(var(--motion-rise));
+}
+.ds-motion-demo.play .ds-rv {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-enter) var(--ease-enter), 
+    transform var(--motion-enter) var(--ease-enter);
+}
+.ds-motion-demo.play .ds-rv:nth-child(1) { transition-delay: 0s; }
+.ds-motion-demo.play .ds-rv:nth-child(2) { transition-delay: 0.06s; }
+.ds-motion-demo.play .ds-rv:nth-child(3) { transition-delay: 0.12s; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-motion-demo .ds-rv { opacity: 1; transform: none; }
+  .ds-motion-demo.play .ds-rv { transition: none; }
+}
+
+/* ---------- icon demo ----------
+   The icons borrow .eng3-icon for size, colour and hairline; the draw-on
+   reuses the site's eng3-draw keyframes, re-armed by toggling .play. */
+.ds-icon-row { display: flex; gap: var(--space-3xl); align-items: center; }
+.ds-icon-row .eng3-icon path,
+.ds-icon-row .eng3-icon circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.ds-icon-row.play .eng3-icon path,
+.ds-icon-row.play .eng3-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-icon-row .eng3-icon path,
+  .ds-icon-row .eng3-icon circle { stroke-dashoffset: 0; animation: none; }
+}
+
+/* the engagement card specimen needs a width like the real grid column */
+.ds-demo .engagement-card { max-width: 320px; width: 100%; }
+
+/* ---------- writing rules ---------- */
+.ds-rules { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xl); max-width: 46rem; }
+.ds-rules li { border-left: 2px solid var(--color-accent-deep); padding-left: var(--space-md); }
+.ds-rules strong {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-2xs);
+}
+.ds-rules span { display: block; font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
+
+/* ---------- surfaces ----------
+   Five tiles painted with the real grounds, each carrying the ink and
+   accent that are legal on it, so the pairing rules are shown rather
+   than described. */
+.ds-surfaces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ds-surface {
+  border-radius: 12px;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg);
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.ds-surface[data-ground="warm"]  { background: var(--color-warm); box-shadow: inset 0 0 0 1px var(--rule-hairline); }
+.ds-surface[data-ground="white"] { background: var(--color-white); box-shadow: var(--shadow-card); }
+.ds-surface[data-ground="muted"] { background: var(--color-muted-light); }
+.ds-surface[data-ground="tea"]   { background: var(--color-tea-light); }
+.ds-surface[data-ground="dark"]  { background: var(--color-charcoal); }
+.ds-surface .ds-surface-kicker {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ds-surface h3 { font-size: var(--text-xl); margin: 0; color: var(--color-charcoal); }
+.ds-surface p { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); margin: var(--space-2xs) 0 0; }
+.ds-surface .ds-surface-use {
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--color-muted-gray);
+}
+.ds-surface[data-ground="dark"] .ds-surface-kicker { color: var(--color-accent-on-dark); }
+.ds-surface[data-ground="dark"] h3 { color: var(--ink-on-dark); }
+.ds-surface[data-ground="dark"] p { color: var(--ink-on-dark-secondary); }
+.ds-surface[data-ground="dark"] .ds-surface-use { color: var(--ink-on-dark-muted); }
+
+/* ---------- accessibility demos ---------- */
+/* the skip link's focused state, held visible for the specimen */
+.ds-skip-demo {
+  display: inline-block;
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-sm);
+}
+/* the site's focus ring, held on for the specimen */
+.ds-focus-demo {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- shell: sticky grouped sidebar beside the content ----------
+   Modelled on the organisation of the Sprout system: sections gathered
+   into named groups, numbered within their group, with the group you are
+   reading marked. One page rather than seven, because this reference is a
+   tenth the size and a single scroll keeps it maintainable. */
+.ds-shell { display: block; }
+@media (min-width: 1024px) {
+  .ds-shell {
+    display: grid;
+    grid-template-columns: 236px minmax(0, 1fr);
+    gap: var(--space-block);
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+  /* the sections already carry their own container; inside the shell the
+     content column is the container, so they stop double-padding */
+  .ds-shell .ds-section > .container { padding-inline: 0; max-width: none; }
+  .ds-shell .ds-section { padding-inline: 0; }
+}
+
+.ds-side {
+  position: sticky;
+  top: calc(var(--nav-height, 80px) + 1.5rem);
+  max-height: calc(100vh - var(--nav-height, 80px) - 3rem);
+  overflow-y: auto;
+  padding-right: var(--space-xs);
+}
+@media (max-width: 1023.98px) { .ds-side { display: none; } }
+
+.ds-side-group + .ds-side-group { margin-top: var(--space-lg); }
+/* Group titles are labels, not controls: nothing in this nav collapses. */
+.ds-side-title {
+  margin: 0;
+  padding: 0 var(--space-xs) var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+.ds-side-body-inner { display: flex; flex-direction: column; gap: 1px; }
+
+.ds-side-link {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: baseline;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-xs);
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+}
+.ds-side-link:hover { background: var(--color-muted-light); }
+.ds-side-num {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--color-muted-gray);
+}
+/* the section currently under the reading line */
+/* Ground and weight carry this state, and nothing else does. A single-side
+   border on a rounded box has to stop where the corner starts, so it reads as
+   a bar that has been clipped rather than as an edge of the shape: the 2px
+   left rule here ran straight into a 6px radius. A border on a curved surface
+   either follows the whole curve or is not a border. */
+.ds-side-link.is-active {
+  background: var(--color-tea-light);
+  color: var(--color-charcoal);
+  font-weight: 600;
+}
+.ds-side-link.is-active .ds-side-num { color: var(--color-accent-text); }
+/* Point of view is a link like any other, so the reading marker owns it
+   rather than it sitting permanently highlighted. */
+.ds-side-lead { margin-bottom: var(--space-lg); font-weight: 600; }
+
+/* Token names never break mid-word: inside the shell the content column
+   is narrower, and --container-max was wrapping to "--container-" / "max". */
+.ds-table td:first-child code, .ds-table th:first-child { white-space: nowrap; }
+.ds-table { display: block; overflow-x: auto; }
+@media (min-width: 768px) { .ds-table { display: table; } }
+
+/* ---------- type scale specimen ---------- */
+/* Every specimen renders at the live token and reports the pixel value the
+   browser computed, so a step that drifts in style.css shows here first
+   rather than being transcribed by hand and going quietly stale. */
+.ds-sub {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  margin: var(--space-4xl) 0 var(--space-sm);
+}
+.ds-scale-tier {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+  margin: var(--space-2xl) 0 var(--space-md);
+}
+.ds-scale { list-style: none; margin: 0; padding: 0; }
+.ds-step {
+  display: grid;
+  gap: var(--space-2xs) var(--space-xl);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--color-muted-light);
+}
+.ds-step:last-child { border-bottom: 1px solid var(--color-muted-light); }
+.ds-step-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+}
+.ds-step-meta code { font-size: var(--text-xs); font-weight: 600; color: var(--color-charcoal); }
+/* The measured value, not the intended one. */
+.ds-step-px {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent-text);
+  font-weight: 600;
+}
+.ds-step-job { color: var(--color-muted-gray); }
+.ds-step-spec {
+  color: var(--color-charcoal);
+  line-height: var(--leading-display);
+  overflow-wrap: anywhere;
+}
+/* Below the display steps the specimen is a sentence, so it needs reading
+   leading rather than heading leading. */
+.ds-step[data-token="--text-base"] .ds-step-spec,
+.ds-step[data-token="--text-lg"] .ds-step-spec { line-height: var(--leading-body); max-width: 42rem; }
+.ds-step[data-token="--text-sm"] .ds-step-spec,
+.ds-step[data-token="--text-xs"] .ds-step-spec { line-height: var(--leading-ui); }
+.ds-step[data-token="--text-2xs"] .ds-step-spec {
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .ds-step { grid-template-columns: 19rem 1fr; align-items: baseline; }
+  .ds-step-meta { display: block; }
+  .ds-step-meta code { display: inline-block; margin-right: var(--space-xs); }
+  .ds-step-job { display: block; margin-top: var(--space-2xs); }
+}
+
+/* The live column in the ramp table: this is the ramp's value at the width
+   you are reading it at, so the table is a measurement and not a claim. */
+.ds-ramp-now {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--color-accent-text);
+  white-space: nowrap;
+}
+.ds-table-wide { max-width: 58rem; }
+/* A table can outgrow a phone; it scrolls in its own box rather than pushing
+   the page sideways. */
+.ds-table-wide, .ds-two-tables .ds-table { display: block; overflow-x: auto; }
+.ds-two-tables { display: grid; gap: var(--space-2xl); margin-top: var(--space-md); }
+@media (min-width: 900px) { .ds-two-tables { grid-template-columns: 1fr 1fr; gap: var(--space-3xl); } }
+
+/* ---------- page inventory ---------- */
+.ds-table td code { overflow-wrap: anywhere; }
+
+/* Superscripts take the caption step rather than the UA's `smaller`, which
+   compounds: inside the 11px tier label it computed to 9.17px, under the
+   scale's own floor, in the sentence that states the floor. */
+/* line-height 0 is box control too: it stops the raised glyph from opening
+   up the line box of the paragraph it sits in. */
+sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
+
+/* ---------- contrast matrix ---------- */
+/* The verdict is carried by a word as well as a colour: a bare green/amber/red
+   cell would be the only place on this page where meaning is colour alone. */
+.ds-cr {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.ds-cr::after { font-weight: var(--weight-regular); font-size: var(--text-2xs); display: block; }
+.ds-cr-pass  { color: var(--color-accent-text); }
+.ds-cr-pass::after  { content: "AA"; }
+.ds-cr-large { color: var(--color-charcoal); }
+.ds-cr-large::after { content: "large only"; color: var(--color-muted-gray); }
+.ds-cr-fail  { color: var(--color-muted-gray); }
+.ds-cr-fail::after  { content: "decoration"; }
+.ds-cr-key {
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.ds-cr-key.ds-cr-pass::after,
+.ds-cr-key.ds-cr-large::after,
+.ds-cr-key.ds-cr-fail::after { content: none; }
+
+/* ---------------------------------------------------------------------------
+   SPACING SPECIMEN
+
+   The steps render as bars at their own token, so the scale is shown at size
+   rather than described. Each row reports the value the browser actually
+   computed, which is what makes a drifted step visible here first -- the same
+   arrangement the type scale and the contrast matrix use. */
+.ds-spaces { list-style: none; margin: 0 0 var(--space-3xl); padding: 0; }
+.ds-space {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) 4rem 3.5rem;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.ds-space:last-child { border-bottom: 0; }
+.ds-space code { font-size: var(--text-2xs); }
+.ds-space-bar { display: block; height: 14px; background: var(--color-muted-light); border-radius: 2px; }
+.ds-space-bar i { display: block; height: 100%; background: var(--color-accent-deep); border-radius: 2px; }
+.ds-space-px, .ds-space-tw {
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-label); color: var(--color-muted-gray);
+  font-variant-numeric: tabular-nums;
+}
+.ds-space-job { grid-column: 1 / -1; font-size: var(--text-xs); color: var(--color-muted-gray); margin: 0; }
+@media (min-width: 768px) {
+  .ds-space { grid-template-columns: 8.5rem 12rem 4rem 3.5rem minmax(0, 1fr); }
+  .ds-space-job { grid-column: auto; }
+}
+
+/* The measure, shown by being used. The ruler counts the characters the
+   browser actually laid out rather than asserting a number. */
+.ds-measure-demo {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+.ds-measure-demo p {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ds-measure-demo p + p { margin-top: var(--space-md); }
+.ds-measure-rule {
+  max-width: var(--measure);
+  height: 0;
+  border-top: 1px dashed var(--color-accent-deep);
+  margin: var(--space-sm) 0 var(--space-2xs);
+}
+.ds-measure-read {
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-label); color: var(--color-accent-text);
+}
+
+/* ---------------------------------------------------------------------------
+   MOTION SPECIMEN
+
+   Motion is the one axis a static specimen cannot show, so this section runs.
+   Each duration is a dot travelling a fixed track, so six speeds can be
+   compared against one another rather than described; the two curves race the
+   same distance over the same time, which is the only way the difference
+   between them is visible. Every row reports the value the browser computed,
+   the same arrangement the type, colour and spacing specimens use. */
+.ds-motion-scale { list-style: none; margin: 0 0 var(--space-3xl); padding: 0; }
+.ds-mrow {
+  display: grid;
+  grid-template-columns: 10.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.ds-mrow:last-child { border-bottom: 0; }
+.ds-mrow code { font-size: var(--text-2xs); }
+.ds-mtrack {
+  position: relative; height: 10px;
+  background: var(--color-muted-light); border-radius: var(--radius-pill);
+}
+.ds-mdot {
+  position: absolute; top: 1px; left: 1px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-accent-deep);
+}
+/* The dot travels on `left`, not on a translateX percentage: a percentage
+   translate resolves against the element's OWN width, so translateX(100%) on
+   an 8px dot moves it 8px and the six speeds all look identical. A percentage
+   `left` resolves against the containing block, which is the track. */
+.ds-motion-scale.play .ds-mdot {
+  left: calc(100% - 9px);
+  transition: left var(--ds-dur) var(--ease);
+}
+.ds-mval {
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-label); color: var(--color-accent-text);
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+.ds-mjob { grid-column: 1 / -1; font-size: var(--text-xs); color: var(--color-muted-gray); margin: 0; }
+@media (min-width: 768px) {
+  .ds-mrow { grid-template-columns: 10.5rem minmax(0, 1fr) 4.5rem minmax(0, 1.1fr); }
+  .ds-mjob { grid-column: auto; }
+}
+
+/* The two curves, racing. Same distance, same duration; only the shape of the
+   acceleration differs, which is the whole point of having two. */
+.ds-curves { display: grid; gap: var(--space-md); margin-bottom: var(--space-md); }
+.ds-curve-row { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); align-items: center; gap: var(--space-md); }
+.ds-curves.play .ds-mdot { left: calc(100% - 9px); transition: left var(--motion-enter) var(--ds-curve); }
+
+/* What the reader's own setting is, read at load rather than assumed. */
+.ds-rm {
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-rule); border-radius: var(--radius-xl);
+  font-family: var(--font-sans); font-size: var(--text-sm);
+}
+.ds-rm-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-muted-gray); flex: 0 0 auto; }
+.ds-rm.is-reduced .ds-rm-dot { background: var(--color-accent-deep); }
+.ds-rm strong { font-weight: 600; }
+
+/* ---------- component usage: markup, and when not to reach for it ----------
+   A component entry used to stop at a specimen and a note. Neither tells you
+   how to build the thing, which is the one job a component library has that a
+   token table does not. Markup you can copy, and guidance with a stated
+   negative case, are the minimum an entry has to carry.
+
+   The do/don't markers are aria-hidden SVG, and the words "Do" and "Don't"
+   carry the meaning in text. That is not decoration-by-default: --color-caution
+   is held to 3:1 as line art (COLOR.md §2) and cannot legally be text, so a
+   coloured glyph as the ONLY signal would be both unreadable and unannounced. */
+.ds-usage { margin: 0 0 var(--space-md); max-width: 46rem; }
+.ds-usage > summary {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  cursor: pointer;
+  padding: var(--space-2xs) 0;
+}
+.ds-usage > summary:hover { color: var(--color-accent-hover); }
+.ds-usage > summary:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 2px;
+}
+.ds-usage[open] > summary { margin-bottom: var(--space-xs); }
+.ds-code {
+  margin: 0;
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-tag-border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.ds-code code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  white-space: pre;
+}
+.ds-guide {
+  list-style: none;
+  margin: 0 0 var(--space-2xl);
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+  max-width: 46rem;
+}
+.ds-guide li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-xs);
+  align-items: start;
+}
+.ds-guide svg { width: 16px; height: 16px; margin-top: 3px; }
+.ds-guide-do svg { color: var(--color-accent-text); }
+.ds-guide-dont svg { color: var(--color-caution); }
+.ds-guide span {
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ds-guide b { font-weight: 600; }
