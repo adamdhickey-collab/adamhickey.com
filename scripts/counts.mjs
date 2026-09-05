@@ -103,20 +103,11 @@ function familyTableSum() {
 const familyTableRows = () =>
   [...read('README.md').matchAll(/^\| [A-Z][A-Za-z -]+ \| \d+ \| [AB] \|/gm)].length;
 
-/* The pages this tree deliberately does not ship to the live site. The live
-   site is another repository and is not here to be counted, so the claim built
-   on this list recounts the half that IS here: fifteen pages, less these five.
-   Both halves have to hold. If one of these stopped being a page the
-   subtraction would still return a number, and a wrong answer shaped like
-   arithmetic is the failure this whole file was written against -- see the
-   guard below, which refuses rather than answers. */
-const HELD_BACK = [
-  'case-study/door-county-found.html',
-  'case-study/lucy-learns.html',
-  'case-study/while-were-here.html',
-  'engagement/product-clarity.html',
-  'design-system/index.html',
-];
+/* Staging's copy of this file carries a HELD_BACK list here and a claim built
+   on it -- how many of its pages the live site carries. This repository IS the
+   live site, so from here that count has no outside to be measured against,
+   and the entry and its guard are the one deliberate difference between the
+   two copies. See README, "What still differs". */
 
 const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven',
@@ -169,34 +160,10 @@ const CLAIMS = [
   { doc: 'COLOR.md',
     says: 'token files are loaded by all fifteen',
     n: 15, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
-
-  /* The claim that drifted furthest before anyone entered it: README read "11
-     of these 18 pages" for as long as it took `writing/` to ship and be
-     deleted. Nothing here can see the live repository, so what is checked is
-     the subtraction -- the tree, less the pages named as held back -- which is
-     precisely the half that moved. */
-  { doc: 'README.md',
-    says: 'The live site carries 10 of these 15 pages',
-    n: 10, what: 'pages here that are not held back from live',
-    of: () => PAGES.length - HELD_BACK.length },
 ];
 
 if (PAGES.length < 5) {
   say(`\n  Cannot check: found ${PAGES.length} pages. The scan is wrong, not the site.\n`);
-  process.exit(2);
-}
-
-/* HELD_BACK is a list of paths, and a list of paths rots the way prose does.
-   Confirm every one is still a page before subtracting them from the tree:
-   a held-back page that was deleted would silently raise the count of pages
-   said to be live, which is the wrong direction to be wrong in. */
-const strayHeldBack = HELD_BACK.filter(p => !PAGES.includes(p));
-if (strayHeldBack.length) {
-  say(`\n  Cannot check: README names ${strayHeldBack.length} held-back ` +
-      `page${strayHeldBack.length === 1 ? ' that no longer exists' : 's that no longer exist'}:\n`);
-  for (const p of strayHeldBack) say(`    ${p}`);
-  say('\n  Either the page went and the held-back list in this file did not, or');
-  say('  the scan is wrong. Subtracting a list nobody re-read is not a count.\n');
   process.exit(2);
 }
 
