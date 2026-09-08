@@ -103,11 +103,11 @@ function familyTableSum() {
 const familyTableRows = () =>
   [...read('README.md').matchAll(/^\| [A-Z][A-Za-z -]+ \| \d+ \| [AB] \|/gm)].length;
 
-/* Staging's copy of this file carries a HELD_BACK list here and a claim built
-   on it -- how many of its pages the live site carries. This repository IS the
-   live site, so from here that count has no outside to be measured against,
-   and the entry and its guard are the one deliberate difference between the
-   two copies. See README, "What still differs". */
+/* Staging's copy of this file, archived with its repository on 2026-09-08,
+   carried a HELD_BACK list here and a claim built on it -- how many of its
+   pages the live site carried. This repository IS the live site, so from here
+   that count has no outside to be measured against, and the entry never came
+   across. See README, "What the archive holds that this tree does not". */
 
 const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven',
@@ -157,8 +157,8 @@ const CLAIMS = [
      where the prose said there was none is the reason to enter claims rather
      than trust that someone did. */
   { doc: 'design-system/index.html',
-    says: 'Fifteen pages: everything live has',
-    n: 15, what: 'staging-root pages', of: () => PAGES.length },
+    says: 'Fifteen pages, and the only edition',
+    n: 15, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Sixteen of them',
     n: 16, what: 'component entries on the page',
