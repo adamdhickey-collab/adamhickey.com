@@ -297,8 +297,8 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #29 the four browser checks measure 2610 resting colors, 867
-state rules, 11176 type sizes and 6485 elements checked for a partial
+result. At #30 the four browser checks measure 2608 resting colors, 867
+state rules, 11160 type sizes and 6477 elements checked for a partial
 border, across sixteen pages: the fifteen of the site and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
 verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
@@ -386,4 +386,5 @@ are the way they are:
 | #26 | Level with staging at its #150: the header's section links on every page and the engagement proof cards, staging's #148 and #149 |
 | #27 | Level with staging at its #169: seventeen pull requests carried as one three-way apply -- the phone menu drawer and `site-nav.js`, the step cards' output line, four critiques, the Lucy Learns write-up, and the italic cut on every page |
 | #28 | Staging is archived at its #169 and the work happens here: `CLAUDE.md` arrives, adapted from staging's; `mirror.mjs` goes; the editions list on the design system page says there is one edition; and `robots.txt` stops describing a host it is no longer served from |
+| #30 | The two build write-ups stop linking out to their products; the write-up is the evidence, and the products are not offered from this site |
 | #29 | What the site tells a machine, widened: dates on every Article and in the sitemap, stamped from git by `seo.mjs --write`; a share card per page from `og.mjs`; the questions people ask, answered on the four engagement pages and in their graphs; `llms.txt`; a `404.html` with the way back in; titles and descriptions cut to the length a result shows; and one plain sentence in About saying who this is |
