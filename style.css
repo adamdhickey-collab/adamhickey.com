@@ -1762,6 +1762,14 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    the facts strip below it. A definite width is not automatic, so nothing
    transfers, and the band is the viewport wide at every width.
 
+   Before the band grew, two rules tried to choose the vertical cut
+   instead: #33 anchored all four pictures to the top past 1498, and #35
+   made that an opt-in class on the two whose scene reaches the top edge,
+   because the other two are framed with wall above the heads and the
+   anchor dropped them. Both were answers to a cut that no longer happens,
+   so the class and its rule went with #39; cover has no vertical excess
+   to position once the box is the picture's own shape.
+
    Below 1280 there is no overlap to manage. The picture leaves the corner
    and becomes a full-width band under the text, the text sits on the warm
    ground in the same inks, and nothing at any width sets type over the
@@ -1801,28 +1809,6 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
      three pages ran five lines and their boxes reached the desk's dark wood,
      and measured 1.4:1 there. The probe measures the box, not the glyphs. */
   .eng3-hero-art .eng3-dek { max-width: 26rem; }
-}
-/* Past 1498 the crop turns over. The picture is 2:1 and its box is 130% of
-   the 36rem hero, 46.8rem tall, so up to twice that width, 93.6rem, the
-   file is taller than the box's shape and cover trims the sides. Wider
-   than that the file is the shorter shape, cover scales it to the width
-   and trims the top and bottom instead: at 1920 the picture is 960px tall
-   in a 749px box, and 50% takes 105px off each end.
-
-   Which of those two cuts is the right one depends on where the subject
-   sits in the file, and the four are not alike. In clarity-hero and
-   system-hero the scene runs to the top edge -- the raised hand, the top of
-   the pinned wall -- so 105px off the top takes the subject and 0% is what
-   keeps it, spending the whole cut on desk and floor at the bottom.
-   embedded-hero and ai-hero are framed lower, with a hand's depth of empty
-   wall above the heads, and 0% spends the box on that wall: at 1920 it put
-   both heads about 105px further down the hero than the first two pages put
-   theirs, which is the drop this rule was meant to prevent. Those two keep
-   the centre from the 1280 rule, so the class is opt-in and only the two
-   that need the top carry it. The horizontal 0% is unchanged either way; it
-   only matters below the turnover. */
-@media (min-width: 1498px) {
-  .eng3-hero-bg-top { object-position: 0% 0%; }
 }
 /* Between 768 and 1279 the picture is a band under the text, and at 3:2 of
    the viewport it ran 787px tall at 1180 -- a 1228px hero on a laptop window
