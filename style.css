@@ -1568,6 +1568,15 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-checklist li { display: flex; gap: var(--space-sm); align-items: flex-start; line-height: var(--leading-body); }
 .eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: var(--space-2xs); }
+/* The questions panel: each question bold over its answer, at body size on
+   the panel's white, two columns from 1024 like the checklist above it. The
+   pair sits in a div so the grid places a question with its own answer. */
+.eng3-faq dl { margin: 0; display: grid; gap: var(--space-lg); }
+@media (min-width: 1024px) {
+  .eng3-faq dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-2xl); }
+}
+.eng3-faq dt { font-weight: 600; margin-bottom: var(--space-2xs); }
+.eng3-faq dd { margin: 0; line-height: var(--leading-body); }
 
 /* The one-person section: a charcoal band for emphasis, four items with
    hand-drawn-feel line icons that draw themselves on as the section enters
@@ -2983,6 +2992,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: 46ch;
   margin: 0 0 var(--space-2xl);
 }
+/* The plain sentence above the lede: body size, the long-form step, on the
+   band's ink, wide enough to hold one sentence without a ragged third line. */
+.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); max-width: 60ch; margin: 0 0 var(--space-lg); }
 
 /* The Lucy Learns card shows the app as three screens in the order you meet
    it, app-store style, rather than one phone beside a lot of empty column.

@@ -283,10 +283,11 @@ state-forcing notices; the resting color is the one state that is never forced.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At #28 the tree measures 2536 resting colors, 800 state
-rules, 10868 type sizes and 6343 elements checked for a partial border
-on a curve, across 15 pages, plus 119 token names against 183 declarations and
-11 counted claims. **The four browser numbers are the only ones here that
+unmeasured. At #29 the tree measures 2610 resting colors, 867 state
+rules, 11176 type sizes and 6485 elements checked for a partial border
+on a curve, across 16 pages (the fifteen of the site and `404.html`, which
+the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
+119 token names against 182 declarations and 10 counted claims. **The four browser numbers are the only ones here that
 nothing verifies.** They are maintained by hand and will drift. Treat them as
 a tripwire rather than a record: a run that comes back materially smaller
 means something stopped being measured, and that is worth more than the digits
@@ -326,3 +327,35 @@ its canonical, its Open Graph card and its JSON-LD graph, all of which name
 https://adamhickey.com/ absolutely because scrapers do not resolve a relative
 address. The design system page is unlisted and stays out of the homepage's
 navigation, but it is in the sitemap and indexable, on purpose.
+
+Four rules that came with #29, each held by `seo.mjs`:
+
+- **Dates are stamped, not typed.** Every case study's Article carries
+  `datePublished` (the day the page first existed at its address; set once
+  by hand) and `dateModified`, and the sitemap carries a `lastmod` per page.
+  `node scripts/seo.mjs --write` stamps `dateModified` and `lastmod` from
+  the file's last commit, or today while it has uncommitted changes, so the
+  two cannot disagree. Run it in the same commit as any edit to a page.
+  The check faults a page whose git date is more than fourteen days past
+  its stamp; the grace exists because a squash-merge gives every file a new
+  commit date without a new stamp.
+- **A FAQ is on the page first.** The four engagement pages answer the
+  questions people ask in a panel under "When another engagement fits", in
+  the page's own facts (length, fee model, who it is for, what the team
+  gives, what it leaves with), and the same pairs sit in the page's graph
+  as a FAQPage. The check faults a question in the graph that the page does
+  not ask in words. Never put a price in one that the page does not state.
+- **Every page names its own card.** `node scripts/og.mjs` renders
+  `img/og/<slug>.jpg` from a registry of kicker, title and picture, using
+  the same Chrome as the checks; keep the registry's title in step with the
+  page's `<title>`, and re-run it when either moves. The homepage keeps
+  `img/og-card.jpg`.
+- **`404.html` is not a page.** Pages serves it for every miss at any depth,
+  so its links are root-absolute, it is noindexed, it has no canonical and
+  it is out of the sitemap and the fifteen. The browser checks still measure
+  it, which is why they say sixteen pages.
+
+`llms.txt` at the root is the site in a page of markdown for an assistant
+that reads that first: the person, the four engagements with their length
+and fee model, and every page with one line each. It is written by hand, so
+a new page or a changed engagement is an edit there too.

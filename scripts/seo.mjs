@@ -46,6 +46,33 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 
 const root = process.cwd();
+
+/* Dates come from git, and the reasoning needs stating because the sitemap
+   header used to argue the opposite. A lastmod "would have to be right to be
+   worth anything," and a git date moves on a typo fix. Both true. What changed
+   is what the date is for: a crawler and an assistant both weigh a page by
+   when it last changed, and a site with no dates at all reads as a site
+   nobody has touched. So the date is real -- the file's last commit, or today
+   while it has uncommitted changes -- and it is written by `--write` into two
+   places that have to agree: the sitemap's lastmod and the Article's
+   dateModified. The check holds them to each other, and holds both to git
+   with a fortnight's grace, because a squash-merge gives the file a new
+   commit date without a new stamp. A page edited and not restamped goes red;
+   a page merged a week after it was stamped does not. */
+const git = (...a) => {
+  try { return execSync(['git', ...a].join(' '), { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); }
+  catch { return null; }
+};
+const today = () => new Date().toISOString().slice(0, 10);
+const SHALLOW = git('rev-parse', '--is-shallow-repository') === 'true';
+function gitDate(f) {
+  if (git('status', '--porcelain', '--', JSON.stringify(f))) return today();
+  return git('log', '-1', '--format=%as', '--', JSON.stringify(f)) || today();
+}
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+const GRACE_DAYS = 14;
+const daysBetween = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
+
 const write = process.argv.includes('--write');
 const verbose = process.argv.includes('--verbose');
 const say = (s = '') => console.log(s);
@@ -57,10 +84,13 @@ const has = (f) => fs.existsSync(path.join(root, f));
    the content, which is the production one whichever host is answering. */
 const ORIGIN = 'https://adamhickey.com';
 
-/* Same walk as counts.mjs, and deliberately the same exclusions. */
+/* Same walk as counts.mjs, and deliberately the same exclusions. 404.html is
+   what Pages serves for a miss, not a page of the site: it has no canonical
+   address, must not be in the sitemap, and is checked separately below. */
 function htmlPages(dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
+    if (dir === root && e.name === '404.html') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) htmlPages(p, out);
     else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
@@ -83,17 +113,17 @@ if (PAGES.length < 5) {
  * ------------------------------------------------------------------------ */
 function sitemapXml() {
   const urls = PAGES.map((f) =>
-    `  <url>\n    <loc>${urlFor(f)}</loc>\n  </url>`).join('\n');
+    `  <url>\n    <loc>${urlFor(f)}</loc>\n    <lastmod>${gitDate(f)}</lastmod>\n  </url>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated. Rebuild it with the write flag on scripts/seo.mjs, and do not
      hand-edit: seo.mjs checks this file against the pages on disk and fails on
      any disagreement.
 
-     No lastmod element. It would have to be right to be worth anything, and
-     the only honest source for it is a git date that moves on a typo fix; a
-     date that shifts when nothing a reader cares about changed teaches a
-     crawler to stop believing the field. The URL set is the part that goes
-     stale invisibly, and the URL set is what is checked.
+     lastmod is the file's last commit date, written by the same flag that
+     stamps dateModified into each case study's Article, so the two cannot
+     disagree. It moves on a typo fix, which is the honest answer to when the
+     bytes changed; what it must never do is sit still while the page moves,
+     and the check holds it to git for that.
 
      Note for anyone editing this text: a double hyphen cannot appear inside an
      XML comment. The first draft of this header said the flag in full, which
@@ -106,8 +136,17 @@ ${urls}
 }
 
 if (write) {
+  /* Stamp first, so a page that gets a new dateModified here is dirty by the
+     time the sitemap reads its date, and both say today. */
+  let stamped = 0;
+  for (const f of PAGES) {
+    const src = read(f);
+    if (!/"dateModified": "/.test(src)) continue;
+    const next = src.replace(/"dateModified": "[^"]*"/g, `"dateModified": "${gitDate(f)}"`);
+    if (next !== src) { fs.writeFileSync(path.join(root, f), next); stamped++; }
+  }
   fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemapXml());
-  say(`\n  wrote sitemap.xml -- ${PAGES.length} pages\n`);
+  say(`\n  wrote sitemap.xml -- ${PAGES.length} pages, ${stamped} dateModified stamp${stamped === 1 ? '' : 's'} moved\n`);
   process.exit(0);
 }
 
@@ -152,6 +191,7 @@ for (const t of ['urlset', 'url', 'loc'])
     fault('sitemap.xml', `${openTags(t)} <${t}> against ${closeTags(t)} closing tags`);
 
 const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+const lastmods = new Map([...sitemap.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => [m[1], m[2]]));
 const expected = PAGES.map(urlFor);
 const missingFromMap = expected.filter((u) => !locs.includes(u));
 const strayInMap = locs.filter((u) => !expected.includes(u));
@@ -162,6 +202,32 @@ for (const u of strayInMap) fault('sitemap.xml', `a URL with no page on disk: ${
 for (const u of [...new Set(duped)]) fault('sitemap.xml', `listed twice: ${u}`);
 if (!missingFromMap.length && !strayInMap.length && !duped.length)
   ok(`sitemap.xml lists all ${PAGES.length} pages, once each`);
+
+/* Every entry dates itself, and the date is not older than the file by more
+   than the grace. A shallow checkout cannot answer the second question, and
+   says so rather than passing it. */
+for (const f of PAGES) {
+  const lm = lastmods.get(urlFor(f));
+  if (!lm) { fault('sitemap.xml', `no lastmod for ${urlFor(f)}; \`node scripts/seo.mjs --write\` adds it`); continue; }
+  if (!ISO.test(lm)) { fault('sitemap.xml', `lastmod for ${urlFor(f)} is ${lm}, not a YYYY-MM-DD date`); continue; }
+  if (!SHALLOW && daysBetween(lm, gitDate(f)) > GRACE_DAYS)
+    fault(f, `last changed ${gitDate(f)} but the sitemap says ${lm}; \`node scripts/seo.mjs --write\` restamps it`);
+}
+if ([...lastmods.values()].every((d) => ISO.test(d)) && lastmods.size === PAGES.length)
+  ok(SHALLOW ? `every sitemap entry carries a lastmod (shallow checkout: not held to git)`
+             : `every sitemap entry carries a lastmod within ${GRACE_DAYS} days of its last commit`);
+
+/* --- the 404 page: served for every miss, and not a page ---------------- */
+if (!has('404.html')) {
+  fault('404.html', 'missing -- Pages serves its own generic page for a miss, with no way back in');
+} else {
+  const s404 = read('404.html');
+  if (!/<meta name="robots" content="noindex/.test(s404)) fault('404.html', 'no noindex; a crawler would index the miss page under every dead URL');
+  if (/<link rel="canonical"/.test(s404)) fault('404.html', 'carries a canonical, but it is served at every missing address and has none of its own');
+  if (locs.includes(`${ORIGIN}/404.html`)) fault('sitemap.xml', 'lists 404.html, which is not a page');
+  if (!/href="\//.test(s404)) fault('404.html', 'no root-absolute links; it is served at any depth, so relative ones break');
+  ok('404.html is noindexed, uncanonical, absolute-linked and out of the sitemap');
+}
 
 /* --- robots.txt points at it --------------------------------------------- */
 if (!has('robots.txt')) {
@@ -215,6 +281,30 @@ for (const f of PAGES) {
     for (const n of nodes) {
       if (!n['@type']) fault(f, `a JSON-LD node with no @type`);
       if (n['@id']) defined.add(n['@id']);
+      /* An Article dates itself, in ISO, in order, and in step with the
+         sitemap: the same --write stamps both, so a disagreement means a
+         hand edit. */
+      if (n['@type'] === 'Article') {
+        for (const k of ['datePublished', 'dateModified']) {
+          if (!n[k]) fault(f, `Article has no ${k}`);
+          else if (!ISO.test(n[k])) fault(f, `Article ${k} is ${n[k]}, not a YYYY-MM-DD date`);
+        }
+        if (ISO.test(n.datePublished) && ISO.test(n.dateModified) && n.dateModified < n.datePublished)
+          fault(f, `Article dateModified ${n.dateModified} is before datePublished ${n.datePublished}`);
+        const lm = lastmods.get(want);
+        if (lm && ISO.test(n.dateModified) && lm !== n.dateModified)
+          fault(f, `Article dateModified ${n.dateModified} and sitemap lastmod ${lm} disagree; \`node scripts/seo.mjs --write\` sets both`);
+      }
+      /* A FAQPage is a promise that the questions are on the page in words. */
+      if (n['@type'] === 'FAQPage') {
+        const qs = (n.mainEntity || []);
+        if (!qs.length) fault(f, 'FAQPage with no questions');
+        for (const q of qs) {
+          const text = q.name || '';
+          if (!src.replace(/&rsquo;/g, '\u2019').includes(text.replace(/&rsquo;/g, '\u2019')))
+            fault(f, `FAQPage asks "${text.slice(0, 50)}" and the page does not`);
+        }
+      }
     }
     /* Every {"@id": x} appearing as a VALUE is a reference to a node that has
        to exist. A node's own "@id" key is a definition and is collected above;
