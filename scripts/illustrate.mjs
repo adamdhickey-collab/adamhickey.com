@@ -2,9 +2,9 @@
 /**
  * illustrate.mjs -- take a generated engagement drawing into the set.
  *
- *   node scripts/illustrate.mjs step   img/inbox/step-whole-01.png img/engagement/step-whole-01.webp
- *   node scripts/illustrate.mjs invite img/inbox/whole-invite.png  img/engagement/whole-invite.webp
- *   node scripts/illustrate.mjs hero   img/inbox/whole-hero.png    img/engagement/whole-hero.webp
+ *   node scripts/illustrate.mjs step   img/inbox/step-clarity-01.png img/engagement/step-clarity-01.webp
+ *   node scripts/illustrate.mjs invite img/inbox/clarity-invite.png  img/engagement/clarity-invite.webp
+ *   node scripts/illustrate.mjs hero   img/inbox/clarity-hero.png    img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
