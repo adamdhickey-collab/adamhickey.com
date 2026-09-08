@@ -1776,6 +1776,18 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
      and measured 1.4:1 there. The probe measures the box, not the glyphs. */
   .eng3-hero-art .eng3-dek { max-width: 26rem; }
 }
+/* Past 1498 the crop turns over. The picture is 2:1 and its box is 130% of
+   the 36rem hero, 46.8rem tall, so up to twice that width, 93.6rem, the
+   file is taller than the box's shape and cover trims the sides. Wider
+   than that the file is the shorter shape, cover scales it to the width
+   and trims the top and bottom instead: at 1920 the picture is 960px tall
+   in a 749px box, and 50% took 105px off each end -- the top of the wall
+   and the heads. Anchoring to 0% gives the whole cut to the bottom, where
+   it is desk and floor. The horizontal 0% is unchanged; it only matters
+   below the turnover. */
+@media (min-width: 1498px) {
+  .eng3-hero-bg { object-position: 0% 0%; }
+}
 /* Between 768 and 1279 the picture is a band under the text, and at 3:2 of
    the viewport it ran 787px tall at 1180 -- a 1228px hero on a laptop window
    that is not maximised, a screen and a half before the facts. The picture
