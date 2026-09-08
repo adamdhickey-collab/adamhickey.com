@@ -14,7 +14,7 @@ see Checks.
 | **What this is** | The site: 15 pages in six families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where it is staged** | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/, carrying `noindex` |
-| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #150 |
+| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #169 |
 
 ## Two repositories
 
@@ -65,8 +65,21 @@ is primary ink on every light ground (#147); and
 page (#149), the proof-card pictures on the engagement pages moving to where
 their captions go (#148), and the editions list on the design system page
 reading the same on both hosts (#150, which had already come across on its
-own as #25). `git log` on staging's `main` from `9d30c6e` forward is the list
-of what is not here yet.
+own as #25). #27 carried the seventeen after that, #151 through #169, as
+one three-way apply of staging's diff from #150 to #169 with the live
+apparatus kept on every page. Among what came across: the header opens a
+menu drawer below 900px, with LinkedIn in the drawer and the wordmark
+whole on a phone (#155, #164, #167), which brings `site-nav.js` into this
+tree; the engagement step cards carry their output line in the prose
+column, in the serif's italic with "e.g." before it, and stack the number
+over the text on a phone (#155, #159, #165, #168, #169); three engagement
+pages and the homepage took their critiques (#158, #161, #163, #166); the
+Lucy Learns write-up records the timer that replaced voice commands,
+draws its diagram in HTML and scrolls its phones sideways on a phone
+(#151, #157, #160), with twelve recaptured screens; and every page asks
+Google Fonts for Crimson's italic cut, which only the design system page
+had. `git log` on staging's `main` from `2df957e` forward is the list of
+what is not here yet.
 
 **Two live URLs now 404.** `engagement/brand-identity-illustration.html` was
 retired in staging (its #49) and has been gone here since #20. Nothing on this
@@ -268,9 +281,9 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #26 the four browser checks measure 2486 resting colors, 680 state
-rules, 10540 type sizes and 6133 elements checked for a partial border,
-across fifteen pages. Nothing verifies those four numbers; treat them as a
+result. At #27 the four browser checks measure 2537 resting colors, 800 state
+rules, 10872 type sizes and 6345 elements checked for a partial border,
+across fifteen pages, which are staging's own four numbers at its #169. Nothing verifies those four numbers; treat them as a
 tripwire, and a run that comes back materially smaller means something
 stopped being measured.
 
@@ -350,3 +363,4 @@ are the way they are:
 | #24 | Level with staging again, at its #147: eight pull requests carried as one three-way merge, the prototype engagement page renamed, and `.gitignore` stops matching `node_modules/` with a slash, which is how staging once committed a symlink |
 | #25 | The editions list on the design system page reads the same on both hosts; staging's #150 |
 | #26 | Level with staging at its #150: the header's section links on every page and the engagement proof cards, staging's #148 and #149 |
+| #27 | Level with staging at its #169: seventeen pull requests carried as one three-way apply -- the phone menu drawer and `site-nav.js`, the step cards' output line, four critiques, the Lucy Learns write-up, and the italic cut on every page |

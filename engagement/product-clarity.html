@@ -82,13 +82,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260905f" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260905a" />
+  <link rel="stylesheet" href="../style.css?v=20260906g" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260906d" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -185,21 +186,27 @@
                  preload="auto" aria-hidden="true"></video>
         </span>
       </a>
-      <ul class="nav-links" aria-label="Site sections">
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
         <li><a href="../index.html#case-studies">Work</a></li>
         <li><a href="../index.html#problems">Services</a></li>
         <li><a href="../index.html#about">About</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
       <div class="nav-actions">
         <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
         </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -227,6 +234,7 @@
             <p class="eng3-kicker">Engagement 01 &middot; The product has become complicated</p>
             <h1>Product Clarity</h1>
             <p class="eng3-dek">Turn a complicated product into one agreed problem, a sequence of decisions, and a direction your team can judge.</p>
+            <a class="eng3-hero-link" href="#invite-title">Start with a few sentences</a>
           </div>
         </div>
       </div>
@@ -260,7 +268,14 @@
          Now it is its own band, framed as the step BEFORE choosing: you do
          not have to know whether this is the right engagement to send the
          note, because sorting that out is what the note is for. The same
-         ask closes the page, beside "How I work".
+         ask closes the page, beside "How I work", and both buttons say the same thing, "Describe what is
+         happening": one action, one name for it, wherever it appears. The
+         closing panel's heading is "Start here", as Embedded's is, rather than
+         the button's own words. The mailto body is
+         this page's own, the three questions the paragraph below asks, as
+         prompts with room under each -- it used to open on two generic
+         lines the paragraph had not asked, and the reader's first act was
+         to translate.
 
          The picture is the set's: one person at a desk writing a short note
          by hand, the terracotta accent on the note, nothing else on the desk.
@@ -285,7 +300,8 @@
             <p>If the number that comes back is more than you have, say so. There is usually a smaller version
                &mdash; two workflows rather than the whole product &mdash; and it is a different engagement rather
                than this one discounted.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Product%20Clarity&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Product%20Clarity&amp;body=What%20people%20keep%20asking%20for%3A%0D%0A%0D%0AWhich%20decision%20keeps%20getting%20put%20off%3A%0D%0A%0D%0AWho%20disagrees%20about%20what%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
           <figure class="eng3-invite-art">
             <img src="../img/engagement/clarity-invite.webp?v=5" width="1536" height="1024" loading="lazy" decoding="async" alt="" />
@@ -351,10 +367,10 @@
           <div class="eng3-proof-media">
             <figure class="eng3-proof-shot is-single">
               <a href="../case-study/dispatch-complexity.html" class="eng3-proof-link">
-                <img src="../img/site/chatgpt-image-may-9-2026-10-54-57-am.webp" width="1672" height="941" loading="lazy" decoding="async" style="filter: brightness(1.05) saturate(0.8);" alt="The Midwest Couriers dispatch floor: dispatchers in headsets at paired monitors, under a wall screen of live deliveries and the day&rsquo;s numbers." />
+                <img src="../img/site/map-based-layout-22.webp" width="1800" height="1012" loading="lazy" decoding="async" alt="The Midwest Couriers dispatch view: orders on the left and drivers on the right, each on a live map of the Twin Cities, with one order&rsquo;s details open over the map." />
               </a>
             </figure>
-            <a class="eng3-proof-cta" href="../case-study/dispatch-complexity.html">The full account, with the screens &rarr;</a>
+            <a class="eng3-proof-cta" href="../case-study/dispatch-complexity.html">The full account, with the screens&nbsp;&rarr;</a>
           </div>
         </article>
 
@@ -364,7 +380,7 @@
     <section class="case-section eng3-how">
       <div class="container case-wide">
         <h2>How it works, step by step</h2>
-        <p>Four steps, each one something you can check off. To show what each produces, they follow one company through, a composite rather than a client: a field-service business, eight years on one platform, three teams. Dispatch books the job, technicians close it on a phone, billing reconciles it after. The
+        <p>Four steps, each with something to show for it. To make that concrete, they follow one company through, a composite rather than a client: a field-service business, eight years on one platform, three teams. Dispatch books the job, technicians close it on a phone, billing reconciles it after. The
            same job now exists in three places, and the roadmap holds forty requests and no position.</p>
         <ol class="eng3-steps">
           <li class="eng3-step has-fig">
@@ -373,11 +389,11 @@
               <div>
               <h3>Hear the problem from everyone who owns a piece of it</h3>
               <p>Separately, and quickly: product, engineering, support, whoever fields the complaints. Where the accounts diverge is usually where the real problem is.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Three accounts of one handoff.</b> Dispatch blames the scheduling screen, technicians the phone app, billing neither.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-clarity-01.webp?v=9" width="1080" height="720" loading="lazy" decoding="async" alt="Adam at the end of a meeting table with a notebook open, listening to four people from different parts of the company, one of them mid-sentence." />
-              <figcaption><b>Three accounts of one handoff.</b> Dispatch blames the scheduling screen, the technicians the phone app, billing neither.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -386,11 +402,11 @@
               <div>
               <h3>State the problem in one sentence</h3>
               <p>One sentence the whole room recognizes, including the people it constrains. Most of the value is here: a problem everyone can repeat back stops being reopened every other week.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>One sentence the whole room can repeat.</b> One job lives in three places and nobody owns the reconciliation.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-clarity-02.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="Three teammates at a table, one of them speaking with a hand toward the whiteboard behind them, which carries a single line." />
-              <figcaption><b>One sentence the whole room can repeat.</b> One job lives in three places and nobody owns the reconciliation.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -399,11 +415,11 @@
               <div>
               <h3>Sort what follows into an order</h3>
               <p>What to decide next, what can wait, and what is a symptom of the first thing. A sequence, not a backlog. A backlog is what you already have.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>The shared job record goes first.</b> The rest are symptoms of it, and eleven of forty requests come off the roadmap.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-clarity-03.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="Over a shoulder at a monitor: a column of six cards with one pulled out of line under the cursor, a hand on the mouse, a teammate in a small call thumbnail." />
-              <figcaption><b>The shared job record goes first.</b> The rest are symptoms of it, and eleven of forty requests come off the roadmap.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -412,11 +428,11 @@
               <div>
               <h3>Make it tangible enough to judge</h3>
               <p>Flows, a working prototype, whatever the decision actually needs. A visible direction makes a far better conversation than another description of one.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>A prototype run on last week&rsquo;s real jobs.</b> The decision gets made against it.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-clarity-04.webp?v=11" width="1080" height="720" loading="lazy" decoding="async" alt="Seen from above: a phone showing a rough tap-through prototype, a printed one-page sheet, a pencil and three small sketched screens on cards." />
-              <figcaption><b>A prototype run on last week&rsquo;s real jobs.</b> The decision gets made against it.</figcaption>
             </figure>
           </li>
         </ol>
@@ -443,7 +459,7 @@
              which had the subject back but still asked a reader to hold three
              conditions and three links in a single measure. -->
         <div class="eng3-leave eng3-fit">
-          <h2 class="eng3-panel-title">When a different engagement is the right one</h2>
+          <h2 class="eng3-panel-title">When another engagement fits</h2>
           <ul class="eng3-fit-grid">
             <li>
               <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.8" cy="7.8" r="3.3"/><path pathLength="1" d="M3.6 20.2c0-3.7 2.8-6.2 6.2-6.2s6.2 2.5 6.2 6.2"/><path pathLength="1" d="m15.4 8.8 1.9 1.9 3.5-3.5"/></svg></span>
@@ -508,10 +524,11 @@
             <p>You talk to the person doing the work: whoever hears the problem in the first week writes the recommendation in the last. A one-person practice runs few engagements at once, so the attention is undivided, and the reasoning is written down as the decisions get made rather than assembled on the last Friday &mdash; so the next hard call is one your team can make without turning it into archaeology.</p>
           </div>
           <div class="eng3-split-cta">
-            <h2 class="eng3-cta-title">Describe what is happening</h2>
+            <h2 class="eng3-cta-title">Start here</h2>
             <p>A few sentences about your product are enough to start. If a different engagement fits better, or none
                of them do, I will say so.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Product%20Clarity&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Send me a few sentences</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Product%20Clarity&amp;body=What%20people%20keep%20asking%20for%3A%0D%0A%0D%0AWhich%20decision%20keeps%20getting%20put%20off%3A%0D%0A%0D%0AWho%20disagrees%20about%20what%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
         </div>
       </div>

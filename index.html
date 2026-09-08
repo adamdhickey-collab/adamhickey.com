@@ -111,12 +111,13 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="color.css?v=6" />
   <link rel="stylesheet" href="shell.css?v=3" />
   <link rel="stylesheet" href="type.css?v=3" />
-  <link rel="stylesheet" href="style.css?v=20260905f" />
-  <link rel="stylesheet" href="site-nav.css?v=20260905a" />
+  <link rel="stylesheet" href="style.css?v=20260906g" />
+  <link rel="stylesheet" href="site-nav.css?v=20260906d" />
+  <script src="site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -208,7 +209,7 @@
   <link rel="preload" as="image" href="img/site/dr-pepper.svg" />
   <link rel="preload" as="image" href="img/site/intel.svg" />
   <link rel="preload" as="image" href="img/site/lund.svg" />
-  <link rel="preload" as="image" href="img/site/toro.svg" />
+  <link rel="preload" as="image" href="img/site/toro-wordmark.svg" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -224,21 +225,27 @@
                  preload="metadata" aria-hidden="true"></video>
         </span>
       </button>
-      <ul class="nav-links" aria-label="Site sections">
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
         <li><a href="#case-studies">Work</a></li>
         <li><a href="#problems">Services</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
       <div class="nav-actions">
         <a href="mailto:adam@adamhickey.com" data-email-popover="adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
         </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -315,7 +322,7 @@
         <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/dr-pepper.svg" alt="Dr Pepper" /></div>
         <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/intel.svg" alt="Intel" /></div>
         <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/lund.svg" alt="Lund" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/toro.svg" alt="Toro" /></div>
+        <div class="logo-cell" role="listitem"><img decoding="async" loading="lazy" src="img/site/toro-wordmark.svg" alt="Toro" /></div>
         </div>
       </div>
     </section>
@@ -324,6 +331,7 @@
     <section id="problems" class="problems" data-cursor="light">
       <div class="container">
         <header class="section-head reveal">
+          <p class="section-eyebrow">Services</p>
           <h2>When people bring me in</h2>
           <p>Most engagements start with a situation, not a request for deliverables. Screens are getting cheap. Decisions are not.</p>
         </header>
@@ -408,6 +416,7 @@
               <span class="tag">Design systems</span>
               <span class="tag">Governance</span>
             </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </a>
 
           <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: Turning disconnected grant tools into one trusted platform">
@@ -420,11 +429,12 @@
               <span class="tag">Accessibility</span>
               <span class="tag">Platform consolidation</span>
             </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </a>
 
           <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: Giving dispatchers one real-time view of a 450+ truck fleet">
             <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/chatgpt-image-may-9-2026-10-54-57-am.webp" alt="Giving dispatchers one real-time view of a 450+ truck fleet" style="filter: brightness(1.05) saturate(0.8);" width="1672" height="941"/>
+              <img decoding="async" loading="lazy" src="img/site/map-based-layout-22.webp" alt="Giving dispatchers one real-time view of a 450+ truck fleet" width="1800" height="1012"/>
             </div>
             <h3>Giving dispatchers one real-time view of a 450+ truck fleet</h3>
             <div class="tag-row">
@@ -432,6 +442,7 @@
               <span class="tag">Real-time data</span>
               <span class="tag">Operations software</span>
             </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </a>
 
           <a class="case-card reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="View case study: Connecting a global innovation network with one brand and platform">
@@ -444,6 +455,7 @@
               <span class="tag">Illustration</span>
               <span class="tag">Internal platform</span>
             </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </a>
         </div>
 
@@ -731,21 +743,21 @@
             <ol class="product-screens">
               <li>
                 <a class="mini-phone" href="case-study/lucy-learns.html">
-                  <img src="img/products/lucy-learns-splash.webp?v=2" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="img/products/lucy-learns-splash.webp?v=3" width="620" height="1342" loading="lazy" decoding="async"
                        alt="The Lucy Learns splash screen: the app name in a tall serif above an illustration of a black Labrador and her person crouched nose to nose, with the build version below." />
                 </a>
                 <p class="mini-cap"><span>01</span> Built for one dog in particular</p>
               </li>
               <li>
                 <a class="mini-phone" href="case-study/lucy-learns.html">
-                  <img src="img/products/lucy-learns.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="img/products/lucy-learns.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
                        alt="Lucy Learns home screen: the Calm Door Greetings track and today&rsquo;s homework with a Start session button." />
                 </a>
                 <p class="mini-cap"><span>02</span> Today&rsquo;s session, already chosen</p>
               </li>
               <li>
                 <a class="mini-phone" href="case-study/lucy-learns.html">
-                  <img src="img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="img/products/lucy-learns-3.webp?v=8" width="620" height="1342" loading="lazy" decoding="async"
                        alt="End of session: Level 1 cleared, ready for the next step." />
                 </a>
                 <p class="mini-cap"><span>03</span> End on a win, next one queued</p>
@@ -754,7 +766,7 @@
             <div class="product-body">
               <p class="product-eyebrow">For Lucy</p>
               <h3>Lucy Learns</h3>
-              <p class="product-lead">A mobile app that turns a professional trainer&rsquo;s handouts into guided sessions you can run with a leash in one hand. One instruction per screen, a live rep tally, hands-free voice, and progress tracked in the levels the trainer already uses. Installs to the phone and works offline.</p>
+              <p class="product-lead">A mobile app that turns a professional trainer&rsquo;s handouts into guided sessions you can run with a leash in one hand. One instruction per screen, a live rep tally, steps read aloud or turned on a timer, and progress tracked in the levels the trainer already uses. Installs to the phone and works offline.</p>
               <ul class="product-tags">
                 <li>Product design</li>
                 <li>Illustration</li>
@@ -770,10 +782,24 @@
 
         <!-- The third thing built end to end is a book, and it had a card of
              its own here until 2026-09-05. A card is homepage weight the book
-             does not need on the way to a conversation, but a write-up two
-             clicks deep is easy to lose; one line keeps it one click away, in
-             the products' own link style. -->
-        <p class="built-more reveal">There is also a book. <a class="product-link" href="case-study/while-were-here.html">How I built While We&rsquo;re Here</a></p>
+             does not need on the way to a conversation, and the one line that
+             replaced it read as a footnote under a section about building
+             whole things. A compact row now: the cover small, the products'
+             own eyebrow, title and link, one sentence. -->
+        <article class="built-more reveal">
+          <a class="built-more-shot" href="case-study/while-were-here.html">
+            <img src="img/products/while-were-here.webp" width="1400" height="897" loading="lazy" decoding="async"
+                 alt="While We&rsquo;re Here as a square hardcover, the title set in tall black Didone capitals over a watercolour bloom crossed by fine technical draughting, with two open spreads behind it." />
+          </a>
+          <div class="product-body">
+            <p class="product-eyebrow">And a book</p>
+            <h3>While We&rsquo;re Here</h3>
+            <p class="product-lead">A square hardcover of small essays on attention, time, and being alive. HTML and CSS are the production system, and the deliverable is a press-ready PDF rather than a website.</p>
+            <p class="product-actions">
+              <a class="product-link" href="case-study/while-were-here.html">How I built it</a>
+            </p>
+          </div>
+        </article>
 
         <!-- The identity and illustration work was a section of its own,
              "Selected visual work", sold as the practice's second lane. It
@@ -948,19 +974,21 @@
        form, no scheduling widget, no discovery-call funnel. The heading and
        the paragraph carry the same ask the four engagement pages open and
        close on, so a reader sent here from one of them lands on the sentence
-       they just read rather than a generic contact block. The button says
-       what it does instead of repeating the paragraph back, and the note it
-       opens is already started: a subject line and the two prompts the
-       paragraph asks for, so the reader fills in blanks rather than facing
-       an empty message. The plain address below it stays plain.       -->
+       they just read rather than a generic contact block. The button carries
+       the same words as the hero's ask and the line under the shelf -- one
+       verb for the one thing the page asks -- and the note it opens is
+       already started: a subject line and the two prompts the paragraph asks
+       for, so the reader fills in blanks rather than facing an empty
+       message. The plain address below it stays plain.                  -->
   <section id="contact" class="contact">
     <div class="container">
       <header class="section-head reveal">
+        <p class="section-eyebrow">Contact</p>
         <h2>Describe what is happening</h2>
         <p>Send me a few sentences about your product and what makes this important now. The first conversation is diagnosis, not a pitch: I will tell you plainly which engagement fits, and if none of them do, I will say so. Agencies and studios: I take senior freelance workstreams too, after thirteen years of delivering through a consultancy. Based in Minneapolis, working remote.</p>
       </header>
       <div class="cta-row reveal">
-        <a href="mailto:adam@adamhickey.com?subject=Product%20conversation&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Email me</a>
+        <a href="mailto:adam@adamhickey.com?subject=Product%20conversation&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Start a conversation</a>
         <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-ghost-light">Connect on LinkedIn</a>
       </div>
       <p class="contact-plain reveal">Or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a> directly.</p>

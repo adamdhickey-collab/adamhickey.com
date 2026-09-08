@@ -253,6 +253,27 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 .section-head h2 { margin-bottom: var(--space-md); }
 @media (min-width: 768px) { .section-head h2 { margin-bottom: var(--space-xl); } }
 .section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
+/* The header says Services and Contact; the heads they scroll to say "When
+   people bring me in" and "Describe what is happening". Neither title
+   carries the word a reader just clicked, so the eyebrow does, in the
+   treatment .hero-eyebrow already uses for the one word that names the
+   role. Only those two heads take one: Work lands on "Selected work" and
+   About on "About", which already answer for themselves. Written against
+   .section-head so it outranks the head's own p rule, which would otherwise
+   set the eyebrow at --text-lg in body ink. */
+.section-head .section-eyebrow {
+  margin: 0 0 var(--space-xs);
+  max-width: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+@media (min-width: 768px) { .section-head .section-eyebrow { margin-bottom: var(--space-sm); font-size: var(--text-xs); } }
+.problems .section-head .section-eyebrow { color: var(--color-accent-on-dark); }
 /* The lighter section head: the identity and illustration shelf inside Built
    end to end. It was written for the "Earlier experience" section, which left
    the homepage on 2026-09-05 when the career stopped being told three times;
@@ -260,10 +281,12 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    a margin on the first child would collapse out through the parent and
    show as a seam. */
 .section-head.archive-head { margin-top: 0; margin-bottom: var(--space-2xl); }
-/* Lighter than the main section heads, so the shelf is not read with the
-   same weight as the work above it. */
-.section-head.archive-head h2 { font-size: var(--text-3xl); }
-@media (min-width: 768px) { .section-head.archive-head h2 { font-size: var(--text-4xl); } }
+/* The head used to sit one step under the other section heads, 34px against
+   their 48, so the shelf would read lighter than the work above it. It read
+   as the one h2 on the page at the wrong size instead: a peer heading, one
+   size smaller, with the longest paragraph on the page under it. It takes
+   the h2 ramp like every other h2 now; the shelf's lighter weight comes
+   from its smaller cards and its position under the products. */
 /* Body size and body ink, the same as .product-lead two rows up: the shelf's
    intro is the one paragraph on the page that says what the identity work is
    for, and at --text-sm it read as a caption under a heading rather than a
@@ -375,6 +398,28 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   font-weight: var(--weight-regular);
 }
 .case-card:hover h3 { color: var(--color-accent-deep); }
+/* The card's only affordances were its title and a hover tilt, so nothing
+   said the picture was a link until the pointer reached it. One quiet line
+   says so, with the arrow the engagement cards already carry; it rests in
+   the accent's text step and goes to charcoal on hover, the way
+   .case-ask-link does, because at 14px the fill sage is a hundredth over
+   the floor on white. */
+.case-go {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+  transition: gap var(--motion-move) var(--ease),  color var(--motion-state) var(--ease);
+}
+.case-go svg { width: 17px; height: 17px; }
+.case-card:hover .case-go,
+.case-card:focus-visible .case-go { gap: var(--space-sm); color: var(--color-charcoal); }
+@media (prefers-reduced-motion: reduce) { .case-go { transition: none; } }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
@@ -463,6 +508,12 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   overflow-x: clip;
   transition: background-color var(--motion-ambient) var(--ease),  color var(--motion-ambient) var(--ease),  --story-bg var(--motion-ambient) var(--ease);
 }
+/* Desktop only. The pinned scene releases 48px above the viewport's foot,
+   and the section's --space-section-lg under that left about a quarter of a
+   viewport of bare dot grid between the circle and Built end to end.
+   --space-3xl under the release puts 88px under the circle, which is what
+   the sticky top puts over it, so the section ends where the scene does. */
+@media (min-width: 900px) { .story { padding-bottom: var(--space-3xl); } }
 /* The section drifts through four light earth-tone environments as you scroll
    — pale green, sage, a cooler muted blue-green, then a warm clay close. Text
    stays charcoal throughout; only the background hue shifts, so it feels like
@@ -681,6 +732,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   appearance: none;
   background: none;
   border: 0;
+  position: relative;
   padding: var(--space-2xs) var(--space-xs);
   margin: calc(var(--space-2xs) * -1) calc(var(--space-xs) * -1);
   cursor: pointer;
@@ -690,6 +742,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   letter-spacing: var(--tracking-normal);
   color: var(--story-ink-soft);
   transition: color var(--motion-enter) var(--ease);
+}
+/* 33 by 25 of visible button, 44 by 44 of target: the rail is too narrow
+   to pad the button itself without widening the pill, so the ::after
+   carries the hit zone, the way the footer links and .product-link do. */
+.story-progress-num::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
 }
 .story-progress-num:hover { color: var(--story-accent); }
 .story-progress-num:focus-visible {
@@ -950,6 +1012,11 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   font-weight: 500;
   font-size: var(--text-base);
   cursor: pointer;
+  /* A label that wraps stays centred: inline-flex centres the text as one
+     box and says nothing about the lines inside it, so a two-line label
+     sat left-aligned in a centred box. The closing card's button still
+     breaks at 360 wide with its full-width rule below. */
+  text-align: center;
 }
 /* The darker sage, not the fill one. .btn carries --color-warm text, and warm
    on accent-deep is 4.12:1 against a 4.5 floor -- a filled control that
@@ -1265,7 +1332,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 /* One step under the main case cards' titles, so the shelf reads as the
    lighter row it is. */
 .shelf-item h3 { font-size: var(--text-xl); line-height: var(--leading-tight); margin-bottom: var(--space-xs); }
-@media (min-width: 1024px) { .shelf-item h3 { font-size: var(--text-2xl); } }
+/* Four across, the Dr Pepper Snapple title wraps to two lines and the other
+   three do not, so its description started a line lower than its neighbours'.
+   Two lines are reserved on every title at this width, so the four
+   descriptions start on one line whatever the titles do. */
+@media (min-width: 1024px) { .shelf-item h3 { font-size: var(--text-2xl); min-height: calc(2 * var(--leading-tight) * 1em); } }
 .shelf-desc {
   font-size: var(--text-base); line-height: var(--leading-body);
   color: var(--color-charcoal);
@@ -1365,6 +1436,15 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    top-aligned to each other, and the unit as a whole centers beside a
    tall figure. */
 .eng3-step-main { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--space-xs) var(--space-lg); align-items: start; }
+/* Under 768 the number sits on its own row and the title and paragraph take
+   the card's full width beneath it. Beside the disc they had 48px plus the
+   column gap taken off a 390px phone before the card's own inset, which left
+   the prose a 232px measure -- three or four words to a line, the title
+   wrapping three deep, and the figure under it indented the same way. The
+   disc stays the counter; it just stops being a column. */
+@media (max-width: 767.98px) {
+  .eng3-step-main { grid-template-columns: minmax(0, 1fr); }
+}
 .eng3-num {
   width: 48px; height: 48px; border-radius: 50%;
   background: var(--color-accent-deep); color: var(--color-white);
@@ -1387,11 +1467,54 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-step p { line-height: var(--leading-body); max-width: var(--measure); }
 /* The figure hangs under the step's prose column, so its indent is the grid's
    own first-column width plus the column gap -- see .eng3-step-main above. The
-   48px is that column, not a space, and must track it rather than the scale. */
+   48px is that column, not a space, and must track it rather than the scale.
+   Under 768 there is no column to hang under, so the indent goes with it and
+   the figure takes the width the prose has, capped where the card is wide. */
 .eng3-step-fig { margin: 0 0 0 calc(48px + var(--space-lg)); max-width: 320px; }
+@media (max-width: 767.98px) { .eng3-step-fig { margin-left: 0; } }
+@media (max-width: 640px) { .eng3-step-fig { max-width: none; } }
 @media (min-width: 1024px) { .eng3-step.has-fig .eng3-step-fig { margin: 0; width: var(--eng3-fig); } }
 .eng3-step-fig img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow-media); }
-.eng3-step-fig figcaption { font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); margin-top: var(--space-sm); }
+/* The step's output line: what the step leaves behind, told through the
+   composite company the section follows. It was the figure's caption, and
+   a caption is where the eye goes last -- twelve-point grey under the
+   picture, while the picture itself sat 360px wide beside three lines of
+   copy. The output is the argument of the section, so it lives in the
+   prose column now, and the figure is a picture with alt text rather than
+   a captioned one. The rule above the line is --color-rule, the same
+   divider the facts strip uses. It carried a "What it produces" eyebrow
+   for a day; the bold lead already says what the line is, and the eyebrow
+   was a label on a thing that labels itself.
+
+   It is set in the serif's italic, one step above the body, so that it
+   reads as a different voice from the instruction above it: the step says
+   what to do, this line says what it looked like at the one company. The
+   "e.g." before it is set upright in the disc's sage, the two letters that
+   say what the line is, and it hangs in the padding so that a wrapped line
+   starts under the first word rather than under the abbreviation. Its
+   column is 2em of the line's own size, room for the four glyphs and a
+   gap, so that it scales with the type rather than with a pixel.
+   The lead is upright, not bold: Crimson Text ships one weight here, so a
+   700 would be synthesized, and emphasis inside an italic setting is roman
+   by convention anyway. */
+.eng3-step-out {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-sm) 0 0 2em;
+  text-indent: -2em;
+  border-top: 1px solid var(--color-rule);
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-section .eng3-step-out { font-size: var(--text-lg); line-height: var(--leading-body); }
+.eng3-step-out-mark {
+  display: inline-block; width: 2em; text-indent: 0;
+  font-style: normal; color: var(--color-accent-deep);
+}
+.eng3-step-out b { font-style: normal; font-weight: var(--weight-regular); }
 
 /* Phone chrome for portrait app captures: a simple dark bezel with the
    screen clipped inside, so a capture reads as an app on a device rather
@@ -1437,6 +1560,12 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    section scale so the panel does not shout. */
 .eng3-leave .eng3-panel-title { font-size: var(--text-3xl); margin-bottom: var(--space-md); }
 .eng3-checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-sm); }
+/* Four items at the measure left the panel's right 60% bare at 1440. Two
+   columns from 1024, where the panel is wide enough for two measures and
+   the column gap; below that a single column is the honest shape. */
+@media (min-width: 1024px) {
+  .eng3-checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm) var(--space-2xl); }
+}
 .eng3-checklist li { display: flex; gap: var(--space-sm); align-items: flex-start; line-height: var(--leading-body); }
 .eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: var(--space-2xs); }
 
@@ -1540,8 +1669,6 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    real example in the same voice as the step, project first. */
 .eng3-step-fig.is-art { margin: 0; max-width: none; }
 .eng3-step-fig.is-art img { border-radius: 0.5rem; box-shadow: none; background: var(--color-warm); }
-.eng3-step-fig.is-art figcaption { font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); max-width: var(--measure); }
-.eng3-step-fig.is-art figcaption b { font-weight: 700; }
 @media (min-width: 1024px) { .eng3-step.has-fig .eng3-step-fig.is-art { width: var(--eng3-fig); } }
 
 /* ---------- The engagement heroes carry the art ----------
@@ -1640,6 +1767,58 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
      and measured 1.4:1 there. The probe measures the box, not the glyphs. */
   .eng3-hero-art .eng3-dek { max-width: 26rem; }
 }
+/* Between 768 and 1279 the picture is a band under the text, and at 3:2 of
+   the viewport it ran 787px tall at 1180 -- a 1228px hero on a laptop window
+   that is not maximised, a screen and a half before the facts. The picture
+   is 2:1 with its subject on the right, so the band is held to 26rem and
+   covers from the right: the person, the desk and what is on it stay, and
+   the empty wall on the left is what goes. 35% from the top keeps a head
+   clear of the crop on all four pictures. Under 768 the 3:2 band is 260px
+   on a 390px phone and needs no cap. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .eng3-hero-bg { aspect-ratio: auto; height: 26rem; object-position: right 35%; }
+}
+/* The hero's one action: a jump to the invitation band, which is where the
+   ask is made. The hero had no action at all, and the first button sat at
+   1328px on a 900px screen and 2027px on a phone. The link takes the proof
+   card's treatment -- charcoal, the sage rule under it -- and its hover
+   moves the rule rather than the ink: the sage text on the wall behind it
+   would measure about 3.2:1, so the words stay charcoal. The box is short
+   and sits in the left column under the dek, on the wall and nothing else,
+   so resting.mjs probes it by the pixel as it does the dek.
+
+   The rule is a pseudo-element hung a pixel clear of the box rather than
+   a border-bottom, and the probe is the reason. It hides the glyphs and
+   samples every pixel inside the element's box for the darkest ground the
+   ink sits on, and a sage border is inside that box: charcoal against the
+   rule measured 3.4:1 and failed a link whose words sit on a 9:1 wall.
+   The rule is not ground -- no glyph is ever drawn on it -- so it goes
+   outside the box the probe reads, where the border stood. The one-pixel
+   gap is for the screenshot the probe takes: a box whose height ends on
+   a fraction rounds out to the next whole row, and at 768px that row was
+   the rule, at 3.4:1 again. Without the border the 1px of padding under
+   the words is not needed; the gap does its job.
+   The hit zone grows behind the words, as .product-link's does. */
+.eng3-hero-link {
+  display: inline-block; position: relative;
+  margin-top: var(--space-lg);
+  color: var(--color-charcoal); font-weight: 600; font-size: var(--text-base); line-height: var(--leading-body);
+}
+.eng3-hero-link::before {
+  content: ""; position: absolute;
+  left: 0; right: 0; bottom: -3px; height: 2px;
+  background: var(--color-accent-deep);
+  transition: background-color var(--motion-state) var(--ease);
+}
+.eng3-hero-link:hover::before, .eng3-hero-link:focus-visible::before { background: var(--color-charcoal); }
+/* 44px behind the words, the same trick as .product-link, .glance-more and
+   the proof and fit links further down, for the same reason: the rule has
+   to stay on the text, so the target grows behind it rather than around it. */
+.eng3-hero-link::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
+}
 
 /* The facts strip is a band of its own between the hero and the invitation,
    and it takes the same air above and below: the section ramp on both sides
@@ -1705,9 +1884,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 @media (min-width: 1024px) {
   .eng3-invite-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-block); }
   /* Picture on the left, the ask on the right. Source order stays
-     text-then-image, the same trick .product-reverse uses one page over; the
-     drawing is decorative and carries an empty alt, so nothing in the reading
-     order moves. */
+     text-then-image, the same trick .product-reverse uses one page over; a
+     reader who hears the page gets the ask first and the drawing after it,
+     which is the order the ask wants whether the alt is empty or a
+     sentence. */
   .eng3-invite-art { order: -1; }
 }
 .eng3-invite-kicker {
@@ -1740,8 +1920,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 /* The situation as a spread: the prose keeps the measure on the left, and
    the sentence the engagement turns on is pulled out on a tea plate to the
    right, so the column is not a strip of text with a margin beside it. The
-   pull-out repeats the paragraph's own middle sentence; it is a second way
-   of reading the same claim, not a second claim. It is one sentence: the
+   pull-out restates the paragraph's own claim shorter; it is a second way
+   of reading the same claim, not a second claim, and not the same sentence
+   again -- the Embedded page's plate used to repeat its paragraph's last
+   sentence word for word, a column away. It is one sentence: the
    note that used to sit under it repeated the rest of the paragraph a
    column away, and went. */
 .eng3-situation { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
@@ -1766,6 +1948,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    --motion-enter, so a thumbnail means the same thing on every page it
    appears on. The frame is the link itself rather than the figure, so the
    focus ring is drawn outside the clipped box instead of being cut by it.
+   The two columns top-align rather than center: the prose runs longer than
+   the media on every one of these cards, and centering floated the picture
+   beside the stats with bare ground above and below it, nowhere near the
+   headline it proves. The step cards keep center, because there the figure
+   is the taller column.
    The Lucy Learns phones are a.mini-phone, as on the homepage, and lift
    whole under the rule up there. */
 .eng3-proof-card {
@@ -1774,7 +1961,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   padding: var(--space-xl); margin-top: var(--space-2xl);
 }
 @media (min-width: 1024px) {
-  .eng3-proof-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-block); align-items: center; padding: var(--space-3xl); }
+  .eng3-proof-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-block); align-items: start; padding: var(--space-3xl); }
 }
 .eng3-proof-media { display: flex; flex-direction: column; gap: var(--space-lg); }
 .eng3-proof-shot { margin: 0; }
@@ -1819,6 +2006,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-proof-stats span { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: 14rem; }
 .case-section .eng3-proof-more { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
+/* A second closing paragraph is a second client, and gets a paragraph gap;
+   the Design System Foundation card has one, the other three have not. */
+.case-section .eng3-proof-more + .eng3-proof-more { margin-top: var(--space-md); }
 .eng3-proof-cta {
   align-self: flex-start;
   color: var(--color-charcoal); font-weight: 600; font-size: var(--text-base); line-height: var(--leading-body);
@@ -1826,6 +2016,18 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   transition: color var(--motion-state) var(--ease);
 }
 .eng3-proof-cta:hover { color: var(--color-accent-text); }
+/* The text link is a 26px line box, under the 44px touch floor .icon-link
+   clears with padding. Padding here would carry the border-bottom down with
+   it, so the hit zone is a pseudo-element instead: the same trick a small
+   control uses everywhere, and it moves nothing the eye can see. --space-sm
+   above and below is 50px, the first step on the grid past the floor. */
+.eng3-proof-cta,
+.eng3-fit-grid a { position: relative; }
+.eng3-proof-cta::after,
+.eng3-fit-grid a::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: calc(-1 * var(--space-sm)); bottom: calc(-1 * var(--space-sm));
+}
 
 /* The three situations that belong to another engagement, as three columns
    in a panel of their own. Each column is a mark, a condition and, under it,
@@ -1875,7 +2077,34 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-one-compact .eng3-split-cta p { color: var(--ink-on-dark-secondary); margin-bottom: var(--space-xl); }
 .eng3-split-cta .btn-primary { background: var(--color-warm); color: var(--color-charcoal); }
 .eng3-split-cta .btn-primary:hover { background: var(--color-tea-light); }
-
+/* On a 390px phone the panel's --space-2xl inset left 276px for a 292px
+   button, and "Describe what is happening" broke onto two lines. The inset
+   steps down to --space-xl and the button takes the panel's width with the
+   tighter inline padding, the way .cta-row .btn does on the homepage. */
+@media (max-width: 640px) {
+  .eng3-split-cta { padding: var(--space-xl); }
+  .eng3-split-cta .btn { width: 100%; padding-inline: var(--space-lg); }
+}
+/* The address, written out under each button. mailto: is the page's only
+   conversion path, and on a machine with no mail client the button does
+   nothing a reader can see; the address as text can be copied. It is a
+   small line, not a second control. The doubled selectors are specificity:
+   .eng3-invite-body > p and .eng3-one-compact .eng3-split-cta p each set a
+   paragraph margin and size this line must not take. */
+.eng3-cta-alt,
+.eng3-invite-body .eng3-cta-alt,
+.eng3-one-compact .eng3-split-cta p.eng3-cta-alt {
+  margin: var(--space-sm) 0 0; max-width: var(--measure);
+  font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal);
+}
+.eng3-one-compact .eng3-split-cta p.eng3-cta-alt { color: var(--ink-on-dark-secondary); }
+.eng3-cta-alt a {
+  font-weight: 600; border-bottom: 1px solid var(--color-accent-deep);
+  transition: color var(--motion-state) var(--ease);
+}
+.eng3-cta-alt a:hover { color: var(--color-accent-text); }
+.eng3-split-cta .eng3-cta-alt a { border-bottom-color: var(--color-accent-on-dark); }
+.eng3-split-cta .eng3-cta-alt a:hover { color: var(--ink-on-dark); }
 /* The closing link, the case studies' own pattern brought over: an eyebrow,
    the next engagement's name in the serif, and its one-line situation. */
 .eng3-closing { background: var(--color-white); padding: var(--space-4xl) 0 var(--space-section); }
@@ -1902,9 +2131,20 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .contact .cta-row { margin-bottom: var(--space-lg); }
 .contact-plain { font-size: var(--text-sm); color: var(--color-muted-gray); }
 .contact-plain a {
+  /* An 18px line of text was the target. inline-block so the ::after has a
+     box to hang from; the underline is text-decoration, so it stays put. */
+  position: relative;
+  display: inline-block;
   color: var(--color-accent-text);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+.contact-plain a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 .contact-plain a:hover { color: var(--color-charcoal); }
 
@@ -1964,11 +2204,21 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   color: var(--color-charcoal);
 }
 .work-cta a {
+  position: relative;
+  display: inline-block;
   color: var(--color-charcoal);
   font-weight: 600;
   border-bottom: 2px solid var(--color-accent-deep);
   padding-bottom: 2px;
   transition: color var(--motion-state) var(--ease);
+}
+/* 26px of visible link, 44px of target, same as .product-link. */
+.work-cta a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 .work-cta a:hover { color: var(--color-accent-text); }
 
@@ -2758,7 +3008,10 @@ html.ah-lightbox-open body { overflow: hidden; }
 .mini-cap {
   margin: var(--space-xs) 0 0;
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  /* --text-xs, not 2xs: these three lines explain what each screen is, and
+     11px was the floor of the page doing a sentence's work. The phone-width
+     rule below keeps 2xs where the strip is too narrow for anything else. */
+  font-size: var(--text-xs);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
   text-align: center;
@@ -2927,6 +3180,31 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: 990px;
 }
 .build-flow-step { margin: 0; }
+/* Below 600px the row is a strip that scrolls sideways, one phone at a time.
+   auto-fit went to one column there, and a 620x1342 capture at the full 342px
+   the measure gives it stands 740px tall: three of them were 2.3 of a phone's
+   screens in the Lucy Learns hero, on top of the facts and the approach, and
+   "The problem" started 4.3 screens down after the strip lost its points and
+   5.2 before. A phone is 260px wide here, so the next one shows past the
+   edge -- that peek is the whole affordance, which is why the row bleeds
+   through the gutter to the viewport and the first phone still starts on the
+   text edge. Snap to each phone rather than to nothing, so a flick lands on
+   a whole screen. 600 and not 768: between the two, three 180px phones fit
+   the grid, and it is only under 600 that auto-fit had gone to one column
+   or to two and a straggler. The pair modifier is off below 768 anyway. */
+@media (max-width: 599.98px) {
+  .build-flow-row {
+    display: flex;
+    max-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+  }
+  .build-flow-step { flex: 0 0 min(260px, 78%); scroll-snap-align: start; }
+}
 
 /* A two-up sits on the three-up's grid rather than sharing out the spare
    column. Door County Found shows two phone screens where Lucy Learns shows
@@ -2972,9 +3250,62 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: var(--measure);
 }
 
-/* A drawn argument rather than a described one. */
+/* A drawn argument rather than a described one. Until 2026-09-06 the drawing
+   was an SVG with its labels as <text>, and SVG text scales with the viewBox
+   rather than with the type scale: at 390px the card headings on Lucy Learns
+   measured about 8px and the rows 7, which no token on this site allows and
+   typescale.mjs could not see, because it measures elements and an SVG text
+   node is not one. Two HTML cards now, on the same fills and the same
+   strokes, in real type that stacks below 600px. The marks are drawn in CSS
+   so they take the same tokens as the cards: a dot on the half that stays
+   on, a cross on the half that came out. */
 .build-diagram { margin: var(--space-2xl) 0 var(--space-3xl); }
-.build-diagram svg { display: block; width: 100%; height: auto; }
+.build-switch-row {
+  display: grid; gap: var(--space-xl);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 600px) {
+  .build-switch-row { grid-template-columns: minmax(0, 1fr); }
+}
+.build-switch-card {
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: 12px;
+  background: var(--color-warm);
+  border: 1px solid var(--color-tag-border);
+}
+.build-switch-card--on { background: var(--color-tea-light); border-color: var(--color-accent-deep); }
+/* Two classes deep, because .build-chapter p is class-and-element and would
+   otherwise set this heading at body size and body leading. */
+.build-diagram .build-switch-head {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600;
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.build-diagram .build-switch-head span {
+  display: block; margin-top: var(--space-2xs);
+  font-size: var(--text-sm); font-weight: 400;
+  color: var(--color-muted-gray);
+}
+.build-switch-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xs); }
+.build-diagram .build-switch-list li {
+  position: relative; padding-left: var(--space-xl);
+  font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.build-switch-card--on .build-switch-list li::before {
+  content: ""; position: absolute; left: 1px; top: 0.4em;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-accent-deep);
+}
+.build-switch-card--off .build-switch-list li::before,
+.build-switch-card--off .build-switch-list li::after {
+  content: ""; position: absolute; left: 0; top: 0.68em;
+  width: 12px; height: 2px; border-radius: 1px;
+  background: var(--color-muted-gray);
+  transform: rotate(45deg);
+}
+.build-switch-card--off .build-switch-list li::after { transform: rotate(-45deg); }
 
 /* At a glance: one light card.
    The facts read as a single line of type; the four stages sit as
@@ -2991,6 +3322,12 @@ html.ah-lightbox-open body { overflow: hidden; }
    made the old version feel like a pile. Same white so they still read as
    a pair, a gap so they are two answers rather than one. */
 .glance + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
+/* On Lucy Learns the three phones sit between the two strips since
+   2026-09-06, so the pair rule above does not fire there: the product gets
+   the most-used gap off the facts, and the approach strip closes the hero
+   with the margin the pair used to. */
+.glance + .build-flow { margin-top: var(--space-xl); }
+.build-flow + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
 .glance-kicker {
   font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
@@ -3135,6 +3472,12 @@ html.ah-lightbox-open body { overflow: hidden; }
     transform: scaleY(0); transform-origin: 50% 0;
   }
   .glance-step:last-child::before { display: none; }
+  /* Below the rail's width the strip is a map and not a summary: the node,
+     the title and the link into the chapter, with the points left to the
+     chapters they point at. With them, the four steps on Lucy Learns ran
+     two and a half phone screens on top of the facts and the three phones,
+     and "The problem" started 5.2 screens down. */
+  .glance-points { display: none; }
   /* The node is 42px, so its center is at 21. The title's line box is 25.6
      tall, which puts its center 8.2 below the body's top edge -- 4px left
      the number riding high of the icon beside it by just over four. The
@@ -3696,12 +4039,40 @@ html.ah-lightbox-open body { overflow: hidden; }
    the book, whose card came off the page on 2026-09-05. Body size, the
    products' own .product-link for the link, and a component gap above so it
    reads as a footnote to the list rather than a third row of it. */
+/* The book had a card of its own here until 2026-09-05, then one sentence:
+   "There is also a book." That read as a footnote under a section arguing
+   that the whole thing gets built. It is a compact third row now -- the
+   cover at a fraction of the products' width, the product eyebrow, title,
+   one line and the same link -- so it reads as the third thing built rather
+   than an afterthought, at a third of the weight a card would give it. */
 .built-more {
-  margin-top: var(--space-2xl);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  margin-top: var(--space-block);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  align-items: center;
 }
+@media (min-width: 640px) { .built-more { grid-template-columns: 12rem 1fr; gap: var(--space-2xl); } }
+.built-more-shot {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-muted-light);
+  box-shadow: var(--shadow-device);
+}
+.built-more-shot img {
+  display: block; width: 100%; height: auto;
+  transition: transform var(--motion-enter) var(--ease);
+}
+.built-more-shot:hover img,
+.built-more-shot:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (prefers-reduced-motion: reduce) {
+  .built-more-shot img { transition: none; }
+  .built-more-shot:hover img { transform: none; }
+}
+.built-more .product-actions { margin-top: var(--space-md); }
 
 .built-shelf {
   margin-top: var(--space-block);
