@@ -70,6 +70,17 @@ one.
 | Crimson Text | **400** only, upright and italic | Never bold. All serif headings sit at 400; hierarchy comes from size. |
 | Montserrat | **400 / 500 / 600 / 700** | 400 body, 500 nav and quiet labels, 600 titles and most labels, 700 strong emphasis. No 300. |
 
+**The italic is a cut, and it has to be in the `<link>` too.** Until
+2026-09-06 only the design system page asked Google Fonts for
+`Crimson+Text:ital,wght@0,400;1,400`; the other fourteen asked for
+`wght@400`, so the homepage's `.engagement-situation` lines were rendering a
+slanted upright -- a synthesized italic, which reads as the real thing until
+the two sit side by side. Every page loads both cuts now. The engagement
+step cards' output line (`.eng3-step-out`) is the other place the italic is
+used: the whole line italic, one step above the body, and its lead sentence
+upright rather than bold, because emphasis inside an italic setting is roman
+and because there is no bold to give it.
+
 Tokens: `--weight-regular` 400, `--weight-medium` 500, `--weight-semibold`
 600, `--weight-bold` 700. Tailwind's `font-normal` / `font-medium` /
 `font-semibold` / `font-bold` map onto the same four.

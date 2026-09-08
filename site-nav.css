@@ -122,9 +122,11 @@
    a 3rem gap), so column two starts exactly where the hero eyebrow and
    headline start, and the links sit on that line -- on every page, not only
    the one with the hero, because the point is that nothing in the header
-   moves between pages. Below 900px the links are hidden and the flex
-   space-between above still applies, which is correct for logo + icons.
-   SPACING.md has the reason 900 is the number. */
+   moves between pages. Below 900px the inline list is hidden and the flex
+   space-between above still applies, which is correct for logo + icons;
+   the .nav-toggle button in .nav-actions opens the same list as a panel
+   under the bar, see the menu rules below. SPACING.md has the reason 900
+   is the number. */
 .nav-links {
   display: none;
   list-style: none;
@@ -140,6 +142,9 @@
   }
   .site-nav .logo-btn { justify-self: start; }
   .nav-links { display: flex; align-items: center; gap: var(--space-2xl); }
+  /* LinkedIn is an icon in the bar up here; the drawer row is its phone
+     form and only that. */
+  .nav-links .nav-links-social { display: none; }
 }
 .nav-links a {
   font-family: var(--font-sans);
@@ -151,6 +156,15 @@
   padding: var(--space-2xs) 0;
   border-bottom: 2px solid transparent;
   transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
+  position: relative;
+}
+/* The row is 28px tall and the underline has to stay on the word, so the
+   target grows behind it rather than around it -- the same trick as
+   .icon-link's padding beside it, which already clears 44px. */
+.nav-links a::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
 }
 .nav-links a:hover,
 .nav-links a:focus-visible { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
@@ -163,6 +177,75 @@
 }
 
 .nav-actions { display: flex; align-items: stretch; gap: var(--space-2xs); }
+
+/* The section menu below 900px. The button is an .icon-link like its two
+   neighbours -- same box, same 44px hit zone, same hover -- reset from
+   button chrome the way .logo-btn is. site-nav.js toggles .is-menu-open on
+   .site-nav and keeps aria-expanded true to it; the class is a state and
+   states.mjs forces it, so the panel's link colours are measured on every
+   page that draws the header. The panel hangs from the bar's bottom edge
+   at the bar's own width, on the header's white with its resting shadow, so
+   it reads as the bar unfolding rather than a second surface. Each link is
+   a full-width row at the body size with a 44px minimum, since these are
+   thumb targets now rather than a desktop word-row. The two icons swap with
+   the state; the label stays "Menu" and the accessible name says which way
+   the button will go. The open state and the panel exist only under 900px:
+   above it the button is gone and .nav-links is the inline row, and
+   site-nav.js clears the class on the way across. */
+.nav-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+/* Doubled selectors here and below: .icon-link svg sets display: block
+   at (0,1,1) further down this file, and one class alone would lose to it. */
+.icon-link .nav-toggle-close { display: none; }
+.site-nav.is-menu-open .icon-link .nav-toggle-open { display: none; }
+.site-nav.is-menu-open .icon-link .nav-toggle-close { display: block; }
+@media (max-width: 899px) {
+  .site-nav.is-menu-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-resting);
+    padding: var(--space-xs) var(--gutter) var(--space-md);
+  }
+  .site-nav.is-menu-open .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--text-base);
+    padding: var(--space-xs) 0;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-rule);
+  }
+  .site-nav.is-menu-open .nav-links li:last-child a { border-bottom-color: transparent; }
+  .site-nav.is-menu-open .nav-links a:hover,
+  .site-nav.is-menu-open .nav-links a:focus-visible { border-bottom-color: var(--color-accent-text); }
+}
+/* Doubled selector: .icon-link sets display further down this file at the
+   same specificity, and would win on order alone. */
+@media (min-width: 900px) { .icon-link.nav-toggle { display: none; } }
+/* Below 900px LinkedIn leaves the bar for the drawer, where it is the fifth
+   row under Contact, and the Menu button takes the place it held at the
+   right edge. The bar is then the logo, Email and Menu: three targets on a
+   375px phone rather than four, and the one that opens everything else is
+   the thumb-side one. Email stays out because it is the page's one
+   conversion path and a drawer is a step in front of it. The link is
+   written twice in the markup, as an .icon-link with .nav-social and as
+   .nav-links-social in the list; the two rules here and above make sure
+   exactly one of them shows at any width. Same doubled-selector reason as
+   the toggle rule above. */
+@media (max-width: 899px) { .icon-link.nav-social { display: none; } }
 @media (min-width: 768px) { .nav-actions { gap: var(--space-xs); } }
 
 /* Nav links show the icon with a visible text label stacked beneath it, so
@@ -176,7 +259,15 @@
    have taken the target from 49px to 45px and left this declaration one pixel
    above the floor it exists to clear. min-height would still have caught it,
    but only by clipping. A hit zone is the one place where the tie goes the
-   other way. */
+   other way.
+
+   Sideways the padding is 4px below 768, and min-width is what holds the
+   floor there. Since the Menu button the bar carries three of these on a
+   phone, and at 8px a side the three took 174px of a 375px screen and
+   squeezed the wordmark to 137px, letterboxed, 122px at 360; at 4px it
+   stands at its 149px from 375 up, and 141px at 360, which is as close as
+   the bar can come to a header that does not move. Menu and Email land on
+   the 44px minimum exactly, LinkedIn on its label. */
 .icon-link {
   position: relative;
   color: var(--color-charcoal);
@@ -187,7 +278,7 @@
   gap: var(--space-2xs);
   min-width: 44px;
   min-height: 44px;
-  padding: var(--space-xs);
+  padding: var(--space-xs) var(--space-2xs);
   text-decoration: none;
   transition: color var(--motion-state) var(--ease);
 }

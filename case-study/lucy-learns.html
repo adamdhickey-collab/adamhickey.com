@@ -86,15 +86,16 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- This page uses the site's own stylesheet rather than the Tailwind CDN the
        older captured case studies load, so it costs one request instead of a
        framework. -->
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260905f" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260905a" />
+  <link rel="stylesheet" href="../style.css?v=20260906g" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260906d" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -191,21 +192,27 @@
                  preload="auto" aria-hidden="true"></video>
         </span>
       </a>
-      <ul class="nav-links" aria-label="Site sections">
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
         <li><a href="../index.html#case-studies">Work</a></li>
         <li><a href="../index.html#problems">Services</a></li>
         <li><a href="../index.html#about">About</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
       <div class="nav-actions">
         <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
         </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -225,6 +232,40 @@
             <div><dt>Status</dt><dd>In use, still in development</dd></div>
           </dl>
         </div>
+
+        <!-- The whole app in three screens. One picture of a home screen
+             made a reader work out the product from prose; the flow says what
+             it is before the first paragraph does. It sits between the facts
+             and the approach since 2026-09-06: with the approach first, the
+             hero ran 2.2 screens at 1280px and 5.2 on a phone before "The
+             problem", and the second thing a reader met was a map of the
+             page rather than the product. -->
+        <figure class="build-flow">
+          <ol class="build-flow-row">
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns.webp?v=7" width="620" height="1342" fetchpriority="high" decoding="async"
+                     alt="The Calm Door Greetings track across five stages, with today&rsquo;s homework and a Start session button." />
+              </div>
+              <p class="build-flow-cap"><span>01</span> Pick up where the trainer left off</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns-2.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                     alt="Mid-session with the timer on: step 1 of 6, ring or knock once, in large type. Under it a strip with Pause, Next step in 10s and the seconds each step lasts, then the rep tally and a count-as-a-miss control." />
+              </div>
+              <p class="build-flow-cap"><span>02</span> Run it one instruction at a time</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone">
+                <img src="../img/products/lucy-learns-3.webp?v=8" width="620" height="1342" loading="lazy" decoding="async"
+                     alt="End of session: Ready for the next step, 100% success calm throughout, with Lucy trotting across a gold field above it. Level 1 cleared, 1 of 5 in Doorbell Means Place." />
+              </div>
+              <p class="build-flow-cap"><span>03</span> Finish on a win</p>
+            </li>
+          </ol>
+          <figcaption>Three taps of context: the app in the order you meet it.</figcaption>
+        </figure>
 
         <div class="glance">
           <p class="glance-kicker">My approach</p>
@@ -248,9 +289,9 @@
                 <ul class="glance-points">
                   <li>Progress in the trainer&rsquo;s levels, not points and streaks</li>
                   <li>One instruction per screen, one tap per rep</li>
-                  <li>Speaking and listening as two switches, not one</li>
+                  <li>Voice commands tried for eighteen days, then a step timer</li>
                 </ul>
-                <a class="glance-more" href="#three-decisions">Three decisions</a>
+                <a class="glance-more" href="#three-decisions">Five decisions</a>
               </div>
             </li>
             <li class="glance-step">
@@ -259,7 +300,7 @@
                 <p class="glance-title"><span>03</span>Build</p>
                 <ul class="glance-points">
                   <li>Plain JavaScript modules: no framework, no build step, no dependencies</li>
-                  <li>Service worker for offline, local storage for state, Web Speech API for voice</li>
+                  <li>Service worker for offline, local storage for state, Web Speech API to read the steps aloud</li>
                   <li>Illustrations from JSON specs a Node script posts to an image model</li>
                   <li>AI built working versions in an afternoon. I judged them</li>
                 </ul>
@@ -281,37 +322,6 @@
             </li>
           </ol>
         </div>
-
-
-        <!-- The whole app in three screens. One picture of a home screen
-             made a reader work out the product from prose; the flow says what
-             it is before the first paragraph does. -->
-        <figure class="build-flow">
-          <ol class="build-flow-row">
-            <li class="build-flow-step">
-              <div class="build-phone">
-                <img src="../img/products/lucy-learns.webp?v=6" width="620" height="1342" fetchpriority="high" decoding="async"
-                     alt="The Calm Door Greetings track across five stages, with today&rsquo;s homework and a Start session button." />
-              </div>
-              <p class="build-flow-cap"><span>01</span> Pick up where the trainer left off</p>
-            </li>
-            <li class="build-flow-step">
-              <div class="build-phone">
-                <img src="../img/products/lucy-learns-2.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
-                     alt="Mid-session: step 1 of 6, ring or knock once, with the rep tally and a count-as-a-miss control under one large instruction." />
-              </div>
-              <p class="build-flow-cap"><span>02</span> Run it one instruction at a time</p>
-            </li>
-            <li class="build-flow-step">
-              <div class="build-phone">
-                <img src="../img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
-                     alt="End of session: Ready for the next step, 100% success calm throughout, with Lucy trotting across a gold field above it. Level 1 cleared, 1 of 5 in Doorbell Means Place." />
-              </div>
-              <p class="build-flow-cap"><span>03</span> Finish on a win</p>
-            </li>
-          </ol>
-          <figcaption>Three taps of context: the app in the order you meet it.</figcaption>
-        </figure>
       </div>
     </header>
 
@@ -325,7 +335,7 @@
 
     <section class="case-section case-overview build-chapter ground-warm">
       <div class="container case-narrow">
-        <h2 id="three-decisions">Three decisions that shaped it</h2>
+        <h2 id="three-decisions">Five decisions that shaped it</h2>
 
         <h3>Progress is measured in the trainer&rsquo;s units, not mine</h3>
         <p>The obvious move is points, streaks, a satisfying progress bar. The unit here is the level, because the level is what the trainer talks in: the number on the app&rsquo;s program map is the number in her lesson report, so nobody reconciles the two in their head. Points would have looked more like a product and been worse at the job.</p>
@@ -333,15 +343,15 @@
         <figure class="build-flow">
           <ol class="build-flow-row">
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-activities.webp?v=4" width="620" height="1342" loading="lazy" decoding="async" alt="The Activities library, grouped by what you are trying to change: the Calm Door Greetings track with five stations, and activity cards for Doorbell Predicts Rewards and Stay While the Door Opens, each carrying its level and last practice." /></div>
+              <div class="build-phone"><img src="../img/lucy/tab-activities.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Activities library, grouped by what you are trying to change: the Calm Door Greetings track with five stations, and activity cards for Doorbell Predicts Rewards and Stay While the Door Opens, each carrying its level and last practice." /></div>
               <p class="build-flow-cap">The program, in her levels</p>
             </li>
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-progress.webp?v=4" width="620" height="1342" loading="lazy" decoding="async" alt="The Progress tab: Jumping showed up in two sessions this week after none last week, a Summary for your trainer card, six sessions, 83 percent stayed calm, and per-behavior counts against last week." /></div>
+              <div class="build-phone"><img src="../img/lucy/tab-progress.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Progress tab: Jumping showed up in two sessions this week after none last week, a Summary for your trainer card, six sessions, 83 percent stayed calm, and per-behavior counts against last week." /></div>
               <p class="build-flow-cap">The week, ready to hand to the trainer</p>
             </li>
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-profile.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The Profile tab: Lucy&rsquo;s card noting she gets over-aroused around arrivals, who practices with her, and Commands we use &mdash; move to bed reads &ldquo;Go to bed,&rdquo; stay behind boundary reads &ldquo;Back,&rdquo; remain in position reads &ldquo;Stay,&rdquo; above a line asking you to confirm the wording with the trainer first." /></div>
+              <div class="build-phone"><img src="../img/lucy/tab-profile.webp?v=2" width="620" height="1342" loading="lazy" decoding="async" alt="The Profile tab: Lucy&rsquo;s card noting she gets over-aroused around arrivals, who practices with her, and Commands we use &mdash; move to bed reads &ldquo;Go to bed,&rdquo; stay behind boundary reads &ldquo;Back,&rdquo; remain in position reads &ldquo;Stay,&rdquo; above a line asking you to confirm the wording with the trainer first." /></div>
               <p class="build-flow-cap">The cues, in her words</p>
             </li>
           </ol>
@@ -351,42 +361,47 @@
         <h3>Logging happens during the session, not after it</h3>
         <p>One tap after each repetition, one more on arousal to save the session. That is the entire logging burden, capped deliberately: anything heavier does not get used with a dog attached to your other arm. The tally is a record of what happened, not a reconstruction at the end of the day.</p>
 
-        <h3>Voice, because both hands are already busy</h3>
-        <p>Speaking and listening got split, because they cost completely different things. Speaking runs on the device, needs no permission, and works with no signal, so the app reads the steps aloud by default. Listening ships audio to a server, needs a microphone permission an installed web app does not reliably keep, and fails where practice actually happens.</p>
+        <h3>Speaking and listening, split</h3>
+        <p>Speaking and listening got split, because they cost completely different things. Speaking runs on the device, needs no permission, and works with no signal, so the app reads the steps aloud by default. Listening shipped audio to a server, needed a microphone permission an installed web app does not reliably keep, and failed where practice actually happens.</p>
 
         <!-- The two-switch decision, drawn: the asymmetry is the whole
-               argument, and a diagram carries it faster than the paragraph. -->
-          <figure class="build-diagram">
-            <!-- The viewBox is cropped to the two cards' painted edges, strokes
-                 included, so their borders sit on the same left and right
-                 margin as the paragraphs. At 0 0 640 214 the cards carried ten
-                 units of their own padding and landed 13px inside the text
-                 column. -->
-            <svg viewBox="9.5 13.5 621 187.5" role="img" aria-labelledby="voice-t" xmlns="http://www.w3.org/2000/svg">
-              <title id="voice-t">Speaking runs on the device, needs no permission, and works with no signal. Listening ships audio to a server, needs a microphone grant and a connection.</title>
-              <rect x="10" y="14" width="292" height="186" rx="12" fill="var(--color-tea-light)" stroke="var(--color-accent-deep)"/>
-              <rect x="338" y="14" width="292" height="186" rx="12" fill="var(--color-warm)" stroke="var(--color-tag-border)"/>
-              <text x="32" y="48" font-family="var(--font-sans)" font-size="15" font-weight="600" fill="var(--color-charcoal)">Speaking</text>
-              <text x="360" y="48" font-family="var(--font-sans)" font-size="15" font-weight="600" fill="var(--color-charcoal)">Listening</text>
-              <text x="32" y="70" font-family="var(--font-sans)" font-size="12" fill="var(--color-muted-gray)">on by default</text>
-              <text x="360" y="70" font-family="var(--font-sans)" font-size="12" fill="var(--color-muted-gray)">off by default</text>
-              <g font-family="var(--font-sans)" font-size="12.5" fill="var(--color-charcoal)">
-                <text x="58" y="110">Runs on the device</text>
-                <text x="58" y="140">No permission needed</text>
-                <text x="58" y="170">Works with no signal</text>
-                <text x="386" y="110">Ships audio to a server</text>
-                <text x="386" y="140">Needs a microphone grant</text>
-                <text x="386" y="170">Needs a connection</text>
-              </g>
-              <g fill="var(--color-accent-deep)"><circle cx="42" cy="106" r="5"/><circle cx="42" cy="136" r="5"/><circle cx="42" cy="166" r="5"/></g>
-              <g fill="none" stroke="var(--color-muted-gray)" stroke-width="2" stroke-linecap="round">
-                <path d="M364 102 l9 9 M373 102 l-9 9"/><path d="M364 132 l9 9 M373 132 l-9 9"/><path d="M364 162 l9 9 M373 162 l-9 9"/>
-              </g>
-            </svg>
-            <figcaption>Two switches, not one. Bundling them would have made the reliable half hostage to the fragile one.</figcaption>
-          </figure>
+             argument, and a diagram carries it faster than the paragraph.
+             Kept after listening came out on 2026-09-05, because the
+             asymmetry is why the speaking half survived the removal
+             untouched; the heading after it says what took listening out.
+             It was an SVG until 2026-09-06, its labels as <text>, and SVG
+             text scales with the viewBox: at 390px the card headings
+             measured about 8px and the rows 7, on the one page that is
+             about a phone. Two HTML cards carry the same asymmetry in real
+             type, and stack below 600px. -->
+        <figure class="build-diagram">
+          <div class="build-switch-row">
+            <div class="build-switch-card build-switch-card--on">
+              <p class="build-switch-head">Speaking<span>on by default</span></p>
+              <ul class="build-switch-list">
+                <li>Runs on the device</li>
+                <li>No permission needed</li>
+                <li>Works with no signal</li>
+              </ul>
+            </div>
+            <div class="build-switch-card build-switch-card--off">
+              <p class="build-switch-head">Listening<span>off by default</span></p>
+              <ul class="build-switch-list">
+                <li>Ships audio to a server</li>
+                <li>Needs a microphone grant</li>
+                <li>Needs a connection</li>
+              </ul>
+            </div>
+          </div>
+          <figcaption>Two switches, not one. Bundling them would have made the reliable half hostage to the fragile one, and when the fragile half came out, the reliable one did not move.</figcaption>
+        </figure>
 
-        <h3>And two ways to hold a session</h3>
+        <h3>Listening came out after eighteen days</h3>
+        <p>The split held up. The listening half did not, and it was not the microphone that took it out. A handler saying &ldquo;next step&rdquo; brightly at a phone is saying words, in the cue voice, at a dog who is being taught that words in that voice are for her. The commands avoided every cue and still shared the room with them, and no amount of practice was going to make that a fair thing to ask of Lucy.</p>
+        <p>So the listening came out, and the steps turn by themselves instead. A switch on the get-ready screen puts each step on a timer, and the same control sits in a strip on every step beside a pause and a live count, so the pace gets changed where it feels wrong rather than on a settings page. The Next button fills as the clock runs, so from arm&rsquo;s length you can see it about to press itself. Reading aloud stayed exactly as it was, because it asks nothing of anyone&rsquo;s voice.</p>
+        <p>The clock never answers the rep question. It walks the steps and stops on the last one, because the log is built from that single observation, and a timer that answered it would be the reflex &ldquo;went well&rdquo; made automatic. One session with it rewrote every label to say timer or step, because &ldquo;Move on by itself&rdquo; was met with &ldquo;move what on?&rdquo;, and put the step&rsquo;s number in front of each instruction the voice reads: the beat the handler wanted, and the cushion an idle audio route needed. Eighteen days to find out, a day to replace it, and the labels rewritten before that day was out.</p>
+
+        <h3>Built for two postures</h3>
         <p>The session screen was designed around where your hands actually are, and that turns out to be two different places.</p>
         <!-- The two postures, illustrated. -->
         <figure class="build-modes">
@@ -396,56 +411,22 @@
                 <img src="../img/lucy/mode-hands-full.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A woman stands in a hallway with a phone in one hand and the leash in the other, looking down at a black dog with a white chest sitting at her feet. A treat pouch hangs at her hip, and the front door is visible past her." />
               </div>
               <h4>In one hand</h4>
-              <p>Phone in whichever hand the leash leaves free. The app reads each step aloud so you never look down, and with listening on, the session runs on a handful of spoken phrases: next step, went well, finish session.</p>
+              <p>Phone in whichever hand the leash leaves free. The app reads each step aloud so you never look down, and with the timer on the steps turn by themselves. The one tap left is the one that says how the rep went.</p>
             </div>
             <div class="build-mode">
               <div class="build-mode-shot">
                 <img src="../img/lucy/mode-hands-free.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A tablet upright on a wooden stand at the edge of a living-room coffee table. Beyond it a woman crouches with both hands open and empty, facing a black dog with a white chest sitting on a gray floor bed." />
               </div>
               <h4>On a stand</h4>
-              <p>The setup for the busiest moments: the phone, or an iPad, propped upright in portrait where you practice. The instruction reads from a step away, the next rep is one tap or one phrase, and both hands stay with the dog the whole time.</p>
+              <p>The setup for the busiest moments: the phone, or an iPad, propped upright in portrait where you practice. The instruction reads from a step away, the steps turn on the timer, and both hands stay with the dog until the rep question needs a thumb.</p>
             </div>
           </div>
-          <figcaption>Same session, two postures. The screen is built for both: one instruction in large type, and every control a thumb or a phrase away.</figcaption>
+          <figcaption>Same session, two postures. The screen is built for both: one instruction in large type, the steps turning on their own, and the one tap that is left within reach of a thumb.</figcaption>
         </figure>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-tea">
-      <div class="container case-narrow">
-        <h2 id="how-i-checked">How I checked it before shipping it</h2>
-        <p>Two things, both cheap.</p>
-        <p>The acceptance criteria are falsifiable. Every line is observably true or false on a real phone, and someone who has never seen the code reaches the same verdict I would. Written that way they are testable rather than admirable.</p>
-        <p>The illustrations got a comprehension pilot before I spent a real panel on them:</p>
-        <ul class="build-list">
-          <li>Four language models, no knowledge of the project, saw the same eight images in different orders</li>
-          <li>One question each: what is the person doing, and what is the dog doing</li>
-          <li>Two pictures failed outright, all four viewers misreading them the same way</li>
-          <li>Both were redrawn and passed the same blind check with fresh viewers before shipping</li>
-        </ul>
-        <p>Not a substitute for testing with people. A way to catch the obvious failures for free, before the expensive test is worth running.</p>
-
-          <!-- The clearest single artifact of the method: one failure, its
-               fix, and the fact that strangers arbitrated both. -->
-          <figure class="build-pair">
-            <div class="build-pair-row">
-              <div class="build-pair-item">
-                <img src="../img/lucy/release-before.webp" width="800" height="600" loading="lazy" decoding="async"
-                     alt="The first version: Lucy with all four feet on the bed, facing the handler&rsquo;s open hands." />
-                <span class="build-pair-label">Before &middot; 0 of 4</span>
-              </div>
-              <div class="build-pair-item is-after">
-                <img src="../img/lucy/release-after.webp" width="800" height="600" loading="lazy" decoding="async"
-                     alt="The redraw: most of Lucy off the bed, one back foot still touching its edge, moving toward the open hands." />
-                <span class="build-pair-label">After &middot; redrawn</span>
-              </div>
-            </div>
-            <figcaption>Scene 07, before and after, both in the art style of the time. The claim was &ldquo;coming off the bed&rdquo; and every viewer read the first version as a dog standing on it. The redraw puts most of her off, one back foot still touching, and fresh viewers read a departure. The whole set has since been redrawn twice in the flat style it ships in now, and this composition survived both unchanged.</figcaption>
-          </figure>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-charcoal">
       <div class="container case-narrow">
         <h2 id="the-terminal">A terminal, not a chat window</h2>
         <p>It did not decide what to build. Every decision above came from watching two people fail to practice consistently, and from twenty years of knowing which shortcuts turn into support tickets later.</p>
@@ -515,21 +496,56 @@
         <figure class="build-flow">
           <ol class="build-flow-row">
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/welcome.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The first-launch welcome: an illustration of the handler and Lucy on her bed as a guest waits at the open door, above the heading Five minutes of practice at a time and a note that it supports your trainer and does not replace one." /></div>
+              <div class="build-phone"><img src="../img/lucy/welcome.webp?v=2" width="620" height="1342" loading="lazy" decoding="async" alt="The first-launch welcome: an illustration of the handler and Lucy on her bed as a guest waits at the open door, above the heading Five minutes of practice at a time and a note that it supports your trainer and does not replace one." /></div>
               <p class="build-flow-cap"><span>01</span> First launch, explained with a picture</p>
             </li>
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/session-ready.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The get-ready screen for Doorbell Means Place, Level 1: the scene of the handler crouched at Lucy&rsquo;s bed, the instruction Lead her to the bed with a treat in your hand, a checklist of what to have ready, and a Start practice button." /></div>
+              <div class="build-phone"><img src="../img/lucy/session-ready.webp?v=2" width="620" height="1342" loading="lazy" decoding="async" alt="The get-ready screen for Doorbell Means Place, Level 1: the scene of the handler crouched at Lucy&rsquo;s bed, the instruction Lead her to the bed with a treat in your hand, a checklist of what to have ready, and a Start practice button." /></div>
               <p class="build-flow-cap"><span>02</span> Every level opens on its scene</p>
             </li>
             <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/avatars-people.webp?v=1" width="620" height="1342" loading="lazy" decoding="async" alt="The Choose your avatar sheet on the profile: fourteen drawn portraits of people of different ages in a grid, the handler&rsquo;s selected, with Cancel and That is me buttons." /></div>
+              <div class="build-phone"><img src="../img/lucy/avatars-people.webp?v=2" width="620" height="1342" loading="lazy" decoding="async" alt="The Choose your avatar sheet on the profile: fourteen drawn portraits of people of different ages in a grid, the handler&rsquo;s selected, with Cancel and That is me buttons." /></div>
               <p class="build-flow-cap"><span>03</span> Twenty-four portraits from the same pipeline</p>
             </li>
           </ol>
           <figcaption>Where the pictures sit. The welcome, every level&rsquo;s opening scene, and the ten dogs and fourteen people a household picks itself from all come out of the same script, in the same room.</figcaption>
         </figure>
         <p>The judgment did not change. The distance between thinking and making did.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="how-i-checked">How I checked it before shipping it</h2>
+        <p>Three things, all cheap.</p>
+        <p>The acceptance criteria are falsifiable. Every line is observably true or false on a real phone, and someone who has never seen the code reaches the same verdict I would. Written that way they are testable rather than admirable.</p>
+        <p>The illustrations got a comprehension pilot before I spent a real panel on them:</p>
+        <ul class="build-list">
+          <li>Four language models, no knowledge of the project, saw the same eight images in different orders</li>
+          <li>One question each: what is the person doing, and what is the dog doing</li>
+          <li>Two pictures failed outright, all four viewers misreading them the same way</li>
+          <li>Both were redrawn and passed the same blind check with fresh viewers before shipping</li>
+        </ul>
+        <p>Not a substitute for testing with people. A way to catch the obvious failures for free, before the expensive test is worth running.</p>
+
+          <!-- The clearest single artifact of the method: one failure, its
+               fix, and the fact that strangers arbitrated both. -->
+          <figure class="build-pair">
+            <div class="build-pair-row">
+              <div class="build-pair-item">
+                <img src="../img/lucy/release-before.webp" width="800" height="600" loading="lazy" decoding="async"
+                     alt="The first version: Lucy with all four feet on the bed, facing the handler&rsquo;s open hands." />
+                <span class="build-pair-label">Before &middot; 0 of 4</span>
+              </div>
+              <div class="build-pair-item is-after">
+                <img src="../img/lucy/release-after.webp" width="800" height="600" loading="lazy" decoding="async"
+                     alt="The redraw: most of Lucy off the bed, one back foot still touching its edge, moving toward the open hands." />
+                <span class="build-pair-label">After &middot; redrawn</span>
+              </div>
+            </div>
+            <figcaption>Scene 07, before and after, both in the art style of the time. The claim was &ldquo;coming off the bed&rdquo; and every viewer read the first version as a dog standing on it. The redraw puts most of her off, one back foot still touching, and fresh viewers read a departure. The whole set has since been redrawn twice in the flat style it ships in now, and this composition survived both unchanged.</figcaption>
+          </figure>
+        <p>The third check is use, and it is the one that takes features out. Anything I am not sure of ships switched off, gets turned on in the hallway, and either earns its place or goes. Voice commands went, eighteen days after they arrived, for a reason no diagram could have shown, and the timer that replaced them had every label rewritten after one session. A feature that survives that is one I have watched work, not one I expect to.</p>
       </div>
     </section>
 

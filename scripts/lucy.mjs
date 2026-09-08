@@ -57,7 +57,15 @@ const SCREENS = [
   { file: 'img/lucy/avatars-dogs.webp', url: '/index.html?study=demo#/profile', after: ['[data-avatar]'] },
   { file: 'img/lucy/report.webp', url: '/index.html?study=demo#/report' },
   { file: 'img/lucy/session-ready.webp', url: '/index.html?study=demo#/play/doorbell-means-place' },
-  { file: 'img/products/lucy-learns-2.webp', url: '/index.html?study=demo#/play/doorbell-means-place', after: ['[data-start]'] },
+  /* The step screen with the timer running. The app ships it off, and the
+     demo history holds only demo sessions, so on this install the Hands free
+     panel is still folded into a disclosure: open it, switch the timer on,
+     then start. The strip that appears -- pause, "Next step in 5s", the
+     length -- is the only place the write-up can show the steps turning by
+     themselves, and the count is read within a second of the step landing,
+     before the first tick. */
+  { file: 'img/products/lucy-learns-2.webp', url: '/index.html?study=demo#/play/doorbell-means-place',
+    after: ['details.disclosure summary', '[data-pace-auto]', '[data-start]'] },
   /* A rep is the six steps walked through, then answered on the last one;
      three good reps meet the level, and the finish control stays quiet until
      they do, so a short session cannot reach the done screen by accident.

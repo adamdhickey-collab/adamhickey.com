@@ -82,13 +82,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260905f" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260905a" />
+  <link rel="stylesheet" href="../style.css?v=20260906g" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260906d" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -185,21 +186,27 @@
                  preload="auto" aria-hidden="true"></video>
         </span>
       </a>
-      <ul class="nav-links" aria-label="Site sections">
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
         <li><a href="../index.html#case-studies">Work</a></li>
         <li><a href="../index.html#problems">Services</a></li>
         <li><a href="../index.html#about">About</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
       <div class="nav-actions">
         <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
         </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -217,7 +224,13 @@
 
          The picture is this engagement's own, 2:1 with the subject
          center-right and the left half an unbroken wall, which is what lets
-         the text sit on it with nothing in between. -->
+         the text sit on it with nothing in between.
+
+         The link under the dek is the hero's one action, and it goes down
+         the page rather than out of it: to the invitation band, which is
+         where the ask is made and where the page says the ask is the step
+         before choosing. Without it the first button was a screen and a
+         half down on a desktop and two and a half on a phone. -->
     <header class="eng3-hero eng3-hero-art">
       <div class="eng3-hero-scrim">
         <div class="container case-wide">
@@ -225,6 +238,7 @@
             <p class="eng3-kicker">Engagement 04 &middot; Ideas everywhere, nothing you can use yet</p>
             <h1>Working Product Prototype</h1>
             <p class="eng3-dek">From ideas, sketches and half-decisions to a working product real people can use, and an honest build, kill, or park call.</p>
+            <a class="eng3-hero-link" href="#invite-title">Start with a few sentences</a>
           </div>
         </div>
       </div>
@@ -268,7 +282,14 @@
          the step BEFORE choosing: you do not have to know whether this is
          the right engagement to send the note, because sorting that out is
          what the note is for. The same ask closes the page, beside "How I
-         work". The picture is this engagement's own: the same note being
+         work", and both buttons say the same thing, "Describe what is
+         happening": one action, one name for it, wherever it appears. The
+         closing panel's heading is "Start here", as Embedded's is, rather than
+         the button's own words. The mailto body is
+         this page's own, the three questions the paragraph below asks, as
+         prompts with room under each -- it used to open on two generic
+         lines the paragraph had not asked, and the reader's first act was
+         to translate. The picture is this engagement's own: the same note being
          written, with one object on the desk that belongs to this page. -->
     <section class="eng3-invite" aria-labelledby="invite-title">
       <div class="container case-wide">
@@ -286,7 +307,8 @@
             <p>If the number that comes back is more than you have, say so. There is usually a smaller version
                &mdash; one bet rather than the list &mdash; and it is a different engagement rather than this one
                discounted.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Working%20Product%20Prototype&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Working%20Product%20Prototype&amp;body=What%20exists%20so%20far%2C%20sketches%20or%20demos%3A%0D%0A%0D%0AWhat%20is%20expected%20of%20it%3A%0D%0A%0D%0AWho%20would%20use%20the%20thing%20on%20a%20Tuesday%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
           <figure class="eng3-invite-art">
             <img src="../img/engagement/ai-invite.webp?v=4" width="1536" height="1024" loading="lazy" decoding="async" alt="" />
@@ -300,8 +322,13 @@
         <h2>The situation</h2>
         <!-- The prose keeps the measure on the left; the sentence the
              engagement turns on is pulled out on a plate to the right, so the
-             column reads as a spread. The pull-out is the paragraph's own
-             claim in fewer words, not a new one. -->
+             column reads as a spread. The pull-out used to be the paragraph's
+             own middle sentence, word for word, 200px from its source on a
+             desktop and directly under it on a phone -- a pull quote works at
+             a distance from the sentence it repeats, and this one had none.
+             It is now the line the fourth step ends on, two screens down:
+             the claim the whole engagement turns on, stated once early and
+             once where the step earns it. -->
         <div class="eng3-situation">
           <div class="eng3-situation-prose">
             <p>The team has ideas. Sketches, a deck, half a decision, maybe a demo or three, and pressure from somewhere
@@ -309,8 +336,8 @@
                to run, because nothing exists that anyone can actually use.</p>
             <p>Working software is the fastest way to find out. If a prototype that once took two weeks can now be built in two days, the question becomes whether you prototyped the right thing. That judgment is what this engagement is for: one senior designer closing the distance between the idea, the interaction and a working thing. The speed you can now get anywhere, and where AI helps the build and where it does not, you will hear that too.</p>
           </div>
-          <aside class="eng3-pull" aria-label="The moment this engagement is for">
-            <p class="eng3-pull-quote">If a prototype that once took two weeks can now be built in two days, the question becomes whether you prototyped the right thing.</p>
+          <aside class="eng3-pull" aria-label="What this engagement is worth">
+            <p class="eng3-pull-quote">An engagement that talks you out of something expensive has paid for itself.</p>
           </aside>
         </div>
 
@@ -318,7 +345,14 @@
              client's, which the paragraph says out loud: the point of showing
              it is that every decision on that page is mine, and the write-up
              says which ones the AI made faster and which it never touched.
-             Every figure here is from the write-up, none from memory. -->
+             Every figure here is from the write-up, none from memory.
+
+             The two figures are decisions, not counts of work: the headline
+             says "I judged them", so the numbers show a judgment being made.
+             They were eight scenes through a comprehension check and two
+             redrawn, which is the write-up's illustration story and not its
+             build, kill or park one. Both figures below are in the write-up's
+             third check, "use", the one that takes features out. -->
         <h2>Where it has worked</h2>
         <p>One product where the judgment, not the speed, was the work. Every figure is from the write-up it sits beside.</p>
 
@@ -328,8 +362,8 @@
             <h3>AI built working versions in an afternoon. I judged them.</h3>
             <p>A training app for one household, built when a trainer&rsquo;s handouts turned out to be written for a person sitting still, and practice happens in a hallway with a leash in one hand. One bet, tightly drawn: run the handouts one instruction at a time, and record enough that &ldquo;is this working&rdquo; has an answer. It reads the steps aloud by default and listens only on request, because the two cost different things and listening fails where practice happens.</p>
             <ul class="eng3-proof-stats">
-              <li><b>8</b><span>scenes put through a blind comprehension check</span></li>
-              <li><b>2</b><span>failed outright, and were redrawn until fresh viewers passed them</span></li>
+              <li><b>18</b><span>days voice commands lasted in the hallway before they came out</span></li>
+              <li><b>1</b><span>session before every label on the timer that replaced them was rewritten</span></li>
             </ul>
             <p class="eng3-proof-more">Every decision on that page is mine, and the write-up says which ones the AI made faster and which it never touched. That is the shape of this engagement, with your problem and your people in place of mine.</p>
           </div>
@@ -343,27 +377,27 @@
             <ol class="product-screens">
               <li>
                 <a class="mini-phone" href="../case-study/lucy-learns.html">
-                  <img src="../img/products/lucy-learns-splash.webp?v=2" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="../img/products/lucy-learns-splash.webp?v=3" width="620" height="1342" loading="lazy" decoding="async"
                        alt="The Lucy Learns splash screen: the app name in a tall serif above an illustration of a black Labrador and her person crouched nose to nose, with the build version below." />
                 </a>
                 <p class="mini-cap"><span>01</span> Built for one dog in particular</p>
               </li>
               <li>
                 <a class="mini-phone" href="../case-study/lucy-learns.html">
-                  <img src="../img/products/lucy-learns.webp?v=6" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="../img/products/lucy-learns.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
                        alt="Lucy Learns home screen: the Calm Door Greetings track and today&rsquo;s homework with a Start session button." />
                 </a>
                 <p class="mini-cap"><span>02</span> Today&rsquo;s session, already chosen</p>
               </li>
               <li>
                 <a class="mini-phone" href="../case-study/lucy-learns.html">
-                  <img src="../img/products/lucy-learns-3.webp?v=7" width="620" height="1342" loading="lazy" decoding="async"
+                  <img src="../img/products/lucy-learns-3.webp?v=8" width="620" height="1342" loading="lazy" decoding="async"
                        alt="End of session: Level 1 cleared, ready for the next step." />
                 </a>
                 <p class="mini-cap"><span>03</span> End on a win, next one queued</p>
               </li>
             </ol>
-            <a class="eng3-proof-cta" href="../case-study/lucy-learns.html">The full account, with the screens &rarr;</a>
+            <a class="eng3-proof-cta" href="../case-study/lucy-learns.html">The full account, with the screens&nbsp;&rarr;</a>
           </div>
         </article>
 
@@ -373,7 +407,7 @@
     <section class="case-section eng3-how">
       <div class="container case-wide">
         <h2>How it works, step by step</h2>
-        <p>Four steps, each one something you can check off. To show what each produces, they follow one company through, a composite rather than a client: a parts distributor whose inside-sales team still quotes by
+        <p>Four steps, each with something to show for it. To make that concrete, they follow one company through, a composite rather than a client: a parts distributor whose inside-sales team still quotes by
            hand, with fourteen ideas on a list, some of them AI, and one budget.</p>
         <ol class="eng3-steps">
           <li class="eng3-step has-fig">
@@ -382,11 +416,11 @@
               <div>
               <h3>Find which ideas genuinely help</h3>
               <p>And which do not. Most lists have one or two ideas that remove real work, surrounded by a dozen that add a slower way to do something that already worked.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Two of fourteen survive contact with the work.</b> The quoting desk and the returns triage.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-ai-01.webp?v=7" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop showing a shared screen on a call: fourteen cards in two rows with two of them marked, and a strip of five call tiles along the bottom, Adam at the end." />
-              <figcaption><b>Two of fourteen survive contact with the work.</b> The quoting desk and the returns triage.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -395,11 +429,11 @@
               <div>
               <h3>Cut to one bet worth testing</h3>
               <p>One use, defined tightly enough to build and judge. The demos that go nowhere tried to show everything at once and proved nothing in particular.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>One bet: draft the quote, leave the price alone.</b> The chatbot everyone expected did not make the cut.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-ai-02.webp?v=9" width="1080" height="720" loading="lazy" decoding="async" alt="Seen from above: a single one-page brief with a sketched phone screen and one boxed heading, beside a squared stack of index cards turned face down." />
-              <figcaption><b>One bet: draft the quote, leave the price alone.</b> The chatbot everyone expected did not make the cut.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -408,11 +442,11 @@
               <div>
               <h3>Build a working experience, not a mock</h3>
               <p>Something real people can use on real inputs, in real code, with the failure cases visible rather than staged away. AI-assisted tools make the build fast; a demo that only works on the happy path still tells you nothing you did not already hope.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Built on last quarter&rsquo;s real requests.</b> A third of them are photographs of faxes.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-ai-03.webp?v=11" width="1080" height="720" loading="lazy" decoding="async" alt="Adam at his desk in three-quarter profile, sharing his screen on a call: the laptop shows a phone-shaped app frame with the cursor on one green button, a scanned page beside it, and four small call tiles down the edge of the screen." />
-              <figcaption><b>Built on last quarter&rsquo;s real requests.</b> A third of them are photographs of faxes.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -421,11 +455,11 @@
               <div>
               <h3>Judge it honestly</h3>
               <p>Build, kill, or park, with the reasoning and the likely cost of the next step. An engagement that talks you out of something expensive has paid for itself.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Kept, with a limit written down.</b> It drafts, a person prices, it never sends.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-ai-04.webp?v=8" width="1080" height="720" loading="lazy" decoding="async" alt="A woman in a cardigan using the working thing on a phone at a table while Adam sits across the corner from her, notebook open, watching her rather than the phone." />
-              <figcaption><b>Kept, with a limit written down.</b> It drafts, a person prices, it never sends.</figcaption>
             </figure>
           </li>
         </ol>
@@ -450,7 +484,7 @@
              was one sentence beginning "Not the one when", which asked a
              reader to hold three conditions and three links in one clause. -->
         <div class="eng3-leave eng3-fit">
-          <h2 class="eng3-panel-title">When a different engagement is the right one</h2>
+          <h2 class="eng3-panel-title">When another engagement fits</h2>
           <ul class="eng3-fit-grid">
             <li>
               <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="m15.4 8.6-2.2 4.6-4.6 2.2 2.2-4.6z"/></svg></span>
@@ -510,9 +544,10 @@
             <p>You talk to the person doing the work: whoever hears the ideas in the first week builds the prototype and makes the call. I design it and build it, in real code on real inputs, with AI-assisted tools where they speed the build, and building is the cheap part: the fee is for choosing what to build and judging it honestly. You get a working version early enough to be wrong about, and the reasoning behind the call written down beside it &mdash; because the next idea on the list is one your team should be able to judge without me.</p>
           </div>
           <div class="eng3-split-cta">
-            <h2 class="eng3-cta-title">Describe what is happening</h2>
+            <h2 class="eng3-cta-title">Start here</h2>
             <p>A few sentences about the ideas on the list and who they are meant to help are enough to start. If a different engagement fits better, or none of them do, I will say so.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Working%20Product%20Prototype&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Send me a few sentences</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Working%20Product%20Prototype&amp;body=What%20exists%20so%20far%2C%20sketches%20or%20demos%3A%0D%0A%0D%0AWhat%20is%20expected%20of%20it%3A%0D%0A%0D%0AWho%20would%20use%20the%20thing%20on%20a%20Tuesday%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
         </div>
       </div>

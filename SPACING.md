@@ -385,6 +385,8 @@ mobile stack it would have fallen back to leaves an oversized illustration
 filling the viewport. And `.nav-links` is `display: none` below its
 breakpoint, so moving it to 1024 hid the site's primary navigation on every
 screen from 900 to 1023 — a usability regression, not a styling nuance.
+(Below 900 the same links have opened from a menu button since 2026-09-06;
+before that, nothing replaced them on a phone at all.)
 860 folds up to 1024 rather than down, because the figure it puts beside
 its text gets a 443px column there instead of a cramped one.
 

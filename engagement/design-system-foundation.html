@@ -82,13 +82,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet, same chrome as the build write-ups. -->
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260905f" />
-  <link rel="stylesheet" href="../site-nav.css?v=20260905a" />
+  <link rel="stylesheet" href="../style.css?v=20260906g" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260906d" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -185,21 +186,27 @@
                  preload="auto" aria-hidden="true"></video>
         </span>
       </a>
-      <ul class="nav-links" aria-label="Site sections">
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
         <li><a href="../index.html#case-studies">Work</a></li>
         <li><a href="../index.html#problems">Services</a></li>
         <li><a href="../index.html#about">About</a></li>
         <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>
       <div class="nav-actions">
         <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span class="icon-link-label">Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Visit Adam Hickey's LinkedIn profile">
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
           <span class="icon-link-label">LinkedIn</span>
         </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -225,6 +232,7 @@
             <p class="eng3-kicker">Engagement 02 &middot; The products need a system</p>
             <h1>Design System Foundation</h1>
             <p class="eng3-dek">Turn four versions of the same table into one shared foundation your teams actually use, with the operating rules that keep it that way.</p>
+            <a class="eng3-hero-link" href="#invite-title">Start with a few sentences</a>
           </div>
         </div>
       </div>
@@ -254,7 +262,14 @@
          the step BEFORE choosing: you do not have to know whether this is
          the right engagement to send the note, because sorting that out is
          what the note is for. The same ask closes the page, beside "How I
-         work". The picture is this engagement's own: the same note being
+         work", and both buttons say the same thing, "Describe what is
+         happening": one action, one name for it, wherever it appears. The
+         closing panel's heading is "Start here", as Embedded's is, rather than
+         the button's own words. The mailto body is
+         this page's own, the three questions the paragraph below asks, as
+         prompts with room under each -- it used to open on two generic
+         lines the paragraph had not asked, and the reader's first act was
+         to translate. The picture is this engagement's own: the same note being
          written, with one object on the desk that belongs to this page. -->
     <section class="eng3-invite" aria-labelledby="invite-title">
       <div class="container case-wide">
@@ -272,7 +287,8 @@
             <p>If the number that comes back is more than you have, say so. There is usually a smaller version
                &mdash; the diagnostic on its own, or one product area rather than the whole platform &mdash; and it
                is a different engagement rather than this one discounted.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Design%20System%20Foundation&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Design%20System%20Foundation&amp;body=How%20many%20versions%20of%20the%20same%20table%20there%20are%3A%0D%0A%0D%0AWho%20owns%20which%3A%0D%0A%0D%0AWhere%20the%20last%20conversation%20about%20it%20stalled%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
           <figure class="eng3-invite-art">
             <img src="../img/engagement/system-invite.webp?v=5" width="1536" height="1024" loading="lazy" decoding="async" alt="" />
@@ -329,7 +345,7 @@
                 <img src="../img/site/sap-hero-02.webp" width="1672" height="941" loading="lazy" decoding="async" alt="The SAP enterprise platform: one style guide and one component library across a suite of apps." />
               </a>
             </figure>
-            <a class="eng3-proof-cta" href="../case-study/sap-product-maturity.html">The full account, with the screens &rarr;</a>
+            <a class="eng3-proof-cta" href="../case-study/sap-product-maturity.html">The full account, with the screens&nbsp;&rarr;</a>
           </div>
         </article>
 
@@ -339,7 +355,7 @@
     <section class="case-section eng3-how">
       <div class="container case-wide">
         <h2>How it works, step by step</h2>
-        <p>Four steps, each one something you can check off. To show what each produces, they follow one company through, a composite rather than a client: a manufacturer with six internal operations apps, built by three teams over a decade, with the same table solved four ways.</p>
+        <p>Four steps, each with something to show for it. To make that concrete, they follow one company through, a composite rather than a client: a manufacturer with six internal operations apps, built by three teams over a decade, with the same table solved four ways.</p>
         <ol class="eng3-steps">
           <li class="eng3-step has-fig">
             <div class="eng3-step-main">
@@ -347,11 +363,11 @@
               <div>
               <h3>Inventory what already exists</h3>
               <p>Every component, in every product, including the four versions of the same one, and the tokens, variables and documentation behind them, gaps included. Unglamorous, and the whole basis of the work: you cannot decide what should be shared until you can see what has been built twice.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Nine date pickers, side by side for the first time.</b> Four of them behave differently on the same keyboard.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
-              <img src="../img/engagement/step-system-01.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="One of their designers at her desk on a one-to-one call with Adam, pointing a pen at a screen crowded with near-duplicate widgets." />
-              <figcaption><b>Nine date pickers, side by side for the first time.</b> Four of them behave differently on the same keyboard.</figcaption>
+              <img src="../img/engagement/step-system-01.webp?v=11" width="1080" height="720" loading="lazy" decoding="async" alt="One of their designers at her desk on a one-to-one call with Adam, pointing a pen at a screen crowded with near-duplicate widgets." />
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -360,11 +376,11 @@
               <div>
               <h3>Decide what is shared and what stays local</h3>
               <p>Not everything belongs in a system. Over-sharing produces a foundation every team resists, and the components teams resist are the ones they fork.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>The table goes shared. The scheduling board stays local.</b> The teams that argued for the board had good reasons.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
-              <img src="../img/engagement/step-system-02.webp?v=8" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop showing a shared screen on a call: two columns of component blocks, shared and local, with a strip of five call tiles along the bottom, Adam at the end." />
-              <figcaption><b>The table goes shared. The scheduling board stays local.</b> The teams that argued for the board had good reasons.</figcaption>
+              <img src="../img/engagement/step-system-02.webp?v=9" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop showing a shared screen on a call: two columns of component blocks, shared and local, with a strip of five call tiles along the bottom, Adam at the end." />
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -373,11 +389,11 @@
               <div>
               <h3>Build the foundation</h3>
               <p>The shared components, the patterns that use them, and the tokens underneath: variables in the design file, custom properties in the code, mapped one to one so neither side drifts quietly. Documented so that a person and an AI assistant read the same rules. Built for the teams you have, not for an idealized team that reads the documentation first.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Twelve components on one set of tokens.</b> Built against the two apps most likely to reject them.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-system-03.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop screen showing the component library: rows of buttons, inputs and cards, a row of color swatches with one terracotta, and a type scale, with a printed spec sheet beside it." />
-              <figcaption><b>Twelve components on one set of tokens.</b> Built against the two apps most likely to reject them.</figcaption>
             </figure>
           </li>
           <li class="eng3-step has-fig">
@@ -386,11 +402,11 @@
               <div>
               <h3>Set the operating rules</h3>
               <p>Who can change what, how a team proposes an addition, how a change ships without breaking four products, and which numbers will say whether it is working. A system without governance is a folder of components that slowly diverges again.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>A standing half-hour for what the system is missing.</b> Governance nobody can reach is how the forking restarts.</p>
               </div>
             </div>
             <figure class="eng3-step-fig is-art">
               <img src="../img/engagement/step-system-04.webp?v=13" width="1080" height="720" loading="lazy" decoding="async" alt="Adam sitting beside one of their designers at a table, a single printed page of rules between them, his finger resting on one line and her pen on another." />
-              <figcaption><b>A standing half-hour for what the system is missing.</b> Governance nobody can reach is how the forking restarts.</figcaption>
             </figure>
           </li>
         </ol>
@@ -415,7 +431,7 @@
              was one sentence beginning "Not the one when", which asked a
              reader to hold three conditions and three links in one clause. -->
         <div class="eng3-leave eng3-fit">
-          <h2 class="eng3-panel-title">When a different engagement is the right one</h2>
+          <h2 class="eng3-panel-title">When another engagement fits</h2>
           <ul class="eng3-fit-grid">
             <li>
               <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="m15.4 8.6-2.2 4.6-4.6 2.2 2.2-4.6z"/></svg></span>
@@ -464,9 +480,10 @@
             <p>You talk to the person doing the work: whoever runs the inventory builds what it recommends, with your engineers or with engineering I bring in where you have none. The diagnostic ends in a written recommendation you can act on without me. Your leads build the parts they will own alongside me, because a foundation your team cannot extend without me is rented, not built.</p>
           </div>
           <div class="eng3-split-cta">
-            <h2 class="eng3-cta-title">Describe what is happening</h2>
+            <h2 class="eng3-cta-title">Start here</h2>
             <p>A few sentences about your products and the teams behind them are enough to start. If a different engagement fits better, or none of them do, I will say so.</p>
-            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Design%20System%20Foundation&amp;body=What%20we%27re%20working%20on%3A%0D%0A%0D%0AWhat%27s%20making%20this%20important%20now%3A%0D%0A" class="btn btn-primary">Send me a few sentences</a>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation%3A%20Design%20System%20Foundation&amp;body=How%20many%20versions%20of%20the%20same%20table%20there%20are%3A%0D%0A%0D%0AWho%20owns%20which%3A%0D%0A%0D%0AWhere%20the%20last%20conversation%20about%20it%20stalled%3A%0D%0A" class="btn btn-primary">Describe what is happening</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
           </div>
         </div>
       </div>
