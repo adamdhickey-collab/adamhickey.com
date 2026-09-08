@@ -134,9 +134,18 @@
   padding: 0;
 }
 @media (min-width: 900px) {
+  /* The first track is the hero's 33% column, and it is allowed to give
+     that up rather than push the icons off the page. With four links the
+     row fit at 900 with the bar's right edge at 871; the fifth link,
+     Writing, made it 929, so from 900 to about 985 the LinkedIn icon sat
+     past the viewport or in the gutter. minmax lets the logo's track
+     shrink toward the logo itself only while the links and icons need the
+     room, and it is exactly 33% again the moment they do not, which is
+     every width above about 985. The links' left edge moves off the hero
+     line only in that band, and only by what the overflow needed. */
   .site-nav .nav-inner {
     display: grid;
-    grid-template-columns: 33% 1fr auto;
+    grid-template-columns: minmax(auto, 33%) 1fr auto;
     gap: var(--space-4xl);
     align-items: center;
   }

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why Enterprise UX Problems Are Organizational Problems | Adam Hickey</title>
+  <meta name="description" content="When enterprise software is hard to use, the interface is where the problem showed up, not where it started. What sits behind inconsistency, stalled decisions and unused systems." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html" />
+  <meta property="og:title" content="Why Enterprise UX Problems Are Organizational Problems | Adam Hickey" />
+  <meta property="og:description" content="When enterprise software is hard to use, the interface is where the problem showed up, not where it started. What sits behind inconsistency, stalled decisions and unused systems." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/why-enterprise-ux-problems-are-organizational-problems.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the seven articles and the case
+       studies name one person rather than fourteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html#article",
+          "headline": "Why enterprise UX problems are usually organizational problems",
+          "description": "When enterprise software is hard to use, the interface is where the problem showed up, not where it started. What sits behind inconsistency, stalled decisions and unused systems.",
+          "url": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html",
+          "image": "https://adamhickey.com/img/og/why-enterprise-ux-problems-are-organizational-problems.jpg",
+          "datePublished": "2026-09-08",
+          "dateModified": "2026-09-08",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Design system governance"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Why enterprise UX problems are usually organizational problems",
+              "item": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260908b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <h1 class="case-title">Why enterprise UX problems are usually organizational problems</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">When enterprise software is hard to use, the interface is where the problem showed up, not where it started. Behind an inconsistent product there are teams making decisions independently. Behind a stalled workflow there is a decision nobody is placed to make. Behind a design system nobody uses there is no rule for who settles what is shared. Fix the screens without fixing that, and you get cleaner screens with the same problem underneath.</p>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>Three accounts of the real problem</h2>
+          <p>The product works, and nobody can say plainly what it is for any more. Every release adds to it, and the roadmap is a list of requests rather than a position. Three people in the room have three accounts of the real problem, each partly right, which is why the conversation never resolves.</p>
+          <p>And the decision that matters keeps getting deferred, because making it would mean telling somebody no.</p>
+          <p>Nothing about that is a UX problem in the sense that a designer can open a file and fix it. It is a problem of who decides, and it shows up in the interface because the interface is where every unmade decision eventually lands.</p>
+
+          <h2>The interface is messy, and underneath it</h2>
+          <p>Most first conversations about a difficult product start with the screens. They are inconsistent, or confusing, or people tolerate them rather than understand them.</p>
+          <p>Thirty minutes in, the more useful thing to say is usually: I think you may actually have two problems here. The interface is messy, but underneath that, three teams are making product decisions independently.</p>
+          <p>Knowing which is which is most of the job. Knowing when the interface is the problem and when the organization behind the interface is the problem. Knowing what needs to become consistent and what should remain flexible. Knowing when the team needs more options and when it needs someone to finally eliminate some.</p>
+
+          <h2>What thirteen years of consulting taught me</h2>
+          <p>For thirteen years I built the digital front doors for big companies, turning a tangle of internal complexity into something the person on the other side of the screen could actually use.</p>
+          <p>Consulting is a high-wire act. You walk into a room where everyone speaks a different language. Marketing wants flash, IT wants security, and the people using the thing just want to get their work done. My job was to be the translator.</p>
+          <p>That is where I learned that most design problems are communication problems, and that coherence at scale takes systems: design systems, governance, shared patterns, honest measurement. Not because the systems are the point, but because they are how an organization stops relitigating the same decision on every screen.</p>
+
+          <h2>Three shapes it takes</h2>
+          <h3>Inconsistency</h3>
+          <p>A company ran more than forty enterprise apps, each built by a different team at a different time. Someone in the field opened four of them before lunch and relearned the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all, and nobody could say whether any of it was working because nobody was measuring it.</p>
+          <p>The fix was a shared foundation, and the part that made it hold was organizational: checks written into the release process, teams trained to own the standard, and numbers that said whether it was working. The library was the visible half.</p>
+          <h3>Paperwork</h3>
+          <p>A federal grant network ran on old software, spreadsheets and workarounds, and no two of them agreed. Grantees spent more time chasing paperwork than running their programs, and the administrators helping them spent their days on the same paperwork, with no way to tell which programs were working.</p>
+          <p>The interviews told us what was stressful. The data told us what was slow. The two rarely pointed at the same thing, which is itself the finding: the tool was where the friction showed, and the friction came from a network with no single place anyone trusted. One portal replaced all of it, and processing a data request fell from forty-five to fifty-five hours to just over ten.</p>
+          <h3>The wrong assumption, shared by everyone</h3>
+          <p>A courier company with more than 450 vehicles asked for one real-time view of the fleet. Everyone assumed the answer was a map. Me included. Sitting with the dispatchers turned that over: they knew every location code by heart, and what slowed them down was scanning through endless lists. The right screen was dense, scannable cards.</p>
+          <p>The organizational problem there was smaller and just as real. The people specifying the tool and the people using it had never watched each other work. Board-clearing time fell by roughly forty percent once they had.</p>
+
+          <h2>The initiative that is funded and moving sideways</h2>
+          <p>There is a fourth shape, and it is the quietest. An initiative that matters, that is funded and staffed with engineers, moving sideways because nobody senior owns the design of it and it is waiting on decisions nobody is placed to make.</p>
+          <p>No amount of interface work fixes that from outside. What fixes it is an owner inside the team, in its standups and its tools, with a sponsor who can say what done means.</p>
+
+          <h2>What this means for how you buy design help</h2>
+          <p>If the problem is organizational, the deliverable is downstream of a decision about who decides. That is why the engagements I run are shaped the way they are. When nobody can state the problem, the work is to get it stated in a sentence everyone recognizes, and to put something in front of the team concrete enough to judge together. When several teams need one foundation, the work is the foundation and the operating rules that keep it one. When an initiative has no owner, the work is to be the owner for a defined stretch and leave the team able to extend it.</p>
+          <p>In each case the screens get better. They get better because something behind them did.</p>
+          <p>The test I still use is whether the work keeps guiding people long after the project ends. Not whether the deliverables were good, but whether the team is better at this than it was.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">If this is the situation you are in: <a href="../engagement/product-clarity.html">Product Clarity</a>, two to four weeks, one agreed problem. The account this draws on: <a href="../case-study/dispatch-complexity.html">One real-time view of a 450+ truck fleet</a>.</p>
+        <a class="build-next" href="when-does-a-product-need-a-design-system.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">When does a product need a design system? &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -283,10 +283,11 @@ state-forcing notices; the resting color is the one state that is never forced.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At #30 the tree measures 2608 resting colors, 867 state
-rules, 11160 type sizes and 6477 elements checked for a partial border
-on a curve, across 16 pages (the fifteen of the site and `404.html`, which
-the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
+unmeasured. At #34 the tree measures 2940 resting colors, 1336 state
+rules, 12544 type sizes and 7146 elements checked for a partial border
+on a curve, across 23 pages (the twenty-two of the site and `404.html`,
+which the browser checks measure and `counts.mjs` and `seo.mjs` leave
+out), plus
 119 token names against 182 declarations and 10 counted claims. **The four browser numbers are the only ones here that
 nothing verifies.** They are maintained by hand and will drift. Treat them as
 a tripwire rather than a record: a run that comes back materially smaller
@@ -352,8 +353,8 @@ Four rules that came with #29, each held by `seo.mjs`:
   `img/og-card.jpg`.
 - **`404.html` is not a page.** Pages serves it for every miss at any depth,
   so its links are root-absolute, it is noindexed, it has no canonical and
-  it is out of the sitemap and the fifteen. The browser checks still measure
-  it, which is why they say sixteen pages.
+  it is out of the sitemap and the twenty-two. The browser checks still
+  measure it, which is why they say twenty-three pages.
 
 Two more since #32:
 
@@ -376,6 +377,22 @@ Two more since #32:
   verification for that and for Bing Webmaster Tools lives in those
   accounts, not in this tree. If either asks for a file at the root, a
   non-HTML file there is invisible to every check here.
+
+- **The articles are the search doors, and the dek is the answer.** Since
+  #34 `writing/` holds an index and six articles, each titled as the
+  question a buyer asks before knowing the name, and each answering it in
+  the dek under the h1 in three or four sentences that stand on their own.
+  That paragraph is what a search engine or an assistant can quote whole;
+  the essay under it is the argument. Every article ends on one line
+  naming the engagement it describes and the account it draws on, which is
+  the article-to-engagement-to-case-study path the site is built to
+  carry, and every figure in one traces to a case study or a build
+  write-up on this site. The prose is drawn from the practice essays in
+  the sibling `independent-practice` checkout, which stay canonical
+  there; an article here is a rendering for a buyer, not the essay. A new
+  article is a new page: the `og.mjs` registry, the sitemap through
+  `seo.mjs --write`, `llms.txt`, the README's family table and the counts
+  it feeds all move with it.
 
 `llms.txt` at the root is the site in a page of markdown for an assistant
 that reads that first: the person, the four engagements with their length
