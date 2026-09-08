@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>When Does a Product Need a Design System? | Adam Hickey</title>
+  <meta name="description" content="A product needs a design system when several teams build the same component differently and the product shows it. How to tell, what belongs in one, and what keeps it alive." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html" />
+  <meta property="og:title" content="When Does a Product Need a Design System? | Adam Hickey" />
+  <meta property="og:description" content="A product needs a design system when several teams build the same component differently and the product shows it. How to tell, what belongs in one, and what keeps it alive." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/when-does-a-product-need-a-design-system.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the seven articles and the case
+       studies name one person rather than fourteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html#article",
+          "headline": "When does a product need a design system?",
+          "description": "A product needs a design system when several teams build the same component differently and the product shows it. How to tell, what belongs in one, and what keeps it alive.",
+          "url": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html",
+          "image": "https://adamhickey.com/img/og/when-does-a-product-need-a-design-system.jpg",
+          "datePublished": "2026-09-08",
+          "dateModified": "2026-09-08",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Design systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            },
+            {
+              "@type": "Thing",
+              "name": "Design system governance"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "When does a product need a design system?",
+              "item": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260908b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 4 min read</p>
+        <h1 class="case-title">When does a product need a design system?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">When more than one team is building the same component differently, and the product shows it. Not when the pattern library is missing: when the fourth version of the same table ships. Before that point a shared file and a conversation are enough. After it, every new screen restarts a decision that was settled somewhere else last year, and the AI tools the teams build with see four tables and generate a fifth.</p>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>The sign is not the missing library</h2>
+          <p>Most products that need a design system already have one, on paper. The folder of patterns exists. Nobody opens it, because it was never built against the products the teams actually ship.</p>
+          <p>So the question is not whether you have a design system. It is whether the people building the product agree on what a table is.</p>
+          <p>Ask three teams. If you get three answers, and each one is defensible, that is the sign. A product suite that grew a product at a time shows it: four teams have built the same table four ways, nobody is sure which one is correct, and every new screen restarts a conversation that was settled somewhere else last year.</p>
+          <p>The people using the product feel it before anyone building it does. In the enterprise suite I led UX for, someone in the field might open four of the apps before lunch and relearn the layout every time.</p>
+
+          <h2>What it costs before you have one</h2>
+          <p>That suite ran more than forty apps, and each one had been built by a different team at a different time. Design got pulled in at the end to clean things up, if it got pulled in at all. And no one could say whether any of it was working, because no one was measuring it.</p>
+          <p>None of that is a component problem. It is the cost of forty teams each solving the same problem reasonably, alone.</p>
+          <p>The cost lands in three places. Designers and developers guess, and rebuild things that exist. People who use the product relearn it screen by screen. And decisions that should be settled once get made again, by whoever is in the room, every time a screen ships.</p>
+
+          <h2>What it costs after</h2>
+          <p>A system is not free either, and the teams that resent one are usually right about why.</p>
+          <p>Not everything belongs in a system. Over-sharing produces a foundation every team resists, and the components teams resist are the ones they fork. The table goes shared. The scheduling board one team argued for probably stays local, and the team that argued for it had good reasons.</p>
+          <p>A system without governance is a folder of components that slowly diverges again. Who can change what, how a team proposes an addition, how a change ships without breaking four products, and which numbers will say whether it is working: those rules are the system. The components are what the rules produce.</p>
+          <p>Governance nobody can reach is how the forking restarts. A standing half hour for what the system is missing does more than a review board that meets quarterly.</p>
+
+          <h2>The third reader</h2>
+          <p>For years a certain amount of ambiguity was survivable, because humans fill gaps. A designer who sees three nearly identical cards asks someone which one to use.</p>
+          <p>The AI tools teams now build with cannot ask. They see four tables and generate a fifth. And once anyone on a team can ask an agent for a new component in minutes, the cost of divergence approaches zero. You no longer need neglect to create inconsistency. You only need every team to solve its immediate problem.</p>
+          <p>That makes the case for a system stronger at exactly the moment some people expect AI to make it weaker. Creation got cheap. Consistency did not.</p>
+
+          <h2>What changed once the system was in place</h2>
+          <p>In that suite, the shared library replaced hundreds of one-off components with a small reusable set, and cut the average time from design to development by about a third. Standards and accessibility checks written into the release process cut UI defects in production by more than half, quarter over quarter. Clearer flows cut new-user training time in half.</p>
+          <p>Those are the numbers a system earns when it is used. The number that says it was built is the component count, and nobody should be paid on that one.</p>
+
+          <h2>So, when?</h2>
+          <p>When a second team ships the same component a second way. When nobody can say which version is right. When design is invited at the end to tidy up, and nothing measures whether it helped.</p>
+          <p>If that is where you are, the first move is unglamorous and it is the whole basis of the work: inventory what already exists. Every component, in every product, including the four versions of the same one, and the tokens, variables and documentation behind them, gaps included. You cannot decide what should be shared until you can see what has been built twice.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">If this is the situation you are in: <a href="../engagement/design-system-foundation.html">Design System Foundation</a>, a three-week diagnostic, then a build scoped from it. The account this draws on: <a href="../case-study/sap-product-maturity.html">Making 40+ enterprise apps feel like one product</a>.</p>
+        <a class="build-next" href="standardizing-ux-across-40-sap-fiori-apps.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What I learned standardizing UX across 40+ SAP Fiori apps &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

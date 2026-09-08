@@ -47,6 +47,16 @@ const CARDS = {
   'design-system-foundation':          { kicker: 'Engagement 02',                             title: 'Design System Foundation', sub: 'A three-week diagnostic, then a build scoped from it',       hero: 'img/engagement/system-hero.webp' },
   'embedded-senior-product-design':    { kicker: 'Engagement 03',                             title: 'Embedded Senior Product Design', sub: 'Three to six months, two to four days a week',         hero: 'img/engagement/embedded-hero.webp' },
   'working-product-prototype':         { kicker: 'Engagement 04',                             title: 'Working Product Prototype', sub: 'Four to six weeks, fixed scope and fixed fee',              hero: 'img/engagement/ai-hero.webp' },
+  /* The writing family. Each article's card carries the picture of the
+     engagement or account it draws on, so a card in a feed already looks
+     like the page it leads to on this site. */
+  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/engagement/01-clarity.webp' },
+  'when-does-a-product-need-a-design-system':             { kicker: 'Writing', title: 'When does a product need a design system?', image: 'img/engagement/02-system.webp' },
+  'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/site/fiori-style-guide.webp' },
+  'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Your design system is about to become training material for machines', image: 'img/engagement/step-system-04.webp' },
+  'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/engagement/04-ai.webp' },
+  'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/engagement/step-ai-03.webp' },
+  'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/engagement/01-clarity.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
@@ -67,7 +77,7 @@ function html(card) {
   .card { position: absolute; inset: 0; display: grid; grid-template-columns: ${onHero || !card.image ? '1fr' : '1fr 420px'}; gap: 56px; padding: 72px 84px 64px; box-sizing: border-box; }
   .text { display: flex; flex-direction: column; min-width: 0; ${onHero ? 'max-width: 560px;' : ''} }
   .kicker { font-family: Montserrat, system-ui, sans-serif; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: ${C['--color-accent-text']}; margin: 0 0 28px; }
-  h1 { font-weight: 400; font-size: ${card.title.length > 40 ? 58 : 66}px; line-height: 1.08; margin: 0; letter-spacing: -0.01em; }
+  h1 { font-weight: 400; font-size: ${card.title.length > 56 ? 48 : card.title.length > 40 ? 58 : 66}px; line-height: 1.08; margin: 0; letter-spacing: -0.01em; }
   .sub { font-size: 28px; line-height: 1.3; color: ${C['--color-accent-text']}; margin: 22px 0 0; }
   .foot { margin-top: auto; padding-top: 24px; border-top: 1px solid ${C['--color-rule']}; display: flex; justify-content: space-between; align-items: baseline; }
   .name { font-size: 28px; }

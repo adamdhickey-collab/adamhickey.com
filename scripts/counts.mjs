@@ -57,7 +57,7 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 
 /* Every page of the site: the unit almost every claim below counts in.
    404.html is what Pages serves for a miss, not a page of the site, and is
-   not one of the fifteen; seo.mjs skips it the same way. */
+   not one of the twenty-two; seo.mjs skips it the same way. */
 function htmlPages(dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
@@ -116,7 +116,7 @@ const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven',
                 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen',
                 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen',
-                20: 'twenty' };
+                20: 'twenty', 21: 'twenty-one', 22: 'twenty-two' };
 
 /* ---------------------------------------------------------------------------
  * The claims. `says` is the sentence as written and has to still be findable;
@@ -131,28 +131,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Fifteen pages in six families',
-    n: 15, what: 'pages', of: () => PAGES.length },
+    says: 'Twenty-two pages in seven families',
+    n: 22, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 15 pages in six families',
-    n: 15, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 22 pages in seven families',
+    n: 22, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Fifteen pages in six families',
-    n: 6, what: 'families in the README table', of: familyTableRows },
+    says: 'Twenty-two pages in seven families',
+    n: 7, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Fifteen pages in six families',
-    n: 15, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Twenty-two pages in seven families',
+    n: 22, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all fifteen pages',
-    n: 15, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all twenty-two pages',
+    n: 22, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all fifteen pages',
-    n: 15, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all twenty-two pages',
+    n: 22, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -160,20 +160,20 @@ const CLAIMS = [
      where the prose said there was none is the reason to enter claims rather
      than trust that someone did. */
   { doc: 'design-system/index.html',
-    says: 'Fifteen pages, and the only edition',
-    n: 15, what: 'pages, as the editions list states them', of: () => PAGES.length },
+    says: 'Twenty-two pages, and the only edition',
+    n: 22, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Sixteen of them',
     n: 16, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by nine pages',
-    n: 9, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by sixteen pages',
+    n: 16, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all fifteen',
-    n: 15, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all twenty-two',
+    n: 22, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 ];
 
 if (PAGES.length < 5) {

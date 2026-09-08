@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI and the Design-to-Development Handoff | Adam Hickey</title>
+  <meta name="description" content="AI coding tools moved the line between design and development. Where it sits now: build, verify and stand behind, and when to bring an engineer in for leverage rather than rescue." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html" />
+  <meta property="og:title" content="AI and the Design-to-Development Handoff | Adam Hickey" />
+  <meta property="og:description" content="AI coding tools moved the line between design and development. Where it sits now: build, verify and stand behind, and when to bring an engineer in for leverage rather than rescue." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/where-does-design-end-and-development-begin-now.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the seven articles and the case
+       studies name one person rather than fourteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html#article",
+          "headline": "Where does design end and development begin, now?",
+          "description": "AI coding tools moved the line between design and development. Where it sits now: build, verify and stand behind, and when to bring an engineer in for leverage rather than rescue.",
+          "url": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html",
+          "image": "https://adamhickey.com/img/og/where-does-design-end-and-development-begin-now.jpg",
+          "datePublished": "2026-09-08",
+          "dateModified": "2026-09-08",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "AI product prototyping"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Where does design end and development begin, now?",
+              "item": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260908b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <h1 class="case-title">Where does design end and development begin, now?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">For most of my career the line was easy to see. Design happened over here, development over there, and eventually there was a handoff. Now I can describe an interface to an AI coding tool, give it a design system, inspect what it creates, change the behavior, connect data and deploy the result. The line did not disappear. It moved, from what a job title says to a better question: what can I build, verify, and responsibly stand behind?</p>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>The old boundary was based on production</h2>
+          <p>The traditional division of labor made sense. Designers designed interfaces, developers wrote code, and each discipline required specialized tools and specialized knowledge. Building software was expensive enough that organizations assembled teams around it.</p>
+          <p>AI has compressed some of those boundaries. It is increasingly possible for one experienced person to move across several disciplines without becoming equally expert in all of them.</p>
+          <p>That last phrase matters. I do not have to become a career software engineer to build useful software. But I also should not confuse the ability to produce code with deep engineering expertise. AI can help me cross a knowledge gap. It does not automatically eliminate the gap.</p>
+          <p>So the interesting question is not whether a designer can now build. Increasingly, yes. It is where the responsible line sits, and it has less to do with whether something is called front end or back end than I would have guessed.</p>
+
+          <h2>Build is not the same as verify</h2>
+          <p>This may be the most important distinction in the whole question.</p>
+          <p>AI dramatically increases my ability to build things I could not previously build. But every increase in building power creates a corresponding verification problem.</p>
+          <p>Suppose an AI tool generates an authentication flow. It runs. I can sign in. Wonderful. But can someone access another user&rsquo;s account? What happens when a session expires? Are keys exposed? What happens when someone sends malformed data on purpose, or fifty thousand requests arrive at once?</p>
+          <p>The interface can look perfect while the implementation underneath contains serious problems. As a designer I am trained to see many categories of failure: confusion, accessibility, hierarchy, workflow errors, cognitive load. A senior engineer sees additional categories: race conditions, security vulnerabilities, data corruption, cache invalidation, concurrency.</p>
+          <p>I do not need to become paranoid about every project. I need to recognize when the invisible failure modes have become more important than the visible ones. That is where the line begins.</p>
+
+          <h2>Three questions</h2>
+          <p>Before deciding whether to own a technical implementation myself, I ask three things.</p>
+          <h3>Can I build it?</h3>
+          <p>With my current skills and AI assistance, can I create the thing? Increasingly the answer is yes. That is only question one.</p>
+          <h3>Can I verify it?</h3>
+          <p>Do I know enough to determine whether the implementation is correct? Not merely that it appears to work, but that I understand the important ways it could fail and know how to test for them. When that answer starts becoming uncertain, I have entered the territory where someone else should look.</p>
+          <h3>Can I responsibly own the consequences if it fails?</h3>
+          <p>If a portfolio site&rsquo;s animation breaks, we fix it. If a personal prototype loses some test data, that is annoying and manageable. If a healthcare application exposes private patient information, that is a completely different situation. The consequence changes the level of engineering confidence required.</p>
+          <p>So the real line is this: I can own the implementation as long as I can reasonably verify it and the consequences of failure stay within a level I am qualified to accept. That is a much better rule than designers do not do back ends.</p>
+
+          <h2>Where that puts the line today</h2>
+          <p>There is a large territory I am comfortable owning: the product thinking, the user experience, the visual system, the front end, the prototype, the design system, content structure, a straightforward content management system, simple data interactions, and integrations with mature services used according to their intended patterns. In that territory the hard part is rarely computer science. It is product judgment: what the interface should do, what someone sees first, what becomes a reusable component, where complexity belongs.</p>
+          <p>And there is a territory where I want an experienced engineer involved, not because AI cannot generate code for it but because the cost of being subtly wrong is too high: sensitive personal data, regulated or financial systems beyond straightforward use of established providers, complex authorization, real-time synchronization at scale, migrations of important production data, anything with uptime guarantees.</p>
+          <p>A practical tell: if I hear myself think <em>I think this is secure</em>, that sentence is the signal to bring someone in. Security is a bad area for casual confidence.</p>
+
+          <h2>Bring engineers in for leverage, not rescue</h2>
+          <p>I do not want the relationship with developers to be: I tried to build this until I got stuck, and now I need someone to save it. That is a bad collaboration.</p>
+          <p>The better shape is to know early when another person&rsquo;s expertise creates leverage. I design and build most of an application. Then a senior engineer reviews the architecture, the security, the permissions and the deployment. Maybe that engineer spends ten hours rather than ten weeks. I keep ownership of the product experience and most of the implementation, and the client gets specialized judgment exactly where it matters.</p>
+          <p>Sometimes the engineer should arrive at the beginning, because the client&rsquo;s central challenge is technical: can these systems integrate, can the data architecture support this, can we migrate off the existing platform. If the answer to one of those determines the product, engineering belongs in the first conversation. Do not wait until the end to discover the constraint that should have shaped the beginning.</p>
+
+          <h2>What this changes for a client</h2>
+          <p>Every engagement I run now takes one of three shapes. I design it. I design and build it. Or I lead it and bring in engineering for the parts where deeper expertise matters, while staying the primary relationship and the product lead.</p>
+          <p>Both of these statements are true: I can build, and I know when someone better than me should own part of the system. The second increases the credibility of the first.</p>
+          <p>From a client&rsquo;s side, that can be considerably simpler than hiring a strategist, a UX designer, a UI designer, a front-end developer, a project manager and an AI consultant. One very experienced person understands the problem, maintains continuity, and makes the idea tangible quickly. When the project genuinely requires deeper engineering, that specialist joins.</p>
+
+          <h2>Never bluff the invisible parts</h2>
+          <p>I can experiment aggressively, learn new technologies and let AI take me into unfamiliar territory. But when client money, customer data, security or important business operations are involved, I do not pretend to a certainty I do not have. If I do not know, I say: I want an engineer to review this part.</p>
+          <p>That sentence should not feel like a failure. Expertise includes recognizing the limits of expertise.</p>
+          <p>The old model was: I design, then I hand it to development. The new one is: I carry the product as far as it makes sense for me to carry it. Sometimes that is the whole way. Sometimes someone walks beside me for part of it. The question I draw the line with is no longer what a UX designer was traditionally supposed to do. It is what I can build, verify, and responsibly stand behind. Everything before that line is room to expand. Everything beyond it is a reason to collaborate.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">If this is the situation you are in: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>, four to six weeks, in real code on real inputs. The account this draws on: <a href="../case-study/lucy-learns.html">How I built Lucy Learns</a>.</p>
+        <a class="build-next" href="what-should-a-working-prototype-actually-prove.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What should a working prototype actually prove? &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
