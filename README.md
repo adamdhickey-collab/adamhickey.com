@@ -92,7 +92,9 @@ dropped it -- but anything outside that does will get a 404 rather than a
 redirect. GitHub Pages cannot serve a 301, so the options are to leave it, or
 to put a stub at that path that canonicals to the engagements section. It is
 left, deliberately; a stub is a page, and `seo.mjs` would then want it in the
-sitemap, where a redirect does not belong. `engagement/ai-product-prototype.html`
+sitemap, where a redirect does not belong. Since #29 a miss lands on the
+site's own `404.html`, which names the two moves and links the four
+engagements, rather than on the host's generic page. `engagement/ai-product-prototype.html`
 is the same question again: it was the prototype engagement's address from
 the day the engagement pages shipped until #24, and the homepage card linked
 it the whole time, so it is the likelier of the two to be sitting in someone's
@@ -126,8 +128,9 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
-| `robots.txt`, `sitemap.xml` | What a crawler is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- and `node scripts/seo.mjs` fails if it stops matching the pages on disk |
-| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs all of them; see Checks |
+| `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the fifteen. `seo.mjs` holds it to all four |
+| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs` |
@@ -209,6 +212,7 @@ carry no Tailwind.
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
 | `img/engagement/` | The four card illustrations at 1080x720, each engagement page's hero and invitation, and the numbered step drawings. The retired brand page's and The Whole Thing's drawings stay, as part of the set |
 | `img/shelf/` | The four shelf cards |
+| `img/og/` | The share cards, one per page except the homepage and the design system page, rendered by `scripts/og.mjs` from the page's title and its own picture; the homepage keeps `img/og-card.jpg`, drawn for it |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
 | `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
 | `img/casework/` | One image, on the Hybrid Designer page |
@@ -254,7 +258,11 @@ this repository had first, nine steps in all:
   and this file assert, recounted from the tree.
 - **What the site tells a machine still matches the site** -- `seo.mjs`. A
   canonical, an Open Graph card and a JSON-LD graph per page, and a sitemap
-  listing every page once. None of it renders, so none of it looks wrong.
+  listing every page once with a `lastmod` that agrees with the page's own
+  `dateModified` and is within a fortnight of the file's last commit; every
+  FAQ question in a page's graph is on the page in words; and `404.html` is
+  noindexed, uncanonical and out of the sitemap. None of it renders, so none
+  of it looks wrong. `--write` regenerates the sitemap and restamps the dates.
 - **The built Tailwind stylesheet is current.** It rebuilds from
   `tailwind.config.js` and the markup and compares; when the bytes differ it
   reports at the class level, which selectors the markup uses that the
@@ -289,10 +297,11 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #28 the four browser checks measure 2536 resting colors, 800
-state rules, 10868 type sizes and 6343 elements checked for a partial
-border, across fifteen pages. Nothing verifies those four numbers; treat
-them as a tripwire, and a run that comes back materially smaller means something
+result. At #29 the four browser checks measure 2610 resting colors, 867
+state rules, 11176 type sizes and 6485 elements checked for a partial
+border, across sixteen pages: the fifteen of the site and `404.html`, which
+the browser checks measure and the inventory does not count. Nothing
+verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
 stopped being measured.
 
 The scripts came across from staging with #20 and are authored here since
@@ -314,14 +323,20 @@ branch with the legacy builder until 4600455 moved it to the workflow.
 | Deploys from | `main`, repository root, via `pages.yml` |
 | Staged first in | Nowhere, since 2026-09-08. The pull request's checks are the gate; see `CLAUDE.md` |
 
-This site carries no `noindex` anywhere and the Google Analytics tag
-`G-BLY8X4YCNK` on every page. Staging's pages carried the reverse, a
+This site carries no `noindex` anywhere but `404.html`, and the Google
+Analytics tag `G-BLY8X4YCNK` on every page. Staging's pages carried the reverse, a
 `noindex` meta marked `STAGING ONLY` and a `STAGING NOTE` comment where the
 tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-fifteen live addresses.
+fifteen live addresses, each dated. Every case study's Article carries
+`datePublished`, the date the page first existed at its address, and
+`dateModified`, which `seo.mjs --write` stamps from git; every engagement's
+graph carries the questions its page answers as a FAQPage; and every page
+but two names its own share card under `img/og/`. Since #29 the domain
+enforces HTTPS, so plain `http://` redirects rather than serving a second
+copy of the site.
 
 **Two things the workflow will not do for you.**
 
@@ -371,3 +386,4 @@ are the way they are:
 | #26 | Level with staging at its #150: the header's section links on every page and the engagement proof cards, staging's #148 and #149 |
 | #27 | Level with staging at its #169: seventeen pull requests carried as one three-way apply -- the phone menu drawer and `site-nav.js`, the step cards' output line, four critiques, the Lucy Learns write-up, and the italic cut on every page |
 | #28 | Staging is archived at its #169 and the work happens here: `CLAUDE.md` arrives, adapted from staging's; `mirror.mjs` goes; the editions list on the design system page says there is one edition; and `robots.txt` stops describing a host it is no longer served from |
+| #29 | What the site tells a machine, widened: dates on every Article and in the sitemap, stamped from git by `seo.mjs --write`; a share card per page from `og.mjs`; the questions people ask, answered on the four engagement pages and in their graphs; `llms.txt`; a `404.html` with the way back in; titles and descriptions cut to the length a result shows; and one plain sentence in About saying who this is |

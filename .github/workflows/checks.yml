@@ -35,7 +35,14 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
+      # Full history, not the default depth of one: seo.mjs holds every
+      # page's sitemap lastmod to the file's last commit date, and a shallow
+      # checkout dates every file at HEAD. The script notices a shallow clone
+      # and skips that comparison rather than failing it, so the cost of
+      # forgetting this is a check that quietly stops asking.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
