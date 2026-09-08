@@ -355,6 +355,28 @@ Four rules that came with #29, each held by `seo.mjs`:
   it is out of the sitemap and the fifteen. The browser checks still measure
   it, which is why they say sixteen pages.
 
+Two more since #32:
+
+- **The `<title>` is search language; the h1 is the site's.** A buyer who
+  does not know the name searches "enterprise design system consultant",
+  not "Design System Foundation", so the homepage and the four engagement
+  pages carry the search phrase in `<title>`, `og:title` and the
+  description, and keep their own name in the h1 and on the share card.
+  `seo.mjs` holds `og:title` to `<title>`. Do not rewrite the page's prose
+  to sound like the title; the translation lives in the head, on purpose,
+  and the five terms it translates into are listed in `README.md` under
+  Deployment. The whole set is meant to be judged against Search Console's
+  query report, not guessed at again.
+- **IndexNow.** `ab8eb2c23b8aa943256cadc405e3473d.txt` at the root is the
+  key, public by design, and `node scripts/indexnow.mjs --submit` reads it
+  and the sitemap and tells Bing which pages changed. Run it after the
+  deploy has landed, not before, because the engine fetches what it is
+  told about and Pages caches for ten minutes. Google does not read
+  IndexNow; its sitemap is submitted once, in Search Console, and the
+  verification for that and for Bing Webmaster Tools lives in those
+  accounts, not in this tree. If either asks for a file at the root, a
+  non-HTML file there is invisible to every check here.
+
 `llms.txt` at the root is the site in a page of markdown for an assistant
 that reads that first: the person, the four engagements with their length
 and fee model, and every page with one line each. It is written by hand, so

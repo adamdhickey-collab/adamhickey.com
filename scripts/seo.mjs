@@ -264,6 +264,14 @@ for (const f of PAGES) {
   const ogUrl = prop('og:url');
   if (ogUrl && canon.length === 1 && ogUrl !== canon[0])
     fault(f, `og:url (${ogUrl}) and canonical (${canon[0]}) disagree`);
+  /* The tab's title and the card's title are one title. Since #32 the
+     <title> is written in the words a buyer searches rather than the page's
+     own name, and a card that said the name while the tab said the search
+     phrase would read as two pages; the h1 is where the name lives. */
+  const title = src.match(/<title>([^<]*)<\/title>/);
+  if (!title) fault(f, 'no <title>');
+  else if (prop('og:title') && prop('og:title') !== title[1])
+    fault(f, `og:title (${prop('og:title')}) and <title> (${title[1]}) disagree`);
   if (!/<meta name="twitter:card"/.test(src)) fault(f, 'no twitter:card');
 
   const blocks = [...src.matchAll(

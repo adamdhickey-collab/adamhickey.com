@@ -28,9 +28,11 @@ import { findChrome, loadChromium, serve } from './lib/harness.mjs';
 const root = process.cwd();
 const only = process.argv.slice(2);
 
-/* slug -> what the card says and shows. The title is the page's <title>
-   without the " | Adam Hickey" suffix; keep them in step by hand, since a
-   card that says one thing and a tab that says another reads as two pages. */
+/* slug -> what the card says and shows. The title is the page's name as its
+   h1 says it, not its <title>: since #32 the <title> is written in the words
+   a buyer searches ("Enterprise Design System Consultant"), and the card is
+   what a person sees in a feed, where the page's own name is the thing to
+   recognize. Keep it in step with the h1 by hand. */
 const CARDS = {
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },

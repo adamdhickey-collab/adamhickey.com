@@ -128,6 +128,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
+| `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
 | `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the fifteen. `seo.mjs` holds it to all four |
 | `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards |
@@ -338,6 +339,17 @@ but two names its own share card under `img/og/`. Since #29 the domain
 enforces HTTPS, so plain `http://` redirects rather than serving a second
 copy of the site.
 
+Since #32 the `<title>` of the homepage and the four engagement pages is
+written in the words a buyer types before knowing the name, "Enterprise
+Design System Consultant" rather than "Design System Foundation", while the
+h1 keeps the page's own name. The description and the Person's `knowsAbout`
+say the same five things the practice wants to be found for: complex
+enterprise software, enterprise design systems, legacy modernization, AI
+product prototyping, embedded senior product design. `seo.mjs` holds each
+page's `og:title` to its `<title>`, and the share cards `og.mjs` renders
+carry the h1's name, since a feed is where the name is the thing to
+recognize.
+
 **Two things the workflow will not do for you.**
 
 - **The deploy has not always fired on a merge.** The squash-merge of #17 on
@@ -388,3 +400,4 @@ are the way they are:
 | #28 | Staging is archived at its #169 and the work happens here: `CLAUDE.md` arrives, adapted from staging's; `mirror.mjs` goes; the editions list on the design system page says there is one edition; and `robots.txt` stops describing a host it is no longer served from |
 | #30 | The two build write-ups stop linking out to their products; the write-up is the evidence, and the products are not offered from this site |
 | #29 | What the site tells a machine, widened: dates on every Article and in the sitemap, stamped from git by `seo.mjs --write`; a share card per page from `og.mjs`; the questions people ask, answered on the four engagement pages and in their graphs; `llms.txt`; a `404.html` with the way back in; titles and descriptions cut to the length a result shows; and one plain sentence in About saying who this is |
+| #32 | The homepage and the four engagement pages are titled in the words a buyer searches, the h1s keep their names, the Person says what it knows, and the site can tell Bing what changed through IndexNow |
