@@ -1736,6 +1736,32 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    loses the edge of the paper stack, where 100% would have pulled the desk
    under the dek.
 
+   That holds only while the band is narrower than the picture. A 36rem
+   band is 749px of picture, and a 2:1 picture 749px tall is 1498px wide,
+   so at 1498 the crop reaches zero and above it the fit turns over: the
+   picture is now scaled to the band's WIDTH and cover takes the excess
+   from the top and bottom instead. At 1920 the band showed the middle 60%
+   of the picture's height, at 2560 the middle 45%, and both put the crown
+   of every head above the band and every desk below it, while the whole
+   scene scaled up around a text column that had not moved. So above 1498
+   the band is not 36rem tall but 2.6:1 wide, which is the picture's 2:1
+   divided by the 130% it hangs at, and the picture is never width-bound:
+   it is the same crop at 1498, 1920 and 2560, only larger, as it is on a
+   laptop. The band is 738px tall at 1920 and 985 at 2560, which reads as
+   a lot until it is put against the viewport: 68% of a 1080 or a 1440
+   screen, where the 36rem band is 64% of a 900 one. The text stays in
+   the page's column and the wall stays under it: at 2560 the dek's box
+   ends at 43% of the picture's width, and the nearest thing to it on any
+   of the four is Embedded's hair at 49%, at rows the dek does not reach.
+
+   The width: 100% beside the ratio is load-bearing. A box with an aspect
+   ratio and an automatic width takes its min-height as a minimum width
+   too, transferred through the ratio: 36rem times 2.6 is 1498px, and at
+   1440 the band was 1498 wide, clipped by the hero's overflow, with the
+   container centered in the wider box and the text 29px to the right of
+   the facts strip below it. A definite width is not automatic, so nothing
+   transfers, and the band is the viewport wide at every width.
+
    Below 1280 there is no overlap to manage. The picture leaves the corner
    and becomes a full-width band under the text, the text sits on the warm
    ground in the same inks, and nothing at any width sets type over the
@@ -1759,7 +1785,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   }
   .eng3-hero-art .eng3-hero-scrim {
     position: relative; z-index: 1;
-    min-height: 36rem; display: flex; align-items: center;
+    width: 100%; min-height: 36rem; aspect-ratio: 2.6 / 1; display: flex; align-items: center;
     background: linear-gradient(transparent, transparent);
   }
   .eng3-hero-art .eng3-hero-scrim > .container { width: 100%; }
@@ -1767,8 +1793,8 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
      on the two pages whose deks run seven lines at 26rem the ramp made the
      hero taller than 36rem, the picture (130% of the hero) scaled up to
      cover it, and the desk moved left under the dek. --space-3xl either side
-     of the text keeps every hero at exactly 36rem, so the picture is the
-     same crop on all four pages. */
+     of the text keeps every hero at exactly 36rem, or exactly 2.6:1 past
+     1498, so the picture is the same crop on all four pages. */
   .eng3-hero-art .eng3-hero-inner { max-width: 36rem; padding: calc(var(--nav-height) + var(--space-3xl)) 0 var(--space-3xl); }
   /* The dek's box ends a gutter plus 26rem in, which is left of the desk's
      corner in clarity-hero at 1280 and up; at 36rem the longer deks on the other
