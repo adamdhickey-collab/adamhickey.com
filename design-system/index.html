@@ -1176,15 +1176,15 @@
       <div class="container">
         <span class="ds-num">01</span>
         <h2>Editions</h2>
-        <p class="ds-lede">The same source builds two sites. Since 2026-09-05 they carry the same fifteen pages; what separates them is which one a search engine is allowed to see.</p>
+        <p class="ds-lede">One source, one site. Until 2026-09-08 the same source built two, and what separated them was which one a search engine was allowed to see; the staging edition is archived, read-only, at the same fifteen pages this one carries.</p>
         <ul class="ds-rules" style="margin-bottom:2rem">
-          <li><strong>Live &middot; adamhickey.com</strong><span>Fifteen pages. The public practice, and its own repository. This is the only edition without <code>noindex</code>, the only one carrying the analytics tag, and the only one where a change is visible to a stranger.</span></li>
-          <li><strong>Staging &middot; adamdhickey-collab.github.io/adamhickey-next</strong><span>Fifteen pages: everything live has. Carries <code>noindex</code>, permanently &mdash; staging is never indexed, and the line is not a switch waiting to be thrown. This page is served by both editions, word for word; the address bar is the only thing that says which one you are reading.</span></li>
+          <li><strong>Live &middot; adamhickey.com</strong><span>Fifteen pages, and the only edition there is. The public practice, its own repository, and since 2026-09-08 where the work happens. No <code>noindex</code>, the analytics tag on every page, and every merged change visible to a stranger about a minute later.</span></li>
+          <li><strong>Archive &middot; adamdhickey-collab.github.io/adamhickey-next</strong><span>The staging edition until 2026-09-08, archived that day at the fifteen pages live had. It carried <code>noindex</code> permanently and still does: an archived tree keeps serving, and that line is what keeps a stale copy of this site out of an index.</span></li>
         </ul>
         <ul class="ds-rules">
           <li><strong>Withholding is a decision, not a build artifact</strong><span>Door County Found, Lucy Learns and While We&rsquo;re Here were held out of live for months. Nothing about the code decided that; a person did, and on 2026-09-05 the same person reversed it &mdash; which is the point. The reason given had been that they read as a side pursuit beside enterprise work; the reason against was that they are the longest writing on the site and sat where every crawler was told to ignore them.</span></li>
-          <li><strong>Only one edition has to be right today</strong><span>Live can be held back while the others move. Publishing is the hard step to undo, so when in doubt it waits.</span></li>
-          <li><strong>Everything else stays in step</strong><span>A shared change lands in every edition in the same pass. Two editions drifting is how a fix gets made twice and lands once.</span></li>
+          <li><strong>One edition means one gate</strong><span>With no staging in front of it, a pull request&rsquo;s checks are what stand between a change and a stranger. They run on the branch, so a red mark lands before the merge rather than after it, and publishing is still the hard step to undo.</span></li>
+          <li><strong>The archive is a record, not a source</strong><span>A page lifted from the archived tree carries staging&rsquo;s <code>noindex</code> and no analytics tag. Swap both before it merges, and read the live tree first: the archive stopped at its #169 and this one did not.</span></li>
         </ul>
       </div>
     </section>
@@ -1197,7 +1197,6 @@
           <li><strong>Every asset change bumps its token</strong><span>Stylesheets, scripts, images, the favicon, the clips: all carry <code>?v=</code>. A returning visitor holds the old file otherwise, and the bug that follows is invisible to whoever shipped it, because their own browser fetched the new one.</span></li>
           <li><strong>There is no include step</strong><span>The header and footer are hand-written into every page. A change to either is a change to every file that carries it, in every edition. Grep, do not assume; and prefer shared JavaScript over pasted markup for anything with behavior.</span></li>
           <li><strong>Measure, do not eyeball</strong><span>Read the number back out of the browser: computed styles, bounding boxes, contrast ratios, line counts. Twice this year a change looked right and was not, and both times the measurement caught it before it shipped.</span></li>
-          <li><strong>The staging build is assembled, not pushed</strong><span>Its tree is composed from the source branch plus the client-safe branch. The deploy workflow lives only in the staging repository, so an assembled tree that omits it lands with no deploy at all, and the site silently stops updating. That has happened; the assembly step re-adds it every time.</span></li>
           <li><strong>Retire, do not accumulate</strong><span>When two tokens differ only where a rule forced them apart, the rule is the thing to fix. Two colors left this palette that way, and both had been quietly failing contrast at small sizes.</span></li>
           <li><strong>The reference is only true if it ships with the change</strong><span>A specimen copied by hand goes stale the moment the site moves. Three tags on this page said four for a week. Update the section in the same pass as the code, or it becomes fiction.</span></li>
         </ul>

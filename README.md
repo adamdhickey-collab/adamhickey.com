@@ -13,28 +13,32 @@ see Checks.
 | --- | --- |
 | **What this is** | The site: 15 pages in six families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
-| **Where it is staged** | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/, carrying `noindex` |
-| **Where the work happens** | Staging. Changes are carried here by hand; this tree matches staging at its #169 |
+| **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
+| **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
 
-## Two repositories
+## One repository, and an archive
 
 | | | |
 | --- | --- | --- |
-| `adamdhickey-collab/adamhickey.com` | public | This one. The live site, deployed from `main`; see Deployment. |
-| `adamdhickey-collab/adamhickey-next` | private | Staging, at https://adamdhickey-collab.github.io/adamhickey-next/. Where the work happens. The four normative specs and the check scripts are authored there and copied here. |
+| `adamdhickey-collab/adamhickey.com` | public | This one. The live site, deployed from `main`, and where the work happens; see Deployment, and `CLAUDE.md` for the rules. |
+| `adamdhickey-collab/adamhickey-next` | private, archived | Staging until 2026-09-08, read-only since, at its #169. Its Pages site still answers at https://adamdhickey-collab.github.io/adamhickey-next/, carrying `noindex`. |
 
-Changes are made and checked in staging and carried here once they have been
-looked at. Nothing automates the carry: a change moves as a diff applied by
-hand, and a file here and its copy in staging are expected to match once it
-has. There is no script that compares the two trees; staging's `mirror.mjs`
-names staging as both sides and reports clean whatever has drifted.
+Until 2026-09-08 changes were made and checked in staging and carried here by
+hand, as a diff applied with the live apparatus kept on every page. #28 ended
+that. The two trees had been level since #27, page for page apart from the
+apparatus, and every carry was the same three-way apply of work that had
+already been reviewed once, so the second repository was costing a step and
+buying nothing. Work happens here now, on a branch, through a pull request
+the checks have run on; `CLAUDE.md` came across from staging, adapted, and is
+the working guide. Staging is archived on GitHub, read-only.
 
 **The two editions have converged.** This site was the client-safe edition of
 the portfolio: no "Built end to end" section, the three independently built
 products absent from the homepage and their write-ups not here at all, so
-nothing was reachable by URL. That distinction ended with #20. This tree is
-the staging tree, page for page -- fifteen pages, including Door County Found,
-Lucy Learns and While We're Here.
+nothing was reachable by URL. That distinction ended with #20. This tree has been
+the staging tree, page for page, since then -- fifteen pages, including Door
+County Found, Lucy Learns and While We're Here -- and since #28 it is the only
+tree.
 
 That was a decision about positioning rather than about confidentiality, and
 it is worth saying which, because one of the two reasons the section gave has
@@ -47,7 +51,7 @@ was that they read as a side pursuit next to enterprise work. The case for
 carrying them is that they are the longest and most specific writing on the
 site, and they were sitting on a host that told every crawler to ignore them.
 
-**Where the carry stands.** #20 brought this tree level with staging at its
+**How the carry went.** #20 brought this tree level with staging at its
 #136, on 2026-09-05, and #24 brought it level again at #147 the same day,
 carrying the eight pull requests between (#138 through #144, and #146; #145,
 the American English sweep, had already arrived as #21, run as its own sweep
@@ -78,8 +82,8 @@ Lucy Learns write-up records the timer that replaced voice commands,
 draws its diagram in HTML and scrolls its phones sideways on a phone
 (#151, #157, #160), with twelve recaptured screens; and every page asks
 Google Fonts for Crimson's italic cut, which only the design system page
-had. `git log` on staging's `main` from `2df957e` forward is the list of
-what is not here yet.
+had. Nothing landed in staging after #169, and #28 archived it there, so
+there is nothing left to carry.
 
 **Two live URLs now 404.** `engagement/brand-identity-illustration.html` was
 retired in staging (its #49) and has been gone here since #20. Nothing on this
@@ -95,14 +99,18 @@ it the whole time, so it is the likelier of the two to be sitting in someone's
 history. It is left the same way, for the same reason, and this paragraph is
 where to look if that turns out to be the wrong call.
 
-**What still differs.** Staging keeps `CLAUDE.md` and its own README and
-workflows; this repository keeps `CNAME`, its own README and its own
-workflows. Staging's pages carry the staging apparatus described under
-Deployment. `scripts/counts.mjs` here drops the one entry in staging's
-registry that describes the live site from the outside, because from here that
-is the inside; staging keeps an empty held-back list for the day a page is
-held back again, and this copy has nowhere to hold one back from. Everything a
-reader can reach is the same in both, at the carry point above.
+**What the archive holds that this tree does not.** Its `CLAUDE.md`, which
+#28 adapted into this repository's own and whose ledger of measured counts
+stayed behind, on purpose; its README and workflows, the deploy one opening
+an issue when it fails where this one does not; an `img/inbox/` of drawings
+never placed; `scripts/mirror.mjs`, which compared the two trees and has no
+second tree now; and on every page the staging apparatus described under
+Deployment. `scripts/counts.mjs` there carries one entry this copy never did,
+a claim about how many of its pages the live site held, which from here has
+no outside to be counted against. Everything a reader could reach was the
+same in both at #169, and the two local branches that never merged there,
+`claude/dcf-hero` and `claude/shelf-into-client-band`, were pushed before
+the archive so that it holds everything staging ever had.
 
 ## What is here
 
@@ -119,10 +127,10 @@ reader can reach is the same in both, at the carry point above.
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `robots.txt`, `sitemap.xml` | What a crawler is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- and `node scripts/seo.mjs` fails if it stops matching the pages on disk |
-| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20. `checks.yml` runs all of them; see Checks |
+| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs all of them; see Checks |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
-| `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs`, which is here as well as in staging |
+| `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs` |
 | `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`, `MOTION.md` | The four normative specs. The check scripts read them as rules and this tree as evidence |
 | `CNAME`, `.nojekyll` | Pages configuration: the custom domain, and no Jekyll pass over the tree |
 | `.github/workflows/` | `pages.yml` deploys, `checks.yml` reports; see below |
@@ -233,8 +241,8 @@ the path alone will not tell a browser anything moved.
 `checks.yml` runs on every pull request and push to `main`. It reports and
 deploys nothing; the two workflows are separate on purpose so a failing check
 reads as a failing check rather than as a failed deploy. Since #23 it is
-staging's `checks.yml` plus the two Tailwind steps this repository had first,
-nine steps in all:
+the seven scripts that came across from staging plus the two Tailwind steps
+this repository had first, nine steps in all:
 
 - **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
   nothing tracked that `.gitignore` matches, because the Pages artifact is a
@@ -281,16 +289,15 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #27 the four browser checks measure 2537 resting colors, 800 state
-rules, 10872 type sizes and 6345 elements checked for a partial border,
-across fifteen pages, which are staging's own four numbers at its #169. Nothing verifies those four numbers; treat them as a
-tripwire, and a run that comes back materially smaller means something
+result. At #28 the four browser checks measure 2536 resting colors, 800
+state rules, 10868 type sizes and 6343 elements checked for a partial
+border, across fifteen pages. Nothing verifies those four numbers; treat
+them as a tripwire, and a run that comes back materially smaller means something
 stopped being measured.
 
-The scripts are staging's, copied with #20, and `counts.mjs` is the one that
-differs from its staging copy, by one entry: staging's registry holds a claim
-about how many of its pages the live site carries, which cannot be counted
-from here because here is the live site.
+The scripts came across from staging with #20 and are authored here since
+#28. `counts.mjs` never took staging's one extra entry, a claim about how
+many of its pages the live site carried, because here is the live site.
 
 ## Deployment
 
@@ -305,17 +312,16 @@ branch with the legacy builder until 4600455 moved it to the workflow.
 | --- | --- |
 | Live at | https://adamhickey.com |
 | Deploys from | `main`, repository root, via `pages.yml` |
-| Staged first in | `adamdhickey-collab/adamhickey-next`, at https://adamdhickey-collab.github.io/adamhickey-next/ |
+| Staged first in | Nowhere, since 2026-09-08. The pull request's checks are the gate; see `CLAUDE.md` |
 
-What does not move across from staging is the staging apparatus: every
-staging page carries a `noindex` meta marked `STAGING ONLY`, and omits the
-analytics snippet at a `STAGING NOTE` comment. This site has neither: no
-`noindex` anywhere, and the Google Analytics tag `G-BLY8X4YCNK` on every page.
-A page copied across from staging needs those two restored before it merges.
-The canonical link, the Open Graph card and the JSON-LD graph come across
-unchanged: every page in both trees names its https://adamhickey.com/ address
-absolutely, `seo.mjs` holds each page to it, and the sitemap it generates
-lists the fifteen live addresses.
+This site carries no `noindex` anywhere and the Google Analytics tag
+`G-BLY8X4YCNK` on every page. Staging's pages carried the reverse, a
+`noindex` meta marked `STAGING ONLY` and a `STAGING NOTE` comment where the
+tag would be, so a page lifted from the archive needs those two swapped
+before it merges. Every page names its https://adamhickey.com/ address
+absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
+`seo.mjs` holds each page to it, and the sitemap it generates lists the
+fifteen live addresses.
 
 **Two things the workflow will not do for you.**
 
@@ -334,8 +340,8 @@ lists the fifteen live addresses.
   to see past the cache before deciding the deploy failed.
 
 All internal links and assets are **relative** (no root-absolute `/...`
-paths), so the same files work from the staging subpath and from this root
-domain. The exceptions are the addresses a machine reads: `og:image`,
+paths), so the same files work from a subpath, as they did on the staging
+host, and from this root domain. The exceptions are the addresses a machine reads: `og:image`,
 `og:url`, the canonical link and the structured data, which scrapers do not
 resolve relatively, and so name https://adamhickey.com/ explicitly.
 
@@ -364,3 +370,4 @@ are the way they are:
 | #25 | The editions list on the design system page reads the same on both hosts; staging's #150 |
 | #26 | Level with staging at its #150: the header's section links on every page and the engagement proof cards, staging's #148 and #149 |
 | #27 | Level with staging at its #169: seventeen pull requests carried as one three-way apply -- the phone menu drawer and `site-nav.js`, the step cards' output line, four critiques, the Lucy Learns write-up, and the italic cut on every page |
+| #28 | Staging is archived at its #169 and the work happens here: `CLAUDE.md` arrives, adapted from staging's; `mirror.mjs` goes; the editions list on the design system page says there is one edition; and `robots.txt` stops describing a host it is no longer served from |
