@@ -2982,8 +2982,13 @@ html.ah-lightbox-open body { overflow: hidden; }
    cut the label off from the entry it belonged to. That rule is suppressed
    here for the same reason: these h2s are list entries, not the start of a
    new section of the page. */
-.writing-meta {
+.case-section .writing-meta {
+  /* Under .case-section, because .case-section p sets prose at --text-lg
+     and beats a bare class on specificity: the label shipped at 18px body
+     size with reading leading, a line of caps as loud as the dek above it.
+     Same fix as .eng3-proof-client. */
   font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-accent-text);
   margin: var(--space-sm) 0 0;
