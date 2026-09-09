@@ -96,6 +96,53 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 a { color: inherit; text-decoration: none; }
 strong { font-weight: 700; }
 
+/* The marked sentence. One or two lines an essay is actually about, marked
+   the way a reader marks a book, so someone who scans before they read finds
+   the argument rather than the first paragraph.
+
+   <mark> and not a class on a span. The element already means "relevant to
+   the reader's current interest," which is exactly the claim being made, and
+   it survives being copied into a document or read by something that is not
+   this stylesheet. It is emphasis on top of prose that still reads correctly
+   unmarked, so it takes no ARIA and no visually-hidden label: nothing here is
+   information a reader would lose if the highlight never rendered.
+
+   The rule is unscoped on purpose even though only writing/ uses it today.
+   The UA default is #ff0 with black ink -- a color this site does not own,
+   arriving on whatever page first types the tag. A base rule means that
+   cannot happen; it also means the ground below assumes a light one, which
+   is where the essays sit (.case-overview is --color-white).
+
+   --color-tea-light is what the palette already uses to say a thing is
+   featured: the hero card and the pull-outs (COLOR.md section 2). Charcoal on
+   it is 12.90:1, so the marked line is the strongest text on the page rather
+   than ink that got quieter when the ground showed up.
+
+   The padding is in em rather than a --space token, and that is not a lapse.
+   A space token is a layout distance and holds its rem value while the type
+   beside it resizes; this padding has to stay the same fraction of a glyph at
+   400px and at 1280px, or the mark grips its words at one width and floats
+   off them at the next. SPACING.md makes the same argument for --measure in
+   ch. The negative margin is the same number back, so the highlight bleeds
+   into the word space either side instead of pushing the sentence around it.
+
+   No radius. The two the system names are --radius-pill and --radius-xl, one
+   for a shape whose corners are its short side and one for a panel, and a
+   third written as a bare px here would be the kind of unnamed number
+   SPACING.md already counts as debt. A highlighter leaves a rectangle.
+
+   box-decoration-break: clone pads both halves of a mark that wraps. Without
+   it a sentence broken over two lines is padded at its start and its end and
+   cut flush at the break, which reads as two marks rather than one. */
+mark {
+  background: var(--color-tea-light);
+  color: var(--color-charcoal);
+  padding: 0.08em 0.16em;
+  margin: 0 -0.16em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 /* ---------- typography ---------- */
 /* The heading ladder. TYPOGRAPHY.md section 4 is normative; this is it in
    CSS. Sizes come from the ramps, never from a hand-written clamp, and the
