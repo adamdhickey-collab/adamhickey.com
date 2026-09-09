@@ -54,7 +54,7 @@ the alpha steps in §4.
 |---|---|---|
 | `--color-white` | `#ffffff` | The page ground. Case studies, build write-ups, the default. |
 | `--color-warm` | `#f5f5f0` | The warm ground. Selected work, the case-study closings, the footer. Also the primary ink **on** charcoal. |
-| `--color-tea-light` | `#e8ede5` | The feature ground. Hero card, pull-outs. |
+| `--color-tea-light` | `#e8ede5` | The feature ground. Hero card, pull-outs, and the marked sentence in an essay. |
 | `--color-muted-light` | `#e5e5dd` | The alternate ground, for a section that must separate from its neighbor without changing temperature. |
 | `--color-charcoal` | `#252525` | The dark band. Also the primary ink on every light ground. |
 
