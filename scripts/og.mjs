@@ -47,16 +47,17 @@ const CARDS = {
   'design-system-foundation':          { kicker: 'Engagement 02',                             title: 'Design System Foundation', sub: 'A three-week diagnostic, then a build scoped from it',       hero: 'img/engagement/system-hero.webp' },
   'embedded-senior-product-design':    { kicker: 'Engagement 03',                             title: 'Embedded Senior Product Design', sub: 'Three to six months, two to four days a week',         hero: 'img/engagement/embedded-hero.webp' },
   'working-product-prototype':         { kicker: 'Engagement 04',                             title: 'Working Product Prototype', sub: 'Four to six weeks, fixed scope and fixed fee',              hero: 'img/engagement/ai-hero.webp' },
-  /* The writing family. Each article's card carries the picture of the
-     engagement or account it draws on, so a card in a feed already looks
-     like the page it leads to on this site. */
-  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/engagement/01-clarity.webp' },
-  'when-does-a-product-need-a-design-system':             { kicker: 'Writing', title: 'When does a product need a design system?', image: 'img/engagement/02-system.webp' },
-  'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/site/fiori-style-guide.webp' },
-  'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Your design system is about to become training material for machines', image: 'img/engagement/step-system-04.webp' },
-  'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/engagement/04-ai.webp' },
-  'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/engagement/step-ai-03.webp' },
-  'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/engagement/01-clarity.webp' },
+  /* The writing family. Each article's card carries the article's own
+     feature drawing, the same picture that opens the page, so a card in a
+     feed already looks like the page it leads to. The index takes the wall
+     of forty frames, the one drawing that is about the whole set. */
+  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
+  'when-does-a-product-need-a-design-system':             { kicker: 'Writing', title: 'When does a product need a design system?', image: 'img/writing/when-does-a-product-need-a-design-system.webp' },
+  'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
+  'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Your design system is about to become training material for machines', image: 'img/writing/is-your-design-system-ready-for-ai-agents.webp' },
+  'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/writing/where-does-design-end-and-development-begin-now.webp' },
+  'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },
+  'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});

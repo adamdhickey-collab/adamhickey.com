@@ -5,6 +5,8 @@
  *   node scripts/illustrate.mjs step   img/inbox/step-clarity-01.png img/engagement/step-clarity-01.webp
  *   node scripts/illustrate.mjs invite img/inbox/clarity-invite.png  img/engagement/clarity-invite.webp
  *   node scripts/illustrate.mjs hero   img/inbox/clarity-hero.png    img/engagement/clarity-hero.webp
+ *   node scripts/illustrate.mjs feature img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system.webp --brightness 1
+ *   node scripts/illustrate.mjs card    img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system-card.webp --brightness 1
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
@@ -21,6 +23,8 @@
  *            to the search (README, "Two step sets move onto the sage wall").
  *   resample To the slot: steps 1080x720, invitations 1536x1024, heroes
  *            1774x887, which are the native sizes the set is stored at.
+ *            The writing features are 16:9, 1600x900 on the article and
+ *            640x360 as the card on the index, both cut from one drawing.
  *   lift     Steps and invitations: brightness 1.15 (or --brightness n), contrast 1.06,
  *            saturation left alone. Heroes: the same contrast, and the
  *            brightness binary-searched until the wall lands at 8.0:1 against
@@ -73,6 +77,15 @@ const SLOT = {
   step:   { w: 1080, h: 720 },
   invite: { w: 1536, h: 1024 },
   hero:   { w: 1774, h: 887 },
+  /* The writing features. One 16:9 drawing per article, stored twice: the
+     feature under the article's dek, and the card beside its entry on the
+     index. Both from the same source in one pass each, so the card is the
+     feature's crop and not a second guess at it. These drawings come back
+     from the generator at the set's exposure already (158-191 mean against
+     the engagement set's 126-184 band), so they take --brightness 1 rather
+     than the flat 1.15 the drab step batches needed. */
+  feature: { w: 1600, h: 900 },
+  card:    { w: 640,  h: 360 },
 };
 const CHARCOAL = [0x25, 0x25, 0x25];
 const WALL_TARGET = 8.0;
@@ -115,7 +128,7 @@ if (wallMode && !matchPath) { console.error('  ✗ wall needs --match <the page\
 if (grainMode && !(ceiling > 0)) { console.error('  \u2717 --ceiling must be positive'); process.exit(2); }
 if (grainMode && floor >= ceiling) { console.error('  \u2717 --floor must be under --ceiling'); process.exit(2); }
 if (!role || !inPath || (role !== 'report' && !wallMode && !grainMode && (!SLOT[role] || !outPath)) || !(LIFT.brightness > 0)) {
-  console.error('usage: illustrate.mjs <step|invite|hero> <in> <out> [--crop x,y,w,h] [--brightness n]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  console.error('usage: illustrate.mjs <step|invite|hero|feature|card> <in> <out> [--crop x,y,w,h] [--brightness n]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
   process.exit(2);
 }
 if (manualCrop && role !== 'report') {
