@@ -3032,12 +3032,19 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: var(--space-sm) 0 0;
 }
 .case-overview .writing-title::before { content: none; }
-.writing-title {
+/* Under .case-section for the same reason as .writing-meta and .writing-dek:
+   .case-section h2 sets every section heading's margin-bottom to --space-2xl,
+   and beat this rule's margin on specificity, so the title sat 32px off
+   its dek and each entry read as a heading with a paragraph a long way
+   under it rather than a title with its answer. --space-sm is what
+   .case-ask-title puts between the same pair, a serif title over a muted
+   paragraph; the --space-xs written here before never rendered. */
+.case-section .writing-title {
   font-family: var(--font-serif);
   font-size: var(--type-subsection);
   line-height: var(--leading-heading);
   color: var(--color-charcoal);
-  margin: 0 0 var(--space-xs);
+  margin: 0 0 var(--space-sm);
   transition: color var(--motion-state, 0.25s) var(--ease);
 }
 .writing-link:hover .writing-title,
