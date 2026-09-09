@@ -3025,18 +3025,24 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0; max-width: 60ch;
 }
 
-/* About opens with the line the hero used to carry. */
+/* About opens with two paragraphs that share one width: the plain sentence
+   and the serif lede under it. The cap sits on the wrapper, in the plain
+   sentence's size, so 60ch means the same pixels for both. Capped on their
+   own, the lede's 60ch would be its own, fluid, serif ch and the two edges
+   would only meet at one viewport; at 46ch, where it used to sit, the lede
+   stopped 160px short of the sentence above it. */
+.about-intro { font-size: var(--text-lg); max-width: 60ch; }
+/* The line the hero used to carry. */
 .about-lede {
   font-family: var(--font-serif);
   font-size: var(--type-lede);
   line-height: var(--leading-tight);
   color: var(--ink-on-dark);
-  max-width: 46ch;
   margin: 0 0 var(--space-2xl);
 }
 /* The plain sentence above the lede: body size, the long-form step, on the
    band's ink, wide enough to hold one sentence without a ragged third line. */
-.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); max-width: 60ch; margin: 0 0 var(--space-lg); }
+.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); margin: 0 0 var(--space-lg); }
 
 /* The Lucy Learns card shows the app as three screens in the order you meet
    it, app-store style, rather than one phone beside a lot of empty column.

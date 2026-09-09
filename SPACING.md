@@ -266,8 +266,13 @@ table above is the case studies' and essays' column now, not every engagement
 page's.
 
 Short display prose may sit deliberately tighter than the measure. `.about-lede`
-is 46ch, about 60 characters: large type wants fewer characters per line, so
-that is correct as it stands rather than an exception to be folded in.
+was the case for a while, at 46ch, about 60 characters, on the reasoning that
+large type wants fewer characters per line. It no longer carries a cap of its
+own: it and the plain sentence above it sit in `.about-intro`, which is 60ch
+in the sentence's 18px, about 715px, so the two paragraphs share one right
+edge instead of the lede stopping 160px short. The lede lands at about 59 of
+its own characters there, which is still inside the 60–75 the measure aims
+for.
 
 `.hero-invite` was the other one, at 44ch. It no longer carries a cap — the
 promise line now runs the headline's full width so the two read as one
