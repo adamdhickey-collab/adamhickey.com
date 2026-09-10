@@ -215,7 +215,7 @@ was unlinked the next day and removed in staging's #113; #34 brought the
 surface back with articles written for a buyer rather than for the practice,
 and the essays themselves stay canonical in the field guide.
 
-#58 added three in positions two to four, and they are the first written for a
+#59 added three in positions two to four, and they are the first written for a
 reader hiring a designer onto a team rather than buying a piece of work: what
 someone needs the moment an operational workflow breaks, what an AI feature
 owes the person acting on its answer, and how a request becomes a release.
@@ -321,7 +321,7 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 `CHROME` has to name a browser that exists, and the scripts check. Each
 prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
-result. At #58 the four browser checks measure 3135 resting colors, 1545
+result. At #59 the four browser checks measure 3135 resting colors, 1545
 state rules, 13344 type sizes and 7531 elements checked for a partial
 border, across twenty-six pages: the twenty-five of the site and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
@@ -425,4 +425,4 @@ are the way they are:
 | #29 | What the site tells a machine, widened: dates on every Article and in the sitemap, stamped from git by `seo.mjs --write`; a share card per page from `og.mjs`; the questions people ask, answered on the four engagement pages and in their graphs; `llms.txt`; a `404.html` with the way back in; titles and descriptions cut to the length a result shows; and one plain sentence in About saying who this is |
 | #32 | The homepage and the four engagement pages are titled in the words a buyer searches, the h1s keep their names, the Person says what it knows, and the site can tell Bing what changed through IndexNow |
 | #34 | The Writing family comes back, as search doors: an index and six articles, each answering a buyer's question in its first paragraph and ending on the engagement it describes and the account it draws on; twenty-two pages in seven families |
-| #58 | Three articles on operational work in positions two to four -- the moment a workflow breaks, AI that helps someone decide rather than only answer, and a request carried through to a release; the opening article closes on the account rather than the engagement, and the index lede leads with the three; twenty-five pages in seven families |
+| #59 | Three articles on operational work in positions two to four -- the moment a workflow breaks, AI that helps someone decide rather than only answer, and a request carried through to a release; the opening article closes on the account rather than the engagement, and the index lede leads with the three; twenty-five pages in seven families |
