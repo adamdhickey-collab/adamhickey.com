@@ -126,13 +126,13 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Product strategy · UX · Design systems · Prototyping · AI-assisted build</p>
+  <p class="tagline">Lead Product Designer · Product strategy · UX · Design systems · Prototyping · AI-assisted build</p>
   <p class="contact"><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of those years were at RBA, designing enterprise products and helping teams turn complicated workflows into coherent systems that people can actually use. Most of the last decade went to design systems: structural audits, the tokens and component architecture underneath, and the governance that keeps them alive. More recently I have been building products, prototypes and design-to-code workflows myself, extending the range from product strategy and UX through a working front end. I use AI to scale the system rather than just my own output, and the judgment calls stay human.</p>
+  <p>Lead product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of those years were at RBA, designing enterprise products and helping teams turn complicated workflows into coherent systems that people can actually use. Most of the last decade went to design systems: structural audits, the tokens and component architecture underneath, and the governance that keeps them alive. More recently I have been building products, prototypes and design-to-code workflows myself, extending the range from product strategy and UX through a working front end. I use AI to scale the system rather than just my own output, and the judgment calls stay human.</p>
 </section>
 
 <section>
