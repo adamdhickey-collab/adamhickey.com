@@ -12,12 +12,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A dispatch cockpit that shows its work | Adam Hickey</title>
-  <meta name="description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach." />
+  <meta name="description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
   <link rel="canonical" href="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:title" content="A dispatch cockpit that shows its work | Adam Hickey" />
-  <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach." />
+  <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
   <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -35,7 +35,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/prototype/dispatch-cockpit.html#article",
           "headline": "A dispatch cockpit that shows its work",
-          "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach.",
+          "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach.",
           "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg",
@@ -106,11 +106,11 @@
   <link rel="stylesheet" href="../type.css?v=3" />
   <link rel="stylesheet" href="../style.css?v=20260910a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=1" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=1" defer></script>
+  <script src="dispatch-cockpit.js?v=2" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -236,68 +236,30 @@
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Prototype &middot; self-directed &middot; synthetic data</p>
+        <p class="case-kicker">Working prototype &middot; self-directed &middot; synthetic data</p>
         <h1 class="case-title">A dispatch cockpit that shows its work</h1>
-        <p class="build-dek">A load comes in and has to go on a truck. The system can recommend one. The interesting problem is everything that has to be true before a dispatcher skips checking it. People skip verification when they can predict when the system will be wrong, which is a legibility problem rather than a trust problem, and it is solved in the interface.</p>
-        <!-- The one thing the credibility of the page depends on, said
-             before anything else and in its own box: what this is, and
-             what it is not. -->
+        <p class="build-dek">A load needs a truck, and recommending one is only part of the problem. The dispatcher still has to see why that truck fits, what the system may be missing, and when to choose differently. This prototype explores how an interface can support that judgment: the factors behind the recommendation are open to inspection, the outcomes of similar loads sit beside it, and the whole fleet stays on screen to compare against and to assign by hand. The hypothesis is that people spend less time reconstructing a recommendation when they can see what needs checking. The goal is not acceptance without question. It is better-directed attention.</p>
+        <!-- The one thing the credibility of the page depends on, said before
+             anything else and in its own box: what this is, what it is not,
+             and how much of it is real. The implementation note is here
+             rather than in the prose because &ldquo;synthetic data&rdquo; answers where
+             the numbers came from and not how the recommendation is produced,
+             and a reader is owed both. -->
         <div class="ck-disclosure">
-          <p><strong>A self-directed prototype on synthetic data.</strong> Every truck, driver, town and figure on this page is invented. It is informed by the dispatch cockpit I led at RBA for Midwest Couriers, a fleet of more than 450 trucks, and it is not that work: not client work, not shipped software, and not a claim that any of it has been in front of a dispatcher.</p>
+          <p><strong>A self-directed prototype on synthetic data.</strong> The interface is functional and the ranking is computed on the page, by a weighted rule over the factors it shows. The fleet, the customer, the drivers, the loads and the outcome records are invented; the towns are real, and they are there for context. No trained model or dispatch system is connected.</p>
+          <p>It is informed by the dispatch cockpit I led at RBA for Midwest Couriers, a fleet of more than 450 trucks. It is a separate exploration rather than a reproduction of that work, and it has not been deployed or put in front of a dispatcher.</p>
           <p>It is a working demo. Four situations, a mouse or a keyboard, about ninety seconds.</p>
         </div>
       </div>
     </header>
 
-    <section class="case-section build-chapter ground-white">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2 id="the-problem">The dispatcher is not short on data</h2>
-          <p>A dispatcher at a fleet that size sees every truck, every driver&rsquo;s hours, every load in the window and every exception, on two or three monitors, all day. When a load comes in, the information needed to place it well is already on the screen. What is scarce is attention: the four seconds it takes to weigh five factors against seven trucks, forty times an hour, while the phone rings.</p>
-          <p>So the obvious move is to have the system recommend the truck. That is where &ldquo;add AI&rdquo; is usually pointed, and it is not wrong, but it is pointed at the easy half. Producing a ranking is cheap. Getting a person to act on it without re-deriving it is the whole product, and it is not a matter of being right more often. A recommendation that is right 95 times in 100 is still checked 100 times if the dispatcher cannot tell which five to worry about.</p>
-          <p>The position this prototype takes: people skip verification when they can predict when the system will be wrong. Not when they trust it in general, and not when it shows them a percentage. When they can look at the recommendation and the load in front of them and say, this is one of the ones it gets right. That is a legibility problem, and legibility is designed.</p>
-          <p>The argument in prose is <a href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>. This page is the same argument as an interface.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="case-section build-chapter ground-tea">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2 id="the-principles">Four things the interface has to do</h2>
-          <p>Each is a position, and each is a specific thing on the screen below. The copy on this page could be switched off and the four should still be readable from the cockpit alone.</p>
-        </div>
-        <ol class="ck-principles">
-          <li>
-            <h3>Show what went into the call, not just the call.</h3>
-            <p>A ranking is a summary of reasons. Hide the reasons and the dispatcher has to reconstruct them to check the ranking, which is more work than ranking by hand. So the recommendation lists what was weighed, distance to pickup, hours of service left, equipment, the on-time record with this customer, current deadhead, each with its actual value and which way it pushed. There is no composite score, because a score is the one number that cannot be checked against anything.</p>
-            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the factor list in the recommended truck&rsquo;s card, and the same columns in the data table under it.</p>
-          </li>
-          <li>
-            <h3>Express confidence as a record, not a number.</h3>
-            <p>&ldquo;87% confident&rdquo; is a claim about the system. &ldquo;Held up on 38 of the last 40 loads like this one&rdquo; is a claim about loads, which a dispatcher can set beside the load in front of them. The two it got wrong are the most useful part: if the misses have a shape, the dispatcher learns the shape, and that is the moment verification becomes selective instead of universal.</p>
-            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the &ldquo;How often this has held&rdquo; card, with the misses behind a disclosure and a line under each saying what to watch for.</p>
-          </li>
-          <li>
-            <h3>Make the override cheap, and make it teach.</h3>
-            <p>The dispatcher is the one with the phone call the system cannot hear. Overriding is one click on any truck. There is no confirmation dialog, because a dialog is a small tax on judgment, and the judgment is the point. After the override, and only after, a question appears asking why, with the likely reasons listed and room for another, and it says in plain words what happens to the answer. Skipping costs nothing and records nothing.</p>
-            <p class="ck-onscreen"><span class="ck-label">On screen:</span> Assign on every row; the optional question above the data table once a truck other than the recommended one is assigned; Undo where Assign was.</p>
-          </li>
-          <li>
-            <h3>Keep the manual path whole.</h3>
-            <p>The recommendation accelerates the decision and never gates it. The whole fleet is on the screen the entire time, with every column the dispatcher would sort by, sortable, and never collapsed behind the suggestion. A truck the system could not rank keeps its row and says why. If the recommendation vanished tomorrow, the screen would still be a dispatch screen.</p>
-            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the data table, in every situation and every state.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
     <section class="case-section build-chapter ground-warm" id="the-cockpit">
       <div class="container">
         <div class="writing-measure">
           <h2>The cockpit</h2>
-          <p>One load, seven trucks, four situations. Pick a situation, then assign a truck: the recommended one, or any other. Everything works from the keyboard. Arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
-          <p>Synthetic throughout: the fleet, the customer, the drivers and the record are invented for the demo.</p>
+          <p>One load, seven trucks, four situations. Pick a situation, then assign a truck: the recommended one, or any other that can legally take the load. Everything works from the keyboard. Arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
+          <p>The four situations are scripted, to put a clear recommendation, a near-tie, an override in flight and a hard constraint each in front of you. Inside one, the ranking is worked out from the values on the screen. The fleet, the customer, the drivers and the outcome records are invented for the demo.</p>
+        </div>
         </div>
 
         <div class="ck" id="cockpit">
@@ -318,7 +280,7 @@
             </div>
           </div>
           <noscript>
-            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four principles above describe what it does; the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
+            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four principles below describe what it does; the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
           </noscript>
         </div>
       </div>
@@ -327,14 +289,61 @@
     <section class="case-section build-chapter ground-white">
       <div class="container case-narrow">
         <div class="writing-measure">
+          <h2 id="the-problem">The dispatcher is not short on data</h2>
+          <p>A dispatcher at a fleet that size sees every truck, every driver&rsquo;s hours, every load in the window and every exception, on two or three monitors, all day. When a load comes in, the information needed to place it well is already on the screen. What is scarce is attention. The scenario this prototype assumes, and it is an assumption rather than an observation: about four seconds to weigh five factors against seven trucks, forty times an hour, while the phone rings.</p>
+          <p>So the obvious move is to have the system recommend the truck. That is where &ldquo;add AI&rdquo; is usually pointed, and it is not wrong, but it is pointed at one half of the problem. Producing a ranking is only the beginning. Getting a person to act on it without re-deriving it is the rest. Accuracy matters, and accuracy alone does not tell a dispatcher when a recommendation needs closer review: one that is right 95 times in 100 is still checked 100 times if the dispatcher cannot tell which five to worry about.</p>
+          <p>So the hypothesis this prototype explores is a specific one. Dispatchers can spend less time reconstructing a recommendation when the interface makes its reasons, its limits and the shape of its past failures easy to inspect. The goal is not to eliminate verification; it is to help someone recognize what needs checking, and to leave the rest alone. That is a question about reliance being appropriate rather than about trust in general, and it is not a settled one: explanations have failed to stop people over-relying in some studies and helped in others, mostly where they cut the effort of checking rather than adding to it. An interface can pose the question well. It cannot answer it on its own.</p>
+          <p>The argument in prose is <a href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>. The cockpit above is the same argument as an interface.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-tea">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2 id="the-principles">Four things the interface has to do</h2>
+          <p>Each is a position, and each is a specific thing on the screen above. The copy on this page could be switched off and the four should still be readable from the cockpit alone.</p>
+        </div>
+        <ol class="ck-principles">
+          <li>
+            <h3>Show what went into the call, not just the call.</h3>
+            <p>A ranking is a summary of reasons. Hide the reasons and the dispatcher has to reconstruct them to check the ranking, which is more work than ranking by hand. So the recommendation lists what was weighed, distance to pickup, hours of service left, equipment, the on-time record with this customer, current deadhead, each with its actual value and where it stands against the rest of the fleet available for this load.</p>
+            <p>Those comparisons are not the ranking rule itself, and the card says so: better than the middle of the fleet on a factor is not the same claim as that factor having decided it. Equipment is different again, because a load asks for a type rather than preferring one, so it reads as met or stood in for. There is no composite score, because a score is the one number that cannot be checked against anything.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the factor list in the recommended truck&rsquo;s card, the note under it saying what the comparisons are and are not, and the same columns in the data table.</p>
+          </li>
+          <li>
+            <h3>Express confidence as a record of outcomes, not a number.</h3>
+            <p>&ldquo;87% confident&rdquo; is a claim about the system. &ldquo;Delivered on time on 38 of the last 40 loads like this one&rdquo; is a claim about loads, which a dispatcher can set beside the load in front of them. That is a choice this prototype makes rather than a rule about the world, and which presentation actually helps is a thing to test against a well-built confidence display, not something to settle here.</p>
+            <p>The record has to be read for what it is. An on-time delivery does not establish that the system picked the best truck, since another truck might have delivered on time too, and a late one does not establish that it picked the wrong truck, since a dock can close early on any of them. So the two late loads are the most useful part, and each says what differed. If the misses have a shape, the dispatcher learns the shape, and that is the moment verification becomes selective instead of universal.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the &ldquo;Outcomes on similar loads&rdquo; card, labelled illustrative where it sits, with the late deliveries behind a disclosure and a line under each saying what to watch for.</p>
+          </li>
+          <li>
+            <h3>Make the override cheap, and make it teach.</h3>
+            <p>The dispatcher is the one with the phone call the system cannot hear. Overriding the ranking is one click on any truck that can take the load, and there is no confirmation dialog, because a dialog is a small tax on judgment and the judgment is the point. What is cheap is disagreeing with the ranking. Dismissing a hard requirement is a different act, and the interface does not treat the two alike: a driver without the hours keeps their row and the reason in it, and has no Assign button to press.</p>
+            <p>The absence of a confirmation is a claim about what Assign does here, not a general position on dialogs. In this prototype it stages a choice on one screen and Undo puts it back. Where Assign sends instructions to a driver or a customer, the question becomes whether Undo can still reverse what it started, and a confirmation earns its place at that boundary rather than on the judgment itself. After the override, and only after, a question appears asking why, with the likely reasons listed and room for another, and it says in plain words what happens to the answer. Skipping submits no reason and does not change the assignment.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> Assign on every eligible row and the rule in place of it on one that is not; the optional question above the data table once a truck other than the recommended one is assigned; Undo where Assign was.</p>
+          </li>
+          <li>
+            <h3>Keep the manual path whole.</h3>
+            <p>The recommendation accelerates the decision and never gates it. The whole fleet is on the screen the entire time, with every column the dispatcher would sort by, sortable, and never collapsed behind the suggestion. A truck the system could not rank keeps its row and says why, rather than dropping out of a list that would then be quietly wrong about the fleet. If the recommendation vanished tomorrow, the screen would still be a dispatch screen.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the data table, in every situation and every state.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-white">
+      <div class="container case-narrow">
+        <div class="writing-measure">
           <h2 id="what-next">What I would test next, and where I expect to be wrong</h2>
-          <p>This has not been in front of a dispatcher, and the first session would change it. Three things I would put on the table, and what I expect each to do to the design.</p>
+          <p>This has not been in front of a dispatcher, and the first session would change it. The question it exists to answer is one question: does this interface help dispatchers decide well with less unnecessary checking, and does it do that without more missed constraints and without more bad recommendations accepted? The way I would ask it is a comparison. The data table alone against the table with the recommendation, over matched scenarios: a straightforward choice, a plausible recommendation that is wrong, and a load whose information is missing or out of date. What I would read is the quality of the decision, the time it took, the problems noticed, and the reason given for accepting or overriding. Opening a disclosure is behavior worth recording. It is not by itself evidence of better judgment.</p>
+          <p>Three smaller things I would put on the table, and what I expect each to do to the design.</p>
           <ul>
-            <li><strong>Whether anyone opens the misses.</strong> The thesis rests on the two wrong loads being read. If dispatchers never expand them, the record is a percentage with extra words, and the misses have to move up: into the recommendation line itself, or as the thing that appears when the current load resembles one of them.</li>
+            <li><strong>Whether anyone opens the misses.</strong> The design leans on the two late loads being read. If dispatchers never expand them, the record is a percentage with extra words, and the misses have to move up: into the recommendation line itself, or as the thing that appears when the current load resembles one of them.</li>
             <li><strong>Whether the reasons list is the right list.</strong> Three reasons were guessed. The free-text answers in the first month are the real list, and I would expect one of them to be &ldquo;the customer called,&rdquo; which the system cannot see and should stop pretending to weigh.</li>
-            <li><strong>Whether the tie state is honest or annoying.</strong> Declining to lead is the right behavior for a system that knows its own shape, and it may also be the thing dispatchers hate most at four on a Friday. The test is whether the tradeoff sentence is enough to decide from in four seconds. If it is not, the tie state should show what the dispatcher did last time for this customer, and say that is what it is showing.</li>
+            <li><strong>Whether the tie state is honest or annoying.</strong> Declining to lead is the right behavior for a system that knows its own shape, and it may also be the thing dispatchers hate most at four on a Friday. The test is whether the tradeoff sentence is enough to decide from in the few seconds the work allows. If it is not, the tie state should show what the dispatcher did last time for this customer, and say that is what it is showing.</li>
           </ul>
-          <p>Where I expect to be wrong: the factor list. Five factors was a choice made to keep the card readable. Real dispatchers weigh things this prototype does not name, the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load, and the first thing they will say is that the list is missing the one that decides it. That is the right complaint, and the card is built to take a sixth row.</p>
+          <p>Where I expect to be wrong: the factor list. Five factors was a choice made to keep the card readable. Real dispatchers weigh things this prototype does not name, the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load, and the first thing they will say is that the list is missing the one that decides it. That is the right complaint. Depending on what is missing, the answer may be a sixth row on the card, or a different ranking rule, or a different way of organizing the decision altogether. The first sessions should be free to argue with the structure, not only to fill in the card.</p>
         </div>
       </div>
     </section>
