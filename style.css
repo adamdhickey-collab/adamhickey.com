@@ -494,6 +494,34 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 /* Selected work cards lost their role line, so the tags sat right under
    the title. This is the gap that line used to provide. */
 .case-grid .case-card .tag-row { margin-top: var(--space-md); }
+
+/* --- The self-directed prototype, closing Selected work ------------------
+   It spans the grid rather than taking a column. Five cards in a
+   two-column grid orphans the fifth, and an orphan reads as a case study
+   that ran out of room instead of as the different kind of thing this
+   is: a working demo on invented data under four accounts of client
+   work. Horizontal from 768 up, with the cockpit's own first screen as
+   the picture. The thumb keeps the section's 16/9 -- the source is the
+   1000x1000 square cockpit.mjs captures for the share card, and left at
+   1/1 it made this the tallest thing on the page and put the one card
+   that is not a case study out of rhythm with the four that are. The
+   crop is anchored to the top rather than the middle, so what survives
+   it is the load, the truck the system picked and the factors it
+   weighed, instead of a band cut through the middle of both. Everything
+   else is the card component untouched: the same thumb frame and tilt,
+   the same title ramp, tags and go-line. */
+.case-card--prototype { grid-column: 1 / -1; }
+.case-card--prototype .case-thumb img { object-position: top; }
+.case-card--prototype .case-desc { margin-top: var(--space-xs); }
+@media (min-width: 768px) {
+  .case-card--prototype {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  .case-card--prototype .case-thumb { margin-bottom: 0; }
+}
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
 /* One tag component, two homes: the case study cards and the product
    cards. The products used to set their own middot-separated list, which
