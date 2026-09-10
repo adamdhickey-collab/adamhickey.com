@@ -1,0 +1,157 @@
+/* design-psychology.css -- the Design psychology note, and nothing else.
+ *
+ * WHY ITS OWN FILE, and not style.css or case-study-base.css. The note appears
+ * on two case studies that share no stylesheet. lucy-learns.html loads
+ * style.css and never case-study-base.css; dispatch-complexity.html loads
+ * case-study-base.css and never style.css. A rule written in either is
+ * invisible on the other page. This is the rule color.css states for the
+ * palette, applied one level up: what decides where a rule lives is REACH, not
+ * taxonomy. Only the pages that show a note load this file.
+ *
+ * WHY EVERY PROPERTY IS WRITTEN OUT. For the same reason. The two regimes
+ * disagree about the defaults the note would otherwise inherit -- style.css
+ * sizes h4 at 20px, the Tailwind build does not size it at all -- so a note
+ * that inherited its headline would render at two different sizes on the two
+ * pages and typescale.mjs would be right to say so. Nothing below is a
+ * literal: every size is a step on the fourteen, every space is a --space-*,
+ * every color is a palette token.
+ *
+ * WHY EVERY CHILD SELECTOR IS TWO CLASSES DEEP. Not tidiness -- the first
+ * draft was one class deep and rendered wrong. style.css sets .case-section p
+ * at --text-lg, which is class-and-element and beats a bare .dp-note-body, so
+ * on lucy-learns.html the label came out 18px charcoal instead of 11px sage
+ * while dispatch-complexity.html, which never loads style.css, came out right.
+ * One component, two renderings, and nothing red anywhere. style.css already
+ * says this twice in its own margins -- ".case-section p ... beats a bare
+ * class" at 2073, "Two classes deep, because .build-chapter p is
+ * class-and-element" at 3416. This is the third time; hence the note.
+ *
+ * THE GROUND IS --color-tea-light, not the #EDF1EB the preview proposed. The
+ * two are three points apart per channel and indistinguishable side by side,
+ * and the palette already owns this one and already spends it on exactly this
+ * job: "feature ground: hero card, pull-outs". It is also the ground #56 put
+ * <mark> on, so a marked sentence and a note now agree about what a lifted
+ * surface looks like. Charcoal on it is 12.90:1.
+ *
+ * THE EDGE GOES ALL THE WAY ROUND. A single sage rule down the left was the
+ * other reading of "a restrained green edge", and it cannot have the site's
+ * 20px card radius: curves.mjs exists to catch a partial border on a rounded
+ * surface. Square corners would make the note the one block on either page
+ * that is not --radius-xl. So: the full border, at 1px, in the FILL sage --
+ * accent-deep is 3.80:1 on tea-light, over the 3:1 a boundary answers to, and
+ * accent-text would be the wrong token for a rule.
+ *
+ * No shadow, no transition, no hover on the block itself. The only state here
+ * is the source link's.
+ */
+
+.dp-note {
+  /* Written out rather than inherited, like everything else here: border-box
+     reaches lucy-learns.html from style.css and dispatch-complexity.html from
+     the Tailwind preflight, and a component that renders in both regimes
+     should not depend on two different files agreeing. */
+  box-sizing: border-box;
+  /* The measure, plus the inset it sits in, plus the border. Without this the
+     note is as wide as whatever column it lands in -- 832px on Lucy and
+     1216px on dispatch, which put the same paragraph at 70 and at 110
+     characters a line and made one component read as two. --measure is the
+     site's own answer to that question and says so: 70 characters, at any
+     size, in either family. */
+  max-width: calc(var(--measure) + 2 * var(--space-xl) + 2px);
+  margin: var(--space-2xl) 0;
+  padding: var(--space-xl);
+  background: var(--color-tea-light);
+  border: 1px solid var(--color-accent-deep);
+  border-radius: var(--radius-xl);
+}
+
+/* The marker: the same eye and the same word every time, so the note is
+   recognizable before it is read. The site's own eyebrow, to the letter --
+   sans, 11px, 600, uppercase, --tracking-caps, accent-text -- because that is
+   what a kicker looks like here and a second spelling of one would be a new
+   thing to maintain. 4.90:1 on tea-light. */
+.dp-note .dp-note-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* currentColor, so the eye can never drift from the word beside it. The path
+   is the lucide eye the dispatch page already draws five times in its impact
+   data table -- the site owns this glyph, so the note does not introduce one. */
+.dp-note .dp-note-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The headline does the work: it is the reason to read the note, so it is set
+   as a heading rather than as lead-in copy. 18px is --text-lg, the scale's
+   smallest heading step, which puts it under the h3 it sits beneath and over
+   the body it introduces. */
+.dp-note .dp-note-head {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+
+.dp-note .dp-note-body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+
+/* A footnote, at the footnote size. It names where the thinking comes from
+   without competing with the sentence that matters. */
+.dp-note .dp-note-source {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-muted-gray);
+}
+
+.dp-note .dp-note-source a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Darker on hover, not lighter -- the palette's accent-hover is the step under
+   accent-text for exactly this. The ring is keyboard-only, per the
+   :focus-visible contract site-nav.css states. */
+.dp-note .dp-note-source a:hover { color: var(--color-accent-hover); }
+
+.dp-note .dp-note-source a:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 2px;
+}
+
+/* Below the fold of a phone the note is one column of a narrow page, so it
+   gives back the inset it does not need. --space-lg is the token for a small
+   card's comfortable inset; --space-xl is for a panel. */
+@media (max-width: 767px) {
+  .dp-note { padding: var(--space-lg); }
+}
