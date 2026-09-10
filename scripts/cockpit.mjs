@@ -28,8 +28,14 @@ const browser = await chromium.launch({ executablePath: findChrome() });
 const page = await browser.newPage({ viewport: { width: 960, height: 1200 }, deviceScaleFactor: 2, reducedMotion: 'reduce' });
 await page.goto(`${origin}/prototype/dispatch-cockpit.html`, { waitUntil: 'networkidle' });
 /* The header is fixed, and an element screenshot scrolls the panel under
-   it. The card is of the cockpit, not the site's chrome. */
-await page.addStyleTag({ content: '.site-nav { display: none !important; }' });
+   it. The card is of the cockpit, not the site's chrome -- and the device
+   bezel the page frames the prototype in is site chrome by the same reading.
+   Dropping it is also what keeps the 960 below meaning what it says: the
+   frame insets the panel by its margins, its bezel and the screen's padding,
+   so a capture that left it standing would come back at 768 and quietly
+   recrop the card. The card shows the interface; the page shows the object
+   the interface sits in. */
+await page.addStyleTag({ content: '.site-nav { display: none !important; } .ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; } .ck { padding: 0 !important; }' });
 await page.waitForTimeout(400);
 /* The element, then the square cut from its top in the canvas: a clip on a
    viewport screenshot has to be inside the viewport, and the panel is not. */

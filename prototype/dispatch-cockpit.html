@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:title" content="A dispatch cockpit that shows its work | Adam Hickey" />
   <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +38,7 @@
           "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach.",
           "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
-          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg",
+          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=2",
           "datePublished": "2026-09-10",
           "dateModified": "2026-09-10",
           "author": {
@@ -104,9 +104,9 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910b" />
+  <link rel="stylesheet" href="../style.css?v=20260910c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=2" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=3" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
@@ -254,14 +254,32 @@
     </header>
 
     <section class="case-section build-chapter ground-warm" id="the-cockpit">
-      <div class="container">
+      <div class="container case-narrow">
         <div class="writing-measure">
           <h2>The cockpit</h2>
           <p>One load, seven trucks, four situations. Pick a situation, then assign a truck: the recommended one, or any other that can legally take the load. Everything works from the keyboard. Arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
           <p>The four situations are scripted, to put a clear recommendation, a near-tie, an override in flight and a hard constraint each in front of you. Inside one, the ranking is worked out from the values on the screen. The fleet, the customer, the drivers and the outcome records are invented for the demo.</p>
         </div>
-        </div>
+      </div>
 
+      <!-- The prototype in the site's device chrome, the same object the
+           build write-ups frame their captures in: one --bezel of
+           --device-chrome, the inner radius DERIVED from the outer, and
+           --shadow-device under it. The radius is the laptop lid's 14 and
+           not the phone's 26, because this is a wide screen and 26 on a box
+           this wide reads as a lozenge; style.css authors 14 on
+           .build-laptop for that reason, and the two wide screens on the
+           site take the same corner.
+
+           It is the one thing on the page that leaves the 1280px container.
+           A dispatch cockpit is a monitor-width interface and the argument
+           it makes -- seven trucks and five factors all in reach -- is the
+           argument the width carries, so the frame runs to 1920 and then
+           scales down with the viewport. What it never does is touch the
+           edge: --space-4xl of clear ground on each side above 768, the
+           page gutter below it, where 48 a side would squeeze the fleet
+           data table harder than the prose around it. -->
+      <div class="ck-frame">
         <div class="ck" id="cockpit">
           <p class="ck-visually-hidden" id="ck-tabs-label">Four situations</p>
           <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>

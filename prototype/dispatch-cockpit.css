@@ -122,8 +122,53 @@
   color: var(--color-accent-text);
 }
 
-/* ---------- The cockpit frame ---------- */
-.ck { margin-top: var(--space-2xl); }
+/* ---------- The cockpit frame ----------
+   The prototype is framed rather than set loose on the ground, for the
+   reason style.css gives for .build-phone and .build-laptop: a page that
+   frames its captures in a bezel and shows the live thing as a bare column
+   is showing two ideas of what a screen is. So this is the same object --
+   one --bezel of --device-chrome, --shadow-device under it, and the inner
+   radius DERIVED from the outer rather than authored a second time.
+
+   Two values are authored, both by precedent. --shell-radius is the laptop
+   lid's 14 and not the phone's 26, because 26 on a box this wide reads as a
+   lozenge, which is the argument style.css already makes at .build-laptop.
+   And 1920, because a dispatch cockpit is a monitor-width interface: the
+   fleet data table and the recommendation beside it are the whole point,
+   and the 1280px container puts them in a column.
+
+   The width is the only place this file overrules the page's layout, so it
+   says what it is doing. min() takes the smaller of the cap and the
+   viewport less its margins, which means the frame is 1920 on a monitor and
+   fluid on anything narrower, and never runs to the edge either way. The
+   frame's outer box is the cap plus its own two bezels, so the SCREEN is
+   1920 and the chrome sits outside it. Below 768 the margin drops to the
+   page gutter: 48 a side there is a wider inset than the prose gets, and it
+   squeezes a seven-row data table to buy nothing. */
+.ck-frame {
+  --shell-radius: 14px;
+  width: min(calc(1920px + var(--bezel) * 2), 100% - var(--gutter) * 2);
+  margin: var(--space-3xl) auto 0;
+  padding: var(--bezel);
+  border-radius: var(--shell-radius);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+@media (min-width: 48rem) {
+  .ck-frame { width: min(calc(1920px + var(--bezel) * 2), 100% - var(--space-4xl) * 2); }
+}
+
+/* The screen. It keeps the section's warm ground, so the cockpit is lit the
+   way it was designed and nothing inside it changes contrast by being
+   framed; what the bezel adds is an edge, not a new surface to measure. */
+.ck {
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-warm);
+  padding: var(--space-xl);
+}
+@media (min-width: 48rem) {
+  .ck { padding: var(--space-3xl); }
+}
 .ck-visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

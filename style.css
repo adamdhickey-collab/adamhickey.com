@@ -426,6 +426,12 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
+  /* ...except the device frame's ground shadow, which is chrome and not
+     motion: the blanket above exists to take the tilt's lift off, and it
+     was written when no thumb had a shadow at rest. Restored with the same
+     !important because that is the only thing that beats the line above
+     it. */
+  .case-card--prototype .case-thumb { box-shadow: var(--shadow-device) !important; }
 }
 
 
@@ -526,6 +532,36 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 .case-card--prototype .case-thumb img { object-position: top; }
 .case-card--prototype .case-desc { margin-top: var(--space-xs); }
+
+/* The one thumbnail on the page that is a SCREEN, so it gets the site's
+   device chrome rather than the bare rounded tile the four case studies
+   take. The four above are photographs, logos and artwork -- a bezel around
+   a photograph is a frame around a frame -- and this is a capture of an
+   interface, which is exactly what --bezel and --device-chrome exist for.
+   It also does the card a favor: the thumb is a pale interface on the pale
+   tea-light panel #65 set this card on, and until the chrome went round it
+   the tile had no edge to speak of against it.
+
+   Same object as .build-phone and .build-laptop and same as .ck-frame on
+   the prototype page itself, so the cockpit is framed the same way in both
+   places a reader meets it: one --bezel of --device-chrome, the inner
+   radius DERIVED from the outer, --shadow-device underneath. The radius is
+   the laptop's 14 rather than the card's --radius-xl for the reason
+   style.css gives at .build-laptop -- this is a wide screen, and a phone's
+   26 on one reads as a lozenge.
+
+   Nothing about the card's box changes. --bezel is padding on a border-box
+   element under an aspect-ratio, so the tile is the same height in the grid
+   and the tilt still tracks the same rectangle; the 8px comes off the
+   picture, not off the layout. */
+.case-card--prototype .case-thumb {
+  --shell-radius: 14px;
+  padding: var(--bezel);
+  border-radius: var(--shell-radius);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+.case-card--prototype .case-thumb img { border-radius: calc(var(--shell-radius) - var(--bezel)); }
 @media (min-width: 768px) {
   .case-card--prototype {
     display: grid;
