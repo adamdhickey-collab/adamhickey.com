@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 26 pages in eight families |
+| **What this is** | The site: 27 pages in eight families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,8 +119,8 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the three build write-ups, the seven writing pages, the design system page and the prototype page load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-six pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the three build write-ups, the eleven writing pages, the design system page and the prototype page load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-seven pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `case-study/*.html` | Nine case studies: four client engagements, two career-arc pages and three build write-ups |
@@ -128,11 +128,11 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures its first screen for the share card |
-| `writing/*.html` | The index and nine articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
+| `writing/*.html` | The index and ten articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-six. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-seven. `seo.mjs` holds it to all four |
 | `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -157,7 +157,7 @@ loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-six pages in eight families, all hand-written HTML with no include step
+Twenty-seven pages in eight families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -166,11 +166,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all twenty-six pages, so a
-change to the shell is a change to twenty-six files.
+email icon and the skip link are hand-written into all twenty-seven pages, so a
+change to the shell is a change to twenty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-six pages
+base ladder, and both regimes read it from `type.css`, which all twenty-seven pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -181,7 +181,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 3 | A | Products built end to end, alone. |
 | Engagements | 4 | A | What you can hire, one page each. |
-| Writing | 10 | A | An index and nine articles, each answering a question a buyer asks before knowing the name. |
+| Writing | 11 | A | An index and ten articles, each answering a question a buyer asks before knowing the name. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work. |
 
@@ -207,7 +207,7 @@ carry no Tailwind.
 `engagement/ai-product-prototype.html` until #24; see "Two live URLs now
 404".
 
-**Writing** -- `writing/index.html` and the nine articles beside it. No fact
+**Writing** -- `writing/index.html` and the ten articles beside it. No fact
 block; an article has no four facts to state. The kicker, the title and a dek
 that is the article's whole answer in three or four sentences, then the essay
 on the `.writing-measure` column, then one line naming the engagement it
@@ -340,7 +340,7 @@ prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
 result. At #62 the four browser checks measure 3335 resting colors, 1627
 state rules, 14172 type sizes and 7871 elements checked for a partial
-border, across twenty-seven pages: the twenty-six of the site and `404.html`, which
+border, across twenty-eight pages: the twenty-seven of the site and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
 verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
 stopped being measured.
@@ -371,7 +371,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-twenty-six live addresses, each dated. Every case study's and every article's
+twenty-seven live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page

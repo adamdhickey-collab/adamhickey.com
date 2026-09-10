@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What Microsoft&rsquo;s HAX Framework Gets Right About Enterprise AI | Adam Hickey</title>
+  <meta name="description" content="HAX treats AI as a participant in the interaction rather than a feature added to a product: something with capabilities, limits, failures and a history a person has to be able to read. Its eighteen guidelines are organized by when they matter, which is the right shape for software where a wrong answer has consequences." />
+  <link rel="canonical" href="https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html" />
+  <meta property="og:title" content="What Microsoft&rsquo;s HAX Framework Gets Right About Enterprise AI | Adam Hickey" />
+  <meta property="og:description" content="HAX treats AI as a participant in the interaction rather than a feature added to a product: something with capabilities, limits, failures and a history a person has to be able to read. Its eighteen guidelines are organized by when they matter, which is the right shape for software where a wrong answer has consequences." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-microsofts-hax-framework-gets-right-about-enterprise-ai.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the ten articles and the case
+       studies name one person rather than nineteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html#article",
+          "headline": "What Microsoft's HAX framework gets right about enterprise AI",
+          "description": "HAX treats AI as a participant in the interaction rather than a feature added to a product: something with capabilities, limits, failures and a history a person has to be able to read. Its eighteen guidelines are organized by when they matter, which is the right shape for software where a wrong answer has consequences.",
+          "url": "https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html",
+          "image": "https://adamhickey.com/img/og/what-microsofts-hax-framework-gets-right-about-enterprise-ai.jpg",
+          "datePublished": "2026-09-10",
+          "dateModified": "2026-09-10",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Human-AI interaction"
+            },
+            {
+              "@type": "Thing",
+              "name": "AI product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What Microsoft's HAX framework gets right about enterprise AI",
+              "item": "https://adamhickey.com/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var LEAD = 0.08;
+        var finish = function () {
+          if (done) return;
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing');
+          if (v.parentNode) v.parentNode.removeChild(v);
+        };
+        var settle = function () {
+          if (done) return;
+          el.classList.add('logo-settling');
+          setTimeout(finish, 200);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <h1 class="case-title">What Microsoft&rsquo;s HAX framework gets right about enterprise AI</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">HAX treats AI as a participant in the interaction rather than a feature added to a product: something with capabilities, limits, failures and a history a person has to be able to read. Its eighteen guidelines are organized by when they matter &mdash; before the first interaction, during use, when the system is wrong, and over time &mdash; which is the right shape for software where a wrong answer has consequences. What it points at is not more confidence in the machine but confidence that is calibrated, and that is an interface problem before it is a model problem.</p>
+        <!-- The feature: one drawing per article, in the engagement set&rsquo;s
+             style, of the argument rather than the topic. Under the dek so
+             the answer is read before the picture is, and inside the hero
+             so it sits on the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.webp?v=1" width="1600" height="900" alt="Over a person&rsquo;s shoulder at a desk. One screen carries an assisted decision, with a flagged step in a process diagram and an action still unpressed, and four smaller panels cycle around it on the wall: a first introduction, someone reading the evidence, a correction being made, and a record of how the system has done over time." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>The distance between an answer and an action</h2>
+          <p>The hardest part of putting AI into enterprise software is not getting the system to produce an answer. It is deciding what a person needs to understand before that answer becomes useful.</p>
+          <p>If a system recommends a truck, names the likely cause of a failed transaction, summarizes an exception or proposes the next step in a workflow, the interface has to do more than display the output. It has to help someone decide what to do with it.</p>
+          <p>Microsoft&rsquo;s <a href="https://www.microsoft.com/en-us/haxtoolkit/" target="_blank" rel="noopener noreferrer">Human-AI eXperience Toolkit</a> collects eighteen guidelines for designing that interaction, drawn from a body of research rather than from one team&rsquo;s taste. What I find useful about it is that it does not treat AI as a visual effect, or as a chat window added to an existing product.</p>
+          <p>It treats AI as a participant in the interaction. That participant has capabilities. It has limits. It makes mistakes. It learns. <mark>And the person using the product has to build a reasonably accurate picture of all four.</mark></p>
+          <p>For the kind of enterprise software I have spent most of my career on, that is a far more useful starting point than asking where the sparkle icon goes.</p>
+
+          <h2>The goal is not trust</h2>
+          <p>&ldquo;Building trust&rdquo; is the phrase that turns up in almost every conversation about AI products, and I think it is the wrong target. I do not want someone to trust an AI system more. I want them to trust it accurately.</p>
+          <p>Take a dispatcher assigning a load. The system recommends T-118. If the interface says only that, the dispatcher has a problem: accept it because the computer said so, or repeat the whole investigation they would have done without it. The first is overreliance. The second saves nobody any time.</p>
+          <p>Now show that T-118 is thirty-eight miles from pickup, has 8.4 hours of service left, is the dry van the load needs, and has been on time with this customer eleven times out of twelve. The dispatcher is no longer being asked to trust a score. They are being handed evidence, and evidence is a different relationship.</p>
+          <p>That is what the guidelines keep circling: make clear what the system can do, show context relevant to the task, explain why it behaved the way it did, and help people understand where it stops. Not maximum confidence. Calibrated confidence.</p>
+
+          <h2>Before the first interaction: name what the system is for</h2>
+          <p>The first moment that matters happens before the AI does anything at all. The person needs some idea of what it is capable of, and this is easy to skip. We ship a feature and let people discover its boundaries by running into them &mdash; which is affordable in a consumer app and expensive in software where the mistakes have consequences.</p>
+          <p>If a system is working through failed supply-chain transactions, the person needs to know whether it is summarizing existing evidence, predicting a cause, recommending a fix, or actually doing something. Those are four different levels of responsibility.</p>
+          <p>I have started thinking about AI functionality as a progression: retrieve, summarize, predict, recommend, act. Retrieving five relevant records needs very little explanation. Summarizing them introduces interpretation. Predicting a cause introduces uncertainty. Recommending an action requires judgment. Taking it creates consequences.</p>
+          <p>The further right you go, the more the interface has to carry: evidence, control, confirmation, recovery. That progression should be a design input, not something discovered after launch.</p>
+
+          <h2>During interaction: show enough of the work</h2>
+          <p>This is where the <a href="../prototype/dispatch-cockpit.html">dispatch cockpit prototype</a> I built connects most directly to the framework. It explores one question: what would have to be true before an experienced dispatcher stopped checking every recommendation?</p>
+          <p>My answer was not a better confidence percentage. It was legibility. The recommendation should expose the few factors that actually bear on the decision, and the dispatcher should be able to see why one truck beat another without reassembling it from three screens.</p>
+          <p>Which is why I am wary of composite scores. A recommendation labelled &ldquo;87% confident&rdquo; looks scientific and helps surprisingly little. Eighty-seven percent of what? Act at 87 and investigate at 82?</p>
+          <p>A record of what actually happened tends to be more useful. The top-ranked truck delivered on time on thirty-eight of the last forty loads like this one &mdash; and here are the two it did not. If those two misses share a recognizable feature, the person has learned something about the edge of the system. That is worth more than asking them to believe a number, because the system has started to become predictable.</p>
+
+          <h2>When the AI is wrong: make disagreement cheap</h2>
+          <p>This may be the part that matters most in enterprise work. The AI will be wrong. Good AI design assumes that from the start rather than treating a wrong answer as an unusual failure state, which is why the guidelines devote a whole group to correction, dismissal and recovery.</p>
+          <p>So the prototype makes overriding the recommendation easy. The dispatcher picks another truck. There is no warning banner and no message asking whether they are absolutely sure they want to ignore the system.</p>
+          <p>That is deliberate. The dispatcher may know something the data does not hold. A customer called. A driver needs to get home. A dock has a restriction that looks normal in the database and is not normal in reality. <mark>That knowledge is not an obstacle in the way of automation. It is part of the system.</mark></p>
+          <p>Disagreement should therefore be inexpensive. The interface can ask why afterwards, and the answer may reveal a factor the ranking never had. But the AI should not become something the expert has to defeat.</p>
+          <p>The same holds anywhere a system proposes a cause for an operational failure: the person investigating needs to be able to inspect the evidence, reject the suggestion, take another path, or escalate. A human-in-the-loop design is not achieved by putting an Approve button at the end. The human needs enough information to exercise judgment.</p>
+
+          <h2>Over time: let people learn where it fails</h2>
+          <p>The last part of the relationship is the one conventional usability work tends not to reach. People and AI systems develop a relationship over time. A user notices where the system is strong, and notices where it struggles.</p>
+          <p>Suppose a dispatcher works out that recommendations are reliable for routine regional runs and weaker when driver home-time is in play. That is valuable. The instinct is to hide the weakness until the model improves; the better move is to help them see it, because now they know when to move fast and when to slow down.</p>
+          <p>This is why I think some AI products should expose their history. Not a technical audit log of model events. A useful history: what did the system recommend, what happened, when did a person choose differently, and where does this kind of recommendation tend to fail?</p>
+          <aside class="dp-note" aria-labelledby="dp-model-label">
+            <p class="dp-note-label" id="dp-model-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">People build a model of the machine whether or not you help them</h4>
+            <p class="dp-note-body">Anyone who uses a system repeatedly forms a theory of when it can be believed. That theory gets built either way; the only question is whether it is built from evidence the product offered or from whatever the person happened to notice. A product that shows where its recommendations have failed is not admitting weakness. It is supplying the raw material for a theory that turns out to be right, which is the whole of what appropriate reliance is made of.</p>
+            <p class="dp-note-source">The eighteen guidelines, with examples and the research behind each: <a href="https://www.microsoft.com/en-us/haxtoolkit/ai-guidelines/" target="_blank" rel="noopener noreferrer">Microsoft, Guidelines for Human-AI Interaction</a></p>
+          </aside>
+
+          <h2>What this changes about the design work</h2>
+          <p>For most of my career, enterprise UX has meant making complicated systems understandable. Where did this status come from? What happens if I change it? Which system owns this record? Who is allowed to act? What happens downstream?</p>
+          <p>AI does not replace those questions. It adds a layer. How certain is this? What evidence produced it? Is this fact retrieved or inferred? What does the system not know? Can the person correct it? Can the action be reversed? Should the system be making this call at all?</p>
+          <p>Those are interaction-design questions, and they need product, engineering, data and domain expertise in the room much earlier than a handoff allows. The designer&rsquo;s job moves away from arranging screens after the system has been defined, and toward helping the team define the relationship between human judgment and machine capability.</p>
+
+          <h2>Why the framework is worth having</h2>
+          <p>I did not start the prototype by working through eighteen guidelines. I started with an operational question: a recommendation can be technically excellent and still save nobody any time if it gets verified every time. From there the work moved toward most of the same principles on its own &mdash; show the capabilities, show the evidence, communicate uncertainty, allow correction, support recovery, learn over time.</p>
+          <p>Finding the framework afterwards was useful because it put those instincts inside a much larger body of research. That matters. Design judgment should not be entirely personal preference, and a shared vocabulary is what lets a team argue with a design instead of around it.</p>
+          <p>Instead of &ldquo;this recommendation doesn&rsquo;t feel trustworthy,&rdquo; the question becomes: have we shown what this person needs in order to judge it? Instead of &ldquo;should we add a warning?&rdquo;: what happens when this is wrong, and how does someone recover? Instead of &ldquo;how do we get people to adopt it?&rdquo;: what does the system have to demonstrate before someone can safely stop checking its work?</p>
+          <p>Those are better conversations.</p>
+
+          <h2>The interesting work sits between the answer and the action</h2>
+          <p>AI is quickly becoming good at producing answers, which makes the space around the answer more important rather than less. Something still has to decide what evidence belongs beside it, separate what the system knows from what it inferred, carry uncertainty without drowning the reader in it, judge when automation is appropriate, keep a person&rsquo;s ability to disagree intact, and leave a safe path forward when the thing gets it wrong.</p>
+          <p>That gap between an AI output and a consequential human action is one of the most interesting problems in product design right now. HAX gives us a serviceable way to examine it. The principle underneath is simpler: <mark>do not design AI so that people trust it. Design it so that people can tell when they should.</mark></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">The working version of this argument: <a href="../prototype/dispatch-cockpit.html">A dispatch cockpit that shows its work</a>, a self-directed prototype on synthetic data, where the factors, the record and the override are all on one screen. The account this draws on: <a href="../case-study/dispatch-complexity.html">One real-time view of a 450+ truck fleet</a>, the dispatch work at Midwest Couriers that the prototype is a separate exploration of. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
+        <a class="build-next" href="designing-for-the-moment-the-workflow-breaks.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">Designing for the moment the workflow breaks &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

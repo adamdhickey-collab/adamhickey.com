@@ -61,6 +61,7 @@ const CARDS = {
   'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
   'designing-for-the-moment-the-workflow-breaks':          { kicker: 'Writing', title: 'Designing for the moment the workflow breaks',                  image: 'img/writing/designing-for-the-moment-the-workflow-breaks.webp' },
   'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
+  'what-microsofts-hax-framework-gets-right-about-enterprise-ai': { kicker: 'Writing', title: 'What Microsoft’s HAX framework gets right about enterprise AI',    image: 'img/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.webp' },
   'how-i-move-a-complex-workflow-from-ambiguity-to-release': { kicker: 'Writing', title: 'How I move a complex workflow from ambiguity to release',     image: 'img/writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.webp' },
 };
 
