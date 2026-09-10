@@ -25,7 +25,9 @@ const QUALITY = 0.82;
 const chromium = loadChromium('cockpit.mjs');
 const { server, origin } = await serve(root);
 const browser = await chromium.launch({ executablePath: findChrome() });
-const page = await browser.newPage({ viewport: { width: 960, height: 1200 }, deviceScaleFactor: 2, reducedMotion: 'reduce' });
+/* 1040, not 960: the panel keeps its 960 of content and takes 40 of ground
+   each side inside the frame, so the capture does not run to the bezel. */
+const page = await browser.newPage({ viewport: { width: 1040, height: 1200 }, deviceScaleFactor: 2, reducedMotion: 'reduce' });
 await page.goto(`${origin}/prototype/dispatch-cockpit.html`, { waitUntil: 'networkidle' });
 /* The header is fixed, and an element screenshot scrolls the panel under
    it. The card is of the cockpit, not the site's chrome -- and the device
@@ -35,7 +37,16 @@ await page.goto(`${origin}/prototype/dispatch-cockpit.html`, { waitUntil: 'netwo
    so a capture that left it standing would come back at 768 and quietly
    recrop the card. The card shows the interface; the page shows the object
    the interface sits in. */
-await page.addStyleTag({ content: '.site-nav { display: none !important; } .ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; } .ck { padding: 0 !important; }' });
+await page.addStyleTag({ content: [
+  '.site-nav { display: none !important; }',
+  '.ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; }',
+  '.ck { padding: 0 !important; }',
+  /* The rail is the page explaining the cockpit; the card is the cockpit.
+     The numbered badges are the rail's, so they go with it. */
+  '.ck-rail { display: none !important; }',
+  '[data-callout]::before { display: none !important; }',
+  '.ck-stage { display: block !important; margin: 0 !important; padding: 40px !important; }',
+].join(' ') });
 await page.waitForTimeout(400);
 /* The element, then the square cut from its top in the canvas: a clip on a
    viewport screenshot has to be inside the viewport, and the panel is not. */

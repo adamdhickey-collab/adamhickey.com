@@ -39,6 +39,32 @@
  * class-and-element and would otherwise size the cockpit's paragraphs at
  * --text-lg on reading leading. style.css says this in its own margins; this
  * is the same lesson, applied.
+ *
+ * HIERARCHY FROM GROUNDS, NOT FROM NEW COLOR. Until #67 every zone was the
+ * same white card on the same warm ground with the same 1px rule, so nothing
+ * said which of them was the answer. Now the recommendation sits on
+ * tea-light -- COLOR.md's own feature ground, "hero card, pull-outs" -- with
+ * the load above it and the fleet below it still white on warm: context,
+ * answer, reference, told apart by ground alone. The status line moved to
+ * muted-light for the same reason, so it stops being the color of the zone
+ * it sits under. The two rules above still hold: every ground is also a
+ * word, and no token was added.
+ *
+ * ICONS, NOT GLYPHS. Direction and state were text glyphs -- a triangle, a
+ * tick, a dash -- in muted-gray at the smallest size, which made the most
+ * useful signal on the card the quietest thing on it. They are inline SVG
+ * now, in the idiom the site header already uses, with the word still beside
+ * every one. Helps is sage; hurts is charcoal, the darkest ink, because it is
+ * the one to go and check; neutral is muted-gray.
+ *
+ * THE RAIL. A column beside the cockpit that says, for the situation on
+ * screen, what the point is, three things to look at, and one thing to try.
+ * Numbered badges on the cockpit match the numbers in the rail, and change
+ * with the situation. It is a rail and not a run of popovers because a
+ * reader skimming a portfolio will not click Next seven times, a sequence
+ * loses the thread the moment one is missed, and popovers are script-applied
+ * state for states.mjs to measure; a column is prose. It is also the page's
+ * own argument applied to itself: evidence beside the answer.
  */
 
 /* ---------- The hero's disclosure ----------
@@ -169,6 +195,124 @@
 @media (min-width: 48rem) {
   .ck { padding: var(--space-3xl); }
 }
+/* ---------- The stage: rail beside cockpit ----------
+   One column until 64rem, the rail above; two from there, the rail a fixed
+   measure on the left and sticky, because the cockpit is tall and the notes
+   are about what is on screen now. --nav-height is the shell's, so the rail
+   parks under the fixed header rather than behind it. */
+.ck-stage {
+  display: grid;
+  /* minmax(0, 1fr) and not the implicit auto: the fleet's data table has a
+     min-width of its own, and an auto column would grow to it and carry the
+     whole cockpit past the frame. The wrap scrolls; the column does not. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+@media (min-width: 64rem) {
+  .ck-stage {
+    grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .ck-rail {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-lg));
+  }
+}
+.ck .ck-rail-h {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+.ck-callouts {
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+.ck-callout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: start;
+}
+.ck .ck-callout-head {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-callout-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-rail-try {
+  margin: var(--space-lg) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-xl);
+  background: var(--color-tea-light);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-rail-try:empty { display: none; }
+
+/* The badge: the number in the rail and the number on the cockpit are one
+   object. Warm on accent-text is 5.32:1. On the cockpit it hangs off the
+   target's top-left corner, half outside, which is why every target is
+   positioned and why the fleet has a wrapper with no overflow of its own. */
+.ck-badge,
+[data-callout]::before {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  color: var(--color-warm);
+  font-variant-numeric: tabular-nums;
+}
+[data-callout] { position: relative; }
+[data-callout]::before {
+  content: attr(data-callout);
+  position: absolute;
+  top: calc(-1 * var(--space-sm));
+  left: calc(-1 * var(--space-sm));
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--color-warm);
+}
+/* On a line of text the corner is the first two letters, so the headline
+   and the dek take the badge inline, at the start of the line. */
+.ck .ck-reco-h[data-callout]::before,
+.ck .ck-reco-dek[data-callout]::before {
+  position: static;
+  margin-right: var(--space-xs);
+  vertical-align: 0.15em;
+  box-shadow: none;
+}
+
+/* Inline icons: the header's idiom, sized to the text they sit in. */
+.ck-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+
 .ck-visually-hidden {
   position: absolute;
   width: 1px; height: 1px;
@@ -181,35 +325,41 @@
 
 /* The four situations, as tabs. A selected tab is heavier and carries a
    charcoal rule under it; the ring on focus is the site's. */
+/* The four situations, as a segmented control. They are the demo's primary
+   control and were its lightest element. Selected is charcoal with warm
+   text, 14.02:1; the site's actions are sage, so navigating and acting are
+   two colors. The hover wash is the one .ck-btn-quiet already uses, and it
+   is scoped to the tabs that are not selected: the selected one is charcoal
+   under warm text, and a wash forced onto it composites to 1.12:1, which
+   states.mjs is right to refuse even though the cascade never shows it. */
 .ck-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 var(--space-lg);
-  border-bottom: 1px solid var(--color-rule);
+  gap: var(--space-2xs);
 }
 .ck .ck-tab {
   appearance: none;
   background: none;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  padding: var(--space-sm) var(--space-2xs);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
   cursor: pointer;
-  transition: border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
 }
-.ck .ck-tab:hover { border-bottom-color: var(--color-rule); }
+.ck .ck-tab:not([aria-selected="true"]):hover { background: var(--wash-on-light-hover); }
 .ck .ck-tab[aria-selected="true"] {
   font-weight: var(--weight-semibold);
-  border-bottom-color: var(--color-charcoal);
+  background: var(--color-charcoal);
+  border-color: var(--color-charcoal);
+  color: var(--color-warm);
 }
 .ck .ck-blurb {
-  margin: var(--space-md) 0 0;
-  max-width: var(--measure);
+  margin: 0;
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
@@ -220,8 +370,8 @@
    recommendation is the only thing that goes side by side. */
 .ck-panel {
   display: grid;
-  gap: var(--space-lg);
-  margin-top: var(--space-xl);
+  gap: var(--space-xl);
+  min-width: 0;
 }
 
 /* A white card is the cockpit's surface on the section's warm ground. */
@@ -284,7 +434,7 @@
   line-height: var(--leading-tight);
   color: var(--color-charcoal);
 }
-.ck-rule-glyph { font-size: var(--text-xl); line-height: 1; vertical-align: -0.05em; }
+.ck-rule-glyph { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.25em; margin-right: var(--space-2xs); }
 .ck .ck-rule-text {
   margin: 0;
   max-width: var(--measure);
@@ -293,12 +443,22 @@
   color: var(--color-charcoal);
 }
 
-/* ---------- The recommendation ---------- */
+/* ---------- The recommendation ----------
+   The answer zone: tea-light, the feature ground, with the white cards on
+   it. Its inks are warm's -- charcoal 12.90, muted-gray 5.44, accent-text
+   4.90 -- so nothing inside changes color to sit here. A kicker names what
+   the zone is before the headline says what it says. */
 .ck-reco { display: grid; gap: var(--space-lg); }
+.ck-lead {
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-tea-light);
+}
+.ck .ck-lead-kicker { margin: 0 0 var(--space-2xs); }
 .ck .ck-reco-h {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-normal);
@@ -383,12 +543,20 @@
   text-align: right;
 }
 .ck .ck-factor-dir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
   min-width: 4.5rem;
   font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
   text-align: right;
 }
+.ck .ck-factor-dir[data-dir="helps"],
+.ck .ck-factor-dir[data-dir="meets"] { color: var(--color-accent-text); }
+.ck .ck-factor-dir[data-dir="hurts"] { color: var(--color-charcoal); }
 .ck .ck-factor-note {
   margin: var(--space-sm) 0 0;
   font-size: var(--text-xs);
@@ -490,7 +658,7 @@
   margin: 0;
   padding: var(--space-sm) var(--space-xl);
   border-radius: var(--radius-xl);
-  background: var(--color-tea-light);
+  background: var(--color-muted-light);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
@@ -736,7 +904,7 @@
    Cards give back the inset a panel takes; the table keeps its width and
    scrolls in its wrapper. */
 @media (max-width: 599px) {
-  .ck-card, .ck-load, .ck-why, .ck-rule, .ck-confidence, .ck-also { padding: var(--space-md) var(--space-lg); }
+  .ck-card, .ck-load, .ck-why, .ck-rule, .ck-confidence, .ck-also, .ck-lead { padding: var(--space-md) var(--space-lg); }
   .ck .ck-status { padding: var(--space-sm) var(--space-lg); }
   .ck-load-facts { grid-template-columns: minmax(0, 1fr); }
   .ck-factor { grid-template-columns: minmax(0, 1fr) auto; }
