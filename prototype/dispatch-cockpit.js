@@ -14,7 +14,8 @@
  *
  * THE FOUR THINGS IT HAS TO SHOW, each in one place:
  *   1. what went into the call        -> renderReco(), the factor list
- *   2. confidence as a record         -> renderConfidence(), held/of + the misses
+ *   2. confidence as a record of outcomes -> renderConfidence(), held/of + the
+ *                                        late loads and what differed
  *   3. an override that is cheap      -> assign() and renderWhy()
  *   4. the manual path, always whole  -> renderTable(), never collapsed
  *
@@ -137,7 +138,7 @@
       'The recommended truck is needed for another load',
       'The hours or the location shown are wrong',
     ],
-    whatHappens: 'Your reason is stored with the assignment, where anyone opening the load can read it. Nothing about the ranking changes on its own. If the same reason comes up three times in a month for one customer, that customer’s factors go to a person for review. Skipping records nothing.',
+    whatHappens: 'Your reason is stored with the assignment, where anyone opening the load can read it. Nothing about the ranking changes on its own. If the same reason comes up three times in a month for one customer, that customer’s factors go to a person for review. Skipping submits no reason and does not change the assignment.',
   };
 
   /* =========================================================================
@@ -221,10 +222,13 @@
     state.tie = ordered.length > 1 && (ordered[0].score - ordered[1].score) < DATA.tieMargin;
   }
 
-  /* Direction of a factor for one truck: helps, hurts or neither, against
-     the fleet's middle. Shown as a word and a glyph, never as a color. */
+  /* Direction of a factor for one truck: where it stands against the middle
+     of the fleet available for this load. Shown as a word and a glyph, never
+     as a color. Equipment is not a comparison -- the load asks for a type and
+     a truck either is it or is standing in for it -- so it answers in its own
+     words rather than borrowing helps and hurts. */
   function direction(t, f) {
-    if (f.key === 'equip') return t.equip === DATA.load.equipment ? 'helps' : 'hurts';
+    if (f.key === 'equip') return t.equip === DATA.load.equipment ? 'meets' : 'stands in';
     if (f.key === 'onTime' && !t.onTime[1]) return 'neutral';
     const d = t.norm[f.key] - state.mid[f.key];
     return d > 0.08 ? 'helps' : d < -0.08 ? 'hurts' : 'neutral';
@@ -288,14 +292,15 @@
   function factorRows(t) {
     return `<ul class="ck-factors">${FACTORS.map((f) => {
       const d = direction(t, f);
-      const glyph = d === 'helps' ? '&#9650;' : d === 'hurts' ? '&#9660;' : '&#8211;';
+      const glyph = d === 'helps' ? '&#9650;' : d === 'hurts' ? '&#9660;'
+        : d === 'meets' ? '&#10003;' : '&#8211;';
       return `<li class="ck-factor">
         <span class="ck-factor-name">${esc(f.label)}</span>
         <span class="ck-factor-value">${esc(f.unit(t))}</span>
         <span class="ck-factor-dir"><span aria-hidden="true">${glyph}</span> ${d}</span>
       </li>`;
     }).join('')}</ul>
-    <p class="ck-factor-note">Helps and hurts are against the middle of the fleet on that factor. No composite score is shown because none would tell you which of these to check.</p>`;
+    <p class="ck-factor-note">Helps and hurts compare this truck with the middle of the fleet available for this load. They say where it stands on a factor, not how much that factor moved the ranking. Equipment is met or stood in for, not compared. No composite score is shown because none would tell you which of these to check.</p>`;
   }
 
   function renderConfidence() {
@@ -304,12 +309,15 @@
     const lead = tie
       ? `When the top two were this close, the one ranked first delivered on time <strong>${r.held} of ${r.of}</strong> times. Near a coin flip, so it is not picking.`
       : `The top-ranked truck delivered on time on <strong>${r.held} of the last ${r.of}</strong> loads like this one.`;
+    const late = r.of - r.held;
+    const n = r.misses.length === 2 ? 'two' : r.misses.length;
     return `<div class="ck-confidence">
-      <h4 class="ck-h">How often this has held</h4>
+      <h4 class="ck-h">Outcomes on similar loads</h4>
       <p class="ck-conf-line">${lead}</p>
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
+      <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
       <details class="ck-misses">
-        <summary>${r.misses.length === r.of - r.held ? `The ${r.misses.length === 2 ? 'two' : r.misses.length} it got wrong` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${r.of - r.held} it got wrong, most recently`}</summary>
+        <summary>${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</summary>
         <ol class="ck-miss-list">${r.misses.map((m) => `<li>
           <p class="ck-miss-what"><span class="ck-miss-load">${esc(m.load)}</span> ${esc(m.what)}</p>
           <p class="ck-miss-tell"><span class="ck-label">What to watch for:</span> ${esc(m.tell)}</p>
@@ -534,7 +542,7 @@
   function undo() {
     const was = state.assigned;
     state.assigned = null; state.why = null; state.answered = null;
-    render(`Assignment of ${was} undone. Nothing was recorded.`);
+    render(`Assignment of ${was} undone. No reason was submitted.`);
   }
 
   /* The two ways out of the question both re-render it away from under the
@@ -549,7 +557,7 @@
 
   function skip() {
     state.why = null;
-    render('Skipped. The assignment stands and nothing was recorded.');
+    render('Skipped. The assignment stands and no reason was submitted.');
     const undo = root.querySelector('[data-undo]');
     if (undo) undo.focus();
   }
