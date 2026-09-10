@@ -133,28 +133,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Twenty-six pages in eight families',
-    n: 26, what: 'pages', of: () => PAGES.length },
+    says: 'Twenty-seven pages in eight families',
+    n: 27, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 26 pages in eight families',
-    n: 26, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 27 pages in eight families',
+    n: 27, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Twenty-six pages in eight families',
+    says: 'Twenty-seven pages in eight families',
     n: 8, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Twenty-six pages in eight families',
-    n: 26, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Twenty-seven pages in eight families',
+    n: 27, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all twenty-six pages',
-    n: 26, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all twenty-seven pages',
+    n: 27, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all twenty-six pages',
-    n: 26, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all twenty-seven pages',
+    n: 27, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -162,20 +162,20 @@ const CLAIMS = [
      where the prose said there was none is the reason to enter claims rather
      than trust that someone did. */
   { doc: 'design-system/index.html',
-    says: 'Twenty-six pages, and the only edition',
-    n: 26, what: 'pages, as the editions list states them', of: () => PAGES.length },
+    says: 'Twenty-seven pages, and the only edition',
+    n: 27, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Sixteen of them',
     n: 16, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by twenty pages',
-    n: 20, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty-one pages',
+    n: 21, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all twenty-six',
-    n: 26, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all twenty-seven',
+    n: 27, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 ];
 
 if (PAGES.length < 5) {
