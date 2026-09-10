@@ -364,8 +364,11 @@ copy of the site.
 
 Since #32 the `<title>` of the homepage and the four engagement pages is
 written in the words a buyer types before knowing the name, "Enterprise
-Design System Consultant" rather than "Design System Foundation", while the
-h1 keeps the page's own name. The description and the Person's `knowsAbout`
+Design Systems for Product Teams" rather than "Design System Foundation",
+while the h1 keeps the page's own name. Those titles name the work rather
+than the working arrangement: three of them ended in "Consultant", which is
+the one word a hiring manager reads as a permanent commitment to consulting,
+and every head term survives without it. The description and the Person's `knowsAbout`
 say the same five things the practice wants to be found for: complex
 enterprise software, enterprise design systems, legacy modernization, AI
 product prototyping, embedded senior product design. `seo.mjs` holds each
