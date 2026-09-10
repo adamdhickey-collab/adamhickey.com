@@ -111,7 +111,16 @@
   $$('div.w-16.h-1').forEach(function (b) { reg(b, 'cm-bar', { span: 0.38 }); });
   $$('main h2[id]').forEach(function (h) { reg(h, 'cm-rise-lg', { span: 0.38, lead: 0.05 }); });
   $$('main h3').forEach(function (h) { if (!guarded(h)) reg(h, 'cm-rise', { span: 0.32 }); });
-  $$('main p').forEach(function (p) { if (!guarded(p)) reg(p, 'cm-rise-sm', { span: 0.22 }); });
+  /* The Design psychology note sits out the reveal. Its three paragraphs
+     are prose by tag and would each rise on their own, which is both an
+     animation the component is specified not to have and a measurement
+     hole: resting.mjs skips an element at opacity 0, so a note waiting
+     below the fold would have gone unmeasured and the check would still
+     have said green. It also kept the note from matching itself on
+     lucy-learns.html, which never loads this file. */
+  $$('main p').forEach(function (p) {
+    if (!guarded(p) && !p.closest('.dp-note')) reg(p, 'cm-rise-sm', { span: 0.22 });
+  });
 
   /* ---- closing next-case link ---- */
   reg(document.querySelector('.case-closing-next'), 'cm-rise', { span: 0.3 });
