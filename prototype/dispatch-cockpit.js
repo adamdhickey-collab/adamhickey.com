@@ -193,6 +193,11 @@
     check: '<path d="M20 6 9 17l-5-5"/>',
     dash:  '<path d="M5 12h14"/>',
     ban:   '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+    /* The three sort states, as chevrons: both ways for a column that can be
+       sorted, one way for the column that is. */
+    sort:     '<path d="m8 9 4-4 4 4"/><path d="m16 15-4 4-4-4"/>',
+    sortUp:   '<path d="m6 15 6-6 6 6"/>',
+    sortDown: '<path d="m6 9 6 6 6-6"/>',
   };
   const icon = (name, cls = 'ck-icon') =>
     `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
@@ -498,17 +503,20 @@
       </form>`;
   }
 
+  /* A head is a label and, where the number needs one, a unit on its own
+     line under it, so no head wraps where the browser decides and every
+     label sits on the same line across the row. */
   const COLUMNS = [
-    { key: 'rank',     label: 'Rank',            sortable: true },
-    { key: 'id',       label: 'Truck',           sortable: true },
-    { key: 'driver',   label: 'Driver',          sortable: true },
-    { key: 'at',       label: 'Now at',          sortable: true },
-    { key: 'dist',     label: 'To pickup, mi',   sortable: true, num: true },
-    { key: 'hos',      label: 'Hours left',      sortable: true, num: true },
-    { key: 'equip',    label: 'Equipment',       sortable: true },
-    { key: 'onTime',   label: 'On time, this customer', sortable: true, num: true },
-    { key: 'deadhead', label: 'Deadhead, mi',    sortable: true, num: true },
-    { key: 'act',      label: 'Assign',          sortable: false },
+    { key: 'rank',     label: 'Rank',       sortable: true },
+    { key: 'id',       label: 'Truck',      sortable: true },
+    { key: 'driver',   label: 'Driver',     sortable: true },
+    { key: 'at',       label: 'Now at',     sortable: true },
+    { key: 'dist',     label: 'To pickup',  sortable: true, num: true, unit: 'miles' },
+    { key: 'hos',      label: 'Hours left', sortable: true, num: true, unit: () => `${DATA.load.driveHours} needed` },
+    { key: 'equip',    label: 'Equipment',  sortable: true },
+    { key: 'onTime',   label: 'On time',    sortable: true, num: true, unit: 'this customer' },
+    { key: 'deadhead', label: 'Deadhead',   sortable: true, num: true, unit: 'miles' },
+    { key: 'act',      label: 'Assign',     sortable: false, act: true },
   ];
 
   function sortValue(t, key) {
@@ -525,12 +533,15 @@
       return dir === 'asc' ? c : -c;
     });
     const head = COLUMNS.map((c) => {
-      if (!c.sortable) return `<th scope="col">${esc(c.label)}</th>`;
+      const cls = [c.num ? 'ck-num' : '', c.act ? 'ck-cell-act' : ''].filter(Boolean).join(' ');
+      const unit = typeof c.unit === 'function' ? c.unit() : c.unit;
+      const label = `<span class="ck-th-text"><span class="ck-th-label">${esc(c.label)}</span>${unit ? `<span class="ck-th-unit">${esc(unit)}</span>` : ''}</span>`;
+      if (!c.sortable) return `<th scope="col"${cls ? ` class="${cls}"` : ''}><span class="ck-th">${label}</span></th>`;
       const on = key === c.key;
       const sorted = on ? (dir === 'asc' ? 'ascending' : 'descending') : 'none';
-      const glyph = on ? (dir === 'asc' ? '&#9650;' : '&#9660;') : '&#8597;';
-      return `<th scope="col" aria-sort="${sorted}"${c.num ? ' class="ck-num"' : ''}>
-        <button type="button" class="ck-sort" data-sort="${c.key}" data-focus="sort:${c.key}">${esc(c.label)} <span class="ck-sort-glyph" aria-hidden="true">${glyph}</span></button>
+      const glyph = icon(on ? (dir === 'asc' ? 'sortUp' : 'sortDown') : 'sort', 'ck-icon ck-sort-icon');
+      return `<th scope="col" aria-sort="${sorted}"${cls ? ` class="${cls}"` : ''}>
+        <button type="button" class="ck-th ck-sort" data-sort="${c.key}" data-focus="sort:${c.key}">${label}${glyph}</button>
       </th>`;
     }).join('');
     const body = rows.map((t) => {
@@ -545,8 +556,8 @@
       return `<tr class="${cls.join(' ')}">
         <th scope="row" class="ck-cell-rank">${rankCell}${state.assigned === t.id ? ' <span class="ck-rank-tag">assigned</span>' : ''}</th>
         <td>${esc(t.id)}</td>
-        <td>${esc(t.driver)}</td>
-        <td>${esc(t.at)}</td>
+        <td class="ck-cell-text">${esc(t.driver)}</td>
+        <td class="ck-cell-text">${esc(t.at)}</td>
         <td class="ck-num">${t.dist}</td>
         <td class="ck-num">${t.hos.toFixed(1)}${t.blocked ? ` <span class="ck-cell-note">needs ${DATA.load.driveHours}</span>` : ''}</td>
         <td>${esc(t.equip)}</td>
