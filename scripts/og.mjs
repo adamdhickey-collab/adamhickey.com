@@ -58,6 +58,9 @@ const CARDS = {
   'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/writing/where-does-design-end-and-development-begin-now.webp' },
   'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },
   'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
+  'designing-for-the-moment-the-workflow-breaks':          { kicker: 'Writing', title: 'Designing for the moment the workflow breaks',                  image: 'img/writing/designing-for-the-moment-the-workflow-breaks.webp' },
+  'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
+  'how-i-move-a-complex-workflow-from-ambiguity-to-release': { kicker: 'Writing', title: 'How I move a complex workflow from ambiguity to release',     image: 'img/writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
