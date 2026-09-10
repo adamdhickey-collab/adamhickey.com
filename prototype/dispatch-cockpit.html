@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A dispatch cockpit that shows its work | Adam Hickey</title>
+  <meta name="description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach." />
+  <link rel="canonical" href="https://adamhickey.com/prototype/dispatch-cockpit.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
+  <meta property="og:title" content="A dispatch cockpit that shows its work | Adam Hickey" />
+  <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who made it, and where it sits. The author and publisher point at
+       the homepage's Person by @id. The description says "prototype" and
+       "synthetic data" for the same reason the hero does: nothing here may
+       be read as an account of shipped work. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/prototype/dispatch-cockpit.html#article",
+          "headline": "A dispatch cockpit that shows its work",
+          "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed, a record instead of a percentage, a one-click override that teaches, and the whole fleet always in reach.",
+          "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
+          "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
+          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg",
+          "datePublished": "2026-09-10",
+          "dateModified": "2026-09-10",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "AI product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Human-AI interaction"
+            },
+            {
+              "@type": "Thing",
+              "name": "Freight dispatch"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/prototype/dispatch-cockpit.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "A dispatch cockpit that shows its work",
+              "item": "https://adamhickey.com/prototype/dispatch-cockpit.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=3" />
+  <link rel="stylesheet" href="../style.css?v=20260909a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=1" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
+       fleet is the object at the top of the file. -->
+  <script src="dispatch-cockpit.js?v=1" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">Services</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Prototype &middot; self-directed &middot; synthetic data</p>
+        <h1 class="case-title">A dispatch cockpit that shows its work</h1>
+        <p class="build-dek">A load comes in and has to go on a truck. The system can recommend one. The interesting problem is everything that has to be true before a dispatcher skips checking it. People skip verification when they can predict when the system will be wrong, which is a legibility problem rather than a trust problem, and it is solved in the interface.</p>
+        <!-- The one thing the credibility of the page depends on, said
+             before anything else and in its own box: what this is, and
+             what it is not. -->
+        <div class="ck-disclosure">
+          <p><strong>A self-directed prototype on synthetic data.</strong> Every truck, driver, town and figure on this page is invented. It is informed by the dispatch cockpit I led at RBA for Midwest Couriers, a fleet of more than 450 trucks, and it is not that work: not client work, not shipped software, and not a claim that any of it has been in front of a dispatcher.</p>
+          <p>It is a working demo. Four situations, a mouse or a keyboard, about ninety seconds.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="case-section build-chapter ground-white">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2 id="the-problem">The dispatcher is not short on data</h2>
+          <p>A dispatcher at a fleet that size sees every truck, every driver&rsquo;s hours, every load in the window and every exception, on two or three monitors, all day. When a load comes in, the information needed to place it well is already on the screen. What is scarce is attention: the four seconds it takes to weigh five factors against seven trucks, forty times an hour, while the phone rings.</p>
+          <p>So the obvious move is to have the system recommend the truck. That is where &ldquo;add AI&rdquo; is usually pointed, and it is not wrong, but it is pointed at the easy half. Producing a ranking is cheap. Getting a person to act on it without re-deriving it is the whole product, and it is not a matter of being right more often. A recommendation that is right 95 times in 100 is still checked 100 times if the dispatcher cannot tell which five to worry about.</p>
+          <p>The position this prototype takes: people skip verification when they can predict when the system will be wrong. Not when they trust it in general, and not when it shows them a percentage. When they can look at the recommendation and the load in front of them and say, this is one of the ones it gets right. That is a legibility problem, and legibility is designed.</p>
+          <p>The argument in prose is <a href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>. This page is the same argument as an interface.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-tea">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2 id="the-principles">Four things the interface has to do</h2>
+          <p>Each is a position, and each is a specific thing on the screen below. The copy on this page could be switched off and the four should still be readable from the cockpit alone.</p>
+        </div>
+        <ol class="ck-principles">
+          <li>
+            <h3>Show what went into the call, not just the call.</h3>
+            <p>A ranking is a summary of reasons. Hide the reasons and the dispatcher has to reconstruct them to check the ranking, which is more work than ranking by hand. So the recommendation lists what was weighed, distance to pickup, hours of service left, equipment, the on-time record with this customer, current deadhead, each with its actual value and which way it pushed. There is no composite score, because a score is the one number that cannot be checked against anything.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the factor list in the recommended truck&rsquo;s card, and the same columns in the data table under it.</p>
+          </li>
+          <li>
+            <h3>Express confidence as a record, not a number.</h3>
+            <p>&ldquo;87% confident&rdquo; is a claim about the system. &ldquo;Held up on 38 of the last 40 loads like this one&rdquo; is a claim about loads, which a dispatcher can set beside the load in front of them. The two it got wrong are the most useful part: if the misses have a shape, the dispatcher learns the shape, and that is the moment verification becomes selective instead of universal.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the &ldquo;How often this has held&rdquo; card, with the misses behind a disclosure and a line under each saying what to watch for.</p>
+          </li>
+          <li>
+            <h3>Make the override cheap, and make it teach.</h3>
+            <p>The dispatcher is the one with the phone call the system cannot hear. Overriding is one click on any truck. There is no confirmation dialog, because a dialog is a small tax on judgment, and the judgment is the point. After the override, and only after, a question appears asking why, with the likely reasons listed and room for another, and it says in plain words what happens to the answer. Skipping costs nothing and records nothing.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> Assign on every row; the optional question above the data table once a truck other than the recommended one is assigned; Undo where Assign was.</p>
+          </li>
+          <li>
+            <h3>Keep the manual path whole.</h3>
+            <p>The recommendation accelerates the decision and never gates it. The whole fleet is on the screen the entire time, with every column the dispatcher would sort by, sortable, and never collapsed behind the suggestion. A truck the system could not rank keeps its row and says why. If the recommendation vanished tomorrow, the screen would still be a dispatch screen.</p>
+            <p class="ck-onscreen"><span class="ck-label">On screen:</span> the data table, in every situation and every state.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-warm" id="the-cockpit">
+      <div class="container">
+        <div class="writing-measure">
+          <h2>The cockpit</h2>
+          <p>One load, seven trucks, four situations. Pick a situation, then assign a truck: the recommended one, or any other. Everything works from the keyboard. Arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
+          <p>Synthetic throughout: the fleet, the customer, the drivers and the record are invented for the demo.</p>
+        </div>
+
+        <div class="ck" id="cockpit">
+          <p class="ck-visually-hidden" id="ck-tabs-label">Four situations</p>
+          <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>
+          <p class="ck-blurb"></p>
+          <div class="ck-panel" id="ck-panel" role="tabpanel" aria-labelledby="ck-tab-confident">
+            <div class="ck-load"></div>
+            <div class="ck-reco"></div>
+            <!-- The live region: one line, always in the document, updated
+                 whenever the situation, the assignment or the question
+                 changes, so a screen reader hears what a sighted reader sees
+                 move. -->
+            <p class="ck-status" role="status"></p>
+            <div class="ck-why" hidden></div>
+            <div class="ck-table-wrap">
+              <table class="ck-table"></table>
+            </div>
+          </div>
+          <noscript>
+            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four principles above describe what it does; the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-white">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2 id="what-next">What I would test next, and where I expect to be wrong</h2>
+          <p>This has not been in front of a dispatcher, and the first session would change it. Three things I would put on the table, and what I expect each to do to the design.</p>
+          <ul>
+            <li><strong>Whether anyone opens the misses.</strong> The thesis rests on the two wrong loads being read. If dispatchers never expand them, the record is a percentage with extra words, and the misses have to move up: into the recommendation line itself, or as the thing that appears when the current load resembles one of them.</li>
+            <li><strong>Whether the reasons list is the right list.</strong> Three reasons were guessed. The free-text answers in the first month are the real list, and I would expect one of them to be &ldquo;the customer called,&rdquo; which the system cannot see and should stop pretending to weigh.</li>
+            <li><strong>Whether the tie state is honest or annoying.</strong> Declining to lead is the right behavior for a system that knows its own shape, and it may also be the thing dispatchers hate most at four on a Friday. The test is whether the tradeoff sentence is enough to decide from in four seconds. If it is not, the tie state should show what the dispatcher did last time for this customer, and say that is what it is showing.</li>
+          </ul>
+          <p>Where I expect to be wrong: the factor list. Five factors was a choice made to keep the card readable. Real dispatchers weigh things this prototype does not name, the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load, and the first thing they will say is that the list is missing the one that decides it. That is the right complaint, and the card is built to take a sixth row.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site: the essay it renders, the
+             account it draws on, and the engagement it is the shape of. -->
+        <p class="build-service">The argument in prose: <a href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>. The account this draws on: <a href="../case-study/dispatch-complexity.html">One real-time view of a 450+ truck fleet</a>, the dispatch cockpit at Midwest Couriers. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
+        <a class="build-next" href="../case-study/dispatch-complexity.html">
+          <span class="build-next-eyebrow">The account it draws on</span>
+          <span class="build-next-title">One real-time view of a 450+ truck fleet &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#case-studies">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
