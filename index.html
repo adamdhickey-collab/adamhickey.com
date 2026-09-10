@@ -120,7 +120,7 @@
   <link rel="stylesheet" href="color.css?v=6" />
   <link rel="stylesheet" href="shell.css?v=3" />
   <link rel="stylesheet" href="type.css?v=3" />
-  <link rel="stylesheet" href="style.css?v=20260909a" />
+  <link rel="stylesheet" href="style.css?v=20260910a" />
   <link rel="stylesheet" href="site-nav.css?v=20260908a" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -470,6 +470,30 @@
               <span class="tag">Internal platform</span>
             </div>
             <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+
+          <!-- The self-directed prototype. It closes the section rather than
+               taking a fifth column, because it is not a fifth peer: the four
+               above are client case studies and this is a working demo on
+               invented data. The first line of the description says so, in
+               the section's own voice, so the card cannot be mistaken for an
+               account of delivered work. Excluded from the hero morph in
+               setupCaseMorph -- the prototype page has no case-hero to
+               morph into. -->
+          <a class="case-card case-card--prototype reveal" href="prototype/dispatch-cockpit.html" aria-label="Open the prototype: A dispatch cockpit that shows its work">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/site/dispatch-cockpit.webp?v=1" alt="The cockpit&rsquo;s recommendation panel: a load, the truck it puts the load on, the factors it weighed with their values, and the confidence record beside them." width="1000" height="1000"/>
+            </div>
+            <div class="case-card-body">
+              <h3>A dispatch cockpit that shows its work</h3>
+              <p class="case-desc">Everything above is client work; this one is mine. An AI truck recommendation built around what a dispatcher would need in order to skip checking it, on invented data. About ninety seconds, with a mouse or a keyboard.</p>
+              <div class="tag-row">
+                <span class="tag">Human-AI interaction</span>
+                <span class="tag">Freight dispatch</span>
+                <span class="tag">Synthetic data</span>
+              </div>
+              <span class="case-go" aria-hidden="true">Open the prototype<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
           </a>
         </div>
 
@@ -1413,7 +1437,9 @@
        and navigate normally.                                             */
     (function setupCaseMorph() {
       if (!('CSS' in window) || !CSS.supports('view-transition-name: none')) return;
-      const cards = Array.from(document.querySelectorAll('.case-card'));
+      /* The prototype card is left out: its page carries no case-hero, so
+         naming its thumb would animate the picture out into nothing. */
+      const cards = Array.from(document.querySelectorAll('.case-card:not(.case-card--prototype)'));
       const clearNames = () => cards.forEach(c => {
         const img = c.querySelector('.case-thumb img');
         if (img) img.style.viewTransitionName = '';

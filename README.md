@@ -237,8 +237,12 @@ every word of every file there as a candidate class, and a page with this
 much interactive markup would have emitted utilities into the built
 stylesheet. It is labelled on the page, in its head and in `llms.txt` as
 self-directed and synthetic, informed by the Midwest Couriers cockpit and not
-an account of it. The AI article and the Working Product Prototype page
-link to it.
+an account of it. The homepage's Selected work section closes on it, in a
+card that spans the grid and says in its first line that everything above it
+is client work and this is not; the AI article and the Working Product
+Prototype page link to it as well. Until that card it was reachable only by
+reading one of those two pages to the end, while its own breadcrumb told a
+search engine it sat under Work.
 
 ### Images
 
