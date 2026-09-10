@@ -18,6 +18,8 @@
  *                                        late loads and what differed
  *   3. an override that is cheap      -> assign() and renderWhy()
  *   4. the manual path, always whole  -> renderTable(), never collapsed
+ *   and, beside all four, what to look for in this situation -> renderRail(),
+ *   whose numbers applyCallouts() hangs on the cockpit after every render
  *
  * No dependencies, no build step, no animation. States are is-* classes so
  * scripts/states.mjs forces and measures the ones the page does not load in.
@@ -81,7 +83,13 @@
       {
         id: 'confident',
         tab: 'Confident',
-        blurb: 'A clear leader. The two behind it are shown, each with the one reason it lost.',
+        blurb: 'A clear leader, and every reason it leads is on the screen. The point: a recommendation you can check in ten seconds, because the reasons are beside it.',
+        callouts: [
+          { target: '.ck-card',       head: 'What went into the call', body: 'Five factors, each with its value and which way it cuts. No composite score, because a number would not tell you which of these to check.' },
+          { target: '.ck-confidence', head: 'Confidence as a record', body: 'Not a percentage: 38 of the last 40 on time, and the two that were late are one click away, with what to watch for.' },
+          { target: '.ck-fleet',      head: 'The whole fleet, always', body: 'Sort any column, assign any truck. The manual path is never behind the recommendation.' },
+        ],
+        try: 'Open the two late deliveries and read what differed. Then assign T-118.',
         patch: {},
         record: {
           held: 38, of: 40,
@@ -97,7 +105,13 @@
       {
         id: 'tie',
         tab: 'Low confidence',
-        blurb: 'Two trucks within a hair of each other. The system names the tradeoff and stops short of picking.',
+        blurb: 'Two trucks within a hair of each other. The point: when the system cannot tell, it says so and names the tradeoff, instead of hiding a coin flip behind a rank.',
+        callouts: [
+          { target: '.ck-reco-h',     head: 'The tradeoff, in words', body: 'Distance against hours. The headline says what the choice is rather than pretending there is none.' },
+          { target: '.ck-pair',       head: 'Both options, side by side', body: 'Each with the one thing it has over the other, and its full factor list underneath.' },
+          { target: '.ck-confidence', head: 'The record for close calls', body: 'When the top two were this close, first place was right 19 of 31 times. Near a coin flip, so it does not pick.' },
+        ],
+        try: 'Pick the side of the tradeoff that matters for this load and assign it. Neither is an override, so no question follows.',
         patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10 }, 'T-118': { dist: 41 } },
         record: {
           held: 19, of: 31,
@@ -113,7 +127,13 @@
       {
         id: 'override',
         tab: 'Override in flight',
-        blurb: 'The dispatcher has just assigned the truck ranked third. This is what the interface does next.',
+        blurb: 'The dispatcher has just assigned the truck ranked third. The point: disagreeing with the system is cheap, and what the system does with the disagreement is said out loud.',
+        callouts: [
+          { target: '.ck-reco-dek', head: 'The recommendation stays', body: 'Still visible, so the difference stays visible. Nothing is undone and nothing argues.' },
+          { target: '.ck-why',      head: 'One optional question, afterwards', body: 'Asked after the assignment, not before it. Skip weighs the same as Save, and a sentence says what happens with the answer.' },
+          { target: '.ck-status',   head: 'What just happened', body: 'The status line says what changed and where the question is. A screen reader hears the same sentence.' },
+        ],
+        try: 'Save a reason, or skip. Then undo, assign T-118, and notice that no question follows.',
         patch: {},
         /* Same record as the confident situation: same lane, same data. */
         record: null,
@@ -124,7 +144,13 @@
       {
         id: 'rule',
         tab: 'Constraint conflict',
-        blurb: 'The best truck by every other measure would put its driver over hours. A rule is a rule, not a low score.',
+        blurb: 'The best truck by every other measure would put its driver over hours. The point: a rule is a rule, not a low score, and it looks like one.',
+        callouts: [
+          { target: '.ck-rule',  head: 'The rule comes first', body: 'The darkest edge on the screen, above the recommendation rather than inside it, so it cannot be read as a bad score.' },
+          { target: '.ck-card',  head: 'The best truck that can legally go', body: 'The recommendation is the leader among the trucks the rule allows, and it shows its work like any other.' },
+          { target: '.ck-fleet', head: 'T-114 keeps its row', body: 'Its Assign is disabled in words, with the hours it needs beside the hours it has. Nothing disappears.' },
+        ],
+        try: 'Try to assign T-114 from the data table. Then sort by hours left to see the line it fell under.',
         patch: { 'T-114': { dist: 9, deadhead: 4, hos: 3.2 } },
         record: null,
       },
@@ -158,6 +184,19 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const ordinal = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : (n % 10 < 4 ? n % 10 : 0)]);
+
+  /* Inline icons in the site header's idiom: 24 box, 2px stroke, currentColor.
+     Every one is aria-hidden and sits beside a word, never instead of one. */
+  const ICON_PATHS = {
+    up:    '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
+    down:  '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    dash:  '<path d="M5 12h14"/>',
+    ban:   '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+  };
+  const icon = (name, cls = 'ck-icon') =>
+    `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
+  const DIR_ICON = { helps: 'up', hurts: 'down', meets: 'check', neutral: 'dash', 'stands in': 'dash' };
 
   const state = {
     scenario: DATA.scenarios[0],
@@ -275,6 +314,30 @@
     }).join('');
     $('#ck-panel', root).setAttribute('aria-labelledby', `ck-tab-${state.scenario.id}`);
     $('.ck-blurb', root).textContent = state.scenario.blurb;
+    renderRail();
+  }
+
+  /* The rail: the situation's point, its numbered callouts, one thing to
+     try. The numbers here and the badges on the cockpit are one object. */
+  function renderRail() {
+    const sc = state.scenario;
+    $('.ck-callouts', root).innerHTML = (sc.callouts || []).map((c, i) => `<li class="ck-callout">
+      <span class="ck-badge" aria-hidden="true">${i + 1}</span>
+      <div><p class="ck-callout-head">${esc(c.head)}</p><p class="ck-callout-body">${esc(c.body)}</p></div>
+    </li>`).join('');
+    $('.ck-rail-try', root).innerHTML = sc.try ? `<span class="ck-label">Try:</span> ${esc(sc.try)}` : '';
+  }
+
+  /* Hang each callout's number off its target, after every render, because
+     the render replaced the target. A target that is not on screen in this
+     state simply has no badge; the rail still numbers it. */
+  function applyCallouts() {
+    root.querySelectorAll('[data-callout]').forEach((el) => el.removeAttribute('data-callout'));
+    const stage = $('#ck-panel', root);
+    (state.scenario.callouts || []).forEach((c, i) => {
+      const el = stage.querySelector(`.ck-panel ${c.target}`);
+      if (el && !el.hidden) el.setAttribute('data-callout', String(i + 1));
+    });
   }
 
   function renderLoad() {
@@ -292,15 +355,13 @@
   function factorRows(t) {
     return `<ul class="ck-factors">${FACTORS.map((f) => {
       const d = direction(t, f);
-      const glyph = d === 'helps' ? '&#9650;' : d === 'hurts' ? '&#9660;'
-        : d === 'meets' ? '&#10003;' : '&#8211;';
       return `<li class="ck-factor">
         <span class="ck-factor-name">${esc(f.label)}</span>
         <span class="ck-factor-value">${esc(f.unit(t))}</span>
-        <span class="ck-factor-dir"><span aria-hidden="true">${glyph}</span> ${d}</span>
+        <span class="ck-factor-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
       </li>`;
     }).join('')}</ul>
-    <p class="ck-factor-note">Helps and hurts compare this truck with the middle of the fleet available for this load. They say where it stands on a factor, not how much that factor moved the ranking. Equipment is met or stood in for, not compared. No composite score is shown because none would tell you which of these to check.</p>`;
+    <p class="ck-factor-note">Helps and hurts compare this truck with the middle of the fleet available for this load: where it stands on a factor, not how much the factor moved the ranking. Equipment is met or stood in for. No composite score, because none would tell you which of these to check.</p>`;
   }
 
   function renderConfidence() {
@@ -328,7 +389,7 @@
 
   function assignButton(t, cls = 'ck-btn') {
     if (t.blocked) return `<button type="button" class="${cls} ck-btn-quiet" aria-disabled="true" data-assign="${t.id}" data-focus="assign:${t.id}">Can&rsquo;t assign</button>`;
-    if (state.assigned === t.id) return `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned <span aria-hidden="true">&#10003;</span> Undo</button>`;
+    if (state.assigned === t.id) return `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned ${icon('check')} Undo</button>`;
     return `<button type="button" class="${cls}" data-assign="${t.id}" data-focus="assign:${t.id}">Assign ${esc(t.id)}</button>`;
   }
 
@@ -361,7 +422,7 @@
         ? ` Otherwise it would rank first: ${b.dist} mi to pickup, ${b.onTime[1] ? `${b.onTime[0]} of ${b.onTime[1]}` : 'no history'} on time with ${esc(DATA.load.customer)}, ${b.deadhead} mi of deadhead. None of that changes the rule.`
         : '';
       html += `<div class="ck-rule">
-        <p class="ck-rule-head"><span class="ck-rule-glyph" aria-hidden="true">&#8856;</span> ${esc(b.id)}, ${esc(b.driver)}, can&rsquo;t take this load</p>
+        <p class="ck-rule-head">${icon('ban', 'ck-rule-glyph')}${esc(b.id)}, ${esc(b.driver)}, can&rsquo;t take this load</p>
         <p class="ck-rule-text">${esc(b.blocked.text)}${otherwise}</p>
       </div>`;
     }
@@ -370,6 +431,7 @@
       const tr = tradeoff(first, second);
       const line = (x, f) => f ? `${f.wins}: ${esc(f.unit(x))}` : 'close on everything';
       html += `<div class="ck-lead">
+        <p class="ck-lead-kicker ck-label">Two options, no pick</p>
         <h3 class="ck-reco-h">Two trucks are close. The tradeoff is ${esc(tr.a ? tr.a.wins : 'small')} against ${esc(tr.b ? tr.b.wins : 'small')}.</h3>
         <p class="ck-reco-dek">The system is not ranking one over the other. Pick the side of the tradeoff that matters for this load.</p>
         <div class="ck-pair">
@@ -381,6 +443,7 @@
     } else {
       const overridden = state.assigned && state.assigned !== first.id;
       html += `<div class="ck-lead">
+        <p class="ck-lead-kicker ck-label">${overridden ? 'The system&rsquo;s pick, not yours' : 'Recommendation'}</p>
         <h3 class="ck-reco-h">Recommended: ${esc(first.id)}, ${esc(first.driver)}</h3>
         ${overridden ? `<p class="ck-reco-dek">Still the system&rsquo;s pick. You assigned ${esc(state.assigned)} instead, which is fine; the recommendation stays visible so the difference stays visible.</p>` : ''}
         <div class="ck-pair">
@@ -477,7 +540,7 @@
       if (t.blocked) cls.push('is-blocked');
       if (state.assigned === t.id) cls.push('is-assigned');
       const rankCell = t.blocked
-        ? `<span class="ck-rank-rule"><span aria-hidden="true">&#8856;</span> ${esc(t.blocked.rule)}</span>`
+        ? `<span class="ck-rank-rule">${icon('ban')} ${esc(t.blocked.rule)}</span>`
         : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ' <span class="ck-rank-tag">recommended</span>' : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
       return `<tr class="${cls.join(' ')}">
         <th scope="row" class="ck-cell-rank">${rankCell}${state.assigned === t.id ? ' <span class="ck-rank-tag">assigned</span>' : ''}</th>
@@ -501,6 +564,7 @@
     renderReco();
     renderWhy();
     renderTable();
+    applyCallouts();
     if (status !== undefined) renderStatus(status);
     if (focusKey) {
       const again = root.querySelector(`[data-focus="${focusKey}"]`);
