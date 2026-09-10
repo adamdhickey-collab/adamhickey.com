@@ -43,6 +43,7 @@ const CARDS = {
   'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
   'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
   'while-were-here':                   { kicker: 'Built end to end',                          title: 'How I built While We’re Here',                             image: 'img/products/while-were-here.webp' },
+  'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'A dispatch cockpit that shows its work',                        image: 'img/site/dispatch-cockpit.webp' },
   'product-clarity':                   { kicker: 'Engagement 01',                             title: 'Product Clarity',          sub: 'Two to four weeks, fixed scope and fixed fee',              hero: 'img/engagement/clarity-hero.webp' },
   'design-system-foundation':          { kicker: 'Engagement 02',                             title: 'Design System Foundation', sub: 'A three-week diagnostic, then a build scoped from it',       hero: 'img/engagement/system-hero.webp' },
   'embedded-senior-product-design':    { kicker: 'Engagement 03',                             title: 'Embedded Senior Product Design', sub: 'Three to six months, two to four days a week',         hero: 'img/engagement/embedded-hero.webp' },

@@ -1,0 +1,698 @@
+/* dispatch-cockpit.css -- the cockpit prototype's own components, and nothing
+ * else. Loaded by one page, prototype/dispatch-cockpit.html, after style.css.
+ *
+ * WHY ITS OWN FILE. The same reason design-psychology.css gives: reach, not
+ * taxonomy. Nothing on any other page is a recommendation panel, a factor
+ * list or a sortable fleet data table, and style.css is loaded by twenty
+ * pages that would download all of this and render none of it.
+ *
+ * WHAT IT INHERITS. The page is a style.css page, so the hero, the prose
+ * column, the chapter grounds, the footer blocks, the global focus ring on
+ * links and buttons, and the reduced-motion blanket all come from there.
+ * This file adds the cockpit and extends the focus ring to the controls
+ * style.css does not cover: inputs, textareas and disclosure summaries.
+ *
+ * NO UPPERCASE, ANYWHERE. The site's kickers are tracked capitals; this
+ * page's labels are lowercase sentence fragments at the same size and
+ * weight, and the hero reuses .case-kicker, which is one of the two site
+ * labels that is not uppercased. The glance block and the design
+ * psychology note are not used here for that reason.
+ *
+ * NO MEANING IN COLOR ALONE. Every state a row or a card can be in is also a
+ * word: "recommended", "assigned", "over hours", "helps", "hurts". The grounds
+ * and glyphs are a second channel, never the only one.
+ *
+ * NO NEW COLOR. The palette has no status colors and this page does not add
+ * one. The recommendation is the palette's sage; the hard rule is the
+ * darkest thing on the screen, a 2px charcoal border and a stop glyph. Every
+ * ratio below is from COLOR.md section 2, on the ground it sits on:
+ *
+ *   charcoal      on white 15.33, warm 14.02, tea-light 12.90, muted-light 12.10
+ *   muted-gray    on white  6.47, warm  5.91, tea-light  5.44, muted-light  5.11
+ *   accent-text   on white  5.82, warm  5.32, tea-light  4.90, muted-light  4.60
+ *   warm          on accent-text 5.32 (the primary button), on accent-hover 6.90
+ *   accent-deep   as a ring or border: white 4.51, warm 4.12, tea-light 3.80
+ *   muted-gray    as a border on white 6.47
+ *
+ * EVERY SIZE IS A STEP, every space a --space-*, every duration a --motion-*.
+ * Two classes deep where the rule has to beat .case-section p, which is
+ * class-and-element and would otherwise size the cockpit's paragraphs at
+ * --text-lg on reading leading. style.css says this in its own margins; this
+ * is the same lesson, applied.
+ */
+
+/* ---------- The hero's disclosure ----------
+   The one thing the credibility of the page depends on, so it is a box, not
+   a sentence in the dek. On the warm hero, with the fill sage as its edge:
+   accent-deep is 4.12:1 on warm, over the 3:1 a boundary answers to. Full
+   border and the site's card radius, because curves.mjs is right. */
+.ck-disclosure {
+  max-width: var(--measure);
+  margin: calc(-1 * var(--space-md)) 0 0;
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-accent-deep);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ck-disclosure p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck-disclosure p + p { margin-top: var(--space-xs); }
+.ck-disclosure strong { font-weight: var(--weight-semibold); }
+
+/* ---------- The four principles ----------
+   A numbered list where the number is part of the argument: the principle
+   is the head, the paragraph is why, and the last line says what it changes
+   on the screen below, so a reader can go and look. */
+.ck-principles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: principle;
+  display: grid;
+  gap: var(--space-2xl);
+}
+.ck-principles > li {
+  position: relative;
+  padding-left: var(--space-3xl);
+  counter-increment: principle;
+}
+.ck-principles > li::before {
+  content: counter(principle);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  color: var(--color-accent-text);
+}
+.ck-principles h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.ck-principles p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+.ck-principles .ck-onscreen {
+  margin-top: var(--space-sm);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+.ck-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The cockpit frame ---------- */
+.ck { margin-top: var(--space-2xl); }
+.ck-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The four situations, as tabs. A selected tab is heavier and carries a
+   charcoal rule under it; the ring on focus is the site's. */
+.ck-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-lg);
+  border-bottom: 1px solid var(--color-rule);
+}
+.ck .ck-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: var(--space-sm) var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.ck .ck-tab:hover { border-bottom-color: var(--color-rule); }
+.ck .ck-tab[aria-selected="true"] {
+  font-weight: var(--weight-semibold);
+  border-bottom-color: var(--color-charcoal);
+}
+.ck .ck-blurb {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* The panel under the tabs: load, recommendation, status, the optional
+   question, then the whole fleet. One column, always; the pair inside the
+   recommendation is the only thing that goes side by side. */
+.ck-panel {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+/* A white card is the cockpit's surface on the section's warm ground. */
+.ck-card,
+.ck-load,
+.ck-why,
+.ck-table-wrap {
+  background: var(--color-white);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+}
+
+/* ---------- The load ---------- */
+.ck-load { padding: var(--space-lg) var(--space-xl); }
+.ck .ck-load-id {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-load-id .ck-label { margin-right: var(--space-2xs); }
+.ck-sep { color: var(--color-muted-gray); }
+.ck-load-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm) var(--space-xl);
+  margin: 0;
+}
+.ck-load-facts dt {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck-load-facts dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+@media (min-width: 800px) {
+  .ck-load-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- The hard rule ----------
+   A rule is a rule: the darkest edge on the page and a stop glyph, above the
+   recommendation rather than inside it, because it is not a low score and
+   must not read as one. */
+.ck-rule {
+  padding: var(--space-lg) var(--space-xl);
+  border: 2px solid var(--color-charcoal);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ck .ck-rule-head {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck-rule-glyph { font-size: var(--text-xl); line-height: 1; vertical-align: -0.05em; }
+.ck .ck-rule-text {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The recommendation ---------- */
+.ck-reco { display: grid; gap: var(--space-lg); }
+.ck .ck-reco-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.ck .ck-reco-dek {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck-pair {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+@media (min-width: 800px) {
+  .ck-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.ck-pair > div { min-width: 0; }
+
+.ck-card { padding: var(--space-lg) var(--space-xl); }
+.ck-card + .ck-confidence,
+.ck-confidence + .ck-also { margin-top: var(--space-lg); }
+.ck .ck-card-head {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ck .ck-card-truck {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-card-driver {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-card-note {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck .ck-card-act { margin: var(--space-lg) 0 0; }
+
+/* The factors: name, value, direction, one row each, with the direction as
+   a glyph and a word. The value is tabular so the column reads. */
+.ck-factors {
+  list-style: none;
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.ck-factor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-md);
+  align-items: baseline;
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ck .ck-factor-name {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-factor-value {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+  text-align: right;
+}
+.ck .ck-factor-dir {
+  min-width: 4.5rem;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-align: right;
+}
+.ck .ck-factor-note {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* Sub-heads inside the panel: a rung under the recommendation's h3. */
+.ck .ck-h {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+
+/* The record. A count, what "like this one" means, and the misses behind a
+   disclosure, because the pattern in the misses is the part a dispatcher
+   can act on. */
+.ck-confidence {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ck .ck-conf-line {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck .ck-conf-line strong { font-weight: var(--weight-semibold); }
+.ck .ck-conf-like {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck-misses { margin-top: var(--space-sm); }
+.ck-misses summary {
+  display: inline-block;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.ck-misses summary:hover { color: var(--color-accent-hover); }
+.ck-miss-list {
+  margin: var(--space-sm) 0 0;
+  padding: 0 0 0 var(--space-lg);
+  display: grid;
+  gap: var(--space-sm);
+}
+.ck .ck-miss-what,
+.ck .ck-miss-tell {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-miss-tell { margin-top: var(--space-2xs); }
+.ck .ck-miss-load { font-weight: var(--weight-semibold); }
+
+/* Also considered: rank, then the one line. */
+.ck-also {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ck-also-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.ck-also-list li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-also-rank { font-weight: var(--weight-semibold); }
+.ck .ck-also-body strong { font-weight: var(--weight-semibold); }
+
+/* ---------- The status line ----------
+   A live region, always in the document, on the feature ground so an update
+   is somewhere the eye already goes. */
+.ck .ck-status {
+  margin: 0;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-tea-light);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-status:empty { display: none; }
+
+/* ---------- The optional question ----------
+   Cheap by construction: it appears after the assignment, not before it;
+   nothing in it is required; Skip is a button of the same weight as Save. */
+.ck-why { padding: var(--space-lg) var(--space-xl); }
+.ck .ck-why-head {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-opt { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.ck-why-set {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.ck-radio {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+.ck-radio input {
+  accent-color: var(--color-accent-text);
+  width: 1rem; height: 1rem;
+  margin: 0;
+  flex-shrink: 0;
+  position: relative;
+  top: 0.15em;
+}
+.ck-why-text { display: block; margin-top: var(--space-2xs); }
+.ck-why-text textarea {
+  display: block;
+  width: 100%;
+  max-width: var(--measure);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: 4px;
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  resize: vertical;
+}
+.ck-why-text textarea::placeholder { color: var(--color-muted-gray); opacity: 1; }
+.ck .ck-why-what {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-act {
+  margin: var(--space-md) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.ck .ck-why-done {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Buttons ----------
+   The site's two shapes: a filled sage and a quiet outline, both pills.
+   The fill is accent-text, not accent-deep, for the reason color.css gives:
+   warm on accent-text is 5.32:1 and on accent-deep 4.12:1, and a ground
+   carrying text answers to the text floor. */
+.ck .ck-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
+}
+.ck .ck-btn-primary {
+  background: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+.ck .ck-btn-primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+.ck .ck-btn-quiet {
+  border-color: var(--color-muted-gray);
+  color: var(--color-charcoal);
+}
+.ck .ck-btn-quiet:hover { background: var(--wash-on-light-hover); }
+/* Not disabled in the DOM, so it stays in the tab order and can be read;
+   aria-disabled says what it is, the copy says why. Muted-gray on white is
+   6.47:1 as text and as the border. */
+.ck .ck-btn[aria-disabled="true"] {
+  color: var(--color-muted-gray);
+  border-color: var(--color-muted-gray);
+  cursor: not-allowed;
+}
+.ck .ck-btn[aria-disabled="true"]:hover { background: none; }
+.ck table .ck-btn { padding: var(--space-2xs) var(--space-sm); }
+
+/* ---------- The fleet ----------
+   Every truck and every column the recommendation weighed, sortable, never
+   collapsed. The wrapper scrolls sideways on its own; the page does not. */
+.ck-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ck-table {
+  width: 100%;
+  min-width: 56rem;
+  border-collapse: collapse;
+}
+.ck-table th,
+.ck-table td {
+  padding: var(--space-sm);
+  text-align: left;
+  vertical-align: top;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ck-table thead th {
+  padding-top: var(--space-md);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted-gray);
+  border-bottom: 1px solid var(--color-rule);
+  vertical-align: bottom;
+}
+.ck-table tbody tr:last-child th,
+.ck-table tbody tr:last-child td { border-bottom: 0; }
+.ck-table .ck-num { text-align: right; font-variant-numeric: tabular-nums; }
+.ck-table th.ck-num .ck-sort { justify-content: flex-end; }
+.ck-table tbody th { font-weight: var(--weight-regular); white-space: nowrap; }
+.ck-table td:nth-child(2) { font-weight: var(--weight-semibold); }
+.ck-cell-act { white-space: nowrap; }
+
+/* A sortable head is a button that looks like a column head. The sorted
+   column reads in charcoal; the others in muted-gray. */
+.ck .ck-sort {
+  appearance: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+.ck .ck-sort:hover { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 0.2em; }
+.ck-table th[aria-sort="ascending"],
+.ck-table th[aria-sort="descending"] { color: var(--color-charcoal); }
+.ck-sort-glyph { font-size: var(--text-2xs); }
+
+/* Row states. Each is a ground AND a word in the rank cell.
+   Lead: the feature ground, tea-light; charcoal 12.90, muted-gray 5.44.
+   Assigned: the alternate ground, muted-light; charcoal 12.10.
+   Blocked: white, with the ink muted -- 6.47 -- and a stop glyph. */
+.ck-table .ck-row.is-lead th,
+.ck-table .ck-row.is-lead td { background: var(--color-tea-light); }
+.ck-table .ck-row.is-assigned th,
+.ck-table .ck-row.is-assigned td { background: var(--color-muted-light); font-weight: var(--weight-semibold); }
+.ck-table .ck-row.is-blocked td { color: var(--color-muted-gray); }
+.ck-table .ck-row.is-blocked td:nth-child(2) { font-weight: var(--weight-regular); }
+.ck .ck-rank-rule { font-weight: var(--weight-semibold); color: var(--color-charcoal); white-space: nowrap; }
+.ck .ck-rank-tag {
+  display: inline-block;
+  margin-left: var(--space-2xs);
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-accent-deep);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  vertical-align: 0.1em;
+}
+.ck .ck-cell-note {
+  display: block;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+
+.ck .ck-why-done:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---------- Focus ----------
+   style.css rings links and buttons. These are the controls it does not
+   name. The ring is the fill sage: 4.51 on white, 4.12 on warm, 3.80 on
+   tea-light, all over the 3:1 a focus indicator answers to. The sort
+   buttons ring inward so the wrapper's rounded overflow cannot clip it. */
+.ck input:focus-visible,
+.ck textarea:focus-visible,
+.ck summary:focus-visible {
+  outline: 2px solid var(--color-accent-deep);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.ck .ck-sort:focus-visible { outline-offset: 1px; }
+
+/* ---------- Narrow ----------
+   The four ramps bottom out at 400px, which is the width this is built to.
+   Cards give back the inset a panel takes; the table keeps its width and
+   scrolls in its wrapper. */
+@media (max-width: 599px) {
+  .ck-card, .ck-load, .ck-why, .ck-rule, .ck-confidence, .ck-also { padding: var(--space-md) var(--space-lg); }
+  .ck .ck-status { padding: var(--space-sm) var(--space-lg); }
+  .ck-load-facts { grid-template-columns: minmax(0, 1fr); }
+  .ck-factor { grid-template-columns: minmax(0, 1fr) auto; }
+  .ck .ck-factor-dir { grid-column: 1 / -1; text-align: left; min-width: 0; margin-top: calc(-1 * var(--space-2xs)); }
+  .ck-principles > li { padding-left: var(--space-2xl); }
+}
