@@ -43,7 +43,9 @@ await page.addStyleTag({ content: [
   '.ck { padding: 0 !important; }',
   /* The rail is the page explaining the cockpit; the card is the cockpit.
      The numbered badges are the rail's, so they go with it. */
-  '.ck-rail { display: none !important; }',
+  '.ck-rail, .ck-tabs-label { display: none !important; }',
+  /* the switcher is sticky on the page; in a still it is just a bar */
+  '.ck-tabs { position: static !important; }',
   '[data-callout]::before { display: none !important; }',
   '.ck-stage { display: block !important; margin: 0 !important; padding: 40px !important; }',
 ].join(' ') });
