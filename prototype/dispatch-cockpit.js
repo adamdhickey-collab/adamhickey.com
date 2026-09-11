@@ -207,6 +207,7 @@
     history:  '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
     list:     '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
     info:     '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    chevron:  '<path d="m6 9 6 6 6-6"/>',
     pointer:  '<path d="M9 9l5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/>',
   };
   const TAB_ICON = { confident: 'checkCircle', tie: 'help', override: 'undo', rule: 'ban' };
@@ -394,7 +395,7 @@
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
       <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
       <details class="ck-misses">
-        <summary>${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</summary>
+        <summary><span class="ck-misses-label">${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
         <ol class="ck-miss-list">${r.misses.map((m) => `<li>
           <p class="ck-miss-what"><span class="ck-miss-load">${esc(m.load)}</span> ${esc(m.what)}</p>
           <p class="ck-miss-tell"><span class="ck-label">What to watch for:</span> ${esc(m.tell)}</p>

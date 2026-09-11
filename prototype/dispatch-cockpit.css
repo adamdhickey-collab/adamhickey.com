@@ -170,6 +170,18 @@
   color: var(--color-accent-text);
 }
 
+/* ---------- The hero, into the cockpit ----------
+   120px of nothing sat between the disclosure card and "The cockpit" at
+   1440, and 96 at 390: the hero's own bottom padding plus the chapter's
+   top. On a build write-up that gap is a section change and earns its
+   keep, because the chapter under the hero is a different ground. Here it
+   is not -- the hero is warm and this chapter is ground-warm -- so the two
+   paddings stack across a boundary nobody can see, and the page opens with
+   a hole. The chapter keeps a break; it just stops paying for one twice.
+   Scoped to this page, because the other three build write-ups do change
+   ground there and their spacing is right. */
+#the-cockpit { padding-top: var(--space-2xl); }
+
 /* ---------- The cockpit frame ----------
    The prototype is framed rather than set loose on the ground, for the
    reason style.css gives for .build-phone and .build-laptop: a page that
@@ -231,15 +243,30 @@
   gap: var(--space-xl);
   margin-top: var(--space-xl);
 }
+/* The rail is two parts so a phone can put them either side of the cockpit:
+   what this situation IS reads before the interface, and the three callouts
+   about specific elements read after it, because on one column they were 700px
+   of annotation about things not yet on screen. Source order is already
+   intro, cockpit, notes, so the phone needs no rule at all; the two-column
+   layout is what has to put them back together. */
 @media (min-width: 64rem) {
   .ck-stage {
     grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr);
-    gap: var(--space-2xl);
+    grid-template-areas:
+      "intro panel"
+      "notes panel";
+    grid-template-rows: auto 1fr;
+    gap: var(--space-lg) var(--space-2xl);
     align-items: start;
   }
-  .ck-rail {
+  .ck-rail-intro { grid-area: intro; }
+  .ck-rail-notes { grid-area: notes; }
+  .ck-panel { grid-area: panel; }
+  /* The notes are what you refer back to while scrolling the cockpit, so
+     they are the half that follows. Parked below the sticky switcher. */
+  .ck-rail-notes {
     position: sticky;
-    top: calc(var(--nav-height) + var(--space-lg));
+    top: calc(var(--nav-height) + var(--space-4xl) + var(--space-md));
   }
 }
 .ck .ck-rail-h {
@@ -253,7 +280,7 @@
 }
 .ck-callouts {
   list-style: none;
-  margin: var(--space-lg) 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
   gap: var(--space-md);
@@ -281,7 +308,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-xs);
-  margin: var(--space-lg) 0 0;
+  margin: var(--space-md) 0 0;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-xl);
   background: var(--color-tea-light);
@@ -366,18 +393,42 @@
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
+/* Sticky, because the cockpit is 1521px tall on a desktop and 3220px on a
+   phone: scroll to the fleet and the only way back to another situation was
+   to scroll all the way up. It parks under the site header, carries the
+   screen's own ground so cards do not show through, and sits above them.
+   The label above it is allowed to scroll away -- four named situations say
+   what they are once you have read it once. */
 .ck-tabs {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2xs);
+  padding-block: var(--space-sm);
+  margin-block: calc(-1 * var(--space-sm));
+  background: var(--color-warm);
 }
-/* Below the width where the rail sits beside the cockpit, four pills do not
-   share one row: on a phone they stacked to four rows, 165px of control
-   before any content, and at 768 they split three and one. Two by two is
-   one glance at every width under 64rem; from there the row fits. */
+/* Below the width where the row fits, the four pills scroll sideways in one
+   row rather than wrapping. Two by two was 101px of sticky bar on a phone,
+   which is too much of a 844px viewport to spend on a switcher; one row is
+   62px. The fourth pill is deliberately cut off at the right edge, which is
+   what tells you the strip scrolls. Snap so a flick lands on a whole pill.
+   The negative margin lets the strip bleed to the screen's edge while its
+   padding keeps the first pill on the content line. */
 @media (max-width: 63.98rem) {
-  .ck-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ck .ck-tab { justify-content: center; }
+  .ck-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--space-md));
+    padding-inline: var(--space-md);
+    scroll-padding-inline: var(--space-md);
+  }
+  .ck-tabs::-webkit-scrollbar { display: none; }
+  .ck .ck-tab { flex: 0 0 auto; scroll-snap-align: start; }
 }
 .ck .ck-tab {
   appearance: none;
@@ -514,7 +565,19 @@
 /* A close call is the one state where the zone is not "fine". An attribute,
    not a class, so states.mjs does not read it as script-applied state. */
 .ck-lead[data-tone="close"] { background: var(--color-caution-light); }
-.ck .ck-lead-kicker { margin: 0 0 var(--space-2xs); }
+/* Two classes deep, and for the reason this file's header gives: .ck-label is
+   one class (0-1-0) and .case-section p is class-and-element (0-1-1), so a
+   label on a <p> loses both its size and its colour. Every other .ck-label on
+   the page sits on a <span>, where nothing competes, which is why this was
+   the only one rendering at 18px charcoal instead of 12px sage -- close
+   enough to the 24px headline under it to read as a second title, which is
+   the stacking this kicker was introduced to remove. */
+.ck .ck-lead-kicker {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
 .ck-lead[data-tone="close"] .ck-lead-kicker { color: var(--color-caution-text); }
 .ck .ck-reco-h {
   margin: 0;
@@ -665,21 +728,41 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.ck-misses { margin-top: var(--space-sm); }
+/* A disclosure that looks like one. It was sage underlined text, which is
+   this site's link, so the one control on the card that expands in place
+   read as a control that navigates away -- and its hit area was the 20px
+   of the words themselves. It is now a full-width row: label left, chevron
+   right, a rule above it, and the whole row clickable at 44px. The chevron
+   turns to point down when it is open, which is the only thing on this page
+   that moves, and the site's reduced-motion blanket stops it. */
+.ck-misses { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
 .ck-misses summary {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: 2.75rem;
+  padding: var(--space-xs) 0;
   cursor: pointer;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-accent-text);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
+/* Safari draws its own triangle on a summary with any display but list-item;
+   both of these are needed to be rid of it. */
+.ck-misses summary::-webkit-details-marker { display: none; }
+.ck-misses summary::marker { content: ''; }
 .ck-misses summary:hover { color: var(--color-accent-hover); }
+.ck .ck-misses-chev {
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+  transition: transform var(--motion-state) var(--ease);
+}
+.ck-misses[open] .ck-misses-chev { transform: rotate(0deg); }
 .ck-miss-list {
-  margin: var(--space-sm) 0 0;
+  margin: 0 0 var(--space-sm);
   padding: 0 0 0 var(--space-lg);
   display: grid;
   gap: var(--space-sm);

@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:title" content="A dispatch cockpit that shows its work | Adam Hickey" />
   <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=5" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=6" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +38,7 @@
           "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach.",
           "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
-          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=5",
+          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=6",
           "datePublished": "2026-09-10",
           "dateModified": "2026-09-11",
           "author": {
@@ -106,11 +106,11 @@
   <link rel="stylesheet" href="../type.css?v=3" />
   <link rel="stylesheet" href="../style.css?v=20260910c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=6" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=8" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=5" defer></script>
+  <script src="dispatch-cockpit.js?v=6" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -294,11 +294,16 @@
                render, and CSS draws the number from it. Content in DATA,
                mechanism generic; a scenario names its own callouts. -->
           <div class="ck-stage" id="ck-panel" role="tabpanel" aria-labelledby="ck-tab-confident">
-            <aside class="ck-rail" aria-labelledby="ck-rail-h">
+            <!-- The rail in two parts, in the order a phone wants them:
+                 what the situation IS, then the cockpit, then the three
+                 callouts about elements on it. Two columns put them back in
+                 one rail with grid-template-areas. Each half is its own
+                 labelled region; the second heading is for a screen reader,
+                 since the numbered callouts under it say the same thing to
+                 anyone who can see them. -->
+            <aside class="ck-rail ck-rail-intro" aria-labelledby="ck-rail-h">
               <h3 class="ck-rail-h" id="ck-rail-h">In this situation</h3>
               <p class="ck-blurb"></p>
-              <ol class="ck-callouts"></ol>
-              <p class="ck-rail-try"></p>
             </aside>
             <div class="ck-panel">
               <div class="ck-load"></div>
@@ -318,6 +323,11 @@
                 </div>
               </div>
             </div>
+            <aside class="ck-rail ck-rail-notes" aria-labelledby="ck-notes-h">
+              <h3 class="ck-rail-h ck-visually-hidden" id="ck-notes-h">What to look for</h3>
+              <ol class="ck-callouts"></ol>
+              <p class="ck-rail-try"></p>
+            </aside>
           </div>
           <noscript>
             <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four principles below describe what it does; the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
