@@ -1630,9 +1630,26 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   color: var(--color-charcoal);
 }
 .case-section .eng3-step-out { font-size: var(--text-lg); line-height: var(--leading-body); }
+/* The mark takes --color-accent-text, the TEXT sage, not --color-accent-deep,
+   the FILL sage. It inherits --text-lg from .eng3-step-out, which is 18px and
+   upright, so it is small text and the floor that applies to it is 4.5:1.
+   accent-deep is #657d60 and measures 4.51 / 4.12 / 3.80 / 3.56 across the
+   four light grounds -- it clears the floor on white alone, by a hundredth,
+   and fails on the other three. COLOR.md says so in as many words at rule 5:
+   put accent-deep on small text and it fails, and that single substitution is
+   the mistake the Accent section exists to prevent.
+
+   It passed anyway, which is the part worth keeping in mind. These marks all
+   sit on white today, so resting.mjs measured 4.51 against 4.5 fifteen times
+   over and called every one a pass. A check that measures the ground a colour
+   is actually on cannot fail a rule that is only one ground-change away from
+   being wrong; the margin was a hundredth, and the ground it depends on is
+   not guaranteed by anything. The text sage is #556b51 at 5.82 / 5.32 / 4.90
+   / 4.60 and clears the floor on all four, so the mark stops depending on
+   which ground it lands on. */
 .eng3-step-out-mark {
   display: inline-block; width: 2em; text-indent: 0;
-  font-style: normal; color: var(--color-accent-deep);
+  font-style: normal; color: var(--color-accent-text);
 }
 .eng3-step-out b { font-style: normal; font-weight: var(--weight-regular); }
 
