@@ -253,6 +253,47 @@ the browser step is slow. `tokens.mjs`, `counts.mjs` and `seo.mjs` need
 nothing installed and finish in about a second between them, so run those
 every time.
 
+### How much of that to run, and when
+
+The cost is not spread evenly across the nine. `deployable.mjs`,
+`tokens.mjs`, `counts.mjs` and `seo.mjs` finish in about a second together and
+need nothing installed. The four browser checks are the entire bill: each
+renders every page in the tree, and `typescale.mjs` renders each of them at
+four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
+
+**CI runs all nine on every pull request regardless, so a full local run does
+not add safety — it duplicates a run that is about to happen anyway.** What a
+local run actually buys is finding the failure before spending a CI cycle to
+be told about it, and that is a question of aim rather than volume. Scoped to
+the page you touched, all four browser checks together take about half a
+minute, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
+alone on one page is a second. That is the difference between a check you run
+and a check you skip because you are in a hurry.
+
+| What the change touches | Run locally |
+| --- | --- |
+| Copy, markup, SEO, images | The fast four |
+| Color, type, spacing or motion **on one page** | The fast four, plus the four browser checks scoped to that page |
+| A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite, unscoped |
+| Anything else | Let CI be the full run |
+
+Every browser check takes a page argument, and that is the scoped form:
+
+```bash
+node scripts/resting.mjs   prototype/dispatch-cockpit.html --strict
+node scripts/states.mjs    prototype/dispatch-cockpit.html --strict
+node scripts/typescale.mjs prototype/dispatch-cockpit.html
+node scripts/curves.mjs    prototype/dispatch-cockpit.html
+```
+
+The shared-stylesheet row is the one that genuinely needs the unscoped run,
+and it is the reason this is a table rather than a rule saying "scope it."
+One deleted `a:hover` in `style.css` costs nine state rules, one on each page
+that loads it, and a page scoped out of the run is a page whose loss nothing
+notices. The tripwire counts below are the only instrument that catches a
+whole page falling out of measurement, and they only read true when every page
+was measured.
+
 The four browser checks take `--root <path>` and otherwise measure the current
 directory, and **every one of them prints the path, page count and commit it
 measured before it does anything else.** That printing is not decoration. Two
