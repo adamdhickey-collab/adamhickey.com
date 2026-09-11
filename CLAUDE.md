@@ -283,12 +283,12 @@ state-forcing notices; the resting color is the one state that is never forced.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At #62 the tree measures 3335 resting colors, 1627 state
-rules, 14172 type sizes and 7871 elements checked for a partial border
-on a curve, across 27 pages (the twenty-six of the site and `404.html`,
+unmeasured. At 2026-09-11 the tree measures 3447 resting colors, 1701 state
+rules, 14620 type sizes and 8127 elements checked for a partial border
+on a curve, across 28 pages (the twenty-seven of the site and `404.html`,
 which the browser checks measure and `counts.mjs` and `seo.mjs` leave
 out), plus
-119 token names against 182 declarations and 10 counted claims. **The four browser numbers are the only ones here that
+121 token names against 184 declarations and 10 counted claims. **The four browser numbers are the only ones here that
 nothing verifies.** They are maintained by hand and will drift. Treat them as
 a tripwire rather than a record: a run that comes back materially smaller
 means something stopped being measured, and that is worth more than the digits
