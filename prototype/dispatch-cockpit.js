@@ -83,7 +83,7 @@
       {
         id: 'confident',
         tab: 'Clear pick',
-        blurb: 'A clear leader, and every reason it leads is on the screen. The point: a recommendation you can check in ten seconds, because the reasons are beside it.',
+        blurb: 'One truck is the obvious answer, and the system ranks it first. A dispatcher should be able to confirm that in seconds, without re-ranking seven trucks by hand.',
         callouts: [
           { target: '.ck-card',       head: 'What went into the call', body: 'Five factors, each with its value and which way it cuts. No composite score, because a number would not tell you which of these to check.' },
           { target: '.ck-confidence', head: 'Confidence as a record', body: 'Not a percentage: 38 of the last 40 on time, and the two that were late are one click away, with what to watch for.' },
@@ -105,7 +105,7 @@
       {
         id: 'tie',
         tab: 'Close call',
-        blurb: 'Two trucks within a hair of each other. The point: when the system cannot tell, it says so and names the tradeoff, instead of hiding a coin flip behind a rank.',
+        blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It says they are level, names the tradeoff, and leaves the call to the dispatcher.',
         callouts: [
           { target: '.ck-reco-h',     head: 'The tradeoff, in words', body: 'Distance against hours. The headline says what the choice is rather than pretending there is none.' },
           { target: '.ck-pair',       head: 'Both options, side by side', body: 'Each with the one thing it has over the other, and its full factor list underneath.' },
@@ -127,7 +127,7 @@
       {
         id: 'override',
         tab: 'Dispatcher overrides',
-        blurb: 'The dispatcher has just assigned the truck ranked third. The point: disagreeing with the system is cheap, and what the system does with the disagreement is said out loud.',
+        blurb: 'The dispatcher has already overridden the recommendation and assigned the third-ranked truck. Nothing stopped them and nothing argues back; this is what the screen does next.',
         callouts: [
           { target: '.ck-reco-dek', head: 'The recommendation stays', body: 'Still visible, so the difference stays visible. Nothing is undone and nothing argues.' },
           { target: '.ck-why',      head: 'One optional question, afterwards', body: 'Asked after the assignment, not before it. Skip weighs the same as Save, and a sentence says what happens with the answer.' },
@@ -144,7 +144,7 @@
       {
         id: 'rule',
         tab: 'Blocked by a rule',
-        blurb: 'The best truck by every other measure would put its driver over hours. The point: a rule is a rule, not a low score, and it looks like one.',
+        blurb: 'The truck that wins on every other measure cannot legally take this load, because its driver is short on hours. That is a hard rule rather than a low score, and it has to look like one.',
         callouts: [
           { target: '.ck-rule',  head: 'The rule comes first', body: 'The one caution-colored card on the screen, above the recommendation rather than inside it, so it reads as a rule and not as a bad score.' },
           { target: '.ck-card',  head: 'The best truck that can legally go', body: 'The recommendation is the leader among the trucks the rule allows, and it shows its work like any other.' },
