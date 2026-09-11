@@ -188,17 +188,28 @@
   /* Inline icons in the site header's idiom: 24 box, 2px stroke, currentColor.
      Every one is aria-hidden and sits beside a word, never instead of one. */
   const ICON_PATHS = {
-    up:    '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
-    down:  '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
-    check: '<path d="M20 6 9 17l-5-5"/>',
-    dash:  '<path d="M5 12h14"/>',
-    ban:   '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
-    /* The three sort states, as chevrons: both ways for a column that can be
-       sorted, one way for the column that is. */
-    sort:     '<path d="m8 9 4-4 4 4"/><path d="m16 15-4 4-4-4"/>',
-    sortUp:   '<path d="m6 15 6-6 6 6"/>',
-    sortDown: '<path d="m6 9 6 6 6-6"/>',
+    up:       '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
+    down:     '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+    check:    '<path d="M20 6 9 17l-5-5"/>',
+    dash:     '<path d="M5 12h14"/>',
+    ban:      '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+    /* the situations */
+    checkCircle: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    help:     '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    undo:     '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/>',
+    /* the load's facts */
+    pin:      '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+    box:      '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+    clock:    '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+    /* the cards, the status line, the rail */
+    listChecks: '<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
+    history:  '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+    list:     '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
+    info:     '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    pointer:  '<path d="M9 9l5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/>',
   };
+  const TAB_ICON = { confident: 'checkCircle', tie: 'help', override: 'undo', rule: 'ban' };
   const icon = (name, cls = 'ck-icon') =>
     `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
   const DIR_ICON = { helps: 'up', hurts: 'down', meets: 'check', neutral: 'dash', 'stands in': 'dash' };
@@ -315,7 +326,7 @@
     const list = $('.ck-tabs', root);
     list.innerHTML = DATA.scenarios.map((s) => {
       const on = s.id === state.scenario.id;
-      return `<button type="button" role="tab" id="ck-tab-${s.id}" class="ck-tab" aria-selected="${on}" aria-controls="ck-panel" tabindex="${on ? 0 : -1}" data-scenario="${s.id}">${esc(s.tab)}</button>`;
+      return `<button type="button" role="tab" id="ck-tab-${s.id}" class="ck-tab" aria-selected="${on}" aria-controls="ck-panel" tabindex="${on ? 0 : -1}" data-scenario="${s.id}">${icon(TAB_ICON[s.id])}${esc(s.tab)}</button>`;
     }).join('');
     $('#ck-panel', root).setAttribute('aria-labelledby', `ck-tab-${state.scenario.id}`);
     $('.ck-blurb', root).textContent = state.scenario.blurb;
@@ -330,7 +341,7 @@
       <span class="ck-badge" aria-hidden="true">${i + 1}</span>
       <div><p class="ck-callout-head">${esc(c.head)}</p><p class="ck-callout-body">${esc(c.body)}</p></div>
     </li>`).join('');
-    $('.ck-rail-try', root).innerHTML = sc.try ? `<span class="ck-label">Try:</span> ${esc(sc.try)}` : '';
+    $('.ck-rail-try', root).innerHTML = sc.try ? `${icon('pointer')}<span><span class="ck-label">Try:</span> ${esc(sc.try)}</span>` : '';
   }
 
   /* Hang each callout's number off its target, after every render, because
@@ -350,10 +361,10 @@
     $('.ck-load', root).innerHTML = `
       <p class="ck-load-id"><span class="ck-label">Load</span> ${esc(l.id)} <span class="ck-sep" aria-hidden="true">&middot;</span> ${esc(l.customer)}</p>
       <dl class="ck-load-facts">
-        <div><dt>Lane</dt><dd>${esc(l.from)} to ${esc(l.to)}, ${l.driveHours} h drive</dd></div>
-        <div><dt>Needs</dt><dd>${esc(l.equipment)}, ${esc(l.weight)}</dd></div>
-        <div><dt>Window</dt><dd>${esc(l.window)}</dd></div>
-        <div><dt>Due</dt><dd>${esc(l.due)}</dd></div>
+        <div><dt>${icon('pin')}Lane</dt><dd>${esc(l.from)} to ${esc(l.to)}, ${l.driveHours} h drive</dd></div>
+        <div><dt>${icon('box')}Needs</dt><dd>${esc(l.equipment)}, ${esc(l.weight)}</dd></div>
+        <div><dt>${icon('clock')}Window</dt><dd>${esc(l.window)}</dd></div>
+        <div><dt>${icon('calendar')}Due</dt><dd>${esc(l.due)}</dd></div>
       </dl>`;
   }
 
@@ -378,7 +389,7 @@
     const late = r.of - r.held;
     const n = r.misses.length === 2 ? 'two' : r.misses.length;
     return `<div class="ck-confidence">
-      <h4 class="ck-h">Outcomes on similar loads</h4>
+      <h4 class="ck-h">${icon('history')}Outcomes on similar loads</h4>
       <p class="ck-conf-line">${lead}</p>
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
       <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
@@ -400,7 +411,7 @@
 
   function truckCard(t, heading, note) {
     return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}">
-      <p class="ck-card-head">${heading}</p>
+      <p class="ck-card-head">${heading === 'What went into the call' ? icon('listChecks') : ''}${heading}</p>
       <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">${esc(t.driver)}, ${esc(t.at)}</span></p>
       ${note ? `<p class="ck-card-note">${note}</p>` : ''}
       ${factorRows(t)}
@@ -456,7 +467,7 @@
           <div>
             ${renderConfidence()}
             <div class="ck-also">
-              <h4 class="ck-h">Also considered</h4>
+              <h4 class="ck-h">${icon('list')}Also considered</h4>
               <ol class="ck-also-list">
                 ${[second, third].filter(Boolean).map((t) => `<li>
                   <span class="ck-also-rank">${ordinal(t.rank)}</span>
@@ -473,7 +484,7 @@
 
   function renderStatus(message) {
     const s = $('.ck-status', root);
-    if (message !== undefined) s.textContent = message;
+    if (message !== undefined) s.innerHTML = `${icon('info')}<span>${esc(message)}</span>`;
   }
 
   function renderWhy() {
@@ -552,9 +563,9 @@
       if (state.assigned === t.id) cls.push('is-assigned');
       const rankCell = t.blocked
         ? `<span class="ck-rank-rule">${icon('ban')} ${esc(t.blocked.rule)}</span>`
-        : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ' <span class="ck-rank-tag">recommended</span>' : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
+        : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ` <span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}recommended</span>` : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
       return `<tr class="${cls.join(' ')}">
-        <th scope="row" class="ck-cell-rank">${rankCell}${state.assigned === t.id ? ' <span class="ck-rank-tag">assigned</span>' : ''}</th>
+        <th scope="row" class="ck-cell-rank">${rankCell}${state.assigned === t.id ? ` <span class="ck-rank-tag ck-tag-assigned">${icon('check')}assigned</span>` : ''}</th>
         <td>${esc(t.id)}</td>
         <td class="ck-cell-text">${esc(t.driver)}</td>
         <td class="ck-cell-text">${esc(t.at)}</td>
