@@ -112,19 +112,27 @@
 .ck-disclosure p + p { margin-top: var(--space-xs); }
 .ck-disclosure strong { font-weight: var(--weight-semibold); }
 
-/* ---------- The four principles ----------
-   A numbered list where the number is part of the argument: the principle
-   is the head, the paragraph is why, and the last line says what it changes
-   on the screen below, so a reader can go and look. */
-.ck-principles {
+/* ---------- The four decisions, each beside its evidence ----------
+   Until #78 this was a numbered list of four paragraphs, each ending with a
+   line naming where on the screen to go and look. That asked a reader to hold
+   a position in their head and scroll three sections up to check it, which is
+   the same thing the cockpit itself refuses to ask of a dispatcher: the page
+   was arguing for evidence beside the answer while keeping its own evidence a
+   screen away. Each decision now carries a capture of the thing it decided.
+
+   Two columns from 64rem: the argument on the left at a readable measure, the
+   picture on the right. The numbered disc stays where it was, in the margin of
+   the copy column, because the number orders the arguments and not the
+   pictures. */
+.ck-decisions {
   list-style: none;
   /* the paragraph that introduces the list ends flush against it otherwise;
      space above the first item matches the gap between the items */
-  margin: var(--space-2xl) 0 0;
+  margin: var(--space-3xl) 0 0;
   padding: 0;
-  counter-reset: principle;
+  counter-reset: decision;
   display: grid;
-  gap: var(--space-2xl);
+  gap: var(--space-block);
   /* The disc, and the one number this block authors. It is the case
      studies' step marker -- w-10 h-10 on a bg-accent circle with the
      numeral reversed out, in sap-product-maturity, dispatch-complexity and
@@ -133,20 +141,33 @@
      the prose hangs on and the title's minimum height cannot drift apart. */
   --ck-num: 40px;
 }
-.ck-principles > li {
+.ckw-decision {
+  counter-increment: decision;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+/* The copy column is fixed and the picture takes the rest, rather than the
+   halves a 1fr 1fr would give: the argument answers to the measure and stops
+   getting easier to read past it, and every pixel the picture does not get is
+   a pixel of interface rendered smaller than it was drawn. 26rem is the
+   measure at this size plus the disc's indent. */
+@media (min-width: 64rem) {
+  .ckw-decision { grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); gap: var(--space-4xl); }
+}
+.ckw-decision-copy {
   position: relative;
   /* the disc plus the case studies' own gap-3 between it and the title */
   padding-left: calc(var(--ck-num) + var(--space-sm));
-  counter-increment: principle;
 }
 /* Reversed out rather than set in sage: accent-deep is the FILL step of the
-   sage and white on it is 4.51:1, where the same sage as small TEXT on this
-   page's tea ground is not (color.css says so at the token). A numeral
-   inside the disc is also unambiguously a marker and not the start of the
-   sentence beside it, which is what the hanging serif figure kept looking
-   like. */
-.ck-principles > li::before {
-  content: counter(principle);
+   sage and white on it is 4.51:1, where the same sage as small TEXT on a
+   light ground is not (color.css says so at the token). A numeral inside the
+   disc is also unambiguously a marker and not the start of the sentence
+   beside it, which is what the hanging serif figure kept looking like. */
+.ckw-decision-copy::before {
+  content: counter(decision, decimal-leading-zero);
   position: absolute;
   left: 0;
   top: 0;
@@ -158,10 +179,11 @@
   background: var(--color-accent-deep);
   color: var(--color-white);
   font-family: var(--font-sans);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-medium);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
 }
-.ck-principles h3 {
+.ck .ckw-decision h3,
+.ckw-decision h3 {
   /* The disc is taller than this title's line, so the title takes the
      disc's height and centres in it -- the case studies' items-center,
      reached without a wrapper. Top-aligning instead would drop the disc
@@ -171,30 +193,436 @@
   align-items: center;
   margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-.ck-principles p {
+.case-section .ckw-decision .ckw-lead {
   margin: 0;
   max-width: var(--measure);
   font-size: var(--text-lg);
   line-height: var(--leading-reading);
   color: var(--color-charcoal);
 }
-.ck-principles .ck-onscreen {
-  margin-top: var(--space-sm);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
+
+/* A capture, framed the way style.css frames a wide product screenshot, so a
+   picture of an interface reads the same here as on the three build
+   write-ups. The captures carry their own ground out to the edge, so the
+   border is what tells a reader where the screen stops. */
+.ckw-shot { margin: 0; min-width: 0; }
+.ckw-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--color-tag-border);
+  box-shadow: var(--shadow-media);
 }
+.case-section .ckw-shot figcaption,
+.case-section .ckw-frame-cap {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+/* The label that has to survive the picture being screenshotted, quoted or
+   pulled into a feed: the outcome history is invented, and a figure that
+   travels without the sentence around it has to say so itself. */
+.ckw-cap-label { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+
+/* THE DATA TABLE IS SHOWN AT THE SIZE IT IS READ AT. Two of the four captures
+   are the fleet, which is 1200px of interface because the argument it makes is
+   that seven trucks and five factors stay in reach at once. Inside the 1fr
+   column beside a paragraph it renders at about 0.6, which puts its type near
+   10px: the page would be claiming the table is legible while showing that it
+   is not. So those two span the row and sit under their copy instead of beside
+   it. It is the same reasoning that lets .ck-frame leave the container, and it
+   is decision 04 applied to the page rather than to the cockpit. */
+@media (min-width: 64rem) {
+  .ckw-shot--wide { grid-column: 1 / -1; }
+}
+.ckw-frames {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+.ckw-frames > li { min-width: 0; }
+.ckw-frames img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--color-tag-border);
+  box-shadow: var(--shadow-media);
+}
+/* "First" and "Then" in the sage, so the two frames read as a sequence
+   without a drawn arrow between them. The same shape .build-flow-cap uses on
+   the Lucy Learns flow, for the same job. */
+.case-section .ckw-frame-cap span {
+  margin-right: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
 .ck-label {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
+}
+
+/* ---------- The hero: the argument beside the interface ----------
+   The page used to open with a kicker, a title and a 90-word dek, and the
+   first thing a reader saw of the product was a device frame a screen and a
+   half down. A hiring reader gets three questions answered in the first
+   screen instead: what the problem is, what was designed, and how much of it
+   is real. The picture answers the middle one, and it is a capture of the
+   close call rather than a drawing, because a drawing of an interface is a
+   claim about an interface.
+
+   One column until 64rem, which is where the copy column would otherwise
+   drop under the measure and the capture would be too small to read. */
+.ckw-hero { padding-bottom: var(--space-block); }
+/* minmax(0, 1fr) and not the implicit auto, in one column as well as two:
+   the capture below sits in a box that scrolls, and a grid track sized to its
+   content would grow to the capture's floor and carry the whole page sideways.
+   .ck-stage says the same thing about the fleet data table. */
+.ckw-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+@media (min-width: 64rem) {
+  .ckw-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-4xl);
+  }
+}
+/* --type-title is sized for a title that spans the page; this one shares the
+   row with a picture, which is exactly what --type-title-inset exists for --
+   type.css authors it for the homepage hero beside the portrait. */
+.ckw-hero-title { font-size: var(--type-title-inset); margin-bottom: var(--space-lg); }
+.case-hero .ckw-hero-dek {
+  max-width: var(--measure);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-lede);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ckw-hero-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: var(--space-xl) 0 var(--space-2xl);
+}
+/* The time it takes, on the button rather than in a sentence under it: it is
+   the fact that decides whether the reader presses. Quieter than the label
+   and still on the sage fill, so it takes the warm at the same 5.32:1 rather
+   than a tint that would not clear the floor. */
+.ckw-btn-note { margin-left: var(--space-2xs); font-weight: var(--weight-regular); }
+.ckw-hero-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+.ckw-hero-link:hover { color: var(--color-accent-hover); }
+.ckw-hero-figure { margin: 0; min-width: 0; }
+.ckw-hero-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--color-tag-border);
+  box-shadow: var(--shadow-media);
+}
+.case-hero .ckw-hero-figure figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.case-hero .ckw-hero-figure figcaption strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
+}
+/* The disclosure keeps its box and loses the negative top margin it carried
+   when it followed a dek in one column. */
+.ckw-hero-copy .ck-disclosure { margin-top: 0; }
+
+/* ---------- A capture that will not shrink past reading ----------
+   Below 64rem, where the decisions stop being two columns, the column is
+   narrower than the interface in these captures,
+   and `width: 100%` on a 1288px screenshot in a 342px column is a picture of
+   a data table nobody can read: the page would be showing that the fleet
+   stays in reach while making it unreadable to show it. So the capture keeps
+   a floor and the box under it scrolls, which is what .ck-table-wrap does
+   with the live table at the same widths and what .build-flow-row does with
+   the Lucy Learns phones.
+
+   Two floors. A card capture is about 38rem of interface. A fleet capture is
+   the data table plus its ground, and the table authors its own minimum at
+   60rem, so 62rem is that minimum and the two insets around it rather than a
+   number chosen here. The box bleeds through the gutter to the viewport so a
+   phone gets the width back, and the caption stays outside it: a caption that
+   scrolled away from its picture would be the one piece of this that has to
+   stay put. */
+.ckw-scroll { display: block; }
+@media (max-width: 63.99rem) {
+  .ckw-scroll {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .ckw-scroll img { min-width: 38rem; }
+  .ckw-shot--wide .ckw-scroll img { min-width: 62rem; }
+}
+
+/* ---------- Four stops ----------
+   A reader deciding whether to spend ten minutes here should be able to see
+   what the ten minutes contain. Deliberately not sticky: the cockpit's own
+   situation switcher is sticky, and two bars competing for the top of the
+   viewport leaves a reader pressing the wrong one. */
+.ckw-jump {
+  background: var(--color-warm);
+  border-top: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ckw-jump ul {
+  list-style: none;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-sm) var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-2xl);
+}
+.ckw-jump a {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ckw-jump a:hover { color: var(--color-accent-hover); }
+
+/* ---------- The one drawing, and the one that closes ----------
+   Everything else on this page is a capture. These two are the room the
+   interface is used in and the thesis it is built on, neither of which the
+   interface can show. Sixteen by nine at container width, in the style the
+   writing features are cut to and through the same script. */
+.ckw-scene { margin: var(--space-2xl) 0 0; }
+.ckw-scene img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.case-section .ckw-scene figcaption,
+.case-footer .ckw-scene figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ckw-scene--close { margin: 0 0 var(--space-3xl); }
+
+/* ---------- The design question ----------
+   One sentence, on the feature ground, because it is the thing the four
+   decisions are all answers to and it was previously the fourth sentence of
+   the third paragraph. */
+.case-section .ckw-question {
+  max-width: var(--measure);
+  margin: var(--space-2xl) 0 0;
+  padding: var(--space-lg) var(--space-xl);
+  border-left: 2px solid var(--color-accent-deep);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ckw-question-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The deeper argument, folded ----------
+   What a reader is OWED stays in the open: what the factor comparison is not,
+   that the outcome history is invented, that Assign here stages a choice Undo
+   reverses. What is folded is the reasoning behind a decision already stated
+   in full. The summary says which of the two it is rather than "read more",
+   so a reader can tell from the label that nothing load-bearing is hidden. */
+.ckw-more {
+  margin: var(--space-md) 0 var(--space-xl);
+  max-width: var(--measure);
+  border-top: 1px solid var(--rule-hairline);
+}
+.ckw-more summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  cursor: pointer;
+  list-style: none;
+}
+.ckw-more summary::-webkit-details-marker { display: none; }
+.ckw-more summary::marker { content: ''; }
+.ckw-more summary:hover { color: var(--color-accent-hover); }
+/* The chevron is drawn rather than fetched, because it is the only mark in
+   this block and an inline SVG per summary would be six copies of it in the
+   markup. It turns on open, which is the one thing the state has to say that
+   the word above it does not. */
+.ckw-more summary::after {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+  transition: transform var(--motion-state) var(--ease);
+}
+.ckw-more[open] summary::after { transform: translateY(0.1em) rotate(-135deg); }
+.ckw-more-body { padding-top: var(--space-xs); }
+.case-section .ckw-more-body p {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The study, as a shape ----------
+   Two conditions and what is between them. The second side takes the feature
+   ground and the sage edge, because it is the one with the recommendation on
+   it and the comparison is otherwise two identical cards. */
+.ckw-compare {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-2xl) 0 var(--space-lg);
+  align-items: stretch;
+}
+@media (min-width: 48rem) {
+  .ckw-compare { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-xl); }
+}
+.ckw-compare-side {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-tag-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ckw-compare-side--b { border-color: var(--color-accent-deep); }
+.case-section .ckw-compare-side p {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-compare-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-compare-vs {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-align: center;
+}
+.case-section .ckw-compare-note {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Three questions, and what each would change ----------
+   A card each, rather than three bullets, so the section reads as a plan and
+   not as a list of things that might go wrong. */
+.ckw-questions {
+  list-style: none;
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xl);
+}
+@media (min-width: 60rem) {
+  .ckw-questions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.ckw-questions > li {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-tag-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.case-section .ckw-questions h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-questions p {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The assumption most likely to be wrong ----------
+   On the caution ground, which COLOR.md's Status family entered for this page
+   and which charcoal reads 12.44:1 on. It is the one thing in the section
+   that is not a plan: it is a prediction that the plan will find the card
+   structured wrongly. */
+.ckw-callout {
+  margin: var(--space-2xl) 0 var(--space-2xl);
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+}
+.case-section .ckw-callout-h {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-caution-text);
+}
+.case-section .ckw-callout p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
 }
 
 /* ---------- The hero, into the cockpit ----------
@@ -1161,9 +1589,13 @@
    tea-light, all over the 3:1 a focus indicator answers to. The sort
    buttons fill their cell in the charcoal head, so they ring inward, 3.40
    on charcoal, where the wrapper's rounded overflow cannot clip it. */
+/* The walkthrough's disclosures sit outside .ck and are the same control, so
+   they take the same ring rather than falling through to style.css, which
+   rings links and buttons and does not name a summary. */
 .ck input:focus-visible,
 .ck textarea:focus-visible,
-.ck summary:focus-visible {
+.ck summary:focus-visible,
+.ckw-more summary:focus-visible {
   outline: 2px solid var(--color-accent-deep);
   outline-offset: 2px;
   border-radius: 4px;
@@ -1189,5 +1621,10 @@
   /* The disc does not shrink -- it is the case studies' mark at every width
      there too -- so what a phone buys back is the gap beside it, not the
      column. */
-  .ck-principles > li { padding-left: calc(var(--ck-num) + var(--space-xs)); }
+  .ckw-decision-copy { padding-left: calc(var(--ck-num) + var(--space-xs)); }
+  /* Four cards inside a card: the compare sides, the question cards and the
+     callout keep a readable inset at the width the rest of the page gives
+     back. */
+  .ckw-compare-side, .ckw-questions > li, .ckw-callout { padding: var(--space-md); }
+  .case-section .ckw-question { padding: var(--space-md) var(--space-lg); }
 }
