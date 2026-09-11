@@ -106,11 +106,14 @@
   <link rel="stylesheet" href="../type.css?v=3" />
   <link rel="stylesheet" href="../style.css?v=20260910c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=9" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=10" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=6" defer></script>
+  <script src="dispatch-cockpit.js?v=7" defer></script>
+  <!-- The slideshow over the cockpit. Its own file and its own listener set,
+       because the scroller has to keep working when the cockpit does not. -->
+  <script src="cockpit-slides.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -252,7 +255,7 @@
             <h1 class="case-title ckw-hero-title">A dispatch cockpit that shows its work</h1>
             <p class="ckw-hero-dek">A truck recommendation is only useful when a dispatcher can judge it. This prototype puts the reasons, the outcome record and the whole fleet beside the recommendation, and leaves the call with the person doing the work.</p>
             <p class="ckw-hero-act">
-              <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">Try the cockpit <span class="ckw-btn-note">&middot; about 90 seconds</span></a>
+              <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">See the five screens <span class="ckw-btn-note">&middot; then try it</span></a>
               <a class="ckw-hero-link" href="#the-decisions">See the design decisions &rarr;</a>
             </p>
           </div>
@@ -276,14 +279,158 @@
       </div>
     </header>
 
+    <!-- THE SCREENS, before the thing itself. Until 2026-09-11 this section
+         opened with the working cockpit and a rail of numbered callouts
+         beside it, and a reader met an interface, a switcher and seven
+         annotations at once. The annotations were the problem: they
+         explained a screen the reader had not looked at yet, and they took
+         a third of the frame to do it, which left the fleet data table
+         clipped -- the one element whose whole argument is that it fits.
+
+         So the page now shows before it explains. Five screens out of the
+         prototype, in the order the story runs, each with the situation
+         over it and one sentence under it, and nothing drawn on top of the
+         interface. The cockpit itself is still here; it is the section
+         below, and it is the same screens with the reader's hands on them. -->
     <section class="case-section build-chapter ground-warm" id="the-cockpit">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Try the cockpit</h2>
-          <p>One load, seven trucks, four situations. Pick one; the rail beside the cockpit says what to look for and what to try. Assign the recommended truck, or any other that can legally take the load. Everything works from the keyboard: arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
+          <h2>Five screens, one load</h2>
+          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the screens a dispatcher moves through, captured from the working prototype below rather than drawn. The situation is over each one and what to notice is under it.</p>
         </div>
       </div>
 
+
+      <!-- THE SLIDESHOW. A scroller, not a widget: the five screens are all in
+           the document, side by side, and the browser's own scroll-snap is
+           what moves between them. That is the whole mechanism, and it is
+           what makes the thing work with the script off, with a trackpad, with
+           a thumb, and with the keyboard once the list is focused.
+
+           THE NEXT SCREEN IS DELIBERATELY CUT BY THE EDGE. A slide is centred
+           and narrower than the track, so its neighbours show at both edges;
+           that sliver is the only thing on screen saying there are more, and
+           it says it without a word. The row of dots under it is the same
+           fact for a reader who cannot see the crop.
+
+           WHAT IS NOT HERE: no autoplay, no rotation, no timer. A carousel
+           that moves on its own takes the reading speed out of the reader's
+           hands, and nothing here is worth failing WCAG 2.2.2 for. Every
+           control is a real button, the arrows stay focusable at the ends
+           rather than going disabled under the reader's finger, and the
+           position is announced when a control is used and not while a thumb
+           is mid-swipe. -->
+      <div class="ck-show">
+        <ol class="ck-slides" id="ck-slides" tabindex="0" aria-label="Five screens from the dispatch cockpit, side by side">
+          <li class="ck-slide">
+            <p class="ck-slide-head" id="ck-slide-1-h">
+              <span class="ck-slide-n" aria-hidden="true">1</span>
+              <span class="ck-slide-sit">Clear pick</span>
+              <span class="ck-slide-title">The screen as it opens</span>
+            </p>
+            <figure class="ck-slide-fig">
+              <picture>
+                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-pick-sm.webp?v=1" width="780" height="1640" />
+                <img src="../img/cockpit/slide-pick.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The cockpit as it opens: a load bar for L-4821, Northfield Foods, running Rochester, Minnesota to Milwaukee, Wisconsin; under it the recommendation for T-118, Marisol Vega, with a card listing five factors &mdash; distance to pickup, hours of service left, equipment, on-time record and deadhead &mdash; each with its value and whether it helps, meets or is neutral; beside it a card reading that the top-ranked truck delivered on time on 38 of the last 40 loads like this one, and a card naming the trucks ranked second and third with what each lost on." />
+              </picture>
+              <figcaption>No composite score. The five factors the ranking used, each with its value and which way it cuts, so a dispatcher checks the advice against the trucks instead of rebuilding it.</figcaption>
+            </figure>
+          </li>
+          <li class="ck-slide">
+            <p class="ck-slide-head" id="ck-slide-2-h">
+              <span class="ck-slide-n" aria-hidden="true">2</span>
+              <span class="ck-slide-sit">Clear pick</span>
+              <span class="ck-slide-title">One click into the record</span>
+            </p>
+            <figure class="ck-slide-fig">
+              <picture>
+                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-record-sm.webp?v=1" width="780" height="1640" />
+                <img src="../img/cockpit/slide-record.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The same screen with the outcome record opened: under &ldquo;38 of the last 40&rdquo;, the two late loads are listed in full &mdash; one where the hours figure was forty minutes stale, one where the customer closed the dock early &mdash; each followed by a line headed &ldquo;What to watch for&rdquo;." />
+              </picture>
+              <figcaption><span class="ckw-cap-label">Illustrative outcome data.</span> Confidence as a record rather than a percentage. The two misses open in place, and one of them was not a ranking error at all &mdash; it says so.</figcaption>
+            </figure>
+          </li>
+          <li class="ck-slide">
+            <p class="ck-slide-head" id="ck-slide-3-h">
+              <span class="ck-slide-n" aria-hidden="true">3</span>
+              <span class="ck-slide-sit">Close call</span>
+              <span class="ck-slide-title">Two the system will not separate</span>
+            </p>
+            <figure class="ck-slide-fig">
+              <picture>
+                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-close-call-sm.webp?v=1" width="780" height="1640" />
+                <img src="../img/cockpit/slide-close-call.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The close call: a caution-coloured card headed &ldquo;Two trucks are close. The tradeoff is faster pickup against more driver hours&rdquo;, then two option cards side by side &mdash; T-131 with faster pickup at 16 miles, T-118 with more driver hours at 8.4 &mdash; each with its full factor list and its own Assign button." />
+              </picture>
+              <figcaption>When two trucks are level the system says so, names the tradeoff in words, and leaves the call. Neither option counts as an override.</figcaption>
+            </figure>
+          </li>
+          <li class="ck-slide">
+            <p class="ck-slide-head" id="ck-slide-4-h">
+              <span class="ck-slide-n" aria-hidden="true">4</span>
+              <span class="ck-slide-sit">Dispatcher overrides</span>
+              <span class="ck-slide-title">One press, then a question</span>
+            </p>
+            <figure class="ck-slide-fig">
+              <picture>
+                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-override-sm.webp?v=1" width="780" height="1640" />
+                <img src="../img/cockpit/slide-override.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="After an override: a status line saying load L-4821 is assigned to T-114, Sam Bergstrom, the truck ranked 3rd, and that there is an optional question about why. Below it the question, with four reasons, a free-text box, a sentence about what happens with the answer, and Save the reason and Skip. Below that the fleet data table, with T-114&rsquo;s row marked assigned and its button now reading Undo." />
+              </picture>
+              <figcaption>Assigning another truck is one press on any row the rule allows, with no dialog in the way. The question comes afterwards, it is optional, and Skip weighs the same as Save.</figcaption>
+            </figure>
+          </li>
+          <li class="ck-slide">
+            <p class="ck-slide-head" id="ck-slide-5-h">
+              <span class="ck-slide-n" aria-hidden="true">5</span>
+              <span class="ck-slide-sit">Blocked by a rule</span>
+              <span class="ck-slide-title">The rule comes first</span>
+            </p>
+            <figure class="ck-slide-fig">
+              <picture>
+                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-rule-sm.webp?v=1" width="780" height="1640" />
+                <img src="../img/cockpit/slide-rule.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="Blocked by a rule: a caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score&rdquo;, sitting above the recommendation for T-118, which is the best truck the rule allows." />
+              </picture>
+              <figcaption>A driver short on hours is a rule, not a low score, so it sits above the recommendation in the one caution colour on the screen. T-114 keeps its row in the data table below, with the hours it needs beside the hours it has.</figcaption>
+            </figure>
+          </li>
+        </ol>
+
+        <!-- Hidden until the script is running, because without it they would
+             be three controls that do nothing. The scroller behind them needs
+             none of this to work. -->
+        <div class="ck-show-bar" hidden>
+          <div class="ck-show-group">
+          <button type="button" class="ck-show-nav" data-dir="-1" aria-controls="ck-slides" aria-label="Previous screen">
+            <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <div class="ck-show-dots">
+            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 5: Clear pick, the screen as it opens"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 5: Clear pick, one click into the record"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 5: Close call, two the system will not separate"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 5: Dispatcher overrides, one press, then a question"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="4" aria-controls="ck-slides" aria-label="Screen 5 of 5: Blocked by a rule, the rule comes first"><span class="ck-show-dot-mark"></span></button>
+          </div>
+          <button type="button" class="ck-show-nav" data-dir="1" aria-controls="ck-slides" aria-label="Next screen">
+            <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          </div>
+          <p class="ck-show-count" aria-hidden="true"><span class="ck-show-at">1</span> / 5</p>
+          <p class="ck-show-live ck-visually-hidden" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE COCKPIT ITSELF, after the screens rather than instead of them.
+         What it keeps from the version before 2026-09-11 is everything a
+         reader can operate; what it loses is the rail that used to explain it
+         from the side. The situation now sits over the screen the way it does
+         on a slide above, and the screen has the whole frame. -->
+    <section class="case-section build-chapter ground-white" id="try-it">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>Try it yourself</h2>
+          <p>The same four situations, with your hands on them. Assign the recommended truck, or any other that can legally take the load, and sort any column you like. Everything works from the keyboard: arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
+        </div>
+      </div>
       <!-- The prototype in the site's device chrome, the same object the
            build write-ups frame their captures in: one --bezel of
            --device-chrome, the inner radius DERIVED from the outer, and
@@ -308,27 +455,24 @@
                names and a label saying what they are. -->
           <p class="ck-tabs-label" id="ck-tabs-label">Pick a situation</p>
           <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>
-          <!-- The stage is the tab panel: the rail and the cockpit both
-               change with the situation, so both are what the tab controls.
-               The rail comes first in the document and sits first on the
-               left, so reading order and visual order agree without any
-               reordering: what to look for, then the thing to look at. The
-               numbered badges on the cockpit are the same badges as in the
-               rail -- the JS sets data-callout on each target after every
-               render, and CSS draws the number from it. Content in DATA,
-               mechanism generic; a scenario names its own callouts. -->
+          <!-- The stage is the tab panel: the situation's sentence and the
+               cockpit both change with the tab, so both are what it controls.
+               One column, always. Until 2026-09-11 this was a two-column grid
+               with a rail of numbered callouts down the left and a matching
+               badge hung on each element they named, and the cockpit had about
+               two thirds of the frame to render a monitor-width interface in.
+               The screens above do that job now, from outside the interface,
+               where an annotation cannot cover the thing it is about. -->
           <div class="ck-stage" id="ck-panel" role="tabpanel" aria-labelledby="ck-tab-confident">
-            <!-- The rail in two parts, in the order a phone wants them:
-                 what the situation IS, then the cockpit, then the three
-                 callouts about elements on it. Two columns put them back in
-                 one rail with grid-template-areas. Each half is its own
-                 labelled region; the second heading is for a screen reader,
-                 since the numbered callouts under it say the same thing to
-                 anyone who can see them. -->
-            <aside class="ck-rail ck-rail-intro" aria-labelledby="ck-rail-h">
-              <h3 class="ck-rail-h" id="ck-rail-h">In this situation</h3>
+            <!-- The situation, over the screen and not beside it. Same
+                 arrangement as a slide above: what this is, then the thing
+                 itself. The heading is for a screen reader; the sentence under
+                 it says the same to anyone who can see the tabs. -->
+            <div class="ck-situation">
+              <h3 class="ck-rail-h ck-visually-hidden" id="ck-rail-h">In this situation</h3>
               <p class="ck-blurb"></p>
-            </aside>
+              <p class="ck-rail-try"></p>
+            </div>
             <div class="ck-panel">
               <div class="ck-load"></div>
               <div class="ck-reco"></div>
@@ -338,23 +482,21 @@
                    move. -->
               <p class="ck-status" role="status"></p>
               <div class="ck-why" hidden></div>
-              <!-- .ck-fleet carries the callout badge; the wrap under it
-                   scrolls sideways and would clip anything hung off its
-                   corner. -->
+              <!-- The wrap under .ck-fleet is what scrolls sideways, below the
+                   60rem the data table authors as its minimum. The element
+                   around it exists so the fleet can carry something the wrap
+                   would clip; that was the callout badge until 2026-09-11, and
+                   the wrapper stays because the clipping is the fact, not the
+                   badge. -->
               <div class="ck-fleet">
                 <div class="ck-table-wrap">
                   <table class="ck-table"></table>
                 </div>
               </div>
             </div>
-            <aside class="ck-rail ck-rail-notes" aria-labelledby="ck-notes-h">
-              <h3 class="ck-rail-h ck-visually-hidden" id="ck-notes-h">What to look for</h3>
-              <ol class="ck-callouts"></ol>
-              <p class="ck-rail-try"></p>
-            </aside>
           </div>
           <noscript>
-            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four principles below describe what it does; the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
+            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The five screens above are captures of it running, the four decisions below describe what it does, and the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
           </noscript>
         </div>
       </div>

@@ -127,7 +127,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
-| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures its first screen for the share card, and `scripts/cockpit-shots.mjs` the six crops the page's design decisions sit beside |
+| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the five screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the six crops the page's design decisions sit beside and the ten slides, five wide and five narrow |
 | `writing/*.html` | The index and ten articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
@@ -235,7 +235,19 @@ the problem it answers, four design decisions, and what would be tested next.
 Since #78 each decision sits beside a capture of the thing it decided rather
 than a sentence naming where to go and look, and the captures are made from
 the running prototype by `scripts/cockpit-shots.mjs`, so the picture and the
-live demo three sections above it cannot drift apart. Its
+live demo cannot drift apart.
+
+The page shows before it explains. It opens on five of those captures in a
+scroll-snap slideshow -- the situation over each screen, one sentence under
+it, the next screen cut by the edge of the track -- and the cockpit itself
+follows under "Try it yourself". Until that landed, the demo came first with
+a rail of numbered callouts beside it and a badge drawn on each element they
+named, which annotated a screen the reader had not looked at yet and left a
+monitor-width interface two thirds of the frame to render in. The slideshow
+has no autoplay and no rotation, its arrows stay focusable at the ends, and
+under 48rem `<picture>` swaps each wide capture for the cockpit's own phone
+layout, because a 1320px screenshot shown 330px wide is a picture of an
+interface nobody can read. Its
 own directory rather than `case-study/`, because `tailwind.config.js` reads
 every word of every file there as a candidate class, and a page with this
 much interactive markup would have emitted utilities into the built
