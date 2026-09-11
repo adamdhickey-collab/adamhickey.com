@@ -125,23 +125,50 @@
   counter-reset: principle;
   display: grid;
   gap: var(--space-2xl);
+  /* The disc, and the one number this block authors. It is the case
+     studies' step marker -- w-10 h-10 on a bg-accent circle with the
+     numeral reversed out, in sap-product-maturity, dispatch-complexity and
+     innovators-studio -- which is 40px, and 40px is --space-3xl but it is
+     not a space: it sizes a mark. Named once here so the disc, the indent
+     the prose hangs on and the title's minimum height cannot drift apart. */
+  --ck-num: 40px;
 }
 .ck-principles > li {
   position: relative;
-  padding-left: var(--space-3xl);
+  /* the disc plus the case studies' own gap-3 between it and the title */
+  padding-left: calc(var(--ck-num) + var(--space-sm));
   counter-increment: principle;
 }
+/* Reversed out rather than set in sage: accent-deep is the FILL step of the
+   sage and white on it is 4.51:1, where the same sage as small TEXT on this
+   page's tea ground is not (color.css says so at the token). A numeral
+   inside the disc is also unambiguously a marker and not the start of the
+   sentence beside it, which is what the hanging serif figure kept looking
+   like. */
 .ck-principles > li::before {
   content: counter(principle);
   position: absolute;
   left: 0;
   top: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-heading);
-  color: var(--color-accent-text);
+  display: grid;
+  place-items: center;
+  width: var(--ck-num);
+  height: var(--ck-num);
+  border-radius: 50%;
+  background: var(--color-accent-deep);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
 }
 .ck-principles h3 {
+  /* The disc is taller than this title's line, so the title takes the
+     disc's height and centres in it -- the case studies' items-center,
+     reached without a wrapper. Top-aligning instead would drop the disc
+     halfway into the paragraph below. */
+  min-height: var(--ck-num);
+  display: flex;
+  align-items: center;
   margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--text-lg);
@@ -1159,5 +1186,8 @@
   .ck-load-facts { grid-template-columns: minmax(0, 1fr); }
   .ck-factor { grid-template-columns: minmax(0, 1fr) auto; }
   .ck .ck-factor-dir { grid-column: 1 / -1; text-align: left; min-width: 0; margin-top: calc(-1 * var(--space-2xs)); }
-  .ck-principles > li { padding-left: var(--space-2xl); }
+  /* The disc does not shrink -- it is the case studies' mark at every width
+     there too -- so what a phone buys back is the gap beside it, not the
+     column. */
+  .ck-principles > li { padding-left: calc(var(--ck-num) + var(--space-xs)); }
 }
