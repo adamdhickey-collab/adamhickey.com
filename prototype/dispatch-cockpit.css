@@ -716,13 +716,14 @@
    slideshow; cockpit-slides.js adds arrows, dots and a spoken position on top
    of a thing that already worked without it. -------------------------------- */
 .ck-show {
-  /* The width of one slide, and the source of every other number here. 76rem
-     is the widest a 1320px capture is worth showing -- past its own size it is
-     an upscale -- and 84% is what leaves a neighbour showing at both edges on
-     anything narrower. Under 48rem the slide takes nearly the whole viewport,
-     because the narrow capture is a phone screen and 16% of a phone spent on
-     a peek is 16% not spent on the screen. */
-  --slide-w: min(76rem, 84vw);
+  /* The width of one slide, and the source of every other number here. The
+     capture is 680 of screen, so 680 plus two bezels is the widest it is
+     worth showing -- past its own size it is an upscale -- and 84vw is what
+     leaves a neighbour showing at both edges on anything narrower. Half the
+     width the first version had, which is the point: at 1440 the middle
+     slide is whole and about 350px of each neighbour shows, which reads as a
+     row of cards rather than one screenshot with edges. */
+  --slide-w: min(calc(680px + var(--bezel) * 2), 84vw);
   --slide-gap: var(--space-xl);
   margin-top: var(--space-2xl);
 }
@@ -779,11 +780,12 @@
    .case-section p is class-and-element, so a single class on a <p> loses to
    it and this line would come back at reading size and reading leading. */
 .ck-show .ck-slide-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2xs) var(--space-sm);
-  margin: 0 0 var(--space-sm);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-xs);
+  row-gap: var(--space-2xs);
+  margin: 0 0 var(--space-md);
   font-family: var(--font-sans);
   line-height: var(--leading-ui);
 }
@@ -806,38 +808,60 @@
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
 }
+/* What is happening on the screen, in a plain sentence, under the number and
+   the situation and across both columns. --text-lg, because at half the
+   width the picture no longer explains itself and this line is doing the
+   work the picture used to. */
 .ck-slide-title {
-  font-size: var(--text-base);
+  grid-column: 1 / -1;
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   color: var(--color-charcoal);
 }
 
-/* The screen itself, framed the way every other capture on this page is: the
-   capture carries its own warm ground to the edge, so the border is what says
-   where the screen stops. The ratio is declared rather than inherited from
-   the file, because <picture> swaps a 3:2 window for a portrait one at 48rem
-   and a box that resizes after the image decodes is a layout shift. */
+/* The screen, in the tablet. The same object as .ck-frame under it and the
+   homepage card's thumb: one --bezel of --device-chrome, --shadow-device,
+   and the inner radius DERIVED from the outer so the two corners are
+   concentric. --shell-radius is --radius-xl, the card's, because this is
+   the card's tablet -- nearly square, no foot -- and not the laptop the
+   1920px frame below takes its 14 from. Under 48rem the shell holds the
+   phone capture and takes the phone's 30, which is .build-phone's.
+
+   The ratio is declared on the image rather than inherited from the file,
+   because <picture> swaps 4:3 for a portrait one at 48rem and a box that
+   resizes after the image decodes is a layout shift. The capture carries
+   its own warm ground to the edge; the bezel is what says where the screen
+   stops, which is why there is no border here any more. */
 .ck-slide-fig { margin: 0; }
-.ck-slide-fig img {
+.ck-slide-screen {
+  --shell-radius: var(--radius-xl);
+  padding: var(--bezel);
+  border-radius: var(--shell-radius);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+.ck-slide-screen img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 2640 / 1760;
-  border-radius: 12px;
-  border: 1px solid var(--color-tag-border);
-  box-shadow: var(--shadow-media);
+  aspect-ratio: 4 / 3;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
   background: var(--color-warm);
 }
 @media (max-width: 47.99rem) {
-  .ck-slide-fig img { aspect-ratio: 780 / 1640; }
+  .ck-slide-screen { --shell-radius: 30px; }
+  .ck-slide-screen img { aspect-ratio: 780 / 1640; }
 }
+/* --text-sm and charcoal rather than the --text-xs muted grey every other
+   caption on this page takes: those captions annotate a picture that is
+   already legible, and this one is half the explanation. */
 .case-section .ck-slide-fig figcaption {
-  margin: var(--space-sm) 0 0;
+  margin: var(--space-md) 0 0;
   max-width: var(--measure);
   font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
 }
 
 /* ---------- The controls under the track ----------

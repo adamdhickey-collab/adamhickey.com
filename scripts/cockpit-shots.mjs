@@ -39,7 +39,7 @@
  * whole reason they can sit on the same page. A shot clips to a card and stops
  * where the card stops, so it reads as a detail lifted out of a screen. A slide
  * names a `aspect` instead: the clip takes the region's own top edge and then a
- * fixed 16:10 window down from it, whatever is in the way. So a slide is a
+ * fixed window of that ratio down from it, whatever is in the way. So a slide is a
  * WINDOW ON THE SCREEN rather than a cut-out of one, every slide is the same
  * shape as every other, and a card that runs past the bottom edge runs past it
  * the way it does on a monitor. That is what keeps the slideshow above from
@@ -161,74 +161,80 @@ const SHOTS = [
   },
 
   /* ----- the slides ------------------------------------------------------
-     Five windows on the screen, in the order the section walks them. All
-     1320 by 880, all at the same 1240 of panel, so the interface is the same
-     size on every slide and the track has one height. The only dial is where
-     the window starts, and each says what it is anchored to and why. */
+     Five windows on the screen, in the order the section walks them, each
+     shown on the page inside the tablet the homepage card uses. 680 by 510,
+     which is 4:3 -- a tablet in landscape IS 4:3, so the window's shape is
+     the device's shape and nothing has to be reconciled, the argument the
+     card makes. At 680 the cockpit is in its one-column layout, so a window
+     this size holds one card at its real size rather than a whole screen at
+     half of it: the slide is SIMPLER, not smaller. The only dial is where the
+     window starts, and each says what it is anchored to and why. */
   {
     name: 'slide-pick',
     scenario: 'confident',
-    width: 1320,
-    aspect: 1.5,
-    clip: ['.ck-load'],
-    /* 46 above the load bar puts the window's top edge just into the warm
-       margin over the screen, and the 880 that follows lands six pixels
-       short of the fleet data table: the load, the whole recommendation and
-       the line that says what the system settled on, ending on ground. */
-    padTop: 46,
-    note: 'slide 1: the load, the pick and its reasons',
+    width: 680,
+    aspect: 4 / 3,
+    stagePad: 20,
+    /* The factor card on its own. The "Recommended" heading over it is the
+       caption's job; the card already names the truck and the driver, and
+       what the slide is for is the five rows under them, whole. */
+    clip: ['.ck-card'],
+    /* The card and its two 20px gaps are 499; the window is 510, so one edge
+       shows 11px of something whichever way it sits. At the bottom that is
+       the next card's top border on ground, which is what a screen with more
+       below it looks like; at the top it would be the descenders of the
+       heading over the card, which is a heading cut in half. */
+    padTop: 20,
+    note: 'slide 1: the pick, and the five things behind it',
   },
   {
     name: 'slide-record',
     scenario: 'confident',
-    width: 1320,
-    aspect: 1.5,
+    width: 680,
+    aspect: 4 / 3,
+    stagePad: 20,
     open: '.ck-misses',
-    clip: ['.ck-reco'],
-    /* 20 into the 24 of ground between the load bar and the recommendation.
-       40 reached past it and let the load card's bottom border through, and
-       a rounded corner cut off by the top edge of a slide reads as a miscut
-       rather than as a screen that continues. Every slide here starts on
-       ground for that reason. */
+    clip: ['.ck-confidence'],
     padTop: 20,
     note: 'slide 2: the outcome record, with both misses open',
   },
   {
     name: 'slide-close-call',
     scenario: 'tie',
-    width: 1320,
-    aspect: 1.5,
-    clip: ['.ck-reco'],
+    width: 680,
+    aspect: 4 / 3,
+    stagePad: 20,
     /* The headline is the slide -- it is where the tradeoff is said in
-       words -- so the window starts there and the record card below runs
-       past the bottom edge rather than the headline being dropped to fit
-       it. */
+       words -- so the window starts there and the first option runs past
+       the bottom edge rather than the headline being dropped to fit it. */
+    clip: ['.ck-reco'],
     padTop: 20,
     note: 'slide 3: two trucks the system will not separate',
   },
   {
     name: 'slide-override',
     scenario: 'override',
-    width: 1320,
-    aspect: 1.5,
-    clip: ['.ck-status', '.ck-why'],
-    /* The only slide that does not start at the top of the screen. It starts
-       in the ground under the recommendation, which is still up there and is
-       what the caption says; what this window is for is the three things
-       below it -- the line that says what happened, the question, and the row
-       in the data table now reading Assigned, Undo. */
-    padTop: 18,
+    width: 680,
+    aspect: 4 / 3,
+    stagePad: 20,
+    /* The question alone. The status line above it would cost the two
+       buttons at the bottom, and Save beside Skip at the same weight is the
+       decision this slide shows. */
+    clip: ['.ck-why'],
+    /* The same 14px too many as slide 1, taken at the top: 40 puts the
+       window's top edge in the lower sixth of the grey status pill, under
+       its text, rather than 14px into the charcoal head of the data table
+       below, which is the loudest thing on the screen. */
+    padTop: 40,
     note: 'slide 4: the question, after the override',
   },
   {
     name: 'slide-rule',
     scenario: 'rule',
-    width: 1320,
-    aspect: 1.5,
+    width: 680,
+    aspect: 4 / 3,
+    stagePad: 20,
     clip: ['.ck-reco'],
-    /* Anchored on the caution card rather than on the data table. The table
-       under this situation is the `fleet` shot four sections down, and a
-       slide cut from the same rows would be that picture printed twice. */
     padTop: 20,
     note: 'slide 5: a rule, above the best truck the rule allows',
   },
@@ -241,7 +247,7 @@ const SHOTS = [
      own phone layout, captured at the width it is designed for, and the
      slideshow serves them under 48rem with <picture>.
 
-     390 by 820 rather than 16:10, because that is the shape of the thing
+     390 by 820 rather than 4:3, because that is the shape of the thing
      being photographed. A phone screen is portrait and every card on it is
      stacked, so a landscape window would hold two rows of one card. */
   {
