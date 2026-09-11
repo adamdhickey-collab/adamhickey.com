@@ -296,9 +296,19 @@
    content would grow to the capture's floor and carry the whole page sideways.
    .ck-stage says the same thing about the fleet data table. */
 .ckw-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+/* Not 1:1. The capture is a 1736px screenshot of an interface whose whole
+   point is five factors a reader can actually read, and an even split at 1440
+   rendered it into 584px, which is about 9px of option-card body text. 1.18
+   moves 48px across: the capture takes 632 and the copy 536.
+
+   What that costs the copy is less than it looks. The measure is not the
+   binding constraint on either side of this ratio -- 52ch at the dek's size
+   is 826px, so the column was already the narrower of the two at 1:1 and
+   still is. The trade is line length against legibility, and 536px of lede
+   is a comfortable line where 584px of screenshot is not a readable table. */
 @media (min-width: 64rem) {
   .ckw-hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
     gap: var(--space-4xl);
   }
 }
@@ -314,12 +324,14 @@
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
+/* The copy column now ends on the actions, so the bottom margin that used to
+   hold the disclosure off comes back to nothing. */
 .ckw-hero-act {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-lg) var(--space-xl);
-  margin: var(--space-xl) 0 var(--space-2xl);
+  margin: var(--space-2xl) 0 0;
 }
 /* The time it takes, on the button rather than in a sentence under it: it is
    the fact that decides whether the reader presses. Quieter than the label
@@ -354,9 +366,27 @@
   font-weight: var(--weight-semibold);
   color: var(--color-charcoal);
 }
-/* The disclosure keeps its box and loses the negative top margin it carried
-   when it followed a dek in one column. */
-.ckw-hero-copy .ck-disclosure { margin-top: 0; }
+/* ---------- The disclosure, once it is a band and not a column ----------
+   It keeps the box -- the credibility of the page rests on it being read, and
+   a box is what gets read -- and loses the measure cap that made sense when
+   it was one paragraph wide. Across the hero it is two paragraphs abreast,
+   each still held to the measure, so the note is wide and about four lines
+   tall instead of narrow and fourteen. Below 64rem the columns collapse and
+   `p + p` puts its own gap back. */
+.ckw-hero-note {
+  max-width: none;
+  margin: var(--space-4xl) 0 0;
+}
+@media (min-width: 64rem) {
+  .ckw-hero-note {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+  .ckw-hero-note p { max-width: var(--measure); }
+  .ckw-hero-note p + p { margin-top: 0; }
+}
 
 /* ---------- A capture that will not shrink past reading ----------
    Below 64rem, where the decisions stop being two columns, the column is
@@ -387,34 +417,6 @@
   .ckw-scroll img { min-width: 38rem; }
   .ckw-shot--wide .ckw-scroll img { min-width: 62rem; }
 }
-
-/* ---------- Four stops ----------
-   A reader deciding whether to spend ten minutes here should be able to see
-   what the ten minutes contain. Deliberately not sticky: the cockpit's own
-   situation switcher is sticky, and two bars competing for the top of the
-   viewport leaves a reader pressing the wrong one. */
-.ckw-jump {
-  background: var(--color-warm);
-  border-top: 1px solid var(--rule-hairline);
-  border-bottom: 1px solid var(--rule-hairline);
-}
-.ckw-jump ul {
-  list-style: none;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: var(--space-sm) var(--gutter);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md) var(--space-2xl);
-}
-.ckw-jump a {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-}
-.ckw-jump a:hover { color: var(--color-accent-hover); }
 
 /* ---------- The one drawing, and the one that closes ----------
    Everything else on this page is a capture. These two are the room the
@@ -602,20 +604,37 @@
    On the caution ground, which COLOR.md's Status family entered for this page
    and which charcoal reads 12.44:1 on. It is the one thing in the section
    that is not a plan: it is a prediction that the plan will find the card
-   structured wrongly. */
+   structured wrongly.
+
+   The caution ground is 1.04:1 against ground-tea, which is a tint and not
+   an edge: the card reads as a smudge on the section rather than as a card
+   beside the three above it. Nothing measured it before, because both
+   resting.mjs and states.mjs read ink and not the boundary between two
+   grounds. The edge is the caution ink at the 1px the question cards use, so
+   the two weights match and only the color differs; the ink is 5.43:1 on tea
+   and 5.23:1 on the fill, both well past the 3:1 a boundary owes. */
 .ckw-callout {
   margin: var(--space-2xl) 0 var(--space-2xl);
   padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-caution-text);
   border-radius: var(--radius-xl);
   background: var(--color-caution-light);
 }
-.case-section .ckw-callout-h {
-  margin: 0 0 var(--space-sm);
+/* Three classes, because `.case-section .ckw-callout p` is two classes and an
+   element and therefore outranked the two-class selector this used to be. It
+   won everything: the heading rendered at 16px charcoal on leading-body with
+   no margin under it, so the label sat welded to its paragraph while the
+   three cards above kept their 8px. What is written here now is what the
+   page actually shows -- the question cards' h3 treatment exactly, which is
+   the spacing the card was asked to match. */
+.case-section .ckw-callout .ckw-callout-h {
+  margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-caution-text);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
 }
 .case-section .ckw-callout p {
   margin: 0;
