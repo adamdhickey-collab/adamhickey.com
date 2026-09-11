@@ -127,7 +127,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, one per card in "When people bring me in" |
-| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures its first screen for the share card |
+| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures its first screen for the share card, and `scripts/cockpit-shots.mjs` the six crops the page's design decisions sit beside |
 | `writing/*.html` | The index and ten articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
@@ -231,7 +231,11 @@ appeared on a case study. The order is editorial rather than chronological:
 
 **Prototypes** -- `prototype/dispatch-cockpit.html`. A working demo rather
 than a write-up: the page wraps a vanilla HTML, CSS and JavaScript cockpit in
-the problem it answers, four principles, and what would be tested next. Its
+the problem it answers, four design decisions, and what would be tested next.
+Since #78 each decision sits beside a capture of the thing it decided rather
+than a sentence naming where to go and look, and the captures are made from
+the running prototype by `scripts/cockpit-shots.mjs`, so the picture and the
+live demo three sections above it cannot drift apart. Its
 own directory rather than `case-study/`, because `tailwind.config.js` reads
 every word of every file there as a candidate class, and a page with this
 much interactive markup would have emitted utilities into the built
@@ -255,6 +259,7 @@ search engine it sat under Work.
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page except the homepage and the design system page, rendered by `scripts/og.mjs` from the page's title and its own picture; the homepage keeps `img/og-card.jpg`, drawn for it |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
+| `img/cockpit/` | The dispatch cockpit prototype page's pictures: six crops of the running prototype, captured by `scripts/cockpit-shots.mjs` so a restyle of the cockpit is one run rather than an afternoon of screenshots, and two drawings of the room it is used in, cut to the writing features' 16:9 through `scripts/illustrate.mjs feature` |
 | `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
 | `img/casework/` | One image, on the Hybrid Designer page |
 | `img/hero-portrait.mp4` | The hero clip |
