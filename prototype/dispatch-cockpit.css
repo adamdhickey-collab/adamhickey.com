@@ -704,13 +704,24 @@
   .ck { padding: var(--space-3xl); }
 }
 /* ============================ THE SLIDESHOW ==============================
-   Five screens in a row, one centred, its neighbours cut by the edges of the
-   track. The cut is the only thing on the page that says there are more, and
-   it has to be a real one: a fade or a gradient over the next slide would say
-   "there is more" about an image whose contrast this site measures, and it
-   would say it to nobody who cannot see it. So the neighbours are at full
-   strength and simply run off the sides, and the dots under the track say the
-   same fact in a form a screen reader can read.
+   Five screens in a row, one ranged to the page's left edge, the next cut by
+   the right edge of the track. The cut is the only thing on the page that
+   says there are more, and it has to be a real one: a fade or a gradient over
+   the next slide would say "there is more" about an image whose contrast this
+   site measures, and it would say it to nobody who cannot see it. So the
+   neighbours are at full strength and simply run off the sides, and the dots
+   under the track say the same fact in a form a screen reader can read.
+
+   RANGED, NOT CENTRED. Until 2026-09-11 the slide sat in the middle of the
+   viewport, and the paragraph over it and the assumption card over that did
+   not: they range to the container's left edge, so the tablet started 68px
+   to the right of the sentence introducing it. --slide-x is that edge -- the
+   .container's own arithmetic, half of what is left over past --container-max
+   plus the gutter -- and the first slide starts there. The cost is the cue on
+   the left: under about 1344px the gutter is narrower than the gap between
+   slides, so the previous screen does not show at all. That cue was never
+   the important one -- the reader has already seen that screen -- and the
+   arrow under the track says it anyway.
 
    The mechanism is the browser's. overflow-x plus scroll-snap is the whole
    slideshow; cockpit-slides.js adds arrows, dots and a spoken position on top
@@ -725,6 +736,10 @@
      row of cards rather than one screenshot with edges. */
   --slide-w: min(calc(680px + var(--bezel) * 2), 84vw);
   --slide-gap: var(--space-xl);
+  /* Where the slide starts: the left edge of a .container, which is the edge
+     the assumption card in the header ranges to. 100% is the viewport here,
+     because .ck-show is full-bleed. */
+  --slide-x: max(var(--gutter), calc((100% - var(--container-max)) / 2 + var(--gutter)));
   margin-top: var(--space-2xl);
 }
 /* On a phone the ground has to come out of the slide rather than out of the
@@ -745,12 +760,13 @@
   /* A flick that runs out of slides should stop at the end of the slideshow
      rather than carry the page sideways behind it. */
   overscroll-behavior-inline: contain;
-  /* The padding is what centres the first and last slides: half the ground
-     either side of one slide, floored at the page gutter so a narrow viewport
-     does not lose its margin. scroll-padding matches it so a snap lands in
-     the same place a press does. */
-  padding-inline: max(var(--gutter), calc((100% - var(--slide-w)) / 2));
-  scroll-padding-inline: max(var(--gutter), calc((100% - var(--slide-w)) / 2));
+  /* The start padding is what puts the first slide on the container's edge,
+     and the end padding is what lets the last one get there too: without it
+     the scroller runs out of room with the fifth screen still short of the
+     line the other four snapped to. scroll-padding matches the start so a
+     snap lands in the same place a press does. */
+  padding-inline: var(--slide-x) max(0px, calc(100% - var(--slide-x) - var(--slide-w)));
+  scroll-padding-inline-start: var(--slide-x);
   /* Room for the focus ring and the shadow under each screen; without it both
      are clipped by the scroll box. */
   padding-block: var(--space-2xs) var(--space-sm);
@@ -769,7 +785,44 @@
   flex: 0 0 auto;
   width: var(--slide-w);
   min-width: 0;
-  scroll-snap-align: center;
+  scroll-snap-align: start;
+}
+/* A neighbour is something to pull in. The script marks every slide before
+   the one on show is-prev and every one after it is-next, the cut neighbour
+   takes the pointer, and a click on it scrolls it into place -- the same
+   move as the arrow under the track, from the thing the eye is already on.
+   The arrow badge saying so appears on hover, and only for a pointer that
+   can hover: a thumb gets the tap without the hint, because a hint that
+   waits for a hover a thumb cannot make is noise. It is the same round
+   button as .ck-show-nav, sat on the tablet at the edge nearest the slide on
+   show, which is the edge the cut leaves visible. Opacity because the badge
+   is a state changing under the pointer, not a thing moving. */
+.ck-slide.is-prev,
+.ck-slide.is-next { cursor: pointer; }
+.ck-slide-go {
+  position: absolute;
+  top: calc(50% - 1.375rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  box-shadow: var(--shadow-device);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.ck-slide-go .ck-icon { width: 1.25rem; height: 1.25rem; vertical-align: 0; }
+.ck-slide.is-next .ck-slide-go { left: var(--space-md); }
+.ck-slide.is-prev .ck-slide-go { right: var(--space-md); }
+.ck-slide.is-prev .ck-slide-go .ck-icon { transform: scaleX(-1); }
+@media (hover: hover) and (pointer: fine) {
+  .ck-slide.is-prev:hover .ck-slide-go,
+  .ck-slide.is-next:hover .ck-slide-go { opacity: 1; }
 }
 
 /* The situation, over the screen. A number, the situation's own name in the
@@ -835,6 +888,7 @@
 .ck-slide-fig { margin: 0; }
 .ck-slide-screen {
   --shell-radius: var(--radius-xl);
+  position: relative;
   padding: var(--bezel);
   border-radius: var(--shell-radius);
   background: var(--device-chrome);
@@ -865,23 +919,20 @@
 }
 
 /* ---------- The controls under the track ----------
-   Centred under the slide rather than ranged with it, because the track is
-   full-bleed and there is no left edge to range to. */
-/* Three tracks and not a centred row, so the arrows and the dots sit on the
-   middle of the track rather than on the middle of themselves-plus-the-count.
-   The count is 40px wide and pushed the whole control off centre by half of
-   that, which is the kind of thing nobody names and everybody sees. */
+   Ranged to the same edge as the slide, --slide-x, so the arrows sit under
+   the screen they move rather than under the middle of a full-bleed track.
+   They were centred while the slide was; a centred control under a ranged
+   slide would be the one thing on the section on a different line. */
 .ck-show-bar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  margin-top: var(--space-lg);
-}
-.ck-show-group {
-  grid-column: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  padding-inline-start: var(--slide-x);
+}
+.ck-show-group {
+  display: flex;
+  align-items: center;
   gap: var(--space-sm);
 }
 .ck-show-nav {
@@ -949,9 +1000,7 @@
   background: var(--color-accent-text);
 }
 .ck-show .ck-show-count {
-  grid-column: 3;
-  justify-self: start;
-  margin: 0 0 0 var(--space-md);
+  margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);

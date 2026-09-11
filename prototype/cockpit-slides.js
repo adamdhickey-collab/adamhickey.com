@@ -8,6 +8,13 @@
  * the markup keeps them hidden until this runs, so a reader with the script off
  * gets a scroller rather than three buttons that do nothing.
  *
+ * A CLICK ON THE CUT NEIGHBOUR BRINGS IT IN. The slide showing at the right
+ * edge is what says there are more, so it is the thing a reader reaches for;
+ * a click on any slide other than the one on show scrolls to it, which is the
+ * arrow's move from a nearer target. The classes is-prev and is-next are what
+ * the stylesheet hangs the pointer and the hover badge on, and they are set
+ * here rather than in markup because which slide is which changes.
+ *
  * That is also why nothing here calls preventDefault on a touch or a wheel.
  * The one place it takes a key is the left and right arrow on the list itself,
  * where the native behaviour is a 40px nudge that then snaps: correct, and
@@ -45,10 +52,12 @@
 
   let index = 0;
 
-  /* The scroll offset that puts a slide in the middle of the track. offsetLeft
-     is measured against the list's padding box, which is what scrollLeft is in
-     too, so the two agree without reading either element's padding. */
-  const offsetFor = (el) => el.offsetLeft - (track.clientWidth - el.clientWidth) / 2;
+  /* The scroll offset that puts a slide where the first one starts: on the
+     container's edge, which is the list's start padding. offsetLeft is
+     measured against the list's padding box, which is what scrollLeft is in
+     too, so the distance between two slides' offsets is the scroll between
+     them, without reading either element's padding. */
+  const offsetFor = (el) => el.offsetLeft - slides[0].offsetLeft;
 
   function go(next, spoken) {
     const i = Math.max(0, Math.min(slides.length - 1, next));
@@ -72,6 +81,10 @@
     navs.forEach((b) => {
       const back = Number(b.dataset.dir) < 0;
       b.setAttribute('aria-disabled', String(back ? i === 0 : i === slides.length - 1));
+    });
+    slides.forEach((s, n) => {
+      s.classList.toggle('is-prev', n < i);
+      s.classList.toggle('is-next', n > i);
     });
     if (at) at.textContent = String(i + 1);
   }
@@ -98,6 +111,9 @@
     go(index + Number(b.dataset.dir), true);
   }));
   dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.go), true)));
+  /* The slide on show is left alone: a click on it is a click on its caption
+     or its picture, not a request to move. */
+  slides.forEach((s, n) => s.addEventListener('click', () => { if (n !== index) go(n, true); }));
 
   track.addEventListener('keydown', (e) => {
     if (e.target !== track) return;
