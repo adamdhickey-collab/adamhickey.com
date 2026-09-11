@@ -151,9 +151,9 @@ About, which links the two career case studies → the contact section, headed
 "Describe what is happening". Since #24 there is no Earlier experience
 section, no four-step panel under the products and no proof strip; staging's
 #142 cut the second half of the page by about a third, and #143 gave the two
-career case studies their route in from About. The header carries Work,
-Services, About and Contact, an email icon and a LinkedIn icon, and every page
-loads it from `site-nav.css`.
+career case studies their route in from About. The header carries Work, How I
+Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
+page loads it from `site-nav.css`.
 
 ## The pages, by family
 
