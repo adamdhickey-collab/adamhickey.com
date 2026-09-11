@@ -82,7 +82,7 @@
     scenarios: [
       {
         id: 'confident',
-        tab: 'Confident',
+        tab: 'Clear pick',
         blurb: 'A clear leader, and every reason it leads is on the screen. The point: a recommendation you can check in ten seconds, because the reasons are beside it.',
         callouts: [
           { target: '.ck-card',       head: 'What went into the call', body: 'Five factors, each with its value and which way it cuts. No composite score, because a number would not tell you which of these to check.' },
@@ -104,7 +104,7 @@
       },
       {
         id: 'tie',
-        tab: 'Low confidence',
+        tab: 'Close call',
         blurb: 'Two trucks within a hair of each other. The point: when the system cannot tell, it says so and names the tradeoff, instead of hiding a coin flip behind a rank.',
         callouts: [
           { target: '.ck-reco-h',     head: 'The tradeoff, in words', body: 'Distance against hours. The headline says what the choice is rather than pretending there is none.' },
@@ -126,7 +126,7 @@
       },
       {
         id: 'override',
-        tab: 'Override in flight',
+        tab: 'Dispatcher overrides',
         blurb: 'The dispatcher has just assigned the truck ranked third. The point: disagreeing with the system is cheap, and what the system does with the disagreement is said out loud.',
         callouts: [
           { target: '.ck-reco-dek', head: 'The recommendation stays', body: 'Still visible, so the difference stays visible. Nothing is undone and nothing argues.' },
@@ -143,10 +143,10 @@
       },
       {
         id: 'rule',
-        tab: 'Constraint conflict',
+        tab: 'Blocked by a rule',
         blurb: 'The best truck by every other measure would put its driver over hours. The point: a rule is a rule, not a low score, and it looks like one.',
         callouts: [
-          { target: '.ck-rule',  head: 'The rule comes first', body: 'The darkest edge on the screen, above the recommendation rather than inside it, so it cannot be read as a bad score.' },
+          { target: '.ck-rule',  head: 'The rule comes first', body: 'The one caution-colored card on the screen, above the recommendation rather than inside it, so it reads as a rule and not as a bad score.' },
           { target: '.ck-card',  head: 'The best truck that can legally go', body: 'The recommendation is the leader among the trucks the rule allows, and it shows its work like any other.' },
           { target: '.ck-fleet', head: 'T-114 keeps its row', body: 'Its Assign is disabled in words, with the hours it needs beside the hours it has. Nothing disappears.' },
         ],
@@ -361,10 +361,10 @@
     $('.ck-load', root).innerHTML = `
       <p class="ck-load-id"><span class="ck-label">Load</span> ${esc(l.id)} <span class="ck-sep" aria-hidden="true">&middot;</span> ${esc(l.customer)}</p>
       <dl class="ck-load-facts">
-        <div><dt>${icon('pin')}Lane</dt><dd>${esc(l.from)} to ${esc(l.to)}, ${l.driveHours} h drive</dd></div>
-        <div><dt>${icon('box')}Needs</dt><dd>${esc(l.equipment)}, ${esc(l.weight)}</dd></div>
-        <div><dt>${icon('clock')}Window</dt><dd>${esc(l.window)}</dd></div>
-        <div><dt>${icon('calendar')}Due</dt><dd>${esc(l.due)}</dd></div>
+        <div><dt>Lane</dt><dd>${esc(l.from)} to ${esc(l.to)}, ${l.driveHours} h drive</dd></div>
+        <div><dt>Needs</dt><dd>${esc(l.equipment)}, ${esc(l.weight)}</dd></div>
+        <div><dt>Window</dt><dd>${esc(l.window)}</dd></div>
+        <div><dt>Due</dt><dd>${esc(l.due)}</dd></div>
       </dl>`;
   }
 
@@ -389,7 +389,7 @@
     const late = r.of - r.held;
     const n = r.misses.length === 2 ? 'two' : r.misses.length;
     return `<div class="ck-confidence">
-      <h4 class="ck-h">${icon('history')}Outcomes on similar loads</h4>
+      <h4 class="ck-h">Outcomes on similar loads</h4>
       <p class="ck-conf-line">${lead}</p>
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
       <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
@@ -411,7 +411,7 @@
 
   function truckCard(t, heading, note) {
     return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}">
-      <p class="ck-card-head">${heading === 'What went into the call' ? icon('listChecks') : ''}${heading}</p>
+      <p class="ck-card-head">${heading}</p>
       <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">${esc(t.driver)}, ${esc(t.at)}</span></p>
       ${note ? `<p class="ck-card-note">${note}</p>` : ''}
       ${factorRows(t)}
@@ -446,8 +446,8 @@
     if (state.tie) {
       const tr = tradeoff(first, second);
       const line = (x, f) => f ? `${f.wins}: ${esc(f.unit(x))}` : 'close on everything';
-      html += `<div class="ck-lead">
-        <p class="ck-lead-kicker ck-label">Two options, no pick</p>
+      html += `<div class="ck-lead" data-tone="close">
+        <p class="ck-lead-kicker ck-label">Close call: no pick</p>
         <h3 class="ck-reco-h">Two trucks are close. The tradeoff is ${esc(tr.a ? tr.a.wins : 'small')} against ${esc(tr.b ? tr.b.wins : 'small')}.</h3>
         <p class="ck-reco-dek">The system is not ranking one over the other. Pick the side of the tradeoff that matters for this load.</p>
         <div class="ck-pair">
@@ -459,15 +459,15 @@
     } else {
       const overridden = state.assigned && state.assigned !== first.id;
       html += `<div class="ck-lead">
-        <p class="ck-lead-kicker ck-label">${overridden ? 'The system&rsquo;s pick, not yours' : 'Recommendation'}</p>
-        <h3 class="ck-reco-h">Recommended: ${esc(first.id)}, ${esc(first.driver)}</h3>
+        <p class="ck-lead-kicker ck-label">${overridden ? 'The system&rsquo;s pick, not yours' : 'Recommended'}</p>
+        <h3 class="ck-reco-h">${esc(first.id)} <span class="ck-sep" aria-hidden="true">&middot;</span> ${esc(first.driver)}</h3>
         ${overridden ? `<p class="ck-reco-dek">Still the system&rsquo;s pick. You assigned ${esc(state.assigned)} instead, which is fine; the recommendation stays visible so the difference stays visible.</p>` : ''}
         <div class="ck-pair">
           ${truckCard(first, 'What went into the call')}
           <div>
             ${renderConfidence()}
             <div class="ck-also">
-              <h4 class="ck-h">${icon('list')}Also considered</h4>
+              <h4 class="ck-h">Also considered</h4>
               <ol class="ck-also-list">
                 ${[second, third].filter(Boolean).map((t) => `<li>
                   <span class="ck-also-rank">${ordinal(t.rank)}</span>
@@ -482,9 +482,13 @@
     box.innerHTML = html;
   }
 
-  function renderStatus(message) {
+  /* The tone is the ground the line takes: sage for a pick or an assignment,
+     caution for a close call or a refusal, the muted ground for a note. */
+  function renderStatus(message, tone = 'pick') {
     const s = $('.ck-status', root);
-    if (message !== undefined) s.innerHTML = `${icon('info')}<span>${esc(message)}</span>`;
+    if (message === undefined) return;
+    s.setAttribute('data-tone', tone);
+    s.innerHTML = `${icon(tone === 'close' ? 'help' : tone === 'note' ? 'info' : 'checkCircle')}<span>${esc(message)}</span>`;
   }
 
   function renderWhy() {
@@ -581,13 +585,13 @@
   }
 
   /* Re-render everything under the tabs, keeping focus where it was. */
-  function render(status) {
+  function render(status, tone) {
     const focusKey = document.activeElement && document.activeElement.dataset.focus;
     renderReco();
     renderWhy();
     renderTable();
     applyCallouts();
-    if (status !== undefined) renderStatus(status);
+    if (status !== undefined) renderStatus(status, tone);
     if (focusKey) {
       const again = root.querySelector(`[data-focus="${focusKey}"]`);
       if (again) again.focus();
@@ -606,15 +610,15 @@
     const first = state.ranked[0], second = state.ranked[1];
     const blocked = state.fleet.filter((t) => t.blocked).map((t) => t.id);
     let status;
-    if (state.tie) status = `${scenario.tab}: two trucks are close, ${first.id} and ${second.id}. The tradeoff is named above the data table.`;
+    if (state.tie) status = `Close call: ${first.id} and ${second.id} are within a hair of each other. The tradeoff is named above the data table.`;
     else status = `${scenario.tab}: the system recommends ${first.id}, ${first.driver}.${blocked.length ? ` ${blocked.join(', ')} is over hours and cannot be assigned.` : ''}`;
-    render(status);
+    render(status, state.tie ? 'close' : 'pick');
     if (scenario.then) scenario.then(api);
   }
 
   function assign(id) {
     const t = truck(id);
-    if (!t || t.blocked) { render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`); return; }
+    if (!t || t.blocked) { render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`, 'close'); return; }
     state.assigned = id;
     state.answered = null;
     const first = state.ranked[0];
@@ -628,7 +632,7 @@
   function undo() {
     const was = state.assigned;
     state.assigned = null; state.why = null; state.answered = null;
-    render(`Assignment of ${was} undone. No reason was submitted.`);
+    render(`Assignment of ${was} undone. No reason was submitted.`, 'note');
   }
 
   /* The two ways out of the question both re-render it away from under the
@@ -643,7 +647,7 @@
 
   function skip() {
     state.why = null;
-    render('Skipped. The assignment stands and no reason was submitted.');
+    render('Skipped. The assignment stands and no reason was submitted.', 'note');
     const undo = root.querySelector('[data-undo]');
     if (undo) undo.focus();
   }

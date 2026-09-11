@@ -136,6 +136,25 @@ wash token can come back when something actually needs one.
 **Neither is allowed to be the only thing separating a control from its
 ground.** A boundary that carries meaning needs 3:1; see §5.
 
+### Status
+
+| Token | Value | White | Warm | Tea | Muted | Notes |
+|---|---|---|---|---|---|---|
+| `--color-caution` | `#d98e6a` | 2.62 | 2.39 | 2.20 | 2.07 | **On charcoal only**, 4.17:1 — the engagement pages' 1.2px caution icon, held to 3:1. Never on a light ground. |
+| `--color-caution-text` | `#96482a` | 6.45 | 5.90 | 5.43 | 5.09 | **Ink and banner.** Clears 4.5 as text on all four light grounds, and carries `--color-warm` on itself at 5.90, so it can be a filled status line. |
+| `--color-caution-light` | `#f6e4dc` | | | | | **Ground.** Carries charcoal at 12.44, `caution-text` at 5.23, muted-gray at 5.25, accent-text at 4.73. |
+
+The sage is the site's "this is fine": the recommended chip, the filled
+status line, a factor that helps. Until 2026-09-11 there was nothing for
+"this is not fine" on a light ground — `--color-caution` is 2.62:1 on white,
+under even the 3:1 an icon answers to, which is why it lives on charcoal. The
+dispatch cockpit needed three states that are neither sage nor charcoal: a
+close call the system will not pick, a factor that hurts, and a driver the
+hours rule removes. `caution-text` and `caution-light` are that family, one
+hue, measured. **The rule still holds that no meaning is carried by color
+alone**: every caution ground is also a word, and every caution ink sits
+beside one.
+
 ### Not colors
 
 Black is not a token. It survives only *inside* the eight elevation tokens,
@@ -436,9 +455,11 @@ Two rules keep the boundary from blurring:
    color is needed, it goes in §2 with a measured contrast row, or it does
    not exist.
 
-The one exception already in the code is `--color-caution` `#d98e6a`, the
+The one exception already in the code was `--color-caution` `#d98e6a`, the
 engagement pages' caution icon. It is semantic, it is interface, and it needs
 naming — but it is icon-only line art at 1.2px, so it is held to 3:1, not 4.5.
+Since 2026-09-11 it has two siblings that do clear 4.5 on the light grounds,
+`--color-caution-text` and `--color-caution-light`; §2, Status, has the rows.
 
 ### A token that was never defined
 
