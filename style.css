@@ -56,6 +56,15 @@ html { -webkit-text-size-adjust: 100%; tab-size: 4; font-size: 16px; }
    a rendering of a physical object rather than a piece of interface. So all
    four take the chrome, and the charcoal goes back to meaning ink.
 
+   ONE OBJECT, A RADIUS EACH. What the token buys is that a new device costs
+   a corner and nothing else. Six rules in this file set --shell-radius --
+   30, 26, 26, 18, the laptop lid's 14, and --radius-xl on the prototype
+   card's tablet -- and not one of them sets a thickness, a color, or an
+   inner corner. The tablet is the plainest case of it: a tablet is the phone
+   object at the radius that thumbnail already had as a bare tile, so it
+   arrived without a number of its own. A seventh device would cost a corner
+   too.
+
    The two are 1.10:1 apart, which is why nobody caught it: #1b1d22 is a
    shade darker than #252525 and cooler by a few degrees. That difference is
    the point rather than a rounding error -- it is what makes the shell read
@@ -426,6 +435,13 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
+  /* One exception, and it is the reason the blanket has to say a name. The
+     blanket exists to take away the HOVER lift -- a shadow that is motion.
+     The prototype card's thumb is a tablet, and --shadow-device is what lifts
+     that object off the page at rest: it is part of the drawing of a device,
+     not part of an interaction. Stripping it leaves a reduced-motion reader a
+     flat dark rectangle where everyone else sees a tablet. */
+  .case-card--prototype .case-thumb { box-shadow: var(--shadow-device) !important; }
 }
 
 
@@ -526,28 +542,65 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 .case-card--prototype .case-desc { margin-top: var(--space-xs); }
 
-/* NOTHING styles this card's thumbnail, and the note is here because
-   something used to. It was the one picture on the page that was a SCREEN --
-   a capture of the cockpit in the site's device chrome, the same object as
-   .build-phone, .build-laptop and .ck-frame on the prototype page. It is now
-   a drawing of the cockpit being read at a desk, so it takes the bare
-   rounded tile the four case studies above take, for the reason the chrome
-   was given to it in the first place: a bezel belongs around an interface
-   and not around a picture, and this picture has a monitor of its own in it.
-   Framing that would be a frame around a frame.
+/* ---------- The card's picture is a tablet ----------
+   THE PICTURE. The cockpit's close call -- the 1736x1516 shot
+   cockpit-shots.mjs captures for the prototype page, referenced where it
+   lies rather than copied into img/site/, so a restyle of the cockpit
+   reaches this card on the same run that reaches the page explaining it.
 
-   The chrome was also doing the card a favor the drawing does not need. The
-   capture was a pale interface on the pale tea-light panel and had no edge
-   to speak of against it; artwork fills the tile to its corners and brings
-   its own. The reduced-motion blanket a few hundred lines up goes back to
-   what it says, too: no thumb carries a shadow at rest any more, so nothing
-   has to be restored past it.
+   THE PROPORTION. 4/3, anchored to the top, and those two are one decision
+   rather than two. A tablet in landscape IS 4/3, so the screen's shape is
+   the device's shape and nothing has to be reconciled. The section's 16/9
+   would end the picture at 976 of the source's 1516, halfway down the factor
+   tables: two trucks, three factors each, and no sign the list finishes. 4/3
+   ends it at 1302, under the last row of both, so what survives is the whole
+   argument the card is making -- the status line saying no pick, the tradeoff
+   in one sentence, and all five factors under each truck with what each one
+   does. What it costs is the footnote under them, cut mid-line. Inside a
+   bezel that reads the way a screen with more below it reads, which is what
+   it is; at 548px the paragraph is 5px tall and is texture either way.
 
-   The cockpit still meets a reader framed in the two places it is the
-   interface rather than a picture of one -- the prototype page, and the
-   share card scripts/cockpit.mjs captures from the live screen. Both still
-   use img/site/dispatch-cockpit.webp; this card is the only thing that
-   stopped. */
+   THE FRAME, and the note is here because there wasn't one between #74 and
+   now. The chrome came off when the picture became a drawing of the cockpit
+   being read at a desk: that picture has a monitor inside it, and a bezel
+   around it is a frame around a frame. The picture is a SCREEN again, so the
+   frame is back, and the argument .build-phone and .ck-frame make applies
+   again with it -- a site that frames its captures in a bezel and shows this
+   one bare is holding two ideas of what a screenshot is.
+
+   It is a tablet and not the laptop, because the laptop's foot is the
+   argument that a wide capture is a wide screen, and this capture is nearly
+   square. It is the phone object with one value changed, which is what a
+   tablet is: the same --bezel, the same --device-chrome, the same DERIVED
+   inner radius, and --shell-radius at --radius-xl. That radius is the tile's
+   own -- this thumbnail has been a 20px rounded rectangle in this grid all
+   along, so the silhouette in the row does not move; only what fills it
+   does. Nothing here is a new number.
+
+   The dark shell also settles what the bare version could not. A pale
+   capture on the pale tea-light panel had no edge against it -- the reason
+   the drawing was welcome in the first place, since artwork brings its own.
+   #1b1d22 around it is an edge that does not depend on the picture. */
+.case-card--prototype .case-thumb {
+  --shell-radius: var(--radius-xl);
+  /* The SCREEN carries the proportion, not the shell, so the chrome sits
+     outside 4/3 rather than eating into it. This is what .ck-frame does with
+     its 1920 and for the same reason: the authored dimension is the display. */
+  aspect-ratio: auto;
+  padding: var(--bezel);
+  background: var(--device-chrome);
+  border-radius: var(--shell-radius);
+  box-shadow: var(--shadow-device);
+  /* The tile clipped its picture to the radius; the screen now carries its
+     own, and hidden would crop --shadow-device to the shell. */
+  overflow: visible;
+}
+.case-card--prototype .case-thumb img {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-position: top;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+}
 
 @media (min-width: 768px) {
   .case-card--prototype {
@@ -1662,10 +1715,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    the step cards stopped mixing real work into the walkthrough -- the proof
    moved to the top of the page, where it is told once and properly. The rule
    stays rather than going the way .eng3-ask did, because it is not really
-   this section's to delete: it is one of the four consumers of --bezel and
-   --device-chrome, and the Device chrome comment at the top of this file
-   reasons about all four together. Deleting it would leave that passage
-   describing a set with a hole in it. */
+   this section's to delete: it is one of the six consumers of --bezel and
+   --device-chrome in this file, and the Device chrome comment at the top
+   reasons about them together. Deleting it would leave that passage
+   describing a set with a hole in it. (Four when this was written; the
+   laptop and the prototype card's tablet came later.) */
 .eng3-phone {
   --shell-radius: 30px;
   display: inline-block;
