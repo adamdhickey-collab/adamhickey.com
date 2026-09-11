@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="../type.css?v=3" />
   <link rel="stylesheet" href="../style.css?v=20260910c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=10" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=11" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
@@ -296,7 +296,7 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>Five screens, one load</h2>
-          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the screens a dispatcher moves through, captured from the working prototype below rather than drawn. The situation is over each one and what to notice is under it.</p>
+          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the five moments a dispatcher moves through, one card each, captured from the working prototype below rather than drawn. The situation and what is happening are over each one; what to notice is under it.</p>
         </div>
       </div>
 
@@ -313,6 +313,16 @@
            it says it without a word. The row of dots under it is the same
            fact for a reader who cannot see the crop.
 
+           EACH SLIDE IS ONE CARD IN A TABLET. The first version showed a
+           1320px window on the whole screen at nearly full width, and read as
+           five dense screenshots. Now the capture is the cockpit's one-column
+           layout at 680, so the window holds a single card at its real size,
+           and the slide is half the width: simpler, not smaller. The shell is
+           the tablet the homepage card uses -- --bezel, --device-chrome, the
+           derived inner radius -- for the reason .ck-frame gives: a site that
+           frames its captures should not show these five bare. Under 48rem
+           the same shell holds the phone capture and takes the phone's radius.
+
            WHAT IS NOT HERE: no autoplay, no rotation, no timer. A carousel
            that moves on its own takes the reading speed out of the reader's
            hands, and nothing here is worth failing WCAG 2.2.2 for. Every
@@ -326,70 +336,80 @@
             <p class="ck-slide-head" id="ck-slide-1-h">
               <span class="ck-slide-n" aria-hidden="true">1</span>
               <span class="ck-slide-sit">Clear pick</span>
-              <span class="ck-slide-title">The screen as it opens</span>
+              <span class="ck-slide-title">The system picks a truck and shows its reasons</span>
             </p>
             <figure class="ck-slide-fig">
-              <picture>
-                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-pick-sm.webp?v=1" width="780" height="1640" />
-                <img src="../img/cockpit/slide-pick.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The cockpit as it opens: a load bar for L-4821, Northfield Foods, running Rochester, Minnesota to Milwaukee, Wisconsin; under it the recommendation for T-118, Marisol Vega, with a card listing five factors &mdash; distance to pickup, hours of service left, equipment, on-time record and deadhead &mdash; each with its value and whether it helps, meets or is neutral; beside it a card reading that the top-ranked truck delivered on time on 38 of the last 40 loads like this one, and a card naming the trucks ranked second and third with what each lost on." />
-              </picture>
-              <figcaption>No composite score. The five factors the ranking used, each with its value and which way it cuts, so a dispatcher checks the advice against the trucks instead of rebuilding it.</figcaption>
+              <div class="ck-slide-screen">
+                <picture>
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-pick-sm.webp?v=1" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-pick.webp?v=2" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;What went into the call&rdquo; for truck T-118, driver Marisol Vega, listing five factors with their values: distance to pickup 38 miles, helps; hours of service left 8.4, helps; equipment dry van, meets; on time with Northfield Foods 11 of 12, neutral; deadhead 12 miles, helps. A note explains the comparison, and an Assign T-118 button sits at the bottom." />
+                </picture>
+              </div>
+              <figcaption>Load L&#8209;4821 needs a dry van. T&#8209;118 is recommended, and this card lists the five things that were weighed &mdash; distance, driver hours, equipment, on&#8209;time record, deadhead &mdash; with each one&rsquo;s value and whether it helped. There is no score to trust; there are five facts to check.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-2-h">
               <span class="ck-slide-n" aria-hidden="true">2</span>
               <span class="ck-slide-sit">Clear pick</span>
-              <span class="ck-slide-title">One click into the record</span>
+              <span class="ck-slide-title">The dispatcher opens the two late deliveries</span>
             </p>
             <figure class="ck-slide-fig">
-              <picture>
-                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-record-sm.webp?v=1" width="780" height="1640" />
-                <img src="../img/cockpit/slide-record.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The same screen with the outcome record opened: under &ldquo;38 of the last 40&rdquo;, the two late loads are listed in full &mdash; one where the hours figure was forty minutes stale, one where the customer closed the dock early &mdash; each followed by a line headed &ldquo;What to watch for&rdquo;." />
-              </picture>
-              <figcaption><span class="ckw-cap-label">Illustrative outcome data.</span> Confidence as a record rather than a percentage. The two misses open in place, and one of them was not a ranking error at all &mdash; it says so.</figcaption>
+              <div class="ck-slide-screen">
+                <picture>
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-record-sm.webp?v=1" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-record.webp?v=2" width="1360" height="1020" loading="lazy" decoding="async" alt="The Outcomes on similar loads card, expanded: the top-ranked truck delivered on time on 38 of the last 40 loads like this one, then the two late loads &mdash; L-4410, where the hours figure was forty minutes stale, and L-4577, where the customer closed the dock early &mdash; each with a line headed &ldquo;What to watch for&rdquo;." />
+                </picture>
+              </div>
+              <figcaption><span class="ckw-cap-label">Illustrative outcome data.</span> Instead of a confidence percentage, the record says 38 of the last 40 similar loads arrived on time. The two that did not are one click away, each with what went wrong and what to watch for on this load. One of them was not the ranking&rsquo;s fault, and says so.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-3-h">
               <span class="ck-slide-n" aria-hidden="true">3</span>
               <span class="ck-slide-sit">Close call</span>
-              <span class="ck-slide-title">Two the system will not separate</span>
+              <span class="ck-slide-title">Two trucks are level, so the system says so</span>
             </p>
             <figure class="ck-slide-fig">
-              <picture>
-                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-close-call-sm.webp?v=1" width="780" height="1640" />
-                <img src="../img/cockpit/slide-close-call.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="The close call: a caution-coloured card headed &ldquo;Two trucks are close. The tradeoff is faster pickup against more driver hours&rdquo;, then two option cards side by side &mdash; T-131 with faster pickup at 16 miles, T-118 with more driver hours at 8.4 &mdash; each with its full factor list and its own Assign button." />
-              </picture>
-              <figcaption>When two trucks are level the system says so, names the tradeoff in words, and leaves the call. Neither option counts as an override.</figcaption>
+              <div class="ck-slide-screen">
+                <picture>
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-close-call-sm.webp?v=1" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-close-call.webp?v=2" width="1360" height="1020" loading="lazy" decoding="async" alt="A caution-coloured card headed &ldquo;Two trucks are close. The tradeoff is faster pickup against more driver hours&rdquo;, with a line saying the system is not ranking one over the other, and under it the first of two option cards: T-131, Priya Nair, has faster pickup at 16 miles, with its factor list beginning below." />
+                </picture>
+              </div>
+              <figcaption>T&#8209;131 is closer; T&#8209;118 has more driver hours. The system will not pretend one is better, so it names the tradeoff in words and puts both options under it with their own Assign buttons. Either can be assigned, and neither counts as overriding.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-4-h">
               <span class="ck-slide-n" aria-hidden="true">4</span>
               <span class="ck-slide-sit">Dispatcher overrides</span>
-              <span class="ck-slide-title">One press, then a question</span>
+              <span class="ck-slide-title">The dispatcher picks a different truck</span>
             </p>
             <figure class="ck-slide-fig">
-              <picture>
-                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-override-sm.webp?v=1" width="780" height="1640" />
-                <img src="../img/cockpit/slide-override.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="After an override: a status line saying load L-4821 is assigned to T-114, Sam Bergstrom, the truck ranked 3rd, and that there is an optional question about why. Below it the question, with four reasons, a free-text box, a sentence about what happens with the answer, and Save the reason and Skip. Below that the fleet data table, with T-114&rsquo;s row marked assigned and its button now reading Undo." />
-              </picture>
-              <figcaption>Assigning another truck is one press on any row the rule allows, with no dialog in the way. The question comes afterwards, it is optional, and Skip weighs the same as Save.</figcaption>
+              <div class="ck-slide-screen">
+                <picture>
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-override-sm.webp?v=1" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-override.webp?v=2" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;You assigned T-114, ranked 3rd. Why? Optional.&rdquo; with four reasons to choose from, a free-text box reading &ldquo;In your words, if you like&rdquo;, a paragraph headed &ldquo;What happens with this&rdquo;, and two buttons: Save the reason, and Skip." />
+                </picture>
+              </div>
+              <figcaption>T&#8209;114 was ranked third. Assigning it took one press, nothing argued back, and only afterwards does an optional question ask why. Skip is as easy as Save, the card says what happens to the answer, and nothing about today&rsquo;s ranking changes either way.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-5-h">
               <span class="ck-slide-n" aria-hidden="true">5</span>
               <span class="ck-slide-sit">Blocked by a rule</span>
-              <span class="ck-slide-title">The rule comes first</span>
+              <span class="ck-slide-title">The best truck cannot legally go</span>
             </p>
             <figure class="ck-slide-fig">
-              <picture>
-                <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-rule-sm.webp?v=1" width="780" height="1640" />
-                <img src="../img/cockpit/slide-rule.webp?v=1" width="2640" height="1760" loading="lazy" decoding="async" alt="Blocked by a rule: a caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score&rdquo;, sitting above the recommendation for T-118, which is the best truck the rule allows." />
-              </picture>
-              <figcaption>A driver short on hours is a rule, not a low score, so it sits above the recommendation in the one caution colour on the screen. T-114 keeps its row in the data table below, with the hours it needs beside the hours it has.</figcaption>
+              <div class="ck-slide-screen">
+                <picture>
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-rule-sm.webp?v=1" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-rule.webp?v=2" width="1360" height="1020" loading="lazy" decoding="async" alt="A caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score. Otherwise it would rank first&rdquo;, and under it the recommendation for T-118, Marisol Vega, with the top of its factor card." />
+                </picture>
+              </div>
+              <figcaption>T&#8209;114 would win on every measure, but its driver has 3.2 hours left and the run needs 5.5. That is a legal limit, not a low score, so it appears above the recommendation as a rule, in the one caution colour on the screen. T&#8209;114 keeps its row in the data table below.</figcaption>
             </figure>
           </li>
         </ol>
@@ -403,11 +423,11 @@
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <div class="ck-show-dots">
-            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 5: Clear pick, the screen as it opens"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 5: Clear pick, one click into the record"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 5: Close call, two the system will not separate"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 5: Dispatcher overrides, one press, then a question"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="4" aria-controls="ck-slides" aria-label="Screen 5 of 5: Blocked by a rule, the rule comes first"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 5: Clear pick. The system picks a truck and shows its reasons"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 5: Clear pick. The dispatcher opens the two late deliveries"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 5: Close call. Two trucks are level, so the system says so"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 5: Dispatcher overrides. The dispatcher picks a different truck"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="4" aria-controls="ck-slides" aria-label="Screen 5 of 5: Blocked by a rule. The best truck cannot legally go"><span class="ck-show-dot-mark"></span></button>
           </div>
           <button type="button" class="ck-show-nav" data-dir="1" aria-controls="ck-slides" aria-label="Next screen">
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
