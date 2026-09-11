@@ -41,12 +41,11 @@ await page.addStyleTag({ content: [
   '.site-nav { display: none !important; }',
   '.ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; }',
   '.ck { padding: 0 !important; }',
-  /* The rail is the page explaining the cockpit; the card is the cockpit.
-     The numbered badges are the rail's, so they go with it. */
-  '.ck-rail, .ck-tabs-label { display: none !important; }',
+  /* The switcher and the situation's own two lines are the page explaining
+     the cockpit; the card is the cockpit. */
+  '.ck-situation, .ck-tabs-label { display: none !important; }',
   /* the switcher is sticky on the page; in a still it is just a bar */
   '.ck-tabs { position: static !important; }',
-  '[data-callout]::before { display: none !important; }',
   '.ck-stage { display: block !important; margin: 0 !important; padding: 40px !important; }',
 ].join(' ') });
 await page.waitForTimeout(400);

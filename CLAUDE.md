@@ -329,7 +329,7 @@ rules, 14764 type sizes and 8226 elements checked for a partial border
 on a curve, across 28 pages (the twenty-seven of the site and `404.html`,
 which the browser checks measure and `counts.mjs` and `seo.mjs` leave
 out), plus
-121 token names against 185 declarations and 10 counted claims. **The four browser numbers are the only ones here that
+121 token names against 187 declarations and 10 counted claims. **The four browser numbers are the only ones here that
 nothing verifies.** They are maintained by hand and will drift. Treat them as
 a tripwire rather than a record: a run that comes back materially smaller
 means something stopped being measured, and that is worth more than the digits

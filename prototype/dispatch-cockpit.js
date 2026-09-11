@@ -18,8 +18,8 @@
  *                                        late loads and what differed
  *   3. an override that is cheap      -> assign() and renderWhy()
  *   4. the manual path, always whole  -> renderTable(), never collapsed
- *   and, beside all four, what to look for in this situation -> renderRail(),
- *   whose numbers applyCallouts() hangs on the cockpit after every render
+ *   and over all four, what the situation IS -> renderSituation(), plus the
+ *   one line of blurb the tab sets
  *
  * No dependencies, no build step, no animation. States are is-* classes so
  * scripts/states.mjs forces and measures the ones the page does not load in.
@@ -84,11 +84,6 @@
         id: 'confident',
         tab: 'Clear pick',
         blurb: 'One truck is the obvious answer, and the system ranks it first. A dispatcher should be able to confirm that in seconds, without re-ranking seven trucks by hand.',
-        callouts: [
-          { target: '.ck-card',       head: 'What went into the call', body: 'Five factors, each with its value and which way it cuts. No composite score, because a number would not tell you which of these to check.' },
-          { target: '.ck-confidence', head: 'Confidence as a record', body: 'Not a percentage: 38 of the last 40 on time, and the two that were late are one click away, with what to watch for.' },
-          { target: '.ck-fleet',      head: 'The whole fleet, always', body: 'Sort any column, assign any truck. The manual path is never behind the recommendation.' },
-        ],
         try: 'Open the two late deliveries and read what differed. Then assign T-118.',
         patch: {},
         record: {
@@ -106,11 +101,6 @@
         id: 'tie',
         tab: 'Close call',
         blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It says they are level, names the tradeoff, and leaves the call to the dispatcher.',
-        callouts: [
-          { target: '.ck-reco-h',     head: 'The tradeoff, in words', body: 'Distance against hours. The headline says what the choice is rather than pretending there is none.' },
-          { target: '.ck-pair',       head: 'Both options, side by side', body: 'Each with the one thing it has over the other, and its full factor list underneath.' },
-          { target: '.ck-confidence', head: 'The record for close calls', body: 'When the top two were this close, first place was right 19 of 31 times. Near a coin flip, so it does not pick.' },
-        ],
         try: 'Pick the side of the tradeoff that matters for this load and assign it. Neither is an override, so no question follows.',
         patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10 }, 'T-118': { dist: 41 } },
         record: {
@@ -128,11 +118,6 @@
         id: 'override',
         tab: 'Dispatcher overrides',
         blurb: 'The dispatcher has already overridden the recommendation and assigned the third-ranked truck. Nothing stopped them and nothing argues back; this is what the screen does next.',
-        callouts: [
-          { target: '.ck-reco-dek', head: 'The recommendation stays', body: 'Still visible, so the difference stays visible. Nothing is undone and nothing argues.' },
-          { target: '.ck-why',      head: 'One optional question, afterwards', body: 'Asked after the assignment, not before it. Skip weighs the same as Save, and a sentence says what happens with the answer.' },
-          { target: '.ck-status',   head: 'What just happened', body: 'The status line says what changed and where the question is. A screen reader hears the same sentence.' },
-        ],
         try: 'Save a reason, or skip. Then undo, assign T-118, and notice that no question follows.',
         patch: {},
         /* Same record as the confident situation: same lane, same data. */
@@ -145,11 +130,6 @@
         id: 'rule',
         tab: 'Blocked by a rule',
         blurb: 'The truck that wins on every other measure cannot legally take this load, because its driver is short on hours. That is a hard rule rather than a low score, and it has to look like one.',
-        callouts: [
-          { target: '.ck-rule',  head: 'The rule comes first', body: 'The one caution-colored card on the screen, above the recommendation rather than inside it, so it reads as a rule and not as a bad score.' },
-          { target: '.ck-card',  head: 'The best truck that can legally go', body: 'The recommendation is the leader among the trucks the rule allows, and it shows its work like any other.' },
-          { target: '.ck-fleet', head: 'T-114 keeps its row', body: 'Its Assign is disabled in words, with the hours it needs beside the hours it has. Nothing disappears.' },
-        ],
         try: 'Try to assign T-114 from the data table. Then sort by hours left to see the line it fell under.',
         patch: { 'T-114': { dist: 9, deadhead: 4, hos: 3.2 } },
         record: null,
@@ -331,30 +311,18 @@
     }).join('');
     $('#ck-panel', root).setAttribute('aria-labelledby', `ck-tab-${state.scenario.id}`);
     $('.ck-blurb', root).textContent = state.scenario.blurb;
-    renderRail();
+    renderSituation();
   }
 
-  /* The rail: the situation's point, its numbered callouts, one thing to
-     try. The numbers here and the badges on the cockpit are one object. */
-  function renderRail() {
+  /* The one thing to try in this situation, under the sentence that says what
+     the situation is. Until 2026-09-11 this sat in a rail beside the cockpit
+     with three numbered callouts above it, each badged onto the element it
+     named. The five screens over this section do that explaining now, from
+     outside the interface; what is left here is the sentence and the nudge,
+     over the screen rather than beside it. */
+  function renderSituation() {
     const sc = state.scenario;
-    $('.ck-callouts', root).innerHTML = (sc.callouts || []).map((c, i) => `<li class="ck-callout">
-      <span class="ck-badge" aria-hidden="true">${i + 1}</span>
-      <div><p class="ck-callout-head">${esc(c.head)}</p><p class="ck-callout-body">${esc(c.body)}</p></div>
-    </li>`).join('');
     $('.ck-rail-try', root).innerHTML = sc.try ? `${icon('pointer')}<span><span class="ck-label">Try:</span> ${esc(sc.try)}</span>` : '';
-  }
-
-  /* Hang each callout's number off its target, after every render, because
-     the render replaced the target. A target that is not on screen in this
-     state simply has no badge; the rail still numbers it. */
-  function applyCallouts() {
-    root.querySelectorAll('[data-callout]').forEach((el) => el.removeAttribute('data-callout'));
-    const stage = $('#ck-panel', root);
-    (state.scenario.callouts || []).forEach((c, i) => {
-      const el = stage.querySelector(`.ck-panel ${c.target}`);
-      if (el && !el.hidden) el.setAttribute('data-callout', String(i + 1));
-    });
   }
 
   function renderLoad() {
@@ -591,7 +559,6 @@
     renderReco();
     renderWhy();
     renderTable();
-    applyCallouts();
     if (status !== undefined) renderStatus(status, tone);
     if (focusKey) {
       const again = root.querySelector(`[data-focus="${focusKey}"]`);
