@@ -536,9 +536,9 @@
       if (state.assigned === t.id) cls.push('is-assigned');
       const rankCell = t.blocked
         ? `<span class="ck-rank-rule">${icon('ban')} ${esc(t.blocked.rule)}</span>`
-        : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ` <span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}recommended</span>` : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
+        : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ` <span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}pick</span>` : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
       return `<tr class="${cls.join(' ')}">
-        <th scope="row" class="ck-cell-rank">${rankCell}${state.assigned === t.id ? ` <span class="ck-rank-tag ck-tag-assigned">${icon('check')}assigned</span>` : ''}</th>
+        <th scope="row" class="ck-cell-rank">${rankCell}</th>
         <td>${esc(t.id)}</td>
         <td class="ck-cell-text">${esc(t.driver)}</td>
         <td class="ck-cell-text">${esc(t.at)}</td>

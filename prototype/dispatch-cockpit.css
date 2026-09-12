@@ -1736,9 +1736,16 @@
   min-width: 60rem;
   border-collapse: collapse;
 }
+/* 12 down, 8 across. The vertical inset is the row's rhythm and does not
+   move; the horizontal one is column width, ten columns of it, and 4px a
+   side is 80px of table -- which is what the fleet was overflowing its wrap
+   by once the frame came in to the content's width. A data table is allowed
+   to be denser across than a card is; what it is not allowed to be is
+   cut off. The outer inset at the two ends stays --space-md, so the table
+   still starts and ends on the screen's own margin. */
 .ck-table th,
 .ck-table td {
-  padding: var(--space-sm);
+  padding: var(--space-sm) var(--space-xs);
   text-align: left;
   vertical-align: middle;
   font-size: var(--text-sm);
@@ -1773,12 +1780,14 @@
 }
 .ck-table th[aria-sort="ascending"],
 .ck-table th[aria-sort="descending"] { color: var(--ink-on-dark); }
+/* The head cell carries padding: 0 and this is what insets it, so it takes
+   the same 12-and-8 as a body cell or the head sits proud of its column. */
 .ck .ck-th {
   display: flex;
   align-items: flex-start;
   gap: var(--space-2xs);
   width: 100%;
-  padding: var(--space-sm);
+  padding: var(--space-sm) var(--space-xs);
   text-align: inherit;
 }
 .ck-table thead th:first-child .ck-th { padding-left: var(--space-md); }
@@ -1857,11 +1866,6 @@
 .ck .ck-tag-lead {
   background: var(--color-accent-text);
   border-color: var(--color-accent-text);
-  color: var(--color-warm);
-}
-.ck .ck-tag-assigned {
-  background: var(--color-charcoal);
-  border-color: var(--color-charcoal);
   color: var(--color-warm);
 }
 .ck .ck-cell-note {
