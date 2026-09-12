@@ -1412,8 +1412,21 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+/* THE VALUE IS THE THING BEING CHECKED, AND IT USED TO BE LABEL-SIZED.
+   38 mi, 8.4 h, dry van, 11 of 12, 12 mi are the five readings a dispatcher
+   came to this card for, and at --text-sm they sat at the same size as the
+   words naming them, the word judging them and the footnote underneath. A
+   census of the screen found 143 of its 156 text elements at 12 or 14px and
+   exactly one above 18, which is a card with no scan layer at all: nothing
+   is bigger than anything else, so the eye reads the whole panel as texture.
+
+   --text-lg gives the row three rungs -- 14 for the name, 18 for the value,
+   12 for helps or meets -- so the five figures carry the card and the words
+   around them explain it. It is a step the scale already has; nothing new is
+   invented, and the baseline alignment on .ck-factor is what keeps the taller
+   value sitting on the same line as its name. */
 .ck .ck-factor-value {
-  font-size: var(--text-sm);
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   font-variant-numeric: tabular-nums;
@@ -1459,11 +1472,26 @@
 /* The record. A count, what "like this one" means, and the misses behind a
    disclosure, because the pattern in the misses is the part a dispatcher
    can act on. */
+/* NOT A CARD ANY MORE, ON PURPOSE. Until now this and .ck-also were white
+   cards with a --color-rule edge, exactly like .ck-card beside them: three
+   identical objects, one of which is the recommendation and two of which are
+   the history behind it, with nothing on the screen saying which was which.
+   Border, fill and radius each say "separate object", and spending them on
+   all three flattened the hierarchy they were supposed to build.
+
+   The ground was already here. .ck-lead is --color-tea-light and both
+   columns sit on it, so the way to put the evidence on the tint is to stop
+   painting white over it -- no new colour enters the palette and the one
+   already there starts carrying rank. What is left is one raised white
+   surface, the card with the Assign button on it, and one tinted region
+   beside it to consult. The inset stays so nothing shifts; only the fill and
+   the edge go. Every ink here clears its floor on tea-light: charcoal at
+   12.90, accent-text at 4.90, and accent-hover is darker than accent-text. */
 .ck-confidence {
   padding: var(--space-lg) var(--space-xl);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
+  background: none;
+  border: 0;
+  border-radius: 0;
 }
 .ck .ck-conf-line {
   margin: 0;
@@ -1528,11 +1556,17 @@
 .ck .ck-miss-load { font-weight: var(--weight-semibold); }
 
 /* Also considered: rank, then the one line. */
+/* The second half of the same region, so it loses its card for the same
+   reason. The hairline is what still divides the two, and the radius has to
+   go with the fill rather than merely being unused: a top border on a
+   surface that kept its corner is a partial border on a curve, which is the
+   one thing curves.mjs exists to refuse. */
 .ck-also {
   padding: var(--space-lg) var(--space-xl);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--rule-hairline);
+  border-radius: 0;
 }
 .ck-also-list {
   list-style: none;
