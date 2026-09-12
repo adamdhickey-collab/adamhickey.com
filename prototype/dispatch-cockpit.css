@@ -1527,6 +1527,35 @@
   color: var(--color-muted-gray);
 }
 
+/* ---------- The three region landmarks ----------
+   The screen was not short of iconography. It was short of iconography doing
+   wayfinding: twenty-two glyphs, every one of them at 1em and inline inside a
+   sentence, a sort header or a status word, so they annotated and nothing
+   named a place. Between the top of a card and the button at the bottom the
+   eye had nothing to navigate by.
+
+   Three glyphs at 20px fix that, one per region -- the factors, the record,
+   the runners-up. Both heads were already flex with a gap, which is to say
+   they were built to hold one of these and never given one; the icons were
+   already in the sprite under a comment naming these very cards.
+
+   accent-deep, not accent-text, and not currentColor. color.css assigns icons
+   to the fill step, and taking currentColor would make the landmark sage on
+   one head and charcoal on another, which is a landmark that changes colour
+   depending on what it is next to. 4.51 on the white card, over the 3:1 a
+   non-text mark answers to. */
+.ck .ck-head-glyph {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: 0;
+  color: var(--color-accent-deep);
+  stroke-width: 2;
+}
+/* The glyph sets the line's height at 20px against 12px of text, so the gap
+   wants to be the wider one or the label sits tight against it. */
+.ck .ck-card-head { gap: var(--space-xs); }
+.ck .ck-h { gap: var(--space-xs); }
+
 /* Sub-heads inside the panel: a rung under the recommendation's h3. */
 .ck .ck-h {
   display: flex;
