@@ -182,10 +182,13 @@
     box:      '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
     clock:    '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
     calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
-    /* the cards, the status line, the rail. listChecks, history and list are
-       the three region landmarks -- the factors, the record, the runners-up --
-       and they were defined here and used nowhere for a while, which is most
-       of why the screen had twenty-two icons and no landmarks. */
+    /* the status line. listChecks, history and list are defined and used
+       nowhere: they were put on the three card heads as region landmarks and
+       taken off again, because a 20px glyph beside a short heading competes
+       with it rather than locating it -- the heading is already the landmark,
+       and the glyph was a second mark saying the same thing louder. Kept
+       rather than deleted, because the next idea for them is likelier to be
+       somewhere a heading ISN'T. */
     listChecks: '<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
     history:  '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
     list:     '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
@@ -422,7 +425,7 @@
     const late = r.of - r.held;
     const n = r.misses.length === 2 ? 'two' : r.misses.length;
     return `<div class="ck-confidence">
-      <h4 class="ck-h">${icon('history', 'ck-icon ck-head-glyph')}Outcomes on similar loads</h4>
+      <h4 class="ck-h">Outcomes on similar loads</h4>
       <p class="ck-conf-line">${lead}</p>
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
       <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
@@ -444,7 +447,7 @@
 
   function truckCard(t, heading, note) {
     return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}">
-      <p class="ck-card-head">${icon('listChecks', 'ck-icon ck-head-glyph')}${heading}</p>
+      <p class="ck-card-head">${heading}</p>
       <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">${esc(t.driver)}, ${esc(t.at)}</span></p>
       ${note ? `<p class="ck-card-note">${note}</p>` : ''}
       ${factorRows(t)}
@@ -500,7 +503,7 @@
           <div>
             ${renderConfidence()}
             <div class="ck-also">
-              <h4 class="ck-h">${icon('list', 'ck-icon ck-head-glyph')}Also considered</h4>
+              <h4 class="ck-h">Also considered</h4>
               <ol class="ck-also-list">
                 ${[second, third].filter(Boolean).map((t) => `<li>
                   <span class="ck-also-rank">${ordinal(t.rank)}</span>
