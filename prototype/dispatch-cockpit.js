@@ -239,18 +239,23 @@
         : FACTORS.reduce((s, f) => s + DATA.weights[f.key] * t.norm[f.key], 0);
     }
     /* The fleet's middle on each factor, which is what "helps" and "hurts"
-       are measured against. */
-    const mid = {};
+       are measured against, and its two ends, which is what the bar draws
+       between. Both come out of the same walk over the same eligible trucks,
+       so the word and the picture are reading one fleet. */
+    const mid = {}, range = {};
     for (const f of FACTORS) {
       const v = eligible.map((t) => t.norm[f.key]).sort((a, b) => a - b);
       mid[f.key] = v[Math.floor(v.length / 2)];
+      range[f.key] = { lo: v[0], hi: v[v.length - 1] };
     }
-    return mid;
+    return { mid, range };
   }
 
   function rank() {
     for (const t of state.fleet) t.blocked = ruleFor(t);
-    state.mid = normalize(state.fleet);
+    const shape = normalize(state.fleet);
+    state.mid = shape.mid;
+    state.range = shape.range;
     const ordered = state.fleet.filter((t) => !t.blocked).sort((a, b) => b.score - a.score);
     ordered.forEach((t, i) => { t.rank = i + 1; });
     for (const t of state.fleet) if (t.blocked) t.rank = null;
@@ -263,11 +268,18 @@
      as a color. Equipment is not a comparison -- the load asks for a type and
      a truck either is it or is standing in for it -- so it answers in its own
      words rather than borrowing helps and hurts. */
+  /* How far from the fleet's middle still counts as level. It is used twice
+     -- once to choose the word and once to draw the band the bar puts around
+     the middle -- and those two must never disagree, because a mark sitting
+     visibly clear of a band under the word "neutral" is the interface
+     contradicting itself. One constant, both readers. */
+  const LEVEL = 0.08;
+
   function direction(t, f) {
     if (f.key === 'equip') return t.equip === DATA.load.equipment ? 'meets' : 'stands in';
     if (f.key === 'onTime' && !t.onTime[1]) return 'neutral';
     const d = t.norm[f.key] - state.mid[f.key];
-    return d > 0.08 ? 'helps' : d < -0.08 ? 'hurts' : 'neutral';
+    return d > LEVEL ? 'helps' : d < -LEVEL ? 'hurts' : 'neutral';
   }
 
   /* The one line for a truck that lost: the factor where it trails the
@@ -337,6 +349,47 @@
       </dl>`;
   }
 
+  /* WHERE THE TRUCK STANDS, DRAWN. The card has always claimed to show where
+     a truck sits against the fleet available for this load, and has always
+     said it in words five times over, leaving the reader to hold five numbers
+     and infer a fleet from them.
+
+     WHAT THE BAR MEASURES, AND WHY IT IS NOT RAW. It would be easier to plot
+     the miles and the hours, and it would be a different quantity from the
+     one that produced the ranking: hos is floored at what the run legally
+     needs, so a truck's raw hours and its ranked hours part company. The bar
+     plots t.norm, which IS what the ranking weighed.
+
+     BUT NOT t.norm STRAIGHT. Those five numbers do not share a meaning -- on
+     this fleet dist spans 0 to 0.66, hos 0.10 to 1.00, equip is a binary and
+     onTime is a raw success ratio -- and five bars stacked in a column read
+     as one scale whether or not they are one. Each is rescaled to its own
+     factor's spread across the eligible trucks, so every row means the one
+     thing: worst of the fleet on the left, best on the right.
+
+     WHAT GETS NO BAR. Equipment, because it is not a comparison -- the load
+     asks for a type and a truck either is it or is standing in for it, which
+     is why direction() answers it in its own words. A truck with no history
+     with this customer, because "no history" is not a place on a scale. And
+     any factor where the whole eligible fleet is level, where a bar would
+     draw a difference that is not there. */
+  function factorBar(t, f) {
+    if (f.key === 'equip') return '';
+    if (f.key === 'onTime' && !t.onTime[1]) return '';
+    const r = state.range[f.key];
+    if (!r) return '';
+    const span = r.hi - r.lo;
+    if (!(span > 0)) return '';
+    const at = (v) => Math.max(0, Math.min(100, ((v - r.lo) / span) * 100));
+    const pos = at(t.norm[f.key]);
+    const med = at(state.mid[f.key]);
+    const lo = at(state.mid[f.key] - LEVEL);
+    const hi = at(state.mid[f.key] + LEVEL);
+    /* aria-hidden because the value and the word beside it already say this
+       in text, and a third announcement per row is fifteen per card. */
+    return `<span class="ck-factor-bar" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--med:${med.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
+  }
+
   function factorRows(t) {
     return `<ul class="ck-factors">${FACTORS.map((f) => {
       const d = direction(t, f);
@@ -344,9 +397,17 @@
         <span class="ck-factor-name">${esc(f.label)}</span>
         <span class="ck-factor-value">${esc(f.unit(t))}</span>
         <span class="ck-factor-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
+        ${factorBar(t, f)}
       </li>`;
     }).join('')}</ul>
-    <p class="ck-factor-note">Helps and hurts compare this truck with the middle of the fleet available for this load: where it stands on a factor, not how much the factor moved the ranking. Equipment is met or stood in for. No composite score, because none would tell you which of these to check.</p>`;
+    <p class="ck-factor-note">Where each truck stands against the fleet for this load, not how much a factor moved the ranking.</p>
+    <details class="ck-note">
+      <summary><span class="ck-note-label">More about these comparisons</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
+      <div class="ck-note-body">
+        <p>Each bar places this truck between the worst and the best of the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level around it.</p>
+        <p>Equipment has no bar: the load asks for a type, and a truck either is it or is standing in for it. There is no composite score either, because none would tell you which of these to check.</p>
+      </div>
+    </details>`;
   }
 
   function renderConfidence() {
