@@ -179,6 +179,9 @@ const SHOTS = [
        caption's job; the card already names the truck and the driver, and
        what the slide is for is the five rows under them, whole. */
     clip: ['.ck-card'],
+    /* Tea-light to the glass: the window sits inside the answer zone, and a
+       warm margin either side of it is a gutter, not the screen. See strip. */
+    ground: 'tea-light',
     /* The card and its two 20px gaps are 499; the window is 510, so one edge
        shows 11px of something whichever way it sits. At the bottom that is
        the next card's top border on ground, which is what a screen with more
@@ -195,6 +198,7 @@ const SHOTS = [
     stagePad: 20,
     open: '.ck-misses',
     clip: ['.ck-confidence'],
+    ground: 'tea-light',
     padTop: 20,
     note: 'slide 2: the outcome record, with both misses open',
   },
@@ -257,6 +261,7 @@ const SHOTS = [
     aspect: 390 / 820,
     stagePad: 16,
     clip: ['.ck-load'],
+    ground: 'tea-light',
     padTop: 16,
     note: 'slide 1, narrow',
   },
@@ -272,6 +277,7 @@ const SHOTS = [
        at the top of the recommendation would spend the whole window on the
        factor list and never reach the misses this slide is about. */
     clip: ['.ck-confidence'],
+    ground: 'tea-light',
     padTop: 16,
     note: 'slide 2, narrow',
   },
@@ -311,8 +317,16 @@ const SHOTS = [
    page talking about it: the switcher, the sentence saying what the situation
    is and the nudge under it. All three belong to the page, and a capture that
    kept them would be a picture of this page rather than of the interface. */
-const strip = (pad = 40) => [
+const strip = (pad = 40, ground) => [
   '.site-nav { display: none !important; }',
+  /* The ground the window is cut from. The screen's own is warm, and a slide
+     anchored on the tea-light answer zone shows that warm as a 20px margin
+     down each side of the tablet -- which on a device reads as a gutter, a
+     screen that does not fill its glass, rather than as the interface's
+     ground. A shot that names a ground paints the cockpit that color so the
+     zone runs to the edge of the glass. The layout does not move: same
+     widths, same 20px, only what the margin is filled with. */
+  ground ? `.ck { background: var(--color-${ground}) !important; }` : '',
   '.ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; }',
   '.ck { padding: 0 !important; border-radius: 0 !important; }',
   '.ck-situation, .ck-tabs-label, .ck-tabs { display: none !important; }',
@@ -347,7 +361,7 @@ for (const shot of shots) {
      only way in, and hiding it first would leave the click with no target. */
   await page.click(`[data-scenario="${shot.scenario}"]`);
   await page.waitForTimeout(200);
-  await page.addStyleTag({ content: strip(shot.stagePad) });
+  await page.addStyleTag({ content: strip(shot.stagePad, shot.ground) });
   if (shot.open) await page.click(`${shot.open} summary`);
   await page.waitForTimeout(400);
 
