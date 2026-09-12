@@ -3139,6 +3139,17 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .case-narrow .writing-measure h2:not(:first-child) { margin-top: var(--space-3xl); }
 .writing-measure h2:first-child { margin-top: 0; }
+/* The claim headings balance their lines. They are claims now rather than
+   labels, so they run to two and three lines and strand the last one:
+   sixteen across the ten articles ended on a fragment under a quarter of
+   the line above it. Same treatment, and the same reason, as the
+   engagement pages' nine-word heading.
+
+   Keyed to the eyebrow rather than to .writing-measure h2, which the
+   dispatch cockpit write-up also uses: every article heading has a "Key
+   idea N of M" before it and none of the cockpit's five do, so this is
+   exactly the set that was rewritten and nothing else. */
+.writing-measure .writing-eyebrow + h2 { text-wrap: balance; }
 /* One-sentence paragraphs are this writer's rhythm, and at --space-md the
    gaps read as a list rather than as prose. Three quarters of that keeps the
    sentences grouped while the section gap above stays clearly larger. */
@@ -4461,6 +4472,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   counter-reset: key;
 }
 .writing-keys li {
+  /* The entries are those same headings, at the same risk. */
+  text-wrap: balance;
   position: relative;
   padding-left: var(--space-2xl);
   counter-increment: key;
@@ -4486,6 +4499,11 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
 }
 .writing-keys a {
+  /* The row, not the text run. Inline, the target was the 26px box the words
+     happened to fill; as a block it is the column's width, which is what the
+     index already does with .writing-link. The counter stays on the item, so
+     the number is a mark rather than part of the target. */
+  display: block;
   color: inherit;
   text-decoration: none;
   transition: color var(--motion-state) var(--ease);
@@ -4510,6 +4528,16 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .case-overview .writing-measure .writing-eyebrow + h2::before { content: none; }
 .case-narrow .writing-measure .writing-eyebrow:not(:first-child) { margin-top: var(--space-3xl); }
+/* Every key idea is a jump link, and the heading it lands on is the second
+   thing in its section: the eyebrow saying "Key idea 3 of 9" sits above it.
+   html's scroll-padding-top is exactly --nav-height, so the heading stopped
+   under the nav's bottom edge and the eyebrow stopped behind the nav -- a
+   reader arrived at a section with the label telling them where they were
+   off screen, and the heading tucked against the progress line. This is the
+   eyebrow's own height plus the line plus a breath, added to the padding the
+   scrollport already applies. It is on the heading rather than on html
+   because html's value is right for every other anchor on the site. */
+.writing-measure h2[id] { scroll-margin-top: calc(var(--space-4xl) + var(--space-md)); }
 .case-narrow .writing-measure .writing-eyebrow + h2 { margin-top: 0; }
 
 /* The figures. Three kinds, each a <figure> with its label first, inside the
@@ -4564,6 +4592,14 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-caution-light);
   border-color: var(--color-caution);
 }
+/* The stacked layout makes each item a two-column grid, and a grid container
+   makes EVERY child its own item: the bar, the anonymous text node holding the
+   stage name, and this. Left to flow, it lands in the next free cell -- the
+   48px bar column -- and "what the system is for" comes out four lines of one
+   word down the left margin of every flow figure on every phone. Naming the
+   column puts it under its own stage name where it belongs. Inert from 640px
+   up, where the item is a block and nothing is a grid item. */
+.writing-flow li > small { grid-column: 2; }
 .writing-flow small {
   display: block;
   font-size: var(--text-xs);
@@ -4689,6 +4725,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-bottom: 1px solid var(--color-rule);
 }
 .case-section .writing-pull p {
+  /* A pull is one sentence at display size, which is what balance is for;
+     pretty only refuses a short last line and left five of these stranded. */
+  text-wrap: balance;
   font-family: var(--font-serif);
   font-size: var(--text-2xl);
   line-height: var(--leading-heading);
@@ -4713,6 +4752,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-radius: var(--radius-xl);
 }
 .case-section .writing-recap-sum {
+  /* Three sentences is past what balance handles, and balancing a paragraph
+     is not what a reader wants anyway: pretty leaves the block alone and
+     only refuses to stop on a short last line. */
+  text-wrap: pretty;
   font-family: var(--font-serif);
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
