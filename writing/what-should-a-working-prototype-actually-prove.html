@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/what-should-a-working-prototype-actually-prove.html",
           "image": "https://adamhickey.com/img/og/what-should-a-working-prototype-actually-prove.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -243,6 +249,22 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">Whatever makes the next investment risky. Usually that is whether the idea is worth building, not whether it can be built, because building got fast. So a prototype should run in real code on real inputs, be used by the people who would use it on a Tuesday, and end in one of three calls: build, kill, or park, with the cost of the next step attached. A demo that proves the idea can be demonstrated has answered the wrong question.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-demo-answers-the-wrong-question">The demo answers the wrong question</a></li>
+            <li><a href="#building-got-fast-so-judgment-got-expensive">Building got fast, so judgment got expensive</a></li>
+            <li><a href="#real-code-real-inputs-a-real-tuesday">Real code, real inputs, a real Tuesday</a></li>
+            <li><a href="#a-hallway-found-in-eighteen-days-what-no-demo-would-have">A hallway found in eighteen days what no demo would have</a></li>
+            <li><a href="#a-prototype-ends-in-one-of-three-calls-with-the-next-cost-attached">A prototype ends in one of three calls, with the next cost attached</a></li>
+            <li><a href="#ai-is-how-it-gets-built-not-what-it-is-for">AI is how it gets built, not what it is for</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -256,36 +278,101 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>The demo answers the wrong question</h2>
+          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <h2 id="the-demo-answers-the-wrong-question">The demo answers the wrong question</h2>
           <p>The team has ideas. Sketches, a deck, half a decision, maybe a demo or three, and pressure from somewhere to make one of them real. Nobody can say yet which is worth building, who it helps, or what it would cost to run, because nothing exists that anyone can actually use.</p>
           <p>A demo does not fix that. <mark>A demo proves the idea can be demonstrated, which was never in doubt.</mark> The questions that decide whether to fund it are different ones: does anyone reach for this on an ordinary day, what happens when the inputs are the real ones rather than the ones on the slide, and what does it cost to keep running once the person who built the demo has moved on?</p>
           <p>Working software is the fastest way to find out.</p>
           <p>Sometimes the risky uncertainty is technical: whether two systems can be made to talk to each other at all, or whether the data will hold up the workflow. Then feasibility is the question, and the prototype is built to answer it. More often, on the engagements I run, the idea can plainly be built, and the open question is whether it should be.</p>
 
-          <h2>Building got fast, so judgment got expensive</h2>
+          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <h2 id="building-got-fast-so-judgment-got-expensive">Building got fast, so judgment got expensive</h2>
           <p>AI is making the production layer of design fast. A competent person can generate interface directions, produce diagrams and create working prototypes at a speed that would have seemed absurd a few years ago.</p>
           <p>That does not make the work worthless. It makes it strange to sell it as the production of artifacts. If a prototype that once took two weeks can now be built in two days, the important question becomes: did we prototype the right thing?</p>
           <p>The scarce part shifted toward diagnosis, framing, taste and context. Knowing which questions matter. Knowing when an apparently reasonable answer is wrong for this particular organization. Knowing when to stop generating possibilities and commit.</p>
           <p>So <mark>a prototype should be judged by the quality of the decision it produced, not the speed at which it appeared.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>Building got fast</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>2 days</dt><dd>for a prototype that used to take two weeks</dd></div>
+              <div><dt>18 days</dt><dd>the voice interface lasted, once a hallway had it</dd></div>
+              <div><dt>4</dt><dd>image models in the blind pilot, order shuffled, filenames hidden</dd></div>
+            </dl>
+          </figure>
 
-          <h2>Real code, real inputs, a real Tuesday</h2>
+          <p class="writing-eyebrow">Key idea 3 of 6</p>
+          <h2 id="real-code-real-inputs-a-real-tuesday">Real code, real inputs, a real Tuesday</h2>
           <p>Three things separate a prototype that proves something from one that merely exists.</p>
           <p>It runs in real code, so the constraints that will decide the product show up now rather than in month four of the build. It runs on real inputs, the messy ones, because a workflow that works on clean sample data has proved nothing about the data people actually have. And it is used by the people who would use the thing on a Tuesday, in the place they would use it, not by the sponsor in a conference room.</p>
-          <p>The last one is where most prototypes stop short, and it is the one that answers the question.</p>
+          <p><mark>The last one is where most prototypes stop short, and it is the one that answers the question.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>What separates a prototype that proves something from one that exists</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">A prototype has</p>
+                <ul>
+                  <li>Real code, so the constraints show up now rather than in month four</li>
+                  <li>Real inputs, the messy ones people actually have</li>
+                  <li>Real users, on a Tuesday, in the place they would use it</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">A demo has</p>
+                <ul>
+                  <li>The clean sample data from the slide</li>
+                  <li>The sponsor, in a conference room</li>
+                  <li>Proof that the idea can be demonstrated</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A demo proves the idea can be demonstrated, which was never in doubt.</p>
+          </aside>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/what-should-a-working-prototype-actually-prove-2.webp?v=1" width="1600" height="900" alt="A loading dock mid-morning. A man in a work jacket between stacks of crates looks at a handheld device showing a wireframe app. On the crate beside him, a clipboard of creased paper forms with one crumpled terracotta sheet clipped on top. A truck at the open dock door, a forklift, another worker." loading="lazy" decoding="async" />
+            <figcaption>A real Tuesday: the prototype in the hands of the person who would use it, where they would use it.</figcaption>
+          </figure>
 
-          <h2>What a real prototype taught me about my own</h2>
+          <p class="writing-eyebrow">Key idea 4 of 6</p>
+          <h2 id="a-hallway-found-in-eighteen-days-what-no-demo-would-have">A hallway found in eighteen days what no demo would have</h2>
           <p>I built a training app for our dog, because the professional trainer&rsquo;s handouts were written for a person sitting still and practice happens in a hallway with a leash in one hand. It is a small product, and every decision on it is mine, which is why it is useful evidence here.</p>
           <p>AI built working versions in an afternoon. I judged them. The write-up says which decisions the AI made faster and which it never touched, and the two decisions that mattered most were both made by using the thing rather than by looking at it.</p>
-          <p>Voice commands lasted eighteen days. The build was fine. The problem was that a handler saying <em>next step</em> brightly at a phone is saying words, in the cue voice, at a dog who is being taught that words in that voice are for her. No demo would have found that. A hallway did, and listening came out.</p>
+          <p>Voice commands lasted eighteen days. The build was fine. The problem was that a handler saying <em>next step</em> brightly at a phone is saying words, in the cue voice, at a dog who is being taught that words in that voice are for her. <mark>No demo would have found that. A hallway did, and listening came out.</mark></p>
           <p>The illustrations went through a blind pilot: four image models, the order shuffled, the filenames hidden, and two pictures failed and were redrawn until strangers read them right. The first versions looked finished. Finished is not the same as understood.</p>
+          <aside class="dp-note" aria-labelledby="dp-fluency-label">
+            <p class="dp-note-label" id="dp-fluency-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">A finished surface is read as a true one</h4>
+            <p class="dp-note-body">People judge how right something is partly by how easily it is processed: a clean typeface, a polished mockup, a confident demo all feel more true than a rough sketch of the same idea, before anyone has checked. That is why a demo persuades a room and why a blind pilot has to hide the filenames. The prototype exists to take fluency out of the decision, and a working thing in the right hands is the only version of it that cannot be mistaken for finished.</p>
+            <p class="dp-note-source">On processing fluency and judgment: <a href="https://doi.org/10.1177/1088868309341564" target="_blank" rel="noopener noreferrer">Alter and Oppenheimer, Uniting the Tribes of Fluency</a></p>
+          </aside>
 
-          <h2>Build, kill, or park</h2>
+          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <h2 id="a-prototype-ends-in-one-of-three-calls-with-the-next-cost-attached">A prototype ends in one of three calls, with the next cost attached</h2>
           <p>A prototype should end in a call, and there are three honest ones.</p>
           <p>Build: it works, people reached for it, and here is what the next step costs. Kill: it did not, and here is what we learned that stops us spending on it again. Park: the idea is sound and the moment is wrong, and here is what would have to change.</p>
-          <p>An engagement that talks you out of something expensive has paid for itself. The cheapest product decision a team can make is the one it makes before the build starts, and a working prototype is what makes that decision available.</p>
+          <figure class="writing-figure">
+            <figcaption>Three honest calls</figcaption>
+            <ol class="writing-flow">
+              <li>Build<small>what the next step costs</small></li>
+              <li class="writing-flow-mark">Kill<small>what stops us spending on it again</small></li>
+              <li>Park<small>what would have to change</small></li>
+            </ol>
+          </figure>
+          <p><mark>An engagement that talks you out of something expensive has paid for itself.</mark> The cheapest product decision a team can make is the one it makes before the build starts, and a working prototype is what makes that decision available.</p>
 
-          <h2>Where AI helps, and where it does not</h2>
+          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <h2 id="ai-is-how-it-gets-built-not-what-it-is-for">AI is how it gets built, not what it is for</h2>
           <p>AI is part of how the thing gets built, and sometimes part of what the idea is. It is not what the prototype is for. Where it genuinely helps, you will see it in the build. Where it does not, you will hear that too, because a prototype that flatters the tools that made it has stopped being an instrument and started being a demo again.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A prototype should resolve whatever makes the next investment risky, and usually that is whether the idea is worth building. Real code, real inputs, the people who would use it on a Tuesday. It ends in build, kill or park, with the cost of the next step attached.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> put the prototype in the hands of one person who would use it on a Tuesday, where they would use it, before anyone shows it to the sponsor.</p>
+          </aside>
         </div>
       </div>
     </section>

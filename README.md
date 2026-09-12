@@ -133,7 +133,7 @@ the archive so that it holds everything staging ever had.
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
 | `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-seven. `seo.mjs` holds it to all four |
-| `scripts/` | The seven check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards |
+| `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs` |
@@ -267,7 +267,7 @@ search engine it sat under Work.
 | `img/site/` | Case-study screens, client logos and the built-step drawings, the bulk of the folder |
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
 | `img/engagement/` | The four card illustrations at 1080x720, each engagement page's hero and invitation, and the numbered step drawings. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
-| `img/writing/` | One feature drawing per article, in the engagement set's style, stored as the 1600x900 feature under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card` |
+| `img/writing/` | Two drawings per article in the engagement set's style: the feature, stored as the 1600x900 feature under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`; and `<slug>-2.webp`, the argument's second half, at 1600x900 in the body, drawn from `scripts/writing-scenes.mjs` through `scripts/draw.mjs` |
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page except the homepage and the design system page, rendered by `scripts/og.mjs` from the page's title and its own picture; the homepage keeps `img/og-card.jpg`, drawn for it |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
@@ -303,8 +303,8 @@ the path alone will not tell a browser anything moved.
 `checks.yml` runs on every pull request and push to `main`. It reports and
 deploys nothing; the two workflows are separate on purpose so a failing check
 reads as a failing check rather than as a failed deploy. Since #23 it is
-the seven scripts that came across from staging plus the two Tailwind steps
-this repository had first, nine steps in all:
+the seven scripts that came across from staging, `keys.mjs` written here, and
+the two Tailwind steps this repository had first, ten steps in all:
 
 - **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
   nothing tracked that `.gitignore` matches, because the Pages artifact is a
@@ -321,6 +321,11 @@ this repository had first, nine steps in all:
   FAQ question in a page's graph is on the page in words; and `404.html` is
   noindexed, uncanonical and out of the sitemap. None of it renders, so none
   of it looks wrong. `--write` regenerates the sitemap and restamps the dates.
+- **Every key idea is still its heading** -- `keys.mjs`. Each article says
+  its argument three times, as the h2s, as the list of key ideas under the
+  dek and as the eyebrow over each section, and the last two are written
+  from the first. A heading reworded without `--write` is a list naming a
+  section the page no longer has.
 - **The built Tailwind stylesheet is current.** It rebuilds from
   `tailwind.config.js` and the markup and compares; when the bytes differ it
   reports at the class level, which selectors the markup uses that the
