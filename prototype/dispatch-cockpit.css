@@ -1431,6 +1431,78 @@
   color: var(--color-muted-gray);
 }
 
+/* ---------- Where the truck stands, as a bar ----------
+   Two real elements, the track and the mark. The fleet's middle and the zone
+   that still counts as level are the track's two pseudo-elements, which is
+   not a trick to save bytes: curves.mjs counts ELEMENTS, and four marks a row
+   across five rows and two cards would move that count by sixty for drawing
+   that carries no text and no border of its own.
+
+   THE MIDDLE AND THE BAND SIT ON TOP OF THE MARK, NOT UNDER IT. Drawn
+   underneath they vanish, because the mark is a fill from the left edge and
+   a truck ahead of the fleet covers the very band it is being compared to --
+   which is every helping factor, that is, most of them. Painted over the
+   fill they read as calipers around the middle: two hairlines saying where
+   level stops and a heavier tick saying where the middle is.
+
+   The band is LEVEL rescaled to this factor's own spread, so a mark inside
+   the calipers is exactly a factor the word calls neutral. On this fleet
+   that band runs from 9% to 16% of a track, wide enough that leaving it out
+   would put a mark a quarter of the way clear of the middle under the word
+   "neutral". */
+.ck-factor-bar {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 6px;
+  margin-top: var(--space-2xs);
+  border-radius: 3px;
+  background: var(--color-tag-border);
+}
+.ck-factor-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--pos);
+  border-radius: 3px;
+  background: var(--color-accent-text);
+}
+/* The zone that still counts as level with the fleet. */
+.ck-factor-bar::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: var(--band-l);
+  width: var(--band-w);
+  border-left: 1px solid var(--color-muted-gray);
+  border-right: 1px solid var(--color-muted-gray);
+}
+/* The fleet's middle. */
+.ck-factor-bar::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: var(--med);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-charcoal);
+}
+
+/* The rest of what the note used to say, folded. The summary borrows the
+   disclosure the misses list already uses rather than inventing a second
+   one; grouping the selectors keeps it one rule, so the state count does not
+   move for a pattern the page already had. */
+.ck-note { margin-top: var(--space-xs); }
+.ck-note-body { padding-bottom: var(--space-xs); }
+.ck .ck-note-body p {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
 /* Sub-heads inside the panel: a rung under the recommendation's h3. */
 .ck .ck-h {
   display: flex;
@@ -1490,7 +1562,8 @@
    turns to point down when it is open, which is the only thing on this page
    that moves, and the site's reduced-motion blanket stops it. */
 .ck-misses { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
-.ck-misses summary {
+.ck-misses summary,
+.ck-note summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1506,15 +1579,19 @@
 }
 /* Safari draws its own triangle on a summary with any display but list-item;
    both of these are needed to be rid of it. */
-.ck-misses summary::-webkit-details-marker { display: none; }
-.ck-misses summary::marker { content: ''; }
-.ck-misses summary:hover { color: var(--color-accent-hover); }
+.ck-misses summary::-webkit-details-marker,
+.ck-note summary::-webkit-details-marker { display: none; }
+.ck-misses summary::marker,
+.ck-note summary::marker { content: ''; }
+.ck-misses summary:hover,
+.ck-note summary:hover { color: var(--color-accent-hover); }
 .ck .ck-misses-chev {
   flex-shrink: 0;
   transform: rotate(-90deg);
   transition: transform var(--motion-state) var(--ease);
 }
-.ck-misses[open] .ck-misses-chev { transform: rotate(0deg); }
+.ck-misses[open] .ck-misses-chev,
+.ck-note[open] .ck-misses-chev { transform: rotate(0deg); }
 .ck-miss-list {
   margin: 0 0 var(--space-sm);
   padding: 0 0 0 var(--space-lg);
