@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/is-your-design-system-ready-for-ai-agents.html",
           "image": "https://adamhickey.com/img/og/is-your-design-system-ready-for-ai-agents.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -112,9 +112,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -237,6 +239,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -247,6 +253,23 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">A design system had two audiences, designers and developers, and it survived a certain amount of ambiguity because humans fill gaps. A third audience has arrived that cannot walk over to anyone&rsquo;s desk. It sees evidence and generates from it, so a messy system produces messy automation, and the machine makes the inconsistency visible. The question for a system is no longer only whether teams use it, but whether an agent given a real task builds the right thing with it.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#a-third-audience-arrived-that-cannot-walk-over-to-anyones-desk">A third audience arrived that cannot walk over to anyone&rsquo;s desk</a></li>
+            <li><a href="#humans-fill-gaps-machines-generate-from-evidence">Humans fill gaps. Machines generate from evidence.</a></li>
+            <li><a href="#a-design-system-now-decides-how-well-you-can-automate-your-own-software">A design system now decides how well you can automate your own software</a></li>
+            <li><a href="#governance-matters-more-as-creation-gets-cheaper">Governance matters more as creation gets cheaper</a></li>
+            <li><a href="#the-audits-first-question-is-whether-an-agent-can-tell-what-is-canonical">The audit&rsquo;s first question is whether an agent can tell what is canonical</a></li>
+            <li><a href="#test-it-the-way-you-would-test-an-interface">Test it the way you would test an interface</a></li>
+            <li><a href="#infrastructure-not-library-maintenance">Infrastructure, not library maintenance</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -260,13 +283,23 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Two audiences, then three</h2>
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="a-third-audience-arrived-that-cannot-walk-over-to-anyones-desk">A third audience arrived that cannot walk over to anyone&rsquo;s desk</h2>
           <p>For most of the history of design systems, there were two audiences. Designers needed to understand which components to use, how they behaved, what could be changed and what should remain consistent. Developers needed to understand how those components were implemented, which properties they accepted, how tokens worked, and how to assemble them without creating another slightly different version of something that already existed.</p>
           <p>The system sat between those groups. Its job was partly technical, partly organizational and partly educational.</p>
           <p>Now a third audience has arrived. Claude does not have institutional memory. Cursor was not in the workshop where the team decided that destructive actions always require confirmation. An agent working inside a codebase does not know that a component which appears redundant exists because three legacy applications cannot yet migrate to the newer version.</p>
-          <p>It knows whatever the organization has made legible.</p>
+          <p><mark>It knows whatever the organization has made legible.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>Three audiences, and what each does when the system is ambiguous</figcaption>
+            <ol class="writing-flow">
+              <li>Designer<small>asks someone which card to use</small></li>
+              <li>Developer<small>messages the engineer who built it</small></li>
+              <li class="writing-flow-mark">Agent<small>generates from the evidence</small></li>
+            </ol>
+          </figure>
 
-          <h2>Humans fill gaps. Machines generate from evidence.</h2>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="humans-fill-gaps-machines-generate-from-evidence">Humans fill gaps. Machines generate from evidence.</h2>
           <p>For years, teams survived a certain amount of ambiguity because humans are remarkably good at filling gaps. A designer opens a library, sees three nearly identical cards, and asks someone which one to use. A developer finds the documentation is outdated and messages the engineer who built the component. Someone remembers a Slack conversation from six months ago.</p>
           <p>The organization carries an enormous amount of its design system in people. That has always been fragile. AI exposes just how fragile it is.</p>
           <p>Ask an AI system to build a screen and it cannot walk over to Priya&rsquo;s desk. It cannot infer that a component is deprecated because everyone stopped using it. It cannot know that two differently named buttons are two generations of the same idea unless something tells it. It sees evidence. Then it generates from the evidence.</p>
@@ -274,7 +307,8 @@
           <p>That is why the first phase of AI-assisted development can feel almost magical, and why reality arrives soon after. The generated page has created a new button rather than using the existing one. The colors are close but are not actually tokens. The data table looks correct but responds differently from every other data table in the application. The agent produced a perfectly reasonable pattern that happens to violate a product decision made three years earlier.</p>
           <p>None of those failures necessarily means the AI is poor. The machine may simply be reflecting the system accurately. The organization itself is inconsistent. Humans learned to work around it. Machines make it visible.</p>
 
-          <h2>A different reason to invest</h2>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="a-design-system-now-decides-how-well-you-can-automate-your-own-software">A design system now decides how well you can automate your own software</h2>
           <p>Traditionally the argument for a design system was that it helps teams move faster and creates consistency across products. Still true. But another argument is emerging: a design system determines how effectively an organization can automate the creation of its own software.</p>
           <p>That is a much bigger proposition. Consider what an agent needs if you want it to behave like a competent member of the product team.</p>
           <ul>
@@ -287,26 +321,54 @@
           </ul>
           <p>Humans call that last one context. Machines need context too. The organizations that benefit most from AI-assisted development may not be the ones with the most sophisticated models. <mark>They may be the ones whose systems are easiest for models to understand.</mark></p>
           <p>That does not mean writing enormous instruction manuals for AI. It means making the underlying system coherent. A clean token architecture helps a designer, helps a developer, and helps an agent. A well-governed system becomes AI infrastructure almost by accident. A poorly governed one becomes an AI liability for the same reason. The machine magnifies whatever is already there.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>Messy systems produce messy automation.</p>
+          </aside>
 
-          <h2>Governance matters more as creation gets cheaper</h2>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="governance-matters-more-as-creation-gets-cheaper">Governance matters more as creation gets cheaper</h2>
           <p>Imagine a company with ten product teams. In the old model, creating a new UI pattern carried friction. Someone had to design it and someone had to build it, and the friction slowed proliferation.</p>
           <p>Now every designer and developer can ask an agent to create a new component in minutes. The cost of divergence approaches zero. You no longer need neglect to create inconsistency. You need only local optimization: every team solves its immediate problem, every solution looks reasonable, and six months later there are seventeen ways to display a status.</p>
-          <p>AI makes governance more important precisely because creation became easier.</p>
+          <figure class="writing-figure">
+            <figcaption>Local optimization, at the new price</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>10</dt><dd>product teams, each solving its immediate problem</dd></div>
+              <div><dt>minutes</dt><dd>to a new component, for anyone who asks an agent</dd></div>
+              <div><dt>17</dt><dd>ways to display a status, six months later</dd></div>
+            </dl>
+          </figure>
+          <p><mark>AI makes governance more important precisely because creation became easier.</mark></p>
 
-          <h2>A different engagement</h2>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="the-audits-first-question-is-whether-an-agent-can-tell-what-is-canonical">The audit&rsquo;s first question is whether an agent can tell what is canonical</h2>
           <p>The old design-system engagement began with an audit of the component library. The new one begins with a different question: is your product system ready for agents?</p>
           <p>Are the tokens coherent? Do the design file and production mean the same thing when they use the same component name? Can an agent tell which implementation is canonical? Are component states explicit? Do accessibility requirements live in the component or in someone&rsquo;s memory? Can a tool distinguish a supported variation from a one-off workaround? Which rules belong in components, which in documentation, which in agent instructions, and which decisions should never be delegated at all?</p>
-          <p>The organizations that need this most have the messiest histories: acquisitions, legacy systems, parallel design libraries, components that migrated halfway, tokens introduced after years of hard-coded values, documentation that describes what the system was supposed to become rather than what it became. That is where an agent&rsquo;s cheerful confidence becomes dangerous. It can normalize the wrong thing, make an accidental pattern look official, and reproduce a historical mistake at unprecedented speed. Someone has to know enough of the environment to tell the machine what is signal and what is debris.</p>
+          <p>The organizations that need this most have the messiest histories: acquisitions, legacy systems, parallel design libraries, components that migrated halfway, tokens introduced after years of hard-coded values, documentation that describes what the system was supposed to become rather than what it became. That is where an agent&rsquo;s cheerful confidence becomes dangerous. It can normalize the wrong thing, make an accidental pattern look official, and reproduce a historical mistake at unprecedented speed. <mark>Someone has to know enough of the environment to tell the machine what is signal and what is debris.</mark></p>
 
-          <h2>Test it the way you would test an interface</h2>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="test-it-the-way-you-would-test-an-interface">Test it the way you would test an interface</h2>
           <p>A design system should not be declared ready for AI because the documentation looks organized. Give an agent a realistic product task and see what it produces. Does it use the correct components? Does it follow the token structure? Does it create unnecessary variations? Does it preserve accessibility? Does it know when the system does not contain an appropriate solution?</p>
-          <p>The output becomes a diagnostic. Every mistake points back toward a missing piece of system knowledge.</p>
+          <p><mark>The output becomes a diagnostic.</mark> Every mistake points back toward a missing piece of system knowledge.</p>
           <p>This is what usability testing did for interfaces. You could debate endlessly whether a screen was understandable, or you could watch someone try to use it. Organizations can debate whether their design system is mature enough for AI, or they can give an agent a task and watch where it gets confused.</p>
+          <aside class="dp-note" aria-labelledby="dp-legibility-label">
+            <p class="dp-note-label" id="dp-legibility-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">Legibility is the interface an agent uses</h4>
+            <p class="dp-note-body">A state that wants to tax a forest first has to make the forest legible: rows, counts, names, a map. What it cannot see, it cannot act on, and what it sees badly, it acts on badly. An agent reads a design system the same way. It acts on what has been made legible, and where the system is ambiguous it does not stop, it picks, and it picks at scale. Every mistake in the output is a place the organization left illegible.</p>
+            <p class="dp-note-source">On legibility and what a system can act on: <a href="https://yalebooks.yale.edu/book/9780300078152/seeing-like-a-state/" target="_blank" rel="noopener noreferrer">Scott, Seeing Like a State</a></p>
+          </aside>
 
-          <h2>Infrastructure, not library maintenance</h2>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="infrastructure-not-library-maintenance">Infrastructure, not library maintenance</h2>
           <p>Design systems have always been interfaces between an organization and the people building its products. Another kind of user has arrived. It works extremely quickly, takes instructions literally, does not share your institutional memory, and can reproduce what it learns thousands of times. That makes clarity extraordinarily valuable.</p>
-          <p>The companies that prepare for this will not eliminate designers or developers. They will give both groups much more capable machinery, and capable machinery requires rails. Otherwise speed becomes entropy.</p>
+          <p>The companies that prepare for this will not eliminate designers or developers. They will give both groups much more capable machinery, and capable machinery requires rails. <mark>Otherwise speed becomes entropy.</mark></p>
           <p>Once you see a design system that way, the work stops looking like library maintenance. It starts looking like infrastructure for a different way of making products.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A design system had two audiences that filled its gaps. A third has arrived that generates from evidence, so a messy system produces messy automation, at speed. The question is no longer only whether teams use the system but whether an agent given a real task builds the right thing with it.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> give an agent one realistic screen to build with your system, and read the output as a list of what the system never made legible.</p>
+          </aside>
         </div>
       </div>
     </section>

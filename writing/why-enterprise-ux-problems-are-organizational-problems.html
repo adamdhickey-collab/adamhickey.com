@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/why-enterprise-ux-problems-are-organizational-problems.html",
           "image": "https://adamhickey.com/img/og/why-enterprise-ux-problems-are-organizational-problems.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -243,6 +249,22 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">When enterprise software is hard to use, the interface is where the problem showed up, not where it started. Behind an inconsistent product there are teams making decisions independently. Behind a stalled workflow there is a decision nobody is placed to make. Behind a design system nobody uses there is no rule for who settles what is shared. Fix the screens without fixing that, and you get cleaner screens with the same problem underneath.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-interface-is-where-every-unmade-decision-eventually-lands">The interface is where every unmade decision eventually lands</a></li>
+            <li><a href="#the-interface-is-messy-and-underneath-it-three-teams-decide-alone">The interface is messy, and underneath it three teams decide alone</a></li>
+            <li><a href="#most-design-problems-are-communication-problems">Most design problems are communication problems</a></li>
+            <li><a href="#it-shows-up-as-inconsistency-as-paperwork-or-as-a-shared-wrong-assumption">It shows up as inconsistency, as paperwork, or as a shared wrong assumption</a></li>
+            <li><a href="#the-quietest-shape-is-the-funded-initiative-moving-sideways">The quietest shape is the funded initiative moving sideways</a></li>
+            <li><a href="#the-first-useful-move-is-rarely-a-file">The first useful move is rarely a file</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -256,40 +278,98 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Three accounts of the real problem</h2>
+          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <h2 id="the-interface-is-where-every-unmade-decision-eventually-lands">The interface is where every unmade decision eventually lands</h2>
           <p>The product works, and nobody can say plainly what it is for any more. Every release adds to it, and the roadmap is a list of requests rather than a position. Three people in the room have three accounts of the real problem, each partly right, which is why the conversation never resolves.</p>
           <p>And the decision that matters keeps getting deferred, because making it would mean telling somebody no.</p>
           <p>Nothing about that is a UX problem in the sense that a designer can open a file and fix it. It is a problem of who decides, and it shows up in the interface because <mark>the interface is where every unmade decision eventually lands.</mark></p>
+          <aside class="dp-note" aria-labelledby="dp-conway-label">
+            <p class="dp-note-label" id="dp-conway-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">A product mirrors the organization that built it</h4>
+            <p class="dp-note-body">Conway wrote it down in 1968 and every inconsistent suite proves it again: a system’s structure copies the communication structure of the people who made it. Three teams that never talk ship three versions of one screen, not because any of them is careless but because nothing connected them. The interface is the diagram of who talks to whom.</p>
+            <p class="dp-note-source">The original paper: <a href="https://www.melconway.com/Home/Conways_Law.html" target="_blank" rel="noopener noreferrer">Conway, How Do Committees Invent?</a></p>
+          </aside>
 
-          <h2>The interface is messy, and underneath it</h2>
+          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <h2 id="the-interface-is-messy-and-underneath-it-three-teams-decide-alone">The interface is messy, and underneath it three teams decide alone</h2>
           <p>Most first conversations about a difficult product start with the screens. They are inconsistent, or confusing, or people tolerate them rather than understand them.</p>
           <p>Thirty minutes in, the more useful thing to say is usually: I think you may actually have two problems here. The interface is messy, but underneath that, three teams are making product decisions independently.</p>
-          <p>Knowing which is which is most of the job. Knowing when the interface is the problem and when the organization behind the interface is the problem. Knowing what needs to become consistent and what should remain flexible. Knowing when the team needs more options and when it needs someone to finally eliminate some.</p>
+          <p><mark>Knowing which is which is most of the job.</mark> Knowing when the interface is the problem and when the organization behind the interface is the problem. Knowing what needs to become consistent and what should remain flexible. Knowing when the team needs more options and when it needs someone to finally eliminate some.</p>
+          <figure class="writing-figure">
+            <figcaption>What the room says, and what sits behind it</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">What the room says</p>
+                <ul>
+                  <li>The screens are inconsistent</li>
+                  <li>The workflow stalls and nobody can say where</li>
+                  <li>There is a design system and nobody uses it</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">What sits behind it</p>
+                <ul>
+                  <li>Three teams making product decisions independently</li>
+                  <li>A decision nobody is placed to make</li>
+                  <li>No rule for who settles what is shared</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
 
-          <h2>What thirteen years of consulting taught me</h2>
+          <p class="writing-eyebrow">Key idea 3 of 6</p>
+          <h2 id="most-design-problems-are-communication-problems">Most design problems are communication problems</h2>
           <p>For thirteen years I built the digital front doors for big companies, turning a tangle of internal complexity into something the person on the other side of the screen could actually use.</p>
           <p>Consulting is a high-wire act. You walk into a room where everyone speaks a different language. Marketing wants flash, IT wants security, and the people using the thing just want to get their work done. My job was to be the translator.</p>
-          <p>That is where I learned that most design problems are communication problems, and that coherence at scale takes systems: design systems, governance, shared patterns, honest measurement. Not because the systems are the point, but because they are how an organization stops relitigating the same decision on every screen.</p>
+          <p>That is where I learned that <mark>most design problems are communication problems</mark>, and that coherence at scale takes systems: design systems, governance, shared patterns, honest measurement. Not because the systems are the point, but because they are how an organization stops relitigating the same decision on every screen.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>The interface is where every unmade decision eventually lands.</p>
+          </aside>
 
-          <h2>Three shapes it takes</h2>
+          <p class="writing-eyebrow">Key idea 4 of 6</p>
+          <h2 id="it-shows-up-as-inconsistency-as-paperwork-or-as-a-shared-wrong-assumption">It shows up as inconsistency, as paperwork, or as a shared wrong assumption</h2>
           <h3>Inconsistency</h3>
           <p>A company ran more than forty enterprise apps, each built by a different team at a different time. Someone in the field opened four of them before lunch and relearned the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all, and nobody could say whether any of it was working because nobody was measuring it.</p>
-          <p>The fix was a shared foundation, and the part that made it hold was organizational: checks written into the release process, teams trained to own the standard, and numbers that said whether it was working. The library was the visible half.</p>
+          <p>The fix was a shared foundation, and the part that made it hold was organizational: checks written into the release process, teams trained to own the standard, and numbers that said whether it was working. <mark>The library was the visible half.</mark></p>
           <h3>Paperwork</h3>
           <p>A federal grant network ran on old software, spreadsheets and workarounds, and no two of them agreed. Grantees spent more time chasing paperwork than running their programs, and the administrators helping them spent their days on the same paperwork, with no way to tell which programs were working.</p>
           <p>The interviews told us what was stressful. The data told us what was slow. The two rarely pointed at the same thing, which is itself the finding: the tool was where the friction showed, and the friction came from a network with no single place anyone trusted. One portal replaced all of it, and processing a data request fell from forty-five to fifty-five hours to just over ten.</p>
           <h3>The wrong assumption, shared by everyone</h3>
           <p>A courier company with more than 450 vehicles asked for one real-time view of the fleet. Everyone assumed the answer was a map. Me included. Sitting with the dispatchers turned that over: they knew every location code by heart, and what slowed them down was scanning through endless lists. The right screen was dense, scannable cards.</p>
           <p>The organizational problem there was smaller and just as real. The people specifying the tool and the people using it had never watched each other work. Board-clearing time fell by roughly thirty percent once they had.</p>
+          <figure class="writing-figure">
+            <figcaption>Three shapes, three numbers</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>40+</dt><dd>apps under one system, once the checks were in the release</dd></div>
+              <div><dt>10 h</dt><dd>to process a data request, from 45 to 55</dd></div>
+              <div><dt>450+</dt><dd>vehicles on one screen that was not a map</dd></div>
+              <div><dt>30%</dt><dd>off board-clearing time once the two sides had watched each other work</dd></div>
+            </dl>
+          </figure>
 
-          <h2>The initiative that is funded and moving sideways</h2>
+          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <h2 id="the-quietest-shape-is-the-funded-initiative-moving-sideways">The quietest shape is the funded initiative moving sideways</h2>
           <p>There is a fourth shape, and it is the quietest. An initiative that matters, that is funded and staffed with engineers, moving sideways because nobody senior owns the design of it and it is waiting on decisions nobody is placed to make.</p>
-          <p>No amount of interface work fixes that from outside. What fixes it is an owner inside the team, in its standups and its tools, with a sponsor who can say what done means.</p>
+          <p>No amount of interface work fixes that from outside. <mark>What fixes it is an owner inside the team, in its standups and its tools, with a sponsor who can say what done means.</mark></p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/why-enterprise-ux-problems-are-organizational-problems-2.webp?v=1" width="1600" height="900" alt="A conference room from the door. Five people along a long table all face the head of it, where one chair stands empty and terracotta. On the wall behind it, a large wireframe screen with one panel missing." loading="lazy" decoding="async" />
+            <figcaption>The decision nobody is placed to make, and the chair it would sit in.</figcaption>
+          </figure>
 
-          <h2>What this means for product teams</h2>
+          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <h2 id="the-first-useful-move-is-rarely-a-file">The first useful move is rarely a file</h2>
           <p>If the problem is organizational, the design work sits downstream of a decision about who decides, and the first useful move is rarely a file. When nobody can state the problem, the work is to get it stated in a sentence everyone in the room recognizes, and to put something in front of the team concrete enough to judge together. When several teams need one foundation, the work is the foundation and the operating rules that keep it one. When an initiative has no owner, the work is to own it, from inside the team rather than beside it.</p>
           <p>In each case the screens get better. <mark>They get better because something behind them did.</mark></p>
           <p>The test I still use is whether the work keeps guiding people long after the project ends. Not whether the deliverables were good, but whether the team is better at this than it was.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">The interface is where the problem showed up, not where it started. Behind inconsistency, stalled decisions and unused systems there is a decision nobody is placed to make. The screens get better when something behind them does.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> before opening a file, write down who decides. If the answer is nobody, that is the project.</p>
+          </aside>
         </div>
       </div>
     </section>

@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/enterprise-ai-should-help-people-decide-not-just-answer.html",
           "image": "https://adamhickey.com/img/og/enterprise-ai-should-help-people-decide-not-just-answer.jpg",
           "datePublished": "2026-09-10",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,10 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
   <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -234,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -244,6 +249,22 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">A useful AI feature helps someone judge a recommendation and act on it appropriately. That means designing the evidence beside the answer, the uncertainty around it, controls that have a real effect, and the path for when the suggestion is wrong. Acceptance is not the measure of success; the quality of the decision is. The scenario below is illustrative, not an account of a project already delivered.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#a-suspected-cause-is-a-place-to-start-not-permission-to-act">A suspected cause is a place to start, not permission to act</a></li>
+            <li><a href="#finding-summarizing-suggesting-drafting-and-acting-are-five-different-products">Finding, summarizing, suggesting, drafting and acting are five different products</a></li>
+            <li><a href="#put-the-evidence-beside-the-recommendation">Put the evidence beside the recommendation</a></li>
+            <li><a href="#give-people-control-that-does-something">Give people control that does something</a></li>
+            <li><a href="#prototype-the-wrong-answer">Prototype the wrong answer</a></li>
+            <li><a href="#measure-the-decision-not-the-acceptance">Measure the decision, not the acceptance</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set&rsquo;s
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -257,24 +278,37 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Twelve rejected orders and a suspected cause</h2>
+          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <h2 id="a-suspected-cause-is-a-place-to-start-not-permission-to-act">A suspected cause is a place to start, not permission to act</h2>
           <p>AI earns its place in an enterprise workflow when it helps someone make a better decision or finish a real task. Producing an answer is one part of that. The person still has to understand what the answer rests on, what is still uncertain, and what happens if they act on it.</p>
           <p>Take a proposed feature that groups failed orders and suggests a likely cause.</p>
           <p>The system notices that twelve rejected orders appear to share a missing customer identifier, and suggests a problem in the rules that translate the partner&rsquo;s documents into the receiving system&rsquo;s format.</p>
           <p>That is a good place to start an investigation.</p>
           <p>It is not yet permission to change the rule or resubmit twelve orders. <mark>The design work lives in that distance.</mark></p>
 
-          <h2>Decide what the system is responsible for</h2>
+          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <h2 id="finding-summarizing-suggesting-drafting-and-acting-are-five-different-products">Finding, summarizing, suggesting, drafting and acting are five different products</h2>
           <p>Before choosing between a conversational interface and a recommendation card, I would settle what role we are giving the system.</p>
           <p>Is it finding the relevant records? Summarizing the evidence? Suggesting a cause? Drafting a correction? Taking an action? Each of those is a different product, with a different cost when it is wrong.</p>
+          <figure class="writing-figure">
+            <figcaption>Five roles, and the cost of being wrong</figcaption>
+            <ol class="writing-flow">
+              <li data-level="1">Find<small>the relevant records</small></li>
+              <li data-level="2">Summarize<small>the evidence</small></li>
+              <li data-level="3">Suggest<small>a cause</small></li>
+              <li data-level="4">Draft<small>a correction</small></li>
+              <li data-level="5" class="writing-flow-mark">Act<small>unattended</small></li>
+            </ol>
+          </figure>
           <p>For this example a useful first release might group related failures, name the suspected field, and help a specialist open the affected documents. A later one might support a reviewed correction. Executing it unattended is its own conversation about reliability, permissions, consequences and recovery.</p>
-          <p>I would make those calls with product, engineering, architecture and whoever owns the model. A designer should not imply that an action is safe because it was easy to draw as a button.</p>
+          <p>I would make those calls with product, engineering, architecture and whoever owns the model. <mark>A designer should not imply that an action is safe because it was easy to draw as a button.</mark></p>
           <p>I would also ask whether the task needs AI at all. A known validation rule deserves a clear deterministic message, not a generated explanation of itself.</p>
 
-          <h2>Put the evidence beside the recommendation</h2>
+          <p class="writing-eyebrow">Key idea 3 of 6</p>
+          <h2 id="put-the-evidence-beside-the-recommendation">Put the evidence beside the recommendation</h2>
           <p>For the failed orders, I would keep the recommendation next to the records it is about.</p>
           <p>The person should be able to open the affected orders, see the field or the validation result in question, and know when it was last checked. A suspected cause should look visibly different from a confirmed one.</p>
-          <p>I would work with the technical team to be sure the supporting evidence is drawn from the records rather than generated alongside the answer, because an explanation that sounds right and cites nothing is worse than no explanation.</p>
+          <p>I would work with the technical team to be sure the supporting evidence is drawn from the records rather than generated alongside the answer, because <mark>an explanation that sounds right and cites nothing is worse than no explanation</mark>.</p>
           <p>The wording carries the claim. &ldquo;These orders share a missing field&rdquo; and &ldquo;changing this mapping will resolve these orders&rdquo; are not the same sentence.</p>
           <aside class="dp-note" aria-labelledby="dp-trust-label">
             <p class="dp-note-label" id="dp-trust-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
@@ -282,22 +316,64 @@
             <p class="dp-note-body">The aim is that someone relies on the system where reliance is earned and questions it where something is missing. A confidence figure is where this usually goes wrong: before putting ninety-two percent on a screen, the team has to be able to say what it measures, and someone has to watch a real user read it. A number the product cannot stand behind buys trust it has not earned.</p>
             <p class="dp-note-source">On explainability and trust: <a href="https://pair.withgoogle.com/chapter/explainability-trust/" target="_blank" rel="noopener noreferrer">Google PAIR, Explainability + Trust</a></p>
           </aside>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>The design work lives in that distance.</p>
+          </aside>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/enterprise-ai-should-help-people-decide-not-just-answer-2.webp?v=1" width="1600" height="900" alt="A desk from above. One small wireframe card, the recommendation, and beside it an open folder with twelve paper records fanned out, each with the same one field blank. Two hands: one on the card, one lifting a record. The folder tab is terracotta." loading="lazy" decoding="async" />
+            <figcaption>The recommendation on the desk, and beside it the twelve records it is about.</figcaption>
+          </figure>
 
-          <h2>Give people control that does something</h2>
+          <p class="writing-eyebrow">Key idea 4 of 6</p>
+          <h2 id="give-people-control-that-does-something">Give people control that does something</h2>
           <p>A specialist might accept the grouping and reject the suspected cause. Someone else might recognize a partner-specific exception the system has never been told about.</p>
           <p>The interface has to have somewhere for those responses to go. I would design ways to inspect, correct, dismiss or escalate without losing the task in progress. For a more autonomous feature I would make its authorized scope and its stopping conditions explicit, with engineering enforcing the boundary rather than the copy describing it.</p>
-          <p>Stopping a pending action and reversing one that already happened are different promises, and I would not label both of them undo.</p>
+          <p><mark>Stopping a pending action and reversing one that already happened are different promises</mark>, and I would not label both of them undo.</p>
           <p>Feedback needs the same honesty. Dismissing a suggestion might hide it, flag it for review, or feed a later retraining cycle. The interface should say which, instead of implying that the system just learned something.</p>
 
-          <h2>Prototype the wrong answer</h2>
+          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <h2 id="prototype-the-wrong-answer">Prototype the wrong answer</h2>
           <p>I would deliberately build several outcomes: a correct suggestion, a plausible but wrong one, one with incomplete evidence, and a case that changes while the person is reviewing it.</p>
           <p>Then watch. Can they detect the mismatch? Do they know how to dig further? Can they keep working when the system cannot help?</p>
-          <p>Simulated output is enough to test the interaction before a model is ready, as long as everyone stays clear that a successful prototype test says nothing about whether the model is accurate.</p>
+          <figure class="writing-figure">
+            <figcaption>The four cases to build, and what to watch for</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">Build</p>
+                <ul>
+                  <li>A correct suggestion</li>
+                  <li>A plausible but wrong one</li>
+                  <li>One with incomplete evidence</li>
+                  <li>A case that changes while the person is reviewing it</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">Watch for</p>
+                <ul>
+                  <li>Can they detect the mismatch?</li>
+                  <li>Do they know how to dig further?</li>
+                  <li>Can they keep working when the system cannot help?</li>
+                  <li>Do they notice that the case moved?</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>Simulated output is enough to test the interaction before a model is ready, as long as everyone stays clear that <mark>a successful prototype test says nothing about whether the model is accurate</mark>.</p>
 
-          <h2>Measure the decision, not the acceptance</h2>
-          <p>I would not make acceptance rate the definition of success. A high rate can mean the suggestions are good. It can equally mean people are clicking through them.</p>
+          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <h2 id="measure-the-decision-not-the-acceptance">Measure the decision, not the acceptance</h2>
+          <p>I would not make acceptance rate the definition of success. <mark>A high rate can mean the suggestions are good. It can equally mean people are clicking through them.</mark></p>
           <p>Correct decisions, unnecessary interventions, successful recoveries, and whether the underlying problem takes less work to fix: those are the measures, read alongside the AI team&rsquo;s own evaluation of the model.</p>
           <p>The opportunity here is larger than adding a chat window. It is to give someone better evidence, a better starting point, and the right amount of help, while keeping the consequences of the decision legible to the person who owns it.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">An answer is useful when the person can judge it and act on it. That means the evidence beside the recommendation, controls that do something, and a path for when it is wrong. Measure the decision, not the acceptance rate.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> prototype the wrong answer before the right one, and watch whether anyone notices.</p>
+          </aside>
         </div>
       </div>
     </section>

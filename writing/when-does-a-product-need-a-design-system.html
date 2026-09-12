@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/when-does-a-product-need-a-design-system.html",
           "image": "https://adamhickey.com/img/og/when-does-a-product-need-a-design-system.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -243,6 +249,22 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">When more than one team is building the same component differently, and the product shows it. Not when the pattern library is missing: when the fourth version of the same data table ships. Before that point a shared file and a conversation are enough. After it, every new screen restarts a decision that was settled somewhere else last year, and the AI tools the teams build with see four data tables and generate a fifth.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-sign-is-not-the-missing-library">The sign is not the missing library</a></li>
+            <li><a href="#before-a-system-forty-teams-each-solve-the-same-problem-reasonably-alone">Before a system, forty teams each solve the same problem reasonably, alone</a></li>
+            <li><a href="#a-system-without-governance-diverges-again-just-more-slowly">A system without governance diverges again, just more slowly</a></li>
+            <li><a href="#the-ai-tools-see-four-data-tables-and-generate-a-fifth">The AI tools see four data tables and generate a fifth</a></li>
+            <li><a href="#used-a-system-pays-in-thirds-and-halves">Used, a system pays in thirds and halves</a></li>
+            <li><a href="#when-a-second-team-ships-the-same-component-a-second-way">When a second team ships the same component a second way</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -256,35 +278,103 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>The sign is not the missing library</h2>
+          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <h2 id="the-sign-is-not-the-missing-library">The sign is not the missing library</h2>
           <p>Most products that need a design system already have one, on paper. The folder of patterns exists. Nobody opens it, because it was never built against the products the teams actually ship.</p>
           <p>So the question is not whether you have a design system. <mark>It is whether the people building the product agree on what a data table is.</mark></p>
           <p>Ask three teams. If you get three answers, and each one is defensible, that is the sign. A product suite that grew a product at a time shows it: four teams have built the same data table four ways, nobody is sure which one is correct, and every new screen restarts a conversation that was settled somewhere else last year.</p>
           <p>The people using the product feel it before anyone building it does. In the enterprise suite I led UX for, someone in the field might open four of the apps before lunch and relearn the layout every time.</p>
+          <aside class="dp-note" aria-labelledby="dp-consistency-label">
+            <p class="dp-note-label" id="dp-consistency-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">Consistency is what lets attention go to the work</h4>
+            <p class="dp-note-body">Every time a control looks different from the last one, the person has to stop and ask what it is before asking what it does. That question costs a fraction of a second and it is paid on every screen, by everyone, for the life of the product; in a field app opened four times before lunch, it is the whole morning. Once a button looks like a button everywhere, the interface stops costing attention and the work gets it back.</p>
+            <p class="dp-note-source">Consistency and standards, the fourth of the ten: <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener noreferrer">NN/g, 10 Usability Heuristics</a></p>
+          </aside>
 
-          <h2>What it costs before you have one</h2>
+          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <h2 id="before-a-system-forty-teams-each-solve-the-same-problem-reasonably-alone">Before a system, forty teams each solve the same problem reasonably, alone</h2>
           <p>That suite ran more than forty apps, and each one had been built by a different team at a different time. Design got pulled in at the end to clean things up, if it got pulled in at all. And no one could say whether any of it was working, because no one was measuring it.</p>
-          <p>None of that is a component problem. It is the cost of forty teams each solving the same problem reasonably, alone.</p>
+          <p>None of that is a component problem. <mark>It is the cost of forty teams each solving the same problem reasonably, alone.</mark></p>
           <p>The cost lands in three places. Designers and developers guess, and rebuild things that exist. People who use the product relearn it screen by screen. And decisions that should be settled once get made again, by whoever is in the room, every time a screen ships.</p>
+          <figure class="writing-figure">
+            <figcaption>Where the cost lands</figcaption>
+            <ol class="writing-flow">
+              <li>Builders guess<small>and rebuild what exists</small></li>
+              <li>Users relearn<small>screen by screen</small></li>
+              <li class="writing-flow-mark">Decisions repeat<small>by whoever is in the room</small></li>
+            </ol>
+          </figure>
 
-          <h2>What it costs after</h2>
+          <p class="writing-eyebrow">Key idea 3 of 6</p>
+          <h2 id="a-system-without-governance-diverges-again-just-more-slowly">A system without governance diverges again, just more slowly</h2>
           <p>A system is not free either, and the teams that resent one are usually right about why.</p>
           <p>Not everything belongs in a system. Over-sharing produces a foundation every team resists, and the components teams resist are the ones they fork. The data table goes shared. The scheduling board one team argued for probably stays local, and the team that argued for it had good reasons.</p>
-          <p>A system without governance is a folder of components that slowly diverges again. Who can change what, how a team proposes an addition, how a change ships without breaking four products, and which numbers will say whether it is working: those rules are the system. The components are what the rules produce.</p>
+          <p>A system without governance is a folder of components that slowly diverges again. Who can change what, how a team proposes an addition, how a change ships without breaking four products, and which numbers will say whether it is working: those rules are the system. <mark>The components are what the rules produce.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>The rules are the system</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">Governance answers</p>
+                <ul>
+                  <li>Who can change what</li>
+                  <li>How a team proposes an addition</li>
+                  <li>How a change ships without breaking four products</li>
+                  <li>Which numbers will say whether it is working</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">Without it</p>
+                <ul>
+                  <li>A folder of components that diverges again</li>
+                  <li>Forks, wherever a team was over-shared</li>
+                  <li>A review board that meets quarterly</li>
+                  <li>A component count, which nobody should be paid on</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
           <p>Governance nobody can reach is how the forking restarts. A standing half hour for what the system is missing does more than a review board that meets quarterly.</p>
 
-          <h2>The third reader</h2>
+          <p class="writing-eyebrow">Key idea 4 of 6</p>
+          <h2 id="the-ai-tools-see-four-data-tables-and-generate-a-fifth">The AI tools see four data tables and generate a fifth</h2>
           <p>For years a certain amount of ambiguity was survivable, because humans fill gaps. A designer who sees three nearly identical cards asks someone which one to use.</p>
           <p>The AI tools teams now build with can ask a question, but not of the person who settled this one and never wrote it down. They see four data tables and generate a fifth. And once anyone on a team can ask an agent for a new component in minutes, the cost of divergence approaches zero. You no longer need neglect to create inconsistency. You only need every team to solve its immediate problem.</p>
           <p>That makes the case for a system stronger at exactly the moment some people expect AI to make it weaker. <mark>Creation got cheap. Consistency did not.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>Creation got cheap. Consistency did not.</p>
+          </aside>
 
-          <h2>What changed once the system was in place</h2>
+          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <h2 id="used-a-system-pays-in-thirds-and-halves">Used, a system pays in thirds and halves</h2>
           <p>In that suite, the shared library replaced hundreds of one-off components with a small reusable set, and cut the average time from design to development by about a third. Standards and accessibility checks written into the release process cut UI defects in production by more than half, quarter over quarter. Clearer flows cut new-user training time in half.</p>
-          <p>Those are the numbers a system earns when it is used. The number that says it was built is the component count, and nobody should be paid on that one.</p>
+          <figure class="writing-figure">
+            <figcaption>What the suite earned once the system was used</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>1</dt><dd>small reusable set, replacing hundreds of one-off components</dd></div>
+              <div><dt>&#8531;</dt><dd>off the average time from design to development</dd></div>
+              <div><dt>&gt;&#189;</dt><dd>fewer UI defects in production, quarter over quarter</dd></div>
+              <div><dt>&#189;</dt><dd>the new-user training time</dd></div>
+            </dl>
+          </figure>
+          <p>Those are the numbers a system earns when it is used. <mark>The number that says it was built is the component count, and nobody should be paid on that one.</mark></p>
 
-          <h2>So, when?</h2>
+          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <h2 id="when-a-second-team-ships-the-same-component-a-second-way">When a second team ships the same component a second way</h2>
           <p>When a second team ships the same component a second way. When nobody can say which version is right. When design is invited at the end to tidy up, and nothing measures whether it helped.</p>
-          <p>If that is where you are, the first move is unglamorous and it is the whole basis of the work: inventory what already exists. Every component, in every product, including the four versions of the same one, and the tokens, variables and documentation behind them, gaps included. You cannot decide what should be shared until you can see what has been built twice.</p>
+          <p>If that is where you are, the first move is unglamorous and it is the whole basis of the work: inventory what already exists. Every component, in every product, including the four versions of the same one, and the tokens, variables and documentation behind them, gaps included. <mark>You cannot decide what should be shared until you can see what has been built twice.</mark></p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/when-does-a-product-need-a-design-system-2.webp?v=1" width="1600" height="900" alt="A long table in a bright workshop, laid with thirty or so printed wireframe components in a row, several of them near-duplicates of their neighbour. A woman walks its length with a clipboard. A terracotta tag lies across two near-identical data tables." loading="lazy" decoding="async" />
+            <figcaption>The inventory: every version of every component on one table, the duplicates tagged.</figcaption>
+          </figure>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">The sign is not the missing library; it is that the teams do not agree on what a data table is. A system is governance that produces components, not a folder of them, and the AI tools now reading it make the case stronger, not weaker.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> inventory every component in every product, the four versions of the same one included, before anyone builds a fifth.</p>
+          </aside>
         </div>
       </div>
     </section>

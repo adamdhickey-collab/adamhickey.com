@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/where-does-design-end-and-development-begin-now.html",
           "image": "https://adamhickey.com/img/og/where-does-design-end-and-development-begin-now.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -243,6 +249,23 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">For most of my career the line was easy to see. Design happened over here, development over there, and eventually there was a handoff. Now I can describe an interface to an AI coding tool, give it a design system, inspect what it creates, change the behavior, connect data and deploy the result. The line did not disappear. It moved, from what a job title says to a better question: what can I build, verify, and responsibly stand behind?</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-old-boundary-was-drawn-by-the-cost-of-production-and-production-got-cheap">The old boundary was drawn by the cost of production, and production got cheap</a></li>
+            <li><a href="#build-is-not-the-same-as-verify">Build is not the same as verify</a></li>
+            <li><a href="#can-i-build-it-can-i-verify-it-can-i-own-the-failure">Can I build it, can I verify it, can I own the failure</a></li>
+            <li><a href="#the-line-sits-where-the-invisible-failure-modes-overtake-the-visible-ones">The line sits where the invisible failure modes overtake the visible ones</a></li>
+            <li><a href="#bring-engineers-in-for-leverage-not-rescue">Bring engineers in for leverage, not rescue</a></li>
+            <li><a href="#one-person-carries-the-product-a-specialist-joins-where-it-matters">One person carries the product; a specialist joins where it matters</a></li>
+            <li><a href="#never-bluff-the-invisible-parts">Never bluff the invisible parts</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -256,21 +279,32 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>The old boundary was based on production</h2>
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="the-old-boundary-was-drawn-by-the-cost-of-production-and-production-got-cheap">The old boundary was drawn by the cost of production, and production got cheap</h2>
           <p>The traditional division of labor made sense. Designers designed interfaces, developers wrote code, and each discipline required specialized tools and specialized knowledge. Building software was expensive enough that organizations assembled teams around it.</p>
           <p>AI has compressed some of those boundaries. It is increasingly possible for one experienced person to move across several disciplines without becoming equally expert in all of them.</p>
-          <p>That last phrase matters. I do not have to become a career software engineer to build useful software. But I also should not confuse the ability to produce code with deep engineering expertise. AI can help me cross a knowledge gap. It does not automatically eliminate the gap.</p>
+          <p>That last phrase matters. I do not have to become a career software engineer to build useful software. But I also should not confuse the ability to produce code with deep engineering expertise. <mark>AI can help me cross a knowledge gap. It does not automatically eliminate the gap.</mark></p>
           <p>So the interesting question is not whether a designer can now build. Increasingly, yes. It is where the responsible line sits, and it has less to do with whether something is called front end or back end than I would have guessed.</p>
 
-          <h2>Build is not the same as verify</h2>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="build-is-not-the-same-as-verify">Build is not the same as verify</h2>
           <p>This may be the most important distinction in the whole question.</p>
           <p>AI dramatically increases my ability to build things I could not previously build. But <mark>every increase in building power creates a corresponding verification problem.</mark></p>
           <p>Suppose an AI tool generates an authentication flow. It runs. I can sign in. Wonderful. But can someone access another user&rsquo;s account? What happens when a session expires? Are keys exposed? What happens when someone sends malformed data on purpose, or fifty thousand requests arrive at once?</p>
           <p>The interface can look perfect while the implementation underneath contains serious problems. As a designer I am trained to see many categories of failure: confusion, accessibility, hierarchy, workflow errors, cognitive load. A senior engineer sees additional categories: race conditions, security vulnerabilities, data corruption, cache invalidation, concurrency.</p>
           <p>I do not need to become paranoid about every project. I need to recognize when the invisible failure modes have become more important than the visible ones. That is where the line begins.</p>
 
-          <h2>Three questions</h2>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="can-i-build-it-can-i-verify-it-can-i-own-the-failure">Can I build it, can I verify it, can I own the failure</h2>
           <p>Before deciding whether to own a technical implementation myself, I ask three things.</p>
+          <figure class="writing-figure">
+            <figcaption>Three questions, in order</figcaption>
+            <ol class="writing-flow">
+              <li>Can I build it?<small>increasingly, yes</small></li>
+              <li>Can I verify it?<small>the important ways it could fail</small></li>
+              <li class="writing-flow-mark">Can I own the failure?<small>the consequence sets the bar</small></li>
+            </ol>
+          </figure>
           <h3>Can I build it?</h3>
           <p>With my current skills and AI assistance, can I create the thing? Increasingly the answer is yes. That is only question one.</p>
           <h3>Can I verify it?</h3>
@@ -278,26 +312,77 @@
           <h3>Can I responsibly own the consequences if it fails?</h3>
           <p>If a portfolio site&rsquo;s animation breaks, we fix it. If a personal prototype loses some test data, that is annoying and manageable. If a healthcare application exposes private patient information, that is a completely different situation. The consequence changes the level of engineering confidence required.</p>
           <p>So the real line is this: <mark>I can own the implementation as long as I can reasonably verify it and the consequences of failure stay within a level I am qualified to accept.</mark> That is a much better rule than designers do not do back ends.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>Every increase in building power creates a corresponding verification problem.</p>
+          </aside>
 
-          <h2>Where that puts the line today</h2>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="the-line-sits-where-the-invisible-failure-modes-overtake-the-visible-ones">The line sits where the invisible failure modes overtake the visible ones</h2>
           <p>There is a large territory I am comfortable owning: the product thinking, the user experience, the visual system, the front end, the prototype, the design system, content structure, a straightforward content management system, simple data interactions, and integrations with mature services used according to their intended patterns. In that territory the hard part is rarely computer science. It is product judgment: what the interface should do, what someone sees first, what becomes a reusable component, where complexity belongs.</p>
           <p>And there is a territory where I want an experienced engineer involved, not because AI cannot generate code for it but because the cost of being subtly wrong is too high: sensitive personal data, regulated or financial systems beyond straightforward use of established providers, complex authorization, real-time synchronization at scale, migrations of important production data, anything with uptime guarantees.</p>
-          <p>A practical tell: if I hear myself think <em>I think this is secure</em>, that sentence is the signal to bring someone in. Security is a bad area for casual confidence.</p>
+          <figure class="writing-figure">
+            <figcaption>Two territories</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">I own it</p>
+                <ul>
+                  <li>Product thinking, the user experience, the visual system</li>
+                  <li>The front end, the prototype, the design system</li>
+                  <li>Content structure, a straightforward content management system</li>
+                  <li>Simple data interactions, mature services used as intended</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">An engineer joins</p>
+                <ul>
+                  <li>Sensitive personal data</li>
+                  <li>Regulated or financial systems beyond established providers</li>
+                  <li>Complex authorization, real-time synchronization at scale</li>
+                  <li>Migrations of production data, anything with uptime guarantees</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>A practical tell: <mark>if I hear myself think <em>I think this is secure</em>, that sentence is the signal to bring someone in.</mark> Security is a bad area for casual confidence.</p>
+          <aside class="dp-note" aria-labelledby="dp-confidence-label">
+            <p class="dp-note-label" id="dp-confidence-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">Confidence is not competence, and fluency hides the difference</h4>
+            <p class="dp-note-body">The less someone knows about a field, the less able they are to see what they are missing in it, because the skill that would show them is the skill they lack. That is not a flaw in the person; it is the shape of expertise from the outside. An authentication flow that runs and lets you sign in feels complete, and the categories of failure a security engineer would see are exactly the ones a designer has no instrument for. The tell is a sentence that sounds like confidence and is actually the absence of a test.</p>
+            <p class="dp-note-source">The original study: <a href="https://doi.org/10.1037/0022-3514.77.6.1121" target="_blank" rel="noopener noreferrer">Kruger and Dunning, Unskilled and Unaware of It</a></p>
+          </aside>
 
-          <h2>Bring engineers in for leverage, not rescue</h2>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="bring-engineers-in-for-leverage-not-rescue">Bring engineers in for leverage, not rescue</h2>
           <p>I do not want the relationship with developers to be: I tried to build this until I got stuck, and now I need someone to save it. That is a bad collaboration.</p>
-          <p>The better shape is to know early when another person&rsquo;s expertise creates leverage. I design and build most of an application. Then a senior engineer reviews the architecture, the security, the permissions and the deployment. Maybe that engineer spends ten hours rather than ten weeks. I keep ownership of the product experience and most of the implementation, and the client gets specialized judgment exactly where it matters.</p>
+          <p>The better shape is to know early when another person&rsquo;s expertise creates leverage. I design and build most of an application. Then a senior engineer reviews the architecture, the security, the permissions and the deployment. <mark>Maybe that engineer spends ten hours rather than ten weeks.</mark> I keep ownership of the product experience and most of the implementation, and the client gets specialized judgment exactly where it matters.</p>
           <p>Sometimes the engineer should arrive at the beginning, because the client&rsquo;s central challenge is technical: can these systems integrate, can the data architecture support this, can we migrate off the existing platform. If the answer to one of those determines the product, engineering belongs in the first conversation. Do not wait until the end to discover the constraint that should have shaped the beginning.</p>
 
-          <h2>What this changes for a client</h2>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="one-person-carries-the-product-a-specialist-joins-where-it-matters">One person carries the product; a specialist joins where it matters</h2>
           <p>Every engagement I run now takes one of three shapes. I design it. I design and build it. Or I lead it and bring in engineering for the parts where deeper expertise matters, while staying the primary relationship and the product lead.</p>
-          <p>Both of these statements are true: I can build, and I know when someone better than me should own part of the system. The second increases the credibility of the first.</p>
+          <p>Both of these statements are true: I can build, and I know when someone better than me should own part of the system. <mark>The second increases the credibility of the first.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>What that is worth to a client</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>3</dt><dd>shapes an engagement takes: design it, design and build it, or lead it and bring engineering in</dd></div>
+              <div><dt>1</dt><dd>very experienced person, instead of a strategist, two designers, a developer, a PM and an AI consultant</dd></div>
+              <div><dt>10 h</dt><dd>of a senior engineer where it matters, rather than ten weeks</dd></div>
+            </dl>
+          </figure>
           <p>From a client&rsquo;s side, that can be considerably simpler than hiring a strategist, a UX designer, a UI designer, a front-end developer, a project manager and an AI consultant. One very experienced person understands the problem, maintains continuity, and makes the idea tangible quickly. When the project genuinely requires deeper engineering, that specialist joins.</p>
 
-          <h2>Never bluff the invisible parts</h2>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="never-bluff-the-invisible-parts">Never bluff the invisible parts</h2>
           <p>I can experiment aggressively, learn new technologies and let AI take me into unfamiliar territory. But when client money, customer data, security or important business operations are involved, I do not pretend to a certainty I do not have. If I do not know, I say: I want an engineer to review this part.</p>
-          <p>That sentence should not feel like a failure. Expertise includes recognizing the limits of expertise.</p>
+          <p>That sentence should not feel like a failure. <mark>Expertise includes recognizing the limits of expertise.</mark></p>
           <p>The old model was: I design, then I hand it to development. The new one is: I carry the product as far as it makes sense for me to carry it. Sometimes that is the whole way. Sometimes someone walks beside me for part of it. The question I draw the line with is no longer what a UX designer was traditionally supposed to do. It is what I can build, verify, and responsibly stand behind. Everything before that line is room to expand. Everything beyond it is a reason to collaborate.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">The line moved from what a job title says to what one person can build, verify and responsibly stand behind. Every gain in building power is a verification problem the same size, and engineers come in for leverage, early, rather than for rescue at the end.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> the next time you hear yourself think &ldquo;I think this is secure&rdquo;, stop there and book the review.</p>
+          </aside>
         </div>
       </div>
     </section>

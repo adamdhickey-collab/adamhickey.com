@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.html",
           "image": "https://adamhickey.com/img/og/how-i-move-a-complex-workflow-from-ambiguity-to-release.jpg",
           "datePublished": "2026-09-10",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -243,6 +249,23 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">A broad product request becomes useful through shared problem framing, focused investigation, realistic prototypes, and decisions made with engineering, not through a design handoff at the end. The work is to make the uncertainty specific, give the team something concrete enough to judge, and stay involved while it becomes a working part of the product. The scenario below is illustrative, not an account of a project already delivered.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#a-complex-request-arrives-as-a-signal-not-as-a-design-problem">A complex request arrives as a signal, not as a design problem</a></li>
+            <li><a href="#a-request-becomes-a-problem-when-it-fits-in-one-testable-sentence">A request becomes a problem when it fits in one testable sentence</a></li>
+            <li><a href="#bring-the-technical-reality-in-early">Bring the technical reality in early</a></li>
+            <li><a href="#choose-an-improvement-that-is-small-and-whole">Choose an improvement that is small and whole</a></li>
+            <li><a href="#prototype-at-the-fidelity-the-next-decision-needs-on-the-awkward-records">Prototype at the fidelity the next decision needs, on the awkward records</a></li>
+            <li><a href="#make-the-release-criteria-part-of-the-design">Make the release criteria part of the design</a></li>
+            <li><a href="#stay-involved-after-people-start-using-it">Stay involved after people start using it</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set&rsquo;s
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -256,44 +279,84 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Three requests that are not yet design problems</h2>
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="a-complex-request-arrives-as-a-signal-not-as-a-design-problem">A complex request arrives as a signal, not as a design problem</h2>
           <p>A complex product request rarely arrives as a design problem.</p>
           <p>We need better visibility. Customers should be able to do this themselves. Too many issues end up with support.</p>
           <p>Those are useful signals and they are not yet enough to decide what to build. <mark>My job is to make the uncertainty specific, not to wait for it to clear.</mark></p>
           <p>I do not expect the requirements to be settled before design starts. Helping settle the right ones is the work.</p>
+          <figure class="writing-figure">
+            <figcaption>From a request to a release</figcaption>
+            <ol class="writing-flow">
+              <li>Frame<small>one testable sentence</small></li>
+              <li>Engineering in<small>while it is defined</small></li>
+              <li>Small and whole<small>one supported path</small></li>
+              <li>Right fidelity<small>the awkward records</small></li>
+              <li>Release criteria<small>behaviors agreed</small></li>
+              <li>Stay involved<small>measures and support</small></li>
+            </ol>
+          </figure>
 
-          <h2>Find the decision inside the request</h2>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="a-request-becomes-a-problem-when-it-fits-in-one-testable-sentence">A request becomes a problem when it fits in one testable sentence</h2>
           <p>Say the request is a better dashboard for the progress of new trading-partner onboarding.</p>
           <p>Before deciding what goes on it, I would ask what someone cannot determine today. Does an implementation coordinator need to know which setup tasks remain? Is a customer waiting to hear whether testing passed? Does an administrator need to know who owns a blocker?</p>
           <p>Those may all end up in one experience. They are not the same task.</p>
-          <p>I would start with the product manager and the people closest to the work: users, support, implementation specialists, and the engineers who maintain the existing flow. The aim is a testable account of the problem, in one sentence. Something like: an implementation coordinator cannot tell what remains before a partner goes live without checking three places and asking a specialist.</p>
+          <p>I would start with the product manager and the people closest to the work: users, support, implementation specialists, and the engineers who maintain the existing flow. <mark>The aim is a testable account of the problem, in one sentence.</mark> Something like: an implementation coordinator cannot tell what remains before a partner goes live without checking three places and asking a specialist.</p>
           <p>At that point it is a hypothesis. I would take real examples and find out whether it holds, who it holds for, and what it misses.</p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/how-i-move-a-complex-workflow-from-ambiguity-to-release-2.webp?v=1" width="1600" height="900" alt="A meeting room. A wide whiteboard carrying a single long hand-drawn line, standing in for one sentence. Five people face it: a product manager, two engineers with laptops, a support person, and a designer at the board holding a terracotta marker. Abandoned wireframe sketches on the table." loading="lazy" decoding="async" />
+            <figcaption>The problem in one sentence everyone in the room recognizes, before anyone draws anything.</figcaption>
+          </figure>
 
-          <h2>Bring the technical reality in early</h2>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="bring-the-technical-reality-in-early">Bring the technical reality in early</h2>
           <p>I would have engineering and architecture in the room while the experience is still being defined, not after.</p>
           <p>Where does readiness information come from? Which steps are recorded automatically and which depend on a person? Does a passing test mean the configuration is production-ready, or does an approval still stand between them?</p>
-          <p>Those answers decide what the product can honestly say. Product management sets the business priority and the scope. Engineering and architecture name the constraints and dependencies. I bring the user evidence, the proposed workflow, and what each option costs the person using it.</p>
+          <p><mark>Those answers decide what the product can honestly say.</mark> Product management sets the business priority and the scope. Engineering and architecture name the constraints and dependencies. I bring the user evidence, the proposed workflow, and what each option costs the person using it.</p>
           <p>The goal is not unanimous agreement on every detail. It is a clear decision, an understood trade-off, and a written record of the assumptions still to be tested.</p>
 
-          <h2>Choose an improvement that is small and whole</h2>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="choose-an-improvement-that-is-small-and-whole">Choose an improvement that is small and whole</h2>
           <p>I would not make the first release a redesign of the onboarding platform.</p>
           <p>One supported path, with a clear view of completed steps, unresolved blockers and the owner of the next action, is a smaller scope that still carries a complete task. A coordinator should arrive with a question, understand the situation, and take or request the next action.</p>
-          <p>A dashboard that looks better and leaves the last step in an email thread has not solved the problem it was asked to solve. So I would state the boundary: what this release supports, what it does not, and how people handle what falls outside it.</p>
+          <p><mark>A dashboard that looks better and leaves the last step in an email thread has not solved the problem it was asked to solve.</mark> So I would state the boundary: what this release supports, what it does not, and how people handle what falls outside it.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>My job is to make the uncertainty specific, not to wait for it to clear.</p>
+          </aside>
 
-          <h2>Use the fidelity the decision requires</h2>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="prototype-at-the-fidelity-the-next-decision-needs-on-the-awkward-records">Prototype at the fidelity the next decision needs, on the awkward records</h2>
           <p>Early, a rough flow is often enough to expose that two people mean different things by ready.</p>
+          <aside class="dp-note" aria-labelledby="dp-sketch-label">
+            <p class="dp-note-label" id="dp-sketch-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">A rough drawing is a question; a finished one is an answer</h4>
+            <p class="dp-note-body">Two people can agree on the word ready for months and mean two different things by it, because a word lets each of them keep their own picture. A sketch does not. Put a rough flow between them and the disagreement has somewhere to land, on the third box, this afternoon, while it is still cheap. The roughness is doing the work: it invites the correction a polished screen would make rude.</p>
+            <p class="dp-note-source">On sketching as the instrument of the early conversation: <a href="https://www.sciencedirect.com/book/9780123740373/sketching-user-experiences" target="_blank" rel="noopener noreferrer">Buxton, Sketching User Experiences</a></p>
+          </aside>
           <p>Later, a prototype has to let us investigate behavior. What happens when a prerequisite changes? Can someone tell a failed test from one that has not run? What does a person without edit permission see?</p>
-          <p>I would use representative data, including the awkward records, rather than the ones that make the layout look good. AI-assisted tools shorten the route to something the team can put hands on, and I review what they produce and keep simulated behavior clearly marked as simulated. The prototype exists so we can decide together, not so I can present.</p>
+          <p>I would use representative data, including the awkward records, rather than the ones that make the layout look good. AI-assisted tools shorten the route to something the team can put hands on, and I review what they produce and keep simulated behavior clearly marked as simulated. <mark>The prototype exists so we can decide together, not so I can present.</mark></p>
 
-          <h2>Make the release criteria part of the design</h2>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="make-the-release-criteria-part-of-the-design">Make the release criteria part of the design</h2>
           <p>Leading UX across more than forty SAP Fiori applications taught me that a design decision needs a way to survive implementation and everything that comes after it: shared patterns, feedback from real users, and UX and accessibility checks inside the release process. <a href="standardizing-ux-across-40-sap-fiori-apps.html">That account is here.</a></p>
           <p>So before calling a design ready, I would agree the behaviors with engineering. A blocker carries a useful explanation and a next step. A status has one meaning. A failed update does not erase someone&rsquo;s work. Keyboard order and focus are specified alongside the visual states.</p>
-          <p>Where a constraint changes the experience, I would work the alternative through with the team rather than around them. If live status is out of scope for this release, a clearly labelled last-confirmed state and a deliberate refresh is an honest answer; a display that implies it is live is not.</p>
+          <p>Where a constraint changes the experience, I would work the alternative through with the team rather than around them. If live status is out of scope for this release, <mark>a clearly labelled last-confirmed state and a deliberate refresh is an honest answer; a display that implies it is live is not.</mark></p>
 
-          <h2>Stay involved after people start using it</h2>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="stay-involved-after-people-start-using-it">Stay involved after people start using it</h2>
           <p>Before release I would agree how we will know whether it worked. Here, whether coordinators can judge readiness correctly, name the owner of a blocker, and move the process along without pulling in a specialist.</p>
-          <p>After release, those measures read alongside observation and what support hears. If the new experience moved the confusion somewhere else, that is the next design problem, and I would rather find it than be told about it.</p>
+          <p>After release, those measures read alongside observation and what support hears. If the new experience moved the confusion somewhere else, that is the next design problem, and <mark>I would rather find it than be told about it</mark>.</p>
           <p>The value of a senior designer is not the screens. It is helping a team understand what matters, decide with enough evidence, and keep improving the thing as the product and its users change.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A request becomes a design problem when it fits in one testable sentence. Engineering is in the room while the experience is defined, the first release is small and whole, and the release criteria are part of the design. Then stay, because the confusion usually moves rather than disappears.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> write the problem in one sentence everyone in the room recognizes, and do not draw anything until they do.</p>
+          </aside>
         </div>
       </div>
     </section>

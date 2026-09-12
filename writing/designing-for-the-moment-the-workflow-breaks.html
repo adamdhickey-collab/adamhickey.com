@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/designing-for-the-moment-the-workflow-breaks.html",
           "image": "https://adamhickey.com/img/og/designing-for-the-moment-the-workflow-breaks.jpg",
           "datePublished": "2026-09-10",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,10 +108,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
   <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -234,6 +235,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -244,6 +249,21 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">When an order stalls or a transaction fails, people need more than an error message. They need to understand what happened, what it affects, and what they can safely do next. The design work is to make the business situation legible, to separate what the system knows from what it only assumes, and to design the recovery rather than the warning alone. The scenario below is illustrative, not an account of a project already delivered.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#one-order-three-screens-no-account-of-what-happened">One order, three screens, no account of what happened</a></li>
+            <li><a href="#start-from-the-last-time-it-happened-told-by-both-people-who-were-there">Start from the last time it happened, told by both people who were there</a></li>
+            <li><a href="#sent-received-and-accepted-are-three-different-facts">Sent, received and accepted are three different facts</a></li>
+            <li><a href="#design-the-recovery-not-only-the-warning">Design the recovery, not only the warning</a></li>
+            <li><a href="#measure-whether-the-work-got-easier">Measure whether the work got easier</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set&rsquo;s
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -257,14 +277,16 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>One order, three screens, no account of what happened</h2>
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
+          <h2 id="one-order-three-screens-no-account-of-what-happened">One order, three screens, no account of what happened</h2>
           <p>Making operational software easier to use starts with what someone has to do when the normal process stops working. A cleaner dashboard may help. The more useful question is whether the product lets a person recognize the problem, understand what it costs, and take the next correct action.</p>
           <p>Picture an operations coordinator investigating an order a customer says never arrived.</p>
           <p>One screen says the document was sent. Another shows a processing failure. A third carries the customer&rsquo;s order number, and the first two identify the same order by two other numbers. The coordinator opens a support ticket, copies values between windows, and asks an integration specialist whether it is safe to try again.</p>
-          <p>The information may all be there. What is missing is a coherent account of the situation.</p>
+          <p>The information may all be there. <mark>What is missing is a coherent account of the situation.</mark></p>
           <p>That is where the design work starts.</p>
 
-          <h2>Follow one real exception</h2>
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
+          <h2 id="start-from-the-last-time-it-happened-told-by-both-people-who-were-there">Start from the last time it happened, told by both people who were there</h2>
           <p>Before proposing a new dashboard, I would ask someone to walk me through the last time this happened.</p>
           <p>What first told them something was wrong? Which screen did they open next? What did they copy somewhere else? At what point did they stop investigating and ask another person?</p>
           <p>I would want the person responsible for the business outcome and the specialist who resolved it, because their accounts describe different parts of the same problem.</p>
@@ -272,32 +294,81 @@
           <p>The specialist says: the message reached the destination, but we had no confirmation that the receiving application accepted it.</p>
           <p>That difference is not something to smooth over in a research summary. It is a requirement. <mark>The interface has to separate what the system knows from what the person needs to know.</mark></p>
 
-          <h2>Make the business situation legible</h2>
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
+          <h2 id="sent-received-and-accepted-are-three-different-facts">Sent, received and accepted are three different facts</h2>
           <p>Sent, received and accepted are three different stages here. I would work with engineering and architecture to pin down what each one means, what evidence stands behind it, and where the product genuinely does not know.</p>
           <p>Then organize the experience around the task rather than around the system that produced the record.</p>
           <p>A coordinator investigating an order needs its current business state, the affected customer, the last confirmed event, whoever is already working on it, and the available next steps. An integration specialist needs the underlying document, the processing history, and the diagnostics.</p>
           <p>Those two views should connect. They do not have to show the same detail at the same moment.</p>
-          <p>I would also resist making the screen look simpler by hiding what experienced users compare. A dense data table can be the right tool for reviewing a queue. The question is whether its hierarchy, its terminology and its interactions support the work, not how much sits on it.</p>
+          <figure class="writing-figure">
+            <figcaption>What the system knows, and what it only assumes</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">The system knows</p>
+                <ul>
+                  <li>Sent: the document left, with a timestamp</li>
+                  <li>Received: the message reached the destination</li>
+                  <li>Who is already working on it, and the last confirmed event</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">It only assumes</p>
+                <ul>
+                  <li>Accepted: that the receiving application took it</li>
+                  <li>That the customer has the order</li>
+                  <li>That trying again is safe</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>I would also resist making the screen look simpler by hiding what experienced users compare. A dense data table can be the right tool for reviewing a queue. <mark>The question is whether its hierarchy, its terminology and its interactions support the work, not how much sits on it.</mark></p>
           <aside class="dp-note" aria-labelledby="dp-recall-label">
             <p class="dp-note-label" id="dp-recall-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
             <h4 class="dp-note-head">Nobody should have to hold an identifier in their head to cross a screen.</h4>
             <p class="dp-note-body">Recognition is cheaper than recall, and an investigation that spans three screens spends the difference on every hop. Keeping the order&rsquo;s identity and its recent history in view is not decoration; it is what lets someone read the next screen instead of reconstructing where they were.</p>
             <p class="dp-note-source">On recognition rather than recall: <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener noreferrer">NN/g, 10 Usability Heuristics</a></p>
           </aside>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>The interface has to separate what the system knows from what the person needs to know.</p>
+          </aside>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/designing-for-the-moment-the-workflow-breaks-2.webp?v=1" width="1600" height="900" alt="Three desks in a row joined by a conveyor. At the first a person drops a parcel into a chute; at the second a parcel has arrived on the counter; at the third a stamp is raised, waiting. The belt between the second and third is broken, and a terracotta parcel sits stalled at the gap." loading="lazy" decoding="async" />
+            <figcaption>Sent, received, accepted: three different facts, and the parcel stalled between the last two.</figcaption>
+          </figure>
 
-          <h2>Design the recovery, not only the warning</h2>
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
+          <h2 id="design-the-recovery-not-only-the-warning">Design the recovery, not only the warning</h2>
           <p>An alert is the beginning of the experience, not the end of it.</p>
           <p>Say the next action is to retry a failed transaction. Before designing that button, I would ask engineering what happens when someone presses it.</p>
           <p>Do we know whether the first attempt reached its destination? What prevents duplicate processing? Does this person have permission? Could a colleague already be working the same issue?</p>
+          <figure class="writing-figure">
+            <figcaption>Four questions the retry button has to answer first</figcaption>
+            <ol class="writing-flow">
+              <li>Reached?<small>did the first attempt arrive</small></li>
+              <li>Duplicate?<small>what prevents processing twice</small></li>
+              <li>Permitted?<small>does this person have the right</small></li>
+              <li class="writing-flow-mark">Owned?<small>is a colleague already on it</small></li>
+            </ol>
+          </figure>
           <p>The answers are the design. The person needs to see the scope of the retry, confirm a consequential action, understand that processing is still under way, and tell a submitted request apart from a confirmed result.</p>
           <p>There also has to be a useful path when they cannot resolve it themselves. Escalation should carry the context forward: the transaction, the evidence, what has already been tried, and why help is needed. <mark>A recovery is not finished if the person still has to take screenshots and explain it all again.</mark></p>
 
-          <h2>Measure whether the work got easier</h2>
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
+          <h2 id="measure-whether-the-work-got-easier">Measure whether the work got easier</h2>
           <p>For a change like this I would set a baseline around the investigation itself.</p>
           <p>How long does it take to identify the issue and its owner? How often do people pick the correct next action? Which escalations are necessary, and which happen because the product withheld context it had? Do resolved issues come back?</p>
-          <p>Those measures have to account for issues of different difficulty. A faster resolution is not automatically a better one.</p>
+          <p>Those measures have to account for issues of different difficulty. <mark>A faster resolution is not automatically a better one.</mark></p>
           <p>The designer&rsquo;s contribution is to connect the questions people actually ask to what the system can actually answer, and to help the team turn that into a workflow someone can use under pressure.</p>
           <p>The test is whether a person leaves the screen able to say: I know what happened, I know what is still uncertain, and I know what to do next.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">When a workflow breaks, people need to know what happened, what it affects and what they can safely do next. Separate what the system knows from what it only assumes, and design the recovery rather than the warning alone.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> walk through the last real exception with the coordinator and the specialist in the same room, and write down where their two accounts differ. That difference is the first requirement.</p>
+          </aside>
         </div>
       </div>
     </section>

@@ -227,6 +227,26 @@ restyle there is one run here rather than an afternoon of screenshots. Re-run
 the script rather than capturing by hand; a hand capture is the one that
 drifts.
 
+### Drawing in the browser
+
+The drawings are generated in ChatGPT through the user's own Chrome, in the
+chat the account already pays for, and taken into the set by
+`illustrate.mjs`. `scripts/draw.mjs` is the loop's two ends: `queue` writes
+the jobs from `scripts/writing-scenes.mjs` to `img/inbox/QUEUE.json` (the
+first job carries the style preamble PR #53 used and attaches the reference
+as a PNG; the rest open "Same style"), `next` prints the prompt to put in the
+composer, `clip` or `land` files what comes back from the clipboard or from
+`~/Downloads`, and `take` runs `illustrate.mjs feature` on it. The browser
+side, with the exact page scripts that work (type through
+`execCommand('insertText')`, send through `send-button.click()`, poll for
+`img[alt^="Generated image"]`, `fetch` it same-origin to the clipboard), is
+the local skill `.claude/skills/draw-in-the-browser/SKILL.md`, which
+`.gitignore` keeps out of the tree; if it is missing, the header of
+`draw.mjs` and the `how-long-is-now` sibling's skill of the same name are the
+source. A chat that stops answering has hit the account's image cap for the
+period; `draw.mjs status` says what is still owed.
+
+
 ## Before pushing a change to color, type, spacing or motion
 
 The four specs are normative: `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`,
@@ -240,6 +260,7 @@ node scripts/deployable.mjs               # the tree can be tarred into an artif
 node scripts/tokens.mjs                   # every token the docs name actually exists
 node scripts/counts.mjs                   # every number the docs assert, recounted
 node scripts/seo.mjs                      # what the site tells a machine, vs the site
+node scripts/keys.mjs                     # every key idea on an article is still its h2
 node scripts/resting.mjs --strict         # every color a reader can SEE, untouched
 node scripts/states.mjs --strict          # hover, focus and script-applied state
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
@@ -256,7 +277,7 @@ every time.
 ### How much of that to run, and when
 
 The cost is not spread evenly across the nine. `deployable.mjs`,
-`tokens.mjs`, `counts.mjs` and `seo.mjs` finish in about a second together and
+`tokens.mjs`, `counts.mjs`, `seo.mjs` and `keys.mjs` finish in about a second together and
 need nothing installed. The four browser checks are the entire bill: each
 renders every page in the tree, and `typescale.mjs` renders each of them at
 four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
@@ -272,8 +293,8 @@ and a check you skip because you are in a hurry.
 
 | What the change touches | Run locally |
 | --- | --- |
-| Copy, markup, SEO, images | The fast four |
-| Color, type, spacing or motion **on one page** | The fast four, plus the four browser checks scoped to that page |
+| Copy, markup, SEO, images | The fast five |
+| Color, type, spacing or motion **on one page** | The fast five, plus the four browser checks scoped to that page |
 | A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite, unscoped |
 | Anything else | Let CI be the full run |
 
@@ -420,7 +441,7 @@ Two more since #32:
   non-HTML file there is invisible to every check here.
 
 - **The articles are the search doors, and the dek is the answer.** Since
-  #34 `writing/` holds an index and six articles, each titled as the
+  #34 `writing/` holds an index and ten articles, each titled as the
   question a buyer asks before knowing the name, and each answering it in
   the dek under the h1 in three or four sentences that stand on their own.
   That paragraph is what a search engine or an assistant can quote whole;
@@ -434,6 +455,24 @@ Two more since #32:
   article is a new page: the `og.mjs` registry, the sitemap through
   `seo.mjs --write`, `llms.txt`, the README's family table and the counts
   it feeds all move with it.
+
+- **Each article is a Blink.** Since the writing-blinks branch an article
+  carries its argument the way a Blinkist summary carries a book: the dek
+  answers, a numbered list of key ideas under it maps the sections, each
+  section opens on a "Key idea 2 of 6" eyebrow and an h2 that is the idea
+  as a sentence, one figure breaks the column every section or two, one
+  line a section is marked and one of them stands as a pull, and the
+  article ends on a recap and one thing to do. The list and the eyebrows
+  are written from the h2s by `node scripts/keys.mjs --write`, and the
+  check runs in `checks.yml`, so **reword a heading and run --write in the
+  same commit.** Three figure kinds, all inside the essay column and all in
+  tokens: a flow (`.writing-flow`, stages with a rising bar), a split
+  (`.writing-split`, two columns behind two rules) and a number row
+  (`.build-facts.writing-facts`). A figure with a label is code, never a
+  generated image, because the checks cannot read a label in a bitmap and
+  the style spec forbids text in the drawings anyway. The second drawing
+  in an article body is `img/writing/<slug>-2.webp`, from
+  `scripts/writing-scenes.mjs` through the loop below.
 
 `llms.txt` at the root is the site in a page of markdown for an assistant
 that reads that first: the person, the four engagements with their length

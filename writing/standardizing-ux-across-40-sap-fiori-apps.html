@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/standardizing-ux-across-40-sap-fiori-apps.html",
           "image": "https://adamhickey.com/img/og/standardizing-ux-across-40-sap-fiori-apps.jpg",
           "datePublished": "2026-09-08",
-          "dateModified": "2026-09-11",
+          "dateModified": "2026-09-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -112,9 +112,11 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=3" />
-  <link rel="stylesheet" href="../style.css?v=20260910c" />
+  <link rel="stylesheet" href="../style.css?v=20260912a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=2" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -237,6 +239,10 @@
     </div>
   </nav>
 
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
@@ -247,6 +253,23 @@
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
         <p class="build-dek">Forty-plus SAP Fiori apps, built by different teams at different times, started to look and work like one product once four things were in place: one style guide with a reusable component library and accessibility rules, feedback from the people using the apps, UX and accessibility checks written into the release process, and teams trained to own it. The shared library cut design-to-development time by about a third and production UI defects by more than half.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#forty-apps-forty-teams-and-nobody-measuring-any-of-it">Forty apps, forty teams, and nobody measuring any of it</a></li>
+            <li><a href="#review-everything-before-you-build-anything">Review everything before you build anything</a></li>
+            <li><a href="#the-teams-had-never-heard-from-the-people-using-the-apps">The teams had never heard from the people using the apps</a></li>
+            <li><a href="#quality-is-decided-between-the-request-and-the-release">Quality is decided between the request and the release</a></li>
+            <li><a href="#tools-and-standards-do-not-change-a-culture-on-their-own">Tools and standards do not change a culture on their own</a></li>
+            <li><a href="#a-third-off-build-time-and-half-the-defects-once-it-was-used">A third off build time and half the defects, once it was used</a></li>
+            <li><a href="#start-with-the-inventory-and-write-the-checks-into-the-release">Start with the inventory, and write the checks into the release</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
         <!-- The feature: one drawing per article, in the engagement set's
              style, of the argument rather than the topic. Under the dek so
              the answer is read before the picture is, and inside the hero
@@ -260,43 +283,85 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>The situation</h2>
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="forty-apps-forty-teams-and-nobody-measuring-any-of-it">Forty apps, forty teams, and nobody measuring any of it</h2>
           <p>The company ran more than forty SAP Fiori apps across logistics and dispatch, asset health and maintenance, safety and compliance, workforce and HR, analytics and workflow. Each one had been built by a different team at a different time.</p>
-          <p>Someone in the field might open four of them before lunch and have to relearn the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all. And no one could say whether any of it was working, because no one was measuring it.</p>
+          <p>Someone in the field might open four of them before lunch and have to relearn the layout every time. Design got pulled in at the end to clean things up, if it got pulled in at all. And <mark>no one could say whether any of it was working, because no one was measuring it</mark>.</p>
           <p>I was the lead UX design consultant for two fiscal years, working with the SAP application manager and general manager, the product owners, the business analysts, the developers and the project managers. What follows is what that work taught me, in the order it taught it.</p>
+          <figure class="writing-figure">
+            <figcaption>Four things, in the order they went in</figcaption>
+            <ol class="writing-flow">
+              <li>Review<small>every app, side by side</small></li>
+              <li>One guide, one library<small>colors, type, components, accessibility</small></li>
+              <li>Feedback<small>from the people using the apps</small></li>
+              <li class="writing-flow-mark">Checks<small>in the release process, not the wiki</small></li>
+              <li>Ownership<small>teams trained to run their own</small></li>
+            </ol>
+          </figure>
 
-          <h2>Review everything before you build anything</h2>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="review-everything-before-you-build-anything">Review everything before you build anything</h2>
           <p>Before any of the bigger work, the apps needed to look and behave like they came from the same company. So the first move was to review all of them: visual hierarchy, form clarity, feedback and alerts, accessibility and contrast, error recovery, readability, down to button alignment.</p>
           <p>From that review came one Fiori style guide, covering colors and typography, the core UI elements and the accessibility rules, and one pattern library of reusable components everyone worked from: the progress stepper, the filter bar, the dialog.</p>
           <p>Once a button looked like a button everywhere, people could stop thinking about the interface and get on with the job. Designers and developers stopped guessing, too.</p>
           <p>The lesson is the order. <mark>A library built before the review would have been a fifth version of everything.</mark></p>
 
-          <h2>The teams had never heard from the people using the apps</h2>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="the-teams-had-never-heard-from-the-people-using-the-apps">The teams had never heard from the people using the apps</h2>
           <p>Most enterprise teams design without ever hearing from the people on the other end of the screen. We added feedback right inside the apps, captured at the moment of use, sat with people during their workday, and tracked where they got stuck.</p>
           <p>The day-in-the-life interviews were about workflow: pain points, workarounds, what slows people down, how information moves, where collaboration breaks. The in-app feedback turned what people told us into quick fixes, and closing the loop kept the product teams and the people using the apps talking.</p>
-          <p>Assumptions gave way to evidence, and the conversation shifted from what should we ship next to what is actually getting in people&rsquo;s way.</p>
+          <p><mark>Assumptions gave way to evidence</mark>, and the conversation shifted from what should we ship next to what is actually getting in people&rsquo;s way.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A library built before the review would have been a fifth version of everything.</p>
+          </aside>
 
-          <h2>Quality is decided between the request and the release</h2>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="quality-is-decided-between-the-request-and-the-release">Quality is decided between the request and the release</h2>
           <p>Design quality is decided between the moment a request comes in and the day the app ships. We added UX and accessibility checks at every step in between, so quality was not something bolted on at the end.</p>
-          <p>That is the difference between a standard and a document. The standards stopped being a document and started showing up in every release.</p>
+          <p><mark>That is the difference between a standard and a document.</mark> The standards stopped being a document and started showing up in every release.</p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/standardizing-ux-across-40-sap-fiori-apps-2.webp?v=1" width="1600" height="900" alt="A calm assembly line carrying framed wireframe app screens past three arched gates, a person at each: one with a ruler, one with a magnifier, one with an ink stamp. The screen passing the last gate carries a fresh terracotta stamp mark. Finished screens stack on a cart beyond." loading="lazy" decoding="async" />
+            <figcaption>The checks in the release process, not in the wiki: three gates on the line and a stamp at the last.</figcaption>
+          </figure>
 
-          <h2>Tools and standards do not change a culture on their own</h2>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="tools-and-standards-do-not-change-a-culture-on-their-own">Tools and standards do not change a culture on their own</h2>
           <p>We ran design thinking workshops on usability, accessibility, visual design, information architecture, performance and adoption. We told the stories of what was working, which built awareness and credibility faster than any guideline. And we gave teams a product health scorecard so they could run their own UX checks and see where to improve.</p>
-          <p>It became normal to talk about user experience the same way teams already talked about uptime or revenue. UX went from someone else&rsquo;s job to a shared craft.</p>
+          <p>It became normal to talk about user experience the same way teams already talked about uptime or revenue. <mark>UX went from someone else&rsquo;s job to a shared craft.</mark></p>
+          <aside class="dp-note" aria-labelledby="dp-stories-label">
+            <p class="dp-note-label" id="dp-stories-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h4 class="dp-note-head">A story travels where a guideline does not</h4>
+            <p class="dp-note-body">A guideline tells a team what to do; a story of a team that did it, and what happened next, tells them it can be done here. The second is what moves a culture, because it is concrete, it is about people they know, and it carries the reason inside the telling. The health scorecard gave every team a number; the stories of what was working gave them a reason to want it.</p>
+            <p class="dp-note-source">On why the concrete, credible story is what sticks: <a href="https://heathbrothers.com/books/made-to-stick/" target="_blank" rel="noopener noreferrer">Heath and Heath, Made to Stick</a></p>
+          </aside>
 
-          <h2>What the numbers said</h2>
-          <ul>
-            <li>Forty-plus applications under one design system, replacing hundreds of one-off UI components with a small reusable library.</li>
-            <li>The shared library cut the average time from design to development by about a third.</li>
-            <li>Standards and accessibility checks in the process cut UI defects in production by more than half, quarter over quarter.</li>
-            <li>Clearer flows cut new-user training time in half, with real annual savings in support and onboarding.</li>
-            <li>Changes made from user data lifted NPS by roughly twenty points across several release cycles.</li>
-          </ul>
-          <p>True design is not only about pixels. It is about the system that produces them. And it kept working after I left, which is the only number I would put first.</p>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="a-third-off-build-time-and-half-the-defects-once-it-was-used">A third off build time and half the defects, once it was used</h2>
+                    <figure class="writing-figure">
+            <figcaption>What the numbers said</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>40+</dt><dd>applications under one design system, hundreds of one-offs replaced by a small library</dd></div>
+              <div><dt>&#8531;</dt><dd>off the average time from design to development</dd></div>
+              <div><dt>&gt;&#189;</dt><dd>fewer UI defects in production, quarter over quarter</dd></div>
+              <div><dt>&#189;</dt><dd>the new-user training time, with real annual savings in support and onboarding</dd></div>
+              <div><dt>+20</dt><dd>NPS, from changes made on user data, across several release cycles</dd></div>
+            </dl>
+          </figure>
+          <p>True design is not only about pixels. It is about the system that produces them. And <mark>it kept working after I left, which is the only number I would put first</mark>.</p>
 
-          <h2>What I would tell a team starting this now</h2>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="start-with-the-inventory-and-write-the-checks-into-the-release">Start with the inventory, and write the checks into the release</h2>
           <p>Start with the inventory, side by side, before anyone builds a component. Write the checks into the release process rather than the wiki. Pick the two or three numbers that will say whether it is working, and start counting in the first quarter, not the last.</p>
           <p>And one thing that was not true when this work was done: the AI tools your teams now build with read the system too, and they cannot ask the person who settled which of two components is the right one and never wrote it down. <mark>The legibility that helped forty teams is now what decides whether an agent builds the right thing.</mark></p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">Forty apps built by forty teams started to look like one product once four things were in place: one guide and library, feedback from the people using the apps, checks in the release process, and teams that owned it. Design-to-build time fell by a third; production defects by more than half.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> pick the two or three numbers that will say whether it is working, and start counting in the first quarter, not the last.</p>
+          </aside>
         </div>
       </div>
     </section>

@@ -92,6 +92,15 @@ jobs:
       - name: What the site tells a machine still matches the site
         run: node scripts/seo.mjs
 
+      # The fourth static check, the same shape again: each article carries its
+      # argument three times -- the h2s, the list of key ideas under the dek,
+      # and the "Key idea 2 of 6" eyebrow over each section -- and two of the
+      # three are written from the first by scripts/keys.mjs. A heading
+      # reworded without a --write is a list naming a section the page no
+      # longer has, which a reader would notice and no browser check would.
+      - name: Every key idea is still its heading
+        run: node scripts/keys.mjs
+
       # No package.json in this repository, and the check scripts are the only
       # thing that would want one. Install what they need for the length of the
       # job rather than committing a manifest for two dependencies.
