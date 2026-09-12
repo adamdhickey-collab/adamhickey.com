@@ -667,29 +667,36 @@
    Two values are authored, both by precedent. --shell-radius is the laptop
    lid's 14 and not the phone's 26, because 26 on a box this wide reads as a
    lozenge, which is the argument style.css already makes at .build-laptop.
-   And 1920, because a dispatch cockpit is a monitor-width interface: the
-   fleet data table and the recommendation beside it are the whole point,
-   and the 1280px container puts them in a column.
+   ON THE CONTENT'S WIDTH, NOT THE MONITOR'S. Until 2026-09-11 the screen was
+   1920 and the frame left the container to hold it, on the argument that a
+   dispatch cockpit is a monitor-width interface and the 1280px container
+   puts the fleet data table and the recommendation into a column. That was
+   true, and it cost more than it bought. It made the demo the one element on
+   the page that started on its own line: the hero's assumption card, the five
+   slides above and every heading down the page range to the container's left
+   edge, and the frame ranged to the viewport's middle, 100px outboard of all
+   of them at 1440. A page whose subject is an interface that fits cannot
+   itself look unaligned.
 
-   The width is the only place this file overrules the page's layout, so it
-   says what it is doing. min() takes the smaller of the cap and the
-   viewport less its margins, which means the frame is 1920 on a monitor and
-   fluid on anything narrower, and never runs to the edge either way. The
-   frame's outer box is the cap plus its own two bezels, so the SCREEN is
-   1920 and the chrome sits outside it. Below 768 the margin drops to the
-   page gutter: 48 a side there is a wider inset than the prose gets, and it
-   squeezes a seven-row data table to buy nothing. */
+   So the frame is the container's content box: --container-max less its two
+   gutters, capped by the viewport less the same, centred. Centring and
+   ranging are the same thing at this width -- a box the width of the content
+   column, centred in the viewport, has its left edge exactly where .container
+   puts the text -- which is why there is no margin-inline-start here.
+
+   What it costs is real and is the reason the 1920 existed: the cockpit's
+   two-column stage at 1216 is narrower than at 1920, so the fleet data table
+   reaches its own min-width sooner and scrolls inside its wrap on viewports
+   where it used to sit whole. The wrap is built for that and says so; the
+   whole-table view now wants a wider monitor than it did. */
 .ck-frame {
   --shell-radius: 14px;
-  width: min(calc(1920px + var(--bezel) * 2), 100% - var(--gutter) * 2);
+  width: min(100% - var(--gutter) * 2, calc(var(--container-max) - var(--gutter) * 2));
   margin: var(--space-3xl) auto 0;
   padding: var(--bezel);
   border-radius: var(--shell-radius);
   background: var(--device-chrome);
   box-shadow: var(--shadow-device);
-}
-@media (min-width: 48rem) {
-  .ck-frame { width: min(calc(1920px + var(--bezel) * 2), 100% - var(--space-4xl) * 2); }
 }
 
 /* The screen. It keeps the section's warm ground, so the cockpit is lit the
@@ -703,6 +710,35 @@
 @media (min-width: 48rem) {
   .ck { padding: var(--space-3xl); }
 }
+/* ====================== THE PAGE RANGES LEFT ==============================
+   .case-narrow is 56rem with margin: 0 auto, so on every other page of the
+   site a heading and its paragraph sit in the middle of the 1280 container
+   with the ground either side of them. That is right for an essay, where the
+   column IS the page. It is wrong here, because this page's subject is three
+   pieces of interface -- the hero's assumption card, the five slides and the
+   cockpit itself -- and all three range to the container's left edge. A
+   centred 56rem column started 192px inboard of them at 1440, so the reader
+   got a left edge for the pictures and a different one for the words about
+   them.
+
+   Ranging rather than widening: the measure is untouched. .writing-measure
+   and --measure still hold a line to about 70 characters, and 56rem still
+   caps what sits inside .case-narrow. The only thing that changes is which
+   end of the container the leftover ground is on.
+
+   Scoped to this page by a class on <body> rather than edited in style.css,
+   because .case-narrow is the shared helper twenty-odd other pages lay their
+   text out with and none of them has this problem.
+
+   The child combinator is load-bearing. Three blocks on this page carried
+   .container and .case-narrow on the SAME div, where margin-inline: 0 ranges
+   the CONTAINER left and drops the page's own 1280 centring with it -- the
+   heading landed on the viewport's gutter, 80px outboard of everything it was
+   supposed to line up with. Those three are now a .case-narrow inside a
+   .container, like every other block here, and this rule only reaches a
+   .case-narrow that has a .container above it. */
+.ckw-page .container .case-narrow { margin-inline: 0; }
+
 /* ============================ THE SLIDESHOW ==============================
    Five screens in a row, one ranged to the page's left edge, the next cut by
    the right edge of the track. The cut is the only thing on the page that
@@ -728,13 +764,15 @@
    of a thing that already worked without it. -------------------------------- */
 .ck-show {
   /* The width of one slide, and the source of every other number here. The
-     capture is 680 of screen, so 680 plus two bezels is the widest it is
-     worth showing -- past its own size it is an upscale -- and 84vw is what
-     leaves a neighbour showing at both edges on anything narrower. Half the
-     width the first version had, which is the point: at 1440 the middle
-     slide is whole and about 350px of each neighbour shows, which reads as a
-     row of cards rather than one screenshot with edges. */
-  --slide-w: min(calc(680px + var(--bezel) * 2), 84vw);
+     capture is 680 of screen and 680 plus two bezels was the widest worth
+     showing -- past its own size it is an upscale. 600 is under that on
+     purpose: at 616 outer the tablet is a card on the page rather than the
+     page's main event, the head and caption over and under it carry more of
+     the explaining, and the next screen shows 80px wider at every width,
+     which is the one cue saying there are more. A downscaled capture is
+     sharp; only the other direction is not. 84vw is what leaves a neighbour
+     showing on anything too narrow for the cap. */
+  --slide-w: min(calc(600px + var(--bezel) * 2), 84vw);
   --slide-gap: var(--space-xl);
   /* Where the slide starts: the left edge of a .container, which is the edge
      the assumption card in the header ranges to. 100% is the viewport here,
@@ -911,7 +949,10 @@
    already legible, and this one is half the explanation. */
 .case-section .ck-slide-fig figcaption {
   margin: var(--space-md) 0 0;
-  max-width: var(--measure);
+  /* The measure, or the slide, whichever is narrower. --measure resolves to
+     about 620 and the slide is 616, so without the min() the caption would
+     be the one thing on the slide wider than the tablet it describes. */
+  max-width: min(var(--measure), 100%);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
