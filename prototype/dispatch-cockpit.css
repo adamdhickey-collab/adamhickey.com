@@ -1453,35 +1453,59 @@
 .ck-factor-bar {
   grid-column: 1 / -1;
   position: relative;
-  height: 6px;
+  /* 4, not 6. Five of these under five rows of figures is a lot of ink for
+     a reference mark, and the figures are what finding 1 just made the thing
+     you land on. Thin enough to read as a rule under the row. */
+  height: 4px;
   margin-top: var(--space-2xs);
-  border-radius: 3px;
+  border-radius: 2px;
   background: var(--color-tag-border);
 }
+/* accent-deep, not accent-text. color.css draws the line by what sits ON the
+   fill rather than by the fill itself, and says so in as many words: a sage
+   fill carrying no text -- a rule, a bar, an icon -- takes accent-deep. This
+   is that. 4.51 on the white card and 3.57 against its own track, both over
+   the 3:1 a non-text mark answers to, and a step lighter than the text sage
+   that was here, which was reading as heavy against five rows of figures. */
 .ck-factor-mark {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   width: var(--pos);
-  border-radius: 3px;
-  background: var(--color-accent-text);
+  /* Under both marks below. Positioned siblings paint in tree order and a
+     pseudo-element counts as a child, so ::before -- the band -- was painting
+     UNDER this fill and vanishing behind it on every factor where the truck
+     leads the band. That is most of them, and it included the one case the
+     band exists for: a mark that is ahead of the middle and still called
+     neutral showed the band's right edge and not its left. */
+  z-index: 0;
+  border-radius: 2px;
+  background: var(--color-accent-deep);
 }
-/* The zone that still counts as level with the fleet. */
+/* The zone that still counts as level with the fleet. Charcoal, not
+   muted-gray: over the fill, muted-gray is 1.43:1 and simply is not there.
+   Charcoal is 3.40 on the fill and 12.13 on the track, so the caliper reads
+   wherever the mark happens to be. */
 .ck-factor-bar::before {
   content: "";
   position: absolute;
-  top: -2px;
-  bottom: -2px;
+  z-index: 1;
+  top: -1px;
+  bottom: -1px;
   left: var(--band-l);
   width: var(--band-w);
-  border-left: 1px solid var(--color-muted-gray);
-  border-right: 1px solid var(--color-muted-gray);
+  border-left: 1px solid var(--color-charcoal);
+  border-right: 1px solid var(--color-charcoal);
 }
-/* The fleet's middle. */
+/* The fleet's middle. Same ink as the calipers on purpose -- what separates
+   them is weight and reach, 2px and taller against 1px and shorter, so the
+   middle reads as the reference and the calipers as the tolerance around it
+   rather than as three marks of equal standing. */
 .ck-factor-bar::after {
   content: "";
   position: absolute;
+  z-index: 2;
   top: -3px;
   bottom: -3px;
   left: var(--med);
