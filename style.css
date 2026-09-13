@@ -4578,16 +4578,26 @@ html.ah-lightbox-open body { overflow: hidden; }
   content: "";
   position: static;
   display: block;
-  width: var(--space-md);
+  width: var(--bar);
   height: var(--space-md);
   border-radius: 0;
   background: var(--color-tea-light);
   border-left: 2px solid var(--color-accent-deep);
 }
-.writing-measure .writing-flow li[data-level="2"]::before { width: var(--space-xl); }
-.writing-measure .writing-flow li[data-level="3"]::before { width: var(--space-2xl); }
-.writing-measure .writing-flow li[data-level="4"]::before { width: var(--space-3xl); }
-.writing-measure .writing-flow li[data-level="5"]::before { width: var(--space-4xl); }
+.writing-measure .writing-flow li { --bar: var(--space-md); }
+/* The rise is one length, named on the item, and each layout decides which
+   axis it drives: the bar's width while the items are stacked, its height
+   once they are a row. It has to be a custom property rather than width and
+   height overrides, because a level selector outranks the ::before rule that
+   would reset it -- and a media query carries no specificity of its own, so
+   the stacked widths went on applying in the row layout. Level 1 fell through
+   to width:auto and stretched its whole cell into a rule, and levels 2 to 5
+   came out as 24 to 48px squares instead of bars: the one figure on the site
+   whose whole job is to show a rise, showing none. */
+.writing-measure .writing-flow li[data-level="2"] { --bar: var(--space-xl); }
+.writing-measure .writing-flow li[data-level="3"] { --bar: var(--space-2xl); }
+.writing-measure .writing-flow li[data-level="4"] { --bar: var(--space-3xl); }
+.writing-measure .writing-flow li[data-level="5"] { --bar: var(--space-4xl); }
 .writing-measure .writing-flow .writing-flow-mark::before {
   background: var(--color-caution-light);
   border-color: var(--color-caution);
@@ -4609,10 +4619,15 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin-top: var(--space-2xs);
 }
 @media (min-width: 640px) {
+  /* Top, not bottom. Bottom-aligning the items lines up the ends of the
+     captions, which are one line under one stage and two under the next, and
+     that pushes each bar to a different height -- a chart whose bars do not
+     share a baseline. Aligning the tops puts every bar band at the same y,
+     and the band below does the rest. */
   .writing-flow {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-    align-items: end;
+    align-items: start;
     border-bottom: 1px solid var(--color-rule);
   }
   .writing-measure .writing-flow li {
@@ -4622,15 +4637,21 @@ html.ah-lightbox-open body { overflow: hidden; }
   }
   .writing-measure .writing-flow li::before {
     width: auto;
-    height: var(--space-md);
+    height: var(--bar);
     margin: 0 var(--space-2xs) var(--space-sm);
     border-left: 0;
     border-top: 2px solid var(--color-accent-deep);
   }
-  .writing-measure .writing-flow li[data-level="2"]::before { height: var(--space-xl); }
-  .writing-measure .writing-flow li[data-level="3"]::before { height: var(--space-2xl); }
-  .writing-measure .writing-flow li[data-level="4"]::before { height: var(--space-3xl); }
-  .writing-measure .writing-flow li[data-level="5"]::before { height: var(--space-4xl); }
+  /* The plot area, for a flow that rises. Each bar reserves the tallest
+     bar's height and is pushed down by whatever it does not use, so the five
+     stand on one baseline and their stage names start on one line. Keyed to
+     the attribute that carries the rise, because seven of the nine flows do
+     not rise: their bars are all one height, aligning their tops already
+     aligns them, and a reserved plot area would only hang them under a band
+     of air they never use. */
+  .writing-measure .writing-flow li[data-level]::before {
+    margin-top: calc(var(--space-4xl) - var(--bar));
+  }
   .writing-measure .writing-flow .writing-flow-mark::before { border-color: var(--color-caution); }
 }
 
