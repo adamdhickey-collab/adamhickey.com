@@ -2626,6 +2626,22 @@
   .ck .ck-vs-value { font-size: var(--text-base); }
   .ck .ck-vs-opt-id { font-size: var(--text-base); }
   .ck .ck-vs-dir { font-size: var(--text-xs); }
+  /* The two Assign buttons sit in columns about 99px wide and "Assign T-131"
+     needs 111, so the pair collided and the first one clipped. The id goes
+     quiet here for the same reason it is quiet in the fleet -- the column it
+     sits under is headed with the truck it assigns -- and each button fills
+     its own column, which is what makes that association unmistakable. The
+     accessible name still reads "Assign T-131". */
+  .ck .ck-vs-act .ck-btn-id {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .ck .ck-vs-act .ck-btn { width: 100%; justify-content: center; }
   .ck .ck-try { padding: var(--space-sm); }
   /* The disc does not shrink -- it is the case studies' mark at every width
      there too -- so what a phone buys back is the gap beside it, not the
