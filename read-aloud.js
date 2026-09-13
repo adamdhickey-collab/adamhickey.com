@@ -15,6 +15,13 @@
    has no speechSynthesis gets no button rather than a button that lies.
    The same test returns early on a page with no <main>.
 
+   IT BREATHES. Sentence, paragraph, heading and the label above a heading
+   are each followed by a measured silence, and the reading is pitched a
+   shade under the API's default rate. Both are worth more than the choice
+   of voice: a synthesiser sounds like a machine mostly because it does not
+   stop, and no voice on the reader's machine fixes that. The gaps shorten
+   with the speed control, or they swamp a 1.5x reading.
+
    WHY SENTENCES, NOT THE PAGE. Handing the synthesiser one long string is
    the obvious implementation and it fails twice. Chrome stops speaking a
    single utterance after about fifteen seconds, silently and mid-word; and
@@ -165,6 +172,43 @@
     return parts;
   };
 
+  /* --------------------------------------------------------------------
+     Pauses.
+
+     The single biggest reason a synthesiser sounds like a machine is that it
+     does not breathe: sentence runs into sentence, paragraph into heading,
+     at exactly the same interval. A reader does not do that, and the fix is
+     not a better voice -- it is silence in the right places.
+
+     These are milliseconds of held silence AFTER a piece of speech, chosen
+     by what comes next. They are not motion, so MOTION.md's six durations do
+     not govern them; a pause in speech is measured against the ear.
+
+     A label -- "Key idea 2 of 6", "Writing, 4 min read" -- gets the SHORT
+     gap rather than the long one, because it belongs to the heading it
+     introduces. Running it into that heading, which is what the first
+     version did, made the two sound like one sentence. ---------------- */
+  const GAP = {
+    sentence:  140,   /* within a paragraph: a breath, not a stop */
+    paragraph: 340,   /* paragraph to paragraph */
+    label:     260,   /* an eyebrow, and then the heading it names */
+    heading:   420,   /* a heading, and then the prose under it */
+    section:   760    /* the argument turning: into a heading or its label */
+  };
+  const LABEL = '.writing-eyebrow, .writing-recap-label, .case-kicker,' +
+                '.eng3-kicker, .build-next-eyebrow, .glance-kicker';
+  const isHead = (el) => /^H[1-4]$/.test(el.tagName);
+  const isLabel = (el) => el.matches(LABEL);
+
+  const gapBetween = (a, b) => {
+    if (!b) return 0;                       /* the end of the page */
+    if (a === b) return GAP.sentence;
+    if (isLabel(a)) return GAP.label;
+    if (isHead(a)) return GAP.heading;
+    if (isHead(b) || isLabel(b)) return GAP.section;
+    return GAP.paragraph;
+  };
+
   /* The reading list: one entry per thing that will be spoken, each holding
      the block it lives in, the offsets of its own text within that block,
      and the exact string handed to the synthesiser. The offsets are trimmed
@@ -186,6 +230,9 @@
           segs.push({ el, map, from: a, to: b, text: map.text.slice(a, b) });
         }
       }
+    }
+    for (let i = 0; i < segs.length; i++) {
+      segs[i].gap = gapBetween(segs[i].el, segs[i + 1] && segs[i + 1].el);
     }
     return segs;
   };
@@ -278,8 +325,33 @@
      A `run` token guards every callback: cancel() makes the synthesiser
      fire end or error on whatever it was holding, and without the guard
      that stale event advances the new reading by one. */
+  /* The rate the reader sees, times the pace the prose is read at. 0.95 is
+     a shade under the API's default: the synthesiser's 1.0 is pitched at
+     hearing a notification, not at following an argument, and the essays are
+     long. "1x" on the control means this pace, not the API's. */
   const RATES = [1, 1.25, 1.5, 0.75];
+  const BASE_RATE = 0.95;
   let segs = [], at = 0, run = 0, playing = false, rateIx = 0;
+
+  /* Silence between two pieces of speech is real playback, so it has to obey
+     pause and stop like speech does. `paused` is this script's own flag
+     rather than synth.paused, because during a gap there is nothing speaking
+     for the synthesiser to have an opinion about; `resumeAt` is where to
+     pick up if the reader pauses mid-silence. */
+  let paused = false, gapTimer = null, resumeAt = null;
+  const clearGap = () => { clearTimeout(gapTimer); gapTimer = null; };
+
+  const advance = (n, gap, token) => {
+    clearGap();
+    /* A pause is a length of time in the reading, so it shortens with the
+       speed: held at 1x through a 1.5x reading, the silences swamp it. */
+    gapTimer = setTimeout(() => {
+      gapTimer = null;
+      if (token !== run || !playing) return;
+      if (paused) { resumeAt = n; return; }
+      speakAt(n);
+    }, gap / RATES[rateIx]);
+  };
 
   /* Transport glyphs are solid, not stroked. Drawn as outlines at 14px they
      were two hairlines and a hollow square, which read on screen as an empty
@@ -363,7 +435,7 @@
     const mine = run;
     const seg = segs[n];
     const u = new SpeechSynthesisUtterance(seg.text);
-    u.rate = RATES[rateIx];
+    u.rate = RATES[rateIx] * BASE_RATE;
     u.lang = (voice && voice.lang) || 'en-US';
     if (voice) u.voice = voice;
     u.onstart = () => { if (mine === run) { markSegment(seg); follow(seg); } };
@@ -375,13 +447,13 @@
          showed a flash of the strong fill in Chrome, which fires its first
          boundary a few milliseconds in. */
       if (HAS_HL && at === 0 && !sawWords) root.classList.add('ra-no-words');
-      speakAt(at + 1);
+      advance(at + 1, seg.gap, mine);
     };
     u.onerror = (e) => {
       if (mine !== run || !playing) return;
       /* interrupted and canceled are this script stopping itself. */
       if (e.error === 'interrupted' || e.error === 'canceled') return;
-      speakAt(at + 1);
+      advance(at + 1, seg.gap, mine);
     };
     synth.speak(u);
   };
@@ -393,6 +465,9 @@
     if (!segs.length) return;
     sawWords = false;
     root.classList.remove('ra-no-words');
+    clearGap();
+    paused = false;
+    resumeAt = null;
     playing = true;
     setIdle(false);
     setPaused(false);
@@ -410,6 +485,9 @@
   const stop = (byHand) => {
     run++;
     playing = false;
+    clearGap();
+    paused = false;
+    resumeAt = null;
     synth.cancel();
     unmark();
     /* Focus has to leave the player BEFORE it goes inert, or the browser
@@ -427,8 +505,18 @@
   stopBtn.addEventListener('click', () => stop(true));
 
   toggle.addEventListener('click', () => {
-    if (synth.paused) { synth.resume(); setPaused(false); }
-    else { synth.pause(); setPaused(true); }
+    if (paused) {
+      paused = false;
+      setPaused(false);
+      /* Paused inside a silence: there is nothing for the synthesiser to
+         resume, so the next piece is started here instead. */
+      if (resumeAt !== null) { const n = resumeAt; resumeAt = null; speakAt(n); }
+      else synth.resume();
+    } else {
+      paused = true;
+      setPaused(true);
+      synth.pause();
+    }
   });
 
   /* Rate cannot be changed on an utterance already speaking, so the current
@@ -439,7 +527,10 @@
     if (!playing) return;
     const resume = at;
     run++;                 /* the token stays raised: cancel() fires late */
+    clearGap();
     synth.cancel();
+    paused = false;
+    resumeAt = null;
     setPaused(false);
     speakAt(resume);
   });
@@ -454,5 +545,7 @@
 
   /* Speech outlives the document in Chrome and Safari: leave the page
      mid-sentence and the voice carries on over the next one. */
-  window.addEventListener('pagehide', () => { run++; playing = false; synth.cancel(); });
+  window.addEventListener('pagehide', () => {
+    run++; playing = false; clearGap(); synth.cancel();
+  });
 })();
