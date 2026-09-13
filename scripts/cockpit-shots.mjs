@@ -84,19 +84,20 @@ const SHOTS = [
   {
     name: 'close-call',
     scenario: 'tie',
-    /* 900 clears the 800px the pair needs to sit side by side and leaves the
-       panel at 820, which is near the width the hero shows it at. Wider
-       stretches the two option cards into a band no hero column can carry. */
+    /* 900 gives the comparison's three columns room without stretching them
+       into a band no hero column can carry.
+
+       WAS .ck-pair, WHICH NO LONGER EXISTS. The close call was two option
+       cards side by side and is now one comparison table, so the crop runs
+       from the top of the card to the bottom of that table -- which ends on
+       the two Assign buttons, and is the whole argument in one frame. */
     width: 900,
     clip: ['.ck-lead'],
-    /* Top of the close-call card down to the bottom of the two options. The
-       record card under them is decision 02's picture and it would double the
+    /* The record card under it is decision 02's picture and would double the
        height of a hero image; the cut lands in the flat ground between the
-       two, so what the crop ends on is the card's own background rather than
-       a sentence in half. */
-    bottomOf: '.ck-pair',
-    /* 24 under the pair reaches into the gap above the record card and lets
-       its top edge through; the gap is --space-lg. */
+       two, so the crop ends on the card's own background rather than on a
+       sentence in half. */
+    bottomOf: '.ck-vs',
     padBottom: 10,
     note: 'the hero: two options the system will not separate',
   },
@@ -138,7 +139,11 @@ const SHOTS = [
        whole, and two captures of the same seven rows a section apart would
        read as one picture printed twice. This one is about the control at the
        end of every row. */
-    clip: ['.ck-table thead', '.ck-table tbody tr:nth-child(3)'],
+    /* nth-child(5), not (3). Every fleet row is now followed by its own
+       hidden detail row, so the trucks sit at 1, 3, 5 -- and the selector
+       that used to reach the third truck reaches the second. The shot is
+       meant to show the head and three rows, which is what 5 spans. */
+    clip: ['.ck-table thead', '.ck-table tbody tr:nth-child(5)'],
     /* No margin under it. The clip ends on the third row's own bottom rule,
        and a pad there would let a quarter of the fourth row through, which
        reads as a mistake rather than as a table that continues. */
@@ -330,6 +335,13 @@ const strip = (pad = 40, ground) => [
   '.ck-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; }',
   '.ck { padding: 0 !important; border-radius: 0 !important; }',
   '.ck-situation, .ck-tabs-label, .ck-tabs { display: none !important; }',
+  /* The moved markers go too, and for the same reason the switcher does.
+     They say "this row changed rank since the situation you were just
+     looking at", which is true of a reader flicking between four tabs and
+     meaningless in a still picture -- the picture has no previous situation.
+     The script loads the scenarios in one page, so without this every
+     capture after the first carries arrows nothing in the frame explains. */
+  '.ck-rank-moved { display: none !important; }',
   /* The ground left around the screen inside the capture. 40 is a tenth of a
      390px phone frame and reads as a margin rather than as ground, so the
      narrow slides ask for 16 instead. */

@@ -1066,20 +1066,123 @@
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
 }
-.ck .ck-rail-try {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
+/* ---------- What to try, and whether you have ----------
+   The nudge was one unchanging sentence of instruction. It is now the
+   situation's two or three steps, each ticking itself off as the reader does
+   it, which matters here for a reason particular to a demonstration: a
+   visitor is not a dispatcher and cannot tell when they have seen the thing
+   they were sent to see. The tick is what says "that was it".
+
+   DONE IS A SHAPE, A HIDDEN WORD AND A COUNT BEFORE IT IS A COLOUR. A filled
+   check against a hollow ring, ". Done." / ". Not done yet." inside the
+   step, and "2 of 3 done" in the head. states.mjs forces .is-done onto every
+   step, so the rule underneath it changes nothing that carries text -- the
+   mark's colour and nothing else. */
+.ck .ck-try {
   margin: 0;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-xl);
   background: var(--color-tea-light);
+  color: var(--color-charcoal);
+}
+.ck .ck-try:empty { display: none; }
+.ck .ck-try-h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ck .ck-try-h .ck-icon { flex-shrink: 0; color: var(--color-accent-text); }
+.ck .ck-try-count {
+  margin-left: auto;
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted-gray);
+  font-variant-numeric: tabular-nums;
+}
+.ck .ck-try-list {
+  list-style: none;
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2xs);
+}
+.ck .ck-try-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.ck .ck-rail-try:empty { display: none; }
-.ck .ck-rail-try .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-accent-text); }
+/* The mark. 16px of it either way, so a step does not shift when it lands.
+   The ring is charcoal at 12.90 on tea-light and the check accent-deep at
+   3.80: both are marks rather than text, and both clear the 3:1 floor. */
+.ck .ck-try-mark {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15em;
+  color: var(--color-accent-deep);
+}
+.ck .ck-try-mark-open {
+  box-sizing: border-box;
+  border: 2px solid var(--color-charcoal);
+  border-radius: var(--radius-pill);
+}
+.ck .ck-try-end {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- Now, on the load ----------
+   The clock the derived "at pickup" column is figured from, stated where the
+   load is rather than in a footnote: a derived figure whose inputs are
+   hidden is a figure nobody can argue with, which is the failure this whole
+   prototype is about. */
+.ck .ck-load-now {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-load-now .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-muted-gray); }
+
+/* ---------- The window reading ----------
+   Three states, each a word first. Clear takes no ground at all -- most
+   trucks make most windows, and a badge on the ordinary case is a badge on
+   nothing. Tight and misses take the caution ground, because both are a
+   reading the dispatcher may want to act on; neither blocks, which is what
+   keeps them different from the rule. */
+.ck .ck-window {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-window .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-muted-gray); }
+.ck .ck-window[data-window="tight"],
+.ck .ck-window[data-window="misses"] {
+  align-items: center;
+  margin-top: var(--space-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+}
+.ck .ck-window[data-window="tight"] .ck-icon,
+.ck .ck-window[data-window="misses"] .ck-icon { color: var(--color-caution-text); margin-top: 0; }
 
 /* Inline icons: the header's idiom, sized to the text they sit in. */
 .ck-icon {
@@ -1288,9 +1391,22 @@
   border-radius: var(--radius-xl);
   background: var(--color-tea-light);
 }
-/* A close call is the one state where the zone is not "fine". An attribute,
-   not a class, so states.mjs does not read it as script-applied state. */
-.ck-lead[data-tone="close"] { background: var(--color-caution-light); }
+/* A CLOSE CALL IS NOT A CAUTION, AND USED TO BE PAINTED LIKE ONE.
+   --color-caution-light was carrying two unrelated meanings on this screen:
+   the hard rule and the blocked row, where it says "you cannot do this", and
+   the close-call zone and its status line, where it says "the system looked
+   and the two are level". The second is not a warning at all -- it is the
+   system being honest about its own resolution, which this page argues is a
+   good outcome -- and painting it in the refusal colour taught the reader
+   that pink meant nothing in particular.
+
+   The close call takes --color-muted-light, the alternate ground, so it reads
+   as a different KIND of answer rather than as a problem. Caution is now spent
+   on exactly one thing: a rule refusing a truck. Every ink inside clears on
+   muted-light -- charcoal 12.10, muted-gray 5.11, accent-text 4.60 -- and the
+   kicker goes charcoal, because sage there would read as a recommendation and
+   caution would put the warning back. */
+.ck-lead[data-tone="close"] { background: var(--color-muted-light); }
 /* Two classes deep, and for the reason this file's header gives: .ck-label is
    one class (0-1-0) and .case-section p is class-and-element (0-1-1), so a
    label on a <p> loses both its size and its colour. Every other .ck-label on
@@ -1304,9 +1420,13 @@
   line-height: var(--leading-ui);
   color: var(--color-accent-text);
 }
-.ck-lead[data-tone="close"] .ck-lead-kicker { color: var(--color-caution-text); }
+.ck-lead[data-tone="close"] .ck-lead-kicker { color: var(--color-charcoal); }
+/* The dek under this is capped to the measure and this was not, so the close
+   call's 78-character headline set itself on one 1072px line at 1440 -- the
+   one sentence on the screen nobody could read without moving their head. */
 .ck .ck-reco-h {
   margin: 0;
+  max-width: var(--measure);
   font-family: var(--font-sans);
   font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
@@ -1409,13 +1529,25 @@
   color: var(--color-charcoal);
   text-align: right;
 }
+/* HELPS, HURTS, MEETS, NEUTRAL -- THE VERDICT, WHICH WAS THE SMALLEST TYPE
+   ON THE CARD. A census of the cockpit found 148 of its 163 visible text
+   nodes at 12 or 14px, and the word saying which way a factor CUT was in the
+   12px tier, level with the footnote under the list and a step below the
+   name of the thing being judged. A dispatcher scanning five rows for
+   trouble is scanning for exactly one of these words.
+
+   14px, which is the name's size, so a row reads name / value / verdict at
+   14 / 18 / 14 rather than 14 / 18 / 12. And "hurts" takes a chip: the one
+   verdict worth interrupting for gets a ground of its own, caution-light,
+   carrying caution ink at 5.23. The other three stay flat, because a chip on
+   all four is a chip on none. */
 .ck .ck-factor-dir {
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-2xs);
   min-width: 4.5rem;
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
@@ -1423,9 +1555,33 @@
 }
 .ck .ck-factor-dir[data-dir="helps"],
 .ck .ck-factor-dir[data-dir="meets"] { color: var(--color-accent-text); }
-.ck .ck-factor-dir[data-dir="hurts"] { color: var(--color-caution-text); }
+.ck .ck-factor-dir[data-dir="hurts"] {
+  color: var(--color-caution-text);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+}
+/* The key sits with the bars; the disclaimer stays under it. The sample is
+   a real .ck-factor-bar with fixed custom properties, so it cannot drift
+   from the thing it explains -- only its grid placement and width are
+   overridden here. */
+.ck .ck-factor-key {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-key-sample {
+  grid-column: auto;
+  flex: 0 0 auto;
+  width: 3.5rem;
+  margin-top: 0.45em;
+}
 .ck .ck-factor-note {
-  margin: var(--space-sm) 0 0;
+  margin: var(--space-xs) 0 0;
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
@@ -1452,6 +1608,10 @@
    "neutral". */
 .ck-factor-bar {
   grid-column: 1 / -1;
+  /* Block, not the span's default inline: in the factor list it is a grid
+     item and gets this for free, and in a comparison cell and in the key it
+     is neither, where an inline box would drop the 4px height on the floor. */
+  display: block;
   position: relative;
   /* 4, not 6. Five of these under five rows of figures is a lot of ink for
      a reference mark, and the figures are what finding 1 just made the thing
@@ -1688,13 +1848,16 @@
   color: var(--color-charcoal);
 }
 /* Tinted, not filled: a filled sage line was tried on 2026-09-11 and read
-   as a second button. The line keeps the muted ground for a pick or a note
-   and takes the caution ground for a close call or a refusal, with the icon
-   carrying the tone. Charcoal on muted-light 12.10, on caution-light 12.44. */
-.ck .ck-status[data-tone="close"] { background: var(--color-caution-light); }
+   as a second button. The line keeps the muted ground for everything the
+   cockpit can do and takes the caution ground for the one thing it cannot --
+   a truck a rule refuses. A close call used to be painted here too, which
+   put "the two are level" in the same colour as "this is not allowed".
+   Charcoal on muted-light 12.10, on caution-light 12.44. */
+.ck .ck-status[data-tone="refused"] { background: var(--color-caution-light); }
 .ck .ck-status:empty { display: none; }
 .ck .ck-status .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-accent-text); }
-.ck .ck-status[data-tone="close"] .ck-icon { color: var(--color-caution-text); }
+.ck .ck-status[data-tone="refused"] .ck-icon { color: var(--color-caution-text); }
+.ck .ck-status[data-tone="close"] .ck-icon { color: var(--color-charcoal); }
 .ck .ck-status[data-tone="note"] .ck-icon { color: var(--color-muted-gray); }
 
 /* ---------- The optional question ----------
@@ -1959,19 +2122,49 @@
 .ck-table .ck-row.is-blocked td:nth-child(2) { font-weight: var(--weight-regular); }
 /* style.css makes every svg a block, which put the stop glyph on its own
    line above the words; inline-flex keeps them on one. */
+/* "Over hours" is allowed to take two lines, and the column is given a
+   width narrow enough that it does. Held on one line it was the widest thing
+   in the rank column in the blocked situation and pushed the fleet past its
+   wrapper -- on the one screen whose whole argument is that it fits. The
+   words are their own span so the text has something to wrap inside; a bare
+   text node next to the glyph is one anonymous flex item and wraps nowhere.
+
+   The width is a preference, not a cap: auto table layout will still take
+   more if a row genuinely needs it, which is what keeps "Over hours" from
+   being clipped if the copy ever grows. */
+.ck-table thead th:first-child { width: 4.5rem; }
 .ck .ck-rank-rule {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: var(--space-2xs);
   font-weight: var(--weight-semibold);
   color: var(--color-caution-text);
-  white-space: nowrap;
+}
+.ck .ck-rank-rule .ck-icon { margin-top: 0.15em; }
+/* The rank cell, stacked: ordinal over marks. */
+.ck-table .ck-cell-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  white-space: normal;
+}
+/* The marks stack too, rather than running along one line. A row can carry
+   two of them -- "assigned" and a moved marker, or "option A" and a moved
+   marker -- and side by side those two set the whole column to 106px in the
+   override situation, which was the last thing standing between the fleet
+   and its wrapper. */
+.ck .ck-rank-marks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 .ck .ck-rank-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.2em;
-  margin-left: var(--space-2xs);
   padding: 0 var(--space-xs);
   border: 1px solid var(--color-accent-deep);
   border-radius: var(--radius-pill);
@@ -1982,6 +2175,8 @@
   color: var(--color-accent-text);
   vertical-align: 0.1em;
 }
+/* The assigned row's state word, out of the button and in with the row's
+   other tags. White ground, accent-text on it 5.82. */
 .ck .ck-tag-lead {
   background: var(--color-accent-text);
   border-color: var(--color-accent-text);
@@ -2020,10 +2215,387 @@
 }
 .ck .ck-sort:focus-visible { outline-offset: -3px; }
 
+/* ======================= THE CLOSE CALL, COMPARED =========================
+   Two recommendation cards side by side were two READINGS, not a comparison.
+   The same five factors in the same order in two boxes means the reader does
+   the comparing: find the fourth row on the left, hold 5.8, find the fourth
+   row on the right, subtract. Five times. And on a phone the cards stack, so
+   the two halves of each comparison ended up about nine hundred pixels apart,
+   which is not a comparison at all -- it is a memory test.
+
+   It is a <table> now, and the markup is most of the fix: <th scope="col"> on
+   each option and <th scope="row"> on each factor is what lets a screen
+   reader say "Hours of service left, Option B, 8.4 h" from a single cell.
+   The pair of cards could not produce that sentence in any order.
+
+   THE TWO DECISIVE ROWS SORT TO THE TOP and take the white raised surface,
+   which is this cockpit's existing grammar for "the thing to act on". The
+   rest keep the zone's muted ground. Row order is the argument.
+
+   FIXED LAYOUT, so the two option columns are exactly equal: a comparison
+   whose columns are different widths is one the eye reads as weighted. ==== */
+.ck .ck-vs {
+  width: 100%;
+  margin: var(--space-lg) 0 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.ck .ck-vs th,
+.ck .ck-vs td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ck .ck-vs thead th,
+.ck .ck-vs thead td { border-bottom: 1px solid var(--color-rule); }
+.ck .ck-vs tfoot td { border-bottom: 0; }
+.ck .ck-vs-corner { width: 30%; border-bottom-color: transparent; }
+
+/* The option head: what it is, which truck, and who is driving it. */
+.ck .ck-vs-opt { width: 35%; }
+.ck .ck-vs-opt-label { display: block; color: var(--color-accent-text); font-size: var(--text-xs); line-height: var(--leading-ui); }
+.ck .ck-vs-opt-id {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-opt-who {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-vs-opt.is-assigned .ck-vs-opt-label { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+
+/* The factor, as the row's head. */
+.ck .ck-vs-factor { font-weight: var(--weight-regular); }
+.ck .ck-vs-factor-name {
+  display: block;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-tag {
+  display: inline-block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ck .ck-vs-note {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* A cell: the figure, the verdict under it, the fleet bar under that. The
+   two bars for one factor now sit on one line, which is the arrangement that
+   makes them worth drawing at all. */
+.ck .ck-vs-value {
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-dir {
+  justify-content: flex-start;
+  min-width: 0;
+  margin-top: var(--space-2xs);
+  text-align: left;
+}
+.ck .ck-vs-cell .ck-factor-bar { margin-top: var(--space-xs); }
+
+/* The two rows that separate them, raised onto white. Forced by states.mjs
+   onto every row, which is harmless: all four inks clear on white. */
+.ck .ck-vs-row.is-decisive th,
+.ck .ck-vs-row.is-decisive td { background: var(--color-white); }
+
+/* The derived reading, last and marked as derived. It is figured from the
+   miles the ranking weighed; it is not a sixth factor and must not read as
+   one, so it sits below the five with the words saying so. */
+.ck .ck-vs-derived .ck-vs-value { font-size: var(--text-base); }
+.ck .ck-vs-win .ck-vs-dir { color: var(--color-muted-gray); }
+.ck .ck-vs-win[data-window="tight"] .ck-vs-dir,
+.ck .ck-vs-win[data-window="misses"] .ck-vs-dir { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.ck .ck-vs-act { padding-top: var(--space-lg); }
+
+/* ===================== THE FLEET'S HEAD, AND ITS DENSITY ==================
+   The fleet was the one region of the cockpit with no visible heading at all
+   -- a hidden <caption> and nothing else -- so a reader scrolling past a
+   thousand pixels of interface arrived at the data table with nothing saying
+   what it was. The heading is the landmark; the switch beside it is the
+   other half of the argument the table makes.
+
+   WHY A DENSITY SWITCH IS NOT A GIMMICK HERE. A dispatch floor runs denser
+   than a portfolio page. A prototype that only ever shows the comfortable end
+   is quietly proposing a screen nobody would ship, and the page's fourth
+   decision -- keep the whole fleet in reach -- is exactly the claim that gets
+   harder as rows get shorter. Both ends are on screen, and the reader can
+   see the tradeoff rather than take my word for it. ======================== */
+.ck .ck-fleet-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.ck .ck-fleet-h { margin: 0; }
+.ck .ck-density {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+}
+.ck .ck-density-btn {
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: var(--space-2xs) var(--space-sm);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.ck .ck-density-btn[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
+/* The selected end takes the tabs' own idiom: charcoal under warm, 14.02. */
+.ck .ck-density-btn[aria-pressed="true"] {
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  font-weight: var(--weight-semibold);
+}
+
+/* ======================= A ROW THAT OPENS IN PLACE ========================
+   "Also considered" explained why second and third lost and stopped there;
+   the other four kept their figures and never got a reason. This is the same
+   open-in-place disclosure the misses list and the comparisons note already
+   use -- one idiom for "there is more here", not a third invention.
+
+   It is also what answers the phone. Under 48rem the stylesheet drops six of
+   the eleven columns and this row is where they go, so nothing is lost and
+   what is left fits in 292px instead of scrolling 1104px of table behind an
+   invisible scrollbar. ==================================================== */
+/* "Can't assign" takes two lines in the fleet. It is the widest control in
+   the table and one blocked row sets the whole action column: 138px against
+   the 74 an enabled row needs. The reason it can afford to wrap here and
+   nowhere else is that the blocked row already says "Over hours" where its
+   rank would be, so the button is the second telling, not the first. */
+.ck-table .ck-btn[aria-disabled="true"] { white-space: normal; }
+
+/* "Assign" alone in the fleet, "Assign T-118" still in its accessible name:
+   the id is the row's own second cell, and spelling it out again cost the
+   action column 141px of a table with 1118 to spend. */
+.ck .ck-table .ck-cell-act .ck-btn-id {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.ck-table .ck-cell-truck { padding: 0; }
+.ck .ck-row-more {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-2xs) var(--space-xs) var(--space-xs);
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  text-align: left;
+  /* The id is the label and must not break: the button is narrower than the
+     cell was, and "T-118" came back as "T-" over "118" on every row. */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+.ck .ck-row-more:hover { color: var(--color-accent-hover); }
+.ck .ck-row-chev {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--color-muted-gray);
+  transform: rotate(-90deg);
+  transition: transform var(--motion-state) var(--ease);
+}
+.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { transform: rotate(0deg); }
+.ck .ck-row-more:focus-visible { outline: 2px solid var(--color-accent-deep); outline-offset: -3px; border-radius: 4px; }
+
+/* The detail row takes the warm ground, so an opened row is visibly a note
+   about the row above rather than another truck. Charcoal 14.02 on it. */
+.ck-table .ck-row-detail > td { padding: 0; background: var(--color-warm); }
+.ck .ck-detail {
+  display: grid;
+  gap: 0;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  max-width: 34rem;
+}
+.ck .ck-detail-who {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-detail-why {
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-rank-rule { display: inline-flex; align-items: baseline; gap: var(--space-2xs); color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.ck .ck-detail-act { margin: var(--space-md) 0 0; }
+/* The detail is a panel, not a dense row, so its button takes the site's
+   full 44 rather than the 30 a fleet row can afford. */
+.ck .ck-detail-act .ck-btn { min-height: 2.75rem; padding-inline: var(--space-md); }
+.ck .ck-detail .ck-factors { margin-top: var(--space-md); }
+
+/* ---------- Where a row came from ----------
+   Switching situations re-ranks seven rows silently, and which ones moved is
+   the first thing anyone flicking between four situations wants to know. A
+   direction, a number of places, and the words in the row for a reader who
+   cannot see the glyph. Cleared by the reader's next action rather than by a
+   timer: a mark that leaves on its own leaves while it is being read.
+   muted-gray clears on all four row grounds -- 6.47 white, 5.44 tea-light,
+   5.11 muted-light, 5.25 caution-light. */
+.ck .ck-rank-moved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ck .ck-rank-moved .ck-icon { width: 0.75em; height: 0.75em; }
+
+/* ---------- The window, in the data table ---------- */
+.ck-table .ck-cell-win { white-space: nowrap; }
+.ck-table .ck-cell-win .ck-cell-note { color: var(--color-muted-gray); }
+.ck-table .ck-cell-win[data-window="tight"] .ck-cell-note,
+.ck-table .ck-cell-win[data-window="misses"] .ck-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+
+/* ---------- Assign, as a target ----------
+   30px in a 55px row cleared the 24px the success criterion asks for and
+   missed the 44px every other round control on this site holds itself to.
+   The button keeps its size and the TARGET grows to 44 through a pseudo-
+   element, so the row's rhythm does not change and curves.mjs counts no new
+   element. In compact the extender comes off, because a 44px target in a
+   38px row is a target that overlaps the row above. */
+.ck table .ck-btn { position: relative; }
+.ck .ck-fleet:not(.is-compact) table .ck-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
+
+/* ---------- Compact ---------- */
+.ck .ck-fleet.is-compact .ck-table th,
+.ck .ck-fleet.is-compact .ck-table td { padding: var(--space-2xs) var(--space-xs); }
+.ck .ck-fleet.is-compact .ck-row-more { min-height: 0; padding: var(--space-2xs) var(--space-md) var(--space-2xs) var(--space-2xs); }
+.ck .ck-fleet.is-compact .ck-table .ck-cell-note { display: none; }
+.ck .ck-fleet.is-compact .ck-table .ck-rank-tag { font-size: var(--text-2xs); }
+
 /* ---------- Narrow ----------
    The four ramps bottom out at 400px, which is the width this is built to.
    Cards give back the inset a panel takes; the table keeps its width and
    scrolls in its wrapper. */
+/* ============== THE FLEET, UNDER 48rem: FEWER COLUMNS, NOT LESS DATA ======
+   At 390px the wrapper is 292px and the table authors 960, so a phone reader
+   got Rank, Truck and Driver and a silent 812px of horizontal scroll holding
+   every figure and every Assign button. The blocked situation's own nudge
+   asks the reader to assign T-114 from the data table, which on a phone was
+   an instruction to find a control that nothing said was there.
+
+   Seven columns come off and the row disclosure carries them, so the fleet
+   is still whole -- one tap per truck instead of a scroll with no bar on it.
+   What stays is the smallest set a phone reader can triage from: the rank,
+   the truck, when it would reach the pickup, and the button. That is the
+   page's "keep the whole fleet in reach" honoured rather than repeated,
+   because a column nobody can find is not in reach.
+
+   HOURS LEFT IS THE ONE THAT HURT TO CUT, and it is cut on arithmetic
+   rather than taste. Five columns wanted 325px of a 292px wrapper even after
+   every tag, inset and gutter had been squeezed; four want 264. The hours
+   are not gone from the phone -- the blocked row still says "Over hours"
+   where its rank would be, the rule card above still spells out the figure
+   and the limit, and the row disclosure carries the factor with its bar. */
+@media (max-width: 47.99rem) {
+  .ck-table { min-width: 0; }
+  .ck-table th:nth-child(3),  .ck-table td:nth-child(3),
+  .ck-table th:nth-child(4),  .ck-table td:nth-child(4),
+  .ck-table th:nth-child(5),  .ck-table td:nth-child(5),
+  .ck-table th:nth-child(7),  .ck-table td:nth-child(7),
+  .ck-table th:nth-child(8),  .ck-table td:nth-child(8),
+  .ck-table th:nth-child(9),  .ck-table td:nth-child(9),
+  .ck-table th:nth-child(10), .ck-table td:nth-child(10) { display: none; }
+  .ck-table th, .ck-table td { padding-inline: var(--space-2xs); }
+  .ck-table tbody th:first-child, .ck-table tbody td:first-child { padding-left: var(--space-xs); }
+  .ck-table tbody th:last-child, .ck-table tbody td:last-child { padding-right: var(--space-xs); }
+  .ck-table thead th:first-child .ck-th { padding-left: var(--space-xs); }
+  .ck-table thead th:last-child .ck-th { padding-right: var(--space-xs); }
+  /* The pick and option tags go under the ordinal rather than beside it:
+     beside it, the rank column alone wanted 67px of a 292px table. display
+     is flex and not inline-flex on purpose -- an inline box sits back on the
+     same line and saves nothing. */
+  /* A head is allowed two lines here. The rule that keeps every label on one
+     line is what stops the browser wrapping them where IT chooses on a wide
+     table; at 292px the choice is a two-line head or a column that does not
+     fit at all, and five columns of "Hours left" over one line is 391px of
+     table in a 292px wrapper. */
+  .ck .ck-th-label { white-space: normal; }
+  .ck .ck-th { align-items: flex-start; }
+  /* The last sixty pixels, taken off the furniture rather than off a column.
+     Every number below is the width of something that is not data: a tag's
+     padding, a button's inset, the gap beside a chevron, the gutter between
+     cells. Five columns of truck, clock, hours and a button fit 292px once
+     the furniture stops asking for 352. */
+  .ck-table th, .ck-table td { padding-inline: 2px; }
+  .ck-table tbody th:first-child, .ck-table tbody td:first-child { padding-left: var(--space-2xs); }
+  .ck-table tbody th:last-child, .ck-table tbody td:last-child { padding-right: var(--space-2xs); }
+  .ck-table thead th:first-child .ck-th { padding-left: var(--space-2xs); }
+  .ck-table thead th:last-child .ck-th { padding-right: var(--space-2xs); }
+  .ck .ck-rank-tag { font-size: var(--text-2xs); padding: 0 var(--space-2xs); }
+  .ck-table .ck-btn { padding-inline: var(--space-xs); }
+  .ck .ck-row-more { gap: 2px; padding-left: var(--space-2xs); }
+  .ck .ck-row-chev { width: 0.75rem; height: 0.75rem; }
+  /* The head's unit line is a second line in a 60px column here, and every
+     unit it carries is in the row disclosure underneath. */
+  .ck .ck-th-unit { display: none; }
+  .ck .ck-th { padding-inline: var(--space-2xs); }
+  .ck .ck-detail { padding-inline: var(--space-sm); }
+}
+
 @media (max-width: 599px) {
   /* Frame, screen, zone, card: four insets stack on a phone, and at 390px
      they left a card 238px wide. The screen and the zone give back most of
@@ -2034,8 +2606,43 @@
   .ck .ck-status { padding: var(--space-sm) var(--space-md); }
   .ck .ck-reco-h { font-size: var(--text-xl); }
   .ck-load-facts { grid-template-columns: minmax(0, 1fr); }
-  .ck-factor { grid-template-columns: minmax(0, 1fr) auto; }
-  .ck .ck-factor-dir { grid-column: 1 / -1; text-align: left; min-width: 0; margin-top: calc(-1 * var(--space-2xs)); }
+  /* THE FACTOR ROW, IN THREE LINES RATHER THAN FOUR. The verdict used to
+     take the full width on its own line UNDER the bar's row, so every factor
+     was name / value / verdict / bar and a five-factor card was twenty lines
+     of phone. The verdict belongs under the NAME -- it is judging the thing
+     the name names -- and the value spans both rows beside them, which puts
+     the figure and the word about it on the same block of the card. */
+  .ck-factor { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0; column-gap: var(--space-sm); }
+  .ck .ck-factor-name { grid-column: 1; grid-row: 1; }
+  .ck .ck-factor-value { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .ck .ck-factor-dir { grid-column: 1; grid-row: 2; justify-content: flex-start; text-align: left; min-width: 0; }
+  .ck-factor-bar { grid-row: 3; }
+  /* The comparison keeps three columns on a phone -- stacking it would put
+     it back where the two cards were -- and buys the room from the padding
+     and one step of the value. */
+  .ck .ck-vs th, .ck .ck-vs td { padding: var(--space-sm) var(--space-2xs); }
+  .ck .ck-vs-corner { width: 32%; }
+  .ck .ck-vs-opt { width: 34%; }
+  .ck .ck-vs-value { font-size: var(--text-base); }
+  .ck .ck-vs-opt-id { font-size: var(--text-base); }
+  .ck .ck-vs-dir { font-size: var(--text-xs); }
+  /* The two Assign buttons sit in columns about 99px wide and "Assign T-131"
+     needs 111, so the pair collided and the first one clipped. The id goes
+     quiet here for the same reason it is quiet in the fleet -- the column it
+     sits under is headed with the truck it assigns -- and each button fills
+     its own column, which is what makes that association unmistakable. The
+     accessible name still reads "Assign T-131". */
+  .ck .ck-vs-act .ck-btn-id {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .ck .ck-vs-act .ck-btn { width: 100%; justify-content: center; }
+  .ck .ck-try { padding: var(--space-sm); }
   /* The disc does not shrink -- it is the case studies' mark at every width
      there too -- so what a phone buys back is the gap beside it, not the
      column. */
