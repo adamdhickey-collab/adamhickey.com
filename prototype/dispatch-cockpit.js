@@ -44,6 +44,27 @@
       window: 'pickup 1:00 to 3:00 pm today',
       due: 'deliver by 8:00 am tomorrow',
       driveHours: 5.5,
+      /* THE CLOCK, AND WHY THE SCREEN NEEDS ONE. Every factor on the card
+         answers a question about the truck. The question a dispatcher is
+         actually holding is about the LOAD -- can this truck still make the
+         pickup window -- and until now the screen made them do that
+         arithmetic in their head, from a distance in one column and a window
+         in a sentence two cards above it.
+
+         These three numbers are what turns "38 mi" into "2:25 pm, 34 minutes
+         of room". They are stated on the screen rather than assumed, because
+         a derived figure whose inputs are hidden is a figure nobody can
+         argue with -- which is the failure this whole prototype is about.
+
+         Minutes from midnight, so the arithmetic is addition. */
+      nowMin: 13 * 60 + 42,        /* 1:42 pm, and the load card says so */
+      windowOpen: 13 * 60,         /* 1:00 pm */
+      windowClose: 15 * 60,        /* 3:00 pm */
+      mph: 52,                     /* the average the estimate assumes */
+      /* Under this many minutes of room, the arrival is called tight. Not a
+         rule and not a score: a reading the dispatcher may want to act on,
+         which is exactly the kind of thing the ranking does not hold. */
+      tightMin: 15,
     },
 
     /* The fleet as the confident situation sees it. Each situation below
@@ -84,7 +105,11 @@
         id: 'confident',
         tab: 'Clear pick',
         blurb: 'One truck is the obvious answer, and the system ranks it first. A dispatcher should be able to confirm that in seconds, without re-ranking seven trucks by hand.',
-        try: 'Open the two late deliveries and read what differed. Then assign T-118.',
+        steps: [
+          { text: 'Open the two late deliveries and read what differed.', done: (s) => s.did.has('open:misses') },
+          { text: 'Open any truck\u2019s row in the fleet to see the same five factors for it.', done: (s) => [...s.did].some((d) => d.startsWith('open:row:')) },
+          { text: 'Assign T\u2011118.', done: (s) => s.assigned === 'T-118' },
+        ],
         patch: {},
         record: {
           held: 38, of: 40,
@@ -101,7 +126,14 @@
         id: 'tie',
         tab: 'Close call',
         blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It says they are level, names the tradeoff, and leaves the call to the dispatcher.',
-        try: 'Pick the side of the tradeoff that matters for this load and assign it. Neither is an override, so no question follows.',
+        steps: [
+          { text: 'Assign the side of the tradeoff that matters for this load. Neither is an override, so no question follows.', done: (s) => s.assigned !== null },
+          /* "By any column" rather than "by hours left", because under 48rem
+             the hours column is one of the seven the fleet drops and a step
+             nobody can reach is worse than no step. It also asks the better
+             question: whatever you order the fleet by, the two stay level. */
+          { text: 'Sort the fleet by any column: the two stay next to each other.', done: (s) => sortedAny(s) },
+        ],
         patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10 }, 'T-118': { dist: 41 } },
         record: {
           held: 19, of: 31,
@@ -118,7 +150,10 @@
         id: 'override',
         tab: 'Dispatcher overrides',
         blurb: 'The dispatcher has already overridden the recommendation and assigned the third-ranked truck. Nothing stopped them and nothing argues back; this is what the screen does next.',
-        try: 'Save a reason, or skip. Then undo, assign T-118, and notice that no question follows.',
+        steps: [
+          { text: 'Save a reason, or skip. Both leave the assignment standing.', done: (s) => s.did.has('answered') || s.did.has('skipped') },
+          { text: 'Undo, assign T\u2011118, and notice that no question follows.', done: (s) => s.did.has('undo') && s.assigned === 'T-118' },
+        ],
         patch: {},
         /* Same record as the confident situation: same lane, same data. */
         record: null,
@@ -130,7 +165,11 @@
         id: 'rule',
         tab: 'Blocked by a rule',
         blurb: 'The truck that wins on every other measure cannot legally take this load, because its driver is short on hours. That is a hard rule rather than a low score, and it has to look like one.',
-        try: 'Try to assign T-114 from the data table. Then sort by hours left to see the line it fell under.',
+        steps: [
+          { text: 'Try to assign T\u2011114 from the data table.', done: (s) => s.did.has('refused:T-114') },
+          { text: 'Sort the fleet by any column \u2014 T\u2011114 keeps its row and its reason.', done: (s) => sortedAny(s) },
+          { text: 'Open T\u2011114\u2019s row: it still wins on everything the ranking weighs.', done: (s) => s.did.has('open:row:T-114') },
+        ],
         patch: { 'T-114': { dist: 9, deadhead: 4, hos: 3.2 } },
         record: null,
       },
@@ -157,6 +196,61 @@
     { key: 'onTime',   label: `On time with ${DATA.load.customer}`, unit: (t) => t.onTime[1] ? `${t.onTime[0]} of ${t.onTime[1]}` : 'no history', better: 'higher', wins: 'a better record with this customer' },
     { key: 'deadhead', label: 'Deadhead right now',           unit: (t) => `${t.deadhead} mi`, better: 'lower',  wins: 'less deadhead' },
   ];
+
+  /* =========================================================================
+     THE WINDOW -- the one reading on the screen that is DERIVED rather than
+     weighed, and the reason it is worth the room.
+
+     Every factor above is a property of the truck. The question the
+     dispatcher is holding is a property of the LOAD: this pickup window
+     shuts at three, so which of these trucks can still be there. The screen
+     had every number needed to answer that -- miles in one column, a window
+     in a sentence two cards up -- and left the arithmetic to the person,
+     forty times an hour, while the phone rings. That is precisely the
+     "attention, not information" problem the page argues about, being
+     committed by the page's own prototype.
+
+     IT IS NOT A SIXTH FACTOR, AND THE SCREEN SAYS SO. The ranking weighs
+     distance; this converts distance into the thing distance MEANS for this
+     load. Making it a factor would be double-counting, and hiding the
+     conversion would make it a number nobody can check. So it is a derived
+     column, with the assumption printed beside it and `now` on the load
+     card, and it moves no ranking.
+
+     WHY IT DOES NOT BLOCK. A truck that misses the window is a judgment --
+     the dock may wait, the customer may be called -- and the hours-of-service
+     rule is a law. Keeping them in different channels is what lets the rule
+     keep its own colour and its own card: one removes a truck from ranking,
+     the other is a reading that a dispatcher weighs. ========================= */
+  const WINDOW = {
+    /* Minutes from midnight at which this truck reaches the pickup. */
+    at: (t) => DATA.load.nowMin + Math.round((t.dist / DATA.load.mph) * 60),
+    /* Minutes of room against the close of the window; negative is late. */
+    room: (t) => DATA.load.windowClose - WINDOW.at(t),
+    /* misses | tight | clear, and each is also a word on the screen. */
+    state: (t) => {
+      const room = WINDOW.room(t);
+      if (room < 0) return 'misses';
+      return room < DATA.load.tightMin ? 'tight' : 'clear';
+    },
+  };
+  const WINDOW_WORD = { misses: 'after the window', tight: 'tight', clear: 'in the window' };
+  /* The same three states in the fleet, where the column is 90px wide and
+     the head already says the window shuts at three. "in the window" on the
+     ordinary row is seven repetitions of a fact the clock time next to it
+     already carries, and it cost the table two lines a row and enough width
+     to push Assign off the end of its wrapper. Only the two states worth
+     interrupting for get a word here. */
+  const TABLE_WORD = { misses: 'too late', tight: 'tight', clear: '' };
+
+  /* 1:42 pm, never 13:42: the screen is American freight and the load card
+     says the same. Minutes from midnight in, a clock face out. */
+  const clock = (min) => {
+    const m = ((min % 1440) + 1440) % 1440;
+    const h = Math.floor(m / 60), mm = String(m % 60).padStart(2, '0');
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    return `${h12}:${mm} ${h < 12 ? 'am' : 'pm'}`;
+  };
 
   /* =========================================================================
      MECHANISM
@@ -194,6 +288,24 @@
     list:     '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
     info:     '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
     chevron:  '<path d="m6 9 6 6 6-6"/>',
+    /* THE SORT GLYPHS, WHICH FOR THREE RELEASES DID NOT EXIST. renderTable
+       has always asked icon() for 'sort', 'sortUp' or 'sortDown' and the
+       registry has never held any of the three, so every head emitted an
+       <svg> containing the string "undefined" -- valid markup, no console
+       error, and nothing drawn. The stylesheet's whole "a sort indicator is
+       earned" paragraph describes a chevron that has never been on screen,
+       and on a touch device, where there is no hover to reveal it, the fact
+       that a column head sorts at all was unsignposted. A missing key in a
+       lookup is the one kind of icon bug that cannot announce itself: the
+       template literal interpolates `undefined` and the browser draws an
+       empty box. */
+    sort:     '<path d="m8 9 4-4 4 4"/><path d="m16 15-4 4-4-4"/>',
+    sortUp:   '<path d="m8 14 4-4 4 4"/>',
+    sortDown: '<path d="m8 10 4 4 4-4"/>',
+    /* The row disclosure in the fleet, and the density switch beside it. */
+    expand:   '<path d="m6 9 6 6 6-6"/>',
+    rows:     '<path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/>',
+    clockAlert: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l3.5 1.75"/>',
     pointer:  '<path d="M9 9l5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/>',
   };
   const TAB_ICON = { confident: 'checkCircle', tie: 'help', override: 'undo', rule: 'ban' };
@@ -208,6 +320,20 @@
     assigned: null,       /* truck id */
     why: null,            /* { truck, rank } while the prompt is open */
     answered: null,       /* the reason given, once given */
+
+    /* WHAT THE READER HAS DONE, which four things now read.
+       The checklist ticks off against it, so the nudge under each situation
+       confirms rather than only instructs; the row disclosures remember what
+       is open across a sort; and the situation switch can say what moved.
+
+       A Set of strings rather than a flag each, because the steps are
+       written per situation and a step should be able to ask about anything
+       without this object growing a field for it. */
+    did: new Set(),
+    open: new Set(),      /* truck ids whose fleet row is expanded */
+    moved: new Map(),     /* truck id -> places moved on the last switch */
+    movedFrom: null,      /* the situation they moved from, for the sentence */
+    density: 'comfortable',
   };
 
   const root = $('#cockpit');
@@ -332,15 +458,53 @@
     renderSituation();
   }
 
-  /* The one thing to try in this situation, under the sentence that says what
-     the situation is. Until 2026-09-11 this sat in a rail beside the cockpit
-     with three numbered callouts above it, each badged onto the element it
-     named. The five screens over this section do that explaining now, from
-     outside the interface; what is left here is the sentence and the nudge,
-     over the screen rather than beside it. */
+  /* WHAT TO TRY, AND WHETHER YOU HAVE. Until now this was one sentence of
+     instruction that never changed: a nudge that told the reader to open the
+     late deliveries and had no idea whether they ever did.
+
+     A demonstration whose whole argument is that an interface should show its
+     work ought to show the reader their own. Each situation now carries two
+     or three steps, each with a predicate over `state`, and the list ticks
+     itself off as the reader does them. That is worth more than instruction
+     for a reason specific to this page: a visitor is not a dispatcher and
+     does not know when they have seen the thing they were sent to see. The
+     tick is what says "that was it".
+
+     NOTHING HERE IS A CONTROL. The steps are not buttons and not checkboxes
+     -- there is nothing to press, and pressing the interface is the point.
+     So it is an ordered list with a mark per item, and the mark is a shape
+     and a hidden word before it is a colour.
+
+     THE COUNT IS NOT A SECOND LIVE REGION. .ck-status is this cockpit's one
+     announcement channel and two of them talking over each other is worse
+     than either. render() notices when the number goes up and appends a
+     clause to the status instead, so a screen reader hears the step land in
+     the same breath as the action that landed it. */
+  function stepsOf(sc) { return sc.steps || []; }
+  /* Any column but the one the fleet already opens on. */
+  const sortedAny = (s) => [...s.did].some((d) => d.startsWith('sort:') && d !== 'sort:rank');
+  function stepsDone(sc) { return stepsOf(sc).filter((st) => st.done(state)).length; }
+
   function renderSituation() {
     const sc = state.scenario;
-    $('.ck-rail-try', root).innerHTML = sc.try ? `${icon('pointer')}<span><span class="ck-label">Try:</span> ${esc(sc.try)}</span>` : '';
+    const steps = stepsOf(sc);
+    const box = $('.ck-try', root);
+    if (!steps.length) { box.innerHTML = ''; return; }
+    const done = stepsDone(sc);
+    const all = done === steps.length;
+    box.innerHTML = `
+      <p class="ck-try-h">${icon('pointer')}<span class="ck-label">Try it</span>
+        <span class="ck-try-count">${done} of ${steps.length} done</span></p>
+      <ol class="ck-try-list">
+        ${steps.map((st) => {
+          const on = st.done(state);
+          return `<li class="ck-try-step${on ? ' is-done' : ''}">
+            ${on ? icon('checkCircle', 'ck-icon ck-try-mark') : '<span class="ck-try-mark ck-try-mark-open" aria-hidden="true"></span>'}
+            <span class="ck-try-text">${esc(st.text)}<span class="ck-visually-hidden">. ${on ? 'Done' : 'Not done yet'}.</span></span>
+          </li>`;
+        }).join('')}
+      </ol>
+      ${all ? `<p class="ck-try-end">That is everything this situation has to show. The other three are above.</p>` : ''}`;
   }
 
   function renderLoad() {
@@ -352,7 +516,14 @@
         <div><dt>Needs</dt><dd>${esc(l.equipment)}, ${esc(l.weight)}</dd></div>
         <div><dt>Window</dt><dd>${esc(l.window)}</dd></div>
         <div><dt>Due</dt><dd>${esc(l.due)}</dd></div>
-      </dl>`;
+      </dl>
+      <!-- The clock the "at pickup" column is figured from. It is on the load
+           and not in a footnote because it is the one input to that column a
+           reader cannot see anywhere else, and a derived figure with a hidden
+           input is the thing this prototype exists to argue against. -->
+      <p class="ck-load-now">${icon('clock')}<span><span class="ck-label">Now</span> ${clock(l.nowMin)}
+        <span class="ck-sep" aria-hidden="true">&middot;</span> the window shuts at ${clock(l.windowClose)},
+        in ${l.windowClose - l.nowMin} minutes</span></p>`;
   }
 
   /* WHERE THE TRUCK STANDS, DRAWN. The card has always claimed to show where
@@ -396,7 +567,8 @@
     return `<span class="ck-factor-bar" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--med:${med.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
   }
 
-  function factorRows(t) {
+  function factorRows(t, opts = {}) {
+    const withNote = opts.note !== false;
     return `<ul class="ck-factors">${FACTORS.map((f) => {
       const d = direction(t, f);
       return `<li class="ck-factor">
@@ -406,14 +578,28 @@
         ${factorBar(t, f)}
       </li>`;
     }).join('')}</ul>
-    <p class="ck-factor-note">Where each truck stands against the fleet for this load, not how much a factor moved the ranking.</p>
+    ${!withNote ? '' : `<!-- THE KEY, WHERE THE BARS ARE, AND NOT ONLY INSIDE THE DISCLOSURE
+         UNDER THEM. A first-time reader met a fill, a heavy tick and two
+         hairlines, and the only text explaining any of it was folded away in
+         "More about these comparisons" -- which is the right place for the
+         argument and the wrong place for the legend. A chart whose key is
+         one click away is a chart that gets read as decoration.
+
+         The sample is the real .ck-factor-bar with fixed numbers rather than
+         a drawing of one, so the key cannot drift from the thing it explains;
+         only its grid placement is overridden. -->
+    <p class="ck-factor-key">
+      <span class="ck-factor-bar ck-key-sample" aria-hidden="true" style="--pos:62%;--med:50%;--band-l:42%;--band-w:16%"><span class="ck-factor-mark"></span></span>
+      <span>Worst to best across the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level either side of it.</span>
+    </p>
+    <p class="ck-factor-note">Where a truck stands, not how much a factor moved the ranking.</p>
     <details class="ck-note">
       <summary><span class="ck-note-label">More about these comparisons</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
       <div class="ck-note-body">
         <p>Each bar places this truck between the worst and the best of the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level around it.</p>
         <p>Equipment has no bar: the load asks for a type, and a truck either is it or is standing in for it. There is no composite score either, because none would tell you which of these to check.</p>
       </div>
-    </details>`;
+    </details>`}`;
   }
 
   function renderConfidence() {
@@ -439,20 +625,163 @@
     </div>`;
   }
 
-  function assignButton(t, cls = 'ck-btn') {
+  /* `terse` is the fleet. The word "Assigned" moves out of the button and
+     into the rank cell as a tag there, beside "pick" and "option A", which
+     is where this row's other states already live -- so the state is still a
+     word, and the button is left saying the one thing it DOES. It is worth
+     43px: "Assigned / Undo" is the widest control in the table and it was
+     pushing the override situation 107px past the wrapper's edge. */
+  function assignButton(t, cls = 'ck-btn', terse = false) {
     if (t.blocked) return `<button type="button" class="${cls} ck-btn-quiet" aria-disabled="true" data-assign="${t.id}" data-focus="assign:${t.id}">Can&rsquo;t assign</button>`;
-    if (state.assigned === t.id) return `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned ${icon('check')} Undo</button>`;
-    return `<button type="button" class="${cls}" data-assign="${t.id}" data-focus="assign:${t.id}">Assign ${esc(t.id)}</button>`;
+    if (state.assigned === t.id) return terse
+      ? `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Undo<span class="ck-btn-id"> the assignment of ${esc(t.id)}</span></button>`
+      : `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned ${icon('check')} Undo</button>`;
+    /* WHY THE ID IS WRAPPED RATHER THAN WRITTEN IN. In the fleet the span
+       takes the visually-hidden treatment, so the button reads "Assign" and
+       is still ANNOUNCED as "Assign T-118". Two reasons, and the second is
+       the one that decides it. The id is already the second cell of the row
+       the button sits in, so printing it again at the end of that row is the
+       same fact twice; and "Assign T-118" made the action column 141px of a
+       table that has 1118 to spend and now wants 1181, which is how adding
+       one genuinely useful column pushed the whole argument -- seven trucks
+       and every figure, in reach without scrolling -- off its own edge.
+
+       The recommendation card and the close-call comparison keep the id in
+       ink: there the button is the primary action, there is room, and no row
+       of context is naming the truck beside it. */
+    return `<button type="button" class="${cls}" data-assign="${t.id}" data-focus="assign:${t.id}">Assign <span class="ck-btn-id">${esc(t.id)}</span></button>`;
   }
 
+  /* The window reading, as a line. Three states, each a word before it is a
+     ground, and the arithmetic spelled out rather than asserted: the clock
+     time, then the room against the close of the window. */
+  function windowLine(t, cls = 'ck-window') {
+    const st = WINDOW.state(t);
+    const room = WINDOW.room(t);
+    const tail = st === 'misses'
+      ? `${Math.abs(room)} min after it shuts`
+      : `${room} min of room`;
+    return `<p class="${cls}" data-window="${st}">${icon(st === 'clear' ? 'clock' : 'clockAlert')}<span><span class="ck-label">At pickup by</span> ${clock(WINDOW.at(t))}
+      <span class="ck-sep" aria-hidden="true">&middot;</span> ${WINDOW_WORD[st]}, ${tail}</span></p>`;
+  }
+
+  /* THE CARD NO LONGER REPEATS THE HEADLINE. It used to open "T-118 /
+     Marisol Vega, Owatonna, MN" six pixels under a zone headline already
+     reading "T-118 &middot; Marisol Vega", so the truck and the driver were on
+     screen twice before a single factor was. The driver goes -- it is in the
+     headline and in the fleet -- the id stays, because cockpit-shots.mjs
+     clips this card on its own for the page above and a capture with no
+     subject in it is a worse picture, and the place stays because it is the
+     only fact here that was not said anywhere else.
+
+     What takes the freed line is the window reading, which is the most
+     useful sentence the card can carry. */
   function truckCard(t, heading, note) {
     return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}">
       <p class="ck-card-head">${heading}</p>
-      <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">${esc(t.driver)}, ${esc(t.at)}</span></p>
+      <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">now at ${esc(t.at)}</span></p>
+      ${windowLine(t)}
       ${note ? `<p class="ck-card-note">${note}</p>` : ''}
       ${factorRows(t)}
       <p class="ck-card-act">${assignButton(t, 'ck-btn ck-btn-primary')}</p>
     </div>`;
+  }
+
+  /* =========================================================================
+     THE CLOSE CALL, AS ONE COMPARISON RATHER THAN TWO CARDS.
+
+     WHAT WAS WRONG WITH THE PAIR. Option A and Option B were two instances of
+     the recommendation card, side by side, each listing the same five factors
+     in the same order. Everything needed was on the screen and none of the
+     comparing was done: to answer "which has more hours" a reader had to find
+     the fourth row of the left card, hold 5.8, find the fourth row of the
+     right card, and subtract. Five times. On a phone the two cards stack, so
+     the two halves of every comparison ended up about nine hundred pixels
+     apart -- which is not a comparison, it is two readings and a memory test.
+
+     A comparison of two things across five measures is a table, and saying so
+     in markup is most of the fix: <th scope="col"> on each option and <th
+     scope="row"> on each factor means a screen reader announces "Hours of
+     service left, Option B, 8.4 h" from one cell, which is the sentence the
+     pair of cards could not produce at all.
+
+     THE DECISIVE ROWS COME FIRST. tradeoff() already knew which factor each
+     truck wins on; that was spent on a sentence in the headline and then
+     thrown away, leaving the rows in weighting order with the two that matter
+     buried among the three that do not. They now sort to the top and carry the
+     word "the tradeoff", so the row order is the argument.
+
+     NO BARS ARE LOST. Each cell keeps the fleet bar the card had, and now the
+     two bars for one factor sit on the same line, which is the one arrangement
+     that makes them worth drawing.
+     ========================================================================= */
+  function compareHead(a, b) {
+    const tr = tradeoff(a, b);
+    if (!tr.a || !tr.b) return `${a.id} and ${b.id} are level. Nothing separates them.`;
+    return `${a.id} and ${b.id} are level. The tradeoff is ${tr.a.wins} against ${tr.b.wins}.`;
+  }
+
+  function compareCell(t, f) {
+    const d = direction(t, f);
+    return `<td class="ck-vs-cell">
+      <span class="ck-vs-value">${esc(f.unit(t))}</span>
+      <span class="ck-factor-dir ck-vs-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
+      ${factorBar(t, f)}
+    </td>`;
+  }
+
+  function compareTable(a, b) {
+    const tr = tradeoff(a, b);
+    const decisive = new Set([tr.a && tr.a.key, tr.b && tr.b.key].filter(Boolean));
+    /* The two that separate them, then the three that do not. */
+    const rows = [...FACTORS].sort((x, y) => (decisive.has(y.key) ? 1 : 0) - (decisive.has(x.key) ? 1 : 0));
+    const optHead = (t, label) => `<th scope="col" class="ck-vs-opt${state.assigned === t.id ? ' is-assigned' : ''}">
+      <span class="ck-vs-opt-label ck-label">${label}</span>
+      <span class="ck-vs-opt-id">${esc(t.id)}</span>
+      <span class="ck-vs-opt-who">${esc(t.driver)} <span class="ck-sep" aria-hidden="true">&middot;</span> ${esc(t.at)}</span>
+    </th>`;
+    const winFor = (t) => {
+      const st = WINDOW.state(t);
+      return `<td class="ck-vs-cell ck-vs-win" data-window="${st}">
+        <span class="ck-vs-value">${clock(WINDOW.at(t))}</span>
+        <span class="ck-factor-dir ck-vs-dir" data-window="${st}">${WINDOW_WORD[st]}</span>
+      </td>`;
+    };
+    return `<table class="ck-vs">
+      <caption class="ck-visually-hidden">${esc(a.id)} and ${esc(b.id)} compared on each factor the ranking weighed, the two that separate them first, then the reading for the pickup window.</caption>
+      <thead><tr>
+        <td class="ck-vs-corner"></td>
+        ${optHead(a, 'Option A')}
+        ${optHead(b, 'Option B')}
+      </tr></thead>
+      <tbody>
+        ${rows.map((f) => `<tr class="ck-vs-row${decisive.has(f.key) ? ' is-decisive' : ''}">
+          <th scope="row" class="ck-vs-factor">
+            <span class="ck-vs-factor-name">${esc(f.label)}</span>
+            ${decisive.has(f.key) ? '<span class="ck-vs-tag">the tradeoff</span>' : ''}
+          </th>
+          ${compareCell(a, f)}
+          ${compareCell(b, f)}
+        </tr>`).join('')}
+        <tr class="ck-vs-row ck-vs-derived">
+          <th scope="row" class="ck-vs-factor">
+            <span class="ck-vs-factor-name">At pickup by</span>
+            <span class="ck-vs-note">derived, not ranked</span>
+          </th>
+          ${winFor(a)}
+          ${winFor(b)}
+        </tr>
+      </tbody>
+      <tfoot><tr>
+        <td class="ck-vs-corner"></td>
+        <td class="ck-vs-act">${assignButton(a, 'ck-btn ck-btn-primary')}</td>
+        <td class="ck-vs-act">${assignButton(b, 'ck-btn ck-btn-primary')}</td>
+      </tr></tfoot>
+    </table>
+    <p class="ck-factor-key">
+      <span class="ck-factor-bar ck-key-sample" aria-hidden="true" style="--pos:62%;--med:50%;--band-l:42%;--band-w:16%"><span class="ck-factor-mark"></span></span>
+      <span>Worst to best across the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level either side of it.</span>
+    </p>`;
   }
 
   function renderReco() {
@@ -480,16 +809,11 @@
     }
 
     if (state.tie) {
-      const tr = tradeoff(first, second);
-      const line = (x, f) => f ? `${f.wins}: ${esc(f.unit(x))}` : 'close on everything';
       html += `<div class="ck-lead" data-tone="close">
         <p class="ck-lead-kicker ck-label">Close call: no pick</p>
-        <h3 class="ck-reco-h">Two trucks are close. The tradeoff is ${esc(tr.a ? tr.a.wins : 'small')} against ${esc(tr.b ? tr.b.wins : 'small')}.</h3>
+        <h3 class="ck-reco-h">${esc(compareHead(first, second))}</h3>
         <p class="ck-reco-dek">The system is not ranking one over the other. Pick the side of the tradeoff that matters for this load.</p>
-        <div class="ck-pair">
-          ${truckCard(first, 'Option A', `Has ${line(first, tr.a)}`)}
-          ${truckCard(second, 'Option B', `Has ${line(second, tr.b)}`)}
-        </div>
+        ${compareTable(first, second)}
         ${renderConfidence()}
       </div>`;
     } else {
@@ -518,13 +842,26 @@
     box.innerHTML = html;
   }
 
-  /* The tone is the ground the line takes: sage for a pick or an assignment,
-     caution for a close call or a refusal, the muted ground for a note. */
+  /* FOUR TONES, AND ONLY ONE OF THEM IS CAUTION. There were three, and the
+     default among them put a check-in-a-circle on every line the cockpit
+     opened with -- including "Blocked by a rule: T-114 is over hours and
+     cannot be assigned", which is a sentence where nothing has been done and
+     a truck has been refused, under the glyph that elsewhere means an
+     assignment went through.
+
+     pick     an assignment landed            check, muted ground
+     note     here is the situation           info,  muted ground
+     close    the system declines to lead     help,  muted ground
+     refused  a rule will not allow it        ban,   caution ground
+
+     Caution is spent on the last one alone, which is the only one where
+     something cannot be done. */
+  const TONE_ICON = { pick: 'checkCircle', note: 'info', close: 'help', refused: 'ban' };
   function renderStatus(message, tone = 'pick') {
     const s = $('.ck-status', root);
     if (message === undefined) return;
     s.setAttribute('data-tone', tone);
-    s.innerHTML = `${icon(tone === 'close' ? 'help' : tone === 'note' ? 'info' : 'checkCircle')}<span>${esc(message)}</span>`;
+    s.innerHTML = `${icon(TONE_ICON[tone] || 'checkCircle')}<span>${esc(message)}</span>`;
   }
 
   function renderWhy() {
@@ -539,7 +876,7 @@
     box.hidden = false;
     box.innerHTML = `
       <form class="ck-why-form" novalidate>
-        <p class="ck-why-head" id="ck-why-head">You assigned ${esc(id)}, ranked ${ordinal(r)}. Why? <span class="ck-why-opt">Optional.</span></p>
+        <p class="ck-why-head" id="ck-why-head" tabindex="-1">You assigned ${esc(id)}, ranked ${ordinal(r)}. Why? <span class="ck-why-opt">Optional.</span></p>
         <fieldset class="ck-why-set" aria-labelledby="ck-why-head">
           <legend class="ck-visually-hidden">Reason for overriding the recommendation</legend>
           ${DATA.reasons.map((reason, i) => `<label class="ck-radio"><input type="radio" name="reason" value="${esc(reason)}" ${i === 0 ? 'data-focus="why:first"' : ''}> <span>${esc(reason)}</span></label>`).join('')}
@@ -563,6 +900,10 @@
     { key: 'driver',   label: 'Driver',     sortable: true },
     { key: 'at',       label: 'Now at',     sortable: true },
     { key: 'dist',     label: 'To pickup',  sortable: true, num: true, unit: 'miles' },
+    /* The derived one. It sits beside the miles it is figured from rather
+       than at the end of the row, because the pair is the point: the miles
+       are what the ranking weighed and the clock time is what they mean. */
+    { key: 'arrive',   label: 'At pickup',  sortable: true, num: true, unit: () => `by ${clock(DATA.load.windowClose)}`.replace(' pm', ''), win: true },
     { key: 'hos',      label: 'Hours left', sortable: true, num: true, unit: () => `${DATA.load.driveHours} needed` },
     { key: 'equip',    label: 'Equipment',  sortable: true },
     { key: 'onTime',   label: 'On time',    sortable: true, num: true, unit: 'this customer' },
@@ -573,7 +914,44 @@
   function sortValue(t, key) {
     if (key === 'rank') return t.rank === null ? 999 : t.rank;
     if (key === 'onTime') return t.onTime[1] ? t.onTime[0] / t.onTime[1] : -1;
+    if (key === 'arrive') return WINDOW.at(t);
     return t[key];
+  }
+
+  /* ---------------------------------------------------------------------
+     A ROW THAT CAN EXPLAIN ITSELF.
+
+     "Also considered" explained why second and third lost, and stopped
+     there: the other four trucks kept their figures and never got a reason.
+     A page whose fourth design decision is "keep the whole fleet in reach"
+     ought to mean the reasoning too, not only the numbers.
+
+     It also answers the phone. At 390px the fleet is 1,104px of table in a
+     292px wrapper -- three columns visible, seven columns and the Assign
+     button off to the right behind a scroll with no bar on it, which is how
+     the blocked situation could tell a phone reader to assign T-114 from a
+     table that had no reachable button. Under 48rem the stylesheet drops the
+     columns this detail carries, and the row is where they go: nothing is
+     lost, and what is left fits.
+
+     Not a second pattern, either: it is the same open-in-place disclosure as
+     the misses list and the comparisons note, which is the page's one idiom
+     for "there is more here". ------------------------------------------- */
+  function rowDetail(t) {
+    const leader = state.ranked[0];
+    const why = t.blocked
+      ? `<span class="ck-why-rank-rule">${icon('ban')} ${esc(t.blocked.text)}</span>`
+      : (leader && t.id === leader.id && !state.tie)
+        ? 'Ranked first: no other truck is ahead of it once the five factors are weighed together.'
+        : (leader ? `Ranked ${ordinal(t.rank)}. Lost on ${esc(whyLost(t, leader))}` : '');
+    return `<div class="ck-detail">
+      <p class="ck-detail-who"><span class="ck-label">Driver</span> ${esc(t.driver)}
+        <span class="ck-sep" aria-hidden="true">&middot;</span> <span class="ck-label">now at</span> ${esc(t.at)}</p>
+      ${windowLine(t, 'ck-window ck-detail-window')}
+      ${factorRows(t, { note: false })}
+      <p class="ck-detail-why">${why}</p>
+      <p class="ck-detail-act">${assignButton(t, 'ck-btn ck-btn-primary')}</p>
+    </div>`;
   }
 
   function renderTable() {
@@ -601,32 +979,102 @@
       if (state.tie && t.rank <= 2) cls.push('is-lead');
       if (t.blocked) cls.push('is-blocked');
       if (state.assigned === t.id) cls.push('is-assigned');
-      const rankCell = t.blocked
-        ? `<span class="ck-rank-rule">${icon('ban')} ${esc(t.blocked.rule)}</span>`
-        : `${ordinal(t.rank)}${t.rank === 1 && !state.tie ? ` <span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}pick</span>` : ''}${state.tie && t.rank <= 2 ? ` <span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : ''}`;
+      /* THE RANK CELL STACKS: the ordinal on one line, every mark on the
+         next. Laid out inline it was the widest column in the table -- "1st"
+         and a pick tag and a moved marker all abreast wanted 105px -- and
+         the marks are exactly what a row may or may not have, so the column
+         was sized by its busiest row in every situation. Stacked, the column
+         is the width of the widest MARK rather than the width of an ordinal
+         plus all of them, which is what buys the room for the At pickup
+         column without anything leaving the table. */
+      const rankMain = t.blocked
+        ? `<span class="ck-rank-rule">${icon('ban')}<span>${esc(t.blocked.rule)}</span></span>`
+        : ordinal(t.rank);
+      const marks = [
+        t.rank === 1 && !state.tie ? `<span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}pick</span>` : '',
+        state.tie && t.rank <= 2 ? `<span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : '',
+        /* No glyph on this one. "pick" earns a mark because it is the
+           system speaking; "assigned" is the reader's own action and the row
+           is already on the assigned ground with its type in semibold, so
+           the check was a third telling -- and 15px of a table that was two
+           pixels wider than its wrapper. */
+        state.assigned === t.id ? `<span class="ck-rank-tag ck-tag-assigned">assigned</span>` : '',
+      ].filter(Boolean).join('');
+      const open = state.open.has(t.id);
+      const win = WINDOW.state(t);
+      /* WHERE THE ROW CAME FROM. Switching situations re-ranks the fleet
+         silently: seven rows change order and nothing says which moved,
+         which is the one thing a reader flicking between four situations
+         wants to know. The marker is a direction and a number of places,
+         with the words in the row, and it is cleared by the reader's next
+         action rather than by a timer -- a mark that vanishes on its own is
+         a mark that vanishes while you are reading it. */
+      const move = state.moved.get(t.id);
+      const moveMark = move
+        ? `<span class="ck-rank-moved">${icon(move < 0 ? 'up' : 'down')}<span aria-hidden="true">${Math.abs(move)}</span><span class="ck-visually-hidden">moved ${move < 0 ? 'up' : 'down'} ${Math.abs(move)} ${Math.abs(move) === 1 ? 'place' : 'places'}</span></span>`
+        : '';
       return `<tr class="${cls.join(' ')}">
-        <th scope="row" class="ck-cell-rank">${rankCell}</th>
-        <td>${esc(t.id)}</td>
+        <th scope="row" class="ck-cell-rank"><span class="ck-rank-n">${rankMain}</span>${marks || moveMark ? `<span class="ck-rank-marks">${marks}${moveMark}</span>` : ''}</th>
+        <td class="ck-cell-truck"><button type="button" class="ck-row-more" data-more="${esc(t.id)}" data-focus="more:${esc(t.id)}" aria-expanded="${open}" aria-controls="ck-detail-${esc(t.id)}">${esc(t.id)}<span class="ck-visually-hidden">, ${open ? 'hide' : 'show'} every figure</span>${icon('expand', 'ck-icon ck-row-chev')}</button></td>
         <td class="ck-cell-text">${esc(t.driver)}</td>
         <td class="ck-cell-text">${esc(t.at)}</td>
         <td class="ck-num">${t.dist}</td>
+        <td class="ck-num ck-cell-win" data-window="${win}">${clock(WINDOW.at(t))}${TABLE_WORD[win] ? `<span class="ck-cell-note">${TABLE_WORD[win]}</span>` : ''}</td>
         <td class="ck-num">${t.hos.toFixed(1)}${t.blocked ? ` <span class="ck-cell-note">needs ${DATA.load.driveHours}</span>` : ''}</td>
         <td>${esc(t.equip)}</td>
         <td class="ck-num">${t.onTime[1] ? `${t.onTime[0]} of ${t.onTime[1]}` : '<span class="ck-cell-note">none yet</span>'}</td>
         <td class="ck-num">${t.deadhead}</td>
-        <td class="ck-cell-act">${assignButton(t)}</td>
+        <td class="ck-cell-act">${assignButton(t, 'ck-btn', true)}</td>
+      </tr>
+      <tr class="ck-row-detail${open ? ' is-open' : ''}" id="ck-detail-${esc(t.id)}"${open ? '' : ' hidden'}>
+        <td colspan="${COLUMNS.length}">${open ? rowDetail(t) : ''}</td>
       </tr>`;
     }).join('');
-    $('.ck-table', root).innerHTML = `<caption class="ck-visually-hidden">Every truck in the fleet, with the columns the recommendation weighed. Sort any column; assign any truck.</caption><thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+    $('.ck-table', root).innerHTML = `<caption class="ck-visually-hidden">Every truck in the fleet, with the columns the recommendation weighed and the time each would reach the pickup. Sort any column; open any truck for the rest of its figures; assign any truck the rule allows.</caption><thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+    renderDensity();
   }
 
-  /* Re-render everything under the tabs, keeping focus where it was. */
+  /* The density switch. A dispatch floor runs denser than a portfolio page,
+     and a demo that only ever shows the comfortable end is quietly arguing
+     for a screen nobody would ship. Two buttons, aria-pressed, and the
+     compact end keeps every target over the 24px the success criterion asks
+     for -- it is the comfortable end that carries the 44px the rest of this
+     site holds itself to. */
+  function renderDensity() {
+    const wrap = $('.ck-fleet', root);
+    if (!wrap) return;
+    wrap.classList.toggle('is-compact', state.density === 'compact');
+    for (const b of wrap.querySelectorAll('[data-density]')) {
+      b.setAttribute('aria-pressed', String(b.dataset.density === state.density));
+    }
+  }
+
+  /* Re-render everything under the tabs, keeping focus where it was.
+
+     The checklist is rendered here rather than only on a tab change, because
+     what ticks a step off is any action at all. And when a step lands, the
+     count goes on the END of the status message rather than into a live
+     region of its own: one announcement channel, and the step is heard in
+     the same breath as the thing that completed it. */
+  let lastDone = 0;
   function render(status, tone) {
     const focusKey = document.activeElement && document.activeElement.dataset.focus;
     renderReco();
     renderWhy();
     renderTable();
-    if (status !== undefined) renderStatus(status, tone);
+    renderSituation();
+    const total = stepsOf(state.scenario).length;
+    const done = stepsDone(state.scenario);
+    if (status !== undefined) {
+      let msg = status;
+      if (total && done > lastDone) {
+        msg += done === total
+          ? ` That is all ${total} of the things to try in this situation.`
+          : ` ${done} of ${total} things to try, done.`;
+      }
+      renderStatus(msg, tone);
+    }
+    lastDone = done;
     if (focusKey) {
       const again = root.querySelector(`[data-focus="${focusKey}"]`);
       if (again) again.focus();
@@ -636,37 +1084,81 @@
   /* ----- actions --------------------------------------------------------- */
 
   function load(scenario) {
+    const wasRanks = state.prevRanks;
+    const wasScenario = state.scenario;
     state.scenario = scenario;
     state.fleet = buildFleet(scenario);
     state.sort = { key: 'rank', dir: 'asc' };
     state.assigned = null; state.why = null; state.answered = null;
+    state.did = new Set(); state.open = new Set();
     rank();
+
+    /* What moved, and from where. Only across a genuine switch: reloading
+       the same situation re-ranks the same fleet and has nothing to report. */
+    state.moved = new Map();
+    if (wasRanks && wasScenario && wasScenario.id !== scenario.id) {
+      for (const t of state.fleet) {
+        const before = wasRanks.get(t.id);
+        if (before != null && t.rank != null && before !== t.rank) state.moved.set(t.id, t.rank - before);
+      }
+    }
+    state.prevRanks = new Map(state.fleet.map((t) => [t.id, t.rank]));
+
     renderTabs();
     const first = state.ranked[0], second = state.ranked[1];
     const blocked = state.fleet.filter((t) => t.blocked).map((t) => t.id);
+    const moved = state.moved.size
+      ? ` ${state.moved.size} ${state.moved.size === 1 ? 'truck' : 'trucks'} changed rank, marked in the data table.`
+      : '';
     let status;
-    if (state.tie) status = `Close call: ${first.id} and ${second.id} are within a hair of each other. The tradeoff is named above the data table.`;
-    else status = `${scenario.tab}: the system recommends ${first.id}, ${first.driver}.${blocked.length ? ` ${blocked.join(', ')} is over hours and cannot be assigned.` : ''}`;
-    render(status, state.tie ? 'close' : 'pick');
+    if (state.tie) status = `Close call: ${first.id} and ${second.id} are within a hair of each other. The tradeoff is the first row of the comparison.${moved}`;
+    else status = `${scenario.tab}: the system recommends ${first.id}, ${first.driver}.${blocked.length ? ` ${blocked.join(', ')} is over hours and cannot be assigned.` : ''}${moved}`;
+    /* THE SITUATION SUMMARY IS A NOTE, NOT A DONE. Every one of these lines
+       arrived under a check-in-a-circle, including "Blocked by a rule: T-114
+       is over hours and cannot be assigned" -- the glyph the same line uses
+       to confirm an assignment, sitting on a sentence where nothing has been
+       assigned and one truck is refused. The check now belongs to the one
+       event that earns it. */
+    lastDone = stepsDone(scenario);
+    render(status, state.tie ? 'close' : 'note');
     if (scenario.then) scenario.then(api);
   }
 
   function assign(id) {
     const t = truck(id);
-    if (!t || t.blocked) { render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`, 'close'); return; }
+    if (!t || t.blocked) {
+      state.did.add(`refused:${id}`);
+      render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`, 'refused');
+      return;
+    }
     state.assigned = id;
     state.answered = null;
     const first = state.ranked[0];
     const isOverride = state.tie ? t.rank > 2 : id !== first.id;
     state.why = isOverride ? { truck: id, rank: t.rank } : null;
     const line = `${DATA.load.id} assigned to ${id}, ${t.driver}.` +
-      (isOverride ? ` That is the truck ranked ${ordinal(t.rank)}; there is an optional question about why, above the data table.` : '');
+      (isOverride ? ` That is the truck ranked ${ordinal(t.rank)}, so there is an optional question about why. It is open, and focus has moved to it.` : '');
     render(line);
+    /* THE QUESTION USED TO OPEN WHERE THE READER WAS NOT. Assign sits at the
+       end of every fleet row, and the prompt renders above the table -- so
+       overriding from the last row put the question about nine hundred pixels
+       off the top of the screen, and the status line covered for it with the
+       words "above the data table". Copy that tells a reader where to scroll
+       is a layout problem wearing a sentence.
+
+       Focus goes to the prompt instead, which is also what says the override
+       went through for anyone not watching the status line. The row keeps its
+       Undo, so the way back is still where the choice was made. */
+    if (isOverride) {
+      const head = root.querySelector('#ck-why-head');
+      if (head) { head.focus({ preventScroll: true }); head.scrollIntoView({ block: 'center' }); }
+    }
   }
 
   function undo() {
     const was = state.assigned;
     state.assigned = null; state.why = null; state.answered = null;
+    state.did.add('undo');
     render(`Assignment of ${was} undone. No reason was submitted.`, 'note');
   }
 
@@ -675,12 +1167,14 @@
      was stored, or the row's Undo, which is where the assignment lives. */
   function answer(reason) {
     state.answered = reason;
+    state.did.add('answered');
     render(`Reason saved with ${state.why.truck}: “${reason}”`);
     const done = root.querySelector('[data-focus="why:done"]');
     if (done) done.focus();
   }
 
   function skip() {
+    state.did.add('skipped');
     state.why = null;
     render('Skipped. The assignment stands and no reason was submitted.', 'note');
     const undo = root.querySelector('[data-undo]');
@@ -694,10 +1188,27 @@
   root.addEventListener('click', (e) => {
     const tab = e.target.closest('[data-scenario]');
     if (tab) { load(DATA.scenarios.find((s) => s.id === tab.dataset.scenario)); tab.focus(); return; }
+
+    /* Anything the reader does clears the "moved" marks. Not a timer: a mark
+       that disappears by itself disappears while it is being read. */
+    if (state.moved.size) state.moved.clear();
+
+    const density = e.target.closest('[data-density]');
+    if (density) { state.density = density.dataset.density; renderDensity(); return; }
+
+    const more = e.target.closest('[data-more]');
+    if (more) {
+      const id = more.dataset.more;
+      if (state.open.has(id)) state.open.delete(id);
+      else { state.open.add(id); state.did.add(`open:row:${id}`); }
+      render(); return;
+    }
+
     const sort = e.target.closest('[data-sort]');
     if (sort) {
       const k = sort.dataset.sort;
       state.sort = state.sort.key === k ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
+      state.did.add(`sort:${k}`);
       render(); return;
     }
     const a = e.target.closest('[data-assign]');
@@ -706,6 +1217,15 @@
     if (u) { undo(); return; }
     if (e.target.closest('[data-skip]')) { skip(); }
   });
+
+  /* <details> fires toggle and does not bubble it, so this listens on the way
+     down. It is how the checklist knows the late deliveries were opened. */
+  root.addEventListener('toggle', (e) => {
+    const d = e.target;
+    if (!d.open || d.tagName !== 'DETAILS') return;
+    if (d.classList.contains('ck-misses')) { state.did.add('open:misses'); renderSituation(); }
+    if (d.classList.contains('ck-note')) { state.did.add('open:note'); renderSituation(); }
+  }, true);
 
   root.addEventListener('submit', (e) => {
     const form = e.target.closest('.ck-why-form');
