@@ -1,0 +1,217 @@
+/* ==========================================================================
+   read-aloud.css -- "Listen to this page": the browser reads the prose out
+   loud and marks the words as it says them.
+
+   Loaded by the twenty-three prose pages (ten writing articles, nine case
+   studies, four engagement pages). read-aloud.js builds every node styled
+   here, so a page that loads this file and not the script shows nothing,
+   and a browser without speech synthesis shows nothing either.
+
+   WHY THE MARK IS TWO MARKS. The sentence being spoken takes a sage rule
+   under it; the word being spoken takes the sage fill. The eye needs the
+   wide one to know where it is after a scroll and the narrow one to keep
+   time. Where a browser fires no word boundaries -- Safari, for most
+   voices -- the script sets .ra-no-words on the root and the sentence takes
+   the fill instead, so the page always carries exactly one unmistakable
+   mark and only its granularity degrades.
+
+   WHY THE SENTENCE IS A RULE AND NOT A BAND. It was a --color-tea-light
+   band first, and a screenshot killed that: tea IS <mark> on this site, so
+   an essay whose marked sentence was on screen showed two identical bands
+   and the reader had to work out which one the voice was in. A rule under
+   the line is a different kind of mark from a highlight over it, and the
+   two can be read at once.
+
+   THE COLORS ARE THE PALETTE'S, and their ratios are already in COLOR.md
+   section 2. --color-accent-deep is the fill token, correct for a 2px rule
+   and clearing the 3:1 non-text floor on every light ground (4.51 on white,
+   3.56 at worst); --color-warm on --color-accent-text is 5.32:1, past the
+   4.5 floor for the word. Neither is a new number.
+
+   The player is a charcoal bar. It is in the DOM from load and hidden with
+   visibility rather than display, which is what lets states.mjs force
+   .is-reading and measure every color in it.
+   ========================================================================== */
+
+/* ---------- the trigger, inline under the dek ---------- */
+.ra-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin: var(--space-xl) 0 0;
+}
+
+.ra-listen {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-lg);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-ui);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease),
+              color var(--motion-state) var(--ease),
+              border-color var(--motion-state) var(--ease);
+}
+.ra-listen:hover {
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+  border-color: var(--color-charcoal);
+}
+.ra-listen svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ---------- the two marks ----------
+   ::highlight() paints without touching the DOM, so the prose a reader
+   copies, and the tree a screen reader walks, are the ones that were
+   there before the button was pressed. Only color, background-color and
+   the text-decoration properties are honoured inside it; there is no
+   padding here and there cannot be. */
+::highlight(read-aloud-segment) {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-accent-deep);
+  text-decoration-thickness: 2px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.22em;
+}
+::highlight(read-aloud-word) {
+  background-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+/* No word boundaries from this browser: the sentence takes the strong fill,
+   because a soft band alone is not enough to follow. */
+.ra-no-words ::highlight(read-aloud-segment) {
+  background-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+
+/* The block-level fallback, for a browser with speech but no Highlight API
+   -- Firefox before 140 is the real one. A whole paragraph at a time, which
+   is as fine as a mark can be without Ranges.
+
+   IT CHANGES NO COLOR, and that is the whole design of it. The first version
+   set a tea ground and charcoal ink, and states.mjs failed it four times at
+   1.09:1: an h2 inside a charcoal band takes its warm ink from a rule more
+   specific than this one, so the ground landed and the ink did not, and the
+   fallback painted tea behind warm type. Rather than chase specificity
+   across every dark band on the site, this sets no ground and no color at
+   all. A rule under the text cannot lose that fight, it reads on charcoal
+   and on all four light grounds alike, and it is the same mark the live
+   sentence carries when the Highlight API is there.
+
+   The selector is spelled out block by block rather than written as a bare
+   .is-reading-block. Setting no color, this rule is no longer a state
+   states.mjs even looks at -- but it was, and as a bare state class it left
+   the script no base to match: it falls back to `*`, forces the class onto
+   the first twelve elements on the page, html and body among them, and
+   reported the ink inside an engagement hero as sitting on a gradient.
+   Naming the blocks the script can actually mark is both the honest
+   selector -- these are the only elements the class ever lands on -- and
+   the shape that keeps the script measuring real elements the day someone
+   puts a color back in here. */
+h1.is-reading-block, h2.is-reading-block, h3.is-reading-block,
+h4.is-reading-block, p.is-reading-block, li.is-reading-block,
+blockquote.is-reading-block, figcaption.is-reading-block,
+dt.is-reading-block, dd.is-reading-block {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-accent-deep);
+  text-decoration-thickness: 2px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.22em;
+}
+
+/* ---------- the player ----------
+   Docked to the bottom of the viewport while reading, because the controls
+   have to stay reachable three thousand pixels down a case study. */
+.ra-player {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-xl);
+  transform: translate(-50%, calc(100% + var(--space-3xl)));
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-lg);
+  max-width: calc(100vw - 2 * var(--space-md));
+  border-radius: var(--radius-pill);
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  visibility: hidden;
+  opacity: 0;
+  /* visibility is stepped, not eased, and the step is placed by hand in each
+     direction. Hiding, it waits out the slide so the bar is still on screen
+     while it leaves. Showing (the .is-reading rule below) it flips at once,
+     because a visibility:hidden button cannot take focus and the script
+     moves focus to Pause the instant the reader presses Listen -- with the
+     step transitioned, that focus call landed on the body instead.
+
+     The 0s is not a duration the way MOTION.md means one; it is the absence
+     of one. The number that IS a duration here, the delay, is the token. */
+  transition: transform var(--motion-move) var(--ease),
+              opacity var(--motion-state) var(--ease),
+              visibility 0s linear var(--motion-move);
+}
+.is-reading .ra-player {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition: transform var(--motion-move) var(--ease),
+              opacity var(--motion-state) var(--ease),
+              visibility 0s linear 0s;
+}
+
+.ra-count {
+  color: var(--ink-on-dark-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ra-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 32px;
+  padding: var(--space-2xs) var(--space-md);
+  border: 1px solid var(--rule-on-dark-strong);
+  border-radius: var(--radius-pill);
+  background: var(--wash-on-dark);
+  color: var(--ink-on-dark);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: var(--leading-ui);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease),
+              border-color var(--motion-state) var(--ease);
+}
+.ra-btn:hover { background: var(--wash-on-dark-hover); border-color: var(--ink-on-dark-muted); }
+.ra-btn svg { width: 15px; height: 15px; }
+.ra-rate { font-variant-numeric: tabular-nums; min-width: 3.5em; }
+
+/* Under 480 the label words go and the icons carry the buttons, or the bar
+   is wider than the phone it is docked to. */
+@media (max-width: 480px) {
+  .ra-player { gap: var(--space-xs); padding-left: var(--space-md); }
+  .ra-btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* The label is gone, so the glyph is the whole target: hold it at a size
+     a thumb can find. */
+  .ra-btn { padding: var(--space-2xs) var(--space-sm); min-width: 44px; min-height: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No slide, so nothing for the visibility step to wait for in either
+     direction. shell.css already zeros the durations; this drops the travel
+     so the bar does not start off-screen and arrive instantly. */
+  .ra-player,
+  .is-reading .ra-player {
+    transform: translate(-50%, 0);
+    transition: opacity var(--motion-state) var(--ease), visibility 0s linear 0s;
+  }
+}

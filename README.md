@@ -123,6 +123,7 @@ the archive so that it holds everything staging ever had.
 | `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-seven pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-three prose pages -- the ten writing articles, the nine case studies and the four engagement pages -- and by nothing else. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `case-study/*.html` | Nine case studies: four client engagements, two career-arc pages and three build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
