@@ -135,7 +135,11 @@ dt.is-reading-block, dd.is-reading-block {
   z-index: 200;
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  justify-content: center;
+  /* Four controls and a count do not fit one row on a phone. Wrapping is
+     why the bar is a rounded rectangle rather than a fixed-height pill. */
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
   padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-lg);
   max-width: calc(100vw - 2 * var(--space-md));
   border-radius: var(--radius-pill);
@@ -192,13 +196,64 @@ dt.is-reading-block, dd.is-reading-block {
               border-color var(--motion-state) var(--ease);
 }
 .ra-btn:hover { background: var(--wash-on-dark-hover); border-color: var(--ink-on-dark-muted); }
+
+/* ---------- the voice ----------
+   A native <select>, not a menu built here. It is the one control on this
+   site a reader may open on a phone, where the platform's own picker is
+   better than anything this file could draw, and it is the only shape that
+   arrives keyboard- and screen-reader-correct for nothing.
+
+   Its options are NOT in the page at load; read-aloud.js fills them the
+   first time the control is touched. That is a measurement decision as much
+   as a performance one: the number of voices installed differs on every
+   machine -- forty-one on the author's Mac, none at all on the CI runner --
+   and a DOM whose size depends on that would make resting.mjs, typescale.mjs
+   and curves.mjs report a different number in CI than on the desk. One
+   option at rest is the same count everywhere. */
+.ra-voice {
+  -webkit-appearance: none;
+  appearance: none;
+  max-width: 11rem;
+  padding: var(--space-2xs) var(--space-lg) var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--rule-on-dark-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--wash-on-dark);
+  /* The chevron is a background image rather than a glyph beside the select,
+     because a sibling would not follow the control when it wraps. Warm at
+     the same value as --ink-on-dark-secondary, drawn in the sheet so it does
+     not cost a request. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23f5f5f0' stroke-opacity='0.75' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-xs) center;
+  background-size: 9px 6px;
+  color: var(--ink-on-dark);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: var(--leading-ui);
+  min-height: 32px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  transition: background-color var(--motion-state) var(--ease),
+              border-color var(--motion-state) var(--ease);
+}
+.ra-voice:hover { background-color: var(--wash-on-dark-hover); border-color: var(--ink-on-dark-muted); }
+/* A browser with speech but no installed voice has nothing to choose between.
+   The control stays in the page rather than being pulled out of it, so the
+   count is the same there as anywhere. */
+.ra-voice:disabled { opacity: 0.5; cursor: default; }
+/* The options draw in the platform's own menu, which does not take this
+   sheet's colors. Naming the ground here keeps the text legible where a
+   browser DOES let the sheet through, rather than leaving it to inherit the
+   warm ink onto a white menu. */
+.ra-voice option { background: var(--color-white); color: var(--color-charcoal); }
 .ra-btn svg { width: 15px; height: 15px; }
 .ra-rate { font-variant-numeric: tabular-nums; min-width: 3.5em; }
 
 /* Under 480 the label words go and the icons carry the buttons, or the bar
    is wider than the phone it is docked to. */
 @media (max-width: 480px) {
-  .ra-player { gap: var(--space-xs); padding-left: var(--space-md); }
+  .ra-player { gap: var(--space-2xs) var(--space-xs); padding-left: var(--space-md); }
+  .ra-voice { max-width: 8.5rem; }
   .ra-btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   /* The label is gone, so the glyph is the whole target: hold it at a size
      a thumb can find. */

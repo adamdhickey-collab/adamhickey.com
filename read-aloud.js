@@ -299,26 +299,82 @@
   };
 
   /* --------------------------------------------------------------------
-     The voice. getVoices() is empty on first call in most browsers and
-     fills in asynchronously, so this runs again on voiceschanged. The
-     preference order is the platform's best-sounding English voices first
-     and the browser's own default last. ------------------------------- */
+     The voice.
+
+     Three things decide it, in this order: what the reader chose here last
+     time, then the preference list below -- the platform's best-sounding
+     English voices first -- then the browser's own default. The reader's
+     choice outranks everything, including a premium voice they have already
+     rejected once.
+
+     getVoices() is empty on the first call in most browsers and fills in
+     asynchronously, so this is run again from the voiceschanged listener
+     further down, where the player can be updated with it.
+
+     The list is also what the picker offers, which is why the novelty
+     voices are filtered here rather than at the control: the voice this
+     file reaches for on its own and the voices it will show a reader should
+     not be two different sets. ---------------------------------------- */
   let voice = null;
-  const WANTED = [/premium/i, /enhanced/i, /natural/i, /\bsiri\b/i,
+  const WANTED = [/premium/i, /enhanced/i, /natural/i,
                   /google (us|uk) english/i, /samantha/i, /\bava\b/i, /daniel/i];
+
+  /* Apple ships these alongside the real voices, and they are jokes and
+     sound effects rather than anything that can read four thousand words:
+     Zarvox, Trinoids, a church organ, a sheep. Albert, Fred, Junior, Kathy
+     and Ralph are the 1990s MacinTalk set, kept for compatibility and no
+     more listenable. Left in, a picker offers twenty of these above Zoe;
+     the default system voice on the machine this was written on was Albert.
+
+     A denylist and not a heuristic, because there is no signal to read: the
+     good voices and the joke voices are both bare first names. If it ever
+     strips a list down to nothing -- another platform, another set of names
+     -- everything is offered instead, below. */
+  const NOVELTY = /^(albert|bad news|bahh|bells|boing|bubbles|cellos|fred|good news|jester|junior|kathy|organ|pipe organ|ralph|superstar|trinoids|whisper|wobble|zarvox|deranged|hysterical|princess|bruce)\b/i;
+
+  const VOICE_KEY = 'adamhickey:read-aloud-voice';
+  const stored = (() => {
+    /* A private window, cleared site data, or a browser set to refuse
+       storage: all of these throw rather than return nothing. */
+    try { return localStorage.getItem(VOICE_KEY); } catch (e) { return null; }
+  })();
+  const remember = (name) => {
+    try { localStorage.setItem(VOICE_KEY, name); } catch (e) { /* not worth a word to the reader */ }
+  };
+
+  /* English voices worth offering, best first: the ones the preference list
+     names, in its order, then everything else alphabetically. */
+  const usable = () => {
+    const en = synth.getVoices().filter((v) => /^en(-|$)/i.test(v.lang));
+    let list = en.filter((v) => !NOVELTY.test(v.name));
+    if (list.length < 2) list = en;                 /* not a Mac; offer it all */
+    const rank = (v) => {
+      const i = WANTED.findIndex((w) => w.test(v.name));
+      return i < 0 ? WANTED.length : i;
+    };
+    return list.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+  };
+
+  /* "Eddy (English (United States))" is the platform's label, not a label
+     for a control eleven rems wide. */
+  const label = (v) => v.name
+    .replace(/\(English \(United States\)\)/i, '(US)')
+    .replace(/\(English \(United Kingdom\)\)/i, '(UK)')
+    .replace(/\s+/g, ' ').trim();
+
   const pickVoice = () => {
-    const all = synth.getVoices().filter((v) => /^en(-|$)/i.test(v.lang));
-    if (!all.length) return;
+    const list = usable();
+    if (!list.length) return;
+    /* What the reader chose last time wins over anything this file prefers. */
+    const kept = stored && list.find((v) => v.name === stored);
+    if (kept) { voice = kept; return; }
     for (const want of WANTED) {
-      const hit = all.find((v) => want.test(v.name));
+      const hit = list.find((v) => want.test(v.name));
       if (hit) { voice = hit; return; }
     }
-    voice = all.find((v) => v.default) || all[0];
+    voice = list.find((v) => v.default) || list[0];
   };
   pickVoice();
-  if (typeof synth.addEventListener === 'function') {
-    synth.addEventListener('voiceschanged', pickVoice);
-  }
 
   /* --------------------------------------------------------------------
      The controls. -----------------------------------------------------
@@ -392,16 +448,87 @@
   player.setAttribute('role', 'group');
   player.setAttribute('aria-label', 'Read aloud controls');
   player.innerHTML =
+    /* Transport first and together, then the two settings, then where we
+       are. Voice went in between pause and stop at first, which put two
+       dropdowns through the middle of the transport and, on a phone where
+       the bar wraps, left Stop stranded on the second row away from Pause. */
     '<button type="button" class="ra-btn ra-toggle">' + PAUSE + '<span class="ra-btn-label">Pause</span></button>' +
-    '<button type="button" class="ra-btn ra-rate" aria-label="Reading speed">1&times;</button>' +
     '<button type="button" class="ra-btn ra-stop">' + STOP + '<span class="ra-btn-label">Stop</span></button>' +
+    '<button type="button" class="ra-btn ra-rate" aria-label="Reading speed">1&times;</button>' +
+    '<select class="ra-voice" aria-label="Voice"></select>' +
     '<span class="ra-count"></span>';
   document.body.appendChild(player);
 
   const toggle = player.querySelector('.ra-toggle');
   const rateBtn = player.querySelector('.ra-rate');
+  const voiceSel = player.querySelector('.ra-voice');
   const stopBtn = player.querySelector('.ra-stop');
   const count = player.querySelector('.ra-count');
+
+  /* The select carries exactly one option until someone reaches for it: the
+     voice currently being used, so the control reads correctly without
+     holding a list. Filling it on first touch is what keeps the page's
+     element count the same on a machine with forty voices and on one with
+     none -- see the note in read-aloud.css. */
+  let filled = false;
+  const showCurrent = () => {
+    voiceSel.innerHTML = '';
+    const o = document.createElement('option');
+    o.value = voice ? voice.name : '';
+    o.textContent = voice ? label(voice) : 'System voice';
+    voiceSel.appendChild(o);
+    voiceSel.disabled = !voice;
+  };
+  const fill = () => {
+    const list = usable();
+    if (filled || !list.length) return;
+    filled = true;
+    voiceSel.innerHTML = '';
+    for (const v of list) {
+      const o = document.createElement('option');
+      o.value = v.name;
+      o.textContent = label(v);
+      if (voice && v.name === voice.name) o.selected = true;
+      voiceSel.appendChild(o);
+    }
+  };
+  showCurrent();
+  /* pointerdown fires before the platform opens the menu, and keydown covers
+     a reader who arrives by tab and presses a key rather than clicking. */
+  voiceSel.addEventListener('pointerdown', fill);
+  voiceSel.addEventListener('keydown', fill);
+  voiceSel.addEventListener('focus', fill);
+
+  voiceSel.addEventListener('change', () => {
+    const chosen = usable().find((v) => v.name === voiceSel.value);
+    if (!chosen) return;
+    voice = chosen;
+    remember(chosen.name);
+    if (!playing) return;
+    /* Re-speak the piece being read, so the change can be heard against the
+       sentence that prompted it rather than at the start of the next one. */
+    const resume = at;
+    run++;
+    clearGap();
+    synth.cancel();
+    paused = false;
+    resumeAt = null;
+    setPaused(false);
+    speakAt(resume);
+  });
+
+  /* getVoices() is empty on the first call in most browsers and fills in
+     asynchronously; on a machine that has just downloaded a voice it fills
+     again. Re-pick only while nothing is being read, or the voice would
+     change under a reader mid-sentence. */
+  if (typeof synth.addEventListener === 'function') {
+    synth.addEventListener('voiceschanged', () => {
+      if (playing) return;
+      filled = false;
+      pickVoice();
+      showCurrent();
+    });
+  }
 
   /* Idle, the player is invisible but still laid out, which is what lets
      states.mjs force .is-reading and measure it. inert and aria-hidden keep
