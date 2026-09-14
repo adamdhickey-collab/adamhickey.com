@@ -320,13 +320,14 @@ the pair is tuned to look equal rather than to share a number.
 ### Elevation
 
 Named by **what is lifting**, not by how far. Eight tokens, each built on
-literal `rgba(0, 0, 0, …)` — black is not a token here (§2).
+literal `rgba(0, 0, 0, …)` — black is not a token here (§2). The two that
+carry a keyline take it from `--rule-hairline`, because a keyline is a rule.
 
 | Token | For |
 |---|---|
 | `--shadow-card` | A card at rest, with its keyline |
 | `--shadow-resting` | A bar or rail sitting on the page: nav, progress rail, step card |
-| `--shadow-media` | A framed image or figure |
+| `--shadow-media` | A framed image or figure: keyline, contact shadow, tucked drop |
 | `--shadow-device` | A screen mockup lifted off the page — contact shadow plus soft drop |
 | `--shadow-popover` | Floating UI on a light page |
 | `--shadow-lightbox` | A photo over the scrim |
@@ -344,7 +345,20 @@ the type work shipped, and it would have broken on the same six pages.
 
 **A keyline is not an elevation.** `box-shadow: 0 0 0 1px …` and its `inset`
 form draw a border, not a lift, and they take a rule token
-(`--rule-hairline`) or a color token — never a `--shadow-*`.
+(`--rule-hairline`) or a color token — never a `--shadow-*`. An elevation
+token may *carry* a keyline as its first layer, as `--shadow-card` and
+`--shadow-media` do, and then the consumer draws no border of its own: a 1px
+border beside a 1px ring is a 2px edge.
+
+**A blur is not an edge.** `--shadow-media` was one soft halo, `0 8px 24px`
+at 8%, and on the drawings it had nothing to work with: their putty-cream
+ground is 1.05:1 against white and closer still against warm, so the blur was
+the only thing saying where the picture stopped, and the figure read as a
+smudge. It is three layers now, each with a job: the ring is the edge, the
+1px layer is the contact shadow, and the drop carries a **negative spread**
+so the blur sits under the object rather than haloing out on every side.
+That last part is what reads as crisp, and it is the shape `--shadow-device`
+already had.
 
 ### What this section used to say
 
