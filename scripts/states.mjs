@@ -52,6 +52,7 @@
  */
 import path from 'node:path';
 import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { reach, reachableFor } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
 const listOnly = process.argv.includes('--list');
@@ -184,17 +185,31 @@ if (!chosen.length) {
   server.close(); await browser.close();
   process.exit(2);
 }
-for (const file of chosen) {
+/* One page, either as it loads or driven into one of its registered reachable
+   states first (lib/reachable.mjs).
+
+   The rules come out of the stylesheet and so are the same either way -- what
+   a state changes is which ELEMENTS those rules can be forced onto. A hover
+   rule on .ck-radio was being read off the sheet and then applied to nothing,
+   because no radio existed until a reader overrode a recommendation. Counted
+   as a rule, measured on zero elements, reported as fine. */
+async function measure(file, state, baseCounts) {
   await page.goto(origin + '/' + file.split(path.sep).join('/'), { waitUntil: 'load' });
   /* Raced, not awaited outright: a blocked font request can leave fonts.ready
      pending forever, and a layout with fallback metrics still reports the right
      font-size. */
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]));
 
+  if (state) await reach(page, state);
+
   const found = await page.evaluate(`(${IN_PAGE}).stateRules()`);
-  statesFound += found.length;
-  if (listOnly) { for (const f of found) list.push(`${file}  ${f.state.padEnd(14)} ${f.sel}`); continue; }
-  if (!found.length) continue;
+  /* Counted once per page. The same rules are found on every pass, and adding
+     them up per state would report the site as having six times the state
+     rules it has -- inflating the one number CLAUDE.md asks be watched for
+     drift, which is worse than not measuring the states at all. */
+  if (!state) statesFound += found.length;
+  if (listOnly) { for (const f of found) list.push(`${file}  ${f.state.padEnd(14)} ${f.sel}`); return null; }
+  if (!found.length) return null;
 
   /* Install the forcing stylesheet once per page. */
   await page.evaluate(([src, rules]) => {
@@ -225,9 +240,10 @@ for (const file of chosen) {
     s.textContent = out.join('\n');
   }, [IN_PAGE, found]);
 
-  const results = await page.evaluate(async ([src, rules]) => {
+  const { out: results, counts } = await page.evaluate(async ([src, rules, baseCounts]) => {
     const api = eval(src);
     const out = [];
+    const counts = {};
     const settle = (el) => {
       const cs = getComputedStyle(el);
       const ms = (v) => Math.max(0, ...String(v).split(',').map(x => parseFloat(x) * (x.includes('ms') ? 1 : 1000) || 0));
@@ -255,6 +271,26 @@ for (const file of chosen) {
         : sel.replace(new RegExp('\\.' + state.replace(/[-]/g, '\\-') + '\\b'), '');
       let els;
       try { els = [...document.querySelectorAll(authored ? sel : (base || '*'))].slice(0, 12); } catch { continue; }
+
+      /* A REACHABLE-STATE PASS MEASURES ONLY WHAT IT ADDED.
+
+         Forcing every rule again in each of six states is seven times the work
+         to re-measure, six times over, elements that were on the page at rest
+         and have not changed. Each element costs at least the 60ms floor in
+         settle() above, and the cockpit's 102 rules take up to twelve elements
+         each: that run was still going after eleven minutes on ONE page when
+         it was killed, which is a check nobody would run locally and a CI bill
+         several times the suite, to produce almost entirely duplicate rows.
+
+         What a state is FOR is the rules that had nothing to be forced onto
+         until a press put it there: .ck-radio had a hover rule read off the
+         sheet and applied to zero elements, counted as covered, measured
+         never. So a state pass skips any rule that did not gain elements. The
+         count is the proxy for "gained" -- these presses add nodes rather than
+         swap them -- and the base pass records it. */
+      const key = sel + '|' + state;
+      counts[key] = els.length;
+      if (baseCounts && els.length <= (baseCounts[key] || 0)) continue;
 
       for (const el of els) {
         /* Already in the state, so nothing to add and nothing to undo. */
@@ -286,14 +322,35 @@ for (const file of chosen) {
         if (marker) el.classList.remove(marker);
       }
     }
-    return out;
-  }, [IN_PAGE, found]);
+    return { out, counts };
+  }, [IN_PAGE, found, state ? baseCounts : null]);
 
+  const where = state ? { file, reached: state.name } : { file };
   for (const r of results) {
     checked += 1;
-    if (r.unmeasurable) unmeasurable.push({ file, ...r });
-    else if (r.ratio < r.floor) failures.push({ file, ...r });
-    else if (r.ratio - r.floor < 0.1) thin.push({ file, ...r });
+    if (r.unmeasurable) unmeasurable.push({ ...where, ...r });
+    else if (r.ratio < r.floor) failures.push({ ...where, ...r });
+    else if (r.ratio - r.floor < 0.1) thin.push({ ...where, ...r });
+  }
+  return counts;
+}
+
+let reached = 0;
+for (const file of chosen) {
+  const baseCounts = await measure(file, null);
+  if (listOnly) continue;
+  for (const state of reachableFor(file)) {
+    try { await measure(file, state, baseCounts || {}); reached += 1; }
+    catch (e) {
+      say(`\n  ✗ cannot measure ${file}\n`);
+      say(`      ${e.message}`);
+      if (e.unreached) {
+        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
+        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
+      } else say('');
+      await browser.close(); server.close();
+      process.exit(2);
+    }
   }
 }
 
@@ -311,11 +368,12 @@ say('');
 if (!failures.length) {
   say(`  ✓ every forced state clears its floor`);
   say(`    ${checked} measurements across ${statesFound} state rules` +
-      `, ${chosen.length} page${chosen.length === 1 ? '' : 's'}${only.length ? ' matching ' + only.join(', ') : ''}`);
+      `, ${chosen.length} page${chosen.length === 1 ? '' : 's'}${only.length ? ' matching ' + only.join(', ') : ''}` +
+      `${reached ? `, plus ${reached} reachable state${reached === 1 ? '' : 's'}` : ''}`);
 } else {
   say(`  ✗ ${failures.length} state(s) below the floor:\n`);
   for (const f of failures) {
-    say(`      ${f.file}`);
+    say(`      ${f.file}${f.reached ? `  —  ${f.reached}` : ''}`);
     say(`        ${f.sel}  [:${f.state}]`);
     say(`        ${f.ratio}:1 against ${f.floor} — ${f.color} at ${f.size}/${f.weight}`);
     say(`        "${f.text}"`);
@@ -324,7 +382,7 @@ if (!failures.length) {
 }
 if (thin.length) {
   say(`\n  ! ${thin.length} pass with under 0.1 to spare — a ground change away from failing:\n`);
-  for (const t of thin) say(`      ${t.file}  ${t.sel} [:${t.state}]  ${t.ratio}:1 against ${t.floor}`);
+  for (const t of thin) say(`      ${t.file}${t.reached ? `  (${t.reached})` : ''}  ${t.sel} [:${t.state}]  ${t.ratio}:1 against ${t.floor}`);
 }
 if (unmeasurable.length) {
   say(`\n  ~ ${unmeasurable.length} cannot be measured from computed style:\n`);

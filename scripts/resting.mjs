@@ -57,6 +57,7 @@
 import path from 'node:path';
 import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { decodePNG, pixels } from './lib/png.mjs';
+import { reach, reachableFor } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
 const showUnmeasurable = process.argv.includes('--unmeasurable');
@@ -319,7 +320,14 @@ if (!chosen.length) {
   process.exit(2);
 }
 
-for (const file of chosen) {
+/* Measure one page once, either as it loads or after being driven into one of
+   the states registered for it in lib/reachable.mjs.
+
+   The states are measured on their own fresh load rather than in sequence, so
+   nothing a state leaves behind is carried into the next one, and so a state
+   that stops being reachable fails loudly instead of quietly measuring
+   whatever the previous press happened to leave on the screen. */
+async function measure(file, state) {
   /* 'load' rather than 'domcontentloaded': stylesheets are not parsed at
      DOMContentLoaded, and a page measured before its CSS arrives reports the
      browser's defaults as the site's colors. */
@@ -377,17 +385,44 @@ for (const file of chosen) {
     }
     return [...props];
   });
-  if (stillMoving.length) moving.push({ file, props: stillMoving });
+  /* Reported once per page, from the load. A state's own presses restart
+     transitions by design, and naming those every time would be six lines of
+     noise per page saying the cockpit animated when something was pressed. */
+  if (!state && stillMoving.length) moving.push({ file, props: stillMoving });
+
+  /* The presses, then whatever they started. reach() throws on a selector that
+     is no longer in the markup; the caller turns that into a failed run rather
+     than a quiet pass on a state nothing reached. */
+  if (state) await reach(page, state);
 
   const results = await page.evaluate(`(${IN_PAGE}).restingText()`);
   await measureProbes(page, results);
 
+  const where = state ? { file, state: state.name } : { file };
   for (const r of results) {
     checked += 1;
-    if (r.byPixels) byPixels.push({ file, ...r });
-    if (r.unmeasurable) unmeasurable.push({ file, ...r });
-    else if (r.ratio < r.floor - 0.005) failures.push({ file, ...r });
-    else if (r.ratio - r.floor < 0.1) thin.push({ file, ...r });
+    if (r.byPixels) byPixels.push({ ...where, ...r });
+    if (r.unmeasurable) unmeasurable.push({ ...where, ...r });
+    else if (r.ratio < r.floor - 0.005) failures.push({ ...where, ...r });
+    else if (r.ratio - r.floor < 0.1) thin.push({ ...where, ...r });
+  }
+}
+
+let states = 0;
+for (const file of chosen) {
+  await measure(file, null);
+  for (const state of reachableFor(file)) {
+    try { await measure(file, state); states += 1; }
+    catch (e) {
+      say(`\n  ✗ cannot measure ${file}\n`);
+      say(`      ${e.message}`);
+      if (e.unreached) {
+        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
+        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
+      } else say('');
+      await browser.close(); server.close();
+      process.exit(2);
+    }
   }
 }
 
@@ -398,11 +433,12 @@ say('');
 if (!failures.length) {
   say('  ✓ every resting color clears its floor');
   say(`    ${checked} measurements across ${chosen.length} ` +
-      `page${chosen.length === 1 ? '' : 's'}${only.length ? ' matching ' + only.join(', ') : ''}`);
+      `page${chosen.length === 1 ? '' : 's'}${only.length ? ' matching ' + only.join(', ') : ''}` +
+      `${states ? `, plus ${states} reachable state${states === 1 ? '' : 's'}` : ''}`);
 } else {
   say(`  ✗ ${failures.length} below the floor at rest:\n`);
   for (const f of failures) {
-    say(`      ${f.file}`);
+    say(`      ${f.file}${f.state ? `  —  ${f.state}` : ''}`);
     say(`        ${f.sel}`);
     say(`        ${f.ratio}:1 against ${f.floor} — ${f.color} at ${f.size}/${f.weight}`);
     say(`        "${f.text}"`);
@@ -412,7 +448,7 @@ if (!failures.length) {
 
 if (thin.length) {
   say(`\n  ! ${thin.length} pass with under 0.1 to spare — a ground change away from failing:\n`);
-  for (const t of thin) say(`      ${t.file}  ${t.sel}  ${t.ratio}:1 against ${t.floor}`);
+  for (const t of thin) say(`      ${t.file}${t.state ? `  (${t.state})` : ''}  ${t.sel}  ${t.ratio}:1 against ${t.floor}`);
   say('');
 }
 

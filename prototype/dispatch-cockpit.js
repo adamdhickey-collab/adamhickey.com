@@ -1036,10 +1036,23 @@
 
   /* The density switch. A dispatch floor runs denser than a portfolio page,
      and a demo that only ever shows the comfortable end is quietly arguing
-     for a screen nobody would ship. Two buttons, aria-pressed, and the
-     compact end keeps every target over the 24px the success criterion asks
-     for -- it is the comfortable end that carries the 44px the rest of this
-     site holds itself to. */
+     for a screen nobody would ship. Two buttons, aria-pressed, and both ends
+     keep every target over the 24px of 2.5.8 Target Size (Minimum): measured
+     at 1440, the smallest control on either setting is the density pair
+     itself at 25px, and compact's row buttons are 30px.
+
+     THIS USED TO CLAIM COMFORTABLE CARRIED "the 44px the rest of this site
+     holds itself to", AND THAT WAS WRONG IN BOTH HALVES. Measured at 1440, 18
+     of the cockpit's 34 controls are under 44 at comfortable: the tabs and the
+     primary Assign at 38, the sortable column heads at 41 -- the tallest thing
+     here -- and the row Assign buttons at 30. Nothing reaches 44. Nor is it a
+     bar the site keeps elsewhere: the nav links on this very page are 27px,
+     and 7 of the 16 controls outside the cockpit clear 44.
+
+     44px is 2.5.5 Target Size (Enhanced), which is AAA. The criterion this
+     component is actually held to is the AA one above, and both densities pass
+     it. Said plainly so the next person to read this does not go looking for a
+     44px rule to restore. */
   function renderDensity() {
     const wrap = $('.ck-fleet', root);
     if (!wrap) return;
@@ -1209,10 +1222,19 @@
     keep(root.querySelector('[data-focus="why:done"]'));
   }
 
-  function skip() {
+  /* SKIP IS ALSO WHERE AN EMPTY SAVE LANDS, AND IT USED TO SAY SO WRONGLY.
+     Nothing in the question is required, so pressing "Save the reason" with no
+     radio chosen and no words typed has nothing to store and falls through to
+     here -- where the reader, who had just pressed Save, was told "Skipped."
+     The two exits do the same thing to the assignment, and should: what was
+     wrong was one of them describing the other one's press. `via` is which
+     button the reader actually touched. */
+  function skip(via = 'skip') {
     state.did.add('skipped');
     state.why = null;
-    render('Skipped. The assignment stands and no reason was submitted.', 'note');
+    render(via === 'save'
+      ? 'Nothing to save: no reason was chosen and nothing was typed. The assignment stands.'
+      : 'Skipped. The assignment stands and no reason was submitted.', 'note');
     keep(root.querySelector('[data-undo]'));
   }
 
@@ -1243,10 +1265,22 @@
 
     /* Anything the reader does clears the "moved" marks. Not a timer: a mark
        that disappears by itself disappears while it is being read. */
-    if (state.moved.size) state.moved.clear();
+    const hadMarks = state.moved.size > 0;
+    if (hadMarks) state.moved.clear();
 
+    /* CLEARING THE MAP IS NOT CLEARING THE MARKS. Every branch below ends in a
+       render that repaints the data table, except this one: renderDensity only
+       toggles a class and the pressed state of two buttons. So the density
+       switch emptied state.moved and left its four arrows on the screen, and
+       they went on the action after -- which made the rule above true of four
+       of the five controls and quietly false of the fifth. renderTable ends by
+       calling renderDensity, so this covers both jobs in the one pass. */
     const density = e.target.closest('[data-density]');
-    if (density) { state.density = density.dataset.density; renderDensity(); return; }
+    if (density) {
+      state.density = density.dataset.density;
+      if (hadMarks) renderTable(); else renderDensity();
+      return;
+    }
 
     const more = e.target.closest('[data-more]');
     if (more) {
@@ -1288,7 +1322,7 @@
     let reason = picked ? picked.value : '';
     if (reason === '__other') reason = more || 'Something else';
     else if (more) reason = reason ? `${reason}: ${more}` : more;
-    if (!reason) { skip(); return; }
+    if (!reason) { skip('save'); return; }
     answer(reason);
   });
 

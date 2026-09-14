@@ -38,6 +38,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { reach, reachableFor } from './lib/reachable.mjs';
 
 const root = resolveRoot('curves.mjs');
 const only = pageFilters();
@@ -99,18 +100,42 @@ const chosen = pages(root).filter(f => !only.length || only.some(o => f.includes
 if (!chosen.length) { console.error(`\n  No page matches ${only.join(', ')}.\n`); server.close(); await browser.close(); process.exit(2); }
 
 const found = new Map();
-let scanned = 0, elements = 0;
-for (const rel of chosen) {
+let scanned = 0, elements = 0, reached = 0;
+
+/* Scan one page, optionally after driving it into a registered reachable state
+   first (lib/reachable.mjs). The cockpit's rounded surfaces are mostly ones a
+   press creates -- the override question's panel, the comparison, an opened
+   row -- so at rest this check was looking at a page with most of its curves
+   not yet drawn. */
+async function scan(rel, state) {
   await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
+  if (state) await reach(page, state);
   const rest = await page.evaluate(IN_PAGE);
   elements += await page.evaluate(`document.querySelectorAll('body *').length`);
   await page.evaluate(FORCE);
   const forced = await page.evaluate(IN_PAGE);
-  scanned++;
   for (const r of [...rest, ...forced]) {
     const key = `${r.sel}|${r.sides}`;
     if (!found.has(key)) found.set(key, { ...r, pages: new Set() });
-    found.get(key).pages.add(rel);
+    found.get(key).pages.add(state ? `${rel} (${state.name})` : rel);
+  }
+}
+
+for (const rel of chosen) {
+  await scan(rel, null);
+  scanned++;
+  for (const state of reachableFor(rel)) {
+    try { await scan(rel, state); reached += 1; }
+    catch (e) {
+      say(`\n  ✗ cannot measure ${rel}\n`);
+      say(`      ${e.message}`);
+      if (e.unreached) {
+        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
+        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
+      } else say('');
+      server.close(); await browser.close();
+      process.exit(2);
+    }
   }
 }
 server.close();
@@ -118,7 +143,7 @@ await browser.close();
 
 if (!found.size) {
   say(`\n  ✓ no rounded surface carries a partial border`);
-  say(`    ${elements} elements across ${scanned} pages, at rest and with states forced\n`);
+  say(`    ${elements} elements across ${scanned} pages${reached ? ` and ${reached} reachable states` : ''}, at rest and with states forced\n`);
   process.exit(0);
 }
 

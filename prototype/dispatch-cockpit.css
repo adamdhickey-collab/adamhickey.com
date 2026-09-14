@@ -2008,7 +2008,17 @@
 }
 .ck .ck-btn[aria-disabled="true"]:hover { background: none; }
 .ck table .ck-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
-.ck table .ck-btn:hover { background: var(--wash-on-light-hover); }
+/* THE WASH IS FOR THE QUIET BUTTONS, AND IT USED TO ERASE THE LOUD ONE.
+   `table` is a type selector, so `.ck table .ck-btn:hover` scores (0,3,1)
+   against `.ck .ck-btn-primary:hover`'s (0,3,0) and wins. The comparison is a
+   <table class="ck-vs">, and the button it offers for each option is a primary
+   -- near-white ink on the accent green. Hovering it therefore kept the ink
+   and swapped the green for a 6%-opacity wash over a light ground: measured on
+   a real pointer, 5.32:1 at rest and 1.29:1 under the cursor. The label
+   vanished at the moment it was being pressed.
+   :not() rather than raising the primary's specificity, because the intent is
+   what wants saying -- this wash belongs to the plain row buttons. */
+.ck table .ck-btn:not(.ck-btn-primary):hover { background: var(--wash-on-light-hover); }
 .ck table .ck-btn[aria-disabled="true"]:hover { background: none; }
 
 /* ---------- The fleet ----------
