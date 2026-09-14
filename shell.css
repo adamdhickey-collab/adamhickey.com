@@ -157,7 +157,20 @@
      than a shadow can show. */
   --shadow-card:     0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04); /* a card at rest, with its keyline */
   --shadow-resting:  0 1px 8px rgba(0,0,0,0.06);        /* a bar or rail sitting on the page: nav, progress rail, step card */
-  --shadow-media:    0 8px 24px rgba(0,0,0,0.08);       /* a framed image or figure */
+  /* --shadow-media used to be one soft halo, 0 8px 24px at 8%. On the
+     drawings it had nothing to work with: their putty-cream ground is 1.05:1
+     against white and closer still against warm, so the only thing telling a
+     reader where the picture stopped was a 24px blur at 8%, and the figure
+     read as a smudge rather than an object. Three layers now, each with a
+     job. The ring is the edge, in the rule token, because that is what a
+     keyline is (COLOR.md §4); the 1px layer is the contact shadow; and the
+     drop carries a NEGATIVE spread, so the blur sits under the object rather
+     than haloing out on every side. A consumer that draws its own 1px border
+     next to this ring gets a 2px edge, so it should not: the ring is the
+     border. */
+  --shadow-media:    0 0 0 1px var(--rule-hairline),
+                     0 1px 2px rgba(0,0,0,0.06),
+                     0 10px 20px -10px rgba(0,0,0,0.18);  /* a framed image or figure: keyline, contact, tucked drop */
   --shadow-device:   0 1px 2px rgba(0,0,0,0.06),
                      0 20px 40px -24px rgba(0,0,0,0.42); /* a screen mockup lifted off the page -- contact shadow plus soft drop */
   --shadow-popover:  0 10px 30px rgba(0,0,0,0.14);      /* floating UI on a light page */
