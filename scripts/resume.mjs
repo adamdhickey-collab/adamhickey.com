@@ -126,13 +126,13 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Lead Product Designer · Product strategy · UX · Design systems · Prototyping · AI-assisted build</p>
+  <p class="tagline">Lead Product Designer · Enterprise product strategy · UX · Design systems · AI-supported decision workflows</p>
   <p class="contact"><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Lead product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of those years were at RBA, designing enterprise products and helping teams turn complicated workflows into coherent systems that people can actually use. Most of the last decade went to design systems: structural audits, the tokens and component architecture underneath, and the governance that keeps them alive. More recently I have been building products, prototypes and design-to-code workflows myself, extending the range from product strategy and UX through a working front end. I use AI to scale the system rather than just my own output, and the judgment calls stay human.</p>
+  <p>Lead product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of them were at RBA, where most of the last decade went to design systems: structural audits, the token and component architecture underneath, and the governance that keeps them alive. More recently I define, design and build products and prototypes myself, from product strategy through to a working front end. My current focus is the design problem inside AI-supported software: what an operator has to understand about a recommendation before acting on it, how confidence and constraints get expressed, and what the interface owes someone on the occasions the system is wrong.</p>
 </section>
 
 <section>
@@ -140,6 +140,7 @@ const html = String.raw`<!doctype html>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
     <li>Product definition, design, systems and prototyping for complicated software, from ambiguity through to something a team can react to.</li>
+    <li>Dispatch cockpit — a working prototype of AI-assisted load assignment: the factors behind a recommendation rather than a score, confidence expressed operationally, a one-click override that teaches, and the manual path left fully intact.</li>
     <li>Lucy Learns — an offline-first training app defined, designed and built end to end, with AI coding tools driven from a terminal rather than a chat window.</li>
     <li>Door County Found — a regional travel guide where every place is structured data rather than a blog post. Defined, designed and built end to end, including the editing workflow.</li>
   </ul>
@@ -158,18 +159,18 @@ const html = String.raw`<!doctype html>
     <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut by more than half.</li>
     <li>Sprout, a design system for Cargill: tokens in the code, mirrored as Figma variables under a written sync contract, and packaged as a Claude Code skill.</li>
     <li>Cutting operational overhead 80% with a USDA grant-management portal (research, workflows, accessibility).</li>
-    <li>Orchestrating real-time logistics for a 450+ truck fleet (cockpit UI, fleet visibility, dispatcher workflows).</li>
+    <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher who is short on attention rather than short on data.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>Product Strategy</span><span>Product Definition</span><span>Complex Workflows</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Design Systems, Tokens &amp; Governance</span><span>Accessibility</span><span>Rapid Prototyping</span><span>Design-to-Code Workflows</span><span>AI-Assisted Product Design</span></p>
+  <p class="inline"><span>Product Strategy</span><span>Product Definition</span><span>Complex Workflows</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Design Systems, Tokens &amp; Governance</span><span>Accessibility</span><span>Rapid Prototyping</span><span>Design-to-Code Workflows</span><span>Data-Dense &amp; Decision-Support Interfaces</span><span>AI-Supported Decision Workflows</span><span>Explainability &amp; Appropriate Trust</span></p>
 </section>
 
 <section>
   <h2>Design tools &amp; platforms</h2>
-  <p class="inline"><span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Claude &amp; Claude Code (skills, plugins, MCP)</span><span>ChatGPT &amp; Gemini</span><span>CSS custom properties (tokens)</span><span>HTML/CSS/JavaScript</span><span>Astro</span><span>Playwright</span><span>Git/GitHub</span><span>Adobe Creative Suite</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
+  <p class="inline"><span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Claude &amp; Claude Code (skills, plugins, MCP)</span><span>ChatGPT &amp; Gemini</span><span>CSS custom properties (tokens)</span><span>HTML/CSS/JavaScript</span><span>Playwright</span><span>Git/GitHub</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
 </section>
 
 <section>
@@ -180,15 +181,10 @@ const html = String.raw`<!doctype html>
 <section class="prior">
   <h2>Prior professional experience</h2>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
-  <ul>
-    <li>Designed and shipped two native iOS apps and an iPad app, including a centennial app for Dorsey &amp; Whitney.</li>
-    <li>Built the “Build Your Boat” configurator for Lund Boats and a custom store-locator integration for Fulton Beer.</li>
-    <li>Built front-end experiences in HTML, CSS, and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</li>
-  </ul>
+  <p>Shipped two native iOS apps and an iPad app, plus configurator and store-locator builds for Lund Boats and Fulton Beer. Built front-end experiences in HTML, CSS and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
   <p>Designed and built front-end websites in HTML, CSS, and Flash with project managers, creative leads, writers, and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Graphic Designer</span><span class="dates">Jan 2005 – Jan 2006</span></div>
-  <p>In-house creative for University of Minnesota and Twin Cities clients; led a small team producing Flash games and digital assets.</p>
 </section>
 </body>
 </html>`;
