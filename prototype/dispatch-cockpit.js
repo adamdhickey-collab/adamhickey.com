@@ -1049,6 +1049,26 @@
     }
   }
 
+  /* PUT THE KEYBOARD SOMEWHERE WITHOUT THROWING THE PAGE AT IT.
+
+     Every re-render here replaces the node the reader was standing on, so
+     focus has to be placed again, and a bare `el.focus()` is what made this
+     cockpit lurch. focus() scrolls its target into view by whatever rule the
+     browser likes, `html` carries `scroll-behavior: smooth`, and the cockpit
+     is 2029px tall inside a 900px viewport -- so a press could animate the
+     page several hundred pixels for an element that was already on screen.
+
+     preventScroll and then `block: 'nearest'` is the whole fix: nothing moves
+     if the target is already in view, and if it is not, the page travels the
+     shortest distance that puts it there rather than centring it. The
+     stylesheet's scroll-margin on these controls is what keeps the landing
+     clear of the sticky situation strip. */
+  function keep(el) {
+    if (!el) return;
+    el.focus({ preventScroll: true });
+    el.scrollIntoView({ block: 'nearest' });
+  }
+
   /* Re-render everything under the tabs, keeping focus where it was.
 
      The checklist is rendered here rather than only on a tab change, because
@@ -1075,10 +1095,7 @@
       renderStatus(msg, tone);
     }
     lastDone = done;
-    if (focusKey) {
-      const again = root.querySelector(`[data-focus="${focusKey}"]`);
-      if (again) again.focus();
-    }
+    if (focusKey) keep(root.querySelector(`[data-focus="${focusKey}"]`));
   }
 
   /* ----- actions --------------------------------------------------------- */
@@ -1124,7 +1141,14 @@
     if (scenario.then) scenario.then(api);
   }
 
-  function assign(id) {
+  /* `staged` is an assignment the PAGE made, not the reader: the override
+     situation opens with the dispatcher's choice already taken, so the reader
+     arrives at the consequence rather than having to produce it. It reaches
+     the same code because it is the same event -- but the reader did not
+     press anything, and moving their keyboard and their scroll position for
+     something they did not do is how pressing a tab came to throw the page
+     850px. A staged assignment renders; it does not reach for the reader. */
+  function assign(id, staged = false) {
     const t = truck(id);
     if (!t || t.blocked) {
       state.did.add(`refused:${id}`);
@@ -1137,7 +1161,11 @@
     const isOverride = state.tie ? t.rank > 2 : id !== first.id;
     state.why = isOverride ? { truck: id, rank: t.rank } : null;
     const line = `${DATA.load.id} assigned to ${id}, ${t.driver}.` +
-      (isOverride ? ` That is the truck ranked ${ordinal(t.rank)}, so there is an optional question about why. It is open, and focus has moved to it.` : '');
+      /* The second clause is a promise about the keyboard, so it is only true
+         of an assignment the reader made. A staged one says what happened and
+         stops -- and does not replace it with a sentence about where to look,
+         which is the layout problem the block below was written to end. */
+      (isOverride ? ` That is the truck ranked ${ordinal(t.rank)}, so there is an optional question about why.${staged ? '' : ' It is open, and focus has moved to it.'}` : '');
     render(line);
     /* THE QUESTION USED TO OPEN WHERE THE READER WAS NOT. Assign sits at the
        end of every fleet row, and the prompt renders above the table -- so
@@ -1148,11 +1176,20 @@
 
        Focus goes to the prompt instead, which is also what says the override
        went through for anyone not watching the status line. The row keeps its
-       Undo, so the way back is still where the choice was made. */
-    if (isOverride) {
-      const head = root.querySelector('#ck-why-head');
-      if (head) { head.focus({ preventScroll: true }); head.scrollIntoView({ block: 'center' }); }
-    }
+       Undo, so the way back is still where the choice was made.
+
+       IT USED TO CENTRE THE PROMPT, WHICH IS A DIFFERENT PROMISE. `block:
+       'center'` does not ask whether the prompt needs bringing in; it puts it
+       halfway down the viewport whatever the case. Overriding from a row with
+       the data table at the top of a 1440x900 screen scrolled 299px to move a
+       prompt that had rendered at y=180 and was already entirely readable.
+
+       `keep` asks first. Measured from that same state it now moves 54px --
+       the distance that clears the sticky strip, and no more. The case this
+       block was written for, an override from the bottom row, still travels:
+       850px before, 605px now, landing the prompt at y=234. What went is the
+       travel that was never needed, not the rescue. */
+    if (isOverride && !staged) keep(root.querySelector('#ck-why-head'));
   }
 
   function undo() {
@@ -1169,25 +1206,40 @@
     state.answered = reason;
     state.did.add('answered');
     render(`Reason saved with ${state.why.truck}: “${reason}”`);
-    const done = root.querySelector('[data-focus="why:done"]');
-    if (done) done.focus();
+    keep(root.querySelector('[data-focus="why:done"]'));
   }
 
   function skip() {
     state.did.add('skipped');
     state.why = null;
     render('Skipped. The assignment stands and no reason was submitted.', 'note');
-    const undo = root.querySelector('[data-undo]');
-    if (undo) undo.focus();
+    keep(root.querySelector('[data-undo]'));
   }
 
-  const api = { assign, ranked: () => state.ranked };
+  /* Everything a situation's own `then` does is staged by definition: it is
+     the page setting a scene, and the reader has pressed a tab at most. */
+  const api = { assign: (id) => assign(id, true), ranked: () => state.ranked };
 
   /* ----- events ---------------------------------------------------------- */
 
   root.addEventListener('click', (e) => {
+    /* THE TAB THAT IS FOCUSED IS NOT THE TAB THAT WAS PRESSED. load() runs
+       renderTabs(), which rewrites the strip's innerHTML -- so by the time
+       this handler reached `tab.focus()`, `tab` was a detached node and the
+       call did nothing at all. Focus fell to <body>: the reader clicked a
+       situation and, without being told, lost their place in a 13,000px
+       document. Tab from there restarts at the skip link, and the arrow keys
+       below go dead, because their handler needs a [role="tab"] under focus.
+
+       Re-query after the render, which is exactly what the keydown handler at
+       the bottom of this file has always done. The two paths now agree. */
     const tab = e.target.closest('[data-scenario]');
-    if (tab) { load(DATA.scenarios.find((s) => s.id === tab.dataset.scenario)); tab.focus(); return; }
+    if (tab) {
+      const id = tab.dataset.scenario;
+      load(DATA.scenarios.find((s) => s.id === id));
+      keep(root.querySelector(`[data-scenario="${id}"]`));
+      return;
+    }
 
     /* Anything the reader does clears the "moved" marks. Not a timer: a mark
        that disappears by itself disappears while it is being read. */
@@ -1253,8 +1305,9 @@
     else if (e.key === 'End') next = tabs[tabs.length - 1];
     if (!next) return;
     e.preventDefault();
-    load(DATA.scenarios.find((s) => s.id === next.dataset.scenario));
-    root.querySelector(`[data-scenario="${next.dataset.scenario}"]`).focus();
+    const id = next.dataset.scenario;
+    load(DATA.scenarios.find((s) => s.id === id));
+    keep(root.querySelector(`[data-scenario="${id}"]`));
   });
 
   renderLoad();
