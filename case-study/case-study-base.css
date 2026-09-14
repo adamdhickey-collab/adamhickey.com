@@ -322,8 +322,8 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 /* ---------- Body paragraph readability ----------
    The captured markup lets prose span the full content container, about
    1200px at 1440, which is far wider than a comfortable line. Cap it at
-   --measure, the 52ch SPACING.md sets, which is about 551px in this 16px
-   body and 70 characters of it. A case study caps only its prose: the
+   --measure, the 52ch SPACING.md sets, which is 70 characters of the
+   size the paragraph takes. A case study caps only its prose: the
    figures, step cards and the impact table itself keep the whole column.
 
    Every prose signature the six pages use is listed. The step paragraphs
@@ -338,15 +338,36 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
    them in the file and never in the browser. The centered intros keep
    their center by also getting an auto inline margin, which is what the
    mx-auto on two of them did. */
+
+/* The size is the reading column's too. body p above is --text-base on
+   --leading-body because it is also every card line, caption and fact on
+   these pages; the prose signatures listed here are the paragraphs a
+   reader sits with, and they take --text-lg on --leading-reading, the same
+   paragraph .case-section p gives the build write-ups and .writing-measure
+   gives the essays. TYPOGRAPHY.md §2 names --text-lg as reading prose and
+   --leading-reading as the long-form column, and these six were the one
+   family of long-form pages still at the 16px default. The measure is in
+   ch, so it grows with the size: about 619px here, the same 52 characters
+   as the build write-ups. The impact table's outcome cells are the one
+   listed shape that is not a paragraph -- divs in a table, next to the
+   table's own figures -- so they keep the base size and take only the
+   measure.
+
+   The mb-4 signature is the two essay pages' paragraph, and it is also the
+   four step labels on the Innovators Studio page, twelve-pixel semibold
+   words in white cards that carry mb-4 with their size utility. A
+   two-class selector here beats the one-class utility, so without the
+   exclusion those labels took 18px; the measure alone never showed it,
+   because a nine-character word never reaches the cap. */
 .min-h-screen p.text-charcoal.leading-relaxed,
 .min-h-screen p.mb-10.text-charcoal,
 .min-h-screen p.mb-2.pb-8.text-charcoal,
-.min-h-screen p.mb-4,
-.min-h-screen .bg-warm .grid > .text-charcoal:last-child,
-.min-h-screen .bg-accent > p.text-white {
-  max-width: var(--measure);
-}
+.min-h-screen p.mb-4:not(.text-xs),
+.min-h-screen .bg-accent > p.text-white,
 .min-h-screen p.text-center.text-charcoal {
   max-width: var(--measure);
-  margin-inline: auto;
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
 }
+.min-h-screen .bg-warm .grid > .text-charcoal:last-child { max-width: var(--measure); }
+.min-h-screen p.text-center.text-charcoal { margin-inline: auto; }
