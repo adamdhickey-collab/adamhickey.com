@@ -2568,10 +2568,39 @@
   transform: translateY(-50%);
 }
 
-/* ---------- Compact ---------- */
-.ck .ck-fleet.is-compact .ck-table th,
-.ck .ck-fleet.is-compact .ck-table td { padding: var(--space-2xs) var(--space-xs); }
-.ck .ck-fleet.is-compact .ck-row-more { min-height: 0; padding: var(--space-2xs) var(--space-md) var(--space-2xs) var(--space-2xs); }
+/* ---------- Compact ----------
+
+   PADDING-BLOCK, NOT THE SHORTHAND, AND NOT ON thead.
+
+   This was `padding: var(--space-2xs) var(--space-xs)` on every th and td in
+   the fleet, and it did three things where it meant to do one. The horizontal
+   half was already what the base rule sets -- both are --space-xs -- so the
+   only real change was ever the vertical; the rest was collateral.
+
+   It reset `thead th { padding: 0 }`. The head cell is deliberately empty of
+   padding so the .ck-th inside can carry the same 12-and-8 a body cell has,
+   which is the comment at that rule. Adding 8px to the cell put it on top of
+   the 8px already on the button, so in compact every header label sat 8px
+   further into its column than the values under it -- right on the left-hand
+   columns, left on the right-aligned ones, and 16px on Rank, which has the
+   first-child inset too. It also made the head TALLER in compact than in
+   comfortable, 4+12 a side against 12.
+
+   And it flattened the first and last columns' outer inset, because
+   `.ck .ck-fleet.is-compact .ck-table th` outranks `.ck-table tbody
+   th:first-child`, so the table stopped starting on the screen's own margin.
+
+   padding-block changes the one thing compact is about and leaves the
+   horizontal rhythm, the head's zero and the outer insets alone. */
+.ck .ck-fleet.is-compact .ck-table tbody th,
+.ck .ck-fleet.is-compact .ck-table tbody td { padding-block: var(--space-2xs); }
+.ck .ck-fleet.is-compact .ck-table thead .ck-th { padding-block: var(--space-2xs); }
+/* The truck id is a button filling a cell with no padding of its own, so this
+   padding IS the column's left inset and has to stay on --space-xs like every
+   other cell's. At --space-2xs the id sat 4px left of the word "Truck" above
+   it -- the one column in compact still out of line once the head stopped
+   being padded twice. Only the vertical compresses. */
+.ck .ck-fleet.is-compact .ck-row-more { min-height: 0; padding: var(--space-2xs) var(--space-md) var(--space-2xs) var(--space-xs); }
 .ck .ck-fleet.is-compact .ck-table .ck-cell-note { display: none; }
 .ck .ck-fleet.is-compact .ck-table .ck-rank-tag { font-size: var(--text-2xs); }
 
