@@ -1037,22 +1037,36 @@
   /* The density switch. A dispatch floor runs denser than a portfolio page,
      and a demo that only ever shows the comfortable end is quietly arguing
      for a screen nobody would ship. Two buttons, aria-pressed, and both ends
-     keep every target over the 24px of 2.5.8 Target Size (Minimum): measured
-     at 1440, the smallest control on either setting is the density pair
-     itself at 25px, and compact's row buttons are 30px.
+     keep every target over the 24px of 2.5.8 Target Size (Minimum), which
+     `node scripts/targets.mjs --strict` holds the whole site to.
 
-     THIS USED TO CLAIM COMFORTABLE CARRIED "the 44px the rest of this site
-     holds itself to", AND THAT WAS WRONG IN BOTH HALVES. Measured at 1440, 18
-     of the cockpit's 34 controls are under 44 at comfortable: the tabs and the
-     primary Assign at 38, the sortable column heads at 41 -- the tallest thing
-     here -- and the row Assign buttons at 30. Nothing reaches 44. Nor is it a
-     bar the site keeps elsewhere: the nav links on this very page are 27px,
-     and 7 of the 16 controls outside the cockpit clear 44.
+     MEASURE THE TARGET, NOT THE TEXT BOX. This comment has now been wrong
+     twice in opposite directions, and both times because of the same thing.
+     It first claimed comfortable "carries the 44px the rest of this site holds
+     itself to". That was corrected to say nothing here reaches 44 and neither
+     does the site -- "the nav links on this very page are 27px" -- and the
+     correction was worse, because 27px is the size of the WORDS. This site
+     puts an absolutely-positioned ::after behind its link patterns to carry
+     the target to 44 without moving the underline, and style.css argues for it
+     at four call sites. A pseudo-element has no rect, so getBoundingClientRect
+     never saw it. Hit-tested with elementFromPoint, .site-nav a is 38x27 of
+     text inside 39x45 of target, and the footer, .work-cta, .product-link and
+     .glance-more all land on 44 or 45 the same way. The original claim about
+     the site was right. The tool used to check it was not.
 
-     44px is 2.5.5 Target Size (Enhanced), which is AAA. The criterion this
-     component is actually held to is the AA one above, and both densities pass
-     it. Said plainly so the next person to read this does not go looking for a
-     44px rule to restore. */
+     What is true of the COCKPIT, hit-tested at 1440: the row Assign buttons
+     reach 44 and the slideshow arrows 45, and the rest fall short -- the
+     situation tabs at 39, the primary Assign at 38, the sortable column heads
+     at 42, this density pair at 26. That is because this component builds its
+     targets out of padding rather than out of that ::after, which is the right
+     trade in a data table of seven trucks and ten columns and the wrong one to
+     describe as meeting a bar it does not meet.
+
+     44px is 2.5.5 Target Size (Enhanced), which is AAA and which the site does
+     not claim: across 28 pages, 933 of 1514 non-inline targets reach it. The
+     criterion this component is held to is the AA one above, and both
+     densities pass it. If you want to move a number in this paragraph, move it
+     with targets.mjs and not with a rect. */
   function renderDensity() {
     const wrap = $('.ck-fleet', root);
     if (!wrap) return;
