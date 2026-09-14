@@ -512,17 +512,23 @@
 }
 
 /* ---------- The study, as a shape ----------
-   Two conditions and what is between them. The second side takes the feature
-   ground and the sage edge, because it is the one with the recommendation on
-   it and the comparison is otherwise two identical cards. */
+   Two conditions, the rail between them, and under them the three scenarios
+   the study runs over and the four things to read: drawn before argued, so
+   the shape of the test is on the page before the questions about it. Each
+   condition, each question and the assumption carry a node -- the
+   homepage's glance circle, tea on white with the sage ring, and a hairline
+   icon that draws itself as the block enters the viewport -- so the section
+   has the hand of the site's other diagrams rather than six borderless
+   white boxes with the same weight of text in each. The second condition
+   keeps the sage edge, because it is the one with the recommendation on it. */
+.ckw-study { margin: var(--space-2xl) 0 var(--space-lg); }
 .ckw-compare {
   display: grid;
   gap: var(--space-md);
-  margin: var(--space-2xl) 0 var(--space-lg);
   align-items: stretch;
 }
 @media (min-width: 48rem) {
-  .ckw-compare { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-xl); }
+  .ckw-compare { grid-template-columns: minmax(0, 1fr) 10rem minmax(0, 1fr); gap: 0; }
 }
 .ckw-compare-side {
   padding: var(--space-lg) var(--space-xl);
@@ -545,16 +551,108 @@
   line-height: var(--leading-tight);
   color: var(--color-charcoal);
 }
+
+/* The rail: a sage line from one condition to the other, with the label on
+   a white pill at its middle. Stacked, the same line runs top to bottom
+   between the two cards. The line is the fill sage, 3.80:1 on tea, the
+   same ink as side B's edge, so the rail reads as reaching the card it
+   ends on. */
 .case-section .ckw-compare-vs {
+  position: relative;
   margin: 0;
+  min-height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ckw-compare-vs::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 0; bottom: 0; width: 1px;
+  background: var(--color-accent-deep);
+  transform-origin: center;
+}
+@media (min-width: 48rem) {
+  .ckw-compare-vs::before { left: 0; right: 0; top: 50%; bottom: auto; width: auto; height: 1px; }
+}
+.ckw-compare-vs span {
+  position: relative; z-index: 1;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-accent-deep);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  white-space: nowrap;
+}
+
+/* The node and its icon, .glance-node's exactly: 42px, tea on white, the
+   sage ring that holds the circle's edge where tea on white is 1.19:1 on its
+   own, and a 21px icon in the fill sage with every path at pathLength=1 so
+   one dasharray draws them all. */
+.ckw-node {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--color-tea-light);
+  border: 1px solid rgba(101, 125, 96, 0.22);
+  margin: 0 0 var(--space-md);
+}
+.ckw-icon { display: block; width: 21px; height: 21px; color: var(--color-accent-deep); }
+.ckw-icon path,
+.ckw-icon circle {
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 0;
+}
+
+/* The two rows under the comparison. Chips rather than a sentence, because
+   "three scenarios" and "four readings" are counts a reader should be able
+   to see, and the sentence that carried them read as one more paragraph in
+   a section that is mostly paragraphs. The label is the facts strip's
+   kicker; the chips are white on tea with the node's ring for an edge. */
+.ckw-study-facts {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0 0;
+}
+.ckw-study-facts > div {
+  display: grid;
+  gap: var(--space-xs) var(--space-xl);
+  align-items: baseline;
+}
+@media (min-width: 48rem) {
+  .ckw-study-facts > div { grid-template-columns: 13rem minmax(0, 1fr); }
+}
+.ckw-study-facts dt {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ckw-study-facts dd { margin: 0; }
+.ckw-chips {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: var(--space-xs);
+}
+.ckw-chips li {
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid rgba(101, 125, 96, 0.22);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-  text-align: center;
+  color: var(--color-charcoal);
 }
 .case-section .ckw-compare-note {
   margin: 0;
@@ -565,7 +663,9 @@
 
 /* ---------- Three questions, and what each would change ----------
    A card each, rather than three bullets, so the section reads as a plan and
-   not as a list of things that might go wrong. */
+   not as a list of things that might go wrong. The node on each is the
+   question's object: the target for quality, the eye for whether the
+   exceptions are read, the scale for the tie. */
 .ckw-questions {
   list-style: none;
   margin: var(--space-2xl) 0 0;
@@ -610,14 +710,29 @@
    resting.mjs and states.mjs read ink and not the boundary between two
    grounds. The edge is the caution ink at the 1px the question cards use, so
    the two weights match and only the color differs; the ink is 5.43:1 on tea
-   and 5.23:1 on the fill, both well past the 3:1 a boundary owes. */
+   and 5.23:1 on the fill, both well past the 3:1 a boundary owes.
+
+   It spans the container now, the width the three cards above it share,
+   with the node and the label in a column beside the paragraph: at two
+   thirds of the width it was the one block in the section aligned to
+   nothing, and the ragged right edge was most of what made the section
+   read unresolved. The node takes the caution ink on white, 6.45:1. */
 .ckw-callout {
-  margin: var(--space-2xl) 0 var(--space-2xl);
+  margin: var(--space-2xl) 0;
   padding: var(--space-lg) var(--space-xl);
   border: 1px solid var(--color-caution-text);
   border-radius: var(--radius-xl);
   background: var(--color-caution-light);
+  display: grid;
+  gap: var(--space-md) var(--space-2xl);
+  align-items: start;
 }
+@media (min-width: 48rem) {
+  .ckw-callout { grid-template-columns: 16rem minmax(0, 1fr); padding: var(--space-xl) var(--space-2xl); }
+}
+.ckw-callout-head { display: flex; align-items: center; gap: var(--space-md); }
+.ckw-callout .ckw-node { margin: 0; flex: none; background: var(--color-white); border-color: var(--color-caution-text); }
+.ckw-callout .ckw-icon { color: var(--color-caution-text); }
 /* Three classes, because `.case-section .ckw-callout p` is two classes and an
    element and therefore outranked the two-class selector this used to be. It
    won everything: the heading rendered at 16px charcoal on leading-body with
@@ -626,7 +741,7 @@
    page actually shows -- the question cards' h3 treatment exactly, which is
    the spacing the card was asked to match. */
 .case-section .ckw-callout .ckw-callout-h {
-  margin: 0 0 var(--space-xs);
+  margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
@@ -640,6 +755,40 @@
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
+}
+
+/* ---------- Entering ----------
+   Each block rises in as it reaches the viewport and its icon draws, the
+   engagement pages' pattern: the hidden initial state is gated behind
+   .ckw-js, set by the inline script at the end of the page, so without
+   JavaScript the section renders finished. The rail scales in from its
+   middle, the way the glance rail does. Siblings stagger on --i. */
+.ckw-js .ckw-reveal { opacity: 0; transform: translateY(var(--motion-rise)); }
+.ckw-js .ckw-reveal .ckw-icon path,
+.ckw-js .ckw-reveal .ckw-icon circle { stroke-dashoffset: 1; }
+.ckw-js .ckw-compare-vs::before { transform: scaleY(0); }
+@media (min-width: 48rem) { .ckw-js .ckw-compare-vs::before { transform: scaleX(0); } }
+.ckw-js .ckw-reveal.is-inview {
+  opacity: 1; transform: none;
+  transition: opacity var(--motion-enter) var(--ease-enter),  transform var(--motion-enter) var(--ease-enter);
+  transition-delay: calc(var(--i, 0) * var(--motion-stagger));
+}
+.ckw-js .ckw-reveal.is-inview .ckw-icon path,
+.ckw-js .ckw-reveal.is-inview .ckw-icon circle {
+  animation: ckw-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) + 150ms);
+}
+.ckw-js .ckw-compare-vs.is-inview::before {
+  transform: none;
+  transition: transform var(--motion-enter) var(--ease-enter);
+  transition-delay: calc(var(--i, 0) * var(--motion-stagger) + 150ms);
+}
+@keyframes ckw-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .ckw-js .ckw-reveal { opacity: 1; transform: none; transition: none; }
+  .ckw-js .ckw-reveal .ckw-icon path,
+  .ckw-js .ckw-reveal .ckw-icon circle { stroke-dashoffset: 0; animation: none; }
+  .ckw-js .ckw-compare-vs::before { transform: none; transition: none; }
 }
 
 /* ---------- The hero, into the cockpit ----------
