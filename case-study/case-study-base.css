@@ -320,14 +320,33 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 }
 
 /* ---------- Body paragraph readability ----------
-   The captured markup lets prose paragraphs span the full content
-   container (~1200px), which is far wider than comfortable reading
-   length. Cap to ~70 characters by giving the common prose class
-   combinations a max-width. Card content + centered diagram captions
-   use different class signatures and stay untouched. */
+   The captured markup lets prose span the full content container, about
+   1200px at 1440, which is far wider than a comfortable line. Cap it at
+   --measure, the 52ch SPACING.md sets, which is about 551px in this 16px
+   body and 70 characters of it. A case study caps only its prose: the
+   figures, step cards and the impact table itself keep the whole column.
+
+   Every prose signature the six pages use is listed. The step paragraphs
+   were `mb-2 pb-[30px]` when the first version of this rule was written
+   and have been `mb-2 pb-8` since #20, so the selector matched nothing
+   and the five approach paragraphs on the dispatch page ran
+   1216px. The impact table's outcome cells and its pull line under it are
+   divs and a white paragraph on the accent ground, which the earlier
+   rule never named. The two essay pages' paragraphs are `mb-4` alone in
+   the markup, but case-motion.js appends `cm cm-rise-sm` before first
+   paint, so the exact [class="mb-4"] test the earlier rule used matched
+   them in the file and never in the browser. The centered intros keep
+   their center by also getting an auto inline margin, which is what the
+   mx-auto on two of them did. */
 .min-h-screen p.text-charcoal.leading-relaxed,
 .min-h-screen p.mb-10.text-charcoal,
-.min-h-screen p.mb-2.pb-\[30px\].text-charcoal,
-.min-h-screen p[class="mb-4"] {
-  max-width: 42rem;
+.min-h-screen p.mb-2.pb-8.text-charcoal,
+.min-h-screen p.mb-4,
+.min-h-screen .bg-warm .grid > .text-charcoal:last-child,
+.min-h-screen .bg-accent > p.text-white {
+  max-width: var(--measure);
+}
+.min-h-screen p.text-center.text-charcoal {
+  max-width: var(--measure);
+  margin-inline: auto;
 }
