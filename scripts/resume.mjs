@@ -9,6 +9,24 @@
  *   node scripts/resume.mjs                 # writes ../Adam Hickey Resume.pdf
  *   node scripts/resume.mjs --out x.pdf     # writes somewhere else
  *   node scripts/resume.mjs --png x.png     # a full-page screenshot, for eyeballing
+ *   node scripts/resume.mjs --variant P     # renders a tailored copy from P
+ *
+ * THE DEFAULT IS THE ONE THAT SHIPS. The PDF at the repository root is linked
+ * twice from index.html and is what an inbound reader downloads; it is general
+ * on purpose and is never tailored to a posting.
+ *
+ * A VARIANT is a small JSON file naming a target and a list of {from, to}
+ * edits applied to the markup below. Each `from` must match exactly once or
+ * the render refuses -- a tailored résumé that silently edited the wrong
+ * sentence is worse than one that did not render. The variants live in the
+ * private practice-hq repository, in resumes/, because a file naming twelve
+ * companies has no business in a tree that deploys to a public URL. So does
+ * the output: a tailored PDF written into this repository's root would be
+ * published at adamhickey.com, which is why the script refuses to put one
+ * there.
+ *
+ * The one-page contract applies to variants too, and the base already renders
+ * at 1056px of 1056. A variant that adds a line has to take one back.
  *
  * Deliberately a .mjs holding a template string rather than a .html file:
  * every check in this repository enumerates *.html under the root as a page
@@ -42,6 +60,8 @@ const outFlag = argv.indexOf('--out');
 const out = outFlag >= 0 ? path.resolve(argv[outFlag + 1]) : path.join(here, '..', 'Adam Hickey Resume.pdf');
 const pngFlag = argv.indexOf('--png');
 const png = pngFlag >= 0 ? path.resolve(argv[pngFlag + 1]) : null;
+const varFlag = argv.indexOf('--variant');
+const variantPath = varFlag >= 0 ? path.resolve(argv[varFlag + 1]) : null;
 
 const html = String.raw`<!doctype html>
 <html lang="en">
@@ -189,11 +209,49 @@ const html = String.raw`<!doctype html>
 </body>
 </html>`;
 
+/* Variants are applied to the authored markup, not to a rendered file, so a
+   tailored copy is the same document with a few sentences swapped rather than
+   a second résumé drifting away from the first. */
+let doc = html;
+let variant = null;
+if (variantPath) {
+  variant = JSON.parse(fs.readFileSync(variantPath, 'utf8'));
+  const edits = variant.edits || [];
+  if (!edits.length) {
+    console.error(`✗ variant ${variant.name || variantPath} has no edits`);
+    process.exit(1);
+  }
+  edits.forEach((e, i) => {
+    const hits = doc.split(e.from).length - 1;
+    if (hits !== 1) {
+      console.error(`✗ variant ${variant.name}: edit ${i + 1} of ${edits.length} matches ${hits} times, expected 1`);
+      console.error(`  from: ${String(e.from).slice(0, 100)}`);
+      console.error('  The base résumé has changed under this variant. Fix the variant, not the base.');
+      process.exit(1);
+    }
+    doc = doc.replace(e.from, e.to);
+  });
+}
+
+/* A tailored copy must never land where Pages would upload it. */
+const root = path.resolve(path.join(here, '..'));
+const outDir = variant
+  ? (outFlag >= 0 ? path.dirname(out) : path.join(path.dirname(variantPath), 'out'))
+  : null;
+if (variant && path.resolve(outDir) === root) {
+  console.error('✗ a tailored résumé cannot be written to the repository root — Pages would publish it');
+  process.exit(1);
+}
+const target = variant
+  ? (outFlag >= 0 ? out : path.join(outDir, `Adam Hickey Resume — ${variant.name}.pdf`))
+  : out;
+if (variant && outFlag < 0) fs.mkdirSync(outDir, { recursive: true });
+
 const chromium = await loadChromium();
 const browser = await chromium.launch({ executablePath: findChrome() });
 try {
   const page = await browser.newPage({ viewport: { width: 816, height: 1056 } });
-  await page.setContent(html, { waitUntil: 'networkidle' });
+  await page.setContent(doc, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   /* One page is the contract. Measure before printing so the failure names
      the overflow in points rather than handing back a two-page file. */
@@ -204,8 +262,9 @@ try {
     console.error(`✗ résumé runs ${height}px tall against a ${limit}px page; trim before rendering`);
     process.exit(1);
   }
-  await page.pdf({ path: out, format: 'Letter', printBackground: true, preferCSSPageSize: true });
-  console.log(`  wrote ${path.relative(process.cwd(), out)}  (${fs.statSync(out).size} bytes, ${height}px of ${limit})`);
+  await page.pdf({ path: target, format: 'Letter', printBackground: true, preferCSSPageSize: true });
+  if (variant) console.log(`  variant ${variant.name}${variant.target ? ` → ${variant.target}` : ''}, ${(variant.edits || []).length} edits`);
+  console.log(`  wrote ${path.relative(process.cwd(), target)}  (${fs.statSync(target).size} bytes, ${height}px of ${limit})`);
 } finally {
   await browser.close();
 }
