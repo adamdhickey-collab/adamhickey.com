@@ -308,12 +308,12 @@ node scripts/curves.mjs    prototype/dispatch-cockpit.html
 ```
 
 The shared-stylesheet row is the one that genuinely needs the unscoped run,
-and it is the reason this is a table rather than a rule saying "scope it."
-One deleted `a:hover` in `style.css` costs nine state rules, one on each page
-that loads it, and a page scoped out of the run is a page whose loss nothing
-notices. The tripwire counts below are the only instrument that catches a
-whole page falling out of measurement, and they only read true when every page
-was measured.
+and it is the reason this is a table rather than a rule saying "scope it." One
+deleted `a:hover` in `style.css` costs twenty-two state rules, one on each
+page that loads it, and a page scoped out of the run is a page whose loss
+nothing notices. The tripwire counts below are the only instrument that
+catches a whole page falling out of measurement, and they only read true when
+every page was measured.
 
 The four browser checks take `--root <path>` and otherwise measure the current
 directory, and **every one of them prints the path, page count and commit it
@@ -367,37 +367,38 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-14 the tree measures 5784 resting colors, 1841 state
-rules, 23838 type sizes and 14246 elements checked for a partial border on a
+unmeasured. At 2026-09-14 the tree measures 5771 resting colors, 1797 state
+rules, 23786 type sizes and 14227 elements checked for a partial border on a
 curve, across 28 pages (the twenty-seven of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
 121 token names against 189 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
-the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
-elements 9673 -> 14246, each exactly the cockpit's own increase. **The state
-rule count did not move, on purpose** -- rules come out of the stylesheet and
-are the same in every state, so `states.mjs` counts them once per page. A
-reachable state that inflated this number would be corrupting the one
-instrument the section below asks you to trust. **The four
-browser numbers are the only ones here that nothing verifies.** They are
-maintained by hand and will drift. Treat them as a tripwire rather than a
-record: a run that comes back materially smaller means something stopped
-being measured, and that is worth more than the digits being exactly right.
-Read the page count first, then the measurements; a whole page leaving moves
-every number at once.
+the jump is one page: as the counts stood that day, resting 4024 -> 5784, type
+sizes 16886 -> 23838, curve elements 9673 -> 14246, each exactly the cockpit's
+own increase. Those right-hand numbers are that measurement, not the ones
+above; the four have moved since, which is the drift this section warns about.
+**The state rule count did not move, on purpose** -- rules come out of the
+stylesheet and are the same in every state, so `states.mjs` counts them once
+per page. A reachable state that inflated this number would be corrupting the
+one instrument the section below asks you to trust. **The four browser numbers
+are the only ones here that nothing verifies.** They are maintained by hand
+and will drift. Treat them as a tripwire rather than a record: a run that
+comes back materially smaller means something stopped being measured, and that
+is worth more than the digits being exactly right. Read the page count first,
+then the measurements; a whole page leaving moves every number at once.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
-`a:hover` in `style.css` costs nine, the nine pages that load it. `resting.mjs`
-counts text nodes and skips one under two characters. `typescale.mjs` measures
-at four widths, so one new text node is four, and it skips `aria-hidden`.
-`curves.mjs` counts elements, and a pseudo-element is not an element. A ground
-is a variant, not a state: `states.mjs` reads any `.is-*` class as a
-script-applied state, which is why the section grounds are `ground-*`. And a
-state added to `reachable.mjs` multiplies the cockpit's share of three of these
-by roughly one whole page each, because a reachable state is measured on its
-own fresh load.
+`a:hover` in `style.css` costs twenty-two, the twenty-two pages of the
+twenty-eight that load it. `resting.mjs` counts text nodes and skips one under
+two characters. `typescale.mjs` measures at four widths, so one new text node
+is four, and it skips `aria-hidden`. `curves.mjs` counts elements, and a
+pseudo-element is not an element. A ground is a variant, not a state:
+`states.mjs` reads any `.is-*` class as a script-applied state, which is why
+the section grounds are `ground-*`. And a state added to `reachable.mjs`
+multiplies the cockpit's share of three of these by roughly one whole page
+each, because a reachable state is measured on its own fresh load.
 
 **Compare a count against the commit your branch was cut from, not against a
 run of `main` from earlier in the day**, and measure last, after the final
