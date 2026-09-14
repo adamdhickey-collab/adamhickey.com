@@ -324,10 +324,33 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
    container (~1200px), which is far wider than comfortable reading
    length. Cap to ~70 characters by giving the common prose class
    combinations a max-width. Card content + centered diagram captions
-   use different class signatures and stay untouched. */
+   use different class signatures and stay untouched.
+
+   This rule is a list of class signatures, which means it fails the way
+   a list fails: silently, one page at a time, when the markup it names
+   moves. Two of the four had stopped matching anything.
+
+   `p.mb-2.pb-[30px].text-charcoal` was the numbered steps on the dispatch
+   case study. The arbitrary `pb-[30px]` became the `pb-8` spacing token,
+   here and in the Tailwind build, and nothing matched `pb-[30px]` after
+   that -- not one element in the tree, and not one rule in
+   case-tailwind.css. Five paragraphs went back to 1216px, about 150
+   characters a line, beside Overview paragraphs on the same page still
+   capped at 672.
+
+   `p[class="mb-4"]` was the two lead paragraphs on the consulting and
+   hybrid-designer pages, and it is an exact attribute match, so it held
+   only until case-motion.js appended `cm cm-rise-sm` to every paragraph
+   on load. It matched during the first frame and never again.
+
+   Both are class selectors now, matching the classes the markup carries
+   rather than the whole attribute. The wide paragraphs that remain are
+   wide on purpose and are the same on every page in the family: the
+   centered section lead, which says `max-w-none` in the markup, and the
+   white paragraph in the accent box, which is card content. */
 .min-h-screen p.text-charcoal.leading-relaxed,
 .min-h-screen p.mb-10.text-charcoal,
-.min-h-screen p.mb-2.pb-\[30px\].text-charcoal,
-.min-h-screen p[class="mb-4"] {
+.min-h-screen p.mb-2.pb-8.text-charcoal,
+.min-h-screen p.mb-4 {
   max-width: 42rem;
 }
