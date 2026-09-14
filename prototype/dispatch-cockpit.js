@@ -183,7 +183,7 @@
       'The recommended truck is needed for another load',
       'The hours or the location shown are wrong',
     ],
-    whatHappens: 'Your reason is stored with the assignment, where anyone opening the load can read it. Nothing about the ranking changes on its own. If the same reason comes up three times in a month for one customer, that customer’s factors go to a person for review. Skipping submits no reason and does not change the assignment.',
+    whatHappens: 'Saved with the load, for anyone to read. The ranking does not change. The same reason three times in a month for one customer goes to a person for review. Skipping changes nothing.',
   };
 
   /* =========================================================================
