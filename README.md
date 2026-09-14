@@ -341,6 +341,30 @@ the two Tailwind steps this repository had first, ten steps in all:
 - **No partial border on a curved surface** -- `curves.mjs`.
 - **Every type size is on the scale** -- `typescale.mjs`.
 
+"Every reachable state" was an overclaim for one page until the four browser
+checks learned to press things. They load a page, wait for it to settle and
+measure what is there, which is the whole of twenty-seven of the twenty-eight
+pages -- and about a sixth of `prototype/dispatch-cockpit.html`, which renders
+its comparison, its override question, its refused button and its opened rows
+from JavaScript in response to a press. Twelve such states existed in no DOM
+any check ever saw, so every `querySelector` for them came back empty and every
+check said "✓" in good conscience.
+
+`scripts/lib/reachable.mjs` is the registry that fixes it: per page, a list of
+named states and the selectors to click, in order, to get to each from a fresh
+load. All four checks import it and measure each state on its own reload. It is
+curated by hand and lives outside the page on purpose -- a `window.__states` the
+page exported would ship test scaffolding to readers and let a change to the
+page quietly edit the list of what gets measured. `reach()` throws on a selector
+that matches nothing, so a state going stale fails the run rather than silently
+covering less.
+
+It found a real one on its first pass. `table` is a type selector, so
+`.ck table .ck-btn:hover` outranks `.ck .ck-btn-primary:hover`, and the
+comparison is a `<table>` -- hovering its Assign button kept the near-white ink
+and swapped the accent green for a pale wash. Measured on a real pointer:
+5.32:1 at rest, 1.29:1 under the cursor.
+
 The three static checks need nothing installed and report before anything
 is; the browser checks use the runner image's Chrome and fall back to
 fetching Chromium. Locally, the same nine:

@@ -343,13 +343,43 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
+**All four now press things, and only on one page.** They load a page, wait for
+it to settle and measure what is there, which is the whole of twenty-seven of
+the twenty-eight. `prototype/dispatch-cockpit.html` is the exception: it renders
+its comparison, its override question, its refused button and its opened rows
+from JavaScript in response to a press, so twelve of its states were in no DOM
+any check ever saw and every one of them said "✓" about a page it had measured
+a sixth of. `scripts/lib/reachable.mjs` is the registry -- per page, named
+states and the selectors to click to reach each from a fresh load -- and all
+four import it. It is curated by hand and lives outside the page deliberately,
+like the registries in `counts.mjs` and `tokens.mjs`: a `window.__states` the
+page exported would ship test scaffolding to readers and let a change to the
+page quietly edit the list of what gets measured. `reach()` throws on a
+selector that matches nothing, so a stale state fails the run rather than
+silently covering less. It found a live 1.29:1 hover on its first pass.
+
+A state pass in `states.mjs` measures only the rules that GAINED elements.
+Forcing all of them again per state was still running after eleven minutes on
+one page when it was killed -- every element costs at least the 60ms floor in
+`settle()` and nearly every row duplicated one already measured at rest. Adding
+a state to the registry is cheap; adding one that re-measures the resting page
+is not.
+
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-14 the tree measures 4024 resting colors, 1841 state
-rules, 16886 type sizes and 9673 elements checked for a partial border on a
+unmeasured. At 2026-09-14 the tree measures 5784 resting colors, 1841 state
+rules, 23838 type sizes and 14246 elements checked for a partial border on a
 curve, across 28 pages (the twenty-seven of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-121 token names against 189 declarations and 10 counted claims. **The four
+121 token names against 189 declarations and 10 counted claims.
+
+Three of those four jumped when the checks learned to press things, and all of
+the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
+elements 9673 -> 14246, each exactly the cockpit's own increase. **The state
+rule count did not move, on purpose** -- rules come out of the stylesheet and
+are the same in every state, so `states.mjs` counts them once per page. A
+reachable state that inflated this number would be corrupting the one
+instrument the section below asks you to trust. **The four
 browser numbers are the only ones here that nothing verifies.** They are
 maintained by hand and will drift. Treat them as a tripwire rather than a
 record: a run that comes back materially smaller means something stopped
@@ -364,7 +394,10 @@ counts text nodes and skips one under two characters. `typescale.mjs` measures
 at four widths, so one new text node is four, and it skips `aria-hidden`.
 `curves.mjs` counts elements, and a pseudo-element is not an element. A ground
 is a variant, not a state: `states.mjs` reads any `.is-*` class as a
-script-applied state, which is why the section grounds are `ground-*`.
+script-applied state, which is why the section grounds are `ground-*`. And a
+state added to `reachable.mjs` multiplies the cockpit's share of three of these
+by roughly one whole page each, because a reachable state is measured on its
+own fresh load.
 
 **Compare a count against the commit your branch was cut from, not against a
 run of `main` from earlier in the day**, and measure last, after the final

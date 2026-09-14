@@ -1259,6 +1259,35 @@
   .ck-tabs::-webkit-scrollbar { display: none; }
   .ck .ck-tab { flex: 0 0 auto; scroll-snap-align: start; }
 }
+
+/* WHAT THE STICKY STRIP COSTS EVERY CONTROL UNDER IT.
+
+   Two things sit over this page while the cockpit is being read: the site nav,
+   fixed at 0 and 80px tall, and the strip above, stuck to the bottom of it and
+   62px tall -- a height the block above fixes deliberately, one row at every
+   width. So the top 142px of the viewport belongs to furniture.
+
+   style.css sets `scroll-padding-top: var(--nav-height)` on `html`, which
+   clears the nav and knows nothing about the strip. Anything the browser
+   scrolls to a top edge therefore lands at y=80, 62px inside something opaque.
+   Shift-Tab upward through the data table did exactly that: T-142's row button
+   took focus at y=89 and could not be seen at all, which is 2.4.11 Focus Not
+   Obscured, and not a thing any check in scripts/ can measure -- they read
+   colour, and this is geometry.
+
+   scroll-margin rather than a bigger scroll-padding on `html`: the fault is
+   these controls passing under this strip, and the page's own anchors
+   (#the-cockpit, #the-decisions) have no such problem and should keep landing
+   where they always have.
+
+   #ck-panel and not .ck, because the strip cannot obscure itself. A tab is
+   sticky at the very offset this margin is made of, so handing it one asks
+   the browser to scroll 154px to reveal something already in plain sight --
+   which is the bug this changeset removes, reintroduced one element along. */
+#ck-panel :is(a, button, input, textarea, select, summary, [tabindex]) {
+  scroll-margin-top: calc(var(--nav-height) + 3.875rem + var(--space-sm));
+}
+
 .ck .ck-tab {
   appearance: none;
   display: inline-flex;
@@ -1979,7 +2008,17 @@
 }
 .ck .ck-btn[aria-disabled="true"]:hover { background: none; }
 .ck table .ck-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
-.ck table .ck-btn:hover { background: var(--wash-on-light-hover); }
+/* THE WASH IS FOR THE QUIET BUTTONS, AND IT USED TO ERASE THE LOUD ONE.
+   `table` is a type selector, so `.ck table .ck-btn:hover` scores (0,3,1)
+   against `.ck .ck-btn-primary:hover`'s (0,3,0) and wins. The comparison is a
+   <table class="ck-vs">, and the button it offers for each option is a primary
+   -- near-white ink on the accent green. Hovering it therefore kept the ink
+   and swapped the green for a 6%-opacity wash over a light ground: measured on
+   a real pointer, 5.32:1 at rest and 1.29:1 under the cursor. The label
+   vanished at the moment it was being pressed.
+   :not() rather than raising the primary's specificity, because the intent is
+   what wants saying -- this wash belongs to the plain row buttons. */
+.ck table .ck-btn:not(.ck-btn-primary):hover { background: var(--wash-on-light-hover); }
 .ck table .ck-btn[aria-disabled="true"]:hover { background: none; }
 
 /* ---------- The fleet ----------

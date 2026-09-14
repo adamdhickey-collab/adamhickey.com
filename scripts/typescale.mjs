@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { reach, reachableFor } from './lib/reachable.mjs';
 
 const root = resolveRoot('typescale.mjs');
 const only = pageFilters();
@@ -96,23 +97,49 @@ const off = new Map();
 let measured = 0;
 let allowedByRamp = 0;
 
+let reached = 0;
+
+/* One page at one width, optionally driven into a registered reachable state
+   first (lib/reachable.mjs). The cockpit writes most of its type from
+   JavaScript after a press -- the comparison's figures, the override question,
+   an opened row -- so at rest this was checking the scale against a fraction
+   of the sizes the page actually renders. */
+async function sizesAt(rel, w, state) {
+  await page.setViewportSize({ width: w, height: 1000 });
+  await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
+  if (state) await reach(page, state);
+  const rows = await page.evaluate(IN_PAGE);
+  if (!rows.length) {
+    say(`\n  ${rel} rendered no measurable text at ${w}px${state ? ` in "${state.name}"` : ''}. Cannot tell whether it conforms.\n`);
+    server.close(); await browser.close();
+    process.exit(2);
+  }
+  const label = state ? `${rel} (${state.name})` : rel;
+  for (const r of rows) {
+    measured++;
+    if (STEPS.includes(r.px)) continue;
+    if (RAMP_EXCEPTIONS.has(r.px)) { allowedByRamp++; continue; }
+    if (!off.has(r.px)) off.set(r.px, { count: 0, pages: new Set(), widths: new Set(), example: r });
+    const e = off.get(r.px);
+    e.count++; e.pages.add(label); e.widths.add(w);
+  }
+}
+
 for (const rel of chosen) {
   for (const w of WIDTHS) {
-    await page.setViewportSize({ width: w, height: 1000 });
-    await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
-    const rows = await page.evaluate(IN_PAGE);
-    if (!rows.length) {
-      say(`\n  ${rel} rendered no measurable text at ${w}px. Cannot tell whether it conforms.\n`);
-      server.close(); await browser.close();
-      process.exit(2);
-    }
-    for (const r of rows) {
-      measured++;
-      if (STEPS.includes(r.px)) continue;
-      if (RAMP_EXCEPTIONS.has(r.px)) { allowedByRamp++; continue; }
-      if (!off.has(r.px)) off.set(r.px, { count: 0, pages: new Set(), widths: new Set(), example: r });
-      const e = off.get(r.px);
-      e.count++; e.pages.add(rel); e.widths.add(w);
+    await sizesAt(rel, w, null);
+    for (const state of reachableFor(rel)) {
+      try { await sizesAt(rel, w, state); reached += 1; }
+      catch (e) {
+        say(`\n  ✗ cannot measure ${rel}\n`);
+        say(`      ${e.message}`);
+        if (e.unreached) {
+          say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
+          say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
+        } else say('');
+        server.close(); await browser.close();
+        process.exit(2);
+      }
     }
   }
 }
@@ -124,6 +151,7 @@ const widths = WIDTHS.join(', ');
 if (!off.size) {
   say(`\n  ✓ every rendered type size is on the scale`);
   say(`    ${measured} measured across ${chosen.length} pages at ${widths}px` +
+      (reached ? `, plus ${reached} reachable-state renders` : '') +
       (allowedByRamp ? `, plus ${allowedByRamp} on --type-title-inset` : '') + '\n');
   process.exit(0);
 }
