@@ -2181,14 +2181,23 @@
   color: var(--color-caution-text);
 }
 .ck .ck-rank-rule .ck-icon { margin-top: 0.15em; }
-/* The rank cell, stacked: ordinal over marks. */
-.ck-table .ck-cell-rank {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  white-space: normal;
-}
+/* The rank cell, stacked: ordinal over marks.
+
+   NOT WITH display:flex ON THE CELL. A th given a flex display stops being a
+   table-cell, and a box that is not a table-cell does not stretch to its
+   row: this one sized to its own content and sat at the top of the row,
+   carrying its border-bottom up there with it. Every row whose other cells
+   wrapped to two lines therefore drew the rank column's hairline 10px or
+   17px above the one running across the rest of the row, and the ordinal sat
+   a line higher than the truck id beside it. Two visible faults from one
+   declaration, and neither is anything the four checks can see -- they read
+   colour, type and borders-on-curves, and this is a box model.
+
+   The stack is a block one instead. The cell stays a table-cell, so it
+   stretches, its border meets its neighbours' and vertical-align:middle puts
+   the ordinal on the same line as everything else in the row. */
+.ck-table .ck-cell-rank { white-space: normal; }
+.ck .ck-rank-n { display: block; }
 /* The marks stack too, rather than running along one line. A row can carry
    two of them -- "assigned" and a moved marker, or "option A" and a moved
    marker -- and side by side those two set the whole column to 106px in the
@@ -2199,6 +2208,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  margin-top: 2px;   /* was the cell flex's gap, before the cell stopped being one */
 }
 .ck .ck-rank-tag {
   display: inline-flex;
