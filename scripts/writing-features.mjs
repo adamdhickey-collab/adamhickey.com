@@ -126,8 +126,10 @@ export const FEATURES = [
     id: 'standardizing-ux-across-40-sap-fiori-apps',
     group: 'systems',
     device: 'repetition as texture, on an accent field',
-    alt: 'A cream venetian blind filling a slate field, every slat tilted the same way, and one black pull cord hanging straight down.',
-    prompt: `Same style, same hand as the reference. The ground is the full dusty slate blue, edge to edge, instead of cream. One large venetian blind in cream with black outlines fills the frame from side to side and is cropped by the top and bottom: many identical horizontal slats, evenly spaced, all tilted at exactly the same angle. One pull cord, a single solid black line, hangs straight down the right-hand third from the top of the frame to the bottom, and is the only thing that is not a slat. No window, no wall, no room. Nothing else.`,
+    alt: 'A cream venetian blind of eight thick slats filling a slate field, every slat tilted the same way, and one black pull cord hanging straight down.',
+    /* Thirteen thin slats read as a wall of stripes at the hero's full width;
+       eight thick ones read as a blind. The count is in the prompt twice. */
+    prompt: `Same style, same hand as the reference. The ground is the full dusty slate blue, edge to edge, instead of cream. One large venetian blind in cream with black outlines fills the frame from side to side and is cropped by the top and bottom: exactly EIGHT identical horizontal slats, no more, each slat thick, about as tall as the gap of slate showing between it and the next, evenly spaced, all tilted at exactly the same angle. Eight slats only, drawn big. One pull cord, a single solid black line, hangs straight down the right-hand third from the top of the frame to the bottom, and is the only thing that is not a slat. No window, no wall, no room. Nothing else.`,
   },
   {
     id: 'where-does-design-end-and-development-begin-now',
