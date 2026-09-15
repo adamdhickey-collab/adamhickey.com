@@ -127,7 +127,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/*.html` | Nine case studies: four client engagements, two career-arc pages and three build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
-| `engagement/*.html` | Four engagement pages, linked from the sentence under "How I work inside a product organization" |
+| `engagement/*.html` | Four engagement pages, linked from every case study's close and the sitemap; not from the homepage since the team-cards pass |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the five screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the six crops the page's design decisions sit beside and the ten slides, five wide and five narrow |
 | `writing/*.html` | The index and ten articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
@@ -149,8 +149,7 @@ the seven-item proof strip and the client logos) → Selected work (three
 client case studies and the dispatch cockpit prototype) → How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and linking to the
-account that shows it, with the four engagements as one sentence under the
-grid) → The design-to-build shift (the scroll story) → Built end to end (the
+account that shows it) → The design-to-build shift (the scroll story) → Built end to end (the
 two products) → Other things I make (the book and the "Identity and
 illustration" shelf) → About, which links the two career case studies → the
 contact section, headed "Describe what is happening". Since #24 there is no
@@ -160,7 +159,8 @@ gave the two career case studies their route in from About. The hire-me pass
 put the work ahead of the method, reframed the engagement grid for a hiring
 manager, brought the proof strip back as a résumé-level line, and moved the
 book and the shelf out of the proof; the page argues for one thing first,
-hiring Adam onto a team, and offers the engagements second. The header carries Work, How I
+hiring Adam onto a team; the engagement pages are reached from the case
+studies' closes and the sitemap rather than from the homepage. The header carries Work, How I
 Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
 page loads it from `site-nav.css`.
 
