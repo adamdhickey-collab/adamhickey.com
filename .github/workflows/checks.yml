@@ -20,6 +20,33 @@
 # script rather than in any step: counts.mjs here does not carry the claim
 # about how many of staging's pages the live site holds, because this is the
 # live site (README, "What still differs").
+#
+# WHY THREE JOBS RATHER THAN ONE. All nine used to run as one job's steps, in
+# order, and a job's steps are sequential by definition, so the wall clock was
+# their SUM: 11m16s on the three runs before this change. Five of the nine
+# finish in about a second between them and need nothing installed. The bill is
+# entirely the four browser checks, each of which renders all 29 pages, and
+# typescale.mjs renders each of them at four widths.
+#
+# Those four share no state, so the sum was never necessary. They are a matrix
+# now and the wall clock is the LONGEST of them instead. Nothing is skipped,
+# scoped or sampled: this is the same nine checks over the same 29 pages, and
+# the tripwire counts in CLAUDE.md still read against a tree where every page
+# was measured. The cost moves from the clock to the runner, which is the trade
+# worth making, because the clock is what a person waits on.
+#
+# fail-fast is off on purpose. The default cancels the surviving legs the
+# moment one goes red, which is how you fix a contrast failure, push, and then
+# learn about the type failure that was there all along.
+#
+# ONE COUPLING THIS SPLIT HAD TO BREAK, and it is worth knowing about because
+# it was invisible while the steps shared a job. The contrast step installed
+# Chromium when the runner image had no browser; the curves and typescale steps
+# set PLAYWRIGHT_BROWSERS_PATH in their own fallback branch but never installed
+# anything, because the step above them already had. Apart, that is two jobs
+# with no browser on any image that ships without one. Each leg below resolves
+# AND installs for itself.
+
 name: checks
 
 on:
@@ -32,14 +59,20 @@ permissions:
   contents: read
 
 jobs:
-  checks:
+  # The five that need nothing installed. No npm, no browser, about a second of
+  # actual work between them, so they report while the browser legs are still
+  # fetching Chromium.
+  static:
+    name: Static checks
     runs-on: ubuntu-latest
     steps:
       # Full history, not the default depth of one: seo.mjs holds every
       # page's sitemap lastmod to the file's last commit date, and a shallow
       # checkout dates every file at HEAD. The script notices a shallow clone
       # and skips that comparison rather than failing it, so the cost of
-      # forgetting this is a check that quietly stops asking.
+      # forgetting this is a check that quietly stops asking. This is the only
+      # job that needs the history, which is why the other two do not pay for
+      # it.
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -57,6 +90,11 @@ jobs:
       # could see, behind a node_modules symlink to a path on one Mac.
       # pages.yml runs this too, immediately before the upload; here is where
       # it stops being main's problem.
+      #
+      # It no longer runs ahead of the other jobs, only ahead of this job's
+      # own steps. That is deliberate: making the browser legs wait on it would
+      # put this job's whole duration back on the clock to guard against a
+      # failure pages.yml catches again anyway, seconds before the upload.
       - name: The tree can be tarred
         run: node scripts/deployable.mjs
 
@@ -86,9 +124,8 @@ jobs:
       #
       # It goes here because none of that renders. A missing canonical does not
       # move a pixel; a sitemap that lists fourteen of fifteen pages looks
-      # exactly like a site with fourteen pages. The browser checks below
-      # measure what a reader can see, and by construction cannot see any of
-      # this.
+      # exactly like a site with fourteen pages. The browser checks measure
+      # what a reader can see, and by construction cannot see any of this.
       - name: What the site tells a machine still matches the site
         run: node scripts/seo.mjs
 
@@ -101,6 +138,32 @@ jobs:
       - name: Every key idea is still its heading
         run: node scripts/keys.mjs
 
+      # No page may go back to compiling its CSS in the browser. #14 removed the
+      # cdn.tailwindcss.com script from all six case studies; this is one grep
+      # rather than a browser, and it costs nothing to keep. It sits with the
+      # static checks rather than with the Tailwind build for that reason: it
+      # is a grep, and waiting for an npm install to run a grep is the sort of
+      # thing this split exists to stop.
+      - name: No page compiles Tailwind in the browser
+        run: |
+          if grep -rl 'cdn\.tailwindcss\.com' --include='*.html' .; then
+            echo "::error title=CDN Tailwind is back::A page loads the browser-side compiler. Build the stylesheet instead -- see tailwind.config.js."
+            exit 1
+          fi
+          echo "no page loads the browser-side compiler"
+
+  # The built stylesheet, on its own, because it is the one check that needs
+  # Tailwind and none that needs a browser.
+  tailwind:
+    name: Built Tailwind CSS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
       # No package.json in this repository, and the check scripts are the only
       # thing that would want one. Install what they need for the length of the
       # job rather than committing a manifest for two dependencies.
@@ -111,6 +174,13 @@ jobs:
       # Two separate steps looked correct in staging, passed review, and made
       # the Tailwind step delete playwright-core out from under the contrast
       # check two steps later -- "added 72 packages, and removed 1 package".
+      #
+      # The jobs are separate now, so this job could ask for tailwindcss alone
+      # and the browser legs for playwright-core alone. They do not, and the
+      # invariant is easier to hold than the exception: ONE install call per
+      # job, naming BOTH. A second call anywhere in a job is the bug, and
+      # keeping the command identical everywhere means nobody has to re-derive
+      # that before editing it.
       - name: Install the checks' dependencies
         run: npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
 
@@ -153,33 +223,70 @@ jobs:
           node /tmp/tw-report.mjs
           exit 1
 
-      # No page may go back to compiling its CSS in the browser. #14 removed the
-      # cdn.tailwindcss.com script from all six case studies; this is one grep
-      # rather than a browser, and it costs nothing to keep.
-      - name: No page compiles Tailwind in the browser
-        run: |
-          if grep -rl 'cdn\.tailwindcss\.com' --include='*.html' .; then
-            echo "::error title=CDN Tailwind is back::A page loads the browser-side compiler. Build the stylesheet instead -- see tailwind.config.js."
-            exit 1
-          fi
-          echo "no page loads the browser-side compiler"
+  # The four that render. One leg each, in parallel, because they are the whole
+  # bill and they share nothing.
+  #
+  # resting.mjs and states.mjs ask different questions and neither covers the
+  # other: resting.mjs measures every color a reader can SEE without touching
+  # anything, states.mjs forces every hover, focus and script-applied state and
+  # measures what a reader can REACH. A color can be perfect at rest and fail
+  # on hover, and it can fail sitting still, which no amount of state-forcing
+  # notices -- the resting color is the one state that is never forced. They
+  # shared a step when steps were the only unit; they are the two slowest, so
+  # separating them is most of what this change buys.
+  #
+  # curves.mjs: a border on a curved surface either follows the whole curve or
+  # is not there. Rendered rather than grepped, because it takes two rules to
+  # make: the radius on the base, the border on the state. Computed style is
+  # the only place they are ever in the same room.
+  #
+  # typescale.mjs: every rendered type size against the fourteen steps. This
+  # file used to say the check could not be added because it was red on this
+  # tree -- 24 sizes off the scale, 15px and 17px among them in the hundreds.
+  # #16 resolved those and #20 carried the rest. It is the longest leg, because
+  # it is the only one that renders every page four times.
+  browser:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - check: resting
+            flags: --strict
+            label: Contrast at rest
+          - check: states
+            flags: --strict
+            label: Contrast in every reachable state
+          - check: curves
+            flags: ''
+            label: No partial border on a curved surface
+          - check: typescale
+            flags: ''
+            label: Every type size is on the scale
+    steps:
+      - uses: actions/checkout@v7
 
-      # The two contrast checks. They ask different questions and neither
-      # covers the other: resting.mjs measures every color a reader can SEE
-      # without touching anything, states.mjs forces every hover, focus and
-      # script-applied state and measures what a reader can REACH. A color can
-      # be perfect at rest and fail on hover, and it can fail sitting still,
-      # which no amount of state-forcing notices -- the resting color is the
-      # one state that is never forced.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      # Both packages, one call. See the note in the tailwind job above: the
+      # rule is per job, and this job makes exactly one install call.
+      - name: Install the checks' dependencies
+        run: npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
+
+      # The browser is found rather than assumed: states.mjs takes CHROME at
+      # its word without stat-ing it, so a hardcoded path the runner image
+      # later moves would surface as a launch failure rather than as a missing
+      # browser. Prefer whatever the image ships -- that costs nothing -- and
+      # fall back to fetching Chromium, so these checks do not quietly depend
+      # on a property of the runner nobody here controls.
       #
-      # One browser, resolved once, for both. It is found rather than assumed:
-      # states.mjs takes CHROME at its word without stat-ing it, so a hardcoded
-      # path the runner image later moves would surface as a launch failure
-      # rather than as a missing browser. Prefer whatever the image ships --
-      # that costs nothing -- and fall back to fetching Chromium, so these
-      # checks do not quietly depend on a property of the runner nobody here
-      # controls.
-      - name: Contrast, at rest and in every reachable state
+      # The install in the fallback branch is the part that used to be missing
+      # from two of these four. It is in the shared block now, so a leg cannot
+      # inherit a browser it never asked for.
+      - name: ${{ matrix.label }}
         run: |
           for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
                    /usr/bin/chromium-browser /usr/bin/chromium; do
@@ -192,44 +299,4 @@ jobs:
             export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
             node node_modules/playwright-core/cli.js install chromium
           fi
-          node scripts/resting.mjs --strict
-          node scripts/states.mjs --strict
-
-      # A border on a curved surface either follows the whole curve or is not
-      # there. Rendered rather than grepped, because it takes two rules to
-      # make: the radius on the base, the border on the state. Computed style
-      # is the only place they are ever in the same room. States are forced for
-      # the same reason states.mjs forces them.
-      - name: No partial border on a curved surface
-        run: |
-          for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
-                   /usr/bin/chromium-browser /usr/bin/chromium; do
-            if [ -x "$c" ]; then CHROME="$c"; break; fi
-          done
-          if [ -n "$CHROME" ]; then
-            CHROME="$CHROME" node scripts/curves.mjs
-          else
-            export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
-            node scripts/curves.mjs
-          fi
-
-      # Every rendered type size against the fourteen steps. This file used to
-      # say the check could not be added because it was red on this tree -- 24
-      # sizes off the scale, 15px and 17px among them in the hundreds. #16
-      # resolved those and #20 carried the rest; it passes here now, at 10680
-      # sizes. Needs the same browser as the contrast check, so it reuses
-      # whatever that step found -- and it goes after it, because a page that
-      # cannot render is a contrast failure first and a type failure only
-      # incidentally.
-      - name: Every type size is on the scale
-        run: |
-          for c in /usr/bin/google-chrome /usr/bin/google-chrome-stable \
-                   /usr/bin/chromium-browser /usr/bin/chromium; do
-            if [ -x "$c" ]; then CHROME="$c"; break; fi
-          done
-          if [ -n "$CHROME" ]; then
-            CHROME="$CHROME" node scripts/typescale.mjs
-          else
-            export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers"
-            node scripts/typescale.mjs
-          fi
+          node scripts/${{ matrix.check }}.mjs ${{ matrix.flags }}
