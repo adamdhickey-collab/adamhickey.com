@@ -365,6 +365,14 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   margin-bottom: 0;
 }
 @media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-4xl); margin-bottom: 0; } }
+/* Three accounts across at desktop rather than two: since the hire-me pass
+   the section makes one argument in three parts, and a third card alone on
+   a second row would read as the one that did not fit. Between the base
+   rule's two-column breakpoint and desktop the two columns would strand it
+   the same way, so the three stay in one column there. The prototype card
+   spans whatever the count is (grid-column: 1 / -1). */
+@media (min-width: 768px) and (max-width: 1023.98px) { .case-grid--three { grid-template-columns: 1fr; gap: var(--space-2xl); } }
+@media (min-width: 1024px) { .case-grid--three { grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); } }
 
 /* --- Cross-document view transitions ------------------------------------
    Clicking a case card morphs its thumbnail into the case study page's
@@ -1360,6 +1368,27 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 .problems .section-head { margin-bottom: var(--space-3xl); }
 .problems .section-head h2 { color: var(--ink-on-dark); }
 .problems .section-head p { color: var(--ink-on-dark-secondary); }
+/* The engagements, as the secondary route they became in the hire-me pass:
+   one sentence under the four cards in the band's secondary ink, with the
+   four names as links in the accent that belongs on charcoal. The hover
+   goes to the primary on-dark ink, the same move .contact-plain a makes on
+   white with charcoal. */
+.problems-route {
+  margin: var(--space-2xl) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--ink-on-dark-secondary);
+}
+.problems-route a {
+  color: var(--color-accent-on-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--motion-state) var(--ease);
+}
+.problems-route a:hover,
+.problems-route a:focus-visible { color: var(--ink-on-dark); }
 
 /* ---------- Selected clients strip ----------
    The logos were doing social-proof work with no label, so nobody could tell
@@ -1382,6 +1411,15 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    alternating sides down the page. The screenshot is the hero, not decoration,
    which is why there is no device chrome except on the phone-shaped one. */
 .built { background: var(--color-white); padding: var(--space-section) 0; }
+
+/* ---------- Other things I make ----------
+   The book and the identity shelf, out of Built end to end since the
+   hire-me pass, on the warm ground so the section reads as its own thing
+   between the white products and the charcoal About. The book row keeps
+   its compact treatment; its top margin was sized to follow the products,
+   and here it follows the section head, which carries its own space. */
+.other { background: var(--color-warm); padding: var(--space-section) 0; }
+.other .built-more { margin-top: 0; }
 
 .product-list { display: flex; flex-direction: column; gap: var(--space-block); }
 
@@ -3062,6 +3100,32 @@ html.ah-lightbox-open body { overflow: hidden; }
   line-height: var(--leading-body);
   color: var(--color-charcoal);
   margin: var(--space-md) 0 0;
+}
+
+/* The résumé-level scan under the hero: seven short claims in one wrapping
+   line, separated by middots, at the availability line's size and in its
+   charcoal, above a hairline. A hiring manager gets the résumé's first
+   paragraph before the client logos; every item is carried at length
+   further down the page. The middot is the secondary grey, which is a
+   separator rather than text and clears the floor on white regardless. */
+.hero-proof {
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: var(--space-md) 0 0;
+  border-top: 1px solid var(--rule-hairline);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.hero-proof li { display: flex; align-items: baseline; }
+.hero-proof li + li::before {
+  content: "\00B7";
+  margin: 0 var(--space-sm);
+  color: var(--color-muted-gray);
 }
 
 
