@@ -1488,23 +1488,19 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    so the register shift from the white Built section is visible. Four
    across on wide screens reads as a shelf of specimens, not a second
    case-study grid. */
-.shelf-row { display: grid; grid-template-columns: 1fr; gap: var(--space-3xl); }
-@media (min-width: 640px)  { .shelf-row { grid-template-columns: repeat(2, 1fr); gap: var(--space-3xl) var(--space-xl); } }
+.shelf-row { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
+@media (min-width: 640px)  { .shelf-row { grid-template-columns: repeat(2, 1fr); gap: var(--space-2xl) var(--space-xl); } }
 @media (min-width: 1024px) { .shelf-row { grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); } }
-/* A column, not a block, so the tag row can sit on the card's floor. The grid
-   already stretches the four cards to one height; their insides did not follow,
-   because the descriptions run three lines to five. That put the four tag rows
-   at four heights inside four cards of identical height -- the row had a top
-   edge, a shared bottom edge and nothing lining up in between, which is most of
-   what made the shelf look unaligned. margin-top:auto on the tags takes up
-   whatever the description left. */
+/* A column, not a block, so the tag row can sit on the card's floor. This is
+   the fallback now -- what a browser without subgrid gets -- and the @supports
+   block at the end of the shelf is what the rest get. See it for why. */
 .shelf-item { display: flex; flex-direction: column; text-align: left; color: inherit; }
 .shelf-thumb {
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: var(--radius-xl);
   background: var(--color-white);
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 .shelf-thumb img {
   width: 100%; height: 100%; object-fit: cover;
@@ -1519,20 +1515,73 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   .shelf-thumb img { transition: none; }
   .shelf-item:hover .shelf-thumb img { transform: none; }
 }
-/* One step under the main case cards' titles, so the shelf reads as the
+/* THE PREFIXES ARE SPECIFICITY, NOT NESTING, and without them none of this
+   block renders. The shelf came to other.html in #134 and landed inside
+   .case-section.case-overview, which is the essay chrome: .case-overview h3
+   is the subsection head, serif on --type-subsection, and .case-section p is
+   prose at --text-lg on --leading-reading. Both are one class and one element
+   and both sit 2,700 lines below this, so `.shelf-item h3` and `.shelf-desc`
+   tied or lost and the four cards were rendering as four essay subheads over
+   four prose paragraphs -- 34px titles and 18px descriptions on 1.7, in a
+   card 296px wide. That is what made the section feel unaligned and loose:
+   not the spacing between the cards, the type inside them. A second class on
+   each selector is all it takes, and it is why the sizes below finally show.
+
+   One step under the main case cards' titles, so the shelf reads as the
    lighter row it is. */
-.shelf-item h3 { font-size: var(--text-xl); line-height: var(--leading-tight); margin-bottom: var(--space-xs); }
+.shelf-row .shelf-item h3 {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  margin: 0 0 var(--space-xs);
+}
 /* Four across, the Dr Pepper Snapple title wraps to two lines and the other
    three do not, so its description started a line lower than its neighbours'.
-   Two lines are reserved on every title at this width, so the four
-   descriptions start on one line whatever the titles do. */
-@media (min-width: 1024px) { .shelf-item h3 { font-size: var(--text-2xl); min-height: calc(2 * var(--leading-tight) * 1em); } }
-.shelf-desc {
-  font-size: var(--text-base); line-height: var(--leading-body);
+   The min-height reserves two lines on every title, which is the fallback's
+   answer to that; subgrid's is below, and it costs no blank line. */
+@media (min-width: 1024px) {
+  .shelf-row .shelf-item h3 { font-size: var(--text-xl); min-height: calc(2 * var(--leading-tight) * 1em); }
+}
+/* 14px, the step under card copy, with the paragraph leading rather than the
+   UI leading it shares the size with -- these run three and four lines and are
+   read as sentences. .build-mode's paragraphs are the same pairing. */
+.shelf-item .shelf-desc {
+  font-size: var(--text-sm); line-height: var(--leading-body);
   color: var(--color-charcoal);
-  margin-bottom: var(--space-sm);
+  margin: 0 0 var(--space-sm);
 }
 .shelf-item .tag-row { margin-top: auto; margin-bottom: 0; }
+
+/* The four cards line up on every row, not only on their outer edges. Each
+   card is four rows -- thumbnail, title, description, tags -- and takes them
+   from the shelf itself, so a title that wraps to two lines moves all four
+   descriptions down together and the tag rows start on one line whatever the
+   descriptions did.
+
+   The two hacks above are what this replaces, and they pulled against each
+   other. Two reserved lines on every title bought aligned descriptions with a
+   blank line under the three titles that fit on one. margin-top:auto put the
+   tag rows on a shared bottom edge, which is the wrong edge to share when one
+   card's tags wrap to two rows: the Innovators card's first row of tags sat a
+   line above the other three and nothing else in the section did that.
+
+   row-gap: 0 is not a detail. A subgrid inherits the parent's gutters, and
+   the shelf's row gap is the space between one row of cards and the next --
+   32px between a picture and its own title would be the card coming apart.
+   The gaps inside a card stay the elements' own margins. The gutter between
+   two bands of cards is not inside any card, so it keeps the shelf's. */
+@supports (grid-template-rows: subgrid) {
+  .shelf-item { display: grid; grid-template-rows: subgrid; grid-row: span 4; row-gap: 0; }
+  .shelf-row .shelf-item h3 { min-height: 0; }
+  .shelf-item .shelf-desc { margin-bottom: 0; }
+  /* align-self, because the tag row is now a flex box in a grid track as tall
+     as the tallest card's tags -- two rows, on Innovators Studio. Stretched to
+     that track the single-row tag rows drew their pills at twice the height. */
+  .shelf-item .tag-row { align-self: start; margin-top: var(--space-sm); margin-bottom: 0; }
+}
 
 /* ---------- Engagement pages (v3) ----------
    Shared layout for the four engagement pages, on the case-study chrome:
