@@ -367,25 +367,37 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-14 the tree measures 5784 resting colors, 1841 state
-rules, 23838 type sizes and 14246 elements checked for a partial border on a
+unmeasured. At 2026-09-15 the tree measures 5795 resting colors, 1864 state
+rules, 23894 type sizes and 14297 elements checked for a partial border on a
 curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
 121 token names against 189 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
 the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
-elements 9673 -> 14246, each exactly the cockpit's own increase. **The state
-rule count did not move, on purpose** -- rules come out of the stylesheet and
-are the same in every state, so `states.mjs` counts them once per page. A
-reachable state that inflated this number would be corrupting the one
-instrument the section below asks you to trust. **The four
-browser numbers are the only ones here that nothing verifies.** They are
+elements 9673 -> 14246 **as the tree stood at #109**, each exactly the
+cockpit's own increase. Those three right-hand figures are the record of that
+change rather than the current count -- the sentence above carries the current
+one, and it has moved since. **The state rule count did not move, on
+purpose** -- rules come out of the stylesheet and are the same in every
+state, so `states.mjs` counts them once per page. A reachable state that
+inflated this number would be corrupting the one instrument the section below
+asks you to trust. **The four browser numbers are the only ones here that
+nothing verifies.** They are
 maintained by hand and will drift. Treat them as a tripwire rather than a
 record: a run that comes back materially smaller means something stopped
 being measured, and that is worth more than the digits being exactly right.
 Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
+
+The figures above are a re-measurement, not a delta. They were taken with the
+four browser checks run unscoped against an archive of `main` at e4247fe, and
+they replace the 2026-09-14 set of 5784 / 1841 / 23838 / 14246, which a dozen
+merges had left stale. The drift is not itemised here because it is not one
+change to attribute; what it cost was a tripwire reading low, which is the
+direction that hides a page falling out of measurement rather than announcing
+it. Re-measure and rewrite these four when they have visibly drifted again,
+and name the commit measured, the way this paragraph does.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
