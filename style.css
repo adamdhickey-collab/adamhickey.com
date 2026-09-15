@@ -3073,26 +3073,33 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 
 /* The résumé-level scan under the hero: eight facts on a grid, two by four
-   at desktop and two by two by two on a phone, each on the station mark the
-   engagement pages use for their facts -- .fact-node and .fact-icon, the
-   tea disc with the hairline icon that sketches itself on. The headline is
-   the serif at the size of a card's shift line; the detail under it is the
-   secondary grey. The draw-on is gated the way every reveal on this page
-   is: .js hides the strokes only when the observer that adds .is-visible is
-   running, and the stagger reads off --i, so the row draws left to right. */
+   at desktop and two across on a phone, each a serif headline at the size
+   of a card's shift line over a one-line detail in the secondary grey.
+   Plain on purpose: the facts wore the engagement pages' station-mark icons
+   for an afternoon, and without them the grid is cleaner and half the
+   height. */
 .hero-proof {
   list-style: none;
   margin: var(--space-lg) 0 0;
-  padding: var(--space-xl) 0 0;
+  padding: var(--space-lg) 0 0;
   border-top: 1px solid var(--rule-hairline);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg) var(--space-md);
+  grid-template-columns: 1fr;
+  gap: var(--space-md) var(--space-md);
 }
-@media (min-width: 768px) {
-  .hero-proof { grid-template-columns: repeat(4, 1fr); gap: var(--space-xl) var(--space-2xl); }
+/* The column count steps where the detail lines stop fitting on one line,
+   not at the page's usual breakpoints: a detail that wraps turns a scan
+   into a paragraph, and eight of them wrapping is half the hero. Four
+   across needs about 217px a column, which is 1024; two need about 240,
+   which is 560; below that one fact to a row is the only way the line
+   holds. Four across at 768, which is where this started, gave each fact
+   154px and wrapped six of the eight. */
+@media (min-width: 560px) {
+  .hero-proof { grid-template-columns: repeat(2, 1fr); gap: var(--space-md) var(--space-xl); }
 }
-.hero-proof li { display: flex; flex-direction: column; align-items: flex-start; }
+@media (min-width: 1024px) {
+  .hero-proof { grid-template-columns: repeat(4, 1fr); gap: var(--space-lg) var(--space-2xl); }
+}
 .hero-proof-label {
   display: block;
   font-family: var(--font-serif);
@@ -3108,17 +3115,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
-}
-.js .hero-proof .fact-icon path,
-.js .hero-proof .fact-icon circle { stroke-dashoffset: 1; }
-.js .hero-proof.is-visible .fact-icon path,
-.js .hero-proof.is-visible .fact-icon circle {
-  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
-  animation-delay: calc(var(--i, 0) * var(--motion-stagger) + 150ms);
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .hero-proof .fact-icon path,
-  .js .hero-proof .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 
 
