@@ -307,8 +307,18 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 
 .section-head { margin-bottom: var(--space-4xl); max-width: 56rem; }
-.section-head h2 { margin-bottom: var(--space-md); }
-@media (min-width: 768px) { .section-head h2 { margin-bottom: var(--space-xl); } }
+/* The gap from a section heading to the prose under it, in one place. The book
+   block on other.html is a section head that is not a .section-head -- its h2
+   sits in a grid column beside the cover rather than in a header above a row --
+   and it joins the selector rather than restating the two steps, because the
+   two h2s are side by side down that page and a 16px gap under one and 24 under
+   the other is exactly the kind of near-miss it was rebuilt to stop making. */
+.section-head h2,
+.other-feature-body h2 { margin-bottom: var(--space-md); }
+@media (min-width: 768px) {
+  .section-head h2,
+  .other-feature-body h2 { margin-bottom: var(--space-xl); }
+}
 .section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
 /* The header says How I Work and Contact; the heads they scroll to say "When
    people bring me in" and "Describe what is happening". Neither title
@@ -331,30 +341,23 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 @media (min-width: 768px) { .section-head .section-eyebrow { margin-bottom: var(--space-sm); font-size: var(--text-xs); } }
 .problems .section-head .section-eyebrow { color: var(--color-accent-on-dark); }
-/* The lighter section head: the identity and illustration shelf inside Built
-   end to end. It was written for the "Earlier experience" section, which left
-   the homepage on 2026-09-05 when the career stopped being told three times;
-   the shelf had shared it since it moved under the products. No margin-top:
-   a margin on the first child would collapse out through the parent and
-   show as a seam. */
-.section-head.archive-head { margin-top: 0; margin-bottom: var(--space-2xl); }
-/* The head used to sit one step under the other section heads, 34px against
-   their 48, so the shelf would read lighter than the work above it. It read
-   as the one h2 on the page at the wrong size instead: a peer heading, one
-   size smaller, with the longest paragraph on the page under it. It takes
-   the h2 ramp like every other h2 now; the shelf's lighter weight comes
-   from its smaller cards and its position under the products. */
-/* Body size and body ink, the same as .product-lead two rows up: the shelf's
-   intro is the one paragraph on the page that says what the identity work is
-   for, and at --text-sm it read as a caption under a heading rather than a
-   sentence a reader was meant to take in. It kept --color-muted-gray for a
-   day after the size fix, so the row would stay lighter than the products,
-   and read as a fainter copy of the paragraph above it instead. A sentence a
-   reader is meant to take in is primary ink, on every light ground on the
-   site; the row's lighter weight comes from its smaller h2 and the shelf
-   below, not from greying the prose. The secondary grey keeps to what is
-   secondary: captions, labels, stats, the read-time line. */
-.section-head.archive-head p { font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
+/* .archive-head was the lighter head this pair of rules gave the identity and
+   illustration shelf: --space-2xl under it instead of --space-4xl, and its
+   intro at --text-base instead of the head's own --text-lg. Both were sized
+   for a shelf sitting *under* something -- first "Earlier experience" on the
+   homepage, then the products in Built end to end -- where reading a step
+   quieter than the block above was the point. The shelf moved to other.html
+   on 2026-09-15 and became one of that page's two sections, with nothing
+   above it to defer to, so the head that made it subordinate was making it
+   look unfinished instead: a 48px h2 with 16px prose under it, beside a hero
+   whose dek is 24px. It takes the plain .section-head now and the rules are
+   gone. TYPOGRAPHY.md still names .section-head.archive-head h2 in its record
+   of the step-3 heading inversion; that entry is history and stays.
+
+   The one line worth keeping out of what was here: a sentence a reader is
+   meant to take in is primary ink, on every light ground on the site. The
+   secondary grey keeps to what is secondary -- captions, labels, stats, the
+   read-time line. */
 
 .case-grid {
   display: grid; gap: var(--space-2xl);
@@ -1488,7 +1491,14 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .shelf-row { display: grid; grid-template-columns: 1fr; gap: var(--space-3xl); }
 @media (min-width: 640px)  { .shelf-row { grid-template-columns: repeat(2, 1fr); gap: var(--space-3xl) var(--space-xl); } }
 @media (min-width: 1024px) { .shelf-row { grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); } }
-.shelf-item { display: block; text-align: left; color: inherit; }
+/* A column, not a block, so the tag row can sit on the card's floor. The grid
+   already stretches the four cards to one height; their insides did not follow,
+   because the descriptions run three lines to five. That put the four tag rows
+   at four heights inside four cards of identical height -- the row had a top
+   edge, a shared bottom edge and nothing lining up in between, which is most of
+   what made the shelf look unaligned. margin-top:auto on the tags takes up
+   whatever the description left. */
+.shelf-item { display: flex; flex-direction: column; text-align: left; color: inherit; }
 .shelf-thumb {
   aspect-ratio: 4 / 3;
   overflow: hidden;
@@ -1522,7 +1532,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   color: var(--color-charcoal);
   margin-bottom: var(--space-sm);
 }
-.shelf-item .tag-row { margin-bottom: 0; }
+.shelf-item .tag-row { margin-top: auto; margin-bottom: 0; }
 
 /* ---------- Engagement pages (v3) ----------
    Shared layout for the four engagement pages, on the case-study chrome:
@@ -4359,30 +4369,62 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-ask-link:hover,
 .case-ask-link:focus-visible { color: var(--color-charcoal); }
 
-/* ---------- Identity and illustration, inside Built end to end ----------
-   The row was a section of its own on a tea ground. It is client work by the
-   same hands as the products above it, so it sits on their white surface as a
-   lighter second row instead, separated by a rule rather than by a color.
-   The .shelf-row and .shelf-item rules above are unchanged and still its. */
-/* One line under the two product cards for the third thing built end to end,
-   the book, whose card came off the page on 2026-09-05. Body size, the
-   products' own .product-link for the link, and a component gap above so it
-   reads as a footnote to the list rather than a third row of it. */
-/* The book had a card of its own here until 2026-09-05, then one sentence:
-   "There is also a book." That read as a footnote under a section arguing
-   that the whole thing gets built. It is a compact third row now -- the
-   cover at a fraction of the products' width, the product eyebrow, title,
-   one line and the same link -- so it reads as the third thing built rather
-   than an afterthought, at a third of the weight a card would give it. */
-.built-more {
-  margin-top: var(--space-block);
+/* ---------- other.html ----------
+   What is left of the homepage's "Identity and illustration, inside Built end
+   to end". That row was a section of its own on a tea ground, then a lighter
+   second row on the products' white surface, separated by a rule rather than a
+   color. It went to other.html with the book on 2026-09-15 and neither of them
+   is a second row of anything now, so the rule that separated them is gone and
+   both sections sit on the same white ground with the chapter ramp between.
+   The .shelf-row and .shelf-item rules above are still the shelf's; the only
+   thing that changed there is the tag row's floor. */
+/* ---------- The book, on other.html ----------
+   This was .built-more: a 12rem cover beside one line, sized to be a footnote
+   under the two product cards in Built end to end, "at a third of the weight a
+   card would give it". That was right where it sat. It came to other.html on
+   2026-09-15 as the first thing on the page, with nothing above it to be a
+   footnote to, and the proportion inverted on both ends -- 192px of cover in a
+   1216px band on a desktop, then the full column width on a phone, so the same
+   block was the smallest thing on the page at one width and the largest at
+   another.
+
+   It is a two-up now, at the same weight as the shelf below it: half the
+   container for the cover, the title as an h2 so it takes the sage rule and the
+   section ramp every other section head on the site takes, and the lead at
+   --measure like the hero's dek. The page's restraint is one section each,
+   not one section shrunk. */
+.other-feature {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-xl);
+  gap: var(--space-3xl);
   align-items: center;
 }
-@media (min-width: 640px) { .built-more { grid-template-columns: 12rem 1fr; gap: var(--space-2xl); } }
-.built-more-shot {
+/* Two columns and the shelf's own gutter, at the shelf's own breakpoint. That
+   is not a coincidence and it is the point: .shelf-row is four 1fr columns with
+   --space-xl between, so two 1fr columns with --space-xl between are the same
+   grid at half the resolution. The cover spans the shelf's third and fourth
+   columns exactly -- 596px starting at the same x as the Learn to Live card,
+   ending on the same right edge as Dr Pepper Snapple -- and the text spans the
+   first and second. Two sections, one grid, and the page stops reading as two
+   blocks that happen to be near each other.
+
+   Text left, cover right, against the usual instinct to lead with the picture.
+   Two reasons, and they are the same reason. The page has two sections and the
+   only thing that makes them read as two sections rather than two leftovers is
+   that both h2s start on the same left edge as the hero's h1; a cover in the
+   first column pushes this one 300px in and the spine is gone. And the hero
+   above leaves its right half empty, because a dek stops at the measure -- so
+   the cover is the one element on the page with somewhere to be over there.
+
+   It is DOM order rather than an `order` swap, so it holds stacked too. With
+   the cover first, a phone got the picture, then the sage rule, then the
+   heading -- the site's "a section starts here" mark arriving underneath the
+   thing it was supposed to open. Text first reads the same way at both widths
+   and the same way as the shelf below: rule, h2, prose, then the pictures. */
+@media (min-width: 1024px) {
+  .other-feature { grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
+}
+.other-feature-shot {
   display: block;
   color: inherit;
   text-decoration: none;
@@ -4391,24 +4433,32 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-muted-light);
   box-shadow: var(--shadow-device);
 }
-.built-more-shot img {
+/* Stacked, the cover has the whole container, and a tablet at 1000px would hand
+   it 840px: a book cover the size of a hero. 30rem holds it near the width it
+   has in the two-up at the breakpoint just above, so the stack reads as the
+   same block folded rather than a different one. */
+@media (max-width: 1023px) { .other-feature-shot { max-width: 30rem; } }
+.other-feature-shot img {
   display: block; width: 100%; height: auto;
   transition: transform var(--motion-enter) var(--ease);
 }
-.built-more-shot:hover img,
-.built-more-shot:focus-visible img { transform: scale(var(--motion-lift)); }
+.other-feature-shot:hover img,
+.other-feature-shot:focus-visible img { transform: scale(var(--motion-lift)); }
 @media (prefers-reduced-motion: reduce) {
-  .built-more-shot img { transition: none; }
-  .built-more-shot:hover img { transform: none; }
+  .other-feature-shot img { transition: none; }
+  .other-feature-shot:hover img { transform: none; }
 }
-.built-more .product-actions { margin-top: var(--space-md); }
-
-.built-shelf {
-  margin-top: var(--space-block);
-  padding-top: var(--space-2xl);
-  border-top: 1px solid var(--color-tag-border);
+/* The one paragraph in the block, at the size and the measure .section-head p
+   gives the shelf's intro below it, so the page's two section intros are one
+   thing seen twice. (The h2's own gap to it is set with .section-head h2, up at
+   the top of the file.) */
+.other-lead {
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  max-width: var(--measure);
 }
-.built-shelf .section-head.archive-head { margin-bottom: var(--space-2xl); }
+.other-feature .product-actions { margin-top: var(--space-xl); }
 
 /* ---------- the writing pages' Blink treatment ---------- */
 /* What Blinkist does to a book, done to the essays: the structure made
