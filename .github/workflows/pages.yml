@@ -21,24 +21,32 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
 
       # Before the upload, so the failure has a name. Without it the whole
       # report is `tar: ./node_modules: File removed before we read it` under a
-      # step called "Run actions/upload-pages-artifact@v3", which says what
+      # step called "Run actions/upload-pages-artifact@v5", which says what
       # broke and nothing about what to do. Needs no browser and nothing
       # installed; it runs in checks.yml too, so a pull request goes red before
       # a tree like this can reach main at all.
       - name: The tree can be tarred
         run: node scripts/deployable.mjs
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      # include-hidden-files is what keeps `.nojekyll` in the tar. This
+      # action stopped shipping dotfiles by default at v4, and v5 is where
+      # the input to get them back arrived, so a bump without it is a deploy
+      # that goes green and serves a tree missing every dotfile -- the
+      # quietest shape of the failure this file's other comments are about.
+      # With it set, the tar is the one v3 built, flag for flag: `.git` and
+      # `.github` are excluded either way, by the action, not by us.
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: .
+          include-hidden-files: true
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
