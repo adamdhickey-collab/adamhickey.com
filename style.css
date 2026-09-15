@@ -2017,48 +2017,6 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 @media (min-width: 768px) and (max-width: 1279px) {
   .eng3-hero-bg { aspect-ratio: auto; height: 26rem; object-position: right 35%; }
 }
-/* The hero's one action: a jump to the invitation band, which is where the
-   ask is made. The hero had no action at all, and the first button sat at
-   1328px on a 900px screen and 2027px on a phone. The link takes the proof
-   card's treatment -- charcoal, the sage rule under it -- and its hover
-   moves the rule rather than the ink: the sage text on the wall behind it
-   would measure about 3.2:1, so the words stay charcoal. The box is short
-   and sits in the left column under the dek, on the wall and nothing else,
-   so resting.mjs probes it by the pixel as it does the dek.
-
-   The rule is a pseudo-element hung a pixel clear of the box rather than
-   a border-bottom, and the probe is the reason. It hides the glyphs and
-   samples every pixel inside the element's box for the darkest ground the
-   ink sits on, and a sage border is inside that box: charcoal against the
-   rule measured 3.4:1 and failed a link whose words sit on a 9:1 wall.
-   The rule is not ground -- no glyph is ever drawn on it -- so it goes
-   outside the box the probe reads, where the border stood. The one-pixel
-   gap is for the screenshot the probe takes: a box whose height ends on
-   a fraction rounds out to the next whole row, and at 768px that row was
-   the rule, at 3.4:1 again. Without the border the 1px of padding under
-   the words is not needed; the gap does its job.
-   The hit zone grows behind the words, as .product-link's does. */
-.eng3-hero-link {
-  display: inline-block; position: relative;
-  margin-top: var(--space-lg);
-  color: var(--color-charcoal); font-weight: 600; font-size: var(--text-base); line-height: var(--leading-body);
-}
-.eng3-hero-link::before {
-  content: ""; position: absolute;
-  left: 0; right: 0; bottom: -3px; height: 2px;
-  background: var(--color-accent-deep);
-  transition: background-color var(--motion-state) var(--ease);
-}
-.eng3-hero-link:hover::before, .eng3-hero-link:focus-visible::before { background: var(--color-charcoal); }
-/* 44px behind the words, the same trick as .product-link, .glance-more and
-   the proof and fit links further down, for the same reason: the rule has
-   to stay on the text, so the target grows behind it rather than around it. */
-.eng3-hero-link::after {
-  content: ""; position: absolute;
-  left: 0; right: 0; top: 50%;
-  height: 44px; transform: translateY(-50%);
-}
-
 /* The facts strip is a band of its own between the hero and the invitation,
    and it takes the same air above and below: the section ramp on both sides
    plus the strip's own bottom margin gave 96 above and 144 below, and the
