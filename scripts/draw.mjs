@@ -31,19 +31,30 @@ import { homedir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import * as scenes from './writing-scenes.mjs';
 import * as features from './writing-features.mjs';
+import * as proof from './proof-cards.mjs';
 
 /* --set features draws the article's top picture (and its index card, cut
    from the same source); the default set stays the second, in-body scene.
    The two differ in their prompts, their style anchor, and what a finished
-   job produces -- a feature is two WebPs, a scene one. */
+   job produces -- a feature is two WebPs, a scene one.
+   --set proof draws the homepage's four "How I work" cards, which are the
+   same hand but a different slot: 3:2 at 1080x720 through `illustrate.mjs
+   step` rather than the writing set's 16:9 `feature`, and filed at a path
+   the registry names rather than one derived from the id.
+   Everything that used to be a `FEATURES ?` ternary is a column here, so a
+   fourth set is a row rather than an edit in five places. */
+const SETS = {
+  scenes:   { mod: scenes,   jobs: 'SCENES',   registry: 'writing-scenes.mjs',   suffix: '-2', role: 'feature', card: false },
+  features: { mod: features, jobs: 'FEATURES', registry: 'writing-features.mjs', suffix: '',   role: 'feature', card: true  },
+  proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'step',    card: false },
+};
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--set');
 const SET = si >= 0 ? argv.splice(si, 2)[1] : 'scenes';
-if (!['scenes', 'features'].includes(SET)) { console.error(`--set is scenes or features, not ${SET}`); process.exit(2); }
-const FEATURES = SET === 'features';
-const { STYLE, REF } = FEATURES ? features : scenes;
-const JOBS = FEATURES ? features.FEATURES : scenes.SCENES;
-const SUFFIX = FEATURES ? '' : '-2';
+if (!SETS[SET]) { console.error(`--set is ${Object.keys(SETS).join(', ')}, not ${SET}`); process.exit(2); }
+const { mod, registry: REGISTRY, suffix: SUFFIX, role: ROLE, card: CARDS } = SETS[SET];
+const { STYLE, REF } = mod;
+const JOBS = mod[SETS[SET].jobs];
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const INBOX = resolve(root, 'img/inbox');
@@ -79,7 +90,9 @@ if (cmd === 'queue') {
   const jobs = todo.map((s, i) => ({
     id: s.id,
     out: resolve(INBOX, `${s.id}${SUFFIX}.png`),
-    final: resolve(root, `img/writing/${s.id}${SUFFIX}.webp`),
+    /* A set whose registry names its own output path uses it; the writing
+       sets derive one from the id, which is their slug. */
+    final: s.out ? resolve(root, s.out) : resolve(root, `img/writing/${s.id}${SUFFIX}.webp`),
     attach: i === 0 ? [REF_PNG] : [],
     /* The accent is named in every prompt, not once at the top: the thread
        holds the style but not which of the three colours this picture takes,
@@ -88,7 +101,7 @@ if (cmd === 'queue') {
        else a picture may carry. */
     prompt: `${i === 0 ? `${STYLE}\n\n` : ''}${s.prompt}${s.group ? `\n\n${features.accentLine(s.group)}` : ''}\n\n${ASPECT}`,
     done: existsSync(resolve(INBOX, `${s.id}${SUFFIX}.png`)),
-    ...(FEATURES ? { card: resolve(root, `img/writing/${s.id}-card.webp`) } : {}),
+    ...(CARDS ? { card: resolve(root, `img/writing/${s.id}-card.webp`) } : {}),
     /* Both sets carry a group now, so `take` measures a scene's hue too. */
     ...(s.group ? { group: s.group } : {}),
   }));
@@ -98,7 +111,7 @@ if (cmd === 'queue') {
   /* A PNG in the inbox from before the prompts changed reads as "done" and
      `take` would file it. The registry's own mtime is the line: anything
      older than it was drawn to a prompt that no longer exists. */
-  const registry = resolve(root, 'scripts', FEATURES ? 'writing-features.mjs' : 'writing-scenes.mjs');
+  const registry = resolve(root, 'scripts', REGISTRY);
   const stale = jobs.filter((j) => j.done && statSync(j.out).mtimeMs < statSync(registry).mtimeMs);
   if (stale.length) console.log(`\n${stale.length} "done" PNG(s) predate ${short(registry)}; delete them from img/inbox before drawing, or take files the old picture`);
   console.log('\nnode scripts/draw.mjs next   # then draw it, and clip or land it back');
@@ -161,7 +174,7 @@ if (cmd === 'queue') {
   const extra = argv.slice(2);
   const lift = extra.length ? extra : ['--brightness', '1'];
   const cut = (role, out) => execFileSync('node', [resolve(root, 'scripts/illustrate.mjs'), role, job.out, out, ...lift], { stdio: 'inherit', cwd: root });
-  cut('feature', job.final);
+  cut(ROLE, job.final);
   /* A feature is stored twice, and the card has to be cut from the same
      source in the same run -- cutting it later, from the WebP, would put a
      second lossy pass on it. */

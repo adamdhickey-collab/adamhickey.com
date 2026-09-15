@@ -281,7 +281,7 @@ search engine it sat under Work.
 | --- | --- |
 | `img/site/` | Case-study screens, client logos and the built-step drawings, the bulk of the folder |
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
-| `img/engagement/` | The four card illustrations at 1080x720, each engagement page's hero and invitation, and the numbered step drawings. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
+| `img/engagement/` | The four card illustrations at 1080x720, each engagement page's hero and invitation, and the numbered step drawings. **The four card illustrations are no longer in this folder's hand.** `01-clarity`, `02-system`, `03-embedded` and `04-ai` are the homepage's "How I work" grid, and they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame, black as a solid shape, no paper grain -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut to this folder's 3:2 by `illustrate.mjs step` rather than the writing set's 16:9. They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
 | `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct |
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page except the homepage and the design system page, rendered by `scripts/og.mjs` from the page's title and its own picture; the homepage keeps `img/og-card.jpg`, drawn for it |
@@ -307,7 +307,14 @@ replacement has to match it or the set stops reading as a set: flat vector on
 a warm cream ground, muted sage / charcoal-navy / slate with a single
 terracotta accent, paper grain, no text anywhere in the image. 3:2 at
 1080x720, and they go in through `scripts/illustrate.mjs`, which crops,
-resamples, lifts and solves a hero's wall against the charcoal.
+resamples, lifts and solves a hero's wall against the charcoal. **This spec
+governs the heroes, the invitations and the step drawings, not the four
+homepage cards**, which left it for the writing hand and are held to that
+one instead; `scripts/proof-cards.mjs` carries their prompts and the reasons.
+Because they are cream-ground pictures sitting in an engagement slot,
+`illustrate.mjs step` will flag their mean luminance as above the set's
+126-184 band, the same way it flags the writing features, and that is
+correct rather than a fault to lift away.
 
 Cache-busters: the stylesheets, the images and the hero clip are loaded with a
 `?v=` query, and it gets bumped whenever the bytes at a path change, because
