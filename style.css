@@ -1368,27 +1368,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 .problems .section-head { margin-bottom: var(--space-3xl); }
 .problems .section-head h2 { color: var(--ink-on-dark); }
 .problems .section-head p { color: var(--ink-on-dark-secondary); }
-/* The engagements, as the secondary route they became in the hire-me pass:
-   one sentence under the four cards in the band's secondary ink, with the
-   four names as links in the accent that belongs on charcoal. The hover
-   goes to the primary on-dark ink, the same move .contact-plain a makes on
-   white with charcoal. */
-.problems-route {
-  margin: var(--space-2xl) 0 0;
-  max-width: var(--measure);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--ink-on-dark-secondary);
-}
-.problems-route a {
-  color: var(--color-accent-on-dark);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--motion-state) var(--ease);
-}
-.problems-route a:hover,
-.problems-route a:focus-visible { color: var(--ink-on-dark); }
 
 /* ---------- Selected clients strip ----------
    The logos were doing social-proof work with no label, so nobody could tell
@@ -1411,15 +1390,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    alternating sides down the page. The screenshot is the hero, not decoration,
    which is why there is no device chrome except on the phone-shaped one. */
 .built { background: var(--color-white); padding: var(--space-section) 0; }
-
-/* ---------- Other things I make ----------
-   The book and the identity shelf, out of Built end to end since the
-   hire-me pass, on the warm ground so the section reads as its own thing
-   between the white products and the charcoal About. The book row keeps
-   its compact treatment; its top margin was sized to follow the products,
-   and here it follows the section head, which carries its own space. */
-.other { background: var(--color-warm); padding: var(--space-section) 0; }
-.other .built-more { margin-top: 0; }
 
 .product-list { display: flex; flex-direction: column; gap: var(--space-block); }
 
@@ -3102,30 +3072,53 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: var(--space-md) 0 0;
 }
 
-/* The résumé-level scan under the hero: seven short claims in one wrapping
-   line, separated by middots, at the availability line's size and in its
-   charcoal, above a hairline. A hiring manager gets the résumé's first
-   paragraph before the client logos; every item is carried at length
-   further down the page. The middot is the secondary grey, which is a
-   separator rather than text and clears the floor on white regardless. */
+/* The résumé-level scan under the hero: eight facts on a grid, two by four
+   at desktop and two by two by two on a phone, each on the station mark the
+   engagement pages use for their facts -- .fact-node and .fact-icon, the
+   tea disc with the hairline icon that sketches itself on. The headline is
+   the serif at the size of a card's shift line; the detail under it is the
+   secondary grey. The draw-on is gated the way every reveal on this page
+   is: .js hides the strokes only when the observer that adds .is-visible is
+   running, and the stagger reads off --i, so the row draws left to right. */
 .hero-proof {
   list-style: none;
   margin: var(--space-lg) 0 0;
-  padding: var(--space-md) 0 0;
+  padding: var(--space-xl) 0 0;
   border-top: 1px solid var(--rule-hairline);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg) var(--space-md);
+}
+@media (min-width: 768px) {
+  .hero-proof { grid-template-columns: repeat(4, 1fr); gap: var(--space-xl) var(--space-2xl); }
+}
+.hero-proof li { display: flex; flex-direction: column; align-items: flex-start; }
+.hero-proof-label {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  margin: 0 0 var(--space-2xs);
+}
+.hero-proof-detail {
+  display: block;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-.hero-proof li { display: flex; align-items: baseline; }
-.hero-proof li + li::before {
-  content: "\00B7";
-  margin: 0 var(--space-sm);
+  line-height: var(--leading-ui);
   color: var(--color-muted-gray);
+}
+.js .hero-proof .fact-icon path,
+.js .hero-proof .fact-icon circle { stroke-dashoffset: 1; }
+.js .hero-proof.is-visible .fact-icon path,
+.js .hero-proof.is-visible .fact-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) + 150ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-proof .fact-icon path,
+  .js .hero-proof .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 
 

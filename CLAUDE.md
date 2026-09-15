@@ -344,8 +344,8 @@ at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
 **All four now press things, and only on one page.** They load a page, wait for
-it to settle and measure what is there, which is the whole of twenty-seven of
-the twenty-eight. `prototype/dispatch-cockpit.html` is the exception: it renders
+it to settle and measure what is there, which is the whole of twenty-eight of
+the twenty-nine. `prototype/dispatch-cockpit.html` is the exception: it renders
 its comparison, its override question, its refused button and its opened rows
 from JavaScript in response to a press, so twelve of its states were in no DOM
 any check ever saw and every one of them said "✓" about a page it had measured
@@ -369,7 +369,7 @@ is not.
 416 state rules and at 617, and the gap was a third of the site going
 unmeasured. At 2026-09-14 the tree measures 5784 resting colors, 1841 state
 rules, 23838 type sizes and 14246 elements checked for a partial border on a
-curve, across 28 pages (the twenty-seven of the site and `404.html`, which
+curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
 121 token names against 189 declarations and 10 counted claims.
 

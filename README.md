@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 27 pages in eight families |
+| **What this is** | The site: 28 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -120,20 +120,20 @@ the archive so that it holds everything staging ever had.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages, the three build write-ups, the eleven writing pages, the design system page and the prototype page load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-seven pages. Color, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-eight pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-three prose pages -- the ten writing articles, the nine case studies and the four engagement pages -- and by nothing else. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `case-study/*.html` | Nine case studies: four client engagements, two career-arc pages and three build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
-| `engagement/*.html` | Four engagement pages, linked from the sentence under "How I work inside a product organization" |
+| `engagement/*.html` | Four engagement pages, linked from every case study's close and the sitemap; not from the homepage since the team-cards pass |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the five screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the six crops the page's design decisions sit beside and the ten slides, five wide and five narrow |
 | `writing/*.html` | The index and ten articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-seven. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-eight. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -149,10 +149,9 @@ the seven-item proof strip and the client logos) → Selected work (three
 client case studies and the dispatch cockpit prototype) → How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and linking to the
-account that shows it, with the four engagements as one sentence under the
-grid) → The design-to-build shift (the scroll story) → Built end to end (the
-two products) → Other things I make (the book and the "Identity and
-illustration" shelf) → About, which links the two career case studies → the
+account that shows it) → The design-to-build shift (the scroll story) → Built end to end (the
+two products, ending on the line to `other.html`, where the book and the
+"Identity and illustration" shelf now live) → About, which links the two career case studies → the
 contact section, headed "Describe what is happening". Since #24 there is no
 Earlier experience section and no four-step panel under the products;
 staging's #142 cut the second half of the page by about a third, and #143
@@ -160,13 +159,14 @@ gave the two career case studies their route in from About. The hire-me pass
 put the work ahead of the method, reframed the engagement grid for a hiring
 manager, brought the proof strip back as a résumé-level line, and moved the
 book and the shelf out of the proof; the page argues for one thing first,
-hiring Adam onto a team, and offers the engagements second. The header carries Work, How I
+hiring Adam onto a team; the engagement pages are reached from the case
+studies' closes and the sitemap rather than from the homepage. The header carries Work, How I
 Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
 page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-seven pages in eight families, all hand-written HTML with no include step
+Twenty-eight pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -175,11 +175,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all twenty-seven pages, so a
-change to the shell is a change to twenty-seven files.
+email icon and the skip link are hand-written into all twenty-eight pages, so a
+change to the shell is a change to twenty-eight files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-seven pages
+base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -193,6 +193,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 11 | A | An index and ten articles, each answering a question a buyer asks before knowing the name. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work. |
+| Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
 
@@ -235,6 +236,11 @@ of the three describes a delivered project and a reader should not have to
 work that out. Two carry a Design psychology note, which until then had only
 appeared on a case study. The order is editorial rather than chronological:
 `hasPart` in the index's graph is kept in the order the page lists them.
+
+**Other work** -- `other.html`. The book's compact row and the "Identity and
+illustration, for clients" shelf, with the descriptions the homepage had
+trimmed off them, on the case-study shell at the root. The homepage's
+"Built end to end" ends on the line that points here.
 
 **Reference** -- `design-system/index.html`
 
@@ -351,7 +357,7 @@ the two Tailwind steps this repository had first, ten steps in all:
 
 "Every reachable state" was an overclaim for one page until the four browser
 checks learned to press things. They load a page, wait for it to settle and
-measure what is there, which is the whole of twenty-seven of the twenty-eight
+measure what is there, which is the whole of twenty-eight of the twenty-nine
 pages -- and about a sixth of `prototype/dispatch-cockpit.html`, which renders
 its comparison, its override question, its refused button and its opened rows
 from JavaScript in response to a press. Twelve such states existed in no DOM
@@ -395,7 +401,7 @@ prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
 result. At #62 the four browser checks measure 3335 resting colors, 1627
 state rules, 14172 type sizes and 7871 elements checked for a partial
-border, across twenty-eight pages: the twenty-seven of the site and `404.html`, which
+border, across twenty-nine pages: the twenty-eight of the site and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
 verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
 stopped being measured.
@@ -426,7 +432,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-twenty-seven live addresses, each dated. Every case study's and every article's
+twenty-eight live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page
