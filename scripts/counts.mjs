@@ -118,7 +118,7 @@ const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen',
                 20: 'twenty', 21: 'twenty-one', 22: 'twenty-two',
                 23: 'twenty-three', 24: 'twenty-four', 25: 'twenty-five',
-                26: 'twenty-six', 27: 'twenty-seven' };
+                26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight' };
 
 /* ---------------------------------------------------------------------------
  * The claims. `says` is the sentence as written and has to still be findable;
@@ -133,28 +133,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Twenty-seven pages in eight families',
-    n: 27, what: 'pages', of: () => PAGES.length },
+    says: 'Twenty-eight pages in nine families',
+    n: 28, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 27 pages in eight families',
-    n: 27, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 28 pages in nine families',
+    n: 28, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Twenty-seven pages in eight families',
-    n: 8, what: 'families in the README table', of: familyTableRows },
+    says: 'Twenty-eight pages in nine families',
+    n: 9, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Twenty-seven pages in eight families',
-    n: 27, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Twenty-eight pages in nine families',
+    n: 28, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all twenty-seven pages',
-    n: 27, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all twenty-eight pages',
+    n: 28, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all twenty-seven pages',
-    n: 27, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all twenty-eight pages',
+    n: 28, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -162,20 +162,20 @@ const CLAIMS = [
      where the prose said there was none is the reason to enter claims rather
      than trust that someone did. */
   { doc: 'design-system/index.html',
-    says: 'Twenty-seven pages, and the only edition',
-    n: 27, what: 'pages, as the editions list states them', of: () => PAGES.length },
+    says: 'Twenty-eight pages, and the only edition',
+    n: 28, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Sixteen of them',
     n: 16, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by twenty-one pages',
-    n: 21, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty-two pages',
+    n: 22, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all twenty-seven',
-    n: 27, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all twenty-eight',
+    n: 28, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 ];
 
 if (PAGES.length < 5) {
