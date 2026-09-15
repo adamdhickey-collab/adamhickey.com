@@ -3084,18 +3084,19 @@ html.ah-lightbox-open body { overflow: hidden; }
   padding: var(--space-lg) 0 0;
   border-top: 1px solid var(--rule-hairline);
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md) var(--space-md);
 }
-/* The column count steps where the detail lines stop fitting on one line,
-   not at the page's usual breakpoints: a detail that wraps turns a scan
-   into a paragraph, and eight of them wrapping is half the hero. Four
-   across needs about 217px a column, which is 1024; two need about 240,
-   which is 560; below that one fact to a row is the only way the line
-   holds. Four across at 768, which is where this started, gave each fact
-   154px and wrapped six of the eight. */
+/* Four across needs about 217px a column, which is 1024. Below that it is
+   two, all the way down: the details are written to hold one line, and on
+   a phone two of them do not, which is the trade taken on purpose. One
+   fact to a row keeps every line unbroken and costs about 160px of hero
+   on a 390px screen; two across with a couple of details running to a
+   second line is the more compact block, and the block is the point.
+   Four across at 768, which is where this started, gave each fact 154px
+   and wrapped six of the eight, which is neither. */
 @media (min-width: 560px) {
-  .hero-proof { grid-template-columns: repeat(2, 1fr); gap: var(--space-md) var(--space-xl); }
+  .hero-proof { gap: var(--space-md) var(--space-xl); }
 }
 @media (min-width: 1024px) {
   .hero-proof { grid-template-columns: repeat(4, 1fr); gap: var(--space-lg) var(--space-2xl); }
