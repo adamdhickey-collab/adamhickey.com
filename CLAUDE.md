@@ -42,9 +42,13 @@ so starting in the cloud does not commit anyone to finishing there.
 
 ## Git
 
-Work happens on a `claude/<task-name>` branch and lands through a pull request
-with the checks run first: locally, scoped by the table below, or the whole
-set with `gh workflow run checks.yml --ref <branch>`. **Never push to `main` directly.** `main` is the
+Work happens on a `claude/<task-name>` branch and lands through a pull
+request. **A merge never waits on a check.** The fast five run locally before
+the push, because they cost a second; the four browser checks run scoped to
+the page when the change is one page, and otherwise ride the post-merge run
+(below). The one change worth holding a merge for is a stylesheet more than
+one page loads -- `gh workflow run checks.yml --ref <branch>` and read it
+before merging. **Never push to `main` directly.** `main` is the
 live site, and there is no host in front of it any more. One carve-out, below.
 
 ### Asset swaps go straight to `main`
@@ -269,12 +273,12 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 node scripts/states.mjs <page> --strict   # just the page you touched
 ```
 
-`checks.yml` runs all of these plus the two Tailwind steps, but only when
-asked: `gh workflow run checks.yml --ref <branch>`, or *Run workflow* in the
-Actions tab. Nothing runs on a pull request by itself, so the local run is
-the gate, not a rehearsal. `tokens.mjs`, `counts.mjs` and `seo.mjs` need
-nothing installed and finish in about a second between them, so run those
-every time.
+`checks.yml` runs all of these plus the two Tailwind steps **on push to
+`main`, after the merge**, and on demand with `gh workflow run checks.yml
+--ref <branch>`. Nothing runs on a pull request, so nothing to wait for
+before merging; a failure opens an issue naming the commit, which by then is
+live. `tokens.mjs`, `counts.mjs` and `seo.mjs` need nothing installed and
+finish in about a second between them, so run those every time.
 
 ### How much of that to run, and when
 
@@ -284,10 +288,10 @@ need nothing installed. The four browser checks are the entire bill: each
 renders every page in the tree, and `typescale.mjs` renders each of them at
 four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
 
-**Nothing runs in CI on its own any more, so the local run is the check, and
-scoping it is a question of aim rather than volume.** The full unscoped set
-is one command away when a change earns it, and the row below says which
-do. Scoped to
+**The post-merge run is the full sweep, so a local run is about catching a
+failure before it is live rather than about coverage.** That makes it a
+question of aim rather than volume: scope it to what changed, and never hold
+a merge for it. The row below says which changes are worth the wait. Scoped to
 the page you touched, all four browser checks together take about half a
 minute, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
 alone on one page is a second. That is the difference between a check you run
@@ -297,8 +301,8 @@ and a check you skip because you are in a hurry.
 | --- | --- |
 | Copy, markup, SEO, images | The fast five |
 | Color, type, spacing or motion **on one page** | The fast five, plus the four browser checks scoped to that page |
-| A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite, unscoped |
-| Anything else | `gh workflow run checks.yml --ref <branch>`, and read the run before merging |
+| A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite. This is the one worth waiting for: `gh workflow run checks.yml --ref <branch>` on the branch, rather than minutes of local browser time |
+| Anything else | Merge; the push-to-`main` run is the full sweep, and a failure opens an issue |
 
 Every browser check takes a page argument, and that is the scoped form:
 

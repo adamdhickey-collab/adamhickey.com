@@ -47,28 +47,45 @@
 # with no browser on any image that ships without one. Each leg below resolves
 # AND installs for itself.
 #
-# WHY THIS NO LONGER RUNS ON ITS OWN. From #15 to #147 this ran on every pull
-# request and every push to main. It never gated anything: main has no branch
-# protection, so a red run blocked no merge, and it only ever reported. What
-# it did do was put the four browser legs on the clock of every merge,
-# including an image swap whose only risk resting.mjs measures in a second
-# when scoped to the page. CLAUDE.md's table already made the scoped local
-# run the check for most changes, so this is now the full run on demand:
+# WHEN THIS RUNS, AND WHY IT IS AFTER THE MERGE. From #15 to #147 it ran on
+# every pull request. It never gated anything -- main has no branch
+# protection, so a red run blocked no merge -- but it put the four browser
+# legs on the clock of every merge, so #148 took it down to workflow_dispatch.
+# That traded one problem for a worse one: nothing checked a merge at all, and
+# the wait simply moved onto the machine of whoever ran the scripts locally
+# before pushing. Twice in one sitting a merge went out with half the suite
+# unrun, which is the failure this arrangement is meant to make impossible.
+#
+# So it runs on push to main, AFTER the merge, and on demand. Nobody waits on
+# it: the merge lands, pages.yml deploys, and this reports within about ten
+# minutes on the commit that is already live. That is not a gate and is not
+# meant to be one -- with Pages deploying from main there has never been a
+# gate here, only the question of whether anyone finds out. A red run now
+# opens an issue (see the report job at the foot of this file), because a red
+# run in a tab nobody has open is the same as no run.
+#
+# On a branch, before merging, ask for it:
 #
 #   gh workflow run checks.yml --ref <branch>
 #
-# or Run workflow in the Actions tab. It is the same nine checks over the
-# same 29 pages when it runs; only the trigger changed. pages.yml still runs
-# deployable.mjs on its own, immediately before the upload, so the one check
-# that protects the deploy did not move with the rest.
+# CLAUDE.md's table says when that is worth the wait. The short version: a
+# change to a stylesheet more than one page loads. Everything else can ride
+# the post-merge run.
+#
+# pages.yml still runs deployable.mjs on its own, immediately before the
+# upload, so the one check that protects the deploy does not depend on this
+# file at all.
 
 name: checks
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   # The five that need nothing installed. No npm, no browser, about a second of
@@ -312,3 +329,43 @@ jobs:
             node node_modules/playwright-core/cli.js install chromium
           fi
           node scripts/${{ matrix.check }}.mjs ${{ matrix.flags }}
+
+  # A red run has to arrive somewhere a person looks. Without this the whole
+  # post-merge arrangement rests on someone opening the Actions tab, which is
+  # exactly the habit that made the pull-request run feel pointless.
+  #
+  # if: failure() is on the job, and needs: lists all three, so this fires
+  # once for the run rather than once per failing leg. It is skipped on a
+  # green run and on a cancelled one.
+  #
+  # The issue names the commit, because by the time it opens that commit is
+  # already the live site: this is a "go and look" notice, not a build break.
+  report:
+    name: Say so when a check fails
+    needs: [static, tailwind, browser]
+    if: failure() && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open an issue against the merged commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          short=$(echo "$SHA" | cut -c1-7)
+          gh issue create \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "checks failed on $short, which is live" \
+            --body "$(printf '%s\n' \
+              "The checks run after the merge, so \`$short\` is already deployed to https://adamhickey.com." \
+              "" \
+              "The run, with the failing leg named: $RUN" \
+              "" \
+              "Reproduce locally with the script the leg names, scoped to the page it faults on:" \
+              "" \
+              '```bash' \
+              "export CHROME=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\"" \
+              "node scripts/<check>.mjs <page> --strict" \
+              '```')"

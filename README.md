@@ -322,13 +322,14 @@ the path alone will not tell a browser anything moved.
 
 ## Checks
 
-`checks.yml` runs on demand: `gh workflow run checks.yml --ref <branch>`, or
-*Run workflow* in the Actions tab. From #15 to #147 it ran on every pull
-request and push to `main`; it never gated a merge, because `main` has no
-branch protection, and it put the four browser legs on the clock of every
-merge, so the local run scoped by `CLAUDE.md`'s table is the check now and
-the workflow is the full set when asked for. It reports and
-deploys nothing; the two workflows are separate on purpose so a failing check
+`checks.yml` runs on push to `main`, after the merge, and on demand with
+`gh workflow run checks.yml --ref <branch>`. It does not run on pull
+requests: from #15 to #147 it did, and it never gated a merge -- `main` has
+no branch protection -- while putting the four browser legs on the clock of
+every merge. #148 took that away and left nothing checking a merge at all,
+which was worse; #151 settled on checking after the merge, where the runner
+waits instead of a person, and opening an issue when a leg goes red. It
+reports and deploys nothing; the two workflows are separate on purpose so a failing check
 reads as a failing check rather than as a failed deploy. Since #23 it is
 the seven scripts that came across from staging, `keys.mjs` written here, and
 the two Tailwind steps this repository had first, ten steps in all:
