@@ -122,6 +122,14 @@
     if (!guarded(p) && !p.closest('.dp-note')) reg(p, 'cm-rise-sm', { span: 0.22 });
   });
 
+  /* ---- the pull mark under the impact table: draws itself on the scrub ----
+     Registered after the paragraphs so the mark is not treated as prose, and
+     given a longer span than the sentence beside it: a line describing itself
+     wants to be watched, where a paragraph only wants to arrive. */
+  $$('.impact-mark').forEach(function (m) {
+    reg(m, 'cm-draw', { span: 0.45, lead: 0.04 });
+  });
+
   /* ---- closing next-case link ---- */
   reg(document.querySelector('.case-closing-next'), 'cm-rise', { span: 0.3 });
 

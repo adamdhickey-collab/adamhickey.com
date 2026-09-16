@@ -405,3 +405,50 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 .min-h-screen .bg-warm.font-sans {
   max-width: calc(var(--measure) + 250px + var(--space-4xl) + 2 * var(--space-3xl));
 }
+
+/* ---------- The pull line under the table, and the mark beside it ----------
+   The closing line on the accent ground is the one sentence of the section a
+   reader will repeat, and it sat alone in its band. It now has a drawing of
+   what it says: the rhythm the dispatch floor found, the network the studio
+   made visible, the system SAP kept after I left, the thing that grew on the
+   Hub's platform. One per page, because the sentence is one per page.
+
+   A HUNDRED PIXELS AND A ONE-PIXEL STROKE, which is why these are drawn in
+   a 100-unit box and not the 24 the fact icons use. At 24 units rendered to
+   100 a hairline is stroke-width 0.24, a number nothing else on the site
+   writes and one that has to be re-derived the moment the size moves. In a
+   100-box one unit is one pixel at the rendered size, so `stroke-width: 1`
+   is the hairline, in the file, readable.
+
+   The other way to hold a hairline is vector-effect="non-scaling-stroke",
+   and it cannot be used here: with pathLength on the same element the dash
+   arithmetic goes wrong in Chrome, and the sprout on the Hub page rendered
+   with its ground line missing at full progress. Tested both, side by side,
+   before this box was resized.
+
+   White on --color-accent-deep is about 4.3:1, past the 3:1 a non-text mark
+   answers to -- the band is the same ground the button ink sits on at 4.12,
+   and this is lighter than that ink. COLOR.md section 2 has the row.
+
+   The mark holds its 100px against a paragraph of any length: `flex: none`
+   so the measure gets every pixel it is entitled to and the mark is not the
+   thing that gives. Under 640 the two stack, because 100px of mark plus the
+   gap out of a 342px card is nearly two fifths of the line. */
+.min-h-screen .bg-warm.font-sans > .bg-accent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xl);
+}
+.min-h-screen .impact-mark {
+  flex: none;
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+@media (max-width: 640px) {
+  .min-h-screen .bg-warm.font-sans > .bg-accent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+}
