@@ -7,9 +7,9 @@
    read-aloud.css; this file decides what gets read, in what order, and what
    is lit while it is being said.
 
-   WHY THE BUTTON IS BUILT HERE rather than written into twenty-three
+   WHY THE BUTTON IS BUILT HERE rather than written into twenty-four
    pages. Two reasons, and the second is the one that decides it.
-   Twenty-three copies of a control is how the two headers drifted apart
+   Twenty-four copies of a control is how the two headers drifted apart
    before site-nav.css existed. And a button that cannot work without JavaScript should not be
    in the HTML: speech synthesis IS the feature, so a reader whose browser
    has no speechSynthesis gets no button rather than a button that lies.
@@ -284,9 +284,39 @@
      Following. Scroll only when the live sentence has left the comfortable
      band, so an ordinary paragraph is read without the page moving at all,
      and a reader who has scrolled ahead is left alone for a few seconds. */
+  /* A sideways track -- the five screens above the cockpit are a scroll-snap
+     list with all five in the document, side by side -- holds prose that the
+     page's own vertical scroll can never bring into view. The slide is a
+     child of the track, so the same arithmetic the slideshow's own controls
+     use puts it on the track's starting edge: the distance between two
+     children's offsets is the scroll between them.
+
+     Nothing here knows about the cockpit. It is the general case of text that
+     is laid out and off screen, and a track that is already showing the slide
+     is left alone rather than nudged to the pixel. */
+  const trackOf = (el) => {
+    for (let n = el.parentElement; n && n !== main.parentElement; n = n.parentElement) {
+      if (n.scrollWidth - n.clientWidth > 8 &&
+          /auto|scroll/.test(getComputedStyle(n).overflowX)) return n;
+    }
+    return null;
+  };
+
+  const followAcross = (seg) => {
+    const track = trackOf(seg.el);
+    if (!track || !track.firstElementChild) return;
+    let slide = seg.el;
+    while (slide && slide.parentElement !== track) slide = slide.parentElement;
+    if (!slide) return;
+    const to = slide.offsetLeft - track.firstElementChild.offsetLeft;
+    if (Math.abs(track.scrollLeft - to) < 8) return;
+    track.scrollTo({ left: to, behavior: reduce.matches ? 'auto' : 'smooth' });
+  };
+
   let handScrolledAt = 0;
   const follow = (seg) => {
     if (Date.now() - handScrolledAt < 4000) return;
+    followAcross(seg);
     const r = rangeOf(seg.map, seg.from, seg.to);
     const rect = (r ? r : seg.el).getBoundingClientRect();
     if (!rect.height && !rect.width) return;
@@ -434,12 +464,23 @@
   /* Under the dek, above the first section: the offer to listen belongs
      next to the sentence that says what the page is, not at the top of the
      chrome. The h1's parent is the hero container in all three page
-     families, and the paragraph after the h1 is the dek where there is one. */
+     families, and the paragraph after the h1 is the dek where there is one.
+
+     A page whose hero does not end on its dek says where to go instead, with
+     data-read-aloud="after" on the element to sit under. The prototype is the
+     one that needs it: its hero closes on a row of actions, and the default
+     place would put a control between a sentence and the button it argues
+     for. The attribute is markup rather than a fourth guess in here, because
+     what follows the dek is a fact about the page and the page is where it
+     can be seen. */
   const h1 = main.querySelector('h1');
   if (!h1) return;
-  let anchor = h1;
-  if (anchor.nextElementSibling && anchor.nextElementSibling.tagName === 'P') {
-    anchor = anchor.nextElementSibling;
+  let anchor = main.querySelector('[data-read-aloud="after"]');
+  if (!anchor) {
+    anchor = h1;
+    if (anchor.nextElementSibling && anchor.nextElementSibling.tagName === 'P') {
+      anchor = anchor.nextElementSibling;
+    }
   }
   anchor.insertAdjacentElement('afterend', bar);
 
