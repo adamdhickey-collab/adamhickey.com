@@ -101,48 +101,7 @@
  * this hand, not the 1.15 the drab engagement batches needed.
  */
 
-import { STYLE as FEATURE_STYLE } from './writing-features.mjs';
-export { REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs';
-
-/* The one place this set departs from the features' preamble, and it is a
-   framing rule rather than a style: the object sits INSIDE the frame. The
-   writing features are drawn bigger than the frame and cropped by two or
-   three edges, and the first pass of this grid was too -- the funnel cut by
-   the top and both sides, the hat by the top and left, the dart's nose in
-   the corner. At 300px in a four-up grid, with the card's own padding a
-   finger's width away, that read as the picture running into the card
-   rather than sitting on it. So the object is drawn big and WHOLE, with a
-   narrow, even band of ground between it and every edge, and only the
-   black ribbon still runs off the frame. The ribbon keeps the tightness,
-   and it also keeps illustrate.mjs from reading the margin as a baked-in
-   border and cropping it back off: its border walk needs all four edges to
-   find the corner colour at a similar depth, and a ribbon leaving through
-   one of them defeats that. If a `take` report ever shows a border anyway,
-   run it again with the full-height centred 3:2 by hand:
-   `draw.mjs --set proof take N --crop 130,0,1412,941 --brightness 1`.
-
-   The margin is asked for in the 16:9 the generator returns, and `step`
-   keeps only the middle 84% of that width, so "three quarters of the width"
-   below is about a twentieth of the card's width a side once cut, with
-   about the same above and below. The preamble is derived from the
-   features' by replacing its two framing sentences, and it throws if
-   either has been reworded there, so this cannot silently drift into
-   agreeing with the rule it means to override. */
-const reframe = (text, from, to) => {
-  if (!text.includes(from)) throw new Error(`proof-cards.mjs: the features' preamble no longer says "${from.slice(0, 48)}…"; re-derive STYLE`);
-  return text.replace(from, to);
-};
-export const STYLE = reframe(reframe(FEATURE_STYLE,
-  'Every picture is ONE large everyday object, drawn bigger than the frame so it is cropped by at least two edges, with empty ground around what remains.',
-  'Every picture is ONE large everyday object, drawn big enough to fill most of the frame but sitting entirely inside it, whole, with a narrow, even band of empty ground between it and every edge of the picture. Only the black ribbon may run off the frame; the object itself never touches an edge.'),
-  'Landscape, filling the frame edge to edge.',
-  'Landscape, the ground filling the picture edge to edge.');
-
-/* The framing sentence every prompt in this set carries, after the object
-   is described and before the ribbon is: the generator weighs the latest
-   instruction most, and the reference it is matching is cropped by three
-   edges, so the preamble alone is not enough to keep an object off them. */
-const inside = (object) => `The ${object} sits whole in the exact centre of the picture and fills about three quarters of its width, so that a clear, even band of empty ground shows between it and all four edges of the frame, about the same width on every side. Unlike the reference, no part of the ${object} is cut off by any edge.`;
+export { STYLE, REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs';
 
 /* The preamble already forbids gradients and shading, and on this set the
    generator ignored it three times running: 01 came back with the ground
@@ -170,8 +129,8 @@ export const PROOF = [
     device: 'the many, narrowed to one',
     situation: 'The product grew faster than its structure.',
     heading: 'Turn ambiguity into a decision',
-    alt: 'A large terracotta funnel sitting whole inside the frame, with one solid black stream falling straight from its spout and off the bottom edge',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta funnel, the plain kitchen kind, seen straight from the side: its wide round mouth across the upper part of the picture, the rim drawn as a shallow ellipse so it reads as a mouth, its sides running down and inward to a short narrow spout in the lower middle of the picture. ${inside('funnel')} From that spout ONE solid black shape falls: a single straight stream, an even ribbon of solid black, running vertically down from the spout and off the bottom edge of the frame. The stream is the only thing in the picture that reaches an edge, exactly one stream, and it is the only black shape in the picture. Nothing is in the funnel's mouth and nothing is above it. The terracotta funnel is by far the largest thing in the picture. No table, no jar, no bottle, no drips, no splash, no droplets, no second stream. Nothing else in the picture.
+    alt: 'A large terracotta funnel cropped by the top and both sides of the frame, with one solid black stream falling straight from its spout and off the bottom edge',
+    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta funnel, the plain kitchen kind, seen straight from the side: its wide mouth across the top of the frame drawn so big that it is cropped by the top edge and by BOTH the left and the right edge, its sides running down and inward to a short narrow spout in the lower middle of the picture. From that spout ONE solid black shape falls: a single straight stream, an even ribbon of solid black, running vertically down and off the bottom edge of the frame. Exactly one stream, and it is the only black shape in the picture. Nothing is in the funnel's mouth and nothing is above it. The terracotta funnel is by far the largest thing in the picture. No table, no jar, no bottle, no drips, no splash, no droplets, no second stream. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -182,8 +141,8 @@ ${FLAT}`,
     device: 'the black ribbon, made fast',
     situation: 'Several teams solve the same problem differently.',
     heading: 'Set standards other teams adopt, and keep them adopted',
-    alt: 'A large slate cleat standing whole in the middle of the frame, with one solid black rope turned tight around it and running away taut off both edges',
-    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, standing upright and seen straight from the side, the whole cleat visible from the tips of its two horns to the flat base it stands on. ${inside('cleat')} One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The rope is the only thing in the picture that reaches an edge. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no ground line, no loose rope ends, no second cleat. Nothing else in the picture.
+    alt: 'A large slate cleat with one solid black rope turned tight around it and running away taut off both edges of the frame',
+    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, drawn huge in the centre of the frame and cropped by the bottom edge, standing upright. One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no loose rope ends, no second cleat. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -194,8 +153,8 @@ ${FLAT}`,
     device: 'the black strap, and the object that did the job',
     situation: 'An important initiative exists, but no one senior owns it.',
     heading: 'Own the design inside the team, not beside it',
-    alt: 'A large sage hard hat sitting whole inside the frame, its black chinstrap falling in one curve and running off the bottom right',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side, the whole hat visible, dome and brim. ${inside('hard hat')} Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon that leaves the back of the hat, falls in a single easy curve and runs off the bottom right corner of the frame. The strap is the only thing in the picture that reaches an edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
+    alt: 'A large sage hard hat cropped by the top and left of the frame, its black chinstrap falling in one curve and running off the bottom right',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side, drawn huge and cropped by the top edge and the left edge of the frame. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon that leaves the back of the hat, falls in a single easy curve and runs off the bottom right corner of the frame. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -206,8 +165,8 @@ ${FLAT}`,
     device: 'object on an accent field; past the launch',
     situation: 'Plenty of ideas and sketches. Nothing anyone can use yet.',
     heading: 'Carry the direction into something that works',
-    alt: 'A large cream paper dart climbing whole across a full terracotta field, with one solid black line behind it curving up from the bottom edge to its tail',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, the whole dart visible, its nose pointed toward the upper right, clearly in flight and climbing. ${inside('paper dart')} Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, curves up from the bottom edge of the frame, left of centre, and ends at the dart's tail, drawn as one even ribbon of solid black. The flight path is the only thing in the picture that reaches an edge. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
+    alt: 'A large cream paper dart climbing across a full terracotta field, with one solid black line behind it curving up from the lower left and off the bottom of the frame',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn huge in the middle of the frame and cropped by the top edge, its nose in frame and pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, curves up from the lower left of the frame and runs off the bottom edge, drawn as one even ribbon of solid black that ends at the dart's tail. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
 
 ${FLAT_TERRACOTTA}`,
   },
