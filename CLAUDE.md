@@ -43,7 +43,8 @@ so starting in the cloud does not commit anyone to finishing there.
 ## Git
 
 Work happens on a `claude/<task-name>` branch and lands through a pull request
-that `checks.yml` has run on. **Never push to `main` directly.** `main` is the
+with the checks run first: locally, scoped by the table below, or the whole
+set with `gh workflow run checks.yml --ref <branch>`. **Never push to `main` directly.** `main` is the
 live site, and there is no host in front of it any more. One carve-out, below.
 
 ### Asset swaps go straight to `main`
@@ -268,9 +269,10 @@ node scripts/curves.mjs                   # no partial border on a rounded surfa
 node scripts/states.mjs <page> --strict   # just the page you touched
 ```
 
-`checks.yml` runs all of these plus the two Tailwind steps on every pull
-request, so a change that fails them fails CI. Run them locally first anyway;
-the browser step is slow. `tokens.mjs`, `counts.mjs` and `seo.mjs` need
+`checks.yml` runs all of these plus the two Tailwind steps, but only when
+asked: `gh workflow run checks.yml --ref <branch>`, or *Run workflow* in the
+Actions tab. Nothing runs on a pull request by itself, so the local run is
+the gate, not a rehearsal. `tokens.mjs`, `counts.mjs` and `seo.mjs` need
 nothing installed and finish in about a second between them, so run those
 every time.
 
@@ -282,10 +284,10 @@ need nothing installed. The four browser checks are the entire bill: each
 renders every page in the tree, and `typescale.mjs` renders each of them at
 four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
 
-**CI runs all nine on every pull request regardless, so a full local run does
-not add safety — it duplicates a run that is about to happen anyway.** What a
-local run actually buys is finding the failure before spending a CI cycle to
-be told about it, and that is a question of aim rather than volume. Scoped to
+**Nothing runs in CI on its own any more, so the local run is the check, and
+scoping it is a question of aim rather than volume.** The full unscoped set
+is one command away when a change earns it, and the row below says which
+do. Scoped to
 the page you touched, all four browser checks together take about half a
 minute, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
 alone on one page is a second. That is the difference between a check you run
@@ -296,7 +298,7 @@ and a check you skip because you are in a hurry.
 | Copy, markup, SEO, images | The fast five |
 | Color, type, spacing or motion **on one page** | The fast five, plus the four browser checks scoped to that page |
 | A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite, unscoped |
-| Anything else | Let CI be the full run |
+| Anything else | `gh workflow run checks.yml --ref <branch>`, and read the run before merging |
 
 Every browser check takes a page argument, and that is the scoped form:
 
