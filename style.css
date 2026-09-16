@@ -3121,62 +3121,91 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0 0 var(--space-xl);
 }
 
-/* The résumé-level scan under the hero: six facts, each the engagement
-   pages' station mark with its label and detail set beside it and centred
-   on it -- one row per fact rather than a mark stacked over its words.
+/* The resume-level scan under the hero: six capabilities, each the engagement
+   pages' station mark with its label and detail set beside it.
 
-   The marks were tried here once and taken off, with a note saying plain was
-   cleaner and half the height. Both halves of that were about the stack: a
-   44px disc over a label is a row about 100px tall, eight of them wanted
-   four columns, and four columns at 1024 gave each fact 217px, which is a
-   disc with a wrapped label under it. Beside the words the disc costs
-   almost nothing vertical -- the row is already 46px of type, and 44px of
-   disc fits inside that -- so against the plain eight-fact block this
-   replaces it is 136px against 140px at 1280 and 195px against 258px at
-   768, with the marks on it.
+   It is a RULED BAND rather than six pairs on the open page, and that is the
+   whole of this pass. The arrangement before it was three 384px columns
+   carrying about 250px of content each, gapped 32px, on white: every cell
+   held 130px of air that belonged to nothing, so the eye read "item, void,
+   item, void, item" and the block floated between a hero and a logo strip
+   without belonging to either. Closing it top and bottom and running a
+   hairline between the columns spends that same air as cell padding, which
+   the lattice then accounts for. Nothing moved; the space acquired an owner.
 
-   The phone is the one place it grows: 385px against 339px, because one
-   column is six rows where two columns of eight were four. That is the cost
-   of every label and every detail holding its line at 390, which two
-   columns cannot do once a 44px mark is taking width out of the cell. */
+   THE COLUMN COUNT IS THE LOGO STRIP'S. Three columns over six wordmarks is
+   one rule to every two logos, so the two bands share a grid and read as one
+   block of evidence -- the capabilities, and the places they were spent. That
+   rhyme is the reason this stays full-container width rather than tucking
+   under the hero's copy column, which would align it to the headline and
+   orphan the strip below it.
+
+   The steps are still 640 and 1024, and still for the measurement the block
+   before this one recorded: a column carries the 44px mark, its gutter and
+   the longest detail on one line, which needs about 280px, and now also the
+   cell's own inset. Below 640 it is one column -- two on a 390px screen leave
+   the text 107px, which wraps every detail and most labels.
+
+   The outer cells lose their outer inset so the first label sits on the
+   container's left edge and the last detail ends on its right, under the
+   rules that close the band. A cell inset on all four sides would push the
+   ink 24px inside a rule that runs flush, which is the one thing that makes
+   a table look pasted on. */
 .hero-proof {
   list-style: none;
-  margin: var(--space-lg) 0 0;
-  padding: var(--space-lg) 0 0;
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
   border-top: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rule-hairline);
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-md);
+  gap: 0;
 }
 /* The row: mark, then the words centred on it. The mark does not shrink and
    does not carry the facts strip's bottom margin, which is there to space it
-   off a label underneath it rather than beside it. */
+   off a label underneath it rather than beside it. The cell stretches to its
+   row's height -- the default -- so the hairline between two columns runs the
+   whole way down whichever of them wrapped. */
 .hero-proof li {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--rule-hairline);
 }
+.hero-proof li:first-child { border-top: 0; }
 .hero-proof .fact-node { flex: none; margin-bottom: 0; }
 .hero-proof-text { min-width: 0; }
-/* One, two and three columns, and the steps are set by one measurement: a
-   column now has to carry the 44px mark, its 12px gutter and the longest
-   detail on one line, which takes about 280px. Two columns reach that at
-   640 (282px a column) and three at about 940 (273px), so the steps are 640
-   and 1024 -- both already in this stylesheet, neither invented for this.
-   1024 rather than 960 costs the 960-1023 band a column and 59px of hero,
-   which is the price of not adding a breakpoint for one band.
-
-   Below 640 it is one column, not two. Two columns on a 390px screen leave
-   the text 107px, which wraps every detail and most labels; one column
-   gives it 196px and everything holds its line. That is the reverse of the
-   rule this block had while the mark sat ON the label, when two across was
-   the more compact arrangement -- beside the label the mark eats width
-   rather than height, so the narrow screen wants fewer columns, not more. */
-@media (min-width: 640px) {
-  .hero-proof { grid-template-columns: repeat(2, 1fr); gap: var(--space-md) var(--space-xl); }
+/* Two and three columns, and the two-column band is bounded ABOVE as well as
+   below -- the one closed range in this block, and the reason for it is the
+   lattice. Which cell starts a row changes with the column count: at two
+   across the row starts on the odd children, at three across on 3n+1, and
+   those two selectors carry the same specificity and disagree about four of
+   the six cells. Written open-ended the 640 rule keeps applying at 1440,
+   where it strips the hairline off Accessibility, closes the inset on Design
+   systems, and leaves a band with two of its four rules drawn. 1023.98 is
+   the same half-pixel stop .case-grid--three uses higher up. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .hero-proof { grid-template-columns: repeat(2, 1fr); }
+  .hero-proof li {
+    padding: var(--space-lg) var(--space-xl);
+    border-top: 1px solid var(--rule-hairline);
+    border-left: 1px solid var(--rule-hairline);
+  }
+  .hero-proof li:nth-child(-n+2) { border-top: 0; }
+  .hero-proof li:nth-child(odd)  { border-left: 0; padding-left: 0; }
+  .hero-proof li:nth-child(even) { padding-right: 0; }
 }
 @media (min-width: 1024px) {
-  .hero-proof { grid-template-columns: repeat(3, 1fr); gap: var(--space-lg) var(--space-2xl); }
+  .hero-proof { grid-template-columns: repeat(3, 1fr); }
+  .hero-proof li {
+    padding: var(--space-lg) var(--space-xl);
+    border-top: 1px solid var(--rule-hairline);
+    border-left: 1px solid var(--rule-hairline);
+  }
+  .hero-proof li:nth-child(-n+3) { border-top: 0; }
+  .hero-proof li:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+  .hero-proof li:nth-child(3n)   { padding-right: 0; }
 }
 /* The mark is .fact-node and .fact-icon unchanged, from the engagement pages'
    facts strip: same 44px tea disc, same sage hairline, same 22px icon in
