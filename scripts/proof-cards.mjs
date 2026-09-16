@@ -194,6 +194,23 @@
  * 640x360, ask what it was cut from before cutting it again.** The recovered
  * rectangle is in this comment so the next pass does not have to search for it.
  *
+ * 04 CAME BACK THE SAME WAY and was recovered the same way: a 536x301 PNG,
+ * which correlates against the shipped card at 0.9998 at x=104.5 y=0 w=535
+ * h=301 -- a 1:1 crop of the card, not a resample, which is why the number is
+ * that high. Mapped to the source that is `--crop 273,0,1398,786`, and cutting
+ * it there is a 2.18x downsample where dropping the 535px crop into the 640px
+ * slot would have been a 1.2x UPSCALE. It keeps `--brightness 1`, checked the
+ * same way: the crop's corners land on (197,110,69) and (197,111,69) against
+ * the card it came from at (197,111,69) and (197,111,70).
+ *
+ * The pattern across both: **a drawing that comes back at or under 640x360 is
+ * a crop of a shipped card, and the shipped card is not the thing to cut.**
+ * Correlate it against the card to get the rectangle, scale by 1672/640 =
+ * 2.6125, and cut the original. Edge-crossing width, averaged over the
+ * picture, is the measurement that tells you which you are holding; the eye
+ * does not catch a 1.2x upscale on a 300px card until it is next to three that
+ * are not.
+ *
  * The lift stays 0.97, checked rather than assumed: a tighter crop samples a
  * different part of a ground that is not perfectly flat, and it lands the
  * corners on (242,233,221) and (243,234,222) against 01 and 02's
@@ -292,8 +309,8 @@ ${FLAT}`,
     device: 'object on an accent field; past the launch',
     situation: 'Plenty of ideas and sketches. Nothing anyone can use yet.',
     heading: 'Carry the direction into something that works',
-    alt: 'A large cream paper dart climbing across a full terracotta field with a band of field above and beside it, one solid black line behind it curving up from the lower left and off the bottom of the frame',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn big in the middle of the frame but sitting just inside it: a narrow band of terracotta, about a twentieth of the picture's height, shows above the highest point of the dart, and a band of terracotta about an eighth of the picture's width shows beyond it at each side. Its nose is pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, curves up from the lower left of the frame and runs off the bottom edge, drawn as one even ribbon of solid black that ends at the dart's tail. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
+    alt: 'A large cream paper dart climbing across a full terracotta field, its nose reaching close to the upper right corner and its tail near the left edge, one solid black line behind it curving down from the tail and off the bottom left corner of the frame',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn big enough to cross the whole frame: its nose reaches close to the upper right corner and its tail sits near the left edge, with only a narrow band of terracotta, about a twentieth of the picture's height, above the highest point of the dart. Its nose is pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, leaves the dart's tail, curves down to the left and runs off the bottom left corner of the frame, drawn as one even ribbon of solid black. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
 
 ${FLAT_TERRACOTTA}`,
   },
