@@ -3139,12 +3139,12 @@ html.ah-lightbox-open body { overflow: hidden; }
    an even --space-xl inside each and between the rows, so the six sit as one
    set inside one object rather than as two rows of three, or as six pairs.
 
-   The columns hold without rules because the insets are even: the three
-   marks sit at thirds of the band, and alignment does what the hairlines
-   did. THE COLUMN COUNT IS THE LOGO
-   STRIP'S -- three over six wordmarks is one column to every two logos, so
-   the two bands share a grid and read as one block of evidence, the
-   capabilities and the places they were spent. That rhyme is the reason this
+   The columns hold without rules because alignment does what the hairlines
+   did: each mark sits the same step into its pair of sixths as the wordmark
+   under it sits into its own, which the block at 1024 below works out. THE
+   GRID IS THE LOGO STRIP'S -- three facts over six wordmarks is one column
+   to every two logos, so the two bands share one grid and read as one block
+   of evidence, the capabilities and the places they were spent. That rhyme is the reason this
    stays full-container width rather than tucking under the hero's copy
    column, which would align it to the headline and orphan the strip below.
 
@@ -3190,20 +3190,36 @@ html.ah-lightbox-open body { overflow: hidden; }
   .hero-proof { grid-template-columns: repeat(2, 1fr); padding: var(--space-xl) 0; row-gap: var(--space-xl); }
   .hero-proof li { padding: 0; border-top: 0; }
 }
-/* Three across, inset one 3xl step from the left. Each wordmark below is
-   centred in its sixth, so the first one's ink starts about 46px in from the
-   container edge while a mark at 0 hung out past it. 4xl put the disc's
-   faint ring on that ink, and the eye aligns ink to ink: the glyph starts
-   about 15px inside the ring, so at 48 the visible mark sat 17px right of
-   the logo. At 40 the glyph lands 9px right of the logo and the ring sits
-   6px left of it, which is the closest a step on the scale gets to
-   straddling it. Measured at 1440: ring 152, glyph 167, Cargill 158. Padding rather than margin,
-   so the two hairlines still run the container. Left only: the right edge
-   of the band is the container's, and the third column has the room. */
+/* Three across, on the logo strip's own grid. The strip below is six equal
+   sixths with --space-xl between them, and each wordmark sits centred in its
+   sixth behind a --space-md inset, so its ink starts a little way in from
+   the sixth's left edge: about 46px for Cargill, 36 for Dr Pepper, 43 for
+   Lund at the 1280 container, the spread being the whitespace each SVG
+   carries in its own 200-unit box. #158 laid the facts over that as three
+   equal thirds, which put the first mark on the first wordmark only by
+   accident of the inset #160 and #161 tuned: three thirds and six sixths
+   with gutters are not the same columns, and the middle mark stood 17px
+   left of the Dr Pepper ink and the third 46px left of Lund's.
+
+   So the list is the same six-column grid with the same gutter, each fact
+   spanning two, and the 3xl inset #161 chose moves from the list onto each
+   fact. That puts every mark the same distance into its pair of sixths as
+   the first one was into its own, and the first column does not move at
+   all. The eye aligns ink to ink, and the glyph starts about 15px inside
+   the ring, so a step that lands the ring within a few px of the logo's
+   ink reads as on it; 3xl does that for all three. Measured at 1280 from
+   the container edge: rings 72, 485, 899 against ink 78, 481, 902, so the
+   ring sits 6 left, 4 right and 3 left of the wordmark it answers to,
+   where before it sat 6 left, 17 left and 46 left.
+
+   The two hairlines still run the whole container, because the inset is
+   on the items rather than the list. Each fact is 389px wide at 1280 and
+   306 at 1024 -- 3px narrower than a third was -- and no detail wraps at
+   any width from 1024 up; the longest, "the reasons beside the answer",
+   needs 213. */
 @media (min-width: 1024px) {
-  .hero-proof { grid-template-columns: repeat(3, 1fr); padding-inline-start: var(--space-3xl); }
-}
-}
+  .hero-proof { grid-template-columns: repeat(6, 1fr); column-gap: var(--space-xl); }
+  .hero-proof li { grid-column: span 2; padding-inline-start: var(--space-3xl); }
 }
 /* The mark is .fact-node and .fact-icon unchanged, from the engagement pages'
    facts strip: same 44px tea disc, same sage hairline, same 22px icon in
