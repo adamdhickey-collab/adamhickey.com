@@ -3822,11 +3822,22 @@ html.ah-lightbox-open body { overflow: hidden; }
    a pair, a gap so they are two answers rather than one. */
 .glance + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
 /* On Lucy Learns the three phones sit between the two strips since
-   2026-09-06, so the pair rule above does not fire there: the product gets
-   the most-used gap off the facts, and the approach strip closes the hero
-   with the margin the pair used to. */
+   2026-09-06, and on Door County Found the identity shot does since
+   2026-09-16, so the pair rule above does not fire on either: the product
+   gets the gap off the facts, and the approach strip closes the hero with
+   the margin the pair used to.
+
+   Only the second half is shared. .build-shot keeps its own --space-2xl off
+   the facts rather than taking the flow's --space-xl, because the same
+   figure appears four more times down the body of that page at --space-2xl
+   and the hero one reading tighter than its own siblings is a seam. The
+   top-margin rule stays scoped to .build-flow for a second reason: a
+   .glance immediately followed by a .build-shot is also the shape While
+   We're Here has, where the shot sits AFTER both strips, and widening the
+   selector would have quietly retuned a page nobody was editing. */
 .glance + .build-flow { margin-top: var(--space-xl); }
-.build-flow + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
+.build-flow + .glance,
+.build-shot + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
 .glance-kicker {
   font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
