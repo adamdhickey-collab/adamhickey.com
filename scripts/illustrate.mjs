@@ -7,6 +7,7 @@
  *   node scripts/illustrate.mjs hero   img/inbox/clarity-hero.png    img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs feature img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system.webp --brightness 1
  *   node scripts/illustrate.mjs card    img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system-card.webp --brightness 1
+ *   node scripts/illustrate.mjs card    img/inbox/01-clarity.png       img/engagement/01-clarity.webp --brightness 1 --breathe 0.94
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
@@ -25,6 +26,11 @@
  *            1774x887, which are the native sizes the set is stored at.
  *            The writing features are 16:9, 1600x900 on the article and
  *            640x360 as the card on the index, both cut from one drawing.
+ *   breathe  Opt-in, and only with --breathe s: the drawing is set at s of the
+ *            slot on its own ground, centred and anchored to the bottom edge,
+ *            which is how a picture the generator framed too tight gets its
+ *            band of ground without being redrawn. The flag's own comment has
+ *            why the anchor is the bottom and not the centre.
  *   lift     Steps and invitations: brightness 1.15 (or --brightness n), contrast 1.06,
  *            saturation left alone. Heroes: the same contrast, and the
  *            brightness binary-searched until the wall lands at 8.0:1 against
@@ -106,6 +112,24 @@ if (ci >= 0) { manualCrop = args[ci + 1].split(',').map(Number); args.splice(ci,
    184. Heroes ignore it, since their brightness is solved, not chosen. */
 const bi = args.indexOf('--brightness');
 if (bi >= 0) { LIFT.brightness = Number(args[bi + 1]); args.splice(bi, 2); }
+/* --breathe s gives a drawing that came back framed too tight the air it
+   should have been drawn with, without redrawing it: the crop is resampled to
+   s of the slot and set on the slot's own ground, centred, and anchored to the
+   BOTTOM edge. The anchor is the whole point and not a default worth changing
+   casually. These compositions hang one black shape off an edge -- 01's stream
+   off the bottom, 02's rope off both sides -- and a drawing centred in its new
+   frame lifts that shape off the edge it was drawn to leave by, which reads as
+   a different picture rather than the same one with room around it.
+   Bottom-anchored, the band the picture gains is all at the top, which is the
+   edge a generator run crowds.
+   The alternative -- sliding the drawing down inside its own frame and letting
+   the bottom rows go -- keeps the object at full size but shortens whatever
+   runs off the bottom by exactly as much, and on 01 that is the stream the
+   card is about: at 80px of slide it is a stub. Scaling costs a few percent of
+   object and keeps the composition. */
+let breathe = 1;
+const ai = args.indexOf('--breathe');
+if (ai >= 0) { breathe = Number(args[ai + 1]); args.splice(ai, 2); }
 /* --match <hero> is the wall mode's reference: the page's hero, whose wall
    every other drawing on the page is supposed to be sitting on. */
 let matchPath = null;
@@ -128,7 +152,17 @@ if (wallMode && !matchPath) { console.error('  ✗ wall needs --match <the page\
 if (grainMode && !(ceiling > 0)) { console.error('  \u2717 --ceiling must be positive'); process.exit(2); }
 if (grainMode && floor >= ceiling) { console.error('  \u2717 --floor must be under --ceiling'); process.exit(2); }
 if (!role || !inPath || (role !== 'report' && !wallMode && !grainMode && (!SLOT[role] || !outPath)) || !(LIFT.brightness > 0)) {
-  console.error('usage: illustrate.mjs <step|invite|hero|feature|card> <in> <out> [--crop x,y,w,h] [--brightness n]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  console.error('usage: illustrate.mjs <step|invite|hero|feature|card> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  process.exit(2);
+}
+if (!(breathe > 0 && breathe <= 1)) { console.error('  ✗ --breathe is a fraction of the slot, over 0 and at most 1'); process.exit(2); }
+/* Refused rather than ignored on the three roles that measure rather than
+   frame. A hero's brightness is solved against a wall probe that reads a fixed
+   box of the slot, and a band of ground moved under that box is a reading of
+   the band; wall and grain re-expose a file that is already in the set at the
+   size it is already stored at. */
+if (breathe !== 1 && ['hero', 'wall', 'grain', 'report'].includes(role)) {
+  console.error(`  ✗ --breathe does not apply to ${role}; it frames a drawing, and ${role} measures one`);
   process.exit(2);
 }
 if (manualCrop && role !== 'report') {
@@ -145,7 +179,7 @@ const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 const page = await browser.newPage();
 
-const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, wallTarget, lift, quality, manualCrop, ceiling, floor }) => {
+const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, wallTarget, lift, quality, manualCrop, breathe, ceiling, floor }) => {
   const lum = (r, g, b) => {
     const c = [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
@@ -411,10 +445,19 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
 
   const out = document.createElement('canvas'); out.width = slot.w; out.height = slot.h;
   const octx = out.getContext('2d', { willReadFrequently: true });
+  /* The ground the breathed band is filled with is the SOURCE's own corner,
+     not the spec's hex: the generator returns a flat field a few levels off
+     whatever it was asked for, and a band painted the asked-for colour beside
+     a drawing painted the returned one is a seam down the top of the picture.
+     The fill takes the same filter as the drawing, so the lift cannot part
+     them either. */
+  const bw = Math.round(slot.w * breathe), bh = Math.round(slot.h * breathe);
+  const bx = Math.round((slot.w - bw) / 2), by = slot.h - bh;   // centred, bottom-anchored
   const render = (brightness) => {
     octx.filter = `brightness(${brightness}) contrast(${lift.contrast})`;
     octx.clearRect(0, 0, slot.w, slot.h);
-    octx.drawImage(img, cx, cy, cw, ch, 0, 0, slot.w, slot.h);
+    if (breathe !== 1) { octx.fillStyle = `rgb(${corner[0]},${corner[1]},${corner[2]})`; octx.fillRect(0, 0, slot.w, slot.h); }
+    octx.drawImage(img, cx, cy, cw, ch, bx, by, bw, bh);
   };
 
   let brightness = lift.brightness, wallRatio = null, wallHex = null;
@@ -432,8 +475,8 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
   if (role === 'hero') { const wall = meanOf(octx, ...wallBox(slot.w, slot.h)); wallRatio = +ratio(wall.rgb, charcoal).toFixed(2); wallHex = '#' + wall.rgb.map(v => Math.round(v).toString(16).padStart(2, '0')).join(''); }
   const all = meanOf(octx, 0, 0, slot.w, slot.h);
   const webp = out.toDataURL('image/webp', quality).split(',')[1];
-  return { source: { width: W, height: H, border, inset, crop: [cx, cy, cw, ch] }, brightness: +brightness.toFixed(3), meanLuminance: +all.mean.toFixed(1), wallRatio, wallHex, webp };
-}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, ceiling, floor });
+  return { source: { width: W, height: H, border, inset, crop: [cx, cy, cw, ch] }, breathe: { scale: breathe, box: [bx, by, bw, bh] }, brightness: +brightness.toFixed(3), meanLuminance: +all.mean.toFixed(1), wallRatio, wallHex, webp };
+}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, breathe, ceiling, floor });
 
 await browser.close();
 
@@ -487,7 +530,8 @@ if (wallMode) {
 writeFileSync(outPath, Buffer.from(result.webp, 'base64'));
 const s = result.source;
 console.log(`  ${inPath} -> ${outPath}`);
-console.log(`  source ${s.width}x${s.height}` + (s.border ? `, border ${s.border}px on all four sides, ${s.inset}px taken off each` : ', no border') + `, crop ${s.crop.join('x')}`);
+console.log(`  source ${s.width}x${s.height}` + (s.border ? `, border ${s.border}px on all four sides, ${s.inset}px taken off each` : ', no border') + `, crop ${s.crop.join('x')}` +
+  (result.breathe.scale !== 1 ? `, breathed to ${result.breathe.scale} of the slot at ${result.breathe.box.join('x')} on the source's ground` : ''));
 console.log(`  ${SLOT[role].w}x${SLOT[role].h}, brightness ${result.brightness} contrast ${LIFT.contrast}, mean luminance ${result.meanLuminance}` +
   (result.wallRatio ? `, wall ${result.wallHex} at ${result.wallRatio}:1 against charcoal` : '') + `, ${(statSync(outPath).size / 1024).toFixed(0)}KB`);
 if (role === 'hero' && Math.abs(result.wallRatio - WALL_TARGET) > 0.05) { console.log(`  ✗ wall did not reach ${WALL_TARGET}:1; the left two-fifths may not be empty wall`); process.exit(1); }
