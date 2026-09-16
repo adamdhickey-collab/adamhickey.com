@@ -94,6 +94,15 @@
  * large black void, still binned as systems. Hue is not the thing that fails
  * here; legibility is, and nothing in `checks.yml` measures it.
  *
+ * The framing was then eased off by ten to twenty percent at the owner's
+ * direction, after #147 put the edge-cropped set back: 01 and 04 get a
+ * narrow band of ground above and at each side, 02 keeps its base on the
+ * bottom edge and gains ground above and beside the horns, 03 stays anchored
+ * in the top-left corner but shows the whole brim and dome, and its strap
+ * hangs in a natural U and rises off the right edge instead of trailing
+ * down. Side bands are asked for at an eighth of the source's width because
+ * `step` takes 8% off each side; a twentieth asked for is nothing kept.
+ *
  * These are cut to 1080x720, the grid's 3:2, by `illustrate.mjs step` rather
  * than the writing set's 16:9 `feature`. The drawings come back 16:9, so the
  * step crop takes the sides off -- which is why the preamble's middle-third
@@ -101,7 +110,23 @@
  * this hand, not the 1.15 the drab engagement batches needed.
  */
 
-export { STYLE, REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs';
+import { STYLE as FEATURE_STYLE } from './writing-features.mjs';
+export { REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs';
+
+/* The features' preamble says every object is cropped by at least two edges,
+   and after the breathing-room pass that is true of two of these four and
+   false of the other two. The generator weighs the latest sentence most, but
+   a preamble that argues with the prompt is a coin it can still land on, so
+   the one framing sentence is replaced with one that defers to each prompt.
+   It throws if the features' preamble is reworded, so this cannot silently
+   drift into agreeing with the rule it means to override. */
+const reframe = (text, from, to) => {
+  if (!text.includes(from)) throw new Error(`proof-cards.mjs: the features' preamble no longer says "${from.slice(0, 48)}…"; re-derive STYLE`);
+  return text.replace(from, to);
+};
+export const STYLE = reframe(FEATURE_STYLE,
+  'Every picture is ONE large everyday object, drawn bigger than the frame so it is cropped by at least two edges, with empty ground around what remains.',
+  'Every picture is ONE large everyday object, drawn big, cropped by the frame only where the prompt says so and otherwise sitting just inside it, with empty ground around what remains.');
 
 /* The preamble already forbids gradients and shading, and on this set the
    generator ignored it three times running: 01 came back with the ground
@@ -129,8 +154,8 @@ export const PROOF = [
     device: 'the many, narrowed to one',
     situation: 'The product grew faster than its structure.',
     heading: 'Turn ambiguity into a decision',
-    alt: 'A large terracotta funnel cropped by the top and both sides of the frame, with one solid black stream falling straight from its spout and off the bottom edge',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta funnel, the plain kitchen kind, seen straight from the side: its wide mouth across the top of the frame drawn so big that it is cropped by the top edge and by BOTH the left and the right edge, its sides running down and inward to a short narrow spout in the lower middle of the picture. From that spout ONE solid black shape falls: a single straight stream, an even ribbon of solid black, running vertically down and off the bottom edge of the frame. Exactly one stream, and it is the only black shape in the picture. Nothing is in the funnel's mouth and nothing is above it. The terracotta funnel is by far the largest thing in the picture. No table, no jar, no bottle, no drips, no splash, no droplets, no second stream. Nothing else in the picture.
+    alt: 'A large terracotta funnel filling most of the frame with a narrow band of cream above its rim and at each side, one solid black stream falling straight from its spout and off the bottom edge',
+    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta funnel, the plain kitchen kind, seen straight from the side: its wide mouth across the upper part of the picture, the rim drawn as a shallow ellipse so it reads as a mouth. The funnel is drawn almost as big as the frame but sits just inside it: a narrow band of empty cream, about a twentieth of the picture's height, shows above the rim, and the mouth stops well inside the left and right edges, with a band of empty cream at each side about an eighth of the picture's width. Its sides run down and inward to a short narrow spout in the lower middle of the picture. From that spout ONE solid black shape falls: a single straight stream, an even ribbon of solid black, running vertically down and off the bottom edge of the frame. Exactly one stream, and it is the only black shape in the picture. Nothing is in the funnel's mouth and nothing is above it. The terracotta funnel is by far the largest thing in the picture. No table, no jar, no bottle, no drips, no splash, no droplets, no second stream. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -141,8 +166,8 @@ ${FLAT}`,
     device: 'the black ribbon, made fast',
     situation: 'Several teams solve the same problem differently.',
     heading: 'Set standards other teams adopt, and keep them adopted',
-    alt: 'A large slate cleat with one solid black rope turned tight around it and running away taut off both edges of the frame',
-    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, drawn huge in the centre of the frame and cropped by the bottom edge, standing upright. One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no loose rope ends, no second cleat. Nothing else in the picture.
+    alt: 'A large slate cleat planted on the bottom edge of the frame with cream above and beside its horns, one solid black rope turned tight around it and running away taut off both edges',
+    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, standing upright in the centre of the frame with its base cut off by the bottom edge, so it reads as planted there, but a little smaller than the frame otherwise: its two horns end inside the frame with a band of empty cream beyond each about an eighth of the picture's width, and a band of empty cream above the horns about a tenth of the picture's height. One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no loose rope ends, no second cleat. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -153,8 +178,8 @@ ${FLAT}`,
     device: 'the black strap, and the object that did the job',
     situation: 'An important initiative exists, but no one senior owns it.',
     heading: 'Own the design inside the team, not beside it',
-    alt: 'A large sage hard hat cropped by the top and left of the frame, its black chinstrap falling in one curve and running off the bottom right',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side, drawn huge and cropped by the top edge and the left edge of the frame. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon that leaves the back of the hat, falls in a single easy curve and runs off the bottom right corner of the frame. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
+    alt: 'A large sage hard hat anchored in the top-left corner of the frame with its brim and dome fully visible, its black chinstrap hanging beneath it in one natural curve that rises and runs off the right edge',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side, drawn big in the upper left of the picture, its dome touching the top edge and the back of its shell touching the left edge so it stays anchored in that corner, but small enough that the whole brim, the whole front of the dome and the underside of the brim are all visible, with empty cream ground to the right of the brim, about a quarter of the picture's width, and below the hat. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon that hangs beneath the hat the way a loose chinstrap does: it leaves the underside of the brim at the front, swings down in one easy natural curve, and rises again as it runs to the right, climbing as it goes off the right edge of the frame. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
 
 ${FLAT}`,
   },
@@ -165,8 +190,8 @@ ${FLAT}`,
     device: 'object on an accent field; past the launch',
     situation: 'Plenty of ideas and sketches. Nothing anyone can use yet.',
     heading: 'Carry the direction into something that works',
-    alt: 'A large cream paper dart climbing across a full terracotta field, with one solid black line behind it curving up from the lower left and off the bottom of the frame',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn huge in the middle of the frame and cropped by the top edge, its nose in frame and pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, curves up from the lower left of the frame and runs off the bottom edge, drawn as one even ribbon of solid black that ends at the dart's tail. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
+    alt: 'A large cream paper dart climbing across a full terracotta field with a band of field above and beside it, one solid black line behind it curving up from the lower left and off the bottom of the frame',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn big in the middle of the frame but sitting just inside it: a narrow band of terracotta, about a twentieth of the picture's height, shows above the highest point of the dart, and a band of terracotta about an eighth of the picture's width shows beyond it at each side. Its nose is pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, curves up from the lower left of the frame and runs off the bottom edge, drawn as one even ribbon of solid black that ends at the dart's tail. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
 
 ${FLAT_TERRACOTTA}`,
   },
