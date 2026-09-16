@@ -87,6 +87,17 @@
  * up-right (04). Two cards sharing an axis is what made the row look
  * repetitive long before any single picture looked wrong.
  *
+ * 03's redraw spends part of that. Its strap no longer leaves by the right
+ * edge; it hangs in a closed U that leaves by the BOTTOM, which is 01's edge.
+ * The row survives it because the two shapes are not the same shape -- 01 is a
+ * single straight ribbon falling dead centre out of a spout, 03 is a wide slack
+ * loop whose two sides rise back into the object -- and because a strap that
+ * leaves by the side is the one thing a chinstrap cannot do and still read as
+ * worn, which is what the drawing was asked for. It is a real cost, recorded
+ * here rather than argued away: the four axes are now vertical, horizontal,
+ * a bottom arc, and diagonal up-right. Anything redrawn next should not take
+ * the bottom edge as well.
+ *
  * Note for anyone re-balancing this: `accent.mjs` bins by HUE over non-grey,
  * non-white pixels, so black and cream do not compete with the accent and the
  * accent does not have to win on area -- it has to be the only chromatic
@@ -124,6 +135,26 @@
  *
  * They take `--brightness 1` like the rest of this hand, not the 1.15 the
  * drab engagement batches needed.
+ *
+ * 01 AND 03 WERE FRAMED AGAIN AFTER #150, and the two were fixed by different
+ * means, which is the point of writing this down.
+ *
+ * 01's funnel came back with 21px of cream above its rim on a 941px drawing --
+ * 2.2%, against the twentieth the prompt asked for and against the 134px, 14%,
+ * that 02 happened to return. Side by side that read as the one card jammed
+ * into its frame. Nothing was wrong with the DRAWING, so it was not redrawn:
+ * `illustrate.mjs --breathe 0.94` resamples it to 94% of the slot on its own
+ * ground, centred and anchored to the bottom edge, which puts the band it was
+ * short of at the top (21px of source cream becomes 22px of a 360px card, and
+ * the sides go from 10.4% to 12.8%) and leaves the black stream running off
+ * the bottom where it was drawn to leave. Sliding the drawing down inside its
+ * own frame instead would have kept the funnel at full size and taken the
+ * slide out of the stream, which is the part of the picture the card is about.
+ *
+ * 03 was redrawn, because no framing gets there from where it was: the hat was
+ * cropped by the left edge and the strap was a swoop off the right, and the
+ * ask was a centred hat with the strap worn where a strap is worn. See its
+ * entry for what that cost the row's axes.
  */
 
 import { STYLE as FEATURE_STYLE } from './writing-features.mjs';
@@ -140,9 +171,19 @@ const reframe = (text, from, to) => {
   if (!text.includes(from)) throw new Error(`proof-cards.mjs: the features' preamble no longer says "${from.slice(0, 48)}…"; re-derive STYLE`);
   return text.replace(from, to);
 };
-export const STYLE = reframe(FEATURE_STYLE,
+export const STYLE = reframe(reframe(FEATURE_STYLE,
   'Every picture is ONE large everyday object, drawn bigger than the frame so it is cropped by at least two edges, with empty ground around what remains.',
-  'Every picture is ONE large everyday object, drawn big, cropped by the frame only where the prompt says so and otherwise sitting just inside it, with empty ground around what remains.');
+  'Every picture is ONE large everyday object, drawn big, cropped by the frame only where the prompt says so and otherwise sitting just inside it, with empty ground around what remains.'),
+  /* The second sentence the preamble has to stop saying for this set. It
+     describes the crop `illustrate.mjs step` used to take -- 8% off each side
+     and the top and bottom eighth -- and #150 moved these four to `card`,
+     which is 16:9 to 16:9 and takes nothing off any edge. Left in, it is not
+     merely stale: it tells the generator the bottom eighth will be thrown
+     away, and 03's prompt asks for the chinstrap to be CUT BY the bottom
+     edge. A preamble that promises the crop and a prompt that draws into it
+     is a coin, and the preamble is the sentence the generator reads first. */
+  'Keep the object and its point inside the middle third of the frame, because the sides will be cropped to a card and the top and bottom eighth to 16:9.',
+  'Nothing is cropped off these pictures: the frame you draw is the frame that is kept, on every side. So what you put at an edge is what will be seen there, and an object the prompt does not say is cut by an edge has to sit clear of all four.');
 
 /* The preamble already forbids gradients and shading, and on this set the
    generator ignored it three times running: 01 came back with the ground
@@ -194,8 +235,8 @@ ${FLAT}`,
     device: 'the black strap, and the object that did the job',
     situation: 'An important initiative exists, but no one senior owns it.',
     heading: 'Own the design inside the team, not beside it',
-    alt: 'A large sage hard hat anchored in the top-left corner of the frame with its brim and dome fully visible, its black chinstrap hanging beneath it in one natural curve that rises and runs off the right edge',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side, drawn big in the upper left of the picture, its dome touching the top edge and the back of its shell touching the left edge so it stays anchored in that corner, but small enough that the whole brim, the whole front of the dome and the underside of the brim are all visible, with empty cream ground to the right of the brim, about a quarter of the picture's width, and below the hat. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon that hangs beneath the hat the way a loose chinstrap does: it leaves the underside of the brim at the front, swings down in one easy natural curve, and rises again as it runs to the right, climbing as it goes off the right edge of the frame. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
+    alt: 'A large sage hard hat drawn whole in the middle of the frame with cream above and beside it, its black chinstrap hanging from the hat in one deep loop that runs down past the bottom edge and back up to the brim',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side with the brim pointing right, drawn whole: every part of the hat is inside the picture and no edge of the frame cuts it. It is centred left to right and sits in the upper half of the picture, with a band of empty cream above the dome about a tenth of the picture's height and a band of empty cream at each side about an eighth of the picture's width. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon worn where a chinstrap is actually worn, and it is the only black shape in the picture: both of its ends are fastened to the hat, one at the back of the shell and one under the brim at the front, and between them it hangs well below the hat in a single deep U, the slack loop of a strap with no head in it. That loop is long enough to reach the bottom of the picture and is cut off by the bottom edge of the frame, so the lowest part of the strap runs out of the picture and the two sides of the U rise from the bottom edge back up to the hat. The strap does not touch the left edge or the right edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no chin, no neck, no hands, no tools, no buckle, no ground line, no shadow, no second hat. Nothing else in the picture.
 
 ${FLAT}`,
   },
