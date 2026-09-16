@@ -3121,34 +3121,82 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0 0 var(--space-xl);
 }
 
-/* The résumé-level scan under the hero: eight facts on a grid, two by four
-   at desktop and two across on a phone, each a serif headline at the size
-   of a card's shift line over a one-line detail in the secondary grey.
-   Plain on purpose: the facts wore the engagement pages' station-mark icons
-   for an afternoon, and without them the grid is cleaner and half the
-   height. */
+/* The résumé-level scan under the hero: six facts, each the engagement
+   pages' station mark with its label and detail set beside it and centred
+   on it -- one row per fact rather than a mark stacked over its words.
+
+   The marks were tried here once and taken off, with a note saying plain was
+   cleaner and half the height. Both halves of that were about the stack: a
+   44px disc over a label is a row about 100px tall, eight of them wanted
+   four columns, and four columns at 1024 gave each fact 217px, which is a
+   disc with a wrapped label under it. Beside the words the disc costs
+   almost nothing vertical -- the row is already 46px of type, and 44px of
+   disc fits inside that -- so against the plain eight-fact block this
+   replaces it is 136px against 140px at 1280 and 195px against 258px at
+   768, with the marks on it.
+
+   The phone is the one place it grows: 385px against 339px, because one
+   column is six rows where two columns of eight were four. That is the cost
+   of every label and every detail holding its line at 390, which two
+   columns cannot do once a 44px mark is taking width out of the cell. */
 .hero-proof {
   list-style: none;
   margin: var(--space-lg) 0 0;
   padding: var(--space-lg) 0 0;
   border-top: 1px solid var(--rule-hairline);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md) var(--space-md);
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
 }
-/* Four across needs about 217px a column, which is 1024. Below that it is
-   two, all the way down: the details are written to hold one line, and on
-   a phone two of them do not, which is the trade taken on purpose. One
-   fact to a row keeps every line unbroken and costs about 160px of hero
-   on a 390px screen; two across with a couple of details running to a
-   second line is the more compact block, and the block is the point.
-   Four across at 768, which is where this started, gave each fact 154px
-   and wrapped six of the eight, which is neither. */
-@media (min-width: 560px) {
-  .hero-proof { gap: var(--space-md) var(--space-xl); }
+/* The row: mark, then the words centred on it. The mark does not shrink and
+   does not carry the facts strip's bottom margin, which is there to space it
+   off a label underneath it rather than beside it. */
+.hero-proof li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.hero-proof .fact-node { flex: none; margin-bottom: 0; }
+.hero-proof-text { min-width: 0; }
+/* One, two and three columns, and the steps are set by one measurement: a
+   column now has to carry the 44px mark, its 12px gutter and the longest
+   detail on one line, which takes about 280px. Two columns reach that at
+   640 (282px a column) and three at about 940 (273px), so the steps are 640
+   and 1024 -- both already in this stylesheet, neither invented for this.
+   1024 rather than 960 costs the 960-1023 band a column and 59px of hero,
+   which is the price of not adding a breakpoint for one band.
+
+   Below 640 it is one column, not two. Two columns on a 390px screen leave
+   the text 107px, which wraps every detail and most labels; one column
+   gives it 196px and everything holds its line. That is the reverse of the
+   rule this block had while the mark sat ON the label, when two across was
+   the more compact arrangement -- beside the label the mark eats width
+   rather than height, so the narrow screen wants fewer columns, not more. */
+@media (min-width: 640px) {
+  .hero-proof { grid-template-columns: repeat(2, 1fr); gap: var(--space-md) var(--space-xl); }
 }
 @media (min-width: 1024px) {
-  .hero-proof { grid-template-columns: repeat(4, 1fr); gap: var(--space-lg) var(--space-2xl); }
+  .hero-proof { grid-template-columns: repeat(3, 1fr); gap: var(--space-lg) var(--space-2xl); }
+}
+/* The mark is .fact-node and .fact-icon unchanged, from the engagement pages'
+   facts strip: same 44px tea disc, same sage hairline, same 22px icon in
+   accent-deep. Only the clock is local. There the draw is gated behind
+   .eng3-js and started by .is-inview, because those pages carry their own
+   observer; the home page already has one -- the shared .reveal observer
+   adds .is-visible as a block enters the viewport -- so the facts hang off
+   that instead of a second script watching the same element. The hidden
+   state is gated behind .js for the same reason .reveal is: with no script
+   to finish them the icons render drawn rather than blank. */
+.js .hero-proof .fact-icon path,
+.js .hero-proof .fact-icon circle { stroke-dashoffset: 1; }
+.js .hero-proof.is-visible .fact-icon path,
+.js .hero-proof.is-visible .fact-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-proof .fact-icon path,
+  .js .hero-proof .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 .hero-proof-label {
   display: block;
