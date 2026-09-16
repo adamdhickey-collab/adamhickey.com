@@ -107,7 +107,18 @@
   <link rel="stylesheet" href="../style.css?v=20260916r" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
   <link rel="stylesheet" href="dispatch-cockpit.css?v=20" />
+  <link rel="stylesheet" href="../read-aloud.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- "Listen to this page", the same control the twenty-three prose pages
+       carry. What it reads here is the writing around the prototype and not
+       the prototype: .ck-frame is marked data-read-aloud="skip", because the
+       cockpit's text is generated, changes under the reader's own presses and
+       includes a live region, and a voice reading a status line aloud a second
+       after the reader caused it is saying the wrong thing at the wrong
+       moment. The five screens above it ARE read -- their headings and
+       captions are the section's argument -- and the script scrolls the track
+       to the screen it is talking about. -->
+  <script src="../read-aloud.js?v=2" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
   <script src="dispatch-cockpit.js?v=10" defer></script>
@@ -254,7 +265,12 @@
             <p class="case-kicker">Human&ndash;AI interaction &middot; working prototype &middot; synthetic data</p>
             <h1 class="case-title ckw-hero-title">A dispatch cockpit that shows its work</h1>
             <p class="ckw-hero-dek">A truck recommendation is only useful when a dispatcher can judge it. This prototype puts the reasons, the outcome record and the whole fleet beside the recommendation, and leaves the call with the person doing the work.</p>
-            <p class="ckw-hero-act">
+            <!-- The Listen control goes under this row rather than under the
+                 dek, which is where read-aloud.js puts it unasked: the dek and
+                 the two actions are one thought, and a third row of control
+                 between them split the sentence from the button it argues
+                 for. data-read-aloud="after" is the hook that says so. -->
+            <p class="ckw-hero-act" data-read-aloud="after">
               <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">See the five screens <span class="ckw-btn-note">&middot; then try it</span></a>
               <a class="ckw-hero-link" href="#the-decisions">See the design decisions &rarr;</a>
             </p>
@@ -479,7 +495,7 @@
            edge: --space-4xl of clear ground on each side above 768, the
            page gutter below it, where 48 a side would squeeze the fleet
            data table harder than the prose around it. -->
-      <div class="ck-frame">
+      <div class="ck-frame" data-read-aloud="skip">
         <div class="ck" id="cockpit">
           <!-- Visible since 2026-09-11: the four names were not
                self-explanatory at a glance, so the tabs got plain-language
