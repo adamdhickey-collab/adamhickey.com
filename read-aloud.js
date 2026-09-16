@@ -67,8 +67,11 @@
      that contains another block is a wrapper, and reading it would say its
      children twice. -------------------------------------------------- */
   const BLOCKS = 'h1, h2, h3, h4, p, li, blockquote, figcaption, dt, dd';
+  /* The hook is read as a list of words rather than a whole value, because
+     one element can want two of them: the prototype's row of actions is both
+     where the control goes and a thing not to read out. */
   const SKIP = 'nav, .site-nav, .case-toc, .skip-link, [aria-hidden="true"],' +
-               '[hidden], [data-read-aloud="skip"]';
+               '[hidden], [data-read-aloud~="skip"]';
 
   const collect = () => {
     const out = [];
@@ -472,10 +475,18 @@
      place would put a control between a sentence and the button it argues
      for. The attribute is markup rather than a fourth guess in here, because
      what follows the dek is a fact about the page and the page is where it
-     can be seen. */
+     can be seen.
+
+     Such a row is usually also a row of BUTTONS, and a button label is not
+     prose: read out, the prototype's hero said "See the five scenarios. See
+     the design decisions" between its dek and its first heading. Everywhere
+     else the site puts its actions in a div.cta-row, which is not a block
+     this file reads, so the prototype was the only page whose voice read its
+     own navigation. It says "skip after" -- both words -- and that is the
+     whole fix. */
   const h1 = main.querySelector('h1');
   if (!h1) return;
-  let anchor = main.querySelector('[data-read-aloud="after"]');
+  let anchor = main.querySelector('[data-read-aloud~="after"]');
   if (!anchor) {
     anchor = h1;
     if (anchor.nextElementSibling && anchor.nextElementSibling.tagName === 'P') {
