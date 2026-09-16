@@ -316,6 +316,18 @@ Because they are cream-ground pictures sitting in an engagement slot,
 126-184 band, the same way it flags the writing features, and that is
 correct rather than a fault to lift away.
 
+**The six client wordmarks share one left edge.** Each SVG in the homepage
+strip is a 200x98 box, and each file's `viewBox` is shifted so its ink
+begins at exactly 31.86 units in; the number and the reason sit in a
+comment at the top of every file. At the 1280 container the
+box is 150.67px wide inside its `--space-md` inset, so the ink starts
+16 + 31.86 x 0.7533 = 40px into its sixth, which is `--space-3xl`, the inset
+the six facts above the strip carry (#165). A replacement wordmark goes in
+the same way: draw it in the 200x98 box at whatever width matches the
+others, measure where its ink starts, and set the `viewBox` x to that
+minus 31.86. Drop one in at `viewBox="0 0 200 98"` and its mark upstairs
+will miss it by however much whitespace the file happens to carry.
+
 Cache-busters: the stylesheets, the images and the hero clip are loaded with a
 `?v=` query, and it gets bumped whenever the bytes at a path change, because
 the path alone will not tell a browser anything moved.
