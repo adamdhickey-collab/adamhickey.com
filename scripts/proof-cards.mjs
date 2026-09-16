@@ -177,6 +177,29 @@
  * regenerated from; a prompt left describing the previous picture is how a set
  * drifts one careless re-run at a time. Its "no buckle" also went: the buckle
  * is the part that makes the harness read as worn at 300px.
+ *
+ * AND THEN CROPPED CLOSER, again by the owner, who sent back a 640x360 PNG --
+ * the card's own slot size. That is the thing to notice rather than the
+ * framing: a file at the slot size has already been through this pipeline, so
+ * it is an UPSCALE of a shipped card rather than a source, and it measured it.
+ * Averaged over the picture, its ink-to-ground edges took 2.70px to cross
+ * against 2.03px on the card it was cut from and 1.87px on 01. It would have
+ * shipped as the one soft card in a row of crisp ones.
+ *
+ * So the crop was RECOVERED instead of used: normalised cross-correlation of
+ * the returned PNG against the shipped card over scale and offset put it at
+ * x=43 y=0 w=550 h=309 in card pixels at 0.83, which is 112,0,1436,808 on the
+ * 1672x941 source, and `illustrate.mjs card --crop 112,0,1436,808` cuts that
+ * composition from the original at 2.36px. **When a drawing comes back at
+ * 640x360, ask what it was cut from before cutting it again.** The recovered
+ * rectangle is in this comment so the next pass does not have to search for it.
+ *
+ * The lift stays 0.97, checked rather than assumed: a tighter crop samples a
+ * different part of a ground that is not perfectly flat, and it lands the
+ * corners on (242,233,221) and (243,234,222) against 01 and 02's
+ * (242,234,223). Measure the ground as a PATCH MEAN, not a corner pixel --
+ * at 0.86 quality the encoder moves a single pixel several levels, and a
+ * one-pixel probe read 0.975 as greener than 0.97 on the same image.
  */
 
 import { STYLE as FEATURE_STYLE } from './writing-features.mjs';
@@ -257,8 +280,8 @@ ${FLAT}`,
     device: 'the black strap, and the object that did the job',
     situation: 'An important initiative exists, but no one senior owns it.',
     heading: 'Own the design inside the team, not beside it',
-    alt: 'A large sage hard hat drawn whole in the middle of the frame with cream above and beside it, its black chinstrap harness running from both sides of the shell down to a buckle beneath the hat and off the bottom edge',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side with the brim pointing right, drawn whole: every part of the hat is inside the picture and no edge of the frame cuts it. It is centred left to right and sits in the upper half of the picture, with a band of empty cream above the dome about a tenth of the picture's height and a band of empty cream at each side about an eighth of the picture's width. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon worn where a chinstrap is actually worn, and it is the only black shape in the picture: both of its ends are fastened to the hat, one at the back of the shell and one under the brim at the front, and between them it hangs well below the hat as a worn harness rather than a single loop: a strap down from each side of the shell, a shorter one down from under the brim, and a small chin buckle where they meet below the hat. The straps are long enough to reach the bottom of the picture and are cut off by the bottom edge of the frame, so they run out of the picture there rather than ending in mid-air. The strap does not touch the left edge or the right edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no chin, no neck, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
+    alt: 'A large sage hard hat filling most of the frame with a narrow band of cream above its dome, the tip of its brim running off the right edge, its black chinstrap harness running from both sides of the shell down to a buckle beneath the hat and off the bottom edge',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side with the brim pointing right, drawn big and cropped only by the right edge, which takes the tip of the brim. It is drawn large enough to fill most of the picture: a narrow band of empty cream, about a twentieth of the picture's height, shows above the dome, the back of the shell sits just inside the left edge, and the tip of the brim runs off the right edge. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon worn where a chinstrap is actually worn, and it is the only black shape in the picture: both of its ends are fastened to the hat, one at the back of the shell and one under the brim at the front, and between them it hangs well below the hat as a worn harness rather than a single loop: a strap down from each side of the shell, a shorter one down from under the brim, and a small chin buckle where they meet below the hat. The straps are long enough to reach the bottom of the picture and are cut off by the bottom edge of the frame, so they run out of the picture there rather than ending in mid-air. The strap does not touch the left edge or the right edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no chin, no neck, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
 
 ${FLAT}`,
   },
