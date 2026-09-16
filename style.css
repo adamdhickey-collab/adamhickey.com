@@ -2750,12 +2750,21 @@ figure.hero-photo-frame { margin: 0; }
   color: var(--color-accent-on-dark);
 }
 /* The situation the reader recognizes as theirs, carried by a flat
-   illustration where the sans line used to be. 4:3 rather than square:
-   four square figures would push the engagement names most of a screen
-   apart. Full bleed to the card's padding, so the picture is a band
-   across the card rather than a stamp floating in it. */
+   illustration where the sans line used to be. Not square: four square
+   figures would push the engagement names most of a screen apart. Full
+   bleed to the card's padding, so the picture is a band across the card
+   rather than a stamp floating in it.
+
+   16:9 rather than the 3:2 it was until #150, and the reason is the
+   drawing rather than the layout. The drawings come back 16:9, and
+   `illustrate.mjs step` made this slot's 3:2 by cutting 8% off EACH SIDE
+   -- which is where the band of ground the pictures are drawn with lives.
+   Card 01 was drawn with 10.5% cream at each side and reached the card
+   with 3%. Matching the shape the drawings are made in keeps that ground
+   instead of paying for it twice, and costs about 30px of picture height
+   at the 280px column. */
 .engagement-figure {
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   margin: 0 0 var(--space-md);
   border-radius: 0.5rem;
   overflow: hidden;

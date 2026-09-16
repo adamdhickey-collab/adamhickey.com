@@ -103,11 +103,27 @@
  * down. Side bands are asked for at an eighth of the source's width because
  * `step` takes 8% off each side; a twentieth asked for is nothing kept.
  *
- * These are cut to 1080x720, the grid's 3:2, by `illustrate.mjs step` rather
- * than the writing set's 16:9 `feature`. The drawings come back 16:9, so the
- * step crop takes the sides off -- which is why the preamble's middle-third
- * rule is load-bearing here too. They take `--brightness 1` like the rest of
- * this hand, not the 1.15 the drab engagement batches needed.
+ * These were cut to 1080x720, the grid's 3:2, by `illustrate.mjs step` until
+ * #150, and that crop is why the pictures kept reading tight however they
+ * were drawn: the drawings come back 16:9, `step` took 8% off EACH SIDE to
+ * make 3:2, and the side band is exactly where the ground each object is
+ * framed with sits. Card 01 was drawn with 10.5% cream at each side and
+ * reached the card with 3%. So the slot moved to the shape the drawings are
+ * made in -- `illustrate.mjs card`, 640x360, 16:9, no side crop at all
+ * (`crop 0x0x1672x941`) -- and `.engagement-figure` is `aspect-ratio: 16 / 9`
+ * to match. The picture loses about 30px of height at the 280px column and
+ * the file drops from about 20KB to 9KB.
+ *
+ * Two consequences for anyone writing a prompt here. The preamble's
+ * middle-third rule is no longer load-bearing for the SIDES, because nothing
+ * is cropped off them any more; it still matters for `og.mjs`, which
+ * centre-crops its own card. And a band asked for as "about an eighth of the
+ * picture's width" now arrives at that eighth rather than the 3% that
+ * survived the crop, so ask for less, not more, if a picture comes back
+ * looking lost in its frame.
+ *
+ * They take `--brightness 1` like the rest of this hand, not the 1.15 the
+ * drab engagement batches needed.
  */
 
 import { STYLE as FEATURE_STYLE } from './writing-features.mjs';

@@ -38,15 +38,18 @@ import * as proof from './proof-cards.mjs';
    The two differ in their prompts, their style anchor, and what a finished
    job produces -- a feature is two WebPs, a scene one.
    --set proof draws the homepage's four "How I work" cards, which are the
-   same hand but a different slot: 3:2 at 1080x720 through `illustrate.mjs
-   step` rather than the writing set's 16:9 `feature`, and filed at a path
-   the registry names rather than one derived from the id.
+   same hand and, since #150, the same 16:9: `illustrate.mjs card`, 640x360
+   for a 280px column, rather than the writing set's full-width `feature`.
+   It took the 3:2 `step` until then, and that crop cost each picture 8% of
+   its width a side -- the ground the drawings are framed with. The file is
+   still filed at a path the registry names rather than one derived from
+   the id.
    Everything that used to be a `FEATURES ?` ternary is a column here, so a
    fourth set is a row rather than an edit in five places. */
 const SETS = {
   scenes:   { mod: scenes,   jobs: 'SCENES',   registry: 'writing-scenes.mjs',   suffix: '-2', role: 'feature', card: false },
   features: { mod: features, jobs: 'FEATURES', registry: 'writing-features.mjs', suffix: '',   role: 'feature', card: true  },
-  proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'step',    card: false },
+  proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'card',    card: false },
 };
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--set');
