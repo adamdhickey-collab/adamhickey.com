@@ -212,7 +212,14 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   position: relative;
   overflow: hidden;
 }
-@media (min-width: 768px) { .hero { padding-top: calc(var(--nav-height) + var(--space-3xl)); padding-bottom: var(--space-xl); } }
+/* --space-lg rather than --space-3xl: 20px less air between the nav and the
+   top of the portrait, which is the gap the whole grid hangs from. The photo
+   is centred in its grid row, so its own margin cannot buy this -- with
+   align-items: center a margin has to be twice the offset to move the box
+   once, and the band above the circle is the hero's padding, not the photo's.
+   Moving the padding moves the row, so the copy comes up the same 20px and
+   the two columns stay level. 36px above the circle at 1440, down from 56. */
+@media (min-width: 768px) { .hero { padding-top: calc(var(--nav-height) + var(--space-lg)); padding-bottom: var(--space-xl); } }
 
 .hero-grid {
   display: flex; flex-direction: column;
@@ -3157,12 +3164,25 @@ html.ah-lightbox-open body { overflow: hidden; }
    rule; the grouping is a desktop reading, where all six are in one glance.
 
    1440: 984px of hero against 993 with the lattice and 939 before either. */
+/* The two rules bracketing the six are full-strength ink, not a tint. They
+   are the logo's own line: the wordmark's slash and its letterforms are both
+   #333, and --color-charcoal is the palette's name for that ink (#252525 --
+   two and a half percent per channel apart, which one pixel of a 1216px rule
+   cannot show). At --rule-hairline they were charcoal at 10%, 1.21:1, which
+   on white is close enough to nothing that the band had no edges and the six
+   facts read as loose text under the hero rather than as a set.
+
+   Only the outer two. The hairline between the rows below 640 stays a
+   hairline: those separate six items inside the band, and the band's own
+   edges are what have to carry weight. Both are decorative under WCAG --
+   nothing here is legible only because of a line -- so the floor is the
+   reading, and full ink is the strongest possible answer to it. */
 .hero-proof {
   list-style: none;
   margin: var(--space-2xl) 0 0;
   padding: 0;
-  border-top: 1px solid var(--rule-hairline);
-  border-bottom: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--color-charcoal);
+  border-bottom: 1px solid var(--color-charcoal);
   display: grid;
   grid-template-columns: 1fr;
   gap: 0;
