@@ -134,7 +134,18 @@
  * looking lost in its frame.
  *
  * They take `--brightness 1` like the rest of this hand, not the 1.15 the
- * drab engagement batches needed.
+ * drab engagement batches needed. **03 is the exception, at 0.97**, and the
+ * reason is the one thing a per-picture mean cannot see. A generator run
+ * returns its own idea of the cream: 01 and 02 came back at ground (234,228,216)
+ * and cut to (242,234,223), and 03's third drawing came back at (245,238,224)
+ * and cut to (251,242,229) -- nine levels lighter than the two cards standing
+ * beside it, on a row of cream plates against charcoal, where the ground IS
+ * most of each plate. `--brightness 0.97` puts its top-left back on
+ * (242,234,223) exactly. Solve the GROUND against its neighbours, not the mean
+ * against the band: every one of these four is outside the 126-184 band by
+ * design, so the warning `illustrate.mjs` prints cannot tell you this and the
+ * accent check cannot either. `illustrate.mjs wall --match` is this same
+ * argument for the engagement set, and does not apply to `card`.
  *
  * 01 AND 03 WERE FRAMED AGAIN AFTER #150, and the two were fixed by different
  * means, which is the point of writing this down.
@@ -155,6 +166,17 @@
  * cropped by the left edge and the strap was a swoop off the right, and the
  * ask was a centred hat with the strap worn where a strap is worn. See its
  * entry for what that cost the row's axes.
+ *
+ * 03 WAS THEN DRAWN A THIRD TIME, by the owner in the same chat and landed
+ * from ~/Downloads rather than through `draw.mjs clip`. The single deep U
+ * became a worn harness -- a strap from each side of the shell, one from the
+ * brim, a chin buckle where they meet -- and the straps leave by the bottom
+ * edge instead of the loop's lowest point being clipped by it. The entry's
+ * prompt and alt were rewritten to describe what actually shipped rather than
+ * what was asked for, because the registry is the thing a future redraw is
+ * regenerated from; a prompt left describing the previous picture is how a set
+ * drifts one careless re-run at a time. Its "no buckle" also went: the buckle
+ * is the part that makes the harness read as worn at 300px.
  */
 
 import { STYLE as FEATURE_STYLE } from './writing-features.mjs';
@@ -235,8 +257,8 @@ ${FLAT}`,
     device: 'the black strap, and the object that did the job',
     situation: 'An important initiative exists, but no one senior owns it.',
     heading: 'Own the design inside the team, not beside it',
-    alt: 'A large sage hard hat drawn whole in the middle of the frame with cream above and beside it, its black chinstrap hanging from the hat in one deep loop that runs down past the bottom edge and back up to the brim',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side with the brim pointing right, drawn whole: every part of the hat is inside the picture and no edge of the frame cuts it. It is centred left to right and sits in the upper half of the picture, with a band of empty cream above the dome about a tenth of the picture's height and a band of empty cream at each side about an eighth of the picture's width. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon worn where a chinstrap is actually worn, and it is the only black shape in the picture: both of its ends are fastened to the hat, one at the back of the shell and one under the brim at the front, and between them it hangs well below the hat in a single deep U, the slack loop of a strap with no head in it. That loop is long enough to reach the bottom of the picture and is cut off by the bottom edge of the frame, so the lowest part of the strap runs out of the picture and the two sides of the U rise from the bottom edge back up to the hat. The strap does not touch the left edge or the right edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no chin, no neck, no hands, no tools, no buckle, no ground line, no shadow, no second hat. Nothing else in the picture.
+    alt: 'A large sage hard hat drawn whole in the middle of the frame with cream above and beside it, its black chinstrap harness running from both sides of the shell down to a buckle beneath the hat and off the bottom edge',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green hard hat, the construction kind with a rounded shell and a short brim at the front, seen from the side with the brim pointing right, drawn whole: every part of the hat is inside the picture and no edge of the frame cuts it. It is centred left to right and sits in the upper half of the picture, with a band of empty cream above the dome about a tenth of the picture's height and a band of empty cream at each side about an eighth of the picture's width. Its silhouette, the dome and the brim, must be unmistakable at a glance. Two or three thin black lines on the shell for its ridges, nothing more. Its chinstrap is ONE solid black ribbon worn where a chinstrap is actually worn, and it is the only black shape in the picture: both of its ends are fastened to the hat, one at the back of the shell and one under the brim at the front, and between them it hangs well below the hat as a worn harness rather than a single loop: a strap down from each side of the shell, a shorter one down from under the brim, and a small chin buckle where they meet below the hat. The straps are long enough to reach the bottom of the picture and are cut off by the bottom edge of the frame, so they run out of the picture there rather than ending in mid-air. The strap does not touch the left edge or the right edge. The sage hard hat is by far the largest thing in the picture. No head, no face, no people, no chin, no neck, no hands, no tools, no ground line, no shadow, no second hat. Nothing else in the picture.
 
 ${FLAT}`,
   },
