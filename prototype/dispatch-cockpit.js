@@ -504,7 +504,7 @@
           </li>`;
         }).join('')}
       </ol>
-      ${all ? `<p class="ck-try-end">That is everything this situation has to show. The other three are above.</p>` : ''}`;
+      ${all ? `<p class="ck-try-end">That is everything this scenario has to show. The other three are above.</p>` : ''}`;
   }
 
   function renderLoad() {
@@ -1116,7 +1116,7 @@
       let msg = status;
       if (total && done > lastDone) {
         msg += done === total
-          ? ` That is all ${total} of the things to try in this situation.`
+          ? ` That is all ${total} of the things to try in this scenario.`
           : ` ${done} of ${total} things to try, done.`;
       }
       renderStatus(msg, tone);

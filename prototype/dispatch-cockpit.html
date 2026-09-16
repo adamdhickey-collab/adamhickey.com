@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="../type.css?v=3" />
   <link rel="stylesheet" href="../style.css?v=20260916s" />
   <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=20" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=21" />
   <link rel="stylesheet" href="../read-aloud.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page", the same control the twenty-three prose pages
@@ -118,10 +118,10 @@
        moment. The five screens above it ARE read -- their headings and
        captions are the section's argument -- and the script scrolls the track
        to the screen it is talking about. -->
-  <script src="../read-aloud.js?v=2" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=10" defer></script>
+  <script src="dispatch-cockpit.js?v=11" defer></script>
   <!-- The slideshow over the cockpit. Its own file and its own listener set,
        because the scroller has to keep working when the cockpit does not. -->
   <script src="cockpit-slides.js?v=1" defer></script>
@@ -269,9 +269,12 @@
                  dek, which is where read-aloud.js puts it unasked: the dek and
                  the two actions are one thought, and a third row of control
                  between them split the sentence from the button it argues
-                 for. data-read-aloud="after" is the hook that says so. -->
-            <p class="ckw-hero-act" data-read-aloud="after">
-              <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">See the five screens <span class="ckw-btn-note">&middot; then try it</span></a>
+                 for. data-read-aloud="after" is the hook that says so, and
+                 "skip" beside it is the other half: these are button labels,
+                 and a voice reading the page should not read its navigation
+                 out between the dek and the first heading. -->
+            <p class="ckw-hero-act" data-read-aloud="skip after">
+              <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">See the five scenarios</a>
               <a class="ckw-hero-link" href="#the-decisions">See the design decisions &rarr;</a>
             </p>
           </div>
@@ -313,7 +316,7 @@
         <div class="case-narrow">
         <div class="writing-measure">
           <h2>Five screens, one load</h2>
-          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the five moments a dispatcher moves through, one card each, captured from the working prototype below rather than drawn. The situation and what is happening are over each one; what to notice is under it.</p>
+          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the five moments a dispatcher moves through, one card each, captured from the working prototype below rather than drawn. The scenario and what is happening are over each one; what to notice is under it.</p>
         </div>
         </div>
       </div>
@@ -360,7 +363,7 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-1-h">
               <span class="ck-slide-n" aria-hidden="true">1</span>
-              <span class="ck-slide-sit">Situation: Clear pick</span>
+              <span class="ck-slide-sit">Scenario: Clear pick</span>
               <span class="ck-slide-title">The system picks a truck and shows its reasons</span>
             </p>
             <figure class="ck-slide-fig">
@@ -376,7 +379,7 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-2-h">
               <span class="ck-slide-n" aria-hidden="true">2</span>
-              <span class="ck-slide-sit">Situation: Clear pick</span>
+              <span class="ck-slide-sit">Scenario: Clear pick</span>
               <span class="ck-slide-title">The dispatcher opens the two late deliveries</span>
             </p>
             <figure class="ck-slide-fig">
@@ -392,7 +395,7 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-3-h">
               <span class="ck-slide-n" aria-hidden="true">3</span>
-              <span class="ck-slide-sit">Situation: Close call</span>
+              <span class="ck-slide-sit">Scenario: Close call</span>
               <span class="ck-slide-title">Two trucks are level, and the comparison says where they differ</span>
             </p>
             <figure class="ck-slide-fig">
@@ -408,7 +411,7 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-4-h">
               <span class="ck-slide-n" aria-hidden="true">4</span>
-              <span class="ck-slide-sit">Situation: Dispatcher overrides</span>
+              <span class="ck-slide-sit">Scenario: Dispatcher overrides</span>
               <span class="ck-slide-title">The dispatcher picks a different truck</span>
             </p>
             <figure class="ck-slide-fig">
@@ -424,7 +427,7 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-5-h">
               <span class="ck-slide-n" aria-hidden="true">5</span>
-              <span class="ck-slide-sit">Situation: Blocked by a rule</span>
+              <span class="ck-slide-sit">Scenario: Blocked by a rule</span>
               <span class="ck-slide-title">The best truck cannot legally go</span>
             </p>
             <figure class="ck-slide-fig">
@@ -448,11 +451,11 @@
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <div class="ck-show-dots">
-            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 5. Situation: Clear pick. The system picks a truck and shows its reasons"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 5. Situation: Clear pick. The dispatcher opens the two late deliveries"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 5. Situation: Close call. Two trucks are level, and the comparison says where they differ"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 5. Situation: Dispatcher overrides. The dispatcher picks a different truck"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="4" aria-controls="ck-slides" aria-label="Screen 5 of 5. Situation: Blocked by a rule. The best truck cannot legally go"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 5. Scenario: Clear pick. The system picks a truck and shows its reasons"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 5. Scenario: Clear pick. The dispatcher opens the two late deliveries"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 5. Scenario: Close call. Two trucks are level, and the comparison says where they differ"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 5. Scenario: Dispatcher overrides. The dispatcher picks a different truck"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="4" aria-controls="ck-slides" aria-label="Screen 5 of 5. Scenario: Blocked by a rule. The best truck cannot legally go"><span class="ck-show-dot-mark"></span></button>
           </div>
           <button type="button" class="ck-show-nav" data-dir="1" aria-controls="ck-slides" aria-label="Next screen">
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
@@ -474,7 +477,7 @@
         <div class="case-narrow">
         <div class="writing-measure">
           <h2>Try it yourself</h2>
-          <p>The same four situations, with your hands on them. Assign the recommended truck, or any other that can legally take the load; sort any column; open any truck for the rest of its figures; run the fleet comfortable or compact. Each situation lists two or three things worth trying and ticks them off as you do them. Everything works from the keyboard: arrow keys move between situations, Tab reaches every control, and what changes is announced.</p>
+          <p>The same four scenarios, with your hands on them. Assign the recommended truck, or any other that can legally take the load; sort any column; open any truck for the rest of its figures; run the fleet comfortable or compact. Each scenario lists two or three things worth trying and ticks them off as you do them. Everything works from the keyboard: arrow keys move between scenarios, Tab reaches every control, and what changes is announced.</p>
         </div>
         </div>
       </div>
@@ -500,7 +503,7 @@
           <!-- Visible since 2026-09-11: the four names were not
                self-explanatory at a glance, so the tabs got plain-language
                names and a label saying what they are. -->
-          <p class="ck-tabs-label" id="ck-tabs-label">Pick a situation</p>
+          <p class="ck-tabs-label" id="ck-tabs-label">Pick a scenario</p>
           <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>
           <!-- The stage is the tab panel: the situation's sentence and the
                cockpit both change with the tab, so both are what it controls.
@@ -516,7 +519,7 @@
                  itself. The heading is for a screen reader; the sentence under
                  it says the same to anyone who can see the tabs. -->
             <div class="ck-situation">
-              <h3 class="ck-rail-h ck-visually-hidden" id="ck-rail-h">In this situation</h3>
+              <h3 class="ck-rail-h ck-visually-hidden" id="ck-rail-h">In this scenario</h3>
               <p class="ck-blurb"></p>
               <!-- The checklist. A <div>, not the <p> this was, because what
                    goes in it is a heading, an ordered list and sometimes a
