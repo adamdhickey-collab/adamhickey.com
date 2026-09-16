@@ -371,3 +371,37 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 }
 .min-h-screen .bg-warm .grid > .text-charcoal:last-child { max-width: var(--measure); }
 .min-h-screen p.text-center.text-charcoal { margin-inline: auto; }
+
+/* ---------- The impact table is as wide as its own contents ----------
+   The rule above caps the outcome cells at the measure, and the paragraph
+   above that says a case study caps only its prose while the impact table
+   keeps the whole column. That was half a decision. Capped text inside an
+   uncapped box does not read as a wide table; it reads as a narrow table
+   with 290px of empty warm ground down its right-hand side, which is what
+   1216px of card holding 929px of content actually looks like.
+
+   So the card takes the width its own parts add up to, and the number is
+   not typed: the measure the cells are already held to, plus the dimension
+   column, plus the gap between the two, plus the card's own inset on both
+   sides. Three of those four are the tokens the utilities already resolve
+   to -- gap-12 is --space-4xl and md:p-10 is --space-3xl -- and the fourth
+   is the 250px grid track the captured markup authors, which has no token
+   because it is a column width rather than a space. At 1440 it comes to
+   929px, and the outcome column lands exactly on the measure: the cap stops
+   binding, and the longest line ends on the card's padding rather than
+   short of it. Change --measure and the card follows.
+
+   It is a max-width, so every width below it is untouched: the phone's
+   130px column and the single-column stack reach this rule already narrower
+   than it, and the card is the container's width until the viewport passes
+   about 1010px.
+
+   What this costs is the card no longer ranging with the full-width figures
+   and the two-up step cards above it. That is the right trade for a table:
+   those are pictures, which are as wide as they are drawn, and this is
+   reading, which is as wide as the measure. `.bg-warm.font-sans` is the
+   impact card on all four pages that have one and nothing else on any of
+   the nine. */
+.min-h-screen .bg-warm.font-sans {
+  max-width: calc(var(--measure) + 250px + var(--space-4xl) + 2 * var(--space-3xl));
+}
