@@ -148,13 +148,32 @@
   gap: var(--space-2xl);
   align-items: start;
 }
-/* The copy column is fixed and the picture takes the rest, rather than the
-   halves a 1fr 1fr would give: the argument answers to the measure and stops
-   getting easier to read past it, and every pixel the picture does not get is
-   a pixel of interface rendered smaller than it was drawn. 26rem is the
-   measure at this size plus the disc's indent. */
+/* HALVES, BECAUSE A CAPTURE SHOULD NOT BE ENLARGED EITHER. This was a fixed
+   26rem of copy and 1fr of picture, on the argument that the prose stops
+   getting easier to read past the measure and every pixel the picture does
+   not get is a pixel of interface rendered smaller than it was drawn. The
+   second half of that was only half true, and the numbers say where it broke:
+   inside the 1280px container the card captures rendered 752px wide against
+   the 622px they were drawn at, which is not the picture keeping its size,
+   it is the picture being enlarged by a fifth. Upscaling a screenshot of an
+   interface softens every edge the interface drew crisply, and it makes two
+   cards shout over the prose they are evidence for.
+
+   At halves the card renders 584 against 622, or 0.94 -- which is what the
+   two full-row fleet captures below already do at 1216 against 1286. So at
+   the full container all four captures sit a hair under the size they were
+   drawn, rather than two of them at 1.21 and two at 0.95. That is also why no
+   zoom affordance came with this: a capture at its own scale has nothing left
+   to reveal, and a lightbox would be offering to undo an enlargement that is
+   no longer happening. (Below 64rem the layout stacks and .ckw-scroll takes
+   over, and a card capture in a column wider than 622px is still enlarged
+   there; that is the tablet range's own question, not this rule's.)
+
+   The copy column keeps its measure -- .ckw-lead is capped at --measure, so
+   the half it now gets is wider than the line it sets, and the slack falls to
+   the right of the text rather than into it. */
 @media (min-width: 64rem) {
-  .ckw-decision { grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); gap: var(--space-4xl); }
+  .ckw-decision { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4xl); }
 }
 .ckw-decision-copy {
   position: relative;
