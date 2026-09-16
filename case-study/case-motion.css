@@ -50,6 +50,21 @@
     scale(calc(0.965 + 0.035 * var(--cmp, 1)));
 }
 
+/* The pull mark draws itself as the band comes up the screen -- the scrub
+   version of the draw-on the engagement pages' station marks play off a
+   clock. Every subpath carries pathLength="1", so one rule draws a 17-unit
+   rule and a 4.5-unit circle at the same rate and they finish together;
+   without it the long strokes would still be arriving after the short ones
+   had been standing for half the travel.
+
+   --cmp absent resolves to a finished drawing, which is the whole point of
+   the model: no script, no scroll yet, or a reduced-motion reader, and the
+   mark is simply there. */
+.cm-draw [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--cmp, 1));
+}
+
 /* Sage accent bars draw in from the left. */
 .cm-bar {
   transform: scaleX(var(--cmp, 1));
