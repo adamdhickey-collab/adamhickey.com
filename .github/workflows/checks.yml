@@ -46,13 +46,25 @@
 # anything, because the step above them already had. Apart, that is two jobs
 # with no browser on any image that ships without one. Each leg below resolves
 # AND installs for itself.
+#
+# WHY THIS NO LONGER RUNS ON ITS OWN. From #15 to #147 this ran on every pull
+# request and every push to main. It never gated anything: main has no branch
+# protection, so a red run blocked no merge, and it only ever reported. What
+# it did do was put the four browser legs on the clock of every merge,
+# including an image swap whose only risk resting.mjs measures in a second
+# when scoped to the page. CLAUDE.md's table already made the scoped local
+# run the check for most changes, so this is now the full run on demand:
+#
+#   gh workflow run checks.yml --ref <branch>
+#
+# or Run workflow in the Actions tab. It is the same nine checks over the
+# same 29 pages when it runs; only the trigger changed. pages.yml still runs
+# deployable.mjs on its own, immediately before the upload, so the one check
+# that protects the deploy did not move with the rest.
 
 name: checks
 
 on:
-  pull_request:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
