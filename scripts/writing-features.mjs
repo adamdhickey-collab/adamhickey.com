@@ -131,6 +131,13 @@ export const FEATURES = [
     alt: 'A large slate pencil lying diagonally across the frame, and where its tip meets the ground its shadow is not a pencil but a single black text cursor.',
     prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue pencil lying diagonally across the picture, drawn so big that both ends run off the frame, sharpened point toward the lower right. Its shadow on the ground is one solid black shape, and the shadow is not a pencil: it is a single tall thin rectangle, a text cursor, standing upright at the point where the pencil's tip would touch the ground. One object, one shadow, and they are two different things. Nothing else.`,
   },
+  {
+    id: 'what-does-a-product-design-engineer-actually-do',
+    group: 'systems',
+    device: 'the stamp and its mark',
+    alt: 'A large dusty slate rubber stamp pressed down on cream ground, cropped by the top of the frame, and to its right the impression it has just left, one solid black mark the exact shape of the stamp\u2019s face.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large rubber stamp in dusty slate blue with black outlines, its handle cropped by the top of the frame, pressed face down onto the ground in the left half of the picture. To its right, on the cream, the single impression it has just made: one solid black shape, the exact outline of the stamp's face, a simple rounded rectangle. Nothing else in the picture.`,
+  },
 
   /* ---- Getting to a release ------------------------------------------ */
   {
