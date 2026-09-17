@@ -70,10 +70,10 @@ export const SCENES = [
   {
     id: 'how-does-a-designer-work-in-developer-tools',
     group: 'systems',
-    device: 'the same capsule, stopped short',
-    caption: 'A green check and a live site are two different facts: the change went all the way to the last inch, and the tray is still empty.',
-    alt: 'The same dusty slate capsule stopped inside its tube an inch short of the open end, and beneath the opening an empty cream tray outlined in black.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same tube as before, two parallel black lines, now entering from the left edge and ending in the upper right third of the picture with an open end. The same dusty slate blue capsule is inside the tube, stopped an inch short of the open end, not yet out. Beneath the tube's open end, on the ground, one simple cream receiving tray outlined in black, wide and shallow, and it is empty. On the ground under the capsule, its shadow-silhouette as one solid black shape. No hands, no lights, no other capsules. Nothing else in the picture.`,
+    device: 'the same slider, an inch from the top',
+    caption: 'A green check and a live site are two different facts: the zip is pulled to an inch from the top, and the last inch is still open.',
+    alt: 'The same dusty slate zipper slider, now near the top of the frame with the closed black tape running down from it and off the bottom, and above it the last short stretch of the two tapes still open in a small V, with cream between them.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same zipper as before, seen straight on, cropped by the top and bottom of the frame. The same dusty slate blue slider with its pull tab has now been pulled almost all the way up and sits in the upper third of the picture. Below it the closed zip runs down as one straight thick solid black band, off the bottom edge. Above the slider only a short stretch of the zip is left, and it is still open: the two thick black tapes part in a small V and run off the top edge, with a sliver of cream showing between them. No teeth drawn individually, no fabric, no garment, no hands. Nothing else in the picture.`,
   },
 
   /* ---- Enterprise and operational software ------------------------------------------ */
