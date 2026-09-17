@@ -740,7 +740,7 @@
    site a heading and its paragraph sit in the middle of the 1280 container
    with the ground either side of them. That is right for an essay, where the
    column IS the page. It is wrong here, because this page's subject is three
-   pieces of interface -- the hero's assumption card, the five slides and the
+   pieces of interface -- the hero's assumption card, the four slides and the
    cockpit itself -- and all three range to the container's left edge. A
    centred 56rem column started 192px inboard of them at 1440, so the reader
    got a left edge for the pictures and a different one for the words about
@@ -765,7 +765,7 @@
 .ckw-page .container .case-narrow { margin-inline: 0; }
 
 /* ============================ THE SLIDESHOW ==============================
-   Five screens in a row, one ranged to the page's left edge, the next cut by
+   Four screens in a row, one ranged to the page's left edge, the next cut by
    the right edge of the track. The cut is the only thing on the page that
    says there are more, and it has to be a real one: a fade or a gradient over
    the next slide would say "there is more" about an image whose contrast this
@@ -790,14 +790,15 @@
 .ck-show {
   /* The width of one slide, and the source of every other number here. The
      capture is 680 of screen and 680 plus two bezels was the widest worth
-     showing -- past its own size it is an upscale. 600 is under that on
-     purpose: at 616 outer the tablet is a card on the page rather than the
-     page's main event, the head and caption over and under it carry more of
-     the explaining, and the next screen shows 80px wider at every width,
-     which is the one cue saying there are more. A downscaled capture is
-     sharp; only the other direction is not. 84vw is what leaves a neighbour
-     showing on anything too narrow for the cap. */
-  --slide-w: min(calc(600px + var(--bezel) * 2), 84vw);
+     showing -- past its own size it is an upscale. 660 is under that on
+     purpose, and it is a tenth over the 600 it was until 2026-09-17: at 616
+     outer the tablet read as a card, and the head and caption were carrying
+     more of the explaining than the screen they were about. At 676 the
+     capture is still a downscale, which is sharp, and the 20px short of the
+     cap goes to the next screen at the right, which is the one cue saying
+     there are more. 84vw is what leaves a neighbour showing on anything too
+     narrow for the cap. */
+  --slide-w: min(calc(660px + var(--bezel) * 2), 84vw);
   --slide-gap: var(--space-xl);
   /* Where the slide starts: the left edge of a .container, which is the edge
      the assumption card in the header ranges to. 100% is the viewport here,
@@ -825,8 +826,8 @@
   overscroll-behavior-inline: contain;
   /* The start padding is what puts the first slide on the container's edge,
      and the end padding is what lets the last one get there too: without it
-     the scroller runs out of room with the fifth screen still short of the
-     line the other four snapped to. scroll-padding matches the start so a
+     the scroller runs out of room with the fourth screen still short of the
+     line the other three snapped to. scroll-padding matches the start so a
      snap lands in the same place a press does. */
   padding-inline: var(--slide-x) max(0px, calc(100% - var(--slide-x) - var(--slide-w)));
   scroll-padding-inline-start: var(--slide-x);
@@ -1060,7 +1061,7 @@
    spent a fifth of it on an aside, which put the fleet data table back into a
    scrolling wrapper on the one screen wide enough to hold it whole.
 
-   The five screens above this section do the explaining now, from outside the
+   The four screens above this section do the explaining now, from outside the
    interface, where nothing has to be drawn on top of it. What is left here is
    the sentence saying what the situation is and the one thing to try, over
    the screen rather than beside it, which is the arrangement a slide uses. */

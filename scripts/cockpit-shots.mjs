@@ -166,7 +166,7 @@ const SHOTS = [
   },
 
   /* ----- the slides ------------------------------------------------------
-     Five windows on the screen, in the order the section walks them, each
+     Four windows on the screen, in the order the section walks them, each
      shown on the page inside the tablet the homepage card uses. 680 by 510,
      which is 4:3 -- a tablet in landscape IS 4:3, so the window's shape is
      the device's shape and nothing has to be reconciled, the argument the
@@ -196,18 +196,6 @@ const SHOTS = [
     note: 'slide 1: the pick, and the five things behind it',
   },
   {
-    name: 'slide-record',
-    scenario: 'confident',
-    width: 680,
-    aspect: 4 / 3,
-    stagePad: 20,
-    open: '.ck-misses',
-    clip: ['.ck-confidence'],
-    ground: 'tea-light',
-    padTop: 20,
-    note: 'slide 2: the outcome record, with both misses open',
-  },
-  {
     name: 'slide-close-call',
     scenario: 'tie',
     width: 680,
@@ -218,7 +206,7 @@ const SHOTS = [
        the bottom edge rather than the headline being dropped to fit it. */
     clip: ['.ck-reco'],
     padTop: 20,
-    note: 'slide 3: two trucks the system will not separate',
+    note: 'slide 2: two trucks the system will not separate',
   },
   {
     name: 'slide-override',
@@ -235,7 +223,7 @@ const SHOTS = [
        its text, rather than 14px into the charcoal head of the data table
        below, which is the loudest thing on the screen. */
     padTop: 40,
-    note: 'slide 4: the question, after the override',
+    note: 'slide 3: the question, after the override',
   },
   {
     name: 'slide-rule',
@@ -245,10 +233,10 @@ const SHOTS = [
     stagePad: 20,
     clip: ['.ck-reco'],
     padTop: 20,
-    note: 'slide 5: a rule, above the best truck the rule allows',
+    note: 'slide 4: a rule, above the best truck the rule allows',
   },
 
-  /* ----- the same five slides, for a phone ------------------------------
+  /* ----- the same four slides, for a phone ------------------------------
      A 1320px capture shown 330px wide is a picture of an interface nobody
      could read, which on a page arguing that seven trucks stay in reach at
      once would be the worst place on this site to make that claim badly. So
@@ -271,22 +259,6 @@ const SHOTS = [
     note: 'slide 1, narrow',
   },
   {
-    name: 'slide-record-sm',
-    scenario: 'confident',
-    width: 390,
-    aspect: 390 / 820,
-    stagePad: 16,
-    open: '.ck-misses',
-    /* Anchored on the record card itself and not on the recommendation. On a
-       phone the two cards are stacked rather than side by side, so starting
-       at the top of the recommendation would spend the whole window on the
-       factor list and never reach the misses this slide is about. */
-    clip: ['.ck-confidence'],
-    ground: 'tea-light',
-    padTop: 16,
-    note: 'slide 2, narrow',
-  },
-  {
     name: 'slide-close-call-sm',
     scenario: 'tie',
     width: 390,
@@ -294,7 +266,7 @@ const SHOTS = [
     stagePad: 16,
     clip: ['.ck-reco'],
     padTop: 16,
-    note: 'slide 3, narrow',
+    note: 'slide 2, narrow',
   },
   {
     name: 'slide-override-sm',
@@ -304,7 +276,7 @@ const SHOTS = [
     stagePad: 16,
     clip: ['.ck-status', '.ck-why'],
     padTop: 16,
-    note: 'slide 4, narrow',
+    note: 'slide 3, narrow',
   },
   {
     name: 'slide-rule-sm',
@@ -314,7 +286,7 @@ const SHOTS = [
     stagePad: 16,
     clip: ['.ck-reco'],
     padTop: 16,
-    note: 'slide 5, narrow',
+    note: 'slide 4, narrow',
   },
 ];
 
