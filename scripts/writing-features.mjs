@@ -49,9 +49,11 @@
  */
 
 export const ACCENTS = {
-  'ai':      { name: 'muted sage green',  hex: '#657d60', section: 'AI in the workflow' },
-  'systems': { name: 'dusty slate blue',  hex: '#56718c', section: 'Systems and teams' },
-  'release': { name: 'warm terracotta',   hex: '#c0714e', section: 'Getting to a release' },
+  'ai':      { name: 'muted sage green',  hex: '#657d60', section: 'AI as the material' },
+  'systems': { name: 'dusty slate blue',  hex: '#56718c', section: 'Craft and code' },
+  'release': { name: 'warm terracotta',   hex: '#c0714e', section: 'Enterprise and operational software' },
+  /* The keys predate the 2026-09-17 regrouping and are what accent.mjs bins
+     by, so they kept their names when the sections took the three leads'. */
 };
 
 /* The two colours a reveal may add. Named here so draw.mjs's per-job colour
@@ -84,7 +86,7 @@ export const accentLine = (group) => {
 };
 
 export const FEATURES = [
-  /* ---- AI in the workflow -------------------------------------------- */
+  /* ---- AI as the material -------------------------------------------- */
   {
     id: 'what-microsofts-hax-framework-gets-right-about-enterprise-ai',
     group: 'ai',
@@ -100,37 +102,14 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large sage green magnifying glass, drawn so big that its handle runs off the bottom-right corner and its rim nearly touches the top of the frame. The lens is the reveal: inside the circle, three plain cream documents stacked slightly fanned, outlined in black, each with two or three short black rule-lines, and on the top document one single small field filled butter yellow. Outside the lens the ground is empty cream. A black shadow-silhouette of the handle lies on the ground behind it. Nothing else.`,
   },
   {
-    id: 'is-your-design-system-ready-for-ai-agents',
+    id: 'what-should-a-working-prototype-actually-prove',
     group: 'ai',
-    device: 'multiplied with drift, on an accent field',
-    alt: 'A cream key lying across a sage field above a row of five black keyholes, each a slightly different shape; the first fits the key and the last does not.',
-    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One large old-fashioned key in cream with a black outline, lying horizontally across the upper middle, its bow cropped by the left edge. Below it, a row of five keyholes drawn as solid black shapes on the sage, evenly spaced, and every keyhole a slightly different shape from the one before: the first matches the key's bit exactly, the last does not match it at all. No locks, no doors, no other objects. Nothing else in the picture.`,
+    device: 'object on an accent field; tested where it is used',
+    alt: 'A cream work boot planted on a sage field, cropped by the left edge, with one black splash of mud spreading from under its sole.',
+    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One large work boot in cream with black outlines, seen from the side, drawn so big it is cropped by the left edge and the top, its sole planted flat. Under the sole, one solid black shape: a wide splash of mud, spreading from beneath the boot toward the right, the only thing on the ground. The boot is plain and worn, laces drawn as simple black lines. Nothing else.`,
   },
 
-  /* ---- Systems and teams --------------------------------------------- */
-  {
-    id: 'why-enterprise-ux-problems-are-organizational-problems',
-    group: 'systems',
-    device: 'the black ribbon; the symptom and the cause',
-    alt: 'A large slate telephone handset hanging from the top of the frame, its black coiled cord looping through the picture and cleanly cut in the middle.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue desk telephone handset, drawn huge and cropped by the top of the frame, hanging as if just lifted. Its coiled cord is one solid black ribbon that loops down through the middle of the picture and runs off the right edge, and somewhere in the middle of that ribbon the cord is cleanly cut, the two ends an inch apart. Nothing else: no phone base, no desk, no other objects.`,
-  },
-  {
-    id: 'standardizing-ux-across-40-sap-fiori-apps',
-    group: 'systems',
-    device: 'repetition as texture, on an accent field',
-    alt: 'A cream venetian blind of eight thick slats filling a slate field, every slat tilted the same way, and one black pull cord hanging straight down.',
-    /* Thirteen thin slats read as a wall of stripes at the hero's full width;
-       eight thick ones read as a blind. The count is in the prompt twice. */
-    prompt: `Same style, same hand as the reference. The ground is the full dusty slate blue, edge to edge, instead of cream. One large venetian blind in cream with black outlines fills the frame from side to side and is cropped by the top and bottom: exactly EIGHT identical horizontal slats, no more, each slat thick, about as tall as the gap of slate showing between it and the next, evenly spaced, all tilted at exactly the same angle. Eight slats only, drawn big. One pull cord, a single solid black line, hangs straight down the right-hand third from the top of the frame to the bottom, and is the only thing that is not a slat. No window, no wall, no room. Nothing else.`,
-  },
-  {
-    id: 'where-does-design-end-and-development-begin-now',
-    group: 'systems',
-    device: 'the black shape says the second thing',
-    alt: 'A large slate pencil lying diagonally across the frame, and where its tip meets the ground its shadow is not a pencil but a single black text cursor.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue pencil lying diagonally across the picture, drawn so big that both ends run off the frame, sharpened point toward the lower right. Its shadow on the ground is one solid black shape, and the shadow is not a pencil: it is a single tall thin rectangle, a text cursor, standing upright at the point where the pencil's tip would touch the ground. One object, one shadow, and they are two different things. Nothing else.`,
-  },
+  /* ---- Craft and code --------------------------------------------- */
   {
     id: 'what-does-a-product-design-engineer-actually-do',
     group: 'systems',
@@ -145,8 +124,15 @@ export const FEATURES = [
     alt: 'A large dusty slate hand plane, its rear handle cropped by the right edge of the frame and its sole flat on the cream ground, and one solid black curl of shaving rising from its mouth and off the top edge.',
     prompt: `Same style, same hand as the reference. Cream ground. One large woodworking hand plane in dusty slate blue with black outlines, drawn from the side and slightly above, so big that its rear handle is cropped by the right edge and its front knob by the top. Its flat sole rests on the ground line across the lower third of the picture. From the mouth in its sole, one single thick curl of wood shaving rises and spirals up and off the top edge of the frame, drawn as a solid black shape. Nothing else in the picture.`,
   },
+  {
+    id: 'how-does-a-designer-work-in-developer-tools',
+    group: 'systems',
+    device: 'the black shape is the route',
+    alt: 'A large dusty slate pneumatic-tube capsule travelling through a tube drawn as two black lines that run edge to edge across the cream, its black shadow-silhouette on the ground beneath it.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large pneumatic-tube capsule, a plain cylinder with rounded ends, in dusty slate blue with black outlines, drawn huge in the middle of the picture and travelling to the right. The tube it travels in is drawn as two long parallel black lines running from the left edge to the right edge of the frame, the capsule between them, with a little clear space above and below it. On the ground beneath, one solid black shape: the capsule's shadow-silhouette, offset slightly to the right. No station, no tray, no other capsules, no motion lines. Nothing else in the picture.`,
+  },
 
-  /* ---- Getting to a release ------------------------------------------ */
+  /* ---- Enterprise and operational software ------------------------------------------ */
   {
     id: 'designing-for-the-moment-the-workflow-breaks',
     group: 'release',
@@ -162,10 +148,12 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta kite, a plain diamond with a black outline, in the upper right, cropped by the top edge. Its string is one continuous solid black line: it begins at the bottom left of the frame as a tight tangled knot of that one line looping over itself, then unwinds and straightens as it rises, and reaches the kite as a single clean taut line. It must read as one unbroken string from the knot to the kite. Nothing else in the picture, no clouds, no ground line, no tail.`,
   },
   {
-    id: 'what-should-a-working-prototype-actually-prove',
+    id: 'standardizing-ux-across-40-sap-fiori-apps',
     group: 'release',
-    device: 'object on an accent field; tested where it is used',
-    alt: 'A cream work boot planted on a terracotta field, cropped by the left edge, with one black splash of mud spreading from under its sole.',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large work boot in cream with black outlines, seen from the side, drawn so big it is cropped by the left edge and the top, its sole planted flat. Under the sole, one solid black shape: a wide splash of mud, spreading from beneath the boot toward the right, the only thing on the ground. The boot is plain and worn, laces drawn as simple black lines. Nothing else.`,
+    device: 'repetition as texture, on an accent field',
+    alt: 'A cream venetian blind of eight thick slats filling a terracotta field, every slat tilted the same way, and one black pull cord hanging straight down.',
+    /* Thirteen thin slats read as a wall of stripes at the hero's full width;
+       eight thick ones read as a blind. The count is in the prompt twice. */
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large venetian blind in cream with black outlines fills the frame from side to side and is cropped by the top and bottom: exactly EIGHT identical horizontal slats, no more, each slat thick, about as tall as the gap of terracotta showing between it and the next, evenly spaced, all tilted at exactly the same angle. Eight slats only, drawn big. One pull cord, a single solid black line, hangs straight down the right-hand third from the top of the frame to the bottom, and is the only thing that is not a slat. No window, no wall, no room. Nothing else.`,
   },
 ];

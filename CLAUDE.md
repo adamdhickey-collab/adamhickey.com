@@ -350,8 +350,8 @@ at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
 **All four now press things, and only on one page.** They load a page, wait for
-it to settle and measure what is there, which is the whole of thirty of
-the thirty-one. `prototype/dispatch-cockpit.html` is the exception: it renders
+it to settle and measure what is there, which is the whole of twenty-eight of
+the twenty-nine. `prototype/dispatch-cockpit.html` is the exception: it renders
 its comparison, its override question, its refused button and its opened rows
 from JavaScript in response to a press, so twelve of its states were in no DOM
 any check ever saw and every one of them said "✓" about a page it had measured
@@ -373,9 +373,9 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-15 the tree measures 5795 resting colors, 1864 state
-rules, 23894 type sizes and 14297 elements checked for a partial border on a
-curve, across 31 pages (the thirty of the site and `404.html`, which
+unmeasured. At 2026-09-17 the tree measures 5779 resting colors, 1859 state
+rules, 23830 type sizes and 14511 elements checked for a partial border on a
+curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
 121 token names against 189 declarations and 10 counted claims.
 
@@ -397,13 +397,19 @@ Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
 The figures above are a re-measurement, not a delta. They were taken with the
-four browser checks run unscoped against an archive of `main` at e4247fe, and
-they replace the 2026-09-14 set of 5784 / 1841 / 23838 / 14246, which a dozen
-merges had left stale. The drift is not itemised here because it is not one
-change to attribute; what it cost was a tripwire reading low, which is the
-direction that hides a page falling out of measurement rather than announcing
-it. Re-measure and rewrite these four when they have visibly drifted again,
-and name the commit measured, the way this paragraph does.
+four browser checks run unscoped on the tree #190 committed as 1312b0d, the
+one that cut the Writing family from eleven articles to nine, and they
+replace the 2026-09-15 set of 5795 / 1864 / 23894 / 14297, taken against an
+archive of `main` at e4247fe. Two pages left the tree net (three articles
+out, one in) and the resting count moved by sixteen, the state rules by five,
+the type sizes by sixty-four; the curve count went up by two hundred and
+fourteen, because the articles merged between the two measurements had
+figures of their own and that set was already stale when the pages left. The
+drift is not itemised further because it is not one change to attribute;
+what it cost was a tripwire reading low, which is the direction that hides a
+page falling out of measurement rather than announcing it. Re-measure and
+rewrite these four when they have visibly drifted again, and name the commit
+measured, the way this paragraph does.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
@@ -495,7 +501,7 @@ Two more since #32:
   non-HTML file there is invisible to every check here.
 
 - **The articles are the search doors, and the dek is the answer.** Since
-  #34 `writing/` holds an index and ten articles, each titled as the
+  #34 `writing/` holds an index and nine articles, each titled as the
   question a buyer asks before knowing the name, and each answering it in
   the dek under the h1 in three or four sentences that stand on their own.
   That paragraph is what a search engine or an assistant can quote whole;

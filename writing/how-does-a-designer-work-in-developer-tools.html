@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How a Product Designer Works in Git, Pull Requests, CI and Deploys | Adam Hickey</title>
+  <meta name="description" content="How a designer works in the developer&rsquo;s tools: a branch for every change, a commit that says why, a pull request as the unit of work, checks that run before the merge, a deploy you watch land and a log you read when the page says nothing. What each tool is for, what it teaches about how developers think, and which of it a designer runs on day one." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html" />
+  <meta property="og:title" content="How a Product Designer Works in Git, Pull Requests, CI and Deploys | Adam Hickey" />
+  <meta property="og:description" content="How a designer works in the developer&rsquo;s tools: a branch for every change, a commit that says why, a pull request as the unit of work, checks that run before the merge, a deploy you watch land and a log you read when the page says nothing. What each tool is for, what it teaches about how developers think, and which of it a designer runs on day one." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/how-does-a-designer-work-in-developer-tools.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the nine articles and the case
+       studies name one person rather than twenty with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html#article",
+          "headline": "How does a designer work in the developer's tools?",
+          "description": "How a designer works in the developer's tools: a branch for every change, a commit that says why, a pull request as the unit of work, checks that run before the merge, a deploy you watch land and a log you read when the page says nothing. What each tool is for, what it teaches about how developers think, and which of it a designer runs on day one.",
+          "url": "https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html",
+          "image": "https://adamhickey.com/img/og/how-does-a-designer-work-in-developer-tools.jpg",
+          "datePublished": "2026-09-17",
+          "dateModified": "2026-09-17",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Developer tools"
+            },
+            {
+              "@type": "Thing",
+              "name": "Design engineering"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How does a designer work in the developer's tools?",
+              "item": "https://adamhickey.com/writing/how-does-a-designer-work-in-developer-tools.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260917c" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <main id="main">
+    <!-- THE DEVELOPER-TOOLS ARTICLE, written 2026-09-17 when the Writing
+         family was cut from eleven articles to nine. The design-engineer
+         article is about the deliverable living in the codebase; this one is
+         about the WORKFLOW around it, the tools a developer lives in to get a
+         change to production and to know what production is doing: the
+         branch, the commit, the pull request, the checks, the deploy, the
+         log. It exists because the roles on the board that build tools for
+         developers ask for fluency in exactly that vocabulary, and because
+         the second half of the argument -- that a designer who has shipped
+         through those tools knows the questions developers ask, in order --
+         is the qualification those roles are really asking about. Every
+         incident in it happened to this site and is written up in the build
+         write-up, so a reader can check each one. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <h1 class="case-title">How does a designer work in the developer&rsquo;s tools?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">Not by becoming an engineer. By running every change through the same tools the team does: a branch for each change, a commit that says why, a pull request as the unit of work, checks that run before the merge, a deploy you watch land, and a log you read when the page says nothing. Each of those tools answers one question a developer asks every day, and a designer who has shipped through them knows the questions in the order they get asked. That is what the tools are for, what they teach, and which of them a designer runs on day one.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-repository-is-the-one-place-that-says-what-is-true">The repository is the one place that says what is true</a></li>
+            <li><a href="#a-branch-is-a-safe-place-to-be-wrong">A branch is a safe place to be wrong</a></li>
+            <li><a href="#a-pull-request-is-the-change-and-its-account-and-the-account-outlives-the-change">A pull request is the change and its account, and the account outlives the change</a></li>
+            <li><a href="#a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</a></li>
+            <li><a href="#the-log-is-where-the-truth-is-when-the-interface-is-silent">The log is where the truth is when the interface is silent</a></li>
+            <li><a href="#developers-ask-the-same-five-questions-in-the-same-order">Developers ask the same five questions, in the same order</a></li>
+            <li><a href="#what-a-designer-runs-on-day-one-and-what-takes-a-quarter">What a designer runs on day one, and what takes a quarter</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, in the set's hand, of the
+             argument rather than the topic. Under the dek so the answer is
+             read before the picture is, and inside the hero so it sits on
+             the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/how-does-a-designer-work-in-developer-tools.webp?v=1" width="1600" height="900" alt="A large dusty slate pneumatic-tube capsule travelling through a tube drawn as two black lines that run edge to edge across the cream, its black shadow-silhouette on the ground beneath it." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="the-repository-is-the-one-place-that-says-what-is-true">The repository is the one place that says what is true</h2>
+          <p>A designer&rsquo;s tools describe what something should be. A developer&rsquo;s tools record what it is. The repository holds every file the product is made of, every version of every file, and a line for each change saying who made it and why. Nothing else on the team has that property. The design file is an intention, the ticket is a request, the demo is a moment; <mark>the repository is the only artefact that cannot disagree with the product, because it is the product.</mark></p>
+          <p>That is the first thing shipping through the tools teaches, and it changes where a designer looks. When two people describe a screen differently, the question is not whose memory is better. It is what the file says, and when it last changed, and what the change said it was for. I have run this site through a repository since June, and the habit it built is the one a developer already has: before arguing about what shipped, open what shipped.</p>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="a-branch-is-a-safe-place-to-be-wrong">A branch is a safe place to be wrong</h2>
+          <p>Every change starts on a branch: a copy of the whole product where you can try something without touching what anyone else is working on or what the public sees. On a branch you can change every page and then throw all of it away, and nothing happened. That is the developer&rsquo;s version of a scratch artboard, with one difference that matters: it is the real product, running, and not a picture of it.</p>
+          <p>A commit is a saved step on that branch, and the message on it is where the decision lives. Not &ldquo;fix spacing&rdquo;: the reason the spacing was wrong, what was tried, and why this is the answer. A developer reading it a year later, or an assistant reading it in a minute, gets the argument and not just the diff. <mark>The commit message is the design rationale, filed where the next person will actually find it.</mark> Every one of mine on this site says why, and it is the part of the tool I would tell any designer to learn first, because it costs nothing and it is the whole difference between a change and a decision.</p>
+          <figure class="writing-figure">
+            <figcaption>One change, from a branch to a reader</figcaption>
+            <ol class="writing-flow">
+              <li>Branch<small>a copy of the product where being wrong costs nothing</small></li>
+              <li>Commit<small>a saved step, with the reason on it</small></li>
+              <li>Pull request<small>the change and its account, proposed together</small></li>
+              <li>Checks<small>the rules, run against the rendered page before the merge</small></li>
+              <li>Merge<small>the branch becomes the product</small></li>
+              <li>Deploy<small>the product becomes the site, about a minute later</small></li>
+              <li class="writing-flow-mark">Verify<small>fetch the page and look; a merge is not a deploy</small></li>
+            </ol>
+          </figure>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="a-pull-request-is-the-change-and-its-account-and-the-account-outlives-the-change">A pull request is the change and its account, and the account outlives the change</h2>
+          <p>When the branch is ready it becomes a pull request: the whole change, rendered as a difference against the product, with a description above it. The description is the second place the reasoning goes, and the more important one, because a pull request is the unit the team actually reads. Someone reviews it, comments on a line, asks for a change, approves it. Then it is merged, and the branch is folded into the product as one commit.</p>
+          <p>The part that took me longest to see is that the description is not a formality. On this site every pull request carries a written account of why the change was made and what it cost: which counts moved, by how many, and where. Months later that account is the history of the design, findable by anyone, in the order it happened. A design file has versions; a repository has reasons. <mark>The tool a developer uses to propose a change is also the best design-decision record I have ever kept, and I did not have to keep it separately.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>The repository is the only artefact that cannot disagree with the product, because it is the product.</p>
+          </aside>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</h2>
+          <p>Before a pull request merges, checks run. On a product team that means the tests, the linters, the build; on this site it means nine scripts, four of which open every page in a real browser and measure what is there: every colour a reader can see against its floor, every rendered type size against the scale, every state a press can reach. A red check stops the merge and says which page and which element. This is where the design rules live now, and a designer who can read a red check can hold the product to a rule without asking anyone.</p>
+          <p>Then comes the lesson the tools teach hardest. A green check means the tree passed. It does not mean the site changed. The merge and the deploy are two separate machines that fail independently, and I learned that from a merge that ran every check, went green, and never deployed at all. The site did not look broken. It looked unchanged, which is indistinguishable from a change nobody made. Another deploy failed fourteen seconds in, on a green tree, because it carried one file the deploy machine could not follow. And a page fetched straight after a successful deploy can still show the old bytes, because the host caches for ten minutes.</p>
+          <figure class="writing-figure">
+            <figcaption>What a green check says, and what it does not</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">It says</p>
+                <ul>
+                  <li>The tree can be packaged for the host at all</li>
+                  <li>Every token the specs name exists</li>
+                  <li>Every colour clears its floor, at rest and under a press</li>
+                  <li>Every rendered size is a step on the scale</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">It does not say</p>
+                <ul>
+                  <li>The deploy ran</li>
+                  <li>The deploy finished</li>
+                  <li>The cache has let go of the old page</li>
+                  <li>A reader can see the change</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>So the last step of every change is to go and look, with a cache-buster on the address, at the page a stranger would get. <mark>A developer never confuses &ldquo;it passed&rdquo; with &ldquo;it is live,&rdquo; and once you have been caught by the gap you never do either.</mark></p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/how-does-a-designer-work-in-developer-tools-2.webp?v=1" width="1600" height="900" alt="The same dusty slate capsule stopped inside its tube an inch short of the open end, and beneath the opening an empty cream tray outlined in black." loading="lazy" decoding="async" />
+            <figcaption>A green check and a live site are two different facts: the change went all the way to the last inch, and the tray is still empty.</figcaption>
+          </figure>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="the-log-is-where-the-truth-is-when-the-interface-is-silent">The log is where the truth is when the interface is silent</h2>
+          <p>Most of what a developer&rsquo;s tools tell you, they tell you in a log: a plain record of what ran, in order, with what result. The terminal is where it is read. It is the least designed surface in software and the most honest one, and learning to read it is not a technical skill so much as a habit of looking at the record instead of the screen that summarizes it.</p>
+          <p>The reason is that the interface goes quiet exactly when the record gets interesting. The build that produces one of this site&rsquo;s stylesheets emits only the classes it has seen a page use, so a class named in the markup that the build never saw is not an error. It is nothing at all: the type measures wrong at every width and the console says nothing. The deploy that failed fourteen seconds in said so in a log nobody had open. In every case the screen was calm and the log had the answer, and the fix was to read the log first. <mark>A developer&rsquo;s trust runs the opposite way from a designer&rsquo;s instinct: the quieter the interface, the harder they look at the record underneath it.</mark></p>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="developers-ask-the-same-five-questions-in-the-same-order">Developers ask the same five questions, in the same order</h2>
+          <p>Ship through these tools for a season and a pattern shows. Whatever went wrong, a developer asks the same questions, and asks them in the same order: What is live right now? What failed? What changed since it last worked? What depends on the thing that changed? Can I put it back safely? Each of the tools above exists to answer one of those. The deploy log answers the first, the check the second, the diff the third, the repository&rsquo;s history the fourth, and the branch the fifth, because a change that lives on one commit is a change you can revert with one.</p>
+          <p>That order is an information architecture, and it is the one to build any tool for developers around. It is also the same shape I have written about for an operations floor when an order stalls: what happened, what it affects, what can I safely do next. The person is different; the questions are not. A developer whose deploy just failed is a coordinator whose transaction just stalled, holding a system that technically contains the answer and does not say it. <mark>Knowing the questions in order, from having asked them yourself, is the qualification for designing the answer.</mark></p>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="what-a-designer-runs-on-day-one-and-what-takes-a-quarter">What a designer runs on day one, and what takes a quarter</h2>
+          <p>Here is the honest map, because a team finds it out either way. The branch, the commit, the pull request, the checks and a static deploy: I run all of that daily, on this site, with a terminal open and an assistant in it that writes the commands I describe and shows me the ones I do not know yet. That is the part of the developer&rsquo;s toolset a designer can run from the first week, and the assistant is what makes it a week rather than a year.</p>
+          <figure class="writing-figure">
+            <figcaption>What this site has been run through, as of its build write-up</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>175</dt><dd>pull requests since June, each carrying a written account of why</dd></div>
+              <div><dt>9</dt><dd>checks on every merge; four of them render every page in a real browser</dd></div>
+              <div><dt>1</dt><dd>minute from a merge to the live site, with nothing in front of it</dd></div>
+            </dl>
+          </figure>
+          <p>Containers, cloud infrastructure, a build pipeline at team scale, observability across many services: that is the part I have read and not run, and I would rather say so than have it discovered. The way in is the same way it was for the rest, which is to ship something through it and read what the log says. The judgment does not change with the tool. What changes is that the designer stops describing the workflow from outside it, and that is worth a quarter of learning the vocabulary.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A designer works in the developer&rsquo;s tools by shipping through them: a branch to be wrong on, a commit that says why, a pull request that keeps the reasoning, checks that hold the rules, a deploy you go and look at, and a log you read before the screen. Each answers one of the five questions developers ask in order, and having asked them yourself is what qualifies you to design the answer.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> open the last pull request that changed something you designed, read its description, and then find the deploy that shipped it. If you cannot find the second one, you have found the first thing to learn.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">The account this draws on: <a href="../case-study/this-site.html">How I built this site</a>, where every incident above is written up with its fix, and <a href="designing-for-the-moment-the-workflow-breaks.html">the moment the workflow breaks</a>, where the same five questions are asked on an operations floor. How I do this on a team: <a href="../engagement/embedded-senior-product-design.html">own the design inside the team, not beside it</a>, in its repository.</p>
+        <a class="build-next" href="enterprise-ai-should-help-people-decide-not-just-answer.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">Enterprise AI should help people decide, not just answer &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
