@@ -169,9 +169,9 @@ those rules and is described under the table.
 
 | Token | Steps | min → max | Use |
 |---|---|---|---|
-| `--type-title` | `5xl` → `8xl` | 40 → 68 | `h1`, every page title, the homepage hero included. |
-| `--type-section` | `4xl` → `6xl` | 34 → 48 | `h2`, a section heading. |
-| `--type-subsection` | `3xl` → `4xl` | 28 → 34 | `h3`, a subsection heading. |
+| `--type-title` | `4xl` → `8xl` | 34 → 68 | `h1`, every page title, the homepage hero included. |
+| `--type-section` | `3xl` → `6xl` | 28 → 48 | `h2`, a section heading. |
+| `--type-subsection` | `2xl` → `4xl` | 24 → 34 | `h3`, a subsection heading. |
 | `--type-lede` | `lg` → `2xl` | 18 → 24 | Deks, ledes, pull quotes. |
 
 **The fifth ramp, and why it breaks both rules.** `--type-title-inset` runs
@@ -210,9 +210,9 @@ bug unrepresentable.
 ### The clamp form
 
 ```css
---type-section: clamp(2.125rem, calc(2.125rem + 0.875 * (100vw - 25rem) / 55), 3rem);
-/*                    ^^ min           ^^ min     ^^ max-min      ^^ 25rem = 400px
-                                                                     55rem = the span */
+--type-section: clamp(1.75rem, calc(1.75rem + 1.25 * (100vw - 25rem) / 55), 3rem);
+/*                    ^^ min          ^^ min    ^^ max-min      ^^ 25rem = 400px
+                                                                   55rem = the span */
 ```
 
 Both endpoints read straight off the declaration, and the middle term is
@@ -254,21 +254,31 @@ generates it and Regime B's base still names it; no ramp reaches it.
 
 | Level | Size | Family | Weight | Leading | Tracking |
 |---|---|---|---|---|---|
-| `h1` page title | `--type-title` 40 → 68 | serif | 400 | `--leading-display` | `--tracking-display` |
-| `h2` section | `--type-section` 34 → 48 | serif | 400 | `--leading-heading` | `--tracking-title` |
-| `h3` subsection | `--type-subsection` 28 → 34 | serif | 400 | `--leading-heading` | `--tracking-heading` |
+| `h1` page title | `--type-title` 34 → 68 | serif | 400 | `--leading-display` | `--tracking-display` |
+| `h2` section | `--type-section` 28 → 48 | serif | 400 | `--leading-heading` | `--tracking-title` |
+| `h3` subsection | `--type-subsection` 24 → 34 | serif | 400 | `--leading-heading` | `--tracking-heading` |
 | `h4` block title | `--text-xl` 20 | sans | 600 | `--leading-tight` | `--tracking-heading` |
 | `h5` card title | `--text-lg` 18 | sans | 600 | `--leading-tight` | `--tracking-normal` |
 | `h6` label heading | `--text-base` 16 | sans | 600 | `--leading-tight` | `--tracking-normal` |
 
-Phone (400px): 40 · 34 · 28 · 20 · 18 · 16 · body 16
+Phone (400px): 34 · 28 · 24 · 20 · 18 · 16 · body 16
 Desktop (1280px): 68 · 48 · 34 · 20 · 18 · 16 · body 16
 
-The phone column went up one step at the top three levels on 2026-09-16 —
-34 · 28 · 24 became 40 · 34 · 28 — because a page title reading at 34 on a
-390px screen was carrying less weight than the sentence under it. Only the
-floors moved; the desktop column is untouched, and every new floor is a step
-of the scale rather than a number chosen to fit.
+**The phone column was 40 · 34 · 28 for one day**, 2026-09-16 to the 17th,
+on the argument that a page title at 34 on a 390px screen carries less
+weight than the sentence under it. Two things sent it back, and the second
+is the one to remember.
+
+The homepage hero sets in two lines at 34 on any phone 402px or wider — a
+15 Pro, a 16, a Pro Max — and in three at 40. A title that gains a line on
+the most common phone is a worse title whatever the size says.
+
+And the `h1` floor could not come down on its own. At 34 it ties the section
+floor exactly, and a tie is the inversion this section exists to prevent:
+`h2` stops reading under `h1` everywhere below 400px. The scale has no step
+between 34 and 40 to separate them with, so all three went back together. A
+bigger phone title needs a shorter hero line or a step the scale does not
+have. Neither of those is a floor change.
 
 The homepage hero is an `h1` on this ladder, not a level above it.
 
@@ -349,9 +359,8 @@ labels get looser; running lowercase text gets neither.
 | `--tracking-caps` | 0.12em | 11 – 13px uppercase kickers, tags, eyebrows |
 
 **A fluid ramp takes the tracking of its ceiling.** A ramp crosses bands as
-it scales — `--type-title` runs 40 → 68 and so crosses out of the
-`--tracking-title` band into `--tracking-display` — and re-tracking mid-ramp
-is not worth a token. Track for the
+it scales — `--type-title` runs 34 → 68 and so passes through all three
+negative steps — and re-tracking mid-ramp is not worth a token. Track for the
 top, where tightness actually shows: large type set loose looks slack, small
 type set tight only looks slightly tight. So `h1` takes
 `--tracking-display` across its whole range even though its floor sits in the
@@ -448,9 +457,8 @@ Regime B's headings did not scale with the viewport at any level: an 80px
 `h1` was 80px on a 375px phone unless a utility overrode it, which is why every
 case-study hero carried three hand-tuned breakpoint sizes and a hand-set
 leading. Those are gone; the hero is `--type-title` like every other page
-title, 40px on a phone and 68px at 1280 — the same 68 it already reached, and
-8px smaller than the 48 it used to start at. (That phone figure was 34 when
-this was written and went up a step on 2026-09-16; §4 has the reason.)
+title, 34px on a phone and 68px at 1280 — the same 68 it already reached, and
+14px smaller than the 48 it used to start at.
 
 ### Three ordering bugs in Regime A — fixed
 
