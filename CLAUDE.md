@@ -462,8 +462,9 @@ Four rules that came with #29, each held by `seo.mjs`:
 - **Every page names its own card.** `node scripts/og.mjs` renders
   `img/og/<slug>.jpg` from a registry of kicker, title and picture, using
   the same Chrome as the checks; keep the registry's title in step with the
-  page's `<title>`, and re-run it when either moves. The homepage keeps
-  `img/og-card.jpg`.
+  page's `<title>`, and re-run it when either moves. The homepage's is
+  `img/og/index.jpg`, since 2026-09-17; before that it kept a hand-drawn
+  `img/og-card.jpg`, which is why a stale card outlived two repositionings.
 - **`404.html` is not a page.** Pages serves it for every miss at any depth,
   so its links are root-absolute, it is noindexed, it has no canonical and
   it is out of the sitemap and the twenty-two. The browser checks still

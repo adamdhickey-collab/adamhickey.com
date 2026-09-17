@@ -5,9 +5,11 @@
  * WHY. Every page carried the homepage's card, so a case study shared on
  * LinkedIn or pasted into a chat showed the practice's headline instead of
  * its own. A card that names the page and shows its work is the difference
- * between a link and a link somebody opens. The homepage keeps img/og-card.jpg,
- * which was drawn for it; every other page gets a card from the registry
- * below, at img/og/<slug>.jpg, and its og:image and Article image point there.
+ * between a link and a link somebody opens. Every page gets a card from the
+ * registry below, at img/og/<slug>.jpg, and its og:image and Article image
+ * point there. The homepage's is index.jpg; until 2026-09-17 it kept a card
+ * drawn by hand, img/og-card.jpg, and a card nothing renders is a card
+ * nothing keeps in step: it still named the independent practice.
  *
  * HOW. Each card is a small HTML document -- the site's fonts, its warm
  * ground, charcoal serif title, sage eyebrow, the wordmark row at the foot --
@@ -34,6 +36,13 @@ const only = process.argv.slice(2);
    what a person sees in a feed, where the page's own name is the thing to
    recognize. Keep it in step with the h1 by hand. */
 const CARDS = {
+  /* The homepage. Its card is the hero as the page says it: the eyebrow as
+     the kicker, the h1 as the title, the page's own first screen on the
+     right. The design system page, which has no card of its own, points at
+     this one too. It replaced img/og-card.jpg on 2026-09-17, a card drawn by
+     hand for the independent practice that had outlived the practice by a
+     week and the level by a day. */
+  'index':                             { kicker: 'Senior Product Designer',                title: 'Product design for software that got complicated.',            image: 'img/site/this-site.webp' },
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
