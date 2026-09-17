@@ -3870,9 +3870,19 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin: 0 0 var(--space-md);
 }
+/* ONE COLUMN ON A PHONE, since 2026-09-17. This was two columns from the
+   smallest width up, and at 390 that is two 150px columns of serif holding
+   "Everything: the design, the code, the checks that hold them together"
+   in four lines beside "HTML and CSS, Node scripts, and one Chrome that
+   measures every page" in four more: eight short lines to read two facts,
+   and the eye zigzagging between them. One column reads each fact as one
+   line or two, top to bottom, the way the list is written. Two columns
+   from 640, the seam the rest of the site stacks at, and the four across
+   from 820 are unchanged. Five pages carry the panel -- the four build
+   write-ups and the design system page -- and this is the one rule. */
 .glance-facts {
   display: grid; gap: var(--space-md) var(--space-2xl);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   margin: 0;
 }
 .glance-facts dt {
@@ -3885,6 +3895,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
   font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.4;
   color: var(--color-charcoal);
+}
+@media (min-width: 640px) {
+  .glance-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 820px) {
   .glance-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--space-3xl); }
