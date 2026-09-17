@@ -68,9 +68,24 @@
      site had also never treated the homepage hero as its largest type:
      .case-title topped out at 68 while .hero-title topped out at 61.6. So the
      homepage hero is a page title like any other and takes --type-title. */
-  --type-title:      clamp(2.125rem, calc(2.125rem + 2.125 * (100vw - 25rem) / 55), 4.25rem); /* 34 -> 68  h1; the homepage hero only while stacked */
-  --type-section:    clamp(1.75rem,  calc(1.75rem  + 1.25  * (100vw - 25rem) / 55), 3rem);    /* 28 -> 48  h2 */
-  --type-subsection: clamp(1.5rem,   calc(1.5rem   + 0.625 * (100vw - 25rem) / 55), 2.125rem);/* 24 -> 34  h3 */
+  /* THE PHONE END OF ALL THREE HEADINGS WENT UP ONE STEP, 2026-09-16. The
+     floors were 34 / 28 / 24 and are 40 / 34 / 28, which is --text-5xl,
+     --text-4xl and --text-3xl: one step along the same fourteen, not a new
+     number. The ceilings did not move, so only the coefficient in the middle
+     term changes with them, and only the range below 80rem is affected at
+     all -- a desktop reading of any page on this site is byte for byte what
+     it was.
+
+     The ordering the comment above is about still holds at every width,
+     which is the thing a floor change can break. All four ramps share the
+     25rem -> 80rem window, so the differences are linear: title minus
+     section is 6 + 14t, section minus subsection is 6 + 8t, subsection minus
+     lede is a flat 10. Positive at both ends, therefore positive throughout.
+
+     The lede is not a heading and did not move. */
+  --type-title:      clamp(2.5rem,   calc(2.5rem   + 1.75  * (100vw - 25rem) / 55), 4.25rem); /* 40 -> 68  h1; the homepage hero only while stacked */
+  --type-section:    clamp(2.125rem, calc(2.125rem + 0.875 * (100vw - 25rem) / 55), 3rem);    /* 34 -> 48  h2 */
+  --type-subsection: clamp(1.75rem,  calc(1.75rem  + 0.375 * (100vw - 25rem) / 55), 2.125rem);/* 28 -> 34  h3 */
   --type-lede:       clamp(1.125rem, calc(1.125rem + 0.375 * (100vw - 25rem) / 55), 1.5rem);  /* 18 -> 24  deks, ledes */
 
   /* One h1 does not get the full measure. From 768 up the homepage hero

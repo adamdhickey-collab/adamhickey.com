@@ -332,8 +332,21 @@
 }
 /* --type-title is sized for a title that spans the page; this one shares the
    row with a picture, which is exactly what --type-title-inset exists for --
-   type.css authors it for the homepage hero beside the portrait. */
-.ckw-hero-title { font-size: var(--type-title-inset); margin-bottom: var(--space-lg); }
+   type.css authors it for the homepage hero beside the portrait.
+
+   FROM 768 UP, though, and not below, which is where .hero-title on the
+   homepage has always put it and where this rule did not. The inset ramp's
+   window opens at 48rem because that is where the title stops spanning the
+   container, and under that it does nothing but hold its own 36px floor.
+   That was invisible while every other h1 sat at 34 on a phone: this one
+   was two pixels larger and nobody could see the seam. With the phone floor
+   at 40 it is the one title on the site that got smaller than its
+   neighbours, which is the same bug the whole time, finally visible. Below
+   768 it takes --type-title from style.css, like every other h1. */
+.ckw-hero-title { margin-bottom: var(--space-lg); }
+@media (min-width: 768px) {
+  .ckw-hero-title { font-size: var(--type-title-inset); }
+}
 .case-hero .ckw-hero-dek {
   max-width: var(--measure);
   margin: 0;
