@@ -79,9 +79,9 @@ const BASE = {
   cards: ['prototype/dispatch-cockpit.html', 'case-study/sap-product-maturity.html', 'case-study/dispatch-complexity.html', 'writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
   writing: {
-    'Systems and teams': ['where-does-design-end-and-development-begin-now', 'what-does-a-product-design-engineer-actually-do', 'what-makes-an-interface-feel-finished', 'why-enterprise-ux-problems-are-organizational-problems', 'standardizing-ux-across-40-sap-fiori-apps'],
-    'Getting to a release': ['designing-for-the-moment-the-workflow-breaks', 'how-i-move-a-complex-workflow-from-ambiguity-to-release', 'what-should-a-working-prototype-actually-prove'],
-    'AI in the workflow': ['what-microsofts-hax-framework-gets-right-about-enterprise-ai', 'enterprise-ai-should-help-people-decide-not-just-answer', 'is-your-design-system-ready-for-ai-agents'],
+    'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'how-does-a-designer-work-in-developer-tools'],
+    'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'how-i-move-a-complex-workflow-from-ambiguity-to-release', 'standardizing-ux-across-40-sap-fiori-apps'],
+    'AI as the material': ['what-microsofts-hax-framework-gets-right-about-enterprise-ai', 'enterprise-ai-should-help-people-decide-not-just-answer', 'what-should-a-working-prototype-actually-prove'],
   },
 };
 

@@ -61,16 +61,15 @@ const CARDS = {
   'working-product-prototype':         { kicker: 'Engagement 04',                             title: 'Working Product Prototype', sub: 'Four to six weeks, fixed scope and fixed fee',              hero: 'img/engagement/ai-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
-     feed already looks like the page it leads to. The index takes the wall
-     of forty frames, the one drawing that is about the whole set. */
-  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
+     feed already looks like the page it leads to. The index takes the
+     plane and its one curl, the first article's drawing since the 2026-09-17
+     regrouping. */
+  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
   'what-makes-an-interface-feel-finished':                 { kicker: 'Writing', title: 'What makes an interface feel finished?', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
-  'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Why AI-built interfaces drift from your design system', image: 'img/writing/is-your-design-system-ready-for-ai-agents.webp' },
-  'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/writing/where-does-design-end-and-development-begin-now.webp' },
+  'how-does-a-designer-work-in-developer-tools':            { kicker: 'Writing', title: 'How does a designer work in the developer’s tools?', image: 'img/writing/how-does-a-designer-work-in-developer-tools.webp' },
   'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },
-  'why-enterprise-ux-problems-are-organizational-problems': { kicker: 'Writing', title: 'Why enterprise UX problems are usually organizational problems', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
   'designing-for-the-moment-the-workflow-breaks':          { kicker: 'Writing', title: 'Designing for the moment the workflow breaks',                  image: 'img/writing/designing-for-the-moment-the-workflow-breaks.webp' },
   'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
   'what-microsofts-hax-framework-gets-right-about-enterprise-ai': { kicker: 'Writing', title: 'What Microsoft’s HAX framework gets right about enterprise AI',    image: 'img/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.webp' },

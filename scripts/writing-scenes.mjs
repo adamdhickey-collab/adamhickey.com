@@ -24,7 +24,7 @@
 export { STYLE, REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs';
 
 export const SCENES = [
-  /* ---- AI in the workflow -------------------------------------------- */
+  /* ---- AI as the material -------------------------------------------- */
   {
     id: 'what-microsofts-hax-framework-gets-right-about-enterprise-ai',
     group: 'ai',
@@ -42,39 +42,15 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. The same large sage green magnifying glass as before, now lying flat, its handle running off the left edge, its lens resting over the side of a tall neat stack of cream documents seen edge-on, the stack cropped by the bottom of the frame. The lens is the reveal: inside the circle, the stacked sheets are drawn as thin horizontal cream bands with black outlines, and exactly one sheet, buried in the middle of the stack, is filled dusty rose. Outside the lens the stack is plain cream. A black shadow-silhouette of the glass lies on the ground. Nothing else.`,
   },
   {
-    id: 'is-your-design-system-ready-for-ai-agents',
+    id: 'what-should-a-working-prototype-actually-prove',
     group: 'ai',
-    device: 'the same key, jammed',
-    caption: 'Give an agent a real task and watch: the output is a list of what the system never made legible.',
-    alt: 'On a sage field, one black keyhole drawn very large, and the cream key stuck halfway into it, its bit visibly the wrong shape for the hole.',
-    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One keyhole, drawn as a single solid black shape very large in the centre of the frame, cropped by the bottom edge. The same cream key as before, black outline, is pushed halfway into the keyhole from the left and has stopped: the part of the key inside the black shape is drawn in cream, and its bit is clearly a different shape from the hole, so it cannot go further. The key's bow is cropped by the left edge. No lock, no door, no other keys. Nothing else in the picture.`,
+    device: 'the same boot, gone',
+    caption: 'A real Tuesday: the prototype in the hands of the person who would use it, and what the paper looked like afterward.',
+    alt: 'On a sage field, one cream sheet of paper with two creases, cropped by the top edge, carrying a single black boot-print across it; the boot has walked off.',
+    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One single cream sheet of paper with a black outline, drawn very large and cropped by the top edge, lying slightly askew with two simple fold creases drawn as thin black lines. Across the sheet, one solid black shape: the print of a work boot's sole, tread and heel, heading toward the right. The boot itself is gone. No form fields, no writing, no other objects. Nothing else in the picture.`,
   },
 
-  /* ---- Systems and teams --------------------------------------------- */
-  {
-    id: 'why-enterprise-ux-problems-are-organizational-problems',
-    group: 'systems',
-    device: 'the same cord, frayed three ways',
-    caption: 'The decision nobody is placed to make: the line goes to three places and ends at none of them.',
-    alt: 'The slate handset lying on the ground, its black cord running right and splitting into three thin black lines that head off the frame in three directions, each ending in nothing.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same large dusty slate blue telephone handset as before, now lying on the ground in the lower left, cropped by the left edge. Its cord is one solid black ribbon that runs to the right across the middle of the picture and then, at a single point, splits into three thin black lines that fan out and run off the frame in three different directions, up-right, right and down-right, each one ending in nothing. No phone base, no desk, no other objects. Nothing else in the picture.`,
-  },
-  {
-    id: 'standardizing-ux-across-40-sap-fiori-apps',
-    group: 'systems',
-    device: 'the same blind, mid-pull',
-    caption: 'The checks in the release process, not in the wiki: one cord, and the last three slats still coming into line.',
-    alt: 'The cream venetian blind on a slate field, every slat tilted the same way except the bottom three, which still tilt the other way, and the black pull cord drawn taut mid-pull.',
-    prompt: `Same style, same hand as the reference. The ground is the full dusty slate blue, edge to edge, instead of cream. The same large cream venetian blind as before fills the frame side to side and is cropped by the top and bottom: many identical horizontal slats, evenly spaced, all tilted at the same angle, except the bottom three, which are still tilted the opposite way. The one pull cord, a single solid black line down the right-hand third, is drawn pulled taut at a slight angle rather than hanging straight. No window, no wall, no room. Nothing else.`,
-  },
-  {
-    id: 'where-does-design-end-and-development-begin-now',
-    group: 'systems',
-    device: 'the same pair, swapped',
-    caption: 'Leverage, not rescue: the cursor casts the pencil now, and it is the same object either way.',
-    alt: 'A tall slate text cursor standing upright, cropped by the top of the frame, and its black shadow lying along the ground is a pencil.',
-    prompt: `Same style, same hand as the reference. Cream ground. One tall thin dusty slate blue rectangle, a text cursor, standing upright in the centre of the picture, drawn so big it is cropped by the top of the frame, with a black outline. Its shadow on the ground is one solid black shape, and the shadow is not a rectangle: it is a pencil, lying diagonally toward the lower right, sharpened point outward, its far end running off the frame. One object, one shadow, and they are the two objects from before with their places swapped. Nothing else.`,
-  },
+  /* ---- Craft and code --------------------------------------------- */
   {
     id: 'what-does-a-product-design-engineer-actually-do',
     group: 'systems',
@@ -91,8 +67,16 @@ export const SCENES = [
     alt: 'The slate hand plane set aside and cropped by the top of the frame, and below it three curls of shaving lying on the cream, two solid black and the middle one dusty rose.',
     prompt: `Same style, same hand as the reference. Cream ground. The same dusty slate blue hand plane from before, set aside at the top of the picture and cropped by the top edge so only its lower half shows. Below it, lying on the cream in one loose evenly spaced row across the middle of the picture, three curls of wood shaving, each a simple spiral: the left and right ones solid black, the middle one filled dusty rose instead. Nothing else in the picture.`,
   },
+  {
+    id: 'how-does-a-designer-work-in-developer-tools',
+    group: 'systems',
+    device: 'the same capsule, stopped short',
+    caption: 'A green check and a live site are two different facts: the change went all the way to the last inch, and the tray is still empty.',
+    alt: 'The same dusty slate capsule stopped inside its tube an inch short of the open end, and beneath the opening an empty cream tray outlined in black.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same tube as before, two parallel black lines, now entering from the left edge and ending in the upper right third of the picture with an open end. The same dusty slate blue capsule is inside the tube, stopped an inch short of the open end, not yet out. Beneath the tube's open end, on the ground, one simple cream receiving tray outlined in black, wide and shallow, and it is empty. On the ground under the capsule, its shadow-silhouette as one solid black shape. No hands, no lights, no other capsules. Nothing else in the picture.`,
+  },
 
-  /* ---- Getting to a release ------------------------------------------ */
+  /* ---- Enterprise and operational software ------------------------------------------ */
   {
     id: 'designing-for-the-moment-the-workflow-breaks',
     group: 'release',
@@ -110,11 +94,11 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta kite reel, a simple flat hand-held winder, drawn huge in the lower middle and cropped by the bottom of the frame. The black string from before is wound neatly around it in even parallel turns, drawn as solid black bands. From the top of the reel one single straight taut black line rises and runs off the top edge of the picture toward a kite that is out of frame. No kite, no knot, no hands. Nothing else in the picture.`,
   },
   {
-    id: 'what-should-a-working-prototype-actually-prove',
+    id: 'standardizing-ux-across-40-sap-fiori-apps',
     group: 'release',
-    device: 'the same boot, gone',
-    caption: 'A real Tuesday: the prototype in the hands of the person who would use it, and what the paper looked like afterward.',
-    alt: 'On a terracotta field, one cream sheet of paper with two creases, cropped by the top edge, carrying a single black boot-print across it; the boot has walked off.',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One single cream sheet of paper with a black outline, drawn very large and cropped by the top edge, lying slightly askew with two simple fold creases drawn as thin black lines. Across the sheet, one solid black shape: the print of a work boot's sole, tread and heel, heading toward the right. The boot itself is gone. No form fields, no writing, no other objects. Nothing else in the picture.`,
+    device: 'the same blind, mid-pull',
+    caption: 'The checks in the release process, not in the wiki: one cord, and the last three slats still coming into line.',
+    alt: 'The cream venetian blind on a terracotta field, every slat tilted the same way except the bottom three, which still tilt the other way, and the black pull cord drawn taut mid-pull.',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. The same large cream venetian blind as before fills the frame side to side and is cropped by the top and bottom: many identical horizontal slats, evenly spaced, all tilted at the same angle, except the bottom three, which are still tilted the opposite way. The one pull cord, a single solid black line down the right-hand third, is drawn pulled taut at a slight angle rather than hanging straight. No window, no wall, no room. Nothing else.`,
   },
 ];

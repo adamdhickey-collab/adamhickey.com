@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 30 pages in nine families |
+| **What this is** | The site: 28 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,17 +119,17 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the twelve writing pages, the design system page and the prototype page load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the prototype page load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-eight pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
-| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-six pages with prose worth hearing -- the eleven writing articles, the ten case studies, the four engagement pages and the dispatch cockpit prototype -- and by nothing else. The prototype is the one that reads a part of itself rather than all of it: `.ck-frame` carries `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-four pages with prose worth hearing -- the nine writing articles, the ten case studies, the four engagement pages and the dispatch cockpit prototype -- and by nothing else. The prototype is the one that reads a part of itself rather than all of it: `.ck-frame` carries `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `case-study/*.html` | Ten case studies: four client engagements, two career-arc pages and four build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, linked from every case study's close and the sitemap; not from the homepage since the team-cards pass |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the five screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the six crops the page's design decisions sit beside and the ten slides, five wide and five narrow |
-| `writing/*.html` | The index and eleven articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
+| `writing/*.html` | The index and nine articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
@@ -168,7 +168,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty pages in nine families, all hand-written HTML with no include step
+Twenty-eight pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -177,11 +177,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty pages, so a
-change to the shell is a change to thirty files.
+email icon and the skip link are hand-written into all twenty-eight pages, so a
+change to the shell is a change to twenty-eight files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty pages
+base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -192,7 +192,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 4 | A | Products built end to end, alone, and this site. |
 | Engagements | 4 | A | What you can hire, one page each. |
-| Writing | 12 | A | An index and eleven articles, each answering a question a buyer asks before knowing the name. |
+| Writing | 10 | A | An index and nine articles in three collections named for the three leads the search runs on: craft and code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
@@ -221,7 +221,7 @@ tree it sits in, so every number in it is one a check here prints.
 `engagement/ai-product-prototype.html` until #24; see "Two live URLs now
 404".
 
-**Writing** -- `writing/index.html` and the eleven articles beside it. No fact
+**Writing** -- `writing/index.html` and the nine articles beside it. No fact
 block; an article has no four facts to state. The kicker, the title and a dek
 that is the article's whole answer in three or four sentences, then the essay
 on the `.writing-measure` column, then one line naming the engagement it
@@ -230,6 +230,21 @@ family shipped on staging on 2026-08-28 with two of the practice essays,
 was unlinked the next day and removed in staging's #113; #34 brought the
 surface back with articles written for a buyer rather than for the practice,
 and the essays themselves stay canonical in the field guide.
+
+**Nine, in three collections, since 2026-09-17.** The collections are named
+for the three leads the search runs on and the résumé variants are cut to --
+craft and code, enterprise and operational software, AI as the material --
+so a reader who arrived from one kind of posting finds the three articles in
+its vocabulary under one eyebrow. Three articles were retired to hold the
+count at nine: the handoff article, whose thesis is now one sentence in the
+design-engineer article; the organizational-problems article, written for a
+buyer of consulting rather than a team; and the AI-agents article, whose
+point is one sentence in the design-engineer article's tokens section. One
+was added, on how a designer works in the developer's tools. Two moved
+collection and were redrawn on their new accent, the SAP blind onto
+terracotta and the prototype boot onto sage, because the drawings' colour is
+the index's sections. The three retired URLs 404 the way the two engagement
+URLs above do, for the same reason.
 
 #59 added three in positions two to four, and they are the first written for a
 reader hiring a designer onto a team rather than buying a piece of work: what
