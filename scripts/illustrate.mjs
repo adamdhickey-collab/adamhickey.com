@@ -5,8 +5,8 @@
  *   node scripts/illustrate.mjs step   img/inbox/step-clarity-01.png img/engagement/step-clarity-01.webp
  *   node scripts/illustrate.mjs invite img/inbox/clarity-invite.png  img/engagement/clarity-invite.webp
  *   node scripts/illustrate.mjs hero   img/inbox/clarity-hero.png    img/engagement/clarity-hero.webp
- *   node scripts/illustrate.mjs feature img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system.webp --brightness 1
- *   node scripts/illustrate.mjs card    img/inbox/design-system.png  img/writing/when-does-a-product-need-a-design-system-card.webp --brightness 1
+ *   node scripts/illustrate.mjs feature img/inbox/sap-fiori.png       img/writing/standardizing-ux-across-40-sap-fiori-apps.webp --brightness 1
+ *   node scripts/illustrate.mjs card    img/inbox/sap-fiori.png       img/writing/standardizing-ux-across-40-sap-fiori-apps-card.webp --brightness 1
  *   node scripts/illustrate.mjs card    img/inbox/01-clarity.png       img/engagement/01-clarity.webp --brightness 1 --breathe 0.94
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp

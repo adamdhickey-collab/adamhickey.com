@@ -60,14 +60,6 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. The same large dusty slate blue telephone handset as before, now lying on the ground in the lower left, cropped by the left edge. Its cord is one solid black ribbon that runs to the right across the middle of the picture and then, at a single point, splits into three thin black lines that fan out and run off the frame in three different directions, up-right, right and down-right, each one ending in nothing. No phone base, no desk, no other objects. Nothing else in the picture.`,
   },
   {
-    id: 'when-does-a-product-need-a-design-system',
-    group: 'systems',
-    device: 'the same knobs, tagged',
-    caption: 'The inventory: every version on one line, and a tag across the two that are the same thing twice.',
-    alt: 'Eight cream drawer knobs laid in a single straight row across the frame, and a black tag on a black string laid over two adjacent identical ones.',
-    prompt: `Same style, same hand as the reference. Cream ground. Eight round drawer knobs from the drawer before, drawn large in cream with black outlines, laid in one straight evenly spaced horizontal row across the middle of the picture, the first and last cropped by the frame's sides. Two adjacent knobs near the centre are exactly identical to each other, and one small tag, a solid black shape on a solid black string, lies across both of them. No drawer, no cabinet, no rose knob this time. Nothing else in the picture.`,
-  },
-  {
     id: 'standardizing-ux-across-40-sap-fiori-apps',
     group: 'systems',
     device: 'the same blind, mid-pull',
