@@ -138,13 +138,15 @@ the archive so that it holds everything staging ever had.
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé, linked from the footer; rendered by `scripts/resume.mjs` |
+| `scripts/variant.mjs` | Reorders the homepage's four cards, six facts and dek, and the writing index's collections and articles, to lead with one of three proofs -- craft, substance or AI -- and puts them back. The three orderings live in the private practice-hq repository, in `site-variants/`, beside the résumé variants and for the same reason; the base ordering (craft, on main since #177 and #178) lives in the script, so the site can always restore itself. A variant moves no text node and no rule, so every count the checks print is the same either side, and the script refuses to write a result whose block counts moved |
 | `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`, `MOTION.md` | The four normative specs. The check scripts read them as rules and this tree as evidence |
 | `CNAME`, `.nojekyll` | Pages configuration: the custom domain, and no Jekyll pass over the tree |
 | `.github/workflows/` | `pages.yml` deploys, `checks.yml` reports; see below |
 
 ### The homepage
 
-Sections in file order: the hero (the portrait clip with its pause control,
+Sections in file order, in the base ordering -- `scripts/variant.mjs` can
+lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
 the six-item proof strip and the client logos) → Selected work (three
 client case studies and the dispatch cockpit prototype) → How I work inside a
 product organization (the four cards that were the engagement grid, now
