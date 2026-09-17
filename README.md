@@ -145,7 +145,7 @@ the archive so that it holds everything staging ever had.
 ### The homepage
 
 Sections in file order: the hero (the portrait clip with its pause control,
-the seven-item proof strip and the client logos) → Selected work (three
+the six-item proof strip and the client logos) → Selected work (three
 client case studies and the dispatch cockpit prototype) → How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and linking to the
