@@ -1,10 +1,10 @@
-/* cockpit-slides.js -- the controls over the five screens above the cockpit.
+/* cockpit-slides.js -- the controls over the four screens above the cockpit.
  *
- * THE SCROLLER IS THE SLIDESHOW. The five slides are in the document side by
+ * THE SCROLLER IS THE SLIDESHOW. The four slides are in the document side by
  * side inside an overflow-x list with scroll-snap, and that is what moves
  * between them: a trackpad, a thumb, a shift-wheel and the arrow keys all work
  * before this file loads and would still work if it never did. Everything here
- * is addition -- two arrows, five dots, a counter and a spoken position -- and
+ * is addition -- two arrows, four dots, a counter and a spoken position -- and
  * the markup keeps them hidden until this runs, so a reader with the script off
  * gets a scroller rather than three buttons that do nothing.
  *
