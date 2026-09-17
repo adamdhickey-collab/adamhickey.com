@@ -55,7 +55,6 @@ const CARDS = {
      feed already looks like the page it leads to. The index takes the wall
      of forty frames, the one drawing that is about the whole set. */
   'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
-  'when-does-a-product-need-a-design-system':             { kicker: 'Writing', title: 'When does a product need a design system?', image: 'img/writing/when-does-a-product-need-a-design-system.webp' },
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Why AI-built interfaces drift from your design system', image: 'img/writing/is-your-design-system-ready-for-ai-agents.webp' },
   'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/writing/where-does-design-end-and-development-begin-now.webp' },

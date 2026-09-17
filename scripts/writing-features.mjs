@@ -116,13 +116,6 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue desk telephone handset, drawn huge and cropped by the top of the frame, hanging as if just lifted. Its coiled cord is one solid black ribbon that loops down through the middle of the picture and runs off the right edge, and somewhere in the middle of that ribbon the cord is cleanly cut, the two ends an inch apart. Nothing else: no phone base, no desk, no other objects.`,
   },
   {
-    id: 'when-does-a-product-need-a-design-system',
-    group: 'systems',
-    device: 'reveal, inventory',
-    alt: 'A large slate drawer pulled open toward the viewer, holding a neat grid of near-identical cream knobs, one of them dusty rose.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue drawer pulled open toward the viewer, drawn so big that the cabinet it belongs to is cropped by the top and both sides of the frame. The open drawer is the reveal: inside it, a neat grid of round drawer knobs, twelve or so, all nearly the same, drawn in cream with black outlines, and one of them, near the middle, filled dusty rose. The drawer's own handle is a solid black shape. Nothing else.`,
-  },
-  {
     id: 'standardizing-ux-across-40-sap-fiori-apps',
     group: 'systems',
     device: 'repetition as texture, on an accent field',
