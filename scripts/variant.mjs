@@ -76,7 +76,7 @@ const argv = process.argv.slice(2);
 const BASE = {
   name: 'craft',
   dek: 'I design complex software and build it: the interface, the design system that holds it together, and working prototypes in real code.',
-  cards: ['prototype/dispatch-cockpit.html', 'case-study/sap-product-maturity.html', 'case-study/dispatch-complexity.html', 'writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.html'],
+  cards: ['engagement/working-product-prototype.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/product-clarity.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
   writing: {
     'Systems and teams': ['where-does-design-end-and-development-begin-now', 'what-does-a-product-design-engineer-actually-do', 'what-makes-an-interface-feel-finished', 'why-enterprise-ux-problems-are-organizational-problems', 'standardizing-ux-across-40-sap-fiori-apps'],

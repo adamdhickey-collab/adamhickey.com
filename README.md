@@ -1,7 +1,7 @@
 # adamhickey.com
 
 The live public site of Adam Hickey's independent product design practice: a
-single-page portfolio, nine case studies, four engagement pages, six
+single-page portfolio, nine case studies, four "How I work" pages, six
 articles and a design system reference. Static HTML, CSS and JavaScript, no build step and no
 `package.json`. The one built file is the case studies' Tailwind stylesheet,
 built once from `tailwind.config.js` into `case-study/case-tailwind.css` and
@@ -127,9 +127,9 @@ the archive so that it holds everything staging ever had.
 | `case-study/*.html` | Ten case studies: four client engagements, two career-arc pages and four build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
-| `engagement/*.html` | Four engagement pages, linked from every case study's close and the sitemap; not from the homepage since the team-cards pass |
+| `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the five screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the six crops the page's design decisions sit beside and the ten slides, five wide and five narrow |
-| `writing/*.html` | The index and eleven articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the engagement it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
+| `writing/*.html` | The index and eleven articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
@@ -150,8 +150,8 @@ lead with a different proof, and `--status` says which is live: the hero (the po
 the six-item proof strip and the client logos) → Selected work (three
 client case studies and the dispatch cockpit prototype) → How I work inside a
 product organization (the four cards that were the engagement grid, now
-answering each situation with how I operate on a team and linking to the
-account that shows it) → The design-to-build shift (the scroll story) → Built end to end (the
+answering each situation with how I operate on a team and opening its own
+page under `engagement/`) → The design-to-build shift (the scroll story) → Built end to end (the
 two products, ending on the line to `other.html`, where the book and the
 "Identity and illustration" shelf now live) → About, which links the two career case studies → the
 contact section, headed "Describe what is happening". Since #24 there is no
@@ -161,8 +161,9 @@ gave the two career case studies their route in from About. The hire-me pass
 put the work ahead of the method, reframed the engagement grid for a hiring
 manager, brought the proof strip back as a résumé-level line, and moved the
 book and the shelf out of the proof; the page argues for one thing first,
-hiring Adam onto a team; the engagement pages are reached from the case
-studies' closes and the sitemap rather than from the homepage. The header carries Work, How I
+hiring Adam onto a team. Since 2026-09-17 the four cards open the pages
+under `engagement/` again, reworked from the engagement pages into one page
+per card; from #129 to then they linked straight to the accounts. The header carries Work, How I
 Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
 page loads it from `site-nav.css`.
 
@@ -191,7 +192,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 4 | A | Products built end to end, alone, and this site. |
-| Engagements | 4 | A | What you can hire, one page each. |
+| How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 12 | A | An index and eleven articles, each answering a question a buyer asks before knowing the name. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work. |
@@ -214,7 +215,7 @@ family: these load `style.css` and carry no Tailwind. The fourth, since
 2026-09-17, is about the site itself: the only page whose subject is the
 tree it sits in, so every number in it is one a check here prints.
 
-**Engagements** -- `engagement/working-product-prototype.html`,
+**How I work** -- `engagement/working-product-prototype.html`,
 `engagement/design-system-foundation.html`,
 `engagement/embedded-senior-product-design.html`,
 `engagement/product-clarity.html`. The first was
@@ -285,7 +286,7 @@ search engine it sat under Work.
 | --- | --- |
 | `img/site/` | Case-study screens, client logos and the built-step drawings, the bulk of the folder |
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
-| `img/engagement/` | The four card illustrations at 640x360, each engagement page's hero and invitation, and the numbered step drawings. **The four card illustrations are no longer in this folder's hand.** `01-clarity`, `02-system`, `03-embedded` and `04-ai` are the homepage's "How I work" grid, and they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame, black as a solid shape, no paper grain -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut by `illustrate.mjs card` to 640x360, the writing set's 16:9 rather than this folder's 3:2, because the 3:2 crop took 8% off each side and that is where the band of ground each drawing is framed with lives (#150). They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
+| `img/engagement/` | The four card illustrations at 640x360, each "How I work" page's hero, and the numbered step drawings (the four invitation drawings went with the invitation band on 2026-09-17). **The four card illustrations are no longer in this folder's hand.** `01-clarity`, `02-system`, `03-embedded` and `04-ai` are the homepage's "How I work" grid, and they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame, black as a solid shape, no paper grain -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut by `illustrate.mjs card` to 640x360, the writing set's 16:9 rather than this folder's 3:2, because the 3:2 crop took 8% off each side and that is where the band of ground each drawing is framed with lives (#150). They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
 | `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct |
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page, rendered by `scripts/og.mjs` from the page's title and its own picture. The homepage's is `index.jpg`, and the design system page, which has no card of its own, points at that one. Until 2026-09-17 the homepage kept a hand-drawn `img/og-card.jpg`; it named the independent practice a week after the site stopped, and went the day the eyebrow moved to Senior |
