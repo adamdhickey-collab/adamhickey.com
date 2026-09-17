@@ -453,12 +453,14 @@ Four rules that came with #29, each held by `seo.mjs`:
   The check faults a page whose git date is more than fourteen days past
   its stamp; the grace exists because a squash-merge gives every file a new
   commit date without a new stamp.
-- **A FAQ is on the page first.** The four engagement pages answer the
-  questions people ask in a panel under "When another engagement fits", in
-  the page's own facts (length, fee model, who it is for, what the team
-  gives, what it leaves with), and the same pairs sit in the page's graph
-  as a FAQPage. The check faults a question in the graph that the page does
-  not ask in words. Never put a price in one that the page does not state.
+- **A FAQ is on the page first.** The four "How I work" pages answer the
+  questions people ask in a panel under "When it is one of the other
+  three", in the page's own facts (how long it takes, whether it is done
+  alone, what the team gives, what it leaves with, where it has worked,
+  role or engagement), and the same pairs sit in the page's graph as a
+  FAQPage. The check faults a question in the graph that the page does not
+  ask in words. Never put a price in one: since 2026-09-17 the pages state
+  no length and no fee, and the engagement is one sentence at the close.
 - **Every page names its own card.** `node scripts/og.mjs` renders
   `img/og/<slug>.jpg` from a registry of kicker, title and picture, using
   the same Chrome as the checks; keep the registry's title in step with the
@@ -474,7 +476,7 @@ Two more since #32:
 
 - **The `<title>` is search language; the h1 is the site's.** A buyer who
   does not know the name searches "enterprise design system consultant",
-  not "Design System Foundation", so the homepage and the four engagement
+  not "Design System Foundation", so the homepage and the four "How I work"
   pages carry the search phrase in `<title>`, `og:title` and the
   description, and keep their own name in the h1 and on the share card.
   `seo.mjs` holds `og:title` to `<title>`. Do not rewrite the page's prose
@@ -498,8 +500,8 @@ Two more since #32:
   the dek under the h1 in three or four sentences that stand on their own.
   That paragraph is what a search engine or an assistant can quote whole;
   the essay under it is the argument. Every article ends on one line
-  naming the engagement it describes and the account it draws on, which is
-  the article-to-engagement-to-case-study path the site is built to
+  naming the "How I work" page it describes and the account it draws on,
+  which is the article-to-method-to-case-study path the site is built to
   carry, and every figure in one traces to a case study or a build
   write-up on this site. The prose is drawn from the practice essays in
   the sibling `independent-practice` checkout, which stay canonical
@@ -527,6 +529,6 @@ Two more since #32:
   `scripts/writing-scenes.mjs` through the loop below.
 
 `llms.txt` at the root is the site in a page of markdown for an assistant
-that reads that first: the person, the four engagements with their length
-and fee model, and every page with one line each. It is written by hand, so
-a new page or a changed engagement is an edit there too.
+that reads that first: the person, the four things he brings to a team,
+and every page with one line each. It is written by hand, so a new page or
+a changed page is an edit there too.
