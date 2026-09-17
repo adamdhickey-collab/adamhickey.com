@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 28 pages in nine families |
+| **What this is** | The site: 29 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,12 +119,12 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the three build write-ups, the eleven writing pages, the design system page and the prototype page load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-eight pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the eleven writing pages, the design system page and the prototype page load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-nine pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
-| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-four pages with prose worth hearing -- the ten writing articles, the nine case studies, the four engagement pages and the dispatch cockpit prototype -- and by nothing else. The prototype is the one that reads a part of itself rather than all of it: `.ck-frame` carries `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
-| `case-study/*.html` | Nine case studies: four client engagements, two career-arc pages and three build write-ups |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-five pages with prose worth hearing -- the ten writing articles, the ten case studies, the four engagement pages and the dispatch cockpit prototype -- and by nothing else. The prototype is the one that reads a part of itself rather than all of it: `.ck-frame` carries `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
+| `case-study/*.html` | Ten case studies: four client engagements, two career-arc pages and four build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | Four engagement pages, linked from every case study's close and the sitemap; not from the homepage since the team-cards pass |
@@ -166,7 +166,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-eight pages in nine families, all hand-written HTML with no include step
+Twenty-nine pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -175,11 +175,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all twenty-eight pages, so a
-change to the shell is a change to twenty-eight files.
+email icon and the skip link are hand-written into all twenty-nine pages, so a
+change to the shell is a change to twenty-nine files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
+base ladder, and both regimes read it from `type.css`, which all twenty-nine pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -188,7 +188,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Homepage | 1 | A | The page every other page hangs off. |
 | Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
-| Build write-ups | 3 | A | Products built end to end, alone. |
+| Build write-ups | 4 | A | Products built end to end, alone, and this site. |
 | Engagements | 4 | A | What you can hire, one page each. |
 | Writing | 11 | A | An index and ten articles, each answering a question a buyer asks before knowing the name. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
@@ -206,9 +206,11 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 content model is a list of many small pieces rather than one deep one.
 
 **Build write-ups** -- `case-study/door-county-found.html`,
-`case-study/lucy-learns.html`, `case-study/while-were-here.html`. Same
-directory as the client work, different family: these load `style.css` and
-carry no Tailwind.
+`case-study/lucy-learns.html`, `case-study/while-were-here.html`,
+`case-study/this-site.html`. Same directory as the client work, different
+family: these load `style.css` and carry no Tailwind. The fourth, since
+2026-09-17, is about the site itself: the only page whose subject is the
+tree it sits in, so every number in it is one a check here prints.
 
 **Engagements** -- `engagement/working-product-prototype.html`,
 `engagement/design-system-foundation.html`,
