@@ -127,9 +127,9 @@ export const FEATURES = [
   {
     id: 'how-does-a-designer-work-in-developer-tools',
     group: 'systems',
-    device: 'the black shape is the route',
-    alt: 'A large dusty slate pneumatic-tube capsule travelling through a tube drawn as two black lines that run edge to edge across the cream, its black shadow-silhouette on the ground beneath it.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large pneumatic-tube capsule, a plain cylinder with rounded ends, in dusty slate blue with black outlines, drawn huge in the middle of the picture and travelling to the right. The tube it travels in is drawn as two long parallel black lines running from the left edge to the right edge of the frame, the capsule between them, with a little clear space above and below it. On the ground beneath, one solid black shape: the capsule's shadow-silhouette, offset slightly to the right. No station, no tray, no other capsules, no motion lines. Nothing else in the picture.`,
+    device: 'the black ribbon, forked and closed',
+    alt: 'A large dusty slate zipper slider, cropped by the bottom of the frame, closing two black zipper tapes that open in a V above it and run off the top edge, and below it the one closed black line of the zipped tape running off the bottom.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large zipper, seen straight on, drawn huge and cropped by the top and bottom of the frame. Its slider is the object: a plain dusty slate blue zipper slider with its pull tab, drawn big in the middle of the picture, mid-way up the zip. Above the slider the two zipper tapes are open, two thick solid black bands that spread apart in a V and run off the top edge of the frame, with cream showing between them. Below the slider the zip is closed: the two tapes meet as one straight thick black band running down and off the bottom edge. No teeth drawn individually, no fabric, no garment, no hands. Nothing else in the picture.`,
   },
 
   /* ---- Enterprise and operational software ------------------------------------------ */
