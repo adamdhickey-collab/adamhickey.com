@@ -7,9 +7,9 @@
    read-aloud.css; this file decides what gets read, in what order, and what
    is lit while it is being said.
 
-   WHY THE BUTTON IS BUILT HERE rather than written into twenty-five
+   WHY THE BUTTON IS BUILT HERE rather than written into twenty-six
    pages. Two reasons, and the second is the one that decides it.
-   Twenty-five copies of a control is how the two headers drifted apart
+   Twenty-six copies of a control is how the two headers drifted apart
    before site-nav.css existed. And a button that cannot work without JavaScript should not be
    in the HTML: speech synthesis IS the feature, so a reader whose browser
    has no speechSynthesis gets no button rather than a button that lies.

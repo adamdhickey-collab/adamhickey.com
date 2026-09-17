@@ -138,6 +138,13 @@ export const FEATURES = [
     alt: 'A large dusty slate rubber stamp pressed down on cream ground, cropped by the top of the frame, and to its right the impression it has just left, one solid black mark the exact shape of the stamp\u2019s face.',
     prompt: `Same style, same hand as the reference. Cream ground. One large rubber stamp in dusty slate blue with black outlines, its handle cropped by the top of the frame, pressed face down onto the ground in the left half of the picture. To its right, on the cream, the single impression it has just made: one solid black shape, the exact outline of the stamp's face, a simple rounded rectangle. Nothing else in the picture.`,
   },
+  {
+    id: 'what-makes-an-interface-feel-finished',
+    group: 'systems',
+    device: 'the plane and its one curl',
+    alt: 'A large dusty slate hand plane, its rear handle cropped by the right edge of the frame and its sole flat on the cream ground, and one solid black curl of shaving rising from its mouth and off the top edge.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large woodworking hand plane in dusty slate blue with black outlines, drawn from the side and slightly above, so big that its rear handle is cropped by the right edge and its front knob by the top. Its flat sole rests on the ground line across the lower third of the picture. From the mouth in its sole, one single thick curl of wood shaving rises and spirals up and off the top edge of the frame, drawn as a solid black shape. Nothing else in the picture.`,
+  },
 
   /* ---- Getting to a release ------------------------------------------ */
   {

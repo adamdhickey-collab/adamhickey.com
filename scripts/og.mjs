@@ -57,6 +57,7 @@ const CARDS = {
   'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/why-enterprise-ux-problems-are-organizational-problems.webp' },
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
+  'what-makes-an-interface-feel-finished':                 { kicker: 'Writing', title: 'What makes an interface feel finished?', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
   'is-your-design-system-ready-for-ai-agents':            { kicker: 'Writing', title: 'Why AI-built interfaces drift from your design system', image: 'img/writing/is-your-design-system-ready-for-ai-agents.webp' },
   'where-does-design-end-and-development-begin-now':      { kicker: 'Writing', title: 'Where does design end and development begin, now?', image: 'img/writing/where-does-design-end-and-development-begin-now.webp' },
   'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },

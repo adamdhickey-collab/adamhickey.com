@@ -83,6 +83,14 @@ export const SCENES = [
     alt: 'The slate stamp lifted clear at the top of the frame, and below it a straight row of four identical black impressions across the cream, the third of them filled dusty rose.',
     prompt: `Same style, same hand as the reference. Cream ground. The same dusty slate blue rubber stamp from before, lifted clear and cropped by the top of the frame, face down. Below it, in one straight evenly spaced horizontal row across the middle of the picture, four identical impressions of its face, simple rounded rectangles: three of them solid black, and the third from the left filled dusty rose instead. Nothing else in the picture.`,
   },
+  {
+    id: 'what-makes-an-interface-feel-finished',
+    group: 'systems',
+    device: 'the plane set aside; what it left',
+    caption: 'What is left when the work is done: the same stroke every time, and the one that is different is different on purpose.',
+    alt: 'The slate hand plane set aside and cropped by the top of the frame, and below it three curls of shaving lying on the cream, two solid black and the middle one dusty rose.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same dusty slate blue hand plane from before, set aside at the top of the picture and cropped by the top edge so only its lower half shows. Below it, lying on the cream in one loose evenly spaced row across the middle of the picture, three curls of wood shaving, each a simple spiral: the left and right ones solid black, the middle one filled dusty rose instead. Nothing else in the picture.`,
+  },
 
   /* ---- Getting to a release ------------------------------------------ */
   {

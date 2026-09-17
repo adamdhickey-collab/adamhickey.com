@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interface Craft: States, Motion and the Details That Make Software Feel Finished | Adam Hickey</title>
+  <meta name="description" content="What makes an interface feel finished: type on a scale, colour as a measured pair, motion as a duration and a curve with a rule about interruption, a decision for every state, spacing from tokens, and checks that hold all of it. Craft you can name and measure." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html" />
+  <meta property="og:title" content="Interface Craft: States, Motion and the Details That Make Software Feel Finished | Adam Hickey" />
+  <meta property="og:description" content="What makes an interface feel finished: type on a scale, colour as a measured pair, motion as a duration and a curve with a rule about interruption, a decision for every state, spacing from tokens, and checks that hold all of it. Craft you can name and measure." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-makes-an-interface-feel-finished.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the eleven articles and the case
+       studies name one person rather than twenty-one with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html#article",
+          "headline": "What makes an interface feel finished?",
+          "description": "What makes an interface feel finished: type on a scale, colour as a measured pair, motion as a duration and a curve with a rule about interruption, a decision for every state, spacing from tokens, and checks that hold all of it. Craft you can name and measure.",
+          "url": "https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html",
+          "image": "https://adamhickey.com/img/og/what-makes-an-interface-feel-finished.jpg",
+          "datePublished": "2026-09-17",
+          "dateModified": "2026-09-17",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Interface design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Design systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "Motion design"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What makes an interface feel finished?",
+              "item": "https://adamhickey.com/writing/what-makes-an-interface-feel-finished.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260917b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <main id="main">
+    <!-- THE ELEVENTH ARTICLE, and the one about craft itself. Every other
+         article on the site is about systems, process or AI; thirteen of the
+         twenty roles on the board ask for visual craft in their own words --
+         typography, states, easing curves, spring physics, interruptible
+         transitions -- and the Writing family had nothing to show them.
+         Written 2026-09-17 as step 6 of the search plan, from this site's
+         own four specs and the cockpit prototype, so that every claim in it
+         is one a reader can open a page and see, and most are ones a check
+         here measures. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <h1 class="case-title">What makes an interface feel finished?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">Finished is when nothing on the screen is left to a default. Every size is a step on one scale, every colour is a measured pair of ink and ground, every movement is a duration and a curve with a rule about being interrupted, every state has a decision behind it, and every gap is a token. None of that is taste. It is a short list of things you can name, and once you can name them you can hold a page to them.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#finished-is-when-nothing-is-left-to-the-defaults">Finished is when nothing is left to the defaults</a></li>
+            <li><a href="#type-is-a-scale-not-a-set-of-sizes">Type is a scale, not a set of sizes</a></li>
+            <li><a href="#colour-is-a-pair-not-a-swatch">Colour is a pair, not a swatch</a></li>
+            <li><a href="#motion-is-a-duration-a-curve-and-a-rule-about-interruption">Motion is a duration, a curve and a rule about interruption</a></li>
+            <li><a href="#a-state-is-a-decision-and-every-state-gets-one">A state is a decision, and every state gets one</a></li>
+            <li><a href="#spacing-is-what-makes-a-page-read-as-one-thing">Spacing is what makes a page read as one thing</a></li>
+            <li><a href="#craft-is-what-you-can-hold-the-page-to">Craft is what you can hold the page to</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, an isometric
+             diagram of the argument rather than the topic. Under the dek so
+             the answer is read before the picture is, and inside the hero
+             so it sits on the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-makes-an-interface-feel-finished.webp?v=1" width="1600" height="900" alt="A large dusty slate hand plane, its rear handle cropped by the right edge of the frame and its sole flat on the cream ground, and one solid black curl of shaving rising from its mouth and off the top edge." />
+        </figure>
+      </div>
+    </header>
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="finished-is-when-nothing-is-left-to-the-defaults">Finished is when nothing is left to the defaults</h2>
+          <p>Ask what makes an interface feel finished and most answers are a mood: polished, considered, calm. Those are true and they are useless, because you cannot check a page for calm. What you can check is the thing under the mood. <mark>An interface feels finished when every value on it was decided, and unfinished exactly where a browser, a framework or a hurry decided instead.</mark></p>
+          <p>The default line height. The default blue. The corner that is rounded because a component library rounds corners. The transition that is 300 milliseconds because that was the number in the example. Each is invisible on its own, and together they are the difference between software that feels like it was made and software that feels like it was assembled.</p>
+          <p>So the honest answer is a short list, and the rest of this is the list: type, colour, motion, states, spacing, and the checks that keep them true after the person who cared has moved on.</p>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="type-is-a-scale-not-a-set-of-sizes">Type is a scale, not a set of sizes</h2>
+          <p>A finished interface has a small number of type sizes and every piece of text is one of them. On this site there are fourteen, from 11px to 80, and a check renders every page at four widths and refuses any size that is not on the list. Headings ride four fluid ramps between named steps, all sharing one viewport window, so the ladder cannot invert at any width: the h2 is never larger than the h1 on a phone, which is a bug this site had once and cannot have again.</p>
+          <p>The rest follows from the size. Leading is a function of it: display type sits tight, reading type sits open, and the body of an essay runs at a measure of fifty-two characters because that is how long a line can be before the eye loses the way back. Tracking is a function of it too. Large type is set tighter and small caps are set looser, and a ramp takes the tracking of its ceiling, because tightness shows at the top and only slightly at the bottom.</p>
+          <p>None of that is a preference. It is a set of relationships, and <mark>what a reader feels as finished type is a scale they cannot see holding every size on the page in the same family.</mark></p>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="colour-is-a-pair-not-a-swatch">Colour is a pair, not a swatch</h2>
+          <p>A colour is never on its own. It is ink on a ground, and the number that matters is the ratio between them. A finished interface has a palette small enough to tabulate every pair, and it has the table. This site's colour spec lists each ink against each ground with its measured ratio, and the sage accent is two tokens rather than one, because the fill that clears the floor for a 2px rule does not clear it for small type. Put the fill on a caption and it fails at 3.56:1; the text step clears at 5.82. Same hue, two jobs, two numbers.</p>
+          <p>The part most palettes miss is text that sits on a picture. There is no ground colour to compute from, so the ordinary check has nothing to say, and that is how a caption on this site's own hero once shipped at 3.88:1 against a 4.5 floor. The check that caught it reads the pixels under the letters. <mark>Finished colour is not a good eye for it; it is every pair on the page having a number, including the pairs that only exist once the photograph loads.</mark></p>
+          <figure class="writing-figure">
+            <figcaption>What this site holds every page to, on every merge</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>14</dt><dd>steps on the type scale, and every rendered size at four widths is one of them</dd></div>
+              <div><dt>5,883</dt><dd>colours a reader can see, each measured against its floor at rest, before the hover is even forced</dd></div>
+              <div><dt>6</dt><dd>durations and one curve, and a timing that is not one of them is refused by the token check</dd></div>
+            </dl>
+          </figure>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="motion-is-a-duration-a-curve-and-a-rule-about-interruption">Motion is a duration, a curve and a rule about interruption</h2>
+          <p>Motion is where unfinished shows fastest, because a transition that is slightly too long is felt by everyone and named by no one. A finished interface has a motion spec the way it has a type scale: this site's has six durations, from a state change at 120 milliseconds to a line describing itself at 900, and one easing curve, and nothing on the site moves on a number that is not one of the six.</p>
+          <p>The two words the design-engineer postings use are <em>easing</em> and <em>interruptible</em>, and both are decisions rather than flourishes. Easing is the curve: an ease-out for something arriving, because it should decelerate into place the way a thing with mass does. Interruptible is the harder one. If a reader scrolls back while something is still animating in, the honest interface rewinds it rather than finishing a movement nobody is watching. On the case study pages here, nothing has a clock. The scrollbar is the playhead: scroll forward and an element plays in, scroll back and it plays out, and a half-drawn line simply un-draws.</p>
+          <p>And the rule under all of it: <mark>every animation resolves to its finished state when the motion is absent</mark> — for a reader who has asked for reduced motion, for a page with no script, for a search engine. A drawing that is only complete after it has animated is a drawing some readers never see finished.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>An interface feels finished when every value on it was decided, and unfinished exactly where something else decided instead.</p>
+          </aside>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="a-state-is-a-decision-and-every-state-gets-one">A state is a decision, and every state gets one</h2>
+          <p>Every control has more states than the one in the mockup: hover, focus, pressed, disabled, loading, refused, and the ones a script adds when something happens. An unfinished interface designs the first and lets the framework paint the rest. A finished one has a decision for each, and the decisions are consistent enough to be a rule.</p>
+          <figure class="writing-figure">
+            <figcaption>One button, two ways to make its states</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">Left to the defaults</p>
+                <ul>
+                  <li>Disabled is the enabled button at half opacity</li>
+                  <li>Focus is whatever the browser draws, or nothing</li>
+                  <li>Refused looks like disabled, and says nothing</li>
+                  <li>Hover changes a colour nobody measured</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">Decided</p>
+                <ul>
+                  <li>Disabled is quieter, not lighter: ink that still clears its floor</li>
+                  <li>Focus is a ring in the accent, two pixels off the edge, on every control</li>
+                  <li>Refused is a rule in the one caution colour, with the reason beside it</li>
+                  <li>Hover is a step on the palette, and its ratio is in the table</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>The cockpit prototype is where this matters most, because its interesting states only exist after a press. When a rule refuses an assignment, the button does not go grey; the refusal sits above the recommendation in the one caution colour the interface spends, with the hours-of-service limit that caused it. That is a state with a decision behind it, and it was also the state no check could see until a registry taught them to press their way into it. <mark>The states a reader reaches are the interface; the resting page is the cover.</mark></p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/what-makes-an-interface-feel-finished-2.webp?v=1" width="1600" height="900" alt="The slate hand plane set aside and cropped by the top of the frame, and below it three curls of shaving lying on the cream, two solid black and the middle one dusty rose." />
+            <figcaption>What is left when the work is done: the same stroke every time, and the one that is different is different on purpose.</figcaption>
+          </figure>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="spacing-is-what-makes-a-page-read-as-one-thing">Spacing is what makes a page read as one thing</h2>
+          <p>Spacing is the least noticed and the most felt. A finished interface has a spacing scale — this site's is nine fixed steps from 4px to 48 and three fluid ones above that — and every gap on every page is one of them. That is what makes two components made a month apart sit together as if they were made in one afternoon.</p>
+          <p>It also decides how a change is made. This week the gap between the hero's actions and its facts came down by twenty pixels on a phone, and the twenty came off as two tokens, 48 to 40 and 32 to 20, rather than one margin landing on a number the scale does not have. A panel of four facts went from two columns to one below 640, because at 390 wide two columns of serif were eight short lines to read two facts. Each of those is a small decision, and each was made against a scale rather than by nudging until it looked right — which is the whole difference. <mark>Nudged looks right today. Decided looks right next to the thing built next year.</mark></p>
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="craft-is-what-you-can-hold-the-page-to">Craft is what you can hold the page to</h2>
+          <p>All of the above is a list of decisions, and a list of decisions decays. Someone adds a size, a colour, a 300-millisecond transition, and none of it is wrong enough to notice. So the last thing that makes an interface feel finished is not on the screen at all. It is the set of checks that measure the rendered page and refuse the change that breaks a rule.</p>
+          <figure class="writing-figure">
+            <figcaption>What a check asks of every page, in a real browser</figcaption>
+            <ol class="writing-flow">
+              <li>Colour<small>does every ink clear its floor on the ground it actually sits on, at rest</small></li>
+              <li>State<small>does it still clear when hover, focus and a script's own state are forced</small></li>
+              <li>Type<small>is every rendered size one of the fourteen, at four widths</small></li>
+              <li class="writing-flow-mark">Curve<small>does every border follow the whole corner, or only part of it</small></li>
+            </ol>
+          </figure>
+          <p>The last of those is the one people find surprising. A rounded surface with a border on one side only, or a border that stops where the radius begins, is a small thing a renderer does by default and one of the most reliable tells of an unfinished page. On this site a check counts every element with a curved corner — fourteen thousand of them — and refuses any whose border does not follow the curve all the way round. Nobody would write that rule down for a reader. It is exactly the kind of rule a reader feels.</p>
+          <p>This is what I mean when I say craft: not an eye, though it takes one, but a short list of things that can be named, a scale for each, and something that refuses the page when it drifts. That is the difference between an interface that looked finished the day it shipped and one that still does.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">Finished is when nothing is left to a default: type on one scale, colour as a measured pair, motion as a duration and a curve that can be interrupted, a decision for every state, spacing from tokens — and checks that hold all of it after the person who cared has moved on. Craft is the list, not the mood.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> open your product&rsquo;s stylesheet and count the distinct font sizes, transition durations and hex colours. The number you get is how many decisions nobody made.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">If this is the situation you are in: <a href="../engagement/design-system-foundation.html">Design System Foundation</a>, one shared foundation with the rules that keep it that way. The account this draws on: <a href="../case-study/this-site.html">How I built this site</a>, where every rule above is a check, and <a href="../prototype/dispatch-cockpit.html">the dispatch cockpit</a>, where the states are the interface.</p>
+        <a class="build-next" href="why-enterprise-ux-problems-are-organizational-problems.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">Why enterprise UX problems are usually organizational problems &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
