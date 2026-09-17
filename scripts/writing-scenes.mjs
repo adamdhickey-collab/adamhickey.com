@@ -75,6 +75,14 @@ export const SCENES = [
     alt: 'A tall slate text cursor standing upright, cropped by the top of the frame, and its black shadow lying along the ground is a pencil.',
     prompt: `Same style, same hand as the reference. Cream ground. One tall thin dusty slate blue rectangle, a text cursor, standing upright in the centre of the picture, drawn so big it is cropped by the top of the frame, with a black outline. Its shadow on the ground is one solid black shape, and the shadow is not a rectangle: it is a pencil, lying diagonally toward the lower right, sharpened point outward, its far end running off the frame. One object, one shadow, and they are the two objects from before with their places swapped. Nothing else.`,
   },
+  {
+    id: 'what-does-a-product-design-engineer-actually-do',
+    group: 'systems',
+    device: 'the same stamp, lifted; its instances',
+    caption: 'Instances: one stamp, the same mark every time, and the one that is different is different on purpose.',
+    alt: 'The slate stamp lifted clear at the top of the frame, and below it a straight row of four identical black impressions across the cream, the third of them filled dusty rose.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same dusty slate blue rubber stamp from before, lifted clear and cropped by the top of the frame, face down. Below it, in one straight evenly spaced horizontal row across the middle of the picture, four identical impressions of its face, simple rounded rectangles: three of them solid black, and the third from the left filled dusty rose instead. Nothing else in the picture.`,
+  },
 
   /* ---- Getting to a release ------------------------------------------ */
   {
