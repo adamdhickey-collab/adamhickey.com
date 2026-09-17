@@ -72,11 +72,12 @@ const HOME = path.join(root, 'index.html');
 const INDEX = path.join(root, 'writing', 'index.html');
 const argv = process.argv.slice(2);
 
-/* The base: the craft ordering, as main has carried it since #177 and #178. */
+/* The base: the craft ordering, as main has carried it since #177 and #178,
+   with the cards put back to ambiguity-first and prototype-last on 2026-09-17. */
 const BASE = {
   name: 'craft',
   dek: 'I design complex software and build it: the interface, the design system that holds it together, and working prototypes in real code.',
-  cards: ['engagement/working-product-prototype.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/product-clarity.html'],
+  cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
   writing: {
     'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'how-does-a-designer-work-in-developer-tools'],
