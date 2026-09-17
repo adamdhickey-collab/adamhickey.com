@@ -3200,6 +3200,21 @@ html.ah-lightbox-open body { overflow: hidden; }
 .hero-proof li:first-child { border-top: 0; }
 .hero-proof .fact-node { flex: none; margin-bottom: 0; }
 .hero-proof-text { min-width: 0; }
+/* Twenty pixels out of the phone's hero, between the actions and the facts.
+   The gap there is two margins meeting -- .cta-row's --space-4xl bottom and
+   .hero-proof's --space-2xl top, 48 and 32, collapsing to 80 because nothing
+   sits between them. Both step down one: --space-3xl and --space-lg, 40 and
+   20, which is 60. The twenty comes off as two tokens rather than one, so
+   neither margin ends on a number the scale does not have.
+
+   Only below 640, where the actions are stacked full-width buttons and the
+   facts are a single column of six. Above it the row is two buttons wide
+   and the facts are two or three across, and 80 is the right distance
+   between a block that wide and the rule under it. */
+@media (max-width: 640px) {
+  .hero-cta { margin-bottom: var(--space-3xl); }
+  .hero-proof { margin-top: var(--space-lg); }
+}
 /* Two and three columns. Open-ended again: #154 had to close the 640 range
    at 1023.98 because its lattice marked a row start with :nth-child(odd) at
    two across and 3n+1 at three, and the two disagreed at 1440. With no
