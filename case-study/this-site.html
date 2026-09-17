@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How I built this site | Adam Hickey</title>
+  <meta name="description" content="How adamhickey.com is built: twenty-nine pages of plain HTML with no framework and no build step, three token files under four normative specs, and nine checks that measure the rendered page before anything ships." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/this-site.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/this-site.html" />
+  <meta property="og:title" content="How I built this site | Adam Hickey" />
+  <meta property="og:description" content="How adamhickey.com is built: twenty-nine pages of plain HTML with no framework and no build step, three token files under four normative specs, and nine checks that measure the rendered page before anything ships." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/this-site.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/this-site.html#article",
+          "headline": "How I built this site",
+          "description": "A build write-up for adamhickey.com: twenty-nine pages of plain HTML with no framework and no build step, three token files under four normative specs, and nine checks that measure the rendered page before anything ships.",
+          "url": "https://adamhickey.com/case-study/this-site.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/this-site.html",
+          "image": "https://adamhickey.com/img/og/this-site.jpg",
+          "datePublished": "2026-09-17",
+          "dateModified": "2026-09-17",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/this-site.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Built end to end",
+              "item": "https://adamhickey.com/#built"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How I built this site",
+              "item": "https://adamhickey.com/case-study/this-site.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- Site stylesheet rather than the Tailwind CDN the older captured case
+       studies load: one request, no framework. -->
+  <link rel="stylesheet" href="../color.css?v=6" />
+  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260917a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260908a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <main id="main">
+    <!-- THE FOURTH BUILD WRITE-UP, and the one about the thing it sits on.
+         The other three are about products made for somebody else. This one
+         is about the site a hiring manager is already reading, which is the
+         only production codebase on the site that is not a screenshot of
+         one. Added 2026-09-17 as step 3 of the search plan: thirteen of the
+         twenty roles on the board ask for prototyping in code, and the site
+         proved it on every page while saying so on none. Same shell, same
+         chapter grounds and same closing chapter as While We're Here, because
+         a write-up about rules should keep them. Every number in it is one a
+         check on this tree prints. -->
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Build write-up &middot; 5 min read</p>
+        <h1 class="case-title">How I built this site</h1>
+        <p class="build-dek">Twenty-nine pages of plain HTML, no framework and no build step, held to four written specs by nine checks that measure the rendered page: every colour a reader can see, every type size, every curve. It is the closest thing to a production codebase I own, and it is how I work.</p>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
+            <div><dt>Built with</dt><dd>HTML and CSS, Node scripts, and one Chrome that measures every page</dd></div>
+            <div><dt>Size</dt><dd>29 pages, 3 token files, 4 specs, 25 scripts</dd></div>
+            <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
+          </dl>
+        </div>
+
+        <!-- The homepage at 1440, captured by the same Chrome the checks use,
+             in the laptop the other write-ups frame their captures in. Not a
+             mockup and not a still from a design tool: the picture of the
+             thing is the thing, rendered, which is the whole argument of the
+             page in one frame. Refresh it with scripts/capture-site.mjs's
+             pattern when the homepage changes; a stale capture of a page that
+             sits one click away would be the one dishonest picture here. -->
+        <figure class="build-shot">
+          <div class="build-laptop"><div class="build-laptop-lid">
+              <img src="../img/site/this-site.webp?v=1" width="1400" height="875" fetchpriority="high" decoding="async"
+                   alt="The homepage of this site at laptop width: the wordmark and five section links across the top, the portrait in a circle on the left, and on the right the eyebrow Lead Product Designer over the title &ldquo;Product design for software that got complicated.&rdquo;, a two-line dek, and two buttons reading Start a conversation and See selected work. Under the pair, six facts in two rows of three, each with a small line icon in a pale disc, and a row of six client wordmarks along the bottom." />
+            </div></div>
+        </figure>
+
+        <div class="glance">
+          <p class="glance-kicker">My approach</p>
+          <ol class="glance-row">
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>01</span>Tokens</p>
+                <ul class="glance-points">
+                  <li>Three token files: colour, type, and the page shell</li>
+                  <li>Four specs that are the rule, not the record of one</li>
+                  <li>A fourteen-step type scale and four fluid ramps between its steps</li>
+                </ul>
+                <a class="glance-more" href="#tokens">Tokens first</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.5,-1.5)"><path pathLength="1" d="M3 21l1.2-4.2L15 6l3 3L7.2 19.8 3 21z"/><path pathLength="1" d="M13.2 7.8l3 3"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>02</span>Pages</p>
+                <ul class="glance-points">
+                  <li>Hand-written HTML with the shell copied in, not included</li>
+                  <li>A third of the markup is comments saying why</li>
+                  <li>One generated file, and a check that rebuilds and diffs it</li>
+                </ul>
+                <a class="glance-more" href="#pages">The pages</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>03</span>Checks</p>
+                <ul class="glance-points">
+                  <li>Nine checks; four of them render every page in a real browser</li>
+                  <li>Contrast measured on the resting page and in every forced state</li>
+                  <li>Every number the specs assert, recounted from the tree</li>
+                </ul>
+                <a class="glance-more" href="#checks">What the checks measure</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3.8 19.2h4.6a2.8 2.8 0 0 0 2.8-2.8V9.2a2.8 2.8 0 0 1 2.8-2.8h6"/><path pathLength="1" d="m17.4 3.6 2.8 2.8-2.8 2.8"/></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>04</span>Ship</p>
+                <ul class="glance-points">
+                  <li>A merge is live in about a minute, with nothing in between</li>
+                  <li>Guards that refuse rather than warn</li>
+                  <li>AI wrote most of the scripts, to rules that came from failures I found</li>
+                </ul>
+                <a class="glance-more" href="#ship">Nothing ships on a feeling</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2>The problem</h2>
+        <p>A portfolio that says design systems, accessibility and prototypes in real code, and is itself a template with a contrast failure in the hero, says the opposite of what it means. The site had to be built to the standard it claims for the work, or the claim was decoration.</p>
+        <p>That standard is not a look. It is that the rules are written down, that the page is measured against them rather than eyeballed, and that a change which breaks a rule is refused before a stranger sees it. Those are the three things I ask of a production codebase, and there was no reason a personal site should be held to less.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="tokens">Tokens first, and the specs are the rule</h2>
+        <p>Three files hold every value the site is allowed to use: the colours, the type scale and the leading and tracking that go with it, and the spacing and radii of the page shell. Nothing is made up in place. A component that needs a size takes one of the steps; a colour that is not in the palette is not a colour.</p>
+        <p>Four documents sit over those files and are normative: typography, colour, spacing and motion. Where a spec and the stylesheet disagree, one of them is a bug, and it has not always been the stylesheet. All four have been found stale at least once, which is why a check reads them.</p>
+        <ul class="build-list">
+          <li>The type scale is fourteen steps, and every rendered size on every page at four widths is one of them. Headings ride four fluid ramps between named steps, all sharing one viewport window so the ladder stays in order at every width</li>
+          <li>The colour spec tabulates every ink on every ground with its measured ratio; the fills and the text steps of the accent are two tokens because the one that clears a 2px rule does not clear small type</li>
+          <li>Motion is six durations and one curve, and a duration that is not one of them is refused by the same token check</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="pages">The pages, written by hand</h2>
+        <p>Twenty-nine pages, each a plain HTML file with its content in the markup. The header, the navigation and the skip link are copied into every one rather than pulled from an include, so a change to the shell is a change to twenty-nine files, and the site knows it: a check counts how many pages load each stylesheet and holds the documentation to that number.</p>
+        <p>There is no build step. One file is generated, the Tailwind stylesheet the six oldest case studies still load, and the pipeline rebuilds it and diffs the bytes against what is committed, because that build emits only the classes it has seen and a class the markup names that the build has never met is not an error. It is nothing at all, silently.</p>
+        <p>About a third of the markup is comments, and they are not what the code does. They are why: which alternative was tried, what it measured, and what sent it back. A rule with no reason attached is the first thing the next change deletes.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="checks">What the checks measure</h2>
+        <p>Nine checks run on every merge. Five read the tree and finish in about a second: that it can be deployed at all, that every token the specs name exists, that every number the documentation asserts still counts, that what each page tells a machine matches the page, and that every article's key ideas are still its headings. The other four open every page in Chrome and measure what rendered.</p>
+        <ul class="build-list">
+          <li>Every colour a reader can see, at rest: 5,785 measurements across the site, each against its floor. This one reads ink over artwork by the pixel, because a caption on a photograph has no background colour to compute from, and it was that caption that once shipped at 3.88:1</li>
+          <li>Every hover, focus and script-applied state, forced: 1,867 state rules, each measured once per page that loads it</li>
+          <li>Every rendered type size at four widths against the fourteen steps: 23,854 of them</li>
+          <li>Every curved corner, for a border that follows only part of the curve: 14,501 elements</li>
+        </ul>
+        <p>The prototype page renders its interesting surface from JavaScript in response to a press, and for a while every check said the page passed while measuring a sixth of it. A registry now names the states a reader can reach and the selectors that reach them; each check presses its way into every one before measuring, and a selector that matches nothing fails the run rather than quietly covering less. Its first pass found a live hover at 1.29:1.</p>
+        <p>The counts are watched as much as the verdicts. The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured. A run that comes back materially smaller means something stopped being measured, and that is worth more than any single pass.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="reads">Two things the site does for a reader that a check made honest</h2>
+        <p>Every prose page can read itself aloud, in the browser's own voice, marking the sentence and the word as it goes. It hands the synthesiser one sentence at a time, because a single long utterance stops mid-word after fifteen seconds in Chrome and reports no position at all in Safari, and it marks the live text with the CSS Highlight API rather than wrapping words in spans, so the prose a reader copies is the prose that was there before they pressed the button.</p>
+        <p>Every page carries a canonical address, a share card rendered from the site's own type, and a schema.org graph, sixty-one nodes across the site, all naming one Person. Dates are stamped from the file's last commit rather than typed, so the sitemap and the article can never disagree about when a page changed. A check holds all of it, and it holds the sitemap to listing every page exactly once.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="ship">Nothing ships on a feeling</h2>
+        <p>A merge to the main branch is the live site about a minute later. There is no staging host in front of it any more; the branch and its checks are the gate, and what a stranger sees is the merge. That is a reason to make the guards refuse rather than warn.</p>
+        <ul class="build-list">
+          <li>The deploy tars the repository, and one tracked symlink the runner cannot follow loses the whole thing. A check refuses any symlink and any tracked file the ignore rules match, before the upload and before the merge</li>
+          <li>Pull requests are squash-merged, so a branch and the main line diverge by construction. A script decides whether a force-push can lose work by asking, per file, whether the branch's version exists anywhere in the main line's history; it exits 0, 1, or 2 for could not tell, and 2 is not a yes</li>
+          <li>The résumé is rendered from a script, to one Letter page at 1,056 pixels of 1,056. A tailored copy is a list of exact-match text swaps, and a swap that matches zero times or twice refuses to render, because a résumé that silently edited the wrong sentence is worse than one that did not render</li>
+          <li>A green run of the checks does not mean the site updated. Two workflows, failing independently; the instruction is to look for the deploy on the merge commit, and to fetch with a cache-buster before deciding it failed</li>
+        </ul>
+        <p>Since June: 355 commits, 175 pull requests, and a written account under each of why. The account is the product as much as the pages are.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="what-ai-did">What AI actually did</h2>
+        <p>The scripts were mostly written by an AI working in a terminal, to rules I set, and nearly every rule came from a failure I found first. The pixel-reading contrast check exists because a caption shipped at 3.88:1 and the ordinary check could not see it. The state registry exists because a page passed on a sixth of itself. The token check exists because the specs drifted from the stylesheet three times before anyone read them against it.</p>
+        <p>What that changed is not who decides. It is how fast a bad idea can be shown to be bad. A rule I would once have written down and hoped to remember is now a script that refuses, and the argument over whether it should exist happened once, in a comment, where the next person can read it.</p>
+        <p>The design is mine at every step: the scale, the palette, the order of the page, and every sentence. The judgment about what a check should hold the site to is mine. The honest line is the one the other write-ups use, and it is the same here: the thinking happened out loud, with something that answered back, and I decided what was true.</p>
+        <p>What it cost is worth saying. The site is slower to change than a template would be, because a change that moves a number has to move the sentence that states it, and a change to a shared stylesheet waits for a nine-minute run. That is the price of a claim being checked everywhere it is made, and for a site whose subject is that claim, it is the right price.</p>
+      </div>
+    </section>
+
+    <section class="case-footer">
+      <div class="container case-narrow">
+        <!-- The ask, on every case study, because a reader who arrived here from
+             a search or a shared link has just seen the strongest evidence the site
+             has and may never see the homepage. Same destination as the hero's
+             "Start a conversation": the contact section, which carries the ask in
+             full, the plain address and the LinkedIn route. Text link, not a
+             button, so it reads as the next step rather than a pitch. -->
+        <div class="case-ask">
+          <h2 class="case-ask-title">Have something similarly complicated?</h2>
+          <p>Describe what is happening, in a few sentences. I will tell you plainly whether one of my engagements fits, and if none of them do, I will say so.</p>
+          <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
+        </div>
+        <a class="build-next" href="sap-product-maturity.html">
+          <span class="build-next-eyebrow">Next case study</span>
+          <span class="build-next-title">Making 40+ enterprise apps feel like one product &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#built">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

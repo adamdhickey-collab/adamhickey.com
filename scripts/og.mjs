@@ -43,6 +43,7 @@ const CARDS = {
   'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
   'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
   'while-were-here':                   { kicker: 'Built end to end',                          title: 'How I built While We’re Here',                             image: 'img/products/while-were-here.webp' },
+  'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
   'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
   'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'A dispatch cockpit that shows its work',                        image: 'img/site/dispatch-cockpit.webp' },
   'product-clarity':                   { kicker: 'Engagement 01',                             title: 'Product Clarity',          sub: 'Two to four weeks, fixed scope and fixed fee',              hero: 'img/engagement/clarity-hero.webp' },
