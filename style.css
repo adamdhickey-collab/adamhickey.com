@@ -2243,6 +2243,21 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    carries margin-bottom only, so the sentence sat flush on the card's
    bottom edge. It takes the same --space-2xl the card keeps above itself. */
 .eng3-proof-card + p { margin-top: var(--space-2xl); }
+/* Its one link went bare: the global a { color: inherit; text-decoration:
+   none } reaches it and nothing scoped puts the link back, so the cockpit
+   prototype read as plain text in the sentence that exists to point at it.
+   .build-service a's treatment, which is what a link inside body prose on
+   a light ground looks like on this site: accent-text, 600, underlined at
+   the 0.2em offset, charcoal on hover and focus. */
+.eng3-proof-card + p a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.eng3-proof-card + p a:hover,
+.eng3-proof-card + p a:focus-visible { color: var(--color-charcoal); }
 @media (min-width: 1024px) {
   .eng3-proof-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-block); align-items: start; padding: var(--space-3xl); }
 }
