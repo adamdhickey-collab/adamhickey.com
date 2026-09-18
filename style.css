@@ -3972,8 +3972,23 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin-top: var(--space-sm);
   font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600;
   color: var(--color-accent-text);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--motion-state) var(--ease);
+  /* A decoration, not a border. From 820px up each of these is the last item
+     in a flex column, which stretches an inline-block to the column's full
+     width -- so a border-bottom ran the whole column and the rule underlined
+     a strip of empty space out to the next node. text-decoration follows the
+     text rather than the box, so the box stays as wide as it was and the
+     line lands on the words. The 44px target below is unchanged, which is
+     the point: the hit area did not want fixing.
+
+     Transitioned on its own color rather than faded in, so it arrives at the
+     same rate the border did and the two hover treatments on this page still
+     read as one gesture. 0.2em is .case-ask-link's offset, the site's other
+     underlined link. */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--motion-state) var(--ease);
 }
 /* Four of these stack in a strip, so the target grows behind the text
    rather than around it -- the same trick as .product-link, for the same
@@ -3984,7 +3999,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   height: 44px; transform: translateY(-50%);
 }
 .glance-more:hover,
-.glance-more:focus-visible { border-bottom-color: var(--color-accent-deep); }
+.glance-more:focus-visible { text-decoration-color: var(--color-accent-deep); }
 @media (min-width: 820px) {
   .glance-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--space-3xl); }
   .glance-node { margin-bottom: var(--space-md); }
