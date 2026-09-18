@@ -373,11 +373,11 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-17 the tree measures 5779 resting colors, 1859 state
-rules, 23830 type sizes and 14511 elements checked for a partial border on a
+unmeasured. At 2026-09-18 the tree measures 5725 resting colors, 1813 state
+rules, 23626 type sizes and 14464 elements checked for a partial border on a
 curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-121 token names against 189 declarations and 10 counted claims.
+121 token names against 190 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
 the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
@@ -396,19 +396,23 @@ being measured, and that is worth more than the digits being exactly right.
 Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
-The figures above are a re-measurement, not a delta. They were taken with the
-four browser checks run unscoped on the tree #190 committed as 1312b0d, the
-one that cut the Writing family from eleven articles to nine, and they
-replace the 2026-09-15 set of 5795 / 1864 / 23894 / 14297, taken against an
-archive of `main` at e4247fe. Two pages left the tree net (three articles
-out, one in) and the resting count moved by sixteen, the state rules by five,
-the type sizes by sixty-four; the curve count went up by two hundred and
-fourteen, because the articles merged between the two measurements had
-figures of their own and that set was already stale when the pages left. The
-drift is not itemised further because it is not one change to attribute;
-what it cost was a tripwire reading low, which is the direction that hides a
-page falling out of measurement rather than announcing it. Re-measure and
-rewrite these four when they have visibly drifted again, and name the commit
+The figures above are a re-measurement, not a delta. They were taken by the
+CI run of `checks.yml` on `claude/glance-underline-hugs-words` at d6bc217,
+which is the unscoped sweep of all four browser checks, and they replace the
+2026-09-17 set of 5779 / 1859 / 23830 / 14511, taken on the tree #190
+committed as 1312b0d. The page count did not move -- 29 before and 29 after,
+which is the number to read first -- and every measurement fell slightly:
+resting by fifty-four, the state rules by forty-six, the type sizes by two
+hundred and four, the curve elements by forty-seven. Ten pull requests
+landed between the two, #191 through #200, and the drift is the sum of them
+rather than one change to attribute: #197 deleted a paragraph outright, #191
+through #194 restructured the How I work cards, the prototype's title and an
+article's figures, and #199 added a thirteenth stylesheet, which is the one
+new token declaration. The set before this one also carries an account of
+how it was reached; both are kept because what a stale tripwire costs is a
+reading that comes back low, which is the direction that hides a page
+falling out of measurement rather than announcing it. Re-measure and rewrite
+these four when they have visibly drifted again, and name the commit
 measured, the way this paragraph does.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
