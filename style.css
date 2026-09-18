@@ -2467,6 +2467,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   font-size: var(--text-lg);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
+  /* Uncapped this inherited the 1280px container and ran 102ch, which is
+     138 characters -- the widest line of body text left on the site, at the
+     largest body size, directly under the products. The rule above it is the
+     full container on purpose and the sentence is not the rule. */
+  max-width: var(--measure);
 }
 .work-cta a {
   position: relative;
@@ -3506,7 +3511,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 /* The plain sentence above the lede: body size, the long-form step, on the
    band's ink, wide enough to hold one sentence without a ragged third line. */
-.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); margin: 0 0 var(--space-lg); }
+.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); margin: 0 0 var(--space-lg); max-width: var(--measure); }
 
 /* The Lucy Learns card shows the app as three screens in the order you meet
    it, app-store style, rather than one phone beside a lot of empty column.
@@ -4411,6 +4416,18 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-narrow { max-width: 56rem; margin: 0 auto; }
 .case-wide { max-width: var(--container-max); margin: 0 auto; }
 .case-narrow > p, .case-wide > p { max-width: var(--measure); }
+/* The miss page's "Where to go instead", which ran 832px -- 79ch -- beside
+   its own intro paragraph at the measure, because the rule above covers a
+   bare paragraph in these columns and not a bare list.
+
+   Named rather than written as `.case-narrow > ul`, and the difference is
+   the whole lesson in TYPOGRAPHY's "the measure caps prose, not the column
+   that holds it": the general form also catches writing/index.html, whose
+   nine article cards are a bare list in the same column, and capping that
+   container at 52ch crushed every dek from 520px to 239 -- a four-word
+   column beside an 18rem drawing. This list is prose; that one is a grid.
+   Only the prose one is named. */
+.miss-list { max-width: var(--measure); }
 .case-section h2 {
   margin-bottom: var(--space-2xl);
   color: var(--color-charcoal);
@@ -5051,6 +5068,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   text-transform: none;
   color: var(--color-muted-gray);
   margin: var(--space-sm) 0 0;
+  /* The same token, and the same reason, the build write-ups' captions carry:
+     a caption at --text-xs filling the 620px essay column is 78ch, which is
+     105 characters. Only one of the eighteen was long enough to show it. The
+     label above a .writing-figure keeps max-width: none, because that one is
+     a short uppercase label rather than a sentence. */
+  max-width: var(--measure);
 }
 
 /* The promoted line: one of the section's marked sentences, standing on its
