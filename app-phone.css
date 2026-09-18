@@ -1,0 +1,79 @@
+/* ---------- The app, in a phone, over the page ----------
+   "Open the app" on the homepage and "Open Lucy Learns" on the write-up used
+   to send a reader to the app's own address in a new tab, where a layout
+   built for a hand sat in a desktop window at full width. Since 2026-09-18
+   the click opens the app here, in the phone frame the write-up's screens
+   already sit in (.build-phone, from style.css), as tall as the viewport
+   leaves it with a step of padding above and below, so a reader runs it at
+   the size it was designed for.
+
+   Same construction as the homepage lightbox: a fixed scrim, .is-open, the
+   lightbox's own close button (.ah-lightbox-close, the site's one close
+   control), scroll locked behind it. Under 768px the script does not
+   intercept and the link opens the app itself in a new tab, because a phone
+   drawn inside a phone is no better than the app on the phone. Two pages load
+   this file, so style.css and its site-wide buster are untouched. */
+.app-phone {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  /* The step above and below is the "little padding" the frame asked for;
+     the sides only matter if the viewport is narrower than the phone. */
+  padding: var(--space-2xl) var(--space-md);
+  background: color-mix(in srgb, var(--color-scrim) 90.0%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  /* Visibility switched, not interpolated: instant on open so the close
+     button can take focus in the same frame, delayed by the fade on close.
+     The lightbox's note explains why. */
+  transition: opacity var(--motion-state) var(--ease),  visibility 0s linear var(--motion-state);
+}
+.app-phone.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--motion-state) var(--ease),  visibility 0s linear 0s;
+}
+/* The frame shrink-wraps the screen: height is set on the iframe and the
+   width follows from the phone's own proportion, so the bezel is --bezel on
+   every side whatever the viewport height. */
+.app-phone-frame {
+  width: fit-content;
+  max-width: 100%;
+  transform: scale(var(--motion-press));
+  transition: transform var(--motion-move) var(--ease);
+}
+.app-phone.is-open .app-phone-frame { transform: scale(1); }
+.app-phone-frame iframe {
+  display: block;
+  /* 390 x 844 is a phone's CSS viewport, the device the write-up's inline
+     frame uses. The screen is as tall as the viewport less the two steps of
+     padding and the bezel above and below; the width is derived. dvh where
+     the browser has it, so a shrinking toolbar does not leave the phone
+     poking under the fold. */
+  aspect-ratio: 390 / 844;
+  height: calc(100vh - 2 * var(--space-2xl) - 2 * var(--bezel));
+  height: calc(100dvh - 2 * var(--space-2xl) - 2 * var(--bezel));
+  max-width: 100%;
+  border: 0;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-white);
+}
+/* The sentinel that turns Shift+Tab out of the app back onto the close
+   button. It is a focus target and nothing else. */
+.app-phone-sentinel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+html.app-phone-open body { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-phone { transition: opacity var(--motion-state) linear,  visibility 0s linear var(--motion-state); }
+  .app-phone.is-open { transition: opacity var(--motion-state) linear,  visibility 0s linear 0s; }
+  .app-phone-frame,
+  .app-phone.is-open .app-phone-frame { transform: none; transition: none; }
+}
