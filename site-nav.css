@@ -375,8 +375,15 @@ html.cursor-out .cursor-ring { opacity: 0; }
 .cursor-ring {
   width: 34px; height: 34px;
   border: 1px solid var(--color-charcoal);
-  transition: width var(--motion-move) var(--ease), 
-              height var(--motion-move) var(--ease), 
+  /* The swell is `scale`, not width and height: those two are layout
+     properties, so every frame of the hover ran a layout pass, and the ring
+     is the one element on the site that animates on every mouse move.
+     `scale` is its own property rather than part of `transform`, which
+     cursor.js writes inline each frame to place the ring; the two compose.
+     60 over 34 is the size the hover state always had. The 1px border scales
+     with it, to 1.76px at rest-of-hover, which is the one thing that differs
+     from the old box and is invisible at 60px. */
+  transition: scale var(--motion-move) var(--ease), 
               border-color var(--motion-state) var(--ease), 
               background-color var(--motion-state) var(--ease), 
               opacity var(--motion-state) var(--ease);
@@ -387,7 +394,7 @@ html.cursor-out .cursor-ring { opacity: 0; }
    largest and needs it most. rgba literal rather than color-mix so this
    the value is --color-accent-deep. */
 .cursor-ring.is-hovering {
-  width: 60px; height: 60px;
+  scale: calc(60 / 34);
   background-color: var(--color-accent-ring);
   border-color: var(--color-accent-deep);
 }

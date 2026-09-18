@@ -110,10 +110,15 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 /* ---------- Scroll progress bar ---------- */
 .scroll-progress {
   position: fixed; top: 0; left: 0;
-  height: 2px; width: 0%;
+  height: 2px; width: 100%;
+  /* Full width, scaled from the left edge: the script writes scaleX(progress)
+     rather than a percentage width, so the bar moves on the compositor and
+     never asks for layout on scroll -- which is the one event it listens
+     to. */
+  transform: scaleX(0); transform-origin: 0 50%;
   background: var(--color-accent-deep);
   z-index: 100;
-  transition: width var(--motion-response) linear;
+  transition: transform var(--motion-response) linear;
   pointer-events: none;
 }
 

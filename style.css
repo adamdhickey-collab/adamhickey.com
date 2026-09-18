@@ -496,12 +496,19 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   font-weight: 600;
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
-  transition: gap var(--motion-move) var(--ease),  color var(--motion-state) var(--ease);
+  transition: color var(--motion-state) var(--ease);
 }
-.case-go svg { width: 17px; height: 17px; }
+/* The arrow travels; the gap does not. Growing the gap from --space-xs to
+   --space-sm was a layout property on hover, so the arrow's four pixels of
+   travel re-laid the card's text column each frame. A translate on the svg
+   is the same four pixels -- the difference between the two steps -- on the
+   compositor. */
+.case-go svg { width: 17px; height: 17px; transition: transform var(--motion-move) var(--ease); }
 .case-card:hover .case-go,
-.case-card:focus-visible .case-go { gap: var(--space-sm); color: var(--color-charcoal); }
-@media (prefers-reduced-motion: reduce) { .case-go { transition: none; } }
+.case-card:focus-visible .case-go { color: var(--color-charcoal); }
+.case-card:hover .case-go svg,
+.case-card:focus-visible .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } .case-card:hover .case-go svg { transform: none; } }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
@@ -1204,7 +1211,10 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   display: inline-flex; align-items: center; justify-content: center;
   padding: var(--space-sm) var(--space-2xl);
   color: var(--color-warm);
-  transition: all var(--motion-move) var(--ease);
+  /* Named, not `all`: `all` puts every inherited change through the
+     transition, including the font-size step at a breakpoint. These three are
+     what the variants below actually move. */
+  transition: background-color var(--motion-move) var(--ease), color var(--motion-move) var(--ease), border-color var(--motion-move) var(--ease);
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: var(--text-base);
@@ -1655,7 +1665,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-step {
   counter-increment: eng3step;
   background: var(--color-white);
-  border: 1px solid rgba(27, 29, 26, 0.06);
+  /* Was rgba(27,29,26,0.06), a literal no token names. --rule-hairline is
+     the quiet divider on light grounds, four alpha points darker; a card
+     edge on the warm band is what that token is for. */
+  border: 1px solid var(--rule-hairline);
   border-radius: 16px;
   box-shadow: var(--shadow-resting);
   padding: var(--space-xl);
@@ -2651,6 +2664,14 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   font-size: var(--text-xs);
   font-weight: 400;
   line-height: var(--leading-ui);
+  /* A literal, and it stays one on purpose -- the same reason .case-toc in
+     case-study-base.css gives. Written as color-mix(in srgb, var(--color-white)
+     82%, transparent) it is the same colour, but it COMPUTES to
+     color(srgb 1 1 1 / 0.82), which resting.mjs cannot composite: it read
+     this line at 1.08:1 over the portrait and failed the page. rgba() it can
+     read, at the 0.82 the scrim was measured against. Not
+     --ink-on-dark-secondary either: that is warm at 0.75, and this sits on a
+     photograph, where 0.82 of white is what clears the floor. */
   color: rgba(255, 255, 255, 0.82);
 }
 /* The padding scales itself; only the type needs stepping down for the
@@ -2884,13 +2905,18 @@ figure.hero-photo-frame { margin: 0; }
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-on-dark);
   opacity: 0.55;
-  transition: opacity var(--motion-move) var(--ease),  gap var(--motion-move) var(--ease);
+  transition: opacity var(--motion-move) var(--ease);
 }
-.engagement-go svg { width: 17px; height: 17px; flex-shrink: 0; }
+/* Same arrangement as .case-go: the arrow translates by the difference
+   between the two gap steps rather than the gap itself animating. */
+.engagement-go svg { width: 17px; height: 17px; flex-shrink: 0; transition: transform var(--motion-move) var(--ease); }
 .engagement-card:hover .engagement-go,
-.engagement-card:focus-visible .engagement-go { opacity: 1; gap: var(--space-sm); }
+.engagement-card:focus-visible .engagement-go { opacity: 1; }
+.engagement-card:hover .engagement-go svg,
+.engagement-card:focus-visible .engagement-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
 @media (prefers-reduced-motion: reduce) {
-  .engagement-card, .engagement-go { transition: none; }
+  .engagement-card, .engagement-go, .engagement-go svg { transition: none; }
+  .engagement-card:hover .engagement-go svg { transform: none; }
   .engagement-card:hover, .engagement-card:focus-visible { transform: none; }
 }
 
@@ -4585,7 +4611,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-radius: var(--radius-pill);
   font-weight: 500;
   color: var(--color-charcoal);
-  transition: all var(--motion-move) var(--ease);
+  transition: background-color var(--motion-move) var(--ease), color var(--motion-move) var(--ease), border-color var(--motion-move) var(--ease);
 }
 .btn-back svg { width: 18px; height: 18px; }
 
@@ -4688,12 +4714,22 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .case-ask-link {
   display: inline-block;
+  position: relative;
   color: var(--color-accent-text);
   font-size: var(--text-base);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
+}
+/* 184x23 was the only standalone control on the site without the 44px
+   target behind it; the same trick as .product-link and .glance-more, for
+   the same reason: the underline stays on the words. */
+.case-ask-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
 }
 .case-ask-link:hover,
 .case-ask-link:focus-visible { color: var(--color-charcoal); }

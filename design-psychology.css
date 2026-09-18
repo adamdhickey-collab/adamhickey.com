@@ -109,7 +109,15 @@
    as a heading rather than as lead-in copy. 18px is --text-lg, the scale's
    smallest heading step, which puts it under the h3 it sits beneath and over
    the body it introduces. */
-.dp-note .dp-note-head {
+/* Two selectors, one rule. The head is an h3 since the audit pass -- it sat
+   as an h4 under an h2, a level with no parent -- and on the essays it lives
+   inside .writing-measure, where `.case-overview .writing-measure h3` is
+   (0,2,1) and would beat this (0,2,0) rule on the margin alone: the same
+   size, weight, leading and ink, but a 32px top margin this head does not
+   carry. The second selector is the tiebreaker, (0,3,0), so the head can be
+   the level it should be without moving a pixel. */
+.dp-note .dp-note-head,
+.writing-measure .dp-note .dp-note-head {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--text-lg);
