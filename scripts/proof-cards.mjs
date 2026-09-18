@@ -284,7 +284,7 @@ ${FLAT}`,
     group: 'systems',
     device: 'the black ribbon, made fast',
     situation: 'Several teams solve the same problem differently.',
-    heading: 'Set standards other teams adopt, and keep them adopted',
+    heading: 'Set standards other teams adopt',
     alt: 'A large slate cleat planted on the bottom edge of the frame with cream above and beside its horns, one solid black rope turned tight around it and running away taut off both edges',
     prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, standing upright in the centre of the frame with its base cut off by the bottom edge, so it reads as planted there, but a little smaller than the frame otherwise: its two horns end inside the frame with a band of empty cream beyond each about an eighth of the picture's width, and a band of empty cream above the horns about a tenth of the picture's height. One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no loose rope ends, no second cleat. Nothing else in the picture.
 
