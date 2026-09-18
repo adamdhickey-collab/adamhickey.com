@@ -4427,7 +4427,83 @@ html.ah-lightbox-open body { overflow: hidden; }
    container at 52ch crushed every dek from 520px to 239 -- a four-word
    column beside an 18rem drawing. This list is prose; that one is a grid.
    Only the prose one is named. */
-.miss-list { max-width: var(--measure); }
+/* ---------- The miss page's own list ----------
+   Five doors, and until this pass they were the browser's: disc markers
+   hanging outside a list with no padding, so the one column on the page had
+   two left edges, and the site's own mark -- the sage dash every other list
+   on every other page carries -- was the one thing missing from the page a
+   lost reader sees. The values are .writing-measure's exactly, because this
+   list sits in a reading column under an 18px paragraph and that is the list
+   that already solved it: --text-lg on --leading-reading, the dash at 0.78em
+   where that leading puts the first line's centre.
+
+   The row gap is the one departure, and --space-2xs is right there and wrong
+   here. Nineteen short items read as one block the eye runs down, which is
+   what that gap is for; these are five destinations, most of them two lines,
+   and each one is a decision. --space-sm separates them without making five
+   items look like five sections. */
+.miss-list {
+  list-style: none;
+  max-width: var(--measure);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-sm);
+}
+.miss-list li {
+  position: relative;
+  padding-left: var(--space-lg);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+.miss-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 0.5rem;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-accent-deep);
+}
+/* The links were charcoal, unweighted and undecorated -- `a { color: inherit;
+   text-decoration: none }` reaching a page whose entire content is links, so
+   every one of them was set exactly like the words around it. There was no
+   cue at all: not colour alone, which WCAG 1.4.1 would at least have an
+   opinion about, but nothing. The same failure .about-beat-text's note
+   records, on the one page that is nothing but a way out.
+
+   .build-service a's treatment, which is what a link inside body prose on a
+   light ground looks like on this site: accent-text, 600, underlined at the
+   0.2em offset, charcoal on hover and focus so the pointer moves it toward
+   the page rather than away. */
+.miss-list a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.miss-list a:hover,
+.miss-list a:focus-visible { color: var(--color-charcoal); }
+/* The miss page is the only page that puts a bare h1 straight above a
+   paragraph, and with the reset's margin: 0 the two touched -- a 68px serif
+   title with its descenders in the first line of the sentence under it. The
+   step the h2 on this same page already takes below itself. */
+.miss-title { margin-bottom: var(--space-2xl); }
+/* The nav is `position: fixed`, so nothing in the flow knows it is there and
+   every page that opens on content pays for the clearance itself -- the hero
+   rules and .case-hero all read calc(var(--nav-height) + a space step). The
+   miss page opens on a .case-section, which is written for a band in the
+   middle of a page and takes --space-section: 96px at 1440, which clears the
+   80px nav by sixteen, and 64px at 390, which does not clear it at all. The
+   headline sat sixteen pixels UNDER the header on a phone, on the one page
+   served at every missing address on the site.
+
+   .case-hero's formula, which puts the h1 48px below the nav -- the same
+   clearance writing/index.html has. */
+.miss-section { padding-top: calc(var(--nav-height) + var(--space-4xl)); }
 .case-section h2 {
   margin-bottom: var(--space-2xl);
   color: var(--color-charcoal);
