@@ -2325,7 +2325,13 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    landed on three different baselines -- which read as three separate
    paragraphs rather than one row of three. margin-top: auto puts the gap
    after the sentence instead, and the grid's stretched rows give every
-   column the same floor to stand on. */
+   column the same floor to stand on.
+
+   The link is a step below the condition, on the scale's dense-UI size,
+   because at the body size three of the four names ran to two lines in a
+   363px column, and a two-line link under a one-line sentence read as a
+   second paragraph rather than a name. At --text-sm all but the longest
+   name fit the column from 1280px up. */
 .eng3-fit-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
 @media (min-width: 768px) { .eng3-fit-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl); } }
 .eng3-fit-grid li { display: flex; flex-direction: column; gap: var(--space-sm); padding-top: var(--space-md); border-top: 1px solid var(--color-rule); }
@@ -2334,6 +2340,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-fit-grid a {
   align-self: flex-start; margin-top: auto;
   color: var(--color-charcoal); font-weight: 600;
+  font-size: var(--text-sm); line-height: var(--leading-ui);
   border-bottom: 2px solid var(--color-accent-deep); padding-bottom: 1px;
   transition: color var(--motion-state) var(--ease);
 }
