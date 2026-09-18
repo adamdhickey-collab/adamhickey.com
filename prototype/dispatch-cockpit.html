@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20260918g" />
   <link rel="stylesheet" href="../site-nav.css?v=20260918b" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=24" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=25" />
   <link rel="stylesheet" href="../read-aloud.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page", the same control the twenty-three prose pages
@@ -206,26 +206,6 @@
         setTimeout(finish, 3000);
       });
     })();
-  </script>
-  <!-- Draw-on for the assumption callout's mark: it gets .is-inview as it
-       enters the viewport. The ckw-js class gates the hidden initial state,
-       so without JavaScript the mark renders finished rather than blank.
-       Same shape as the engagement pages' eng3-js. -->
-  <script>
-    document.documentElement.classList.add('ckw-js');
-    addEventListener('DOMContentLoaded', function () {
-      var items = document.querySelectorAll('.ckw-callout');
-      if (!('IntersectionObserver' in window)) {
-        items.forEach(function (el) { el.classList.add('is-inview'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('is-inview'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.25 });
-      items.forEach(function (el) { io.observe(el); });
-    });
   </script>
 </head>
 <body class="ckw-page">
@@ -393,7 +373,7 @@
                   <img src="../img/cockpit/slide-pick.webp?v=6" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;What went into the call&rdquo; for truck T-118, now at Owatonna, with a line reading &ldquo;At pickup by 2:26 pm, in the window, 34 min of room&rdquo;, then five factors with their values: distance to pickup 38 miles, helps; hours of service left 8.4, helps; equipment dry van, meets; on time with Northfield Foods 11 of 12, neutral; deadhead 12 miles, helps. A key explains the bars, and an Assign T-118 button sits at the bottom." />
                 </picture>
               </div>
-              <figcaption>No score to trust, five facts to check: distance, driver hours, equipment, on&#8209;time record and deadhead, each with its value, its verdict and a bar placing it against the fleet. Above them, the one line the ranking does not weigh: when this truck would reach the pickup, and how much room that leaves.</figcaption>
+              <figcaption>No score to trust, five facts to check, each with its value, its verdict and a bar against the fleet. Above them, the line the ranking does not weigh: when the truck would arrive.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
@@ -409,7 +389,7 @@
                   <img src="../img/cockpit/slide-close-call.webp?v=5" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, with a line saying the system is not ranking one over the other, and under it a comparison table: Option A is T-131, Priya Nair, and Option B is T-118, Marisol Vega, with distance and driver hours as the first two rows, each marked &ldquo;the tradeoff&rdquo;." />
                 </picture>
               </div>
-              <figcaption>T&#8209;131 is closer; T&#8209;118 has more driver hours. The two rows that separate them come first and say so, the three that do not follow, and both options get their own Assign button. Neither counts as overriding.</figcaption>
+              <figcaption>T&#8209;131 is closer; T&#8209;118 has more driver hours. The two rows that separate them come first and say so, and both options get their own Assign button. Neither counts as overriding.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
@@ -441,7 +421,7 @@
                   <img src="../img/cockpit/slide-rule.webp?v=5" width="1360" height="1020" loading="lazy" decoding="async" alt="A caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score. Otherwise it would rank first&rdquo;, and under it the recommendation for T-118, Marisol Vega, with the top of its factor card." />
                 </picture>
               </div>
-              <figcaption>T&#8209;114 wins on every measure, but its driver has 3.2 hours left and the run needs 5.5. A legal limit, not a low score, so it sits above the recommendation as a rule, in the one caution color.</figcaption>
+              <figcaption>T&#8209;114 wins on every measure, but its driver has 3.2 hours left and the run needs 5.5. A legal limit, not a low score, so it sits above the recommendation in the one caution color.</figcaption>
             </figure>
           </li>
         </ol>
@@ -775,26 +755,16 @@
         </ol>
 
         <div class="case-narrow">
-        <!-- The mark draws the assumption: the card with its five factors, and
-             the one that decides the job standing outside it, where the card
-             has no row for it. Every stroke carries pathLength=1 so one
-             dasharray draws them all, in order, as the callout enters the
-             viewport; the ckw-js guard on <html> keeps the strokes finished
-             when nothing runs. -->
+        <!-- The mark is a drawing of the assumption: the clipboard with its
+             five lines, and the tag the clipboard has no row for, standing
+             clear of it. A picture in the impact bands' hand (#208), filed at
+             320x180 for a 160px slot, its line in the caution ink because it
+             sits on the caution ground rather than the case studies' deep
+             accent band. It used to be an inline SVG that drew itself on
+             entering the viewport, with a script and a class on <html> to
+             gate the hidden state; a picture needs none of that. -->
         <aside class="ckw-callout">
-          <svg class="ckw-callout-mark" viewBox="0 0 100 100" width="100" height="100" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <rect pathLength="1" style="--i:0" x="8" y="22" width="42" height="56" rx="5"/>
-            <path pathLength="1" style="--i:1" d="M16 33h26"/>
-            <path pathLength="1" style="--i:2" d="M16 42h26"/>
-            <path pathLength="1" style="--i:3" d="M16 51h26"/>
-            <path pathLength="1" style="--i:4" d="M16 60h26"/>
-            <path pathLength="1" style="--i:5" d="M16 69h26"/>
-            <path pathLength="1" style="--i:6" d="M57 50h28"/>
-            <path pathLength="1" style="--i:7" d="M78 43 85 50 78 57"/>
-            <rect pathLength="1" style="--i:8" x="75" y="20" width="17" height="17" rx="3"/>
-            <path pathLength="1" style="--i:9" d="M79.5 28.5h8"/>
-            <rect pathLength="1" style="--i:10" x="75" y="63" width="17" height="17" rx="3"/>
-          </svg>
+          <img class="ckw-callout-mark" src="../img/site/assumption-dispatch-cockpit.png" alt="" width="320" height="180" loading="lazy" decoding="async">
           <div class="ckw-callout-body">
             <p class="ckw-callout-h">My biggest assumption</p>
             <p>The five factors on the card may not be the factors that decide the real job. Real dispatchers weigh things the list does not name &mdash; the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load &mdash; and the first thing they will say is that the one that decides it is missing. That is the right complaint. The first sessions should be free to argue with the structure, not only to fill in the card.</p>
