@@ -3438,7 +3438,16 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-media);
 }
-@media (max-width: 640px) {
+/* The row needs 768, not 640. The drawing is a fixed 18rem, so everything a
+   narrower viewport takes comes out of the words beside it, and between 641
+   and 767 the text column was the thing that gave: 277px at 641, which is
+   about 33 characters a line and NARROWER THAN THE 288px PICTURE NEXT TO IT,
+   rising to 47 at 767. Both are under the 45 a line of body text needs, and
+   the site's own floor is 60. At 768 the column is 401px, about 48
+   characters, which is the width a tablet gets everywhere else here. Below
+   that the drawing goes over the words at full width, which was always the
+   right answer for the narrow case and simply started 128px too late. */
+@media (max-width: 767.98px) {
   .writing-link { grid-template-columns: minmax(0, 1fr); }
 }
 /* The article's feature: the same drawing at 1600x900, under the dek in
@@ -5223,4 +5232,11 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
   max-width: 60ch;
 }
-.writing-list + .writing-eyebrow { margin-top: var(--space-3xl); }
+/* Scoped to the column so it outranks `.case-narrow h2:not(:first-child)`,
+   which is (0,2,1) and took this to --space-4xl the moment the collection
+   label became a real h2. 40px is what the label was designed to carry --
+   the note on .case-section .writing-eyebrow::before says it takes
+   --space-3xl "where the h2 did" -- and giving the three collections their
+   heading level is a change to the outline, not to the rhythm. */
+.case-narrow .writing-list + .writing-eyebrow,
+.case-wide .writing-list + .writing-eyebrow { margin-top: var(--space-3xl); }
