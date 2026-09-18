@@ -326,6 +326,19 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   .section-head h2,
   .other-feature-body h2 { margin-bottom: var(--space-xl); }
 }
+/* The homepage's section headings lift the ramp's floor one step, 28 to 34,
+   and follow --type-section unchanged once it passes 34 on its own, at about
+   664px. On a phone each of these six h2s sits directly on an 18px dek, and
+   at 28 it read as the dek's first line rather than as the heading over
+   it. max() rather than a media query so there is no seam at 768, and
+   rather than a clamp because the ramp is still the ramp; the floor is the
+   only thing that moved. This ties the hero h1's 34 floor on phones, which
+   TYPOGRAPHY.md argues against for the ladder in general; the homepage
+   carries it because its h1 is alone in the hero, three screens above the
+   first h2, with display leading and tracking the section heads do not
+   have. Homepage only, by the class on <body>: other.html's section heads
+   sit beside a book cover, not over a dek. */
+.home h2 { font-size: max(var(--type-section), var(--text-4xl)); }
 .section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
 /* The header says How I Work and Contact; the heads they scroll to say "When
    people bring me in" and "Describe what is happening". Neither title

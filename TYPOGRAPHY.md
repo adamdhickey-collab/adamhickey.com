@@ -282,6 +282,16 @@ have. Neither of those is a floor change.
 
 The homepage hero is an `h1` on this ladder, not a level above it.
 
+**One lifted floor, on the homepage only.** Since 2026-09-18 the six section
+`h2`s on `index.html` take `max(--type-section, --text-4xl)`: 34 on a phone
+instead of 28, and the ramp unchanged from the point it passes 34 on its own,
+at about 664px. Each of them sits directly on an 18px dek, and at 28 the
+heading read as the dek's first line. It ties the hero `h1`'s floor, which
+the paragraph above argues against for the ladder in general; the homepage
+carries it because its `h1` is alone in the hero, three screens above the
+first `h2`, with display leading and tracking. It is a floor, not a sixth
+ramp, and `max()` rather than a media query so there is no seam at 768.
+
 Strictly descending at both ends, and therefore at every width between them.
 
 **The seam at h3/h4 is deliberate.** `h3` is the last serif level and `h4`
