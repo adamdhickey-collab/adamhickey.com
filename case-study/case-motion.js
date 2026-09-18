@@ -110,7 +110,12 @@
   /* ---- section accent bars + headings + prose ---- */
   $$('div.w-16.h-1').forEach(function (b) { reg(b, 'cm-bar', { span: 0.38 }); });
   $$('main h2[id]').forEach(function (h) { reg(h, 'cm-rise-lg', { span: 0.38, lead: 0.05 }); });
-  $$('main h3').forEach(function (h) { if (!guarded(h)) reg(h, 'cm-rise', { span: 0.32 }); });
+  /* The Design psychology note's head sits out the reveal with the rest of
+     the note (see the paragraphs below): it became an h3 in the audit pass
+     -- an h4 under an h2 was a level with no parent -- and this line then
+     caught it, which parked it at opacity 0 below the fold, where
+     resting.mjs would not have measured it. Same hole, same guard. */
+  $$('main h3').forEach(function (h) { if (!guarded(h) && !h.closest('.dp-note')) reg(h, 'cm-rise', { span: 0.32 }); });
   /* The Design psychology note sits out the reveal. Its three paragraphs
      are prose by tag and would each rise on their own, which is both an
      animation the component is specified not to have and a measurement
