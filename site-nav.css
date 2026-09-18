@@ -352,11 +352,16 @@
 .cursor-dot,
 .cursor-ring {
   position: fixed;
-  top: 0; left: 0;
   z-index: 9999;
   pointer-events: none;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  /* Each box sits with its center on the viewport origin (top and left are
+     minus half its size, below), and cursor.js moves that center onto the
+     pointer through the `translate` property. Not `transform:
+     translate(-50%, -50%)`: transform-origin wraps the whole chain, so the
+     ring's `scale` on hover multiplied that centering offset too and the
+     ring sat 13px off the pointer at 60px. With no transform, the only
+     thing scale acts on is the box, about its own center. */
   /* Hidden until the first mousemove, otherwise both park at 0,0 and a stray
      ring sits in the top-left corner until the pointer is used. */
   opacity: 0;
@@ -368,18 +373,24 @@ html.cursor-out .cursor-ring { opacity: 0; }
 
 .cursor-dot {
   width: 6px; height: 6px;
+  top: -3px; left: -3px;
   background: var(--color-charcoal);
   transition: background-color var(--motion-state) var(--ease), 
               opacity var(--motion-state) var(--ease);
 }
 .cursor-ring {
   width: 34px; height: 34px;
+  top: -17px; left: -17px;
   border: 1px solid var(--color-charcoal);
   /* The swell is `scale`, not width and height: those two are layout
      properties, so every frame of the hover ran a layout pass, and the ring
      is the one element on the site that animates on every mouse move.
-     `scale` is its own property rather than part of `transform`, which
-     cursor.js writes inline each frame to place the ring; the two compose.
+     `scale` is its own property, and cursor.js places the ring through
+     `translate`, another one; the individual properties apply in the order
+     translate, rotate, scale, so the position is set before the swell and
+     the two compose. Placing the ring through `transform` put the position
+     after the scale, and the hover multiplied it by 60/34: the ring landed
+     well below and to the right of the pointer.
      60 over 34 is the size the hover state always had. The 1px border scales
      with it, to 1.76px at rest-of-hover, which is the one thing that differs
      from the old box and is invisible at 60px. */
