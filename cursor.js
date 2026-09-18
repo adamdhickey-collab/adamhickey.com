@@ -5,6 +5,16 @@
    0.18, so the ring trails through fast movement and settles a beat later.
    Styling lives in site-nav.css.
 
+   Both parts are placed through the `translate` property, not `transform`.
+   The stylesheet sits each box with its center on the viewport origin and
+   swells the ring on hover with `scale`, and the individual properties
+   apply in a fixed order: translate, then rotate, then scale, then
+   `transform`. Writing the position into `transform` put it after the
+   scale, so the hover multiplied the ring's position by 60/34 and the ring
+   landed well below and to the right of the pointer. Written into
+   `translate`, the position is applied first and the scale only swells the
+   ring about its own center.
+
    This replaces the reticle that used to run in the flight section only,
    which meant the cursor changed character halfway down the home page.
 
@@ -84,7 +94,7 @@
   function loop() {
     rx += (mx - rx) * 0.18;
     ry += (my - ry) * 0.18;
-    ring.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px) translate(-50%,-50%)';
+    ring.style.translate = rx.toFixed(1) + 'px ' + ry.toFixed(1) + 'px';
     /* Stop the frame loop once the ring has caught up, rather than running
        rAF forever behind a stationary pointer. */
     if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.1) raf = requestAnimationFrame(loop);
@@ -93,7 +103,7 @@
 
   document.addEventListener('mousemove', function (e) {
     mx = e.clientX; my = e.clientY;
-    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
+    dot.style.translate = mx + 'px ' + my + 'px';
     if (!started) {
       /* First move: drop the ring straight onto the pointer instead of
          letting it fly in from the top-left corner. */
