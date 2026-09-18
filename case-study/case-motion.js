@@ -127,12 +127,13 @@
     if (!guarded(p) && !p.closest('.dp-note')) reg(p, 'cm-rise-sm', { span: 0.22 });
   });
 
-  /* ---- the pull mark under the impact table: draws itself on the scrub ----
-     Registered after the paragraphs so the mark is not treated as prose, and
-     given a longer span than the sentence beside it: a line describing itself
-     wants to be watched, where a paragraph only wants to arrive. */
+  /* ---- the pull mark under the impact table: arrives with its sentence ----
+     Since 2026-09-18 the mark is a drawing, a white line on a transparent
+     PNG, rather than an inline SVG that drew itself on the scrub. A picture
+     has no path to draw, so it takes the same small rise the paragraph
+     beside it takes, on the same span, and the two arrive as one row. */
   $$('.impact-mark').forEach(function (m) {
-    reg(m, 'cm-draw', { span: 0.45, lead: 0.04 });
+    reg(m, 'cm-rise-sm', { span: 0.22 });
   });
 
   /* ---- closing next-case link ---- */
