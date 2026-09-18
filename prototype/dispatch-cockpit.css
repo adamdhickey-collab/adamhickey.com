@@ -648,41 +648,25 @@
   border-radius: var(--radius-xl);
   background: var(--color-caution-light);
 }
-/* The mark: the case studies' impact mark, in the caution ink -- the card
-   with its five factors, an arrow, and the factor that decides the job
-   standing outside the card. 100px held against a paragraph of any length,
-   `flex: none` so the measure is what gives, and the caution ink at 5.23:1
-   on the fill is past the 3:1 a non-text mark owes. The case-study mark
-   scrubs with the scroll; this one draws itself once, the way the engagement
-   pages' icons do, because this page has no scrub timeline and the callout
-   sits low enough that it would be half-drawn the first time anyone read it.
-   Strokes draw in order, 30ms apart -- a per-stroke sequence, which
-   MOTION.md keeps as artwork rather than a stagger -- over --motion-draw.
-   The hidden state is gated behind .ckw-js, so with nothing running the mark
-   is simply finished. */
+/* The mark: a drawing of the assumption, in the hand the case studies'
+   impact bands took in #208 -- the clipboard with its five lines, and the
+   tag it has no row for, standing clear of it. A PNG whose only ink is the
+   line, filed at 320x180 for a 160px slot; the height follows the file's
+   16:9, so the width is the one number here. The line is painted in the
+   caution ink, because this mark sits on the caution ground and not on the
+   deep accent band the impact marks' white line was drawn for: 5.23:1 on
+   the fill, past the 3:1 a non-text mark owes. `flex: none` so the measure
+   is what gives. It used to be a hairline SVG in a 100-unit box that drew
+   itself, stroke by stroke, as the callout entered the viewport; the draw
+   rules, the keyframes, the reduced-motion override and the script that
+   set .is-inview went with it, because a picture has no path to draw. */
 .ckw-callout-mark {
   flex: none;
-  width: 100px;
-  height: 100px;
+  width: 160px;
+  height: auto;
   display: block;
-  color: var(--color-caution-text);
 }
 .ckw-callout-body { min-width: 0; }
-.ckw-callout-mark path, .ckw-callout-mark rect { stroke-dasharray: 1; stroke-dashoffset: 0; }
-.ckw-js .ckw-callout-mark path, .ckw-js .ckw-callout-mark rect { stroke-dashoffset: 1; }
-/* By element, not `[pathLength]` as the case studies' scrub rule has it: in
-   Chrome the attribute selector reached the paths but the animation never
-   started on the three rects, which stayed at offset 1 with animation-name
-   none while every path finished. Element selectors reach all eleven. */
-.ckw-js .ckw-callout.is-inview .ckw-callout-mark path,
-.ckw-js .ckw-callout.is-inview .ckw-callout-mark rect {
-  animation: ckw-draw var(--motion-draw) var(--ease-enter) forwards;
-  animation-delay: calc(var(--i, 0) * 30ms);
-}
-@keyframes ckw-draw { to { stroke-dashoffset: 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .ckw-js .ckw-callout-mark path, .ckw-js .ckw-callout-mark rect { stroke-dashoffset: 0; animation: none; }
-}
 @media (max-width: 640px) {
   .ckw-callout {
     flex-direction: column;
