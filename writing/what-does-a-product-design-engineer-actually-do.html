@@ -264,7 +264,7 @@
           <p class="writing-eyebrow">Key idea 2 of 7</p>
           <h2 id="the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</h2>
           <p>In a product codebase the unit of design is a component: a button, a data table, a status line, a card. In React it is a function that takes properties and returns markup, and in TypeScript the properties are typed, which means the contract between design and engineering is a list the compiler reads rather than a note in a Figma frame. A button that can be <em>primary</em> or <em>ghost</em>, <em>disabled</em> or not, is a button whose four states are four values in one file.</p>
-          <p>The showroom for that file is Storybook: every component, every state of it, rendered on a page a designer can open without running the product. It is the design system&rsquo;s own site, generated from the system, and it is the single artefact a design engineer most clearly owns. If the story for a component is wrong, the component is wrong.</p>
+          <p>The showroom for that file is Storybook: every component, every state of it, rendered on a page a designer can open without running the product. It is the design system&rsquo;s own site, generated from the system, and it is the single artifact a design engineer most clearly owns. If the story for a component is wrong, the component is wrong.</p>
           <figure class="writing-figure">
             <figcaption>What the component replaces, and what it keeps</figcaption>
             <div class="writing-split">
@@ -293,7 +293,7 @@
           <h2 id="tokens-flow-one-way-from-a-file-everyone-can-read">Tokens flow one way, from a file everyone can read</h2>
           <p>A design system that lives in code has one source for every value: a file of tokens, usually JSON, that says what <em>--color-accent</em> is and what <em>--space-lg</em> is. A tool such as Style Dictionary turns that file into whatever each platform needs: CSS custom properties for the web, constants for iOS and Android, a table for the documentation. Tokens Studio does the same from inside Figma. The direction is what matters. <mark>The file is upstream of everything, so parity between the design and the code is not a review step; it is the only way the values exist.</mark></p>
           <p>The vocabulary the design-engineer postings use comes straight from this file. A <em>primitive</em> token is a raw value with a plain name: a green, a size. A <em>semantic</em> token says what the value is for: the accent, the text on a dark ground, the inset of a panel. Semantic tokens point at primitives, components point at semantic tokens, and nothing points at a hex code. Change the green in one place and every button, badge and link moves with it, on every platform, in one pull request. The file has a third reader now: an AI coding tool generates from whatever the system made legible, and a token it cannot find is a hex code it will invent.</p>
-          <p>This is the part of the job I have done longest, by hand and at enterprise scale, and it is the part where the tooling changes least. My colour spec tabulates every ink on every ground with its measured ratio; a token file does the same in a form a build can read. The discipline is identical. What the pipeline adds is that the discipline stops depending on anyone remembering it.</p>
+          <p>This is the part of the job I have done longest, by hand and at enterprise scale, and it is the part where the tooling changes least. My color spec tabulates every ink on every ground with its measured ratio; a token file does the same in a form a build can read. The discipline is identical. What the pipeline adds is that the discipline stops depending on anyone remembering it.</p>
           <p class="writing-eyebrow">Key idea 4 of 7</p>
           <h2 id="a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</h2>
           <p>A pull request is a proposed change to the codebase with its reasoning written above it and its difference rendered below it, and it is where a design engineer spends more of the day than any tool with a canvas. Reading a diff is how a designer sees what actually shipped rather than what was intended. Opening one is how a designer proposes a change that engineering can accept with a click instead of scheduling a meeting to describe.</p>
@@ -333,7 +333,7 @@
             <figcaption>What this site holds itself to, on every merge</figcaption>
             <dl class="build-facts writing-facts">
               <div><dt>9</dt><dd>checks; four of them render every page in a real browser and measure what is there</dd></div>
-              <div><dt>5,774</dt><dd>colours a reader can see, each measured against its floor, at rest, before anything ships</dd></div>
+              <div><dt>5,774</dt><dd>colors a reader can see, each measured against its floor, at rest, before anything ships</dd></div>
               <div><dt>14</dt><dd>steps on the type scale, and every rendered size at four widths is one of them</dd></div>
             </dl>
           </figure>
