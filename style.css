@@ -326,19 +326,29 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   .section-head h2,
   .other-feature-body h2 { margin-bottom: var(--space-xl); }
 }
-/* The homepage's section headings lift the ramp's floor one step, 28 to 34,
-   and follow --type-section unchanged once it passes 34 on its own, at about
-   664px. On a phone each of these six h2s sits directly on an 18px dek, and
-   at 28 it read as the dek's first line rather than as the heading over
-   it. max() rather than a media query so there is no seam at 768, and
-   rather than a clamp because the ramp is still the ramp; the floor is the
-   only thing that moved. This ties the hero h1's 34 floor on phones, which
-   TYPOGRAPHY.md argues against for the ladder in general; the homepage
-   carries it because its h1 is alone in the hero, three screens above the
-   first h2, with display leading and tracking the section heads do not
-   have. Homepage only, by the class on <body>: other.html's section heads
-   sit beside a book cover, not over a dek. */
+/* The homepage's headings lift their ramps' floors one step each: h2 from
+   28 to 34, h3 from 24 to 28, and each follows its ramp unchanged once the
+   ramp passes the new floor on its own, at about 664px for the h2 and 752px
+   for the h3. On a phone each of the six h2s sits directly on an 18px dek,
+   and at 28 it read as the dek's first line rather than as the heading
+   over it; the card titles under them, the case studies' above all, then
+   sat at 24 on a 16px description with the same problem one level down.
+   max() rather than a media query so there is no seam at 768, and rather
+   than a clamp because the ramp is still the ramp; the floor is the only
+   thing that moved. The h3s are named by card, because .case-card h3 and
+   .story-step h3 set the ramp themselves later in this file and would
+   outrank a bare .home h3; the engagement cards' h3s are flat 24 at every
+   width, four titles in a four-up grid, and keep it.
+   The 34 ties the hero h1's floor on phones, which TYPOGRAPHY.md argues
+   against for the ladder in general; the homepage carries it because its
+   h1 is alone in the hero, three screens above the first h2, with display
+   leading and tracking the section heads do not have. Homepage only, by
+   the class on <body>: other.html's section heads sit beside a book
+   cover, not over a dek. */
 .home h2 { font-size: max(var(--type-section), var(--text-4xl)); }
+.home .case-card h3,
+.home .story-step h3,
+.home .product h3 { font-size: max(var(--type-subsection), var(--text-3xl)); }
 .section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
 /* The header says How I Work and Contact; the heads they scroll to say "When
    people bring me in" and "Describe what is happening". Neither title

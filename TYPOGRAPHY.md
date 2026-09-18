@@ -282,15 +282,20 @@ have. Neither of those is a floor change.
 
 The homepage hero is an `h1` on this ladder, not a level above it.
 
-**One lifted floor, on the homepage only.** Since 2026-09-18 the six section
-`h2`s on `index.html` take `max(--type-section, --text-4xl)`: 34 on a phone
-instead of 28, and the ramp unchanged from the point it passes 34 on its own,
-at about 664px. Each of them sits directly on an 18px dek, and at 28 the
-heading read as the dek's first line. It ties the hero `h1`'s floor, which
-the paragraph above argues against for the ladder in general; the homepage
-carries it because its `h1` is alone in the hero, three screens above the
-first `h2`, with display leading and tracking. It is a floor, not a sixth
-ramp, and `max()` rather than a media query so there is no seam at 768.
+**Two lifted floors, on the homepage only.** Since 2026-09-18 the six section
+`h2`s on `index.html` take `max(--type-section, --text-4xl)`, 34 on a phone
+instead of 28, and its ramped `h3`s, the case study, story and product
+titles, take `max(--type-subsection, --text-3xl)`, 28 instead of 24. Each
+ramp is unchanged from the point it passes its new floor on its own, at
+about 664px and 752px. Each `h2` sits directly on an 18px dek, and at 28
+the heading read as the dek's first line; the card titles had the same
+problem one level down, at 24 on a 16px description. The engagement cards'
+`h3`s are flat 24 at every width by their own rule and keep it.
+The 34 ties the hero `h1`'s floor, which the paragraph above argues against
+for the ladder in general; the homepage carries it because its `h1` is alone
+in the hero, three screens above the first `h2`, with display leading and
+tracking. They are floors, not ramps, and `max()` rather than a media query
+so there is no seam at 768.
 
 Strictly descending at both ends, and therefore at every width between them.
 
