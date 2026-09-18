@@ -70,6 +70,18 @@
   clip-path: inset(50%);
 }
 html.app-phone-open body { overflow: hidden; }
+/* The site's custom cursor (cursor.js, on the homepage) is a dot and a ring
+   that follow mousemove. Inside the app's iframe this document hears no
+   mouse events at all, so the pair froze on the bezel while the app showed
+   its own native hand -- two cursors, one of them stuck. The overlay is the
+   app's world, not the site's: while it is up the pair is hidden and the
+   scrim, the close button and the phone all use the native cursor, so the
+   hand a reader sees over the app is the same one they see beside it. */
+html.app-phone-open .cursor-dot,
+html.app-phone-open .cursor-ring { opacity: 0; }
+html.has-custom-cursor .app-phone,
+html.has-custom-cursor .app-phone * { cursor: auto; }
+html.has-custom-cursor .app-phone button { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   .app-phone { transition: opacity var(--motion-state) linear,  visibility 0s linear var(--motion-state); }
