@@ -150,7 +150,16 @@
     align-items: center;
   }
   .site-nav .logo-btn { justify-self: start; }
-  .nav-links { display: flex; align-items: center; gap: var(--space-2xl); }
+  /* nowrap is what makes the minmax above do its job. Grid sizes the
+     middle track from the links' min-content width, and with wrapping
+     allowed that width is one word: the track took the narrow reading,
+     "How I Work" went to three lines from 900 to about 1020, and the logo's
+     track never got asked to give anything up. Held to one line, the
+     links' min-content is the whole row, the logo track is the one that
+     shrinks, and it shrinks by two pixels at 900 and by nothing from 920
+     up. The icons' right edge does not move at any width; measured 900 to
+     1300 in twenty-pixel steps before and after. */
+  .nav-links { display: flex; align-items: center; gap: var(--space-2xl); white-space: nowrap; }
   /* LinkedIn is an icon in the bar up here; the drawer row is its phone
      form and only that. */
   .nav-links .nav-links-social { display: none; }
