@@ -4317,6 +4317,17 @@ html.ah-lightbox-open body { overflow: hidden; }
 /* Secondary action beside "View live product": same shape, less weight. */
 .product-link-quiet { font-weight: 500; border-bottom-color: var(--color-tag-border); }
 .product-link-quiet:hover { border-bottom-color: var(--color-accent-text); }
+/* The one place this link does not sit on white. --color-tag-border is #e5e5e0
+   and the alternate ground is #e5e5dd, so on the prototype card the underline
+   was the ground: 1.01:1, and the link read as bare text beside an underlined
+   one. The ink table does not change on that ground -- the note on
+   .case-card--prototype is right about that -- but a LINE is not ink, and a
+   hairline tuned against white has nothing left here. --color-rule is the
+   next step down and lands at 1.22:1 on muted-light, which is exactly what
+   --color-tag-border measures on white: the same faintness, not a heavier
+   underline. The hover step is unchanged; accent-text is 4.60:1 on this
+   ground and was always visible. */
+.case-card--prototype .product-link-quiet { border-bottom-color: var(--color-rule); }
 
 /* Also removed by the distill pass, and also only dead because the card was
    held back. `.visually-hidden` is the load-bearing one: without it the
