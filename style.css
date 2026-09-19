@@ -351,7 +351,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 .home .product h3 { font-size: max(var(--type-subsection), var(--text-3xl)); }
 .section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
 /* The header says How I Work and Contact; the heads they scroll to say "When
-   people bring me in" and "Describe what is happening". Neither title
+   people bring me in" and "Tell me about the role". Neither title
    carries the word a reader just clicked, so the eyebrow does, in the
    treatment .hero-eyebrow already uses for the one word that names the
    role. Only those two heads take one: Work lands on "Selected work" and
@@ -2386,7 +2386,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-split-cta .btn-primary { background: var(--color-warm); color: var(--color-charcoal); }
 .eng3-split-cta .btn-primary:hover { background: var(--color-tea-light); }
 /* On a 390px phone the panel's --space-2xl inset left 276px for a 292px
-   button, and "Describe what is happening" broke onto two lines. The inset
+   button, and the label it carried then, "Describe what is happening",
+   broke onto two lines. It reads "Talk about a role" since the candidacy
+   pass and would fit, but the rule stays: the label is copy and the panel
+   should not depend on its length. The inset
    steps down to --space-xl and the button takes the panel's width with the
    tighter inline padding, the way .cta-row .btn does on the homepage. */
 @media (max-width: 640px) {
@@ -3200,6 +3203,25 @@ html.ah-lightbox-open body { overflow: hidden; }
   line-height: var(--leading-body);
   color: var(--color-charcoal);
   margin: 0 0 var(--space-xl);
+}
+/* The availability line, under the dek and above the buttons. One step down
+   from .hero-invite so it reads as a fact about the search rather than as a
+   second dek, and the sentence that carries the level is the one that is
+   emphasized, because it is the line a hiring manager is scanning for. It
+   sets its own margin to nothing and lets .hero-cta's margin-top do the
+   spacing, so the gap above the buttons is the one the buttons already
+   owned. The accent is the site's link sage on the hero's warm ground,
+   which resting.mjs measures with everything else. */
+.hero-availability {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  margin: 0;
+}
+.hero-availability strong {
+  font-weight: 600;
+  color: var(--color-accent-text);
 }
 
 /* The resume-level scan under the hero: six capabilities, each the engagement
