@@ -337,8 +337,8 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    than a clamp because the ramp is still the ramp; the floor is the only
    thing that moved. The h3s are named by card, because .case-card h3 and
    .story-step h3 set the ramp themselves later in this file and would
-   outrank a bare .home h3; the engagement cards' h3s are flat 24 at every
-   width, four titles in a four-up grid, and keep it.
+   outrank a bare .home h3; the engagement cards' h3s are flat, and take
+   their 28 under 768 from a rule beside their own, further down.
    The 34 ties the hero h1's floor on phones, which TYPOGRAPHY.md argues
    against for the ladder in general; the homepage carries it because its
    h1 is alone in the hero, three screens above the first h2, with display
@@ -2890,6 +2890,17 @@ figure.hero-photo-frame { margin: 0; }
   color: var(--ink-on-dark);
   margin: 0 0 var(--space-md);
 }
+/* On the homepage the title is sized against the column it lands in, the
+   argument TYPOGRAPHY.md makes for the hero's inset ramp: under 768 the
+   grid is one column and the card runs the full width of a phone, where
+   24 sat on a 16px list the way the other card titles did before #219,
+   so it takes the same 28 they do; from 768 the grid is two columns and
+   from 1024 four, and 24 is what four titles beside each other can carry
+   (34 put the fourth title on four lines at 1280, 28 put two of them on
+   three at 1024). The seam is the grid's own breakpoint, not a second
+   curve. The design system page shows the card at its flat 24. */
+.home .engagement-card h3 { font-size: var(--text-3xl); }
+@media (min-width: 768px) { .home .engagement-card h3 { font-size: var(--text-2xl); } }
 /* What the engagement gets you. The card sells the change; the page's
    "What you leave with" list itemizes the deliverables. A list rather
    than prose because the job here is comparing four options, and the

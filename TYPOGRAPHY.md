@@ -290,7 +290,10 @@ ramp is unchanged from the point it passes its new floor on its own, at
 about 664px and 752px. Each `h2` sits directly on an 18px dek, and at 28
 the heading read as the dek's first line; the card titles had the same
 problem one level down, at 24 on a 16px description. The engagement cards'
-`h3`s are flat 24 at every width by their own rule and keep it.
+`h3`s are flat rather than ramped, 24 in the grid, and under 768px, where the
+grid is one column and the card runs the full width of a phone, they take 28
+by a media query at the grid's own breakpoint: sized against the column
+they land in, the argument the inset ramp makes.
 The 34 ties the hero `h1`'s floor, which the paragraph above argues against
 for the ladder in general; the homepage carries it because its `h1` is alone
 in the hero, three screens above the first `h2`, with display leading and
