@@ -104,10 +104,28 @@
   <link rel="stylesheet" href="../color.css?v=6" />
   <link rel="stylesheet" href="../shell.css?v=3" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20260918n" />
+  <link rel="stylesheet" href="../style.css?v=20260918o" />
   <link rel="stylesheet" href="../site-nav.css?v=20260918b" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=25" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=26" />
   <link rel="stylesheet" href="../read-aloud.css?v=2" />
+  <!-- EMBED MODE, and why it is a flag on this page rather than a page of
+       its own. The homepage's prototype card opens the cockpit in a tablet
+       over the page, and what stands in that tablet has to be the cockpit
+       and nothing else -- no site nav, no hero, no chapters, nothing to
+       navigate away into from inside a frame with no address bar. The
+       alternative was a second, bare HTML file, which would have been a
+       second copy of the cockpit's markup to keep in step, a twenty-ninth
+       page for the sitemap and the checks to account for, and a public URL
+       with no way back to the site. This is the same page with its chrome
+       off: one copy, one address, one thing to keep true.
+
+       Set here rather than in a deferred script, so the page never paints
+       its own nav and hero and then takes them away. dispatch-cockpit.css
+       carries the rules; the attribute is data-embed and not an is- class
+       because scripts/states.mjs reads any .is-* as a state to force, and a
+       check that forced this one would measure the cockpit with the whole
+       page hidden and call that the page. -->
+  <script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.setAttribute('data-embed', '');</script>
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page", the same control the twenty-three prose pages
        carry. What it reads here is the writing around the prototype and not

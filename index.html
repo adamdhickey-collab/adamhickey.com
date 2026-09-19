@@ -120,11 +120,11 @@
   <link rel="stylesheet" href="color.css?v=6" />
   <link rel="stylesheet" href="shell.css?v=3" />
   <link rel="stylesheet" href="type.css?v=5" />
-  <link rel="stylesheet" href="style.css?v=20260918n" />
+  <link rel="stylesheet" href="style.css?v=20260918o" />
   <link rel="stylesheet" href="site-nav.css?v=20260918b" />
-  <link rel="stylesheet" href="app-phone.css?v=2" />
+  <link rel="stylesheet" href="app-device.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
-  <script src="app-phone.js?v=1" defer></script>
+  <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -572,11 +572,35 @@
                says what it is, in the section's own voice, so the card cannot
                be mistaken for an account of delivered work. Excluded from the
                hero morph in setupCaseMorph -- the prototype page has no
-               case-hero to morph into. -->
-          <a class="case-card case-card--prototype reveal" href="prototype/dispatch-cockpit.html" aria-label="Open the prototype: An AI truck recommendation the dispatcher can check and overrule">
-            <div class="case-thumb">
+               case-hero to morph into.
+
+               TWO ACTIONS, AND SO NOT A CARD-SHAPED LINK. The three cards
+               above go one place each and are one anchor each, which is
+               right for them. This one is the only piece of work on the page
+               a reader can operate, and the card that already offers a live
+               thing -- Lucy Learns, in Built end to end -- offers it the same
+               way: the write-up leading, the thing itself beside it, opened
+               in the device it was built for rather than dropped into a
+               desktop window. So the wrapper is a div and the two links are
+               .product-link, the pair that pattern already uses.
+
+               "Read the case study" and not "How I built it", which is what
+               the Lucy card says. The page behind this one is not an account
+               of a build; it is four decisions about how much of an AI's
+               reasoning a dispatcher has to be able to see, argued at
+               length. The three cards above call their pages case studies
+               and this is the fourth.
+
+               The quiet link points at #try-it, the section of the write-up
+               that HOLDS the cockpit, and app-device.js loads ?embed into
+               the tablet instead. A reader under 768px, or with the script
+               gone, lands on the cockpit in its own page, with the nav and
+               the argument still around it. Nobody is ever sent to the bare
+               embed. -->
+          <div class="case-card case-card--prototype reveal">
+            <a class="case-thumb" href="prototype/dispatch-cockpit.html" aria-label="Read the case study: An AI truck recommendation the dispatcher can check and overrule">
               <img decoding="async" loading="lazy" src="img/cockpit/slide-close-call.webp?v=5" alt="The cockpit on a close call: a card headed &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, a line saying the system is not ranking one over the other, and a comparison beneath it with Option A, T-131, against Option B, T-118. The two rows that separate them, distance to pickup and hours of service left, are raised on white and marked &ldquo;the tradeoff&rdquo;." width="1360" height="1020"/>
-            </div>
+            </a>
             <div class="case-card-body">
               <h3>An AI truck recommendation the dispatcher can check and overrule</h3>
               <p class="case-desc">An independent prototype, not client work: the dispatch problem above, taken into the next era. The AI names a truck and shows the factors, the tradeoffs and its record on similar loads; the dispatcher keeps the last word. Fictional data. Try it in about ninety seconds, with a mouse or keyboard.</p>
@@ -585,9 +609,12 @@
                 <span class="tag">Freight dispatch</span>
                 <span class="tag">Synthetic data</span>
               </div>
-              <span class="case-go" aria-hidden="true">Open the prototype<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+              <p class="product-actions">
+                <a class="product-link" href="prototype/dispatch-cockpit.html">Read the case study</a>
+                <a class="product-link product-link-quiet" href="prototype/dispatch-cockpit.html#try-it" data-app-tablet="The dispatch cockpit, the working prototype" data-app-src="prototype/dispatch-cockpit.html?embed=1">Open the prototype</a>
+              </p>
             </div>
-          </a>
+          </div>
         </div>
 
       </div>
@@ -2386,6 +2413,6 @@
       sync();
     })();
   </script>
-  <script src="cursor.js?v=20260918a" defer></script>
+  <script src="cursor.js?v=20260918b" defer></script>
 </body>
 </html>

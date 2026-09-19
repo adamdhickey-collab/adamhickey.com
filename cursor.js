@@ -44,9 +44,18 @@
      document rather than bound per element, so markup rendered later still
      picks it up. Deliberately excludes .strength-card: those ten cards link
      nowhere, and a cursor that swells over them promises a click that does
-     not exist. */
+     not exist.
+
+     .case-card was named here until 2026-09-18, and every card was an anchor
+     the whole time, so the name did nothing that `a` was not already doing.
+     Then the prototype card became a div with two links in it, and the name
+     started doing the thing the .strength-card note warns against: swelling
+     the cursor over a card whose empty half is not a click. Dropped rather
+     than narrowed to a.case-card, which would have been the same redundancy
+     written more carefully. The two links inside it are anchors and are
+     covered by the first entry in this list. */
   var INTERACTIVE = 'a, button, summary, input, select, textarea, label,' +
-                    '[role="button"], [onclick], .case-card';
+                    '[role="button"], [onclick]';
   /* The cursor is charcoal, so it disappears on any dark surface. Listing
      the dark ones by class does not hold: an audit of every element whose
      computed background is under 0.18 luminance found the footer, the
