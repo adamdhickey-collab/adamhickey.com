@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:title" content="An AI truck recommendation the dispatcher can check and overrule | Adam Hickey" />
   <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=8" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=9" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +38,7 @@
           "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach.",
           "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
-          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=8",
+          "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=9",
           "datePublished": "2026-09-10",
           "dateModified": "2026-09-19",
           "author": {
@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20260919a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260918b" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=26" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=27" />
   <link rel="stylesheet" href="../read-aloud.css?v=2" />
   <!-- EMBED MODE, and why it is a flag on this page rather than a page of
        its own. The homepage's prototype card opens the cockpit in a tablet
@@ -139,7 +139,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=12" defer></script>
+  <script src="dispatch-cockpit.js?v=13" defer></script>
   <!-- The slideshow over the cockpit. Its own file and its own listener set,
        because the scroller has to keep working when the cockpit does not. -->
   <script src="cockpit-slides.js?v=2" defer></script>
@@ -273,16 +273,19 @@
          it. The crop is the close call, because that state is the argument in
          one frame: the system comparing rather than inventing a winner.
 
-         The project note stays visible and does not go behind a disclosure.
+         The project facts stay visible and do not go behind a disclosure.
          Everything the page claims rests on a reader knowing this was not
-         shipped, was not tested and is not wired to a model. -->
+         shipped, was not tested and is not wired to a model. Since 2026-09-19
+         they are six facts under the pair rather than two paragraphs of
+         caveat, because a page that opens on its limits is apologising
+         before it has said what it is. -->
     <header class="case-hero ckw-hero">
       <div class="container">
         <div class="ckw-hero-grid">
           <div class="ckw-hero-copy">
             <p class="case-kicker">Human&ndash;AI interaction &middot; working prototype &middot; synthetic data</p>
             <h1 class="case-title ckw-hero-title">An AI truck recommendation the dispatcher can check and overrule</h1>
-            <p class="ckw-hero-dek">A truck recommendation is only useful when a dispatcher can judge it. This prototype puts the reasons, the outcome record and the whole fleet beside the recommendation, and leaves the call with the person doing the work.</p>
+            <p class="ckw-hero-dek">A recommendation is only useful if the dispatcher can judge it. This one shows the factors behind the pick, flags the calls that deserve a second look, holds the rules it cannot bend, and lets the dispatcher choose differently in one press.</p>
             <!-- The Listen control goes under this row rather than under the
                  dek, which is where read-aloud.js puts it unasked: the dek and
                  the two actions are one thought, and a third row of control
@@ -292,29 +295,68 @@
                  and a voice reading the page should not read its navigation
                  out between the dek and the first heading. -->
             <p class="ckw-hero-act" data-read-aloud="skip after">
-              <a class="btn btn-primary ckw-hero-btn" href="#the-cockpit">See the four scenarios</a>
-              <a class="ckw-hero-link" href="#the-decisions">See the design decisions &rarr;</a>
+              <a class="btn btn-primary ckw-hero-btn" href="#try-it">Try the prototype</a>
+              <a class="ckw-hero-link" href="#the-decisions">How it was designed &rarr;</a>
             </p>
           </div>
           <figure class="ckw-hero-figure">
             <div class="ckw-scroll">
-              <img src="../img/cockpit/close-call.webp?v=4" width="1736" height="1764" alt="The cockpit showing a close call: a heading reading &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, and under it a comparison table with Option A and Option B as its two columns. The two rows that separate them, distance and driver hours, are raised on white and marked &ldquo;the tradeoff&rdquo;; the remaining factors follow, then a derived row giving the time each would reach the pickup, then an Assign button under each option." />
+              <img src="../img/cockpit/close-call.webp?v=5" width="1736" height="2062" alt="The cockpit showing a close call: a heading reading &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, under it a note in the caution color that T-131&rsquo;s hours are 42 minutes old, and then a comparison table with Option A and Option B as its two columns. The two rows that separate them, distance and driver hours, are raised on white and marked &ldquo;the tradeoff&rdquo;; the remaining factors follow, then a derived row giving the time each would reach the pickup, then an Assign button under each option." />
             </div>
-            <figcaption><strong>When the choice is close, show the tradeoff.</strong> One comparison rather than two cards: the two rows that actually separate the trucks sort to the top, and the system helps the dispatcher compare rather than pretending there is an obvious winner.</figcaption>
+            <figcaption><strong>When the call is close, the system says so.</strong> One comparison, the two rows that separate the trucks first, the one figure it cannot vouch for marked, and no invented winner.</figcaption>
           </figure>
         </div>
-        <!-- Under the pair rather than inside the copy column. It is a note
-             about the whole page, not about the paragraph it used to sit
-             under, and as a tall card in one column it ran the copy 300px
-             past the picture and left the hero with a hole in its bottom
-             corner. Two paragraphs abreast make it wide and short, which is
-             the shape of a footnote and the shape that closes the hero. -->
-        <div class="ck-disclosure ckw-hero-note">
-          <p><strong>Self-directed, on invented data, and never tested with a dispatcher.</strong> The interface works. The ranking is computed on the page by a weighted rule over the factors it shows, not by a model, and no dispatch system is connected. The fleet, customer, drivers, loads and outcome records are invented; the towns are real.</p>
-          <p>Informed by the dispatch cockpit I led at RBA for Midwest Couriers, a fleet of more than 450 trucks, but a separate exploration rather than a reproduction.</p>
-        </div>
+        <!-- Under the pair rather than inside the copy column: it is about the
+             whole page, and as a column it left the hero with a hole in its
+             bottom corner. The six answers a hiring reader wants first, in
+             the case studies' metadata treatment. -->
+        <dl class="build-facts ckw-facts">
+          <div><dt>Problem</dt><dd>A recommendation the dispatcher has to verify every time saves almost no attention.</dd></div>
+          <div><dt>Hypothesis</dt><dd>Show the reasons, the exceptions and the hard limits, and checking becomes selective.</dd></div>
+          <div><dt>My role</dt><dd>Product strategy, interaction design, visual design, prototyping and the front-end build.</dd></div>
+          <div><dt>Artifact</dt><dd>A working browser prototype. No model behind it: the ranking is a weighted rule over the factors on screen.</dd></div>
+          <div><dt>Context</dt><dd>Self-directed, on synthetic data, informed by the dispatch cockpit I led at RBA for a fleet of more than 450 trucks.</dd></div>
+          <div><dt>Next</dt><dd>Put it in front of working dispatchers.</dd></div>
+        </dl>
+        <p class="ckw-facts-note">Not a reproduction of that product, and not yet tested with a dispatcher. The fleet, customer, drivers, loads and outcome records are invented; the towns are real.</p>
       </div>
     </header>
+
+    <!-- THE PROBLEM, first. Until 2026-09-19 this sat under the prototype,
+         which meant a reader met the interface before the sentence saying
+         what it was for. The drawing is the one thing on the page that is not
+         a capture, and it is here because this is the one thing the interface
+         cannot show: the room the interface is used in. Everything below this
+         section is the product itself. -->
+    <section class="case-section build-chapter ground-tea" id="the-problem">
+      <div class="container">
+        <div class="case-narrow">
+          <div class="writing-measure">
+            <h2>The hard part is knowing what needs a second look</h2>
+            <p>A dispatcher at a fleet of 450 trucks has a load to place, seven trucks that could take it, and half of what matters arriving from outside the screen. A ranking that is right 95 times in 100 still gets checked 100 times if the dispatcher cannot tell which five to worry about. Recommending the truck solves half the problem and leaves the expensive half standing.</p>
+            <!-- The writing family's pull, standing on its own between two
+                 rules. Not aria-hidden, unlike an article's, because here it
+                 is the line rather than a repeat of one. -->
+            <div class="writing-pull"><p>Information is not what is scarce. Attention is.</p></div>
+          </div>
+        </div>
+        <figure class="ckw-scene">
+          <img src="../img/cockpit/dispatcher-attention.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="An illustration of a dispatcher at a desk with three monitors, a desk phone and a stack of delivery paperwork, considering a load board, a recommendation panel and a route map." />
+          <figcaption>A recommendation lands in work already under way, beside three screens, a phone, a stack of paper and information the system will never be given.</figcaption>
+        </figure>
+        <div class="case-narrow">
+        <p class="ckw-question"><span class="ckw-question-label">The design question</span> Can the interface help someone check the right things without rebuilding the whole decision themselves?</p>
+        <div class="writing-measure">
+          <details class="ckw-more">
+            <summary>Assumptions behind the prototype</summary>
+            <div class="ckw-more-body">
+              <p>Assumptions, not observations: about four seconds to weigh five factors against seven trucks, forty times an hour, while the phone rings. They set the size of the card and the number of factors on it, and the first session with a dispatcher is as likely to move them as to confirm them. The hypothesis is not less checking but better-aimed checking, and the research on explanations is unsettled enough that an interface can only pose the question well.</p>
+            </div>
+          </details>
+        </div>
+        </div>
+      </div>
+    </section>
 
     <!-- THE SCREENS, before the thing itself. Until 2026-09-11 this section
          opened with the working cockpit and a rail of numbered callouts
@@ -324,17 +366,20 @@
          a third of the frame to do it, which left the fleet data table
          clipped -- the one element whose whole argument is that it fits.
 
-         So the page now shows before it explains. Four screens out of the
+         So the page shows before it explains. Four screens out of the
          prototype, in the order the story runs, each with the situation
          over it and one sentence under it, and nothing drawn on top of the
-         interface. The cockpit itself is still here; it is the section
-         below, and it is the same screens with the reader's hands on them. -->
+         interface. Since 2026-09-19 each head names what the SYSTEM does in
+         that scenario as well as what the scenario is, so the four read as
+         one behaviour changing shape rather than as four screenshots. The
+         cockpit itself is the section below: the same screens with the
+         reader's hands on them. -->
     <section class="case-section build-chapter ground-warm" id="the-cockpit">
       <div class="container">
         <div class="case-narrow">
         <div class="writing-measure">
           <h2>Four scenarios, one load</h2>
-          <p>Seven trucks are available and one of them has to take load L&#8209;4821. These are the four scenarios a dispatcher moves through, one card each, captured from the working prototype below rather than drawn. The scenario and what is happening are over each one; what to notice is under it.</p>
+          <p>Seven trucks can take load L&#8209;4821. The system recommends, then reveals uncertainty, then keeps the dispatcher&rsquo;s judgment in charge, then enforces a rule it cannot bend. The interface changes shape each time, because these are different kinds of decision. Captured from the working prototype below, not drawn.</p>
         </div>
         </div>
       </div>
@@ -381,65 +426,65 @@
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-1-h">
               <span class="ck-slide-n" aria-hidden="true">1</span>
-              <span class="ck-slide-sit">Scenario: Clear pick</span>
+              <span class="ck-slide-sit">Recommend &middot; Clear pick</span>
               <span class="ck-slide-title">The system picks a truck and shows its reasons</span>
             </p>
             <figure class="ck-slide-fig">
               <div class="ck-slide-screen">
                 <picture>
-                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-pick-sm.webp?v=5" width="780" height="1640" />
-                  <img src="../img/cockpit/slide-pick.webp?v=6" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;What went into the call&rdquo; for truck T-118, now at Owatonna, with a line reading &ldquo;At pickup by 2:26 pm, in the window, 34 min of room&rdquo;, then five factors with their values: distance to pickup 38 miles, helps; hours of service left 8.4, helps; equipment dry van, meets; on time with Northfield Foods 11 of 12, neutral; deadhead 12 miles, helps. A key explains the bars, and an Assign T-118 button sits at the bottom." />
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-pick-sm.webp?v=6" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-pick.webp?v=7" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;What went into the call&rdquo; for truck T-118, now at Owatonna, with a line reading &ldquo;At pickup by 2:26 pm, in the window, 34 min of room&rdquo;, then five factors with their values: distance to pickup 38 miles, from a GPS fix 2 minutes ago, helps; hours of service left 8.4, from the ELD 6 minutes ago, helps; equipment dry van, meets; on time with Northfield Foods 11 of 12 in the last 90 days, neutral; deadhead 12 miles, helps. A key explains the bars, and an Assign T-118 button sits at the bottom." />
                 </picture>
               </div>
-              <figcaption>No score to trust, five facts to check, each with its value, its verdict and a bar against the fleet. Above them, the line the ranking does not weigh: when the truck would arrive.</figcaption>
+              <figcaption>No score to trust: five facts, each with its value, its verdict, where it came from and a bar against the fleet. Above them, when the truck would arrive.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-2-h">
               <span class="ck-slide-n" aria-hidden="true">2</span>
-              <span class="ck-slide-sit">Scenario: Close call</span>
-              <span class="ck-slide-title">Two trucks are level, and the comparison says where they differ</span>
+              <span class="ck-slide-sit">Reveal uncertainty &middot; Close call</span>
+              <span class="ck-slide-title">Two trucks are level, and one figure is stale</span>
             </p>
             <figure class="ck-slide-fig">
               <div class="ck-slide-screen">
                 <picture>
-                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-close-call-sm.webp?v=4" width="780" height="1640" />
-                  <img src="../img/cockpit/slide-close-call.webp?v=5" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, with a line saying the system is not ranking one over the other, and under it a comparison table: Option A is T-131, Priya Nair, and Option B is T-118, Marisol Vega, with distance and driver hours as the first two rows, each marked &ldquo;the tradeoff&rdquo;." />
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-close-call-sm.webp?v=5" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-close-call.webp?v=6" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;T-131 and T-118 are level. The tradeoff is faster pickup against more driver hours&rdquo;, with a line saying the system is not ranking one over the other, then a note in the caution color reading &ldquo;T-131&rsquo;s hours are 42 minutes old&rdquo; with the margin spelled out, and under it a comparison table: Option A is T-131, Priya Nair, and Option B is T-118, Marisol Vega, with distance and driver hours as the first two rows, each marked &ldquo;the tradeoff&rdquo;." />
                 </picture>
               </div>
-              <figcaption>T&#8209;131 is closer; T&#8209;118 has more driver hours. The two rows that separate them come first and say so, and both options get their own Assign button. Neither counts as overriding.</figcaption>
+              <figcaption>T&#8209;131 is closer; T&#8209;118 has more driver hours. The two rows that separate them come first, T&#8209;131&rsquo;s hours figure is marked as 42 minutes old, and neither Assign counts as overriding.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-3-h">
               <span class="ck-slide-n" aria-hidden="true">3</span>
-              <span class="ck-slide-sit">Scenario: Dispatcher overrides</span>
+              <span class="ck-slide-sit">Preserve judgment &middot; Dispatcher overrides</span>
               <span class="ck-slide-title">The dispatcher picks a different truck</span>
             </p>
             <figure class="ck-slide-fig">
               <div class="ck-slide-screen">
                 <picture>
-                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-override-sm.webp?v=6" width="780" height="1640" />
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-override-sm.webp?v=7" width="780" height="1640" />
                   <img src="../img/cockpit/slide-override.webp?v=7" width="1360" height="1020" loading="lazy" decoding="async" alt="A card headed &ldquo;You assigned T-114, ranked 3rd. Why? Optional.&rdquo; with four reasons to choose from, a free-text box reading &ldquo;In your words, if you like&rdquo;, a paragraph headed &ldquo;What happens with this&rdquo;, and two buttons: Save the reason, and Skip." />
                 </picture>
               </div>
-              <figcaption>T&#8209;114 was ranked third. Assigning it took one press and nothing argued back. The question comes afterwards, is optional, and Skip is as easy as Save.</figcaption>
+              <figcaption>T&#8209;114 was ranked third. Assigning it took one press and nothing argued back. The question comes afterwards, and Skip is as easy as Save.</figcaption>
             </figure>
           </li>
           <li class="ck-slide">
             <p class="ck-slide-head" id="ck-slide-4-h">
               <span class="ck-slide-n" aria-hidden="true">4</span>
-              <span class="ck-slide-sit">Scenario: Blocked by a rule</span>
+              <span class="ck-slide-sit">Enforce the rule &middot; Blocked by a rule</span>
               <span class="ck-slide-title">The best truck cannot legally go</span>
             </p>
             <figure class="ck-slide-fig">
               <div class="ck-slide-screen">
                 <picture>
-                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-rule-sm.webp?v=4" width="780" height="1640" />
-                  <img src="../img/cockpit/slide-rule.webp?v=5" width="1360" height="1020" loading="lazy" decoding="async" alt="A caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score. Otherwise it would rank first&rdquo;, and under it the recommendation for T-118, Marisol Vega, with the top of its factor card." />
+                  <source media="(max-width: 47.99rem)" srcset="../img/cockpit/slide-rule-sm.webp?v=5" width="780" height="1640" />
+                  <img src="../img/cockpit/slide-rule.webp?v=6" width="1360" height="1020" loading="lazy" decoding="async" alt="A caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score. Otherwise it would rank first&rdquo;, and under it the recommendation for T-118, Marisol Vega, with the top of its factor card." />
                 </picture>
               </div>
-              <figcaption>T&#8209;114 wins on every measure, but its driver has 3.2 hours left and the run needs 5.5. A legal limit, not a low score, so it sits above the recommendation in the one caution color.</figcaption>
+              <figcaption>T&#8209;114 wins on every measure, but its driver has 3.2 hours left and the run needs 5.5. A legal limit, not a low score.</figcaption>
             </figure>
           </li>
         </ol>
@@ -453,10 +498,10 @@
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <div class="ck-show-dots">
-            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 4. Scenario: Clear pick. The system picks a truck and shows its reasons"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 4. Scenario: Close call. Two trucks are level, and the comparison says where they differ"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 4. Scenario: Dispatcher overrides. The dispatcher picks a different truck"><span class="ck-show-dot-mark"></span></button>
-            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 4. Scenario: Blocked by a rule. The best truck cannot legally go"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="0" aria-controls="ck-slides" aria-label="Screen 1 of 4. Recommend, clear pick. The system picks a truck and shows its reasons"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="1" aria-controls="ck-slides" aria-label="Screen 2 of 4. Reveal uncertainty, close call. Two trucks are level, and one figure is stale"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="2" aria-controls="ck-slides" aria-label="Screen 3 of 4. Preserve judgment, dispatcher overrides. The dispatcher picks a different truck"><span class="ck-show-dot-mark"></span></button>
+            <button type="button" class="ck-show-dot" data-go="3" aria-controls="ck-slides" aria-label="Screen 4 of 4. Enforce the rule, blocked by a rule. The best truck cannot legally go"><span class="ck-show-dot-mark"></span></button>
           </div>
           <button type="button" class="ck-show-nav" data-dir="1" aria-controls="ck-slides" aria-label="Next screen">
             <svg class="ck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
@@ -472,13 +517,33 @@
          What it keeps from the version before 2026-09-11 is everything a
          reader can operate; what it loses is the rail that used to explain it
          from the side. The situation now sits over the screen the way it does
-         on a slide above, and the screen has the whole frame. -->
+         on a slide above, and the screen has the whole frame. The two lists
+         over it are the page's shortest orientation and its colophon: what
+         to do, and what this is. -->
     <section class="case-section build-chapter ground-white" id="try-it">
       <div class="container">
         <div class="case-narrow">
         <div class="writing-measure">
-          <h2>Try it yourself</h2>
-          <p>The same four scenarios, with your hands on them. Assign the recommended truck, or any other that can legally take the load; sort any column; open any truck for the rest of its figures; run the fleet comfortable or compact. Each scenario lists two or three things worth trying and ticks them off as you do them. Everything works from the keyboard: arrow keys move between scenarios, Tab reaches every control, and what changes is announced.</p>
+          <h2>Try the 90-second prototype</h2>
+          <p>The same four scenarios, with your hands on them.</p>
+        </div>
+        <div class="ckw-try-grid">
+          <div>
+            <p class="ck-label">Three things to try</p>
+            <ol class="build-list">
+              <li>Read the five factors behind T&#8209;118, then open the two late deliveries.</li>
+              <li>Switch to the close call and find the stale figure.</li>
+              <li>Assign a truck the system did not pick, then try the one a rule blocks.</li>
+            </ol>
+          </div>
+          <div>
+            <p class="ck-label">What this is</p>
+            <ul class="build-list">
+              <li>Designed and built by me: plain HTML, CSS and JavaScript, no framework, no build step.</li>
+              <li>Responsive and keyboard accessible, with changes announced. At 390px the fleet refolds rather than scrolling sideways.</li>
+              <li>Synthetic data and a transparent weighted rule, not a model. Source: <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, the fleet as one object at the top.</li>
+            </ul>
+          </div>
         </div>
         </div>
       </div>
@@ -568,122 +633,92 @@
             </div>
           </div>
           <noscript>
-            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four screens above are captures of it running, the four decisions below describe what it does, and the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
+            <p>The cockpit is built in JavaScript and it is switched off here, so the panel above is empty. The four screens above are captures of it running, the five decisions below describe what it does, and the source is <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, with the fleet as a plain object at the top.</p>
           </noscript>
         </div>
       </div>
     </section>
 
-    <!-- THE PROBLEM, as a pause rather than a chapter. What the reader needs
-         before the four decisions is one sentence about where the difficulty
-         actually is, and the numbers the prototype assumed are not that
-         sentence: they are assumptions, they are mine, and a reader who meets
-         them in the main path will reasonably take them for findings. They sit
-         in a disclosure that says which they are. -->
-    <section class="case-section build-chapter ground-tea" id="the-problem">
-      <div class="container">
-        <div class="case-narrow">
-          <div class="writing-measure">
-            <h2>The hard part is knowing what needs a second look</h2>
-            <p>A dispatcher at a fleet of 450 trucks has a load to place, seven trucks that could take it, and half the information arriving from outside the screen. Information is not what is scarce. Attention is.</p>
-            <p>A ranking that is right 95 times in 100 still gets checked 100 times if the dispatcher cannot tell which five to worry about. So recommending the truck solves half the problem and leaves the expensive half standing.</p>
-          </div>
-        </div>
-        <!-- The one drawing on the page that is not a capture, and it is here
-             because this is the one thing the interface cannot show: the room
-             the interface is used in. Everything below this section is the
-             product itself. -->
-        <figure class="ckw-scene">
-          <img src="../img/cockpit/dispatcher-attention.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="An illustration of a dispatcher at a desk with three monitors, a desk phone and a stack of delivery paperwork, considering a load board, a recommendation panel and a route map." />
-          <figcaption>A recommendation arrives into work already under way, beside three screens, a phone and a stack of paper &mdash; and beside information the system will never be given.</figcaption>
-        </figure>
-        <div class="case-narrow">
-        <p class="ckw-question"><span class="ckw-question-label">The design question</span> Can the interface help someone check the right things without rebuilding the whole decision themselves?</p>
-        <div class="writing-measure">
-          <details class="ckw-more">
-            <summary>Assumptions behind the prototype</summary>
-            <div class="ckw-more-body">
-              <p>These are assumptions, not observations. Nobody was timed and nothing here was measured: about four seconds to weigh five factors against seven trucks, forty times an hour, while the phone rings. They set the size of the card and the number of factors on it, and the first session with a dispatcher is as likely to move them as to confirm them.</p>
-              <p>The hypothesis they support is specific: dispatchers spend less time reconstructing a recommendation when its reasons, its limits and the shape of its past failures are easy to inspect. Not less checking; better-aimed checking. Whether explanations deliver that is unsettled in the research, which has seen them help where they cut the effort of checking and hurt where they added to it. An interface can pose the question well. It cannot answer it alone.</p>
-            </div>
-          </details>
-          <p>I make the same argument in writing: <a href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>. The cockpit above is that argument as an interface.</p>
-        </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOUR DECISIONS, each beside the thing it decided. Until #78 each of
+    <!-- FIVE DECISIONS, each beside the thing it decided. Until #78 each of
          these ended with a line naming where on the screen to go and look,
          which asked the reader to hold a paragraph in their head and scroll
          three sections up to check it. The captures are of the running
          prototype, made by scripts/cockpit-shots.mjs, so the picture and the
          demo above cannot drift apart.
 
-         The deeper argument for each is behind a disclosure, and the
-         qualifications that a reader is OWED are not: what the factor
-         comparison is not, that the outcome history is invented, and that
-         Assign here stages a choice Undo reverses. Those stay in the open. -->
-    <section class="case-section build-chapter ground-white" id="the-decisions">
+         Five since 2026-09-19, when the distinction between a close call and
+         a rule -- until then spread across three of the four -- got a
+         decision of its own, because it is the strongest thing the
+         prototype has to say and it was the one thing a reader could not
+         find under a heading. The deeper argument for each is behind a
+         disclosure, and the qualifications a reader is OWED are not: what
+         the factor comparison is not, that the outcome history is invented,
+         and that Assign here stages a choice Undo reverses. -->
+    <section class="case-section build-chapter ground-warm" id="the-decisions">
       <div class="container">
         <div class="case-narrow">
           <div class="writing-measure">
-            <h2>Four decisions, and what each one looks like</h2>
+            <h2>Five decisions, and what each one looks like</h2>
           </div>
         </div>
 
         <ol class="ck-decisions">
           <li class="ckw-decision">
             <div class="ckw-decision-copy">
-              <h3>Show why this truck fits</h3>
-              <p class="ckw-lead">The selection factors sit beside the recommendation, each with its value, its verdict and where it stands against the rest of the fleet available for this load, with a key to the bars beside them rather than folded away under them. Above the list, one derived line: the time this truck would reach the pickup, and how much room that leaves before the window shuts. The dispatcher checks the advice against the trucks instead of reconstructing the reasoning from scratch.</p>
+              <h3>Show the reasons, not a score</h3>
+              <p class="ckw-lead">Five factors, each with its value, its verdict, where it came from and where it stands against the fleet. A score is the one number that cannot be checked against anything; five figures can be argued with. Above them, one derived line: when this truck would reach the pickup, and how much room that leaves.</p>
               <details class="ckw-more">
                 <summary>Why I designed it this way</summary>
                 <div class="ckw-more-body">
-                  <p>A ranking is a summary of reasons. Hide them and the dispatcher has to rebuild them to check the ranking, which is more work than ranking by hand.</p>
-                  <p>The one line on the card that is not a factor is the time the truck would reach the pickup, and it is marked as derived wherever it appears &mdash; on the card, in the comparison, and as a column in the fleet. It is figured from the miles the ranking already weighs, at a stated average speed, against a clock printed on the load. It moves no ranking, and it blocks nothing: a truck that would arrive after the window shuts is a judgment for the dispatcher, who can call the dock, where a driver out of hours is a law. Keeping those in different channels is what lets the rule keep its own color.</p>
-                  <p>It is here because the screen had every number needed to answer the dispatcher&rsquo;s actual question &mdash; miles in one column, a window in a sentence two cards up &mdash; and left the arithmetic to the person, forty times an hour, while the phone rings. That is the attention problem this page opens with, being committed by the page&rsquo;s own prototype.</p>
-                  <p>The card is careful about what the comparison is <em>not</em>. Ahead of the fleet on a factor is not the same as that factor having decided the call, and the note under the list says so. There is no composite score, because a score is the one number that cannot be checked against anything: it hides the five figures a dispatcher could actually argue with behind one they cannot.</p>
+                  <p>A ranking is a summary of reasons. Hide them and the dispatcher has to rebuild them to check the ranking, which is more work than ranking by hand. The arrival time is figured from the miles the ranking already weighs, at a stated speed, against a clock printed on the load, and it is marked as derived wherever it appears: the screen had every number needed to answer the dispatcher&rsquo;s actual question and was leaving the arithmetic to the person. Ahead of the fleet on a factor is not the same as that factor having decided the call, and the note under the list says so.</p>
                 </div>
               </details>
             </div>
             <figure class="ckw-shot">
               <div class="ckw-scroll">
-                <img src="../img/cockpit/factors.webp?v=4" width="1244" height="1414" loading="lazy" decoding="async" alt="The recommendation card for truck T-118, headed &ldquo;What went into the call&rdquo;. Under the truck and its location, a line reads &ldquo;At pickup by 2:26 pm, in the window, 34 min of room&rdquo;. Then five factors with their values and whether each helps, meets or is neutral, each over a bar showing where the truck sits against the fleet, then a key to the bars, a note about what the comparison is not, and an Assign button." />
+                <img src="../img/cockpit/factors.webp?v=5" width="1244" height="1532" loading="lazy" decoding="async" alt="The recommendation card for truck T-118, headed &ldquo;What went into the call&rdquo;. Under the truck and its location, a line reads &ldquo;At pickup by 2:26 pm, in the window, 34 min of room&rdquo;. Then five factors with their values and whether each helps, meets or is neutral, three of them with a small line under the name saying where the figure came from and how long ago, each over a bar showing where the truck sits against the fleet, then a key to the bars, a note about what the comparison is not, and an Assign button." />
               </div>
-              <figcaption>What the system weighed, which way each one cut, and the one derived line the ranking does not weigh. The same five columns are in the data table, so the comparison can be made against any other truck.</figcaption>
+              <figcaption>What the system weighed, which way each cut, when each figure was last true, and the one derived line the ranking does not weigh. The same five columns are in the data table.</figcaption>
             </figure>
           </li>
 
           <li class="ckw-decision">
             <div class="ckw-decision-copy">
-              <h3>Make the exceptions easy to inspect</h3>
-              <p class="ckw-lead">A record of on-time deliveries is useful context. The exceptions are more useful: they say what went differently, and what might deserve a look on this load. So the misses open in place, each with what to watch for.</p>
+              <h3>Treat a close call and a rule as different things</h3>
+              <p class="ckw-lead">A close ranking is a judgment. A driver without the hours is a law. The two never share a channel: the close call names the tradeoff and declines to pick; the rule removes the truck before any score is figured, keeps its row, and takes the one caution color on the screen. A truck that would arrive after the window is a third thing, a reading the dispatcher can act on by calling the dock.</p>
               <details class="ckw-more">
-                <summary>Why I designed it this way</summary>
+                <summary>When the figure itself cannot be trusted</summary>
                 <div class="ckw-more-body">
-                  <p>&ldquo;87% confident&rdquo; is a claim about the system. &ldquo;On time on 38 of the last 40 loads like this one&rdquo; is a claim about loads, which a dispatcher can set beside the load in front of them.</p>
-                  <p>Read either for what it is: an on-time delivery does not prove the system picked the best truck, and a late one does not prove it picked the wrong one. That is why the two late loads carry what differed rather than a tally. If the misses have a shape, the dispatcher learns the shape, and that is the moment checking becomes selective instead of universal.</p>
+                  <p>Operational data has an age. In the close call, T&#8209;131&rsquo;s hours figure is 42 minutes old against 18 minutes of margin, and the card says so, with the arithmetic and what to check. The ranking does not move and the row keeps its Assign; what changes is what the dispatcher does before pressing it. The same figure on a truck ranked first alone should hold the recommendation until the next update. A system that knows its evidence is thin should say so rather than pick.</p>
                 </div>
               </details>
             </div>
-            <figure class="ckw-shot">
-              <div class="ckw-scroll">
-                <img src="../img/cockpit/outcomes.webp?v=4" width="1244" height="1024" loading="lazy" decoding="async" alt="The Outcomes on similar loads card, expanded: 38 of the last 40 on time, a note that the history is illustrative, and the two late deliveries listed with what differed and what to watch for on each." />
-              </div>
-              <figcaption><span class="ckw-cap-label">Illustrative outcome data.</span> The summary gives the context; the exceptions say what to check. One of the two misses was not a ranking error at all, and says so.</figcaption>
+            <figure class="ckw-shot ckw-shot--wide">
+              <ol class="ckw-frames">
+                <li>
+                  <div class="ckw-scroll">
+                    <img src="../img/cockpit/rule.webp?v=1" width="2576" height="394" loading="lazy" decoding="async" alt="A caution-outlined card reading &ldquo;T-114, Sam Bergstrom, can&rsquo;t take this load. Needs 5.5 h, has 3.2 h left. The hours-of-service limit, not a score. Otherwise it would rank first: 9 mi to pickup, 14 of 14 on time with Northfield Foods, 4 mi of deadhead. None of that changes the rule.&rdquo;" />
+                  </div>
+                  <p class="ckw-frame-cap"><span>A rule</span> Removes the truck before scoring, and keeps its row and its reason.</p>
+                </li>
+                <li>
+                  <div class="ckw-scroll">
+                    <img src="../img/cockpit/stale.webp?v=1" width="2480" height="514" loading="lazy" decoding="async" alt="Under the close-call heading, a note on the caution ground with a clock glyph: &ldquo;T-131&rsquo;s hours are 42 minutes old. 5.8 h against a 5.5 h run leaves 18 minutes of margin. The figure is older than the margin. If this is the side you take, check the logbook first.&rdquo;" />
+                  </div>
+                  <p class="ckw-frame-cap"><span>A reading</span> Says what is uncertain, shows its arithmetic, and asks for a check rather than refusing.</p>
+                </li>
+              </ol>
             </figure>
           </li>
 
           <li class="ckw-decision">
             <div class="ckw-decision-copy">
-              <h3>Make changing the choice easy</h3>
-              <p class="ckw-lead">The dispatcher has the phone call the system cannot hear. Choosing another truck is one press on any row the rule allows, with no dialog in the way. The question about why comes after the assignment, and Skip weighs the same as Save.</p>
+              <h3>Make disagreement cheap</h3>
+              <p class="ckw-lead">The dispatcher has the phone call the system cannot hear. Assign sits on every row the rule allows, with no dialog in the way. The question about why comes after, is optional, and Skip weighs the same as Save.</p>
               <details class="ckw-more">
                 <summary>Why I designed it this way</summary>
                 <div class="ckw-more-body">
-                  <p>A confirmation dialog taxes the judgment that is the point. That is a claim about what Assign does <em>here</em>, where it stages a choice Undo reverses; where Assign sends a driver, a confirmation earns its place at that boundary.</p>
-                  <p>A hard requirement is a different thing from a low score. A driver without the hours keeps their row and the reason, and has no Assign to press. And the prompt says in plain words what happens to the answer, because a prompt that does not say is a prompt people learn to skip.</p>
+                  <p>A confirmation dialog taxes the judgment that is the point. That holds <em>here</em>, where Assign stages a choice Undo reverses; where Assign sends a driver, a confirmation earns its place at that boundary. The prompt says in plain words what happens to the answer, because a prompt that does not say is a prompt people learn to skip.</p>
                 </div>
               </details>
             </div>
@@ -697,11 +732,30 @@
                 </li>
                 <li>
                   <div class="ckw-scroll">
-                    <img src="../img/cockpit/override-after.webp?v=6" width="2576" height="1038" loading="lazy" decoding="async" alt="After an override: a status line reading that load L-4821 is assigned to T-114, the truck ranked 3rd, and an optional question below it offering three reasons, a free-text box, a note about what happens with the answer, and Save the reason and Skip buttons." />
+                    <img src="../img/cockpit/override-after.webp?v=7" width="2576" height="1078" loading="lazy" decoding="async" alt="After an override: a status line reading that load L-4821 is assigned to T-114, the truck ranked 3rd, with its pickup time, its room against the window and the driver hours left after the run, and an optional question below it offering three reasons, a free-text box, a note about what happens with the answer, and Save the reason and Skip buttons." />
                   </div>
-                  <p class="ckw-frame-cap"><span>Then</span> The question, afterwards and optional. Undo takes the place of Assign on the row, so the choice is reversible while it is being explained.</p>
+                  <p class="ckw-frame-cap"><span>Then</span> The assignment and what it means: pickup time, room against the window, hours left after the run. The question, afterwards and optional; Undo takes the place of Assign on the row.</p>
                 </li>
               </ol>
+            </figure>
+          </li>
+
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>Show the exceptions, not just the record</h3>
+              <p class="ckw-lead">38 of 40 on time is context. The two that were late are the useful part: what differed, and what to watch for on this load. One of the two was a stale hours figure, which is why the close call checks for one.</p>
+              <details class="ckw-more">
+                <summary>Why I designed it this way</summary>
+                <div class="ckw-more-body">
+                  <p>&ldquo;87% confident&rdquo; is a claim about the system. &ldquo;On time on 38 of the last 40 loads like this one&rdquo; is a claim about loads, which a dispatcher can set beside the load in front of them. An on-time delivery does not prove the system picked the best truck, and a late one does not prove it picked the wrong one. If the misses have a shape, the dispatcher learns the shape, and that is the moment checking becomes selective.</p>
+                </div>
+              </details>
+            </div>
+            <figure class="ckw-shot">
+              <div class="ckw-scroll">
+                <img src="../img/cockpit/outcomes.webp?v=4" width="1244" height="1024" loading="lazy" decoding="async" alt="The Outcomes on similar loads card, expanded: 38 of the last 40 on time, a note that the history is illustrative, and the two late deliveries listed with what differed and what to watch for on each." />
+              </div>
+              <figcaption><span class="ckw-cap-label">Illustrative outcome data.</span> The summary gives the context; the exceptions say what to check. One of the two misses was not a ranking error, and says so.</figcaption>
             </figure>
           </li>
 
@@ -712,9 +766,7 @@
               <details class="ckw-more">
                 <summary>Why I designed it this way</summary>
                 <div class="ckw-more-body">
-                  <p>A truck the system could not rank keeps its row and says why. T-114 below is nine miles from the pickup and wins on almost everything; its driver is short on hours, so it cannot legally take the load. That is a rule, not a bad score, and it reads as one: the row stays, the shortfall is written next to the hours, and the button says it cannot be pressed rather than disappearing.</p>
-                  <p>The table is also the reason this page shows the capture at the width it does. The fleet is 1,200 pixels of interface because the argument it makes is that seven trucks and five factors stay in reach at once; shrunk into a column beside a paragraph, the page would be claiming the table is legible while showing that it is not.</p>
-                  <p>Which is exactly why a phone cannot be given the same table. At 390 pixels the fleet had three columns showing and eight hundred more behind a sideways scroll with no bar on it &mdash; including every figure and every Assign button, on a screen whose own instructions ask you to assign from the table. So a phone gets four columns and the rest folds into the row: rank, truck, when it would reach the pickup, and the button, with the driver, the miles, the hours, the equipment, the record and the deadhead one tap down. Nothing is dropped. In reach has to mean findable, or it is a claim the layout is quietly contradicting.</p>
+                  <p>The fleet is 1,200 pixels of interface because its argument is that seven trucks and five factors stay in reach at once. A phone cannot be given the same table: at 390 pixels it had three columns showing and eight hundred more behind a sideways scroll, including every Assign button. So a phone gets four columns and the rest folds into the row, one tap down. In reach has to mean findable, or the layout is quietly contradicting the claim.</p>
                 </div>
               </details>
             </div>
@@ -722,7 +774,7 @@
               <div class="ckw-scroll">
                 <img src="../img/cockpit/fleet.webp?v=4" width="2576" height="1190" loading="lazy" decoding="async" alt="The whole fleet data table under a heading reading &ldquo;The whole fleet&rdquo; and a Comfortable or Compact row-height switch. Seven trucks ranked, each with distance, the time it would reach the pickup, hours left, equipment, on-time record and deadhead, a chevron beside the truck number that opens the row, and an Assign button. T-207 shows 3:04 pm marked &ldquo;too late&rdquo; and T-166 shows 2:49 pm marked &ldquo;tight&rdquo;. The last row, T-114, is marked Over hours, shows 3.2 hours against 5.5 needed, and its button reads Can&rsquo;t assign." />
               </div>
-              <figcaption>The dispatcher can still work without following the recommendation. Every row opens on its own reasoning, the rows run comfortable or compact, and the one truck the rule removes keeps its row, its numbers and the reason.</figcaption>
+              <figcaption>Every row opens on its own reasoning, the rows run comfortable or compact, and the one truck the rule removes keeps its row, its numbers and the reason.</figcaption>
             </figure>
           </li>
         </ol>
@@ -732,13 +784,15 @@
     <!-- WHAT IS NOT KNOWN, as a plan rather than a list of caveats. The
          comparison is the shape of the study; the three cards are the
          questions under it and what each would change; the callout is the
-         assumption most likely to be wrong. Nothing here has happened. -->
+         assumption most likely to be wrong. Nothing here has happened. The
+         page then closes on what the work is about, rather than on the fact
+         that it is untested. -->
     <section class="case-section build-chapter ground-tea" id="what-next">
       <div class="container">
         <div class="case-narrow">
           <div class="writing-measure">
             <h2>What I need to learn from dispatchers</h2>
-            <p>The prototype demonstrates an interaction approach. It does not establish that the approach improves decisions. This has not been in front of a dispatcher, and the first session would change it.</p>
+            <p>The prototype shows an interaction approach. It does not show that the approach improves decisions. That takes a session with a working dispatcher, and the first one would change it.</p>
           </div>
         </div>
 
@@ -754,21 +808,21 @@
           </div>
         </div>
         <div class="case-narrow"><div class="writing-measure">
-          <p class="ckw-compare-note">Over matched scenarios: a straightforward call, a plausible wrong one, and a load where the information on screen is stale. The one question is whether the interface helps dispatchers decide well with less unnecessary checking, and without more missed constraints or more bad recommendations accepted. I would read the quality of the decision, the time it took, the problems noticed and the reason given. Opening a disclosure is worth recording; it is not evidence of judgment.</p>
+          <p class="ckw-compare-note">Over matched scenarios: a straightforward call, a plausible wrong one, and a load where a figure on screen is stale. The question is whether dispatchers decide well with less unnecessary checking, and without more missed constraints or more bad recommendations accepted.</p>
         </div></div>
 
         <ol class="ckw-questions">
           <li>
             <h3>Are decisions better, not just faster?</h3>
-            <p>Decision quality first, then missed constraints, checking effort and time. A faster wrong answer is the failure mode this design could plausibly cause, so it is the one to look for.</p>
+            <p>Decision quality first, then missed constraints, checking effort and time. A faster wrong answer is the failure this design could plausibly cause, so it is the one to look for.</p>
           </li>
           <li>
             <h3>Does anyone open the exceptions?</h3>
-            <p>The design leans on the two late loads being read, and on whether they change what someone does &mdash; not on whether the disclosure was clicked. If nobody opens them, the record is a percentage with extra words, and the misses move up: into the recommendation line, or surfaced when the current load resembles one of them.</p>
+            <p>The design leans on the two late loads being read, not on the disclosure being clicked. If nobody opens them, the misses move up into the recommendation line.</p>
           </li>
           <li>
             <h3>Does a close call help, or annoy?</h3>
-            <p>Declining to lead is right for a system that knows its own shape, and may be the thing dispatchers hate most at four on a Friday. If the tradeoff sentence is not enough to decide from in the seconds the work allows, the tie should show what the dispatcher did last time for this customer, and say so.</p>
+            <p>Declining to lead is right for a system that knows its own shape, and may be the thing dispatchers hate most at four on a Friday. If the tradeoff sentence is not enough to decide from, the tie should show what the dispatcher did last time for this customer.</p>
           </li>
         </ol>
 
@@ -778,19 +832,20 @@
              clear of it. A picture in the impact bands' hand (#208), filed at
              320x180 for a 160px slot, its line in the caution ink because it
              sits on the caution ground rather than the case studies' deep
-             accent band. It used to be an inline SVG that drew itself on
-             entering the viewport, with a script and a class on <html> to
-             gate the hidden state; a picture needs none of that. -->
+             accent band. -->
         <aside class="ckw-callout">
           <img class="ckw-callout-mark" src="../img/site/assumption-dispatch-cockpit.png" alt="" width="320" height="180" loading="lazy" decoding="async">
           <div class="ckw-callout-body">
             <p class="ckw-callout-h">My biggest assumption</p>
-            <p>The five factors on the card may not be the factors that decide the real job. Real dispatchers weigh things the list does not name &mdash; the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load &mdash; and the first thing they will say is that the one that decides it is missing. That is the right complaint. The first sessions should be free to argue with the structure, not only to fill in the card.</p>
+            <p>The five factors on the card may not be the factors that decide the real job. Real dispatchers weigh things the list does not name: the driver&rsquo;s home time, the receiver&rsquo;s dock, who is owed a good load. The first thing they will say is that the one that decides it is missing, and that is the right complaint. The three reasons in the override prompt were guessed the same way.</p>
           </div>
         </aside>
 
-        <div class="writing-measure">
-          <p>The three reasons in the override prompt were guessed the same way. The free-text answers in the first month are the real list, and one of them will be &ldquo;the customer called,&rdquo; which the system cannot see and should stop pretending to weigh.</p>
+        <!-- The close. Not a caveat, and not a recap of the four decisions:
+             the one sentence about what this kind of work is, which is the
+             sentence a hiring reader should leave with. -->
+        <div class="writing-measure ckw-close">
+          <p>The hard part of AI product design is not getting the system to produce an answer. It is designing what sits between that answer and an action someone may regret: the evidence, the uncertainty, the rule that does not bend, the disagreement, the way back, and knowing when the system should stop.</p>
         </div>
         </div>
       </div>

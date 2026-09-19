@@ -2,7 +2,7 @@
 /* cockpit-shots.mjs -- capture the cockpit's own screen, in pieces, for the
  * page that explains it.
  *
- *   node scripts/cockpit-shots.mjs            all six, into img/cockpit/
+ *   node scripts/cockpit-shots.mjs            all of them, into img/cockpit/
  *   node scripts/cockpit-shots.mjs factors    just that one
  *
  * WHY THIS EXISTS. The prototype page argues four design decisions and, until
@@ -163,6 +163,27 @@ const SHOTS = [
     width: 1320,
     clip: ['.ck-fleet'],
     note: '04: the whole fleet, and the row a rule removed',
+  },
+  /* Decision 02's two frames, since 2026-09-19: the rule and the reading,
+     one above the other on the page so a reader sees that they are not the
+     same colour of thing even though they share the one caution colour. */
+  {
+    name: 'rule',
+    scenario: 'rule',
+    width: 1320,
+    /* The card alone. The recommendation under it is slide 4's picture. */
+    clip: ['.ck-rule'],
+    note: '02, first frame: a rule, before any score',
+  },
+  {
+    name: 'stale',
+    scenario: 'tie',
+    width: 1320,
+    /* The note the close call adds when one side's hours figure is older
+       than load.staleMin, with the heading over it so the note has a
+       subject. The comparison under both is the hero's picture. */
+    clip: ['.ck-reco-h', '.ck-fresh'],
+    note: '02, second frame: a figure the system will not vouch for',
   },
 
   /* ----- the slides ------------------------------------------------------

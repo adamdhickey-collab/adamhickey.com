@@ -391,26 +391,80 @@
   font-weight: var(--weight-semibold);
   color: var(--color-charcoal);
 }
-/* ---------- The disclosure, once it is a band and not a column ----------
-   It keeps the box -- the credibility of the page rests on it being read, and
-   a box is what gets read -- and loses the measure cap that made sense when
-   it was one paragraph wide. Across the hero it is two paragraphs abreast,
-   each still held to the measure, so the note is wide and about four lines
-   tall instead of narrow and fourteen. Below 64rem the columns collapse and
-   `p + p` puts its own gap back. */
-.ckw-hero-note {
-  max-width: none;
+/* ---------- The project, in six facts ----------
+   Until 2026-09-19 this was a two-paragraph disclosure in a box, and it
+   arrived before a reader had any reason to care what was being disclosed:
+   the page led with its limits. The same facts are still here and still in
+   the open -- self-directed, synthetic, not tested, not a model, informed by
+   real dispatch work and not a copy of it -- but as the answers to the six
+   questions a hiring reader asks of any case study, in the case studies'
+   own metadata treatment (.build-facts in style.css). Six cells in three
+   columns rather than four, so the two rows are even; the one sentence
+   under them is the part of the disclosure that is a caveat and not a fact.
+   Below 64rem the grid is style.css's own two, then one. */
+.ckw-facts {
   margin: var(--space-4xl) 0 0;
+  max-width: none;
 }
-@media (min-width: 64rem) {
-  .ckw-hero-note {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-3xl);
-    align-items: start;
-  }
-  .ckw-hero-note p { max-width: var(--measure); }
-  .ckw-hero-note p + p { margin-top: 0; }
+@media (min-width: 1024px) {
+  .ckw-facts { grid-template-columns: repeat(3, 1fr); }
+}
+.case-hero .ckw-facts dd { max-width: var(--measure); }
+.case-hero .ckw-facts-note {
+  margin: var(--space-xl) 0 0;
+  max-width: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- What to try, and what this is ----------
+   Two dash lists over the prototype, in the write-ups' .build-list, side by
+   side from 48rem. The first is orientation and the second is the colophon:
+   that the thing under them was designed and built by the same hands, in
+   plain HTML, CSS and JavaScript, on invented data. The cockpit's own
+   checklist under each tab is the detailed version of the first list and
+   ticks itself off; this one names the four scenarios' worth of things to
+   do in three lines and gets out of the way. */
+.ckw-try-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl) var(--space-3xl);
+  margin: var(--space-xl) 0 0;
+}
+@media (min-width: 48rem) {
+  .ckw-try-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.ckw-try-grid .ck-label { display: block; margin: 0 0 var(--space-xs); }
+.case-section .ckw-try-grid .build-list { margin: 0; }
+.case-section .ckw-try-grid .build-list li { font-size: var(--text-sm); line-height: var(--leading-body); }
+.ckw-try-grid .build-list a { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+.ckw-try-grid .build-list a:hover { color: var(--color-accent-hover); }
+
+/* ---------- The close ----------
+   The page's last paragraph, in the serif at the key-ideas size the writing
+   recap uses, and without the recap's box because it stands on the tea
+   ground already. The sage rule over it is the mark the case studies set
+   above a body heading, doing the same job for a paragraph that has none. */
+.ckw-close { margin: var(--space-3xl) 0 0; }
+.ckw-close::before {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-bottom: var(--space-lg);
+  background: var(--color-accent-deep);
+}
+.case-section .ckw-close p {
+  text-wrap: pretty;
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
 }
 
 /* ---------- A capture that will not shrink past reading ----------
@@ -1691,6 +1745,54 @@ html[data-embed] .ck { border-radius: 0; }
   border-radius: var(--radius-pill);
   background: var(--color-caution-light);
 }
+/* ---------- When the figure was last true ----------
+   A second line under the factor's name, at the footnote size, saying where
+   the figure came from and how long ago: GPS for the miles, the ELD for the
+   hours, the span for the record. Muted while it is fresh. Stale takes the
+   caution ink and the clock glyph, and stays a line under a name rather
+   than a chip on the value: the value is still the value, and what has
+   changed is how far it can be trusted. Caution-text on white is 6.45, on
+   muted-light 5.09; the name cell is 1fr and the age wraps inside it. */
+.ck .ck-factor-age {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-factor-age[data-age="stale"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-caution-text);
+}
+.ck .ck-vs-cell .ck-factor-age { margin-top: var(--space-2xs); }
+/* The same reading in the fleet, as the cell's own note. */
+.ck-table .ck-cell-note[data-age="stale"] { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+/* The figure the system will not vouch for, said in words on the close
+   call: the status line's shape on the caution ground, which is the ground
+   the cockpit spends on exactly one other thing, a rule refusing a truck.
+   Not a rule here -- the row keeps its Assign -- but the same colour, because
+   both are the system saying "not on this figure". Charcoal on caution-light
+   12.44, caution-text on it 5.23. */
+.ck .ck-fresh {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck .ck-fresh .ck-icon { flex-shrink: 0; margin-top: 0.25em; color: var(--color-caution-text); }
+.ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+
 /* The key sits with the bars; the disclaimer stays under it. The sample is
    a real .ck-factor-bar with fixed custom properties, so it cannot drift
    from the thing it explains -- only its grid placement and width are
