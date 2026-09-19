@@ -412,7 +412,11 @@
 .case-hero .ckw-facts dd { max-width: var(--measure); }
 .case-hero .ckw-facts-note {
   margin: var(--space-xl) 0 0;
-  max-width: none;
+  /* The measure, not none. Under a three-column grid the one sentence used
+     to run the grid's full width, 163 characters at 14px on a laptop against
+     the 70 SPACING.md sets; the cells above it are each capped, and a
+     caveat is prose, not a rule across the page. */
+  max-width: var(--measure);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
@@ -639,6 +643,10 @@
 }
 .case-section .ckw-compare-note {
   margin: 0;
+  /* On the note itself, at its own 16px. The wrapper it sits in is capped
+     at 18px, which SPACING.md warns about: a cap resolved at the wrong size
+     is the wrong cap, and this one came out at 77 characters. */
+  max-width: var(--measure);
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
@@ -1268,6 +1276,7 @@ html[data-embed] .ck { border-radius: 0; }
   display: flex;
   align-items: flex-start;
   gap: var(--space-xs);
+  max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
@@ -1801,6 +1810,17 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
+/* THE MEASURE, ON THE PROSE. Every block of running text in the cockpit
+   is held to --measure the way the page's own paragraphs are: the note,
+   the status line, the key under the factor bars, the outcomes card and
+   the stored reason. On a monitor the note ran 148 characters to the line
+   and the status line 150, which is a bar, not a sentence. Where the block
+   is a flex box with an icon in front, the cap goes on the text span --
+   the element the prose's own size resolves on, which is the rule SPACING.md
+   gives -- and a box with a ground hugs what it holds, so the caution
+   ground does not run on past its last word as a band of empty pink. */
+.ck .ck-fresh { width: fit-content; max-width: 100%; }
+.ck .ck-fresh > span { max-width: var(--measure); }
 .ck .ck-fresh .ck-icon { flex-shrink: 0; margin-top: 0.25em; color: var(--color-caution-text); }
 .ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
@@ -1817,6 +1837,7 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
+.ck .ck-factor-key > span:last-child { max-width: var(--measure); }
 .ck .ck-key-sample {
   grid-column: auto;
   flex: 0 0 auto;
@@ -1978,6 +1999,7 @@ html[data-embed] .ck { border-radius: 0; }
 }
 .ck .ck-conf-line {
   margin: 0;
+  max-width: var(--measure);
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
@@ -1985,6 +2007,7 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-conf-line strong { font-weight: var(--weight-semibold); }
 .ck .ck-conf-like {
   margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
@@ -2003,6 +2026,7 @@ html[data-embed] .ck { border-radius: 0; }
   padding: 0 0 0 var(--space-lg);
   display: grid;
   gap: var(--space-2xs);
+  max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
@@ -2054,6 +2078,7 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-miss-what,
 .ck .ck-miss-tell {
   margin: 0;
+  max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
@@ -2116,6 +2141,10 @@ html[data-embed] .ck { border-radius: 0; }
    Charcoal on muted-light 12.10, on caution-light 12.44. */
 .ck .ck-status[data-tone="refused"] { background: var(--color-caution-light); }
 .ck .ck-status:empty { display: none; }
+/* Hugs its text, held to the measure, like .ck-fresh above: a pill that
+   runs the width of the panel with thirty words at its left end is a bar. */
+.ck .ck-status { width: fit-content; max-width: 100%; }
+.ck .ck-status > span { max-width: var(--measure); }
 .ck .ck-status .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-accent-text); }
 .ck .ck-status[data-tone="refused"] .ck-icon { color: var(--color-caution-text); }
 .ck .ck-status[data-tone="close"] .ck-icon { color: var(--color-charcoal); }
@@ -2186,6 +2215,7 @@ html[data-embed] .ck { border-radius: 0; }
 }
 .ck .ck-why-done {
   margin: 0;
+  max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
