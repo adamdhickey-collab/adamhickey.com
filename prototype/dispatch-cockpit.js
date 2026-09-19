@@ -65,6 +65,17 @@
          rule and not a score: a reading the dispatcher may want to act on,
          which is exactly the kind of thing the ranking does not hold. */
       tightMin: 15,
+      /* WHEN A FIGURE WAS LAST TRUE. Every truck below carries `seen`: how
+         many minutes ago its position (GPS) and its driver's hours (the ELD,
+         the electronic logbook) last reported. A figure older than this is
+         marked stale wherever it is shown, and in the close call the card
+         says so in words. Not a rule and not a score: the ranking weighs the
+         figure as it stands, because the figure is all it has. What the mark
+         says is that the number may no longer be the number, and that is
+         the dispatcher's to check. Thirty minutes because the outcome record
+         on the first situation holds a load that sat overnight on an hours
+         figure forty minutes stale. */
+      staleMin: 30,
     },
 
     /* The fleet as the confident situation sees it. Each situation below
@@ -75,15 +86,17 @@
                   cost of a wash-out, so it is a factor, not a rule
          onTime   [delivered on time, loads run] for THIS customer; [0, 0]
                   means no history, which is neutral, not bad
-         deadhead empty miles the truck has run since its last delivery */
+         deadhead empty miles the truck has run since its last delivery
+         seen     minutes since the GPS last placed the truck, and since the
+                  ELD last reported the driver's hours; see load.staleMin */
     fleet: [
-      { id: 'T-118', driver: 'Marisol Vega',  at: 'Owatonna, MN',  dist: 38, hos: 8.4,  equip: 'dry van', onTime: [11, 12], deadhead: 12 },
-      { id: 'T-207', driver: 'Dana Okafor',   at: 'Mankato, MN',   dist: 71, hos: 9.1,  equip: 'dry van', onTime: [9, 10],  deadhead: 40 },
-      { id: 'T-142', driver: 'Luis Herrera',  at: 'Rochester, MN', dist: 24, hos: 7.2,  equip: 'reefer',  onTime: [4, 5],   deadhead: 9 },
-      { id: 'T-131', driver: 'Priya Nair',    at: 'Austin, MN',    dist: 43, hos: 6.0,  equip: 'dry van', onTime: [8, 8],   deadhead: 22 },
-      { id: 'T-114', driver: 'Sam Bergstrom', at: 'Winona, MN',    dist: 64, hos: 10.5, equip: 'dry van', onTime: [14, 14], deadhead: 48 },
-      { id: 'T-166', driver: 'Chen Wei',      at: 'Red Wing, MN',  dist: 58, hos: 6.3,  equip: 'dry van', onTime: [6, 9],   deadhead: 30 },
-      { id: 'T-175', driver: 'Tom Lindqvist', at: 'Faribault, MN', dist: 52, hos: 6.8,  equip: 'dry van', onTime: [0, 0],   deadhead: 35 },
+      { id: 'T-118', driver: 'Marisol Vega',  at: 'Owatonna, MN',  dist: 38, hos: 8.4,  equip: 'dry van', onTime: [11, 12], deadhead: 12, seen: { gps: 2, eld: 6 } },
+      { id: 'T-207', driver: 'Dana Okafor',   at: 'Mankato, MN',   dist: 71, hos: 9.1,  equip: 'dry van', onTime: [9, 10],  deadhead: 40, seen: { gps: 4, eld: 9 } },
+      { id: 'T-142', driver: 'Luis Herrera',  at: 'Rochester, MN', dist: 24, hos: 7.2,  equip: 'reefer',  onTime: [4, 5],   deadhead: 9,  seen: { gps: 1, eld: 12 } },
+      { id: 'T-131', driver: 'Priya Nair',    at: 'Austin, MN',    dist: 43, hos: 6.0,  equip: 'dry van', onTime: [8, 8],   deadhead: 22, seen: { gps: 3, eld: 8 } },
+      { id: 'T-114', driver: 'Sam Bergstrom', at: 'Winona, MN',    dist: 64, hos: 10.5, equip: 'dry van', onTime: [14, 14], deadhead: 48, seen: { gps: 5, eld: 4 } },
+      { id: 'T-166', driver: 'Chen Wei',      at: 'Red Wing, MN',  dist: 58, hos: 6.3,  equip: 'dry van', onTime: [6, 9],   deadhead: 30, seen: { gps: 2, eld: 11 } },
+      { id: 'T-175', driver: 'Tom Lindqvist', at: 'Faribault, MN', dist: 52, hos: 6.8,  equip: 'dry van', onTime: [0, 0],   deadhead: 35, seen: { gps: 6, eld: 7 } },
     ],
 
     /* How the five factors are weighed. They sum to 1. The weights are never
@@ -125,16 +138,24 @@
       {
         id: 'tie',
         tab: 'Close call',
-        blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It says they are level, names the tradeoff, and leaves the call to the dispatcher.',
+        blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It names the tradeoff, flags the one figure it cannot vouch for, and leaves the call to the dispatcher.',
         steps: [
           { text: 'Assign the side of the tradeoff that matters for this load. Neither is an override, so no question follows.', done: (s) => s.assigned !== null },
+          /* The stale figure is said in words on the card; this asks the
+             reader to find it where a dispatcher working from the table
+             would meet it, which is what "in reach" has to mean. */
+          { text: 'Open T\u2011131\u2019s row: the stale hours figure is marked there too.', done: (s) => s.did.has('open:row:T-131') },
           /* "By any column" rather than "by hours left", because under 48rem
              the hours column is one of the seven the fleet drops and a step
              nobody can reach is worse than no step. It also asks the better
              question: whatever you order the fleet by, the two stay level. */
           { text: 'Sort the fleet by any column: the two stay next to each other.', done: (s) => sortedAny(s) },
         ],
-        patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10 }, 'T-118': { dist: 41 } },
+        /* T-131's hours are 42 minutes old, against 18 minutes of margin over
+           what the run needs: the one case in the four where a figure's age
+           changes what the dispatcher should do before pressing Assign. The
+           ranking does not move for it, which is the point. */
+        patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10, seen: { gps: 3, eld: 42 } }, 'T-118': { dist: 41 } },
         record: {
           held: 19, of: 31,
           like: 'Loads where the top two trucks were this close on the factors.',
@@ -167,7 +188,7 @@
         blurb: 'The truck that wins on every other measure cannot legally take this load, because its driver is short on hours. That is a hard rule rather than a low score, and it has to look like one.',
         steps: [
           { text: 'Try to assign T\u2011114 from the data table.', done: (s) => s.did.has('refused:T-114') },
-          { text: 'Sort the fleet by any column \u2014 T\u2011114 keeps its row and its reason.', done: (s) => sortedAny(s) },
+          { text: 'Sort the fleet by any column: T\u2011114 keeps its row and its reason.', done: (s) => sortedAny(s) },
           { text: 'Open T\u2011114\u2019s row: it still wins on everything the ranking weighs.', done: (s) => s.did.has('open:row:T-114') },
         ],
         patch: { 'T-114': { dist: 9, deadhead: 4, hos: 3.2 } },
@@ -196,6 +217,18 @@
     { key: 'onTime',   label: `On time with ${DATA.load.customer}`, unit: (t) => t.onTime[1] ? `${t.onTime[0]} of ${t.onTime[1]}` : 'no history', better: 'higher', wins: 'a better record with this customer' },
     { key: 'deadhead', label: 'Deadhead right now',           unit: (t) => `${t.deadhead} mi`, better: 'lower',  wins: 'less deadhead' },
   ];
+
+  /* WHERE EACH FIGURE CAME FROM, AND HOW LONG AGO. Three of the five get a
+     line: the two that can go stale between one screen and the next, and the
+     record, whose meaning depends on the span it covers. Equipment does not
+     age and deadhead is a running total, so neither gets one; a line under
+     every figure would be a line under none. */
+  const AGE = {
+    dist:   (t) => ({ text: `GPS ${t.seen.gps} min ago`, stale: t.seen.gps >= DATA.load.staleMin }),
+    hos:    (t) => ({ text: `ELD ${t.seen.eld} min ago`, stale: t.seen.eld >= DATA.load.staleMin }),
+    onTime: (t) => (t.onTime[1] ? { text: 'last 90 days', stale: false } : null),
+  };
+  const staleHos = (t) => t.seen.eld >= DATA.load.staleMin;
 
   /* =========================================================================
      THE WINDOW -- the one reading on the screen that is DERIVED rather than
@@ -312,6 +345,14 @@
   const icon = (name, cls = 'ck-icon') =>
     `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
   const DIR_ICON = { helps: 'up', hurts: 'down', meets: 'check', neutral: 'dash', 'stands in': 'dash' };
+  /* The age line under a factor's name. Stale takes the caution ink and the
+     clock glyph; the words are the same either way, because "42 min ago" is
+     the fact and the colour is the reading of it. */
+  const ageLine = (t, f) => {
+    const a = AGE[f.key] && AGE[f.key](t);
+    if (!a) return '';
+    return `<span class="ck-factor-age" data-age="${a.stale ? 'stale' : 'fresh'}">${a.stale ? icon('clockAlert') : ''}${esc(a.text)}</span>`;
+  };
 
   const state = {
     scenario: DATA.scenarios[0],
@@ -572,7 +613,7 @@
     return `<ul class="ck-factors">${FACTORS.map((f) => {
       const d = direction(t, f);
       return `<li class="ck-factor">
-        <span class="ck-factor-name">${esc(f.label)}</span>
+        <span class="ck-factor-name">${esc(f.label)}${ageLine(t, f)}</span>
         <span class="ck-factor-value">${esc(f.unit(t))}</span>
         <span class="ck-factor-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
         ${factorBar(t, f)}
@@ -748,6 +789,7 @@
     return `<td class="ck-vs-cell">
       <span class="ck-vs-value">${esc(f.unit(t))}</span>
       <span class="ck-factor-dir ck-vs-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
+      ${ageLine(t, f)}
       ${factorBar(t, f)}
     </td>`;
   }
@@ -806,6 +848,21 @@
     </p>`;
   }
 
+  /* THE FIGURE THE SYSTEM WILL NOT VOUCH FOR. In a close call the card
+     already declines to pick; this is the second reason it should, said in
+     words under the first. The arithmetic is spelled out rather than
+     asserted -- the hours, the run, the margin, the age -- because a warning
+     whose inputs are hidden is the thing this prototype exists to argue
+     against. It is a reading and not a rule: the row keeps its Assign, and
+     what the sentence asks for is a check, not a refusal. */
+  function staleNote(trucks) {
+    return trucks.filter(staleHos).map((t) => {
+      const margin = Math.round((t.hos - DATA.load.driveHours) * 60);
+      const older = t.seen.eld > margin ? ' The figure is older than the margin.' : '';
+      return `<p class="ck-fresh" data-age="stale">${icon('clockAlert')}<span><strong>${esc(t.id)}&rsquo;s hours are ${t.seen.eld} minutes old.</strong> ${t.hos.toFixed(1)} h against a ${DATA.load.driveHours} h run leaves ${margin} minutes of margin.${older} If this is the side you take, check the logbook first.</span></p>`;
+    }).join('');
+  }
+
   function renderReco() {
     const box = $('.ck-reco', root);
     const [first, second, third] = state.ranked;
@@ -835,6 +892,7 @@
         <p class="ck-lead-kicker ck-label">Close call: no pick</p>
         <h3 class="ck-reco-h">${esc(compareHead(first, second))}</h3>
         <p class="ck-reco-dek">The system is not ranking one over the other. Pick the side of the tradeoff that matters for this load.</p>
+        ${staleNote([first, second])}
         ${compareTable(first, second)}
         ${renderConfidence()}
       </div>`;
@@ -1042,7 +1100,7 @@
         <td class="ck-cell-text">${esc(t.at)}</td>
         <td class="ck-num">${t.dist}</td>
         <td class="ck-num ck-cell-win" data-window="${win}">${clock(WINDOW.at(t))}${TABLE_WORD[win] ? `<span class="ck-cell-note">${TABLE_WORD[win]}</span>` : ''}</td>
-        <td class="ck-num">${t.hos.toFixed(1)}${t.blocked ? ` <span class="ck-cell-note">needs ${DATA.load.driveHours}</span>` : ''}</td>
+        <td class="ck-num">${t.hos.toFixed(1)}${t.blocked ? ` <span class="ck-cell-note">needs ${DATA.load.driveHours}</span>` : ''}${staleHos(t) ? `<span class="ck-cell-note" data-age="stale">${t.seen.eld} min old</span>` : ''}</td>
         <td>${esc(t.equip)}</td>
         <td class="ck-num">${t.onTime[1] ? `${t.onTime[0]} of ${t.onTime[1]}` : '<span class="ck-cell-note">none yet</span>'}</td>
         <td class="ck-num">${t.deadhead}</td>
@@ -1177,7 +1235,8 @@
       ? ` ${state.moved.size} ${state.moved.size === 1 ? 'truck' : 'trucks'} changed rank, marked in the data table.`
       : '';
     let status;
-    if (state.tie) status = `Close call: ${first.id} and ${second.id} are within a hair of each other. The tradeoff is the first row of the comparison.${moved}`;
+    const stale = [first, second].filter(staleHos).map((t) => ` ${t.id}\u2019s hours figure is ${t.seen.eld} minutes old.`).join('');
+    if (state.tie) status = `Close call: ${first.id} and ${second.id} are within a hair of each other. The tradeoff is the first row of the comparison.${stale}${moved}`;
     else status = `${scenario.tab}: the system recommends ${first.id}, ${first.driver}.${blocked.length ? ` ${blocked.join(', ')} is over hours and cannot be assigned.` : ''}${moved}`;
     /* THE SITUATION SUMMARY IS A NOTE, NOT A DONE. Every one of these lines
        arrived under a check-in-a-circle, including "Blocked by a rule: T-114
@@ -1209,7 +1268,16 @@
     const first = state.ranked[0];
     const isOverride = state.tie ? t.rank > 2 : id !== first.id;
     state.why = isOverride ? { truck: id, rank: t.rank } : null;
-    const line = `${DATA.load.id} assigned to ${id}, ${t.driver}.` +
+    /* WHAT THE ASSIGNMENT MEANS, in the same breath as the fact of it. Three
+       figures the screen already holds, read out for the truck that was just
+       chosen: when it reaches the pickup, how that sits against the window,
+       and what the driver has left once the run is done. All derived, none
+       new, and the third one is where a stale hours figure stops being
+       abstract -- 0.3 h left after the run is a number worth a phone call. */
+    const room = WINDOW.room(t);
+    const after = (t.hos - DATA.load.driveHours).toFixed(1);
+    const consequence = ` At pickup by ${clock(WINDOW.at(t))}, ${room < 0 ? `${-room} min after the window shuts` : `${room} min inside the window`}; ${after} h of driver hours left after the run.`;
+    const line = `${DATA.load.id} assigned to ${id}, ${t.driver}.${consequence}` +
       /* The second clause is a promise about the keyboard, so it is only true
          of an assignment the reader made. A staged one says what happened and
          stops -- and does not replace it with a sentence about where to look,
