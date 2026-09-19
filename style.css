@@ -428,7 +428,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   animation-timing-function: var(--ease);
 }
 
-.case-card { display: block; text-align: left; cursor: pointer; }
+.case-card { display: block; text-align: left; }
+/* The pointer belongs to the cards that ARE a link. Three of the four are an
+   anchor around the whole tile; the prototype card is a div with two links
+   in it, because it has two things to offer, and a hand over its empty half
+   would promise a click that is not there. Same reasoning the note in
+   cursor.js gives for keeping the swell off .strength-card. */
+a.case-card { cursor: pointer; }
+/* And the tile inside that card is the anchor instead, which is inline until
+   it is told otherwise. */
+a.case-thumb { display: block; }
 .case-thumb {
   position: relative;
   aspect-ratio: 16 / 9;

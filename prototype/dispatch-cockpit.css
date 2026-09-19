@@ -764,6 +764,52 @@
 @media (min-width: 48rem) {
   .ck { padding: var(--space-3xl); }
 }
+
+/* ---------- The cockpit on its own: ?embed, and nothing else ------------
+   The homepage's prototype card opens this page inside the tablet that
+   app-device.js stands over the page, and a tablet with a site nav in it is
+   a tablet showing a website. So the flag in the head of the page hands the
+   document data-embed and these rules take everything off it but the
+   cockpit: the skip link, the nav, the hero, the slideshow, the three
+   chapters of write-up and the footer. What is left is the one thing the
+   card promised.
+
+   THE FRAME COMES OFF WITH THEM, and that is the point of the block rather
+   than an afterthought in it. .ck-frame is the site's device chrome -- a
+   bezel of --device-chrome with --shadow-device under it -- and inside the
+   tablet it would be a bezel inside a bezel, the same doubling the prototype
+   card's own note talks itself out of. The tablet is the frame here; the
+   cockpit is the screen.
+
+   Nothing is deleted from the DOM and no rule here is reachable without the
+   flag, so the four browser checks measure this page exactly as they did:
+   they load it at its own address, where data-embed is not set. */
+html[data-embed],
+html[data-embed] body { background: var(--color-warm); }
+/* THE NAV IS 80px TALL AND IS NOT HERE, so the one number that describes it
+   is zero. Three things read it and all three were wrong by 80px with the
+   nav hidden: the tab strip is sticky at top: var(--nav-height), and sticky
+   pushes an element DOWN when its natural position is above that offset, so
+   the strip landed 12px over the first line of the scenario's sentence;
+   style.css scroll-padding-top parks every anchor 80px low; and the
+   scroll-margin under #ck-panel adds the same 80 to every control it keeps
+   out from under the strip. One declaration, because one fact changed. */
+html[data-embed] { --nav-height: 0px; }
+html[data-embed] .skip-link,
+html[data-embed] .site-nav,
+html[data-embed] .case-footer,
+html[data-embed] main > :not(#try-it),
+html[data-embed] #try-it > .container { display: none; }
+html[data-embed] #try-it { padding: 0; }
+html[data-embed] .ck-frame {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+html[data-embed] .ck { border-radius: 0; }
 /* ====================== THE PAGE RANGES LEFT ==============================
    .case-narrow is 56rem with margin: 0 auto, so on every other page of the
    site a heading and its paragraph sit in the middle of the 1280 container
