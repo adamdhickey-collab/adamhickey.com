@@ -112,7 +112,11 @@
        confidence line reads. `held` and `of` are how often the top-ranked
        truck delivered on time on loads like this one; `misses` are the
        loads where it did not, kept inspectable because the pattern in the
-       misses is what lets a dispatcher predict the next one. */
+       misses is what lets a dispatcher predict the next one. Each miss has a
+       `what`, which stays behind the disclosure, and a `tell`, which does not:
+       the tells are the lines that say what to check on THIS load, and since
+       2026-09-19 they sit on the card, so a `tell` has to stand on its own
+       without the miss it was learned from. */
     scenarios: [
       {
         id: 'confident',
@@ -131,7 +135,7 @@
             { load: 'L-4410', what: 'The hours figure was forty minutes stale. The driver ran out twenty miles short and the load sat overnight.',
               tell: 'When the hours left are within an hour of what the run needs, the figure is worth checking against the logbook before assigning.' },
             { load: 'L-4577', what: 'The customer closed the dock early. No truck in the fleet would have made the window.',
-              tell: 'Not a ranking miss. The window in the system was wrong, and the ranking cannot see that.' },
+              tell: 'A dock that closes early is not something the ranking can see. One of the two late loads was that, not a ranking miss.' },
           ],
         },
       },
@@ -163,7 +167,7 @@
             { load: 'L-4633', what: 'Ranked first on distance; the driver ran out of hours at the receiver and the delivery slipped to morning.',
               tell: 'When the margin is distance against hours, the hours have decided it more often than not.' },
             { load: 'L-4702', what: 'Ranked first on hours; the closer truck would have made an earlier dock slot and the customer asked why it did not.',
-              tell: 'The same tradeoff the other way. Which way it goes depends on this customer’s dock, which the ranking does not know.' },
+              tell: 'It has gone the other way too. Which way depends on this customer’s dock, which the ranking does not know.' },
           ],
         },
       },
@@ -204,7 +208,7 @@
       'The recommended truck is needed for another load',
       'The hours or the location shown are wrong',
     ],
-    whatHappens: 'Saved with the load, for anyone to read. The ranking does not change. The same reason three times in a month for one customer goes to a person for review. Skipping changes nothing.',
+    whatHappens: 'Saved with the load, for anyone to read. The ranking does not change. The same reason three times in a month for one customer goes to a person for review, so a few answers a month are enough to move something. Skipping changes nothing.',
   };
 
   /* =========================================================================
@@ -354,6 +358,10 @@
     return `<span class="ck-factor-age" data-age="${a.stale ? 'stale' : 'fresh'}">${a.stale ? icon('clockAlert') : ''}${esc(a.text)}</span>`;
   };
 
+  /* Milliseconds after Assign during which the Undo that replaced it is
+     inert. See the click handler. */
+  const UNDO_ARMS_AFTER = 500;
+
   const state = {
     scenario: DATA.scenarios[0],
     fleet: [],
@@ -361,6 +369,7 @@
     assigned: null,       /* truck id */
     why: null,            /* { truck, rank } while the prompt is open */
     answered: null,       /* the reason given, once given */
+    armed: 0,             /* when the reader last pressed Assign; see UNDO_ARMS_AFTER */
 
     /* WHAT THE READER HAS DONE, which four things now read.
        The checklist ticks off against it, so the nudge under each situation
@@ -656,11 +665,24 @@
       <p class="ck-conf-line">${lead}</p>
       <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
       <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
+      <!-- THE TELLS ARE ON THE CARD, NOT BEHIND THE DISCLOSURE. Until
+           2026-09-19 each late load carried its "what to watch for" line
+           inside the <details> under it, and the page's own open questions
+           admitted that a dispatcher deciding forty times an hour would
+           never open it. That is the one line on this card that changes
+           what to check on the load in front of them, so it is the one line
+           that cannot be a click away. The loads themselves, and what
+           differed on each, are the evidence for the tells and stay behind
+           the disclosure for the reader who wants to see where a tell came
+           from. -->
+      <div class="ck-conf-watch">
+        <p class="ck-conf-watch-h ck-label">What to watch for on this load</p>
+        <ol class="ck-conf-watch-list">${r.misses.map((m) => `<li>${esc(m.tell)}</li>`).join('')}</ol>
+      </div>
       <details class="ck-misses">
         <summary><span class="ck-misses-label">${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
         <ol class="ck-miss-list">${r.misses.map((m) => `<li>
           <p class="ck-miss-what"><span class="ck-miss-load">${esc(m.load)}</span> ${esc(m.what)}</p>
-          <p class="ck-miss-tell"><span class="ck-label">What to watch for:</span> ${esc(m.tell)}</p>
         </li>`).join('')}</ol>
       </details>
     </div>`;
@@ -1265,6 +1287,7 @@
     }
     state.assigned = id;
     state.answered = null;
+    if (!staged) state.armed = performance.now();
     const first = state.ranked[0];
     const isOverride = state.tie ? t.rank > 2 : id !== first.id;
     state.why = isOverride ? { truck: id, rank: t.rank } : null;
@@ -1404,7 +1427,16 @@
     const a = e.target.closest('[data-assign]');
     if (a) { assign(a.dataset.assign); return; }
     const u = e.target.closest('[data-undo]');
-    if (u) { undo(); return; }
+    /* UNDO TAKES ASSIGN'S PLACE, SO A DOUBLE PRESS WOULD UNDO WHAT IT JUST
+       DID. The button re-renders under the pointer with the opposite action
+       on it, which is the layout the row wants -- the way back is where the
+       choice was made -- and also the layout in which a second click, from a
+       double-click habit or a bounced trackpad, lands on Undo. So Undo does
+       nothing for half a second after Assign, which is longer than any
+       platform's double-click interval and shorter than a decision to
+       reverse. A staged assignment (a situation's own `then`) does not arm
+       it; nobody pressed anything. */
+    if (u) { if (performance.now() - state.armed < UNDO_ARMS_AFTER) return; undo(); return; }
     if (e.target.closest('[data-skip]')) { skip(); }
   });
 
