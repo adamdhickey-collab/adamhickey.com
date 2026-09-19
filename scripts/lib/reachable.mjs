@@ -70,6 +70,19 @@ export const REACHABLE = {
     /* The dense end, which is the one a dispatch floor would actually run. */
     { name: 'the fleet at compact density',
       press: ['[data-density="compact"]'] },
+
+    /* THE FAR SIDE OF THE PRIMARY ACTION. Not one of the six above ever
+       presses Assign, so for all the states this file added, the assigned
+       button itself -- "Assigned / Undo", the loudest control on the card --
+       was still in no DOM any check had seen. It rendered charcoal on the
+       sage fill at 2.64:1 and every run said "✓". One state, not three: the
+       comparison and the open row carry the same button with the same
+       classes, and a filled pill's contrast is answered by its own fill
+       rather than by the ground it sits on, so measuring it once on the card
+       measures the rule. What the card does not cover is the assigned tag in
+       the rank cell and the row's own terse Undo, which this reaches too. */
+    { name: 'the recommendation assigned, and the card offering Undo',
+      press: ['.ck-card-act [data-assign]'] },
   ],
 };
 

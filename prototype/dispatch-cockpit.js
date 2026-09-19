@@ -625,6 +625,28 @@
     </div>`;
   }
 
+  /* THE QUIET OUTLINE HAS TO REPLACE THE LOUD FILL, NOT BE ADDED TO IT.
+     Three of the four callers hand in `ck-btn ck-btn-primary`, and both
+     branches below used to append `ck-btn-quiet` to whatever they were given.
+     Appending does not demote a button; it half-demotes it. `.ck .ck-btn-quiet`
+     is declared after `.ck .ck-btn-primary` at the same specificity, so it took
+     `color` and `border-color` and left `background` exactly where it was: the
+     assigned button on the recommendation card, in the comparison and in an
+     open row rendered as the sage fill with charcoal ink on it. That is 2.64:1,
+     which is the figure color.css writes in its own row for --color-accent-text
+     under "never on charcoal", against a 4.5 floor. The hover said the same
+     thing louder -- `.ck-btn-quiet:hover` beat the primary's too, so the green
+     vanished under a 6% wash at the moment the pointer arrived, which is a
+     button changing away from filled as you go to press it.
+
+     Assigned is the filled sage the row's own `assigned` tag already is
+     (.ck-tag-lead: the same ground, the same warm ink at 5.32, the same check),
+     so on a primary it keeps the fill and simply stops having its ink
+     overwritten. Refused is quiet wherever it lands: "Can't assign" is not a
+     primary action, and the disabled rule paints muted-gray ink, which on sage
+     would be the same collision one token over. */
+  const demote = (c) => `${c.split(' ').filter((x) => x !== 'ck-btn-primary').join(' ')} ck-btn-quiet`;
+
   /* `terse` is the fleet. The word "Assigned" moves out of the button and
      into the rank cell as a tag there, beside "pick" and "option A", which
      is where this row's other states already live -- so the state is still a
@@ -632,10 +654,10 @@
      43px: "Assigned / Undo" is the widest control in the table and it was
      pushing the override situation 107px past the wrapper's edge. */
   function assignButton(t, cls = 'ck-btn', terse = false) {
-    if (t.blocked) return `<button type="button" class="${cls} ck-btn-quiet" aria-disabled="true" data-assign="${t.id}" data-focus="assign:${t.id}">Can&rsquo;t assign</button>`;
+    if (t.blocked) return `<button type="button" class="${demote(cls)}" aria-disabled="true" data-assign="${t.id}" data-focus="assign:${t.id}">Can&rsquo;t assign</button>`;
     if (state.assigned === t.id) return terse
-      ? `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Undo<span class="ck-btn-id"> the assignment of ${esc(t.id)}</span></button>`
-      : `<button type="button" class="${cls} ck-btn-quiet" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned ${icon('check')} Undo</button>`;
+      ? `<button type="button" class="${demote(cls)}" data-undo="${t.id}" data-focus="assign:${t.id}">Undo<span class="ck-btn-id"> the assignment of ${esc(t.id)}</span></button>`
+      : `<button type="button" class="${cls.includes('ck-btn-primary') ? cls : demote(cls)}" data-undo="${t.id}" data-focus="assign:${t.id}">Assigned ${icon('check')} Undo</button>`;
     /* WHY THE ID IS WRAPPED RATHER THAN WRITTEN IN. In the fleet the span
        takes the visually-hidden treatment, so the button reads "Assign" and
        is still ANNOUNCED as "Assign T-118". Two reasons, and the second is
