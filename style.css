@@ -586,14 +586,34 @@ a.case-thumb { display: block; }
    the same title ramp, tags and go-line. */
 .case-card--prototype {
   grid-column: 1 / -1;
-  /* The alternate ground, per COLOR.md: for a section that must separate
-     from its neighbor without changing temperature, which is this panel's
-     whole job on the warm work section. It was tea-light until #97, and
-     tea-light is what the screen inside the tablet is now painted, so the
-     panel and the picture on it were one green and the bezel had to hold
-     the two apart alone. Its ink table is warm's -- charcoal, muted-gray,
-     accent-text -- so nothing inside the card changes color to sit on it. */
-  background: var(--color-muted-light);
+  /* The feature ground, per COLOR.md: the hero card's green, for the one
+     thing in this section that is not a case study. It was tea-light until
+     #97, went to the alternate ground there, and comes back now, because
+     both of #97's reasons have since stopped being true.
+
+     #97's argument was that tea-light is what the screen inside the tablet
+     is painted, so the panel and the picture on it were one green and the
+     bezel had to hold the two apart alone. Neither half holds. The capture
+     is `slide-close-call.webp` and its ground measures #f5f5f0 -- warm, not
+     tea -- so the panel and the screen were never going to be one green;
+     and there is no "alone" left for the bezel to do, because the thumb
+     wears --device-chrome, #1b1d22 at --bezel, which is a hard dark edge
+     between the panel and the screen whatever either is painted.
+
+     What the alternate ground did do, by the end, was collide inward rather
+     than outward: --color-muted-light is also what the close-call card
+     inside the capture is painted (dispatch-cockpit.css, .ck-lead
+     [data-tone="close"]), so the panel and the innermost card were the same
+     value with a screen between them. Tea-light separates from both.
+
+     Its ink table is warm's -- charcoal, muted-gray, accent-text -- so
+     nothing inside the card changes color to sit on it, and every one of
+     the three gains headroom moving off the alternate ground: charcoal
+     12.10 -> 12.90, muted-gray 5.11 -> 5.44, accent-text 4.60 -> 4.90.
+     That last is the pair COLOR.md names as the one to re-measure first
+     whenever a value moves, and this move takes it further from the 4.5
+     floor, not nearer. */
+  background: var(--color-tea-light);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
   /* The grid's own gap already puts space above this. The panel wants a
@@ -4318,15 +4338,17 @@ html.ah-lightbox-open body { overflow: hidden; }
 .product-link-quiet { font-weight: 500; border-bottom-color: var(--color-tag-border); }
 .product-link-quiet:hover { border-bottom-color: var(--color-accent-text); }
 /* The one place this link does not sit on white. --color-tag-border is #e5e5e0
-   and the alternate ground is #e5e5dd, so on the prototype card the underline
-   was the ground: 1.01:1, and the link read as bare text beside an underlined
-   one. The ink table does not change on that ground -- the note on
-   .case-card--prototype is right about that -- but a LINE is not ink, and a
-   hairline tuned against white has nothing left here. --color-rule is the
-   next step down and lands at 1.22:1 on muted-light, which is exactly what
-   --color-tag-border measures on white: the same faintness, not a heavier
-   underline. The hover step is unchanged; accent-text is 4.60:1 on this
-   ground and was always visible. */
+   and it has no ground left under it here: 1.01:1 on the alternate ground this
+   card used to wear, 1.06:1 on the tea-light it wears now. Either way the
+   underline WAS the ground, and the link read as bare text beside an
+   underlined one. The ink table does not change on either ground -- the note
+   on .case-card--prototype is right about that -- but a LINE is not ink, and a
+   hairline tuned against white has nothing left here. --color-rule is the next
+   step down and lands at 1.31:1 on tea-light, a shade firmer than the 1.22:1
+   it measured on the old ground and still under --color-tag-border's 1.26:1 on
+   white: the same faintness the pattern has everywhere else, not a heavier
+   underline. The hover step is unchanged; accent-text is 4.90:1 on this ground,
+   up from 4.60:1, and was always visible. */
 .case-card--prototype .product-link-quiet { border-bottom-color: var(--color-rule); }
 
 /* Also removed by the distill pass, and also only dead because the card was
