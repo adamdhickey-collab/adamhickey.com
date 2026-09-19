@@ -155,7 +155,7 @@
              question: whatever you order the fleet by, the two stay level. */
           { text: 'Sort the fleet by any column: the two stay next to each other.', done: (s) => sortedAny(s) },
         ],
-        /* T-131's hours are 42 minutes old, against 18 minutes of margin over
+        /* T-131's hours are 42 minutes old, against 18 minutes to spare over
            what the run needs: the one case in the four where a figure's age
            changes what the dispatcher should do before pressing Assign. The
            ranking does not move for it, which is the point. */
@@ -873,15 +873,23 @@
   /* THE FIGURE THE SYSTEM WILL NOT VOUCH FOR. In a close call the card
      already declines to pick; this is the second reason it should, said in
      words under the first. The arithmetic is spelled out rather than
-     asserted -- the hours, the run, the margin, the age -- because a warning
+     asserted -- the hours, the run, the spare, the age -- because a warning
      whose inputs are hidden is the thing this prototype exists to argue
      against. It is a reading and not a rule: the row keeps its Assign, and
-     what the sentence asks for is a check, not a refusal. */
+     what the sentence asks for is a check, not a refusal.
+
+     One step a sentence, in the order a dispatcher thinks it: how old the
+     figure is, what it said, what the run needs, what that leaves, why the
+     age matters, what to do. The earlier wording ("the figure is older than
+     the margin") compared two durations from different worlds and left the
+     reader to work out why that mattered; the sentence that replaces it
+     says the thing itself, and only when the age really does exceed the
+     spare, since a ten-minute-old reading cannot have used up eighteen. */
   function staleNote(trucks) {
     return trucks.filter(staleHos).map((t) => {
-      const margin = Math.round((t.hos - DATA.load.driveHours) * 60);
-      const older = t.seen.eld > margin ? ' The figure is older than the margin.' : '';
-      return `<p class="ck-fresh" data-age="stale">${icon('clockAlert')}<span><strong>${esc(t.id)}&rsquo;s hours are ${t.seen.eld} minutes old.</strong> ${t.hos.toFixed(1)} h against a ${DATA.load.driveHours} h run leaves ${margin} minutes of margin.${older} If this is the side you take, check the logbook first.</span></p>`;
+      const spare = Math.round((t.hos - DATA.load.driveHours) * 60);
+      const gone = t.seen.eld > spare ? ' If the driver has been on the road since that reading, the spare time may already be gone.' : '';
+      return `<p class="ck-fresh" data-age="stale">${icon('clockAlert')}<span><strong>${esc(t.id)}&rsquo;s hours are ${t.seen.eld} minutes old.</strong> The last reading gave the driver ${t.hos.toFixed(1)} hours. This run needs ${DATA.load.driveHours}, so that leaves ${spare} minutes to spare.${gone} Check the logbook before assigning ${esc(t.id)}.</span></p>`;
     }).join('');
   }
 
