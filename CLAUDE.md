@@ -373,11 +373,11 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-18 the tree measures 5725 resting colors, 1813 state
-rules, 23626 type sizes and 14464 elements checked for a partial border on a
+unmeasured. At 2026-09-19 the tree measures 6002 resting colors, 1859 state
+rules, 24720 type sizes and 15094 elements checked for a partial border on a
 curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-121 token names against 190 declarations and 10 counted claims.
+121 token names against 192 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
 the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
@@ -397,23 +397,36 @@ Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on `claude/glance-underline-hugs-words` at d6bc217,
-which is the unscoped sweep of all four browser checks, and they replace the
-2026-09-17 set of 5779 / 1859 / 23830 / 14511, taken on the tree #190
-committed as 1312b0d. The page count did not move -- 29 before and 29 after,
-which is the number to read first -- and every measurement fell slightly:
-resting by fifty-four, the state rules by forty-six, the type sizes by two
-hundred and four, the curve elements by forty-seven. Ten pull requests
-landed between the two, #191 through #200, and the drift is the sum of them
-rather than one change to attribute: #197 deleted a paragraph outright, #191
-through #194 restructured the How I work cards, the prototype's title and an
-article's figures, and #199 added a thirteenth stylesheet, which is the one
-new token declaration. The set before this one also carries an account of
-how it was reached; both are kept because what a stale tripwire costs is a
-reading that comes back low, which is the direction that hides a page
-falling out of measurement rather than announcing it. Re-measure and rewrite
-these four when they have visibly drifted again, and name the commit
-measured, the way this paragraph does.
+CI run of `checks.yml` on `claude/assigned-button-ink` at d0b4be7, which is
+the unscoped sweep of all four browser checks, and they replace the
+2026-09-18 set of 5725 / 1813 / 23626 / 14464, taken on
+`claude/glance-underline-hugs-words` at d6bc217. The page count did not
+move -- 29 before and 29 after, which is the number to read first.
+
+This one splits cleanly in two, which is unusual and worth writing down
+while it is still legible. #225 added a seventh reachable state to the
+cockpit -- the far side of Assign, which nothing had ever pressed -- and a
+reachable state is a whole fresh load of its page, so it cost 281 resting
+colors, 1106 type sizes and 745 curve elements, all on
+`prototype/dispatch-cockpit.html`, measured scoped against the tree it was
+cut from. **It cost no state rules, and that is the check working**: rules
+come out of the stylesheet and are counted once per page, so a new state
+must not move that number. Take those three off the figures above and what
+is left is the drift of #221 through #224, the four that landed after
+d6bc217 was measured: resting down four, type sizes down twelve, curve
+elements down a hundred and fifteen, and the state rules up forty-six.
+#221 moved the ask into the first screen and changed every call to
+action, #223 reverted two parts of that, #222 restructured the prototype
+card and #224 gave its link a hairline that takes the alternate ground into
+account -- which is where the state rules and the two new token
+declarations, 190 to 192, come from.
+
+Both older sets carry an account of how they were reached, and all of them
+are kept, because what a stale tripwire costs is a reading that comes back
+low -- the direction that hides a page falling out of measurement rather
+than announcing it. Re-measure and rewrite these four when they have
+visibly drifted again, and name the commit measured, the way this paragraph
+does.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
