@@ -108,12 +108,61 @@ if (PAGES.length < 5) {
   process.exit(2);
 }
 
+/* THE STAMP A PAGE ALREADY CARRIES, from its Article if it has one and from
+   the sitemap if it does not, so that a page with no Article does not regress
+   either. */
+function currentStamp(f) {
+  const m = has(f) && read(f).match(/"dateModified": "([^"]*)"/);
+  if (m && ISO.test(m[1])) return m[1];
+  if (!has('sitemap.xml')) return null;
+  const re = new RegExp(`<loc>${urlFor(f).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</loc>\\s*<lastmod>([^<]+)</lastmod>`);
+  const sm = read('sitemap.xml').match(re);
+  return sm && ISO.test(sm[1]) ? sm[1] : null;
+}
+
+/* ONE DATE PER PAGE, COMPUTED BEFORE ANYTHING IS WRITTEN, and never older than
+   the stamp already on the page. Both halves of that sentence are bug fixes.
+
+   The date used to be gitDate(f), read fresh at each of the two places that
+   write it, and the write block leaned on that: it stamped dateModified first
+   so the page would be dirty by the time the sitemap read its date, and both
+   would say today. That holds only while the stamp is moving FORWARD to today.
+   When it moved backwards it broke in both directions at once. A clean page
+   whose stamp was 2026-09-19 and whose last commit was 2026-09-18 had its
+   dateModified pulled back to the 18th -- and the write made the file dirty,
+   so the sitemap then read gitDate as today and wrote the 20th. One run, one
+   page, two dates two days apart, which is the disagreement the Article check
+   below faults on. Five pages a branch had never touched went into its diff
+   that way, and the stamp going backwards is a lie to a crawler on top: a
+   modification date that decreases says the page grew younger.
+
+   So the date is resolved here, once, for every page, and both writers read
+   this map rather than asking git again after the tree has been touched. It is
+   the later of the file's git date and the stamp the file already carries,
+   which means a page nobody edited is left exactly as it is. A stamp that is
+   wrong in the other direction -- ahead of today -- cannot be corrected by a
+   rule that never goes backwards, so the check below faults on it instead.
+
+   Built on first use rather than at load, because resolving it costs two git
+   subprocesses a page and only `--write` reads it: eager, it put 56 spawns on
+   every plain check and took the run from 0.5s to 0.95s, which is half the
+   budget of one of the five that are supposed to cost nothing. The first call
+   is the stamp loop's first iteration, so the map is still fixed before a
+   single byte is written, which is the whole property. */
+function stampDate(f) {
+  const g = gitDate(f);
+  const s = currentStamp(f);
+  return s && s > g ? s : g;
+}
+let _stamps = null;
+const stamps = () => (_stamps ||= new Map(PAGES.map((f) => [f, stampDate(f)])));
+
 /* --------------------------------------------------------------------------
  * The sitemap, generated from the tree.
  * ------------------------------------------------------------------------ */
 function sitemapXml() {
   const urls = PAGES.map((f) =>
-    `  <url>\n    <loc>${urlFor(f)}</loc>\n    <lastmod>${gitDate(f)}</lastmod>\n  </url>`).join('\n');
+    `  <url>\n    <loc>${urlFor(f)}</loc>\n    <lastmod>${stamps().get(f)}</lastmod>\n  </url>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated. Rebuild it with the write flag on scripts/seo.mjs, and do not
      hand-edit: seo.mjs checks this file against the pages on disk and fails on
@@ -136,13 +185,14 @@ ${urls}
 }
 
 if (write) {
-  /* Stamp first, so a page that gets a new dateModified here is dirty by the
-     time the sitemap reads its date, and both say today. */
+  /* Both writers take the same resolved date, so the order they run in stops
+     mattering: the map is fixed before the first byte was written, and writing
+     a page no longer changes what the sitemap will say about it. */
   let stamped = 0;
   for (const f of PAGES) {
     const src = read(f);
     if (!/"dateModified": "/.test(src)) continue;
-    const next = src.replace(/"dateModified": "[^"]*"/g, `"dateModified": "${gitDate(f)}"`);
+    const next = src.replace(/"dateModified": "[^"]*"/g, `"dateModified": "${stamps().get(f)}"`);
     if (next !== src) { fs.writeFileSync(path.join(root, f), next); stamped++; }
   }
   fs.writeFileSync(path.join(root, 'sitemap.xml'), sitemapXml());
@@ -210,6 +260,9 @@ for (const f of PAGES) {
   const lm = lastmods.get(urlFor(f));
   if (!lm) { fault('sitemap.xml', `no lastmod for ${urlFor(f)}; \`node scripts/seo.mjs --write\` adds it`); continue; }
   if (!ISO.test(lm)) { fault('sitemap.xml', `lastmod for ${urlFor(f)} is ${lm}, not a YYYY-MM-DD date`); continue; }
+  /* Ahead of today is the one direction --write cannot correct, because it
+     never moves a stamp backwards. It has to be caught rather than carried. */
+  if (lm > today()) fault('sitemap.xml', `lastmod for ${urlFor(f)} is ${lm}, which is in the future`);
   if (!SHALLOW && daysBetween(lm, gitDate(f)) > GRACE_DAYS)
     fault(f, `last changed ${gitDate(f)} but the sitemap says ${lm}; \`node scripts/seo.mjs --write\` restamps it`);
 }
@@ -290,8 +343,10 @@ for (const f of PAGES) {
       if (!n['@type']) fault(f, `a JSON-LD node with no @type`);
       if (n['@id']) defined.add(n['@id']);
       /* An Article dates itself, in ISO, in order, and in step with the
-         sitemap: the same --write stamps both, so a disagreement means a
-         hand edit. */
+         sitemap: the same --write stamps both from one resolved date, so a
+         disagreement means a hand edit. It did not always mean that -- --write
+         itself used to be able to write the two two days apart, which is the
+         bug stamps() above exists to close -- and this check is what caught it. */
       if (n['@type'] === 'Article') {
         for (const k of ['datePublished', 'dateModified']) {
           if (!n[k]) fault(f, `Article has no ${k}`);
@@ -299,6 +354,8 @@ for (const f of PAGES) {
         }
         if (ISO.test(n.datePublished) && ISO.test(n.dateModified) && n.dateModified < n.datePublished)
           fault(f, `Article dateModified ${n.dateModified} is before datePublished ${n.datePublished}`);
+        if (ISO.test(n.dateModified) && n.dateModified > today())
+          fault(f, `Article dateModified ${n.dateModified} is in the future`);
         const lm = lastmods.get(want);
         if (lm && ISO.test(n.dateModified) && lm !== n.dateModified)
           fault(f, `Article dateModified ${n.dateModified} and sitemap lastmod ${lm} disagree; \`node scripts/seo.mjs --write\` sets both`);

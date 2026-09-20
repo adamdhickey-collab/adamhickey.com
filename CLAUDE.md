@@ -470,12 +470,23 @@ Four rules that came with #29, each held by `seo.mjs`:
 - **Dates are stamped, not typed.** Every case study's Article carries
   `datePublished` (the day the page first existed at its address; set once
   by hand) and `dateModified`, and the sitemap carries a `lastmod` per page.
-  `node scripts/seo.mjs --write` stamps `dateModified` and `lastmod` from
-  the file's last commit, or today while it has uncommitted changes, so the
-  two cannot disagree. Run it in the same commit as any edit to a page.
-  The check faults a page whose git date is more than fourteen days past
-  its stamp; the grace exists because a squash-merge gives every file a new
-  commit date without a new stamp.
+  `node scripts/seo.mjs --write` resolves one date per page -- the later of
+  the file's last commit (or today, while it has uncommitted changes) and
+  the stamp the page already carries -- and writes that same value to both,
+  so the two cannot disagree. Run it in the same commit as any edit to a
+  page. The check faults a page whose git date is more than fourteen days
+  past its stamp; the grace exists because a squash-merge gives every file
+  a new commit date without a new stamp.
+
+  **A stamp never moves backwards, and that is a rule rather than an
+  accident.** Until #244 the date was read fresh at each of the two places
+  that write it, and a clean page stamped later than its last commit got
+  pulled back to the commit date -- which put five pages nobody had edited
+  into a branch's diff, and told a crawler the page had grown younger. The
+  write also made the file dirty, so the sitemap then read the date as
+  today and the same run wrote the two two days apart. Because `--write`
+  can no longer correct a stamp that is wrong in the other direction, the
+  check faults a `dateModified` or a `lastmod` dated in the future.
 - **A FAQ is on the page first.** The four "How I work" pages answer the
   questions people ask in a panel under "When it is one of the other
   three", in the page's own facts (how long it takes, whether it is done
