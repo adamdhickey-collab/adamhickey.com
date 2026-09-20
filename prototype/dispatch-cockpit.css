@@ -1598,13 +1598,17 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-key-sample {
   grid-column: auto;
   flex: 0 0 auto;
-  width: 3.5rem;
-  /* Centred on the first line of the sentence it explains. The bar is 4px of
-     ink rather than a glyph in a box, so it cannot take the 1lh box the icons
+  /* 4.5rem, not the 3.5 a fill needed. The sample now has to show a zone,
+     its two edges, the middle and a lead out of it, and at 56px those five
+     things were inside 56 pixels and read as a smudge. */
+  width: 4.5rem;
+  /* Centred on the first line of the sentence it explains. The bar is ink
+     rather than a glyph in a box, so it cannot take the 1lh box the icons
      above use; half the difference between the line and the bar is the same
      arithmetic by hand. 0.45em was 1.1px high, and wrong again whenever the
-     bar's height or this row's leading moves. */
-  margin-top: calc((1lh - 4px) / 2);
+     bar's height or this row's leading moves -- which the height just did,
+     from 4px to 10px, and this arithmetic followed it without an edit. */
+  margin-top: calc((1lh - 10px) / 2);
 }
 .ck .ck-factor-note {
   margin: var(--space-xs) 0 0;
@@ -1614,89 +1618,132 @@ html[data-embed] .ck { border-radius: 0; }
 }
 
 /* ---------- Where the truck stands, as a bar ----------
-   Two real elements, the track and the mark. The fleet's middle and the zone
-   that still counts as level are the track's two pseudo-elements, which is
-   not a trick to save bytes: curves.mjs counts ELEMENTS, and four marks a row
-   across five rows and two cards would move that count by sixty for drawing
-   that carries no text and no border of its own.
+   Three surfaces, and the same three this has always had: the track and its
+   two pseudo-elements, with the one real child drawing the reading. Nothing
+   new is added, on purpose -- curves.mjs counts ELEMENTS, and a fourth mark a
+   row across four bars, two cards and seven reachable states would move that
+   count for drawing that carries no text and no border of its own.
 
-   THE MIDDLE AND THE BAND SIT ON TOP OF THE MARK, NOT UNDER IT. Drawn
-   underneath they vanish, because the mark is a fill from the left edge and
-   a truck ahead of the fleet covers the very band it is being compared to --
-   which is every helping factor, that is, most of them. Painted over the
-   fill they read as calipers around the middle: two hairlines saying where
-   level stops and a heavier tick saying where the middle is.
+   THIS USED TO BE A FILL FROM THE LEFT EDGE, WHICH IS THE WRONG ENCODING.
+   The quantity is where a truck sits between the worst and the best of the
+   eligible fleet -- a POSITION on a scale, not an amount of anything -- and
+   the drawing spent the length channel on it and started the length at the
+   track's edge. Two things followed. The first is that a fill from the left
+   is the progress-bar idiom, which carries "more filled is further along" so
+   firmly that five of them in a column read as five progress bars and then,
+   because they are all much the same, as texture. The second was structural:
+   a truck AHEAD of the fleet covers the very band it is being compared to,
+   so the band and the middle had to be painted over the top of the fill, and
+   the fill was the heaviest ink on a row whose subject is the figure beside
+   it.
 
-   The band is LEVEL rescaled to this factor's own spread, so a mark inside
-   the calipers is exactly a factor the word calls neutral. On this fleet
-   that band runs from 9% to 16% of a track, wide enough that leaving it out
-   would put a mark a quarter of the way clear of the middle under the word
-   "neutral". */
+   So the length now runs from the fleet's MIDDLE out to the truck. The origin
+   is fixed and shared, the length is the one thing the row is arguing, and
+   the band is no longer something the reading can hide -- a lead that ends
+   inside it is exactly the case the word "neutral" is for, and it now draws
+   itself.
+
+   10px, not 4. 4px was chosen when the bar was a fill, where thin was the
+   only way to keep five of them from shouting over the figures; a mark that
+   starts at the middle spends a fraction of that ink, so the track can carry
+   a band the eye reads as a region rather than two hairline calipers it has
+   to decode. */
 .ck-factor-bar {
   grid-column: 1 / -1;
   /* Block, not the span's default inline: in the factor list it is a grid
      item and gets this for free, and in a comparison cell and in the key it
-     is neither, where an inline box would drop the 4px height on the floor. */
+     is neither, where an inline box would drop the height on the floor. */
   display: block;
   position: relative;
-  /* 4, not 6. Five of these under five rows of figures is a lot of ink for
-     a reference mark, and the figures are what finding 1 just made the thing
-     you land on. Thin enough to read as a rule under the row. */
-  height: 4px;
+  height: 10px;
   margin-top: var(--space-2xs);
-  border-radius: 2px;
-  background: var(--color-tag-border);
+  margin-bottom: 2px;
+  border-radius: 5px;
+  /* The track, and the level zone's TINT, in one paint. The tint is on the
+     track rather than on a layer of its own so that the reading can sit above
+     it and the zone's two edges can sit above the reading -- which is the
+     order the drawing needs and cannot get from three stacked boxes. Drawn as
+     a box, the zone's right-hand edge was covered by the very lead it exists
+     to bound, on every factor where the truck is ahead of the fleet: three of
+     the four on the opening card. */
+  background-color: var(--color-tag-border);
+  background-image: linear-gradient(90deg,
+    transparent var(--band-l),
+    var(--color-rule) var(--band-l),
+    var(--color-rule) calc(var(--band-l) + var(--band-w)),
+    transparent calc(var(--band-l) + var(--band-w)));
 }
-/* accent-deep, not accent-text. color.css draws the line by what sits ON the
-   fill rather than by the fill itself, and says so in as many words: a sage
-   fill carrying no text -- a rule, a bar, an icon -- takes accent-deep. This
-   is that. 4.51 on the white card and 3.57 against its own track, both over
-   the 3:1 a non-text mark answers to, and a step lighter than the text sage
-   that was here, which was reading as heavy against five rows of figures. */
-.ck-factor-mark {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: var(--pos);
-  /* Under both marks below. Positioned siblings paint in tree order and a
-     pseudo-element counts as a child, so ::before -- the band -- was painting
-     UNDER this fill and vanishing behind it on every factor where the truck
-     leads the band. That is most of them, and it included the one case the
-     band exists for: a mark that is ahead of the middle and still called
-     neutral showed the band's right edge and not its left. */
-  z-index: 0;
-  border-radius: 2px;
-  background: var(--color-accent-deep);
-}
-/* The zone that still counts as level with the fleet. Charcoal, not
-   muted-gray: over the fill, muted-gray is 1.43:1 and simply is not there.
-   Charcoal is 3.40 on the fill and 12.13 on the track, so the caliper reads
-   wherever the mark happens to be. */
+/* WHERE THE ZONE STOPS, AS TWO EDGES OVER EVERYTHING ELSE. The tint above is
+   what makes the zone a place rather than a pair of ticks, and the tint alone
+   cannot carry it: --color-rule on --color-tag-border is 1.23:1, which reads
+   as a block at this width and is nowhere near the 3:1 a graphic carrying
+   meaning answers to. These two edges are what clear it -- muted-gray is 5.12
+   on the track and 4.17 on the tint -- and they sit ABOVE the reading,
+   because the one question this zone is drawn to answer is whether a lead
+   ends inside it, and an edge the lead covers cannot answer it.
+
+   muted-gray rather than the charcoal these used to be: the middle is the
+   charcoal in this drawing now, and two charcoals separated only by weight
+   was an arrangement a reader had to be told about in order to see. */
 .ck-factor-bar::before {
   content: "";
   position: absolute;
-  z-index: 1;
-  top: -1px;
-  bottom: -1px;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
   left: var(--band-l);
   width: var(--band-w);
-  border-left: 1px solid var(--color-charcoal);
-  border-right: 1px solid var(--color-charcoal);
+  border-left: 1px solid var(--color-muted-gray);
+  border-right: 1px solid var(--color-muted-gray);
 }
-/* The fleet's middle. Same ink as the calipers on purpose -- what separates
-   them is weight and reach, 2px and taller against 1px and shorter, so the
-   middle reads as the reference and the calipers as the tolerance around it
-   rather than as three marks of equal standing. */
+/* THE READING: from the fleet's middle out to this truck. Inset two pixels
+   top and bottom so it sits INSIDE the track rather than replacing it, which
+   is the arrangement a bullet graph uses for the same reason -- the measure
+   is the featured thing and the range it is measured against stays visible
+   underneath it.
+
+   accent-deep, not accent-text. color.css draws that line by what sits ON the
+   fill rather than by the fill itself: a sage fill carrying no text -- a rule,
+   a bar, an icon -- takes accent-deep. 3.57 against the track, over the 3:1 a
+   non-text mark answers to.
+
+   THE WHITE RING IS LOAD-BEARING. accent-deep on the level band is 2.91,
+   under that floor, and inside the band is precisely where a lead lands when
+   the factor is the neutral one -- the single case this band was drawn for.
+   One pixel of the card's own white between the two puts the sage against
+   white at 4.51 wherever it crosses. */
+.ck-factor-mark {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  bottom: 2px;
+  left: var(--lead-l);
+  width: var(--lead-w);
+  border-radius: 3px;
+  background: var(--color-accent-deep);
+  box-shadow: 0 0 0 1px var(--color-white);
+}
+/* A truck on the worse side of the fleet. Grey rather than a second hue,
+   because the palette has one and #241 spent the only other one on a rule
+   refusing a truck; and DARKER than the sage rather than lighter, which is
+   the bullet graph's own rule -- the poor states take the stronger intensity,
+   because on a card arguing for a truck the thing worth catching is the
+   factor that argues back. 5.12 on the track. */
+.ck-factor-bar[data-side="behind"] .ck-factor-mark { background: var(--color-muted-gray); }
+/* The fleet's middle, and now the one fixed thing on the card: every row is
+   recentred so this lands at 50%, so the left edge of every lead is the same
+   x and the five rows have a reference to be read against. Charcoal and a
+   single pixel, taller than the track at both ends: the reading is what
+   carries weight, and this is what it is measured from. */
 .ck-factor-bar::after {
   content: "";
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: -3px;
   bottom: -3px;
-  left: var(--med);
-  width: 2px;
-  margin-left: -1px;
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
   background: var(--color-charcoal);
 }
 

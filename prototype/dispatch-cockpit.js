@@ -594,6 +594,23 @@
      factor's spread across the eligible trucks, so every row means the one
      thing: worst of the fleet on the left, best on the right.
 
+     AND THEN RECENTRED, SO THE FIVE ROWS SHARE A REFERENCE. Rescaling to each
+     factor's own spread fixes the ends and leaves the middle wherever it
+     falls: on this fleet the median landed at 41% of the first row, 27% of
+     the second, 80% of the fourth and 46% of the fifth. Five bars whose one
+     meaningful landmark is at four different x positions give the eye nothing
+     to line up on, and a column with nothing to line up on reads as texture,
+     which is exactly what five of these looked like.
+
+     recentre() maps each half of a row's own scale onto half the track, so
+     the fleet's middle is at 50% on every row and "ahead of the fleet" is one
+     vertical edge down the card rather than five separate readings. The cost
+     is stated rather than hidden: the two halves are stretched by different
+     amounts, so a row is no longer linear end to end. That is the right
+     trade for this card, because the question it answers is "which side of
+     the fleet is this truck on, and by how much" and not "what is the
+     absolute spread of the fleet" -- and the key under the bars says so.
+
      WHAT GETS NO BAR. Equipment, because it is not a comparison -- the load
      asks for a type and a truck either is it or is standing in for it, which
      is why direction() answers it in its own words. A truck with no history
@@ -608,13 +625,30 @@
     const span = r.hi - r.lo;
     if (!(span > 0)) return '';
     const at = (v) => Math.max(0, Math.min(100, ((v - r.lo) / span) * 100));
-    const pos = at(t.norm[f.key]);
     const med = at(state.mid[f.key]);
-    const lo = at(state.mid[f.key] - LEVEL);
-    const hi = at(state.mid[f.key] + LEVEL);
+    /* Own scale to recentred scale: [0, med] onto the left half, [med, 100]
+       onto the right. The two guards are for a fleet whose middle sits at the
+       very end of its own spread, where one half has no room -- every truck is
+       then on one side of the middle, and the whole reading belongs in that
+       half rather than divided by zero. */
+    const recentre = (x) => {
+      if (!(med > 0)) return 50 + (x / 100) * 50;
+      if (!(med < 100)) return (x / 100) * 50;
+      return x <= med ? (x / med) * 50 : 50 + ((x - med) / (100 - med)) * 50;
+    };
+    const pos = recentre(at(t.norm[f.key]));
+    const lo = recentre(at(state.mid[f.key] - LEVEL));
+    const hi = recentre(at(state.mid[f.key] + LEVEL));
+    /* The lead: the span between the fleet's middle and this truck. It is
+       what the row is arguing, and giving it its own two numbers means the
+       stylesheet draws a length from a fixed origin rather than deriving one
+       from a fill that starts at the track's edge. */
+    const side = pos >= 50 ? 'ahead' : 'behind';
+    const leadL = Math.min(50, pos);
+    const leadW = Math.abs(pos - 50);
     /* aria-hidden because the value and the word beside it already say this
        in text, and a third announcement per row is fifteen per card. */
-    return `<span class="ck-factor-bar" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--med:${med.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
+    return `<span class="ck-factor-bar" data-side="${side}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
   }
 
   function factorRows(t, opts = {}) {
@@ -639,14 +673,14 @@
          a drawing of one, so the key cannot drift from the thing it explains;
          only its grid placement is overridden. -->
     <p class="ck-factor-key">
-      <span class="ck-factor-bar ck-key-sample" aria-hidden="true" style="--pos:62%;--med:50%;--band-l:42%;--band-w:16%"><span class="ck-factor-mark"></span></span>
-      <span>Worst to best across the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level either side of it.</span>
+      <span class="ck-factor-bar ck-key-sample" data-side="ahead" aria-hidden="true" style="--pos:70%;--band-l:40%;--band-w:20%;--lead-l:50%;--lead-w:20%"><span class="ck-factor-mark"></span></span>
+      <span>The bar runs from the middle of the trucks that can take this load out to this one: sage when it is the better side of the fleet, grey when it is the worse. The block around the middle is the zone that still counts as level.</span>
     </p>
     <p class="ck-factor-note">Where a truck stands, not how much a factor moved the ranking.</p>
     <details class="ck-note">
       <summary><span class="ck-note-label">More about these comparisons</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
       <div class="ck-note-body">
-        <p>Each bar places this truck between the worst and the best of the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level around it.</p>
+        <p>Each bar starts at the middle of the trucks that can take this load and runs out to where this truck stands, with the zone that still counts as level drawn around that middle. Every row is stretched so the middle is at the same place, which is what lets the five be read down the column; the two halves of a row are stretched by different amounts to do it, so a bar is a comparison with the fleet and not a scale you can measure across.</p>
         <p>Equipment has no bar: the load asks for a type, and a truck either is it or is standing in for it. There is no composite score either, because none would tell you which of these to check.</p>
       </div>
     </details>`}`;
@@ -865,8 +899,8 @@
       </tr></tfoot>
     </table>
     <p class="ck-factor-key">
-      <span class="ck-factor-bar ck-key-sample" aria-hidden="true" style="--pos:62%;--med:50%;--band-l:42%;--band-w:16%"><span class="ck-factor-mark"></span></span>
-      <span>Worst to best across the trucks that can take this load, with the fleet&rsquo;s middle marked and the zone that still counts as level either side of it.</span>
+      <span class="ck-factor-bar ck-key-sample" data-side="ahead" aria-hidden="true" style="--pos:70%;--band-l:40%;--band-w:20%;--lead-l:50%;--lead-w:20%"><span class="ck-factor-mark"></span></span>
+      <span>The bar runs from the middle of the trucks that can take this load out to this one: sage when it is the better side of the fleet, grey when it is the worse. The block around the middle is the zone that still counts as level.</span>
     </p>`;
   }
 
