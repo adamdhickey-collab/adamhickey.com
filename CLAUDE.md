@@ -334,10 +334,10 @@ cannot see is a false result.
 
 **`cards.mjs` IS THE ONE CHECK THAT IS NOT IN `checks.yml`, AND IT IS RED.**
 It asks whether a card on a ground has an edge a reader can see, at a floor
-of 1.2:1, and run against the tree today it names 13 surfaces on the cockpit
-alone whose only edge is `--shadow-card`'s keyline at 1.11:1. That is a real
-finding and an open question -- COLOR.md's Lines section states both answers
-and picks neither -- so the script is merged ahead of its fix and run by
+of 1.2:1. It named 13 surfaces on the cockpit when it was merged; making
+`--shadow-card`'s ring opaque took that to 5, and the 5 that are left are
+tinted zones carrying no elevation, which a card's drop shadow is the wrong
+answer for. So it is still red, still a real finding, and still run by
 hand. It is out of the workflow because a leg that is known to be red tells
 you nothing about the commit that turned it red, and `checks.yml` is the one
 instrument every other merge is read against. Wire it in the day the site
