@@ -1418,7 +1418,8 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-window .ck-icon,
 .ck .ck-status .ck-icon,
 .ck .ck-fresh .ck-icon,
-.ck .ck-try-h .ck-icon { height: 1lh; }
+.ck .ck-try-h .ck-icon,
+.ck .ck-sort-icon { height: 1lh; }
 
 /* .ck-show-live is a <p>, so it needs the class twice over for the same
    reason the slide's head does. */
@@ -1911,7 +1912,12 @@ html[data-embed] .ck { border-radius: 0; }
   grid-column: auto;
   flex: 0 0 auto;
   width: 3.5rem;
-  margin-top: 0.45em;
+  /* Centred on the first line of the sentence it explains. The bar is 4px of
+     ink rather than a glyph in a box, so it cannot take the 1lh box the icons
+     above use; half the difference between the line and the bar is the same
+     arithmetic by hand. 0.45em was 1.1px high, and wrong again whenever the
+     bar's height or this row's leading moves. */
+  margin-top: calc((1lh - 4px) / 2);
 }
 .ck .ck-factor-note {
   margin: var(--space-xs) 0 0;
@@ -2463,8 +2469,10 @@ html[data-embed] .ck { border-radius: 0; }
   transition: color var(--motion-state) var(--ease);
 }
 .ck .ck-sort:hover { color: var(--ink-on-dark); }
+/* Sized by the group above, not nudged: the column head is a top-aligned
+   flex row so the arrow stays on the first line when "At pickup by" wraps to
+   two, and 0.125em put it 1.2px above that line's centre. */
 .ck .ck-sort-icon {
-  margin-top: 0.125em;
   color: var(--color-accent-on-dark);
   opacity: 0;
   transition: opacity var(--motion-state) var(--ease);
