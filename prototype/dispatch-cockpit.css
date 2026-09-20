@@ -1319,7 +1319,7 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.ck .ck-load-now .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-muted-gray); }
+.ck .ck-load-now .ck-icon { flex-shrink: 0; color: var(--color-muted-gray); }
 
 /* ---------- The window reading ----------
    Three states, each a word first. Clear takes no ground at all -- most
@@ -1336,7 +1336,7 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.ck .ck-window .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-muted-gray); }
+.ck .ck-window .ck-icon { flex-shrink: 0; color: var(--color-muted-gray); }
 .ck .ck-window[data-window="tight"],
 .ck .ck-window[data-window="misses"] {
   align-items: center;
@@ -1346,7 +1346,7 @@ html[data-embed] .ck { border-radius: 0; }
   background: var(--color-caution-light);
 }
 .ck .ck-window[data-window="tight"] .ck-icon,
-.ck .ck-window[data-window="misses"] .ck-icon { color: var(--color-caution-text); margin-top: 0; }
+.ck .ck-window[data-window="misses"] .ck-icon { color: var(--color-caution-text); }
 
 /* Inline icons: the header's idiom, sized to the text they sit in. */
 .ck-icon {
@@ -1355,6 +1355,22 @@ html[data-embed] .ck { border-radius: 0; }
   vertical-align: -0.125em;
   flex-shrink: 0;
 }
+/* AN ICON AT THE HEAD OF A LINE IS AS TALL AS THE LINE. Every row that puts
+   a glyph before running text is a flex box aligned to the top, so the glyph
+   stays on the first line when the text wraps; and each used to nudge its
+   1em glyph down by a hand-picked margin, 0.15em here and 0.25em there,
+   which is close and never right -- at 14px on --leading-ui the clock sat
+   1.4px above the words it opens. The box is the line's own height instead,
+   and the viewBox centres itself in it (preserveAspectRatio's default), so
+   the glyph is centred on the first line by construction, in whichever
+   leading the row sets, and there is no margin to keep in step. The rows
+   that centre a single line (.ck-try-h, the tight and missed windows) get
+   the same box and the same answer. */
+.ck .ck-load-now .ck-icon,
+.ck .ck-window .ck-icon,
+.ck .ck-status .ck-icon,
+.ck .ck-fresh .ck-icon,
+.ck .ck-try-h .ck-icon { height: 1lh; }
 
 /* .ck-show-live is a <p>, so it needs the class twice over for the same
    reason the slide's head does. */
@@ -1826,7 +1842,7 @@ html[data-embed] .ck { border-radius: 0; }
    ground does not run on past its last word as a band of empty pink. */
 .ck .ck-fresh { width: fit-content; max-width: 100%; }
 .ck .ck-fresh > span { max-width: var(--measure); }
-.ck .ck-fresh .ck-icon { flex-shrink: 0; margin-top: 0.25em; color: var(--color-caution-text); }
+.ck .ck-fresh .ck-icon { flex-shrink: 0; color: var(--color-caution-text); }
 .ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
 /* The key sits with the bars; the disclaimer stays under it. The sample is
@@ -2150,7 +2166,7 @@ html[data-embed] .ck { border-radius: 0; }
    runs the width of the panel with thirty words at its left end is a bar. */
 .ck .ck-status { width: fit-content; max-width: 100%; }
 .ck .ck-status > span { max-width: var(--measure); }
-.ck .ck-status .ck-icon { flex-shrink: 0; margin-top: 0.15em; color: var(--color-accent-text); }
+.ck .ck-status .ck-icon { flex-shrink: 0; color: var(--color-accent-text); }
 .ck .ck-status[data-tone="refused"] .ck-icon { color: var(--color-caution-text); }
 .ck .ck-status[data-tone="close"] .ck-icon { color: var(--color-charcoal); }
 .ck .ck-status[data-tone="note"] .ck-icon { color: var(--color-muted-gray); }
