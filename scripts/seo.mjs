@@ -63,7 +63,17 @@ const git = (...a) => {
   try { return execSync(['git', ...a].join(' '), { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); }
   catch { return null; }
 };
-const today = () => new Date().toISOString().slice(0, 10);
+/* TODAY IN THE AUTHOR'S TIMEZONE, NOT IN UTC, because the date it is compared
+   and written against is git's `%as` -- the author date, in the author's own
+   offset. toISOString() is UTC, and the two disagree for the last hours of any
+   day west of Greenwich: three commits authored at 20:18, 20:40 and 20:45 on
+   2026-09-18 at -0500 were already the 19th in UTC, so `--write` stamped five
+   case studies 2026-09-19 while git recorded that they last changed on the
+   18th. That one-day lead is what a later --write then read as a stamp ahead
+   of its file and dragged backwards, which is the bug #244 closed; this is
+   where the lead came from. en-CA is ISO-shaped by definition, which is why it
+   is the locale here rather than the machine's. */
+const today = () => new Date().toLocaleDateString('en-CA');
 const SHALLOW = git('rev-parse', '--is-shallow-repository') === 'true';
 function gitDate(f) {
   if (git('status', '--porcelain', '--', JSON.stringify(f))) return today();
