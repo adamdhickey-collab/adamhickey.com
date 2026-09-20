@@ -1896,7 +1896,16 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   .eng3-checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm) var(--space-2xl); }
 }
 .eng3-checklist li { display: flex; gap: var(--space-sm); align-items: flex-start; line-height: var(--leading-body); }
-.eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: var(--space-2xs); }
+/* Centred on the first line, not nudged towards it. The item is a
+   flex row aligned to the top so the tick stays on the first line when
+   the text wraps to two or three, and the offset that puts it there was
+   --space-2xs, which is 4px against the 2.8px this line actually wants --
+   1.5px low, and wrong again the moment the leading or the icon size
+   moves. Half the difference between the line box and the glyph is the
+   arithmetic, so it follows both. The cockpit's line-head icons do the
+   same thing with height: 1lh, which suits a glyph sized in em; this one
+   is 20px on purpose and keeps its size. */
+.eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: calc((1lh - 20px) / 2); }
 /* The questions panel: each question bold over its answer, at body size on
    the panel's white, two columns from 1024 like the checklist above it. The
    pair sits in a div so the grid places a question with its own answer. */
