@@ -148,33 +148,20 @@
   gap: var(--space-2xl);
   align-items: start;
 }
-/* THE ARGUMENT AT ITS MEASURE, THE EVIDENCE AT ITS OWN SIZE. This was halves,
-   on the argument that a capture should not be enlarged and half the
-   container was near the size the card captures were drawn at. Half was
-   near, and near in the wrong direction: the card is 622 and half of the
-   container is 584, so the two card captures were the only pictures on the
-   site rendered UNDER their own scale, and every one of the four that span
-   the row was rendered over it -- the rule card worst, at 651 drawn and 1216
-   shown, which is an enlargement of 1.87 and is what makes that frame shout
-   over the paragraph it is evidence for.
+/* ONE COLUMN, BECAUSE ONLY ONE DECISION STILL CARRIES EVIDENCE. This was a
+   fixed 28rem of copy beside a 1fr of picture above 72rem, which was the
+   right answer while all five items had a capture to put in that second
+   column. Four of the five lost theirs on 2026-09-20 -- they were
+   photographs of the live panel a screen above -- and a two-column grid with
+   nothing in the right-hand column for four items out of five is 720px of
+   void repeated four times.
 
-   So the column is set from the copy instead, and the pictures are capped
-   individually below. 28rem is the measure at the lead's size once the disc
-   and its gap come out of it, which leaves 720 for the evidence at the full
-   container: enough for a card capture at 1:1, with the slack falling to the
-   right of it the way the copy's slack already falls to the right of the
-   text. Nothing here is sized to a fraction of the container any more.
-
-   72rem and not the 64rem the halves used, because a fixed copy column
-   changes what the breakpoint has to buy. At 64rem the evidence column came
-   out 470 and a 622px card capture was shrunk into it by a quarter -- the
-   two columns arriving before there was room for them. Below 72rem the item
-   runs in one column and the card sits at 1:1 with ground beside it, which
-   is the better of the two arrangements at that width. */
-@media (min-width: 72rem) {
-  .ckw-decision { grid-template-columns: minmax(0, 28rem) minmax(0, 1fr); gap: var(--space-4xl); }
-  .ckw-decision .ckw-shot { margin-left: 0; }
-}
+   So every item runs at the measure, and decision 02's pair sits under its
+   paragraph, which is the arrangement the two screen-width decisions already
+   used and the better of the two at any width: the argument is read, then
+   the thing it is about is shown at the size it was drawn. The per-capture
+   ceilings below do the sizing now; nothing here is a fraction of the
+   container. */
 .ckw-decision-copy {
   position: relative;
   /* the disc plus the case studies' own gap-3 between it and the title */
@@ -254,16 +241,8 @@
    scroll rather than shrinking a table into illegibility. */
 .ckw-shot img,
 .ckw-frames img { max-width: var(--shot-w, 100%); }
-/* The recommendation card and the record card, which are the same card
-   captured twice and so the same width. */
-.ckw-shot--card { --shot-w: 622px; }
 .ckw-frame--rule { --shot-w: 651px; }
 .ckw-frame--stale { --shot-w: 888px; }
-/* A whole screen, which is drawn at about 1048 and shown at very nearly
-   that. The cap is a round 64rem rather than the file's own width so that a
-   recapture at a slightly different viewport does not silently change the
-   width of the page. */
-.ckw-decision--screen .ckw-shot { --shot-w: 64rem; }
 .case-section .ckw-shot figcaption,
 .case-section .ckw-frame-cap {
   margin: var(--space-sm) 0 0;
@@ -273,44 +252,14 @@
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-/* The label that has to survive the picture being screenshotted, quoted or
-   pulled into a feed: the outcome history is invented, and a figure that
-   travels without the sentence around it has to say so itself. */
-.ckw-cap-label { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
-
-/* A SCREEN DOES NOT FIT BESIDE A PARAGRAPH, SO IT DOES NOT SIT BESIDE ONE.
-   Three of the seven captures are the fleet data table or the width of the
-   panel, and the table is 60rem of interface before it starts to scroll
-   because its argument is that seven trucks and five factors stay in reach
-   at once. In a 720px column that renders near 0.6, which puts its type at
-   10px: the page would be claiming the table is legible while showing that
-   it is not.
-
-   Those two decisions run in ONE column instead -- the argument at its
-   measure, the picture under it. The old arrangement kept the item in two
-   columns and let only the figure span, which left the copy in a 28rem
-   column with an empty 720px beside it and then a slab underneath. The void
-   was the awkward part, not the picture.
-
-   The three captures are taken at a 1080 viewport rather than 1320 (see
-   cockpit-shots.mjs), so a whole screen is about 1048 drawn and sits inside
-   the 64rem cap below at nearly 1:1, rather than being a 1288px file printed
-   as wide as the page can print it. */
-.ckw-decision--screen { gap: var(--space-2xl); }
-/* THE PICTURE LINES UP WITH THE PARAGRAPH, NOT WITH THE NUMBER. Wherever an
-   item runs in one column -- the two screen decisions at every width, and
-   all five between 64 and 72rem -- the figure takes the same indent the copy
-   takes, so the disc is the only thing left hanging in the margin and the
-   block has one left edge instead of two. Beside the copy it needs none: it
-   starts its own column there. Not below 64rem, where .ckw-scroll bleeds the
-   picture out through the gutter to the viewport and an indent would be
-   taking back the width that bleed exists to give. */
+/* THE PICTURE LINES UP WITH THE PARAGRAPH, NOT WITH THE NUMBER. The figure
+   takes the same indent the copy takes, so the disc is the only thing left
+   hanging in the margin and the block has one left edge instead of two. Not
+   below 64rem, where .ckw-scroll bleeds the picture out through the gutter
+   to the viewport and an indent would be taking back the width that bleed
+   exists to give. */
 @media (min-width: 64rem) {
   .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
-}
-@media (min-width: 72rem) {
-  .ckw-decision--screen { grid-template-columns: minmax(0, 1fr); }
-  .ckw-decision--screen .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
 }
 .ckw-frames {
   list-style: none;
@@ -519,44 +468,22 @@
   color: var(--color-charcoal);
 }
 
-/* ---------- A capture that will not shrink past reading ----------
-   Below 64rem, where the decisions stop being two columns, the column is
-   narrower than the interface in these captures,
-   and `width: 100%` on a 1288px screenshot in a 342px column is a picture of
-   a data table nobody can read: the page would be showing that the fleet
-   stays in reach while making it unreadable to show it. So the capture keeps
-   a floor and the box under it scrolls, which is what .ck-table-wrap does
-   with the live table at the same widths and what .build-flow-row does with
-   the Lucy Learns phones.
+/* ---------- A capture takes the column it is in ----------
+   This carried a floor and a sideways scroll under it, for the captures of a
+   whole screen: a data table shrunk to a phone's width loses the thing it is
+   evidence for, which is that seven trucks and five factors are in reach at
+   once, so the box scrolled and the picture kept 62rem -- the table's own
+   minimum plus its two insets.
 
-   ONLY THE TABLE. This floor used to apply to every capture on the page at a
-   second, lower value -- 38rem -- and a card does not earn it. A card is one
-   surface with one column of text on it, and shrinking it to a phone's width
-   costs nothing but size; a data table shrunk to the same width loses the
-   thing it is evidence for, which is that seven trucks and five factors are
-   in reach at once. What the lower floor actually produced was five captures
-   pinned at 608px in a 500px column, each scrolling sideways to show a
-   picture the column could have held whole. The sideways scroll is now the
-   three screen captures' alone, where it is the argument, and a card capture
-   takes the column it is in.
-
-   The floor that is left is not a number chosen here: the fleet capture is
-   the data table plus its ground, and the table authors its own minimum at
-   60rem, so 62rem is that minimum and the two insets around it. The box
-   bleeds through the gutter to the viewport so a phone gets the width back,
-   and the caption stays outside it: a caption that scrolled away from its
-   picture would be the one piece of this that has to stay put. */
+   Every capture that earned it went on 2026-09-20 with the four decisions
+   that carried them. What is left on the page is three cards -- the hero's
+   comparison and decision 02's pair -- and the rule this block already
+   stated is that A CARD DOES NOT EARN THE FLOOR. A card is one surface with
+   one column of text on it, and shrinking it to a phone's width costs
+   nothing but size; the way back to it whole is the "Full size" link below,
+   not a sideways scroll. So the floor is gone rather than rescoped, and
+   .ckw-scroll is the hook the link's rule and the shadow hang on. */
 .ckw-scroll { display: block; }
-@media (max-width: 63.99rem) {
-  .ckw-decision--screen .ckw-scroll {
-    margin-inline: calc(var(--gutter) * -1);
-    padding-inline: var(--gutter);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-  }
-  .ckw-decision--screen .ckw-scroll img { min-width: 62rem; }
-}
 
 /* THE WAY BACK TO FULL SIZE. A card capture that takes the column is printed
    under the size it was drawn -- the stale note is 888px of interface and
@@ -923,9 +850,9 @@
    app-device.js stands over the page, and a tablet with a site nav in it is
    a tablet showing a website. So the flag in the head of the page hands the
    document data-embed and these rules take everything off it but the
-   cockpit: the skip link, the nav, the hero, the slideshow, the three
-   chapters of write-up and the footer. What is left is the one thing the
-   card promised.
+   cockpit: the skip link, the nav, the hero, the two chapters of write-up
+   either side of it and the footer. What is left is the one thing the card
+   promised.
 
    THE FRAME COMES OFF WITH THEM, and that is the point of the block rather
    than an afterthought in it. .ck-frame is the site's device chrome -- a
@@ -991,293 +918,6 @@ html[data-embed] .ck { border-radius: 0; }
    .container, like every other block here, and this rule only reaches a
    .case-narrow that has a .container above it. */
 .ckw-page .container .case-narrow { margin-inline: 0; }
-
-/* ============================ THE SLIDESHOW ==============================
-   Four screens in a row, one ranged to the page's left edge, the next cut by
-   the right edge of the track. The cut is the only thing on the page that
-   says there are more, and it has to be a real one: a fade or a gradient over
-   the next slide would say "there is more" about an image whose contrast this
-   site measures, and it would say it to nobody who cannot see it. So the
-   neighbours are at full strength and simply run off the sides, and the dots
-   under the track say the same fact in a form a screen reader can read.
-
-   RANGED, NOT CENTRED. Until 2026-09-11 the slide sat in the middle of the
-   viewport, and the paragraph over it and the assumption card over that did
-   not: they range to the container's left edge, so the tablet started 68px
-   to the right of the sentence introducing it. --slide-x is that edge -- the
-   .container's own arithmetic, half of what is left over past --container-max
-   plus the gutter -- and the first slide starts there. The cost is the cue on
-   the left: under about 1344px the gutter is narrower than the gap between
-   slides, so the previous screen does not show at all. That cue was never
-   the important one -- the reader has already seen that screen -- and the
-   arrow under the track says it anyway.
-
-   The mechanism is the browser's. overflow-x plus scroll-snap is the whole
-   slideshow; cockpit-slides.js adds arrows, dots and a spoken position on top
-   of a thing that already worked without it. -------------------------------- */
-.ck-show {
-  /* The width of one slide, and the source of every other number here. The
-     capture is 680 of screen and 680 plus two bezels was the widest worth
-     showing -- past its own size it is an upscale. 660 is under that on
-     purpose, and it is a tenth over the 600 it was until 2026-09-17: at 616
-     outer the tablet read as a card, and the head and caption were carrying
-     more of the explaining than the screen they were about. At 676 the
-     capture is still a downscale, which is sharp, and the 20px short of the
-     cap goes to the next screen at the right, which is the one cue saying
-     there are more. 84vw is what leaves a neighbour showing on anything too
-     narrow for the cap. */
-  --slide-w: min(calc(660px + var(--bezel) * 2), 84vw);
-  --slide-gap: var(--space-xl);
-  /* Where the slide starts: the left edge of a .container, which is the edge
-     the assumption card in the header ranges to. 100% is the viewport here,
-     because .ck-show is full-bleed. */
-  --slide-x: max(var(--gutter), calc((100% - var(--container-max)) / 2 + var(--gutter)));
-  margin-top: var(--space-2xl);
-}
-/* On a phone the ground has to come out of the slide rather than out of the
-   gap: 88vw with a 32px gap put the next slide's left edge a pixel past the
-   viewport, which is a slideshow that looks like a single picture. 80 and a
-   narrower gap leave about 24px of the next screen showing, which is the
-   whole cue. */
-@media (max-width: 47.99rem) {
-  .ck-show { --slide-w: 80vw; --slide-gap: var(--space-md); }
-}
-.ck-slides {
-  list-style: none;
-  margin: 0;
-  display: flex;
-  gap: var(--slide-gap);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  /* A flick that runs out of slides should stop at the end of the slideshow
-     rather than carry the page sideways behind it. */
-  overscroll-behavior-inline: contain;
-  /* The start padding is what puts the first slide on the container's edge,
-     and the end padding is what lets the last one get there too: without it
-     the scroller runs out of room with the fourth screen still short of the
-     line the other three snapped to. scroll-padding matches the start so a
-     snap lands in the same place a press does. */
-  padding-inline: var(--slide-x) max(0px, calc(100% - var(--slide-x) - var(--slide-w)));
-  scroll-padding-inline-start: var(--slide-x);
-  /* Room for the focus ring and the shadow under each screen; without it both
-     are clipped by the scroll box. */
-  padding-block: var(--space-2xs) var(--space-sm);
-  scrollbar-width: none;
-}
-.ck-slides::-webkit-scrollbar { display: none; }
-/* The list is focusable, because a region that scrolls has to be reachable
-   without a pointer. The ring goes round the whole track rather than the
-   active slide: the track is what the key is scrolling. */
-.ck-slides:focus-visible {
-  outline: 2px solid var(--color-accent-deep);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-.ck-slide {
-  flex: 0 0 auto;
-  width: var(--slide-w);
-  min-width: 0;
-  scroll-snap-align: start;
-}
-/* A neighbour is something to pull in. The script marks every slide before
-   the one on show is-prev and every one after it is-next, the cut neighbour
-   takes the pointer, and a click on it scrolls it into place -- the same
-   move as the arrow under the track, from the thing the eye is already on.
-
-   IT USED TO GROW AN ARROW UNDER THE POINTER AND NO LONGER DOES. A round
-   badge faded in over the tablet on hover, saying what the cursor had
-   already said. On a page whose argument is that an interface can be calm,
-   a control that appears when the pointer crosses a photograph is one more
-   thing moving, and it moved over the very captures this section is asking
-   the reader to look at. The cursor is the affordance now; the arrows under
-   the track are the visible ones, and they never move. */
-.ck-slide.is-prev,
-.ck-slide.is-next { cursor: pointer; }
-
-/* The situation, over the screen. A number, the situation's own name in the
-   sage, then what this particular screen is -- the same three-part line the
-   tabs and the blurb make under the cockpit, folded into one row.
-
-   Two classes deep, for the reason .build-diagram .build-switch-head is:
-   .case-section p is class-and-element, so a single class on a <p> loses to
-   it and this line would come back at reading size and reading leading. */
-.ck-show .ck-slide-head {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  column-gap: var(--space-xs);
-  row-gap: var(--space-2xs);
-  margin: 0 0 var(--space-md);
-  font-family: var(--font-sans);
-  line-height: var(--leading-ui);
-}
-.ck-slide-n {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-accent-text);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-warm);
-  font-variant-numeric: tabular-nums;
-}
-.ck-slide-sit {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-accent-text);
-}
-/* What is happening on the screen, in a plain sentence, under the number and
-   the situation and across both columns. --text-lg, because at half the
-   width the picture no longer explains itself and this line is doing the
-   work the picture used to. */
-.ck-slide-title {
-  grid-column: 1 / -1;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  color: var(--color-charcoal);
-}
-
-/* The screen, in the tablet. The same object as .ck-frame under it and the
-   homepage card's thumb: one --bezel of --device-chrome, --shadow-device,
-   and the inner radius DERIVED from the outer so the two corners are
-   concentric. --shell-radius is --radius-xl, the card's, because this is
-   the card's tablet -- nearly square, no foot -- and not the laptop the
-   1920px frame below takes its 14 from. Under 48rem the shell holds the
-   phone capture and takes the phone's 30, which is .build-phone's.
-
-   The ratio is declared on the image rather than inherited from the file,
-   because <picture> swaps 4:3 for a portrait one at 48rem and a box that
-   resizes after the image decodes is a layout shift. The capture carries
-   its own warm ground to the edge; the bezel is what says where the screen
-   stops, which is why there is no border here any more. */
-.ck-slide-fig { margin: 0; }
-.ck-slide-screen {
-  --shell-radius: var(--radius-xl);
-  padding: var(--bezel);
-  border-radius: var(--shell-radius);
-  background: var(--device-chrome);
-  box-shadow: var(--shadow-device);
-}
-.ck-slide-screen img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  border-radius: calc(var(--shell-radius) - var(--bezel));
-  background: var(--color-warm);
-}
-@media (max-width: 47.99rem) {
-  .ck-slide-screen { --shell-radius: 30px; }
-  .ck-slide-screen img { aspect-ratio: 780 / 1640; }
-}
-/* --text-sm and charcoal rather than the --text-xs muted grey every other
-   caption on this page takes: those captions annotate a picture that is
-   already legible, and this one is half the explanation. */
-.case-section .ck-slide-fig figcaption {
-  margin: var(--space-md) 0 0;
-  /* The measure, or the slide, whichever is narrower. --measure resolves to
-     about 620 and the slide is 616, so without the min() the caption would
-     be the one thing on the slide wider than the tablet it describes. */
-  max-width: min(var(--measure), 100%);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-
-/* ---------- The controls under the track ----------
-   Ranged to the same edge as the slide, --slide-x, so the arrows sit under
-   the screen they move rather than under the middle of a full-bleed track.
-   They were centred while the slide was; a centred control under a ranged
-   slide would be the one thing on the section on a different line. */
-.ck-show-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-  padding-inline-start: var(--slide-x);
-}
-.ck-show-group {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-.ck-show-nav {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* 44, which is the pointer target every other round control on this site
-     takes, and well over the 24 the success criterion asks for. */
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
-  color: var(--color-charcoal);
-  cursor: pointer;
-  transition: background-color var(--motion-state) var(--ease),
-              border-color var(--motion-state) var(--ease);
-}
-.ck-show-nav .ck-icon { width: 1.25rem; height: 1.25rem; vertical-align: 0; }
-.ck-show-nav:not([aria-disabled="true"]):hover { background: var(--wash-on-light-hover); }
-/* At either end the button stays in the tab order and stays pressable; it
-   just has nowhere to go, and says so. Not [disabled]: disabling the element
-   the reader is standing on drops their focus to the top of the document. */
-.ck-show-nav[aria-disabled="true"] {
-  border-color: var(--color-tag-border);
-  color: var(--color-muted-gray);
-  background: none;
-  cursor: default;
-}
-.ck-show-dots {
-  display: flex;
-  align-items: center;
-  /* 2px, tighter than --space-2xs: the dots are one control, not five. */
-  gap: 2px;
-}
-.ck-show-dot {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* The mark is 8px; the button around it is 24, which is the target size
-     rather than the drawing. */
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-.ck-show-dot-mark {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: var(--radius-pill);
-  background: var(--color-tag-border);
-  transition: background-color var(--motion-state) var(--ease),
-              width var(--motion-move) var(--ease);
-}
-.ck-show-dot:hover .ck-show-dot-mark { background: var(--color-muted-gray); }
-/* The one at the middle of the track is a bar rather than a dot, so which
-   screen you are on survives being seen out of the corner of an eye. */
-.ck-show-dot[aria-current="true"] .ck-show-dot-mark {
-  width: 1.25rem;
-  background: var(--color-accent-text);
-}
-.ck-show .ck-show-count {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-  font-variant-numeric: tabular-nums;
-}
 
 /* ---------- The stage: the situation over the cockpit ----------
    One column, always. Until 2026-09-11 this was a two-column grid: a 19rem
@@ -1464,9 +1104,6 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-try-h .ck-icon,
 .ck .ck-sort-icon { height: 1lh; }
 
-/* .ck-show-live is a <p>, so it needs the class twice over for the same
-   reason the slide's head does. */
-.ck-show .ck-show-live,
 .ck-visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

@@ -1,22 +1,30 @@
 #!/usr/bin/env node
 /* cockpit-shots.mjs -- capture the cockpit's own screen, in pieces, for the
- * page that explains it.
+ * page that explains it and for the homepage card that opens it.
  *
- *   node scripts/cockpit-shots.mjs            all of them, into img/cockpit/
- *   node scripts/cockpit-shots.mjs factors    just that one
+ *   node scripts/cockpit-shots.mjs              all of them, into img/cockpit/
+ *   node scripts/cockpit-shots.mjs close-call   just that one
  *
- * WHY THIS EXISTS. The prototype page argues four design decisions and, until
- * #78, ended each one with a sentence naming where to go and look. A sentence
- * is not evidence. Each decision now sits beside the piece of interface that
- * makes it, and the pieces are captured from the running prototype rather than
- * drawn, because a drawing of an interface is a claim about an interface and
+ * WHY THIS EXISTS. A sentence naming where to go and look is not evidence, so
+ * what the prototype page shows is captured from the running prototype rather
+ * than drawn: a drawing of an interface is a claim about an interface, and
  * these are meant to be the thing itself.
+ *
+ * FOUR CAPTURES, DOWN FROM SIXTEEN. Until 2026-09-20 this file also made the
+ * eight slides of a scroll-snap slideshow above the demo and a capture for
+ * each of the five design decisions below it, and every one of those was a
+ * photograph of something the reader could press for themselves a screen
+ * away. The page keeps the four that earn a still: the hero's close call, the
+ * rule and the stale reading under decision 02, which are the one comparison
+ * the live panel can only make across two tab presses, and the wide close
+ * call the HOMEPAGE's prototype card prints -- the one capture here that is
+ * not for this page at all.
  *
  * It is a script and not an afternoon of screenshots for the reason dcf.mjs
  * and lucy.mjs are: the cockpit is still being designed. A restyle is one run
  * here, and a hand capture is the one that drifts out of step with the live
- * demo three sections above it, which is the one place on this site where a
- * stale screenshot would be caught immediately and look worst.
+ * demo a section above it, which is the one place on this site where a stale
+ * screenshot would be caught immediately and look worst.
  *
  * HOW A SHOT IS FRAMED. The page is loaded whole, then stripped to the
  * cockpit: the fixed header goes, the device bezel goes, and the switcher and
@@ -35,20 +43,15 @@
  * is 10px type, and the whole point of showing the table is that it can be
  * read.
  *
- * THE SLIDES ARE FRAMED DIFFERENTLY FROM THE SHOTS, and the difference is the
- * whole reason they can sit on the same page. A shot clips to a card and stops
- * where the card stops, so it reads as a detail lifted out of a screen. A slide
- * names a `aspect` instead: the clip takes the region's own top edge and then a
- * fixed window of that ratio down from it, whatever is in the way. So a slide is a
- * WINDOW ON THE SCREEN rather than a cut-out of one, every slide is the same
- * shape as every other, and a card that runs past the bottom edge runs past it
- * the way it does on a monitor. That is what keeps the slideshow above from
- * printing the same six pictures the four decisions print below.
- *
- * A uniform shape is not a nicety here. The slides sit in a scroller where the
- * next one shows at the edge, and a track of ragged heights is the difference
- * between a gallery and a pile. It is the reason `aspect` exists rather than a
- * per-slide pad.
+ * A SLIDE IS FRAMED DIFFERENTLY FROM A SHOT. A shot clips to a card and stops
+ * where the card stops, so it reads as a detail lifted out of a screen. A
+ * slide names an `aspect` instead: the clip takes the region's own top edge
+ * and then a fixed window of that ratio down from it, whatever is in the way.
+ * So a slide is a WINDOW ON THE SCREEN rather than a cut-out of one, and a
+ * card that runs past the bottom edge runs past it the way it does on a
+ * monitor. One slide is left -- the homepage card's -- and `aspect` stays
+ * because that card's whole argument is that the window is the device's own
+ * 4:3 shape.
  *
  * Chromium encodes the WebP, for the reason lucy.mjs gives: one encoder, one
  * answer to how a pixel is rounded. 0.82, which is what cockpit.mjs and
@@ -101,80 +104,6 @@ const SHOTS = [
     padBottom: 10,
     note: 'the hero: two options the system will not separate',
   },
-  {
-    name: 'factors',
-    scenario: 'confident',
-    /* 1320 is the width the cockpit is designed for, not the width a laptop
-       gives it. The frame on the page runs to 1920 because this is a monitor
-       interface, and at 1240 of panel the fleet data table is whole, the pair
-       is side by side and the factor card is 600 wide -- near the size these
-       captures are displayed at. At 1440, a laptop, the panel is 912 and the
-       table scrolls inside its wrapper; that is real, and it is not what
-       these four are about. */
-    width: 1320,
-    clip: ['.ck-card'],
-    /* The gap to the record card beside it is 24, so a 24 pad lands exactly
-       on that card's border. */
-    padRight: 12,
-    note: '01: the factor list, on its own',
-  },
-  {
-    name: 'outcomes',
-    scenario: 'confident',
-    width: 1320,
-    /* Expanded, not summarised. The decision this sits beside is that the
-       exceptions are the useful part, and a capture of the closed disclosure
-       would show the percentage the decision argues against. */
-    open: '.ck-misses',
-    clip: ['.ck-confidence'],
-    padLeft: 12,
-    padBottom: 12,
-    note: '02: the record, with the two misses open',
-  },
-  {
-    name: 'override-choose',
-    scenario: 'confident',
-    /* 1080, not 1320, for the three captures of a whole screen. 1320 is the
-       width the cockpit is designed for and it is the right width for a
-       capture of one CARD, which is 600 wide whatever the panel around it
-       is. It is the wrong width for a capture of the table, because the
-       table then comes out 1288 and the page has nowhere to put 1288 except
-       the full container -- which is how the fleet ended up printed larger
-       than any other evidence on the page purely because its source file
-       was larger. At 1080 the panel is 1000, the data table is whole at its
-       own 60rem minimum, and the capture lands near the 64rem the section
-       gives a screen. Smaller at its own scale, rather than the same
-       picture shrunk. */
-    width: 1080,
-    /* The head and three rows, not the whole table: 04 below shows the table
-       whole, and two captures of the same seven rows a section apart would
-       read as one picture printed twice. This one is about the control at the
-       end of every row. */
-    /* nth-child(5), not (3). Every fleet row is now followed by its own
-       hidden detail row, so the trucks sit at 1, 3, 5 -- and the selector
-       that used to reach the third truck reaches the second. The shot is
-       meant to show the head and three rows, which is what 5 spans. */
-    clip: ['.ck-table thead', '.ck-table tbody tr:nth-child(5)'],
-    /* No margin under it. The clip ends on the third row's own bottom rule,
-       and a pad there would let a quarter of the fourth row through, which
-       reads as a mistake rather than as a table that continues. */
-    padBottom: 0,
-    note: '03, first frame: Assign on every row the rule allows',
-  },
-  {
-    name: 'override-after',
-    scenario: 'override',
-    width: 1080,
-    clip: ['.ck-status', '.ck-why'],
-    note: '03, second frame: the question afterwards',
-  },
-  {
-    name: 'fleet',
-    scenario: 'rule',
-    width: 1080,
-    clip: ['.ck-fleet'],
-    note: '04: the whole fleet, and the row a rule removed',
-  },
   /* Decision 02's two frames, since 2026-09-19: the rule and the reading,
      one above the other on the page so a reader sees that they are not the
      same colour of thing even though they share the one caution colour. */
@@ -197,36 +126,16 @@ const SHOTS = [
     note: '02, second frame: a figure the system will not vouch for',
   },
 
-  /* ----- the slides ------------------------------------------------------
-     Four windows on the screen, in the order the section walks them, each
-     shown on the page inside the tablet the homepage card uses. 680 by 510,
-     which is 4:3 -- a tablet in landscape IS 4:3, so the window's shape is
-     the device's shape and nothing has to be reconciled, the argument the
-     card makes. At 680 the cockpit is in its one-column layout, so a window
-     this size holds one card at its real size rather than a whole screen at
-     half of it: the slide is SIMPLER, not smaller. The only dial is where the
-     window starts, and each says what it is anchored to and why. */
-  {
-    name: 'slide-pick',
-    scenario: 'confident',
-    width: 680,
-    aspect: 4 / 3,
-    stagePad: 20,
-    /* The factor card on its own. The "Recommended" heading over it is the
-       caption's job; the card already names the truck and the driver, and
-       what the slide is for is the five rows under them, whole. */
-    clip: ['.ck-card'],
-    /* Tea-light to the glass: the window sits inside the answer zone, and a
-       warm margin either side of it is a gutter, not the screen. See strip. */
-    ground: 'tea-light',
-    /* The card and its two 20px gaps are 499; the window is 510, so one edge
-       shows 11px of something whichever way it sits. At the bottom that is
-       the next card's top border on ground, which is what a screen with more
-       below it looks like; at the top it would be the descenders of the
-       heading over the card, which is a heading cut in half. */
-    padTop: 20,
-    note: 'slide 1: the pick, and the five things behind it',
-  },
+  /* ----- the homepage card's window --------------------------------------
+     THE ONE CAPTURE HERE THAT IS NOT FOR THE PROTOTYPE PAGE. index.html's
+     prototype card prints this inside a tablet, so it is a window on the
+     screen rather than a cut-out: 680 by 510, which is 4:3, and a tablet in
+     landscape IS 4:3, so the window's shape is the device's shape and nothing
+     has to be reconciled -- the argument the card makes. At 680 the cockpit is
+     in its one-column layout, so a window this size holds one card at its real
+     size rather than a whole screen at half of it. Its three companions and
+     the four narrow variants went with the slideshow on 2026-09-20; check
+     index.html before deleting this one. */
   {
     name: 'slide-close-call',
     scenario: 'tie',
@@ -240,86 +149,7 @@ const SHOTS = [
     padTop: 20,
     note: 'slide 2: two trucks the system will not separate',
   },
-  {
-    name: 'slide-override',
-    scenario: 'override',
-    width: 680,
-    aspect: 4 / 3,
-    stagePad: 20,
-    /* The question alone. The status line above it would cost the two
-       buttons at the bottom, and Save beside Skip at the same weight is the
-       decision this slide shows. */
-    clip: ['.ck-why'],
-    /* The same 14px too many as slide 1, taken at the top: 40 puts the
-       window's top edge in the lower sixth of the grey status pill, under
-       its text, rather than 14px into the charcoal head of the data table
-       below, which is the loudest thing on the screen. */
-    padTop: 40,
-    note: 'slide 3: the question, after the override',
-  },
-  {
-    name: 'slide-rule',
-    scenario: 'rule',
-    width: 680,
-    aspect: 4 / 3,
-    stagePad: 20,
-    clip: ['.ck-reco'],
-    padTop: 20,
-    note: 'slide 4: a rule, above the best truck the rule allows',
-  },
 
-  /* ----- the same four slides, for a phone ------------------------------
-     A 1320px capture shown 330px wide is a picture of an interface nobody
-     could read, which on a page arguing that seven trucks stay in reach at
-     once would be the worst place on this site to make that claim badly. So
-     the narrow slides are not the wide ones scaled: they are the cockpit's
-     own phone layout, captured at the width it is designed for, and the
-     slideshow serves them under 48rem with <picture>.
-
-     390 by 820 rather than 4:3, because that is the shape of the thing
-     being photographed. A phone screen is portrait and every card on it is
-     stacked, so a landscape window would hold two rows of one card. */
-  {
-    name: 'slide-pick-sm',
-    scenario: 'confident',
-    width: 390,
-    aspect: 390 / 820,
-    stagePad: 16,
-    clip: ['.ck-load'],
-    ground: 'tea-light',
-    padTop: 16,
-    note: 'slide 1, narrow',
-  },
-  {
-    name: 'slide-close-call-sm',
-    scenario: 'tie',
-    width: 390,
-    aspect: 390 / 820,
-    stagePad: 16,
-    clip: ['.ck-reco'],
-    padTop: 16,
-    note: 'slide 2, narrow',
-  },
-  {
-    name: 'slide-override-sm',
-    scenario: 'override',
-    width: 390,
-    aspect: 390 / 820,
-    stagePad: 16,
-    clip: ['.ck-status', '.ck-why'],
-    padTop: 16,
-    note: 'slide 3, narrow',
-  },
-  {
-    name: 'slide-rule-sm',
-    scenario: 'rule',
-    width: 390,
-    aspect: 390 / 820,
-    stagePad: 16,
-    clip: ['.ck-reco'],
-    padTop: 16,
-    note: 'slide 4, narrow',
-  },
 ];
 
 /* The strip. Everything here is page furniture around the cockpit, or the

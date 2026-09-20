@@ -129,7 +129,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
-| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}`, `prototype/cockpit-slides.js` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `cockpit-slides.js` is the arrows and dots over the four screens above the demo, and nothing else depends on it: the slides are a scroll-snap list that works without it. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` both the eight crops the page's design decisions sit beside and the eight slides, four wide and four narrow. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the slideshow, the three chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
+| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
 | `writing/*.html` | The index and nine articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
@@ -267,23 +267,23 @@ trimmed off them, on the case-study shell at the root. The homepage's
 
 **Prototypes** -- `prototype/dispatch-cockpit.html`. A working demo rather
 than a write-up: the page wraps a vanilla HTML, CSS and JavaScript cockpit in
-the problem it answers, four design decisions, and what would be tested next.
-Since #78 each decision sits beside a capture of the thing it decided rather
-than a sentence naming where to go and look, and the captures are made from
-the running prototype by `scripts/cockpit-shots.mjs`, so the picture and the
-live demo cannot drift apart.
+the problem it answers, five design decisions, and what would be tested next.
 
-The page shows before it explains. It opens on five of those captures in a
-scroll-snap slideshow -- the situation over each screen, one sentence under
-it, the next screen cut by the edge of the track -- and the cockpit itself
-follows under "Try it yourself". Until that landed, the demo came first with
-a rail of numbered callouts beside it and a badge drawn on each element they
-named, which annotated a screen the reader had not looked at yet and left a
-monitor-width interface two thirds of the frame to render in. The slideshow
-has no autoplay and no rotation, its arrows stay focusable at the ends, and
-under 48rem `<picture>` swaps each wide capture for the cockpit's own phone
-layout, because a 1320px screenshot shown 330px wide is a picture of an
-interface nobody can read. Its
+The page lets the reader press the thing before it explains it. Since
+2026-09-20 the problem is followed straight by the live cockpit, and the
+decisions come after, as the argument about an interface the reader has
+already had their hands on. Two arrangements came off to get there and both
+were the same mistake at different sizes: a rail of numbered callouts beside
+the demo, which annotated a screen nobody had looked at yet and left a
+monitor-width interface two thirds of the frame; and then a scroll-snap
+slideshow of four captures above it, which put a photograph of the prototype
+between the reader and the prototype and pushed the hero's own "Try the
+prototype" button four thousand pixels down the page. What survives is the
+pair under decision 02 -- the rule and the stale reading, side by side,
+because that comparison is the one the live panel can only make across two
+tab presses and a scroll -- and they are made from the running prototype by
+`scripts/cockpit-shots.mjs`, so the picture and the live demo cannot drift
+apart. Its
 own directory rather than `case-study/`, because `tailwind.config.js` reads
 every word of every file there as a candidate class, and a page with this
 much interactive markup would have emitted utilities into the built
