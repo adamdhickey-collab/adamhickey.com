@@ -155,7 +155,32 @@
      All of them are built on --color-black. The four near-blacks that were in
      use for shadows -- #000, #111111, #1b1d1a and #252525 -- differ by less
      than a shadow can show. */
-  --shadow-card:     0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04); /* a card at rest, with its keyline */
+  /* A CARD AT REST. This was 0 1px 3px at 6% over a 4% ring, and the ring was
+     the problem: 4% black is 1.09:1 on white and 1.09 on warm, which is not an
+     edge, it is a rumour of one. --shadow-media learned this first and the
+     paragraph below records it; the same three layers answer it here. The ring
+     is the edge and takes the rule token, the 1px layer is the contact shadow,
+     and the drop carries a NEGATIVE spread so the blur sits under the card
+     rather than haloing out around it.
+
+     SHALLOWER THAN --shadow-media, and the gap is the point rather than an
+     accident of tuning. A framed figure in an essay is presented -- lifted off
+     the page and looked at. A card in an interface RESTS on it. Give the two
+     the same numbers and the scale has two names for one height, which is the
+     pair COLOR.md section 7 spends its last entry warning about. */
+  --shadow-card:     0 0 0 1px var(--rule-hairline),
+                     0 1px 2px rgba(0,0,0,0.06),
+                     0 8px 16px -8px rgba(0,0,0,0.14);   /* a card at rest: keyline, contact, tucked drop */
+  /* THE ONE CARD THAT LIFTS ABOVE ITS SIBLINGS. Not a hover and not a variant:
+     a second resting height, for the card a screen is asking you to act on
+     while the others are there to be consulted. The cockpit is the case --
+     one white surface carries the Assign button and the rest carry evidence,
+     an order its stylesheet has asserted in a comment since the tinted
+     ground arrived and has never drawn. Same keyline, same contact, a drop
+     roughly twice as far. */
+  --shadow-card-raised: 0 0 0 1px var(--rule-hairline),
+                     0 2px 4px rgba(0,0,0,0.06),
+                     0 18px 32px -16px rgba(0,0,0,0.22); /* the one card on a screen that is asking to be acted on */
   --shadow-resting:  0 1px 8px rgba(0,0,0,0.06);        /* a bar or rail sitting on the page: nav, progress rail, step card */
   /* --shadow-media used to be one soft halo, 0 8px 24px at 8%. On the
      drawings it had nothing to work with: their putty-cream ground is 1.05:1

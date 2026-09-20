@@ -632,11 +632,22 @@
 }
 .ckw-compare-side {
   padding: var(--space-lg) var(--space-xl);
-  border: 1px solid var(--color-tag-border);
   border-radius: var(--radius-xl);
   background: var(--color-white);
+  box-shadow: var(--shadow-card);
 }
-.ckw-compare-side--b { border-color: var(--color-accent-deep); }
+/* The B side's edge is an ARGUMENT -- it is the side being recommended -- so
+   it keeps its sage, and keeps it where the elevation keeps its keyline
+   rather than beside it. Swapping the first layer is the whole change: the
+   contact shadow and the drop stay, so B sits at the same height as A and
+   differs only in the colour of its edge, which is the one thing it is
+   trying to say. accent-deep is 4.12:1 on warm, past the 3:1 a boundary
+   carrying meaning owes. */
+.ckw-compare-side--b {
+  box-shadow: 0 0 0 1px var(--color-accent-deep),
+              0 1px 2px rgba(0,0,0,0.06),
+              0 8px 16px -8px rgba(0,0,0,0.14);
+}
 .case-section .ckw-compare-side p {
   margin: var(--space-xs) 0 0;
   font-size: var(--text-base);
@@ -688,9 +699,9 @@
 }
 .ckw-questions > li {
   padding: var(--space-lg) var(--space-xl);
-  border: 1px solid var(--color-tag-border);
   border-radius: var(--radius-xl);
   background: var(--color-white);
+  box-shadow: var(--shadow-card);
 }
 .case-section .ckw-questions h3 {
   margin: 0 0 var(--space-xs);
@@ -1247,14 +1258,35 @@ html[data-embed] .ck { border-radius: 0; }
   min-width: 0;
 }
 
-/* A white card is the cockpit's surface on the section's warm ground. */
-.ck-card,
+/* A white card is the cockpit's surface on the section's warm ground.
+
+   AN ELEVATION, NOT A LINE. These carried 1px of --color-rule, which on the
+   warm ground is a 1.42:1 grey drawn all the way round -- the same weight on
+   the side of a card as on its top, saying "bounded" where the thing worth
+   saying is "on top of". The keyline is still here, as the first layer of
+   the elevation and at a tenth of the charcoal rather than an opaque grey;
+   under it sit a contact shadow and a drop with a negative spread. That is
+   the arrangement --shadow-media has used since it stopped being a halo, and
+   the whole of it is one token, so no card draws a border of its own: a 1px
+   border beside a 1px ring is a 2px edge (COLOR.md section 4).
+
+   TWO HEIGHTS, BECAUSE THE SCREEN HAS TWO KINDS OF CARD. The load, the fleet
+   table and the override reason are there to be consulted; the truck card is
+   the one being acted on, and it is the only one with a button. This file has
+   asserted that order in words since the tinted ground arrived -- "one raised
+   white surface, the card with the Assign button on it" -- and drawn all four
+   at the same height anyway. Now the drop says it. */
 .ck-load,
 .ck-why,
 .ck-table-wrap {
   background: var(--color-white);
-  border: 1px solid var(--color-rule);
   border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.ck-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card-raised);
 }
 
 /* ---------- The load ---------- */
@@ -1562,9 +1594,12 @@ html[data-embed] .ck { border-radius: 0; }
   gap: var(--space-xs);
   margin: var(--space-md) 0 0;
   padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--rule-hairline);
   border-radius: var(--radius-xl);
   background: var(--color-white);
+  /* Already the one raised thing inside a tinted lead, and already drawing
+     the elevation's own keyline by hand. It takes the token instead, so the
+     note lifts off .ck-lead the way the cards lift off the warm ground. */
+  box-shadow: var(--shadow-card);
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   line-height: var(--leading-body);
