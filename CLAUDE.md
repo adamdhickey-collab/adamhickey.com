@@ -373,11 +373,11 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-19 the tree measures 6002 resting colors, 1859 state
-rules, 24720 type sizes and 15094 elements checked for a partial border on a
+unmeasured. At 2026-09-20 the tree measures 5991 resting colors, 1858 state
+rules, 24842 type sizes and 14749 elements checked for a partial border on a
 curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-121 token names against 192 declarations and 10 counted claims.
+121 token names against 190 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
 the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
@@ -388,40 +388,55 @@ one, and it has moved since. **The state rule count did not move, on
 purpose** -- rules come out of the stylesheet and are the same in every
 state, so `states.mjs` counts them once per page. A reachable state that
 inflated this number would be corrupting the one instrument the section below
-asks you to trust. **The four browser numbers are the only ones here that
-nothing verifies.** They are
-maintained by hand and will drift. Treat them as a tripwire rather than a
+asks you to trust. **The four browser numbers are maintained by hand and
+nothing verifies them** -- nor the token total printed beside them, which
+the paragraph on declarations below sets out. They will drift. Treat them as a tripwire rather than a
 record: a run that comes back materially smaller means something stopped
 being measured, and that is worth more than the digits being exactly right.
 Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on `claude/assigned-button-ink` at d0b4be7, which is
-the unscoped sweep of all four browser checks, and they replace the
-2026-09-18 set of 5725 / 1813 / 23626 / 14464, taken on
-`claude/glance-underline-hugs-words` at d6bc217. The page count did not
-move -- 29 before and 29 after, which is the number to read first.
+CI run of `checks.yml` on **`main` at 774df5e** -- the post-merge sweep
+rather than a run against a branch, which is the first of these taken that
+way and the cheapest way to take one, since that sweep runs whether anybody
+reads it or not -- and they replace the 2026-09-19 set of 6002 / 1859 /
+24720 / 15094, taken on `claude/assigned-button-ink` at d0b4be7. The page
+count did not move -- 29 before and 29 after, which is the number to read
+first.
 
-This one splits cleanly in two, which is unusual and worth writing down
-while it is still legible. #225 added a seventh reachable state to the
-cockpit -- the far side of Assign, which nothing had ever pressed -- and a
-reachable state is a whole fresh load of its page, so it cost 281 resting
-colors, 1106 type sizes and 745 curve elements, all on
-`prototype/dispatch-cockpit.html`, measured scoped against the tree it was
-cut from. **It cost no state rules, and that is the check working**: rules
-come out of the stylesheet and are counted once per page, so a new state
-must not move that number. Take those three off the figures above and what
-is left is the drift of #221 through #224, the four that landed after
-d6bc217 was measured: resting down four, type sizes down twelve, curve
-elements down a hundred and fifteen, and the state rules up forty-six.
-#221 moved the ask into the first screen and changed every call to
-action, #223 reverted two parts of that, #222 restructured the prototype
-card and #224 gave its link a hairline that takes the alternate ground into
-account -- which is where the state rules and the two new token
-declarations, 190 to 192, come from.
+**This one does not split cleanly, and the part that will not split is the
+finding.** #246 took the cockpit's slideshow off the page, along with the
+captures beside four of its five decisions, and its own share was measured
+scoped against the tree it was cut from: resting down 184, type sizes down
+800, curve elements down 808, and three state rules, which were the
+slideshow's own hover and focus rules. Each of the first three divides by
+its own multiplier -- 23 text nodes and 101 elements over the eight fresh
+loads a page with seven reachable states costs, and 25 text nodes over the
+thirty-two renders that four widths of those make -- because everything
+removed sat outside the cockpit. **The state rules did not divide by
+anything, and that is the check working**: rules come out of the stylesheet
+and are counted once per page whatever is pressed.
 
-Both older sets carry an account of how they were reached, and all of them
+Subtract that share and the residual is the drift of #226 through #245,
+twenty-one commits: resting UP 173, type sizes UP 922, curve elements UP
+463, state rules up two. Nobody measured those one at a time, and this
+paragraph is not going to invent an account of them -- #227 rebuilt the
+cockpit page around problem-first and five decisions, #229 put the
+watch-for lines on the card, #238 moved each decision's argument to its
+measure, and eight of the twenty-one retook captures. What the residual is
+FOR is its size: a tripwire that drifts by nine hundred type sizes in
+three weeks is one to re-measure on that cadence rather than when somebody
+remembers, and the post-merge sweep above is sitting there every time.
+
+**The token declarations drift too, and nothing checks them either.** 192 at
+d0b4be7, 193 after those same twenty-one, and 190 now, because #246 deleted
+`--slide-w`, `--slide-gap` and `--slide-x` along with the slideshow that
+named them. `tokens.mjs` holds every name the docs USE to a declaration; the
+total it prints is a count, and a count in prose here is the same kind of
+hand-maintained number as the four above.
+
+The older sets carry an account of how they were reached, and all of them
 are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these four when they have
