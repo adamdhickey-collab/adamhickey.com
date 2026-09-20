@@ -487,6 +487,16 @@ Four rules that came with #29, each held by `seo.mjs`:
   today and the same run wrote the two two days apart. Because `--write`
   can no longer correct a stamp that is wrong in the other direction, the
   check faults a `dateModified` or a `lastmod` dated in the future.
+
+  **How a stamp got ahead of its commit in the first place** was a timezone
+  seam, closed in #245: git's `%as` is the author date in the author's own
+  offset, and `today()` was UTC, so anything committed after 19:00 at -0500
+  was stamped tomorrow. Three commits on the evening of 2026-09-18 put five
+  case studies on 2026-09-19 that way, which is where #244's backwards drag
+  found its material. Those five still read 09-19 and are left alone on
+  purpose: a restamp has to commit them, which gives them that day's git
+  date, so correcting a one-day error would have written a two-day one. The
+  next real edit to each page sets it right.
 - **A FAQ is on the page first.** The four "How I work" pages answer the
   questions people ask in a panel under "When it is one of the other
   three", in the page's own facts (how long it takes, whether it is done
