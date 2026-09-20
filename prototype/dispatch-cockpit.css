@@ -2420,7 +2420,7 @@ html[data-embed] .ck { border-radius: 0; }
 .ck-table .ck-cell-rank { white-space: normal; }
 .ck .ck-rank-n { display: block; }
 /* The marks stack too, rather than running along one line. A row can carry
-   two of them -- "assigned" and a moved marker, or "option A" and a moved
+   two of them -- "assigned" and a moved marker, or "Option A" and a moved
    marker -- and side by side those two set the whole column to 106px in the
    override situation, which was the last thing standing between the fleet
    and its wrapper. */
@@ -2431,10 +2431,27 @@ html[data-embed] .ck { border-radius: 0; }
   gap: 2px;
   margin-top: 2px;   /* was the cell flex's gap, before the cell stopped being one */
 }
+/* A TAG IS ONE LINE. "Option A" broke after "Option" and set the label as
+   two, which reads as two marks rather than one and pushes the row's
+   ordinal off the line its truck id sits on. The column's 4.5rem is a
+   preference and not a cap, so nowrap is simply the tag telling auto layout
+   its real minimum: at 1440 the rank column takes 93px in the close call
+   instead of 81px, and the twelve come off the two widest text columns --
+   Driver 129 and Now at 123 -- neither of which was near wrapping. The
+   table stays at its wrapper's width with nothing to scroll, and 93px is
+   the width the column already took in the override situation, where the
+   "assigned" tag is the widest thing in it. The table's own widest demand
+   is therefore unchanged: 1107px in both situations, which is what a
+   viewport under about 1150 scrolls to either way.
+
+   "Over hours" is the one mark still allowed to wrap, and it is not a tag:
+   it is .ck-rank-rule, which keeps its own flex-wrap and the narrow column
+   that makes it take two lines. */
 .ck .ck-rank-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.2em;
+  white-space: nowrap;
   padding: 0 var(--space-xs);
   border: 1px solid var(--color-accent-deep);
   border-radius: var(--radius-pill);
