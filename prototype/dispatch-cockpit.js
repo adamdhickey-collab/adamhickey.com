@@ -155,11 +155,11 @@
              question: whatever you order the fleet by, the two stay level. */
           { text: 'Sort the fleet by any column: the two stay next to each other.', done: (s) => sortedAny(s) },
         ],
-        /* T-131's hours are 42 minutes old, against 18 minutes to spare over
+        /* T-131's hours are 45 minutes old, against 30 minutes to spare over
            what the run needs: the one case in the four where a figure's age
            changes what the dispatcher should do before pressing Assign. The
            ranking does not move for it, which is the point. */
-        patch: { 'T-131': { dist: 16, hos: 5.8, deadhead: 10, seen: { gps: 3, eld: 42 } }, 'T-118': { dist: 41 } },
+        patch: { 'T-131': { dist: 16, hos: 6.0, deadhead: 10, seen: { gps: 3, eld: 45 } }, 'T-118': { dist: 41 } },
         record: {
           held: 19, of: 31,
           like: 'Loads where the top two trucks were this close on the factors.',
@@ -350,7 +350,7 @@
     `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
   const DIR_ICON = { helps: 'up', hurts: 'down', meets: 'check', neutral: 'dash', 'stands in': 'dash' };
   /* The age line under a factor's name. Stale takes the caution ink and the
-     clock glyph; the words are the same either way, because "42 min ago" is
+     clock glyph; the words are the same either way, because "45 min ago" is
      the fact and the colour is the reading of it. */
   const ageLine = (t, f) => {
     const a = AGE[f.key] && AGE[f.key](t);
@@ -779,7 +779,7 @@
      the recommendation card, side by side, each listing the same five factors
      in the same order. Everything needed was on the screen and none of the
      comparing was done: to answer "which has more hours" a reader had to find
-     the fourth row of the left card, hold 5.8, find the fourth row of the
+     the fourth row of the left card, hold 6.0, find the fourth row of the
      right card, and subtract. Five times. On a phone the two cards stack, so
      the two halves of every comparison ended up about nine hundred pixels
      apart -- which is not a comparison, it is two readings and a memory test.
@@ -878,18 +878,18 @@
      against. It is a reading and not a rule: the row keeps its Assign, and
      what the sentence asks for is a check, not a refusal.
 
-     One step a sentence, in the order a dispatcher thinks it: how old the
-     figure is, what it said, what the run needs, what that leaves, why the
-     age matters, what to do. The earlier wording ("the figure is older than
-     the margin") compared two durations from different worlds and left the
-     reader to work out why that mattered; the sentence that replaces it
-     says the thing itself, and only when the age really does exceed the
-     spare, since a ten-minute-old reading cannot have used up eighteen. */
+     Three sentences: how old the figure is, what it left to spare, what to
+     do. The two numbers sit next to each other and say the rest -- a
+     reading older than the spare it reports may already be wrong by more
+     than that -- so the note does not say it. Two longer forms came before
+     this one, one comparing "the figure" to "the margin" and one walking
+     the arithmetic a step a sentence, and both read as work. The inputs
+     are not hidden: the hours row under the note carries the figure and
+     its age, and the load card carries the run. */
   function staleNote(trucks) {
     return trucks.filter(staleHos).map((t) => {
       const spare = Math.round((t.hos - DATA.load.driveHours) * 60);
-      const gone = t.seen.eld > spare ? ' If the driver has been on the road since that reading, the spare time may already be gone.' : '';
-      return `<p class="ck-fresh" data-age="stale">${icon('clockAlert')}<span><strong>${esc(t.id)}&rsquo;s hours are ${t.seen.eld} minutes old.</strong> The last reading gave the driver ${t.hos.toFixed(1)} hours. This run needs ${DATA.load.driveHours}, so that leaves ${spare} minutes to spare.${gone} Check the logbook before assigning ${esc(t.id)}.</span></p>`;
+      return `<p class="ck-fresh" data-age="stale">${icon('clockAlert')}<span><strong>${esc(t.id)}&rsquo;s hours are ${t.seen.eld} minutes old.</strong> The last reading left ${spare} minutes to spare on this run. Check the logbook before assigning ${esc(t.id)}.</span></p>`;
     }).join('');
   }
 
