@@ -377,7 +377,7 @@ unmeasured. At 2026-09-20 the tree measures 5991 resting colors, 1858 state
 rules, 24842 type sizes and 14749 elements checked for a partial border on a
 curve, across 29 pages (the twenty-eight of the site and `404.html`, which
 the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-121 token names against 190 declarations and 10 counted claims.
+122 token names against 191 declarations and 10 counted claims.
 
 Three of those four jumped when the checks learned to press things, and all of
 the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
@@ -430,11 +430,14 @@ three weeks is one to re-measure on that cadence rather than when somebody
 remembers, and the post-merge sweep above is sitting there every time.
 
 **The token declarations drift too, and nothing checks them either.** 192 at
-d0b4be7, 193 after those same twenty-one, and 190 now, because #246 deleted
+d0b4be7, 193 after those same twenty-one, 190 after #246 deleted
 `--slide-w`, `--slide-gap` and `--slide-x` along with the slideshow that
-named them. `tokens.mjs` holds every name the docs USE to a declaration; the
-total it prints is a count, and a count in prose here is the same kind of
-hand-maintained number as the four above.
+named them, and 191 now: the cockpit's cards took an elevation instead of a
+1px line, and the one card a screen asks you to act on needed a second
+resting height to say so, which is `--shadow-card-raised`. `tokens.mjs`
+holds every name the docs USE to a declaration; the total it prints is a
+count, and a count in prose here is the same kind of hand-maintained number
+as the four above.
 
 The older sets carry an account of how they were reached, and all of them
 are kept, because what a stale tripwire costs is a reading that comes back

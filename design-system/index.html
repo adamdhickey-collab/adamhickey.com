@@ -83,7 +83,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- The site stylesheet IS the system; this page documents it. -->
   <link rel="stylesheet" href="../color.css?v=6" />
-  <link rel="stylesheet" href="../shell.css?v=3" />
+  <link rel="stylesheet" href="../shell.css?v=4" />
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20260920a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260918b" />
@@ -228,7 +228,8 @@
         <table class="ds-table ds-table-wide">
           <thead><tr><th>Token</th><th>For</th></tr></thead>
           <tbody>
-            <tr><td><code>--shadow-card</code></td><td>A card at rest, with its keyline</td></tr>
+            <tr><td><code>--shadow-card</code></td><td>A card at rest: keyline, contact shadow, tucked drop</td></tr>
+            <tr><td><code>--shadow-card-raised</code></td><td>The one card on a screen that is asking to be acted on</td></tr>
             <tr><td><code>--shadow-resting</code></td><td>A bar or rail sitting on the page: nav, progress rail, step card</td></tr>
             <tr><td><code>--shadow-media</code></td><td>A framed image or figure: keyline, contact shadow, tucked drop</td></tr>
             <tr><td><code>--shadow-device</code></td><td>A screen mockup lifted off the page &mdash; contact shadow plus soft drop</td></tr>
@@ -237,7 +238,7 @@
             <tr><td><code>--shadow-lift</code> / <code>-sm</code></td><td>A work-card thumbnail on hover, full grid, and compact</td></tr>
           </tbody>
         </table>
-        <p class="ds-demo-note">This page and the spec both said two tokens covered the site. Neither half held: there were <strong>19 hand-written <code>box-shadow</code> values</strong>, and the two tokens were barely the point &mdash; <code>--shadow-sm</code> had <strong>no consumers at all</strong> and <code>--shadow-card</code> only three, all of them on this page&rsquo;s own chrome. The site&rsquo;s shadows were in practice entirely hand-written, five of them the same lifted-screen idea written five ways. 15 distinct rendered values are now 9. A keyline is not an elevation: <code>0 0 0 1px</code> and its inset form draw a border and take a rule token, never a <code>--shadow-*</code>. A blur is not an edge either: <code>--shadow-media</code> was one 24px halo at 8%, and on a cream drawing over a white or warm ground it was the only thing saying where the picture stopped. It is a ring, a 1px contact shadow and a drop with a negative spread now, so the blur sits under the figure rather than around it.</p>
+        <p class="ds-demo-note">This page and the spec both said two tokens covered the site. Neither half held: there were <strong>19 hand-written <code>box-shadow</code> values</strong>, and the two tokens were barely the point &mdash; <code>--shadow-sm</code> had <strong>no consumers at all</strong> and <code>--shadow-card</code> only three, all of them on this page&rsquo;s own chrome. The site&rsquo;s shadows were in practice entirely hand-written, five of them the same lifted-screen idea written five ways. 15 distinct rendered values are now 10. A keyline is not an elevation: <code>0 0 0 1px</code> and its inset form draw a border and take a rule token, never a <code>--shadow-*</code>. A blur is not an edge either: <code>--shadow-media</code> was one 24px halo at 8%, and on a cream drawing over a white or warm ground it was the only thing saying where the picture stopped. It is a ring, a 1px contact shadow and a drop with a negative spread now, so the blur sits under the figure rather than around it.</p>
         <p class="ds-demo-note">They live in <code>color.css</code>, which is a taxonomy compromise made on purpose. A shadow is a physical property that happens to be drawn in color, so it belongs with radius and easing &mdash; but <code>site-nav.css</code> needs one and the case studies&rsquo; inline styles need two, and neither can see <code>style.css</code>. <strong>What decides where a token lives is reach, not taxonomy.</strong></p>
 
         <h3 class="ds-sub">Artwork is not interface</h3>
@@ -608,7 +609,8 @@
             <tr data-token="--nav-height"><td><code>--nav-height</code></td><td><code></code></td><td>Fixed header; anchor targets offset by it.</td></tr>
             <tr data-token="--radius-xl"><td><code>--radius-xl</code></td><td><code></code></td><td>Cards and framed media.</td></tr>
             <tr data-token="--radius-pill"><td><code>--radius-pill</code></td><td><code></code></td><td>Tags and pill buttons.</td></tr>
-            <tr data-token="--shadow-card"><td><code>--shadow-card</code></td><td><code></code></td><td>Resting card elevation: a hairline plus a soft drop.</td></tr>
+            <tr data-token="--shadow-card"><td><code>--shadow-card</code></td><td><code></code></td><td>Resting card elevation: keyline, contact shadow, tucked drop.</td></tr>
+            <tr data-token="--shadow-card-raised"><td><code>--shadow-card-raised</code></td><td><code></code></td><td>The second resting height, for the one card a screen asks you to act on.</td></tr>
             <tr data-token="--ease"><td><code>--ease</code></td><td><code></code></td><td>State changes at 0.25&ndash;0.3s. Reveals use their own spring curve; see Motion.</td></tr>
           </tbody>
         </table>

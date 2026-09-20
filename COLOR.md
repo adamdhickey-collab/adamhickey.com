@@ -325,7 +325,8 @@ carry a keyline take it from `--rule-hairline`, because a keyline is a rule.
 
 | Token | For |
 |---|---|
-| `--shadow-card` | A card at rest, with its keyline |
+| `--shadow-card` | A card at rest: keyline, contact shadow, tucked drop |
+| `--shadow-card-raised` | The one card on a screen that is asking to be acted on |
 | `--shadow-resting` | A bar or rail sitting on the page: nav, progress rail, step card |
 | `--shadow-media` | A framed image or figure: keyline, contact shadow, tucked drop |
 | `--shadow-device` | A screen mockup lifted off the page — contact shadow plus soft drop |
@@ -359,6 +360,22 @@ smudge. It is three layers now, each with a job: the ring is the edge, the
 so the blur sits under the object rather than haloing out on every side.
 That last part is what reads as crisp, and it is the shape `--shadow-device`
 already had.
+
+`--shadow-card` is the same lesson, learned a second time and later.
+It was `0 1px 3px` at 6% over a **4% ring**, and 4% black is 1.09:1 on
+white and 1.09:1 on warm — not an edge, a rumour of one. It is the three
+layers now, with the ring in `--rule-hairline` like `--shadow-media`'s.
+The two are deliberately **not** the same height: a framed figure is
+presented and a card *rests*, so the card's drop is shorter and lighter
+(`0 8px 16px -8px` at 14%). Giving them one set of numbers would have put
+two names on one elevation, which is the pair §7 closes on.
+
+`--shadow-card-raised` is the second resting height, and it is not a
+hover. A screen that has one card it wants acted on and three it wants
+consulted can say so with distance instead of with a heavier line; the
+dispatch cockpit is the case, where one white surface carries the Assign
+button and the rest carry evidence. Same keyline, same contact shadow, a
+drop about twice as far.
 
 ### What this section used to say
 
