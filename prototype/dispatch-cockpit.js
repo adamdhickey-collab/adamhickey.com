@@ -446,8 +446,9 @@
   }
 
   /* Direction of a factor for one truck: where it stands against the middle
-     of the fleet available for this load. Shown as a word and a glyph, never
-     as a color. Equipment is not a comparison -- the load asks for a type and
+     of the fleet available for this load. Shown as a word and a glyph first;
+     the colour of the word, and now of the bar, is a second channel and
+     never the only one. Equipment is not a comparison -- the load asks for a type and
      a truck either is it or is standing in for it -- so it answers in its own
      words rather than borrowing helps and hurts. */
   /* How far from the fleet's middle still counts as level. It is used twice
@@ -643,12 +644,23 @@
        what the row is arguing, and giving it its own two numbers means the
        stylesheet draws a length from a fixed origin rather than deriving one
        from a fill that starts at the track's edge. */
-    const side = pos >= 50 ? 'ahead' : 'behind';
     const leadL = Math.min(50, pos);
     const leadW = Math.abs(pos - 50);
-    /* aria-hidden because the value and the word beside it already say this
+    /* THE MARK IS COLOURED BY THE VERDICT, NOT BY WHICH SIDE IT RUNS TO.
+       This used to hand the stylesheet `pos >= 50 ? 'ahead' : 'behind'`,
+       which is a different question from the one the word beside it answers:
+       direction() holds anything within LEVEL of the middle at "neutral",
+       and a position has no deadband. So a level truck came out sage when it
+       landed a hair right of the middle and grey when it landed a hair left
+       -- two colours for one verdict, decided by noise -- and a factor the
+       card called "hurts" was drawn in the same grey as one it called level.
+       The attribute is the verdict now, so the bar and the word cannot
+       disagree, and the three colours are the three the stylesheet's header
+       has always named: sage helps, the caution ink hurts, grey is level.
+
+       aria-hidden because the value and the word beside it already say this
        in text, and a third announcement per row is fifteen per card. */
-    return `<span class="ck-factor-bar" data-side="${side}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
+    return `<span class="ck-factor-bar" data-dir="${direction(t, f)}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
   }
 
   /* THE KEY, WHERE THE BARS ARE, AND NOT ONLY INSIDE THE DISCLOSURE UNDER
@@ -682,15 +694,15 @@
       ['middle', '', '--band-w:0%', false,
         'The middle of the trucks that can take this load. Every bar starts here.'],
       ['level', '', '--band-l:30%;--band-w:40%', false,
-        'The block around it: a bar that ends inside it is level.'],
-      ['ahead', 'ahead', '--band-l:30%;--band-w:40%;--lead-l:50%;--lead-w:32%', true,
-        'Sage, running right: this truck is on the better side.'],
-      ['behind', 'behind', '--band-l:30%;--band-w:40%;--lead-l:18%;--lead-w:32%', true,
-        'Grey, running left: it is on the worse side.'],
+        'The block around it: a bar that ends inside it is level, and stays grey.'],
+      ['ahead', 'helps', '--band-l:30%;--band-w:40%;--lead-l:50%;--lead-w:32%', true,
+        'Sage, out to the right: this truck is on the better side.'],
+      ['behind', 'hurts', '--band-l:30%;--band-w:40%;--lead-l:18%;--lead-w:32%', true,
+        'Rust, out to the left: it is on the worse side.'],
     ];
-    return `<ul class="ck-factor-key">${ROWS.map(([part, side, vars, mark, text]) => `
+    return `<ul class="ck-factor-key">${ROWS.map(([part, dir, vars, mark, text]) => `
       <li>
-        <span class="ck-factor-bar ck-key-sample" data-key="${part}"${side ? ` data-side="${side}"` : ''} aria-hidden="true" style="${vars}">${mark ? '<span class="ck-factor-mark"></span>' : ''}</span>
+        <span class="ck-factor-bar ck-key-sample" data-key="${part}"${dir ? ` data-dir="${dir}"` : ''} aria-hidden="true" style="${vars}">${mark ? '<span class="ck-factor-mark"></span>' : ''}</span>
         <span>${text}</span>
       </li>`).join('')}</ul>`;
   }
