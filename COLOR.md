@@ -173,16 +173,19 @@ object, not a card edge. The design system page's ground swatches are out for
 the same reason in reverse: their job is to show a ground's own value, and an
 edge would be the page reporting a color it does not have.
 
-**This rule is not met today, and that is recorded rather than hidden.**
-`node scripts/cards.mjs prototype/dispatch-cockpit.html` names 13 surfaces on
-the cockpit alone — `.ck-lead`, `.ck-try`, `.ck-load`, `.ck-card` and the rest
-— whose only edge is that 1.11:1 keyline. Two answers are open and the spec
-does not pick between them: an opaque line beside the elevation, which is
-2px of edge for one line of meaning, or an opaque ring **inside** it, by
-giving `--shadow-card`'s first layer a solid token instead of a tint. The
-check is merged ahead of the fix on purpose. A measurement nobody has taken
-is how the note stayed live for nine days, and the script is what makes the
-next one loud.
+**Half of this was fixed at the token, and the half that is left is a
+different shape.** The 13 surfaces `cards.mjs` named on the cockpit are now
+5. Every card that carries an elevation got its edge from making
+`--shadow-card`'s ring opaque — one declaration, every card on the site, and
+no second line beside the one the shadow already draws.
+
+What is left are surfaces with **no elevation at all**: `.ck-lead`,
+`.ck-try` and `.ck-status`, tinted zones rather than cards, 1.09:1 and
+1.16:1 against the warm ground with nothing drawing an outline. A zone is
+not a card and should not take a card's drop shadow, so the answer there is
+a plain `1px solid var(--color-rule)` — which doubles nothing, because these
+draw no ring. That one is still open, and `cards.mjs` stays out of
+`checks.yml` until it is closed.
 
 ### Status
 
@@ -368,8 +371,17 @@ the pair is tuned to look equal rather than to share a number.
 ### Elevation
 
 Named by **what is lifting**, not by how far. Eight tokens, each built on
-literal `rgba(0, 0, 0, …)` — black is not a token here (§2). The two that
-carry a keyline take it from `--rule-hairline`, because a keyline is a rule.
+literal `rgba(0, 0, 0, …)` — black is not a token here (§2). Three carry a
+keyline, and **the two card tokens take it opaque, from `--color-rule`**: a
+ring is painted outside the border box, so it composites over the ground, and
+a tenth of charcoal over `--color-warm` is 1.11:1 — a rumour of an edge, not
+one. `--shadow-media` still takes `--rule-hairline`, which is the same defect
+one door down and is left for its own change.
+
+The card tokens share that keyline exactly, on purpose. `--shadow-card-raised`
+is the resting height *above* `--shadow-card`, and a card that lifts further
+off the page with a fainter edge than its siblings is the scale contradicting
+itself.
 
 | Token | For |
 |---|---|

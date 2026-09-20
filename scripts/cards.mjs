@@ -33,13 +33,15 @@
  * outline all answer, and a fill that separates on its own answers by needing
  * none. It takes no position on which of those the site should use.
  *
- * WHAT IT SAYS TODAY. Run against main it names 13 surfaces on the cockpit
- * alone -- .ck-lead, .ck-try, .ck-load, .ck-card and the rest -- none of which
- * has an edge that reaches 1.2:1. That is the open question this script was
- * merged to hold open rather than to answer, which is why it is not a step in
- * checks.yml: a workflow with a known-red leg tells you nothing about the
- * commit that turned it red. Run it by hand, and wire it in when the site can
- * pass it.
+ * WHAT IT SAYS TODAY. It named 13 surfaces on the cockpit when it was merged;
+ * making --shadow-card's ring opaque took that to 5, because every card that
+ * carries an elevation got its edge from the token. The 5 that are left carry
+ * no elevation at all -- .ck-lead, .ck-try and .ck-status, tinted zones rather
+ * than cards, with nothing drawing an outline -- and a zone should not take a
+ * card's drop shadow to earn one. That is still open, which is why this is
+ * still not a step in checks.yml: a workflow with a known-red leg tells you
+ * nothing about the commit that turned it red. Run it by hand, and wire it in
+ * the day it passes.
  *
  * WHAT IT ASKS, per surface: this element is opaque, rounded and painted a
  * different color from the ground behind it, so it is a card on a ground.
