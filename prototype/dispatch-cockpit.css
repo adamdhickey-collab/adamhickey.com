@@ -1916,26 +1916,65 @@ html[data-embed] .ck { border-radius: 0; }
   border: 0;
   border-radius: 0;
 }
-.ck .ck-conf-line {
+/* THE COUNT, AS A FIGURE. The number and its unit share a baseline so the
+   pair reads as one object and spends the panel's width rather than its
+   height; --text-xl puts the number one rung under .ck-reco-h, which is the
+   thing this panel is evidence FOR, and one over the factor values at
+   --text-lg. Tabular figures because the count changes with the scenario and
+   a figure that reflows as you switch tabs is a figure that twitches.
+
+   Charcoal, not the accent. Accent ink at this size would make the count the
+   loudest thing in the column, and the loudest thing in the column is the
+   button on the card beside it. */
+.ck .ck-conf-figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-xs);
   margin: 0;
   max-width: var(--measure);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
+}
+.ck .ck-conf-count {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
   color: var(--color-charcoal);
 }
-.ck .ck-conf-line strong { font-weight: var(--weight-semibold); }
-.ck .ck-conf-like {
+.ck .ck-conf-unit {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* The close call's reading, at the weight the figure it corrects is set in.
+   Everything else under the figure is fine print; this is not. */
+.ck .ck-conf-read {
   margin: var(--space-xs) 0 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+/* Fine print: what "like this one" means, and how to read the count. Both
+   qualify the figure rather than saying anything a dispatcher acts on, so
+   they take the caption treatment the folded note already uses -- --text-xs
+   on muted-gray, which is 5.44 on tea-light against a 4.5 floor. */
+.ck .ck-conf-fine {
+  margin: var(--space-2xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-conf-figure + .ck-conf-fine,
+.ck .ck-conf-read + .ck-conf-fine { margin-top: var(--space-xs); }
 /* What to watch for on this load: the one line per miss that changes what
    the dispatcher checks, on the card rather than behind the disclosure
-   under it. Same size and ink as the lines above it; the label is the
-   card's own small-caps label, and the list is numbered because the
-   disclosure below lists the loads they came from in the same order. */
+   under it. It keeps --text-sm on charcoal while the two lines above it
+   dropped to fine print, which is the point -- these are the lines a
+   dispatcher acts on and those qualify a figure. The label is the card's
+   own small-caps label, and the list is numbered because the disclosure
+   below lists the loads they came from in the same order. */
 .ck-conf-watch { margin-top: var(--space-md); }
 /* The label's own size, said again here, because the page's paragraph rule
    outranks .ck-label on a <p> and would set this at body size. */
@@ -1957,6 +1996,7 @@ html[data-embed] .ck { border-radius: 0; }
    right, a rule above it, and the whole row clickable at 44px. The chevron
    turns to point down when it is open, which is the only thing on this page
    that moves, and the site's reduced-motion blanket stops it. */
+.ck .ck-miss-fine { margin-bottom: var(--space-sm); }
 .ck-misses { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
 .ck-misses summary,
 .ck-note summary {
