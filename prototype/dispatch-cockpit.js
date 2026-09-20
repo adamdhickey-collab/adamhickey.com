@@ -130,12 +130,12 @@
         patch: {},
         record: {
           held: 38, of: 40,
-          like: 'Same lane type, a van load, a same-day pickup window.',
+          like: 'same lane type, a van load, a same-day pickup window.',
           misses: [
             { load: 'L-4410', what: 'The hours figure was forty minutes stale. The driver ran out twenty miles short and the load sat overnight.',
               tell: 'When the hours left are within an hour of what the run needs, the figure is worth checking against the logbook before assigning.' },
             { load: 'L-4577', what: 'The customer closed the dock early. No truck in the fleet would have made the window.',
-              tell: 'A dock that closes early is not something the ranking can see. One of the two late loads was that, not a ranking miss.' },
+              tell: 'A dock that closes early is not something the ranking can see.' },
           ],
         },
       },
@@ -162,7 +162,7 @@
         patch: { 'T-131': { dist: 16, hos: 6.0, deadhead: 10, seen: { gps: 3, eld: 45 } }, 'T-118': { dist: 41 } },
         record: {
           held: 19, of: 31,
-          like: 'Loads where the top two trucks were this close on the factors.',
+          like: 'the top two trucks this close on the factors.',
           misses: [
             { load: 'L-4633', what: 'Ranked first on distance; the driver ran out of hours at the receiver and the delivery slipped to morning.',
               tell: 'When the margin is distance against hours, the hours have decided it more often than not.' },
@@ -731,19 +731,49 @@
     </details>`}`;
   }
 
+  /* THE COUNT IS A FIGURE, NOT A SENTENCE. It was the opening clause of a
+     paragraph, with the two numbers bolded inside it, under a panel of five
+     more paragraphs at the same size and the same ink: six blocks of running
+     text with nothing for the eye to land on, which is a wall rather than a
+     record. The count is the one thing on this card a dispatcher reads at a
+     glance, so it is set as a figure -- the number at --text-xl, one rung
+     under the recommendation's own headline and one over the factor values,
+     with the unit beside it on the baseline and what "like this one" means
+     as the caption under.
+
+     It is a COUNT and it is never a percentage. The page argues against a
+     confidence score in so many words, and 95% is what a figure this size
+     turns into if you let it: the units stay in the ink ("38 of 40", "on
+     time for the truck ranked first"), and the number is charcoal rather
+     than the accent, so it reads as something counted rather than something
+     gauged. */
   function renderConfidence() {
     const r = record();
     const tie = state.tie;
-    const lead = tie
-      ? `When the top two were this close, the one ranked first delivered on time <strong>${r.held} of ${r.of}</strong> times. Near a coin flip, so it is not picking.`
-      : `The top-ranked truck delivered on time on <strong>${r.held} of the last ${r.of}</strong> loads like this one.`;
     const late = r.of - r.held;
     const n = r.misses.length === 2 ? 'two' : r.misses.length;
     return `<div class="ck-confidence">
       <h4 class="ck-h">Outcomes on similar loads</h4>
-      <p class="ck-conf-line">${lead}</p>
-      <p class="ck-conf-like"><span class="ck-label">Like this one:</span> ${esc(r.like)}</p>
-      <p class="ck-conf-like"><span class="ck-label">Illustrative history:</span> synthetic, like everything else here. On time is an outcome, not a verdict on the ranking: another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
+      <p class="ck-conf-figure">
+        <span class="ck-conf-count">${r.held} of ${r.of}</span>
+        <span class="ck-conf-unit">on time for the truck ranked first</span>
+      </p>
+      ${!tie ? '' : `<p class="ck-conf-read">Near a coin flip, so the system is not picking.</p>`}
+      <p class="ck-conf-fine">Loads like this one: ${esc(r.like)}</p>
+      <!-- THE CAVEAT IS FINE PRINT; THE READING IS NOT. "On time is an
+           outcome, not a verdict on the ranking" qualifies how to read the
+           count and belongs under it, quietly. The close call's "near a coin
+           flip" is the opposite: 19 of 31 is 61%, which at figure size reads
+           as "usually right" unless something at the figure's own weight
+           says otherwise, so that line stays in charcoal at body-adjacent
+           size. The two examples that used to follow the caveat here -- the
+           other truck that may also have been on time, the late one that was
+           late for something unseen -- are about how to read the list of
+           late loads, so they moved into the disclosure that holds it.
+           "Synthetic, like everything else here" is gone: "What this is",
+           directly above the frame, already says synthetic data and a
+           transparent weighted rule, not a model. -->
+      <p class="ck-conf-fine">On time is an outcome, not a verdict on the ranking.</p>
       <!-- THE TELLS ARE ON THE CARD, NOT BEHIND THE DISCLOSURE. Until
            2026-09-19 each late load carried its "what to watch for" line
            inside the <details> under it, and the page's own open questions
@@ -763,6 +793,7 @@
         <ol class="ck-miss-list">${r.misses.map((m) => `<li>
           <p class="ck-miss-what"><span class="ck-miss-load">${esc(m.load)}</span> ${esc(m.what)}</p>
         </li>`).join('')}</ol>
+        <p class="ck-conf-fine ck-miss-fine">Another truck may have delivered on time too, and a late one may have been late for something the ranking could not see.</p>
       </details>
     </div>`;
   }
