@@ -75,6 +75,9 @@
  * useful signal on the card the quietest thing on it. They are inline SVG
  * now, in the idiom the site header already uses, with the word still beside
  * every one. Helps is sage; hurts is the caution ink; neutral is muted-gray.
+ * The factor bar keeps the same three, since 2026-09-20: it was coloured by
+ * which side of the fleet's middle it ran to, which is a question with no
+ * deadband and so not the question the word answers.
  * Icons are on the controls and the states -- the tabs, the directions, the
  * chips, the rule, the status line -- and not on labels or headings, where
  * a pass on 2026-09-10 put them and they read as clutter.
@@ -1780,13 +1783,35 @@ html[data-embed] .ck { border-radius: 0; }
   background: var(--color-accent-deep);
   box-shadow: 0 0 0 1px var(--color-white);
 }
-/* A truck on the worse side of the fleet. Grey rather than a second hue,
-   because the palette has one and #241 spent the only other one on a rule
-   refusing a truck; and DARKER than the sage rather than lighter, which is
-   the bullet graph's own rule -- the poor states take the stronger intensity,
-   because on a card arguing for a truck the thing worth catching is the
-   factor that argues back. 5.12 on the track. */
-.ck-factor-bar[data-side="behind"] .ck-factor-mark { background: var(--color-muted-gray); }
+/* THE OTHER TWO VERDICTS. The mark was keyed to which side of the middle it
+   ran to, and everything on the worse side was grey: grey for a factor the
+   card calls "hurts", the same grey for one it calls level, and sage for a
+   level factor that happened to land a hair to the right. Three verdicts in
+   two colours, and the split between them decided by a pixel rather than by
+   the deadband the word uses. The attribute is the verdict now.
+
+   HURTS TAKES THE CAUTION INK. It is the rule this file's header has stated
+   from the beginning -- helps is sage, hurts is the caution ink, neutral is
+   muted-gray -- and the bar was the one place on the page not keeping it,
+   which put a grey bar directly under a caution-ink "hurts" chip saying the
+   same thing. 5.10 on the track, over the 3:1 a non-text mark answers to,
+   and 6.45 against the white ring where it crosses the level block.
+
+   It is INK, not a ground, and that is the line #241 drew: the caution
+   GROUND is the refusal -- one card on the page, the rule that removes a
+   truck -- and the caution INK is a figure the system will not vouch for or
+   is arguing against. The stale-hours note and this bar are the same kind of
+   thing, and a factor that hurts is a suggestion, not a requirement.
+
+   WHAT THIS DOES NOT FIX. Against the sage the caution ink is 1.43:1, which
+   is what the grey was: the two marks are the same lightness and separate on
+   hue alone. The channel a reader actually reads them by is the direction
+   they run from the charcoal middle, and after that the word beside them.
+   The colour is the third, which is why it is worth having it agree with the
+   word rather than run an axis of its own. */
+.ck-factor-bar[data-dir="hurts"] .ck-factor-mark { background: var(--color-caution-text); }
+/* Level: neither side, whichever side it ends on. 5.12 on the track. */
+.ck-factor-bar[data-dir="neutral"] .ck-factor-mark { background: var(--color-muted-gray); }
 /* The fleet's middle, and now the one fixed thing on the card: every row is
    recentred so this lands at 50%, so the left edge of every lead is the same
    x and the five rows have a reference to be read against. Charcoal and a
