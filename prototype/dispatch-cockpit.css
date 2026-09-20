@@ -1698,6 +1698,37 @@ html[data-embed] .ck { border-radius: 0; }
     var(--color-rule) var(--band-l),
     var(--color-rule) calc(var(--band-l) + var(--band-w)),
     transparent calc(var(--band-l) + var(--band-w)));
+  /* THE CAPSULE'S EDGE. The fill above is the track's BODY and it cannot also
+     be the track's BOUNDARY, because this bar is drawn on two grounds and the
+     fill only clears one of them. --color-tag-border is a line token spent as
+     a ground here, and COLOR.md section 7 already names the collision that
+     walks into: #e5e5e0 and --color-muted-light #e5e5dd are 1.01:1 apart. On
+     the white card the fill reads at 1.26 and the capsule is there; on the
+     close call, where .ck-lead is muted-light, it reads at 1.00 and the
+     capsule is not -- the level block and the sage or grey lead float on the
+     ground with nothing around them, in every row of the comparison below the
+     white band and in every sample of the key under it. So the boundary comes
+     off the fill and onto a line of its own, and the fill goes back to being
+     the one thing a fill can be on an unknown ground: a body, not an edge.
+
+     --rule-strong, which is charcoal at 16% and the step COLOR.md gives for
+     "a divider that has to read as a divider". Note where it lands: an inset
+     ring paints over the element's own background, so it composites against
+     the track's fill rather than against the page, and it is one colour on
+     every ground -- what changes underneath it is the ground, and the edge
+     reads 1.71 on white, 1.44 on tea-light and 1.35 on muted-light. The
+     opaque line token is worse at every one of those: --color-rule is 1.55,
+     1.31 and 1.23, and 1.23 is the number the block below this already calls
+     too faint to carry a graphic. 1.35 is the floor here, and it is above the
+     1.26 the white card has shipped with all along.
+
+     A RING RATHER THAN A BORDER. A border answers to box-sizing and takes its
+     pixel out of a 10px track, which is the reading's own height twice over.
+     The ring is drawn on the same box, so every number around it -- the 2px
+     inset on the reading, the band's two edges at top 0 and bottom 0, the
+     middle's -3px overhang -- is untouched, and it adds no element, which is
+     the rule the head of this block states. */
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
 }
 /* WHERE THE ZONE STOPS, AS TWO EDGES OVER EVERYTHING ELSE. The tint above is
    what makes the zone a place rather than a pair of ticks, and the tint alone
