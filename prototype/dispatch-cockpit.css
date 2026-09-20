@@ -1581,27 +1581,53 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-fresh .ck-icon { flex-shrink: 0; color: var(--color-caution-text); }
 .ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
-/* The key sits with the bars; the disclaimer stays under it. The sample is
-   a real .ck-factor-bar with fixed custom properties, so it cannot drift
-   from the thing it explains -- only its grid placement and width are
-   overridden here. */
+/* The key sits with the bars; the disclaimer stays under it. Each of its four
+   rows is one part of the drawing beside the line of text that names it, and
+   the samples are real .ck-factor-bars with fixed custom properties, so the
+   key cannot drift from the thing it explains -- only their width and their
+   placement in the row are overridden here.
+
+   A LIST, AND FLEX ROWS RATHER THAN A GRID. Four label-and-picture pairs are
+   a list and are marked up as one. The row is a flex box on purpose: a sample
+   is a .ck-factor-bar, which carries grid-column and, under the narrow
+   breakpoint, grid-row for the place it takes in a factor row -- and a flex
+   parent ignores both, so the key needs no counter-declaration that would
+   have to be kept in step with the factor list's own. */
 .ck .ck-factor-key {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
   margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-.ck .ck-factor-key > span:last-child { max-width: var(--measure); }
+.ck .ck-factor-key li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+.ck .ck-factor-key li + li { margin-top: var(--space-2xs); }
+/* The zone's two edges, on the row that is not about the zone. The first
+   sample carries no level zone, and a zone of zero width is not nothing:
+   ::before still draws its left and right edges, which at zero width
+   collapse into a 2px grey mark sitting on the very middle that row exists
+   to point at. This is the only mark the key suppresses, and it is the one
+   the bar's own custom properties have no way to say. */
+.ck .ck-key-sample[data-key="middle"]::before { display: none; }
 .ck .ck-key-sample {
   grid-column: auto;
   flex: 0 0 auto;
-  /* 4.5rem, not the 3.5 a fill needed. The sample now has to show a zone,
-     its two edges, the middle and a lead out of it, and at 56px those five
-     things were inside 56 pixels and read as a smudge. */
-  width: 4.5rem;
+  /* 6rem, up from the 4.5 one sample took and the 3.5 before that. A sample
+     is a quarter of the width the real bar is drawn at, and the zone is the
+     piece that cannot survive the reduction: its tint is faint on purpose --
+     1.23:1, with its two edges doing the work -- so at 72px the block the
+     second row points at read as a pair of ticks rather than as a region.
+     The sample's zone is also drawn wider than a real row's, which is the
+     one place the key is a diagram rather than a specimen: the numbers are
+     the sample's own, and what they are chosen for is that each piece is
+     still itself at a quarter size. */
+  width: 6rem;
   /* Centred on the first line of the sentence it explains. The bar is ink
      rather than a glyph in a box, so it cannot take the 1lh box the icons
      above use; half the difference between the line and the bar is the same
@@ -2766,6 +2792,16 @@ html[data-embed] .ck { border-radius: 0; }
   .ck .ck-factor-value { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
   .ck .ck-factor-dir { grid-column: 1; grid-row: 2; justify-content: flex-start; text-align: left; min-width: 0; }
   .ck-factor-bar { grid-row: 3; }
+  /* THE KEY, STACKED. A 96px sample beside its sentence leaves the text
+     about 120px of a phone column, where all four lines wrap to four and
+     five and the key runs taller than the card it explains. Stacked, the
+     sample takes the whole column -- which is nearer the width the real bar
+     is drawn at anyway, so the pieces read better rather than worse -- and
+     the sentence gets the full measure under it. The hand-centring goes with
+     the row: there is no first line beside it any more. */
+  .ck .ck-factor-key li { display: block; }
+  .ck .ck-factor-key li + li { margin-top: var(--space-xs); }
+  .ck .ck-key-sample { width: 100%; margin-top: 0; margin-bottom: var(--space-2xs); }
   /* The comparison keeps three columns on a phone -- stacking it would put
      it back where the two cards were -- and buys the room from the padding
      and one step of the value. */
