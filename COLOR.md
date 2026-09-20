@@ -136,6 +136,54 @@ wash token can come back when something actually needs one.
 **Neither is allowed to be the only thing separating a control from its
 ground.** A boundary that carries meaning needs 3:1; see §5.
 
+### A card on a ground needs an edge a reader can see — and several do not have one
+
+A rounded surface whose fill differs from the ground behind it — a white card
+on warm, a tea-light zone on warm, a muted-light strip on tea — is separated
+from that ground by one of two things: its own fill, or a line. When the fill
+is close to the ground, the line is all there is, and it has to read.
+
+**The floor is 1.2:1**, and it is not a WCAG number and does not pretend to
+be: a card edge is decorative and answers to no success criterion. 1.2 is the
+level below which this site's own quiet hairline, `--color-tag-border` on
+white at 1.22:1, stops being a line at all.
+
+**The gotcha the rule exists for: a translucent rule token does not composite
+against the ground.** `--rule-hairline` is charcoal at 10%, and where it is
+used is what decides what it lands on:
+
+| Drawn as | Composites over | On white, over `--color-muted-light` | On white, over `--color-warm` |
+|---|---|---|---|
+| `border` | The card's **own fill** — `background-clip` is `border-box`, so the card's opaque white is painted under the border area | `#e9e9e9`, **1.04:1** | `#e9e9e9`, **1.09:1** |
+| The ring layer of a `box-shadow` | The **ground**, since a ring is painted outside the border box | — | **1.11:1** |
+
+Both are under the floor, and the second is the one the site draws today.
+The cockpit's stale-hours note shipped as the first for nine days, with a
+comment in the stylesheet saying `--rule-hairline` was chosen *because* it
+was the card-edge token; #255 moved the cockpit's cards to `--shadow-card`,
+whose keyline is the same tint drawn the second way. The number being right
+on white is not the same as the token being right on a ground — the same
+mistake §4 records for washes, in the other direction.
+
+**A fill that already clears 3:1 against its ground draws no edge.** A
+charcoal device mockup on warm is 12.24:1; the sage panel on warm is 4.12; a
+warm figure on the charcoal band is 14.02. The fill is the boundary there, and
+a grey hairline on the side of a drawn phone is a line on a photograph of an
+object, not a card edge. The design system page's ground swatches are out for
+the same reason in reverse: their job is to show a ground's own value, and an
+edge would be the page reporting a color it does not have.
+
+**This rule is not met today, and that is recorded rather than hidden.**
+`node scripts/cards.mjs prototype/dispatch-cockpit.html` names 13 surfaces on
+the cockpit alone — `.ck-lead`, `.ck-try`, `.ck-load`, `.ck-card` and the rest
+— whose only edge is that 1.11:1 keyline. Two answers are open and the spec
+does not pick between them: an opaque line beside the elevation, which is
+2px of edge for one line of meaning, or an opaque ring **inside** it, by
+giving `--shadow-card`'s first layer a solid token instead of a tint. The
+check is merged ahead of the fix on purpose. A measurement nobody has taken
+is how the note stayed live for nine days, and the script is what makes the
+next one loud.
+
 ### Status
 
 | Token | Value | White | Warm | Tea | Muted | Notes |

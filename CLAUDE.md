@@ -270,6 +270,7 @@ node scripts/resting.mjs --strict         # every color a reader can SEE, untouc
 node scripts/states.mjs --strict          # hover, focus and script-applied state
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
 node scripts/curves.mjs                   # no partial border on a rounded surface
+node scripts/cards.mjs                    # every card on a ground has an edge that reads
 node scripts/states.mjs <page> --strict   # just the page you touched
 ```
 
@@ -278,7 +279,8 @@ node scripts/states.mjs <page> --strict   # just the page you touched
 --ref <branch>`. Nothing runs on a pull request, so nothing to wait for
 before merging; a failure opens an issue naming the commit, which by then is
 live. `tokens.mjs`, `counts.mjs` and `seo.mjs` need nothing installed and
-finish in about a second between them, so run those every time.
+finish in about a second between them, so run those every time. `cards.mjs`
+is a sixth script and not one of the ten: see below.
 
 ### How much of that to run, and when
 
@@ -311,6 +313,7 @@ node scripts/resting.mjs   prototype/dispatch-cockpit.html --strict
 node scripts/states.mjs    prototype/dispatch-cockpit.html --strict
 node scripts/typescale.mjs prototype/dispatch-cockpit.html
 node scripts/curves.mjs    prototype/dispatch-cockpit.html
+node scripts/cards.mjs     prototype/dispatch-cockpit.html
 ```
 
 The shared-stylesheet row is the one that genuinely needs the unscoped run,
@@ -329,10 +332,25 @@ of them used to resolve the root from their own file location and two from
 other's name. A wrong target you can see is a mistake; a wrong target you
 cannot see is a false result.
 
-**Four kinds of question.** `resting.mjs`, `states.mjs`, `typescale.mjs` and
-`curves.mjs` read the specs as **rules** and the rendered page as evidence:
-does this color clear its floor, is this size on the scale, does this border
-follow the whole curve. `tokens.mjs` reads the specs as **claims**: every
+**`cards.mjs` IS THE ONE CHECK THAT IS NOT IN `checks.yml`, AND IT IS RED.**
+It asks whether a card on a ground has an edge a reader can see, at a floor
+of 1.2:1, and run against the tree today it names 13 surfaces on the cockpit
+alone whose only edge is `--shadow-card`'s keyline at 1.11:1. That is a real
+finding and an open question -- COLOR.md's Lines section states both answers
+and picks neither -- so the script is merged ahead of its fix and run by
+hand. It is out of the workflow because a leg that is known to be red tells
+you nothing about the commit that turned it red, and `checks.yml` is the one
+instrument every other merge is read against. Wire it in the day the site
+passes it, and move it into the fast paragraph below when you do.
+
+**Four kinds of question.** `resting.mjs`, `states.mjs`, `typescale.mjs`,
+`curves.mjs` and `cards.mjs` read the specs as **rules** and the rendered page
+as evidence: does this color clear its floor, is this size on the scale, does
+this border follow the whole curve, does this card's edge separate it from the
+ground behind it. `cards.mjs` is the one whose defect is invisible in the
+stylesheet: a charcoal tint composites over the card's own fill when it is a
+border and over the ground when it is a shadow's ring, so the declaration that
+draws nothing looks exactly like the one that draws a hairline. `tokens.mjs` reads the specs as **claims**: every
 `--token` the four specs or the design system page names either exists in the
 CSS or is declared retired in the script's own registry. `counts.mjs` does the
 same for numbers: each entry pairs a sentence as written with a function that
