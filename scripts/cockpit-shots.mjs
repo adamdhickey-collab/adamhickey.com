@@ -142,12 +142,26 @@ const SHOTS = [
     width: 680,
     aspect: 4 / 3,
     stagePad: 20,
-    /* The headline is the slide -- it is where the tradeoff is said in
-       words -- so the window starts there and the first option runs past
-       the bottom edge rather than the headline being dropped to fit it. */
-    clip: ['.ck-reco'],
+    /* THE WINDOW STARTS AT THE STALE NOTE, NOT AT THE HEADLINE. It started
+       at the headline while this was slide 2 of four, where the picture had
+       to say the tradeoff in words because nothing beside it did. On the
+       homepage the card says it: the h3 names the recommendation a
+       dispatcher can check and overrule, and the paragraph under it says
+       the AI shows the factors and the tradeoffs. A second copy of that in
+       the picture cost the evidence -- the headline, its dek and the note
+       are 270 of the window's 510, so the comparison got the option heads
+       and one row cut through its bar, and the one thing a card like this
+       is for is showing that the thing is real.
+
+       Anchored 20 above the note, the same warm margin the other shots
+       leave, the window holds the note, the option heads and BOTH rows the
+       comparison marks "the tradeoff", each with its figure, its direction
+       and its bar, and opens on the third. That third row running past the
+       bottom edge is the point of a window rather than a cut-out: the
+       screen carries on. */
+    clip: ['.ck-fresh'],
     padTop: 20,
-    note: 'slide 2: two trucks the system will not separate',
+    note: 'the homepage card: the stale note, and the two rows that separate the trucks',
   },
 
 ];
