@@ -79,6 +79,12 @@ Nine steps. Fixed — a 16px gap is 16px on every screen.
 | `--space-3xl` | 40 | 2.5 | `10` | A generous inset for a large card or a panel. |
 | `--space-4xl` | 48 | 3 | `12` | The largest fixed step. Beyond this, use a ramp. |
 
+**`--space-2xs` is the gap beside an icon, not the offset under it.** The row
+above describes the *horizontal* distance between a mark and its label — the
+`gap` on the row. What centres that mark on the label's first line is a
+different measurement, derived from the line rather than picked from this
+scale, and usually not a multiple of 4 at all; §4 has it.
+
 Two tiers, and the change of tier is the point:
 
 - **4 → 24 in steps of 4.** Small space needs fine resolution, because at
@@ -359,6 +365,87 @@ outer radius − bezel. Three of the four were off by a pixel, so the ring
 quietly changed width around every corner. The inner radius is now derived
 with `calc()` from each device's own shell radius, so it cannot drift again.
 
+### A mark on a line of text
+
+An icon, a tick, a chevron, a swatch — any mark set beside running text in a
+row aligned to the top — is **centred on the first line box of that text**, and
+the offset that centres it is **derived, never chosen**.
+
+Top-aligned is the condition, and it is why the question arises at all.
+`align-items: flex-start`, or a grid's `align-items: start`, is what keeps the
+mark on line one when the text wraps to two or three, which is the whole point
+of a mark that opens a line. It also means nothing centres the mark for you.
+`align-items: center` would, and on a row that cannot wrap that is the right
+answer; on one that can, it drags the mark to the middle of the whole block.
+
+Two spellings, and which one applies turns on whether the mark keeps a size of
+its own.
+
+- **The mark is sized in `em` and can take the line's height:** `height: 1lh`.
+  The box becomes the line box, and an SVG's viewBox centres itself inside it —
+  `preserveAspectRatio` defaults to centring — so the glyph sits on the first
+  line by construction, in whatever leading the row happens to set, and there
+  is no second number to keep in step.
+- **The mark keeps a fixed size:** `margin-top: calc((1lh - <size>) / 2)`.
+  Half the difference between the line and the mark is the entire arithmetic.
+  It is the same rule written out by hand, for a 20px tick or a 4px bar that
+  cannot become line-tall without stretching.
+
+**`1lh` is the unit because the thing being matched is a line, not a box.** It
+resolves against the element's own computed `line-height`, so an offset written
+this way follows `--leading-ui` to `--leading-body`, follows a size change at a
+breakpoint, and follows the mark's own size. A number typed in its place is
+correct for exactly one combination of the three, and silently wrong for the
+rest.
+
+**This is a carve-out from §1, and deliberately so.** A derived offset is not a
+multiple of 4px and is not meant to be: a 20px tick on a 25.6px line wants
+2.8px. It is exempt for the same reason a circle is not on the radius scale —
+it is a consequence of two other measurements rather than a space anybody
+chose.
+
+#### What this does not cover
+
+Three arrangements sit a mark beside a label and are correct as they are.
+
+- **A stacked icon-over-label link.** `.icon-link` in the nav is
+  `flex-direction: column`. The icon is above the label, not beside it, and
+  there is no line to centre on.
+- **A single-line centred row.** `.ra-btn` in the read-aloud bar is
+  `align-items: center` with a label that does not wrap. Centre alignment
+  already is the answer, and asking for the first line is asking for the only
+  line.
+- **A trailing chevron on a block that may wrap.** The `.ckw-more` summary
+  centres its chevron on the whole disclosure on purpose. The mark belongs to
+  the block, not to a line of it.
+
+Leading is the common case, not the condition. The cockpit's sort arrow
+*follows* its column head's label and still takes the line-tall box, because
+the head is a top-aligned row and "At pickup by" wraps to two lines under it.
+
+#### Why this is written down
+
+It was fixed three times on 2026-09-20, across two stylesheets, before anyone
+wrote the rule. The cockpit's line-head rows nudged a 1em glyph with
+`margin-top: 0.15em` and `0.25em` and sat up to 1.4px above their first line;
+the engagement checklist's tick used `--space-2xs` where its line wanted 2.8px
+and sat 1.5px high; the sort arrow and the factor key's bar sample used
+`0.125em` and `0.45em` and sat 1.2px and 1.1px high. Every one of those numbers
+was close, which is exactly why every one of them shipped.
+
+**`--space-2xs` is a gap, not an offset.** §2 gives it as "a label off its
+icon," and that is the *horizontal* distance between the two — the `gap` on the
+row. Reaching for the same token to push the icon *down* is how the checklist
+went wrong: 4px is a step on the scale, 2.8px is what the line asked for, and
+the scale has no opinion about the second number because the second number is
+not a space. It is half of a subtraction.
+
+One hand-picked offset is left standing. `.ds-guide svg` on the design system
+page takes `margin-top: 3px` and measures dead centre on its line today, so
+nothing was gained by touching it. It is right by coincidence rather than by
+construction, which is the clearest statement of what the rule buys: nothing
+about that 3px will move when its leading does.
+
 ---
 
 ## 5. Breakpoints
@@ -580,5 +667,9 @@ ink.
   survived consolidation because the story needs it and the nav breaks
   without it. Four boundaries with one explained beats three with something
   broken inside them.
+- **A mark beside text is centred on its first line, by arithmetic.**
+  `height: 1lh` when the mark can take the line's height, `margin-top:
+  calc((1lh - <size>) / 2)` when it keeps its own. An offset picked by eye is
+  close, and close is how the same defect shipped three times in one day.
 - **Write the pixel, think the step.** `0.6rem` is 9.6px and looks fine in
   the file. The file is not where it has to look fine.
