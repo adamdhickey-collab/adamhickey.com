@@ -651,6 +651,50 @@
     return `<span class="ck-factor-bar" data-side="${side}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
   }
 
+  /* THE KEY, WHERE THE BARS ARE, AND NOT ONLY INSIDE THE DISCLOSURE UNDER
+     THEM. A first-time reader met a fill, a heavy tick and two hairlines, and
+     the only text explaining any of it was folded away in "More about these
+     comparisons" -- which is the right place for the argument and the wrong
+     place for the legend. A chart whose key is one click away is a chart that
+     gets read as decoration.
+
+     FOUR PIECES, NOT ONE PARAGRAPH. The key was a single sample beside a
+     three-clause sentence, and it asked the reader to hold all three clauses
+     at once and then go hunting in one 72-pixel drawing for the mark each
+     clause was about. Which mark is "the block"? Which is "the middle"? The
+     paragraph never says where to look, because a paragraph cannot point.
+     A row can: one part of the drawing, one line of text naming it, and the
+     matching done by the layout rather than by the reader.
+
+     They also build. The first row is the middle alone, the second adds the
+     zone around it, the third and fourth add a lead running out of it in
+     each direction -- so the last row's picture is the bar the reader is
+     about to meet, assembled a piece at a time.
+
+     Every sample is the real .ck-factor-bar with fixed numbers rather than a
+     drawing of one, so the key cannot drift from the thing it explains; only
+     its width and its placement in the row are overridden. The first two
+     samples carry no .ck-factor-mark, which is not a variant of anything --
+     it is the element that draws the reading, and a key row explaining the
+     ground the reading sits on has no reading to draw. */
+  function factorKey() {
+    const ROWS = [
+      ['middle', '', '--band-w:0%', false,
+        'The middle of the trucks that can take this load. Every bar starts here.'],
+      ['level', '', '--band-l:30%;--band-w:40%', false,
+        'The block around it: a bar that ends inside it is level.'],
+      ['ahead', 'ahead', '--band-l:30%;--band-w:40%;--lead-l:50%;--lead-w:32%', true,
+        'Sage, running right: this truck is on the better side.'],
+      ['behind', 'behind', '--band-l:30%;--band-w:40%;--lead-l:18%;--lead-w:32%', true,
+        'Grey, running left: it is on the worse side.'],
+    ];
+    return `<ul class="ck-factor-key">${ROWS.map(([part, side, vars, mark, text]) => `
+      <li>
+        <span class="ck-factor-bar ck-key-sample" data-key="${part}"${side ? ` data-side="${side}"` : ''} aria-hidden="true" style="${vars}">${mark ? '<span class="ck-factor-mark"></span>' : ''}</span>
+        <span>${text}</span>
+      </li>`).join('')}</ul>`;
+  }
+
   function factorRows(t, opts = {}) {
     const withNote = opts.note !== false;
     return `<ul class="ck-factors">${FACTORS.map((f) => {
@@ -662,20 +706,7 @@
         ${factorBar(t, f)}
       </li>`;
     }).join('')}</ul>
-    ${!withNote ? '' : `<!-- THE KEY, WHERE THE BARS ARE, AND NOT ONLY INSIDE THE DISCLOSURE
-         UNDER THEM. A first-time reader met a fill, a heavy tick and two
-         hairlines, and the only text explaining any of it was folded away in
-         "More about these comparisons" -- which is the right place for the
-         argument and the wrong place for the legend. A chart whose key is
-         one click away is a chart that gets read as decoration.
-
-         The sample is the real .ck-factor-bar with fixed numbers rather than
-         a drawing of one, so the key cannot drift from the thing it explains;
-         only its grid placement is overridden. -->
-    <p class="ck-factor-key">
-      <span class="ck-factor-bar ck-key-sample" data-side="ahead" aria-hidden="true" style="--pos:70%;--band-l:40%;--band-w:20%;--lead-l:50%;--lead-w:20%"><span class="ck-factor-mark"></span></span>
-      <span>The bar runs from the middle of the trucks that can take this load out to this one: sage when it is the better side of the fleet, grey when it is the worse. The block around the middle is the zone that still counts as level.</span>
-    </p>
+    ${!withNote ? '' : `${factorKey()}
     <p class="ck-factor-note">Where a truck stands, not how much a factor moved the ranking.</p>
     <details class="ck-note">
       <summary><span class="ck-note-label">More about these comparisons</span>${icon('chevron', 'ck-icon ck-misses-chev')}</summary>
@@ -898,10 +929,7 @@
         <td class="ck-vs-act">${assignButton(b, 'ck-btn ck-btn-primary')}</td>
       </tr></tfoot>
     </table>
-    <p class="ck-factor-key">
-      <span class="ck-factor-bar ck-key-sample" data-side="ahead" aria-hidden="true" style="--pos:70%;--band-l:40%;--band-w:20%;--lead-l:50%;--lead-w:20%"><span class="ck-factor-mark"></span></span>
-      <span>The bar runs from the middle of the trucks that can take this load out to this one: sage when it is the better side of the fleet, grey when it is the worse. The block around the middle is the zone that still counts as level.</span>
-    </p>`;
+    ${factorKey()}`;
   }
 
   /* THE FIGURE THE SYSTEM WILL NOT VOUCH FOR. In a close call the card
