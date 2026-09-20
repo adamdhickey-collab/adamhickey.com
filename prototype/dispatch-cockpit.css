@@ -529,24 +529,67 @@
    with the live table at the same widths and what .build-flow-row does with
    the Lucy Learns phones.
 
-   Two floors. A card capture is about 38rem of interface. A fleet capture is
+   ONLY THE TABLE. This floor used to apply to every capture on the page at a
+   second, lower value -- 38rem -- and a card does not earn it. A card is one
+   surface with one column of text on it, and shrinking it to a phone's width
+   costs nothing but size; a data table shrunk to the same width loses the
+   thing it is evidence for, which is that seven trucks and five factors are
+   in reach at once. What the lower floor actually produced was five captures
+   pinned at 608px in a 500px column, each scrolling sideways to show a
+   picture the column could have held whole. The sideways scroll is now the
+   three screen captures' alone, where it is the argument, and a card capture
+   takes the column it is in.
+
+   The floor that is left is not a number chosen here: the fleet capture is
    the data table plus its ground, and the table authors its own minimum at
-   60rem, so 62rem is that minimum and the two insets around it rather than a
-   number chosen here. The box bleeds through the gutter to the viewport so a
-   phone gets the width back, and the caption stays outside it: a caption that
-   scrolled away from its picture would be the one piece of this that has to
-   stay put. */
+   60rem, so 62rem is that minimum and the two insets around it. The box
+   bleeds through the gutter to the viewport so a phone gets the width back,
+   and the caption stays outside it: a caption that scrolled away from its
+   picture would be the one piece of this that has to stay put. */
 .ckw-scroll { display: block; }
 @media (max-width: 63.99rem) {
-  .ckw-scroll {
+  .ckw-decision--screen .ckw-scroll {
     margin-inline: calc(var(--gutter) * -1);
     padding-inline: var(--gutter);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
   }
-  .ckw-scroll img { min-width: 38rem; }
   .ckw-decision--screen .ckw-scroll img { min-width: 62rem; }
+}
+
+/* THE WAY BACK TO FULL SIZE. A card capture that takes the column is printed
+   under the size it was drawn -- the stale note is 888px of interface and
+   renders about 500 in a phone column, a little over half -- so the page owes
+   the reader a way to see it whole. That way is the file itself: these are
+   taken at two device pixels to one, so the file is twice the size the page
+   prints, and a browser's own image viewer pinches, pans and zooms it better
+   than anything built here -- with no script and no state for states.mjs to
+   reach.
+
+   The link rides at the end of the caption rather than on the picture. On the
+   picture it would have no name to read, and it would wrap a focus ring
+   around a 12px curve that curves.mjs is right to ask questions about. It is
+   gone above 64rem, where every card capture in the decisions is already at
+   its drawn size and the file is not a larger picture but the same one.
+   Accent-text is the inline link ink this page already uses, in
+   .ckw-try-grid, and accent-hover is what .ckw-hero-link does with it.
+
+   THE HERO CAPTURE IS THE EXCEPTION, and its link never hides. That picture
+   never reaches its drawn size anywhere on this page: one column below 64rem,
+   and above it the two-column ratio hands the figure 1.18fr of the container,
+   which is 537px at 1100 and about 632 at 1440 against 868 drawn. The ratio
+   is a deliberate trade of copy width against legibility -- the comment on
+   .ckw-hero-grid argues it out -- and a way back to the whole picture is the
+   other half of that trade rather than a concession at narrow widths. */
+.ckw-full {
+  white-space: nowrap;
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+.ckw-full:hover { color: var(--color-accent-hover); }
+@media (min-width: 64rem) {
+  .ckw-decision .ckw-full { display: none; }
 }
 
 /* ---------- The one drawing, and the one that closes ----------
