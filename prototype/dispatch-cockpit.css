@@ -1584,13 +1584,13 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-fresh .ck-icon { flex-shrink: 0; color: var(--color-caution-text); }
 .ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
-/* The key sits with the bars; the disclaimer stays under it. Each of its four
+/* The key sits with the bars; the disclaimer stays under it. Each of its
    rows is one part of the drawing beside the line of text that names it, and
    the samples are real .ck-factor-bars with fixed custom properties, so the
    key cannot drift from the thing it explains -- only their width and their
    placement in the row are overridden here.
 
-   A LIST, AND FLEX ROWS RATHER THAN A GRID. Four label-and-picture pairs are
+   A LIST, AND FLEX ROWS RATHER THAN A GRID. Label-and-picture pairs are
    a list and are marked up as one. The row is a flex box on purpose: a sample
    is a .ck-factor-bar, which carries grid-column and, under the narrow
    breakpoint, grid-row for the place it takes in a factor row -- and a flex
@@ -1611,13 +1611,6 @@ html[data-embed] .ck { border-radius: 0; }
   gap: var(--space-xs);
 }
 .ck .ck-factor-key li + li { margin-top: var(--space-2xs); }
-/* The zone's two edges, on the row that is not about the zone. The first
-   sample carries no level zone, and a zone of zero width is not nothing:
-   ::before still draws its left and right edges, which at zero width
-   collapse into a 2px grey mark sitting on the very middle that row exists
-   to point at. This is the only mark the key suppresses, and it is the one
-   the bar's own custom properties have no way to say. */
-.ck .ck-key-sample[data-key="middle"]::before { display: none; }
 .ck .ck-key-sample {
   grid-column: auto;
   flex: 0 0 auto;
@@ -1625,7 +1618,7 @@ html[data-embed] .ck { border-radius: 0; }
      is a quarter of the width the real bar is drawn at, and the zone is the
      piece that cannot survive the reduction: its tint is faint on purpose --
      1.23:1, with its two edges doing the work -- so at 72px the block the
-     second row points at read as a pair of ticks rather than as a region.
+     first row points at read as a pair of ticks rather than as a region.
      The sample's zone is also drawn wider than a real row's, which is the
      one place the key is a diagram rather than a specimen: the numbers are
      the sample's own, and what they are chosen for is that each piece is

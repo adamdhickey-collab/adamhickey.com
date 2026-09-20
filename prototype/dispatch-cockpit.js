@@ -670,7 +670,7 @@
      place for the legend. A chart whose key is one click away is a chart that
      gets read as decoration.
 
-     FOUR PIECES, NOT ONE PARAGRAPH. The key was a single sample beside a
+     PIECES, NOT ONE PARAGRAPH. The key was a single sample beside a
      three-clause sentence, and it asked the reader to hold all three clauses
      at once and then go hunting in one 72-pixel drawing for the mark each
      clause was about. Which mark is "the block"? Which is "the middle"? The
@@ -678,23 +678,25 @@
      A row can: one part of the drawing, one line of text naming it, and the
      matching done by the layout rather than by the reader.
 
-     They also build. The first row is the middle alone, the second adds the
-     zone around it, the third and fourth add a lead running out of it in
-     each direction -- so the last row's picture is the bar the reader is
-     about to meet, assembled a piece at a time.
+     They also build. The first row is the ground -- the middle every bar
+     starts at and the zone around it that still reads as level -- and the
+     second and third add a lead running out of that ground in each
+     direction, so the last row's picture is the bar the reader is about to
+     meet. The middle had a row of its own until the two were one row: the
+     zone is drawn around the middle and cannot be pictured without it, so
+     the row that pointed at the zone was already pointing at both, and the
+     row above it was a second picture of the same ground.
 
      Every sample is the real .ck-factor-bar with fixed numbers rather than a
      drawing of one, so the key cannot drift from the thing it explains; only
-     its width and its placement in the row are overridden. The first two
-     samples carry no .ck-factor-mark, which is not a variant of anything --
-     it is the element that draws the reading, and a key row explaining the
-     ground the reading sits on has no reading to draw. */
+     its width and its placement in the row are overridden. The first sample
+     carries no .ck-factor-mark, which is not a variant of anything -- it is
+     the element that draws the reading, and a key row explaining the ground
+     the reading sits on has no reading to draw. */
   function factorKey() {
     const ROWS = [
-      ['middle', '', '--band-w:0%', false,
-        'The middle of the trucks that can take this load. Every bar starts here.'],
       ['level', '', '--band-l:30%;--band-w:40%', false,
-        'The block around it: a bar that ends inside it is level, and stays grey.'],
+        'Every bar starts at the middle of the trucks that can take this load; inside the block it is level, and grey.'],
       ['ahead', 'helps', '--band-l:30%;--band-w:40%;--lead-l:50%;--lead-w:32%', true,
         'Sage, out to the right: this truck is on the better side.'],
       ['behind', 'hurts', '--band-l:30%;--band-w:40%;--lead-l:18%;--lead-w:32%', true,
