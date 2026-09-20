@@ -821,7 +821,7 @@
   const demote = (c) => `${c.split(' ').filter((x) => x !== 'ck-btn-primary').join(' ')} ck-btn-quiet`;
 
   /* `terse` is the fleet. The word "Assigned" moves out of the button and
-     into the rank cell as a tag there, beside "pick" and "option A", which
+     into the rank cell as a tag there, beside "pick" and "Option A", which
      is where this row's other states already live -- so the state is still a
      word, and the button is left saying the one thing it DOES. It is worth
      43px: "Assigned / Undo" is the widest control in the table and it was
@@ -1209,7 +1209,7 @@
         : ordinal(t.rank);
       const marks = [
         t.rank === 1 && !state.tie ? `<span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}pick</span>` : '',
-        state.tie && t.rank <= 2 ? `<span class="ck-rank-tag">option ${t.rank === 1 ? 'A' : 'B'}</span>` : '',
+        state.tie && t.rank <= 2 ? `<span class="ck-rank-tag">Option ${t.rank === 1 ? 'A' : 'B'}</span>` : '',
         /* No glyph on this one. "pick" earns a mark because it is the
            system speaking; "assigned" is the reader's own action and the row
            is already on the assigned ground with its type in semibold, so
