@@ -134,7 +134,18 @@ const SHOTS = [
   {
     name: 'override-choose',
     scenario: 'confident',
-    width: 1320,
+    /* 1080, not 1320, for the three captures of a whole screen. 1320 is the
+       width the cockpit is designed for and it is the right width for a
+       capture of one CARD, which is 600 wide whatever the panel around it
+       is. It is the wrong width for a capture of the table, because the
+       table then comes out 1288 and the page has nowhere to put 1288 except
+       the full container -- which is how the fleet ended up printed larger
+       than any other evidence on the page purely because its source file
+       was larger. At 1080 the panel is 1000, the data table is whole at its
+       own 60rem minimum, and the capture lands near the 64rem the section
+       gives a screen. Smaller at its own scale, rather than the same
+       picture shrunk. */
+    width: 1080,
     /* The head and three rows, not the whole table: 04 below shows the table
        whole, and two captures of the same seven rows a section apart would
        read as one picture printed twice. This one is about the control at the
@@ -153,14 +164,14 @@ const SHOTS = [
   {
     name: 'override-after',
     scenario: 'override',
-    width: 1320,
+    width: 1080,
     clip: ['.ck-status', '.ck-why'],
     note: '03, second frame: the question afterwards',
   },
   {
     name: 'fleet',
     scenario: 'rule',
-    width: 1320,
+    width: 1080,
     clip: ['.ck-fleet'],
     note: '04: the whole fleet, and the row a rule removed',
   },

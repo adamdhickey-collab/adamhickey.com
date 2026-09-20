@@ -148,32 +148,32 @@
   gap: var(--space-2xl);
   align-items: start;
 }
-/* HALVES, BECAUSE A CAPTURE SHOULD NOT BE ENLARGED EITHER. This was a fixed
-   26rem of copy and 1fr of picture, on the argument that the prose stops
-   getting easier to read past the measure and every pixel the picture does
-   not get is a pixel of interface rendered smaller than it was drawn. The
-   second half of that was only half true, and the numbers say where it broke:
-   inside the 1280px container the card captures rendered 752px wide against
-   the 622px they were drawn at, which is not the picture keeping its size,
-   it is the picture being enlarged by a fifth. Upscaling a screenshot of an
-   interface softens every edge the interface drew crisply, and it makes two
-   cards shout over the prose they are evidence for.
+/* THE ARGUMENT AT ITS MEASURE, THE EVIDENCE AT ITS OWN SIZE. This was halves,
+   on the argument that a capture should not be enlarged and half the
+   container was near the size the card captures were drawn at. Half was
+   near, and near in the wrong direction: the card is 622 and half of the
+   container is 584, so the two card captures were the only pictures on the
+   site rendered UNDER their own scale, and every one of the four that span
+   the row was rendered over it -- the rule card worst, at 651 drawn and 1216
+   shown, which is an enlargement of 1.87 and is what makes that frame shout
+   over the paragraph it is evidence for.
 
-   At halves the card renders 584 against 622, or 0.94 -- which is what the
-   two full-row fleet captures below already do at 1216 against 1286. So at
-   the full container all four captures sit a hair under the size they were
-   drawn, rather than two of them at 1.21 and two at 0.95. That is also why no
-   zoom affordance came with this: a capture at its own scale has nothing left
-   to reveal, and a lightbox would be offering to undo an enlargement that is
-   no longer happening. (Below 64rem the layout stacks and .ckw-scroll takes
-   over, and a card capture in a column wider than 622px is still enlarged
-   there; that is the tablet range's own question, not this rule's.)
+   So the column is set from the copy instead, and the pictures are capped
+   individually below. 28rem is the measure at the lead's size once the disc
+   and its gap come out of it, which leaves 720 for the evidence at the full
+   container: enough for a card capture at 1:1, with the slack falling to the
+   right of it the way the copy's slack already falls to the right of the
+   text. Nothing here is sized to a fraction of the container any more.
 
-   The copy column keeps its measure -- .ckw-lead is capped at --measure, so
-   the half it now gets is wider than the line it sets, and the slack falls to
-   the right of the text rather than into it. */
-@media (min-width: 64rem) {
-  .ckw-decision { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4xl); }
+   72rem and not the 64rem the halves used, because a fixed copy column
+   changes what the breakpoint has to buy. At 64rem the evidence column came
+   out 470 and a 622px card capture was shrunk into it by a quarter -- the
+   two columns arriving before there was room for them. Below 72rem the item
+   runs in one column and the card sits at 1:1 with ground beside it, which
+   is the better of the two arrangements at that width. */
+@media (min-width: 72rem) {
+  .ckw-decision { grid-template-columns: minmax(0, 28rem) minmax(0, 1fr); gap: var(--space-4xl); }
+  .ckw-decision .ckw-shot { margin-left: 0; }
 }
 .ckw-decision-copy {
   position: relative;
@@ -239,6 +239,31 @@
   border-radius: 12px;
   box-shadow: var(--shadow-media);
 }
+/* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, and the size a capture was
+   drawn at is half its file, because these are taken at two device pixels to
+   one. The ceiling is per capture and not per column: a column can only say
+   how much room there is, and four of these had been taking all of it, which
+   is how a 651px card came to be printed at 1216 next to a 1288px table
+   printed at the same 1216 -- two pictures at wildly different scales,
+   presented as though they were at one. Upscaling a screenshot softens every
+   edge the interface drew crisply, and it makes the frame argue louder than
+   the paragraph it is evidence for.
+
+   A floor still beats this ceiling at narrow widths, on purpose: min-width
+   wins over max-width in CSS, so .ckw-scroll below keeps its horizontal
+   scroll rather than shrinking a table into illegibility. */
+.ckw-shot img,
+.ckw-frames img { max-width: var(--shot-w, 100%); }
+/* The recommendation card and the record card, which are the same card
+   captured twice and so the same width. */
+.ckw-shot--card { --shot-w: 622px; }
+.ckw-frame--rule { --shot-w: 651px; }
+.ckw-frame--stale { --shot-w: 888px; }
+/* A whole screen, which is drawn at about 1048 and shown at very nearly
+   that. The cap is a round 64rem rather than the file's own width so that a
+   recapture at a slightly different viewport does not silently change the
+   width of the page. */
+.ckw-decision--screen .ckw-shot { --shot-w: 64rem; }
 .case-section .ckw-shot figcaption,
 .case-section .ckw-frame-cap {
   margin: var(--space-sm) 0 0;
@@ -253,16 +278,39 @@
    travels without the sentence around it has to say so itself. */
 .ckw-cap-label { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
-/* THE DATA TABLE IS SHOWN AT THE SIZE IT IS READ AT. Two of the four captures
-   are the fleet, which is 1200px of interface because the argument it makes is
-   that seven trucks and five factors stay in reach at once. Inside the 1fr
-   column beside a paragraph it renders at about 0.6, which puts its type near
-   10px: the page would be claiming the table is legible while showing that it
-   is not. So those two span the row and sit under their copy instead of beside
-   it. It is the same reasoning that lets .ck-frame leave the container, and it
-   is decision 04 applied to the page rather than to the cockpit. */
+/* A SCREEN DOES NOT FIT BESIDE A PARAGRAPH, SO IT DOES NOT SIT BESIDE ONE.
+   Three of the seven captures are the fleet data table or the width of the
+   panel, and the table is 60rem of interface before it starts to scroll
+   because its argument is that seven trucks and five factors stay in reach
+   at once. In a 720px column that renders near 0.6, which puts its type at
+   10px: the page would be claiming the table is legible while showing that
+   it is not.
+
+   Those two decisions run in ONE column instead -- the argument at its
+   measure, the picture under it. The old arrangement kept the item in two
+   columns and let only the figure span, which left the copy in a 28rem
+   column with an empty 720px beside it and then a slab underneath. The void
+   was the awkward part, not the picture.
+
+   The three captures are taken at a 1080 viewport rather than 1320 (see
+   cockpit-shots.mjs), so a whole screen is about 1048 drawn and sits inside
+   the 64rem cap below at nearly 1:1, rather than being a 1288px file printed
+   as wide as the page can print it. */
+.ckw-decision--screen { gap: var(--space-2xl); }
+/* THE PICTURE LINES UP WITH THE PARAGRAPH, NOT WITH THE NUMBER. Wherever an
+   item runs in one column -- the two screen decisions at every width, and
+   all five between 64 and 72rem -- the figure takes the same indent the copy
+   takes, so the disc is the only thing left hanging in the margin and the
+   block has one left edge instead of two. Beside the copy it needs none: it
+   starts its own column there. Not below 64rem, where .ckw-scroll bleeds the
+   picture out through the gutter to the viewport and an indent would be
+   taking back the width that bleed exists to give. */
 @media (min-width: 64rem) {
-  .ckw-shot--wide { grid-column: 1 / -1; }
+  .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
+}
+@media (min-width: 72rem) {
+  .ckw-decision--screen { grid-template-columns: minmax(0, 1fr); }
+  .ckw-decision--screen .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
 }
 .ckw-frames {
   list-style: none;
@@ -498,7 +546,7 @@
     scrollbar-width: thin;
   }
   .ckw-scroll img { min-width: 38rem; }
-  .ckw-shot--wide .ckw-scroll img { min-width: 62rem; }
+  .ckw-decision--screen .ckw-scroll img { min-width: 62rem; }
 }
 
 /* ---------- The one drawing, and the one that closes ----------
