@@ -44,7 +44,7 @@ so starting in the cloud does not commit anyone to finishing there.
 
 Work happens on a `claude/<task-name>` branch and lands through a pull
 request. **A merge never waits on a check.** The fast five run locally before
-the push, because they cost a second; the four browser checks run scoped to
+the push, because they cost a second; the five browser checks run scoped to
 the page when the change is one page, and otherwise ride the post-merge run
 (below). The one change worth holding a merge for is a stylesheet more than
 one page loads -- `gh workflow run checks.yml --ref <branch>` and read it
@@ -126,7 +126,7 @@ yes. Never force without it.
 ## A green `checks` does not mean the site updated
 
 Those are two workflows and they fail independently. `checks.yml` reports on
-the tree; `pages.yml` ships it. A commit can pass all nine checks and never
+the tree; `pages.yml` ships it. A commit can pass all ten checks and never
 reach the URL, and when that happens the site does not look broken. It looks
 unchanged, which is indistinguishable from a change nobody made.
 
@@ -279,14 +279,13 @@ node scripts/states.mjs <page> --strict   # just the page you touched
 --ref <branch>`. Nothing runs on a pull request, so nothing to wait for
 before merging; a failure opens an issue naming the commit, which by then is
 live. `tokens.mjs`, `counts.mjs` and `seo.mjs` need nothing installed and
-finish in about a second between them, so run those every time. `cards.mjs`
-is a sixth script and not one of the ten: see below.
+finish in about a second between them, so run those every time.
 
 ### How much of that to run, and when
 
-The cost is not spread evenly across the nine. `deployable.mjs`,
+The cost is not spread evenly across the ten. `deployable.mjs`,
 `tokens.mjs`, `counts.mjs`, `seo.mjs` and `keys.mjs` finish in about a second together and
-need nothing installed. The four browser checks are the entire bill: each
+need nothing installed. The five browser checks are the entire bill: each
 renders every page in the tree, and `typescale.mjs` renders each of them at
 four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
 
@@ -294,15 +293,15 @@ four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
 failure before it is live rather than about coverage.** That makes it a
 question of aim rather than volume: scope it to what changed, and never hold
 a merge for it. The row below says which changes are worth the wait. Scoped to
-the page you touched, all four browser checks together take about half a
-minute, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
+the page you touched, all five browser checks together take about forty
+seconds, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
 alone on one page is a second. That is the difference between a check you run
 and a check you skip because you are in a hurry.
 
 | What the change touches | Run locally |
 | --- | --- |
 | Copy, markup, SEO, images | The fast five |
-| Color, type, spacing or motion **on one page** | The fast five, plus the four browser checks scoped to that page |
+| Color, type, spacing or motion **on one page** | The fast five, plus the five browser checks scoped to that page |
 | A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite. This is the one worth waiting for: `gh workflow run checks.yml --ref <branch>` on the branch, rather than minutes of local browser time |
 | Anything else | Merge; the push-to-`main` run is the full sweep, and a failure opens an issue |
 
@@ -324,7 +323,7 @@ notices. The tripwire counts below are the only instrument that catches a
 whole page falling out of measurement, and they only read true when every page
 was measured.
 
-The four browser checks take `--root <path>` and otherwise measure the current
+The five browser checks take `--root <path>` and otherwise measure the current
 directory, and **every one of them prints the path, page count and commit it
 measured before it does anything else.** That printing is not decoration. Two
 of them used to resolve the root from their own file location and two from
@@ -332,16 +331,26 @@ of them used to resolve the root from their own file location and two from
 other's name. A wrong target you can see is a mistake; a wrong target you
 cannot see is a false result.
 
-**`cards.mjs` IS THE ONE CHECK THAT IS NOT IN `checks.yml`, AND IT IS RED.**
-It asks whether a card on a ground has an edge a reader can see, at a floor
-of 1.2:1. It named 13 surfaces on the cockpit when it was merged; making
-`--shadow-card`'s ring opaque took that to 5, and taking the cockpit's
-checklist panel out took it to 4. What is left are tinted zones carrying no
-elevation, which a card's drop shadow is the wrong answer for. So it is still red, still a real finding, and still run by
-hand. It is out of the workflow because a leg that is known to be red tells
-you nothing about the commit that turned it red, and `checks.yml` is the one
-instrument every other merge is read against. Wire it in the day the site
-passes it, and move it into the fast paragraph below when you do.
+**`cards.mjs` IS IN `checks.yml` SINCE 2026-09-21, WHICH IT SPENT ITS WHOLE
+LIFE SO FAR WAITING FOR.** It asks whether a card on a ground has an edge a
+reader can see, at a floor of 1.2:1, and it was merged in #247 deliberately
+OUTSIDE the workflow because it was red on 19 surfaces the day it arrived: a
+leg known to be red tells you nothing about the commit that turned it red,
+and `checks.yml` is the one instrument every other merge is read against. Its
+own header said to wire it in the day the site passed. Two changes did that
+— `--rule-card` and the depth ladder on the cockpit, then the sweep onto the
+other fourteen — and it is a fifth leg of the browser matrix now.
+
+**So the browser bill is five, not four**, and the shape of the advice does
+not change: `cards.mjs` renders every page once, like `resting.mjs` and
+`curves.mjs`, so it is nowhere near `typescale.mjs`'s four widths. Scope it
+to the page you touched the same way.
+
+The reason to keep reading the count rather than only the verdict applies
+here too, and more sharply than elsewhere: this one reports **raised
+surfaces**, 276 across 29 pages, and a run that comes back green with
+materially fewer of them has stopped looking at something rather than
+started passing it.
 
 **Four kinds of question.** `resting.mjs`, `states.mjs`, `typescale.mjs`,
 `curves.mjs` and `cards.mjs` read the specs as **rules** and the rendered page

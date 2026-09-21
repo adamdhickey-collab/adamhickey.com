@@ -1729,10 +1729,15 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-step {
   counter-increment: eng3step;
   background: var(--color-white);
-  /* Was rgba(27,29,26,0.06), a literal no token names. --rule-hairline is
-     the quiet divider on light grounds, four alpha points darker; a card
-     edge on the warm band is what that token is for. */
-  border: 1px solid var(--rule-hairline);
+  /* Was rgba(27,29,26,0.06), a literal no token names, then --rule-hairline
+     on the reasoning that a card edge on the warm band is what that token is
+     for. It is not, and cards.mjs named this card for it: --rule-hairline is
+     charcoal at 10%, a border composites over the card's OWN white before it
+     composites over anything else, and #e9e9e9 on the warm band is 1.11:1 --
+     a border in the stylesheet, a border in the computed style, and nothing
+     a reader can see. --rule-card is the same charcoal at 24%, which is the
+     step that survives that composite: 1.48:1 here. */
+  border: 1px solid var(--rule-card);
   border-radius: 16px;
   box-shadow: var(--shadow-resting);
   padding: var(--space-xl);
@@ -1896,7 +1901,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    whose rule above sets it white and wins on specificity -- so the tea-light
    this carried was dead, and step 6 only found it by measuring the panel and
    getting white back. The panel is white; that is the design. */
-.eng3-leave { border-radius: 16px; padding: var(--space-2xl); margin: var(--space-4xl) 0 0; }
+/* Three of cards.mjs's fourteen were this one panel: .eng3-leave, and the
+   .eng3-fit and .eng3-faq variants of it, all white on the warm band at
+   1.09:1 with nothing drawing an edge. One declaration answers all three,
+   because they were never three things. */
+.eng3-leave { border: 1px solid var(--rule-card); border-radius: 16px; padding: var(--space-2xl); margin: var(--space-4xl) 0 0; }
 /* A panel heading, not a section heading: step it down from the 48px
    section scale so the panel does not shout. */
 .eng3-leave .eng3-panel-title { font-size: var(--text-3xl); margin-bottom: var(--space-md); }
@@ -2280,7 +2289,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-situation { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
 @media (min-width: 1024px) { .eng3-situation { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-block); align-items: start; } }
 .eng3-situation-prose p { max-width: var(--measure); }
-.eng3-pull { background: var(--color-tea-light); border-radius: 16px; padding: var(--space-2xl); }
+/* Tea-light on white is 1.19:1, a hair under the floor and the closest a
+   fill on this site comes to passing on its own. The edge composites over
+   the pull's own tint, so one token gives it 1.64:1. */
+.eng3-pull { background: var(--color-tea-light); border: 1px solid var(--rule-card); border-radius: 16px; padding: var(--space-2xl); }
 .case-section .eng3-pull-quote {
   font-family: var(--font-serif); font-size: var(--text-3xl);
   line-height: var(--leading-heading); letter-spacing: var(--tracking-heading);
@@ -2309,6 +2321,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-proof-card {
   display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
   background: var(--color-warm); border-radius: 16px;
+  /* Warm on white, 1.09:1, with nothing drawing it. The tint over warm
+     paints rgb(195,195,191) and reads 1.75:1 against the page. */
+  border: 1px solid var(--rule-card);
   padding: var(--space-xl); margin-top: var(--space-2xl);
 }
 @media (min-width: 1024px) {
@@ -3968,7 +3983,11 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: var(--space-2xl) 0 var(--space-lg);
   padding: var(--space-xl) var(--space-2xl);
   background: var(--color-white);
-  border: 1px solid var(--color-tag-border);
+  /* --color-tag-border is the tag outline's token and it is quoted at
+     1.22:1 on white, which is where tags sit. This card sits on warm, and
+     an opaque line does not change when the ground under it does: 1.16:1,
+     under the floor. --rule-card is 1.48 here. */
+  border: 1px solid var(--rule-card);
   border-radius: 12px;
 }
 /* Two strips, not one card: the facts are what the project is, the stages
@@ -4279,7 +4298,13 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-radius: 10px;
   overflow: hidden;
   background: var(--color-muted-light);
-  border: 1px solid var(--color-tag-border);
+  /* The closest pair on the site: muted-light on tea-light is 1.07:1 by
+     fill, so this frame is the only thing saying where the artwork stops.
+     --color-tag-border managed 1.06 against that ground, which is to say
+     nothing at all. The tint composites over the frame's own muted-light
+     rather than over white, so it lands darker than it would on a white
+     card and reads 1.61:1. */
+  border: 1px solid var(--rule-card);
 }
 .build-era-art img { display: block; width: 100%; height: auto; }
 /* The note's paragraphs first, then the title's overrides: both are one class

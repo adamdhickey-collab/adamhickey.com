@@ -274,6 +274,12 @@ jobs:
   # tree -- 24 sizes off the scale, 15px and 17px among them in the hundreds.
   # #16 resolved those and #20 carried the rest. It is the longest leg, because
   # it is the only one that renders every page four times.
+  #
+  # cards.mjs: does a card on a ground have an edge a reader can see? Merged
+  # in #247 deliberately OUTSIDE this workflow, because it was red on 19
+  # surfaces the day it arrived and a workflow with a known-red leg tells you
+  # nothing about the commit that turned it red. Its own header said to wire
+  # it in the day it passes. It passes.
   browser:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
@@ -293,6 +299,9 @@ jobs:
           - check: typescale
             flags: ''
             label: Every type size is on the scale
+          - check: cards
+            flags: ''
+            label: Every card on a ground has an edge that reads
     steps:
       - uses: actions/checkout@v7
 
