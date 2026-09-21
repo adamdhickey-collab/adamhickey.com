@@ -572,17 +572,38 @@
    that the outcome history is invented, that Assign here stages a choice Undo
    reverses. What is folded is the reasoning behind a decision already stated
    in full. The summary says which of the two it is rather than "read more",
-   so a reader can tell from the label that nothing load-bearing is hidden. */
+   so a reader can tell from the label that nothing load-bearing is hidden.
+
+   ONE DISCLOSURE, NOT TWO. This page had two of them. The walkthrough's
+   `.ckw-more` packed a CSS-drawn chevron against its label and pointed it
+   down at rest, turning up on open, with a 32px hit area; the cockpit's
+   `.ck-note` and `.ck-misses` put the label left and the site's own chevron
+   hard right on a 44px row, pointing right at rest and turning down on open.
+   Same control, same page, two answers -- and the second is the one that was
+   reasoned about. It has the 44px target, and right-then-down is the
+   direction that says "the thing this opens is under here" rather than
+   borrowing an accordion's collapse arrow, which on a screen with a sortable
+   table is a mark already spoken for.
+
+   So the rule is written once, here, for all three, and what stays with each
+   is only what differs: where it sits and what is inside it. The chevron is
+   the registry's `chevron` at `.ck-icon`'s 1em rather than a drawn corner,
+   because a 2px square-ended border box and a 2.25 round-capped path are two
+   marks, and the whole point of this block is that there is one. */
 .ckw-more {
   margin: var(--space-md) 0 var(--space-xl);
   max-width: var(--measure);
   border-top: 1px solid var(--rule-hairline);
 }
-.ckw-more summary {
+.ckw-more summary,
+.ck-note summary,
+.ck-misses summary {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-sm) 0 0;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: 2.75rem;
+  padding: var(--space-xs) 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -590,24 +611,31 @@
   color: var(--color-accent-text);
   cursor: pointer;
   list-style: none;
+  transition: color var(--motion-state) var(--ease);
 }
-.ckw-more summary::-webkit-details-marker { display: none; }
-.ckw-more summary::marker { content: ''; }
-.ckw-more summary:hover { color: var(--color-accent-hover); }
-/* The chevron is drawn rather than fetched, because it is the only mark in
-   this block and an inline SVG per summary would be six copies of it in the
-   markup. It turns on open, which is the one thing the state has to say that
-   the word above it does not. */
-.ckw-more summary::after {
-  content: '';
-  width: 0.5em;
-  height: 0.5em;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: translateY(-0.15em) rotate(45deg);
+/* Safari draws its own triangle on a summary with any display but list-item;
+   both of these are needed to be rid of it. */
+.ckw-more summary::-webkit-details-marker,
+.ck-note summary::-webkit-details-marker,
+.ck-misses summary::-webkit-details-marker { display: none; }
+.ckw-more summary::marker,
+.ck-note summary::marker,
+.ck-misses summary::marker { content: ''; }
+.ckw-more summary:hover,
+.ck-note summary:hover,
+.ck-misses summary:hover { color: var(--color-accent-hover); }
+/* The mark turns to point down when it is open, which is the one thing the
+   state has to say that the label does not. The site's reduced-motion
+   blanket stops it. */
+.ckw-more .ck-disclosure-chev,
+.ck .ck-disclosure-chev {
+  flex-shrink: 0;
+  transform: rotate(-90deg);
   transition: transform var(--motion-state) var(--ease);
 }
-.ckw-more[open] summary::after { transform: translateY(0.1em) rotate(-135deg); }
+.ckw-more[open] .ck-disclosure-chev,
+.ck-note[open] .ck-disclosure-chev,
+.ck-misses[open] .ck-disclosure-chev { transform: rotate(0deg); }
 .ckw-more-body { padding-top: var(--space-xs); }
 .case-section .ckw-more-body p {
   margin: var(--space-sm) 0 0;
@@ -1936,8 +1964,11 @@ html[data-embed] .ck { border-radius: 0; }
 /* The rest of what the note used to say, folded. The summary borrows the
    disclosure the misses list already uses rather than inventing a second
    one; grouping the selectors keeps it one rule, so the state count does not
-   move for a pattern the page already had. */
-.ck-note { margin-top: var(--space-xs); }
+   move for a pattern the page already had. The hairline above it came with
+   that borrowing, and it is part of the control rather than decoration on
+   the other one: it is what makes a 44px row read as a row instead of a
+   line of sage text floating under the paragraph before it. */
+.ck-note { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
 .ck-note-body { padding-bottom: var(--space-xs); }
 .ck .ck-note-body p {
   margin: var(--space-xs) 0 0;
@@ -2068,42 +2099,13 @@ html[data-embed] .ck { border-radius: 0; }
 /* A disclosure that looks like one. It was sage underlined text, which is
    this site's link, so the one control on the card that expands in place
    read as a control that navigates away -- and its hit area was the 20px
-   of the words themselves. It is now a full-width row: label left, chevron
-   right, a rule above it, and the whole row clickable at 44px. The chevron
-   turns to point down when it is open, which is the only thing on this page
-   that moves, and the site's reduced-motion blanket stops it. */
+   of the words themselves. It is a full-width row now: label left, chevron
+   right, a rule above it, and the whole row clickable at 44px. That row is
+   declared once, under "The deeper argument, folded", because the
+   walkthrough's disclosures are the same control and used to be drawn a
+   second way; what is left here is where this one sits and what is in it. */
 .ck .ck-miss-fine { margin-bottom: var(--space-sm); }
 .ck-misses { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
-.ck-misses summary,
-.ck-note summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-height: 2.75rem;
-  padding: var(--space-xs) 0;
-  cursor: pointer;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-  transition: color var(--motion-state) var(--ease);
-}
-/* Safari draws its own triangle on a summary with any display but list-item;
-   both of these are needed to be rid of it. */
-.ck-misses summary::-webkit-details-marker,
-.ck-note summary::-webkit-details-marker { display: none; }
-.ck-misses summary::marker,
-.ck-note summary::marker { content: ''; }
-.ck-misses summary:hover,
-.ck-note summary:hover { color: var(--color-accent-hover); }
-.ck .ck-misses-chev {
-  flex-shrink: 0;
-  transform: rotate(-90deg);
-  transition: transform var(--motion-state) var(--ease);
-}
-.ck-misses[open] .ck-misses-chev,
-.ck-note[open] .ck-misses-chev { transform: rotate(0deg); }
 .ck-miss-list {
   margin: 0 0 var(--space-sm);
   padding: 0 0 0 var(--space-lg);
