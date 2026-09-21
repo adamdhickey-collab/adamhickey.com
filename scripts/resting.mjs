@@ -55,7 +55,7 @@
  *   node scripts/resting.mjs --probes        # also list what it measured by pixel
  */
 import path from 'node:path';
-import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { AT_REST, COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { decodePNG, pixels } from './lib/png.mjs';
 import { reach, reachableFor } from './lib/reachable.mjs';
 
@@ -300,7 +300,7 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+const ctx = await browser.newContext(AT_REST);
 
 const failures = [];
 const unmeasurable = [];

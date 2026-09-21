@@ -51,7 +51,7 @@
  * and for the boundary of a control.
  */
 import path from 'node:path';
-import { COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { COLOR_TOOLKIT, findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { reach, reachableFor } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
@@ -157,7 +157,7 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+const ctx = await browser.newContext(MEASURING);
 
 /* Nothing off this machine. Webfonts do not change a color, and font-size is
  * set by CSS whichever family resolves, so the size that picks the floor is the

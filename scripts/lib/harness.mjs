@@ -228,6 +228,63 @@ export async function serve(root) {
   return { server, origin: `http://127.0.0.1:${server.address().port}` };
 }
 
+/* The context every browser check measures in.
+ *
+ * THE VIEWPORT is 1440x1000, and it was written out five times before it was
+ * written here once. typescale.mjs overrides the width to walk its four, and
+ * resting.mjs to walk its three probes; both keep this height.
+ */
+export const MEASURING = {
+  viewport: { width: 1440, height: 1000 },
+};
+
+/* resting.mjs measures in this one instead, and it is the only check that
+ * does. The asymmetry is the whole point, so here is the argument.
+ *
+ * Every check loads a page, waits for it to settle and measures what is there,
+ * and none of them ever scrolls -- which is right, because a resting color is
+ * the one state no amount of pressing reaches. But the site reveals on scroll:
+ * index.html hides 34 blocks behind `.reveal`, and the six Tailwind case
+ * studies hide their own behind an inline `opacity: 0` that an observer
+ * clears. Below the fold of a 1000px viewport nothing clears them, and
+ * resting.mjs skips an element at `opacity: 0` on purpose -- text nobody can
+ * see has no contrast to fail. So 89 elements holding real copy were never
+ * contrast-checked, on 7 of the 29 pages: 8 on the homepage and 81 across the
+ * case studies. The check said "✓" about a page it had measured most of, which
+ * is the direction the tripwire counts in CLAUDE.md exist to catch, because it
+ * hides rather than announces.
+ *
+ * WHY NOT A STYLESHEET THE CHECK INJECTS. The obvious fix is to push
+ * `.reveal { opacity: 1 !important }` in after goto. It was tried and it
+ * closed 7 of the 89, because the case studies do not use that class. A check
+ * carrying its own override carries a hand-maintained list of every way the
+ * site has ever hidden something -- a registry that goes stale in silence and
+ * covers less the day a page invents a sixth way.
+ *
+ * The site already answers this. style.css and case-motion.css both put their
+ * hidden things back to opacity 1 under `prefers-reduced-motion: reduce`,
+ * because a reader who asks for no motion must still be able to read the page.
+ * Asking for that preference closes all 89 and invents nothing: it measures a
+ * state the site genuinely serves, and a page added later that honors the
+ * preference is covered the day it lands rather than the day somebody
+ * remembers to widen a selector here.
+ *
+ * WHY ONLY HERE, AND NOT IN THE OTHER FOUR. Because they do not have the
+ * defect and it would cost them. Only resting.mjs skips on opacity, so a
+ * revealed block was never hidden from the other four in the first place --
+ * measured across all 29 pages, the preference moves states.mjs, typescale.mjs
+ * and cards.mjs by exactly nothing (1874, 24798 and 276 either way). It moves
+ * curves.mjs by -14, and the -14 is real: cursor.js builds `.cursor-dot` and
+ * `.cursor-ring` only for a reader who has not asked for stillness, so the two
+ * rounded surfaces it checks on each of the 7 pages carrying a custom cursor
+ * stop existing. Those are surfaces an ordinary reader does see. Applying this
+ * where it buys nothing would trade 14 real elements for no coverage at all.
+ */
+export const AT_REST = {
+  ...MEASURING,
+  reducedMotion: 'reduce',
+};
+
 /* ---------------------------------------------------------------------------
  * Everything below this line is source text that runs INSIDE the page. It is a
  * string, not code this file executes, so it is written in the same idiom as

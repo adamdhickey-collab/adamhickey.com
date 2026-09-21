@@ -17,7 +17,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
+import { findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { reach, reachableFor } from './lib/reachable.mjs';
 
 const root = resolveRoot('typescale.mjs');
@@ -49,7 +49,7 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+const ctx = await browser.newContext(MEASURING);
 /* Webfonts do not set font-size; blocking them makes the run hermetic and stops
    it hanging on a machine with no route to Google Fonts. */
 await ctx.route(/^https?:/, r =>
