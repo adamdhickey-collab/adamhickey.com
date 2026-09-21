@@ -87,7 +87,7 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20260921d" />
   <link rel="stylesheet" href="../site-nav.css?v=20260921a" />
-  <link rel="stylesheet" href="ds.css?v=37" />
+  <link rel="stylesheet" href="ds.css?v=38" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -725,7 +725,7 @@
       <div class="container">
         <span class="ds-num">01</span>
         <h2>Components</h2>
-        <p class="ds-lede">Sixteen of them, and where a specimen is live it is built from the site&rsquo;s own stylesheet rather than rebuilt here. Four have no specimen: they belong to <code>case-study-base.css</code>, which this page does not load, and a hand-made copy would go stale the moment the case studies changed. Those four carry their markup instead.</p>
+        <p class="ds-lede">Seventeen of them, and where a specimen is live it is built from the site&rsquo;s own stylesheet rather than rebuilt here. Four have no specimen: they belong to <code>case-study-base.css</code>, which this page does not load, and a hand-made copy would go stale the moment the case studies changed. Those four carry their markup instead.</p>
 
         <div class="ds-component">
           <h3>Buttons</h3>
@@ -758,6 +758,37 @@
           </ul>
         </div>
 
+        <div class="ds-component">
+          <h3>Disclosure</h3>
+          <div class="ds-demo">
+            <details class="ds-demo-full">
+              <summary class="disclosure-row"><span>Why I designed it this way</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+              <p class="ds-disclosure-body">A ranking is a summary of reasons. Hide them and the reader has to rebuild them to check it, which is more work than not having been given the ranking at all.</p>
+            </details>
+          </div>
+          <p class="ds-demo-note"><strong>The row is the component; the rest belongs to whoever uses it.</strong> <code>.disclosure-row</code> in <code>style.css</code> is a full-width row with the label at one end and the chevron at the other, at least 44px of it clickable, the mark turning from pointing at the content to pointing into it. The specimen above is that rule, not a copy of it. What the row does <em>not</em> carry is the hairline above it, the width it is constrained to, or the type: the prototype&rsquo;s three disclosures add a rule and a measure, the Markup toggles on this page add neither, and <code>.ds-usage</code> overrides four properties &mdash; size, weight, tracking, case &mdash; to keep the uppercase micro-label this page labels everything else with. The chevron is sized in <code>em</code>, so it is 14px beside a <code>--text-sm</code> label and 12px beside a <code>--text-xs</code> one.</p>
+          <p class="ds-demo-note"><strong>It was three patterns until 2026-09-21, and the third is the cautionary one.</strong> The prototype walkthrough drew a chevron in CSS on a 32px row; the prototype itself drew the site&rsquo;s chevron on a 44px row; and this page&rsquo;s fifteen Markup toggles drew no mark at all, which left <code>list-style: disclosure-closed</code> to the browser. That triangle was the only mark on this site drawn by the engine rather than by the site, and Chrome, Safari and Firefox each draw it differently. A component with no mark of its own does not get no mark. It gets whichever one the browser has.</p>
+          <details class="ds-usage">
+            <summary class="disclosure-row"><span>Markup</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <pre class="ds-code"><code>&lt;details&gt;
+  &lt;summary class=&quot;disclosure-row&quot;&gt;
+    &lt;span&gt;Why I designed it this way&lt;/span&gt;
+    &lt;svg class=&quot;disclosure-chev&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;
+         stroke=&quot;currentColor&quot; stroke-width=&quot;2.25&quot; stroke-linecap=&quot;round&quot;
+         stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+      &lt;path d=&quot;m6 9 6 6 6-6&quot;/&gt;
+    &lt;/svg&gt;
+  &lt;/summary&gt;
+  &lt;div&gt;&hellip;&lt;/div&gt;
+&lt;/details&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> name what is behind it. &ldquo;Why I designed it this way&rdquo; tells a reader they can skip it; &ldquo;Read more&rdquo; tells them nothing, so they have to open it to find out, which is the one cost a disclosure exists to avoid.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> leave anything a reader is <em>owed</em> outside it. What folds is the argument behind a point already made in full, never the point.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> let the browser draw the mark. <code>list-style: none</code> and both marker rules are in <code>.disclosure-row</code> for this reason; Safari needs <code>::-webkit-details-marker</code> and <code>::marker</code> both.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> reach for it for a menu or a table row. The nav toggle is a button that opens a menu and the prototype&rsquo;s <code>[data-more]</code> opens a detail panel inside a data table; both are <code>aria-expanded</code> controls and neither is this.</span></li>
+          </ul>
+        </div>
         <div class="ds-component">
           <h3>Tags</h3>
           <div class="ds-demo is-warm">
