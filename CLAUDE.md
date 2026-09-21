@@ -400,8 +400,8 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-21 the tree measures 5978 resting colors, 1874 state
-rules, 24670 type sizes, 14837 elements checked for a partial border on a
+unmeasured. At 2026-09-21 the tree measures 6010 resting colors, 1874 state
+rules, 24798 type sizes, 14893 elements checked for a partial border on a
 curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out), plus 126 token names against 194 declarations, 6
@@ -432,7 +432,7 @@ Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 0fb9fd2** -- the post-merge sweep
+CI run of `checks.yml` on **`main` at 2c783bc** -- the post-merge sweep
 rather than a run against a branch, which is the cheapest way to take one,
 since that sweep runs whether anybody reads it or not. They replace the
 2026-09-20 set of 5991 / 1858 / 24842 / 14749, taken the same way at
@@ -443,9 +443,9 @@ which is a better record of it than a sentence. The page count did not move
 -- 29 through all of them, which is the number to read first.
 
 **This one splits, and every commit in it has a sweep of its own.**
-Twenty-seven commits sit between 774df5e and 0fb9fd2, and the last eleven
-landed inside three hours on 2026-09-21, each with its own post-merge run
-sitting there unread. Reading the eleven back gives a ladder rather than a
+Twenty-eight commits sit between 774df5e and 2c783bc, and the last twelve
+landed inside four hours on 2026-09-21, each with its own post-merge run
+sitting there unread. Reading the twelve back gives a ladder rather than a
 residual:
 
 | after | resting | state rules | type sizes | curve elements | raised | decl |
@@ -458,8 +458,9 @@ residual:
 | #270, #271 | 5978 | 1835 | 24670 | 14792 | 276 | 193 |
 | **#273** `1afc44b` | 5978 | **1874** | 24670 | **14837** | 276 | 193 |
 | **#272** `0fb9fd2` | 5978 | 1874 | 24670 | 14837 | 276 | **194** |
+| **#275** `2c783bc` | **6010** | 1874 | **24798** | **14893** | 276 | 194 |
 
-Seven of the eleven moved nothing at all, which is the ordinary case and
+Seven of the twelve moved nothing at all, which is the ordinary case and
 worth seeing: #263, #264, #266, #268 and #269 retook captures, restyled a
 caret and set the factor rows for a cab; #270 rewrote this section; #271
 reworked a transition. None of that adds or removes a thing any of the five
@@ -491,6 +492,23 @@ selectors and two of the four in its `:focus-visible` group, so -5; `ds.css`
 gave up its own two, so -2. `states.mjs` splits a grouped selector on the
 comma and counts each of them, which is what makes 46 - 5 - 2 come out
 whole.
+
+**#275 is the two-for-one, and the pair is the check on itself.** It gave
+the design system page a seventeenth component entry, for the disclosure the
+page had been using sixteen times and documenting nowhere: 32 text nodes,
+and 32 x 4 widths is the 128 that `typescale.mjs` reports. Two counts
+moving in exact proportion is the cheapest confirmation available that
+neither is reading something the other is not, and it is free -- the
+multiplier is already written down two paragraphs up.
+
+**Its raised-surface count did NOT move, and that reading had to be
+checked rather than accepted.** A new entry brings a new `.ds-demo`, a
+white card with `--shadow-card` on it, and a raised-surface count that
+declines to notice one is the exact shape of the failure this section
+warns about. It is not that: `cards.mjs` keys its findings and counts a
+kind once, so the entry's demo box is the 65th of something already
+counted. A count that stays still for a reason you have read in the script
+is a different fact from a count that stays still.
 
 #267 is the rest of it -- resting down 5, type sizes down 20, curve elements
 down 8, state rules down 23, and a sixth token retired by name -- and it was
