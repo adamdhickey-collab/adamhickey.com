@@ -155,49 +155,81 @@
      All of them are built on --color-black. The four near-blacks that were in
      use for shadows -- #000, #111111, #1b1d1a and #252525 -- differ by less
      than a shadow can show. */
-  /* A CARD AT REST. This was 0 1px 3px at 6% over a 4% ring, and the ring was
-     the problem: 4% black is 1.09:1 on white and 1.09 on warm, which is not an
-     edge, it is a rumour of one. --shadow-media learned this first and the
-     paragraph below records it; the same three layers answer it here. The ring
-     is the edge and takes the rule token, the 1px layer is the contact shadow,
-     and the drop carries a NEGATIVE spread so the blur sits under the card
-     rather than haloing out around it.
+  /* ---------------------------------------------------------------------
+     THE CARD LADDER: THREE RUNGS OF DEPTH, AND NOT ONE OF THEM DRAWS THE
+     EDGE.
+
+     Two jobs that kept being asked of one property. A card on a light
+     ground needs a BOUNDARY, because white on --color-warm is 1.13:1 and
+     the fill will not do it, and it needs a HEIGHT, because a screen with
+     four surfaces on it has to say which one is in front. Every previous
+     arrangement here made one thing do both and lost on the other:
+
+       - An opaque keyline plus a tucked drop. The line was the boundary and
+         the drop was the height, which is correct -- but the line was
+         --color-rule, a grey-tan drawn at full strength all the way round,
+         the same weight down a card's side as across its top. It says
+         "bounded" where the thing worth saying is "on top of".
+       - No line, and an AMBIENT shadow layer at offset 0 doing the
+         boundary. It works, measurably: 1.26:1 at the side of a card on
+         warm. But an edge made of blur is an edge that FADES, and at 3px it
+         took 3.5 CSS pixels to do it, which reads as haze rather than as a
+         boundary. Tightening the blur to 1px got the fade to 1.0px and the
+         alpha to 34% -- at which point it is a line drawn in the least
+         direct way available.
+
+     SO THE TWO JOBS TAKE TWO PROPERTIES. --rule-card draws the boundary: a
+     charcoal tint at 24%, crisp, one pixel, no fade at all (color.css has
+     the arithmetic and why a tint rather than the opaque token). These
+     three draw the height and nothing else, and every one of them is a
+     TUCKED DROP -- a negative spread against its blur, so the shadow sits
+     under the card and reaches the page below it rather than haloing out
+     past the edge the border just drew. Nothing soft crosses the boundary,
+     which is the whole of why this reads crisp.
+
+     WHAT CHANGES FROM RUNG TO RUNG is the offset and the reach, not the
+     alpha and not the edge. A card that is further off the page is not a
+     card with a heavier line.
+
+     THE ONE THING A BORDER COSTS, AND IT IS PAID HERE. A 1px border beside a
+     1px ring is a 2px edge (COLOR.md section 4), so no rung carries a ring:
+     the consumers draw the border and the tokens draw the drop, and they do
+     not overlap. --shadow-media and --shadow-device still carry their own
+     keylines, because the objects they lift are pictures with no border of
+     their own. --------------------------------------------------------- */
+
+  /* RUNG 1 -- A TINTED ZONE, resting barely off the page. The recommendation
+     panel, the status line, the homepage's prototype card: regions rather
+     than objects, painted a ground rather than white. They take the edge
+     from --rule-card like everything else -- a zone's border composites
+     over its OWN tint, so it paints darker than a white card's does and
+     reads at 1.74:1 on warm without a second token -- and they take the
+     shallowest drop, because a region is a tray and not a thing you pick
+     up. */
+  --shadow-zone:     0 2px 4px -3px rgba(0,0,0,0.22);   /* a tinted region lifted off the page */
+  /* RUNG 2 -- A CARD AT REST, on the page or on a zone. The load, the fleet,
+     the optional question, the stale-hours note.
 
      SHALLOWER THAN --shadow-media, and the gap is the point rather than an
-     accident of tuning. A framed figure in an essay is presented -- lifted off
-     the page and looked at. A card in an interface RESTS on it. Give the two
-     the same numbers and the scale has two names for one height, which is the
-     pair COLOR.md section 7 spends its last entry warning about.
-
-     THE RING IS OPAQUE, AND THAT IS THE SECOND CORRECTION TO THIS LINE.
-     The paragraph above says "the ring is the edge and takes the rule
-     token", and the declaration took --rule-hairline, which is not the rule
-     token: it is charcoal at 10%. A ring is painted outside the border box,
-     so unlike a border it composites over the GROUND -- and a tenth of
-     charcoal over --color-warm is 1.11:1, over the cockpit's tea-light
-     1.09. cards.mjs, merged in #247 to hold exactly this question open,
-     named 13 surfaces on the cockpit alone whose only edge was this layer.
-     --color-rule is what the comment meant: opaque, and 1.55 on white, 1.42
-     on warm, 1.31 on tea-light and 1.23 on muted-light, so the keyline
-     reads on every ground a card can sit on. The two soft layers are
-     untouched -- what was missing was never the depth. */
-  --shadow-card:     0 0 0 1px var(--color-rule),
-                     0 1px 2px rgba(0,0,0,0.06),
-                     0 8px 16px -8px rgba(0,0,0,0.14);   /* a card at rest: keyline, contact, tucked drop */
-  /* THE ONE CARD THAT LIFTS ABOVE ITS SIBLINGS. Not a hover and not a variant:
-     a second resting height, for the card a screen is asking you to act on
-     while the others are there to be consulted. The cockpit is the case --
-     one white surface carries the Assign button and the rest carry evidence,
-     an order its stylesheet has asserted in a comment since the tinted
-     ground arrived and has never drawn. Same keyline, same contact, a drop
-     roughly twice as far. */
-  /* The same opaque keyline as --shadow-card, and it has to be: this is the
-     resting height above that one, and a card that lifts FURTHER off the page
-     with a FAINTER edge than its siblings is the elevation scale contradicting
-     itself. */
-  --shadow-card-raised: 0 0 0 1px var(--color-rule),
-                     0 2px 4px rgba(0,0,0,0.06),
-                     0 18px 32px -16px rgba(0,0,0,0.22); /* the one card on a screen that is asking to be acted on */
+     accident of tuning. A framed figure in an essay is presented -- lifted
+     off the page and looked at. A card in an interface RESTS on it. Give
+     the two the same numbers and the scale has two names for one height,
+     which is the pair COLOR.md section 7 spends its last entry warning
+     about. */
+  --shadow-card:     0 1px 2px -1px rgba(0,0,0,0.10),
+                     0 4px 8px -5px rgba(0,0,0,0.20);   /* a card at rest: contact, tucked drop */
+  /* RUNG 3 -- THE ONE CARD THAT LIFTS ABOVE ITS SIBLINGS. Not a hover and
+     not a variant: a second resting height, for the card a screen is asking
+     you to act on while the others are there to be consulted. The cockpit
+     is the case -- one white surface carries the Assign button and the rest
+     carry evidence, an order its stylesheet has asserted in a comment since
+     the tinted ground arrived and has never drawn. Twice the offset and
+     twice the reach of rung 2, the same tuck, and the same edge. */
+  --shadow-card-raised: 0 2px 4px -2px rgba(0,0,0,0.12),
+                     0 10px 18px -10px rgba(0,0,0,0.26); /* the one card on a screen that is asking to be acted on */
+  /* RUNG 4 is --shadow-popover, below. It floats over content rather than
+     resting on a ground 1.13:1 away, so it is the one rung whose edge its
+     own distance already draws. */
   --shadow-resting:  0 1px 8px rgba(0,0,0,0.06);        /* a bar or rail sitting on the page: nav, progress rail, step card */
   /* --shadow-media used to be one soft halo, 0 8px 24px at 8%. On the
      drawings it had nothing to work with: their putty-cream ground is 1.05:1

@@ -632,22 +632,21 @@
 }
 .ckw-compare-side {
   padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   background: var(--color-white);
   box-shadow: var(--shadow-card);
 }
 /* The B side's edge is an ARGUMENT -- it is the side being recommended -- so
-   it keeps its sage, and keeps it where the elevation keeps its keyline
-   rather than beside it. Swapping the first layer is the whole change: the
-   contact shadow and the drop stay, so B sits at the same height as A and
+   it keeps its sage, and it now keeps it in the BORDER, which is where every
+   card's edge lives since the elevation stopped carrying a keyline. It used
+   to swap the shadow's first layer, which was the right move while the ring
+   was the edge and is the wrong one now: a sage ring outside a tinted border
+   would be two lines. One declaration, and B sits at exactly A's height and
    differs only in the colour of its edge, which is the one thing it is
    trying to say. accent-deep is 4.12:1 on warm, past the 3:1 a boundary
    carrying meaning owes. */
-.ckw-compare-side--b {
-  box-shadow: 0 0 0 1px var(--color-accent-deep),
-              0 1px 2px rgba(0,0,0,0.06),
-              0 8px 16px -8px rgba(0,0,0,0.14);
-}
+.ckw-compare-side--b { border-color: var(--color-accent-deep); }
 .case-section .ckw-compare-side p {
   margin: var(--space-xs) 0 0;
   font-size: var(--text-base);
@@ -699,6 +698,7 @@
 }
 .ckw-questions > li {
   padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   background: var(--color-white);
   box-shadow: var(--shadow-card);
@@ -1261,28 +1261,49 @@ html[data-embed] .ck { border-radius: 0; }
    AN ELEVATION, NOT A LINE. These carried 1px of --color-rule, which on the
    warm ground is a 1.42:1 grey drawn all the way round -- the same weight on
    the side of a card as on its top, saying "bounded" where the thing worth
-   saying is "on top of". The keyline is still here, as the first layer of
-   the elevation and at a tenth of the charcoal rather than an opaque grey;
-   under it sit a contact shadow and a drop with a negative spread. That is
-   the arrangement --shadow-media has used since it stopped being a halo, and
-   the whole of it is one token, so no card draws a border of its own: a 1px
-   border beside a 1px ring is a 2px edge (COLOR.md section 4).
+   saying is "on top of".
 
-   TWO HEIGHTS, BECAUSE THE SCREEN HAS TWO KINDS OF CARD. The load, the fleet
-   table and the override reason are there to be consulted; the truck card is
-   the one being acted on, and it is the only one with a button. This file has
-   asserted that order in words since the tinted ground arrived -- "one raised
-   white surface, the card with the Assign button on it" -- and drawn all four
-   at the same height anyway. Now the drop says it. */
+   THE LINE IS BACK, AND IT IS NOT THAT GREY. --color-rule is an opaque
+   grey-tan: the same value on every ground, sitting on the scheme rather
+   than in it. The edge here is --rule-card, the ink at 24% -- the third
+   step of the same charcoal-tint family --rule-hairline and --rule-strong
+   belong to, and the only one of the three allowed on an OUTER edge,
+   because those two composite over the card's own fill and come out
+   #e9e9e9 whatever they are sitting on. At 24% it measures 1.48:1 on warm,
+   1.37 on tea-light and 1.28 on muted-light, which is a shade over the
+   opaque line it replaces on all three. A tint takes the ground through
+   it, so a white card and a tinted zone are edged by one relationship
+   instead of by one swatch.
+
+   AND THE SHADOW STOPS TRYING TO BE THE EDGE. Between #255 and now the
+   boundary was spent first as the elevation's ring and then, for one pass,
+   as an ambient shadow layer at offset 0 -- which measures fine, 1.26:1 at
+   a card's side, and looks like haze, because an edge made of blur is an
+   edge that fades. Every rung of the ladder is a TUCKED drop now: a
+   negative spread against its blur, so nothing soft crosses the line the
+   border draws. The border is the boundary, the drop is the height, and
+   neither is doing the other's job.
+
+   THREE HEIGHTS, BECAUSE THE SCREEN HAS THREE KINDS OF SURFACE. The
+   recommendation panel and the status line are ZONES -- tinted regions to
+   read something inside, at --shadow-zone. The load, the fleet table, the
+   override reason and the stale-hours note are CARDS to be consulted, at
+   --shadow-card. The truck card is the one being acted on and the only one
+   with a button, at --shadow-card-raised. This file has asserted that order
+   in words since the tinted ground arrived -- "one raised white surface, the
+   card with the Assign button on it" -- and drew the first of the three flat
+   on the page until now. */
 .ck-load,
 .ck-why,
 .ck-table-wrap {
   background: var(--color-white);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
 .ck-card {
   background: var(--color-white);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card-raised);
 }
@@ -1362,10 +1383,22 @@ html[data-embed] .ck { border-radius: 0; }
    4.90 -- so nothing inside changes color to sit here. A kicker names what
    the zone is before the headline says what it says. */
 .ck-reco { display: grid; gap: var(--space-lg); }
+/* THE ZONE LIFTS NOW, which is rung 1 and not a card's rung. It was flat on
+   the warm ground and separated from it by 1.09:1 of fill, which is the
+   whole of what a reader had: cards.mjs has named it as a surface with
+   nothing drawing its outline since that check was merged. --shadow-zone
+   does not fix that number and is not offered as fixing it -- no shadow
+   tasteful enough to sit under a panel this size closes a 1.09 gap, and
+   reaching for --shadow-card here would be a zone borrowing a card's height
+   to buy an edge. What it does is put the panel above the page, so the
+   answer zone reads as the thing in front and the white cards on it read as
+   objects on a tray rather than holes cut in one. */
 .ck-lead {
   padding: var(--space-xl);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   background: var(--color-tea-light);
+  box-shadow: var(--shadow-zone);
 }
 /* A CLOSE CALL IS NOT A CAUTION, AND USED TO BE PAINTED LIKE ONE.
    --color-caution-light was carrying two unrelated meanings on this screen:
@@ -1592,11 +1625,40 @@ html[data-embed] .ck { border-radius: 0; }
   gap: var(--space-xs);
   margin: var(--space-md) 0 0;
   padding: var(--space-sm) var(--space-md);
+  /* THE DARK LINE, WHERE EVERY OTHER CARD TAKES THE TINT. Cards here are
+     edged in --rule-card, the ink at 24%, which paints rgb(203,203,203)
+     over a white card. This one is edged in the ink itself. A note that
+     asks the dispatcher to go and check a logbook before pressing Assign
+     is the only surface on the screen that wants to be interrupted at, and
+     the gap between the two lines is what says so: 6.47:1 against 1.48
+     on the same ground, which is not a border weight or a border style
+     but a border a reader can see is different without being told.
+
+     --color-muted-gray, which COLOR.md already measures as a border on
+     white at 6.47:1 and which this file's header already lists in that
+     role. Dark, because the edge has to be legible as a deliberate mark
+     against both what it encloses and what it sits on: 6.47 against the
+     note's own white, 5.11 against the close call's muted-light outside it.
+     Both are far over the 3:1 a meaningful boundary answers to, which is
+     the floor a decorative hairline was never asked to clear.
+
+     1px AND NOT 2px, and the reason is three hundred lines up in this same
+     comment: .ck-rule takes a 2px caution edge to refuse a truck, and the
+     note used to differ from it by border weight alone, which is not a
+     difference a reader can name. It differs by hue and by ground now --
+     neutral on white against caution on caution-light -- so the weights are
+     free to stay apart rather than carry the distinction. Three kinds of
+     edge, three things said: a tint for a card, the ink for a note worth
+     stopping at, the caution for a refusal.
+
+     THE ELEVATION STAYS UNDER IT. The border is what kind of thing this
+     is; --shadow-card is how far off the page it sits, and it sits at the
+     same height as the load and the fleet, which is the height of a card
+     you read. The two do not double: every rung of the ladder is a tucked
+     drop, so nothing the shadow draws reaches past the line. */
+  border: 1px solid var(--color-muted-gray);
   border-radius: var(--radius-xl);
   background: var(--color-white);
-  /* Already the one raised thing inside a tinted lead, and already drawing
-     the elevation's own keyline by hand. It takes the token instead, so the
-     note lifts off .ck-lead the way the cards lift off the warm ground. */
   box-shadow: var(--shadow-card);
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
@@ -2083,8 +2145,17 @@ html[data-embed] .ck { border-radius: 0; }
   gap: var(--space-xs);
   margin: 0;
   padding: var(--space-sm) var(--space-xl);
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   background: var(--color-muted-light);
+  /* The same rung as .ck-lead and for the same reason: a tinted region, not
+     a card. 1.16:1 of fill against the warm ground was the whole of what
+     separated it, and the lift is what puts it in front of the page without
+     borrowing the height of something you act on. The edge is the same
+     --rule-card, composited over this line's own muted-light rather than
+     over white, so it lands at 1.84:1 on warm -- darker than a white card's
+     edge, which is the tint doing what an opaque token could not. */
+  box-shadow: var(--shadow-zone);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
