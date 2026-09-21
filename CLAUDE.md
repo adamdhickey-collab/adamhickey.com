@@ -400,22 +400,30 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-20 the tree measures 5991 resting colors, 1858 state
-rules, 24842 type sizes and 14749 elements checked for a partial border on a
-curve, across 29 pages (the twenty-eight of the site and `404.html`, which
-the browser checks measure and `counts.mjs` and `seo.mjs` leave out), plus
-122 token names against 191 declarations and 10 counted claims.
+unmeasured. At 2026-09-21 the tree measures 5978 resting colors, 1835 state
+rules, 24670 type sizes, 14792 elements checked for a partial border on a
+curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
+and `404.html`, which the browser checks measure and `counts.mjs` and
+`seo.mjs` leave out), plus 125 token names against 193 declarations, 6
+retired by name, and 10 counted claims.
 
-Three of those four jumped when the checks learned to press things, and all of
-the jump is one page: resting 4024 -> 5784, type sizes 16886 -> 23838, curve
-elements 9673 -> 14246 **as the tree stood at #109**, each exactly the
+**There are five browser numbers now, not four.** `cards.mjs` went into
+`checks.yml` on 2026-09-21 and its raised-surface count joins the sentence
+above, where it belongs: it is the leg whose count is the most worth reading,
+because its floor is 1.2:1 and a card that quietly stops being raised stops
+being asked the question rather than failing it.
+
+Three of the first four jumped when the checks learned to press things, and
+all of the jump is one page: resting 4024 -> 5784, type sizes 16886 ->
+23838, curve elements 9673 -> 14246 **as the tree stood at #109**, each
+exactly the
 cockpit's own increase. Those three right-hand figures are the record of that
 change rather than the current count -- the sentence above carries the current
 one, and it has moved since. **The state rule count did not move, on
 purpose** -- rules come out of the stylesheet and are the same in every
 state, so `states.mjs` counts them once per page. A reachable state that
 inflated this number would be corrupting the one instrument the section below
-asks you to trust. **The four browser numbers are maintained by hand and
+asks you to trust. **The five browser numbers are maintained by hand and
 nothing verifies them** -- nor the token total printed beside them, which
 the paragraph on declarations below sets out. They will drift. Treat them as a tripwire rather than a
 record: a run that comes back materially smaller means something stopped
@@ -424,16 +432,62 @@ Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 774df5e** -- the post-merge sweep
-rather than a run against a branch, which is the first of these taken that
-way and the cheapest way to take one, since that sweep runs whether anybody
-reads it or not -- and they replace the 2026-09-19 set of 6002 / 1859 /
-24720 / 15094, taken on `claude/assigned-button-ink` at d0b4be7. The page
-count did not move -- 29 before and 29 after, which is the number to read
-first.
+CI run of `checks.yml` on **`main` at c680512** -- the post-merge sweep
+rather than a run against a branch, which is the cheapest way to take one,
+since that sweep runs whether anybody reads it or not -- and they replace the
+2026-09-20 set of 5991 / 1858 / 24842 / 14749, taken the same way on `main`
+at 774df5e, which in turn replaced the 2026-09-19 set of 6002 / 1859 / 24720
+/ 15094 from `claude/assigned-button-ink` at d0b4be7. The page count did not
+move -- 29 through all three, which is the number to read first.
 
-**This one does not split cleanly, and the part that will not split is the
-finding.** #246 took the cockpit's slideshow off the page, along with the
+**This one splits, and every commit in it has a sweep of its own.**
+Twenty-three commits sit between 774df5e and c680512, and the last seven
+landed
+inside two hours on 2026-09-21, each with its own post-merge run sitting
+there unread. Reading the seven back gives a ladder rather than a residual:
+
+| after | resting | state rules | type sizes | curve elements | raised |
+| --- | --- | --- | --- | --- | --- |
+| #262 `af8bb59` | 5983 | 1858 | 24690 | 14656 | 276 |
+| #263, #264, #266 | 5983 | 1858 | 24690 | 14656 | 276 |
+| **#265** `7ec6560` | 5983 | 1858 | 24690 | **14800** | 276 |
+| #269, #268 | 5983 | 1858 | 24690 | 14800 | 276 |
+| **#267** `c680512` | **5978** | **1835** | **24670** | **14792** | 276 |
+
+Five of the seven moved nothing at all, which is the ordinary case and worth
+seeing: #263, #264, #266, #268 and #269 retook captures, restyled a caret and
+set the factor rows for a cab, and none of that adds or removes a thing any
+of the five counts.
+
+**#265 is 144 curve elements, and the arithmetic is the whole lesson.** It
+unified the cockpit page's two disclosure patterns, which put three elements
+into each of six summaries -- a `<span>` around the label, an `<svg>` and its
+`<path>` -- and 6 x 3 x 8 fresh loads, the rest plus the seven reachable
+states, is 144. Nothing else moved, and each of the other four says why in
+its own rule: the `::after` chevron it replaced never counted, because a
+pseudo-element is not an element; the span wraps text that was already there,
+so `resting.mjs` gains no text node; the svg is `aria-hidden`, which
+`typescale.mjs` skips; and no stylesheet rule was added or deleted, only
+regrouped, so the state count sat still. **A change can be invisible to four
+of the five and still be the largest single move in the stretch.**
+
+#267 is the rest of it -- resting down 5, type sizes down 20, curve elements
+down 8, state rules down 23, and a sixth token retired by name -- and it is
+the only one of the seven that touched a stylesheet more than one page loads.
+It retired `--color-accent-deep` into `--color-accent-text` across sixty-four
+uses and merged selectors as it went; the 23 rules are not itemized here,
+because that is its author's arithmetic to write and this paragraph is not
+going to invent one. **What matters is that it is one commit and the ladder
+says so**, which is the thing the residual below could never do.
+
+The fifteen commits from #248 to #262 are still a residual, because they
+predate anybody reading the sweeps back: resting down 8, type sizes down 152,
+curve elements down 93, state rules unmoved, two more token names and two
+more declarations. What the ladder costs is eight `gh run view --log` calls,
+and what it buys is the difference between those two paragraphs.
+
+**The 774df5e set did not split cleanly, and the part that would not split
+was its finding.** #246 took the cockpit's slideshow off the page, along with the
 captures beside four of its five decisions, and its own share was measured
 scoped against the tree it was cut from: resting down 184, type sizes down
 800, curve elements down 808, and three state rules, which were the
@@ -459,9 +513,13 @@ remembers, and the post-merge sweep above is sitting there every time.
 **The token declarations drift too, and nothing checks them either.** 192 at
 d0b4be7, 193 after those same twenty-one, 190 after #246 deleted
 `--slide-w`, `--slide-gap` and `--slide-x` along with the slideshow that
-named them, and 191 now: the cockpit's cards took an elevation instead of a
-1px line, and the one card a screen asks you to act on needed a second
-resting height to say so, which is `--shadow-card-raised`. `tokens.mjs`
+named them, 191 at 774df5e when the cockpit's cards took an elevation
+instead of a 1px line and the one card a screen asks you to act on needed a
+second resting height to say so, which is `--shadow-card-raised`, and 193
+now. The total held across #267 while a token was being retired, which is
+the kind of thing only a count can tell you: `--color-accent-deep` left the
+stylesheets and the same commit's focus-ring work put two more in, so the
+number that did move is the retired-by-name one, 5 to 6. `tokens.mjs`
 holds every name the docs USE to a declaration; the total it prints is a
 count, and a count in prose here is the same kind of hand-maintained number
 as the four above.
@@ -469,9 +527,11 @@ as the four above.
 The older sets carry an account of how they were reached, and all of them
 are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
-than announcing it. Re-measure and rewrite these four when they have
+than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does.
+does. The seven-commit ladder above is what that looks like when the sweeps
+are read back while they are still in the Actions list; the residual under it
+is what it looks like when they are not.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
