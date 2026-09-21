@@ -11,7 +11,7 @@
  * Twelve things were never measured once. `.ck-why-form` and its radios, the
  * stored-reason note, the "assigned" tag, the moved-rank arrows, an open row
  * detail, the close-call comparison, the refused button and its caution status
- * line, the compact fleet, a ticked checklist step, the assigned recommendation
+ * line, the compact fleet, the assigned recommendation
  * card -- none of them exist in the DOM when the page finishes loading, so a
  * querySelector run by any of those scripts returned nothing and the scripts
  * said "✓" in good conscience. The page really did pass. It passed on a sixth
@@ -53,9 +53,11 @@ export const REACHABLE = {
     { name: 'the override question, open',
       press: ['[data-scenario="override"]'] },
 
-    /* And its far side: the form replaced by the note that the reason is
-       stored, plus the first ticked step in the checklist. */
-    { name: 'a reason stored, and a checklist step ticked',
+    /* And its far side: the form replaced by the note saying the reason is
+       stored. It also used to reach the first ticked step in the situation's
+       checklist, which went with that panel on 2026-09-21; the presses are
+       the form's own, so the state still lands where it always did. */
+    { name: 'a reason stored',
       press: ['[data-scenario="override"]', '.ck-why-form input[name="reason"]', '.ck-why-form [type="submit"]'] },
 
     /* A rule refusing an assignment: the only place the caution ground is

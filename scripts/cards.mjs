@@ -35,10 +35,12 @@
  *
  * WHAT IT SAYS TODAY. It named 13 surfaces on the cockpit when it was merged;
  * making --shadow-card's ring opaque took that to 5, because every card that
- * carries an elevation got its edge from the token. The 5 that are left carry
- * no elevation at all -- .ck-lead, .ck-try and .ck-status, tinted zones rather
- * than cards, with nothing drawing an outline -- and a zone should not take a
- * card's drop shadow to earn one. That is still open, which is why this is
+ * carries an elevation got its edge from the token. The 4 that are left carry
+ * no elevation at all -- .ck-lead and .ck-status, tinted zones rather than
+ * cards, with nothing drawing an outline -- and a zone should not take a
+ * card's drop shadow to earn one. (It was 5 until the cockpit's checklist
+ * panel came out; a surface that stops existing is the one other way this
+ * number goes down.) That is still open, which is why this is
  * still not a step in checks.yml: a workflow with a known-red leg tells you
  * nothing about the commit that turned it red. Run it by hand, and wire it in
  * the day it passes.

@@ -175,13 +175,14 @@ edge would be the page reporting a color it does not have.
 
 **Half of this was fixed at the token, and the half that is left is a
 different shape.** The 13 surfaces `cards.mjs` named on the cockpit are now
-5. Every card that carries an elevation got its edge from making
+4 -- 5 after the token, and one fewer again once the situation's checklist
+panel was taken out on 2026-09-21. Every card that carries an elevation got its edge from making
 `--shadow-card`'s ring opaque — one declaration, every card on the site, and
 no second line beside the one the shadow already draws.
 
-What is left are surfaces with **no elevation at all**: `.ck-lead`,
-`.ck-try` and `.ck-status`, tinted zones rather than cards, 1.09:1 and
-1.16:1 against the warm ground with nothing drawing an outline. A zone is
+What is left are surfaces with **no elevation at all**: `.ck-lead` and
+`.ck-status`, tinted zones rather than cards, 1.09:1 and 1.16:1 against the
+warm ground with nothing drawing an outline. A zone is
 not a card and should not take a card's drop shadow, so the answer there is
 a plain `1px solid var(--color-rule)` — which doubles nothing, because these
 draw no ring. That one is still open, and `cards.mjs` stays out of

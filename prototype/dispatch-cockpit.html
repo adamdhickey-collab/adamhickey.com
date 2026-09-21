@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20260920a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260918b" />
-  <link rel="stylesheet" href="dispatch-cockpit.css?v=41" />
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=42" />
   <link rel="stylesheet" href="../read-aloud.css?v=2" />
   <!-- EMBED MODE, and why it is a flag on this page rather than a page of
        its own. The homepage's prototype card opens the cockpit in a tablet
@@ -139,7 +139,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The cockpit. Deferred, no dependencies, no build step; the synthetic
        fleet is the object at the top of the file. -->
-  <script src="dispatch-cockpit.js?v=19" defer></script>
+  <script src="dispatch-cockpit.js?v=20" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -423,7 +423,12 @@
           <!-- Visible since 2026-09-11: the four names were not
                self-explanatory at a glance, so the tabs got plain-language
                names and a label saying what they are. -->
-          <p class="ck-tabs-label" id="ck-tabs-label">Pick a scenario</p>
+          <!-- The id is on the SPAN, not the paragraph: the tablist takes its
+               accessible name from it, and a name that ran on into the hint
+               would announce "Pick a scenario The screen below changes with
+               it, tab list" on every arrow press. The hint is read as the
+               ordinary text it is, once, on the way past. -->
+          <p class="ck-tabs-label"><span id="ck-tabs-label">Pick a scenario</span><span class="ck-tabs-hint">the screen below changes with it</span></p>
           <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>
           <!-- The stage is the tab panel: the situation's sentence and the
                cockpit both change with the tab, so both are what it controls.
@@ -436,18 +441,17 @@
                about. -->
           <div class="ck-stage" id="ck-panel" role="tabpanel" aria-labelledby="ck-tab-confident">
             <!-- The situation, over the screen and not beside it: what this
-                 is, then the thing itself. The heading is for a screen reader;
-                 the sentence under it says the same to anyone who can see the
-                 tabs. -->
+                 is, then the thing itself. The head names the scenario on
+                 screen and the sentence under it says what that scenario is
+                 about; both are written by the script when a tab is pressed. -->
             <div class="ck-situation">
-              <h3 class="ck-rail-h ck-visually-hidden" id="ck-rail-h">In this scenario</h3>
+              <!-- Visible since 2026-09-21, and written by the script: it read
+                   "In this scenario", hidden, and now reads "Showing:" and the
+                   name of the pressed tab. The tabs never said what they
+                   changed; a head repeating the tab's own words says it
+                   without an arrow or a line of explanation. -->
+              <h3 class="ck-rail-h" id="ck-rail-h"></h3>
               <p class="ck-blurb"></p>
-              <!-- The checklist. A <div>, not the <p> this was, because what
-                   goes in it is a heading, an ordered list and sometimes a
-                   closing line: the nudge used to be one sentence of
-                   instruction and is now two or three steps that tick
-                   themselves off as the reader does them. -->
-              <div class="ck-try"></div>
             </div>
             <div class="ck-panel">
               <div class="ck-load"></div>
