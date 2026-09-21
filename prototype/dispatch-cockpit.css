@@ -1528,8 +1528,25 @@ html[data-embed] .ck { border-radius: 0; }
   padding: var(--space-xs) 0;
   border-bottom: 1px solid var(--rule-hairline);
 }
+/* THE NAME IS READ, NOT SCANNED, AND IT IS READ IN A CAB. The census below
+   fixed the card's scan layer by raising the five figures, which was the
+   right half of the problem: the figures now carry the card. What it left
+   at --text-sm is the line that says WHICH figure this is, and a dispatcher
+   who does not already know the five factors by heart has to read that line
+   before the number under it means anything.
+
+   14px regular beside an 18px semibold number reads as faint even at
+   15.33:1, which is what this is -- the highest-contrast text on the card,
+   charcoal on white. Nothing here is dim; the label was simply set two rungs
+   under the thing it names. --text-base puts it at reading size.
+
+   THE RUNGS STILL SEPARATE, BECAUSE WEIGHT IS DOING THE WORK. 16 for the
+   name, 18 for the value, 14 for helps or hurts -- and the value is 600
+   against the name's 400, which is the same way the row already tells the
+   verdict word apart from the name at a shared 14. A fourth rung bought by
+   keeping the name small is a hierarchy that costs the reader the label. */
 .ck .ck-factor-name {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
@@ -1594,10 +1611,17 @@ html[data-embed] .ck { border-radius: 0; }
    than a chip on the value: the value is still the value, and what has
    changed is how far it can be trusted. Caution-text on white is 6.45, on
    muted-light 5.09; the name cell is 1fr and the age wraps inside it. */
+/* --text-sm, not --text-xs. The whole argument of this screen is that a
+   figure comes with how old it is, and the stale case is the one decision
+   the prototype most wants a dispatcher to catch -- so the line carrying it
+   was the smallest thing on the card. 12px at 6.47:1 is fine on a laptop
+   and thin through glare at arm's length, which is where this interface is
+   pretending to be used. It is still the quiet line: a rung under the name,
+   muted rather than charcoal, and second on its own row. */
 .ck .ck-factor-age {
   display: block;
   margin-top: var(--space-2xs);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
@@ -1707,12 +1731,15 @@ html[data-embed] .ck { border-radius: 0; }
    breakpoint, grid-row for the place it takes in a factor row -- and a flex
    parent ignores both, so the key needs no counter-declaration that would
    have to be kept in step with the factor list's own. */
+/* --text-sm with the rest of the supporting run: the key is the only thing
+   on the card that explains what the bars MEAN, so a reader who needs it is
+   by definition the one who cannot yet read the picture without it. */
 .ck .ck-factor-key {
   margin: var(--space-md) 0 0;
   padding: 0;
   list-style: none;
   max-width: var(--measure);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
@@ -1743,9 +1770,11 @@ html[data-embed] .ck { border-radius: 0; }
      from 4px to 10px, and this arithmetic followed it without an edit. */
   margin-top: calc((1lh - 10px) / 2);
 }
+/* --text-sm, with the key above it -- one sentence qualifying the whole
+   picture, and the last place to set it at the floor. */
 .ck .ck-factor-note {
   margin: var(--space-xs) 0 0;
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
@@ -2646,9 +2675,12 @@ html[data-embed] .ck { border-radius: 0; }
 
 /* The factor, as the row's head. */
 .ck .ck-vs-factor { font-weight: var(--weight-regular); }
+/* --text-base, with .ck-factor-name and for its reason: this is the same
+   label on the other surface, and the comparison is the one a close call is
+   actually decided on. Two sizes for one job would be the worse answer. */
 .ck .ck-vs-factor-name {
   display: block;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
@@ -2660,10 +2692,12 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-accent-text);
 }
+/* --text-sm. "derived, not ranked" is the disclaimer on a row a dispatcher
+   may otherwise read as a factor, which makes it the wrong line to shrink. */
 .ck .ck-vs-note {
   display: block;
   margin-top: var(--space-2xs);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
