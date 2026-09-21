@@ -608,7 +608,15 @@
 
        aria-hidden because the value and the word beside it already say this
        in text, and a third announcement per row is fifteen per card. */
-    return `<span class="ck-factor-bar" data-dir="${direction(t, f)}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%"><span class="ck-factor-mark"></span></span>`;
+    /* WHICH WAY THIS ONE GROWS, for the draw-in the stylesheet's motion
+       section runs the first time the cockpit is seen. The reading always
+       starts at the fleet's middle, so a lead whose left edge IS the middle
+       runs right and is revealed from its left; every other lead ends at the
+       middle, runs left, and is revealed from its right. One of the two is
+       100% and the other 0, and they are the two insets of the clip. */
+    const growsRight = leadL >= 49.9;
+    const draw = `;--draw-l:${growsRight ? 0 : 100}%;--draw-r:${growsRight ? 100 : 0}%`;
+    return `<span class="ck-factor-bar" data-dir="${direction(t, f)}" aria-hidden="true" style="--pos:${pos.toFixed(1)}%;--band-l:${lo.toFixed(1)}%;--band-w:${(hi - lo).toFixed(1)}%;--lead-l:${leadL.toFixed(1)}%;--lead-w:${leadW.toFixed(1)}%${draw}"><span class="ck-factor-mark"></span></span>`;
   }
 
   /* THE KEY, WHERE THE BARS ARE, AND NOT ONLY INSIDE THE DISCLOSURE UNDER
@@ -659,9 +667,10 @@
 
   function factorRows(t, opts = {}) {
     const withNote = opts.note !== false;
-    return `<ul class="ck-factors">${FACTORS.map((f) => {
+    return `<ul class="ck-factors">${FACTORS.map((f, i) => {
       const d = direction(t, f);
-      return `<li class="ck-factor">
+      /* --i is the stagger's multiplier and nothing else reads it. */
+      return `<li class="ck-factor" style="--i:${i}">
         <span class="ck-factor-name">${esc(f.label)}${ageLine(t, f)}</span>
         <span class="ck-factor-value">${esc(f.unit(t))}</span>
         <span class="ck-factor-dir" data-dir="${esc(d)}">${icon(DIR_ICON[d])}${d}</span>
@@ -1031,7 +1040,10 @@
 
   function renderWhy() {
     const box = $('.ck-why', root);
-    if (!state.why) { box.hidden = true; box.innerHTML = ''; return; }
+    if (!state.why) { closeWhy(box); return; }
+    /* Reopening cancels any close still in flight; see closeWhy. */
+    whyGen++;
+    box.removeAttribute('data-leaving');
     const { truck: id, rank: r } = state.why;
     if (state.answered) {
       box.hidden = false;
@@ -1178,7 +1190,7 @@
       const moveMark = move
         ? `<span class="ck-rank-moved">${icon(move < 0 ? 'up' : 'down')}<span aria-hidden="true">${Math.abs(move)}</span><span class="ck-visually-hidden">moved ${move < 0 ? 'up' : 'down'} ${Math.abs(move)} ${Math.abs(move) === 1 ? 'place' : 'places'}</span></span>`
         : '';
-      return `<tr class="${cls.join(' ')}">
+      return `<tr class="${cls.join(' ')}" data-truck="${esc(t.id)}">
         <th scope="row" class="ck-cell-rank"><span class="ck-rank-n">${rankMain}</span>${marks || moveMark ? `<span class="ck-rank-marks">${marks}${moveMark}</span>` : ''}</th>
         <td class="ck-cell-truck"><button type="button" class="ck-row-more" data-more="${esc(t.id)}" data-focus="more:${esc(t.id)}" aria-expanded="${open}" aria-controls="ck-detail-${esc(t.id)}">${esc(t.id)}<span class="ck-visually-hidden">, ${open ? 'hide' : 'show'} every figure</span>${icon('expand', 'ck-icon ck-row-chev')}</button></td>
         <td class="ck-cell-text">${esc(t.driver)}</td>
@@ -1261,6 +1273,89 @@
     el.scrollIntoView({ block: 'nearest' });
   }
 
+  /* ----- motion ----------------------------------------------------------
+   *
+   * The stylesheet's MOTION section carries the argument for all of this; the
+   * short of it is that render() replaces the nodes, so the only way a change
+   * reads as a change rather than a substitution is for the script to tell
+   * the REPLACEMENT what the thing it replaced looked like.
+   *
+   * Every function here is gated on the media query and does nothing under
+   * it, which is the pattern cursor.js and case-motion.js already use. The
+   * page is correct without any of it: these attributes decorate a render
+   * that has already happened and carry no state of their own. */
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const reduced = () => REDUCED.matches;
+
+  /* Set an attribute for exactly as long as the animation it starts. Without
+     the cleanup a row that was filled would still say so on the next render
+     that happened to reuse it, and the second animation would not run. */
+  function flash(el, attr, val = '') {
+    if (!el) return;
+    el.setAttribute(attr, val);
+    el.addEventListener('animationend', () => el.removeAttribute(attr), { once: true });
+  }
+
+  /* WHAT CHANGED HANDS, AND WHICH WAY. Called after the render that has
+     already put the new state on the page: `prev` is the truck that was
+     assigned a moment ago and `next` is the one that is now, either of which
+     may be null. The row gaining the ground fills into it and the row losing
+     it drains out of it, so undo is the visible inverse of assign rather than
+     a second disappearance. Both buttons cross-fade wherever they appear --
+     the card, the comparison, the row, an open detail panel. */
+  function markChange(prev, next) {
+    if (reduced() || prev === next) return;
+    const row = (id) => (id ? root.querySelector(`.ck-table tbody tr[data-truck="${id}"]`) : null);
+    flash(row(next), 'data-ground', 'fill');
+    flash(row(prev), 'data-ground', 'drain');
+    for (const id of [prev, next]) {
+      if (!id) continue;
+      for (const b of root.querySelectorAll(`[data-assign="${id}"], [data-undo="${id}"]`)) flash(b, 'data-swap');
+    }
+  }
+
+  /* THE OVERRIDE QUESTION LEAVES INSTEAD OF BLINKING OUT. `.ck-why` is one of
+     the two nodes on this page that survives a render -- it is written once
+     in the HTML and only its contents are replaced -- which is the only
+     reason an EXIT is available here at all.
+     `whyGen` is what stops a panel that is on its way out from taking the
+     next one with it: reopening bumps the counter, and the pending listener
+     from the old close finds its generation stale and does nothing. The timer
+     is the belt to that braces -- a transitionend that never fires, because
+     the panel was already transparent or the tab was in the background, would
+     otherwise leave the question on screen for good. */
+  let whyGen = 0;
+  function closeWhy(box) {
+    const clear = () => { box.hidden = true; box.innerHTML = ''; box.removeAttribute('data-leaving'); };
+    if (box.hidden) { box.innerHTML = ''; return; }
+    if (reduced()) { clear(); return; }
+    if (box.hasAttribute('data-leaving')) return;
+    const gen = ++whyGen;
+    box.setAttribute('data-leaving', '');
+    const done = () => { if (gen === whyGen) clear(); };
+    box.addEventListener('transitionend', done, { once: true });
+    setTimeout(done, 600);
+  }
+
+  /* THE COCKPIT ARRIVING. Once, on the first time any of it is on screen:
+     the recommendation card rises the site's own 20px and the five factor
+     bars draw themselves out of the fleet's middle behind it. The attributes
+     go on the nodes that exist at that moment and are never reapplied, so
+     every render after this one builds the same markup without them and
+     nothing replays -- a bar that redrew itself every time the reader sorted
+     a column would be the definition of the decoration MOTION.md warns off. */
+  function watchFirstView() {
+    if (reduced() || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      const card = root.querySelector('.ck-card');
+      if (card) card.setAttribute('data-arrive', '');
+      for (const list of root.querySelectorAll('.ck-reco .ck-factors')) list.setAttribute('data-draw', '');
+    }, { threshold: 0.15 });
+    io.observe(root);
+  }
+
   /* Re-render everything under the tabs, keeping focus where it was.
 
      The checklist is rendered here rather than only on a tab change, because
@@ -1334,6 +1429,7 @@
       render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`, 'refused');
       return;
     }
+    const prev = state.assigned;
     state.assigned = id;
     state.answered = null;
     if (!staged) state.armed = performance.now();
@@ -1356,6 +1452,7 @@
          which is the layout problem the block below was written to end. */
       (isOverride ? ` That is the truck ranked ${ordinal(t.rank)}, so there is an optional question about why.${staged ? '' : ' It is open, and focus has moved to it.'}` : '');
     render(line);
+    markChange(prev, id);
     /* THE QUESTION USED TO OPEN WHERE THE READER WAS NOT. Assign sits at the
        end of every fleet row, and the prompt renders above the table -- so
        overriding from the last row put the question about nine hundred pixels
@@ -1385,6 +1482,7 @@
     const was = state.assigned;
     state.assigned = null; state.why = null; state.answered = null;
     render(`Assignment of ${was} undone. No reason was submitted.`, 'note');
+    markChange(was, null);
   }
 
   /* The two ways out of the question both re-render it away from under the
@@ -1518,5 +1616,6 @@
 
   renderLoad();
   load(DATA.scenarios[0]);
+  watchFirstView();
 
 })();

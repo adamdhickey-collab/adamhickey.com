@@ -1222,7 +1222,7 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
   cursor: pointer;
-  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 .ck .ck-tab:not([aria-selected="true"]):hover { background: var(--wash-on-light-hover); }
 /* NO --color-focus-ring ON THESE, though the selected one is charcoal. An
@@ -2322,7 +2322,7 @@ html[data-embed] .ck { border-radius: 0; }
   color: var(--color-charcoal);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 .ck .ck-btn-primary {
   background: var(--color-accent-text);
@@ -2788,7 +2788,7 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
   cursor: pointer;
-  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 .ck .ck-density-btn[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
 /* The selected end takes the tabs' own idiom: charcoal under warm, 14.02. */
@@ -3107,3 +3107,152 @@ html[data-embed] .ck { border-radius: 0; }
   .ckw-compare-side, .ckw-questions > li, .ckw-callout { padding: var(--space-md); }
   .case-section .ckw-question { padding: var(--space-md) var(--space-lg); }
 }
+
+/* ============================== MOTION ==================================
+ *
+ * WHY THIS SECTION IS MOSTLY KEYFRAMES AND NOT MOSTLY TRANSITIONS.
+ *
+ * Every action here runs through render(), which rebuilds four sections with
+ * innerHTML. The button the reader pressed Assign on is not the button they
+ * are looking at afterwards -- it was destroyed and a replacement put in its
+ * place. A transition needs ONE node holding two states over time, so nothing
+ * on the assign/undo path could transition however this stylesheet was
+ * written: the button, the row's ground and the rank tag all teleported, and
+ * the page scrolling underneath them at the same moment is what made a press
+ * read as a jump-cut rather than as a result.
+ *
+ * Three mechanisms, and which one applies is decided by one question: does
+ * the node survive the render?
+ *
+ *   SURVIVES -> a real transition, both directions. `.ck-status` and
+ *   `.ck-why` are written once in the HTML and only ever have their innerHTML
+ *   replaced, so the elements themselves persist and can be transitioned like
+ *   anything else on the site.
+ *
+ *   REPLACED -> a keyframe that STARTS AT THE OLD APPEARANCE. The new node
+ *   cannot transition from a state it never held, but the script knows what
+ *   was there a moment ago and can tell the replacement to animate out of it.
+ *   That is what data-ground does on the fleet rows: assign fills from the
+ *   bare ground, undo drains from the assigned one. The reader sees a state
+ *   change in both directions; the DOM only ever had a substitution. This is
+ *   the whole trick that makes undo feel like the inverse of assign without
+ *   refactoring render() to preserve nodes.
+ *
+ *   RENDERED MANY TIMES, ANIMATED ONCE -> an arrival. The factor bars draw
+ *   themselves the first time the cockpit comes into view and never again;
+ *   the attribute that starts them is put on by JavaScript exactly once, so a
+ *   later re-render builds the same markup without it and nothing replays.
+ *
+ * NOTHING HERE INVENTS A VALUE. MOTION.md is the vocabulary: the six
+ * durations, --ease and --ease-enter, one press at 0.985, one stagger at
+ * 60ms. Where a choice looked like it wanted a seventh number, the job named
+ * in that document decided it instead -- a ground changing colour is a
+ * property changing, so it is --motion-state, however large the surface.
+ *
+ * AND NO NAMED REDUCED-MOTION RULE, per the same document. The blanket in
+ * style.css zeroes every duration below, and every keyframe's end state is
+ * the element's own resting state, so a reader who asks for no motion sees
+ * the finished page and loses nothing. The one thing the blanket does not
+ * reach is animation-DELAY, which the bars' stagger uses -- so that sequence
+ * is gated in JavaScript on the media query instead, the way cursor.js and
+ * case-motion.js already gate theirs, and the bars simply start drawn.
+ */
+
+/* THE PRESS. --motion-press is 0.985 and --motion-response is 80ms, which is
+   the step MOTION.md gives to "the interface tracking the reader in real
+   time" -- a press is not a thing that travels, it is the control admitting
+   it was touched, and anything slower reads as lag. The transform was added
+   to each control's OWN transition declaration above rather than restated
+   here, because a second `transition` at this specificity replaces the colour
+   fade rather than adding to it. */
+.ck .ck-btn:active,
+.ck .ck-tab:active,
+.ck .ck-density-btn:active,
+.ck .ck-row-more:active { transform: scale(var(--motion-press)); }
+/* THE ONE CONTROL THAT DOES NOT FLINCH. "Can't assign" is the single press on
+   this page that is going to refuse, and a button that gives under the finger
+   is a button promising it did something. The refusal is the status line's to
+   deliver, and it should arrive against a control that did not move. */
+.ck .ck-btn[aria-disabled="true"]:active { transform: none; }
+
+/* THE ASSIGNED GROUND, BOTH WAYS. Only a `from` frame: the end of each of
+   these is whatever the row's own rules say it is, which is exactly the
+   value the animation should land on and the one that survives if these
+   rules are ever changed. --motion-state because MOTION.md puts a background
+   under "a property changing", not under "something that moves". */
+@keyframes ck-ground-fill { from { background-color: transparent; } }
+@keyframes ck-ground-drain { from { background-color: var(--color-muted-light); } }
+.ck-table tbody tr[data-ground="fill"] > th,
+.ck-table tbody tr[data-ground="fill"] > td { animation: ck-ground-fill var(--motion-state) var(--ease); }
+.ck-table tbody tr[data-ground="drain"] > th,
+.ck-table tbody tr[data-ground="drain"] > td { animation: ck-ground-drain var(--motion-state) var(--ease); }
+
+/* THE CONTROL THAT CHANGED ITS MIND. "Assign T-118" and "Assigned / Undo" are
+   different words in a different treatment, and swapping the glyphs under the
+   pointer with no cross-fade is the single most substituted-looking moment on
+   the page. `linear` is written out rather than tokenised because MOTION.md
+   reserves it for progress and cross-fades and wants reaching for it to be a
+   decision: there is nothing here to accelerate. */
+@keyframes ck-swap { from { opacity: 0; } }
+.ck [data-swap] { animation: ck-swap var(--motion-state) linear; }
+
+/* THE STATUS LINE SURVIVES EVERY RENDER, so its ground and its ink are a
+   genuine transition -- the caution ground of a refusal arrives rather than
+   appearing. Its CONTENTS are replaced, so they cross-fade instead. */
+.ck .ck-status {
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.ck .ck-status > * { animation: ck-swap var(--motion-state) linear; }
+
+/* THE OVERRIDE QUESTION, IN AND OUT. `.ck-why` is in the HTML and persists,
+   so undo can fade it rather than cutting it -- which is the half of the
+   pair that no amount of entrance animation could have covered.
+ *
+ * NO RISE ON THE WAY IN, DELIBERATELY, and it is the one place this file
+ * turns MOTION.md's reveal vocabulary down. Opening this panel already moves
+ * the page: keep() scrolls it into view, and `html` carries scroll-behavior:
+ * smooth, so the reader is watching a travel of up to 605px. A 20px rise
+ * underneath that is a second motion for one event, which §1 of that document
+ * calls decoration. It would also make the panel a moving scroll target --
+ * scrollIntoView measures the TRANSFORMED box, so a rise would land the
+ * carefully-measured 54px hop up to 20px short of where it was tuned to land.
+ * The scroll is the arrival. The fade is only there so the panel does not
+ * blink into being when no scroll was needed. */
+.ck-why { transition: opacity var(--motion-state) var(--ease); }
+.ck-why[data-leaving] { opacity: 0; }
+@keyframes ck-why-in { from { opacity: 0; } }
+.ck-why:not([hidden]):not([data-leaving]) > * { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+
+/* THE BARS DRAW THEMSELVES, ONCE, WHEN THE COCKPIT FIRST COMES INTO VIEW.
+ *
+ * The reading runs from the fleet's middle out to where this truck stands,
+ * and that is the sentence the graphic is making -- so it is drawn in that
+ * direction, out of the middle, rather than fading in as a finished object.
+ * --draw-l and --draw-r are set per bar by the script from which side of the
+ * 50% middle the lead runs; one is 100% and the other 0, and which is which
+ * is the difference between a bar growing right and one growing left.
+ *
+ * CLIP-PATH RATHER THAN scaleX, and the white ring is the reason. The mark
+ * carries `box-shadow: 0 0 0 1px var(--color-white)`, which the block above
+ * calls load-bearing: it is what puts a pixel of white between the sage and
+ * the level band it crosses. A horizontal scale squashes that ring as it
+ * grows; a clip reveals the mark and its ring together at their true size,
+ * which is the only version where the graphic is honest at every frame.
+ *
+ * `round 3px` matches the mark's own border-radius, a few rules above. An
+ * inset() with no round squares the corners for the length of the animation,
+ * which on a 10px track is the whole shape of the thing. */
+@keyframes ck-draw-lead {
+  from { clip-path: inset(0 var(--draw-r, 100%) 0 var(--draw-l, 0%) round 3px); }
+  to { clip-path: inset(0 0 0 0 round 3px); }
+}
+.ck-factors[data-draw] .ck-factor-mark {
+  animation: ck-draw-lead var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+/* THE CARD ARRIVES WITH THEM. One rise, the site's own 20px, on the one
+   surface the whole page is about -- not on the 2000px shell, which at this
+   height would be a lift nobody can see the top and bottom of at once. */
+@keyframes ck-card-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.ck-card[data-arrive] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
