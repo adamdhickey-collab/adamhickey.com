@@ -48,10 +48,15 @@ module.exports = {
         'muted-light': 'var(--color-muted-light)',
         'muted-gray':  'var(--color-muted-gray)',
         'charcoal':    'var(--color-charcoal)',
-        'accent':      'var(--color-accent-deep)',
-        /* The sage is two steps. accent is the fill; accent-text is the
-           darker one small type needs. text-accent-text on the warm ground is
-           4.12:1 against a 4.5 floor -- that is why this key exists. */
+        'accent':      'var(--color-accent-text)',
+        /* The sage was two steps on light and is one. `accent` pointed at
+           --color-accent-deep, the fill step, which was retired when it
+           turned out .btn-primary -- the biggest sage fill on the site --
+           had been using the text step all along. Both keys resolve to
+           --color-accent-text now and `accent-text` is kept rather than
+           deleted, because 40-odd utilities in the case-study markup say
+           it and a key that still resolves correctly is not worth a
+           find-and-replace across six minified pages. */
         'accent-text': 'var(--color-accent-text)',
         'accent-dark': 'var(--color-accent-on-dark)',
         'rule':        'var(--color-rule)',

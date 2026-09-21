@@ -745,8 +745,11 @@ Found in the same sweeps, untouched:
 
 - **Color has the drift type used to have.** `text-[#252525]` appears 101
   times across the case studies and `text-[#556B51]` 37 times. Those are
-  `--color-charcoal` and `--color-accent-deep`, which already exist and which
-  `type.css` now proves can reach those pages.
+  `--color-charcoal` and `--color-accent-text`, which already exist and which
+  `type.css` now proves can reach those pages. *(This said
+  `--color-accent-deep` until that token was retired, and it was the wrong
+  name even then: `#556B51` is and always was the text sage. The fill step
+  was `#657d60`, which none of those 37 utilities wrote.)*
 - **Dead rules.** Three were found by measuring during step 7 and removed.
   `.build-hero-img` and `.build-mode-note` have zero references in any page
   and were left alone, because dead-CSS cleanup is its own pass with its own

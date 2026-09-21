@@ -185,6 +185,14 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 
 /* ---------- a11y ---------- */
 .skip-link {
+  /* NO --color-focus-ring HERE, and the reason is the rule for all of them:
+     an outline is painted OUTSIDE the box, at outline-offset, so it lands on
+     what is BEHIND the element rather than on the element's own fill. This
+     link is charcoal, but it floats over the white page, so its ring is a
+     mark on white and takes the light-ground sage like everything else. A
+     first pass set the dark ring here on the strength of the fill and put a
+     157,190,149 ring on white at 2.05:1 -- worse than the 4.51 it replaced,
+     and under the 3:1 a focus indicator owes. Measured, not spotted. */
   position: absolute; left: -9999px; top: 0;
   background: var(--color-charcoal); color: var(--ink-on-dark);
   padding: var(--space-xs) var(--space-md); z-index: 1000;
@@ -511,7 +519,7 @@ a.case-thumb { display: block; }
   letter-spacing: var(--tracking-heading);
   font-weight: var(--weight-regular);
 }
-.case-card:hover h3 { color: var(--color-accent-deep); }
+.case-card:hover h3 { color: var(--color-accent-text); }
 /* The card's only affordances were its title and a hover tilt, so nothing
    said the picture was a link until the pointer reached it. One quiet line
    says so, with the arrow the engagement cards already carry; it rests in
@@ -1249,6 +1257,9 @@ a.case-thumb { display: block; }
 
 /* ============================== STILL EVOLVING ============================== */
 .still-evolving {
+  /* Charcoal ground: the focus ring flips with it. accent-text is 2.63:1
+     here and accent-on-dark is 7.47. */
+  --color-focus-ring: var(--color-accent-on-dark);
   background: var(--color-charcoal);
   color: var(--ink-on-dark);
   padding: var(--space-section) 0;
@@ -1308,8 +1319,20 @@ a.case-thumb { display: block; }
 .lucy img { width: 100px; height: auto; }
 
 /* ============================== FOCUS STATES ============================== */
+/* ONE RULE, AND THE GROUND DECIDES ITS COLOUR. This took a literal
+   --color-accent-deep, which meant the ring was the same sage on the warm
+   page and on the charcoal band -- 4.12:1 against one and 3.40 against the
+   other, the second of them legal under 1.4.11 and unreadable in practice.
+   A ring cannot know what it is drawn on; a ground can, and every charcoal
+   surface in this file now declares --color-focus-ring beside the
+   `color: var(--ink-on-dark)` it was already declaring. On light it is the
+   sage at 5.32 on warm; on charcoal it is accent-on-dark at 7.47.
+
+   It also had to become a token to retire accent-deep at all: accent-text
+   on charcoal is 2.63:1, so a straight substitution here would have put
+   every focus indicator on the dark band under the floor. */
 a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--color-accent-deep);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -1447,6 +1470,9 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    below. The content is the .engagement-card grid, defined further down:
    each card pairs a situation with the engagement that answers it. */
 .problems {
+  /* Charcoal ground: the focus ring flips with it. accent-text is 2.63:1
+     here and accent-on-dark is 7.47. */
+  --color-focus-ring: var(--color-accent-on-dark);
   background: var(--color-charcoal);
   padding: var(--space-section) 0;
 }
@@ -1683,7 +1709,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    prose its measure, and the illustration the 360px it wanted; the paragraphs
    outside the cards still take --measure, so nothing reads longer, only the
    objects that were cramped read bigger. See .case-wide. */
-.eng3-hero { background: var(--color-charcoal); }
+.eng3-hero { background: var(--color-charcoal); --color-focus-ring: var(--color-accent-on-dark); }
 /* The one section whose padding is deliberately asymmetric, and the asymmetry
    is exactly the nav. The hero starts at the top of the document, underneath
    the fixed nav, so the nav's 80px is subtracted from whatever the top padding
@@ -1775,7 +1801,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-num {
   width: 48px; height: 48px; border-radius: 50%;
-  background: var(--color-accent-deep); color: var(--color-white);
+  background: var(--color-accent-text); color: var(--color-white);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: var(--text-base); letter-spacing: var(--tracking-normal);
 }
@@ -1838,7 +1864,8 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   color: var(--color-charcoal);
 }
 .case-section .eng3-step-out { font-size: var(--text-lg); line-height: var(--leading-body); }
-/* The mark takes --color-accent-text, the TEXT sage, not --color-accent-deep,
+/* The mark takes --color-accent-text, which is now the only sage on light --
+   it was the TEXT sage against a separate fill step when this was written,
    the FILL sage. It inherits --text-lg from .eng3-step-out, which is 18px and
    upright, so it is small text and the floor that applies to it is 4.5:1.
    accent-deep is #657d60 and measures 4.51 / 4.12 / 3.80 / 3.56 across the
@@ -1926,7 +1953,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    arithmetic, so it follows both. The cockpit's line-head icons do the
    same thing with height: 1lh, which suits a glyph sized in em; this one
    is 20px on purpose and keeps its size. */
-.eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-deep); flex: 0 0 auto; margin-top: calc((1lh - 20px) / 2); }
+.eng3-checklist svg { width: 20px; height: 20px; color: var(--color-accent-text); flex: 0 0 auto; margin-top: calc((1lh - 20px) / 2); }
 /* The questions panel: each question bold over its answer, at body size on
    the panel's white, two columns from 1024 like the checklist above it. The
    pair sits in a div so the grid places a question with its own answer. */
@@ -1986,7 +2013,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    the token's own stated default, and the one the old closing line used before
    it was a paragraph. */
 .eng3-one-compact p + p { margin-top: var(--space-md); }
-.eng3-one { background: var(--color-charcoal); padding: var(--space-section) 0; margin-top: 0; }
+.eng3-one { background: var(--color-charcoal); --color-focus-ring: var(--color-accent-on-dark); padding: var(--space-section) 0; margin-top: 0; }
 .eng3-one h2 { color: var(--ink-on-dark); margin-bottom: var(--space-2xl); }
 .eng3-one-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-3xl) var(--space-block); }
 @media (min-width: 768px) { .eng3-one-grid { grid-template-columns: 1fr 1fr; } }
@@ -2136,7 +2163,13 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    left half is the empty wall the text needs on the desktop; shown whole on
    a phone that half is a blank strip beside the scene. Cover from the right
    keeps the desk and drops the blank. */
-.eng3-hero.eng3-hero-art { background: var(--color-warm); position: relative; overflow: hidden; }
+/* THE ART HERO IS WARM, NOT CHARCOAL, AND THE RING HAS TO COME BACK WITH IT.
+   .eng3-hero sets the dark ground's focus ring; this rule overrides only the
+   background, so without the line below the four "How I work" heroes kept a
+   157,190,149 ring on warm -- 1.88:1, under the 3:1 a focus indicator owes.
+   A ground that flips its background flips everything it decided FROM that
+   background, and the ring is now one of those things. */
+.eng3-hero.eng3-hero-art { background: var(--color-warm); --color-focus-ring: var(--color-accent-text); position: relative; overflow: hidden; }
 .eng3-hero-art .eng3-kicker { color: var(--color-charcoal); }
 .eng3-hero-art h1 { color: var(--color-charcoal); }
 .eng3-hero-art .eng3-dek { color: var(--color-charcoal); }
@@ -2204,7 +2237,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   border: 1px solid var(--color-accent-ring);
   margin-bottom: var(--space-sm);
 }
-.fact-icon { width: 22px; height: 22px; color: var(--color-accent-deep); display: block; }
+.fact-icon { width: 22px; height: 22px; color: var(--color-accent-text); display: block; }
 .fact-icon path, .fact-icon circle {
   fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round;
@@ -2378,7 +2411,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-proof-cta {
   align-self: flex-start;
   color: var(--color-charcoal); font-weight: 600; font-size: var(--text-base); line-height: var(--leading-body);
-  border-bottom: 2px solid var(--color-accent-deep); padding-bottom: 1px;
+  border-bottom: 2px solid var(--color-accent-text); padding-bottom: 1px;
   transition: color var(--motion-state) var(--ease);
 }
 .eng3-proof-cta:hover { color: var(--color-accent-text); }
@@ -2429,7 +2462,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   align-self: flex-start; margin-top: auto;
   color: var(--color-charcoal); font-weight: 600;
   font-size: var(--text-sm); line-height: var(--leading-ui);
-  border-bottom: 2px solid var(--color-accent-deep); padding-bottom: 1px;
+  border-bottom: 2px solid var(--color-accent-text); padding-bottom: 1px;
   transition: color var(--motion-state) var(--ease);
 }
 .eng3-fit-grid a:hover { color: var(--color-accent-text); }
@@ -2472,7 +2505,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-one-compact .eng3-split-cta p.eng3-cta-alt { color: var(--ink-on-dark-secondary); }
 .eng3-cta-alt a {
-  font-weight: 600; border-bottom: 1px solid var(--color-accent-deep);
+  font-weight: 600; border-bottom: 1px solid var(--color-accent-text);
   transition: color var(--motion-state) var(--ease);
 }
 .eng3-cta-alt a:hover { color: var(--color-accent-text); }
@@ -2481,7 +2514,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 /* The closing link, the case studies' own pattern brought over: an eyebrow,
    the next engagement's name in the serif, and its one-line situation. */
 .eng3-closing { background: var(--color-white); padding: var(--space-4xl) 0 var(--space-section); }
-.eng3-closing-next { display: block; padding: var(--space-xl) 0; border-top: 1px solid var(--color-accent-deep); }
+.eng3-closing-next { display: block; padding: var(--space-xl) 0; border-top: 1px solid var(--color-accent-text); }
 @media (min-width: 768px) { .eng3-closing-next { padding: var(--space-2xl) 0; } }
 .eng3-closing-next-eyebrow {
   display: block; margin-bottom: var(--space-xs);
@@ -2522,7 +2555,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .contact-plain a:hover { color: var(--color-charcoal); }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--color-charcoal); color: var(--ink-on-dark); padding: var(--space-3xl) 0; }
+.site-footer { background: var(--color-charcoal); color: var(--ink-on-dark); --color-focus-ring: var(--color-accent-on-dark); padding: var(--space-3xl) 0; }
 .footer-inner { display: flex; flex-direction: column; gap: var(--space-md); }
 @media (min-width: 768px) {
   .footer-inner {
@@ -2586,7 +2619,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   display: inline-block;
   color: var(--color-charcoal);
   font-weight: 600;
-  border-bottom: 2px solid var(--color-accent-deep);
+  border-bottom: 2px solid var(--color-accent-text);
   padding-bottom: 2px;
   transition: color var(--motion-state) var(--ease);
 }
@@ -3522,7 +3555,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   width: 0.5rem;
   height: 2px;
   border-radius: 1px;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 /* The numbered tests inside an essay: a rung below the section heads, and
    marked by weight rather than by the sage rule those carry. The
@@ -3707,7 +3740,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-weight: 600;
   color: var(--color-charcoal);
   padding-bottom: 3px;
-  border-bottom: 2px solid var(--color-accent-deep);
+  border-bottom: 2px solid var(--color-accent-text);
   transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
   position: relative;
 }
@@ -3780,7 +3813,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   width: 4rem;
   height: 4px;
   margin-bottom: var(--space-sm);
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 /* Dash list for the write-up body: the light-ground twin of
    .engagement-points, for facts that scan better as a list than as a
@@ -3808,7 +3841,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   width: 0.5rem;
   height: 2px;
   border-radius: 1px;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 /* A tall phone capture: constrain it and give it the same frame the homepage
    product card uses, so the two read as the same artifact. */
@@ -3942,7 +3975,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-warm);
   border: 1px solid var(--color-tag-border);
 }
-.build-switch-card--on { background: var(--color-tea-light); border-color: var(--color-accent-deep); }
+.build-switch-card--on { background: var(--color-tea-light); border-color: var(--color-accent-text); }
 /* Two classes deep, because .build-chapter p is class-and-element and would
    otherwise set this heading at body size and body leading. */
 .build-diagram .build-switch-head {
@@ -3965,7 +3998,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-switch-card--on .build-switch-list li::before {
   content: ""; position: absolute; left: 1px; top: 0.4em;
   width: 10px; height: 10px; border-radius: 50%;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 .build-switch-card--off .build-switch-list li::before,
 .build-switch-card--off .build-switch-list li::after {
@@ -4071,7 +4104,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-tea-light);
   border: 1px solid rgba(101, 125, 96, 0.22);
 }
-.glance-icon { width: 21px; height: 21px; color: var(--color-accent-deep); }
+.glance-icon { width: 21px; height: 21px; color: var(--color-accent-text); }
 .glance-icon path,
 .glance-icon circle {
   fill: none; stroke: currentColor; stroke-width: 1.5;
@@ -4122,7 +4155,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   content: ""; position: absolute;
   left: 0; top: 0.62em;
   width: 0.375rem; height: 2px; border-radius: 1px;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 .glance-more {
   display: inline-block; position: relative;
@@ -4156,7 +4189,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   height: 44px; transform: translateY(-50%);
 }
 .glance-more:hover,
-.glance-more:focus-visible { text-decoration-color: var(--color-accent-deep); }
+.glance-more:focus-visible { text-decoration-color: var(--color-accent-text); }
 @media (min-width: 820px) {
   .glance-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--space-3xl); }
   .glance-node { margin-bottom: var(--space-md); }
@@ -4365,7 +4398,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   .build-pair-row { grid-template-columns: minmax(0, 1fr); }
 }
 .build-pair-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--color-tag-border); }
-.build-pair-item.is-after { border-color: var(--color-accent-deep); box-shadow: 0 0 0 1px var(--color-accent-deep); }
+.build-pair-item.is-after { border-color: var(--color-accent-text); box-shadow: 0 0 0 1px var(--color-accent-text); }
 .build-pair-item img { display: block; width: 100%; height: auto; }
 .build-pair-label {
   position: absolute; top: 8px; left: 8px;
@@ -4503,7 +4536,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-chapter.ground-white    { background: var(--color-white); }
 .build-chapter.ground-warm     { background: var(--color-warm); }
 .build-chapter.ground-tea      { background: var(--color-tea-light); }
-.build-chapter.ground-charcoal { background: var(--color-charcoal); }
+.build-chapter.ground-charcoal { background: var(--color-charcoal); --color-focus-ring: var(--color-accent-on-dark); }
 
 /* The charcoal chapter, and the whole cost of it stated in one place. Every
    color inside a build write-up is authored for a light ground: .case-section
@@ -4544,7 +4577,9 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-chapter.ground-charcoal .build-flow-cap span,
 .build-chapter.ground-charcoal .build-era-title span,
 .build-chapter.ground-charcoal .build-mode-note span { color: var(--color-accent-on-dark); }
-.build-chapter.ground-charcoal a:focus-visible { outline-color: var(--color-accent-on-dark); }
+/* Superseded by --color-focus-ring on the ground itself, below: this was
+   the only charcoal surface on the site that had noticed the problem, and
+   it fixed it for links and not for buttons. */
 
 /* --device-chrome is #1b1d22, DARKER than the charcoal band, so a phone or a
    laptop on this ground loses its edge entirely -- and --shadow-device is
@@ -4629,7 +4664,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   width: 0.5rem;
   height: 2px;
   border-radius: 1px;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 /* The links were charcoal, unweighted and undecorated -- `a { color: inherit;
    text-decoration: none }` reaching a page whose entire content is links, so
@@ -4764,7 +4799,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   display: block;
   margin: 0 0 var(--space-2xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid var(--color-accent-deep);
+  border-top: 1px solid var(--color-accent-text);
 }
 .build-next-eyebrow {
   display: block;
@@ -4790,7 +4825,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 /* Large text, so the 3:1 floor applies and the deeper sage is legible here
    in a way it is not on the eyebrow four lines up. */
 .build-next:hover .build-next-title,
-.build-next:focus-visible .build-next-title { color: var(--color-accent-deep); }
+.build-next:focus-visible .build-next-title { color: var(--color-accent-text); }
 
 /* The engagement this build is evidence for. Small type, so charcoal on
    hover rather than deep -- see .case-closing-service, which is this line's
@@ -5013,7 +5048,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   top: var(--nav-height);
   left: 0; right: 0;
   height: 4px;
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
   transform-origin: 0 50%;
   transform: scaleX(0);
   transition: transform var(--motion-response) linear;
@@ -5110,7 +5145,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   width: 4rem;
   height: 4px;
   margin-bottom: var(--space-sm);
-  background: var(--color-accent-deep);
+  background: var(--color-accent-text);
 }
 .case-overview .writing-measure .writing-eyebrow + h2::before { content: none; }
 .case-narrow .writing-measure .writing-eyebrow:not(:first-child) { margin-top: var(--space-3xl); }
@@ -5168,7 +5203,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   height: var(--space-md);
   border-radius: 0;
   background: var(--color-tea-light);
-  border-left: 2px solid var(--color-accent-deep);
+  border-left: 2px solid var(--color-accent-text);
 }
 .writing-measure .writing-flow li { --bar: var(--space-md); }
 /* The rise is one length, named on the item, and each layout decides which
@@ -5226,7 +5261,7 @@ html.ah-lightbox-open body { overflow: hidden; }
     height: var(--bar);
     margin: 0 var(--space-2xs) var(--space-sm);
     border-left: 0;
-    border-top: 2px solid var(--color-accent-deep);
+    border-top: 2px solid var(--color-accent-text);
   }
   /* The plot area, for a flow that rises. Each bar reserves the tallest
      bar's height and is pushed down by whatever it does not use, so the five
@@ -5361,7 +5396,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: var(--space-3xl) 0 0;
   padding: var(--space-xl);
   background: var(--color-tea-light);
-  border: 1px solid var(--color-accent-deep);
+  border: 1px solid var(--color-accent-text);
   border-radius: var(--radius-xl);
 }
 .case-section .writing-recap-sum {

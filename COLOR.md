@@ -71,55 +71,104 @@ any of the four light grounds. Note how little headroom `--color-accent-text`
 has on `--color-muted-light` — 4.60:1 against a 4.5 floor. That pair is the
 first thing to re-measure if either value ever moves.
 
-**`--color-accent-deep` is not on this list, and that is the point.** It is
-the fill sage, `#657d60`, and it measures 4.51 / 4.12 / 3.80 / 3.56 — it fails
-the body floor on three of the four light grounds. See the Accent table
-below.
+**Every sage on a light ground is on this list, because there is only one.**
+There were two until 2026-09-21 — a text step and a fill step — and the
+Accent section below is the record of why that was wrong.
 
 ### Accent
 
+Three sages. One for light grounds, its pressed step, and one for charcoal.
+
 | Token | Value | Notes |
 |---|---|---|
-| `--color-accent-text` | `#556b51` | **Text.** Small type, links, eyebrows, kickers. Clears 4.5:1 on all four light grounds — 4.60 at worst. |
-| `--color-accent-deep` | `#657d60` | **Fill.** Button grounds, 2px borders, icons, focus rings, rules. Clears the 3:1 non-text floor everywhere, charcoal included (3.40). |
+| `--color-accent-text` | `#556b51` | **Sage on light.** Text *and* fill: small type, links, eyebrows, kickers, button grounds, borders, icons, rules. Clears 4.5:1 on all four light grounds — 4.60 at worst. |
+| `--color-accent-hover` | `#445a41` | Its pressed/hover step. Darker than its resting fill by ΔE 7.0 — it was `#5d7559`, which was *lighter* by ΔE 4.0 and read as no change at all. |
 | `--color-accent-on-dark` | `#9dbe95` | The counterpart on charcoal: 7.47:1, where `accent-text` manages only 2.63:1. Same hue, lightened. |
-| `--color-accent-hover` | `#445a41` | The pressed/hover step under `--color-accent-text`. Darker than its resting fill by ΔE 7.0 — it was `#5d7559`, which was *lighter* by ΔE 4.0 and read as no change at all. |
-
-**The sage is two colors, and the split is load-bearing.** One sage cannot do
-both jobs: a color dark enough to carry 12px text on the muted ground is
-darker than a button fill wants, and a color light enough to read as sage in
-a filled button fails 4.5:1 as text on three of the four light grounds.
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
-| `--color-accent-text` `#556b51` | 5.82 | 5.32 | 4.90 | 4.60 | 2.63 — never |
-| `--color-accent-deep` `#657d60` | 4.51 | 4.12 | 3.80 | **3.56** | 3.40 |
+| `--color-accent-text` `#556b51` | 5.82 | 5.32 | 4.90 | **4.60** | 2.63 — never |
+| `--color-accent-on-dark` `#9dbe95` | 2.05 | 1.88 | 1.73 | 1.62 | 7.47 — only |
 
-Put `accent-deep` on small text and it fails: 3.56 on muted-light against a
-4.5 floor. **That single substitution is the mistake this section exists to
-prevent.**
+The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
+37 Tailwind utilities across six minified case-study pages write it, and
+renaming a token to improve a word is not worth a find-and-replace on that
+scale. Read it as "the sage that is safe as text", which is what makes it
+safe as everything else.
 
-"Fill" is the job, not an absolute ban on ink. `accent-deep` clears the 3:1
-floor everywhere, so it is correct on an icon, a rule, or **large** text —
-`.case-card:hover h3` is 34px sage on warm at 4.12:1, comfortably over the 3:1
-that applies at that size. The line is the floor that applies, not the
-property being set. What it may never be is small text: at 12px on anything
-but white it fails, and on white it passes by 0.01.
+#### There used to be a fill sage, and the argument for it was never tested
 
-And the fill/text line is drawn by what sits *on* the fill, not by the fill
-itself: a sage ground carrying text has to clear the **text** floor against
-that text. `.btn-primary` is the case — it carries `--color-warm`, and warm on
-`accent-deep` is 4.12:1, so the button takes `accent-text` as its ground
-instead.
-| `--color-accent-ring` | `color-mix(in srgb, var(--color-accent-deep) 18%, transparent)` | The soft ring behind a focused input and under the hovering cursor. **Derived, never a hex.** |
+`--color-accent-deep`, `#657d60`. The claim in this section was that one sage
+cannot do both jobs — that a color dark enough to carry 12px text on the muted
+ground is *darker than a button fill wants*, and a color light enough to read
+as sage in a filled button fails 4.5:1 as text on three of the four light
+grounds.
+
+**The second half is true. The first half had a counterexample sitting on
+the homepage the whole time.** The largest, brightest, most-looked-at sage
+fill on this site is `.btn-primary`, and it has been filled with
+`--color-accent-text` for as long as it has carried warm type, because warm
+on `accent-deep` is 4.12:1 and under the text floor. So the fill step was
+never the fill the site actually showed people. Nothing was "darker than a
+fill wants"; nobody had checked whether it was.
+
+**What the merge bought.** Sixty-four uses, sixty-two of them on a light
+ground, where the darker sage is strictly further from what it sits on:
+
+| | was (`#657d60`) | now (`#556b51`) |
+|---|---|---|
+| white-on-sage in a filled block | 4.51 | 5.82 |
+| a sage rule on warm | 4.12 | 5.32 |
+| a sage rule on tea-light | 3.80 | 4.90 |
+| a sage rule on muted-light | **3.56** | 4.60 |
+
+The row worth watching is unchanged, because it was already this color:
+`accent-text` on muted-light at 4.60 against a 4.5 floor. That is still the
+pair to re-measure first if either value ever moves.
+
+#### The two uses that were not on a light ground
+
+The global focus ring and one image border resolved to `accent-deep` **on
+the charcoal band**, at 3.40:1 — legal against the 3:1 a focus indicator owes
+under 1.4.11, and, as §3 has said since it was written, unreadable as a 2px
+mark on a dark ground. `accent-text` there is 2.63 and would have been a real
+failure, so a straight substitution was not available.
+
+**So the ring became a token a ground sets.** `--color-focus-ring` is the
+sage at `:root`, and every charcoal surface re-declares it as
+`--color-accent-on-dark` beside the `color: var(--ink-on-dark)` it was
+already declaring — the same shape as the ink rule in §3, *decide from the
+ground*. Eleven surfaces: the skip link, the footer, `.problems`,
+`.still-evolving`, `.eng3-hero`, `.eng3-one`, `.build-chapter.ground-charcoal`,
+the read-aloud player, the design system's dark demo, and the cockpit's
+selected tab, pressed density button and table head.
+
+The ring on the dark band goes **3.40:1 → 7.47:1**. One of those eleven had
+noticed the problem before and fixed it for links and not for buttons; the
+rest had not. The consolidation is what forced it to be looked at, and the
+fix is worth more than the token it saved.
+
+| `--color-accent-ring` | `color-mix(in srgb, var(--color-accent-text) 18%, transparent)` | The soft ring behind a focused input and under the hovering cursor. **Derived, never a hex.** |
+| `--color-focus-ring` | `var(--color-accent-text)`, re-declared per ground | The 2px focus outline. Set on `:root` and overridden on every charcoal surface. |
 
 `--color-accent-ring` is written as `color-mix()` rather than an equivalent
 `rgba()` literal on purpose. The whole reason its predecessor needed fixing is
 that a derived color was written out by hand and then drifted from what it
 was derived from. Written this way it cannot drift again: move
-`--color-accent-deep` and the ring moves with it. `color-mix()` has been
-Baseline since 2023 and is more widely supported than `text-wrap: balance`,
-which this site already depends on.
+`--color-accent-text` and the ring moves with it. It mixed from `accent-deep`
+until that step was retired; at 18% the two are within a value of each other.
+`color-mix()` has been Baseline since 2023 and is more widely supported than
+`text-wrap: balance`, which this site already depends on.
+
+"Fill" was the job, not an absolute ban on ink, and the same reasoning
+survives with one sage: what the floor is depends on what the color is doing
+and at what size. `.case-card:hover h3` is 34px sage on warm, which answers to
+3:1 rather than 4.5 — it measured 4.12 under the fill step and 5.32 now, over
+either. And the fill/text line, where one still has to be drawn, is drawn by
+what sits *on* the fill rather than by the fill itself: a sage ground carrying
+text has to clear the **text** floor against that text. Warm on `accent-text`
+is 5.32 and white on it 5.82, so both are legal, and that is the whole reason
+one sage is enough.
 
 There was a `--color-accent-soft` here, documented as the accent at 10%. It
 was not — it held the raw sage — and **nothing consumed it**, so it was a dead
