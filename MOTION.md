@@ -275,6 +275,59 @@ pages, the reference page, and `case-study/case-motion.css` — a whole
 stylesheet with its own keyframe, its own copy of the entrance curve and
 three more durations. §7 now reports the true baseline.
 
+## 10. An operated surface is not a read one
+
+The same shape of carve-out COLOR.md makes for illustration, SPACING.md for
+device frames and section 6 above for artwork -- and it is the first one this
+document has needed for an *interface* rather than a picture.
+
+Twenty-eight of the twenty-nine pages here are read. A reader scrolls, and
+motion's job is to confirm, direct or set a place quietly enough that missing
+it costs nothing. `prototype/dispatch-cockpit.html` is the exception: it is
+**operated.** Somebody presses Assign to commit a truck. A control that
+returns no feedback you can feel is a control that gets pressed twice, and on
+this page the second press lands on Undo.
+
+**One token, and it is the press.** `--motion-press-firm: 0.96`, declared on
+`.ck` in `prototype/dispatch-cockpit.css` and spent nowhere else. The site's
+`--motion-press` is 0.985, which on that page's 119px Assign button is
+**1.79px over 80ms** -- below the threshold of noticing. That is the right
+answer for a case-study card and the wrong one for a button carrying a
+decision. 0.96 is 4.8px on the same button. Section 4's warning that 0.97
+"reads as a flinch" was written about a large surface and still holds there; a
+pill button is not one.
+
+**No new curve, and the reason is worth more than the token.** The first pass
+at this page's motion shipped animations that ran correctly and could not be
+seen, and the cause was reaching for `--ease-enter` on changes that do not
+travel. `cubic-bezier(0.22, 1, 0.36, 1)` puts roughly **75% of its change in
+the first 20% of the duration** -- which is exactly what makes it read as
+*caught* when something has crossed 20px, and exactly what makes a 500ms fade
+of a 4% lightness step perceptually over in 100ms. So:
+
+| The change | Curve |
+|---|---|
+| Travels a real distance -- a 20px rise, an arrival | `--ease-enter` |
+| Does not travel -- a ground, a tone, a cross-fade | `--ease` |
+
+That rule is not local to the prototype and is worth applying anywhere a fade
+has been reached for. It needs no token.
+
+**What the carve-out does not license.** It is a press and a curve rule, not
+permission to animate more. Section 1 still governs: motion confirms, directs
+or sets a place, and the rest is decoration. Nothing in `prototype/` may take
+a duration, a rise or a lift that is not on this page's scale.
+
+**And a limit recorded so it is not rediscovered.** Assigning a truck changes
+very little on screen: the card's primary button is the same sage fill before
+and after, the row button's computed colours are identical, and the row's
+ground moves about 4% in lightness. The only real visual events are the
+button's *words* and the "assigned" tag arriving. **Motion cannot amplify a
+state change that does not happen.** If assign should read louder, that is a
+decision about what the assigned state looks like, and it belongs in COLOR.md.
+
+---
+
 ## 9. Rules of thumb
 
 - **Motion confirms, directs, or sets a place.** If a new animation does

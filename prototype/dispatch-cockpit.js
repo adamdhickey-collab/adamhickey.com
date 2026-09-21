@@ -1168,14 +1168,14 @@
         ? `<span class="ck-rank-rule">${icon('ban')}<span>${esc(t.blocked.rule)}</span></span>`
         : ordinal(t.rank);
       const marks = [
-        t.rank === 1 && !state.tie ? `<span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}pick</span>` : '',
+        t.rank === 1 && !state.tie ? `<span class="ck-rank-tag ck-tag-lead">${icon('checkCircle')}Pick</span>` : '',
         state.tie && t.rank <= 2 ? `<span class="ck-rank-tag">Option ${t.rank === 1 ? 'A' : 'B'}</span>` : '',
         /* No glyph on this one. "pick" earns a mark because it is the
            system speaking; "assigned" is the reader's own action and the row
            is already on the assigned ground with its type in semibold, so
            the check was a third telling -- and 15px of a table that was two
            pixels wider than its wrapper. */
-        state.assigned === t.id ? `<span class="ck-rank-tag ck-tag-assigned">assigned</span>` : '',
+        state.assigned === t.id ? `<span class="ck-rank-tag ck-tag-assigned">Assigned</span>` : '',
       ].filter(Boolean).join('');
       const open = state.open.has(t.id);
       const win = WINDOW.state(t);

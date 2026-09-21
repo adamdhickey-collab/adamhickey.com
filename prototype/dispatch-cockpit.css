@@ -3112,10 +3112,55 @@ html[data-embed] .ck { border-radius: 0; }
    to each control's OWN transition declaration above rather than restated
    here, because a second `transition` at this specificity replaces the colour
    fade rather than adding to it. */
+/* ----- THE OPERATED-SURFACE CARVE-OUT --------------------------------------
+ *
+ * MOTION.md section 10 is the argument; this is where it is spent. The short
+ * of it: every other page on this site is READ, and its motion is tuned so a
+ * reader who missed it lost nothing. This page is OPERATED, and a control
+ * that gives no feedback you can feel is a control you press twice.
+ *
+ * ONE TOKEN, and it is a press. --motion-press is 0.985, which on the 119px
+ * Assign button is 1.79px over 80ms -- below the threshold of noticing, which
+ * is the correct answer for a case-study card and the wrong one for a button
+ * a dispatcher is meant to commit a truck with. 0.96 is 4.8px on the same
+ * button: a press you feel without it becoming a bounce. MOTION.md's warning
+ * that 0.97 "reads as a flinch" was written about a LARGE surface, and holds
+ * there; a pill button is not one.
+ *
+ * NO NEW CURVE, though the exception was scoped to allow one. The fault that
+ * made the first pass at this invisible was reaching for --ease-enter on
+ * changes that do not travel: cubic-bezier(0.22, 1, 0.36, 1) puts about 75%
+ * of its change in the first 20% of the duration, so a 500ms fade of a 4%
+ * lightness step is perceptually over in 100ms. The rule that replaces it
+ * needs no token at all:
+ *
+ *   TRAVELS a real distance (the tag's 20px rise, the card's arrival)
+ *     -> --ease-enter. The hard decel is what makes it read as caught.
+ *   DOES NOT TRAVEL (a ground, a tone, a cross-fade)
+ *     -> --ease, which spreads the change instead of front-loading it.
+ *
+ * And the honest limit, recorded here because the next person will otherwise
+ * spend an afternoon on it: assigning a truck changes almost nothing on
+ * screen. The card's primary button is the same sage fill before and after,
+ * the row button's computed colours are identical, and the row's ground moves
+ * 4% in lightness. The only real visual events are the button's WORDS and the
+ * "assigned" tag arriving. Motion cannot amplify a state change that does not
+ * happen; if assign should read louder than this, that is a change to what
+ * the assigned state LOOKS like, and it belongs in COLOR.md, not here. */
+.ck { --motion-press-firm: 0.96; }
+
+/* THE LIFT, WHICH NOTHING IN THE COCKPIT WAS SPENDING. --motion-lift is
+   1.03, which on a 119px button is 3.6px -- twice the press, and the only
+   one of the two a reader notices without being told to look. MOTION.md
+   gives the lift to "how much a hoverable thing grows", and every control
+   here was hoverable and none of them grew. */
+.ck .ck-btn:hover { transform: scale(var(--motion-lift)); }
+/* The press wins over the lift: pressing is the later fact. */
+.ck .ck-row-more { transition: transform var(--motion-response) var(--ease); }
 .ck .ck-btn:active,
 .ck .ck-tab:active,
 .ck .ck-density-btn:active,
-.ck .ck-row-more:active { transform: scale(var(--motion-press)); }
+.ck .ck-row-more:active { transform: scale(var(--motion-press-firm)); }
 /* THE ONE CONTROL THAT DOES NOT FLINCH. "Can't assign" is the single press on
    this page that is going to refuse, and a button that gives under the finger
    is a button promising it did something. The refusal is the status line's to
@@ -3130,9 +3175,19 @@ html[data-embed] .ck { border-radius: 0; }
 @keyframes ck-ground-fill { from { background-color: transparent; } }
 @keyframes ck-ground-drain { from { background-color: var(--color-muted-light); } }
 .ck-table tbody tr[data-ground="fill"] > th,
-.ck-table tbody tr[data-ground="fill"] > td { animation: ck-ground-fill var(--motion-state) var(--ease); }
+.ck-table tbody tr[data-ground="fill"] > td { animation: ck-ground-fill var(--motion-move) var(--ease); }
 .ck-table tbody tr[data-ground="drain"] > th,
-.ck-table tbody tr[data-ground="drain"] > td { animation: ck-ground-drain var(--motion-state) var(--ease); }
+.ck-table tbody tr[data-ground="drain"] > td { animation: ck-ground-drain var(--motion-move) var(--ease); }
+/* THE TAG IS THE OTHER HALF, AND THE MORE LEGIBLE ONE. An element appearing
+   out of nothing is motion a reader can actually see; a ground settling a
+   shade is not, which is what the first pass at this got wrong. */
+@keyframes ck-tag-in {
+  from { opacity: 0; transform: translateY(var(--motion-rise)); }
+}
+.ck-table tbody tr[data-ground="fill"] .ck-tag-assigned {
+  display: inline-block;
+  animation: ck-tag-in var(--motion-enter) var(--ease-enter);
+}
 
 /* THE CONTROL THAT CHANGED ITS MIND. "Assign T-118" and "Assigned / Undo" are
    different words in a different treatment, and swapping the glyphs under the
