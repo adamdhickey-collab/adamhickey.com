@@ -33,17 +33,28 @@
  * outline all answer, and a fill that separates on its own answers by needing
  * none. It takes no position on which of those the site should use.
  *
- * WHAT IT SAYS TODAY. It named 13 surfaces on the cockpit when it was merged;
- * making --shadow-card's ring opaque took that to 5, because every card that
- * carries an elevation got its edge from the token. The 4 that are left carry
- * no elevation at all -- .ck-lead and .ck-status, tinted zones rather than
- * cards, with nothing drawing an outline -- and a zone should not take a
- * card's drop shadow to earn one. (It was 5 until the cockpit's checklist
- * panel came out; a surface that stops existing is the one other way this
- * number goes down.) That is still open, which is why this is
- * still not a step in checks.yml: a workflow with a known-red leg tells you
- * nothing about the commit that turned it red. Run it by hand, and wire it in
- * the day it passes.
+ * WHAT IT SAYS TODAY: nothing, which is the point. It named 13 surfaces on
+ * the cockpit when it was merged and 19 site-wide. Making --shadow-card's
+ * ring opaque took the cockpit to 5; the checklist panel coming out took it
+ * to 4; giving the cockpit --rule-card and the depth ladder took it to 0; and
+ * this sweep took the other 14 -- the engagement pages' four panels, the
+ * build write-ups' .glance and .build-era-art, and 62 warm Tailwind blocks
+ * across six case studies. Zero.
+ *
+ * SO IT IS A STEP IN checks.yml NOW. It was merged outside the workflow on
+ * purpose, because a workflow with a known-red leg tells you nothing about
+ * the commit that turned it red, and this header said to wire it in the day
+ * it passes. That day is 2026-09-21.
+ *
+ * THE ANSWER IT ARGUED FOR IS NOT THE ANSWER IT GOT, and that is worth
+ * recording. This header used to end by saying an outer edge has to be an
+ * OPAQUE token, because the two tints the site had -- --rule-hairline at 10%
+ * and --rule-strong at 16% -- both vanish into a card's own fill. The
+ * conclusion did not follow: what failed was the ALPHA, not the mechanism.
+ * --rule-card is the same charcoal at 24%, and it clears the floor on every
+ * ground a card sits on while doing something no opaque swatch can, which is
+ * to paint darker over a tinted card than over a white one. COLOR.md section
+ * 4 has the arithmetic.
  *
  * WHAT IT ASKS, per surface: this element is opaque, rounded and painted a
  * different color from the ground behind it, so it is a card on a ground.

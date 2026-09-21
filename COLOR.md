@@ -136,7 +136,7 @@ wash token can come back when something actually needs one.
 **Neither is allowed to be the only thing separating a control from its
 ground.** A boundary that carries meaning needs 3:1; see §5.
 
-### A card on a ground needs an edge a reader can see — and several do not have one
+### A card on a ground needs an edge a reader can see
 
 A rounded surface whose fill differs from the ground behind it — a white card
 on warm, a tea-light zone on warm, a muted-light strip on tea — is separated
@@ -187,23 +187,34 @@ object, not a card edge. The design system page's ground swatches are out for
 the same reason in reverse: their job is to show a ground's own value, and an
 edge would be the page reporting a color it does not have.
 
-**Where the count has been.** `cards.mjs` named 13 surfaces on the cockpit
-when it was merged. Making `--shadow-card`'s ring opaque took that to 5, and
-one fewer again once the situation's checklist panel came out on 2026-09-21.
-Moving the whole cockpit to `--rule-card` plus the depth ladder takes it to
-**0** — the first time that page has passed. Site-wide the same change is 19
-to 14.
+**Where the count went.** `cards.mjs` named 13 surfaces on the cockpit when
+it was merged and 19 site-wide. Making `--shadow-card`'s ring opaque took the
+cockpit to 5; the situation's checklist panel coming out on 2026-09-21 took
+it to 4; `--rule-card` and the depth ladder took it to 0. The sweep after it
+took the other 14:
 
-**The 14 that remain are not this page's.** They are surfaces on the case
-studies and the four "How I work" pages that have never had an edge:
-`.eng3-leave` and its two variants, `.eng3-pull`, `.eng3-proof-card`,
-`.eng3-step.has-fig`, `.glance`, `.build-era-art`, and five Tailwind
-`bg-warm` blocks inside the case-study markup. Three of them declare a
-border in `--rule-hairline` or `--color-tag-border` and paint it at 1.06
-to 1.16:1, which is the same defect one door down; the rest draw nothing.
-Every one of them is a one-line fix now that `--rule-card` exists, and none
-of them is this change. `cards.mjs` stays out of `checks.yml` until they are
-done.
+| Surface | Was | Now |
+|---|---|---|
+| `.eng3-step` | `--rule-hairline`, painting `#e9e9e9` at 1.11:1 on warm | 1.48 |
+| `.glance` | `--color-tag-border`, 1.16:1 on warm | 1.48 |
+| `.build-era-art` | `--color-tag-border`, 1.06:1 on tea-light | 1.61 |
+| `.eng3-pull` | nothing, tea-light on white at 1.19 | 1.64 |
+| `.eng3-proof-card` | nothing, warm on white at 1.09 | 1.75 |
+| `.eng3-leave` + `.eng3-fit` + `.eng3-faq` | nothing, white on warm at 1.09 | 1.48 |
+| 62 `bg-warm` blocks across six case studies | nothing, warm on white at 1.09 | 1.75 |
+
+Three of those declared a border and painted it under the floor, which is
+the same defect one door down; the rest drew nothing at all. **The site is at
+zero**, so `cards.mjs` is a step in `checks.yml` as of 2026-09-21 — it was
+merged outside the workflow in #247 precisely because it was red, and its own
+header said to wire it in the day it passed.
+
+**The case studies take the edge as a Tailwind utility**, `border
+border-[var(--rule-card)]`, in the markup rather than in `style.css`, because
+that is how those six pages are written — `border-[var(--color-rule)]` was
+already there. All 62 sit on white; none is warm-on-warm, so none of them
+gains a line where there was nothing to separate. `case-tailwind.css` gains
+exactly one rule for it.
 
 ---
 
@@ -472,9 +483,10 @@ carry evidence.
 **What `cards.mjs` says about all this.** With the ladder and `--rule-card`
 together, the cockpit passes it for the first time — 4 named surfaces to 0,
 and site-wide 19 to 14, the five closed being `.ck-lead` and `.ck-status` in
-both their grounds and the homepage's prototype panel. The 14 that remain are
-untouched surfaces on the case studies and the "How I work" pages, and they
-are why that check is still not a step in `checks.yml`.
+both their grounds and the homepage's prototype panel. The sweep that
+followed took the other 14 onto the same token, so the site is at zero and
+the check is a step in `checks.yml`; the table under Lines has the per-surface
+numbers.
 
 *(The shadow-only pass would have taken the same count the other way, to 25,
 because `cards.mjs` reads an edge off a border or a zero-**blur** ring and an
