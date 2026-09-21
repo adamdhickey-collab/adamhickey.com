@@ -61,6 +61,7 @@ const DOCS = [...SPECS, 'design-system/index.html'];
 const RETIRED = new Map([
   ['--color-accent',      'COLOR.md §4: never defined at all; site-nav.css resolved it through a literal fallback'],
   ['--color-accent-soft', 'COLOR.md §7 step 5: the accent at 10%, no consumers, deleted'],
+  ['--color-accent-deep', 'COLOR.md §2: the fill sage, merged into --color-accent-text. The split it existed for was already broken by .btn-primary, which filled with the text step'],
   ['--color-black',       'COLOR.md §7 step 6: no consumers; the shadows carry literal rgba(0,0,0,...)'],
   ['--shadow-sm',         'COLOR.md §7 step 5: no consumers at all, deleted'],
   ['--type-display',      'TYPOGRAPHY.md §3: a first-draft ramp whose premises were all false'],
