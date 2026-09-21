@@ -415,9 +415,11 @@ Three arrangements sit a mark beside a label and are correct as they are.
   `align-items: center` with a label that does not wrap. Centre alignment
   already is the answer, and asking for the first line is asking for the only
   line.
-- **A trailing chevron on a block that may wrap.** The `.ckw-more` summary
-  centres its chevron on the whole disclosure on purpose. The mark belongs to
-  the block, not to a line of it.
+- **A trailing chevron on a block that may wrap.** The prototype's disclosure
+  summaries — `.ckw-more`, `.ck-note` and `.ck-misses`, one control declared
+  once — centre their chevron on the whole row on purpose. The mark is pushed
+  to the far edge by `justify-content: space-between` and belongs to the
+  block, not to a line of it.
 
 Leading is the common case, not the condition. The cockpit's sort arrow
 *follows* its column head's label and still takes the line-tall box, because
