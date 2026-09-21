@@ -32,7 +32,10 @@
  * That is the same strip cockpit.mjs does for the share card, and for the same
  * reason -- the rail is the page explaining the cockpit, and these captures
  * are what it is explaining. Then the shot clips to the union of one or more
- * elements, with a margin of warm ground so nothing is cut at the edge.
+ * elements, with a margin of warm ground so nothing is cut at the edge -- or
+ * flush to the element, where the page draws the frame itself. `css` is the
+ * per-shot half of that: what the card stops drawing once the file's own
+ * edge is its edge.
  *
  * THE VIEWPORT IS PART OF THE SHOT. The cockpit is responsive and two of its
  * arrangements are load-bearing: the close call puts its two options side by
@@ -73,7 +76,14 @@ const SCALE = 2;
    at these widths; a clip flush to the element reads as a torn-out rectangle
    rather than a piece of a screen. A shot overrides one side where 24 would
    reach past the gap between two cards and let a sliver of the neighbour in,
-   which reads as a miscut rather than as context. */
+   which reads as a miscut rather than as context.
+
+   THE HERO OVERRIDES THREE SIDES TO ZERO, and it is not an exception to that
+   reasoning so much as the other end of it. Ground reads as context when the
+   file's edge is the only edge. When the page puts the file inside a rounded,
+   keylined figure -- which .ckw-hero-figure img does, and nothing else on
+   this page does -- the ground is not context, it is a second frame inside
+   the first, and the card looks like it is floating in a tray. */
 const PAD = 24;
 
 /* Each shot: the situation to load, the viewport that renders it correctly,
@@ -96,14 +106,31 @@ const SHOTS = [
        the two Assign buttons, and is the whole argument in one frame. */
     width: 900,
     clip: ['.ck-lead'],
-    /* THE GAP ABOVE IS 24 AND SO WAS THE PAD, SO THE CROP LANDED EXACTLY ON
-       .ck-load's BOTTOM BORDER -- and .ck-load is a white card at
-       --shadow-card, whose 0 4px 8px -5px reaches about 3px past that. What
-       shipped was a hairline across the very top of the picture with a blur
-       under it: not a piece of a screen, just a cut through the edge of a
-       card the frame does not otherwise contain. 12 is the middle of the
-       flat ground between the two, the same place padBottom aims at below. */
-    padTop: 12,
+    /* FLUSH ON THREE SIDES, BECAUSE THE PAGE ALREADY DRAWS THIS ONE'S EDGE.
+       The pad here was 24 a side, then 12 at the top -- the gap above is 24,
+       so a 24 pad cut straight through .ck-load's bottom border and the blur
+       under it. Both numbers were answering the wrong question. The page
+       prints this file through .ckw-hero-figure img, which gives it a 12px
+       radius and --shadow-media: a keyline, a contact shadow and a tucked
+       drop. So the ground inside the file was sitting between two edges --
+       the card's own 20px curve and the figure's 12px one -- and what a
+       reader saw was a band of cream with a rounded rectangle floating in
+       it. One frame, not two. The crop runs to the card's border box and the
+       figure's shape IS the card's shape.
+
+       The bottom is the exception and stays a cut, for the reason padBottom
+       gives: the card carries on past .ck-vs, and the frame says so. */
+    padTop: 0,
+    padLeft: 0,
+    padRight: 0,
+    /* What the card stops drawing, now that the file's edge is its edge. The
+       20px curve would leave a wedge of cream in each top corner inside the
+       figure's 12px one. The 1px border would sit against the keyline in
+       --shadow-media and make a 2px edge, which is the one thing that
+       token's own comment asks a consumer not to do. And a shadow has
+       nothing left to fall on. The fill and the padding are untouched, so
+       nothing inside the card moves a pixel. */
+    css: '.ck-lead { border-radius: 0 !important; border-color: transparent !important; box-shadow: none !important; }',
     /* The record card under it is decision 02's picture and would double the
        height of a hero image; the cut lands in the flat ground between the
        two, so the crop ends on the card's own background rather than on a
@@ -237,7 +264,7 @@ for (const shot of shots) {
      only way in, and hiding it first would leave the click with no target. */
   await page.click(`[data-scenario="${shot.scenario}"]`);
   await page.waitForTimeout(200);
-  await page.addStyleTag({ content: strip(shot.stagePad, shot.ground) });
+  await page.addStyleTag({ content: strip(shot.stagePad, shot.ground) + (shot.css ?? '') });
   if (shot.open) await page.click(`${shot.open} summary`);
   await page.waitForTimeout(400);
 
