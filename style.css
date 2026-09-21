@@ -1337,6 +1337,78 @@ a:focus-visible, button:focus-visible {
   border-radius: 4px;
 }
 
+/* ============================== DISCLOSURE ==============================
+   ONE CONTROL, AND IT LIVES HERE BECAUSE IT IS ON TWO PAGES THAT SHARE
+   NOTHING ELSE. The site folds supplementary content in three places -- the
+   cockpit walkthrough's `.ckw-more`, the cockpit's own `.ck-note` and
+   `.ck-misses`, and the design system's `.ds-usage` over each component's
+   markup -- and for a while it drew them three ways. `.ckw-more` packed a
+   CSS-drawn corner against its label on a 32px row; the cockpit's put the
+   site's chevron hard right on a 44px row; and `.ds-usage` drew no mark at
+   all, leaving `list-style: disclosure-closed` to the browser, which is the
+   only mark on this site that Chrome, Safari and Firefox each draw
+   differently, in black, on the wrong side of the label, at 25px.
+
+   The first two were merged in the cockpit's own stylesheet, which the
+   design system page does not load. `style.css` is what those two pages have
+   in common -- with twenty others -- so the row is declared here and the
+   three sheets keep only what actually differs between them.
+
+   THE ROW, NOT THE WORDS. What is shared is the geometry and the mark: a
+   full-width row with the label at one end and the chevron at the other, at
+   least 44px of it clickable, the mark turning from pointing at the content
+   to pointing into it. What is NOT shared is the type. `.ds-usage` labels a
+   code sample "MARKUP" in the design system's uppercase micro-label, beside
+   a nav and section heads that all do the same; the cockpit's label a
+   paragraph of argument in sentence case. A pattern that forced one of those
+   onto the other page would be trading a real inconsistency for an invented
+   one, so the size, weight, tracking and case are left to the caller and
+   `.ds-usage` overrides all four.
+
+   `list-style: none` and the two marker rules are how the browser's own
+   triangle goes away. Safari needs both, and needs them on any summary whose
+   display is not `list-item`. */
+.disclosure-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: 2.75rem;
+  padding: var(--space-xs) 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--motion-state) var(--ease);
+}
+.disclosure-row::-webkit-details-marker { display: none; }
+.disclosure-row::marker { content: ''; }
+.disclosure-row:hover { color: var(--color-accent-hover); }
+/* The mark turns to point down when it is open, which is the one thing the
+   state has to say that the label does not, and the reduced-motion blanket
+   at the foot of this file stops it. It carries its own 1em box rather than
+   borrowing the cockpit's `.ck-icon`, because that class is declared in a
+   stylesheet the design system page never loads -- which is the whole
+   reason this section exists. */
+.disclosure-chev {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  transform: rotate(-90deg);
+  transition: transform var(--motion-state) var(--ease);
+}
+[open] > .disclosure-row .disclosure-chev { transform: rotate(0deg); }
+/* The focus rule above rings links and buttons by name and a summary is
+   neither, so it says so here rather than letting each page invent a ring. */
+summary:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* ============================== ANIMATIONS / REVEALS ==============================
    Mirror the live adamhickey.com pattern: elements start hidden a bit below their
    final position, then fade & lift into view as they intersect the viewport.
