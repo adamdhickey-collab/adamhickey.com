@@ -96,6 +96,34 @@
   --color-rule:       #d0d0c8;   /* visible rule: fact-block columns, row dividers. 1.55:1 */
   --rule-hairline: rgba(37, 37, 37, 0.10);  /* charcoal tint, on light. 1.21:1 */
   --rule-strong:   rgba(37, 37, 37, 0.16);  /* a divider that must read as one. 1.37:1 */
+  /* THE THIRD STEP, AND THE ONLY ONE FOR AN OUTER EDGE. The two above are
+     INTERNAL lines -- a divider between rows, a rule inside a card -- and
+     they are quoted against the surface they are drawn on. An outer edge is
+     a different sum: a border composites over the CARD'S OWN FILL first,
+     because background-clip is border-box, and then has to read against the
+     GROUND OUTSIDE. Charcoal at 10% over a white card is #e9e9e9 whatever
+     the card sits on, which is 1.11:1 on warm and 1.04 on muted-light --
+     the defect cards.mjs was written for, and the reason --rule-hairline
+     must never be spent on a card's outside.
+
+     0.24 is the step that clears the 1.2 floor on every ground a card sits
+     on here, with headroom rather than on the nose. Painted over white it is
+     rgb(203,203,203): 1.48:1 on warm, 1.37 on tea-light, 1.28 on muted-
+     light. 0.22 lands on 1.42 / 1.31 / 1.23, which is the opaque
+     --color-rule's own row to within a hundredth -- the same line by the
+     numbers -- and 0.24 is a shade over it.
+
+     WHY A TINT AND NOT THE OPAQUE TOKEN, given they measure alike. An
+     opaque #d0d0c8 is a grey-tan the palette keeps for one job and it is
+     the same value on every ground, so it sits ON the scheme. A tint of the
+     ink is the ink, thinned: it takes the ground's own colour through it,
+     so a card on warm and a zone on tea are edged by the same relationship
+     rather than the same swatch, and the line goes darker exactly where the
+     surface under it is darker (a tea-light zone's own edge paints
+     rgb(185,189,183), 1.74:1 on warm, without a second token). Same family
+     as the two above, one step along, which is also why it is here and not
+     a new colour. */
+  --rule-card:     rgba(37, 37, 37, 0.24);  /* a card's outer edge, on any ground. 1.48 / 1.37 / 1.28 */
 
   /* ---------------------------------------------------------------------
      INK AND RULES ON DARK. Alpha is not a free parameter: each step exists

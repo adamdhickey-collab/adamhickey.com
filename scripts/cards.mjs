@@ -304,13 +304,19 @@ for (const [, r] of found) {
   say(`        ${[...r.pages].slice(0, 4).join(', ')}${r.pages.size > 4 ? ` +${r.pages.size - 4} more` : ''}`);
 }
 tail();
-say('  A card on a ground takes 1px solid var(--color-rule). COLOR.md, Lines.');
+say('  A card on a ground takes 1px solid var(--rule-card). COLOR.md, Lines.');
 say('');
 say('  If one of these already declares a border, read the color it PAINTS above,');
 say('  not the one it declares: --rule-hairline and --rule-strong are charcoal');
-say('  tints, so they composite over the card’s own fill and come out the same');
-say('  value whatever the card is sitting on. They are internal lines — table');
-say('  rules, a divider between rows, a card edge on the white page. An outer');
-say('  edge on a ground has to be an opaque token.');
+say('  tints at 10% and 16%, so they composite over the card’s own fill and come');
+say('  out #e9e9e9 whatever the card is sitting on. They are internal lines —');
+say('  table rules, a divider between rows, a card edge on the white page.');
+say('');
+say('  An outer edge does not have to be OPAQUE, which is what this advice used');
+say('  to say. It has to be a tint thick enough to survive the composite:');
+say('  --rule-card is the same charcoal at 24%, which paints rgb(203,203,203)');
+say('  over a white card and reads 1.48:1 on warm, 1.37 on tea-light and 1.28');
+say('  on muted-light. Over a TINTED card it paints darker still, which an');
+say('  opaque swatch cannot do.');
 say('');
 process.exit(1);

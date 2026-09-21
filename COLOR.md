@@ -157,13 +157,27 @@ used is what decides what it lands on:
 | `border` | The card's **own fill** — `background-clip` is `border-box`, so the card's opaque white is painted under the border area | `#e9e9e9`, **1.04:1** | `#e9e9e9`, **1.09:1** |
 | The ring layer of a `box-shadow` | The **ground**, since a ring is painted outside the border box | — | **1.11:1** |
 
-Both are under the floor, and the second is the one the site draws today.
+Both are under the floor, and the site drew the second of them for a day.
 The cockpit's stale-hours note shipped as the first for nine days, with a
 comment in the stylesheet saying `--rule-hairline` was chosen *because* it
 was the card-edge token; #255 moved the cockpit's cards to `--shadow-card`,
-whose keyline is the same tint drawn the second way. The number being right
+whose keyline was the same tint drawn the second way. The number being right
 on white is not the same as the token being right on a ground — the same
 mistake §4 records for washes, in the other direction.
+
+**The answer was the third row of that table, which nobody had drawn.** A
+border does composite over the card's own fill — that part is right, and it
+is why `--rule-hairline` may never be spent on an outer edge. But the fix is
+not to abandon the tint for an opaque swatch; it is to pick the **alpha the
+composite needs**. `--rule-card` is charcoal at 24%, which over a white card
+paints `rgb(203,203,203)` and reads 1.48:1 on warm, 1.37 on tea-light and
+1.28 on muted-light. At 22% it lands on 1.42 / 1.31 / 1.23 — the opaque
+`--color-rule`'s own row to within a hundredth, the same line by the numbers
+— and 24% is a shade over it with room to spare.
+
+So the site draws neither of the two rows above: not the 10% border and not
+the ring. It draws a 24% border, and §4's ladder is free to spend the shadow
+entirely on height.
 
 **A fill that already clears 3:1 against its ground draws no edge.** A
 charcoal device mockup on warm is 12.24:1; the sage panel on warm is 4.12; a
@@ -173,49 +187,23 @@ object, not a card edge. The design system page's ground swatches are out for
 the same reason in reverse: their job is to show a ground's own value, and an
 edge would be the page reporting a color it does not have.
 
-**Half of this was fixed at the token, and the half that is left is a
-different shape.** The 13 surfaces `cards.mjs` named on the cockpit are now
-4 -- 5 after the token, and one fewer again once the situation's checklist
-panel was taken out on 2026-09-21. Every card that carries an elevation got its edge from making
-`--shadow-card`'s ring opaque — one declaration, every card on the site, and
-no second line beside the one the shadow already draws.
+**Where the count has been.** `cards.mjs` named 13 surfaces on the cockpit
+when it was merged. Making `--shadow-card`'s ring opaque took that to 5, and
+one fewer again once the situation's checklist panel came out on 2026-09-21.
+Moving the whole cockpit to `--rule-card` plus the depth ladder takes it to
+**0** — the first time that page has passed. Site-wide the same change is 19
+to 14.
 
-What is left are surfaces with **no elevation at all**: `.ck-lead` and
-`.ck-status`, tinted zones rather than cards, 1.09:1 and 1.16:1 against the
-warm ground with nothing drawing an outline. A zone is
-not a card and should not take a card's drop shadow, so the answer there is
-a plain `1px solid var(--color-rule)` — which doubles nothing, because these
-draw no ring. That one is still open, and `cards.mjs` stays out of
-`checks.yml` until it is closed.
-
-### Status
-
-| Token | Value | White | Warm | Tea | Muted | Notes |
-|---|---|---|---|---|---|---|
-| `--color-caution` | `#d98e6a` | 2.62 | 2.39 | 2.20 | 2.07 | **On charcoal only**, 4.17:1 — the engagement pages' 1.2px caution icon, held to 3:1. Never on a light ground. |
-| `--color-caution-text` | `#96482a` | 6.45 | 5.90 | 5.43 | 5.09 | **Ink and banner.** Clears 4.5 as text on all four light grounds, and carries `--color-warm` on itself at 5.90, so it can be a filled status line. |
-| `--color-caution-light` | `#f6e4dc` | | | | | **Ground.** Carries charcoal at 12.44, `caution-text` at 5.23, muted-gray at 5.25, accent-text at 4.73. |
-
-The sage is the site's "this is fine": the recommended chip, the filled
-status line, a factor that helps. Until 2026-09-11 there was nothing for
-"this is not fine" on a light ground — `--color-caution` is 2.62:1 on white,
-under even the 3:1 an icon answers to, which is why it lives on charcoal. The
-dispatch cockpit needed three states that are neither sage nor charcoal: a
-close call the system will not pick, a factor that hurts, and a driver the
-hours rule removes. `caution-text` and `caution-light` are that family, one
-hue, measured. **The rule still holds that no meaning is carried by color
-alone**: every caution ground is also a word, and every caution ink sits
-beside one.
-
-### Not colors
-
-Black is not a token. It survives only *inside* the eight elevation tokens,
-whose definitions are written in literal `rgba(0, 0, 0, …)` — never as text,
-never as a ground, never as a border. There was a `--color-black` here,
-documented as the base for shadows and scrims. It was deleted in step 6 for
-having no consumers, and by then both halves of that description had stopped
-being true: the shadows carry their own literal black, and the scrim is
-`--color-scrim`.
+**The 14 that remain are not this page's.** They are surfaces on the case
+studies and the four "How I work" pages that have never had an edge:
+`.eng3-leave` and its two variants, `.eng3-pull`, `.eng3-proof-card`,
+`.eng3-step.has-fig`, `.glance`, `.build-era-art`, and five Tailwind
+`bg-warm` blocks inside the case-study markup. Three of them declare a
+border in `--rule-hairline` or `--color-tag-border` and paint it at 1.06
+to 1.16:1, which is the same defect one door down; the rest draw nothing.
+Every one of them is a one-line fix now that `--rule-card` exists, and none
+of them is this change. `cards.mjs` stays out of `checks.yml` until they are
+done.
 
 ---
 
@@ -371,72 +359,128 @@ the pair is tuned to look equal rather than to share a number.
 
 ### Elevation
 
-Named by **what is lifting**, not by how far. Eight tokens, each built on
-literal `rgba(0, 0, 0, …)` — black is not a token here (§2). Three carry a
-keyline, and **the two card tokens take it opaque, from `--color-rule`**: a
-ring is painted outside the border box, so it composites over the ground, and
-a tenth of charcoal over `--color-warm` is 1.11:1 — a rumour of an edge, not
-one. `--shadow-media` still takes `--rule-hairline`, which is the same defect
-one door down and is left for its own change.
+Named by **what is lifting**, not by how far. Nine tokens, each built on
+literal `rgba(0, 0, 0, …)` — black is not a token here (§2).
 
-The card tokens share that keyline exactly, on purpose. `--shadow-card-raised`
-is the resting height *above* `--shadow-card`, and a card that lifts further
-off the page with a fainter edge than its siblings is the scale contradicting
-itself.
+**Four of them are a ladder, and not one of them draws an edge.** That
+separation is the whole of this section. A card on a light ground needs two
+things and they are not the same thing:
+
+- a **boundary**, because white on `--color-warm` is 1.13:1 and the fill will
+  not do it. That is a line, and it is `--rule-card` — see Lines, above.
+- a **height**, because a screen with four surfaces on it has to say which
+  one is in front. That is a shadow, and it is one of these.
+
+Every previous arrangement made one property do both and lost on the other,
+twice in two days:
+
+| | The boundary | What went wrong |
+|---|---|---|
+| An opaque keyline in the shadow's first layer | `--color-rule`, 1.42:1 on warm | It read. But it is a grey-tan at full strength drawn all the way round, the same weight down a card's side as across its top: it says "bounded" where the thing worth saying is "on top of" |
+| No line, an **ambient** shadow layer at offset 0 | 1.26:1 at a card's side, measured | Also read — an edge made of blur is still an edge. But it *fades*, and at a 3px blur it took **3.5 CSS pixels** to do it, which is haze rather than a boundary. Tightening it to 1px got the fade to 1.0px at 34% alpha, by which point it is a line drawn the least direct way available |
+
+So the two jobs take two properties, and every rung is a **tucked drop** — a
+negative spread against its blur, so the shadow sits under the card and
+reaches the page below it rather than haloing past the line the border just
+drew. Nothing soft crosses the boundary. That is why it reads crisp.
+
+What changes from rung to rung is the offset and the reach — **not the alpha
+and not the edge.** A card further off the page is not a card with a heavier
+line.
+
+| Rung | Token | For |
+|---|---|---|
+| 1 | `--shadow-zone` | A tinted region lifted off the page: the cockpit's recommendation panel and status line, the homepage's prototype card |
+| 2 | `--shadow-card` | A card at rest, on the page or on a zone |
+| 3 | `--shadow-card-raised` | The one card on a screen that is asking to be acted on |
+| 4 | `--shadow-popover` | Floating UI on a light page |
+
+And five that are not on the ladder, because they lift a specific object
+rather than a surface in a layout:
 
 | Token | For |
 |---|---|
-| `--shadow-card` | A card at rest: keyline, contact shadow, tucked drop |
-| `--shadow-card-raised` | The one card on a screen that is asking to be acted on |
 | `--shadow-resting` | A bar or rail sitting on the page: nav, progress rail, step card |
 | `--shadow-media` | A framed image or figure: keyline, contact shadow, tucked drop |
 | `--shadow-device` | A screen mockup lifted off the page — contact shadow plus soft drop |
-| `--shadow-popover` | Floating UI on a light page |
 | `--shadow-lightbox` | A photo over the scrim |
-| `--shadow-lift` | A work-card thumbnail on hover |
-| `--shadow-lift-sm` | The same, on the compact grid |
+| `--shadow-lift` / `--shadow-lift-sm` | A work-card thumbnail on hover, and the same on the compact grid |
 
-They live in `color.css`, which is a taxonomy compromise made on purpose: a
-shadow is a physical property that happens to be drawn in color, so it
-belongs with radius and easing in `style.css` — but `site-nav.css` needs one
-and the case studies' inline styles need two, and neither can see
-`style.css`. A third token file for eight values is not worth it. **The rule
-that decides where a token lives is reach, not taxonomy.** Putting elevation
-in `style.css` and then using it from `site-nav.css` is precisely the mistake
-the type work shipped, and it would have broken on the same six pages.
+They live in `shell.css`, with radius and easing. That is a taxonomy
+compromise made on purpose: a shadow is a physical property that happens to
+be drawn in color, so it does not belong in `color.css` — but `site-nav.css`
+needs one and the case studies' inline styles need two, and neither can see
+`style.css`. **The rule that decides where a token lives is reach, not
+taxonomy.** Putting elevation in `style.css` and then using it from
+`site-nav.css` is precisely the mistake the type work shipped, and it would
+have broken on the same six pages. *(This paragraph said `color.css` for two
+revisions after the tokens had moved. §7's ledger records the move and this
+sentence did not follow it.)*
 
 **A keyline is not an elevation.** `box-shadow: 0 0 0 1px …` and its `inset`
-form draw a border, not a lift, and they take a rule token
-(`--rule-hairline`) or a color token — never a `--shadow-*`. An elevation
-token may *carry* a keyline as its first layer, as `--shadow-card` and
-`--shadow-media` do, and then the consumer draws no border of its own: a 1px
-border beside a 1px ring is a 2px edge.
+form draw a border, not a lift, and they take a rule token — never a
+`--shadow-*`. **No rung of the ladder carries one**, which is what makes the
+pairing safe: the consumer draws the border, the token draws the drop, and a
+1px border beside a 1px ring never happens because there is no ring.
+`--shadow-media` and `--shadow-device` still carry their own keylines,
+because the objects they lift are pictures with no border of their own.
 
-**A blur is not an edge.** `--shadow-media` was one soft halo, `0 8px 24px`
-at 8%, and on the drawings it had nothing to work with: their putty-cream
-ground is 1.05:1 against white and closer still against warm, so the blur was
-the only thing saying where the picture stopped, and the figure read as a
-smudge. It is three layers now, each with a job: the ring is the edge, the
-1px layer is the contact shadow, and the drop carries a **negative spread**
-so the blur sits under the object rather than haloing out on every side.
-That last part is what reads as crisp, and it is the shape `--shadow-device`
-already had.
+**A blur is not an edge — and the interesting part is that it *can* be.**
+`--shadow-media` was one soft halo, `0 8px 24px` at 8%, and on the drawings
+it had nothing to work with: their putty-cream ground is 1.05:1 against white
+and closer still against warm, so the blur was the only thing saying where
+the picture stopped, and the figure read as a smudge.
 
-`--shadow-card` is the same lesson, learned a second time and later.
-It was `0 1px 3px` at 6% over a **4% ring**, and 4% black is 1.09:1 on
-white and 1.09:1 on warm — not an edge, a rumour of one. It is the three
-layers now, with the ring in `--rule-hairline` like `--shadow-media`'s.
-The two are deliberately **not** the same height: a framed figure is
-presented and a card *rests*, so the card's drop is shorter and lighter
-(`0 8px 16px -8px` at 14%). Giving them one set of numbers would have put
-two names on one elevation, which is the pair §7 closes on.
+That sentence held for three revisions and it is *half* wrong, which is worth
+recording rather than quietly deleting. What fails as an edge is a blur that
+is **offset**, or **spread inward**, or both — and every shadow on this page
+was one or the other, so nothing here had ever tested the other case. A blur
+at offset 0 and spread 0 does not halo out on every side; it sits on every
+side, which is what an edge is, and measured on the cockpit it cleared the
+floor comfortably. **It was tried, it worked, and it was rejected anyway**,
+because clearing a contrast floor is not the same as looking like a
+boundary: the thing a reader calls a crisp edge is one where the transition
+takes about a pixel, and a blur wide enough to be comfortable is three or
+four. The keyline was never the only way to buy an edge, but it was the
+right shape of one.
 
-`--shadow-card-raised` is the second resting height, and it is not a
-hover. A screen that has one card it wants acted on and three it wants
-consulted can say so with distance instead of with a heavier line; the
-dispatch cockpit is the case, where one white surface carries the Assign
-button and the rest carry evidence. Same keyline, same contact shadow, a
-drop about twice as far.
+**And an opaque line is not automatically the crisper of the two.** The
+`--color-rule` keyline measured 1.55:1 and took **4.5 pixels** to fade,
+because the soft drop underneath it carried on past where the line stopped —
+an opaque mark with a haze around it. Crispness is a property of the whole
+shadow, not of the line at the top of it, and the current arrangement is
+crisp because the drops are tucked, not because the border is opaque. It is
+not: it is a 24% tint.
+
+**Rung 1 is a zone, not a card, and the distinction is load-bearing.** A zone
+is painted a ground rather than white — tea-light on warm is 1.09:1 — and it
+takes the shallowest drop, because a region is a tray rather than something
+you pick up. It takes the same `--rule-card` as everything else, and gets a
+*stronger* edge out of it for free: the border composites over the zone's own
+tint rather than over white, so a tea-light panel's edge paints
+`rgb(185,189,183)` and reads 1.74:1 on warm, where a white card's paints
+`rgb(203,203,203)` and reads 1.48. One token, two numbers, both correct —
+which is the argument for a tint over an opaque swatch, made by arithmetic
+instead of by taste.
+
+`--shadow-card-raised` is the second resting height, and it is not a hover. A
+screen that has one card it wants acted on and three it wants consulted can
+say so with distance instead of with a heavier line; the dispatch cockpit is
+the case, where one white surface carries the Assign button and the rest
+carry evidence.
+
+**What `cards.mjs` says about all this.** With the ladder and `--rule-card`
+together, the cockpit passes it for the first time — 4 named surfaces to 0,
+and site-wide 19 to 14, the five closed being `.ck-lead` and `.ck-status` in
+both their grounds and the homepage's prototype panel. The 14 that remain are
+untouched surfaces on the case studies and the "How I work" pages, and they
+are why that check is still not a step in `checks.yml`.
+
+*(The shadow-only pass would have taken the same count the other way, to 25,
+because `cards.mjs` reads an edge off a border or a zero-**blur** ring and an
+ambient layer is neither. That is a real blind spot in the instrument and
+worth widening on its own one day. It is not why the ambient was dropped —
+the 3.5 pixels of fade were.)*
 
 ### What this section used to say
 
