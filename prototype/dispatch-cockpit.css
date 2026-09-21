@@ -1205,8 +1205,8 @@ html[data-embed] .ck { border-radius: 0; }
 }
 /* AND THE POINT WHERE THE ONE PRESSED MEETS THE ONE THING BELOW. The rule
    says the strip governs the screen; this says WHICH of the four is on it.
-   A caret in the pill's own charcoal, tip on the rule, under the selected
-   tab and nowhere else.
+   A caret in the pill's own charcoal, growing out of its bottom edge, on
+   the selected tab and nowhere else.
 
    It is a pseudo-element, and that is not only for tidiness: curves.mjs
    counts elements and cards.mjs measures surfaces, and a fifth mark on a row
@@ -1217,21 +1217,37 @@ html[data-embed] .ck { border-radius: 0; }
    strip is an overflow-x scroller so the four pills run in one row, and an
    overflow that scrolls on one axis clips the other: a caret hung below the
    border would be cut off at exactly the width where the reader most needs
-   to know which tab they are on. So it sits in the strip's own bottom
-   padding with its tip on the line -- same drawing, and nothing to clip. */
+   to know which tab they are on. So it sits inside the strip's own bottom
+   padding, tail and all -- same drawing, and nothing to clip. */
 .ck .ck-tab { position: relative; }
 .ck .ck-tab[aria-selected="true"]::after {
   content: "";
   position: absolute;
   top: 100%;
   left: 50%;
-  margin-top: calc(var(--space-sm) - 6px);
-  margin-left: -6px;
+  /* IT IS A TAIL ON THE PILL, NOT A MARK UNDER IT. It hung 6px clear of the
+     pill so its tip could land on the rule, and a charcoal triangle floating
+     in the gap reads as a fifth thing in the strip -- a separate arrow that
+     happens to be under a button -- rather than as the pill's own point.
+     Joined to the bottom edge it is one shape: the selected pill, with a
+     point on it, aimed at the screen. The -1px is the seam: at a fractional
+     zoom the pill's border and the triangle's flat top can round apart and
+     show a hairline of warm between them, so they overlap by one.
+
+     12 by 6 to 16 by 8, which is the size at which the point reads as part
+     of the pill's silhouette from the reading distance the strip is used at
+     rather than as a detail on it. It still fits: .ck-tabs spends
+     --space-sm, 12px, below the pills, so 8 of that is the tail and 4 is
+     the clearance to the rule. The tip no longer touches that line, and the
+     strip does not need it to -- the rule already puts the screen inside
+     what the strip controls, and this says which of the four is on it. */
+  margin-top: -1px;
+  margin-left: -8px;
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid var(--color-charcoal);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-charcoal);
 }
 .ck .ck-blurb {
   margin: 0;
