@@ -96,6 +96,14 @@ const SHOTS = [
        the two Assign buttons, and is the whole argument in one frame. */
     width: 900,
     clip: ['.ck-lead'],
+    /* THE GAP ABOVE IS 24 AND SO WAS THE PAD, SO THE CROP LANDED EXACTLY ON
+       .ck-load's BOTTOM BORDER -- and .ck-load is a white card at
+       --shadow-card, whose 0 4px 8px -5px reaches about 3px past that. What
+       shipped was a hairline across the very top of the picture with a blur
+       under it: not a piece of a screen, just a cut through the edge of a
+       card the frame does not otherwise contain. 12 is the middle of the
+       flat ground between the two, the same place padBottom aims at below. */
+    padTop: 12,
     /* The record card under it is decision 02's picture and would double the
        height of a hero image; the cut lands in the flat ground between the
        two, so the crop ends on the card's own background rather than on a
@@ -113,6 +121,14 @@ const SHOTS = [
     width: 1320,
     /* The card alone. The recommendation under it is slide 4's picture. */
     clip: ['.ck-rule'],
+    /* Cut into both neighbours, and for the same reason close-call cut into
+       one: 24 of pad against a 24 gap above (.ck-load) and a 20 gap below
+       (.ck-lead). The top carried .ck-load's border and the blur under it;
+       the bottom carried 4px of .ck-lead's own top edge, which reads as a
+       second card starting rather than as ground. Both land in the flat
+       ground now. */
+    padTop: 12,
+    padBottom: 10,
     note: '02, first frame: a rule, before any score',
   },
   {
@@ -245,6 +261,11 @@ for (const shot of shots) {
   }, { sels: shot.clip, bottomOf: shot.bottomOf });
 
   const left = shot.padLeft ?? PAD;
+  /* `padTop` was a slide's dial only, and a shot's top edge was the one side
+     of the four that could not be moved -- which is why close-call and rule
+     both shipped with a hairline and the blur under it along the very top.
+     Same override, same default, now read by both branches. */
+  const top = shot.padTop ?? PAD;
   /* A slide takes the viewport whole and a height from its ratio; a shot
      takes the union and stops where the union stops. The union is still what
      a slide is positioned BY -- it is the thing the window is aimed at -- it
@@ -252,15 +273,15 @@ for (const shot of shots) {
   const clip = shot.aspect
     ? {
         x: 0,
-        y: Math.max(0, Math.round(box.y - (shot.padTop ?? PAD))),
+        y: Math.max(0, Math.round(box.y - top)),
         width: shot.width,
         height: Math.round(shot.width / shot.aspect),
       }
     : {
         x: Math.max(0, Math.round(box.x - left)),
-        y: Math.max(0, Math.round(box.y - PAD)),
+        y: Math.max(0, Math.round(box.y - top)),
         width: Math.round(box.right - box.x + left + (shot.padRight ?? PAD)),
-        height: Math.round(box.bottom - box.y + PAD + (shot.padBottom ?? PAD)),
+        height: Math.round(box.bottom - box.y + top + (shot.padBottom ?? PAD)),
       };
   const png = await page.screenshot({ type: 'png', fullPage: true, clip });
 
