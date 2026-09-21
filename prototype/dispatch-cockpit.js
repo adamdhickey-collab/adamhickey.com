@@ -311,8 +311,16 @@
        template literal interpolates `undefined` and the browser draws an
        empty box. */
     sort:     '<path d="m8 9 4-4 4 4"/><path d="m16 15-4 4-4-4"/>',
+    /* ONE SORTED MARK, NOT TWO. `sortDown` was 'm8 10 4 4 4-4', which is
+       `sortUp` rotated half a turn about the centre of the box and nothing
+       else: (8,14)(12,10)(16,14) taken through 180 degrees around (12,12) is
+       (16,10)(12,14)(8,10), which is the path that was here. Two keys for one
+       shape is the duplicate the specs complain about everywhere else, and
+       keeping both made the direction a SUBSTITUTION -- the mark could only
+       ever cut from one to the other, never turn. The stylesheet rests the
+       descending column at rotate 180 and animates the half turn on a press,
+       which is the thing a sort indicator is for. */
     sortUp:   '<path d="m8 14 4-4 4 4"/>',
-    sortDown: '<path d="m8 10 4 4 4-4"/>',
     /* The row disclosure in the fleet, and the density switch beside it. */
     expand:   '<path d="m6 9 6 6 6-6"/>',
     rows:     '<path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/>',
@@ -667,7 +675,13 @@
 
   function factorRows(t, opts = {}) {
     const withNote = opts.note !== false;
-    return `<ul class="ck-factors">${FACTORS.map((f, i) => {
+    /* EVERY SET OF BARS DRAWS ITSELF, NOT JUST THE CARD'S. The rule that
+       drew them named `.ck-reco .ck-factors`, so the five inside an opened
+       fleet row and the five in a comparison cell -- the same graphic making
+       the same sentence -- appeared finished. The key is per truck and per
+       place because a reader can have the card's set and a row's set open at
+       once, and they are two arrivals. */
+    return `<ul class="ck-factors" data-enter="factors:${esc(opts.place || 'reco')}:${esc(t.id)}">${FACTORS.map((f, i) => {
       const d = direction(t, f);
       /* --i is the stagger's multiplier and nothing else reads it. */
       return `<li class="ck-factor" style="--i:${i}">
@@ -709,7 +723,7 @@
     const tie = state.tie;
     const late = r.of - r.held;
     const n = r.misses.length === 2 ? 'two' : r.misses.length;
-    return `<div class="ck-confidence">
+    return `<div class="ck-confidence" data-enter="confidence">
       <h4 class="ck-h">Outcomes on similar loads</h4>
       <p class="ck-conf-figure">
         <span class="ck-conf-count">${r.held} of ${r.of}</span>
@@ -829,7 +843,7 @@
      What takes the freed line is the window reading, which is the most
      useful sentence the card can carry. */
   function truckCard(t, heading, note) {
-    return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}">
+    return `<div class="ck-card${state.assigned === t.id ? ' is-assigned' : ''}" data-enter="card:${esc(t.id)}">
       <p class="ck-card-head">${heading}</p>
       <p class="ck-card-truck">${esc(t.id)} <span class="ck-card-driver">now at ${esc(t.at)}</span></p>
       ${windowLine(t)}
@@ -907,8 +921,8 @@
         ${optHead(a, 'Option A')}
         ${optHead(b, 'Option B')}
       </tr></thead>
-      <tbody>
-        ${rows.map((f) => `<tr class="ck-vs-row${decisive.has(f.key) ? ' is-decisive' : ''}">
+      <tbody data-enter="compare">
+        ${rows.map((f, i) => `<tr class="ck-vs-row${decisive.has(f.key) ? ' is-decisive' : ''}" style="--i:${i}">
           <th scope="row" class="ck-vs-factor">
             <span class="ck-vs-factor-name">${esc(f.label)}</span>
             ${decisive.has(f.key) ? '<span class="ck-vs-tag">the tradeoff</span>' : ''}
@@ -975,7 +989,7 @@
       const otherwise = wouldLead
         ? ` Otherwise it would rank first: ${b.dist} mi to pickup, ${b.onTime[1] ? `${b.onTime[0]} of ${b.onTime[1]}` : 'no history'} on time with ${esc(DATA.load.customer)}, ${b.deadhead} mi of deadhead. None of that changes the rule.`
         : '';
-      html += `<div class="ck-rule">
+      html += `<div class="ck-rule" data-enter="rule:${esc(b.id)}">
         <p class="ck-rule-head">${icon('ban', 'ck-rule-glyph')}${esc(b.id)}, ${esc(b.driver)}, can&rsquo;t take this load</p>
         <p class="ck-rule-text">${esc(b.blocked.text)}${otherwise}</p>
       </div>`;
@@ -1000,7 +1014,7 @@
           ${truckCard(first, 'What went into the call')}
           <div>
             ${renderConfidence()}
-            <div class="ck-also">
+            <div class="ck-also" data-enter="also">
               <h4 class="ck-h">Also considered</h4>
               <ol class="ck-also-list">
                 ${[second, third].filter(Boolean).map((t) => `<li>
@@ -1125,7 +1139,7 @@
       <p class="ck-detail-who"><span class="ck-label">Driver</span> ${esc(t.driver)}
         <span class="ck-sep" aria-hidden="true">&middot;</span> <span class="ck-label">now at</span> ${esc(t.at)}</p>
       ${windowLine(t, 'ck-window ck-detail-window')}
-      ${factorRows(t, { note: false })}
+      ${factorRows(t, { note: false, place: 'row' })}
       <p class="ck-detail-why">${why}</p>
       <p class="ck-detail-act">${assignButton(t, 'ck-btn ck-btn-primary')}</p>
     </div>`;
@@ -1145,12 +1159,14 @@
       if (!c.sortable) return `<th scope="col"${cls ? ` class="${cls}"` : ''}><span class="ck-th">${label}</span></th>`;
       const on = key === c.key;
       const sorted = on ? (dir === 'asc' ? 'ascending' : 'descending') : 'none';
-      const glyph = icon(on ? (dir === 'asc' ? 'sortUp' : 'sortDown') : 'sort', 'ck-icon ck-sort-icon');
+      /* The direction is aria-sort's to carry, and the stylesheet reads it
+         off the th: one glyph, at rest or at half a turn. */
+      const glyph = icon(on ? 'sortUp' : 'sort', 'ck-icon ck-sort-icon');
       return `<th scope="col" aria-sort="${sorted}"${cls ? ` class="${cls}"` : ''}>
         <button type="button" class="ck-th ck-sort" data-sort="${c.key}" data-focus="sort:${c.key}">${label}${glyph}</button>
       </th>`;
     }).join('');
-    const body = rows.map((t) => {
+    const body = rows.map((t, i) => {
       const cls = ['ck-row'];
       if (t.rank === 1 && !state.tie) cls.push('is-lead');
       if (state.tie && t.rank <= 2) cls.push('is-lead');
@@ -1190,7 +1206,11 @@
       const moveMark = move
         ? `<span class="ck-rank-moved">${icon(move < 0 ? 'up' : 'down')}<span aria-hidden="true">${Math.abs(move)}</span><span class="ck-visually-hidden">moved ${move < 0 ? 'up' : 'down'} ${Math.abs(move)} ${Math.abs(move) === 1 ? 'place' : 'places'}</span></span>`
         : '';
-      return `<tr class="${cls.join(' ')}" data-truck="${esc(t.id)}">
+      /* --i is this row's place in the sequence, which is the stagger's
+         multiplier for the rise and nothing else reads it. It is the row's
+         POSITION and not its rank, so a re-sort staggers down the table as
+         it is drawn rather than down the ranking. */
+      return `<tr class="${cls.join(' ')}" data-truck="${esc(t.id)}" style="--i:${i}">
         <th scope="row" class="ck-cell-rank"><span class="ck-rank-n">${rankMain}</span>${marks || moveMark ? `<span class="ck-rank-marks">${marks}${moveMark}</span>` : ''}</th>
         <td class="ck-cell-truck"><button type="button" class="ck-row-more" data-more="${esc(t.id)}" data-focus="more:${esc(t.id)}" aria-expanded="${open}" aria-controls="ck-detail-${esc(t.id)}">${esc(t.id)}<span class="ck-visually-hidden">, ${open ? 'hide' : 'show'} every figure</span>${icon('expand', 'ck-icon ck-row-chev')}</button></td>
         <td class="ck-cell-text">${esc(t.driver)}</td>
@@ -1207,7 +1227,7 @@
         <td colspan="${COLUMNS.length}">${open ? rowDetail(t) : ''}</td>
       </tr>`;
     }).join('');
-    $('.ck-table', root).innerHTML = `<caption class="ck-visually-hidden">Every truck in the fleet, with the columns the recommendation weighed and the time each would reach the pickup. Sort any column; open any truck for the rest of its figures; assign any truck the rule allows.</caption><thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+    $('.ck-table', root).innerHTML = `<caption class="ck-visually-hidden">Every truck in the fleet, with the columns the recommendation weighed and the time each would reach the pickup. Sort any column; open any truck for the rest of its figures; assign any truck the rule allows.</caption><thead><tr>${head}</tr></thead><tbody data-enter="fleet">${body}</tbody>`;
     renderDensity();
   }
 
@@ -1287,13 +1307,32 @@
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
   const reduced = () => REDUCED.matches;
 
+  /* THE TOKENS, READ OFF THE ELEMENT RATHER THAN RESTATED HERE. MOTION.md's
+     rule against writing a curve as a literal -- the one the view-transition
+     rule breaks in seven files -- does not stop applying because the
+     animation is being built in JavaScript. --motion-move parses to 300 and
+     --ease hands back the cubic-bezier as a string the Web Animations API
+     takes unchanged, so the flip below has no numbers of its own. */
+  const tok = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+  const ms = (name) => parseFloat(tok(name)) || 0;
+
   /* Set an attribute for exactly as long as the animation it starts. Without
      the cleanup a row that was filled would still say so on the next render
      that happened to reuse it, and the second animation would not run. */
   function flash(el, attr, val = '') {
     if (!el) return;
     el.setAttribute(attr, val);
-    el.addEventListener('animationend', () => el.removeAttribute(attr), { once: true });
+    /* WAIT FOR THE LAST ONE, NOT THE FIRST. This listened for a single
+       animationend, which bubbles -- so once the row's cells were staggered
+       into a sweep, the cell that finished first stripped the attribute off
+       the row and cancelled every cell still waiting on its delay. The bug
+       was invisible before the sweep only because eleven cells animating on
+       the same clock all end together. getAnimations() resolves style for
+       the attribute just set and sees the tag's own arrival too, which is
+       the last thing in the sequence and the one to wait for. */
+    const anims = el.getAnimations ? el.getAnimations({ subtree: true }) : [];
+    if (!anims.length) { el.removeAttribute(attr); return; }
+    Promise.allSettled(anims.map((a) => a.finished)).then(() => el.removeAttribute(attr));
   }
 
   /* WHAT CHANGED HANDS, AND WHICH WAY. Called after the render that has
@@ -1337,23 +1376,129 @@
     setTimeout(done, 600);
   }
 
-  /* THE COCKPIT ARRIVING. Once, on the first time any of it is on screen:
-     the recommendation card rises the site's own 20px and the five factor
-     bars draw themselves out of the fleet's middle behind it. The attributes
-     go on the nodes that exist at that moment and are never reapplied, so
-     every render after this one builds the same markup without them and
-     nothing replays -- a bar that redrew itself every time the reader sorted
-     a column would be the definition of the decoration MOTION.md warns off. */
-  function watchFirstView() {
+  /* THE COCKPIT ARRIVES A SURFACE AT A TIME, AND IT USED NOT TO.
+   *
+   * WHAT THIS REPLACED. One IntersectionObserver, on the cockpit itself, at a
+   * threshold of 0.15 -- so the card's rise and the factor bars' draw both
+   * fired the moment 313px of a 2090px shell had scrolled in. Measured at
+   * 1280x900 on the tree this replaced: the observer trips at scrollY 2957,
+   * the card's top edge does not cross the bottom of the viewport until 3220,
+   * and the bars not until 3360. Both animations are over before either
+   * element is on screen. Nothing was broken and every one of them ran; they
+   * ran to an empty seat, which is why a page that does animate reads as a
+   * page that does not, and why the one thing anybody reports seeing is that
+   * it must have happened on load. It did, near enough: 403px of scroll at a
+   * trackpad flick is about four tenths of a second, and the draw is 740.
+   *
+   * So the unit is the element and not the shell. Each surface that arrives
+   * carries data-enter="<key>"; one observer watches every one of them after
+   * every render, and sets data-shown when THAT surface is on screen. The
+   * stylesheet hangs the animation off data-shown, and every keyframe it
+   * hangs there has a `from` and no `to`, so an element without the attribute
+   * sits at its own resting state. That is what keeps this out of the way of
+   * resting.mjs: there is no frame in which the page is waiting to be
+   * animated into existence, with or without JavaScript, an observer, or a
+   * reader who has asked for no motion at all.
+   *
+   * `played` is what stops a press from replaying the page. render() rebuilds
+   * the markup under the tabs, so without it every sort, every assign and
+   * every opened row would redraw five bars -- the decoration MOTION.md's
+   * first section warns off, and the reason the observer this replaces fired
+   * only once. It is keyed rather than per-node because the node is gone by
+   * the next render; the key is what survives.
+   *
+   * IT IS CLEARED ON A SCENARIO CHANGE, ON PURPOSE. A new situation is a new
+   * fleet, a new ranking and a different recommendation, and it is the one
+   * press on this page where replaying the arrival is the honest answer
+   * rather than a flourish: what the reader asked for is the other thing. A
+   * surface already on screen when the tab is pressed intersects immediately
+   * and plays at once, which needs no special case and is what makes the
+   * four tabs feel like four screens rather than one screen with its numbers
+   * swapped. */
+  const played = new Set();
+  let enterIO = null;
+
+  function watchEnter() {
+    /* No observer, or no motion wanted: the resting state IS the finished
+       state, so there is nothing to do and nothing to put back. */
     if (reduced() || !('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      io.disconnect();
-      const card = root.querySelector('.ck-card');
-      if (card) card.setAttribute('data-arrive', '');
-      for (const list of root.querySelectorAll('.ck-reco .ck-factors')) list.setAttribute('data-draw', '');
-    }, { threshold: 0.15 });
-    io.observe(root);
+    if (!enterIO) {
+      enterIO = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          enterIO.unobserve(e.target);
+          played.add(e.target.dataset.enter);
+          e.target.setAttribute('data-shown', '');
+        }
+      /* A HAIR BELOW THE BOTTOM EDGE, AND THE SIGN IS THE WHOLE POINT.
+         This was -8%, a margin that fires once 8% of the viewport's height of
+         the surface is already SHOWING -- which is fine for a reveal whose
+         resting state is hidden and wrong for one whose resting state is
+         finished. Measured on the card at 1280x900: thirty-six frames in
+         which up to 70px of it sat on screen, fully opaque, before the
+         observer caught up and the animation snapped it to zero to fade it
+         back in. A blink, and a worse one than no animation at all.
+
+         Positive, the observation area extends BELOW the viewport, so the
+         arrival always begins while the surface is still out of sight and
+         there is no frame to blink. 4% is 36px at this height: enough lead to
+         guarantee the first frame is unseen, small enough that at any
+         ordinary reading scroll the surface is still arriving when it
+         appears. Scrolled slowly enough, it finishes before it is visible and
+         the reader simply sees a settled page, which is what the whole site
+         does below the fold today and is the right way for this to fail. */
+      }, { rootMargin: '0px 0px 4% 0px' });
+    }
+    for (const el of root.querySelectorAll('[data-enter]')) {
+      if (played.has(el.dataset.enter)) el.setAttribute('data-shown', '');
+      else enterIO.observe(el);
+    }
+  }
+
+  /* THE DATA TABLE REORDERS INSTEAD OF CUTTING.
+   *
+   * Sorting a column rewrites tbody, so seven rows swapped places between one
+   * frame and the next and nothing said which row went where: the truck the
+   * reader was looking at is simply somewhere else now, and finding it again
+   * is a second reading of the whole table. Opening a row and switching
+   * density do the same thing to everything underneath.
+   *
+   * First, Last, Invert, Play -- read every row's top, let the render happen,
+   * read the tops again, put each row back where it started with a transform
+   * and then take the transform away. The browser animates the difference.
+   * --motion-move because a row travels a short distance and MOTION.md gives
+   * 300ms to "something shifting", and --ease because nothing here is
+   * entering: these rows were already on the page and are only somewhere
+   * else on it.
+   *
+   * IT TRAVELS ON `translate`, NOT ON `transform`, for the same reason the
+   * button's swap does. ck-row-in is a CSS animation of `transform`, and a
+   * sort landing inside the 860ms the fleet takes to deal itself out would
+   * have had one of the two silently win: an animation of the same property
+   * outranks the other for as long as it runs, so the row would either rise
+   * or travel and never both. On the independent property they compose, and
+   * a row caught mid-arrival by a re-sort does the two things at once, which
+   * is what actually happened to it.
+   *
+   * The property goes on the tr, which is a thing tables were not always
+   * willing to take; where it is refused the rows simply appear in their new
+   * order, which is the behaviour this replaces and not a worse one. */
+  function flipRows(run) {
+    if (reduced() || !document.body.animate) { run(); return; }
+    const rows = () => root.querySelectorAll('.ck-table tbody tr[data-truck]');
+    const before = new Map();
+    for (const tr of rows()) before.set(tr.dataset.truck, tr.getBoundingClientRect().top);
+    run();
+    if (!before.size) return;
+    const duration = ms('--motion-move');
+    const easing = tok('--ease');
+    for (const tr of rows()) {
+      const from = before.get(tr.dataset.truck);
+      if (from == null) continue;
+      const dy = Math.round(from - tr.getBoundingClientRect().top);
+      if (!dy) continue;
+      tr.animate([{ translate: `0 ${dy}px` }, { translate: 'none' }], { duration, easing });
+    }
   }
 
   /* Re-render everything under the tabs, keeping focus where it was.
@@ -1371,6 +1516,10 @@
     renderSituation();
     if (status !== undefined) renderStatus(status, tone);
     if (focusKey) keep(root.querySelector(`[data-focus="${focusKey}"]`));
+    /* Every surface above is a node that did not exist a line ago, so the
+       observer has to be handed the new ones. `played` is what decides which
+       of them animate and which are simply marked done. */
+    watchEnter();
   }
 
   /* ----- actions --------------------------------------------------------- */
@@ -1395,6 +1544,10 @@
       }
     }
     state.prevRanks = new Map(state.fleet.map((t) => [t.id, t.rank]));
+
+    /* A different fleet under a different recommendation: let it arrive. See
+       watchEnter for why this is the only press that clears the set. */
+    played.clear();
 
     renderTabs();
     const first = state.ranked[0], second = state.ranked[1];
@@ -1549,23 +1702,53 @@
     const density = e.target.closest('[data-density]');
     if (density) {
       state.density = density.dataset.density;
-      if (hadMarks) renderTable(); else renderDensity();
+      /* Both ends of the switch change every row's height, so everything
+         below the one the reader is looking at moves. Flipped, the table
+         compresses; unflipped, it cuts. */
+      flipRows(() => { if (hadMarks) renderTable(); else renderDensity(); });
       return;
     }
 
     const more = e.target.closest('[data-more]');
     if (more) {
       const id = more.dataset.more;
-      if (state.open.has(id)) state.open.delete(id);
-      else state.open.add(id);
-      render(); return;
+      const opening = !state.open.has(id);
+      if (opening) state.open.add(id); else state.open.delete(id);
+      /* The panel pushes every row under it down the page; the flip is what
+         makes that a disclosure rather than a jump. The panel's own contents
+         then arrive into the room the flip just made -- once, on the render
+         that opened it, which is what data-opened is for: the detail is
+         rebuilt on every subsequent render and would otherwise replay its
+         arrival every time the reader touched anything at all. */
+      flipRows(() => render());
+      if (opening) flash(root.querySelector(`#ck-detail-${id} .ck-detail`), 'data-opened');
+      /* AND THE CHEVRON HAS THE SAME BUG THE SORT MARK HAD, which is worth
+         saying plainly because the stylesheet reads as though it were solved:
+         .ck-row-chev carries a rotation and a transition on it, and the
+         transition has never run a single time, for exactly the reason above.
+         The quarter turn was always a cut wearing a transition. */
+      flash(root.querySelector(`[data-more="${id}"] .ck-row-chev`), 'data-turn', opening ? 'open' : 'close');
+      return;
     }
 
     const sort = e.target.closest('[data-sort]');
     if (sort) {
       const k = sort.dataset.sort;
-      state.sort = state.sort.key === k ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
-      render(); return;
+      const flipped = state.sort.key === k;
+      state.sort = flipped ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
+      /* The one press on this page where a reader is asking "where did my
+         truck go", and the one that answered by not saying. */
+      flipRows(() => render());
+      /* THE MARK TURNS, AND IT NEVER HAS. The stylesheet has always carried a
+         transition on this glyph and it has never once run: renderTable
+         rewrites the whole table, so the node that would have transitioned is
+         gone and its replacement is BORN at the new angle. Same fault as the
+         ground, same fix as the ground -- tell the replacement what the thing
+         it replaced looked like. Only on a flip: arriving on a column that
+         was not sorted is a different event, and the mark changes shape for
+         it rather than turning. */
+      if (flipped) flash(root.querySelector(`[data-sort="${k}"] .ck-sort-icon`), 'data-turn', state.sort.dir);
+      return;
     }
     const a = e.target.closest('[data-assign]');
     if (a) { assign(a.dataset.assign); return; }
@@ -1615,7 +1798,8 @@
   });
 
   renderLoad();
+  /* load() ends in a render, and render() ends in watchEnter, so the first
+     registration happens there rather than on a line of its own here. */
   load(DATA.scenarios[0]);
-  watchFirstView();
 
 })();

@@ -326,6 +326,47 @@ button's *words* and the "assigned" tag arriving. **Motion cannot amplify a
 state change that does not happen.** If assign should read louder, that is a
 decision about what the assigned state looks like, and it belongs in COLOR.md.
 
+**A second local value, and it is a division rather than a replacement.**
+`--motion-rise-tight: calc(var(--motion-rise) / 4)`, which is 5px, for words
+swapping inside a control. The paragraph above is still right that the
+button's words are one of only two real visual events when a truck is
+assigned -- and until this, that event was a 200ms fade of one set of words
+into another of about the same length, weight and position. The Model Human
+Processor puts average visual perception at roughly **230ms**, and Nielsen
+Norman's band for a small interface transition is **200-350ms**. A 200ms
+cross-fade is not a subtle confirmation. It is under the figure at which an
+average person registers that anything happened, and a fade gives the eye no
+edge to track, which is the half a longer duration would not have fixed.
+
+So the swap travels 5px instead of fading in place -- and once it travels,
+**section 2's own table reclassifies it and no exception is needed**:
+`--motion-state` is 200ms for "a property changing: color, opacity,
+background", and `--motion-move` is 300ms for "something shifting a short
+distance". It now shifts a short distance. The curve follows the same way:
+`linear` was correct for a cross-fade and is wrong for anything that travels,
+because constant speed reads as being dragged.
+
+**Two rules come out of that, and they generalize past the prototype.**
+
+- **A fade with nothing travelling is the one animation a duration cannot
+  rescue.** Before reaching for a longer one, ask whether the change has an
+  edge the eye can follow. If it does not, give it one or leave it as a cut.
+- **A prototype may divide a token. It may not replace one.** `--sweep` is
+  `--motion-stagger / 3` and `--motion-rise-tight` is `--motion-rise / 4`,
+  and both are still on this page's scale in the sense the paragraph below
+  means. A value typed in fresh is not, however well it was reasoned.
+
+**And one implementation note that is a motion decision, not a detail.**
+Where an animated property is already carrying a resting state -- a button
+with `transform: scale()` on `:hover` and `:active` -- animate the
+independent `translate` rather than `transform`. An animation of the same
+property outranks the resting rule for as long as it runs, so a swap animated
+on `transform` drops the lift out from under a pointer that is by definition
+still sitting on the control it just pressed, then snaps it back. On
+`translate` the press, the lift and the swap compose. The same reasoning puts
+the data table's sort reorder on `translate`, so a row caught mid-arrival by a
+re-sort does both things rather than one of them.
+
 ---
 
 ## 9. Rules of thumb
@@ -338,7 +379,17 @@ decision about what the assigned state looks like, and it belongs in COLOR.md.
 - **Never write a curve as a literal.** Seven copies of `--ease` are seven
   places to forget.
 - **One rise, one lift, one press.** A half-percent difference in a hover
-  scale is not a design decision, it is an unmade one.
+  scale is not a design decision, it is an unmade one. A token *divided* --
+  `--motion-stagger / 3` for a sweep across one row, `--motion-rise / 4` for
+  words moving inside a button -- is still that one value. A token retyped is
+  a second one.
+- **A fade has no edge to follow.** If a change does not travel, no duration
+  makes it perceptible; 200ms of opacity on replaced words is under the
+  ~230ms at which an average person registers anything happened. Give it a
+  distance or leave it as a cut.
+- **Animate `translate` where `transform` is already spoken for.** An
+  animation outranks the hover and press rules on the same property for as
+  long as it runs. The independent properties compose; `transform` replaces.
 - **Milliseconds, no trailing zero.** `200ms`, not `0.2s` and not `0.20s`.
 - **Do not add a named reduced-motion rule.** The blanket covers new
   animations. Add one only when the un-animated resting state is wrong, and

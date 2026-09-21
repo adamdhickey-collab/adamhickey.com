@@ -2441,6 +2441,24 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-sort:hover .ck-sort-icon,
 .ck .ck-sort:focus-visible .ck-sort-icon { opacity: 1; }
 
+/* THE DIRECTION IS A HALF TURN, NOT A SECOND GLYPH. The registry used to
+   hold `sortUp` and `sortDown`, and the second was the first rotated 180
+   degrees about the centre of the box -- so the only thing the mark could do
+   when a reader reversed a column was cut from one shape to an identical
+   shape pointing the other way. One glyph, rested at 180 by the aria-sort
+   the head already carries, is the same picture and can turn.
+
+   Rested here, ANIMATED on a press, and both are needed for the reason the
+   chevron's block above sets out: the th is rewritten by renderTable, so the
+   angle alone would only ever be arrived at, never travelled to. data-turn
+   names the direction being turned TO, so the two keyframes are inverses and
+   reversing a column twice winds and unwinds rather than spinning on. */
+.ck-table th[aria-sort="descending"] .ck-sort-icon { rotate: 180deg; }
+@keyframes ck-sort-to-desc { from { rotate: 0deg; } }
+@keyframes ck-sort-to-asc  { from { rotate: 180deg; } }
+.ck .ck-sort-icon[data-turn="desc"] { animation: ck-sort-to-desc var(--motion-state) var(--ease); }
+.ck .ck-sort-icon[data-turn="asc"]  { animation: ck-sort-to-asc  var(--motion-state) var(--ease); }
+
 /* Row states. Each is a ground AND a word in the rank cell.
    Lead: the feature ground, tea-light; charcoal 12.90, muted-gray 5.44.
    Assigned: the alternate ground, muted-light; charcoal 12.10.
@@ -2798,15 +2816,31 @@ html[data-embed] .ck { border-radius: 0; }
   transition: color var(--motion-state) var(--ease);
 }
 .ck .ck-row-more:hover { color: var(--color-accent-hover); }
+/* THE QUARTER TURN, WHICH UNTIL NOW WAS A CUT WEARING A TRANSITION.
+   The transition below is not new and has never run once: renderTable
+   rewrites the whole table on every press, so the node that would have
+   transitioned is gone by the time the class changes and its replacement is
+   BORN at the new angle. It is kept because it is right for the day this
+   button stops being replaced, and the animation under it is what actually
+   turns the mark today -- the same "tell the replacement what it replaced"
+   move the assigned ground makes.
+
+   `rotate` rather than `transform: rotate()`, so the resting angle and the
+   animation are the same property and an animation of it does not have to
+   restate an angle it is not responsible for. */
 .ck .ck-row-chev {
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
   color: var(--color-muted-gray);
-  transform: rotate(-90deg);
-  transition: transform var(--motion-state) var(--ease);
+  rotate: -90deg;
+  transition: rotate var(--motion-state) var(--ease);
 }
-.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { transform: rotate(0deg); }
+.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { rotate: 0deg; }
+@keyframes ck-chev-open  { from { rotate: -90deg; } }
+@keyframes ck-chev-close { from { rotate: 0deg; } }
+.ck .ck-row-chev[data-turn="open"]  { animation: ck-chev-open  var(--motion-state) var(--ease); }
+.ck .ck-row-chev[data-turn="close"] { animation: ck-chev-close var(--motion-state) var(--ease); }
 .ck .ck-row-more:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: -3px; border-radius: 4px; }
 
 /* The detail row takes the warm ground, so an opened row is visibly a note
@@ -3147,7 +3181,18 @@ html[data-embed] .ck { border-radius: 0; }
  * "assigned" tag arriving. Motion cannot amplify a state change that does not
  * happen; if assign should read louder than this, that is a change to what
  * the assigned state LOOKS like, and it belongs in COLOR.md, not here. */
-.ck { --motion-press-firm: 0.96; }
+.ck {
+  --motion-press-firm: 0.96;
+  /* THE SECOND LOCAL VALUE, AND IT IS A DIVISION RATHER THAN A REPLACEMENT.
+     --motion-rise is 20px and it is how far an ELEMENT travels when it
+     arrives. The words inside a 30px button are not an element arriving; a
+     fifth of that button's height of travel would throw them out of it. A
+     quarter of the site's one rise is 5px, which is enough of an edge for the
+     eye to catch and small enough that the button does not appear to twitch.
+     Divided, not picked -- the same move --sweep makes on --motion-stagger
+     further down, and the reason both are still on this page's scale. */
+  --motion-rise-tight: calc(var(--motion-rise) / 4);
+}
 
 /* THE LIFT, WHICH NOTHING IN THE COCKPIT WAS SPENDING. --motion-lift is
    1.03, which on a 119px button is 3.6px -- twice the press, and the only
@@ -3167,44 +3212,167 @@ html[data-embed] .ck { border-radius: 0; }
    deliver, and it should arrive against a control that did not move. */
 .ck .ck-btn[aria-disabled="true"]:active { transform: none; }
 
-/* THE ASSIGNED GROUND, BOTH WAYS. Only a `from` frame: the end of each of
-   these is whatever the row's own rules say it is, which is exactly the
-   value the animation should land on and the one that survives if these
-   rules are ever changed. --motion-state because MOTION.md puts a background
-   under "a property changing", not under "something that moves". */
+/* THE ASSIGNED GROUND, BOTH WAYS, AND NOW WITH A DIRECTION.
+ *
+ * Only a `from` frame: the end of each of these is whatever the row's own
+ * rules say it is, which is exactly the value the animation should land on
+ * and the one that survives if these rules are ever changed. --motion-state
+ * because MOTION.md puts a background under "a property changing", not under
+ * "something that moves".
+ *
+ * WHAT THE DIRECTION BUYS, given that the block at the top of this section is
+ * right that assigning a truck barely changes the picture. A 4% step in
+ * lightness fading up under eleven cells at once is a row that is slightly
+ * different now. The same 4% arriving as a wipe is an EVENT, because the eye
+ * reads travel where it will not read a shade, and the wipe costs the state
+ * nothing: every cell lands on the same colour it would have landed on.
+ *
+ * IT RUNS RIGHT TO LEFT ON THE WAY IN, which is the way the sentence goes.
+ * Assign sits at the end of the row, so the wipe starts under the finger that
+ * pressed it and travels to the rank cell, where the "Assigned" tag then
+ * lands as the last thing to happen. Undo is the inverse in both senses: it
+ * leaves from the rank and exits past the button, which by then says Assign
+ * again. That is the pair the old version could not make -- two fades of the
+ * same 4%, in opposite directions, look identical.
+ *
+ * --sweep IS THE TOKEN DIVIDED, NOT A NEW NUMBER. --motion-stagger is 60ms
+ * and it is the gap between siblings in a sequence; eleven of them at that
+ * gap is 660ms of wipe across a single row, which is a wave. A third of it
+ * puts the head of the wipe across the row in 220ms under a 300ms fill, and
+ * the whole event, tag included, finishes inside 720. There is one stagger
+ * on this site; this is it, divided by the thing that makes a row of cells
+ * different from a column of cards.
+ *
+ * `backwards` IS LOAD-BEARING HERE. A delayed animation shows the element's
+ * natural state until it starts -- so without it, every cell would sit on the
+ * assigned ground, then jump back to transparent when its turn came and fill
+ * from there. Eleven of those is a row that flickers apart before it wipes. */
+.ck-table { --cols: 11; }
+.ck-table tbody tr[data-ground] > th,
+.ck-table tbody tr[data-ground] > td {
+  --sweep: calc(var(--motion-stagger) / 3);
+  animation-duration: var(--motion-move);
+  animation-timing-function: var(--ease);
+  animation-fill-mode: backwards;
+}
 @keyframes ck-ground-fill { from { background-color: transparent; } }
 @keyframes ck-ground-drain { from { background-color: var(--color-muted-light); } }
 .ck-table tbody tr[data-ground="fill"] > th,
-.ck-table tbody tr[data-ground="fill"] > td { animation: ck-ground-fill var(--motion-move) var(--ease); }
+.ck-table tbody tr[data-ground="fill"] > td {
+  animation-name: ck-ground-fill;
+  animation-delay: calc((var(--cols) - 1 - var(--n, 0)) * var(--sweep));
+}
 .ck-table tbody tr[data-ground="drain"] > th,
-.ck-table tbody tr[data-ground="drain"] > td { animation: ck-ground-drain var(--motion-move) var(--ease); }
+.ck-table tbody tr[data-ground="drain"] > td {
+  animation-name: ck-ground-drain;
+  animation-delay: calc(var(--n, 0) * var(--sweep));
+}
+/* Which cell this is, counted once. The alternative was a --c on every cell
+   in renderTable, which is eleven inline styles a row and seventy-seven a
+   render to say a thing the position already knows. */
+.ck-table tbody tr[data-ground] > :nth-child(1)  { --n: 0; }
+.ck-table tbody tr[data-ground] > :nth-child(2)  { --n: 1; }
+.ck-table tbody tr[data-ground] > :nth-child(3)  { --n: 2; }
+.ck-table tbody tr[data-ground] > :nth-child(4)  { --n: 3; }
+.ck-table tbody tr[data-ground] > :nth-child(5)  { --n: 4; }
+.ck-table tbody tr[data-ground] > :nth-child(6)  { --n: 5; }
+.ck-table tbody tr[data-ground] > :nth-child(7)  { --n: 6; }
+.ck-table tbody tr[data-ground] > :nth-child(8)  { --n: 7; }
+.ck-table tbody tr[data-ground] > :nth-child(9)  { --n: 8; }
+.ck-table tbody tr[data-ground] > :nth-child(10) { --n: 9; }
+.ck-table tbody tr[data-ground] > :nth-child(11) { --n: 10; }
+
 /* THE TAG IS THE OTHER HALF, AND THE MORE LEGIBLE ONE. An element appearing
    out of nothing is motion a reader can actually see; a ground settling a
-   shade is not, which is what the first pass at this got wrong. */
+   shade is not, which is what the first pass at this got wrong. It now waits
+   for the wipe to reach it, so the two are one event with a conclusion
+   rather than two things starting together. */
 @keyframes ck-tag-in {
   from { opacity: 0; transform: translateY(var(--motion-rise)); }
 }
 .ck-table tbody tr[data-ground="fill"] .ck-tag-assigned {
   display: inline-block;
   animation: ck-tag-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc((var(--cols) - 1) * var(--motion-stagger) / 3);
+  animation-fill-mode: backwards;
 }
 
-/* THE CONTROL THAT CHANGED ITS MIND. "Assign T-118" and "Assigned / Undo" are
-   different words in a different treatment, and swapping the glyphs under the
-   pointer with no cross-fade is the single most substituted-looking moment on
-   the page. `linear` is written out rather than tokenised because MOTION.md
-   reserves it for progress and cross-fades and wants reaching for it to be a
-   decision: there is nothing here to accelerate. */
-@keyframes ck-swap { from { opacity: 0; } }
-.ck [data-swap] { animation: ck-swap var(--motion-state) linear; }
+/* THE CONTROL THAT CHANGED ITS MIND, AND THE ONE CHANGE ON THIS PAGE THAT
+ * WAS BELOW THE THRESHOLD OF BEING SEEN AT ALL.
+ *
+ * "Assign T-118" and "Assigned / Undo" are different words in a different
+ * treatment, and swapping them under the pointer with no cross-fade is the
+ * most substituted-looking moment on the page. The fade that replaced the cut
+ * was right about that and wrong about how much it bought: 200ms of opacity,
+ * with nothing travelling, on words replaced by words of about the same
+ * length and weight in about the same place.
+ *
+ * THE NUMBER THAT SETTLES IT. The Model Human Processor puts average visual
+ * perception at around 230ms, and Nielsen Norman's usable band for interface
+ * animation starts at 100 and treats 200-350 as the range for a small
+ * transition. A 200ms cross-fade is not subtle. It is under the figure at
+ * which an average person registers that anything happened -- and a fade has
+ * no edge for the eye to track, which is the half the duration cannot fix.
+ *
+ * SO IT GETS A DIMENSION, NOT A LONGER FADE. The words rise the tight rise
+ * above, 5px, which gives the eye something to follow; and once they travel,
+ * MOTION.md's own table reclassifies the animation without anybody having to
+ * argue for an exception -- --motion-state is 200ms for "a property changing:
+ * color, opacity, background" and --motion-move is 300ms for "something
+ * shifting a short distance". This now shifts a short distance. 300ms sits
+ * inside the 200-350 band and above the 230 floor, and it is a duration
+ * already on the scale rather than a new one.
+ *
+ * AND THE CURVE FOLLOWS THE SAME TABLE. `linear` was correct while this was a
+ * cross-fade -- section 3 reserves it for progress and cross-fades and wants
+ * reaching for it to be a decision -- and is wrong the moment something
+ * travels, because a thing that moves at a constant speed reads as a thing
+ * being dragged. --ease, per section 10's own rule: travels a real distance
+ * is --ease-enter's, and 5px is not a real distance; this is the middle case
+ * the table's two rows were written from, and --ease is the default for
+ * everything that is not entering.
+ *
+ * `translate` AND NOT `transform`, WHICH IS THE WHOLE REASON THIS IS SAFE.
+ * data-swap goes on the BUTTON, and the button already carries
+ * transform: scale() on :hover and again on :active. An animation of
+ * `transform` outranks both for as long as it runs, so the lift would drop
+ * out from under a pointer that is by definition still sitting on the control
+ * it just pressed, and snap back 300ms later. The independent translate
+ * property composes with transform instead of replacing it, so the press, the
+ * lift and the swap are three things happening to one button rather than
+ * three things taking turns. */
+@keyframes ck-swap { from { opacity: 0; translate: 0 var(--motion-rise-tight); } }
+.ck [data-swap] { animation: ck-swap var(--motion-move) var(--ease); }
 
 /* THE STATUS LINE SURVIVES EVERY RENDER, so its ground and its ink are a
-   genuine transition -- the caution ground of a refusal arrives rather than
-   appearing. Its CONTENTS are replaced, so they cross-fade instead. */
+   genuine transition. Its CONTENTS are replaced, so they take the swap. */
 .ck .ck-status {
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
 }
-.ck .ck-status > * { animation: ck-swap var(--motion-state) linear; }
+.ck .ck-status > * { animation: ck-swap var(--motion-move) var(--ease); }
+
+/* A REFUSAL DOES NOT ARRIVE LIKE A CONFIRMATION, AND THAT IS A RULE ON THIS
+ * PAGE ALREADY -- it is the one the caution GROUND follows. Caution ink marks
+ * a figure that is stale or unfavourable; the caution ground is spent on the
+ * single thing the cockpit will not do. A hard refusal and a suggestion must
+ * not share a style, and having settled that in colour it would be strange to
+ * hand them the same motion.
+ *
+ * So the refusal SNAPS and everything else arrives. --motion-response is
+ * 80ms, "the interface tracking the reader in real time", and an answer of
+ * "no" is the most immediate thing this page ever says: there is nothing to
+ * compose, nothing on its way, and a pleasant 300ms rise under the words
+ * "can't be assigned" is the interface being gracious about a wall. The
+ * ground is the event here -- a whole pill changing colour is a large area
+ * and needs no help -- and the words simply appear on it.
+ *
+ * The travel is what goes, deliberately, and not only the duration. A
+ * confirmation rises because something was made; nothing was made here. */
+.ck .ck-status[data-tone="refused"] {
+  transition: background-color var(--motion-response) var(--ease), color var(--motion-response) var(--ease);
+}
+@keyframes ck-refuse { from { opacity: 0; } }
+.ck .ck-status[data-tone="refused"] > * { animation: ck-refuse var(--motion-response) linear; }
 
 /* THE OVERRIDE QUESTION, IN AND OUT. `.ck-why` is in the HTML and persists,
    so undo can fade it rather than cutting it -- which is the half of the
@@ -3223,7 +3391,45 @@ html[data-embed] .ck { border-radius: 0; }
 .ck-why { transition: opacity var(--motion-state) var(--ease); }
 .ck-why[data-leaving] { opacity: 0; }
 @keyframes ck-why-in { from { opacity: 0; } }
-.ck-why:not([hidden]):not([data-leaving]) > * { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+/* The form is excluded because its CHILDREN carry the arrival instead, a few
+   rules down; left in, the panel would fade as a block at the same time as
+   the four things inside it faded in sequence, and two opacities multiplied
+   is a stagger nobody can see through the thing staggering it. */
+.ck-why:not([hidden]):not([data-leaving]) > *:not(.ck-why-form) { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+
+/* THE QUESTION OPENS RATHER THAN BEING THERE. The panel fades as one block
+   above, which is the whole of what the paragraph before this could afford:
+   it argues, correctly, that the panel must not RISE, because keep() has
+   already scrolled the page up to 605px to bring it in and a second travel
+   for one event is the decoration section 1 warns off.
+ *
+ * A stagger is not a second travel. Nothing moves -- these are four opacities
+ * on the site's own 60ms, 180ms of sequence end to end -- so the argument
+ * against the rise is untouched and the panel still reads as opening instead
+ * of being switched on. The order is the order a reader needs it in: the
+ * question, then what may be answered, then what happens with the answer,
+ * then the way out.
+ *
+ * nth-child rather than an --i per child, for the reason the row sweep gives:
+ * the form has four children and their order is the markup's, not data's. */
+.ck-why-form > * {
+  animation: ck-why-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+.ck-why-form > :nth-child(2) { --i: 1; }
+.ck-why-form > :nth-child(3) { --i: 2; }
+.ck-why-form > :nth-child(4) { --i: 3; }
+
+/* AND THE ANSWER RESOLVES, rather than appearing where the form was. "Noted"
+   is a confirmation -- the same class of event as a truck being assigned --
+   so it takes the confirmation's own motion and not the panel's arrival: the
+   swap, with the tight rise, exactly as the status line and the buttons do.
+   What makes a reason saved feel saved is that it moves like everything else
+   on this page that worked. */
+/* Matched at (0,5,0) on purpose: the panel rule above is (0,4,0), and this
+   has to outrank it rather than merely follow it. */
+.ck .ck-why:not([hidden]):not([data-leaving]) > .ck-why-done { animation: ck-swap var(--motion-move) var(--ease); }
 
 /* THE BARS DRAW THEMSELVES, ONCE, WHEN THE COCKPIT FIRST COMES INTO VIEW.
  *
@@ -3248,13 +3454,86 @@ html[data-embed] .ck { border-radius: 0; }
   from { clip-path: inset(0 var(--draw-r, 100%) 0 var(--draw-l, 0%) round 3px); }
   to { clip-path: inset(0 0 0 0 round 3px); }
 }
-.ck-factors[data-draw] .ck-factor-mark {
+.ck-factors[data-shown] .ck-factor-mark,
+.ck-vs tbody[data-shown] .ck-factor-mark {
   animation: ck-draw-lead var(--motion-enter) var(--ease-enter);
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
   animation-fill-mode: backwards;
 }
-/* THE CARD ARRIVES WITH THEM. One rise, the site's own 20px, on the one
-   surface the whole page is about -- not on the 2000px shell, which at this
-   height would be a lift nobody can see the top and bottom of at once. */
+
+/* ---------- WHAT ARRIVES, AND WHEN ----------
+ *
+ * The script's `watchEnter` sets data-shown on a surface when THAT surface is
+ * on screen, which is the whole of the change: the rules below used to hang
+ * off two attributes set together the moment a corner of a 2090px cockpit
+ * came into view, several hundred pixels of scroll before either element they
+ * decorated was visible. The argument and the measurements are in the script.
+ *
+ * EVERY KEYFRAME HERE HAS A `from` AND NO `to`, WHICH IS THE CONTRACT. An
+ * element without data-shown is at its finished state, not waiting to be
+ * animated into one. That is what makes this safe without JavaScript, without
+ * an IntersectionObserver, and under prefers-reduced-motion -- where the
+ * attribute is never set at all and §5's blanket rule would have covered it
+ * anyway. It is also what keeps resting.mjs honest: there is no frame in
+ * which a surface of this page is measurable at opacity 0 by a check that
+ * would then skip it and still say green. */
+
+/* THE CARD. One rise, the site's own 20px, on the one surface the whole page
+   is about -- not on the shell, which at this height would be a lift nobody
+   can see the top and bottom of at once. */
 @keyframes ck-card-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
-.ck-card[data-arrive] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+.ck-card[data-shown] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* THE PANELS BESIDE IT, AND THE RULE ABOVE IT. Same rise, and each on its
+   own arrival rather than the card's: the confidence figure and what was
+   also considered sit in the second column and come into view a beat after
+   the card on a narrow screen and with it on a wide one, which is a
+   difference the reader should see and a single shared trigger cannot make. */
+.ck-confidence[data-shown],
+.ck-also[data-shown],
+.ck-rule[data-shown] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* THE FLEET, A ROW AT A TIME. Seven rows at the site's own 60ms is 360ms of
+   sequence, which is long enough to read as a table being dealt out and short
+   enough that the last row is there before anyone has finished the first.
+   --i is the row's place in the sort order, set in renderTable.
+
+   The transform is on the tr. Tables were not always willing to take one, and
+   where it is refused the row fades without travelling -- which is a smaller
+   version of this rule and not a broken one. */
+@keyframes ck-row-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.ck-table tbody[data-shown] > tr[data-truck] {
+  animation: ck-row-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+
+/* THE COMPARISON'S BARS DREW NOTHING AT ALL until this rule. `.ck-vs` is the
+   close call's five factors as a table rather than a list, which is the one
+   place the same graphic was making the same sentence and appearing already
+   finished, because the selector that drew it named `.ck-reco .ck-factors`
+   and this is neither. --i is on the row, so the five draw down the column in
+   the order the tradeoff put them in: the two that separate the trucks
+   first. The rule itself is the one above, beside the card's; this note is
+   here because the selector it was missing from is over there. */
+
+/* THE DISCLOSURE'S PANEL ARRIVES INTO THE ROOM THE FLIP MAKES. Opening a
+   fleet row pushes everything under it down; the script animates that, and
+   this is the other half -- the panel itself, which until now appeared
+   whole in a gap that had just been cut. data-opened rather than data-shown
+   because this is an action and not a reveal: it is set by the press, for
+   exactly as long as the animation, and the detail is rebuilt on every
+   later render without it. */
+.ck-row-detail .ck-detail[data-opened] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* WHERE A ROW CAME FROM, SAID RATHER THAN LEFT LYING. The moved markers are
+   the only thing on screen that reports what a scenario change did to the
+   ranking, and they were rendered in place like any other cell. They take the
+   tag's own arrival, staggered down the table with the rows they belong to,
+   so the answer to "what moved" is delivered by the movement. */
+/* display is already inline-flex a few rules up; only the arrival is new. */
+.ck-table tbody[data-shown] .ck-rank-moved {
+  animation: ck-tag-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) + var(--motion-state));
+  animation-fill-mode: backwards;
+}
