@@ -165,8 +165,8 @@ const CLAIMS = [
     says: 'Twenty-eight pages, and the only edition',
     n: 28, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
-    says: 'Sixteen of them',
-    n: 16, what: 'component entries on the page',
+    says: 'Seventeen of them',
+    n: 17, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
