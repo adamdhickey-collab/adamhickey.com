@@ -400,7 +400,7 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-21 the tree measures 6010 resting colors, 1874 state
+unmeasured. At 2026-09-21 the tree measures 6099 resting colors, 1874 state
 rules, 24798 type sizes, 14893 elements checked for a partial border on a
 curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
@@ -430,6 +430,35 @@ record: a run that comes back materially smaller means something stopped
 being measured, and that is worth more than the digits being exactly right.
 Read the page count first, then the measurements; a whole page leaving moves
 every number at once.
+
+**The resting figure moved because the instrument did, not because the site
+did.** #278 took the resting count from 6010 to 6099 without touching a page:
+`resting.mjs` now measures with `prefers-reduced-motion: reduce`, and the 89
+are elements it had never once looked at. The site reveals on scroll and the
+checks never scroll, so anything below the fold of a 1000px viewport was
+still at `opacity: 0` when the measuring started -- and skipping an element at
+`opacity: 0` is deliberate, because text nobody can see has no contrast to
+fail. 8 of the 89 are on the homepage behind `.reveal`; the other 81 are the
+six Tailwind case studies, which hide their own behind an inline
+`opacity: 0`. **This is the shape of failure this whole section is about**, and
+it had been sitting inside the instrument the rest of it asks you to trust: a
+green check, a plausible number, and a seventh of the site's readable text
+never asked the question.
+
+The arithmetic divides by nothing, which is the point -- these are elements
+counted once per page at rest, on 7 pages, and 8 + 81 is the 89. **The other
+four did not move, and that was checked rather than assumed.** Only
+`resting.mjs` skips on opacity, so a revealed block was never hidden from the
+rest; run with the preference, `states.mjs`, `typescale.mjs` and `cards.mjs`
+come back at 1874, 24798 and 276 either way. `curves.mjs` came back at 14879,
+**down 14**, and chasing that down is what settled where the change belongs:
+`cursor.js` builds `.cursor-dot` and `.cursor-ring` only for a reader who has
+not asked for stillness, so 2 rounded surfaces on each of the 7 pages with a
+custom cursor stopped existing. Those are surfaces an ordinary reader does
+see. A count that comes back smaller gets an explanation before it gets
+accepted, and the explanation here said to scope the preference to the one
+check with the defect rather than spend 14 real elements on four checks that
+gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
 CI run of `checks.yml` on **`main` at 2c783bc** -- the post-merge sweep
