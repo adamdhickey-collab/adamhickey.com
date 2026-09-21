@@ -635,20 +635,24 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
    is held to 3:1 as line art (COLOR.md §2) and cannot legally be text, so a
    colored glyph as the ONLY signal would be both unreadable and unannounced. */
 .ds-usage { margin: 0 0 var(--space-md); max-width: 46rem; }
+/* THE ROW IS `.disclosure-row` IN `style.css`; ONLY THE TYPE IS THIS PAGE'S.
+   This was the site's last disclosure drawn its own way: no mark of its own,
+   so `list-style: disclosure-closed` left the browser to draw one -- black,
+   left of the label, a different shape in each of the three engines -- on a
+   25px row. It takes the shared row now, which is where the 44px target and
+   the site's own chevron come from.
+
+   What it does NOT take is the shared row's type. "MARKUP" is a category, in
+   the uppercase micro-label this page uses for its nav groups and its section
+   heads, and a sentence-case --text-sm label here would read as a sentence
+   among labels. Four properties is the whole of the variant: the size, the
+   weight, the tracking and the case. `--tracking-label` is the tell that this
+   is the page's label idiom rather than a disclosure that drifted. */
 .ds-usage > summary {
-  font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-accent-text);
-  cursor: pointer;
-  padding: var(--space-2xs) 0;
-}
-.ds-usage > summary:hover { color: var(--color-accent-hover); }
-.ds-usage > summary:focus-visible {
-  outline: 2px solid var(--color-accent-text);
-  outline-offset: 2px;
 }
 .ds-usage[open] > summary { margin-bottom: var(--space-xs); }
 .ds-code {

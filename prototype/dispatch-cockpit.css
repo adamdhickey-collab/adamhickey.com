@@ -574,68 +574,18 @@
    in full. The summary says which of the two it is rather than "read more",
    so a reader can tell from the label that nothing load-bearing is hidden.
 
-   ONE DISCLOSURE, NOT TWO. This page had two of them. The walkthrough's
-   `.ckw-more` packed a CSS-drawn chevron against its label and pointed it
-   down at rest, turning up on open, with a 32px hit area; the cockpit's
-   `.ck-note` and `.ck-misses` put the label left and the site's own chevron
-   hard right on a 44px row, pointing right at rest and turning down on open.
-   Same control, same page, two answers -- and the second is the one that was
-   reasoned about. It has the 44px target, and right-then-down is the
-   direction that says "the thing this opens is under here" rather than
-   borrowing an accordion's collapse arrow, which on a screen with a sortable
-   table is a mark already spoken for.
-
-   So the rule is written once, here, for all three, and what stays with each
-   is only what differs: where it sits and what is inside it. The chevron is
-   the registry's `chevron` at `.ck-icon`'s 1em rather than a drawn corner,
-   because a 2px square-ended border box and a 2.25 round-capped path are two
-   marks, and the whole point of this block is that there is one. */
+   THE ROW ITSELF IS `.disclosure-row`, IN `style.css`. It used to be here,
+   grouped across `.ckw-more`, `.ck-note` and `.ck-misses` when those three
+   were merged into one control. They were still only this page's three, and
+   the design system's fifteen `.ds-usage` summaries -- the same control,
+   folding a component's markup -- could not reach a rule in a stylesheet
+   that page does not load. So it moved to the one sheet both load, and what
+   is left here is where each of the three sits. */
 .ckw-more {
   margin: var(--space-md) 0 var(--space-xl);
   max-width: var(--measure);
   border-top: 1px solid var(--rule-hairline);
 }
-.ckw-more summary,
-.ck-note summary,
-.ck-misses summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-height: 2.75rem;
-  padding: var(--space-xs) 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-  cursor: pointer;
-  list-style: none;
-  transition: color var(--motion-state) var(--ease);
-}
-/* Safari draws its own triangle on a summary with any display but list-item;
-   both of these are needed to be rid of it. */
-.ckw-more summary::-webkit-details-marker,
-.ck-note summary::-webkit-details-marker,
-.ck-misses summary::-webkit-details-marker { display: none; }
-.ckw-more summary::marker,
-.ck-note summary::marker,
-.ck-misses summary::marker { content: ''; }
-.ckw-more summary:hover,
-.ck-note summary:hover,
-.ck-misses summary:hover { color: var(--color-accent-hover); }
-/* The mark turns to point down when it is open, which is the one thing the
-   state has to say that the label does not. The site's reduced-motion
-   blanket stops it. */
-.ckw-more .ck-disclosure-chev,
-.ck .ck-disclosure-chev {
-  flex-shrink: 0;
-  transform: rotate(-90deg);
-  transition: transform var(--motion-state) var(--ease);
-}
-.ckw-more[open] .ck-disclosure-chev,
-.ck-note[open] .ck-disclosure-chev,
-.ck-misses[open] .ck-disclosure-chev { transform: rotate(0deg); }
 .ckw-more-body { padding-top: var(--space-xs); }
 .case-section .ckw-more-body p {
   margin: var(--space-sm) 0 0;
@@ -2613,13 +2563,10 @@ html[data-embed] .ck { border-radius: 0; }
    tea-light, all over the 3:1 a focus indicator answers to. The sort
    buttons fill their cell in the charcoal head, so they ring inward, 3.40
    on charcoal, where the wrapper's rounded overflow cannot clip it. */
-/* The walkthrough's disclosures sit outside .ck and are the same control, so
-   they take the same ring rather than falling through to style.css, which
-   rings links and buttons and does not name a summary. */
+/* No summary here any more: `style.css` names one, since it now carries the
+   disclosure row for this page and the design system's both. */
 .ck input:focus-visible,
-.ck textarea:focus-visible,
-.ck summary:focus-visible,
-.ckw-more summary:focus-visible {
+.ck textarea:focus-visible {
   outline: 2px solid var(--color-accent-text);
   outline-offset: 2px;
   border-radius: 4px;
