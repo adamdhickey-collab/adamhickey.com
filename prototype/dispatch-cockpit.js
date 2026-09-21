@@ -311,8 +311,16 @@
        template literal interpolates `undefined` and the browser draws an
        empty box. */
     sort:     '<path d="m8 9 4-4 4 4"/><path d="m16 15-4 4-4-4"/>',
+    /* ONE SORTED MARK, NOT TWO. `sortDown` was 'm8 10 4 4 4-4', which is
+       `sortUp` rotated half a turn about the centre of the box and nothing
+       else: (8,14)(12,10)(16,14) taken through 180 degrees around (12,12) is
+       (16,10)(12,14)(8,10), which is the path that was here. Two keys for one
+       shape is the duplicate the specs complain about everywhere else, and
+       keeping both made the direction a SUBSTITUTION -- the mark could only
+       ever cut from one to the other, never turn. The stylesheet rests the
+       descending column at rotate 180 and animates the half turn on a press,
+       which is the thing a sort indicator is for. */
     sortUp:   '<path d="m8 14 4-4 4 4"/>',
-    sortDown: '<path d="m8 10 4 4 4-4"/>',
     /* The row disclosure in the fleet, and the density switch beside it. */
     expand:   '<path d="m6 9 6 6 6-6"/>',
     rows:     '<path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/>',
@@ -1151,7 +1159,9 @@
       if (!c.sortable) return `<th scope="col"${cls ? ` class="${cls}"` : ''}><span class="ck-th">${label}</span></th>`;
       const on = key === c.key;
       const sorted = on ? (dir === 'asc' ? 'ascending' : 'descending') : 'none';
-      const glyph = icon(on ? (dir === 'asc' ? 'sortUp' : 'sortDown') : 'sort', 'ck-icon ck-sort-icon');
+      /* The direction is aria-sort's to carry, and the stylesheet reads it
+         off the th: one glyph, at rest or at half a turn. */
+      const glyph = icon(on ? 'sortUp' : 'sort', 'ck-icon ck-sort-icon');
       return `<th scope="col" aria-sort="${sorted}"${cls ? ` class="${cls}"` : ''}>
         <button type="button" class="ck-th ck-sort" data-sort="${c.key}" data-focus="sort:${c.key}">${label}${glyph}</button>
       </th>`;
@@ -1698,16 +1708,32 @@
          arrival every time the reader touched anything at all. */
       flipRows(() => render());
       if (opening) flash(root.querySelector(`#ck-detail-${id} .ck-detail`), 'data-opened');
+      /* AND THE CHEVRON HAS THE SAME BUG THE SORT MARK HAD, which is worth
+         saying plainly because the stylesheet reads as though it were solved:
+         .ck-row-chev carries a rotation and a transition on it, and the
+         transition has never run a single time, for exactly the reason above.
+         The quarter turn was always a cut wearing a transition. */
+      flash(root.querySelector(`[data-more="${id}"] .ck-row-chev`), 'data-turn', opening ? 'open' : 'close');
       return;
     }
 
     const sort = e.target.closest('[data-sort]');
     if (sort) {
       const k = sort.dataset.sort;
-      state.sort = state.sort.key === k ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
+      const flipped = state.sort.key === k;
+      state.sort = flipped ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
       /* The one press on this page where a reader is asking "where did my
          truck go", and the one that answered by not saying. */
       flipRows(() => render());
+      /* THE MARK TURNS, AND IT NEVER HAS. The stylesheet has always carried a
+         transition on this glyph and it has never once run: renderTable
+         rewrites the whole table, so the node that would have transitioned is
+         gone and its replacement is BORN at the new angle. Same fault as the
+         ground, same fix as the ground -- tell the replacement what the thing
+         it replaced looked like. Only on a flip: arriving on a column that
+         was not sorted is a different event, and the mark changes shape for
+         it rather than turning. */
+      if (flipped) flash(root.querySelector(`[data-sort="${k}"] .ck-sort-icon`), 'data-turn', state.sort.dir);
       return;
     }
     const a = e.target.closest('[data-assign]');

@@ -2441,6 +2441,24 @@ html[data-embed] .ck { border-radius: 0; }
 .ck .ck-sort:hover .ck-sort-icon,
 .ck .ck-sort:focus-visible .ck-sort-icon { opacity: 1; }
 
+/* THE DIRECTION IS A HALF TURN, NOT A SECOND GLYPH. The registry used to
+   hold `sortUp` and `sortDown`, and the second was the first rotated 180
+   degrees about the centre of the box -- so the only thing the mark could do
+   when a reader reversed a column was cut from one shape to an identical
+   shape pointing the other way. One glyph, rested at 180 by the aria-sort
+   the head already carries, is the same picture and can turn.
+
+   Rested here, ANIMATED on a press, and both are needed for the reason the
+   chevron's block above sets out: the th is rewritten by renderTable, so the
+   angle alone would only ever be arrived at, never travelled to. data-turn
+   names the direction being turned TO, so the two keyframes are inverses and
+   reversing a column twice winds and unwinds rather than spinning on. */
+.ck-table th[aria-sort="descending"] .ck-sort-icon { rotate: 180deg; }
+@keyframes ck-sort-to-desc { from { rotate: 0deg; } }
+@keyframes ck-sort-to-asc  { from { rotate: 180deg; } }
+.ck .ck-sort-icon[data-turn="desc"] { animation: ck-sort-to-desc var(--motion-state) var(--ease); }
+.ck .ck-sort-icon[data-turn="asc"]  { animation: ck-sort-to-asc  var(--motion-state) var(--ease); }
+
 /* Row states. Each is a ground AND a word in the rank cell.
    Lead: the feature ground, tea-light; charcoal 12.90, muted-gray 5.44.
    Assigned: the alternate ground, muted-light; charcoal 12.10.
@@ -2798,15 +2816,31 @@ html[data-embed] .ck { border-radius: 0; }
   transition: color var(--motion-state) var(--ease);
 }
 .ck .ck-row-more:hover { color: var(--color-accent-hover); }
+/* THE QUARTER TURN, WHICH UNTIL NOW WAS A CUT WEARING A TRANSITION.
+   The transition below is not new and has never run once: renderTable
+   rewrites the whole table on every press, so the node that would have
+   transitioned is gone by the time the class changes and its replacement is
+   BORN at the new angle. It is kept because it is right for the day this
+   button stops being replaced, and the animation under it is what actually
+   turns the mark today -- the same "tell the replacement what it replaced"
+   move the assigned ground makes.
+
+   `rotate` rather than `transform: rotate()`, so the resting angle and the
+   animation are the same property and an animation of it does not have to
+   restate an angle it is not responsible for. */
 .ck .ck-row-chev {
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
   color: var(--color-muted-gray);
-  transform: rotate(-90deg);
-  transition: transform var(--motion-state) var(--ease);
+  rotate: -90deg;
+  transition: rotate var(--motion-state) var(--ease);
 }
-.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { transform: rotate(0deg); }
+.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { rotate: 0deg; }
+@keyframes ck-chev-open  { from { rotate: -90deg; } }
+@keyframes ck-chev-close { from { rotate: 0deg; } }
+.ck .ck-row-chev[data-turn="open"]  { animation: ck-chev-open  var(--motion-state) var(--ease); }
+.ck .ck-row-chev[data-turn="close"] { animation: ck-chev-close var(--motion-state) var(--ease); }
 .ck .ck-row-more:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: -3px; border-radius: 4px; }
 
 /* The detail row takes the warm ground, so an opened row is visibly a note
@@ -3311,12 +3345,34 @@ html[data-embed] .ck { border-radius: 0; }
 .ck [data-swap] { animation: ck-swap var(--motion-move) var(--ease); }
 
 /* THE STATUS LINE SURVIVES EVERY RENDER, so its ground and its ink are a
-   genuine transition -- the caution ground of a refusal arrives rather than
-   appearing. Its CONTENTS are replaced, so they cross-fade instead. */
+   genuine transition. Its CONTENTS are replaced, so they take the swap. */
 .ck .ck-status {
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
 }
 .ck .ck-status > * { animation: ck-swap var(--motion-move) var(--ease); }
+
+/* A REFUSAL DOES NOT ARRIVE LIKE A CONFIRMATION, AND THAT IS A RULE ON THIS
+ * PAGE ALREADY -- it is the one the caution GROUND follows. Caution ink marks
+ * a figure that is stale or unfavourable; the caution ground is spent on the
+ * single thing the cockpit will not do. A hard refusal and a suggestion must
+ * not share a style, and having settled that in colour it would be strange to
+ * hand them the same motion.
+ *
+ * So the refusal SNAPS and everything else arrives. --motion-response is
+ * 80ms, "the interface tracking the reader in real time", and an answer of
+ * "no" is the most immediate thing this page ever says: there is nothing to
+ * compose, nothing on its way, and a pleasant 300ms rise under the words
+ * "can't be assigned" is the interface being gracious about a wall. The
+ * ground is the event here -- a whole pill changing colour is a large area
+ * and needs no help -- and the words simply appear on it.
+ *
+ * The travel is what goes, deliberately, and not only the duration. A
+ * confirmation rises because something was made; nothing was made here. */
+.ck .ck-status[data-tone="refused"] {
+  transition: background-color var(--motion-response) var(--ease), color var(--motion-response) var(--ease);
+}
+@keyframes ck-refuse { from { opacity: 0; } }
+.ck .ck-status[data-tone="refused"] > * { animation: ck-refuse var(--motion-response) linear; }
 
 /* THE OVERRIDE QUESTION, IN AND OUT. `.ck-why` is in the HTML and persists,
    so undo can fade it rather than cutting it -- which is the half of the
@@ -3335,7 +3391,45 @@ html[data-embed] .ck { border-radius: 0; }
 .ck-why { transition: opacity var(--motion-state) var(--ease); }
 .ck-why[data-leaving] { opacity: 0; }
 @keyframes ck-why-in { from { opacity: 0; } }
-.ck-why:not([hidden]):not([data-leaving]) > * { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+/* The form is excluded because its CHILDREN carry the arrival instead, a few
+   rules down; left in, the panel would fade as a block at the same time as
+   the four things inside it faded in sequence, and two opacities multiplied
+   is a stagger nobody can see through the thing staggering it. */
+.ck-why:not([hidden]):not([data-leaving]) > *:not(.ck-why-form) { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+
+/* THE QUESTION OPENS RATHER THAN BEING THERE. The panel fades as one block
+   above, which is the whole of what the paragraph before this could afford:
+   it argues, correctly, that the panel must not RISE, because keep() has
+   already scrolled the page up to 605px to bring it in and a second travel
+   for one event is the decoration section 1 warns off.
+ *
+ * A stagger is not a second travel. Nothing moves -- these are four opacities
+ * on the site's own 60ms, 180ms of sequence end to end -- so the argument
+ * against the rise is untouched and the panel still reads as opening instead
+ * of being switched on. The order is the order a reader needs it in: the
+ * question, then what may be answered, then what happens with the answer,
+ * then the way out.
+ *
+ * nth-child rather than an --i per child, for the reason the row sweep gives:
+ * the form has four children and their order is the markup's, not data's. */
+.ck-why-form > * {
+  animation: ck-why-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+.ck-why-form > :nth-child(2) { --i: 1; }
+.ck-why-form > :nth-child(3) { --i: 2; }
+.ck-why-form > :nth-child(4) { --i: 3; }
+
+/* AND THE ANSWER RESOLVES, rather than appearing where the form was. "Noted"
+   is a confirmation -- the same class of event as a truck being assigned --
+   so it takes the confirmation's own motion and not the panel's arrival: the
+   swap, with the tight rise, exactly as the status line and the buttons do.
+   What makes a reason saved feel saved is that it moves like everything else
+   on this page that worked. */
+/* Matched at (0,5,0) on purpose: the panel rule above is (0,4,0), and this
+   has to outrank it rather than merely follow it. */
+.ck .ck-why:not([hidden]):not([data-leaving]) > .ck-why-done { animation: ck-swap var(--motion-move) var(--ease); }
 
 /* THE BARS DRAW THEMSELVES, ONCE, WHEN THE COCKPIT FIRST COMES INTO VIEW.
  *
