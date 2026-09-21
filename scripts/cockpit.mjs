@@ -43,9 +43,18 @@ await page.addStyleTag({ content: [
   '.ck { padding: 0 !important; }',
   /* The switcher and the situation's own two lines are the page explaining
      the cockpit; the card is the cockpit. */
-  '.ck-situation, .ck-tabs-label { display: none !important; }',
-  /* the switcher is sticky on the page; in a still it is just a bar */
-  '.ck-tabs { position: static !important; }',
+  /* THE SWITCHER GOES TOO, AND USED TO ONLY STOP BEING STICKY. The card is
+     the square cut from the top of #ck-panel, and the strip sits ABOVE that
+     element -- so de-stickying it never put the bar in the card. What it put
+     in the card was the strip's bleed: .ck-tabs gives back --space-sm as a
+     negative block margin, so its bottom rule and the caret hanging in its
+     bottom padding render over the top of the panel and land in the crop.
+     Every card this script has written carries a stray triangle and a line
+     across its top corner, pointing at nothing, because the pill the caret
+     belongs to was cropped away. cockpit-shots.mjs hides the whole strip for
+     the same reason, and the comment above already says why: the switcher is
+     the page explaining the cockpit, and the card is the cockpit. */
+  '.ck-situation, .ck-tabs-label, .ck-tabs { display: none !important; }',
   '.ck-stage { display: block !important; margin: 0 !important; padding: 40px !important; }',
 ].join(' ') });
 await page.waitForTimeout(400);
