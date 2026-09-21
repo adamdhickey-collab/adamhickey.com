@@ -1430,10 +1430,24 @@
           played.add(e.target.dataset.enter);
           e.target.setAttribute('data-shown', '');
         }
-      /* A hair inside the bottom edge. A surface that starts animating with
-         one pixel of itself showing is a surface that finishes before it is
-         readable, which is the fault this whole block exists to undo. */
-      }, { rootMargin: '0px 0px -8% 0px' });
+      /* A HAIR BELOW THE BOTTOM EDGE, AND THE SIGN IS THE WHOLE POINT.
+         This was -8%, a margin that fires once 8% of the viewport's height of
+         the surface is already SHOWING -- which is fine for a reveal whose
+         resting state is hidden and wrong for one whose resting state is
+         finished. Measured on the card at 1280x900: thirty-six frames in
+         which up to 70px of it sat on screen, fully opaque, before the
+         observer caught up and the animation snapped it to zero to fade it
+         back in. A blink, and a worse one than no animation at all.
+
+         Positive, the observation area extends BELOW the viewport, so the
+         arrival always begins while the surface is still out of sight and
+         there is no frame to blink. 4% is 36px at this height: enough lead to
+         guarantee the first frame is unseen, small enough that at any
+         ordinary reading scroll the surface is still arriving when it
+         appears. Scrolled slowly enough, it finishes before it is visible and
+         the reader simply sees a settled page, which is what the whole site
+         does below the fold today and is the right way for this to fail. */
+      }, { rootMargin: '0px 0px 4% 0px' });
     }
     for (const el of root.querySelectorAll('[data-enter]')) {
       if (played.has(el.dataset.enter)) el.setAttribute('data-shown', '');
