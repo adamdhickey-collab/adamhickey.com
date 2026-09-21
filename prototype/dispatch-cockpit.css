@@ -958,15 +958,20 @@ html[data-embed] .ck { border-radius: 0; }
 }
 /* The situation's two lines keep the prose measure even though the screen
    under them does not. A sentence set to 1840px is not a sentence anyone
-   reads; it is the reason .writing-measure exists on the page around it. */
+   reads; it is the reason .writing-measure exists on the page around it.
+
+   The gap closed from --space-sm to --space-2xs when the checklist left: two
+   things spaced for three. The head and its sentence are one block naming one
+   scenario, and a gap that says so is what makes the head read as the
+   sentence's own rather than as a third thing in the column. */
 .ck-situation {
   display: grid;
-  gap: var(--space-sm);
+  gap: var(--space-2xs);
   justify-items: start;
   max-width: var(--measure);
 }
 .ck .ck-rail-h {
-  margin: 0 0 var(--space-xs);
+  margin: 0;
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -974,80 +979,6 @@ html[data-embed] .ck { border-radius: 0; }
   letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
 }
-/* ---------- What to try, and whether you have ----------
-   The nudge was one unchanging sentence of instruction. It is now the
-   situation's two or three steps, each ticking itself off as the reader does
-   it, which matters here for a reason particular to a demonstration: a
-   visitor is not a dispatcher and cannot tell when they have seen the thing
-   they were sent to see. The tick is what says "that was it".
-
-   DONE IS A SHAPE, A HIDDEN WORD AND A COUNT BEFORE IT IS A COLOUR. A filled
-   check against a hollow ring, ". Done." / ". Not done yet." inside the
-   step, and "2 of 3 done" in the head. states.mjs forces .is-done onto every
-   step, so the rule underneath it changes nothing that carries text -- the
-   mark's colour and nothing else. */
-.ck .ck-try {
-  margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-xl);
-  background: var(--color-tea-light);
-  color: var(--color-charcoal);
-}
-.ck .ck-try:empty { display: none; }
-.ck .ck-try-h {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: 0;
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-}
-.ck .ck-try-h .ck-icon { flex-shrink: 0; color: var(--color-accent-text); }
-.ck .ck-try-count {
-  margin-left: auto;
-  font-weight: var(--weight-semibold);
-  color: var(--color-muted-gray);
-  font-variant-numeric: tabular-nums;
-}
-.ck .ck-try-list {
-  list-style: none;
-  margin: var(--space-xs) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-2xs);
-}
-.ck .ck-try-step {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  max-width: var(--measure);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-/* The mark. 16px of it either way, so a step does not shift when it lands.
-   The ring is charcoal at 12.90 on tea-light and the check accent-deep at
-   3.80: both are marks rather than text, and both clear the 3:1 floor. */
-.ck .ck-try-mark {
-  flex: 0 0 auto;
-  width: 1rem;
-  height: 1rem;
-  margin-top: 0.15em;
-  color: var(--color-accent-deep);
-}
-.ck .ck-try-mark-open {
-  box-sizing: border-box;
-  border: 2px solid var(--color-charcoal);
-  border-radius: var(--radius-pill);
-}
-.ck .ck-try-end {
-  margin: var(--space-xs) 0 0;
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-}
-
 /* ---------- Now, on the load ----------
    The clock the derived "at pickup" column is figured from, stated where the
    load is rather than in a footnote: a derived figure whose inputs are
@@ -1109,13 +1040,12 @@ html[data-embed] .ck { border-radius: 0; }
    and the viewBox centres itself in it (preserveAspectRatio's default), so
    the glyph is centred on the first line by construction, in whichever
    leading the row sets, and there is no margin to keep in step. The rows
-   that centre a single line (.ck-try-h, the tight and missed windows) get
+   that centre a single line (the tight and missed windows) get
    the same box and the same answer. */
 .ck .ck-load-now .ck-icon,
 .ck .ck-window .ck-icon,
 .ck .ck-status .ck-icon,
 .ck .ck-fresh .ck-icon,
-.ck .ck-try-h .ck-icon,
 .ck .ck-sort-icon { height: 1lh; }
 
 .ck-visually-hidden {
@@ -1138,6 +1068,12 @@ html[data-embed] .ck { border-radius: 0; }
    under warm text, and a wash forced onto it composites to 1.12:1, which
    states.mjs is right to refuse even though the cascade never shows it. */
 .ck .ck-tabs-label {
+  /* Inline flow rather than a flex row, and the difference shows up on a
+     phone. As flex items the name and the hint are two boxes, so the hint
+     wraps whole and lands on its own line with the em dash leading it, which
+     is a dash at the start of a sentence. Inline, the line breaks between
+     words like the sentence it is, and the nbsp after the dash keeps it with
+     the word it introduces. */
   margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
@@ -1145,6 +1081,19 @@ html[data-embed] .ck { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
+/* WHAT THE CONTROL DOES, BESIDE THE CONTROL. "Pick a scenario" names the
+   thing and stops there, which leaves the reader to discover by pressing
+   that the screen under it is what changes. The hint says so in the label,
+   in the regular weight so the two are a name and a note rather than two
+   headings, and it is the quiet end of a line that is already quiet. */
+.ck .ck-tabs-hint {
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+/* A no-break space on BOTH sides of the dash. The one after keeps the dash
+   with the word it introduces; the one before keeps it with the name, so the
+   line can never break to leave a dash hanging at either end. */
+.ck .ck-tabs-hint::before { content: "\00a0\2014\00a0"; }
 /* Sticky, because the cockpit is 1521px tall on a desktop and 3220px on a
    phone: scroll to the fleet and the only way back to another situation was
    to scroll all the way up. It parks under the site header, carries the
@@ -1161,6 +1110,15 @@ html[data-embed] .ck { border-radius: 0; }
   padding-block: var(--space-sm);
   margin-block: calc(-1 * var(--space-sm));
   background: var(--color-warm);
+  /* THE LINE IS WHAT MAKES THIS A BAR OVER SOMETHING. Four pills floating
+     above a screen, with nothing between them and it, are four buttons on a
+     page; the claim that they change the interface below is one the reader
+     has to take on faith until they press one. A rule under the whole strip
+     puts the screen INSIDE what the strip controls, which is the same thing
+     a tab bar has always said. --color-rule, 1.42:1 on the warm ground it
+     is drawn over, and no radius here, so curves.mjs has nothing to object
+     to and cards.mjs is not looking at a card. */
+  border-bottom: 1px solid var(--color-rule);
 }
 /* Below the width where the row fits, the four pills scroll sideways in one
    row rather than wrapping. Two by two was 101px of sticky bar on a phone,
@@ -1234,6 +1192,36 @@ html[data-embed] .ck { border-radius: 0; }
   background: var(--color-charcoal);
   border-color: var(--color-charcoal);
   color: var(--color-warm);
+}
+/* AND THE POINT WHERE THE ONE PRESSED MEETS THE ONE THING BELOW. The rule
+   says the strip governs the screen; this says WHICH of the four is on it.
+   A caret in the pill's own charcoal, tip on the rule, under the selected
+   tab and nowhere else.
+
+   It is a pseudo-element, and that is not only for tidiness: curves.mjs
+   counts elements and cards.mjs measures surfaces, and a fifth mark on a row
+   that renders in seven reachable states would move both counts for a shape
+   that carries no text and no border of its own.
+
+   IT POINTS FROM INSIDE THE STRIP RATHER THAN THROUGH IT. Under 1024px the
+   strip is an overflow-x scroller so the four pills run in one row, and an
+   overflow that scrolls on one axis clips the other: a caret hung below the
+   border would be cut off at exactly the width where the reader most needs
+   to know which tab they are on. So it sits in the strip's own bottom
+   padding with its tip on the line -- same drawing, and nothing to clip. */
+.ck .ck-tab { position: relative; }
+.ck .ck-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: calc(var(--space-sm) - 6px);
+  margin-left: -6px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--color-charcoal);
 }
 .ck .ck-blurb {
   margin: 0;
@@ -2968,7 +2956,6 @@ html[data-embed] .ck { border-radius: 0; }
     border: 0;
   }
   .ck .ck-vs-act .ck-btn { width: 100%; justify-content: center; }
-  .ck .ck-try { padding: var(--space-sm); }
   /* The disc does not shrink -- it is the case studies' mark at every width
      there too -- so what a phone buys back is the gap beside it, not the
      column. */

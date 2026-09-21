@@ -122,11 +122,6 @@
         id: 'confident',
         tab: 'Clear pick',
         blurb: 'One truck is the obvious answer, and the system ranks it first. A dispatcher should be able to confirm that in seconds, without re-ranking seven trucks by hand.',
-        steps: [
-          { text: 'Open the two late deliveries and read what differed.', done: (s) => s.did.has('open:misses') },
-          { text: 'Open any truck\u2019s row in the fleet to see the same five factors for it.', done: (s) => [...s.did].some((d) => d.startsWith('open:row:')) },
-          { text: 'Assign T\u2011118.', done: (s) => s.assigned === 'T-118' },
-        ],
         patch: {},
         record: {
           held: 38, of: 40,
@@ -143,18 +138,6 @@
         id: 'tie',
         tab: 'Close call',
         blurb: 'Two trucks are close enough that the system cannot honestly separate them, so it does not try. It names the tradeoff, flags the one figure it cannot vouch for, and leaves the call to the dispatcher.',
-        steps: [
-          { text: 'Assign the side of the tradeoff that matters for this load. Neither is an override, so no question follows.', done: (s) => s.assigned !== null },
-          /* The stale figure is said in words on the card; this asks the
-             reader to find it where a dispatcher working from the table
-             would meet it, which is what "in reach" has to mean. */
-          { text: 'Open T\u2011131\u2019s row: the stale hours figure is marked there too.', done: (s) => s.did.has('open:row:T-131') },
-          /* "By any column" rather than "by hours left", because under 48rem
-             the hours column is one of the seven the fleet drops and a step
-             nobody can reach is worse than no step. It also asks the better
-             question: whatever you order the fleet by, the two stay level. */
-          { text: 'Sort the fleet by any column: the two stay next to each other.', done: (s) => sortedAny(s) },
-        ],
         /* T-131's hours are 45 minutes old, against 30 minutes to spare over
            what the run needs: the one case in the four where a figure's age
            changes what the dispatcher should do before pressing Assign. The
@@ -175,10 +158,6 @@
         id: 'override',
         tab: 'Dispatcher overrides',
         blurb: 'The dispatcher has already overridden the recommendation and assigned the third-ranked truck. Nothing stopped them and nothing argues back; this is what the screen does next.',
-        steps: [
-          { text: 'Save a reason, or skip. Both leave the assignment standing.', done: (s) => s.did.has('answered') || s.did.has('skipped') },
-          { text: 'Undo, assign T\u2011118, and notice that no question follows.', done: (s) => s.did.has('undo') && s.assigned === 'T-118' },
-        ],
         patch: {},
         /* Same record as the confident situation: same lane, same data. */
         record: null,
@@ -190,11 +169,6 @@
         id: 'rule',
         tab: 'Blocked by a rule',
         blurb: 'The truck that wins on every other measure cannot legally take this load, because its driver is short on hours. That is a hard rule rather than a low score, and it has to look like one.',
-        steps: [
-          { text: 'Try to assign T\u2011114 from the data table.', done: (s) => s.did.has('refused:T-114') },
-          { text: 'Sort the fleet by any column: T\u2011114 keeps its row and its reason.', done: (s) => sortedAny(s) },
-          { text: 'Open T\u2011114\u2019s row: it still wins on everything the ranking weighs.', done: (s) => s.did.has('open:row:T-114') },
-        ],
         patch: { 'T-114': { dist: 9, deadhead: 4, hos: 3.2 } },
         record: null,
       },
@@ -379,7 +353,6 @@
        A Set of strings rather than a flag each, because the steps are
        written per situation and a step should be able to ask about anything
        without this object growing a field for it. */
-    did: new Set(),
     open: new Set(),      /* truck ids whose fleet row is expanded */
     moved: new Map(),     /* truck id -> places moved on the last switch */
     movedFrom: null,      /* the situation they moved from, for the sentence */
@@ -505,57 +478,32 @@
       return `<button type="button" role="tab" id="ck-tab-${s.id}" class="ck-tab" aria-selected="${on}" aria-controls="ck-panel" tabindex="${on ? 0 : -1}" data-scenario="${s.id}">${icon(TAB_ICON[s.id])}${esc(s.tab)}</button>`;
     }).join('');
     $('#ck-panel', root).setAttribute('aria-labelledby', `ck-tab-${state.scenario.id}`);
-    $('.ck-blurb', root).textContent = state.scenario.blurb;
     renderSituation();
   }
 
-  /* WHAT TO TRY, AND WHETHER YOU HAVE. Until now this was one sentence of
-     instruction that never changed: a nudge that told the reader to open the
-     late deliveries and had no idea whether they ever did.
+  /* THE SITUATION, AND THE PANEL'S OWN HEAD.
 
-     A demonstration whose whole argument is that an interface should show its
-     work ought to show the reader their own. Each situation now carries two
-     or three steps, each with a predicate over `state`, and the list ticks
-     itself off as the reader does them. That is worth more than instruction
-     for a reason specific to this page: a visitor is not a dispatcher and
-     does not know when they have seen the thing they were sent to see. The
-     tick is what says "that was it".
+     WHAT WENT: the checklist. Each situation carried two or three steps that
+     ticked themselves off as the reader did them, and the argument for it was
+     that a visitor is not a dispatcher and cannot tell when they have seen
+     the thing they were sent to see. The page answers that a screen earlier,
+     in "Three things to try" above the frame, which is the same advice given
+     once instead of four times -- and the cockpit is a dense interface whose
+     scarcest resource is the reader's attention, so a panel restating the
+     page's own instructions inside the demonstration was spending it twice.
+     Going with it: state.did, which existed only to feed the step predicates,
+     the toggle listener that kept it, and the clause render() appended to the
+     status line whenever a step landed.
 
-     NOTHING HERE IS A CONTROL. The steps are not buttons and not checkboxes
-     -- there is nothing to press, and pressing the interface is the point.
-     So it is an ordered list with a mark per item, and the mark is a shape
-     and a hidden word before it is a colour.
-
-     THE COUNT IS NOT A SECOND LIVE REGION. .ck-status is this cockpit's one
-     announcement channel and two of them talking over each other is worse
-     than either. render() notices when the number goes up and appends a
-     clause to the status instead, so a screen reader hears the step land in
-     the same breath as the action that landed it. */
-  function stepsOf(sc) { return sc.steps || []; }
-  /* Any column but the one the fleet already opens on. */
-  const sortedAny = (s) => [...s.did].some((d) => d.startsWith('sort:') && d !== 'sort:rank');
-  function stepsDone(sc) { return stepsOf(sc).filter((st) => st.done(state)).length; }
-
+     WHAT ARRIVED: this head. It was an h3 reading "In this scenario", hidden,
+     a label for a screen reader and nothing for anyone else. It now carries
+     the name of the scenario on screen, visibly, because the one thing four
+     tabs over a screen never said is that the screen IS the one they name.
+     The pressed tab and the panel's head say the same words a line apart,
+     which binds them without an arrow, an animation or a word of explanation. */
   function renderSituation() {
-    const sc = state.scenario;
-    const steps = stepsOf(sc);
-    const box = $('.ck-try', root);
-    if (!steps.length) { box.innerHTML = ''; return; }
-    const done = stepsDone(sc);
-    const all = done === steps.length;
-    box.innerHTML = `
-      <p class="ck-try-h">${icon('pointer')}<span class="ck-label">Try it</span>
-        <span class="ck-try-count">${done} of ${steps.length} done</span></p>
-      <ol class="ck-try-list">
-        ${steps.map((st) => {
-          const on = st.done(state);
-          return `<li class="ck-try-step${on ? ' is-done' : ''}">
-            ${on ? icon('checkCircle', 'ck-icon ck-try-mark') : '<span class="ck-try-mark ck-try-mark-open" aria-hidden="true"></span>'}
-            <span class="ck-try-text">${esc(st.text)}<span class="ck-visually-hidden">. ${on ? 'Done' : 'Not done yet'}.</span></span>
-          </li>`;
-        }).join('')}
-      </ol>
-      ${all ? `<p class="ck-try-end">That is everything this scenario has to show. The other three are above.</p>` : ''}`;
+    $('.ck-rail-h', root).textContent = `Showing: ${state.scenario.tab}`;
+    $('.ck-blurb', root).textContent = state.scenario.blurb;
   }
 
   function renderLoad() {
@@ -1320,25 +1268,13 @@
      count goes on the END of the status message rather than into a live
      region of its own: one announcement channel, and the step is heard in
      the same breath as the thing that completed it. */
-  let lastDone = 0;
   function render(status, tone) {
     const focusKey = document.activeElement && document.activeElement.dataset.focus;
     renderReco();
     renderWhy();
     renderTable();
     renderSituation();
-    const total = stepsOf(state.scenario).length;
-    const done = stepsDone(state.scenario);
-    if (status !== undefined) {
-      let msg = status;
-      if (total && done > lastDone) {
-        msg += done === total
-          ? ` That is all ${total} of the things to try in this scenario.`
-          : ` ${done} of ${total} things to try, done.`;
-      }
-      renderStatus(msg, tone);
-    }
-    lastDone = done;
+    if (status !== undefined) renderStatus(status, tone);
     if (focusKey) keep(root.querySelector(`[data-focus="${focusKey}"]`));
   }
 
@@ -1351,7 +1287,7 @@
     state.fleet = buildFleet(scenario);
     state.sort = { key: 'rank', dir: 'asc' };
     state.assigned = null; state.why = null; state.answered = null;
-    state.did = new Set(); state.open = new Set();
+    state.open = new Set();
     rank();
 
     /* What moved, and from where. Only across a genuine switch: reloading
@@ -1381,7 +1317,6 @@
        to confirm an assignment, sitting on a sentence where nothing has been
        assigned and one truck is refused. The check now belongs to the one
        event that earns it. */
-    lastDone = stepsDone(scenario);
     render(status, state.tie ? 'close' : 'note');
     if (scenario.then) scenario.then(api);
   }
@@ -1396,7 +1331,6 @@
   function assign(id, staged = false) {
     const t = truck(id);
     if (!t || t.blocked) {
-      state.did.add(`refused:${id}`);
       render(`${id} can’t be assigned: ${t ? t.blocked.text : 'not in the fleet'}`, 'refused');
       return;
     }
@@ -1450,7 +1384,6 @@
   function undo() {
     const was = state.assigned;
     state.assigned = null; state.why = null; state.answered = null;
-    state.did.add('undo');
     render(`Assignment of ${was} undone. No reason was submitted.`, 'note');
   }
 
@@ -1459,7 +1392,6 @@
      was stored, or the row's Undo, which is where the assignment lives. */
   function answer(reason) {
     state.answered = reason;
-    state.did.add('answered');
     render(`Reason saved with ${state.why.truck}: “${reason}”`);
     keep(root.querySelector('[data-focus="why:done"]'));
   }
@@ -1472,7 +1404,6 @@
      wrong was one of them describing the other one's press. `via` is which
      button the reader actually touched. */
   function skip(via = 'skip') {
-    state.did.add('skipped');
     state.why = null;
     render(via === 'save'
       ? 'Nothing to save: no reason was chosen and nothing was typed. The assignment stands.'
@@ -1528,7 +1459,7 @@
     if (more) {
       const id = more.dataset.more;
       if (state.open.has(id)) state.open.delete(id);
-      else { state.open.add(id); state.did.add(`open:row:${id}`); }
+      else state.open.add(id);
       render(); return;
     }
 
@@ -1536,7 +1467,6 @@
     if (sort) {
       const k = sort.dataset.sort;
       state.sort = state.sort.key === k ? { key: k, dir: state.sort.dir === 'asc' ? 'desc' : 'asc' } : { key: k, dir: 'asc' };
-      state.did.add(`sort:${k}`);
       render(); return;
     }
     const a = e.target.closest('[data-assign]');
@@ -1554,15 +1484,6 @@
     if (u) { if (performance.now() - state.armed < UNDO_ARMS_AFTER) return; undo(); return; }
     if (e.target.closest('[data-skip]')) { skip(); }
   });
-
-  /* <details> fires toggle and does not bubble it, so this listens on the way
-     down. It is how the checklist knows the late deliveries were opened. */
-  root.addEventListener('toggle', (e) => {
-    const d = e.target;
-    if (!d.open || d.tagName !== 'DETAILS') return;
-    if (d.classList.contains('ck-misses')) { state.did.add('open:misses'); renderSituation(); }
-    if (d.classList.contains('ck-note')) { state.did.add('open:note'); renderSituation(); }
-  }, true);
 
   root.addEventListener('submit', (e) => {
     const form = e.target.closest('.ck-why-form');
