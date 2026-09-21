@@ -1073,8 +1073,18 @@ html[data-embed] .ck { border-radius: 0; }
      wraps whole and lands on its own line with the em dash leading it, which
      is a dash at the start of a sentence. Inline, the line breaks between
      words like the sentence it is, and the nbsp after the dash keeps it with
-     the word it introduces. */
-  margin: 0 0 var(--space-xs);
+     the word it introduces.
+
+     THE GAP IS PAID TWICE BECAUSE THE STRIP BELOW SPENDS IT. .ck-tabs is
+     sticky and bleeds: it takes --space-sm of padding and gives the same
+     back as a negative margin, so its opaque warm band starts 12px ABOVE
+     where the layout puts it. An 8px bottom margin here is 4px short of
+     that, so the strip has always sat 4px over this line's box -- invisible
+     while the label was three words on one line and all leading, and a
+     sentence with its descenders shaved the moment the hint made it wrap on
+     a phone. The margin is what the reader should see PLUS what the strip
+     takes back, so the gap under the label is --space-xs at every width. */
+  margin: 0 0 calc(var(--space-xs) + var(--space-sm));
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
