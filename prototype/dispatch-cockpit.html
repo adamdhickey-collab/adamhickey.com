@@ -12,12 +12,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>An AI truck recommendation the dispatcher can check and overrule | Adam Hickey</title>
-  <meta name="description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
+  <meta name="description" content="A self-directed prototype of human-in-the-loop AI decision support for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, a legal limit the system enforces before it scores, and the whole fleet always in reach." />
   <link rel="canonical" href="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/prototype/dispatch-cockpit.html" />
   <meta property="og:title" content="An AI truck recommendation the dispatcher can check and overrule | Adam Hickey" />
-  <meta property="og:description" content="A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach." />
+  <meta property="og:description" content="A self-directed prototype of human-in-the-loop AI decision support for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, a legal limit the system enforces before it scores, and the whole fleet always in reach." />
   <meta property="og:image" content="https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=13" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -35,7 +35,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/prototype/dispatch-cockpit.html#article",
           "headline": "An AI truck recommendation the dispatcher can check and overrule",
-          "description": "A self-directed prototype of an AI truck recommendation for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, and the whole fleet always in reach.",
+          "description": "A self-directed prototype of human-in-the-loop AI decision support for freight dispatch, on synthetic data: the factors weighed and where each one stands, outcomes from similar loads instead of a confidence percentage, a one-click override that asks why afterwards, a legal limit the system enforces before it scores, and the whole fleet always in reach.",
           "url": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/dispatch-cockpit.html",
           "image": "https://adamhickey.com/img/og/dispatch-cockpit.jpg?v=13",
@@ -62,6 +62,18 @@
             {
               "@type": "Thing",
               "name": "Freight dispatch"
+            },
+            {
+              "@type": "Thing",
+              "name": "Human-in-the-loop AI"
+            },
+            {
+              "@type": "Thing",
+              "name": "AI decision support"
+            },
+            {
+              "@type": "Thing",
+              "name": "Explainable recommendations"
             }
           ],
           "inLanguage": "en"
@@ -317,7 +329,7 @@
           <div><dt>My role</dt><dd>Product strategy, interaction design, visual design, prototyping and the front-end build.</dd></div>
           <div><dt>Artifact</dt><dd>A working browser prototype. No model behind it: the ranking is a weighted rule over the factors on screen.</dd></div>
           <div><dt>Context</dt><dd>Self-directed, on synthetic data, informed by <a href="../case-study/dispatch-complexity.html">the dispatch cockpit I led at RBA</a> for a fleet of more than 450 trucks.</dd></div>
-          <div><dt>Next</dt><dd>Put it in front of working dispatchers.</dd></div>
+          <div><dt>Next</dt><dd>Put it in front of working dispatchers. Then let it assign the clear picks itself, and find out whether they catch the wrong one.</dd></div>
         </dl>
         <p class="ckw-facts-note">Not a reproduction of that product, and not yet tested with a dispatcher. The fleet, customer, drivers, loads and outcome records are invented; the towns are real.</p>
       </div>
@@ -351,7 +363,7 @@
           <details class="ckw-more">
             <summary class="disclosure-row"><span class="ckw-more-label">Assumptions behind the prototype</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
             <div class="ckw-more-body">
-              <p>Assumptions, not observations: about four seconds to weigh five factors against seven trucks, forty times an hour, while the phone rings. They set the size of the card and the number of factors on it, and the first session with a dispatcher is as likely to move them as to confirm them. The hypothesis is not less checking but better-aimed checking, and the research on explanations is unsettled enough that an interface can only pose the question well.</p>
+              <p>Assumptions, not observations: about four seconds to weigh five factors against seven trucks, forty times an hour, while the phone rings. They set the size of the card and the number of factors on it, and the first session with a dispatcher is as likely to move them as to confirm them. The hypothesis is not less checking but better-aimed checking, and the research on explanations is unsettled enough that an interface can only pose the question well. One more, about time: the ranking here is instant because it is arithmetic on the page. A model would take a moment, and the row would have to show that it is still thinking rather than that it has nothing to say.</p>
             </div>
           </details>
         </div>
@@ -400,6 +412,7 @@
               <li>Designed and built by me: plain HTML, CSS and JavaScript, no framework, no build step.</li>
               <li>Responsive and keyboard accessible, with changes announced. At 390px the fleet refolds rather than scrolling sideways.</li>
               <li>Synthetic data and a transparent weighted rule, not a model. Source: <a href="dispatch-cockpit.js">dispatch-cockpit.js</a>, the fleet as one object at the top.</li>
+              <li>Every state decided: the blocked row, the stale figure, the close call, the assigned row with Undo standing where Assign was and inert for half a second so a double-click assigns once, one caution color on the whole screen, two densities, and four columns at 390px with the rest folded into the row.</li>
             </ul>
           </div>
         </div>
@@ -562,7 +575,7 @@
           <li class="ckw-decision">
             <div class="ckw-decision-copy">
               <h3>Treat a close call and a rule as different things</h3>
-              <p class="ckw-lead">A close ranking is a judgment. A driver without the hours is a law. The two never share a channel: the close call names the tradeoff and declines to pick; the rule removes the truck before any score is figured, keeps its row, and takes the one caution color on the screen. A truck that would arrive after the window is a third thing, a reading the dispatcher can act on by calling the dock.</p>
+              <p class="ckw-lead">A close ranking is a judgment. A driver without the hours is the law: the hours-of-service limit is a federal regulation, the system enforces it before any score is figured, and nothing on the screen can argue it out of that. The two never share a channel: the close call names the tradeoff and declines to pick; the rule removes the truck, keeps its row and its reason, and takes the one caution color on the screen. A truck that would arrive after the window is a third thing, a reading the dispatcher can act on by calling the dock.</p>
               <details class="ckw-more">
                 <summary class="disclosure-row"><span class="ckw-more-label">When the figure itself cannot be trusted</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
                 <div class="ckw-more-body">
@@ -601,10 +614,11 @@
                 <summary class="disclosure-row"><span class="ckw-more-label">Why I designed it this way</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
                 <div class="ckw-more-body">
                   <ul class="build-list">
-                    <li><strong>A confirmation dialog taxes the judgment that is the point.</strong> That holds <em>here</em>, where Assign stages a choice Undo reverses; where Assign sends a driver, a confirmation earns its place at that boundary.</li>
+                    <li><strong>A confirmation dialog taxes the judgment that is the point.</strong> That holds <em>here</em>, where Assign stages a choice Undo reverses; where Assign sends a driver, a confirmation earns its place at that boundary. The same boundary is where a system allowed to act on its own would stop and ask.</li>
                     <li><strong>The way back sits where the action was.</strong> Undo takes Assign&rsquo;s place on the row, and it is inert for half a second after the press, so a double-click assigns once rather than assigning and undoing.</li>
                     <li><strong>The prompt says what happens to the answer.</strong> A prompt that does not say is a prompt people learn to skip.</li>
-                    <li><strong>The loop is sized for skipping.</strong> Review triggers at three matching reasons on one customer in a month, which a floor answering one override in five clears without noticing. A few answers a month, not one from every override.</li>
+                    <li><strong>The loop is sized for skipping.</strong> Review triggers at three matching reasons on one customer in a month, and lands with the dispatch manager, the one person who can change what the ranking weighs. A floor answering one override in five clears that without noticing: a few answers a month, not one from every override.</li>
+                    <li><strong>The record is half built.</strong> The reason is saved with the load, for anyone to read. What the system recommended, on which figures, at what time, is not written down yet, and a version anyone audits has to write both, so that a decision can be reconstructed by someone who was not there.</li>
                   </ul>
                 </div>
               </details>
@@ -677,7 +691,7 @@
           </div>
         </div>
         <div class="case-narrow"><div class="writing-measure">
-          <p class="ckw-compare-note">Over matched scenarios: a straightforward call, a plausible wrong one, and a load where a figure on screen is stale. The question is whether dispatchers decide well with less unnecessary checking, and without more missed constraints or more bad recommendations accepted.</p>
+          <p class="ckw-compare-note">Over matched scenarios: a straightforward call, a plausible wrong one, and a load where a figure on screen is stale. The same three are the test the ranking would be held to before it shipped, and again after every change to it. The question is whether dispatchers decide well with less unnecessary checking, and without more missed constraints or more bad recommendations accepted.</p>
         </div></div>
 
         <ol class="ckw-questions">
@@ -694,6 +708,14 @@
             <p>Declining to lead is right for a system that knows its own shape, and may be the thing dispatchers hate most at four on a Friday. If the tradeoff sentence is not enough to decide from, the tie should show what the dispatcher did last time for this customer.</p>
           </li>
         </ol>
+
+        <div class="case-narrow"><div class="writing-measure">
+          <!-- The step this prototype stops short of, named rather than left
+               to the reader: nothing here acts without a press, and the
+               postings this page is read against ask about the version that
+               does. The boundary is the one the disagreement decision draws. -->
+          <p class="ckw-compare-note">Nothing on this screen acts without a press. The version after this one would assign the clear picks itself, hold the close calls and the rule blocks for a person, and write down every assignment it made with the figures it made it on. That is the line between a recommendation and an agent, and the interface for it is this screen with one more column: who decided, and whether anyone checked.</p>
+        </div></div>
 
         <div class="case-narrow">
         <!-- The mark is a drawing of the assumption: the clipboard with its
@@ -714,7 +736,7 @@
              the one sentence about what this kind of work is, which is the
              sentence a hiring reader should leave with. -->
         <div class="writing-measure ckw-close">
-          <p>The hard part of AI product design is not getting the system to produce an answer. It is designing what sits between that answer and an action someone may regret: the evidence, the uncertainty, the rule that does not bend, the disagreement, the way back, and knowing when the system should stop.</p>
+          <p>The hard part of AI product design is not getting the system to produce an answer. It is designing what sits between that answer and an action someone may regret: the evidence, the uncertainty, the rule that cannot bend, the override, the way back, the record of who decided and on what, and knowing when the system should stop.</p>
         </div>
         </div>
       </div>
