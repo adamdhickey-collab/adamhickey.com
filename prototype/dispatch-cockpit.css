@@ -410,6 +410,24 @@
   .ckw-facts { grid-template-columns: repeat(3, 1fr); }
 }
 .case-hero .ckw-facts dd { max-width: var(--measure); }
+/* The one link in the strip: Context names the real engagement this was
+   informed by, and the case study for it is on the site, so the phrase is
+   the way to it. Scoped here rather than onto .build-facts in style.css
+   because this is the only facts strip on the site with a link in it, and a
+   rule there would land on every build write-up to no effect. The treatment
+   is .build-service's, which is what a link inside body copy on a light
+   ground looks like here: accent-text, 600, underlined at the 0.2em offset,
+   charcoal on hover and focus so the pointer moves it toward the page.
+   accent-text on warm is 5.32:1. */
+.case-hero .ckw-facts dd a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-hero .ckw-facts dd a:hover,
+.case-hero .ckw-facts dd a:focus-visible { color: var(--color-charcoal); }
 .case-hero .ckw-facts-note {
   margin: var(--space-xl) 0 0;
   /* The measure, not none. Under a three-column grid the one sentence used
