@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to Design Human Supervision of AI Agents: Approval, Inspection and Recovery | Adam Hickey</title>
+  <meta name="description" content="More than an approve button: the line between what an AI agent does alone and what it asks about, an approval that carries its evidence, a record the run can be reconstructed from, three kinds of stop, and an instruction the person can test before it runs." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html" />
+  <meta property="og:title" content="How to Design Human Supervision of AI Agents: Approval, Inspection and Recovery | Adam Hickey" />
+  <meta property="og:description" content="More than an approve button: the line between what an AI agent does alone and what it asks about, an approval that carries its evidence, a record the run can be reconstructed from, three kinds of stop, and an instruction the person can test before it runs." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-does-a-person-need-to-supervise-an-ai-agent.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the nine articles and the case
+       studies name one person rather than eighteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html#article",
+          "headline": "What does a person need to supervise an AI agent?",
+          "description": "More than an approve button: the line between what an AI agent does alone and what it asks about, an approval that carries its evidence, a record the run can be reconstructed from, three kinds of stop, and an instruction the person can test before it runs.",
+          "url": "https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html",
+          "image": "https://adamhickey.com/img/og/what-does-a-person-need-to-supervise-an-ai-agent.jpg",
+          "datePublished": "2026-09-22",
+          "dateModified": "2026-09-22",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "AI agents"
+            },
+            {
+              "@type": "Thing",
+              "name": "Human-AI interaction"
+            },
+            {
+              "@type": "Thing",
+              "name": "AI product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What does a person need to supervise an AI agent?",
+              "item": "https://adamhickey.com/writing/what-does-a-person-need-to-supervise-an-ai-agent.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=7" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260922a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=3" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260921a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=3" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
+  <main id="main">
+    <!-- THE AGENT ARTICLE, written 2026-09-22. The three AI articles before it
+         were all about one decision: a system recommends, a person judges,
+         the interface sits between. The postings this site is read against
+         ask about the next step, where the system is given a goal and takes
+         a run of steps to reach it, and what the person supervising that run
+         needs. The cockpit prototype recommends rather than acts, and says so
+         on its own page; this article is the argument for the version that
+         acts, drawn from what the prototype already draws: the boundary
+         between staging a choice and sending a driver, the record it says is
+         half built, and the study that is also the test set. The scenario is
+         illustrative and the dek says so. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <h1 class="case-title">What does a person need to supervise an AI agent?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">More than an approve button. A person supervising an agent needs to know what it is allowed to do on its own, to be asked before the step that is expensive to undo, to read afterward what it did and what each step stood on, to stop it and pick the work up where it stopped, and to change its instructions and test the change before the next run. The scenario below is illustrative, and the prototype it draws on recommends rather than acts; that difference is the subject.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#a-recommendation-is-one-decision-an-agent-is-a-run-of-them">A recommendation is one decision; an agent is a run of them</a></li>
+            <li><a href="#draw-the-line-where-a-mistake-gets-expensive-not-where-it-gets-possible">Draw the line where a mistake gets expensive, not where it gets possible</a></li>
+            <li><a href="#approval-is-a-question-with-the-evidence-attached">Approval is a question with the evidence attached</a></li>
+            <li><a href="#the-run-has-to-be-readable-afterward-by-someone-who-was-not-there">The run has to be readable afterward, by someone who was not there</a></li>
+            <li><a href="#stopping-is-an-interface-and-so-is-picking-up-where-it-stopped">Stopping is an interface, and so is picking up where it stopped</a></li>
+            <li><a href="#the-instruction-is-a-design-surface-and-the-test-is-the-other-half-of-it">The instruction is a design surface, and the test is the other half of it</a></li>
+            <li><a href="#measure-what-the-person-caught-not-what-the-agent-finished">Measure what the person caught, not what the agent finished</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, in the set's hand, of the
+             argument rather than the topic. Under the dek so the answer is
+             read before the picture is, and inside the hero so it sits on
+             the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp?v=1" width="1600" height="900" alt="A large sage boom barrier, its post cropped by the left edge, its arm raised partway and running off the top of the frame, and the arm&rsquo;s black shadow lying across the empty cream ground." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="a-recommendation-is-one-decision-an-agent-is-a-run-of-them">A recommendation is one decision; an agent is a run of them</h2>
+          <p>Everything I have written about AI on this site is about one decision. A system recommends, a person judges, and the interface is what sits between the two. The dispatch cockpit is that shape exactly: one load, one truck, one press.</p>
+          <p>An agent is a different shape. It is given a goal rather than a question, and it takes a run of steps to reach it: read the failed order, find the missing field, look up the partner&rsquo;s rule, draft the fix, resubmit, move to the next one. Nobody is watching each step, which is the point of it and also the problem. <mark>The unit a person has to be able to judge is no longer the answer. It is the run.</mark></p>
+          <p>Take an agent that works the overnight queue of failed orders. By morning it has touched forty. The specialist who arrives at seven does not need forty recommendations to review. They need to know which of the forty it was sure about, which it was not, what it did when it was not, and whether any of that can still be undone. Every section below is one of those needs.</p>
+
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="draw-the-line-where-a-mistake-gets-expensive-not-where-it-gets-possible">Draw the line where a mistake gets expensive, not where it gets possible</h2>
+          <p>The first design decision is not on a screen. It is the line between what the agent may do on its own and what it has to ask about, and the place to draw it is where a mistake becomes expensive to reverse, not where a mistake becomes possible. Reading an order costs nothing to get wrong. Drafting a correction costs a review. Resubmitting the order to a trading partner costs a phone call. Changing the rule that translates every order from that partner costs a week.</p>
+          <figure class="writing-figure">
+            <figcaption>One run, and where the line falls in it</figcaption>
+            <ol class="writing-flow">
+              <li data-level="1">Read<small>the failed order; nothing to undo</small></li>
+              <li data-level="2">Look up<small>the partner&rsquo;s rule; nothing to undo</small></li>
+              <li data-level="3">Draft<small>the correction; a review to undo</small></li>
+              <li data-level="4">Resubmit<small>the order; a phone call to undo</small></li>
+              <li data-level="5" class="writing-flow-mark">Change the rule<small>every future order; a week to undo</small></li>
+            </ol>
+          </figure>
+          <p>The cockpit draws this line in one place. Assign stages a choice that Undo reverses, and the page says that where Assign sent a driver, a confirmation would earn its place. That is the same line, drawn for a system that only recommends. <mark>Autonomy is not a setting on the agent. It is a boundary in the workflow, and engineering has to enforce it where the copy describes it.</mark> The person supervising the agent has to be able to see where the line is and move it, for this partner or this kind of order, without opening a ticket.</p>
+
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="approval-is-a-question-with-the-evidence-attached">Approval is a question with the evidence attached</h2>
+          <p>When the agent reaches the line, it asks. How it asks is most of the interface. A question that says &ldquo;Resubmit order 4471?&rdquo; is a question people learn to answer yes to, because there is nothing in it to judge.</p>
+          <p>The question that works carries its evidence. This order failed on a missing customer identifier; the same field is missing on eleven others from this partner since Tuesday; here is the corrected document beside the original with the change marked; here is the last time this correction was made, and what happened. That is the cockpit&rsquo;s card asked in the other direction: the same factors and the same record, arriving as a question rather than a suggestion. <mark>An approval without the evidence is a rubber stamp, and the rubber stamp is what the agent was supposed to replace.</mark></p>
+          <p>Two things belong on the question and are usually missing. What happens if nobody answers, because at three in the morning nobody will, so the agent has to hold the order or skip it and say which it did. And what the answer is worth: whether a yes here applies to this order alone or teaches the agent to stop asking about this kind of case. A person who cannot tell those apart will answer the first one and be surprised by the second.</p>
+          <aside class="dp-note" aria-labelledby="dp-scope-label">
+            <p class="dp-note-label" id="dp-scope-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h3 class="dp-note-head">When in doubt, do less, and say so</h3>
+            <p class="dp-note-body">The one guideline for human&ndash;AI interaction I would keep if I could keep one is the instruction to scope the service when in doubt: when the system is unsure what is wanted, it should ask or do less, not guess and do more. For an agent that is the whole design. Every step it is unsure about is a step it can hold and hand to a person, and a held step with its evidence attached is cheaper for everyone than a confident wrong one that has to be found and reversed. Doing less is not a failure state. It is the state the supervising person is there for.</p>
+            <p class="dp-note-source">The guidelines, with the research behind each: <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">Microsoft, Guidelines for Human-AI Interaction</a></p>
+          </aside>
+
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="the-run-has-to-be-readable-afterward-by-someone-who-was-not-there">The run has to be readable afterward, by someone who was not there</h2>
+          <p>Whatever the agent did on its own has to be readable afterward by a person who was not in the room, and readable is a stronger word than logged. A log is what the engineers get. The specialist at seven needs the run as a list: forty orders, each with what the agent decided, the step at which it decided it, what that step stood on, and whether the effect can still be reversed. The three that hit the line and waited are at the top. The one it skipped because the partner&rsquo;s rule did not cover it is next. The thirty-six it corrected and resubmitted are a group, opened only if something in the morning looks wrong.</p>
+          <figure class="writing-figure">
+            <figcaption>What the log holds, and what the person needs from it</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">The log</p>
+                <ul>
+                  <li>Every call, in the order it was made</li>
+                  <li>What the model returned, in full</li>
+                  <li>Timestamps to the millisecond</li>
+                  <li>Written for the engineer who built the agent</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">The record</p>
+                <ul>
+                  <li>Every decision, grouped by how sure the agent was</li>
+                  <li>What each one stood on, and how old that was</li>
+                  <li>Which are still reversible, and until when</li>
+                  <li>Written for the person who has to answer for it</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>This is the part the cockpit does not do yet, and its page says so: the override reason is saved, and what the system recommended, on which figures, at what time, is not written down. An agent that acts has to write both, at every step, or the person supervising it is supervising a memory. <mark>The record is the interface. If a decision cannot be reconstructed from it, the agent was not supervised. It was trusted.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="stopping-is-an-interface-and-so-is-picking-up-where-it-stopped">Stopping is an interface, and so is picking up where it stopped</h2>
+          <p>Stopping an agent sounds like one button, and it is three. Stop before the next step, which is cheap and always available. Stop and undo the last step, which is only possible if the last step was reversible and the record says so. And stop and hand the queue back, half done, to a person, which is the one nobody designs and everyone needs the first time the agent fails at order twenty-two.</p>
+          <p>What the person needs then is not an error message. It is the state of the work: which orders are done, which are touched and not finished, which are untouched, and a way to take the queue from there without the agent&rsquo;s help. That is the question an operations floor asks when a transaction stalls, what happened, what it affects, what can I safely do next, asked of the agent instead of the system. <mark>The failure halfway through is the ordinary case, and the interface for it is the interface for the whole thing, because it is the one the person actually uses.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>If a decision cannot be reconstructed from the record, the agent was not supervised. It was trusted.</p>
+          </aside>
+          <p>The cockpit&rsquo;s rule for this is that if the recommendation vanished tomorrow, the screen would still be a dispatch screen. An agent&rsquo;s version is that a queue the agent abandoned is still a queue.</p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/what-does-a-person-need-to-supervise-an-ai-agent-2.webp?v=1" width="1600" height="900" alt="The sage boom barrier with its arm lowered level across the picture, a black road running up to it from the bottom of the frame and stopping, one small cream card lying on the road just before the arm, and a small yellow lamp on the post." loading="lazy" decoding="async" />
+            <figcaption>The agent has stopped at the line it was given, and what it wants to do next is on the card, waiting for someone to read it.</figcaption>
+          </figure>
+
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="the-instruction-is-a-design-surface-and-the-test-is-the-other-half-of-it">The instruction is a design surface, and the test is the other half of it</h2>
+          <p>The agent does what its instructions say, and the instructions are written by someone who is not an engineer: the specialist, the dispatch manager, the customer-service lead. That makes the instruction a design surface, and most of them are a text box.</p>
+          <p>The interface for an instruction needs what a good form needs: what this instruction changes, which cases it applies to, an example of it applied, and what it conflicts with. Then it needs a way to try it before it runs on real orders: last night&rsquo;s forty, replayed under the new instruction, with every decision that changed marked. That is the test set, and the test is where the person learns whether the change did what they meant. I wrote the same loop into the cockpit&rsquo;s study: matched scenarios, a plausible wrong answer, a stale figure, run before shipping and again after every change. For an agent it is not a study. It is the control panel. <mark>A person who can change the instruction but cannot test it is not in control of the agent. They are editing it and hoping.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="measure-what-the-person-caught-not-what-the-agent-finished">Measure what the person caught, not what the agent finished</h2>
+          <p>An agent&rsquo;s dashboard measures what the agent finished: orders cleared, hours saved, the share resubmitted without a person. Those are the vendor&rsquo;s numbers. The supervising person&rsquo;s numbers are the other ones: how many of the agent&rsquo;s decisions a person caught before they cost anything, how many got through, how long the queue took to hand back the night it failed, and whether the instruction changes made the next night better than the last.</p>
+          <figure class="writing-figure">
+            <figcaption>What the cockpit prototype already holds itself to, and what an agent would add</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>1</dt><dd>press to overrule the recommendation, with the reason asked afterward and optional</dd></div>
+              <div><dt>3</dt><dd>matching override reasons on one customer in a month before a person reviews what the ranking weighs</dd></div>
+              <div><dt>0</dt><dd>actions the prototype takes without a press; the version that acts is the one this article is about</dd></div>
+            </dl>
+          </figure>
+          <p>The cockpit&rsquo;s measure is the decision, not the acceptance. An agent&rsquo;s is the catch, not the completion. <mark>An agent that finishes everything and is never caught is either perfect or unsupervised, and the dashboard cannot tell you which.</mark></p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">An agent is a run of decisions, so the person supervising it needs the line between what it does alone and what it asks about, a question that carries its evidence, a record the run can be reconstructed from, three kinds of stop, an instruction they can test before it runs, and a measure of what they caught rather than what it finished.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> before you design the agent&rsquo;s good night, design the morning after it failed at step twenty-two, and show that screen to the person who would open it.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">The working version of the first half of this argument: <a href="../prototype/dispatch-cockpit.html">An AI truck recommendation the dispatcher can check and overrule</a>, a self-directed prototype on synthetic data that recommends rather than acts, and says on its own page what the version that acts would need. The account this draws on: <a href="../case-study/lucy-learns.html">How I built Lucy Learns</a>, where a generated set was held to a question written before anyone looked at it. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
+        <a class="build-next" href="what-should-a-working-prototype-actually-prove.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What should a working prototype actually prove? &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

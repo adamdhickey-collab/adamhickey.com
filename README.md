@@ -249,6 +249,21 @@ terracotta and the prototype boot onto sage, because the drawings' colour is
 the index's sections. The three retired URLs 404 the way the two engagement
 URLs above do, for the same reason.
 
+Redrawn again on 2026-09-22, against the ten postings the search is read
+against, and the count held at nine the same way: three retired, three added.
+The HAX article came off, its calibrated-trust and "over time" sections
+folded into a seventh key idea of the decide article; the ambiguity-to-release
+article came off, its argument being the product-clarity engagement page it
+pointed at; and the developer-tools article came off, its green-check-is-not-
+a-live-site section moving to the design-engineer article and its five
+questions in order to the new developer article. The three added are one per
+collection, each on a subject the postings ask about that nothing here
+answered: what a developer needs from an interface on a bad day, what a design
+system needs once AI is in the product, and what a person needs to supervise
+an AI agent -- the word "agent" had not appeared in any of the three AI
+articles. Each has its two drawings in the set's hand, on its collection's
+accent.
+
 #59 added three in positions two to four, and they are the first written for a
 reader hiring a designer onto a team rather than buying a piece of work: what
 someone needs the moment an operational workflow breaks, what an AI feature

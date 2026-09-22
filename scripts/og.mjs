@@ -64,12 +64,12 @@ const CARDS = {
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
   'what-makes-an-interface-feel-finished':                 { kicker: 'Writing', title: 'What makes an interface feel finished?', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
-  'how-does-a-designer-work-in-developer-tools':            { kicker: 'Writing', title: 'How does a designer work in the developer’s tools?', image: 'img/writing/how-does-a-designer-work-in-developer-tools.webp' },
+  'what-does-a-developer-need-from-an-interface-on-a-bad-day': { kicker: 'Writing', title: 'What does a developer need from an interface on a bad day?', image: 'img/writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.webp' },
   'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },
   'designing-for-the-moment-the-workflow-breaks':          { kicker: 'Writing', title: 'Designing for the moment the workflow breaks',                  image: 'img/writing/designing-for-the-moment-the-workflow-breaks.webp' },
   'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
-  'what-microsofts-hax-framework-gets-right-about-enterprise-ai': { kicker: 'Writing', title: 'What Microsoft’s HAX framework gets right about enterprise AI',    image: 'img/writing/what-microsofts-hax-framework-gets-right-about-enterprise-ai.webp' },
-  'how-i-move-a-complex-workflow-from-ambiguity-to-release': { kicker: 'Writing', title: 'How I move a complex workflow from ambiguity to release',     image: 'img/writing/how-i-move-a-complex-workflow-from-ambiguity-to-release.webp' },
+  'what-does-a-person-need-to-supervise-an-ai-agent': { kicker: 'Writing', title: 'What does a person need to supervise an AI agent?', image: 'img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp' },
+  'what-does-a-design-system-need-once-ai-is-in-the-product': { kicker: 'Writing', title: 'What does a design system need once AI is in the product?', image: 'img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});

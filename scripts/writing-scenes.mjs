@@ -26,12 +26,12 @@ export { STYLE, REF, ACCENTS, REVEAL, accentLine } from './writing-features.mjs'
 export const SCENES = [
   /* ---- AI as the material -------------------------------------------- */
   {
-    id: 'what-microsofts-hax-framework-gets-right-about-enterprise-ai',
+    id: 'what-does-a-person-need-to-supervise-an-ai-agent',
     group: 'ai',
-    device: 'the same stamp, after',
-    caption: 'Disagreement made cheap: one card taken, one left as it was, and nothing in between asked her whether she was sure.',
-    alt: 'The sage stamp lying on its side on the ground, and two plain cards in front of it: the left one carries a single sage square, the right one is still blank.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same large sage green rubber stamp as before, now lying on its side on the ground, drawn huge and cropped by the left edge, its black shadow-silhouette a solid shape beneath it. In front of it, two plain cream cards outlined in black, side by side with a clear gap between them. The left card carries one single sage green square in its centre, the stamp's mark. The right card is completely blank. No hands, no ink pad, no third card. Nothing else in the picture.`,
+    device: 'the same arm, down, and the one thing waiting at it',
+    caption: 'The agent has stopped at the line it was given, and what it wants to do next is on the card, waiting for someone to read it.',
+    alt: 'The sage boom barrier with its arm lowered level across the picture, a black road running up to it from the bottom of the frame and stopping, one small cream card lying on the road just before the arm, and a small yellow lamp on the post.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same large sage green boom barrier as before, its post at the left edge, its thick arm now lowered level across the middle of the picture from the post to the right edge, barring the way. The road is one solid black ribbon running from the bottom of the frame up to the arm and stopping there. On the black road, just before the arm, one small plain cream card outlined in black, lying flat, waiting. The reveal: on the post, one small round lamp filled butter yellow. No people, no cars, no stripes on the arm. Nothing else in the picture.`,
   },
   {
     id: 'enterprise-ai-should-help-people-decide-not-just-answer',
@@ -68,12 +68,12 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. The same dusty slate blue hand plane from before, set aside at the top of the picture and cropped by the top edge so only its lower half shows. Below it, lying on the cream in one loose evenly spaced row across the middle of the picture, three curls of wood shaving, each a simple spiral: the left and right ones solid black, the middle one filled dusty rose instead. Nothing else in the picture.`,
   },
   {
-    id: 'how-does-a-designer-work-in-developer-tools',
+    id: 'what-does-a-developer-need-from-an-interface-on-a-bad-day',
     group: 'systems',
-    device: 'the same slider, an inch from the top',
-    caption: 'A green check and a live site are two different facts: the zip is pulled to an inch from the top, and the last inch is still open.',
-    alt: 'The same dusty slate zipper slider, now near the top of the frame with the closed black tape running down from it and off the bottom, and above it the last short stretch of the two tapes still open in a small V, with cream between them.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same zipper as before, seen straight on, cropped by the top and bottom of the frame. The same dusty slate blue slider with its pull tab has now been pulled almost all the way up and sits in the upper third of the picture. Below it the closed zip runs down as one straight thick solid black band, off the bottom edge. Above the slider only a short stretch of the zip is left, and it is still open: the two thick black tapes part in a small V and run off the top edge, with a sliver of cream showing between them. No teeth drawn individually, no fabric, no garment, no hands. Nothing else in the picture.`,
+    device: 'the same panel, the one switch found',
+    caption: 'The tripped breaker, found: the whole panel said nothing, and the one switch out of line was the answer.',
+    alt: 'The dusty slate breaker panel with every switch flipped up and in line, and beside the one that had been down, a single small round lamp filled butter yellow.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same large dusty slate blue breaker panel as before, seen straight on and cropped by all four edges, its two columns of twelve identical rocker switches now all flipped up and in line, none down, each slate with a black outline. Beside the switch near the middle of the left column, the one that had been down, one small round indicator lamp filled butter yellow, the only light on the panel and the reveal. No wires, no labels, no door. Nothing else in the picture.`,
   },
 
   /* ---- Enterprise and operational software ------------------------------------------ */
@@ -86,12 +86,12 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta plank footbridge as before, now seen from lower down so that only its underside and handrails show, running edge to edge across the top third of the picture and cropped by the top, with its one missing plank leaving a clean gap. Beneath it the river, one solid black ribbon curving from the left edge to the right edge across the lower half. On the black river, one single cream plank with a black outline, the missing one, drifts at a slight angle toward the right edge. No people, no water lines, no bank. Nothing else.`,
   },
   {
-    id: 'how-i-move-a-complex-workflow-from-ambiguity-to-release',
+    id: 'what-does-a-design-system-need-once-ai-is-in-the-product',
     group: 'release',
-    device: 'the same string, wound',
-    caption: 'The problem in one sentence everyone recognizes, before anyone draws anything: the tangle, wound onto one reel.',
-    alt: 'A large terracotta hand reel cropped by the bottom of the frame, the black string wound neatly around it, and one straight black line rising from it off the top edge.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta kite reel, a simple flat hand-held winder, drawn huge in the lower middle and cropped by the bottom of the frame. The black string from before is wound neatly around it in even parallel turns, drawn as solid black bands. From the top of the reel one single straight taut black line rises and runs off the top edge of the picture toward a kite that is out of frame. No kite, no knot, no hands. Nothing else in the picture.`,
+    device: 'the same row, full, and the tag no hook was made for',
+    caption: 'Six components, six states, and the one thing the system was never given a hook for, hanging from the board itself.',
+    alt: 'The terracotta pegboard with its row of six black hooks each holding a small cream tag, the fourth tag filled dusty rose, and a seventh cream tag hanging from a hole in the board to the right of the row where there is no hook.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same large warm terracotta pegboard as before, cropped by all four edges, with the same straight row of six solid black hooks across its middle. Now every hook holds one small plain tag, a rectangle with a black outline and a black string loop, six identical cream tags, except that the tag on the fourth hook is filled dusty rose instead of cream. To the right of the row, one more cream tag hangs by its string loop straight from a hole in the board itself, where there is no hook. No tools, no labels, no shelf. Nothing else on the board.`,
   },
   {
     id: 'standardizing-ux-across-40-sap-fiori-apps',

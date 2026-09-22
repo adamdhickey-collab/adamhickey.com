@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design System Patterns for AI Features: Sources, Pending States, Refusals and Reversible Actions | Adam Hickey</title>
+  <meta name="description" content="Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html" />
+  <meta property="og:title" content="Design System Patterns for AI Features: Sources, Pending States, Refusals and Reversible Actions | Adam Hickey" />
+  <meta property="og:description" content="Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-does-a-design-system-need-once-ai-is-in-the-product.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the nine articles and the case
+       studies name one person rather than eighteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html#article",
+          "headline": "What does a design system need once AI is in the product?",
+          "description": "Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them.",
+          "url": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html",
+          "image": "https://adamhickey.com/img/og/what-does-a-design-system-need-once-ai-is-in-the-product.jpg",
+          "datePublished": "2026-09-22",
+          "dateModified": "2026-09-22",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Design systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "AI product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Enterprise software"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What does a design system need once AI is in the product?",
+              "item": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=7" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260922a" />
+  <link rel="stylesheet" href="../design-psychology.css?v=3" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260921a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=3" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. -->
+  <div class="writing-progress" aria-hidden="true"></div>
+
+  <main id="main">
+    <!-- THE DESIGN-SYSTEM-FOR-AI ARTICLE, written 2026-09-22 in place of the
+         one on moving a workflow from ambiguity to release (#59), whose
+         argument lives on the product-clarity engagement page it pointed
+         at. The postings this site is read against ask, almost word for
+         word, for design systems and interaction patterns that hold up once
+         AI is in the product, and the SAP article shows a system being run
+         without saying what AI asks of one. The six things below were each
+         tried on the dispatch cockpit's one screen, and the article says
+         which of them the cockpit does not do. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <h1 class="case-title">What does a design system need once AI is in the product?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">Six things its components were never asked for. A place to say where a value came from and how old it is. A pending state for an answer that is still coming. A style for a suggestion that can never be mistaken for a rule. A reversible action whose pattern says what reversing means. A mark for text the system wrote. And checks that reach the new states instead of trusting them. The forty SAP apps are the account this draws on, and the dispatch cockpit is where the six were tried on one screen.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-components-were-built-for-facts-and-ai-hands-them-claims">The components were built for facts, and AI hands them claims</a></li>
+            <li><a href="#a-claim-carries-its-source-and-its-age-so-the-component-needs-somewhere-to-put-them">A claim carries its source and its age, so the component needs somewhere to put them</a></li>
+            <li><a href="#pending-is-a-state-not-a-spinner">Pending is a state, not a spinner</a></li>
+            <li><a href="#a-suggestion-and-a-rule-must-never-share-a-style">A suggestion and a rule must never share a style</a></li>
+            <li><a href="#a-reversible-action-needs-a-pattern-and-the-pattern-has-to-say-what-reversing-means">A reversible action needs a pattern, and the pattern has to say what reversing means</a></li>
+            <li><a href="#text-the-system-wrote-is-a-fourth-ink">Text the system wrote is a fourth ink</a></li>
+            <li><a href="#the-checks-have-to-reach-the-new-states">The checks have to reach the new states</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, in the set's hand, of the
+             argument rather than the topic. Under the dek so the answer is
+             read before the picture is, and inside the hero so it sits on
+             the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp?v=1" width="1600" height="900" alt="A large terracotta pegboard cropped by the frame, a straight row of six black hooks across its middle, five of them empty and the fourth holding one small butter-yellow tag." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
+          <h2 id="the-components-were-built-for-facts-and-ai-hands-them-claims">The components were built for facts, and AI hands them claims</h2>
+          <p>A design system that has held forty apps together is a system for facts. Its data table shows a value. Its status shows a state. Its button does a thing. Every component in it assumes the number in the cell is true, because for twenty years the number came from a record.</p>
+          <p>An AI feature hands the same components something else: a claim. A recommended truck, a suspected cause, a drafted correction, a summary of a document. The value looks the same in the cell. It is not the same kind of thing, and a system that cannot tell the difference will show a guess in the typography of a fact. <mark>The first thing AI asks of a design system is a way to say what kind of thing this is.</mark></p>
+          <p>Across the forty SAP Fiori apps I standardized, the hardest agreements were about states: what a warning is, when a field is read-only, what a row looks like when its record is locked. The next round of those agreements is about claims, and the six below are the ones I would open with.</p>
+
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
+          <h2 id="a-claim-carries-its-source-and-its-age-so-the-component-needs-somewhere-to-put-them">A claim carries its source and its age, so the component needs somewhere to put them</h2>
+          <p>In the dispatch cockpit, three of the five factors behind a recommendation carry a line saying where they came from and how long ago: the position from the GPS four minutes ago, the driver&rsquo;s hours from the logging device forty-five minutes ago. That line is the difference between a figure a person can act on and one they should check first, and it is a slot in the component rather than a note on the screen.</p>
+          <figure class="writing-figure">
+            <figcaption>What a fact component holds, and what a claim component adds</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">A fact</p>
+                <ul>
+                  <li>The value</li>
+                  <li>Its label and its unit</li>
+                  <li>Its state: editable, locked, invalid</li>
+                  <li>Where it goes when you press it</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">A claim adds</p>
+                <ul>
+                  <li>Where the value came from</li>
+                  <li>How old it is, and when it goes stale</li>
+                  <li>Where it stands against its peers</li>
+                  <li>What to check before acting on it</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>The forty-five-minute-old figure is the worked example. When it matters, the card says how old it is, what margin the last reading left, and what to check, and the doubt does not move the ranking. <mark>A confidence percentage is a claim about the system, and there is nothing on the screen to set it beside. A source and an age are claims about the world, and the person already knows what to do with those.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
+          <h2 id="pending-is-a-state-not-a-spinner">Pending is a state, not a spinner</h2>
+          <p>A model takes a moment. The cockpit&rsquo;s ranking is instant because it is arithmetic on the page; a real one would not be, and the row would have to show that it is still thinking rather than that it has nothing to say. A spinner says busy. A pending state says what is coming, what it will replace, and what the person can do in the meantime, and it settles without moving what they were reading.</p>
+          <p>That last part is motion, and the motion spec has to have a duration and a rule about interruption for it: an answer that arrives while a person is reading the row above cannot shove it down the page. Streaming text is the extreme case. <mark>A system with no pending state gets one improvised in every feature, each a little different, and the product learns four ways to say wait.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
+          <h2 id="a-suggestion-and-a-rule-must-never-share-a-style">A suggestion and a rule must never share a style</h2>
+          <p>In the cockpit, the one truck a rule removes takes the one caution ground on the screen, and no suggestion ever does. A stale figure takes the caution ink and not the ground. That is a system rule, not a screen rule: a hard requirement and a suggestion cannot share a style, because the day they do, a person learns to press through the caution color, and then the rule is gone.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>Once an interface can refuse, refusal is a state, and a state is a token before it is a screen.</p>
+          </aside>
+          <p>The system needs the vocabulary before the screens do: which treatment is a refusal, which is a doubt, which is a suggestion, and a spec that says so in a way a check can read. <mark>Once an interface can refuse, refusal is a state, and a state is a token before it is a screen.</mark></p>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/what-does-a-design-system-need-once-ai-is-in-the-product-2.webp?v=1" width="1600" height="900" alt="The terracotta pegboard with its row of six black hooks each holding a small cream tag, the fourth tag filled dusty rose, and a seventh cream tag hanging from a hole in the board to the right of the row where there is no hook." loading="lazy" decoding="async" />
+            <figcaption>Six components, six states, and the one thing the system was never given a hook for, hanging from the board itself.</figcaption>
+          </figure>
+
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
+          <h2 id="a-reversible-action-needs-a-pattern-and-the-pattern-has-to-say-what-reversing-means">A reversible action needs a pattern, and the pattern has to say what reversing means</h2>
+          <p>The cockpit&rsquo;s Undo takes Assign&rsquo;s place on the row, and it is inert for half a second after the press, so a double-click assigns once rather than assigning and undoing. That is a pattern, and it belongs in the system, because every AI feature has an action a person will want back.</p>
+          <p>But stopping a pending action and reversing one that already happened are different promises, and a system needs both patterns under different names. Undo, cancel, revert and stop are four words and four promises: the thing never happened, the thing will not happen, the thing happened and has been put back, the thing is in progress and will go no further. <mark>The pattern&rsquo;s job is to make the promise legible before the press, because after the press is when the person finds out which one they had.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
+          <h2 id="text-the-system-wrote-is-a-fourth-ink">Text the system wrote is a fourth ink</h2>
+          <p>A system has inks. Text on its ground, a muted one for the secondary line, an accent for the thing to press, a caution for the thing that is wrong. Text the system wrote is a fourth. It needs a treatment that reads at a glance, survives being copied into an email, and is announced by a screen reader as what it is, and that is an ink and a label in the tokens rather than a sparkle icon in the corner.</p>
+          <p>The cockpit does not generate text, which is one reason it could be built without a model. The version that drafts a correction beside the original would need this ink before it needed anything else, because <mark>a drafted sentence in the typography of a written one is the guess-as-fact problem again, one level up.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="the-checks-have-to-reach-the-new-states">The checks have to reach the new states</h2>
+          <p>The checks that hold this site measure the rendered page, and for one page they had to learn to press things. The cockpit renders its comparison, its refused button and its opened rows from a press, so twelve of its states were in no page the checks ever saw, and every check said the page passed after measuring a sixth of it. The fix was a registry of the states a press can reach, and it found a live hover at 1.29:1 on its first run.</p>
+          <figure class="writing-figure">
+            <figcaption>What the checks learned from one screen</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>12</dt><dd>states on the cockpit that no check had ever seen, because each one takes a press to exist</dd></div>
+              <div><dt>1.29:1</dt><dd>the live hover the checks found on their first pass through them, against a 4.5 floor</dd></div>
+              <div><dt>7</dt><dd>reachable states the page registers now, each measured on its own fresh load</dd></div>
+            </dl>
+          </figure>
+          <p>A system for AI features has more states than a system for facts, and none of the new ones are on screen when the page loads. Pending, stale, refused, drafted, undone: each is a state a check has to reach before it can measure it. <mark>A state the checks cannot reach is a state the system does not have, whatever the documentation says.</mark></p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A design system built for facts needs six things once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for text the system wrote, and checks that can reach all of them.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> take your system&rsquo;s data table and ask what it would show if the value in one cell were a guess. If the answer is &ldquo;the same thing,&rdquo; that is the first component to design.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">The account this draws on: <a href="../case-study/sap-product-maturity.html">Making 40+ enterprise apps feel like one product</a>, the SAP suite under one governed system, and <a href="../prototype/dispatch-cockpit.html">the dispatch cockpit</a>, where the six were tried on one screen. If this is the situation you are in: <a href="../engagement/design-system-foundation.html">how I set standards other teams adopt</a>.</p>
+        <a class="build-next" href="standardizing-ux-across-40-sap-fiori-apps.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What I learned standardizing UX across 40+ SAP Fiori apps &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </footer>
+</body>
+</html>
