@@ -407,8 +407,8 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-22 the tree measures 6371 resting colors, 1876 state
-rules, 25886 type sizes, 15205 elements checked for a partial border on a
+unmeasured. At 2026-09-22 the tree measures 6409 resting colors, 1876 state
+rules, 26058 type sizes, 15276 elements checked for a partial border on a
 curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out), plus 128 token names against 197 declarations, 6
@@ -441,8 +441,8 @@ every number at once.
 
 **The resting figure once moved because the instrument did, not because the
 site did**, and the account is kept because that is the exact failure the
-rest of this section exists to catch. It is the #278 row of the first ladder
-below rather than the current figure now. #278 took the resting count from
+rest of this section exists to catch. It is the #278 row of the second
+ladder below rather than the current figure now. #278 took the resting count from
 6010 to 6099 without touching a page:
 `resting.mjs` now measures with `prefers-reduced-motion: reduce`, and the 89
 are elements it had never once looked at. The site reveals on scroll and the
@@ -473,20 +473,89 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at d819fe2** -- the post-merge sweep
+CI run of `checks.yml` on **`main` at fc86a61** -- the post-merge sweep
 rather than a run against a branch, which is the cheapest way to take one,
 since that sweep runs whether anybody reads it or not. They replace the
-2026-09-21 set of 6099 / 1874 / 24798 / 14893 / 276, taken the same way at
+earlier 2026-09-22 set of 6371 / 1876 / 25886 / 15205 / 276 at d819fe2,
+which replaced the 2026-09-21 set of 6099 / 1874 / 24798 / 14893 / 276,
+taken the same way at
 2c783bc, which replaced the 2026-09-20 set of 5991 / 1858 / 24842 / 14749 at
 774df5e, which replaced the 2026-09-19 set of 6002 / 1859 / 24720 / 15094
 from `claude/assigned-button-ink` at d0b4be7. The set written here between
-those last two, at c680512, is not quoted again: it is a row in the second
+those last two, at c680512, is not quoted again: it is a row in the third
 ladder below, which is a better record of it than a sentence. The page count
 did not move -- 29 through all of them, which is the number to read first.
 
-**This one splits into five, and it leaves no residual at all.** The commits
+**Two sets in one day is not a warning about the tree.** It is what the
+section asks for working: d819fe2's set was taken while a branch was open
+against it, that branch merged, and the sweep of the merge was sitting in
+the Actions list before anybody had to remember to look. Re-measuring cost
+three `gh run view --log` calls. The cost of NOT doing it is the residuals
+further down.
+
+**This one is three commits, and only one of them has a site in it.** The
+commits between d819fe2 and fc86a61 are #281, #283 and #282:
+
+| after | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| #281 `1356622` | 6371 | 1876 | 25886 | 15205 | 276 | 128 | 197 |
+| #283 `1967d9d` | 6371 | 1876 | 25886 | 15205 | 276 | 128 | 197 |
+| **#282** `fc86a61` | **6409** | 1876 | **26058** | **15276** | 276 | 128 | 197 |
+
+Two of the three could not move a browser count and are given rows anyway,
+because a row that holds still is what makes the row under it one commit's
+work rather than a stretch's. #281 rewrote this section.
+
+**#283 is the one to read twice, and its whole content is invisible here.**
+It closed a hole in `tokens.mjs`: the design system page writes token names
+into `data-token` attributes and resolves them at runtime, so a swatch for a
+retired token rendered blank and passed, because the registry pardons a
+retired name anywhere in a document. The pardon now stops at the attribute,
+and the 54 names the page RESOLVES are held to a declaration. **None of that
+is a number in this table.** A check getting stricter changes what a count
+means while leaving the count alone, and no tripwire can see that -- which
+is worth knowing before reading a flat row as a quiet commit. The figure it
+did add, the 54, is in the sentence at the top of this section rather than
+here, because it is a property of the check and not of the tree.
+
+**#282 is the only commit in the stretch with pages in it, and its three
+numbers divide across two of them.** On `case-study/lucy-learns.html`:
+three lists and a chapter's headings are 15 `li` and 3 `h3`, then a number
+row replacing a paragraph is 6 `dt`/`dd` less that `p`. On
+`design-system/index.html`: one component entry, 20 elements holding text.
+Resting +38 is 21 + 17, type sizes +172 is (23 x 4) + (20 x 4), and curve
+elements +71 is 30 + 41. State rules held at 1876 across a commit that
+edited `style.css`, which is correct and worth saying out loud: it
+de-scoped four selectors and added one, and none of the five is a state.
+
+**Its branch run and its squash's sweep agree to the digit**, 6409 / 1876 /
+26058 / 15276 / 276 at both `358b03e` and `fc86a61`, and that agreement is
+free evidence rather than a coincidence: the branch was cut from d819fe2
+and never rebased, so the two can only match if everything merged between
+them moved nothing. #281 and #283 are the two flat rows above saying so
+independently. When a branch run and the sweep of its own merge DISAGREE,
+the difference is somebody else's commit, and the ladder is how you find
+whose.
+
+**The five one-character elements are why resting and typescale disagree**, and
+chasing that disagreement is what turned up the error corrected at the foot
+of this section. lucy-learns gains 23 elements holding text and resting
+asks the question of 21; the design system entry gains 20 and resting asks
+17. The five skipped are the `1` and `0` of the number row's own tiles, and
+the `1`, `0` and `<code>0</code>` of the entry that documents it. A row of
+figures is the one component that reliably trips this rule, because a
+one-character figure is exactly what it exists to set large.
+
+**The specimen's `<pre>` IS counted, although it sits in a closed
+`<details>`.** Chrome hides that content with `content-visibility` on the
+slot rather than `display: none` on the element, so the display check in
+`resting.mjs` does not skip it. Worth having written down before a future
+entry's arithmetic is read as one element short.
+
+**The set before this one splits into five, and it leaves no residual at
+all.** The commits
 between 2c783bc and d819fe2 are #276 through #280, each with its own
-post-merge sweep still in the Actions list, so the whole stretch costs five
+post-merge sweep still in the Actions list, so that stretch costs five
 `gh run view --log` calls:
 
 | after | resting | state rules | type sizes | curve elements | raised | names | decl |
@@ -531,7 +600,7 @@ two multipliers, and curve elements +304 is 38 new elements, being 5 `ul` +
 1088 and the 312 in the table, and all six divide. Raised surfaces held at
 276, which is what a stretch that adds no card should look like.
 
-**The ladder above is what this section keeps asking for**, and it was cheap
+**That ladder is what this section keeps asking for**, and it was cheap
 for one reason only: five sweeps, all still in the Actions list. The ladder
 below is the same exercise over twelve, and the residuals under that are what
 the exercise costs when the sweeps have aged out and nobody read them.
@@ -655,7 +724,7 @@ being retired, which is the kind of thing only a count can tell you:
 work put two more in, so the number that moved there is the retired-by-name
 one, 5 to 6. The 194th is #272's, for a surface that is pressed rather than
 read, and 195 through 197 are #277's three in `reveal.css`, set out in the
-first ladder above. `tokens.mjs`
+second ladder above. `tokens.mjs`
 holds every name the docs USE to a declaration; the total it prints is a
 count, and a count in prose here is the same kind of hand-maintained number
 as the four above.
@@ -665,15 +734,29 @@ are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does. The two ladders above are what that looks like when the sweeps are read
-back while they are still in the Actions list; the residuals under them are
-what it looks like when they are not.
+does. The three ladders above are what that looks like when the sweeps are
+read back while they are still in the Actions list; the residuals under them
+are what it looks like when they are not.
 
 The arithmetic is usually simple once you know what each counts. `states.mjs`
 counts a rule once for every page that loads its stylesheet, so one deleted
-`a:hover` in `style.css` costs nine, the nine pages that load it. `resting.mjs`
-counts text nodes and skips one under two characters. `typescale.mjs` measures
-at four widths, so one new text node is four, and it skips `aria-hidden`.
+`a:hover` in `style.css` costs nine, the nine pages that load it.
+
+**`resting.mjs` counts ELEMENTS THAT DIRECTLY HOLD TEXT, not text nodes**,
+and skips one whose own text is under two characters. This sentence said
+"text nodes" until 2026-09-22, and the two only diverge where an element has
+inline children: `<p>...<code>x</code>...<code>y</code>...</p>` is five text
+nodes and three counted elements, because the `p`, and each `code`, holds
+text of its own. Most markup here is a `li` with words in it, where the two
+agree, which is why a wrong rule survived this long -- it was #282's
+documentation entry, a paragraph with two `code`s and list items with `b`
+and `code` inside them, whose arithmetic refused to divide until the rule
+was read out of `restingText()` rather than out of this file. `typescale.mjs`
+counts the same elements with no length floor, at four widths, so one new
+element holding text is four, and it skips `aria-hidden` and anything inside
+an `svg`. The gap between the two counts is exactly the elements holding one
+character.
+
 `curves.mjs` counts elements, and a pseudo-element is not an element. A ground
 is a variant, not a state: `states.mjs` reads any `.is-*` class as a
 script-applied state, which is why the section grounds are `ground-*`. And a
