@@ -407,9 +407,9 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-22 the tree measures 6409 resting colors, 1876 state
-rules, 26058 type sizes, 15276 elements checked for a partial border on a
-curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
+unmeasured. At 2026-09-22 the tree measures 6414 resting colors, 1878 state
+rules, 26086 type sizes, 15312 elements checked for a partial border on a
+curve and 275 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out), plus 128 token names against 197 declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
@@ -473,16 +473,17 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at fc86a61** -- the post-merge sweep
+CI run of `checks.yml` on **`main` at 4e5fb53** -- the post-merge sweep
 rather than a run against a branch, which is the cheapest way to take one,
 since that sweep runs whether anybody reads it or not. They replace the
-earlier 2026-09-22 set of 6371 / 1876 / 25886 / 15205 / 276 at d819fe2,
+earlier 2026-09-22 sets of 6409 / 1876 / 26058 / 15276 / 276 at fc86a61 and
+6371 / 1876 / 25886 / 15205 / 276 at d819fe2,
 which replaced the 2026-09-21 set of 6099 / 1874 / 24798 / 14893 / 276,
 taken the same way at
 2c783bc, which replaced the 2026-09-20 set of 5991 / 1858 / 24842 / 14749 at
 774df5e, which replaced the 2026-09-19 set of 6002 / 1859 / 24720 / 15094
 from `claude/assigned-button-ink` at d0b4be7. The set written here between
-those last two, at c680512, is not quoted again: it is a row in the third
+those last two, at c680512, is not quoted again: it is a row in the fourth
 ladder below, which is a better record of it than a sentence. The page count
 did not move -- 29 through all of them, which is the number to read first.
 
@@ -493,7 +494,47 @@ the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
 
-**This one is three commits, and only one of them has a site in it.** The
+**Two commits between fc86a61 and 4e5fb53, and both have pages in them.**
+#285 is the cockpit's language pass and #286 the redraw of the writing
+family against the roles. #287 landed after 4e5fb53 and is one regex in
+`variant.mjs`, which no check reads; it is not in the table, and the next
+set will show it flat.
+
+| after | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| #282 `fc86a61` | 6409 | 1876 | 26058 | 15276 | 276 | 128 | 197 |
+| **#285** `bef738e` | **6441** | 1876 | **26186** | **15324** | 276 | 128 | 197 |
+| **#286** `4e5fb53` | **6414** | **1878** | **26086** | **15312** | **275** | 128 | 197 |
+
+**#285 is one page, and every figure is a multiple of its 8 loads** (the
+rest plus its 7 reachable states). Four new elements holding text -- a `li`
+under What this is, a `li` and its `strong` for the half-built record, and
+a `p` under the questions -- are resting +32 and type sizes +128, which is
+4 x 8 x 4 widths. Curve elements +48 is those four plus the two `div`s
+wrapping the new paragraph, 6 x 8. No stylesheet moved, so state rules and
+raised surfaces sat still.
+
+**#286 is five pages, and the whole of it is those five**, measured one at
+a time against the tree at bef738e, as resting / curve elements / type
+sizes. Three retired: the HAX article at 129 / 226 / 524,
+ambiguity-to-release at 97 / 183 / 392, developer-tools at 99 / 193 / 408.
+Three added: the agent article at 102 / 202 / 424, the developer bad-day
+article at 86 / 178 / 352, the design-system-with-AI article at 86 / 178 /
+352. Two edited: the decide article +7 / +8 / +28 for its seventh key idea,
+the design-engineer article +17 / +24 / +68 for its eighth. The sums are
+-27, -12 and -100, which are the three deltas in the table exactly, and
+-100 is 25 elements at 4 widths. **State rules +2 is a stylesheet gaining a
+page**: the developer-tools article never loaded `design-psychology.css`,
+all three new pages do, and that file carries exactly two state rules.
+**Raised surfaces -1 is 5 against 4**: the retired pages carried 2 + 2 + 1,
+the new ones carry 2 + 1 + 1, and the edited pages held at 2 and 1. The
+index, two retitled Next links and nine case studies restamped by `seo.mjs
+--write` add or remove nothing any of the five can see, which is the
+ordinary case, and the page count held at 29 because three came off as
+three went on. The stretch before this one, d819fe2 to fc86a61, is the
+next ladder down.
+
+**That one is three commits, and only one of them has a site in it.** The
 commits between d819fe2 and fc86a61 are #281, #283 and #282:
 
 | after | resting | state rules | type sizes | curve elements | raised | names | decl |
