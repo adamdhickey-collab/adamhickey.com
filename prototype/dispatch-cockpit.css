@@ -410,6 +410,24 @@
   .ckw-facts { grid-template-columns: repeat(3, 1fr); }
 }
 .case-hero .ckw-facts dd { max-width: var(--measure); }
+/* The one link in the strip: Context names the real engagement this was
+   informed by, and the case study for it is on the site, so the phrase is
+   the way to it. Scoped here rather than onto .build-facts in style.css
+   because this is the only facts strip on the site with a link in it, and a
+   rule there would land on every build write-up to no effect. The treatment
+   is .build-service's, which is what a link inside body copy on a light
+   ground looks like here: accent-text, 600, underlined at the 0.2em offset,
+   charcoal on hover and focus so the pointer moves it toward the page.
+   accent-text on warm is 5.32:1. */
+.case-hero .ckw-facts dd a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-hero .ckw-facts dd a:hover,
+.case-hero .ckw-facts dd a:focus-visible { color: var(--color-charcoal); }
 .case-hero .ckw-facts-note {
   margin: var(--space-xl) 0 0;
   /* The measure, not none. Under a three-column grid the one sentence used
@@ -587,6 +605,25 @@
   border-top: 1px solid var(--rule-hairline);
 }
 .ckw-more-body { padding-top: var(--space-xs); }
+/* THE ARGUMENT IS A LIST, NOT TWO PARAGRAPHS. A reader who opens something
+   labelled "Why I designed it this way" is looking for the reasons and how
+   many there are, and a paragraph makes them read the whole thing to find
+   out. Each item now leads on the claim and follows with the sentence that
+   earns it, so the eye can run the claims down the left and stop at the one
+   it wants argued.
+
+   .build-list is the site's dash list, from style.css, for exactly this --
+   "facts that scan better as a list than as a sentence with nine commas",
+   as its own note puts it -- so the dash, the size and the measure are
+   already right and only the margins need resetting under a disclosure.
+   The lead-in is .ckw-frame-cap span's treatment, a beat up the page: the
+   claim in sage semibold, the sentence under it in charcoal. accent-text on
+   warm is 5.32:1. */
+.case-section .ckw-more-body .build-list { margin: var(--space-sm) 0 0; }
+.ckw-more-body .build-list strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
 .case-section .ckw-more-body p {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
