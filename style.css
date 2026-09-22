@@ -5381,16 +5381,34 @@ html.ah-lightbox-open body { overflow: hidden; }
 /* A number row is .build-facts with the number first: the figure in serif
    at --text-4xl over its label, so the numbers the prose used to carry in a
    subordinate clause stand where a case study would put them. Fills the
-   column at 7rem a tile, which puts five across at the desktop measure. */
-.writing-measure .writing-facts {
+   column at 7rem a tile, which puts five across at the desktop measure.
+
+   The four selectors were .writing-measure .writing-facts until 2026-09-22,
+   and the comment above already said "where a case study would put them"
+   about a row no case study could use. De-scoped rather than duplicated
+   under a second name: the site does not treat these prefixes as
+   namespaces -- .build-facts is on the engagement pages, the design system
+   and the prototype, and .build-phone is in this page's own footer -- so
+   one component with one name is the honest shape, and a second name for
+   the same twenty-two declarations is the thing to avoid.
+
+   De-scoping drops the specificity from (0,2,0) to (0,1,0), which is what
+   .build-facts itself carries, so these now win on source order alone.
+   That holds because this block sits ~1,500 lines below .build-facts, and
+   it is the reason to leave it here rather than file it with the other
+   build components: moved up, .build-facts's own 1024px four-column rule
+   would come last and quietly take the tiles back to four equal columns.
+   A writing article was rendered before and after to confirm nothing on
+   those six pages moved. */
+.writing-facts {
   margin: 0;
   max-width: none;
   gap: var(--space-lg) var(--space-md);
 }
 @media (min-width: 640px) {
-  .writing-measure .writing-facts { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
+  .writing-facts { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
 }
-.writing-measure .writing-facts dt {
+.writing-facts dt {
   font-family: var(--font-serif);
   font-size: var(--text-4xl);
   font-weight: var(--weight-regular);
@@ -5400,11 +5418,16 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin-bottom: var(--space-xs);
   font-variant-numeric: tabular-nums;
 }
-.writing-measure .writing-facts dd {
+.writing-facts dd {
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
+/* margin: 0 above is right for the articles, where every row sits inside a
+   .writing-figure that carries the space. Bare in a write-up's flow there
+   is no wrapper, and the next paragraph lands on the labels. Matches
+   .build-list's bottom margin, so a row and a list leave the same gap. */
+.case-narrow > .writing-facts { margin-bottom: var(--space-xl); }
 
 /* The second drawing, in the body, at the column's width: the argument's
    second half, drawn, where the feature under the dek drew the first. Same

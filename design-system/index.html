@@ -85,7 +85,7 @@
   <link rel="stylesheet" href="../color.css?v=7" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20260921d" />
+  <link rel="stylesheet" href="../style.css?v=20260922a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260921a" />
   <link rel="stylesheet" href="ds.css?v=38" />
 </head>
@@ -725,7 +725,7 @@
       <div class="container">
         <span class="ds-num">01</span>
         <h2>Components</h2>
-        <p class="ds-lede">Seventeen of them, and where a specimen is live it is built from the site&rsquo;s own stylesheet rather than rebuilt here. Four have no specimen: they belong to <code>case-study-base.css</code>, which this page does not load, and a hand-made copy would go stale the moment the case studies changed. Those four carry their markup instead.</p>
+        <p class="ds-lede">Eighteen of them, and where a specimen is live it is built from the site&rsquo;s own stylesheet rather than rebuilt here. Four have no specimen: they belong to <code>case-study-base.css</code>, which this page does not load, and a hand-made copy would go stale the moment the case studies changed. Those four carry their markup instead.</p>
 
         <div class="ds-component">
           <h3>Buttons</h3>
@@ -908,6 +908,35 @@
             <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> wrap each pair in its own <code>div</code>. The grid is laid on the wrapper, not on <code>dt</code>/<code>dd</code>.</span></li>
             <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> keep it to four facts. Past four it stops scanning and becomes a table.</span></li>
             <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use <code>dl</code> for a list that has no pairs. The dash list is there for that.</span></li>
+          </ul>
+        </div>
+
+        <!-- The number row, documented 2026-09-22. It had shipped in six
+             writing articles and was scoped to the essay column, so no other
+             page family could use it; de-scoping it for a case study is what
+             turned it into a component two families share, and a shared
+             component with no entry is the thing this page exists to stop. -->
+        <div class="ds-component">
+          <h3>Number row, on light</h3>
+          <div class="ds-demo" style="display:block">
+            <dl class="build-facts writing-facts" style="margin-bottom:0">
+              <div><dt>18</dt><dd>days on the phone before listening came out</dd></div>
+              <div><dt>1</dt><dd>day to replace it with a timer that walks the steps</dd></div>
+              <div><dt>0</dt><dd>changes to the speaking half, which shipped on and stayed on</dd></div>
+            </dl>
+          </div>
+          <p class="ds-demo-note">The fact table with the figure first: the number in serif at the display size over a muted label, for values a sentence would otherwise bury in a subordinate clause. Tiles fill the column at 7rem each, so three across and five across both come out deliberate. It carries <code>margin: 0</code> for the articles, where every row sits inside a figure that supplies the space; bare in a write-up&rsquo;s flow, <code>.case-narrow</code> gives it the dash list&rsquo;s bottom margin instead.</p>
+          <details class="ds-usage">
+            <summary class="disclosure-row"><span>Markup</span><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <pre class="ds-code"><code>&lt;dl class=&quot;build-facts writing-facts&quot;&gt;
+  &lt;div&gt;&lt;dt&gt;18&lt;/dt&gt;&lt;dd&gt;days on the phone before listening came out&lt;/dd&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;dt&gt;1&lt;/dt&gt;&lt;dd&gt;day to replace it with a timer&lt;/dd&gt;&lt;/div&gt;
+&lt;/dl&gt;</code></pre>
+          </details>
+          <ul class="ds-guide">
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> wrap each pair in its own <code>div</code>, the same as the fact table. This is that component with a modifier on it, not a second one.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> let a figure of one character still be a figure. A <code>0</code> that means nothing moved is often the most interesting tile in the row.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> reach for it when the values are words. That is the fact table above; a tile is 7rem, and the display size is only worth spending on a figure.</span></li>
           </ul>
         </div>
 
