@@ -88,11 +88,11 @@ export const accentLine = (group) => {
 export const FEATURES = [
   /* ---- AI as the material -------------------------------------------- */
   {
-    id: 'what-microsofts-hax-framework-gets-right-about-enterprise-ai',
+    id: 'what-does-a-person-need-to-supervise-an-ai-agent',
     group: 'ai',
-    device: 'one intervention, withheld',
-    alt: 'A large sage rubber stamp held an inch above a plain card, its black shadow offset on the ground; the stamp has not come down and the card is unmarked.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large sage green rubber stamp, the kind with a wooden handle and a rubber base, drawn huge and cropped by the top of the frame, held an inch above the ground, not pressed down. Its shadow-silhouette on the ground is one solid black shape, offset so the gap between stamp and shadow is obvious. Beneath the stamp, one plain cream card outlined in black, empty, no mark on it. The stamp has not come down; the card is still unmarked. Nothing else in the picture.`,
+    device: 'one intervention, held: the arm that has not come down',
+    alt: 'A large sage boom barrier, its post cropped by the left edge, its arm raised partway and running off the top of the frame, and the arm\u2019s black shadow lying across the empty cream ground.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large sage green boom barrier, the kind at a rail crossing or a garage: a plain thick post at the left, cropped by the left edge and the bottom of the frame, and its long arm raised to about forty-five degrees, running up and off the top-right corner. The arm is sage with a black outline and drawn thick. At the pivot on the post, one solid black counterweight. On the ground, the arm's shadow-silhouette is one solid black diagonal shape. The road under it is empty cream; nothing is passing. No people, no cars, no stripes on the arm. Nothing else in the picture.`,
   },
   {
     id: 'enterprise-ai-should-help-people-decide-not-just-answer',
@@ -125,11 +125,11 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large woodworking hand plane in dusty slate blue with black outlines, drawn from the side and slightly above, so big that its rear handle is cropped by the right edge and its front knob by the top. Its flat sole rests on the ground line across the lower third of the picture. From the mouth in its sole, one single thick curl of wood shaving rises and spirals up and off the top edge of the frame, drawn as a solid black shape. Nothing else in the picture.`,
   },
   {
-    id: 'how-does-a-designer-work-in-developer-tools',
+    id: 'what-does-a-developer-need-from-an-interface-on-a-bad-day',
     group: 'systems',
-    device: 'the black ribbon, forked and closed',
-    alt: 'A large dusty slate zipper slider, cropped by the bottom of the frame, closing two black zipper tapes that open in a V above it and run off the top edge, and below it the one closed black line of the zipped tape running off the bottom.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large zipper, seen straight on, drawn huge and cropped by the top and bottom of the frame. Its slider is the object: a plain dusty slate blue zipper slider with its pull tab, drawn big in the middle of the picture, mid-way up the zip. Above the slider the two zipper tapes are open, two thick solid black bands that spread apart in a V and run off the top edge of the frame, with cream showing between them. Below the slider the zip is closed: the two tapes meet as one straight thick black band running down and off the bottom edge. No teeth drawn individually, no fabric, no garment, no hands. Nothing else in the picture.`,
+    device: 'repetition as texture, one out of line',
+    alt: 'A large dusty slate breaker panel cropped by the frame, two columns of identical rocker switches all flipped up except one near the middle of the left column, which is flipped down and solid black.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large electrical breaker panel in dusty slate blue with black outlines, seen straight on and drawn so big it is cropped by all four edges of the frame. On the panel, two neat vertical columns of identical rocker switches, twelve in all, evenly spaced, each a simple rounded rectangle with a black outline and a thin black line across it for the rocker's edge. Every switch is flipped up, slate like the panel, except exactly one, near the middle of the left column, which is flipped down and is solid black. No wires, no labels, no lights, no door. Nothing else in the picture.`,
   },
 
   /* ---- Enterprise and operational software ------------------------------------------ */
@@ -141,11 +141,11 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta plank footbridge seen from slightly above, running from the left edge to the right edge of the frame, drawn big enough that its two handrails are cropped by the top. Its planks are even and identical except that exactly one plank, just right of centre, is missing, leaving a clean gap. Beneath the bridge one solid black ribbon, the river, curves from the bottom left to the right edge and shows through the gap. No people, no water lines, no bank. Nothing else.`,
   },
   {
-    id: 'how-i-move-a-complex-workflow-from-ambiguity-to-release',
+    id: 'what-does-a-design-system-need-once-ai-is-in-the-product',
     group: 'release',
-    device: 'the black ribbon as the whole path',
-    alt: 'A terracotta kite in the upper right on one continuous black string that begins as a tight knot in the lower left and straightens as it rises.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta kite, a plain diamond with a black outline, in the upper right, cropped by the top edge. Its string is one continuous solid black line: it begins at the bottom left of the frame as a tight tangled knot of that one line looping over itself, then unwinds and straightens as it rises, and reaches the kite as a single clean taut line. It must read as one unbroken string from the knot to the kite. Nothing else in the picture, no clouds, no ground line, no tail.`,
+    device: 'repetition as texture, with a reveal on one hook',
+    alt: 'A large terracotta pegboard cropped by the frame, a straight row of six black hooks across its middle, five of them empty and the fourth holding one small butter-yellow tag.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta pegboard, a flat board with a regular grid of small round holes, drawn so big it is cropped by all four edges of the frame. Across the middle of the board, one straight row of six identical hooks, evenly spaced, each one a simple solid black shape. Five of the hooks are empty. From the fourth hook hangs one small plain tag, a rectangle with a black outline and a black string loop, and the tag is the reveal: it is filled butter yellow. No tools, no labels, no shelf. Nothing else on the board.`,
   },
   {
     id: 'standardizing-ux-across-40-sap-fiori-apps',

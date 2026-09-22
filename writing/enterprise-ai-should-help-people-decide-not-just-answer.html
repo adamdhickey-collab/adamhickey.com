@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/enterprise-ai-should-help-people-decide-not-just-answer.html",
           "image": "https://adamhickey.com/img/og/enterprise-ai-should-help-people-decide-not-just-answer.jpg",
           "datePublished": "2026-09-10",
-          "dateModified": "2026-09-20",
+          "dateModified": "2026-09-22",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -244,13 +244,13 @@
   <main id="main">
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 4 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">Enterprise AI should help people decide, not just answer</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">A useful AI feature helps someone judge a recommendation and act on it appropriately. That means designing the evidence beside the answer, the uncertainty around it, controls that have a real effect, and the path for when the suggestion is wrong. Acceptance is not the measure of success; the quality of the decision is. The scenario below is illustrative, not an account of a project already delivered.</p>
+        <p class="build-dek">A useful AI feature helps someone judge a recommendation and act on it appropriately. That means designing the evidence beside the answer, the uncertainty around it, controls that have a real effect, the path for when the suggestion is wrong, and a record a person who was not there can read. Acceptance is not the measure of success; the quality of the decision is. The scenario below is illustrative, not an account of a project already delivered.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -264,6 +264,7 @@
             <li><a href="#give-people-control-that-does-something">Give people control that does something</a></li>
             <li><a href="#prototype-the-wrong-answer">Prototype the wrong answer</a></li>
             <li><a href="#measure-the-decision-not-the-acceptance">Measure the decision, not the acceptance</a></li>
+            <li><a href="#leave-a-record-a-person-who-was-not-there-can-read">Leave a record a person who was not there can read</a></li>
           </ol>
         </nav>
         <!-- keys:end -->
@@ -280,7 +281,7 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <p class="writing-eyebrow">Key idea 1 of 7</p>
           <h2 id="a-suspected-cause-is-a-place-to-start-not-permission-to-act">A suspected cause is a place to start, not permission to act</h2>
           <p>AI earns its place in an enterprise workflow when it helps someone make a better decision or finish a real task. Producing an answer is one part of that. The person still has to understand what the answer rests on, what is still uncertain, and what happens if they act on it.</p>
           <p>Take a proposed feature that groups failed orders and suggests a likely cause.</p>
@@ -288,7 +289,7 @@
           <p>That is a good place to start an investigation.</p>
           <p>It is not yet permission to change the rule or resubmit twelve orders. <mark>The design work lives in that distance.</mark></p>
 
-          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <p class="writing-eyebrow">Key idea 2 of 7</p>
           <h2 id="finding-summarizing-suggesting-drafting-and-acting-are-five-different-products">Finding, summarizing, suggesting, drafting and acting are five different products</h2>
           <p>Before choosing between a conversational interface and a recommendation card, I would settle what role we are giving the system.</p>
           <p>Is it finding the relevant records? Summarizing the evidence? Suggesting a cause? Drafting a correction? Taking an action? Each of those is a different product, with a different cost when it is wrong.</p>
@@ -306,7 +307,7 @@
           <p>I would make those calls with product, engineering, architecture and whoever owns the model. <mark>A designer should not imply that an action is safe because it was easy to draw as a button.</mark></p>
           <p>I would also ask whether the task needs AI at all. A known validation rule deserves a clear deterministic message, not a generated explanation of itself.</p>
 
-          <p class="writing-eyebrow">Key idea 3 of 6</p>
+          <p class="writing-eyebrow">Key idea 3 of 7</p>
           <h2 id="put-the-evidence-beside-the-recommendation">Put the evidence beside the recommendation</h2>
           <p>For the failed orders, I would keep the recommendation next to the records it is about.</p>
           <p>The person should be able to open the affected orders, see the field or the validation result in question, and know when it was last checked. A suspected cause should look visibly different from a confirmed one.</p>
@@ -328,14 +329,14 @@
             <figcaption>The answer on top, and under it the records it is about, one of which does not agree.</figcaption>
           </figure>
 
-          <p class="writing-eyebrow">Key idea 4 of 6</p>
+          <p class="writing-eyebrow">Key idea 4 of 7</p>
           <h2 id="give-people-control-that-does-something">Give people control that does something</h2>
           <p>A specialist might accept the grouping and reject the suspected cause. Someone else might recognize a partner-specific exception the system has never been told about.</p>
           <p>The interface has to have somewhere for those responses to go. I would design ways to inspect, correct, dismiss or escalate without losing the task in progress. For a more autonomous feature I would make its authorized scope and its stopping conditions explicit, with engineering enforcing the boundary rather than the copy describing it.</p>
           <p><mark>Stopping a pending action and reversing one that already happened are different promises</mark>, and I would not label both of them undo.</p>
           <p>Feedback needs the same honesty. Dismissing a suggestion might hide it, flag it for review, or feed a later retraining cycle. The interface should say which, instead of implying that the system just learned something.</p>
 
-          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <p class="writing-eyebrow">Key idea 5 of 7</p>
           <h2 id="prototype-the-wrong-answer">Prototype the wrong answer</h2>
           <p>I would deliberately build several outcomes: a correct suggestion, a plausible but wrong one, one with incomplete evidence, and a case that changes while the person is reviewing it.</p>
           <p>Then watch. Can they detect the mismatch? Do they know how to dig further? Can they keep working when the system cannot help?</p>
@@ -364,16 +365,21 @@
           </figure>
           <p>Simulated output is enough to test the interaction before a model is ready, as long as everyone stays clear that <mark>a successful prototype test says nothing about whether the model is accurate</mark>.</p>
 
-          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <p class="writing-eyebrow">Key idea 6 of 7</p>
           <h2 id="measure-the-decision-not-the-acceptance">Measure the decision, not the acceptance</h2>
           <p>I would not make acceptance rate the definition of success. <mark>A high rate can mean the suggestions are good. It can equally mean people are clicking through them.</mark></p>
           <p>Correct decisions, unnecessary interventions, successful recoveries, and whether the underlying problem takes less work to fix: those are the measures, read alongside the AI team&rsquo;s own evaluation of the model.</p>
+
+          <p class="writing-eyebrow">Key idea 7 of 7</p>
+          <h2 id="leave-a-record-a-person-who-was-not-there-can-read">Leave a record a person who was not there can read</h2>
+          <p>The last part of the relationship is the one usability work tends not to reach. People and AI systems develop a relationship over time. A specialist works out that the grouping is reliable for one partner&rsquo;s documents and weak for another&rsquo;s, and the instinct is to hide that weakness until the model improves. The better move is to help them see it, because now they know when to move fast and when to slow down. Microsoft&rsquo;s <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">guidelines for human&ndash;AI interaction</a> put this under &ldquo;over time,&rdquo; and it is the group of the eighteen most often skipped.</p>
+          <p>So some of these products should expose their history. Not a technical log of model events. A useful history: what the system recommended, on which records, at what time; what happened; when a person chose differently, and why; and where this kind of recommendation tends to fail. That is the same record an auditor would ask for, and <mark>a decision that cannot be reconstructed by someone who was not there was not a supervised decision. It was a trusted one.</mark> The dispatch cockpit saves the override reason and says on its own page that it does not yet write down what the system recommended, and that the version anyone audits has to write both.</p>
           <p>The opportunity here is larger than adding a chat window. It is to give someone better evidence, a better starting point, and the right amount of help, while keeping the consequences of the decision legible to the person who owns it.</p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">An answer is useful when the person can judge it and act on it. That means the evidence beside the recommendation, controls that do something, and a path for when it is wrong. Measure the decision, not the acceptance rate.</p>
+            <p class="writing-recap-sum">An answer is useful when the person can judge it and act on it. That means the evidence beside the recommendation, controls that do something, a path for when it is wrong, and a record someone else can read later. Measure the decision, not the acceptance rate.</p>
             <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> prototype the wrong answer before the right one, and watch whether anyone notices.</p>
           </aside>
         </div>
@@ -388,9 +394,9 @@
              rather than a pitch, for the same reason the case studies end on
              one. -->
         <p class="build-service">The working version of this argument: <a href="../prototype/dispatch-cockpit.html">An AI truck recommendation the dispatcher can check and overrule</a>, a self-directed prototype on synthetic data. The account this draws on: <a href="../case-study/lucy-learns.html">How I built Lucy Learns</a>, where a generated set was held to a question written before anyone looked at it, and a voice interface came out after eighteen days for a reason no accuracy figure would have surfaced. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
-        <a class="build-next" href="what-should-a-working-prototype-actually-prove.html">
+        <a class="build-next" href="what-does-a-person-need-to-supervise-an-ai-agent.html">
           <span class="build-next-eyebrow">Next</span>
-          <span class="build-next-title">What should a working prototype actually prove? &rarr;</span>
+          <span class="build-next-title">What does a person need to supervise an AI agent? &rarr;</span>
         </a>
         <a class="btn-back" href="index.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>

@@ -80,9 +80,9 @@ const BASE = {
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
   writing: {
-    'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'how-does-a-designer-work-in-developer-tools'],
-    'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'how-i-move-a-complex-workflow-from-ambiguity-to-release', 'standardizing-ux-across-40-sap-fiori-apps'],
-    'AI as the material': ['what-microsofts-hax-framework-gets-right-about-enterprise-ai', 'enterprise-ai-should-help-people-decide-not-just-answer', 'what-should-a-working-prototype-actually-prove'],
+    'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
+    'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'what-does-a-design-system-need-once-ai-is-in-the-product', 'standardizing-ux-across-40-sap-fiori-apps'],
+    'AI as the material': ['enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent', 'what-should-a-working-prototype-actually-prove'],
   },
 };
 
