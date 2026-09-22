@@ -24,6 +24,14 @@
  * below. There is no third state. A name that is neither is a claim about a
  * token that does not exist, which is exactly the bug above.
  *
+ * WITH ONE PLACE THE PARDON DOES NOT REACH. Retirement excuses a name in a
+ * SENTENCE, and the design system page does not only write names -- its
+ * swatches and its token table carry them in `data-token`, where the page
+ * hands each one to the browser and prints what comes back. A retired token
+ * there is not the specs explaining themselves; it is the palette showing a
+ * color the stylesheet does not have. That is checked separately, further
+ * down, and the registry buys it nothing.
+ *
  * WHY A REGISTRY AND NOT A HEURISTIC. The specs discuss deleted tokens on
  * purpose and at length -- most of COLOR.md §7 and TYPOGRAPHY.md §3 are the
  * record of what was removed and why, which is the most useful thing in either
@@ -197,11 +205,63 @@ if (verbose) {
 }
 
 /* ---------------------------------------------------------------------------
+ * The names the design system page does not discuss, but RESOLVES.
+ *
+ * Everything above treats a token name on that page as prose, which is what
+ * nearly all of them are: the page explains the palette, and explaining a
+ * token that was removed is the whole reason RETIRED exists. But the page has
+ * fifty-odd names that are not prose at all. Every swatch chip and every row
+ * of the token table carries `data-token`, and the script at the foot of the
+ * page hands that name to getComputedStyle and prints what comes back. Those
+ * names are USES. The browser resolves them.
+ *
+ * WHAT THIS LETS IN, AND WHY NOTHING WOULD SAY SO. A retired token is pardoned
+ * by name, everywhere in the document, because the registry cannot tell a
+ * sentence from an attribute. So a swatch for a dead token passes this check
+ * with the registry's blessing -- and it does not throw, either. An undeclared
+ * custom property resolves to the empty string, so the chip gets
+ * `background: ""`, which sets nothing, and the caption prints the name, a
+ * colon and nothing after it. The page renders a blank card in a grid of
+ * colors. That reads as a swatch somebody forgot to style, not as a palette
+ * making a claim the stylesheet retired, and the difference is the entire
+ * failure: the page would be showing a fourth sage the site does not have.
+ *
+ * So the pardon stops at the attribute. A name in a sentence may be retired; a
+ * name the page asks the browser for has to exist. There is no third state
+ * here either, and retirement is not a defense.
+ * ------------------------------------------------------------------------- */
+const DS = 'design-system/index.html';
+const DATA_TOKEN = /data-token\s*=\s*"(--[a-z][a-z0-9-]*[a-z0-9])"/g;
+const rendered = new Set();
+for (const m of read(DS).matchAll(DATA_TOKEN)) rendered.add(m[1]);
+
+/* The same distrust the declaration scan above shows itself. This finds the
+   names by one attribute in one file, so a rename of that attribute, or a
+   rewrite of the palette into some other markup, would leave the scan finding
+   nothing and reporting a clean pass over an empty set -- a check that has
+   stopped looking, wearing the face of a check that found nothing wrong. The
+   page has carried better than fifty of these since it was written. */
+if (rendered.size < 20) {
+  say(`\n  Cannot check: found ${rendered.size} data-token attributes on ${DS}.`);
+  say('  The palette and the token table alone carry far more than that, so the');
+  say('  scan is out of step with the markup, not the markup with the palette.\n');
+  process.exit(2);
+}
+
+/* ---------------------------------------------------------------------------
  * The three ways this can be wrong.
  * ------------------------------------------------------------------------- */
+const dead = [];                    // rendered by the page, declared nowhere
+for (const tok of [...rendered].sort())
+  if (!defined.has(tok)) dead.push([tok, RETIRED.get(tok) || null]);
+const deadSet = new Set(dead.map(([t]) => t));
+
 const phantom = [];                 // named, not defined, not retired, not a flag
 const asFlag = [];                  // named, and a flag of one of the checks
 for (const [tok, docs] of claimed) {
+  /* Already reported, and reported better: the page renders this one, so the
+     finding is what it draws, not that a sentence mentions it. */
+  if (deadSet.has(tok)) continue;
   if (defined.has(tok) || RETIRED.has(tok)) continue;
   if (flags.has(tok)) { asFlag.push(tok); continue; }
   phantom.push([tok, docs]);
@@ -220,14 +280,29 @@ phantom.sort(([a], [b]) => a.localeCompare(b));
 const scale = `${claimed.size} names across ${DOCS.length} documents, ` +
               `${defined.size} tokens declared in ${cssFiles} stylesheets`;
 
-if (!phantom.length && !resurrected.length && !unmentioned.length) {
+if (!phantom.length && !dead.length && !resurrected.length && !unmentioned.length) {
   say(`\n  ✓ every token the documentation names exists`);
-  say(`    ${scale}, ${RETIRED.size} retired by name` +
+  say(`    ${scale}, ${RETIRED.size} retired by name, ` +
+      `${rendered.size} resolved by the design system page rather than described` +
       (asFlag.length ? `, ${asFlag.length} a flag rather than a token` : '') + '\n');
   process.exit(0);
 }
 
 say(`\n  ${scale}.\n`);
+
+if (dead.length) {
+  say(`  ${dead.length} token${dead.length === 1 ? '' : 's'} the design system page ` +
+      `RENDERS, and no stylesheet declares:\n`);
+  for (const [tok, why] of dead) {
+    say(`    ${tok}`);
+    say(`        data-token in ${DS}, so the page asks the browser for it`);
+    say(`        it resolves to "", and the swatch draws nothing`);
+    if (why) say(`        declared retired here -- ${why}`);
+  }
+  say('\n  A data-token is not prose, and retirement does not reach it. Either the');
+  say('  token should exist, or the page should stop showing it: delete the swatch');
+  say('  or the row, and say in the surrounding text what replaced it.\n');
+}
 
 if (phantom.length) {
   say(`  ${phantom.length} token${phantom.length === 1 ? ' is' : 's are'} named by the documentation ` +

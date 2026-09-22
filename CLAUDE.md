@@ -361,7 +361,14 @@ stylesheet: a charcoal tint composites over the card's own fill when it is a
 border and over the ground when it is a shadow's ring, so the declaration that
 draws nothing looks exactly like the one that draws a hairline. `tokens.mjs` reads the specs as **claims**: every
 `--token` the four specs or the design system page names either exists in the
-CSS or is declared retired in the script's own registry. `counts.mjs` does the
+CSS or is declared retired in the script's own registry -- **except where the
+design system page resolves a name rather than discussing one.** Its swatches
+and its token table carry the name in `data-token` and hand it to the browser,
+so a retired token there is a blank card in a grid of colors rather than a
+sentence about a color that was removed. Those 54 are held to a declaration
+and retirement does not excuse them, which is what stops a token the site has
+merged away from coming back as a swatch nobody notices is dead.
+`counts.mjs` does the
 same for numbers: each entry pairs a sentence as written with a function that
 recounts it from the tree, and the sentence has to still be findable, so a
 registered sentence that gets reworded is a red check until the registry is
@@ -405,7 +412,8 @@ rules, 25886 type sizes, 15205 elements checked for a partial border on a
 curve and 276 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out), plus 128 token names against 197 declarations, 6
-retired by name, and 10 counted claims.
+retired by name, 54 of them resolved by the design system page rather than
+described, and 10 counted claims.
 
 **There are five browser numbers now, not four.** `cards.mjs` went into
 `checks.yml` on 2026-09-21 and its raised-surface count joins the sentence
