@@ -456,3 +456,71 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
     gap: var(--space-lg);
   }
 }
+
+/* ---------- How I measured this ----------
+   One disclosure under each impact table, rather than a chevron on every
+   row: a reader checking the numbers opens one thing and reads every figure
+   the same way -- what was counted, against what, over how long, and what the
+   figure cannot say. The row is the site's disclosure row (.disclosure-row in
+   style.css, which these six pages do not load), so its geometry and mark are
+   repeated here rather than the whole of style.css pulled in for one pattern.
+   It sits inside the warm impact card, after the last row's own rule, so it
+   reads as the table's footnote rather than a new section. */
+.case-method { margin-top: var(--space-sm); }
+.case-method-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: 2.75rem;
+  padding: var(--space-xs) 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-method-row::-webkit-details-marker { display: none; }
+.case-method-row::marker { content: ''; }
+.case-method-row:hover { color: var(--color-accent-hover); }
+.case-method-row:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.case-method .disclosure-chev {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  transform: rotate(-90deg);
+  transition: transform var(--motion-state) var(--ease);
+}
+.case-method[open] .disclosure-chev { transform: rotate(0deg); }
+.case-method-body { padding: var(--space-xs) 0 var(--space-sm); }
+.case-method-body .case-method-intro {
+  margin: 0 0 var(--space-md);
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-method-list { margin: 0; display: grid; gap: var(--space-md); }
+.case-method-list > div { max-width: var(--measure); }
+.case-method-list dt {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.case-method-list dd {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-method-row, .case-method .disclosure-chev { transition: none; }
+}
