@@ -176,7 +176,7 @@ const html = String.raw`<!doctype html>
 <section>
   <h2>Selected projects</h2>
   <ul>
-    <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut by more than half.</li>
+    <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>Sprout, a design system for Cargill: tokens in the code, mirrored as Figma variables under a written sync contract, and packaged as a Claude Code skill.</li>
     <li>Cutting operational overhead 80% with a USDA grant-management portal (research, workflows, accessibility).</li>
     <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher who is short on attention rather than short on data.</li>
