@@ -308,7 +308,9 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 @media (min-width: 768px) { .logo-cell { padding: var(--space-xs) var(--space-md); } }
 .logo-cell img { max-height: 5rem; width: 100%; height: auto; object-fit: contain; opacity: 0.85; transition: opacity var(--motion-state) var(--ease); }
-.logo-cell:hover img { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .logo-cell:hover img { opacity: 1; }
+}
 
 /* ============================== CASE STUDIES ============================== */
 .case-studies {
@@ -519,7 +521,9 @@ a.case-thumb { display: block; }
   letter-spacing: var(--tracking-heading);
   font-weight: var(--weight-regular);
 }
-.case-card:hover h3 { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover h3 { color: var(--color-accent-text); }
+}
 /* The card's only affordances were its title and a hover tilt, so nothing
    said the picture was a link until the pointer reached it. One quiet line
    says so, with the arrow the engagement cards already carry; it rests in
@@ -544,11 +548,15 @@ a.case-thumb { display: block; }
    is the same four pixels -- the difference between the two steps -- on the
    compositor. */
 .case-go svg { width: 17px; height: 17px; transition: transform var(--motion-move) var(--ease); }
-.case-card:hover .case-go,
 .case-card:focus-visible .case-go { color: var(--color-charcoal); }
-.case-card:hover .case-go svg,
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover .case-go { color: var(--color-charcoal); }
+}
 .case-card:focus-visible .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
-@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } .case-card:hover .case-go svg { transform: none; } }
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+}
+@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } @media (hover: hover) and (pointer: fine) { .case-card:hover .case-go svg { transform: none; } } }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
@@ -1029,7 +1037,9 @@ a.case-thumb { display: block; }
   width: 44px; height: 44px;
   transform: translate(-50%, -50%);
 }
-.story-progress-num:hover { color: var(--story-accent); }
+@media (hover: hover) and (pointer: fine) {
+  .story-progress-num:hover { color: var(--story-accent); }
+}
 .story-progress-num:focus-visible {
   outline: 2px solid var(--story-accent);
   outline-offset: 2px;
@@ -1305,9 +1315,13 @@ a.case-thumb { display: block; }
    carries text has to clear the text floor against that text, not the 3:1
    floor a bare fill would. On accent-text the same warm reads 5.32:1. */
 .btn-primary { background: var(--color-accent-text); }
-.btn-primary:hover { background: color-mix(in srgb, var(--color-accent-text) 90%, transparent); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover { background: color-mix(in srgb, var(--color-accent-text) 90%, transparent); }
+}
 .btn-ghost { border: 1px solid var(--color-muted-gray); }
-.btn-ghost:hover { background: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-ghost:hover { background: var(--color-charcoal); }
+}
 
 .lucy {
   display: flex; align-items: center; gap: var(--space-md);
@@ -1386,7 +1400,9 @@ a:focus-visible, button:focus-visible {
 }
 .disclosure-row::-webkit-details-marker { display: none; }
 .disclosure-row::marker { content: ''; }
-.disclosure-row:hover { color: var(--color-accent-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .disclosure-row:hover { color: var(--color-accent-hover); }
+}
 /* The mark turns to point down when it is open, which is the one thing the
    state has to say that the label does not, and the reduced-motion blanket
    at the foot of this file stops it. It carries its own 1em box rather than
@@ -1531,10 +1547,12 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
   color: var(--color-charcoal);
   border: 1px solid var(--color-muted-gray);
 }
-.btn-ghost-light:hover {
-  background: var(--color-charcoal);
-  color: var(--ink-on-dark);
-  border-color: var(--color-charcoal);
+@media (hover: hover) and (pointer: fine) {
+  .btn-ghost-light:hover {
+    background: var(--color-charcoal);
+    color: var(--ink-on-dark);
+    border-color: var(--color-charcoal);
+  }
 }
 
 /* ---------- When people bring me in ----------
@@ -1602,20 +1620,28 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    the picture slipping out of the device -- so the whole phone lifts
    instead, and the shadow it already carries does the rest. */
 a.product-shot { display: block; color: inherit; text-decoration: none; }
-a.product-shot:hover img,
 a.product-shot:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  a.product-shot:hover img { transform: scale(var(--motion-lift)); }
+}
 
 a.mini-phone {
   display: block; color: inherit; text-decoration: none;
   transition: transform var(--motion-enter) var(--ease);
 }
-a.mini-phone:hover,
 a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  a.mini-phone:hover { transform: scale(var(--motion-lift)); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .product-shot img, a.mini-phone { transition: none; }
-  a.product-shot:hover img, a.product-shot:focus-visible img,
-  a.mini-phone:hover, a.mini-phone:focus-visible { transform: none; }
+  a.product-shot:focus-visible img,
+  a.mini-phone:focus-visible { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    a.product-shot:hover img,
+    a.mini-phone:hover { transform: none; }
+  }
 }
 
 .product-body { min-width: 0; }
@@ -1685,14 +1711,20 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   width: 100%; height: 100%; object-fit: cover;
   transition: transform var(--motion-enter) var(--ease);
 }
-.shelf-item:hover .shelf-thumb img { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  .shelf-item:hover .shelf-thumb img { transform: scale(var(--motion-lift)); }
+}
 /* The Connect card shows a client system that is not ours to link to,
    so it carries the shelf styling without being a destination. */
 .shelf-item.is-static { cursor: default; }
-.shelf-item.is-static:hover .shelf-thumb img { transform: none; }
+@media (hover: hover) and (pointer: fine) {
+  .shelf-item.is-static:hover .shelf-thumb img { transform: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .shelf-thumb img { transition: none; }
-  .shelf-item:hover .shelf-thumb img { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .shelf-item:hover .shelf-thumb img { transform: none; }
+  }
 }
 /* THE PREFIXES ARE SPECIFICITY, NOT NESTING, and without them none of this
    block renders. The shelf came to other.html in #134 and landed inside
@@ -2444,11 +2476,16 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   display: block; width: 100%; height: auto;
   transition: transform var(--motion-enter) var(--ease);
 }
-.eng3-proof-link:hover img,
 .eng3-proof-link:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-proof-link:hover img { transform: scale(var(--motion-lift)); }
+}
 @media (prefers-reduced-motion: reduce) {
   .eng3-proof-shot img { transition: none; }
-  .eng3-proof-link:hover img, .eng3-proof-link:focus-visible img { transform: none; }
+  .eng3-proof-link:focus-visible img { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .eng3-proof-link:hover img { transform: none; }
+  }
 }
 .eng3-proof-shot.is-single { max-width: none; }
 /* .case-section p sets prose at --text-lg, and beats a bare class on
@@ -2486,7 +2523,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   border-bottom: 2px solid var(--color-accent-text); padding-bottom: 1px;
   transition: color var(--motion-state) var(--ease);
 }
-.eng3-proof-cta:hover { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-proof-cta:hover { color: var(--color-accent-text); }
+}
 /* The text link is a 26px line box, under the 44px touch floor .icon-link
    clears with padding. Padding here would carry the border-bottom down with
    it, so the hit zone is a pseudo-element instead: the same trick a small
@@ -2537,7 +2576,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   border-bottom: 2px solid var(--color-accent-text); padding-bottom: 1px;
   transition: color var(--motion-state) var(--ease);
 }
-.eng3-fit-grid a:hover { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-fit-grid a:hover { color: var(--color-accent-text); }
+}
 
 /* "How I work" beside the closing ask, on the one charcoal band. The ask
    takes a washed panel with a full rounded keyline -- all four sides, so it
@@ -2554,7 +2595,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .eng3-one .eng3-split-cta h2 { font-size: var(--text-3xl); margin-bottom: var(--space-md); }
 .eng3-one-compact .eng3-split-cta p { color: var(--ink-on-dark-secondary); margin-bottom: var(--space-xl); }
 .eng3-split-cta .btn-primary { background: var(--color-warm); color: var(--color-charcoal); }
-.eng3-split-cta .btn-primary:hover { background: var(--color-tea-light); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-split-cta .btn-primary:hover { background: var(--color-tea-light); }
+}
 /* On a 390px phone the panel's --space-2xl inset left 276px for a 292px
    button, and "Describe what is happening" broke onto two lines. The inset
    steps down to --space-xl and the button takes the panel's width with the
@@ -2580,9 +2623,13 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   font-weight: 600; border-bottom: 1px solid var(--color-accent-text);
   transition: color var(--motion-state) var(--ease);
 }
-.eng3-cta-alt a:hover { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-cta-alt a:hover { color: var(--color-accent-text); }
+}
 .eng3-split-cta .eng3-cta-alt a { border-bottom-color: var(--color-accent-on-dark); }
-.eng3-split-cta .eng3-cta-alt a:hover { color: var(--ink-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-split-cta .eng3-cta-alt a:hover { color: var(--ink-on-dark); }
+}
 /* The closing link, the case studies' own pattern brought over: an eyebrow,
    the next engagement's name in the serif, and its one-line situation. */
 .eng3-closing { background: var(--color-white); padding: var(--space-4xl) 0 var(--space-section); }
@@ -2600,7 +2647,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   transition: color var(--motion-state) var(--ease);
 }
 @media (min-width: 768px) { .eng3-closing-next-title { font-size: var(--text-4xl); } }
-.eng3-closing-next:hover .eng3-closing-next-title { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .eng3-closing-next:hover .eng3-closing-next-title { color: var(--color-accent-text); }
+}
 .eng3-closing-next-dek { display: block; margin-top: var(--space-xs); font-size: var(--text-base); color: var(--color-muted-gray); }
 
 /* ---------- Contact ---------- */
@@ -2624,7 +2673,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   height: 44px;
   transform: translateY(-50%);
 }
-.contact-plain a:hover { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .contact-plain a:hover { color: var(--color-charcoal); }
+}
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--color-charcoal); color: var(--ink-on-dark); --color-focus-ring: var(--color-accent-on-dark); padding: var(--space-3xl) 0; }
@@ -2667,7 +2718,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   height: 44px;
   transform: translateY(-50%);
 }
-.footer-links a:hover { opacity: 1; border-bottom-color: var(--color-accent-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .footer-links a:hover { opacity: 1; border-bottom-color: var(--color-accent-on-dark); }
+}
 .footer-note { font-size: var(--text-xs); color: var(--ink-on-dark); opacity: 0.6; }
 
 /* A single prompt at the end of the proof, where the reader has just finished
@@ -2703,7 +2756,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   height: 44px;
   transform: translateY(-50%);
 }
-.work-cta a:hover { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .work-cta a:hover { color: var(--color-accent-text); }
+}
 
 /* About: the career arc gets three scannable beats. Labels ride inside the
    paragraphs so the prose still reads as prose, but a skimmer gets
@@ -2927,9 +2982,11 @@ figure.hero-photo-frame { margin: 0; }
   transform: translate(-50%, -50%);
 }
 .hero-portrait-toggle svg { width: 14px; height: 14px; }
-.hero-photo-frame:hover .hero-portrait-toggle,
-.hero-portrait-toggle:hover,
 .hero-portrait-toggle:focus-visible { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .hero-photo-frame:hover .hero-portrait-toggle,
+  .hero-portrait-toggle:hover { opacity: 1; }
+}
 /* Touch has no hover to reveal it, so it never hides there. */
 @media (hover: none) {
   .hero-portrait-toggle { opacity: 1; }
@@ -2942,7 +2999,9 @@ figure.hero-photo-frame { margin: 0; }
    the page has actually rendered at every width. The link color is the part
    that was still live. */
 .hero-invite a { color: var(--color-accent-text); text-decoration: none; transition: color var(--motion-state) var(--ease); }
-.hero-invite a:hover { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-invite a:hover { color: var(--color-charcoal); }
+}
 
 /* ---------- When people bring me in: situation + engagement cards ----------
    Each card opens with the situation (number, draw-in icon, sans eyebrow)
@@ -2963,11 +3022,17 @@ figure.hero-photo-frame { margin: 0; }
   padding: var(--space-xl) var(--space-xl) var(--space-xl);
   transition: background var(--motion-move) var(--ease),  border-color var(--motion-move) var(--ease),  transform var(--motion-move) var(--ease);
 }
-.engagement-card:hover,
 .engagement-card:focus-visible {
   background: var(--wash-on-dark-hover);
   border-color: var(--color-accent-on-dark);
   transform: translateY(-3px);
+}
+@media (hover: hover) and (pointer: fine) {
+  .engagement-card:hover {
+    background: var(--wash-on-dark-hover);
+    border-color: var(--color-accent-on-dark);
+    transform: translateY(-3px);
+  }
 }
 /* The card opens on its number alone. A small line icon used to sit
    opposite it, from back when the card had no picture; with an
@@ -3121,14 +3186,23 @@ figure.hero-photo-frame { margin: 0; }
 /* Same arrangement as .case-go: the arrow translates by the difference
    between the two gap steps rather than the gap itself animating. */
 .engagement-go svg { width: 17px; height: 17px; flex-shrink: 0; transition: transform var(--motion-move) var(--ease); }
-.engagement-card:hover .engagement-go,
 .engagement-card:focus-visible .engagement-go { opacity: 1; }
-.engagement-card:hover .engagement-go svg,
+@media (hover: hover) and (pointer: fine) {
+  .engagement-card:hover .engagement-go { opacity: 1; }
+}
 .engagement-card:focus-visible .engagement-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+@media (hover: hover) and (pointer: fine) {
+  .engagement-card:hover .engagement-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+}
 @media (prefers-reduced-motion: reduce) {
   .engagement-card, .engagement-go, .engagement-go svg { transition: none; }
-  .engagement-card:hover .engagement-go svg { transform: none; }
-  .engagement-card:hover, .engagement-card:focus-visible { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .engagement-card:hover .engagement-go svg { transform: none; }
+  }
+  .engagement-card:focus-visible { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .engagement-card:hover { transform: none; }
+  }
 }
 
 
@@ -3163,8 +3237,10 @@ figure.hero-photo-frame { margin: 0; }
    see; a hover-only affordance would never appear on a phone, which is
    where the crop hides the most. */
 a.about-media img { transition: transform var(--motion-enter) var(--ease); }
-a.about-media:hover img,
 a.about-media:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  a.about-media:hover img { transform: scale(var(--motion-lift)); }
+}
 a.about-media:focus-visible {
   outline: 2px solid var(--color-accent-on-dark);
   outline-offset: 3px;
@@ -3184,10 +3260,15 @@ a.about-media:focus-visible {
   opacity: 0.85;
   transition: opacity var(--motion-state) var(--ease),  background-color var(--motion-state) var(--ease);
 }
-a.about-media:hover .about-media-zoom,
 a.about-media:focus-visible .about-media-zoom {
   opacity: 1;
   background: color-mix(in srgb, var(--color-scrim) 80.0%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  a.about-media:hover .about-media-zoom {
+    opacity: 1;
+    background: color-mix(in srgb, var(--color-scrim) 80.0%, transparent);
+  }
 }
 .about-media .about-media-zoom svg { width: 14px; height: 14px; }
 
@@ -3303,7 +3384,9 @@ a.about-media:focus-visible .about-media-zoom {
    raising resting to fix the contrast would have silently flattened the hover
    into no change at all. It steps up to the scale's next value instead, so
    the state is still visible: 0.40 resting, 0.55 hovered. */
-.ah-lightbox-close:hover { background: var(--wash-on-dark-hover); border-color: var(--ink-on-dark-muted); }
+@media (hover: hover) and (pointer: fine) {
+  .ah-lightbox-close:hover { background: var(--wash-on-dark-hover); border-color: var(--ink-on-dark-muted); }
+}
 .ah-lightbox-close:focus-visible { outline: 2px solid var(--color-accent-on-dark); outline-offset: 3px; }
 .ah-lightbox-close svg { width: 18px; height: 18px; }
 /* Scroll is locked while the overlay is up. The script pads the body by the
@@ -3317,8 +3400,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   .ah-lightbox-figure,
   .ah-lightbox.is-open .ah-lightbox-figure { transform: none; transition: none; }
   a.about-media img,
-  a.about-media:hover img,
   a.about-media:focus-visible img { transform: none; transition: none; }
+  @media (hover: hover) and (pointer: fine) {
+    a.about-media:hover img { transform: none; transition: none; }
+  }
 }
 /* The widest body text on the site before the measure existed: this column
    had no cap at all, so it inherited the 1280px container and ran to 104
@@ -3340,8 +3425,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
-.about-beat-text a:hover,
 .about-beat-text a:focus-visible { color: var(--ink-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .about-beat-text a:hover { color: var(--ink-on-dark); }
+}
 /* The same cap its sibling above carries, and for the same reason the note on
    .about-beat-text p gives: with no max-width this paragraph inherited the
    1280px container and ran past a hundred characters a line, while the three
@@ -3729,8 +3816,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0 0 var(--space-sm);
   transition: color var(--motion-state, 0.25s) var(--ease);
 }
-.writing-link:hover .writing-title,
 .writing-link:focus-visible .writing-title { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .writing-link:hover .writing-title { color: var(--color-accent-text); }
+}
 .case-section .writing-dek {
   /* Under .case-section for the same reason as .writing-meta: the prose
      rule promoted this from a dek to body copy, 18px in charcoal, and
@@ -3826,7 +3915,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   height: 44px;
   transform: translateY(-50%);
 }
-.product-link:hover { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .product-link:hover { color: var(--color-accent-text); }
+}
 /* em, not a token: this marker sits inside links of several sizes and is
    meant to track whatever it is set in. The only relative size on the site. */
 .product-link-ext { font-size: 0.875em; }
@@ -4260,8 +4351,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   left: 0; right: 0; top: 50%;
   height: 44px; transform: translateY(-50%);
 }
-.glance-more:hover,
 .glance-more:focus-visible { text-decoration-color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .glance-more:hover { text-decoration-color: var(--color-accent-text); }
+}
 @media (min-width: 820px) {
   .glance-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--space-3xl); }
   .glance-node { margin-bottom: var(--space-md); }
@@ -4487,7 +4580,9 @@ html.ah-lightbox-open body { overflow: hidden; }
 
 /* Secondary action beside "View live product": same shape, less weight. */
 .product-link-quiet { font-weight: 500; border-bottom-color: var(--color-tag-border); }
-.product-link-quiet:hover { border-bottom-color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .product-link-quiet:hover { border-bottom-color: var(--color-accent-text); }
+}
 /* The one place this link does not sit on white. --color-tag-border is #e5e5e0
    and it has no ground left under it here: 1.01:1 on the alternate ground this
    card used to wear, 1.06:1 on the tea-light it wears now. Either way the
@@ -4756,8 +4851,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
-.miss-list a:hover,
 .miss-list a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .miss-list a:hover { color: var(--color-charcoal); }
+}
 /* The miss page is the only page that puts a bare h1 straight above a
    paragraph, and with the reset's margin: 0 the two touched -- a 68px serif
    title with its descenders in the first line of the sentence under it. The
@@ -4896,8 +4993,10 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 /* Large text, so the 3:1 floor applies and the deeper sage is legible here
    in a way it is not on the eyebrow four lines up. */
-.build-next:hover .build-next-title,
 .build-next:focus-visible .build-next-title { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .build-next:hover .build-next-title { color: var(--color-accent-text); }
+}
 
 /* The engagement this build is evidence for. Small type, so charcoal on
    hover rather than deep -- see .case-closing-service, which is this line's
@@ -4914,8 +5013,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
-.build-service a:hover,
 .build-service a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .build-service a:hover { color: var(--color-charcoal); }
+}
 
 /* ---------- The ask, at the foot of every case study ----------
    A reader who lands on a case study from a search or a shared link has just
@@ -4967,8 +5068,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   left: 0; right: 0; top: 50%;
   height: 44px; transform: translateY(-50%);
 }
-.case-ask-link:hover,
 .case-ask-link:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .case-ask-link:hover { color: var(--color-charcoal); }
+}
 
 /* ---------- The product itself, back on the build write-ups ----------
    #30 (2026-09-08) cut the "Open ..." link from the two write-ups on the
@@ -5079,11 +5182,15 @@ html.ah-lightbox-open body { overflow: hidden; }
   display: block; width: 100%; height: auto;
   transition: transform var(--motion-enter) var(--ease);
 }
-.other-feature-shot:hover img,
 .other-feature-shot:focus-visible img { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  .other-feature-shot:hover img { transform: scale(var(--motion-lift)); }
+}
 @media (prefers-reduced-motion: reduce) {
   .other-feature-shot img { transition: none; }
-  .other-feature-shot:hover img { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .other-feature-shot:hover img { transform: none; }
+  }
 }
 /* The one paragraph in the block, at the size and the measure .section-head p
    gives the shelf's intro below it, so the page's two section intros are one
@@ -5201,8 +5308,10 @@ html.ah-lightbox-open body { overflow: hidden; }
   text-decoration: none;
   transition: color var(--motion-state) var(--ease);
 }
-.writing-keys a:hover,
 .writing-keys a:focus-visible { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .writing-keys a:hover { color: var(--color-accent-text); }
+}
 
 /* The eyebrow: "Key idea 2 of 6" above each section head, so a reader who
    jumped in from the list knows where they are, and a scanner reads the
