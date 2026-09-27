@@ -148,14 +148,27 @@ const SHOTS = [
     width: 1320,
     /* The card alone. The recommendation under it is slide 4's picture. */
     clip: ['.ck-rule'],
-    /* Cut into both neighbours, and for the same reason close-call cut into
-       one: 24 of pad against a 24 gap above (.ck-load) and a 20 gap below
-       (.ck-lead). The top carried .ck-load's border and the blur under it;
-       the bottom carried 4px of .ck-lead's own top edge, which reads as a
-       second card starting rather than as ground. Both land in the flat
-       ground now. */
-    padTop: 12,
-    padBottom: 10,
+    /* FLUSH ON ALL FOUR SIDES, FOR THE REASON THE HERO IS FLUSH ON THREE.
+       Until 2026-09-27 this shot kept 24 of ground each side and 12 and 10
+       above and below, and the page prints it through .ckw-frames img, which
+       draws a 12px radius and --shadow-media around the file. So the
+       reader saw the keyline, then a band of cream, then the caution edge:
+       a card floating in a tray, which is exactly what the hero's comment
+       says a second frame looks like. The card is the whole picture here --
+       nothing continues past it on any side, unlike the hero's bottom -- so
+       every side runs to its border box and the figure's shape is the card's.
+
+       The 2px caution edge STAYS, where the hero dropped its 1px one. The
+       hero's border was a card edge and the keyline replaced it; this one is
+       the rule's own colour, the argument of the card, and a capture without
+       it would be a picture of a note. The card's own curve is brought to the
+       12px the figure clips at, rather than to 0 as the hero's was: an edge
+       drawn square and clipped round would lose its ink in every corner. */
+    padTop: 0,
+    padBottom: 0,
+    padLeft: 0,
+    padRight: 0,
+    css: '.ck-rule { border-radius: 12px !important; }',
     note: '02, first frame: a rule, before any score',
   },
   {
