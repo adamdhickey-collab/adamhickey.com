@@ -1355,9 +1355,9 @@ a:focus-visible, button:focus-visible {
    three sheets keep only what actually differs between them.
 
    THE ROW, NOT THE WORDS. What is shared is the geometry and the mark: a
-   full-width row with the label at one end and the chevron at the other, at
-   least 44px of it clickable, the mark turning from pointing at the content
-   to pointing into it. What is NOT shared is the type. `.ds-usage` labels a
+   full-width row with the chevron leading the label, at least 44px of it
+   clickable, the mark turning from pointing at the content to pointing into
+   it. What is NOT shared is the type. `.ds-usage` labels a
    code sample "MARKUP" in the design system's uppercase micro-label, beside
    a nav and section heads that all do the same; the cockpit's label a
    paragraph of argument in sentence case. A pattern that forced one of those
@@ -1368,13 +1368,26 @@ a:focus-visible, button:focus-visible {
    `list-style: none` and the two marker rules are how the browser's own
    triangle goes away. Safari needs both, and needs them on any summary whose
    display is not `list-item`. */
+/* THE MARK LEADS, AND SITS ON THE FIRST LINE. Until 2026-09-27 the chevron
+   was pushed to the far edge by `justify-content: space-between`, which on
+   a full-width row put it a screen away from the words it belonged to, and
+   `align-items: center` centred it on the whole block when the label
+   wrapped. It is now the first thing in the row, one --space-xs off its
+   label, and the row is top-aligned so that a label that wraps keeps the
+   mark on line one -- the arrangement SPACING.md's "A mark on a line of
+   text" describes, which this row used to be the listed exception to.
+
+   The 44px target is kept by padding derived from the line rather than by a
+   min-height: half of what is left of 2.75rem once one line box is taken
+   out, above and below. On one line that is the same 44px row it was; on
+   two the row grows by a line and the padding does not move. A min-height
+   with top alignment would have left a one-line label sitting at the top of
+   a 44px box instead of in the middle of it. */
 .disclosure-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-height: 2.75rem;
-  padding: var(--space-xs) 0;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: calc((2.75rem - 1lh) / 2) 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -1387,16 +1400,22 @@ a:focus-visible, button:focus-visible {
 .disclosure-row::-webkit-details-marker { display: none; }
 .disclosure-row::marker { content: ''; }
 .disclosure-row:hover { color: var(--color-accent-hover); }
-/* The mark turns to point down when it is open, which is the one thing the
-   state has to say that the label does not, and the reduced-motion blanket
-   at the foot of this file stops it. It carries its own 1em box rather than
-   borrowing the cockpit's `.ck-icon`, because that class is declared in a
-   stylesheet the design system page never loads -- which is the whole
-   reason this section exists. */
+/* The mark points at the content when closed and down into it when open --
+   the disclosure convention every platform's guidelines share, and the one
+   thing the state has to say that the label does not. The path is drawn
+   pointing down and turned a quarter back for the closed state, so opening
+   is the turn forward; the reduced-motion blanket at the foot of this file
+   stops the turn. It carries its own box rather than borrowing the
+   cockpit's `.ck-icon`, because that class is declared in a stylesheet the
+   design system page never loads -- which is the whole reason this section
+   exists. The box is 1em wide and one LINE tall, the first spelling in
+   SPACING.md: the viewBox centres itself in the line box, so the glyph sits
+   on the label's first line in whatever leading and size the caller sets,
+   with no second number to keep in step. */
 .disclosure-chev {
   flex-shrink: 0;
   width: 1em;
-  height: 1em;
+  height: 1lh;
   transform: rotate(-90deg);
   transition: transform var(--motion-state) var(--ease);
 }
