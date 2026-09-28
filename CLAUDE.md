@@ -410,15 +410,31 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-22 the tree measures 6414 resting colors, 1878 state
-rules, 26086 type sizes, 15312 elements checked for a partial border on a
-curve and 275 raised surfaces, across 29 pages (the twenty-eight of the site
+unmeasured. At 2026-09-28 the tree measures 8550 resting colors, 1986 state
+rules, 34868 type sizes, 20706 elements checked for a partial border on a
+curve and 374 raised surfaces, across 30 pages (the twenty-nine of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
-`seo.mjs` leave out; **30 pages since the deploy console landed on
-2026-09-28**, and the five figures are still the 29-page set until the
-post-merge sweep of that merge is read back), plus 128 token names against 197 declarations, 6
+`seo.mjs` leave out), plus 128 token names against 198 declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 10 counted claims.
+
+**That set was taken by the post-merge sweep of #300 at `c648b3e`**, the
+merge that added `prototype/deploy-console.html`, and it replaces the
+2026-09-22 set of 6414 / 1878 / 26086 / 15312 / 275 at 4e5fb53, which is
+the top row of the first ladder below. The page count moved, 29 to 30, and
+that is the number to read first. The console's own share, measured scoped
+on its branch (the rest plus 7 reachable states, so 8 fresh loads), is
+resting 2070, state rules 96, type sizes 8514, curve elements 5186 and
+raised surfaces 99, and the raised figure divides exactly: 275 + 99 is the
+374. The other four leave a residual -- resting +66, state rules +12, type
+sizes +268, curve elements +208 -- which is the drift of #287 through #299,
+thirteen commits nobody measured one at a time: the cockpit's hero dek
+became four checked lines across #297, #298 and #299, the hover rules
+moved under a pointer query in #294, and the rest retook captures or
+reworded. The 198th declaration is the console's `--dc-num`. The stretch
+is a residual and not a ladder because its sweeps were read for their
+verdicts and not their counts; the paragraph on residuals below says what
+that costs.
 
 **There are five browser numbers now, not four.** `cards.mjs` went into
 `checks.yml` on 2026-09-21 and its raised-surface count joins the sentence
