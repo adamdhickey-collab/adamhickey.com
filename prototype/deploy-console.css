@@ -153,6 +153,40 @@
   color: var(--color-muted-gray);
 }
 
+/* The four things the prototype does, under the dek, each led by the
+   check in sage: accent-text is 4.12:1 on the warm hero, over the 3:1 an
+   icon answers to. A step under the dek, at --text-base and semibold, so
+   four lines read as the four things and not as three more sentences of
+   the dek. Each row is a flex box aligned to the top with the glyph 1em
+   wide and 1lh tall, so the check is centred on the first line by
+   construction and stays there when the sentence wraps. The list carries
+   no bottom margin; .dcw-hero-act carries the gap to the actions. The
+   cockpit's rule, under this page's prefix. */
+.case-hero .dcw-hero-list {
+  list-style: none;
+  max-width: var(--measure);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.case-hero .dcw-hero-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dcw-hero-check {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1lh;
+  color: var(--color-accent-text);
+}
+
 /* ---------- What to try, and what this is ---------- */
 .dcw-try-grid {
   display: grid;
@@ -324,9 +358,20 @@
 .dcw-shot img,
 .dcw-frames img { max-width: var(--shot-w, 100%); }
 /* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, which is half the file:
-   the captures are taken at two device pixels to one. Per capture. */
+   the captures are taken at two device pixels to one. Per capture, and the
+   ceiling is the border box: the file's half width plus the edge below. */
 .dcw-frame--fail { --shot-w: 682px; }
 .dcw-frame--read { --shot-w: 682px; }
+/* THE EDGE IS THE PAGE'S, NOT THE FILE'S. console-shots.mjs clips these two
+   to the card's padding box with no border, and the figure draws the edge
+   the card draws on the live screen: the 2px caution ink for the refusal,
+   the 1px muted-gray for the reading, each on the figure's 12px curve. One
+   line rather than the file's edge inside the figure's. --shadow-media
+   comes off, because its keyline is a second edge outside this one. */
+/* Two classes deep, because .dcw-frames img is declared later at the same
+   specificity and would put the keyline back. */
+.dcw-frames .dcw-frame--fail img { border: 2px solid var(--color-caution-text); box-shadow: none; }
+.dcw-frames .dcw-frame--read img { border: 1px solid var(--color-muted-gray); box-shadow: none; }
 .case-section .dcw-frame-cap {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -814,7 +859,11 @@ html[data-embed] .dc { border-radius: 0; }
 }
 .dc-pair > div { min-width: 0; }
 
-.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl); }
+/* The bottom inset is the side inset. A card that ends on a button had 24
+   under it against 32 beside it, and the button read as sitting low in
+   its box; the top keeps 24 because a card head at the label size wants
+   less above it than a pill wants below. */
+.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl) var(--space-xl); }
 .dc .dc-card-head {
   display: inline-flex;
   align-items: center;
@@ -1004,6 +1053,10 @@ html[data-embed] .dc { border-radius: 0; }
   color: var(--color-charcoal);
 }
 .dc .dc-aside-p strong { font-weight: var(--weight-semibold); }
+.dc .dc-aside-h2 { margin-top: var(--space-lg); }
+/* The newest-deploy tag's copy under the service name: the phone's, and
+   nowhere else. */
+.dc .dc-tag--phone { display: none; }
 .dc .dc-aside-fine {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -1062,12 +1115,12 @@ html[data-embed] .dc { border-radius: 0; }
    mono, the failing one marked in the caution ink, wrapping rather than
    scrolling because a log a phone cannot read is a log that was not shown. */
 .dc-log-fold { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
+/* On the card's own ground, not in a box of its own: a white bordered box
+   inside a bordered card was a card inside a card, and the log is a list,
+   not a surface. The numbering and the mono are what say "log". */
 .dc-log {
   margin: 0 0 var(--space-sm);
-  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-2xl);
-  border: 1px solid var(--rule-card);
-  border-radius: 8px;
-  background: var(--color-white);
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-xl);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: var(--leading-body);
@@ -1118,6 +1171,20 @@ html[data-embed] .dc { border-radius: 0; }
   .dc .dc-btn-quiet:hover { background: var(--wash-on-light-hover); }
   .dc .dc-btn:hover { transform: scale(var(--motion-lift)); }
 }
+/* IN FLIGHT. Not disabled in the DOM, so it stays in the tab order and can
+   be read; aria-disabled says what it is and the words say why. Muted-gray
+   on white is 6.47 as text and as the border, and the control neither
+   lifts nor flinches, for the reason the cockpit's refused button does not:
+   a button that gives under the finger is promising it did something. */
+.dc .dc-btn[aria-disabled="true"] {
+  color: var(--color-muted-gray);
+  border-color: var(--color-muted-gray);
+  cursor: progress;
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-btn[aria-disabled="true"]:hover { background: none; transform: none; }
+}
+.dc .dc-btn[aria-disabled="true"]:active { transform: none; }
 .dc table .dc-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
 @media (hover: hover) and (pointer: fine) {
   .dc table .dc-btn:not(.dc-btn-primary):hover { background: var(--wash-on-light-hover); }
@@ -1405,7 +1472,6 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-regular);
   color: var(--color-muted-gray);
 }
-.dc-table .dc-cell-live .dc-cell-note,
 .dc-table .dc-cell-newest .dc-cell-note { max-width: 10rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Health, as a word with a glyph, and the figure under it. Failing takes the
@@ -1419,11 +1485,17 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-semibold);
   white-space: nowrap;
 }
-.dc-table .dc-cell-health[data-health="ok"] .dc-health-word,
-.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-accent-text); }
+.dc-table .dc-cell-health[data-health="ok"] .dc-health-word { color: var(--color-accent-text); }
+/* Recovering sits on the rolled rows' muted-light, where the sage measures
+   4.6:1 against a 4.5 floor: the word takes charcoal there, 12.10, and the
+   undo glyph keeps the sage, which as a mark answers to 3:1. */
+.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-charcoal); }
+.dc-table .dc-cell-health[data-health="recovering"] .dc-icon { color: var(--color-accent-text); }
 .dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--color-caution-text); }
 .dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
 .dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+/* Redeploying: charcoal word, the state is neither fine nor not fine yet. */
+.dc-table .dc-cell-health[data-health="building"] .dc-health-word { color: var(--color-charcoal); }
 
 /* ---------- A row that opens in place ---------- */
 .dc-table .dc-cell-svc { padding: 0; }
@@ -1571,7 +1643,10 @@ html[data-embed] .dc { border-radius: 0; }
   .dc-table th:nth-child(2), .dc-table td:nth-child(2),
   .dc-table th:nth-child(3), .dc-table td:nth-child(3),
   .dc-table th:nth-child(4), .dc-table td:nth-child(4),
-  .dc-table th:nth-child(7), .dc-table td:nth-child(7) { display: none; }
+  .dc-table th:nth-child(6), .dc-table td:nth-child(6) { display: none; }
+  /* Three columns: the service with its state tag under it, its health and
+     the button. The newest deploy's hash and age are one press down. */
+  .dc .dc-tag--phone { display: inline-flex; margin: var(--space-2xs) 0 0 var(--space-2xs); }
   .dc-table th, .dc-table td { padding-inline: 2px; }
   .dc-table tbody th:first-child, .dc-table tbody td:first-child { padding-left: var(--space-2xs); }
   .dc-table tbody th:last-child, .dc-table tbody td:last-child { padding-right: var(--space-2xs); }
@@ -1581,25 +1656,21 @@ html[data-embed] .dc { border-radius: 0; }
   .dc .dc-th { align-items: flex-start; padding-inline: var(--space-2xs); }
   .dc .dc-th-unit { display: none; }
   .dc .dc-tag { font-size: var(--text-2xs); padding: 0 var(--space-2xs); margin-left: 0; }
-  /* THE PHONE READS THE STATE, NOT THE HASH. The newest cell keeps its tag
-     -- failed, rolled back, live -- and gives up the hash and the age, and
-     the health cell keeps its word and gives up its figure; both are one
-     press down in the row. Four columns of service, state, health and the
-     button fit 277px once the furniture stops asking for 470. */
-  .dc-table .dc-cell-newest .dc-sha,
-  .dc-table .dc-cell-newest .dc-cell-note,
+  /* THE PHONE READS THE STATE, NOT THE HASH. The health cell keeps its
+     word and gives up its figure, which is one press down in the row. */
   .dc-table .dc-cell-health .dc-cell-note { display: none; }
   .dc .dc-health-word { font-size: var(--text-xs); white-space: normal; }
   /* The word alone: the glyph beside it is 16px of a 277px table, and the
      word is the channel that matters. */
   .dc .dc-health-word .dc-icon { display: none; }
   .dc .dc-tag { white-space: normal; text-align: left; }
-  /* "Roll back" and "never deployed" are each allowed two lines here, which
-     is what lets the column be the width of a word rather than of a phrase. */
-  .dc-table .dc-btn { padding-inline: var(--space-xs); white-space: normal; text-align: left; }
-  .dc-table .dc-cell-act { white-space: normal; }
-  /* The id wraps at its hyphen rather than setting the column's width. */
-  .dc .dc-row-more { gap: 2px; padding-left: var(--space-2xs); white-space: normal; font-size: var(--text-xs); overflow-wrap: anywhere; }
+  /* "never deployed" is allowed two lines; the button keeps its one. */
+  .dc-table .dc-btn { padding-inline: var(--space-xs); }
+  /* The id breaks at its hyphen and nowhere else, and the chevron wraps
+     under it when the name takes the line: a name split mid-word is a name
+     the reader has to reassemble. */
+  .dc .dc-row-more { gap: 2px; padding-left: var(--space-2xs); white-space: normal; font-size: var(--text-xs); flex-wrap: wrap; }
+  .dc-table .dc-cell-svc { white-space: normal; }
   .dc .dc-row-chev { width: 0.75rem; height: 0.75rem; }
   .dc .dc-detail { padding-inline: var(--space-sm); }
   .dc-history-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
@@ -1615,7 +1686,7 @@ html[data-embed] .dc { border-radius: 0; }
   .dc-project-facts { grid-template-columns: minmax(0, 1fr); }
   .dc-figures { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
   .dc-change { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .dc-log { padding-left: var(--space-xl); }
+  .dc-log { padding-left: var(--space-lg); }
   .dcw-decision-copy { padding-left: calc(var(--dc-num) + var(--space-xs)); }
   .dcw-compare-side, .dcw-questions > li, .dcw-callout { padding: var(--space-md); }
   .case-section .dcw-question { padding: var(--space-md) var(--space-lg); }
@@ -1648,7 +1719,7 @@ html[data-embed] .dc { border-radius: 0; }
    the service's name on the way in, and the inverse on undo, on the site's
    one stagger divided by the thing that makes a row of cells different from
    a column of cards. */
-.dc-table { --cols: 8; }
+.dc-table { --cols: 7; }
 .dc-table tbody tr[data-ground] > th,
 .dc-table tbody tr[data-ground] > td {
   --sweep: calc(var(--motion-stagger) / 3);
@@ -1675,7 +1746,6 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-table tbody tr[data-ground] > :nth-child(5) { --n: 4; }
 .dc-table tbody tr[data-ground] > :nth-child(6) { --n: 5; }
 .dc-table tbody tr[data-ground] > :nth-child(7) { --n: 6; }
-.dc-table tbody tr[data-ground] > :nth-child(8) { --n: 7; }
 
 @keyframes dc-tag-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
 .dc-table tbody tr[data-ground="fill"] .dc-tag-rolled {
@@ -1729,4 +1799,9 @@ html[data-embed] .dc { border-radius: 0; }
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
   animation-fill-mode: backwards;
 }
-.dc-row-detail .dc-detail[data-opened] { animation: dc-card-in var(--motion-enter) var(--ease-enter); }
+/* THE DRAWER. While its height is being animated by the script the panel
+   clips, so the contents are revealed by the edge rather than sitting
+   outside a box that has not reached them yet; and the contents fade in
+   over the same span, with no rise, because the box is the thing moving. */
+.dc-row-detail .dc-detail[data-drawer] { overflow: hidden; box-sizing: border-box; }
+.dc-row-detail .dc-detail[data-drawer="open"] > * { animation: dc-plan-in var(--motion-move) var(--ease); }

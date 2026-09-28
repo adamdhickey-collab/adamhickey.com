@@ -151,7 +151,7 @@ the archive so that it holds everything staging ever had.
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
 the six-item proof strip and the client logos) → Selected work (three
-client case studies and the dispatch cockpit prototype; the deploy console joins it in its own pull request) → How I work inside a
+client case studies, then the two prototypes as a pair) → How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own
 page under `engagement/`) → The design-to-build shift (the scroll story) → Built end to end (the
@@ -306,9 +306,10 @@ every word of every file there as a candidate class, and a page with this
 much interactive markup would have emitted utilities into the built
 stylesheet. It is labelled on the page, in its head and in `llms.txt` as
 self-directed and synthetic, informed by the Midwest Couriers cockpit and not
-an account of it. The homepage's Selected work section closes on it, in a
-card that spans the grid and says in its first line that everything above it
-is client work and this is not; the AI article and the Working Product
+an account of it. The homepage's Selected work section closed on it, in a
+card that spanned the grid, from 2026-09-15 until the deploy console made
+the two a pair; the card still says in its first line that everything above
+it is client work and this is not, and the AI article and the Working Product
 Prototype page link to it as well. Until that card it was reachable only by
 reading one of those two pages to the end, while its own breadcrumb told a
 search engine it sat under Work.
@@ -327,8 +328,9 @@ act, every service a row whether it changes or not, and recorded with who
 decided and on what. It is informed by shipping this site through its own
 checks and names no platform, because it was built for none. It is reached
 from the bad-day article's close, the Working Product Prototype page's FAQ,
-and the cockpit's Next link; the homepage's Selected work section takes it
-as a pair with the cockpit in the pull request after this one.
+and the cockpit's Next link, and since #301 the homepage's Selected work
+section closes on the two prototypes as a pair under the three accounts,
+the console leading, each with its picture over its text.
 
 ### Images
 

@@ -413,10 +413,21 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    the section makes one argument in three parts, and a third card alone on
    a second row would read as the one that did not fit. Between the base
    rule's two-column breakpoint and desktop the two columns would strand it
-   the same way, so the three stay in one column there. The prototype card
-   spans whatever the count is (grid-column: 1 / -1). */
+   the same way, so the three stay in one column there. */
 @media (min-width: 768px) and (max-width: 1023.98px) { .case-grid--three { grid-template-columns: 1fr; gap: var(--space-2xl); } }
 @media (min-width: 1024px) { .case-grid--three { grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); } }
+/* THE PAIR, under the three: the two prototypes, since 2026-09-28. Until
+   then the one prototype card spanned the three-column grid (grid-column:
+   1 / -1) with its picture beside its text. Two of them are a row of their
+   own, on the same breakpoints as the three above so the section folds at
+   the same widths: one column to 1024, then two. Its own grid rather than
+   two more cells in the three-grid, because three columns do not divide by
+   two and the pair is not three peers with a fourth; it is the same
+   judgment carried into two working things, set apart under the accounts.
+   The 2xl above it is the gap the three-grid uses between its own rows. */
+.case-grid--pair { margin-top: var(--space-2xl); }
+@media (min-width: 768px) and (max-width: 1023.98px) { .case-grid--pair { grid-template-columns: 1fr; gap: var(--space-2xl); } }
+@media (min-width: 1024px) { .case-grid--pair { grid-template-columns: repeat(2, 1fr); gap: var(--space-2xl); } }
 
 /* --- Cross-document view transitions ------------------------------------
    Clicking a case card morphs its thumbnail into the case study page's
@@ -601,7 +612,6 @@ a.case-thumb { display: block; }
    else is the card component untouched: the same thumb frame and tilt,
    the same title ramp, tags and go-line. */
 .case-card--prototype {
-  grid-column: 1 / -1;
   /* The feature ground, per COLOR.md: the hero card's green, for the one
      thing in this section that is not a case study. It was tea-light until
      #97, went to the alternate ground there, and comes back now, because
@@ -644,10 +654,6 @@ a.case-thumb { display: block; }
      in front without giving a region the drop of an object. */
   box-shadow: var(--shadow-zone);
   padding: var(--space-xl);
-  /* The grid's own gap already puts space above this. The panel wants a
-     little more than the four cards give each other, because it is the one
-     thing in the section that is not one of them. */
-  margin-top: var(--space-xl);
 }
 .case-card--prototype .case-desc { margin-top: var(--space-xs); }
 
@@ -713,24 +719,13 @@ a.case-thumb { display: block; }
   border-radius: calc(var(--shell-radius) - var(--bezel));
 }
 
-@media (min-width: 768px) {
-  .case-card--prototype {
-    display: grid;
-    /* Even columns rather than 4/6. The description then fills its column
-       instead of stopping at the 32rem cap with a third of the card empty
-       beside it, and at this width it still lands inside the 70-character
-       measure --measure sets, so filling the space and keeping the measure
-       are one setting rather than a trade. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-3xl);
-    align-items: center;
-    padding: var(--space-3xl);
-  }
-  .case-card--prototype .case-thumb { margin-bottom: 0; }
-  /* The cap is right for a description under a half-width card and wrong
-     for one set beside a picture: here the column is the constraint. */
-  .case-card--prototype .case-desc { max-width: none; }
-}
+/* PICTURE OVER TEXT, AT EVERY WIDTH. From 768 up the spanning card set its
+   picture beside its text in two even columns, which was the arrangement a
+   panel the width of three cards could afford. In the pair each panel is
+   the width of one and a half, and a tablet beside a paragraph at that
+   width is two things too narrow to read. The card's own stacked layout is
+   what a half-width card already does, so the pair simply stops overriding
+   it: the thumb keeps its margin under it and the description its cap. */
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
 /* One tag component, two homes: the case study cards and the product
    cards. The products used to set their own middot-separated list, which

@@ -113,6 +113,18 @@ export const REACHABLE = {
     { name: 'the rollback previewed',
       press: ['[data-scenario="degraded"]', '.dc-read [data-plan]'] },
 
+    /* THE PRESS ITSELF, IN FLIGHT. Pressing the plan's button starts a
+       sequence: api takes a building deploy and reads "redeploying", lands
+       about a second later, then worker does the same. reach() presses and
+       settle() returns once the press's own arrivals finish, well inside
+       that first second, so what is measured is api building and worker
+       waiting: the building tag, the redeploying word, the in-flight button
+       with aria-disabled and the "Rolling back" zone. The one state on the
+       page that a fresh load plus a press reaches for a moment only, and
+       the moment is long enough to be the same one every run. */
+    { name: 'a rollback in flight, the first service redeploying',
+      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]', '.dc-plan-form [type="submit"]'] },
+
     /* THE FAR SIDE OF THE PRIMARY ACTION. The rolled-back card with the
        record on it and Undo where Roll back was, the rolled ground and tag
        on two rows, and the recovering health cells. */
