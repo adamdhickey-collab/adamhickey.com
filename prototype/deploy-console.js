@@ -196,13 +196,36 @@
         focus: 'api',
         patch: DEGRADED_PATCH(),
         events: DEGRADED_EVENTS(),
-        then: (api) => api.rollback(['api', 'worker']),
+        then: (api) => api.rollback(['api', 'worker'], 'Dana Okafor'),
       },
     ],
 
-    /* What the plan panel says the rollback does with the answer. */
-    whatHappens: 'Each service redeploys the older commit from the build it already has, in dependency order: api first, then worker. About forty seconds each. The newer commit stays in the history and can be deployed again. The rollback is recorded with who pressed it and the figures on this screen.',
   };
+
+  /* WHAT THE PLAN SAYS HAPPENS, written from the services it names. One
+     sentence used to serve every rollback and said "api first, then
+     worker" whichever row was pressed; the order is read from `needs`
+     now, and a plan for one service says one service. */
+  function whatHappens(ids) {
+    const order = ids.length > 1 ? `, in dependency order: ${ids.slice(0, -1).join(', ')} first, then ${ids[ids.length - 1]}` : '';
+    const each = ids.length > 1 ? 'Each service redeploys' : `${ids[0]} redeploys`;
+    return `${each} the older commit from the build it already has${order}. About forty seconds${ids.length > 1 ? ' each' : ''}. The newer commit stays in the history and can be deployed again. The rollback is recorded with who pressed it and the figures on this screen.`;
+  }
+
+  /* The order a set of services rolls back in: a service goes after the
+     services it calls that are in the set, so the thing that is called is
+     serving the older commit before its caller asks it to. */
+  function orderForRollback(ids) {
+    const out = [];
+    const visit = (id) => {
+      if (out.includes(id)) return;
+      const s = service(id);
+      for (const dep of (s && s.needs) || []) if (ids.includes(dep)) visit(dep);
+      out.push(id);
+    };
+    for (const id of ids) visit(id);
+    return out;
+  }
 
   /* What the figures did, as events: the two lines a metric writes into the
      feed when it crosses a line. The deploys write their own. */
@@ -219,7 +242,33 @@
      staging does not, and the zone says so: it is the one clue on the
      screen that points past the deploy. In the situations where nothing
      has moved on production, staging mirrors it. */
-  function STAGING_PATCH() {
+  function STAGING_PATCH(scenarioId) {
+    /* THE BUILD THAT FAILED ON PRODUCTION FAILED HERE TOO. A type error is
+       the same in every environment, so staging's newest deploy of that
+       push is the same refusal on the same line, and both environments are
+       serving 7e1b2c9. What staging did differently is start the worker:
+       it sets TAX_SERVICE_URL and production does not, which is the one
+       fact on this screen that points at a variable rather than the code. */
+    if (scenarioId === 'failed') {
+      return {
+        api: {
+          metrics: { errors: 0.3, errorsWas: 0.3, p95: 360, p95Was: 360 },
+          deploys: [
+            { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 16, status: 'failed',
+              fail: { stage: 'build', step: 3, of: 4, cmd: 'npm run build', line: 'src/billing/invoice.ts(41,18): error TS2339: Property ‘taxRate’ does not exist on type ‘Invoice’.' } },
+            { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 5 * 60, status: 'live' },
+            { commit: '2b9f0a1', msg: 'Invoice PDF: page size',           by: 'Dana Okafor', ago: 9 * 1440,          status: 'superseded' },
+          ],
+        },
+        worker: {
+          metrics: { failedJobs: 0, failedJobsWas: 0 },
+          deploys: [
+            { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 15, status: 'live' },
+            { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 5 * 60, status: 'superseded' },
+          ],
+        },
+      };
+    }
     return {
       api: {
         metrics: { errors: 0.3, errorsWas: 0.3, p95: 360, p95Was: 360 },
@@ -300,6 +349,7 @@
     arrow:    '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
     dash:     '<path d="M5 12h14"/>',
     down:     '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+    up:       '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
     play:     '<path d="m6 3 14 9-14 9V3z"/>',
     circle:   '<circle cx="12" cy="12" r="9"/>',
     /* The chrome's: the header's crumbs and the sidebar's rows. */
@@ -370,7 +420,7 @@
   /* The services as this situation sees them: the base list, each patched,
      each deploy history copied so a rollback can be written into it. */
   function buildServices(scenario) {
-    const staging = STAGING_PATCH();
+    const staging = STAGING_PATCH(scenario.id);
     const moved = ['failed', 'degraded', 'rolled'].includes(scenario.id);
     return DATA.services.map((s) => {
       const p = state.env === 'staging' && moved ? (staging[s.id] || {}) : (scenario.patch[s.id] || {});
@@ -604,12 +654,15 @@
   function planIds(id) {
     const s = service(id);
     if (!s || !previous(s)) return [];
+    /* A service that moved in the same push as this one, and calls it,
+       goes back with it: the pair deployed together and the caller was
+       written against the callee. Read from the data, not named. */
     const ids = [id];
-    if (id === 'api') {
-      const w = service('worker');
-      if (w && live(w) && live(w).commit === live(s).commit && previous(w)) ids.push('worker');
+    for (const o of state.services) {
+      if (o.id === id || !o.deploys || !live(o) || !previous(o)) continue;
+      if ((o.needs || []).includes(id) && live(o).commit === live(s).commit && live(o).ago <= live(s).ago + 5) ids.push(o.id);
     }
-    return ids;
+    return orderForRollback(ids);
   }
 
   /* The rollback control, wherever it appears: on the card, in a row, in an
@@ -627,7 +680,7 @@
     if (state.rolled && state.rolled.ids.includes(s.id)) {
       return terse
         ? `<button type="button" class="${cls} dc-btn-quiet" data-undo="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Undo<span class="dc-btn-id dc-btn-id--quiet"> the rollback of ${esc(s.id)}</span></button>`
-        : `<button type="button" class="${cls}" data-undo="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Rolled back ${icon('check')} Undo</button>`;
+        : `<button type="button" class="${cls}" data-undo="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Undo: redeploy ${esc(state.rolled.from)}</button>`;
     }
     const prev = previous(s);
     if (!prev) return terse ? '<span class="dc-cell-note">nothing to roll back to</span>' : '';
@@ -659,10 +712,31 @@
     if (state.env === 'staging') {
       const api = service('api'), worker = service('worker');
       const moved = ['failed', 'degraded', 'rolled'].includes(sc.id);
+      const refused = sc.id === 'failed';
+      /* WHAT STAGING SAYS IS WHAT ITS DATA SAYS. The patch moves api and
+         worker and nothing else, so the headline names those two rather
+         than "every service"; and a build that failed on production failed
+         here, so the failed situation reads as the same refusal, with the
+         one thing staging did differently said in words. */
+      const headline = refused
+        ? `Staging refused the same push, at the same line.`
+        : moved
+          ? `${esc(api.id)} and ${esc(worker.id)} on staging are serving ${esc(live(api).commit)}, and have been for ${span(live(api).ago)}.`
+          : 'Staging is serving the same commits as production.';
+      const dek = refused
+        ? `${esc(newest(api).commit)} failed to build here ${ago(newest(api).ago)} on the same error, and staging is serving ${esc(live(api).commit)}, as production is. ${esc(worker.id)}&rsquo;s deploy from that push started here and is running.`
+        : moved
+          ? `The commit that is failing on production has served here at ${pct(api.metrics.errors)} errors, with the other services on the commits production has. What differs is not the code.`
+          : 'Nothing has moved on production since staging last matched it.';
+      const differs = refused
+        ? `One variable. ${esc(worker.id)} exited on production because TAX_SERVICE_URL is not set there; staging sets it, to a stub. The build error is the same in both, because a type is the same everywhere.`
+        : moved
+          ? 'The tax service. Staging calls a stub that answers in 40 ms; production calls the real one, which is timing out. Same commit, different thing on the other end of the call.'
+          : 'Nothing that shows here. The two environments share their commits until a push moves one.';
       html = `<div class="dc-lead" data-tone="ok">
         <p class="dc-lead-kicker dc-label">Staging</p>
-        <h3 class="dc-answer-h">${moved ? `Every service on staging is serving ${esc(live(api).commit)}, and has been for ${span(live(api).ago)}.` : 'Staging is serving the same commits as production.'}</h3>
-        <p class="dc-answer-dek">${moved ? `The commit that is ${sc.id === 'failed' ? 'failing to build' : 'failing'} on production built here and has served at ${pct(api.metrics.errors)} errors. What differs is not the code.` : 'Nothing has moved on production since staging last matched it.'}</p>
+        <h3 class="dc-answer-h">${headline}</h3>
+        <p class="dc-answer-dek">${dek}</p>
         <div class="dc-pair">
           <div class="dc-card" data-enter="card:staging">
             <p class="dc-card-head">On staging</p>
@@ -674,7 +748,7 @@
           </div>
           <div class="dc-aside" data-enter="aside:staging">
             <h4 class="dc-h">What is different on production</h4>
-            <p class="dc-aside-p">${moved ? 'The tax service. Staging calls a stub that answers in 40 ms; production calls the real one, which is timing out. Same commit, different thing on the other end of the call.' : 'Nothing that shows here. The two environments share their commits until a push moves one.'}</p>
+            <p class="dc-aside-p">${differs}</p>
           </div>
         </div>
       </div>`;
@@ -844,9 +918,12 @@
        in a row are one drawing; a zero keeps a sliver so the track reads as
        a measurement and not a missing one. */
     const bar = (v, max, side) => `<span class="dc-bar" data-side="${side}" aria-hidden="true"><span class="dc-bar-mark" style="--w:${max > 0 ? Math.max(2, (v / max) * 100).toFixed(1) : 2}%"></span></span>`;
-    const dir = (side) => side === 'a'
+    /* The glyph on "worse" points the way the figure went: an error rate
+       that rose gets an arrow up, not the down arrow "worse" used to carry
+       whichever way the number had moved. */
+    const dir = (side, r) => side === 'a'
       ? `<span class="dc-dir" data-dir="${rolled ? 'recovering' : 'healthy'}">${icon(rolled ? 'undo' : 'checkCircle')}${rolled ? 'recovering' : 'healthy'}</span>`
-      : `<span class="dc-dir" data-dir="worse">${icon('down')}worse</span>`;
+      : `<span class="dc-dir" data-dir="worse">${icon(r.b >= r.a ? 'up' : 'down')}worse</span>`;
     const head = (label, d, when) => `<th scope="col" class="dc-vs-opt">
         <span class="dc-vs-opt-label dc-label">${label}</span>
         <span class="dc-vs-opt-id">${esc(d.commit)}</span>
@@ -854,7 +931,7 @@
       </th>`;
     const button = rollbackButton(s, 'dc-btn dc-btn-primary');
     const note = rolled
-      ? `<p class="dc-note">${icon('checkCircle')}<span><strong>Recorded at ${clock(state.rolled.at)}.</strong> You rolled ${esc(s.id)} and ${esc(worker.id)} back from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}. Written with the deploy, for anyone to read.</span></p>`
+      ? `<p class="dc-note">${icon('checkCircle')}<span><strong>Recorded at ${clock(state.rolled.at)}.</strong> ${state.rolled.who === 'you' ? 'You' : esc(state.rolled.who)} rolled ${state.rolled.ids.join(' and ')} back from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}. Written with the deploy, for anyone to read.</span></p>`
       : rolling
         ? `<p class="dc-note">${icon('clock')}<span><strong>${esc(now)} is redeploying ${esc(state.rolling.to)}.</strong> ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The right-hand column is still the failing deploy&rsquo;s until both have landed.</span></p>`
         : `<p class="dc-note" data-tone="read">${icon('alert')}<span><strong>The errors started when ${esc(n.commit)} went live.</strong> It sends invoice totals to a tax service outside this project, and that service is timing out. The deploy may not be what broke.</span></p>`;
@@ -882,8 +959,8 @@
           <tbody>
             ${ROWS.map((r, i) => { const max = Math.max(r.a, r.b); return `<tr class="dc-vs-row" style="--i:${i}">
               <th scope="row" class="dc-vs-factor"><span class="dc-vs-factor-name">${esc(r.label)}</span><span class="dc-vs-note">${esc(r.unit)}</span></th>
-              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.a)}</span>${dir('a')}${bar(r.a, max, 'a')}</td>
-              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.b)}</span>${dir('b')}${bar(r.b, max, 'b')}</td>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.a)}</span>${dir('a', r)}${bar(r.a, max, 'a')}</td>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.b)}</span>${dir('b', r)}${bar(r.b, max, 'b')}</td>
             </tr>`; }).join('')}
           </tbody>
         </table>
@@ -892,7 +969,7 @@
              phone where a table footer cannot. -->
         <div class="dc-vs-foot">
           <div class="dc-vs-act">${rolled ? `<span class="dc-vs-act-note">Serving every request again.</span>` : `${button}<span class="dc-vs-act-note">${esc(worker.id)} goes back with it. Already built; about forty seconds.</span>`}</div>
-          <div class="dc-vs-act">${rolled ? `${button}<span class="dc-vs-act-note">Still built. Undo redeploys it.</span>` : `<span class="dc-vs-act-note">Keep serving it, and look at the tax service first.</span>`}</div>
+          <div class="dc-vs-act">${rolled ? `${button}<span class="dc-vs-act-note">A new deploy of the commit that was failing. The rollback stays in the history.</span>` : `<span class="dc-vs-act-note">Keep serving it, and look at the tax service first.</span>`}</div>
         </div>
         <div class="dc-read-more">
           <div>
@@ -961,7 +1038,7 @@
       <form class="dc-plan-form" novalidate>
         <p class="dc-plan-head" id="dc-plan-head" tabindex="-1">Roll ${esc(names)} back to the deploy that was healthy?</p>
         <ol class="dc-plan-list">${rows}</ol>
-        <p class="dc-plan-what"><span class="dc-label">What happens:</span> ${esc(DATA.whatHappens)}</p>
+        <p class="dc-plan-what"><span class="dc-label">What happens:</span> ${esc(whatHappens(ids))}</p>
         <p class="dc-plan-cmd"><span class="dc-label">The same, from a terminal:</span> <span class="dc-cmd">deploy rollback ${esc(ids.join(' '))} --to ${esc(previous(service(ids[0])).commit)}</span></p>
         <p class="dc-plan-act">
           <button type="submit" class="dc-btn dc-btn-primary">Roll back ${esc(names)}</button>
@@ -1101,7 +1178,8 @@
       if (state.kind !== 'all' && s.kind !== state.kind) continue;
       for (const d of s.deploys || []) {
         if (d.status === 'building') out.push({ ago: d.ago, svc: s.id, kind: 'building', text: `${d.commit} redeploying` });
-        else if (d.rollback) out.push({ ago: d.ago, svc: s.id, kind: 'undo', text: `rolled back to ${d.commit} by you` });
+        else if (d.rollback) out.push({ ago: d.ago, svc: s.id, kind: 'undo', text: `rolled back to ${d.commit} by ${d.by}` });
+        else if (d.redeploy) out.push({ ago: d.ago, svc: s.id, kind: 'checkCircle', text: `${d.commit} redeployed by ${d.by}, undoing the rollback` });
         else if (d.first) out.push({ ago: d.ago, svc: s.id, kind: 'play', text: `${d.commit} built and scheduled, the first deploy` });
         else if (d.status === 'failed') out.push({ ago: d.ago, svc: s.id, kind: 'ban', text: `${d.commit} failed at the ${d.fail.stage}` });
         else out.push({ ago: d.ago, svc: s.id, kind: 'checkCircle', text: `${d.commit} went live` });
@@ -1354,35 +1432,47 @@
      what the checks measure. `rollGen` is what stops a sequence from landing
      on a screen that has since changed situation. */
   let rollGen = 0;
-  function rollback(ids, staged = false) {
+  /* `who` is the developer pressing. A situation that sets its scene
+     (the Rolled back tab) credits the developer who did it, by name; a
+     press on this screen is "you", and only then. */
+  function rollback(ids, staged = false, who = 'you') {
     const first = service(ids[0]);
     const from = live(first).commit, to = previous(first).commit;
-    const on = `${pct(first.metrics.errors)} of requests erroring over ${span(newest(first).ago)}, p95 ${msec(first.metrics.p95)}, ${service('worker').metrics.failedJobs} failed jobs`;
+    /* What it was decided on: the figures the services in the plan carry,
+       each said only if the service has it. */
+    const on = ids.map((id) => {
+      const m = service(id).metrics || {};
+      const parts = [];
+      if (m.errors != null) parts.push(`${pct(m.errors)} of ${id} requests erroring over ${span(newest(service(id)).ago)}`);
+      if (m.p95 != null) parts.push(`p95 ${msec(m.p95)}`);
+      if (m.failedJobs != null) parts.push(`${m.failedJobs} ${id} jobs failed`);
+      return parts.join(', ');
+    }).filter(Boolean).join('; ');
     state.plan = null;
     if (staged || reduced()) {
-      for (const id of ids) land(id);
-      finish(ids, from, to, on, staged);
+      for (const id of ids) land(id, who);
+      finish(ids, from, to, on, staged, who);
       return;
     }
     const gen = ++rollGen;
-    state.rolling = { ids, from, to, on, at: 0 };
-    begin(ids[0], to);
+    state.rolling = { ids, from, to, on, at: 0, who };
+    begin(ids[0], to, who);
     render(`Rolling back ${ids.join(', then ')}. Shown at about forty times speed.`, 'note');
     keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
     const step = ms('--motion-enter') * 2;
     const next = (i) => {
       if (gen !== rollGen) return;
       const id = ids[i];
-      land(id);
+      land(id, who);
       markChange([id], 'fill');
       if (i + 1 < ids.length) {
         state.rolling.at = i + 1;
-        begin(ids[i + 1], to);
+        begin(ids[i + 1], to, who);
         render(`${id} is back on ${to} and serving. Rolling back ${ids[i + 1]}.`, 'note');
         setTimeout(() => next(i + 1), step);
       } else {
         state.rolling = null;
-        finish(ids, from, to, on, false);
+        finish(ids, from, to, on, false, who);
       }
     };
     setTimeout(() => next(0), step);
@@ -1390,31 +1480,39 @@
 
   /* One service starts redeploying: a building deploy at the top of its
      history, the live one untouched under it. */
-  function begin(id, to) {
+  function begin(id, to, who = 'you') {
     const s = service(id);
     const back = previous(s);
-    s.deploys.unshift({ commit: back.commit, msg: back.msg, by: 'you', ago: 0, status: 'building', rollback: true, from: live(s).commit });
+    s.deploys.unshift({ commit: back.commit, msg: back.msg, by: who, ago: 0, status: 'building', rollback: true, from: live(s).commit });
   }
 
   /* It lands: the building deploy is live, the one that was live is
      superseded, and the figures take their recovering values. A service
      that never began (a staged or reduced-motion rollback) begins here. */
-  function land(id) {
+  function land(id, who = 'you') {
     const s = service(id);
     const n = newest(s);
-    if (!n || n.status !== 'building') begin(id, previous(s).commit);
+    if (!n || n.status !== 'building') begin(id, previous(s).commit, who);
     const building = s.deploys[0];
     const wasLive = live(s);
     wasLive.status = 'superseded';
     building.status = 'live';
-    if (s.metrics.errors != null) s.metrics.errors = 1.1;
-    if (s.metrics.p95 != null) s.metrics.p95 = 410;
+    /* THE FIGURES THAT FOLLOW ARE THE FIRST MINUTE'S, NOT THE VERDICT. A
+       figure that rose since the deploy falls most of the way back the
+       moment the older commit serves, because the requests still in
+       flight are the failing deploy's; a figure that never moved does not
+       move. "Recovering" is the word the health cell uses for this until
+       the screen has watched it settle -- and that watching is the next
+       thing this prototype owes. */
+    const m = s.metrics || {};
+    if (m.errors != null && m.errorsWas != null && m.errors > m.errorsWas) m.errors = Math.max(m.errorsWas, Math.round(m.errors / 12 * 10) / 10);
+    if (m.p95 != null && m.p95Was != null && m.p95 > m.p95Was) m.p95 = Math.max(m.p95Was, Math.round(m.p95 / 7 / 10) * 10);
   }
 
-  function finish(ids, from, to, on, staged) {
-    state.rolled = { ids, from, to, at: DATA.project.nowMin + 1, on };
+  function finish(ids, from, to, on, staged, who = 'you') {
+    state.rolled = { ids, from, to, at: DATA.project.nowMin + 1, on, who };
     if (!staged) state.armed = performance.now();
-    render(`Rolled back ${ids.join(' and ')} to ${to}, ${ids[0]} first. Recorded at ${clock(state.rolled.at)} with the figures on screen. Undo redeploys ${from}.`, 'ok');
+    render(`Rolled back ${ids.join(' and ')} to ${to}${ids.length > 1 ? `, ${ids[0]} first` : ''}. Recorded at ${clock(state.rolled.at)} with the figures on screen. Undo is a new deploy of ${from}.`, 'ok');
     markChange(ids, 'fill');
     if (!staged) keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
   }
@@ -1456,22 +1554,32 @@
     keep(root.querySelector('[data-focus="deploy"]'));
   }
 
+  /* UNDO IS A DEPLOY, AND THE HISTORY KEEPS BOTH. It used to take the
+     rollback off the top of the history and put the old commit back as if
+     nothing had happened, which is the one thing this screen promises it
+     will not do to a record. Now the commit that was rolled back is
+     deployed again, at the top, as a new entry that says so; the rollback
+     under it is superseded and stays, with who and when; and the figures
+     go back to what that commit was doing, because the thing that was
+     wrong is still wrong. */
   function undo() {
     const { ids, from } = state.rolled;
     for (const id of ids) {
       const s = service(id);
-      s.deploys.shift();
-      const back = s.deploys.find((d) => d.commit === from);
-      if (back) back.status = 'live';
+      const back = s.deploys.find((d) => d.commit === from && !d.rollback);
+      const wasLive = live(s);
+      if (wasLive) wasLive.status = 'superseded';
+      s.deploys.unshift({ commit: from, msg: back ? back.msg : '', by: 'you', ago: 0, status: 'live', redeploy: true, of: wasLive ? wasLive.commit : null,
+        changes: back && back.changes, log: back && back.log });
       const base = DEGRADED_PATCH()[id];
       if (base && base.metrics) s.metrics = { ...base.metrics };
     }
     state.rolled = null;
-    render(`Rollback undone: ${ids.join(' and ')} are on ${from} again.`, 'note');
+    render(`Redeployed ${from} to ${ids.join(' and ')}, undoing the rollback. The rollback stays in the history.`, 'note');
     markChange(ids, 'drain');
   }
 
-  const api = { rollback: (ids) => rollback(ids, true) };
+  const api = { rollback: (ids, who) => rollback(ids, true, who) };
 
   /* ----- events ---------------------------------------------------------- */
 

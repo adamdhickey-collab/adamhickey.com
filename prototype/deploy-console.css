@@ -391,7 +391,13 @@
    comes off, because its keyline is a second edge outside this one. */
 /* Two classes deep, because .dcw-frames img is declared later at the same
    specificity and would put the keyline back. */
-/* The captures carry the console's own edges, baked; the page draws none. */
+/* THE REFUSAL'S EDGE IS THE PAGE'S. console-shots.mjs clips the failed
+   card to its padding box with no border, and the figure draws the 2px
+   red the card draws on the live screen, on the figure's own curve: an
+   edge baked into a 2x file printed at half size is a 1px edge with a
+   soft side, and a CSS edge is the width it says. The token reaches here
+   through .dcw-frames, declared beside .dc for exactly this. */
+.dcw-frames .dcw-frame--fail img { border: 2px solid var(--rd-red); box-shadow: none; }
 
 .case-section .dcw-frame-cap {
   margin: var(--space-sm) 0 0;
@@ -566,10 +572,12 @@
      ink-muted     6.1 /  5.7 /  5.2     green    11.1 / 10.4 / 9.4
      red           7.0 /  6.6 /  5.9     violet-ink 9.3 / 8.8 / 7.9
      on-violet on violet 5.9, on violet-hover 5.0
-     ink on violet-ground 13.4, on green-ground 13.5, on red-ground 14.2
-     green on green-ground 7.8, red on red-ground 5.6
+     ink on violet-ground 13.4, on green-ground 13.5, on red-ground 16.0
+     green on green-ground 7.8, red on red-ground 6.3
    and every edge that has to read as one against the canvas: hairline
-   1.54, rule 2.03, violet-ground 1.33, green-ground 1.32, red-ground 1.26.
+   1.54, rule 2.03, violet-ground 1.33, green-ground 1.32; the red ground
+   is 1.11 and does not try to, because the refusal's edge is its 2px
+   border in the red ink.
 
    The sizes are still the site's fourteen steps, the spaces its --space-*,
    the durations its --motion-*: the type scale is the one thing the two
@@ -582,7 +590,8 @@
    dashboard's idiom is a small tracked mono label over a group, and the
    labels inside .dc follow it, at --tracking-caps from TYPOGRAPHY.md. */
 .dc,
-html[data-embed] {
+html[data-embed],
+.dcw-frames {
   --rd-font: "Inter", var(--font-sans);
   --rd-canvas: #0d0d0d;
   --rd-panel: #161616;
@@ -601,7 +610,14 @@ html[data-embed] {
   --rd-green: #57d38c;
   --rd-green-ground: #0f2e1c;
   --rd-red: #ff6b6b;
-  --rd-red-ground: #451212;
+  /* The refusal's ground, a shade over the panel and no more: it used to be
+     #451212, and a card that red with white type on it shouted. The red
+     ink is 6.3 on it; the card's 2px edge in that ink is what says
+     refusal, not the ground. The hairlines inside a refusal take the
+     ground's own hue, because a gray line across a red ground is two
+     things arguing. */
+  --rd-red-ground: #2a1414;
+  --rd-red-hairline: #4a2020;
   --rd-radius: 2px;
   --color-focus-ring: var(--rd-violet-ink);
 }
@@ -2360,6 +2376,7 @@ html[data-embed] .dc { border-radius: 0; }
 .dc .dc-note { border-color: var(--rd-rule); }
 .dc .dc-status[data-tone="refused"] { background: var(--rd-red-ground); border-color: var(--rd-red); }
 .dc-fail { background: var(--rd-red-ground); border-color: var(--rd-red); }
+.dc-fail .dc-answers, .dc-fail .dc-answers > div, .dc-fail .dc-log-fold { border-color: var(--rd-red-hairline); }
 .dc .dc-vs-row th, .dc .dc-vs-row td { background: var(--rd-raised); }
 .dc .dc-bar-mark { box-shadow: 0 0 0 1px var(--rd-raised); }
 .dc .dc-node, .dc .dc-dep, .dc .dc-tag, .dc .dc-density { background: var(--rd-raised); border-color: var(--rd-rule); }

@@ -745,7 +745,8 @@ fill and, as the ground `#33106e` and the ink `#c9a2ff`, on the selected row
 and nowhere else, a green `#57d38c` for what is live and a red `#ff6b6b` for
 what is not. They are declared once, as `--rd-*` on `.dc` in
 `deploy-console.css`, with every ratio measured in the comment above them,
-and none of them is used outside `.dc`. The site's inks stop at the bezel,
+and none of them styles anything outside the console, except the one
+edge the write-up's figures draw around a capture of it. The site's inks stop at the bezel,
 which is the rule above applied to a product that happens to be pressable:
 a screenshot of a client's app is artwork to the page around it, and so is
 a working one. The size scale is the one thing the two systems share, on
