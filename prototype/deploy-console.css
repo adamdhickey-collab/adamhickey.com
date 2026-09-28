@@ -27,6 +27,14 @@
  * also a word: "live", "failed", "failing", "recovering", "rolled back",
  * "never deployed", "unchanged". The grounds and glyphs are a second channel.
  *
+ * THE CONSOLE IS NOT IN THIS PALETTE ANY MORE. Since 2026-09-28 the screen
+ * inside the frame follows a platform dashboard's direction, on tokens of
+ * its own declared at the head of THE CONSOLE section below, and the
+ * ratios in the paragraph after this one describe the page around the
+ * console, which still is. The line the paragraph draws still holds in
+ * there, in the console's own red: a red GROUND is the platform's refusal
+ * and a red INK is a reading.
+ *
  * TWO STATUS COLORS, BOTH TOKENS, AND THE LINE BETWEEN THEM IS THE PAGE'S
  * SECOND DECISION. Sage is "fine": a live deploy, a healthy service, the
  * primary action. Caution is "not fine", and it is spent two ways that must
@@ -373,8 +381,8 @@
 /* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, which is half the file:
    the captures are taken at two device pixels to one. Per capture, and the
    ceiling is the border box: the file's half width plus the edge below. */
-.dcw-frame--fail { --shot-w: 682px; }
-.dcw-frame--read { --shot-w: 718px; }
+.dcw-frame--fail { --shot-w: 529px; }
+.dcw-frame--read { --shot-w: 654px; }
 /* THE EDGE IS THE PAGE'S, NOT THE FILE'S. console-shots.mjs clips the
    refusal to the card's padding box with no border, and the figure draws
    the edge the card draws on the live screen: the 2px caution ink, on the
@@ -383,8 +391,8 @@
    comes off, because its keyline is a second edge outside this one. */
 /* Two classes deep, because .dcw-frames img is declared later at the same
    specificity and would put the keyline back. */
-.dcw-frames .dcw-frame--fail img { border: 2px solid var(--color-caution-text); box-shadow: none; }
-/* The reading carries its own ground now, so it takes the ordinary frame. */
+/* The captures carry the console's own edges, baked; the page draws none. */
+
 .case-section .dcw-frame-cap {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -539,6 +547,65 @@
 /* ============================ THE CONSOLE ================================
    The frame, the screen, the strip and everything under it. ============== */
 
+/* ---------- The console's own system ----------
+   THE SCREEN IS A RENDERING OF ANOTHER PRODUCT, and the site's palette
+   stops at the bezel. Since 2026-09-28 the console follows the direction
+   of a refreshed platform dashboard: a near-black canvas, hairline
+   dividers instead of shadows, one violet spent on the selected row and
+   the primary fill and nowhere else, mono uppercase section labels, a
+   breadcrumb header with the environment switch in it, and a context-aware
+   menu down the left. COLOR.md section 6 is the rule that lets it: an
+   artwork carries its own palette, and a product shown inside the site's
+   device chrome is artwork to the page around it. So every colour inside
+   .dc is one of these, declared once, and none of them leaves .dc.
+
+   Every ratio the write-up section quotes for the site's inks is replaced
+   in here by these, measured on the canvas / the panel / the raised
+   surface:
+     ink          17.8 / 16.7 / 15.1     ink-2     9.8 / 9.2 / 8.3
+     ink-muted     6.1 /  5.7 /  5.2     green    11.1 / 10.4 / 9.4
+     red           7.0 /  6.6 /  5.9     violet-ink 9.3 / 8.8 / 7.9
+     on-violet on violet 5.9, on violet-hover 5.0
+     ink on violet-ground 13.4, on green-ground 13.5, on red-ground 14.2
+     green on green-ground 7.8, red on red-ground 5.6
+   and every edge that has to read as one against the canvas: hairline
+   1.54, rule 2.03, violet-ground 1.33, green-ground 1.32, red-ground 1.26.
+
+   The sizes are still the site's fourteen steps, the spaces its --space-*,
+   the durations its --motion-*: the type scale is the one thing the two
+   systems share, and typescale.mjs holds the screen to it like any page.
+   The face is Inter, loaded for this page, standing in for the neo-grotesque
+   the product sets its dashboard in.
+
+   UPPERCASE, IN THE MONO, FOR LABELS ONLY. The rest of this file said no
+   uppercase anywhere, and the page around the console still keeps that; the
+   dashboard's idiom is a small tracked mono label over a group, and the
+   labels inside .dc follow it, at --tracking-caps from TYPOGRAPHY.md. */
+.dc,
+html[data-embed] {
+  --rd-font: "Inter", var(--font-sans);
+  --rd-canvas: #0d0d0d;
+  --rd-panel: #161616;
+  --rd-raised: #1f1f1f;
+  --rd-hover: #262626;
+  --rd-hairline: #333333;
+  --rd-rule: #454545;
+  --rd-ink: #f5f5f5;
+  --rd-ink-2: #b8b8b8;
+  --rd-ink-muted: #8f8f8f;
+  --rd-violet: #8a05ff;
+  --rd-violet-hover: #9d2bff;
+  --rd-violet-ink: #c9a2ff;
+  --rd-violet-ground: #33106e;
+  --rd-on-violet: #ffffff;
+  --rd-green: #57d38c;
+  --rd-green-ground: #0f2e1c;
+  --rd-red: #ff6b6b;
+  --rd-red-ground: #451212;
+  --rd-radius: 2px;
+  --color-focus-ring: var(--rd-violet-ink);
+}
+
 /* ---------- The frame ----------
    The site's device chrome, the same object the build write-ups frame their
    captures in and the cockpit its screen: one --bezel of --device-chrome,
@@ -555,7 +622,7 @@
 }
 .dc {
   border-radius: calc(var(--shell-radius) - var(--bezel));
-  background: var(--color-warm);
+  background: var(--rd-canvas);
   padding: var(--space-xl);
 }
 @media (min-width: 48rem) {
@@ -569,7 +636,7 @@
    frame there. Nothing is deleted and no rule here is reachable without the
    flag, so the browser checks measure the page as they always did. */
 html[data-embed],
-html[data-embed] body { background: var(--color-warm); }
+html[data-embed] body { background: var(--rd-canvas); }
 html[data-embed] { --nav-height: 0px; }
 html[data-embed] .skip-link,
 html[data-embed] .site-nav,
@@ -608,18 +675,18 @@ html[data-embed] .dc { border-radius: 0; }
 }
 .dc .dc-rail-h {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-normal);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
 }
 .dc .dc-blurb {
   margin: 0;
   font-size: var(--text-base);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 
 /* Inline icons: the header's idiom, sized to the text they sit in, and as
@@ -655,13 +722,13 @@ html[data-embed] .dc { border-radius: 0; }
    rule under the strip that puts the screen inside what the strip controls. */
 .dc .dc-tabs-label {
   margin: 0 0 calc(var(--space-xs) + var(--space-sm));
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
-.dc .dc-tabs-hint { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.dc .dc-tabs-hint { font-weight: var(--weight-regular); color: var(--rd-ink-muted); }
 .dc .dc-tabs-hint::before { content: "\00a0\2014\00a0"; }
 .dc-tabs {
   position: sticky;
@@ -672,8 +739,8 @@ html[data-embed] .dc { border-radius: 0; }
   gap: var(--space-2xs);
   padding-block: var(--space-sm);
   margin-block: calc(-1 * var(--space-sm));
-  background: var(--color-warm);
-  border-bottom: 1px solid var(--color-rule);
+  background: var(--rd-canvas);
+  border-bottom: 1px solid var(--rd-rule);
 }
 @media (max-width: 63.98rem) {
   .dc-tabs {
@@ -701,24 +768,24 @@ html[data-embed] .dc { border-radius: 0; }
   gap: var(--space-2xs);
   background: none;
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--rd-radius);
   padding: var(--space-xs) var(--space-md);
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   cursor: pointer;
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-tab:not([aria-selected="true"]):hover { background: var(--wash-on-light-hover); }
+  .dc .dc-tab:not([aria-selected="true"]):hover { background: var(--rd-hover); }
 }
 .dc .dc-tab[aria-selected="true"] {
   font-weight: var(--weight-semibold);
-  background: var(--color-charcoal);
-  border-color: var(--color-charcoal);
-  color: var(--color-warm);
+  background: var(--rd-ink);
+  border-color: var(--rd-ink);
+  color: var(--rd-canvas);
 }
 /* The tail on the selected pill, aimed at the screen. A pseudo-element, so
    curves.mjs counts no element and cards.mjs measures no surface for it. */
@@ -733,7 +800,7 @@ html[data-embed] .dc { border-radius: 0; }
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid var(--color-charcoal);
+  border-top: 8px solid var(--rd-ink);
 }
 
 /* The panel under the tabs: project, answer, status, the plan, then every
@@ -754,16 +821,16 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-plan,
 .dc-table-wrap,
 .dc-aside-card {
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
+  background: var(--rd-panel);
+  border: 1px solid var(--rd-hairline);
+  border-radius: var(--rd-radius);
+  box-shadow: none;
 }
 .dc-card {
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card-raised);
+  background: var(--rd-panel);
+  border: 1px solid var(--rd-hairline);
+  border-radius: var(--rd-radius);
+  box-shadow: none;
 }
 
 /* ---------- Monospace, where a developer expects it ----------
@@ -781,7 +848,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-family: var(--font-mono);
   font-size: inherit;
   font-variant-numeric: tabular-nums;
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-sha { font-weight: var(--weight-semibold); }
 
@@ -792,14 +859,14 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-project-id .dc-label { margin-right: var(--space-2xs); }
 /* An inline label takes its line's size, by the same rule as the mono
    above: "Project" beside the project's name, "What happens:" at the head
    of a sentence. A label on a line of its own keeps the label size. */
 .dc p .dc-label { font-size: inherit; }
-.dc-sep { color: var(--color-muted-gray); }
+.dc-sep { color: var(--rd-ink-muted); }
 .dc-project-facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -813,13 +880,13 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 .dc-project-facts dd {
   margin: 0;
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 @media (min-width: 800px) {
   .dc-project-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -835,7 +902,7 @@ html[data-embed] .dc { border-radius: 0; }
   margin-bottom: var(--space-sm);
 }
 .dc .dc-project-head .dc-project-id { margin: 0; }
-.dc .dc-env { display: flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-white); }
+.dc .dc-env { display: flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--rd-rule); border-radius: var(--rd-radius); background: var(--rd-panel); }
 
 /* ---------- The feed ----------
    What happened across the project, newest first: when, which service, and
@@ -843,32 +910,32 @@ html[data-embed] .dc { border-radius: 0; }
    held to the measure, under the table it summarises. */
 .dc-events { max-width: var(--measure); }
 .dc .dc-events-h { margin: 0 0 var(--space-xs); }
-.dc .dc-events-empty { margin: 0; padding-top: var(--space-xs); border-top: 1px solid var(--rule-hairline); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-events-empty { margin: 0; padding-top: var(--space-xs); border-top: 1px solid var(--rd-hairline); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
 .dc-event-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
 }
 .dc .dc-event {
   display: grid;
   grid-template-columns: 6rem 7rem minmax(0, 1fr);
   gap: var(--space-sm);
   padding: var(--space-xs) 0;
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rd-hairline);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
-.dc .dc-event-when { color: var(--color-muted-gray); font-variant-numeric: tabular-nums; }
+.dc .dc-event-when { color: var(--rd-ink-muted); font-variant-numeric: tabular-nums; }
 .dc .dc-event-svc { font-family: var(--font-mono); font-weight: var(--weight-semibold); }
 .dc .dc-event-what { display: flex; align-items: flex-start; gap: var(--space-2xs); }
-.dc .dc-event-what .dc-icon { height: 1lh; color: var(--color-muted-gray); }
+.dc .dc-event-what .dc-icon { height: 1lh; color: var(--rd-ink-muted); }
 .dc .dc-event[data-kind="checkCircle"] .dc-icon,
 .dc .dc-event[data-kind="play"] .dc-icon,
-.dc .dc-event[data-kind="undo"] .dc-icon { color: var(--color-accent-text); }
+.dc .dc-event[data-kind="undo"] .dc-icon { color: var(--rd-green); }
 .dc .dc-event[data-kind="ban"] .dc-icon,
-.dc .dc-event[data-kind="alert"] .dc-icon { color: var(--color-caution-text); }
+.dc .dc-event[data-kind="alert"] .dc-icon { color: var(--rd-red); }
 .dc .dc-event[data-kind="ban"] .dc-event-what,
 .dc .dc-event[data-kind="alert"] .dc-event-what { font-weight: var(--weight-semibold); }
 @media (max-width: 47.99rem) {
@@ -882,7 +949,7 @@ html[data-embed] .dc { border-radius: 0; }
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 
 /* ---------- The map ----------
@@ -892,15 +959,15 @@ html[data-embed] .dc { border-radius: 0; }
    as one; a line out of a failing service takes the caution ink. Nodes are
    the dependency chips grown into buttons: mono name, health word beside
    it, an edge in the health's colour. */
-.dc-project-map { margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--rule-hairline); }
+.dc-project-map { margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--rd-hairline); }
 .dc-map {
   position: relative;
   height: calc(3 * 1.75rem + 2 * var(--space-2xl));
   margin-top: var(--space-xs);
 }
 .dc-map-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
-.dc-map-lines path { fill: none; stroke: var(--rule-strong); stroke-width: 1.5; }
-.dc-map-lines path.is-failing { stroke: var(--color-caution-text); }
+.dc-map-lines path { fill: none; stroke: var(--rd-rule); stroke-width: 1.5; }
+.dc-map-lines path.is-failing { stroke: var(--rd-red); }
 .dc .dc-node {
   appearance: none;
   position: absolute;
@@ -914,26 +981,26 @@ html[data-embed] .dc { border-radius: 0; }
   gap: var(--space-2xs);
   height: 1.75rem;
   padding: 0 var(--space-sm);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
+  border: 1px solid var(--rd-rule);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   white-space: nowrap;
   cursor: pointer;
   transition: border-color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
-.dc .dc-node .dc-node-h { font-family: var(--font-sans); font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.dc .dc-node .dc-node-h { font-family: var(--rd-font); font-weight: var(--weight-regular); color: var(--rd-ink-muted); }
 .dc .dc-node[data-health="ok"] .dc-node-h,
-.dc .dc-node[data-health="recovering"] .dc-node-h { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
-.dc .dc-node[data-health="failing"] { border-color: var(--color-caution-text); }
-.dc .dc-node[data-health="failing"] .dc-node-h { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
-.dc .dc-node[data-health="building"] .dc-node-h { color: var(--color-charcoal); }
+.dc .dc-node[data-health="recovering"] .dc-node-h { color: var(--rd-green); font-weight: var(--weight-semibold); }
+.dc .dc-node[data-health="failing"] { border-color: var(--rd-red); }
+.dc .dc-node[data-health="failing"] .dc-node-h { color: var(--rd-red); font-weight: var(--weight-semibold); }
+.dc .dc-node[data-health="building"] .dc-node-h { color: var(--rd-ink); }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-node:hover { border-color: var(--color-charcoal); transform: translateX(-50%) scale(var(--motion-lift)); }
+  .dc .dc-node:hover { border-color: var(--rd-ink); transform: translateX(-50%) scale(var(--motion-lift)); }
 }
 .dc .dc-node:active { transform: translateX(-50%) scale(var(--motion-press-firm)); }
 @media (max-width: 599px) {
@@ -948,7 +1015,7 @@ html[data-embed] .dc { border-radius: 0; }
   list-style: none;
   margin: var(--space-md) 0 0;
   padding: var(--space-sm) 0 0;
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
   display: grid;
   gap: var(--space-2xs);
 }
@@ -959,13 +1026,13 @@ html[data-embed] .dc { border-radius: 0; }
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 .dc .dc-steps li .dc-icon { height: 1lh; }
-.dc .dc-steps li[data-step="done"] { color: var(--color-charcoal); }
-.dc .dc-steps li[data-step="done"] .dc-icon { color: var(--color-accent-text); }
-.dc .dc-steps li[data-step="now"] { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
-.dc-lead[data-tone="first"] .dc-lead-kicker { color: var(--color-charcoal); }
+.dc .dc-steps li[data-step="done"] { color: var(--rd-ink); }
+.dc .dc-steps li[data-step="done"] .dc-icon { color: var(--rd-green); }
+.dc .dc-steps li[data-step="now"] { color: var(--rd-ink); font-weight: var(--weight-semibold); }
+.dc-lead[data-tone="first"] .dc-lead-kicker { color: var(--rd-ink); }
 
 /* ---------- The answer zone ----------
    Tea-light, the feature ground, with the cards on it: what the situation
@@ -975,41 +1042,41 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-answer { display: grid; gap: var(--space-lg); }
 .dc-lead {
   padding: var(--space-xl);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  background: var(--color-tea-light);
-  box-shadow: var(--shadow-zone);
+  border: 1px solid var(--rd-hairline);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
+  box-shadow: none;
 }
 /* A READING IS NOT A REFUSAL, and the zone says which it is holding. "Live,
    but failing" takes the alternate ground, muted-light: a different kind of
    answer rather than a problem, the way the cockpit's close call does. The
    failed build keeps tea-light under it, because the caution is on the card
    and a caution ground under a caution card would be the refusal twice. */
-.dc-lead[data-tone="read"] { background: var(--color-muted-light); }
+.dc-lead[data-tone="read"] { background: var(--rd-panel); }
 .dc .dc-lead-kicker {
   margin: 0 0 var(--space-2xs);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
 }
 .dc-lead[data-tone="read"] .dc-lead-kicker,
-.dc-lead[data-tone="failed"] .dc-lead-kicker { color: var(--color-charcoal); }
+.dc-lead[data-tone="failed"] .dc-lead-kicker { color: var(--rd-ink); }
 .dc .dc-answer-h {
   margin: 0;
   max-width: var(--measure);
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-answer-dek {
   margin: var(--space-xs) 0 0;
   max-width: var(--measure);
   font-size: var(--text-base);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc-pair {
   display: grid;
@@ -1034,14 +1101,14 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
 }
 .dc .dc-card-note {
   margin: var(--space-md) 0 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 .dc .dc-card-act { margin: var(--space-lg) 0 0; }
 
@@ -1051,10 +1118,10 @@ html[data-embed] .dc { border-radius: 0; }
    look like a verdict and not like a low figure. Charcoal on caution-light
    is 12.44; the ink as a border on tea-light is 5.43. */
 .dc-fail {
-  border: 2px solid var(--color-caution-text);
-  border-radius: var(--radius-xl);
-  background: var(--color-caution-light);
-  box-shadow: var(--shadow-card-raised);
+  border: 2px solid var(--rd-red);
+  border-radius: var(--rd-radius);
+  background: var(--rd-red-ground);
+  box-shadow: none;
 }
 .dc .dc-fail-head {
   display: flex;
@@ -1064,9 +1131,9 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
-.dc .dc-fail-glyph { flex-shrink: 0; width: 1.25em; height: 1.25em; margin-top: 0.05em; color: var(--color-caution-text); }
+.dc .dc-fail-glyph { flex-shrink: 0; width: 1.25em; height: 1.25em; margin-top: 0.05em; color: var(--rd-red); }
 
 /* ---------- The reading: live, but failing ----------
    White, raised, and edged in the ink rather than the tint, like the
@@ -1081,11 +1148,11 @@ html[data-embed] .dc { border-radius: 0; }
   padding: 0;
   display: grid;
   gap: var(--space-sm);
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
 }
 .dc-answers > div {
   padding-top: var(--space-sm);
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rd-hairline);
   padding-bottom: var(--space-sm);
 }
 .dc-answers > div:last-child { border-bottom: 0; }
@@ -1094,15 +1161,15 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
 }
-.dc-fail .dc-answers dt { color: var(--color-charcoal); }
+.dc-fail .dc-answers dt { color: var(--rd-ink); }
 .dc .dc-answers dd {
   margin: 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-answers dd strong { font-weight: var(--weight-semibold); }
 /* The one line the error names, set in the mono at the same size and in the
@@ -1115,7 +1182,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-caution-text);
+  color: var(--rd-red);
   overflow-wrap: anywhere;
 }
 .dc .dc-answers-fine {
@@ -1123,9 +1190,9 @@ html[data-embed] .dc { border-radius: 0; }
   margin-top: var(--space-xs);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
-.dc-fail .dc-answers-fine { color: var(--color-charcoal); }
+.dc-fail .dc-answers-fine { color: var(--rd-ink); }
 .dc .dc-record { font-weight: var(--weight-semibold); }
 
 /* What changed: the commits since it last worked, hash first. The one that
@@ -1146,10 +1213,10 @@ html[data-embed] .dc { border-radius: 0; }
   align-items: baseline;
 }
 .dc .dc-change-body { display: block; min-width: 0; }
-.dc .dc-change-msg { display: block; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
-.dc .dc-change-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
-.dc-fail .dc-change-who { color: var(--color-charcoal); }
-.dc .dc-change.is-suspect .dc-file { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+.dc .dc-change-msg { display: block; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink); }
+.dc .dc-change-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
+.dc-fail .dc-change-who { color: var(--rd-ink); }
+.dc .dc-change.is-suspect .dc-file { font-weight: var(--weight-semibold); color: var(--rd-red); }
 
 /* ---------- The figures ----------
    The number at --text-xl, one rung under the answer's headline; the label
@@ -1169,7 +1236,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   font-variant-numeric: tabular-nums;
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   overflow-wrap: anywhere;
 }
 .dc .dc-figure-l {
@@ -1177,7 +1244,7 @@ html[data-embed] .dc { border-radius: 0; }
   margin-top: 2px;
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 /* The before, in the caution ink where the reading card shows a figure that
    moved: "was 0.2%" beside 14% is the whole sentence. Ink, not ground. */
@@ -1186,7 +1253,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-caution-text);
+  color: var(--rd-red);
 }
 
 
@@ -1199,19 +1266,19 @@ html[data-embed] .dc { border-radius: 0; }
   align-items: center;
   gap: var(--space-2xs);
   margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-aside-p {
   margin: var(--space-xs) 0 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-aside-p strong { font-weight: var(--weight-semibold); }
 .dc .dc-aside-h2 { margin-top: var(--space-lg); }
@@ -1223,7 +1290,7 @@ html[data-embed] .dc { border-radius: 0; }
   max-width: var(--measure);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 
 /* ---------- The dependency strip ----------
@@ -1235,7 +1302,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 .dc .dc-deps-l + .dc-deps-l,
 .dc .dc-dep-list + .dc-deps-l { margin-top: var(--space-xs); }
@@ -1252,30 +1319,30 @@ html[data-embed] .dc { border-radius: 0; }
   align-items: baseline;
   gap: var(--space-2xs);
   padding: 0 var(--space-xs);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
+  border: 1px solid var(--rd-rule);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-dep-h {
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-weight: var(--weight-regular);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
-.dc .dc-dep[data-health="failing"] { border-color: var(--color-caution-text); }
-.dc .dc-dep[data-health="failing"] .dc-dep-h { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
-.dc .dc-dep[data-health="recovering"] .dc-dep-h { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+.dc .dc-dep[data-health="failing"] { border-color: var(--rd-red); }
+.dc .dc-dep[data-health="failing"] .dc-dep-h { color: var(--rd-red); font-weight: var(--weight-semibold); }
+.dc .dc-dep[data-health="recovering"] .dc-dep-h { color: var(--rd-green); font-weight: var(--weight-semibold); }
 
 /* ---------- The log, folded ----------
    One step down from the line that names the error. The disclosure row is
    style.css's; what is here is the list under it: numbered lines in the
    mono, the failing one marked in the caution ink, wrapping rather than
    scrolling because a log a phone cannot read is a log that was not shown. */
-.dc-log-fold { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
+.dc-log-fold { margin-top: var(--space-md); border-top: 1px solid var(--rd-hairline); }
 /* On the card's own ground, not in a box of its own: a white bordered box
    inside a bordered card was a card inside a card, and the log is a list,
    not a surface. The numbering and the mono are what say "log". */
@@ -1285,15 +1352,15 @@ html[data-embed] .dc { border-radius: 0; }
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-log li {
   padding-left: var(--space-2xs);
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
-.dc .dc-log li::marker { color: var(--color-muted-gray); }
-.dc .dc-log li.is-marked { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+.dc .dc-log li::marker { color: var(--rd-ink-muted); }
+.dc .dc-log li.is-marked { font-weight: var(--weight-semibold); color: var(--rd-red); }
 
 /* ---------- Buttons ----------
    The site's two shapes: a filled sage and a quiet outline, both pills. */
@@ -1305,31 +1372,31 @@ html[data-embed] .dc { border-radius: 0; }
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-md);
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--rd-radius);
   background: none;
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   cursor: pointer;
   white-space: nowrap;
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 .dc .dc-btn-primary {
-  background: var(--color-accent-text);
-  border-color: var(--color-accent-text);
-  color: var(--color-warm);
+  background: var(--rd-green);
+  border-color: var(--rd-green);
+  color: var(--rd-canvas);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-btn-primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+  .dc .dc-btn-primary:hover { background: var(--rd-violet-hover); border-color: var(--rd-violet-hover); }
 }
 .dc .dc-btn-quiet {
-  border-color: var(--color-muted-gray);
-  color: var(--color-charcoal);
+  border-color: var(--rd-ink-muted);
+  color: var(--rd-ink);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-btn-quiet:hover { background: var(--wash-on-light-hover); }
+  .dc .dc-btn-quiet:hover { background: var(--rd-hover); }
   .dc .dc-btn:hover { transform: scale(var(--motion-lift)); }
 }
 /* IN FLIGHT. Not disabled in the DOM, so it stays in the tab order and can
@@ -1338,17 +1405,17 @@ html[data-embed] .dc { border-radius: 0; }
    lifts nor flinches, for the reason the cockpit's refused button does not:
    a button that gives under the finger is promising it did something. */
 .dc .dc-btn[aria-disabled="true"] {
-  color: var(--color-muted-gray);
-  border-color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
+  border-color: var(--rd-ink-muted);
   cursor: progress;
 }
 @media (hover: hover) and (pointer: fine) {
   .dc .dc-btn[aria-disabled="true"]:hover { background: none; transform: none; }
 }
 .dc .dc-btn[aria-disabled="true"]:active { transform: none; }
-.dc table .dc-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
+.dc table .dc-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--rd-ink-muted); }
 @media (hover: hover) and (pointer: fine) {
-  .dc table .dc-btn:not(.dc-btn-primary):hover { background: var(--wash-on-light-hover); }
+  .dc table .dc-btn:not(.dc-btn-primary):hover { background: var(--rd-hover); }
 }
 /* The service's name inside a row button is announced and not printed: the
    row already names it, and "Roll back api" made the action column the
@@ -1375,22 +1442,22 @@ html[data-embed] .dc { border-radius: 0; }
   max-width: 100%;
   margin: 0;
   padding: var(--space-sm) var(--space-xl);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  background: var(--color-muted-light);
-  box-shadow: var(--shadow-zone);
+  border: 1px solid var(--rd-hairline);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
+  box-shadow: none;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-status > span { max-width: var(--measure); }
-.dc .dc-status[data-tone="refused"] { background: var(--color-caution-light); }
+.dc .dc-status[data-tone="refused"] { background: var(--rd-red-ground); }
 .dc .dc-status:empty { display: none; }
-.dc .dc-status .dc-icon { flex-shrink: 0; color: var(--color-accent-text); }
+.dc .dc-status .dc-icon { flex-shrink: 0; color: var(--rd-green); }
 .dc .dc-status[data-tone="refused"] .dc-icon,
-.dc .dc-status[data-tone="read"] .dc-icon { color: var(--color-caution-text); }
-.dc .dc-status[data-tone="note"] .dc-icon { color: var(--color-muted-gray); }
+.dc .dc-status[data-tone="read"] .dc-icon { color: var(--rd-red); }
+.dc .dc-status[data-tone="note"] .dc-icon { color: var(--rd-ink-muted); }
 
 /* ---------- The plan: a rollback previewed ----------
    Every service a row, whether it changes or not. The ones that change carry
@@ -1401,7 +1468,7 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc-plan-list {
   list-style: none;
@@ -1409,30 +1476,30 @@ html[data-embed] .dc { border-radius: 0; }
   padding: 0;
   display: grid;
   gap: 0;
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
 }
 .dc-plan-row {
   display: grid;
   grid-template-columns: 8rem minmax(0, 1fr);
   gap: var(--space-sm);
   padding: var(--space-xs) 0;
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rd-hairline);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-plan-svc { font-family: var(--font-mono); font-weight: var(--weight-semibold); }
 .dc .dc-plan-body { display: block; min-width: 0; }
-.dc .dc-plan-body .dc-icon { color: var(--color-muted-gray); }
-.dc .dc-plan-why { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
-.dc .dc-plan-row[data-change="no"] .dc-plan-svc { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
-.dc .dc-plan-row[data-change="no"] .dc-plan-body { color: var(--color-muted-gray); }
+.dc .dc-plan-body .dc-icon { color: var(--rd-ink-muted); }
+.dc .dc-plan-why { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
+.dc .dc-plan-row[data-change="no"] .dc-plan-svc { font-weight: var(--weight-regular); color: var(--rd-ink-muted); }
+.dc .dc-plan-row[data-change="no"] .dc-plan-body { color: var(--rd-ink-muted); }
 .dc .dc-plan-what {
   margin: var(--space-md) 0 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-plan-act {
   margin: var(--space-md) 0 0;
@@ -1459,30 +1526,30 @@ html[data-embed] .dc { border-radius: 0; }
   align-items: center;
   gap: 2px;
   padding: 2px;
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
+  border: 1px solid var(--rd-rule);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
 }
 .dc .dc-density-btn {
   appearance: none;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--rd-radius);
   padding: var(--space-2xs) var(--space-sm);
   background: none;
-  font-family: var(--font-sans);
+  font-family: var(--rd-font);
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   cursor: pointer;
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-density-btn[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
+  .dc .dc-density-btn[aria-pressed="false"]:hover { background: var(--rd-hover); }
 }
 .dc .dc-density-btn[aria-pressed="true"] {
-  background: var(--color-charcoal);
-  color: var(--color-warm);
+  background: var(--rd-ink);
+  color: var(--rd-canvas);
   font-weight: var(--weight-semibold);
 }
 
@@ -1499,8 +1566,8 @@ html[data-embed] .dc { border-radius: 0; }
   vertical-align: middle;
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-  border-bottom: 1px solid var(--rule-hairline);
+  color: var(--rd-ink);
+  border-bottom: 1px solid var(--rd-hairline);
 }
 .dc-table tbody th:first-child,
 .dc-table tbody td:first-child { padding-left: var(--space-md); }
@@ -1519,21 +1586,21 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-table .dc-cell-act { text-align: right; white-space: nowrap; }
 @media (hover: hover) and (pointer: fine) {
   .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover th,
-  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover td { background: var(--color-warm); }
+  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover td { background: var(--rd-canvas); }
 }
 
 .dc-table thead th {
-  --color-focus-ring: var(--color-accent-on-dark);
+  --color-focus-ring: var(--rd-violet-ink);
   padding: 0;
-  background: var(--color-charcoal);
-  color: var(--ink-on-dark-secondary);
+  background: var(--rd-ink);
+  color: var(--rd-ink-2);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   border-bottom: 0;
   vertical-align: top;
 }
 .dc-table th[aria-sort="ascending"],
-.dc-table th[aria-sort="descending"] { color: var(--ink-on-dark); }
+.dc-table th[aria-sort="descending"] { color: var(--rd-ink); }
 .dc .dc-th {
   display: flex;
   align-items: flex-start;
@@ -1551,7 +1618,7 @@ html[data-embed] .dc { border-radius: 0; }
 .dc .dc-th-unit {
   display: block;
   font-weight: var(--weight-regular);
-  color: var(--ink-on-dark-muted);
+  color: var(--rd-ink-muted);
   white-space: nowrap;
 }
 .dc .dc-sort {
@@ -1565,10 +1632,10 @@ html[data-embed] .dc { border-radius: 0; }
   transition: color var(--motion-state) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-sort:hover { color: var(--ink-on-dark); }
+  .dc .dc-sort:hover { color: var(--rd-ink); }
 }
 .dc .dc-sort-icon {
-  color: var(--color-accent-on-dark);
+  color: var(--rd-violet-ink);
   opacity: 0;
   transition: opacity var(--motion-state) var(--ease);
 }
@@ -1592,9 +1659,9 @@ html[data-embed] .dc { border-radius: 0; }
    a row painted caution would say the service is down. The caution goes on
    the tag in the newest-deploy cell, which is the thing that failed. */
 .dc-table .dc-row.is-focus th,
-.dc-table .dc-row.is-focus td { background: var(--color-tea-light); }
+.dc-table .dc-row.is-focus td { background: var(--rd-panel); }
 .dc-table .dc-row.is-rolled th,
-.dc-table .dc-row.is-rolled td { background: var(--color-muted-light); font-weight: var(--weight-semibold); }
+.dc-table .dc-row.is-rolled td { background: var(--rd-panel); font-weight: var(--weight-semibold); }
 .dc-table .dc-row.is-rolled td .dc-cell-note { font-weight: var(--weight-regular); }
 
 /* The tags: a state word in a pill. Failed takes the caution ground with the
@@ -1607,31 +1674,31 @@ html[data-embed] .dc { border-radius: 0; }
   white-space: nowrap;
   margin-left: var(--space-2xs);
   padding: 0 var(--space-xs);
-  border: 1px solid var(--color-accent-text);
-  border-radius: var(--radius-pill);
-  background: var(--color-white);
+  border: 1px solid var(--rd-green);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
   vertical-align: 0.1em;
 }
 .dc .dc-tag-failed {
-  border-color: var(--color-caution-text);
-  background: var(--color-caution-light);
-  color: var(--color-caution-text);
+  border-color: var(--rd-red);
+  background: var(--rd-red-ground);
+  color: var(--rd-red);
 }
 .dc .dc-tag-rolled {
-  background: var(--color-accent-text);
-  border-color: var(--color-accent-text);
-  color: var(--color-warm);
+  background: var(--rd-green);
+  border-color: var(--rd-green);
+  color: var(--rd-canvas);
 }
 .dc .dc-cell-note {
   display: block;
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
   font-weight: var(--weight-regular);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
 .dc-table .dc-cell-newest .dc-cell-note { max-width: 10rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -1646,17 +1713,17 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-semibold);
   white-space: nowrap;
 }
-.dc-table .dc-cell-health[data-health="ok"] .dc-health-word { color: var(--color-accent-text); }
+.dc-table .dc-cell-health[data-health="ok"] .dc-health-word { color: var(--rd-green); }
 /* Recovering sits on the rolled rows' muted-light, where the sage measures
    4.6:1 against a 4.5 floor: the word takes charcoal there, 12.10, and the
    undo glyph keeps the sage, which as a mark answers to 3:1. */
-.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-charcoal); }
-.dc-table .dc-cell-health[data-health="recovering"] .dc-icon { color: var(--color-accent-text); }
-.dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--color-caution-text); }
-.dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
-.dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--rd-ink); }
+.dc-table .dc-cell-health[data-health="recovering"] .dc-icon { color: var(--rd-green); }
+.dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--rd-red); }
+.dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--rd-red); font-weight: var(--weight-semibold); }
+.dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--rd-ink-muted); }
 /* Redeploying: charcoal word, the state is neither fine nor not fine yet. */
-.dc-table .dc-cell-health[data-health="building"] .dc-health-word { color: var(--color-charcoal); }
+.dc-table .dc-cell-health[data-health="building"] .dc-health-word { color: var(--rd-ink); }
 
 /* ---------- A row that opens in place ---------- */
 .dc-table .dc-cell-svc { padding: 0; }
@@ -1674,20 +1741,20 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
   text-align: left;
   white-space: nowrap;
   cursor: pointer;
   transition: color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dc .dc-row-more:hover { color: var(--color-accent-hover); }
+  .dc .dc-row-more:hover { color: var(--rd-violet-hover); }
 }
 .dc .dc-row-chev {
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
   rotate: -90deg;
   transition: rotate var(--motion-state) var(--ease);
 }
@@ -1696,9 +1763,9 @@ html[data-embed] .dc { border-radius: 0; }
 @keyframes dc-chev-close { from { rotate: 0deg; } }
 .dc .dc-row-chev[data-turn="open"]  { animation: dc-chev-open  var(--motion-state) var(--ease); }
 .dc .dc-row-chev[data-turn="close"] { animation: dc-chev-close var(--motion-state) var(--ease); }
-.dc .dc-row-more:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: -3px; border-radius: 4px; }
+.dc .dc-row-more:focus-visible { outline: 2px solid var(--rd-green); outline-offset: -3px; border-radius: 4px; }
 
-.dc-table .dc-row-detail > td { padding: 0; background: var(--color-warm); }
+.dc-table .dc-row-detail > td { padding: 0; background: var(--rd-canvas); }
 .dc .dc-detail {
   display: grid;
   gap: 0;
@@ -1710,7 +1777,7 @@ html[data-embed] .dc { border-radius: 0; }
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-detail-p + .dc-detail-p,
 .dc .dc-detail .dc-deps { margin-top: var(--space-sm); }
@@ -1731,17 +1798,17 @@ html[data-embed] .dc { border-radius: 0; }
   padding: 0;
   display: grid;
   gap: 0;
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
 }
 .dc-history-row {
   display: grid;
   grid-template-columns: 6.5rem minmax(0, 1fr);
   gap: var(--space-sm);
   padding: var(--space-xs) 0;
-  border-bottom: 1px solid var(--rule-hairline);
+  border-bottom: 1px solid var(--rd-hairline);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-history-tag {
   display: inline-flex;
@@ -1749,19 +1816,19 @@ html[data-embed] .dc { border-radius: 0; }
   gap: var(--space-2xs);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  color: var(--color-muted-gray);
+  color: var(--rd-ink-muted);
 }
-.dc .dc-history-row[data-status="live"] .dc-history-tag { color: var(--color-accent-text); }
-.dc .dc-history-row[data-status="failed"] .dc-history-tag { color: var(--color-caution-text); }
+.dc .dc-history-row[data-status="live"] .dc-history-tag { color: var(--rd-green); }
+.dc .dc-history-row[data-status="failed"] .dc-history-tag { color: var(--rd-red); }
 .dc .dc-history-body { display: block; min-width: 0; }
-.dc .dc-history-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-history-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
 .dc .dc-history-fail {
   display: block;
   margin-top: var(--space-2xs);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-caution-text);
+  color: var(--rd-red);
   overflow-wrap: anywhere;
 }
 
@@ -1789,7 +1856,7 @@ html[data-embed] .dc { border-radius: 0; }
    style.css rings links, buttons and summaries. These are the rest. */
 .dc input:focus-visible,
 .dc textarea:focus-visible {
-  outline: 2px solid var(--color-accent-text);
+  outline: 2px solid var(--rd-green);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -1874,27 +1941,27 @@ html[data-embed] .dc { border-radius: 0; }
   max-width: 100%;
   margin: 0;
   padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-muted-gray);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--rd-ink-muted);
+  border-radius: var(--rd-radius);
+  background: var(--rd-panel);
+  box-shadow: none;
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-note > span { max-width: var(--measure); }
-.dc .dc-note .dc-icon { height: 1lh; flex-shrink: 0; color: var(--color-accent-text); }
+.dc .dc-note .dc-icon { height: 1lh; flex-shrink: 0; color: var(--rd-green); }
 .dc .dc-note strong { font-weight: var(--weight-semibold); }
 .dc .dc-note[data-tone="read"] .dc-icon,
-.dc .dc-note[data-tone="read"] strong { color: var(--color-caution-text); }
+.dc .dc-note[data-tone="read"] strong { color: var(--rd-red); }
 
 /* The table. Fixed layout so the two deploys' columns are exactly equal: a
    comparison with uneven columns is one the eye reads as weighted. */
 .dc .dc-vs { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .dc .dc-vs th,
-.dc .dc-vs td { padding: var(--space-sm) var(--space-md); text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule-hairline); }
+.dc .dc-vs td { padding: var(--space-sm) var(--space-md); text-align: left; vertical-align: top; border-bottom: 1px solid var(--rd-hairline); }
 .dc .dc-vs thead th,
-.dc .dc-vs thead td { border-bottom: 1px solid var(--color-rule); }
+.dc .dc-vs thead td { border-bottom: 1px solid var(--rd-rule); }
 .dc .dc-vs-corner { width: 28%; }
 .dc .dc-vs-opt-label { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); }
 .dc .dc-vs-opt-id {
@@ -1904,24 +1971,24 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 .dc .dc-vs-opt { font-weight: var(--weight-regular); }
-.dc .dc-vs-opt-who { display: block; font-size: var(--text-sm); font-weight: var(--weight-regular); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-vs-opt-who { display: block; font-size: var(--text-sm); font-weight: var(--weight-regular); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
 .dc .dc-vs-factor { font-weight: var(--weight-regular); }
-.dc .dc-vs-factor-name { display: block; font-size: var(--text-base); line-height: var(--leading-ui); color: var(--color-charcoal); }
-.dc .dc-vs-note { display: block; margin-top: var(--space-2xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-vs-factor-name { display: block; font-size: var(--text-base); line-height: var(--leading-ui); color: var(--rd-ink); }
+.dc .dc-vs-note { display: block; margin-top: var(--space-2xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
 /* All three rows are the change, so all three are raised onto white, the
    cockpit's "the tradeoff" treatment given to the whole body. */
 .dc .dc-vs-row th,
-.dc .dc-vs-row td { background: var(--color-white); }
+.dc .dc-vs-row td { background: var(--rd-panel); }
 .dc .dc-vs-value {
   display: block;
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   font-variant-numeric: tabular-nums;
-  color: var(--color-charcoal);
+  color: var(--rd-ink);
 }
 /* Which way the figure went: a word and a glyph. Worse takes the chip the
    cockpit gives "hurts", caution-light with the caution ink at 5.23; the
@@ -1934,14 +2001,14 @@ html[data-embed] .dc { border-radius: 0; }
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--rd-green);
 }
 .dc .dc-dir .dc-icon { height: 1lh; }
 .dc .dc-dir[data-dir="worse"] {
   padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
-  background: var(--color-caution-light);
-  color: var(--color-caution-text);
+  border-radius: var(--rd-radius);
+  background: var(--rd-red-ground);
+  color: var(--rd-red);
 }
 /* The bar: the value against the larger of the pair, so a row's two bars
    are one drawing. The track and its ring are the cockpit's factor bar's;
@@ -1953,8 +2020,8 @@ html[data-embed] .dc { border-radius: 0; }
   height: 10px;
   margin-top: var(--space-xs);
   border-radius: 5px;
-  background: var(--color-tag-border);
-  box-shadow: inset 0 0 0 1px var(--rule-strong);
+  background: var(--rd-hover);
+  box-shadow: inset 0 0 0 1px var(--rd-rule);
 }
 .dc .dc-bar-mark {
   position: absolute;
@@ -1964,12 +2031,12 @@ html[data-embed] .dc { border-radius: 0; }
   width: calc(var(--w) - 4px);
   min-width: 2px;
   border-radius: 3px;
-  background: var(--color-accent-text);
-  box-shadow: 0 0 0 1px var(--color-white);
+  background: var(--rd-green);
+  box-shadow: 0 0 0 1px var(--rd-panel);
 }
-.dc .dc-bar[data-side="b"] .dc-bar-mark { background: var(--color-caution-text); }
-.dc-read.is-rolled .dc-bar[data-side="b"] .dc-bar-mark { background: var(--color-muted-gray); }
-.dc-read.is-rolled .dc-dir[data-dir="worse"] { background: none; padding: 0; color: var(--color-muted-gray); }
+.dc .dc-bar[data-side="b"] .dc-bar-mark { background: var(--rd-red); }
+.dc-read.is-rolled .dc-bar[data-side="b"] .dc-bar-mark { background: var(--rd-ink-muted); }
+.dc-read.is-rolled .dc-dir[data-dir="worse"] { background: none; padding: 0; color: var(--rd-ink-muted); }
 .dc-vs-foot {
   display: grid;
   grid-template-columns: 28% minmax(0, 1fr) minmax(0, 1fr);
@@ -1977,7 +2044,7 @@ html[data-embed] .dc { border-radius: 0; }
 }
 .dc-vs-foot > :first-child { grid-column: 2; }
 .dc .dc-vs-act { padding: 0 var(--space-md); }
-.dc .dc-vs-act-note { display: block; margin-top: var(--space-xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-vs-act-note { display: block; margin-top: var(--space-xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
 
 /* What changed and what depends on it, side by side under the table. */
 .dc-read-more {
@@ -1985,7 +2052,7 @@ html[data-embed] .dc { border-radius: 0; }
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-lg);
   padding-top: var(--space-md);
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rd-hairline);
 }
 @media (min-width: 800px) {
   .dc-read-more { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-2xl); }
@@ -2039,7 +2106,7 @@ html[data-embed] .dc { border-radius: 0; }
   animation-fill-mode: backwards;
 }
 @keyframes dc-ground-fill { from { background-color: transparent; } }
-@keyframes dc-ground-drain { from { background-color: var(--color-muted-light); } }
+@keyframes dc-ground-drain { from { background-color: var(--rd-panel); } }
 .dc-table tbody tr[data-ground="fill"] > th,
 .dc-table tbody tr[data-ground="fill"] > td {
   animation-name: dc-ground-fill;
@@ -2116,3 +2183,240 @@ html[data-embed] .dc { border-radius: 0; }
    over the same span, with no rise, because the box is the thing moving. */
 .dc-row-detail .dc-detail[data-drawer] { overflow: hidden; box-sizing: border-box; }
 .dc-row-detail .dc-detail[data-drawer="open"] > * { animation: dc-plan-in var(--motion-move) var(--ease); }
+
+/* ======================= THE DASHBOARD'S DIRECTION ========================
+   What the token remap above could not do: structure. The header and the
+   sidebar, the menu, the labels, and the handful of surfaces whose meaning
+   the remap got wrong -- a selection is violet, a live thing is green, a
+   primary action is the violet fill. Everything here comes after the rules
+   it overrides, on purpose. ============================================== */
+.dc { font-family: var(--rd-font); padding: 0; }
+@media (min-width: 48rem) { .dc { padding: 0; } }
+@media (max-width: 599px) { .dc { padding: 0; } }
+.dc { color: var(--rd-ink); }
+
+/* The labels: small, tracked, mono, uppercase, muted. */
+.dc .dc-label,
+.dc .dc-lead-kicker,
+.dc .dc-card-head,
+.dc .dc-answers dt,
+.dc .dc-rail-h,
+.dc .dc-tabs-label,
+.dc .dc-deps-l,
+.dc .dc-project-facts dt,
+.dc .dc-nav-h,
+.dc .dc-menu-h,
+.dc .dc-vs-opt-label,
+.dc-table thead th {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--rd-ink-muted);
+}
+.dc .dc-tabs-hint { text-transform: none; letter-spacing: var(--tracking-normal); font-family: var(--rd-font); }
+.dc .dc-th-unit { text-transform: none; letter-spacing: var(--tracking-normal); font-family: var(--rd-font); font-size: var(--text-xs); }
+.dc .dc-lead-kicker { margin-bottom: var(--space-xs); }
+.dc-lead[data-tone="read"] .dc-lead-kicker,
+.dc-lead[data-tone="failed"] .dc-lead-kicker,
+.dc-lead[data-tone="first"] .dc-lead-kicker { color: var(--rd-ink-muted); }
+.dc-lead[data-tone="failed"] .dc-lead-kicker { color: var(--rd-red); }
+.dc-fail .dc-answers dt, .dc-fail .dc-answers-fine, .dc-fail .dc-change-who { color: var(--rd-ink-2); }
+.dc p .dc-label { font-family: inherit; font-size: inherit; letter-spacing: inherit; text-transform: none; }
+
+/* The scenario strip: the prototype's own control, at the top of the screen. */
+.dc .dc-tabs-label { margin: 0; padding: var(--space-md) var(--space-lg) var(--space-xs); }
+.dc-tabs {
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-lg) var(--space-sm);
+  margin: 0;
+  background: var(--rd-canvas);
+  border-bottom: 1px solid var(--rd-hairline);
+}
+@media (max-width: 63.98rem) { .dc-tabs { margin-inline: 0; padding-inline: var(--space-lg); scroll-padding-inline: var(--space-lg); } }
+.dc .dc-tab { border-radius: var(--rd-radius); color: var(--rd-ink-2); }
+.dc .dc-tab[aria-selected="true"] { background: var(--rd-violet-ground); border-color: var(--rd-violet-ground); color: var(--rd-ink); }
+.dc .dc-tab[aria-selected="true"]::after { content: none; }
+.dc-stage { gap: 0; margin-top: 0; }
+.dc-situation { padding: var(--space-md) var(--space-lg); max-width: none; }
+.dc .dc-blurb { max-width: var(--measure); color: var(--rd-ink-2); }
+
+/* The shell: the header across the top, the menu down the left. */
+.dc-shell {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  border-top: 1px solid var(--rd-hairline);
+}
+.dc-top {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+  padding: var(--space-xs) var(--space-lg);
+  border-bottom: 1px solid var(--rd-hairline);
+}
+.dc-side { padding: var(--space-md) var(--space-sm); border-right: 1px solid var(--rd-hairline); }
+.dc-panel { padding: var(--space-lg); }
+#dc-overview, #dc-services, #dc-events { scroll-margin-top: calc(var(--nav-height) + 3.875rem + var(--space-sm)); }
+
+/* The crumbs: project, environment, service; the environment is a button. */
+.dc .dc-crumbs { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2xs); margin: 0; padding: 0; font-size: var(--text-sm); line-height: var(--leading-ui); }
+.dc .dc-crumb { position: relative; display: inline-flex; align-items: center; gap: var(--space-2xs); color: var(--rd-ink); }
+.dc .dc-crumb .dc-icon { height: 1lh; color: var(--rd-ink-2); }
+.dc .dc-crumb + .dc-crumb::before { content: "/"; margin-right: var(--space-2xs); color: var(--rd-ink-muted); }
+.dc .dc-crumb-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid transparent;
+  border-radius: var(--rd-radius);
+  background: none;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  color: var(--rd-ink);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
+}
+.dc .dc-crumb-btn .dc-crumb-chev { width: 0.875em; height: 0.875em; color: var(--rd-ink-muted); }
+@media (hover: hover) and (pointer: fine) { .dc .dc-crumb-btn:hover { background: var(--rd-hover); } }
+.dc .dc-crumb-btn[aria-expanded="true"] { background: var(--rd-raised); border-color: var(--rd-rule); }
+.dc .dc-top-clock { display: inline-flex; align-items: center; gap: var(--space-2xs); margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink-2); font-variant-numeric: tabular-nums; }
+.dc .dc-top-clock .dc-icon { height: 1lh; }
+
+/* The menu under the crumb. */
+.dc .dc-menu {
+  position: absolute;
+  top: calc(100% + var(--space-2xs));
+  left: 0;
+  z-index: 4;
+  min-width: 15rem;
+  padding: var(--space-xs);
+  border: 1px solid var(--rd-rule);
+  border-radius: var(--rd-radius);
+  background: var(--rd-raised);
+}
+.dc .dc-menu-h { margin: var(--space-2xs) var(--space-sm) var(--space-xs); }
+.dc .dc-menu-item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 0;
+  border-radius: var(--rd-radius);
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--rd-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease);
+}
+.dc .dc-menu-item .dc-icon { height: 1lh; color: var(--rd-ink-2); }
+@media (hover: hover) and (pointer: fine) { .dc .dc-menu-item:hover { background: var(--rd-hover); } }
+.dc .dc-menu-item[aria-checked="true"] { background: var(--rd-violet-ground); font-weight: var(--weight-semibold); box-shadow: inset 2px 0 0 var(--rd-violet-ink); }
+
+/* The sidebar: back a level, the service, then its menu. */
+.dc .dc-side-back { display: flex; align-items: center; gap: var(--space-2xs); margin: 0 0 var(--space-2xs); padding-inline: var(--space-sm); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--rd-ink-2); }
+.dc .dc-side-back .dc-icon { height: 1lh; }
+.dc .dc-side-id { display: flex; align-items: center; gap: var(--space-xs); margin: 0 0 var(--space-md); padding-inline: var(--space-sm); font-family: var(--font-mono); font-size: var(--text-base); font-weight: var(--weight-semibold); line-height: var(--leading-ui); color: var(--rd-ink); }
+.dc .dc-side-id .dc-icon { height: 1lh; color: var(--rd-ink-2); }
+.dc .dc-nav { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.dc .dc-nav-h { margin: var(--space-md) 0 var(--space-2xs); padding-inline: var(--space-sm); }
+.dc .dc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--rd-radius);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--rd-ink);
+  text-decoration: none;
+  transition: background-color var(--motion-state) var(--ease);
+}
+.dc .dc-nav-item .dc-icon { height: 1lh; width: 1.1em; color: var(--rd-ink-2); }
+@media (hover: hover) and (pointer: fine) { .dc a.dc-nav-item:hover { background: var(--rd-hover); color: var(--rd-ink); } }
+.dc .dc-nav-item[aria-current="page"] { background: var(--rd-violet-ground); font-weight: var(--weight-semibold); box-shadow: inset 2px 0 0 var(--rd-violet-ink); }
+.dc .dc-nav-item[aria-disabled="true"] { color: var(--rd-ink-muted); cursor: default; }
+.dc .dc-nav-item[aria-disabled="true"] .dc-icon { color: var(--rd-ink-muted); }
+
+/* Surfaces: the panel on the canvas, the raised thing on the panel, and the
+   edge that says so is a hairline, never a shadow. */
+.dc-project, .dc-plan, .dc-table-wrap, .dc-aside-card, .dc-lead { background: var(--rd-panel); border: 1px solid var(--rd-hairline); }
+.dc-card, .dc .dc-note, .dc .dc-status { background: var(--rd-raised); border-color: var(--rd-hairline); }
+.dc .dc-note { border-color: var(--rd-rule); }
+.dc .dc-status[data-tone="refused"] { background: var(--rd-red-ground); border-color: var(--rd-red); }
+.dc-fail { background: var(--rd-red-ground); border-color: var(--rd-red); }
+.dc .dc-vs-row th, .dc .dc-vs-row td { background: var(--rd-raised); }
+.dc .dc-bar-mark { box-shadow: 0 0 0 1px var(--rd-raised); }
+.dc .dc-node, .dc .dc-dep, .dc .dc-tag, .dc .dc-density { background: var(--rd-raised); border-color: var(--rd-rule); }
+.dc .dc-tag { color: var(--rd-green); border-color: var(--rd-green); }
+.dc .dc-tag-failed { background: var(--rd-red-ground); border-color: var(--rd-red); color: var(--rd-red); }
+.dc .dc-tag-rolled { background: var(--rd-green-ground); border-color: var(--rd-green); color: var(--rd-green); }
+.dc .dc-density-btn { color: var(--rd-ink-2); }
+.dc .dc-density-btn[aria-pressed="true"] { background: var(--rd-violet-ground); color: var(--rd-ink); }
+.dc .dc-h { color: var(--rd-ink); }
+
+/* Rows: the current one violet, the rolled ones green, and the row under
+   the pointer one step lighter. */
+.dc-table .dc-row.is-focus th, .dc-table .dc-row.is-focus td { background: var(--rd-violet-ground); }
+.dc-table .dc-row.is-rolled th, .dc-table .dc-row.is-rolled td { background: var(--rd-green-ground); }
+@media (hover: hover) and (pointer: fine) {
+  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover th,
+  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover td { background: var(--rd-hover); }
+}
+@keyframes dc-ground-drain { from { background-color: var(--rd-green-ground); } }
+.dc-table thead th { background: var(--rd-panel); border-bottom: 1px solid var(--rd-hairline); }
+.dc-table th[aria-sort="ascending"], .dc-table th[aria-sort="descending"] { color: var(--rd-ink); }
+.dc-table .dc-row-detail > td { background: var(--rd-canvas); }
+.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--rd-green); }
+
+/* Buttons: the primary is the one violet fill on the screen. */
+.dc .dc-btn { border-radius: var(--rd-radius); }
+.dc .dc-btn-primary { background: var(--rd-violet); border-color: var(--rd-violet); color: var(--rd-on-violet); }
+@media (hover: hover) and (pointer: fine) { .dc .dc-btn-primary:hover { background: var(--rd-violet-hover); border-color: var(--rd-violet-hover); } }
+.dc .dc-btn-quiet, .dc table .dc-btn { border-color: var(--rd-rule); background: var(--rd-raised); color: var(--rd-ink); }
+.dc .dc-btn[aria-disabled="true"] { color: var(--rd-ink-muted); border-color: var(--rd-rule); background: none; }
+.dc .dc-sort-icon { color: var(--rd-violet-ink); }
+.dc .dc-row-more { color: var(--rd-ink); }
+@media (hover: hover) and (pointer: fine) { .dc .dc-row-more:hover { color: var(--rd-violet-ink); } }
+.dc .dc-row-more:focus-visible, .dc input:focus-visible, .dc textarea:focus-visible { outline-color: var(--rd-violet-ink); }
+
+/* The sortable head is a button, and the browser's own stylesheet resets a
+   button's case and tracking: they come back from the cell. */
+.dc .dc-sort { text-transform: inherit; letter-spacing: inherit; }
+.dc .dc-crumb + .dc-crumb::before { margin-inline: var(--space-2xs); }
+/* The disclosure row is style.css's, in the site's sage; in here it takes
+   the console's second ink, and the violet ink under the pointer. */
+.dc .disclosure-row { color: var(--rd-ink-2); }
+.dc .disclosure-row .disclosure-chev { color: var(--rd-ink-muted); }
+@media (hover: hover) and (pointer: fine) { .dc .disclosure-row:hover { color: var(--rd-violet-ink); background: none; } }
+.dc .dc-log-fold summary:focus-visible { outline-color: var(--rd-violet-ink); }
+
+/* The narrow screen: the menu becomes a strip under the header. */
+@media (max-width: 47.99rem) {
+  .dc-shell { grid-template-columns: minmax(0, 1fr); }
+  .dc-side { display: flex; align-items: center; gap: var(--space-2xs); padding: var(--space-xs) var(--space-md); border-right: 0; border-bottom: 1px solid var(--rd-hairline); overflow-x: auto; scrollbar-width: none; }
+  .dc-side::-webkit-scrollbar { display: none; }
+  .dc .dc-side-back, .dc .dc-nav-h { display: none; }
+  .dc .dc-side-id { margin: 0; padding: 0 var(--space-sm) 0 0; border-right: 1px solid var(--rd-hairline); white-space: nowrap; font-size: var(--text-sm); }
+  .dc .dc-nav { display: flex; flex: 0 0 auto; }
+  .dc .dc-nav-item { width: auto; white-space: nowrap; padding: var(--space-2xs) var(--space-xs); }
+  .dc-panel { padding: var(--space-md); }
+  .dc .dc-tabs-label, .dc-situation { padding-inline: var(--space-md); }
+  .dc-tabs { padding-inline: var(--space-md); scroll-padding-inline: var(--space-md); }
+  .dc-top { padding-inline: var(--space-md); }
+}

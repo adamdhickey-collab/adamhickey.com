@@ -302,6 +302,21 @@
     down:     '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
     play:     '<path d="m6 3 14 9-14 9V3z"/>',
     circle:   '<circle cx="12" cy="12" r="9"/>',
+    /* The chrome's: the header's crumbs and the sidebar's rows. */
+    globe:    '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    layers:   '<path d="m12 2 9 4.5-9 4.5-9-4.5L12 2z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>',
+    lock:     '<rect x="4" y="11" width="16" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    dashed:   '<path d="M10.1 2.2a10 10 0 0 1 3.8 0"/><path d="M17.6 4.4a10 10 0 0 1 2.7 2.7"/><path d="M21.8 10.1a10 10 0 0 1 0 3.8"/><path d="M19.6 17.6a10 10 0 0 1-2.7 2.7"/><path d="M13.9 21.8a10 10 0 0 1-3.8 0"/><path d="M6.4 19.6a10 10 0 0 1-2.7-2.7"/><path d="M2.2 13.9a10 10 0 0 1 0-3.8"/><path d="M4.4 6.4a10 10 0 0 1 2.7-2.7"/>',
+    list:     '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+    home:     '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    logs:     '<path d="M3 6h12"/><path d="M3 12h8"/><path d="M3 18h6"/><circle cx="17" cy="16" r="3.5"/><path d="m19.5 18.5 2.5 2.5"/>',
+    chart:    '<path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 6-7"/>',
+    gear:     '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+    sliders:  '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
+    disk:     '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>',
+    scale:    '<path d="m21 3-6 6"/><path d="M21 9V3h-6"/><path d="m3 21 6-6"/><path d="M3 15v6h6"/>',
+    terminal: '<path d="m4 17 6-6-6-6"/><path d="M12 19h8"/>',
+    back:     '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
   };
   const TAB_ICON = { live: 'checkCircle', first: 'play', failed: 'ban', degraded: 'alert', rolled: 'undo' };
   const icon = (name, cls = 'dc-icon') =>
@@ -346,6 +361,7 @@
     armed: 0,             /* when the reader last pressed Roll back */
     open: new Set(),      /* service ids whose row is expanded */
     density: 'comfortable',
+    envMenu: false,       /* the header's environment menu is open */
   };
 
   const root = $('#console');
@@ -426,6 +442,59 @@
     $('.dc-blurb', root).textContent = state.scenario.blurb;
   }
 
+  /* THE CHROME: WHERE YOU ARE, AND WHAT IS CLOSEST. The header is a
+     breadcrumb -- the project, the environment, the service the situation
+     is about -- and the environment crumb is the switch, opened as a menu.
+     The sidebar is the menu for that service: the two things a developer
+     reaches for on a bad day at the top, then what there is to look at,
+     then what there is to manage. Overview, Events, Logs and Metrics go to
+     the parts of this screen that answer them; Environment opens the
+     switch; the rest are the product's and not this prototype's, and say
+     so rather than pretending. Rendered on every render, like the rest. */
+  const NAV_MORE = [['gear', 'Settings'], ['scale', 'Scaling'], ['disk', 'Disks'], ['terminal', 'Shell']];
+  function renderChrome() {
+    const top = $('.dc-top', root), side = $('.dc-side', root);
+    if (!top || !side) return;
+    const p = DATA.project;
+    const focus = state.scenario.focus ? service(state.scenario.focus) : null;
+    const envs = [['production', 'Production', 'lock'], ['staging', 'Staging', 'dashed']];
+    const cur = envs.find((e) => e[0] === state.env);
+    const open = !!state.envMenu;
+    const hasLog = !!(focus && newest(focus) && (newest(focus).log || (newest(focus).fail && newest(focus).fail.log)));
+    top.innerHTML = `
+      <ol class="dc-crumbs" aria-label="Where you are">
+        <li class="dc-crumb">${icon('layers')}<span>${esc(p.name)}</span></li>
+        <li class="dc-crumb dc-crumb--env">
+          <button type="button" class="dc-crumb-btn" aria-haspopup="menu" aria-expanded="${open}" data-envmenu data-focus="envmenu">${icon(cur[2])}<span>${cur[1]}</span>${icon('chevron', 'dc-icon dc-crumb-chev')}</button>
+          <div class="dc-menu" role="menu" aria-label="Switch environment"${open ? '' : ' hidden'}>
+            <p class="dc-menu-h dc-label">Switch environment</p>
+            ${envs.map(([id, name, glyph]) => `<button type="button" role="menuitemradio" class="dc-menu-item" aria-checked="${state.env === id}" data-env="${id}" data-focus="env:${id}">${icon(glyph)}<span>${name}</span></button>`).join('')}
+          </div>
+        </li>
+        <li class="dc-crumb">${icon('globe')}<span>${focus ? esc(focus.id) : 'all services'}</span></li>
+      </ol>
+      <p class="dc-top-clock">${icon('clock')}<span>${clock(p.nowMin)}</span></p>`;
+    const item = (glyph, label, attrs) => `<li><a class="dc-nav-item" ${attrs}>${icon(glyph)}<span>${label}</span></a></li>`;
+    const off = (glyph, label) => `<li><span class="dc-nav-item" aria-disabled="true" title="In the product, not in this prototype">${icon(glyph)}<span>${label}</span></span></li>`;
+    side.innerHTML = `
+      <p class="dc-side-back">${icon('back')}<span>${cur[1]}</span></p>
+      <p class="dc-side-id">${icon(focus ? 'globe' : 'layers')}<span>${focus ? esc(focus.id) : esc(p.name)}</span></p>
+      <ul class="dc-nav">
+        ${item('home', 'Overview', 'href="#dc-overview" aria-current="page" data-nav="overview"')}
+        ${item('list', 'Events', 'href="#dc-events" data-nav="events"')}
+      </ul>
+      <p class="dc-nav-h dc-label">Monitor</p>
+      <ul class="dc-nav">
+        ${hasLog ? item('logs', 'Logs', 'href="#dc-overview" data-nav="logs"') : off('logs', 'Logs')}
+        ${item('chart', 'Metrics', 'href="#dc-services" data-nav="metrics"')}
+      </ul>
+      <p class="dc-nav-h dc-label">Manage</p>
+      <ul class="dc-nav">
+        ${item('sliders', 'Environment', 'href="#dc-overview" data-nav="env"')}
+        ${NAV_MORE.map(([g, l]) => off(g, l)).join('')}
+      </ul>`;
+  }
+
   /* THE PROJECT, AND THE FIRST QUESTION ANSWERED BEFORE IT IS ASKED. How
      many services, how many are serving, when the last deploy landed and on
      what, and the clock every "ago" on the screen counts from. */
@@ -440,13 +509,6 @@
       .sort((a, b) => a.d.ago - b.d.ago)[0];
     const lastWord = last ? `${last.s.id}, ${ago(last.d.ago)}${last.d.status === 'failed' ? ', failed' : last.d.status === 'building' ? ', building' : ''}` : 'none';
     $('.dc-project', root).innerHTML = `
-      <div class="dc-project-head">
-        <p class="dc-project-id"><span class="dc-label">Project</span> ${esc(p.name)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(state.env)}</p>
-        <div class="dc-env" role="group" aria-label="Environment">
-          <button type="button" class="dc-density-btn" data-env="production" aria-pressed="${state.env === 'production'}">Production</button>
-          <button type="button" class="dc-density-btn" data-env="staging" aria-pressed="${state.env === 'staging'}">Staging</button>
-        </div>
-      </div>
       <dl class="dc-project-facts">
         <div><dt>${icon('boxes')}Services</dt><dd>${serving} of ${state.services.length} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
         <div><dt>${icon('commit')}Last deploy</dt><dd>${esc(lastWord)}</dd></div>
@@ -1219,6 +1281,7 @@
 
   function render(status, tone) {
     const focusKey = document.activeElement && document.activeElement.dataset.focus;
+    renderChrome();
     renderProject();
     renderAnswer();
     renderPlan();
@@ -1418,10 +1481,27 @@
       return;
     }
     if (e.target.closest('[aria-disabled="true"]')) return;
+    const menu = e.target.closest('[data-envmenu]');
+    if (menu) {
+      state.envMenu = !state.envMenu;
+      renderChrome();
+      const el = root.querySelector(state.envMenu ? '.dc-menu-item[aria-checked="true"]' : '[data-envmenu]');
+      if (el) el.focus({ preventScroll: true });
+      return;
+    }
+    const nav = e.target.closest('[data-nav]');
+    if (nav) {
+      e.preventDefault();
+      if (nav.dataset.nav === 'env') { state.envMenu = true; renderChrome(); const b = root.querySelector('.dc-menu-item[aria-checked="true"]'); if (b) b.focus({ preventScroll: true }); return; }
+      if (nav.dataset.nav === 'logs') { const d = root.querySelector('.dc-log-fold details'); if (d) { d.open = true; keep(d); return; } }
+      keep(root.querySelector(nav.getAttribute('href')));
+      return;
+    }
     const env = e.target.closest('[data-env]');
     if (env) {
-      if (env.dataset.env === state.env) return;
+      if (env.dataset.env === state.env) { state.envMenu = false; renderChrome(); const b = root.querySelector('[data-envmenu]'); if (b) b.focus({ preventScroll: true }); return; }
       state.env = env.dataset.env;
+      state.envMenu = false;
       state.services = buildServices(state.scenario);
       state.plan = null; state.rolled = null; state.rolling = null; state.first = null;
       rollGen++; deployGen++;
@@ -1429,7 +1509,7 @@
       render(state.env === 'staging'
         ? `Staging: every service is serving ${live(api).commit}, ${span(live(api).ago)}, at ${pct(api.metrics.errors)} errors.`
         : 'Production.', 'note');
-      keep(root.querySelector(`[data-env="${state.env}"]`));
+      const b = root.querySelector('[data-envmenu]'); if (b) b.focus({ preventScroll: true });
       return;
     }
     const kind = e.target.closest('[data-kind]');
@@ -1501,7 +1581,16 @@
   });
 
   /* Tabs: arrow keys move and select, Home and End jump. */
+  /* The menu closes on Escape and on a press anywhere outside it. */
+  document.addEventListener('click', (e) => {
+    if (state.envMenu && !e.target.closest('.dc-crumb--env')) { state.envMenu = false; renderChrome(); }
+  });
   root.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.envMenu) {
+      state.envMenu = false; renderChrome();
+      const b = root.querySelector('[data-envmenu]'); if (b) b.focus({ preventScroll: true });
+      return;
+    }
     const tab = e.target.closest('[role="tab"]');
     if (!tab) return;
     const tabs = [...root.querySelectorAll('[role="tab"]')];
