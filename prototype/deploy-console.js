@@ -852,9 +852,15 @@
         }
       }, { rootMargin: '0px 0px 4% 0px' });
     }
+    /* A SURFACE ARRIVES ONCE. A key that has played gets NOTHING on its new
+       node: an element without data-shown sits at its finished state, which
+       is the contract every keyframe here keeps, and setting the attribute
+       again on a node that did not exist a frame ago replayed the arrival
+       -- every row rising and the card re-arriving on every press, so that
+       opening a drawer redrew the table around it. Only a key that has not
+       played is watched. */
     for (const el of root.querySelectorAll('[data-enter]')) {
-      if (played.has(el.dataset.enter)) el.setAttribute('data-shown', '');
-      else enterIO.observe(el);
+      if (!played.has(el.dataset.enter)) enterIO.observe(el);
     }
   }
 
@@ -887,14 +893,14 @@
       const el = detail();
       if (!el) return;
       const h = el.getBoundingClientRect().height;
-      el.setAttribute('data-drawer', '');
+      el.setAttribute('data-drawer', 'open');
       const a = el.animate([{ height: '0px', paddingTop: '0px', paddingBottom: '0px' }, { height: `${h}px` }], { duration, easing });
       a.finished.then(() => el.removeAttribute('data-drawer'), () => {});
     } else {
       const el = detail();
       if (!el) { state.open.delete(id); render(); return; }
       const h = el.getBoundingClientRect().height;
-      el.setAttribute('data-drawer', '');
+      el.setAttribute('data-drawer', 'close');
       const a = el.animate([{ height: `${h}px` }, { height: '0px', paddingTop: '0px', paddingBottom: '0px' }], { duration, easing, fill: 'forwards' });
       const done = () => { state.open.delete(id); render(); };
       a.finished.then(done, done);
