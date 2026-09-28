@@ -37,31 +37,30 @@ const SHOTS = [
   {
     name: 'live-failing',
     scenario: 'degraded',
-    /* 900 puts the card and the panel side by side without stretching the
-       figures into a band. The crop runs from the top of the zone to the
-       bottom of the reading card, which ends on the Roll back button. */
-    /* THE WHOLE SCREEN, TO THE FOOT OF THE ANSWER. Since the console took
-       the dashboard's direction the hero is the chrome as much as the
-       answer: the crumbs with the environment in them, the menu down the
-       left, the project card and the reading. 1100 wide, so the sidebar
-       and the answer both fit at a size the frame can print. */
+    /* THE HERO IS A CROP A READER CAN READ. The whole shell printed at the
+       hero column's width was seven-pixel type; the crop is the answer's
+       head, the note and the comparison, at 900 wide so the frame prints it
+       near its drawn size. The whole console is the next shot, behind the
+       caption's link. */
+    width: 900,
+    clip: ['.dc-lead'],
+    bottomOf: '.dc-vs',
+    padRight: 0,
+    css: '',
+    note: 'the hero: a deploy that is live and failing, read rather than refused',
+  },
+  {
+    name: 'console-full',
+    scenario: 'degraded',
+    /* THE WHOLE SCREEN, TO THE FOOT OF THE ANSWER: the crumbs with the
+       environment in them, the menu down the left with the incident chip,
+       the project card and the reading. Linked from the hero's caption. */
     width: 1100,
     clip: ['.dc-shell'],
     bottomOf: '.dc-lead',
-    padTop: 0,
-    padLeft: 0,
     padRight: 0,
-    /* Flush on all four sides, for the reason the cockpit's hero is flush
-       on three: the page prints this file through .dcw-hero-figure img,
-       which draws a 12px radius and --shadow-media, so the zone stops
-       drawing its own edge. The bottom is the zone's own bottom, which is
-       the card's plus the zone's inset, rather than a cut 10px under the
-       card: the ground under the card is the same width as the ground
-       beside it, so the file ends where the zone ends. */
     css: '',
-    bottomOf: '.dc-lead',
-    padBottom: 0,
-    note: 'the hero: a deploy that is live and failing, read rather than refused',
+    note: 'the whole console, behind the hero caption\'s link',
   },
   /* Decision 02's two frames: the refusal and the reading, one above the
      other on the page, so a reader sees that they are not the same kind of
