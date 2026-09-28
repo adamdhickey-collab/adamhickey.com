@@ -477,11 +477,12 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 .case-method { margin-top: var(--space-sm); }
 .case-method-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-height: 2.75rem;
-  padding: var(--space-xs) 0;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  /* The 44px target from a derived padding rather than a min-height, so a
+     label that wraps keeps the mark on its first line; the reasoning is on
+     .disclosure-row in style.css, and this is a copy of it. */
+  padding: calc((2.75rem - 1lh) / 2) 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -504,7 +505,7 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 .case-method .disclosure-chev {
   flex-shrink: 0;
   width: 1em;
-  height: 1em;
+  height: 1lh;
   transform: rotate(-90deg);
   transition: transform var(--motion-state) var(--ease);
 }

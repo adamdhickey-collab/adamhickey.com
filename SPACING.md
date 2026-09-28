@@ -406,7 +406,7 @@ chose.
 
 #### What this does not cover
 
-Three arrangements sit a mark beside a label and are correct as they are.
+Two arrangements sit a mark beside a label and are correct as they are.
 
 - **A stacked icon-over-label link.** `.icon-link` in the nav is
   `flex-direction: column`. The icon is above the label, not beside it, and
@@ -415,12 +415,16 @@ Three arrangements sit a mark beside a label and are correct as they are.
   `align-items: center` with a label that does not wrap. Centre alignment
   already is the answer, and asking for the first line is asking for the only
   line.
-- **A trailing chevron on a block that may wrap.** `.disclosure-row` in
-  `style.css` — the site's one disclosure, worn by the cockpit's `.ckw-more`,
-  `.ck-note` and `.ck-misses` and by the design system's `.ds-usage` —
-  centres its chevron on the whole row on purpose. The mark is pushed to the
-  far edge by `justify-content: space-between` and belongs to the block, not
-  to a line of it.
+Until 2026-09-27 there was a third: `.disclosure-row` in `style.css` — the
+site's one disclosure, worn by the cockpit's `.ckw-more`, `.ck-note` and
+`.ck-misses`, by the design system's `.ds-usage` and, as a copy, by the case
+studies' `.case-method-row` — trailed its chevron at the far edge of the row
+and centred it on the whole block. It leads now, one `--space-xs` off its
+label on a top-aligned row, with the `height: 1lh` spelling above, and it is
+an instance of the rule rather than an exception to it. The 44px target it
+used to get from a `min-height` it gets from a padding derived the same way:
+`calc((2.75rem - 1lh) / 2)` above and below, which is 44px on one line and a
+line more on two.
 
 Leading is the common case, not the condition. The cockpit's sort arrow
 *follows* its column head's label and still takes the line-tall box, because

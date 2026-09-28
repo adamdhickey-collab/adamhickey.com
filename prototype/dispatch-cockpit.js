@@ -694,7 +694,7 @@
     ${!withNote ? '' : `${factorKey()}
     <p class="ck-factor-note">Where a truck stands, not how much a factor moved the ranking.</p>
     <details class="ck-note">
-      <summary class="disclosure-row"><span class="ck-note-label">More about these comparisons</span>${icon('chevron', 'disclosure-chev')}</summary>
+      <summary class="disclosure-row">${icon('chevron', 'disclosure-chev')}<span class="ck-note-label">More about these comparisons</span></summary>
       <div class="ck-note-body">
         <p>Each bar starts at the middle of the trucks that can take this load and runs out to where this truck stands, with the zone that still counts as level drawn around that middle. Every row is stretched so the middle is at the same place, which is what lets the five be read down the column; the two halves of a row are stretched by different amounts to do it, so a bar is a comparison with the fleet and not a scale you can measure across.</p>
         <p>Equipment has no bar: the load asks for a type, and a truck either is it or is standing in for it. There is no composite score either, because none would tell you which of these to check.</p>
@@ -760,7 +760,7 @@
         <ol class="ck-conf-watch-list">${r.misses.map((m) => `<li>${esc(m.tell)}</li>`).join('')}</ol>
       </div>
       <details class="ck-misses">
-        <summary class="disclosure-row"><span class="ck-misses-label">${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</span>${icon('chevron', 'disclosure-chev')}</summary>
+        <summary class="disclosure-row">${icon('chevron', 'disclosure-chev')}<span class="ck-misses-label">${r.misses.length === late ? `The ${n} late deliveries, and what differed` : `${r.misses.length === 2 ? 'Two' : r.misses.length} of the ${late} late deliveries, most recently`}</span></summary>
         <ol class="ck-miss-list">${r.misses.map((m) => `<li>
           <p class="ck-miss-what"><span class="ck-miss-load">${esc(m.load)}</span> ${esc(m.what)}</p>
         </li>`).join('')}</ol>
