@@ -792,7 +792,14 @@
     for (const id of ids) {
       flash(root.querySelector(`.dc-table tbody tr[data-service="${id}"]`), 'data-ground', direction);
       for (const b of root.querySelectorAll(`[data-plan="${id}"], [data-undo="${id}"]`)) flash(b, 'data-swap');
+      /* THE WORDS THAT CHANGE WITH THE PRESS, NOT ONLY THE BUTTON. The health
+         word goes from failing to recovering and the figures from 14% to
+         1.1%, and both were cut while the button beside them swapped; a
+         state change that is the whole point of the press should read as
+         a change wherever it shows. The same swap, on the same clock. */
+      flash(root.querySelector(`.dc-table tbody tr[data-service="${id}"] .dc-health-word`), 'data-swap');
     }
+    for (const el of root.querySelectorAll('.dc-answer .dc-figure-v, .dc-answer .dc-figure-was, .dc-answer .dc-record, .dc-answer .dc-answer-h, .dc-answer .dc-lead-kicker')) flash(el, 'data-swap');
   }
 
   let planGen = 0;
@@ -988,6 +995,9 @@
     if (r) {
       state.retried = true;
       render('A retry builds the same commit and fails on the same line. What has to change is the commit, not the attempt.', 'note');
+      /* The press changed one line on the card; the line arrives rather
+         than being there, and the button admits it was pressed. */
+      if (!reduced()) for (const el of root.querySelectorAll('[data-retry], .dc-fail .dc-answers > div:last-child dd')) flash(el, 'data-swap');
     }
   });
 
