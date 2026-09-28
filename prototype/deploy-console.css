@@ -803,21 +803,6 @@ html[data-embed] .dc { border-radius: 0; }
   border-color: var(--rd-ink);
   color: var(--rd-canvas);
 }
-/* The tail on the selected pill, aimed at the screen. A pseudo-element, so
-   curves.mjs counts no element and cards.mjs measures no surface for it. */
-.dc .dc-tab[aria-selected="true"]::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-top: -1px;
-  margin-left: -8px;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid var(--rd-ink);
-}
 
 /* The panel under the tabs: project, answer, status, the plan, then every
    service. One column, always; the pair inside the answer is the only thing
@@ -1854,11 +1839,11 @@ html[data-embed] .dc { border-radius: 0; }
 .dc .dc-services:not(.is-compact) table .dc-btn::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 50%;
   top: 50%;
+  width: max(100%, 2.75rem);
   height: 2.75rem;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
 }
 
 /* ---------- Compact ---------- */
@@ -2190,6 +2175,9 @@ html[data-embed] .dc { border-radius: 0; }
    outside a box that has not reached them yet; and the contents fade in
    over the same span, with no rise, because the box is the thing moving. */
 .dc-row-detail .dc-detail[data-drawer] { overflow: hidden; box-sizing: border-box; }
+/* The drawer animates its height, the one layout property this page moves;
+   containing its layout keeps the reflow inside the row. */
+.dc .dc-detail { contain: layout; }
 .dc-row-detail .dc-detail[data-drawer="open"] > * { animation: dc-plan-in var(--motion-move) var(--ease); }
 
 /* ======================= THE DASHBOARD'S DIRECTION ========================
@@ -2245,7 +2233,6 @@ html[data-embed] .dc { border-radius: 0; }
 @media (max-width: 63.98rem) { .dc-tabs { margin-inline: 0; padding-inline: var(--space-lg); scroll-padding-inline: var(--space-lg); } }
 .dc .dc-tab { border-radius: var(--rd-radius); color: var(--rd-ink-2); }
 .dc .dc-tab[aria-selected="true"] { background: var(--rd-violet-ground); border-color: var(--rd-violet-ground); color: var(--rd-ink); }
-.dc .dc-tab[aria-selected="true"]::after { content: none; }
 .dc-stage { gap: 0; margin-top: 0; }
 .dc-situation { padding: var(--space-md) var(--space-lg); max-width: none; }
 .dc .dc-blurb { max-width: var(--measure); color: var(--rd-ink-2); }
@@ -2529,7 +2516,7 @@ html[data-embed] .dc { border-radius: 0; }
   line-height: var(--leading-body);
   color: var(--rd-ink);
 }
-.dc .dc-status::before { content: var(--dc-clock, ""); flex-shrink: 0; color: var(--rd-ink-muted); font-variant-numeric: tabular-nums; }
+.dc .dc-status-t { flex-shrink: 0; color: var(--rd-ink-muted); font-variant-numeric: tabular-nums; }
 .dc .dc-status > span { max-width: var(--measure); }
 .dc .dc-status .dc-icon { height: 1lh; color: var(--rd-green); }
 .dc .dc-status[data-tone="refused"] { background: none; border-color: var(--rd-red); }
@@ -2572,4 +2559,36 @@ html[data-embed] .dc { border-radius: 0; }
   .dc-figures { flex-direction: column; }
   .dc-figure { padding: var(--space-xs) 0 var(--space-xs) var(--space-md); border-left: 1px solid var(--rd-hairline); }
   .dc-figure:first-child { padding-left: var(--space-md); border-left: 1px solid var(--rd-hairline); }
+}
+
+/* ======================= TARGETS, 44 ON EVERY CONTROL ======================
+   An audit found seven kinds of control between 27 and 42px tall: the
+   underline tabs, the kind and density toggles, the crumb, the map nodes,
+   the quiet buttons and the sort heads. The table's row buttons already
+   grew their target through a pseudo-element without growing their box;
+   the same extender, on all of them. The visual size does not change; the
+   hit area is 2.75rem tall, centred on the control. The sidebar rows get
+   it only on a phone, where they are a strip and 28px tall. ============ */
+.dc .dc-tab,
+.dc .dc-density-btn,
+.dc .dc-crumb-btn,
+.dc .dc-sort,
+.dc .dc-btn { position: relative; }
+.dc .dc-tab::after,
+.dc .dc-density-btn::after,
+.dc .dc-crumb-btn::after,
+.dc .dc-node::after,
+.dc .dc-sort::after,
+.dc .dc-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
+@media (max-width: 47.99rem) {
+  .dc a.dc-nav-item { position: relative; }
+  .dc a.dc-nav-item::after { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, 2.75rem); height: 2.75rem; transform: translate(-50%, -50%); }
 }

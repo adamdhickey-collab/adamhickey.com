@@ -129,7 +129,7 @@
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=25" />
+  <link rel="stylesheet" href="deploy-console.css?v=26" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -148,7 +148,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The console. Deferred, no dependencies, no build step; the synthetic
        project is the object at the top of the file. -->
-  <script src="deploy-console.js?v=22" defer></script>
+  <script src="deploy-console.js?v=23" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -289,7 +289,7 @@
             <div class="dcw-scroll">
               <img src="../img/console/live-failing.webp?v=11" width="1160" height="1528" alt="The console on a deploy that is live and failing: a heading reading &ldquo;api is live, and failing since the deploy 12 min ago&rdquo;, then a trace of mono links, a3f9c1e went live, GET /invoices and POST /jobs/invoice, tax-service, timeout after 2,500 ms in red, 500 on 14% of requests in red, with the sentence &ldquo;The deploy may not be what broke&rdquo; under it; then three lanes, api errors, api response and worker failed jobs, each a line drawn flat across the twelve minutes before the deploy and rising in red after the vertical line the deploy draws, with the alert line dashed across each, the figure it was on the left and the figure now on the right: 0.2% to 14%, 340 ms to 2.8 s, 0 to 41." />
             </div>
-            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since the deploy beside the figures before it, the one commit, what depends on it, and the one action, asked for rather than taken. <a class="dcw-full" href="../img/console/console-full.webp?v=2">The whole console &#8599;<span class="visually-hidden">, live but failing, with the header and the menu</span></a></figcaption>
+            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since the deploy beside the figures before it, the one commit, what depends on it, and the one action, asked for rather than taken. <a class="dcw-full" href="../img/console/console-full.webp?v=3">The whole console &#8599;<span class="visually-hidden">, live but failing, with the header and the menu</span></a></figcaption>
           </figure>
         </div>
         <dl class="build-facts dcw-facts">
@@ -358,7 +358,7 @@
               <div class="dc-answer" id="dc-overview"></div>
               <!-- The live region: one line, always in the document, updated
                    whenever the situation, the plan or a rollback changes. -->
-              <p class="dc-status" role="status"></p>
+              <p class="dc-status" role="status" aria-live="polite"></p>
               <div class="dc-plan" hidden></div>
               <div class="dc-services" id="dc-services">
                 <div class="dc-services-bar">

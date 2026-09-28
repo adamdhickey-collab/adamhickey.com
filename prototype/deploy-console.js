@@ -1167,7 +1167,9 @@
     const s = $('.dc-status', root);
     if (message === undefined) return;
     s.setAttribute('data-tone', tone);
-    s.innerHTML = `${icon(TONE_ICON[tone] || 'checkCircle')}<span>${esc(message)}</span>`;
+    /* The clock in front, in the markup rather than as CSS content, so a
+       screen reader hears the line the way a log reads. */
+    s.innerHTML = `<span class="dc-status-t">${clock(DATA.project.nowMin)}</span>${icon(TONE_ICON[tone] || 'checkCircle')}<span>${esc(message)}</span>`;
   }
 
   /* THE PLAN: a rollback as a coordinated act, previewed. Every service in
@@ -1565,9 +1567,6 @@
   /* ----- actions --------------------------------------------------------- */
 
   function load(scenario) {
-    /* The status line prints the project's clock in front of every message,
-       the way a log does; the stylesheet reads it from here. */
-    root.style.setProperty('--dc-clock', JSON.stringify(clock(DATA.project.nowMin)));
     state.scenario = scenario;
     state.services = buildServices(scenario);
     state.sort = { key: 'id', dir: 'asc' };

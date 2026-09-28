@@ -60,6 +60,8 @@ const SHOTS = [
     bottomOf: '.dc-lead',
     padRight: 0,
     css: '',
+    /* A reference behind a link, not a print: a lighter encode. */
+    quality: 0.72,
     note: 'the whole console, behind the hero caption\'s link',
   },
   /* Decision 02's two frames: the refusal and the reading, one above the
@@ -209,7 +211,7 @@ for (const shot of shots) {
     const ctx = c.getContext('2d'); ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, 0, 0, w, h);
     return c.toDataURL('image/webp', quality).split(',')[1];
-  }, { dataUrl: `data:image/png;base64,${png.toString('base64')}`, w: clip.width * SCALE, h: clip.height * SCALE, quality: QUALITY });
+  }, { dataUrl: `data:image/png;base64,${png.toString('base64')}`, w: clip.width * SCALE, h: clip.height * SCALE, quality: shot.quality ?? QUALITY });
 
   const buf = Buffer.from(b64, 'base64');
   const out = `${OUT_DIR}/${shot.name}.webp`;
