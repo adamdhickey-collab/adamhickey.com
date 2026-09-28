@@ -111,7 +111,7 @@
       {
         id: 'live',
         tab: 'All live',
-        blurb: 'Nothing is wrong. Six services, five of them serving, one that has never deployed. The screen still has to answer the first question, what is live right now, without being asked, because this is the screen a developer opens before they know whether anything is wrong.',
+        blurb: 'Nothing is wrong. Six services: three serving, two provisioned, one that has never deployed. The screen still has to answer the first question, what is live right now, without being asked, because this is the screen a developer opens before they know whether anything is wrong.',
         focus: null,
         patch: {},
       },
@@ -700,7 +700,7 @@
       html = `<div class="dc-lead" data-tone="failed">
         <p class="dc-lead-kicker dc-label">A build failed</p>
         <h3 class="dc-answer-h">${esc(s.id)}&rsquo;s newest deploy failed to build. The live one is still serving.</h3>
-        <p class="dc-answer-dek">Nothing is down. ${esc(l.commit)} has been live for ${span(l.ago)} and is unchanged. The push ${ago(n.ago)} never reached it, and worker&rsquo;s deploy from the same push started and exited, so it is failed too, with its live deploy still running.</p>
+        <p class="dc-answer-dek">Nothing is down. ${esc(l.commit)} has been live for ${span(l.ago)} and is unchanged. The push ${ago(n.ago)} never reached it. worker&rsquo;s deploy from the same push started and then exited, so it failed too; its live deploy is still running.</p>
         <div class="dc-pair">
           <div class="dc-fail" data-enter="fail:${esc(s.id)}">
             <p class="dc-fail-head">${icon('ban', 'dc-fail-glyph')}${esc(n.commit)} failed at the ${esc(f.stage)}, step ${f.step} of ${f.of}</p>
@@ -759,7 +759,7 @@
       <p class="dc-answer-dek">${rolled
         ? `The rollback landed ${ago(DATA.project.nowMin - state.rolled.at)}, ${esc(s.id)} first and ${esc(worker.id)} after it. ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
         : rolling
-          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the deploy that failed; they change when both have landed.`
+          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the failing deploy&rsquo;s; they change when both have landed.`
           : `${esc(n.commit)} passed its health check and is serving every request; the errors started when it went live. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
       <div class="dc-pair">
         <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
@@ -1198,7 +1198,7 @@
     const s = scenario.focus ? service(scenario.focus) : null;
     const n = s && newest(s);
     let status, tone;
-    if (!s) { status = 'All live: six services, five serving their live deploy, nightly-report never deployed. Nothing needs you.'; tone = 'ok'; }
+    if (!s) { status = 'All live: three services serving their live deploy, two datastores provisioned, nightly-report never deployed. Nothing needs you.'; tone = 'ok'; }
     else if (scenario.id === 'first') { status = `First deploy: ${s.id} has never deployed. Three of the four things it needs were read from the repository.`; tone = 'note'; }
     else if (n.status === 'failed') { status = `A build failed: ${s.id}’s push ${ago(n.ago)} failed at step ${n.fail.step} of ${n.fail.of}. The live deploy is unchanged and serving.`; tone = 'refused'; }
     else { status = `Live, but failing: ${s.id} has been erroring since ${n.commit} went live ${ago(n.ago)}.`; tone = 'read'; }
