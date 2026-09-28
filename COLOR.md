@@ -90,6 +90,30 @@ Three sages. One for light grounds, its pressed step, and one for charcoal.
 | `--color-accent-text` `#556b51` | 5.82 | 5.32 | 4.90 | **4.60** | 2.63 — never |
 | `--color-accent-on-dark` `#9dbe95` | 2.05 | 1.88 | 1.73 | 1.62 | 7.47 — only |
 
+### Status and collection
+
+Two families that are not the sage, each entered with its measured row.
+**Caution** is the status pair the dispatch cockpit and the deploy console
+spend on a refusal and a reading; **slate** is the writing index's "Craft and
+code" colour, entered 2026-09-28 so an article's progress line can wear its
+collection. The terracotta collection needs no new token: it is
+`--color-caution-text`, the ink the site already draws its terracotta in.
+
+| Token | Value | Notes |
+|---|---|---|
+| `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, or a verdict it will not change. |
+| `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
+| `--color-slate` | `#56718c` | The Craft collection's line. **A line, never text.** |
+
+| | white | warm | tea | muted | charcoal |
+|---|---|---|---|---|---|
+| `--color-caution-text` `#96482a` | 6.45 | 5.90 | 5.43 | 5.09 | 2.38 — never |
+| `--color-slate` `#56718c` | 5.08 | 4.64 | 4.27 | 4.01 | 3.02 — never |
+
+Slate clears 4.5 only on white and warm, which is why it is a line and not
+ink: the one place it is spent sits on the nav's white edge and the warm
+page, and a line answers to 3:1.
+
 The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
 37 Tailwind utilities across six minified case-study pages write it, and
 renaming a token to improve a word is not worth a find-and-replace on that
@@ -647,7 +671,9 @@ palette, and the README's style spec governs it.
 Two rules keep the boundary from blurring:
 
 1. **An artwork color never styles an interface element.** No terracotta
-   buttons, no slate links.
+   buttons, no slate links. Slate crossed once, on purpose and by the rule
+   below: it is `--color-slate` in §2 with a measured row, spent on one
+   line.
 2. **An interface color never gets sampled out of an artwork.** If a new UI
    color is needed, it goes in §2 with a measured contrast row, or it does
    not exist.
