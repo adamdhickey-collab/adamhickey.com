@@ -735,6 +735,24 @@ degrees cooler than the charcoal is what lets a phone shell read as a molded
 object next to charcoal type on the same page, and `--color-charcoal` goes
 back to meaning ink.
 
+**The deploy console's own system.** Since 2026-09-28 the screen inside
+`prototype/deploy-console.html`'s device frame follows the direction of a
+refreshed platform dashboard rather than this palette: a near-black canvas
+`#0d0d0d`, a panel `#161616` and a raised surface `#1f1f1f` on it, hairlines
+`#333333` and `#454545` where this site would use a shadow, three inks
+`#f5f5f5` / `#b8b8b8` / `#8f8f8f`, one violet `#8a05ff` spent on the primary
+fill and, as the ground `#33106e` and the ink `#c9a2ff`, on the selected row
+and nowhere else, a green `#57d38c` for what is live and a red `#ff6b6b` for
+what is not. They are declared once, as `--rd-*` on `.dc` in
+`deploy-console.css`, with every ratio measured in the comment above them,
+and none of them is used outside `.dc`. The site's inks stop at the bezel,
+which is the rule above applied to a product that happens to be pressable:
+a screenshot of a client's app is artwork to the page around it, and so is
+a working one. The size scale is the one thing the two systems share, on
+purpose, so `typescale.mjs` holds the screen to the fourteen steps like any
+page, and `resting.mjs` and `states.mjs` measure its inks on its own
+grounds like any other.
+
 ---
 
 ## 7. What the code does today

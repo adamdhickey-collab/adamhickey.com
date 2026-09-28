@@ -40,8 +40,14 @@ const SHOTS = [
     /* 900 puts the card and the panel side by side without stretching the
        figures into a band. The crop runs from the top of the zone to the
        bottom of the reading card, which ends on the Roll back button. */
-    width: 900,
-    clip: ['.dc-lead'],
+    /* THE WHOLE SCREEN, TO THE FOOT OF THE ANSWER. Since the console took
+       the dashboard's direction the hero is the chrome as much as the
+       answer: the crumbs with the environment in them, the menu down the
+       left, the project card and the reading. 1100 wide, so the sidebar
+       and the answer both fit at a size the frame can print. */
+    width: 1100,
+    clip: ['.dc-shell'],
+    bottomOf: '.dc-lead',
     padTop: 0,
     padLeft: 0,
     padRight: 0,
@@ -52,7 +58,7 @@ const SHOTS = [
        the card's plus the zone's inset, rather than a cut 10px under the
        card: the ground under the card is the same width as the ground
        beside it, so the file ends where the zone ends. */
-    css: '.dc-lead { border-radius: 0 !important; border-color: transparent !important; box-shadow: none !important; }',
+    css: '',
     bottomOf: '.dc-lead',
     padBottom: 0,
     note: 'the hero: a deploy that is live and failing, read rather than refused',
@@ -75,17 +81,19 @@ const SHOTS = [
        contents, square-cornered, and the figure's own radius and border
        are the only edge a reader sees. An edge captured in the file sat
        inside the figure's edge and read as two lines. */
-    css: '.dc-fail { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }',
+    /* The card keeps its own red edge in the file: on the dark ground the
+       edge is the reading, and the page draws none over it. */
+    css: '',
     note: '02, first frame: a refusal, on the caution ground',
   },
   {
     name: 'reading',
     scenario: 'degraded',
-    /* 800, not 1320: the table runs the zone's width, and at 1320 the file
-       came out 1238 CSS pixels wide for a 682px frame -- printed at half
-       size, which is 7px type. At 800 the table is about 700 wide and the
-       frame prints it near its drawn size. */
-    width: 800,
+    /* 1000, not 1320: the table runs the answer's width beside the menu,
+       and at 1320 the file came out far wider than the frame prints it,
+       which is 7px type. At 1000 the table is about 650 wide and the frame
+       prints it near its drawn size. */
+    width: 1000,
     /* THE NOTE AND THE COMPARISON, on the zone's own ground. The reading
        stopped being a white card on 2026-09-28 and became the cockpit's
        close call: a raised note and a table of the two deploys. The frame is
@@ -113,8 +121,11 @@ const SHOTS = [
     width: 680,
     aspect: 4 / 3,
     stagePad: 20,
-    ground: 'muted-light',
     clip: ['.dc-read'],
+    /* The zone's own hairline ran down the left of the frame, one line
+       with nothing on the far side of it; the zone's edge is not the
+       picture, so it is hidden for the capture. */
+    css: '.dc-lead { border-color: transparent !important; }',
     padTop: 20,
     note: 'the homepage card: the figures since the deploy, beside the figures before it',
   },

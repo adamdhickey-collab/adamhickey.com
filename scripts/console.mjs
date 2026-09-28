@@ -47,7 +47,10 @@ await page.addStyleTag({ content: [
   '.dc-frame { width: 100% !important; padding: 0 !important; background: none !important; box-shadow: none !important; }',
   '.dc { padding: 0 !important; }',
   '.dc-situation, .dc-tabs-label, .dc-tabs, .dc-project { display: none !important; }',
-  '.dc-stage { display: block !important; margin: 0 !important; padding: 40px !important; }',
+  '.dc-stage { display: block !important; margin: 0 !important; padding: 40px !important; background: var(--rd-canvas) !important; }',
+  '.dc-shell { display: block !important; border: 0 !important; }',
+  '.dc-top, .dc-side { display: none !important; }',
+  '.dc-panel { padding: 0 !important; }',
 ].join(' ') });
 await page.waitForTimeout(400);
 const png = await page.locator('.dc-answer').screenshot({ type: 'png' });

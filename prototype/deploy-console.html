@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://adamhickey.com/prototype/deploy-console.html" />
   <meta property="og:title" content="A failed deploy the developer can read in one place and put back in one press | Adam Hickey" />
   <meta property="og:description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: the whole journey from the screen a developer opens before anything is wrong, through a first deploy, a failed build and a deploy that is live and failing, to a rollback previewed as a coordinated act; what is live kept apart from what is newest, a map of how the services connect, a project-level feed of what happened filterable by environment and resource, and a record of who decided." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/deploy-console.jpg?v=5" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/deploy-console.jpg?v=6" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +38,7 @@
           "description": "A self-directed prototype of a multi-service deploy console, on synthetic data: the whole journey from the screen a developer opens before anything is wrong, through a first deploy, a failed build and a deploy that is live and failing, to a rollback previewed as a coordinated act; what is live kept apart from what is newest, a map of how the services connect, a project-level feed of what happened filterable by environment and resource, and a record of who decided.",
           "url": "https://adamhickey.com/prototype/deploy-console.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/deploy-console.html",
-          "image": "https://adamhickey.com/img/og/deploy-console.jpg?v=5",
+          "image": "https://adamhickey.com/img/og/deploy-console.jpg?v=6",
           "datePublished": "2026-09-28",
           "dateModified": "2026-09-28",
           "author": {
@@ -120,7 +120,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" />
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
@@ -129,7 +129,7 @@
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=17" />
+  <link rel="stylesheet" href="deploy-console.css?v=18" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -148,7 +148,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The console. Deferred, no dependencies, no build step; the synthetic
        project is the object at the top of the file. -->
-  <script src="deploy-console.js?v=14" defer></script>
+  <script src="deploy-console.js?v=15" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -287,9 +287,9 @@
           </div>
           <figure class="dcw-hero-figure">
             <div class="dcw-scroll">
-              <img src="../img/console/live-failing.webp?v=5" width="1640" height="2068" alt="The console on a deploy that is live and failing: a heading reading &ldquo;api is live, and failing since the deploy 12 min ago&rdquo;, a note in the caution ink saying the errors started when a3f9c1e went live and the tax service it calls is timing out, then a table comparing the last good deploy, 7e1b2c9, with a3f9c1e: api errors 0.2% against 14%, response 340 ms against 2.8 s, worker failed jobs 0 against 41, each marked healthy or worse with a bar. Under the good deploy&rsquo;s column a sage button reads &ldquo;Roll back api and worker&rdquo;; under the table, what changed and what depends on it." />
+              <img src="../img/console/live-failing.webp?v=6" width="2040" height="2254" alt="The console on a deploy that is live and failing, on a near-black dashboard: a breadcrumb header reading Northlake, Production with a menu, api, and the time; a menu down the left for api with Overview selected in violet, then Events, Logs, Metrics, Environment, Settings, Scaling, Disks and Shell; and the answer beside it, headed &ldquo;api is live, and failing since the deploy 12 min ago&rdquo;, with a note in red saying the errors started when a3f9c1e went live and the tax service it calls is timing out, then a table comparing the last good deploy, 7e1b2c9, with a3f9c1e: api errors 0.2% against 14%, response 340 ms against 2.8 s, worker failed jobs 0 against 41, each marked healthy in green or worse in red with a bar. Under the good deploy&rsquo;s column a violet button reads &ldquo;Roll back api and worker&rdquo;; under the table, what changed and what depends on it." />
             </div>
-            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since the deploy beside the figures before it, the one commit, what depends on it, and the one action, asked for rather than taken. <a class="dcw-full" href="../img/console/live-failing.webp?v=5">Full size &#8599;<span class="visually-hidden">, live but failing</span></a></figcaption>
+            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since the deploy beside the figures before it, the one commit, what depends on it, and the one action, asked for rather than taken. <a class="dcw-full" href="../img/console/live-failing.webp?v=6">Full size &#8599;<span class="visually-hidden">, live but failing</span></a></figcaption>
           </figure>
         </div>
         <dl class="build-facts dcw-facts">
@@ -390,14 +390,21 @@
               <h3 class="dc-rail-h" id="dc-rail-h"></h3>
               <p class="dc-blurb"></p>
             </div>
+            <!-- The dashboard's chrome: a breadcrumb header with the
+                 environment switch in it, and the context-aware menu for
+                 the service the situation is about. Both written by the
+                 script; see renderChrome(). -->
+            <div class="dc-shell">
+              <header class="dc-top"></header>
+              <nav class="dc-side" aria-label="This service"></nav>
             <div class="dc-panel">
               <div class="dc-project"></div>
-              <div class="dc-answer"></div>
+              <div class="dc-answer" id="dc-overview"></div>
               <!-- The live region: one line, always in the document, updated
                    whenever the situation, the plan or a rollback changes. -->
               <p class="dc-status" role="status"></p>
               <div class="dc-plan" hidden></div>
-              <div class="dc-services">
+              <div class="dc-services" id="dc-services">
                 <div class="dc-services-bar">
                   <h4 class="dc-h dc-services-h">Every service</h4>
                   <div class="dc-density dc-kind" role="group" aria-label="Show">
@@ -417,7 +424,8 @@
               </div>
               <!-- The feed: what happened across the project, newest first,
                    written by the script from the deploys and the situation. -->
-              <div class="dc-events"></div>
+              <div class="dc-events" id="dc-events"></div>
+            </div>
             </div>
           </div>
           <noscript>
@@ -462,7 +470,7 @@
           <li class="dcw-decision">
             <div class="dcw-decision-copy">
               <h3>Treat a refusal and a reading as different things</h3>
-              <p class="dcw-lead">A build the platform would not promote is a refusal: the platform&rsquo;s own verdict, set on the caution ground with the caution edge, with the live deploy untouched under it. A deploy that succeeded and is erroring is a reading: there is nothing to refuse, so a note says what the system cannot vouch for, a table sets the deploy beside the one before it, and the button sits under the deploy it would put back. The two never share a channel.</p>
+              <p class="dcw-lead">A build the platform would not promote is a refusal: the platform&rsquo;s own verdict, set on the red ground with the red edge, with the live deploy untouched under it. A deploy that succeeded and is erroring is a reading: there is nothing to refuse, so a note says what the system cannot vouch for, a table sets the deploy beside the one before it, and the button sits under the deploy it would put back. The two never share a channel.</p>
               <details class="dcw-more">
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
@@ -479,15 +487,15 @@
               <ol class="dcw-frames">
                 <li class="dcw-frame--fail">
                   <div class="dcw-scroll">
-                    <img src="../img/console/failed.webp?v=7" width="1364" height="1432" loading="lazy" decoding="async" alt="A caution-outlined card on a pale caution ground, headed &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, there is nothing to roll back. A folded row offers the last nine lines of the build log and a quiet button reads &ldquo;Retry the build&rdquo;." />
+                    <img src="../img/console/failed.webp?v=8" width="1058" height="1428" loading="lazy" decoding="async" alt="A red-outlined card on a dark red ground, headed &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line in red; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, with the build log folded under it and a button reading &ldquo;Retry the build&rdquo;." />
                   </div>
-                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. Caution ground, the live deploy untouched, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=7">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
+                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. The red ground, the live deploy untouched, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=8">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
                 </li>
                 <li class="dcw-frame--read">
                   <div class="dcw-scroll">
-                    <img src="../img/console/reading.webp?v=6" width="1436" height="1142" loading="lazy" decoding="async" alt="A note in the caution ink reading &ldquo;The errors started when a3f9c1e went live&rdquo;, over a table with the last good deploy, 7e1b2c9, and the deploy since, a3f9c1e, as its two columns. Three rows raised on white: api errors 0.2% healthy against 14% worse, api response 340 ms against 2.8 s, worker failed jobs 0 against 41, each with a bar drawn against the larger of the two." />
+                    <img src="../img/console/reading.webp?v=7" width="1308" height="1140" loading="lazy" decoding="async" alt="On the dark canvas, a note in red reading &ldquo;The errors started when a3f9c1e went live&rdquo;, over a table with the last good deploy, 7e1b2c9, and the deploy since, a3f9c1e, as its two columns under small mono labels. Three rows raised a step lighter: api errors 0.2% healthy in green against 14% worse in red, api response 340 ms against 2.8 s, worker failed jobs 0 against 41, each with a bar drawn against the larger of the two." />
                   </div>
-                  <p class="dcw-frame-cap"><span>A reading</span> The platform has nothing to refuse. A note, the two deploys side by side, and a decision asked for. <a class="dcw-full" href="../img/console/reading.webp?v=6">Full size &#8599;<span class="visually-hidden">, the reading</span></a></p>
+                  <p class="dcw-frame-cap"><span>A reading</span> The platform has nothing to refuse. A note, the two deploys side by side, and a decision asked for. <a class="dcw-full" href="../img/console/reading.webp?v=7">Full size &#8599;<span class="visually-hidden">, the reading</span></a></p>
                 </li>
               </ol>
             </figure>
@@ -560,6 +568,8 @@
                 <li><strong>The plan leads with what changes.</strong> The two changing services sat under an &ldquo;unchanged&rdquo; row in project order; they sort to the top.</li>
                 <li><strong>The rollback happens in order on screen.</strong> The plan promised api first, then worker, and the press landed in one frame; the building state the data carried is shown, step by step.</li>
                 <li><strong>A row opens like a drawer.</strong> The detail appeared at full height while the rows under it were shoved down; the panel&rsquo;s height is the animation now, and the rows follow its edge.</li>
+                <li><strong>The screen took the platform&rsquo;s own direction.</strong> It was drawn in this site&rsquo;s palette, a warm ground with white cards on it. It follows a refreshed platform dashboard now: a near-black canvas, hairlines where there were shadows, one violet spent on the selected row and the primary fill, mono labels over each group, a breadcrumb header with the environment switch in it, and the service&rsquo;s own menu down the left, so the screen reads as a page of the product and not as a card on this site.</li>
+                <li><strong>The menu says what it does not do.</strong> Overview, Events, Logs and Metrics go to the parts of this screen that answer them and Environment opens the switch; Settings, Scaling, Disks and Shell are the product&rsquo;s and are drawn muted with a title saying so, rather than left out and rather than pretending.</li>
                 <li><strong>The screen stopped lecturing.</strong> Three lines of this page&rsquo;s argument had been written into the product and came out; the words that remain are the product&rsquo;s.</li>
               </ul>
             </div>

@@ -128,7 +128,13 @@ export const REACHABLE = {
        commit serving at the figures production had before, and the aside
        naming what differs. The switch is a pressed state of its own. */
     { name: 'staging, where the same commit is fine',
-      press: ['[data-scenario="degraded"]', '[data-env="staging"]'] },
+      press: ['[data-scenario="degraded"]', '[data-envmenu]', '[data-env="staging"]'] },
+
+    /* THE MENU ITSELF, OPEN. The environment crumb in the header opens a
+       menu with the current environment checked; the menu is in no DOM a
+       fresh load has, so it is a state of its own. */
+    { name: 'the environment menu open',
+      press: ['[data-envmenu]'] },
 
     /* The table and the feed filtered to one kind of resource. */
     { name: 'the services alone, in the table and the feed',
