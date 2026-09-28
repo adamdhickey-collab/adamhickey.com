@@ -65,9 +65,13 @@ const SHOTS = [
     padBottom: 0,
     padLeft: 0,
     padRight: 0,
-    /* The 2px caution edge stays: it is the argument of the card. The curve
-       comes to the 12px the figure clips at. */
-    css: '.dc-fail { border-radius: 12px !important; }',
+    /* NO EDGE IN THE FILE. The card's 2px caution edge is the argument of
+       the card, and the page draws it -- .dcw-frame--fail img carries the
+       same border in the same ink -- so the file is the fill and its
+       contents, square-cornered, and the figure's own radius and border
+       are the only edge a reader sees. An edge captured in the file sat
+       inside the figure's edge and read as two lines. */
+    css: '.dc-fail { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }',
     note: '02, first frame: a refusal, on the caution ground',
   },
   {
@@ -79,7 +83,8 @@ const SHOTS = [
     padBottom: 0,
     padLeft: 0,
     padRight: 0,
-    css: '.dc-read { border-radius: 12px !important; }',
+    /* The same, with the dark 1px edge drawn by .dcw-frame--read img. */
+    css: '.dc-read { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }',
     note: '02, second frame: a reading, on white with the dark edge',
   },
 

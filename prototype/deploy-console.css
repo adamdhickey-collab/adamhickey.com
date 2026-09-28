@@ -358,9 +358,20 @@
 .dcw-shot img,
 .dcw-frames img { max-width: var(--shot-w, 100%); }
 /* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, which is half the file:
-   the captures are taken at two device pixels to one. Per capture. */
+   the captures are taken at two device pixels to one. Per capture, and the
+   ceiling is the border box: the file's half width plus the edge below. */
 .dcw-frame--fail { --shot-w: 682px; }
 .dcw-frame--read { --shot-w: 682px; }
+/* THE EDGE IS THE PAGE'S, NOT THE FILE'S. console-shots.mjs clips these two
+   to the card's padding box with no border, and the figure draws the edge
+   the card draws on the live screen: the 2px caution ink for the refusal,
+   the 1px muted-gray for the reading, each on the figure's 12px curve. One
+   line rather than the file's edge inside the figure's. --shadow-media
+   comes off, because its keyline is a second edge outside this one. */
+/* Two classes deep, because .dcw-frames img is declared later at the same
+   specificity and would put the keyline back. */
+.dcw-frames .dcw-frame--fail img { border: 2px solid var(--color-caution-text); box-shadow: none; }
+.dcw-frames .dcw-frame--read img { border: 1px solid var(--color-muted-gray); box-shadow: none; }
 .case-section .dcw-frame-cap {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
