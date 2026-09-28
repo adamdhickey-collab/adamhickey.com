@@ -728,17 +728,18 @@ a.case-thumb { display: block; }
    it: the thumb keeps its margin under it and the description its cap. */
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
-   and its name before anyone reads a sentence about it. One component, used
-   two ways: a lockup above a prototype page's title (.app-id), where the
-   icon sits beside the name and the page's own kicker becomes the category
-   line under the name -- the arrangement an app listing uses -- and a stack
-   in the right third of the homepage card (.app-id--stack), icon over name.
+   and its name before anyone reads a sentence about it. A lockup above a
+   prototype page's title, where the icon sits beside the name and the
+   page's own kicker becomes the category line under the name -- the
+   arrangement an app listing uses. The homepage cards carried a stacked
+   variant beside a narrowed tablet from #306 to #308; it came off so the
+   tablet could have the card's full width again.
 
    The icon is decorative: the name beside it is text, which is the rule for
    a label on this site -- in code, never inside a picture -- so the image
    carries an empty alt. --app-icon is the one size authored here and it is
-   a sum of spacing steps, not a new number: 64 on the page, 96 on the card.
-   The files are 480 square, so neither is printed above half its file. */
+   a sum of spacing steps, not a new number: 64. The files are 480 square,
+   so it is printed well under half its file. */
 .app-id {
   --app-icon: calc(var(--space-4xl) + var(--space-md));
   display: flex;
@@ -763,48 +764,6 @@ a.case-thumb { display: block; }
   color: var(--color-charcoal);
 }
 .app-id .case-kicker { display: block; margin: var(--space-2xs) 0 0; }
-/* The stack: icon over name, centred in its column. */
-.app-id--stack {
-  --app-icon: calc(var(--space-4xl) * 2);
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-sm);
-  margin: 0;
-  text-align: center;
-}
-.app-id--stack .app-id-icon { width: min(100%, var(--app-icon)); height: auto; }
-.app-id--stack .app-id-name { font-size: var(--text-lg); }
-
-/* THE CARD'S TOP ROW: the tablet in two thirds on the left, the app's
-   identity in the third on the right. The tablet leads because the screen
-   is the evidence; the icon and name beside it say whose screen it is.
-   The markup is in that order too, so the page reads as it looks.
-   The row is a grid so the two columns share a centre line whatever the
-   tablet's height.
-
-   UNDER 600px THE THIRD IS TOO LITTLE FOR EITHER. Two thirds of a phone's
-   card is about 180px of tablet, which shrinks the screen inside it past
-   reading, so the row stacks: the tablet takes the card's full width, and
-   the identity becomes a row of its own under it, icon beside name at 48. */
-.case-card-top {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  align-items: center;
-  gap: var(--space-xl);
-  margin-bottom: var(--space-md);
-}
-.case-card-top .case-thumb { margin-bottom: 0; }
-@media (max-width: 599px) {
-  .case-card-top { grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
-  .case-card-top .app-id--stack {
-    --app-icon: var(--space-4xl);
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-  }
-  .case-card-top .app-id--stack .app-id-icon { width: var(--app-icon); height: var(--app-icon); }
-}
-
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
 /* One tag component, two homes: the case study cards and the product
    cards. The products used to set their own middot-separated list, which
