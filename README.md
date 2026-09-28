@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 28 pages in nine families |
+| **What this is** | The site: 29 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,23 +119,24 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the prototype page load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-eight pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the two prototype pages load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-nine pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The four build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
-| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-four pages with prose worth hearing -- the nine writing articles, the ten case studies, the four engagement pages and the dispatch cockpit prototype -- and by nothing else. The prototype is the one that reads a part of itself rather than all of it: `.ck-frame` carries `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-five pages with prose worth hearing -- the nine writing articles, the ten case studies, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
 | `case-study/*.html` | Ten case studies: four client engagements, two career-arc pages and four build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
+| `prototype/deploy-console.html`, `prototype/deploy-console.{css,js}` | The deploy console prototype, the second page under `prototype/` since 2026-09-28: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the project -- six services with their deploy histories -- as one object at the top of the script. `scripts/console.mjs` captures the reading for the share card, and `scripts/console-shots.mjs` the four stills: the hero's reading, the refusal and the reading decision 02 sits beside, and the 4:3 window the homepage card prints. It carries the cockpit's `?embed` flag for the same reason, and its stylesheet copies the cockpit's shell -- the frame, the sticky strip, the answer zone, the dark table head, the density switch, the row that opens in place, the motion section -- under a second prefix rather than sharing it; the shell is a candidate for a shared prototype stylesheet the day a third prototype needs one |
 | `writing/*.html` | The index and nine articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-eight. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-nine. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -150,7 +151,7 @@ the archive so that it holds everything staging ever had.
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
 the six-item proof strip and the client logos) → Selected work (three
-client case studies and the dispatch cockpit prototype) → How I work inside a
+client case studies and the dispatch cockpit prototype; the deploy console joins it in its own pull request) → How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own
 page under `engagement/`) → The design-to-build shift (the scroll story) → Built end to end (the
@@ -171,7 +172,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-eight pages in nine families, all hand-written HTML with no include step
+Twenty-nine pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -180,11 +181,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all twenty-eight pages, so a
-change to the shell is a change to twenty-eight files.
+email icon and the skip link are hand-written into all twenty-nine pages, so a
+change to the shell is a change to twenty-nine files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
+base ladder, and both regimes read it from `type.css`, which all twenty-nine pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -197,7 +198,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 10 | A | An index and nine articles in three collections named for the three leads the search runs on: craft and code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
-| Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work. |
+| Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
@@ -312,6 +313,23 @@ Prototype page link to it as well. Until that card it was reachable only by
 reading one of those two pages to the end, while its own breadcrumb told a
 search engine it sat under Work.
 
+`prototype/deploy-console.html` is the second prototype, since 2026-09-28,
+and it is the cockpit's arrangement applied to a developer's bad day: the
+problem, the live console, five decisions, what would be tested next. One
+project of six services, four situations on tabs -- all live, a build failed,
+live but failing, rolled back -- and a screen laid out in the order the five
+questions come: what is live, what failed, what changed, what depends on it,
+can I put it back. Live is kept apart from newest on every row; a failed
+build is a refusal, on the caution ground, with the live deploy untouched
+under it; a deploy that succeeded and is erroring is a reading, on white,
+its figures beside their befores; a rollback is previewed as a coordinated
+act, every service a row whether it changes or not, and recorded with who
+decided and on what. It is informed by shipping this site through its own
+checks and names no platform, because it was built for none. It is reached
+from the bad-day article's close, the Working Product Prototype page's FAQ,
+and the cockpit's Next link; the homepage's Selected work section takes it
+as a pair with the cockpit in the pull request after this one.
+
 ### Images
 
 | Folder | Holds |
@@ -324,6 +342,7 @@ search engine it sat under Work.
 | `img/og/` | The share cards, one per page, rendered by `scripts/og.mjs` from the page's title and its own picture. The homepage's is `index.jpg`, and the design system page, which has no card of its own, points at that one. Until 2026-09-17 the homepage kept a hand-drawn `img/og-card.jpg`; it named the independent practice a week after the site stopped, and went the day the eyebrow moved to Senior |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
 | `img/cockpit/` | The dispatch cockpit prototype page's pictures: six crops of the running prototype, captured by `scripts/cockpit-shots.mjs` so a restyle of the cockpit is one run rather than an afternoon of screenshots, and two drawings of the room it is used in, cut to the writing features' 16:9 through `scripts/illustrate.mjs feature` |
+| `img/console/` | The deploy console prototype page's pictures, on the same arrangement: four crops of the running prototype from `scripts/console-shots.mjs` (the hero's reading, the refusal and the reading under decision 02, and the 4:3 window the homepage card prints), and two drawings of the room it is used in, through `scripts/illustrate.mjs feature` |
 | `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
 | `img/casework/` | One image, on the Hybrid Designer page |
 | `img/hero-portrait.mp4` | The hero clip |
@@ -417,10 +436,11 @@ the two Tailwind steps this repository had first, ten steps in all:
 
 "Every reachable state" was an overclaim for one page until the four browser
 checks learned to press things. They load a page, wait for it to settle and
-measure what is there, which is the whole of twenty-eight of the twenty-nine
-pages -- and about a sixth of `prototype/dispatch-cockpit.html`, which renders
+measure what is there, which is the whole of twenty-eight of the thirty
+pages -- and about a sixth of each page under `prototype/`: the cockpit renders
 its comparison, its override question, its refused button and its opened rows
-from JavaScript in response to a press. Twelve such states existed in no DOM
+from JavaScript in response to a press, and the deploy console its failed
+build, its reading, its rollback plan and its rolled-back rows. Twelve such states existed in no DOM
 any check ever saw, so every `querySelector` for them came back empty and every
 check said "✓" in good conscience.
 
@@ -461,7 +481,7 @@ prints the path, page count and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
 result. At #62 the four browser checks measure 3335 resting colors, 1627
 state rules, 14172 type sizes and 7871 elements checked for a partial
-border, across twenty-nine pages: the twenty-eight of the site and `404.html`, which
+border, across twenty-nine pages (thirty since the deploy console): the twenty-eight of the site as it then stood and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
 verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
 stopped being measured.
@@ -492,7 +512,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-twenty-eight live addresses, each dated. Every case study's and every article's
+twenty-nine live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page
