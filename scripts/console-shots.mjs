@@ -45,12 +45,16 @@ const SHOTS = [
     padTop: 0,
     padLeft: 0,
     padRight: 0,
-    /* Flush on three sides, for the reason the cockpit's hero is: the page
-       prints this file through .dcw-hero-figure img, which draws a 12px
-       radius and --shadow-media, so the zone stops drawing its own edge. */
+    /* Flush on all four sides, for the reason the cockpit's hero is flush
+       on three: the page prints this file through .dcw-hero-figure img,
+       which draws a 12px radius and --shadow-media, so the zone stops
+       drawing its own edge. The bottom is the zone's own bottom, which is
+       the card's plus the zone's inset, rather than a cut 10px under the
+       card: the ground under the card is the same width as the ground
+       beside it, so the file ends where the zone ends. */
     css: '.dc-lead { border-radius: 0 !important; border-color: transparent !important; box-shadow: none !important; }',
-    bottomOf: '.dc-read',
-    padBottom: 10,
+    bottomOf: '.dc-lead',
+    padBottom: 0,
     note: 'the hero: a deploy that is live and failing, read rather than refused',
   },
   /* Decision 02's two frames: the refusal and the reading, one above the

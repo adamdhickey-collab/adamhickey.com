@@ -859,7 +859,11 @@ html[data-embed] .dc { border-radius: 0; }
 }
 .dc-pair > div { min-width: 0; }
 
-.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl); }
+/* The bottom inset is the side inset. A card that ends on a button had 24
+   under it against 32 beside it, and the button read as sitting low in
+   its box; the top keeps 24 because a card head at the label size wants
+   less above it than a pill wants below. */
+.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl) var(--space-xl); }
 .dc .dc-card-head {
   display: inline-flex;
   align-items: center;
