@@ -1184,10 +1184,25 @@
          So the tag is rendered again under the service name, and the
          stylesheet shows exactly one of the two at any width. aria-hidden on
          the copy, so a screen reader hears the state once. */
-      const phoneTag = n && n.status === 'failed' ? `<span class="dc-tag dc-tag-failed dc-tag--phone" aria-hidden="true">${icon('ban')}failed</span>`
-        : n && n.rollback ? `<span class="dc-tag dc-tag-rolled dc-tag--phone" aria-hidden="true">rolled back</span>` : '';
+      /* THE PHONE KEEPS THE DISTINCTION THE SCREEN IS BUILT ON. Under 48rem
+         the live and newest columns come off, and for a while the phone
+         carried only a state tag under the name -- which hid the one fact
+         this design exists to keep apart. Two lines under the name now:
+         what is live and for how long, and what is newest with its state.
+         The stylesheet shows the lines on a phone and the columns on a
+         desktop, exactly one of the two at any width, so nothing is read
+         twice. */
+      const tag = n && n.status === 'failed' ? `<span class="dc-tag dc-tag-failed">${icon('ban')}failed</span>`
+        : n && n.status === 'building' ? `<span class="dc-tag">building</span>`
+        : n && n.rollback ? `<span class="dc-tag dc-tag-rolled">rolled back</span>` : '';
+      const same = l && n && l.commit === n.commit && n.status === 'live';
+      const dot = '<span class="dc-sep" aria-hidden="true">&middot;</span>';
+      const phoneSum = !s.deploys ? '' : `<span class="dc-svc-sum">
+          <span>${l ? `live <span class="dc-svc-when"><span class="dc-sha">${esc(l.commit)}</span> ${dot} ${l.ago < 1 ? 'just now' : span(l.ago)}</span>` : 'nothing live yet'}</span>
+          <span>${!n ? 'never deployed' : n.rollback || !same ? `newest <span class="dc-svc-when"><span class="dc-sha">${esc(n.commit)}</span> ${tag || `${dot} ${ago(n.ago)}`}</span>` : 'newest is the live one'}</span>
+        </span>`;
       return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}" style="--i:${i}">
-        <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneTag}</th>
+        <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneSum}</th>
         <td class="dc-cell-type">${esc(s.type)}</td>
         <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">for ${span(l.ago)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
         <td class="dc-cell-newest">${newestCell(s)}</td>

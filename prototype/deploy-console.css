@@ -1298,9 +1298,9 @@ html[data-embed] .dc { border-radius: 0; }
 }
 .dc .dc-aside-p strong { font-weight: var(--weight-semibold); }
 .dc .dc-aside-h2 { margin-top: var(--space-lg); }
-/* The newest-deploy tag's copy under the service name: the phone's, and
-   nowhere else. */
-.dc .dc-tag--phone { display: none; }
+/* The two lines under the service name -- what is live, what is newest --
+   are the phone's, and nowhere else; on a desktop the columns say it. */
+.dc .dc-svc-sum { display: none; }
 .dc .dc-aside-fine {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -1880,17 +1880,34 @@ html[data-embed] .dc { border-radius: 0; }
 
 /* ---------- Narrow ----------
    Under 48rem four columns come off and the row disclosure carries them:
-   what stays is the service, its newest deploy, its health and the button,
-   which is the smallest set a phone reader can triage from. */
+   what stays is the service with its live and newest deploys under it,
+   its health and the button, which is the smallest set a phone reader can
+   triage from. */
 @media (max-width: 47.99rem) {
   .dc-table { min-width: 0; }
   .dc-table th:nth-child(2), .dc-table td:nth-child(2),
   .dc-table th:nth-child(3), .dc-table td:nth-child(3),
   .dc-table th:nth-child(4), .dc-table td:nth-child(4),
   .dc-table th:nth-child(6), .dc-table td:nth-child(6) { display: none; }
-  /* Three columns: the service with its state tag under it, its health and
-     the button. The newest deploy's hash and age are one press down. */
-  .dc .dc-tag--phone { display: inline-flex; margin: var(--space-2xs) 0 0 var(--space-2xs); }
+  /* Three columns: the service with what is live and what is newest under
+     it, its health and the button. The rest is one press down. */
+  .dc .dc-svc-sum {
+    display: grid;
+    gap: 2px;
+    margin-top: var(--space-2xs);
+    padding-left: var(--space-2xs);
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    color: var(--rd-ink-muted);
+  }
+  /* The hash and its time or tag stay on one line; the word before them
+     may take a line of its own. */
+  .dc .dc-svc-when { white-space: nowrap; }
+  .dc .dc-svc-sum .dc-sha { color: var(--rd-ink); }
+  .dc .dc-svc-sum .dc-tag { margin: 0; vertical-align: 0; }
+  /* The service column takes half the width, because it carries the two
+     lines now and the health column carries a word. */
+  .dc-table th:nth-child(1), .dc-table td:nth-child(1) { width: 48%; }
   .dc-table th, .dc-table td { padding-inline: 2px; }
   .dc-table tbody th:first-child, .dc-table tbody td:first-child { padding-left: var(--space-2xs); }
   .dc-table tbody th:last-child, .dc-table tbody td:last-child { padding-right: var(--space-2xs); }
