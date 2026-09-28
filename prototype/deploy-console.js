@@ -209,7 +209,7 @@
   function whatHappens(ids) {
     const order = ids.length > 1 ? `, in dependency order: ${ids.slice(0, -1).join(', ')} first, then ${ids[ids.length - 1]}` : '';
     const each = ids.length > 1 ? 'Each service redeploys' : `${ids[0]} redeploys`;
-    return `${each} the older commit from the build it already has${order}. About forty seconds${ids.length > 1 ? ' each' : ''}. The newer commit stays in the history and can be deployed again. The rollback is recorded with who pressed it and the figures on this screen.`;
+    return `${each} the older commit from the build it already has${order}. About forty seconds${ids.length > 1 ? ' each' : ''}. The newer commit stays in the history and can be deployed again. The rollback is recorded with who pressed it and the figures on this screen, and the screen watches the next five minutes before it says recovered.`;
   }
 
   /* The order a set of services rolls back in: a service goes after the
@@ -412,6 +412,7 @@
     open: new Set(),      /* service ids whose row is expanded */
     density: 'comfortable',
     envMenu: false,       /* the header's environment menu is open */
+    verify: null,         /* { ids, min, done } while and after the screen watches a rollback recover */
   };
 
   const root = $('#console');
@@ -468,7 +469,18 @@
        whole sequence has landed yet or not: api is back on the good commit
        while worker is still redeploying, and its word says so. */
     if (n && n.rollback && n.status === 'live') {
-      return { state: 'recovering', word: 'recovering', fig: m.errors != null ? `${pct(m.errors)} errors, falling` : `${m.failedJobs} failed jobs, stopped` };
+      /* RECOVERED IS A WORD THE FIGURES EARN. While the screen is watching
+         the minutes after the rollback the word is "recovering"; once it
+         has watched five, the health is read from the figures like any
+         other service's, and a worker that has failed no job since reads
+         as ok with that fact under it. */
+      const v = state.verify;
+      if (v && v.done && v.ids.includes(s.id)) {
+        if (m.failedJobs != null) return { state: 'ok', word: 'ok', fig: `no failed jobs in ${v.min} min` };
+        if (m.errors != null && m.errors > 1) return { state: 'failing', word: 'failing', fig: `${pct(m.errors)} of requests` };
+        return { state: 'ok', word: 'ok', fig: `${pct(m.errors)} errors over ${v.min} min` };
+      }
+      return { state: 'recovering', word: 'recovering', fig: m.errors != null ? `${pct(m.errors)} errors, falling` : 'no failed jobs since the rollback' };
     }
     if (m.errors != null && m.errors > 1) return { state: 'failing', word: 'failing', fig: `${pct(m.errors)} of requests` };
     if (m.failedJobs) return { state: 'failing', word: 'failing', fig: `${m.failedJobs} jobs in ${span(newest(s).ago)}` };
@@ -921,8 +933,10 @@
     /* The glyph on "worse" points the way the figure went: an error rate
        that rose gets an arrow up, not the down arrow "worse" used to carry
        whichever way the number had moved. */
+    const v = state.verify;
+    const settled = !!(rolled && v && v.done);
     const dir = (side, r) => side === 'a'
-      ? `<span class="dc-dir" data-dir="${rolled ? 'recovering' : 'healthy'}">${icon(rolled ? 'undo' : 'checkCircle')}${rolled ? 'recovering' : 'healthy'}</span>`
+      ? `<span class="dc-dir" data-dir="${rolled && !settled ? 'recovering' : 'healthy'}">${icon(rolled && !settled ? 'undo' : 'checkCircle')}${rolled ? (settled ? 'recovered' : 'recovering') : 'healthy'}</span>`
       : `<span class="dc-dir" data-dir="worse">${icon(r.b >= r.a ? 'up' : 'down')}worse</span>`;
     const head = (label, d, when) => `<th scope="col" class="dc-vs-opt">
         <span class="dc-vs-opt-label dc-label">${label}</span>
@@ -930,30 +944,39 @@
         <span class="dc-vs-opt-who">${esc(d.msg)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${when}</span>
       </th>`;
     const button = rollbackButton(s, 'dc-btn dc-btn-primary');
+    /* THE SECOND NOTE, WHILE AND AFTER THE SCREEN WATCHES. Landing the
+       older commit and the service being well are two events, and the
+       screen says which it has seen: the minute it is on and the figures
+       as they stand, then the recovered line with the window it watched. */
+    const watch = !rolled ? '' : settled
+      ? `<p class="dc-note">${icon('checkCircle')}<span><strong>Recovered at ${clock(state.rolled.at + v.min)}.</strong> ${pct(m.errors)} of requests erroring and p95 ${msec(m.p95)} over ${v.min} min; ${esc(worker.id)} has failed no job since the rollback.</span></p>`
+      : `<p class="dc-note" data-tone="verify">${icon('clock')}<span><strong>Verifying, minute ${v ? v.min : 0} of 5.</strong> ${pct(m.errors)} of requests erroring and falling, p95 ${msec(m.p95)}; ${esc(worker.id)} has failed no job since the rollback. The screen says recovered when it has watched five minutes.</span></p>`;
     const note = rolled
       ? `<p class="dc-note">${icon('checkCircle')}<span><strong>Recorded at ${clock(state.rolled.at)}.</strong> ${state.rolled.who === 'you' ? 'You' : esc(state.rolled.who)} rolled ${state.rolled.ids.join(' and ')} back from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}. Written with the deploy, for anyone to read.</span></p>`
       : rolling
         ? `<p class="dc-note">${icon('clock')}<span><strong>${esc(now)} is redeploying ${esc(state.rolling.to)}.</strong> ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The right-hand column is still the failing deploy&rsquo;s until both have landed.</span></p>`
         : `<p class="dc-note" data-tone="read">${icon('alert')}<span><strong>The errors started when ${esc(n.commit)} went live.</strong> It sends invoice totals to a tax service outside this project, and that service is timing out. The deploy may not be what broke.</span></p>`;
     html = `<div class="dc-lead" data-tone="${rolled ? 'ok' : 'read'}">
-      <p class="dc-lead-kicker dc-label">${rolled ? 'Rolled back' : rolling ? 'Rolling back' : 'Live, but failing'}</p>
+      <p class="dc-lead-kicker dc-label">${rolled ? (settled ? 'Rolled back, recovered' : 'Rolled back, verifying') : rolling ? 'Rolling back' : 'Live, but failing'}</p>
       <h3 class="dc-answer-h">${rolled
-        ? `${esc(s.id)} and ${esc(worker.id)} are back on ${esc(good.commit)}. The errors are falling.`
+        ? settled
+          ? `${esc(s.id)} and ${esc(worker.id)} are back on ${esc(good.commit)}, and recovered.`
+          : `${esc(s.id)} and ${esc(worker.id)} are back on ${esc(good.commit)}. Watching the figures settle.`
         : rolling
           ? `Rolling ${esc(s.id)} and ${esc(worker.id)} back to ${esc(state.rolling.to)}, ${esc(s.id)} first.`
           : `${esc(s.id)} is live, and failing since the deploy ${ago(n.ago)}.`}</h3>
       <p class="dc-answer-dek">${rolled
-        ? `${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
+        ? `${settled ? `Five minutes watched, figures where they were before the deploy.` : `Minute ${v ? v.min : 0} of the five the platform watches before it says recovered.`} ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
         : rolling
           ? `Each service redeploys from the build it already has, in dependency order.`
           : `${esc(n.commit)} passed its health check and is serving every request. The deploy before it was healthy for ${span(good.ago)}.`}</p>
       <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
-        ${note}
+        ${note}${watch}
         <table class="dc-vs">
           <caption class="dc-visually-hidden">${esc(good.commit)} and ${esc(bad.commit)} compared on the three figures that moved, then the action for each.</caption>
           <thead><tr>
             <td class="dc-vs-corner"></td>
-            ${head(rolled ? 'Live again' : 'The last good deploy', good, rolled ? `live ${ago(DATA.project.nowMin - state.rolled.at)}` : `live ${span(good.ago)} before`)}
+            ${head(rolled ? (settled ? 'Recovered' : 'Live again, verifying') : 'The last good deploy', good, rolled ? `live ${span(v ? v.min : 0)}` : `live ${span(good.ago)} before`)}
             ${head(rolled ? 'Rolled back' : 'Since the deploy', bad, rolled ? `served ${span(12)}` : `live ${span(bad.ago)}`)}
           </tr></thead>
           <tbody>
@@ -1186,6 +1209,11 @@
       }
       if (s.first && state.first && state.first.ran) out.push({ ago: 0, svc: s.id, kind: 'checkCircle', text: 'ran once: exit 0 in 4 s' });
     }
+    if (state.verify && state.verify.done && state.kind !== 'datastore' && state.kind !== 'job') {
+      const first = service(state.verify.ids[0]);
+      /* A hair before "just now", so it sorts above the rollback it followed. */
+      out.push({ ago: -0.1, svc: first.id, kind: 'checkCircle', text: `recovered: ${pct(first.metrics.errors)} errors over ${state.verify.min} min` });
+    }
     for (const e of state.scenario.events || []) {
       if (state.env === 'staging') continue;
       const s = service(e.svc);
@@ -1380,7 +1408,7 @@
     state.scenario = scenario;
     state.services = buildServices(scenario);
     state.sort = { key: 'id', dir: 'asc' };
-    state.plan = null; state.rolled = null; state.rolling = null; state.retried = false; state.first = null;
+    state.plan = null; state.rolled = null; state.rolling = null; state.retried = false; state.first = null; state.verify = null; verifyGen++;
     state.env = 'production'; state.kind = 'all';
     rollGen++; deployGen++;
     state.open = new Set();
@@ -1449,6 +1477,13 @@
       return parts.join(', ');
     }).filter(Boolean).join('; ');
     state.plan = null;
+    /* Where each figure stood when the decision was made: what the
+       recovery curve falls from. */
+    for (const id of ids) {
+      const m = service(id).metrics || {};
+      if (m.errors != null) m.errorsPeak = m.errors;
+      if (m.p95 != null) m.p95Peak = m.p95;
+    }
     if (staged || reduced()) {
       for (const id of ids) land(id, who);
       finish(ids, from, to, on, staged, who);
@@ -1505,16 +1540,63 @@
        the screen has watched it settle -- and that watching is the next
        thing this prototype owes. */
     const m = s.metrics || {};
-    if (m.errors != null && m.errorsWas != null && m.errors > m.errorsWas) m.errors = Math.max(m.errorsWas, Math.round(m.errors / 12 * 10) / 10);
-    if (m.p95 != null && m.p95Was != null && m.p95 > m.p95Was) m.p95 = Math.max(m.p95Was, Math.round(m.p95 / 7 / 10) * 10);
+    const peakE = m.errorsPeak != null ? m.errorsPeak : m.errors, peakP = m.p95Peak != null ? m.p95Peak : m.p95;
+    if (m.errors != null && m.errorsWas != null && peakE > m.errorsWas) m.errors = Math.round((m.errorsWas + (peakE - m.errorsWas) * LANDED) * 10) / 10;
+    if (m.p95 != null && m.p95Was != null && peakP > m.p95Was) m.p95 = Math.round((m.p95Was + (peakP - m.p95Was) * LANDED) / 10) * 10;
   }
 
   function finish(ids, from, to, on, staged, who = 'you') {
     state.rolled = { ids, from, to, at: DATA.project.nowMin + 1, on, who };
     if (!staged) state.armed = performance.now();
-    render(`Rolled back ${ids.join(' and ')} to ${to}${ids.length > 1 ? `, ${ids[0]} first` : ''}. Recorded at ${clock(state.rolled.at)} with the figures on screen. Undo is a new deploy of ${from}.`, 'ok');
     markChange(ids, 'fill');
+    watchRecovery(ids, from, to, staged);
     if (!staged) keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
+  }
+
+  /* RECOVERY IS WATCHED, NOT DECLARED. A rollback that has landed is a
+     deploy that has landed; the service being well is a separate fact,
+     read from the figures over the minutes after. The screen watches five
+     -- one beat each, at the same compressed rate as the rollback -- and
+     each figure that rose since the deploy falls back toward what it was
+     along a curve, while a figure that never rose sits still. Only after
+     the fifth does the word change from "recovering" to "recovered", and
+     the status line, the health cells and the feed change with it. Staged
+     and reduced-motion readers land on the watched state at once, which
+     is the one the checks measure. */
+  const LANDED = 0.12;                                   /* the first minute's share of the rise */
+  const RECOVERY = [0.06, 0.03, 0.012, 0.005, 0.002];   /* each watched minute's, falling from it */
+  let verifyGen = 0;
+  function settle(ids, min) {
+    const f = RECOVERY[Math.min(min, RECOVERY.length) - 1];
+    for (const id of ids) {
+      const m = service(id).metrics || {};
+      if (m.errorsPeak != null && m.errorsWas != null) m.errors = Math.round((m.errorsWas + (m.errorsPeak - m.errorsWas) * f) * 10) / 10;
+      if (m.p95Peak != null && m.p95Was != null) m.p95 = Math.round((m.p95Was + (m.p95Peak - m.p95Was) * f) / 10) * 10;
+    }
+    state.verify = { ids, min, done: min >= RECOVERY.length };
+  }
+  function recoveredLine(ids, from) {
+    const first = service(ids[0]), m = first.metrics || {};
+    const jobs = ids.map(service).find((s) => s.metrics && s.metrics.failedJobs != null);
+    return `Recovered: ${first.id} at ${pct(m.errors)} errors and p95 ${msec(m.p95)} over ${RECOVERY.length} min${jobs ? `, ${jobs.id} no failed jobs since` : ''}. Undo is a new deploy of ${from}.`;
+  }
+  function watchRecovery(ids, from, to, staged) {
+    const gen = ++verifyGen;
+    if (staged || reduced()) {
+      settle(ids, RECOVERY.length);
+      render(recoveredLine(ids, from), 'ok');
+      return;
+    }
+    state.verify = { ids, min: 0, done: false };
+    render(`Rolled back ${ids.join(' and ')} to ${to}${ids.length > 1 ? `, ${ids[0]} first` : ''}. Recorded at ${clock(state.rolled.at)} with the figures on screen. Watching the next five minutes before it says recovered, at about forty times speed.`, 'ok');
+    const beat = ms('--motion-enter') * 2;
+    const next = (min) => {
+      if (gen !== verifyGen || !state.rolled) return;
+      settle(ids, min);
+      if (min < RECOVERY.length) { render(); setTimeout(() => next(min + 1), beat); }
+      else render(recoveredLine(ids, from), 'ok');
+    };
+    setTimeout(() => next(1), beat);
   }
 
   /* THE FIRST DEPLOY, IN ORDER. Four steps, each a beat, then the job is
@@ -1574,7 +1656,7 @@
       const base = DEGRADED_PATCH()[id];
       if (base && base.metrics) s.metrics = { ...base.metrics };
     }
-    state.rolled = null;
+    state.rolled = null; state.verify = null; verifyGen++;
     render(`Redeployed ${from} to ${ids.join(' and ')}, undoing the rollback. The rollback stays in the history.`, 'note');
     markChange(ids, 'drain');
   }
@@ -1614,7 +1696,7 @@
       state.env = env.dataset.env;
       state.envMenu = false;
       state.services = buildServices(state.scenario);
-      state.plan = null; state.rolled = null; state.rolling = null; state.first = null;
+      state.plan = null; state.rolled = null; state.rolling = null; state.first = null; state.verify = null; verifyGen++;
       rollGen++; deployGen++;
       const api = service('api');
       render(state.env === 'staging'

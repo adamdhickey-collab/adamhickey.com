@@ -129,7 +129,7 @@
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=20" />
+  <link rel="stylesheet" href="deploy-console.css?v=21" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -148,7 +148,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The console. Deferred, no dependencies, no build step; the synthetic
        project is the object at the top of the file. -->
-  <script src="deploy-console.js?v=17" defer></script>
+  <script src="deploy-console.js?v=18" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -364,7 +364,7 @@
             <ol class="build-list">
               <li>Deploy the job that has never run, then run it once. On the failed build, find which commit touched the file the error names, then open the log.</li>
               <li>On the live-but-failing deploy, read the figures before and after, then press Roll back and read what would stay.</li>
-              <li>Roll it back, read who decided and on what, then undo it. Open any service for its history.</li>
+              <li>Roll it back, watch it recover, read who decided and on what, then undo it. Open any service for its history.</li>
             </ol>
           </div>
           <div>
@@ -571,6 +571,7 @@
                 <li><strong>The screen took the platform&rsquo;s own direction.</strong> It was drawn in this site&rsquo;s palette, a warm ground with white cards on it. It follows a refreshed platform dashboard now: a near-black canvas, hairlines where there were shadows, one violet spent on the selected row and the primary fill, mono labels over each group, a breadcrumb header with the environment switch in it, and the service&rsquo;s own menu down the left, so the screen reads as a page of the product and not as a card on this site.</li>
                 <li><strong>The menu says what it does not do.</strong> Overview, Events, Logs and Metrics go to the parts of this screen that answer them and Environment opens the switch; Settings, Scaling, Disks and Shell are the product&rsquo;s and are drawn muted with a title saying so, rather than left out and rather than pretending.</li>
                 <li><strong>The paths off the main road say the same as the road.</strong> A review of the source found four that did not. Staging said every service was on the failing commit when two were, and said a build that failed on production had built there; it names the two, and the build fails on staging at the same line. The plan&rsquo;s explanation was one sentence for every rollback, &ldquo;api first, then worker&rdquo; whichever row was pressed; it is written from the services chosen and the order their dependencies give. Undo took the rollback out of the history; it is a new deploy of the old commit now, with the rollback kept under it. And a scene this page sets was credited to &ldquo;you&rdquo;; it is credited to the developer who did it.</li>
+                <li><strong>Recovery is watched, not declared.</strong> The rollback used to land with its figures already well, as if a deploy landing and a service being well were one event. They are two. The screen now watches five minutes after the older commit serves, the figures fall along a curve from where they stood, the word is &ldquo;recovering&rdquo; until the fifth, and only then does the card, the health cell, the status line and the feed say &ldquo;recovered&rdquo;, with the window it watched.</li>
                 <li><strong>The screen stopped lecturing.</strong> Three lines of this page&rsquo;s argument had been written into the product and came out; the words that remain are the product&rsquo;s.</li>
               </ul>
             </div>
