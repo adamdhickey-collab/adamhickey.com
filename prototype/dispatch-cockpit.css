@@ -355,6 +355,39 @@
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
+/* The four things the prototype does, under the dek, each led by the
+   cockpit's own check in sage: accent-text is 4.12:1 on the warm hero, over
+   the 3:1 an icon answers to (the disclosure's border above measures the
+   same pair). The items take the dek's size and leading, because they are
+   the second half of the dek's sentence and not a list under it. Each row is
+   a flex box aligned to the top with the glyph at 1em wide and 1lh tall, so
+   the check is centred on the first line by construction and stays there
+   when the sentence wraps -- the rule .ck-icon sets out further down, and
+   no margin to keep in step. The list's own bottom margin is nothing,
+   because .ckw-hero-act carries the gap to the actions. */
+.case-hero .ckw-hero-list {
+  list-style: none;
+  max-width: var(--measure);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.case-hero .ckw-hero-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--type-lede);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ckw-hero-check {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1lh;
+  color: var(--color-accent-text);
+}
 /* The copy column now ends on the actions, so the bottom margin that used to
    hold the disclosure off comes back to nothing. */
 .ckw-hero-act {
