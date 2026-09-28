@@ -103,7 +103,7 @@ const SHOTS = [
     /* The actions row starts under the table, inside the bottom margin, and
        a sliver of the button came into the frame; the frame is the reading,
        so the row is hidden for the capture and the ground runs on. */
-    css: '.dc-vs-foot { visibility: hidden !important; }',
+    css: '.dc-vs-foot, .dc-routes { visibility: hidden !important; }',
     note: '02, second frame: a reading, the two deploys compared',
   },
 

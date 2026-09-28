@@ -956,6 +956,32 @@
       : rolling
         ? `<p class="dc-note">${icon('clock')}<span><strong>${esc(now)} is redeploying ${esc(state.rolling.to)}.</strong> ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The right-hand column is still the failing deploy&rsquo;s until both have landed.</span></p>`
         : `<p class="dc-note" data-tone="read">${icon('alert')}<span><strong>The errors started when ${esc(n.commit)} went live.</strong> It sends invoice totals to a tax service outside this project, and that service is timing out. The deploy may not be what broke.</span></p>`;
+    /* TWO ROUTES, SIDE BY SIDE. The note above the table says the deploy
+       may not be what broke, and until this the one violet button under it
+       said roll back anyway: the layout favoured the mitigation while the
+       words doubted it. Now the two things a developer can do from here
+       are two cards of the same weight -- look at the dependency first,
+       with the evidence that points there beside the button, or put the
+       old path back while looking -- and neither takes the violet, because
+       neither is the decision yet. The violet is on the plan's confirm,
+       which is where the decision is made. The staging figures are read
+       from the staging patch, so the evidence is the same the environment
+       switch shows, brought to the place the choice is made. */
+    const routes = () => {
+      const stg = STAGING_PATCH('degraded').api.metrics;
+      return `<div class="dc-routes">
+          <div class="dc-route" data-route="look">
+            <h4 class="dc-h">Look at the dependency first</h4>
+            <p class="dc-route-p">Every failing request is a timeout from the tax service. On staging the same commit serves at ${pct(stg.errors)} errors and p95 ${msec(stg.p95)}, against a stub; production calls the real service.</p>
+            <p class="dc-route-act"><button type="button" class="dc-btn dc-btn-quiet" data-look data-focus="look">Show the timeouts in ${esc(s.id)}&rsquo;s log</button><button type="button" class="dc-btn dc-btn-quiet" data-env="staging" data-focus="env:staging">Compare with staging</button></p>
+          </div>
+          <div class="dc-route" data-route="roll">
+            <h4 class="dc-h">Or put the old path back while you look</h4>
+            <p class="dc-route-p">${esc(worker.id)} goes back with ${esc(s.id)}: the two moved in one push and ${esc(worker.id)} calls it. Already built; about forty seconds each. A preview first, and nothing moves until it is confirmed.</p>
+            <p class="dc-route-act">${rollbackButton(s, 'dc-btn dc-btn-quiet')}</p>
+          </div>
+        </div>`;
+    };
     html = `<div class="dc-lead" data-tone="${rolled ? 'ok' : 'read'}">
       <p class="dc-lead-kicker dc-label">${rolled ? (settled ? 'Rolled back, recovered' : 'Rolled back, verifying') : rolling ? 'Rolling back' : 'Live, but failing'}</p>
       <h3 class="dc-answer-h">${rolled
@@ -990,10 +1016,10 @@
         <!-- The actions, under the columns they belong to: a row outside the
              table, on the table's own column widths, so it can stack on a
              phone where a table footer cannot. -->
-        <div class="dc-vs-foot">
+        ${rolled || rolling ? `<div class="dc-vs-foot">
           <div class="dc-vs-act">${rolled ? `<span class="dc-vs-act-note">Serving every request again.</span>` : `${button}<span class="dc-vs-act-note">${esc(worker.id)} goes back with it. Already built; about forty seconds.</span>`}</div>
-          <div class="dc-vs-act">${rolled ? `${button}<span class="dc-vs-act-note">A new deploy of the commit that was failing. The rollback stays in the history.</span>` : `<span class="dc-vs-act-note">Keep serving it, and look at the tax service first.</span>`}</div>
-        </div>
+          <div class="dc-vs-act">${rolled ? `${button}<span class="dc-vs-act-note">A new deploy of the commit that was failing. The rollback stays in the history.</span>` : ''}</div>
+        </div>` : routes()}
         <div class="dc-read-more">
           <div>
             <h4 class="dc-h">What changed</h4>
@@ -1680,6 +1706,12 @@
       renderChrome();
       const el = root.querySelector(state.envMenu ? '.dc-menu-item[aria-checked="true"]' : '[data-envmenu]');
       if (el) el.focus({ preventScroll: true });
+      return;
+    }
+    const look = e.target.closest('[data-look]');
+    if (look) {
+      const d = root.querySelector('.dc-read .dc-log-fold');
+      if (d) { d.open = true; keep(d.querySelector('.dc-log')); }
       return;
     }
     const nav = e.target.closest('[data-nav]');
