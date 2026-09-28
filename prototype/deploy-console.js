@@ -366,7 +366,7 @@
         <div><dt>${icon('boxes')}Services</dt><dd>${serving} of ${state.services.length} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
         <div><dt>${icon('commit')}Last deploy</dt><dd>${esc(lastWord)}</dd></div>
         <div><dt>${icon('pin')}Region</dt><dd>${esc(p.region)}</dd></div>
-        <div><dt>${icon('clock')}Now</dt><dd>${clock(p.nowMin)}, every &ldquo;ago&rdquo; counts from here</dd></div>
+        <div><dt>${icon('clock')}Now</dt><dd>${clock(p.nowMin)}</dd></div>
       </dl>`;
   }
 
@@ -477,12 +477,11 @@
               ${figure(msec(api.metrics.p95), 'api p95 response')}
               ${figure(String(worker.metrics.failedJobs), 'worker jobs failed')}
             </div>
-            <p class="dc-card-note">Nothing here is a verdict on the deploy. It is what the figures were before anything changed, and the pair every later reading is set beside.</p>
+            <p class="dc-card-note">What the figures were before anything changed.</p>
           </div>
           <div class="dc-aside" data-enter="aside:live">
             <h4 class="dc-h">The one row that is different</h4>
-            <p class="dc-aside-p"><strong>${esc(cron.id)}</strong> has never deployed. Nothing is wrong; nothing has happened yet. It has a schedule and no history, and the row says which of those it is rather than leaving a blank.</p>
-            <p class="dc-aside-fine">A screen that shows nothing where nothing has happened is indistinguishable from a screen that is broken. An empty state says why it is empty.</p>
+            <p class="dc-aside-p"><strong>${esc(cron.id)}</strong> has never deployed. Nothing is wrong; nothing has happened yet. It has a schedule and no history.</p>
           </div>
         </div>
       </div>`;
@@ -511,7 +510,7 @@
                 <ol class="dc-changes">${n.changes.map((c) => changeRow(c, 'src/billing/invoice.ts')).join('')}</ol>
                 <span class="dc-answers-fine">One of the two touches the file the error names. That is a suspect, not a verdict.</span>
               </dd></div>
-              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. Nothing changed for them; the strip beside this card shows each with its own health.</dd></div>
+              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. Nothing changed for them.</dd></div>
               <div><dt>What to do</dt><dd>Fix the build and push. The live deploy keeps serving until a new one succeeds; there is nothing to roll back, because nothing moved.${state.retried ? ' <strong>Retried once, at ' + clock(DATA.project.nowMin) + ': the same error on the same line.</strong>' : ''}</dd></div>
             </dl>
             ${logDisclosure(f.log, 'error TS2339', 'The last nine lines of the build log')}
@@ -524,7 +523,6 @@
               ${figure(span(l.ago), 'live, without a failed health check')}
               ${figure(pct(s.metrics.errors), 'of requests erroring')}
             </div>
-            <p class="dc-aside-fine">Live is a fact about traffic, not about time. The newest deploy is 14 minutes old and never served a request; this one is six days old and serves every one.</p>
             <h4 class="dc-h dc-aside-h2">What depends on it</h4>
             ${depsStrip(s)}
           </div>
@@ -562,7 +560,7 @@
         ? `The rollback landed ${ago(DATA.project.nowMin - state.rolled.at)}, ${esc(s.id)} first and ${esc(worker.id)} after it. ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
         : rolling
           ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the deploy that failed; they change when both have landed.`
-          : `${esc(n.commit)} built, passed its health check and is serving every request. Since it went live, one request in seven has failed, and ${esc(worker.id)}, which calls ${esc(s.id)}, is failing jobs. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
+          : `${esc(n.commit)} passed its health check and is serving every request; the errors started when it went live. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
       <div class="dc-pair">
         <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
           <p class="dc-card-head">${rolled ? 'Since the rollback' : 'Since the deploy'}</p>
@@ -576,7 +574,7 @@
               <ol class="dc-changes">${changes.map((c) => changeRow(c, null)).join('')}</ol>
               <span class="dc-answers-fine">One commit, deployed to ${esc(s.id)} and ${esc(worker.id)} in the same push. It sends invoice totals to a tax service outside this project, and that service is timing out.</span>
             </dd></div>
-            <div><dt>What depends on it</dt><dd>${esc(worker.id)}, which calls ${esc(s.id)}, is ${rolled ? 'recovering with it' : 'failing jobs'}; web calls ${esc(s.id)} from the browser and its own deploy is unchanged. The strip beside this card shows each with its health.</dd></div>
+            <div><dt>What depends on it</dt><dd>${esc(worker.id)}, which calls ${esc(s.id)}, is ${rolled ? 'recovering with it' : 'failing jobs'}. web calls ${esc(s.id)} from the browser and is unchanged.</dd></div>
             ${rolled ? `<div><dt>Who decided, and on what</dt><dd><span class="dc-record">You, at ${clock(state.rolled.at)}. ${esc(s.id)} and ${esc(worker.id)} from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}.</span> Written with the deploy, for anyone to read.</dd></div>`
               : `<div><dt>What to do</dt><dd>Roll ${esc(s.id)} back to ${esc(prev.commit)}. ${esc(worker.id)} deployed from the same commit and calls ${esc(s.id)}, so it goes back with it. web, postgres and redis stay where they are. <span class="dc-answers-fine">The figures say roll back. Whether the errors are this deploy&rsquo;s is yours to judge: the tax service it calls is outside this project, and it may be the thing that broke.</span></dd></div>`}
           </dl>
@@ -591,8 +589,8 @@
             ${figure(pct(m.errorsWas), 'of requests erroring, on that deploy')}
           </div>
           <p class="dc-aside-fine">${rolled
-            ? `The commit that was rolled back is still built. Undo redeploys it in about forty seconds, in the same order.`
-            : `It is already built. A rollback redeploys it in about forty seconds; nothing has to compile.`}</p>
+            ? `${esc(state.rolled.from)} is still built. Undo redeploys it in about forty seconds.`
+            : `Already built. A rollback redeploys it in about forty seconds.`}</p>
           <h4 class="dc-h dc-aside-h2">What depends on it</h4>
           ${depsStrip(s)}
         </div>
@@ -664,8 +662,7 @@
   const COLUMNS = [
     { key: 'id',      label: 'Service',      sortable: true },
     { key: 'type',    label: 'Type',         sortable: true },
-    { key: 'live',    label: 'Live',         sortable: false, unit: 'serving traffic' },
-    { key: 'since',   label: 'Live since',   sortable: true, num: true },
+    { key: 'since',   label: 'Live',         sortable: true, unit: 'serving traffic' },
     { key: 'newest',  label: 'Newest deploy', sortable: true, unit: 'may not be the live one' },
     { key: 'health',  label: 'Health',       sortable: true },
     { key: 'deps',    label: 'Depends on',   sortable: false },
@@ -753,8 +750,7 @@
       return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}" style="--i:${i}">
         <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneTag}</th>
         <td class="dc-cell-type">${esc(s.type)}</td>
-        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
-        <td class="dc-num">${l ? span(l.ago) : '<span class="dc-cell-note">—</span>'}</td>
+        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">for ${span(l.ago)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
         <td class="dc-cell-newest">${newestCell(s)}</td>
         <td class="dc-cell-health" data-health="${h.state}"><span class="dc-health-word">${h.state === 'failing' ? icon('alert') : h.state === 'ok' ? icon('checkCircle') : h.state === 'recovering' ? icon('undo') : ''}${esc(h.word)}</span>${h.fig ? `<span class="dc-cell-note">${esc(h.fig)}</span>` : ''}</td>
         <td class="dc-cell-deps">${s.needs.length ? s.needs.map(esc).join(', ') : '<span class="dc-cell-note">nothing</span>'}</td>
@@ -954,7 +950,7 @@
     let status, tone;
     if (!s) { status = 'All live: six services, five serving their live deploy, nightly-report never deployed. Nothing needs you.'; tone = 'ok'; }
     else if (n.status === 'failed') { status = `A build failed: ${s.id}’s push ${ago(n.ago)} failed at step ${n.fail.step} of ${n.fail.of}. The live deploy is unchanged and serving.`; tone = 'refused'; }
-    else { status = `Live, but failing: ${s.id} has been on ${n.commit} for ${span(n.ago)}, with ${pct(s.metrics.errors)} of requests erroring. The deploy before it ran at ${pct(s.metrics.errorsWas)}.`; tone = 'read'; }
+    else { status = `Live, but failing: ${s.id} has been erroring since ${n.commit} went live ${ago(n.ago)}.`; tone = 'read'; }
     render(status, tone);
     if (scenario.then) scenario.then(api);
   }
@@ -967,7 +963,7 @@
     const ids = planIds(id);
     if (!ids.length) return;
     state.plan = { ids };
-    render(`Rolling back ${ids.join(' and ')} is previewed above the table: what changes, what stays, and what happens next. Nothing has moved yet.`, 'note');
+    render(`Previewed above the table. Nothing has moved yet.`, 'note');
     keep(root.querySelector('#dc-plan-head'));
   }
 
@@ -1007,7 +1003,7 @@
     const gen = ++rollGen;
     state.rolling = { ids, from, to, on, at: 0 };
     begin(ids[0], to);
-    render(`Rolling back ${ids.join(', then ')}. Each redeploy is about forty seconds in the product, shown here at about forty times the speed.`, 'note');
+    render(`Rolling back ${ids.join(', then ')}. Shown at about forty times speed.`, 'note');
     keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
     const step = ms('--motion-enter') * 2;
     const next = (i) => {
@@ -1070,7 +1066,7 @@
       if (base && base.metrics) s.metrics = { ...base.metrics };
     }
     state.rolled = null;
-    render(`Rollback undone: ${ids.join(' and ')} are on ${from} again, and the figures are what they were.`, 'note');
+    render(`Rollback undone: ${ids.join(' and ')} are on ${from} again.`, 'note');
     markChange(ids, 'drain');
   }
 
@@ -1114,7 +1110,7 @@
     if (p) { plan(p.dataset.plan); return; }
     if (e.target.closest('[data-plan-close]')) {
       state.plan = null;
-      render('Nothing moved. The preview is closed and every service is where it was.', 'note');
+      render('Nothing moved.', 'note');
       keep(root.querySelector('[data-plan]'));
       return;
     }
