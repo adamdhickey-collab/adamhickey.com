@@ -124,12 +124,12 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20260928b" />
+  <link rel="stylesheet" href="../style.css?v=20260928c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=12" />
+  <link rel="stylesheet" href="deploy-console.css?v=14" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -254,7 +254,19 @@
       <div class="container">
         <div class="dcw-hero-grid">
           <div class="dcw-hero-copy">
-            <p class="case-kicker">Multi-service deploy console &middot; working prototype &middot; synthetic data</p>
+            <!-- THE APP, NAMED. An icon and a name above the title, the way
+                 an app listing opens, so the product has an identity before
+                 the page argues about it; the title stays the search sentence
+                 it has to be. The kicker is the name's category line. The
+                 component is .app-id in style.css, shared with the homepage
+                 card. -->
+            <div class="app-id">
+              <img class="app-id-icon" src="../img/console/icon-rollcall.webp?v=1" width="480" height="480" alt="" />
+              <div class="app-id-text">
+                <p class="app-id-name">Rollcall</p>
+                <p class="case-kicker">Multi-service deploy console &middot; working prototype &middot; synthetic data</p>
+              </div>
+            </div>
             <h1 class="case-title dcw-hero-title">A failed deploy the developer can read in one place and put back in one press</h1>
             <p class="dcw-hero-dek">Something broke in a project of six services. The screen answers the five questions in the order they come.</p>
             <!-- The four things the prototype does, as the cockpit's hero
@@ -263,10 +275,10 @@
                  check in sage, a step under the dek and semibold, so the
                  four read as the four things rather than as more dek. -->
             <ul class="dcw-hero-list">
-              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>The deploy serving traffic is never confused with the one pushed last.</span></li>
-              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>A failed build is one card: what failed, what changed, what depends on it, what to do.</span></li>
-              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>A rollback shows what will change and what will stay before anything moves.</span></li>
-              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Putting it back is one press, and undoing it is one more.</span></li>
+              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>What&rsquo;s live, never confused with what&rsquo;s newest.</span></li>
+              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>A failed build, explained on one card.</span></li>
+              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>A rollback, previewed before it runs.</span></li>
+              <li><svg class="dcw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>One press to put it back, one to undo.</span></li>
             </ul>
             <p class="dcw-hero-act" data-read-aloud="skip after">
               <a class="btn btn-primary dcw-hero-btn" href="#try-it">Try the prototype</a>
@@ -362,7 +374,6 @@
               <li>Responsive and keyboard accessible, with changes announced. At 390px the table keeps three columns and folds the rest into the row.</li>
               <li>Synthetic data and a plain script, not a platform. Source: <a href="deploy-console.js">deploy-console.js</a>, the project as one object at the top.</li>
               <li>Built on the site&rsquo;s own system, extended rather than fought: one token added, and the disclosure row, the device chrome and the motion vocabulary shared with the cockpit.</li>
-              <li>Every state decided: live against newest, the map of who calls whom, the first deploy step by step, the refusal on the caution ground, the reading on white, the plan with what stays, the rollback in order, Undo inert for half a second, two densities.</li>
             </ul>
           </div>
         </div>
