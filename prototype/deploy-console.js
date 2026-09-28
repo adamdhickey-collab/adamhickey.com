@@ -42,6 +42,13 @@
       env: 'production',
       region: 'Oregon',
       nowMin: 11 * 60 + 42,   /* 11:42 am, and the project card says so */
+      /* THE LINES THE PLATFORM ALERTS AT, so a figure is read against
+         something the team chose and not against "what it was before":
+         a before that happened to be quiet is not a floor. */
+      alert: { errors: 1, p95: 500, failedJobs: 5 },
+      /* The window every "since the deploy" figure is taken over, in
+         minutes, and the window its "before" figure is matched to. */
+      window: 12,
     },
 
     /* The services, as the "All live" situation sees them. Each situation
@@ -293,7 +300,10 @@
   function DEGRADED_PATCH() {
     return {
       api: {
-        metrics: { errors: 14, errorsWas: 0.2, p95: 2800, p95Was: 340 },
+        /* `requests` is the count in the window since the deploy;
+           `requestsWas` the count in the same-length window before it,
+           which is what makes the two columns comparable. */
+        metrics: { errors: 14, errorsWas: 0.2, p95: 2800, p95Was: 340, requests: 4080, requestsWas: 4120 },
         deploys: [
           { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 12, status: 'live',
             changes: [
@@ -513,6 +523,34 @@
      the parts of this screen that answer them; Environment opens the
      switch; the rest are the product's and not this prototype's, and say
      so rather than pretending. Rendered on every render, like the rest. */
+  /* THE INCIDENT, AS ONE CHIP THAT STAYS IN VIEW. Deploy status and
+     customer impact are two facts, and a screen that shows only the first
+     lets a harmless build failure look worse than a release returning
+     errors. The chip reads the services' health: failing services are an
+     incident with how long it has run; a rollback under way or being
+     watched is an incident recovering; a watched recovery is resolved;
+     and a failed build with the live deploy serving is "production
+     unchanged", said in green, which is the signal that the red header
+     on the card is not an outage. On a desktop it sits in the menu, which
+     sticks; on a phone in the header. */
+  function incident() {
+    const failing = state.services.filter((s) => health(s).state === 'failing');
+    if (state.rolling) return { tone: 'red', glyph: 'clock', text: `Incident <span class="dc-sep" aria-hidden="true">&middot;</span> rolling back` };
+    if (state.rolled && state.verify) {
+      return state.verify.done
+        ? { tone: 'green', glyph: 'checkCircle', text: `Resolved <span class="dc-sep" aria-hidden="true">&middot;</span> recovered at ${clock(state.rolled.at + state.verify.min)}` }
+        : { tone: 'watch', glyph: 'undo', text: `Incident <span class="dc-sep" aria-hidden="true">&middot;</span> recovering, minute ${state.verify.min} of ${RECOVERY.length}` };
+    }
+    if (failing.length) {
+      const first = failing[0], n = newest(first);
+      return { tone: 'red', glyph: 'alert', text: `Incident <span class="dc-sep" aria-hidden="true">&middot;</span> ${failing.map((s) => esc(s.id)).join(', ')} failing, ${span(n ? n.ago : 0)}` };
+    }
+    const refused = state.services.find((s) => { const n = newest(s); return n && n.status === 'failed' && live(s); });
+    if (refused) return { tone: 'green', glyph: 'checkCircle', text: `Production unchanged <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(live(refused).commit)} serving` };
+    return null;
+  }
+  const incidentChip = () => { const i = incident(); return i ? `<p class="dc-incident" data-tone="${i.tone}">${icon(i.glyph)}<span>${i.text}</span></p>` : ''; };
+
   const NAV_MORE = [['gear', 'Settings'], ['scale', 'Scaling'], ['disk', 'Disks'], ['terminal', 'Shell']];
   function renderChrome() {
     const top = $('.dc-top', root), side = $('.dc-side', root);
@@ -535,12 +573,13 @@
         </li>
         <li class="dc-crumb">${icon('globe')}<span>${focus ? esc(focus.id) : 'all services'}</span></li>
       </ol>
-      <p class="dc-top-clock">${icon('clock')}<span>${clock(p.nowMin)}</span></p>`;
+      <div class="dc-top-right">${incidentChip()}<p class="dc-top-clock">${icon('clock')}<span>${clock(p.nowMin)}</span></p></div>`;
     const item = (glyph, label, attrs) => `<li><a class="dc-nav-item" ${attrs}>${icon(glyph)}<span>${label}</span></a></li>`;
     const off = (glyph, label) => `<li><span class="dc-nav-item" aria-disabled="true" title="In the product, not in this prototype">${icon(glyph)}<span>${label}</span></span></li>`;
     /* The menu's contents sit in a wrapper of their own so they can stick
        while the panel scrolls; the nav itself keeps the full-height edge. */
     side.innerHTML = `<div class="dc-side-in">
+      ${incidentChip()}
       <p class="dc-side-back">${icon('back')}<span>${cur[1]}</span></p>
       <p class="dc-side-id">${icon(focus ? 'globe' : 'layers')}<span>${focus ? esc(focus.id) : esc(p.name)}</span></p>
       <ul class="dc-nav">
@@ -855,7 +894,10 @@
         <p class="dc-answer-dek">Nothing is down. ${esc(l.commit)} has been live for ${span(l.ago)} and is unchanged. The push ${ago(n.ago)} never reached it. worker&rsquo;s deploy from the same push started and then exited, so it failed too; its live deploy is still running.</p>
         <div class="dc-pair">
           <div class="dc-fail" data-enter="fail:${esc(s.id)}">
-            <p class="dc-fail-head">${icon('ban', 'dc-fail-glyph')}${esc(n.commit)} failed at the ${esc(f.stage)}, step ${f.step} of ${f.of}</p>
+            <div class="dc-fail-head">
+              <p class="dc-fail-title">${icon('ban', 'dc-fail-glyph')}${esc(n.commit)} failed at the ${esc(f.stage)}, step ${f.step} of ${f.of}</p>
+              <p class="dc-fail-status">${icon('checkCircle')}<span>Production unchanged <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(l.commit)} serving</span></p>
+            </div>
             <dl class="dc-answers">
               <div><dt>What failed</dt><dd><span class="dc-cmd">${esc(f.cmd)}</span> stopped on one error: <span class="dc-line">${esc(f.line)}</span></dd></div>
               <div><dt>What changed since it last built</dt><dd>
@@ -921,15 +963,18 @@
     const A = { errors: rolled ? m.errors : m.errorsWas, p95: rolled ? m.p95 : m.p95Was, jobs: 0 };
     const B = { errors: D.api.metrics.errors, p95: D.api.metrics.p95, jobs: D.worker.metrics.failedJobs };
     const now = rolling ? state.rolling.ids[state.rolling.at] : null;
+    const AL = DATA.project.alert;
     const ROWS = [
-      { label: `${s.id} errors`, unit: 'share of requests', a: A.errors, b: B.errors, fmt: pct },
-      { label: `${s.id} response`, unit: '95th percentile', a: A.p95, b: B.p95, fmt: msec },
-      { label: `${worker.id} failed jobs`, unit: `in ${span(12)}`, a: A.jobs, b: B.jobs, fmt: String },
+      { label: `${s.id} errors`, unit: 'share of requests', a: A.errors, b: B.errors, fmt: pct, alert: AL.errors },
+      { label: `${s.id} response`, unit: '95th percentile', a: A.p95, b: B.p95, fmt: msec, alert: AL.p95 },
+      { label: `${worker.id} failed jobs`, unit: `in ${span(DATA.project.window)}`, a: A.jobs, b: B.jobs, fmt: String, alert: AL.failedJobs },
     ];
     /* A bar is the value against the larger of the pair, so the two bars
        in a row are one drawing; a zero keeps a sliver so the track reads as
        a measurement and not a missing one. */
-    const bar = (v, max, side) => `<span class="dc-bar" data-side="${side}" aria-hidden="true"><span class="dc-bar-mark" style="--w:${max > 0 ? Math.max(2, (v / max) * 100).toFixed(1) : 2}%"></span></span>`;
+    /* The alert line is a tick on both bars at the same x, since the two
+       share a scale: where the figure crosses from fine to not. */
+    const bar = (v, max, side, alert) => `<span class="dc-bar" data-side="${side}" aria-hidden="true"><span class="dc-bar-mark" style="--w:${max > 0 ? Math.max(2, (v / max) * 100).toFixed(1) : 2}%"></span>${alert != null && max > alert ? `<span class="dc-bar-alert" style="--at:${((alert / max) * 100).toFixed(1)}%"></span>` : ''}</span>`;
     /* The glyph on "worse" points the way the figure went: an error rate
        that rose gets an arrow up, not the down arrow "worse" used to carry
        whichever way the number had moved. */
@@ -938,10 +983,19 @@
     const dir = (side, r) => side === 'a'
       ? `<span class="dc-dir" data-dir="${rolled && !settled ? 'recovering' : 'healthy'}">${icon(rolled && !settled ? 'undo' : 'checkCircle')}${rolled ? (settled ? 'recovered' : 'recovering') : 'healthy'}</span>`
       : `<span class="dc-dir" data-dir="worse">${icon(r.b >= r.a ? 'up' : 'down')}worse</span>`;
-    const head = (label, d, when) => `<th scope="col" class="dc-vs-opt">
+    /* MATCHED WINDOWS. The good deploy's figures are its last twelve
+       minutes before the deploy, not its six days, so the two columns
+       measure the same length of time, and each says how many requests
+       it saw, so a rate is read against its count. */
+    const num = (n) => n == null ? '' : Number(n).toLocaleString('en-US');
+    const W = DATA.project.window;
+    const winA = rolled ? `${span(v ? v.min : 0)} watched <span class="dc-sep" aria-hidden="true">&middot;</span> ${num(Math.round((m.requests || 0) * ((v ? v.min : 0) / W)))} requests` : `its last ${span(W)} before the deploy <span class="dc-sep" aria-hidden="true">&middot;</span> ${num(m.requestsWas)} requests`;
+    const winB = `${span(W)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${num(m.requests)} requests`;
+    const head = (label, d, when, win) => `<th scope="col" class="dc-vs-opt">
         <span class="dc-vs-opt-label dc-label">${label}</span>
         <span class="dc-vs-opt-id">${esc(d.commit)}</span>
         <span class="dc-vs-opt-who">${esc(d.msg)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${when}</span>
+        <span class="dc-vs-opt-win">${win}</span>
       </th>`;
     const button = rollbackButton(s, 'dc-btn dc-btn-primary');
     /* THE SECOND NOTE, WHILE AND AFTER THE SCREEN WATCHES. Landing the
@@ -1002,14 +1056,14 @@
           <caption class="dc-visually-hidden">${esc(good.commit)} and ${esc(bad.commit)} compared on the three figures that moved, then the action for each.</caption>
           <thead><tr>
             <td class="dc-vs-corner"></td>
-            ${head(rolled ? (settled ? 'Recovered' : 'Live again, verifying') : 'The last good deploy', good, rolled ? `live ${span(v ? v.min : 0)}` : `live ${span(good.ago)} before`)}
-            ${head(rolled ? 'Rolled back' : 'Since the deploy', bad, rolled ? `served ${span(12)}` : `live ${span(bad.ago)}`)}
+            ${head(rolled ? (settled ? 'Recovered' : 'Live again, verifying') : 'The last good deploy', good, rolled ? `live ${span(v ? v.min : 0)}` : `live ${span(good.ago)} before`, winA)}
+            ${head(rolled ? 'Rolled back' : 'Since the deploy', bad, rolled ? `served ${span(12)}` : `live ${span(bad.ago)}`, winB)}
           </tr></thead>
           <tbody>
             ${ROWS.map((r, i) => { const max = Math.max(r.a, r.b); return `<tr class="dc-vs-row" style="--i:${i}">
-              <th scope="row" class="dc-vs-factor"><span class="dc-vs-factor-name">${esc(r.label)}</span><span class="dc-vs-note">${esc(r.unit)}</span></th>
-              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.a)}</span>${dir('a', r)}${bar(r.a, max, 'a')}</td>
-              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.b)}</span>${dir('b', r)}${bar(r.b, max, 'b')}</td>
+              <th scope="row" class="dc-vs-factor"><span class="dc-vs-factor-name">${esc(r.label)}</span><span class="dc-vs-note">${esc(r.unit)}</span><span class="dc-vs-note">alert above ${r.fmt(r.alert)}</span></th>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.a)}</span>${dir('a', r)}${bar(r.a, max, 'a', r.alert)}</td>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.b)}</span>${dir('b', r)}${bar(r.b, max, 'b', r.alert)}</td>
             </tr>`; }).join('')}
           </tbody>
         </table>
