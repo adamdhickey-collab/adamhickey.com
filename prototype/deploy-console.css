@@ -1167,6 +1167,20 @@ html[data-embed] .dc { border-radius: 0; }
   .dc .dc-btn-quiet:hover { background: var(--wash-on-light-hover); }
   .dc .dc-btn:hover { transform: scale(var(--motion-lift)); }
 }
+/* IN FLIGHT. Not disabled in the DOM, so it stays in the tab order and can
+   be read; aria-disabled says what it is and the words say why. Muted-gray
+   on white is 6.47 as text and as the border, and the control neither
+   lifts nor flinches, for the reason the cockpit's refused button does not:
+   a button that gives under the finger is promising it did something. */
+.dc .dc-btn[aria-disabled="true"] {
+  color: var(--color-muted-gray);
+  border-color: var(--color-muted-gray);
+  cursor: progress;
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-btn[aria-disabled="true"]:hover { background: none; transform: none; }
+}
+.dc .dc-btn[aria-disabled="true"]:active { transform: none; }
 .dc table .dc-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
 @media (hover: hover) and (pointer: fine) {
   .dc table .dc-btn:not(.dc-btn-primary):hover { background: var(--wash-on-light-hover); }
@@ -1476,6 +1490,8 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--color-caution-text); }
 .dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
 .dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+/* Redeploying: charcoal word, the state is neither fine nor not fine yet. */
+.dc-table .dc-cell-health[data-health="building"] .dc-health-word { color: var(--color-charcoal); }
 
 /* ---------- A row that opens in place ---------- */
 .dc-table .dc-cell-svc { padding: 0; }
@@ -1781,4 +1797,9 @@ html[data-embed] .dc { border-radius: 0; }
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
   animation-fill-mode: backwards;
 }
-.dc-row-detail .dc-detail[data-opened] { animation: dc-card-in var(--motion-enter) var(--ease-enter); }
+/* THE DRAWER. While its height is being animated by the script the panel
+   clips, so the contents are revealed by the edge rather than sitting
+   outside a box that has not reached them yet; and the contents fade in
+   over the same span, with no rise, because the box is the thing moving. */
+.dc-row-detail .dc-detail[data-drawer] { overflow: hidden; box-sizing: border-box; }
+.dc-row-detail .dc-detail[data-drawer] > * { animation: dc-plan-in var(--motion-move) var(--ease); }

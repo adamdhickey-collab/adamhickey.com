@@ -268,6 +268,7 @@
     services: [],
     sort: { key: 'id', dir: 'asc' },
     plan: null,           /* { ids } while the rollback preview is open */
+    rolling: null,        /* { ids, from, to, on, at: index of the service redeploying } while one is in flight */
     rolled: null,         /* { ids, from, to, at, on } once a rollback is made */
     retried: false,       /* the failed build's retry was pressed */
     armed: 0,             /* when the reader last pressed Roll back */
@@ -315,8 +316,13 @@
   function health(s) {
     if (!s.deploys) return { state: 'none', word: 'provisioned' };
     if (!s.deploys.length) return { state: 'none', word: 'never deployed' };
+    const n = newest(s);
+    if (n && n.status === 'building') return { state: 'building', word: 'redeploying', fig: `${n.commit}, about 40 s` };
     const m = s.metrics || {};
-    if (state.rolled && state.rolled.ids.includes(s.id)) {
+    /* A service whose live deploy is a rollback is recovering, whether the
+       whole sequence has landed yet or not: api is back on the good commit
+       while worker is still redeploying, and its word says so. */
+    if (n && n.rollback && n.status === 'live') {
       return { state: 'recovering', word: 'recovering', fig: m.errors != null ? `${pct(m.errors)} errors, falling` : `${m.failedJobs} failed jobs, stopped` };
     }
     if (m.errors != null && m.errors > 1) return { state: 'failing', word: 'failing', fig: `${pct(m.errors)} of requests` };
@@ -416,6 +422,12 @@
      will take. */
   function rollbackButton(s, cls = 'dc-btn', terse = false) {
     if (!s.deploys || !s.deploys.length) return '';
+    /* IN FLIGHT: the control admits the press was taken and refuses a second
+       one. Not disabled in the DOM, so it stays in the tab order and reads;
+       aria-disabled says what it is. */
+    if (state.rolling && state.rolling.ids.includes(s.id)) {
+      return `<button type="button" class="${cls.includes('dc-btn-primary') ? cls.replace('dc-btn-primary', 'dc-btn-quiet') : cls + ' dc-btn-quiet'}" aria-disabled="true" data-focus="roll:${esc(s.id)}">Rolling back&hellip;</button>`;
+    }
     if (state.rolled && state.rolled.ids.includes(s.id)) {
       return terse
         ? `<button type="button" class="${cls} dc-btn-quiet" data-undo="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Undo<span class="dc-btn-id dc-btn-id--quiet"> the rollback of ${esc(s.id)}</span></button>`
@@ -529,20 +541,28 @@
        than announcing one. Rolled back is the same card with the record on
        it and Undo where the action was. */
     const rolled = state.rolled && state.rolled.ids.includes(s.id);
+    const rolling = state.rolling && state.rolling.ids.includes(s.id);
     const worker = service('worker');
     const prev = rolled ? s.deploys.find((d) => d.commit === state.rolled.from) : previous(s);
     const good = rolled ? live(s) : prev;
     const m = s.metrics;
     const change = (rolled ? s.deploys.find((d) => d.commit === state.rolled.from) : n) || n;
     const changes = change.changes || [];
+    /* IN FLIGHT, the zone says what is happening and in what order, and
+       the figures stay what they were: nothing has recovered yet. */
+    const now = rolling ? state.rolling.ids[state.rolling.at] : null;
     html = `<div class="dc-lead" data-tone="${rolled ? 'ok' : 'read'}">
-      <p class="dc-lead-kicker dc-label">${rolled ? 'Rolled back' : 'Live, but failing'}</p>
+      <p class="dc-lead-kicker dc-label">${rolled ? 'Rolled back' : rolling ? 'Rolling back' : 'Live, but failing'}</p>
       <h3 class="dc-answer-h">${rolled
         ? `${esc(s.id)} and ${esc(worker.id)} are back on ${esc(good.commit)}. The errors are falling.`
-        : `${esc(s.id)} is live, and failing since the deploy ${ago(n.ago)}.`}</h3>
+        : rolling
+          ? `Rolling ${esc(s.id)} and ${esc(worker.id)} back to ${esc(state.rolling.to)}, ${esc(s.id)} first.`
+          : `${esc(s.id)} is live, and failing since the deploy ${ago(n.ago)}.`}</h3>
       <p class="dc-answer-dek">${rolled
         ? `The rollback landed ${ago(DATA.project.nowMin - state.rolled.at)}, ${esc(s.id)} first and ${esc(worker.id)} after it. ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
-        : `${esc(n.commit)} built, passed its health check and is serving every request. Since it went live, one request in seven has failed, and ${esc(worker.id)}, which calls ${esc(s.id)}, is failing jobs. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
+        : rolling
+          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the deploy that failed; they change when both have landed.`
+          : `${esc(n.commit)} built, passed its health check and is serving every request. Since it went live, one request in seven has failed, and ${esc(worker.id)}, which calls ${esc(s.id)}, is failing jobs. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
       <div class="dc-pair">
         <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
           <p class="dc-card-head">${rolled ? 'Since the rollback' : 'Since the deploy'}</p>
@@ -838,6 +858,49 @@
     }
   }
 
+  /* A ROW OPENS LIKE A DRAWER, NOT LIKE A CUT. The detail used to appear at
+     its full height in one frame while the rows under it were flipped down
+     to make room -- two motions for one event, and the panel itself arrived
+     rather than opened, which read as a jump. Now the panel's height is the
+     animation: from nothing to its measured height on the way in, back to
+     nothing on the way out, with the rows beneath following its edge because
+     the table lays them out under it on every frame. --motion-move, because
+     a drawer travels a short distance, and --ease, because nothing here is
+     entering. The contents fade in over the same span rather than rising: a
+     rise inside a growing box is a second travel for one event.
+
+     The rows below are NOT flipped for this press: the drawer's growth is
+     what moves them, and a flip on top of it would move them twice. Under
+     reduced motion the panel is simply there, or gone. */
+  function drawer(id, opening) {
+    const detail = () => root.querySelector(`#dc-detail-${CSS.escape(id)} .dc-detail`);
+    if (reduced() || !document.body.animate) {
+      if (opening) state.open.add(id); else state.open.delete(id);
+      render();
+      return;
+    }
+    const duration = ms('--motion-move');
+    const easing = tok('--ease');
+    if (opening) {
+      state.open.add(id);
+      render();
+      const el = detail();
+      if (!el) return;
+      const h = el.getBoundingClientRect().height;
+      el.setAttribute('data-drawer', '');
+      const a = el.animate([{ height: '0px', paddingTop: '0px', paddingBottom: '0px' }, { height: `${h}px` }], { duration, easing });
+      a.finished.then(() => el.removeAttribute('data-drawer'), () => {});
+    } else {
+      const el = detail();
+      if (!el) { state.open.delete(id); render(); return; }
+      const h = el.getBoundingClientRect().height;
+      el.setAttribute('data-drawer', '');
+      const a = el.animate([{ height: `${h}px` }, { height: '0px', paddingTop: '0px', paddingBottom: '0px' }], { duration, easing, fill: 'forwards' });
+      const done = () => { state.open.delete(id); render(); };
+      a.finished.then(done, done);
+    }
+  }
+
   /* The table reorders instead of cutting: first, last, invert, play. */
   function flipRows(run) {
     if (reduced() || !document.body.animate) { run(); return; }
@@ -875,7 +938,8 @@
     state.scenario = scenario;
     state.services = buildServices(scenario);
     state.sort = { key: 'id', dir: 'asc' };
-    state.plan = null; state.rolled = null; state.retried = false;
+    state.plan = null; state.rolled = null; state.rolling = null; state.retried = false;
+    rollGen++;
     state.open = new Set();
     played.clear();
     renderTabs();
@@ -907,20 +971,82 @@
      their recovering values, and the record is kept with who, when, from,
      to, and the figures it was decided on. `staged` is a situation setting
      its scene: it renders and does not reach for the reader. */
+  /* THE ROLLBACK IS A SEQUENCE, AND THE SCREEN SHOWS IT. The plan promises
+     an order and a duration -- api first, then worker, about forty seconds
+     each -- and until this the press landed on the finished state in one
+     frame, which is a screen breaking its own promise. Now each service in
+     turn takes a `building` deploy at the top of its history, its health
+     reads "redeploying", and when it lands the rolled ground wipes across
+     its row and the next one begins. The figures on the card stay what they
+     were until both have landed, because nothing has recovered yet, and the
+     record is written and Undo armed only at the end.
+
+     The timescale is compressed and the status line says so: one step is
+     two of the site's --motion-enter, about a second, against forty in the
+     product. Under reduced motion, or when a situation stages the rollback,
+     it jumps to the end state, which is what those readers asked for and
+     what the checks measure. `rollGen` is what stops a sequence from landing
+     on a screen that has since changed situation. */
+  let rollGen = 0;
   function rollback(ids, staged = false) {
     const first = service(ids[0]);
     const from = live(first).commit, to = previous(first).commit;
     const on = `${pct(first.metrics.errors)} of requests erroring over ${span(newest(first).ago)}, p95 ${msec(first.metrics.p95)}, ${service('worker').metrics.failedJobs} failed jobs`;
-    for (const id of ids) {
-      const s = service(id);
-      const wasLive = live(s), back = previous(s);
-      wasLive.status = 'superseded';
-      s.deploys.unshift({ commit: back.commit, msg: back.msg, by: 'you', ago: 0, status: 'live', rollback: true, from: wasLive.commit });
-      if (s.metrics.errors != null) s.metrics.errors = 1.1;
-      if (s.metrics.p95 != null) s.metrics.p95 = 410;
-    }
-    state.rolled = { ids, from, to, at: DATA.project.nowMin + 1, on };
     state.plan = null;
+    if (staged || reduced()) {
+      for (const id of ids) land(id);
+      finish(ids, from, to, on, staged);
+      return;
+    }
+    const gen = ++rollGen;
+    state.rolling = { ids, from, to, on, at: 0 };
+    begin(ids[0], to);
+    render(`Rolling back ${ids.join(', then ')}. Each redeploy is about forty seconds in the product, shown here at about forty times the speed.`, 'note');
+    keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
+    const step = ms('--motion-enter') * 2;
+    const next = (i) => {
+      if (gen !== rollGen) return;
+      const id = ids[i];
+      land(id);
+      markChange([id], 'fill');
+      if (i + 1 < ids.length) {
+        state.rolling.at = i + 1;
+        begin(ids[i + 1], to);
+        render(`${id} is back on ${to} and serving. Rolling back ${ids[i + 1]}.`, 'note');
+        setTimeout(() => next(i + 1), step);
+      } else {
+        state.rolling = null;
+        finish(ids, from, to, on, false);
+      }
+    };
+    setTimeout(() => next(0), step);
+  }
+
+  /* One service starts redeploying: a building deploy at the top of its
+     history, the live one untouched under it. */
+  function begin(id, to) {
+    const s = service(id);
+    const back = previous(s);
+    s.deploys.unshift({ commit: back.commit, msg: back.msg, by: 'you', ago: 0, status: 'building', rollback: true, from: live(s).commit });
+  }
+
+  /* It lands: the building deploy is live, the one that was live is
+     superseded, and the figures take their recovering values. A service
+     that never began (a staged or reduced-motion rollback) begins here. */
+  function land(id) {
+    const s = service(id);
+    const n = newest(s);
+    if (!n || n.status !== 'building') begin(id, previous(s).commit);
+    const building = s.deploys[0];
+    const wasLive = live(s);
+    wasLive.status = 'superseded';
+    building.status = 'live';
+    if (s.metrics.errors != null) s.metrics.errors = 1.1;
+    if (s.metrics.p95 != null) s.metrics.p95 = 410;
+  }
+
+  function finish(ids, from, to, on, staged) {
+    state.rolled = { ids, from, to, at: DATA.project.nowMin + 1, on };
     if (!staged) state.armed = performance.now();
     render(`Rolled back ${ids.join(' and ')} to ${to}, ${ids[0]} first. Recorded at ${clock(state.rolled.at)} with the figures on screen. Undo redeploys ${from}.`, 'ok');
     markChange(ids, 'fill');
@@ -964,10 +1090,8 @@
     if (more) {
       const id = more.dataset.more;
       const opening = !state.open.has(id);
-      if (opening) state.open.add(id); else state.open.delete(id);
-      flipRows(() => render());
-      if (opening) flash(root.querySelector(`#dc-detail-${CSS.escape(id)} .dc-detail`), 'data-opened');
       flash(root.querySelector(`[data-more="${id}"] .dc-row-chev`), 'data-turn', opening ? 'open' : 'close');
+      drawer(id, opening);
       return;
     }
     const sort = e.target.closest('[data-sort]');
@@ -979,6 +1103,7 @@
       if (flipped) flash(root.querySelector(`[data-sort="${k}"] .dc-sort-icon`), 'data-turn', state.sort.dir);
       return;
     }
+    if (e.target.closest('[aria-disabled="true"]')) return;
     const p = e.target.closest('[data-plan]');
     if (p) { plan(p.dataset.plan); return; }
     if (e.target.closest('[data-plan-close]')) {
