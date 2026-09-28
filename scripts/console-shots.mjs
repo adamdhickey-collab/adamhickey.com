@@ -81,15 +81,22 @@ const SHOTS = [
   {
     name: 'reading',
     scenario: 'degraded',
-    width: 1320,
-    clip: ['.dc-read'],
-    padTop: 0,
-    padBottom: 0,
-    padLeft: 0,
-    padRight: 0,
-    /* The same, with the dark 1px edge drawn by .dcw-frame--read img. */
-    css: '.dc-read { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }',
-    note: '02, second frame: a reading, on white with the dark edge',
+    /* 800, not 1320: the table runs the zone's width, and at 1320 the file
+       came out 1238 CSS pixels wide for a 682px frame -- printed at half
+       size, which is 7px type. At 800 the table is about 700 wide and the
+       frame prints it near its drawn size. */
+    width: 800,
+    /* THE NOTE AND THE COMPARISON, on the zone's own ground. The reading
+       stopped being a white card on 2026-09-28 and became the cockpit's
+       close call: a raised note and a table of the two deploys. The frame is
+       those two with the zone's muted-light around them, so the picture
+       carries its ground and the page frames it the ordinary way. */
+    clip: ['.dc-note', '.dc-vs'],
+    /* The actions row starts under the table, inside the bottom margin, and
+       a sliver of the button came into the frame; the frame is the reading,
+       so the row is hidden for the capture and the ground runs on. */
+    css: '.dc-vs-foot { visibility: hidden !important; }',
+    note: '02, second frame: a reading, the two deploys compared',
   },
 
   /* ----- the homepage card's window --------------------------------------

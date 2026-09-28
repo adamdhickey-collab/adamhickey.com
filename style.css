@@ -656,6 +656,47 @@ a.case-thumb { display: block; }
   padding: var(--space-xl);
 }
 .case-card--prototype .case-desc { margin-top: var(--space-xs); }
+/* THE TWO CARDS END ON ONE LINE. The pair are grid items and stretch to the
+   taller one, but their contents stopped where the text did, so a card with
+   a shorter title set its tags and links higher than its neighbour's. Each
+   card is a column now, its body grows to fill it, and the tag row takes
+   the free space above itself: the tags and the links sit at the same
+   height in both cards whatever the words above them run to. */
+.case-card--prototype { display: flex; flex-direction: column; }
+.case-card--prototype .case-card-body { flex: 1; display: flex; flex-direction: column; }
+/* Three classes, because `.case-grid .case-card .tag-row` sets this margin
+   at the same weight further up and would win on source order alone; the
+   list above keeps its own bottom margin, so the gap never closes below it. */
+.case-grid .case-card--prototype .tag-row { margin-top: auto; }
+/* WHAT THE PROTOTYPE DOES, AS FOUR CHECKED LINES. The card's description was
+   a paragraph of five clauses; it is one short line saying what this is --
+   independent, fictional, not client work, which the card must say first --
+   and then the four things the prototype does, each led by the sage check,
+   the list the prototype pages open with. At the description's own size and
+   in charcoal rather than muted-gray, because these are the claims and the
+   line above them is the caveat. The check is 1em wide and 1lh tall, so it
+   centres on the first line by construction. */
+.case-checks {
+  list-style: none;
+  margin: 0 0 var(--space-md);
+  padding: 0;
+  display: grid;
+  gap: var(--space-2xs);
+}
+.case-checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-check {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1lh;
+  color: var(--color-accent-text);
+}
 
 /* ---------- The card's picture is a tablet ----------
    THE PICTURE. The cockpit's first slide -- the pick, the 1360x1020 window

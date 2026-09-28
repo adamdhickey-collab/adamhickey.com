@@ -299,6 +299,7 @@
     sortUp:   '<path d="m8 14 4-4 4 4"/>',
     arrow:    '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
     dash:     '<path d="M5 12h14"/>',
+    down:     '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
     play:     '<path d="m6 3 14 9-14 9V3z"/>',
     circle:   '<circle cx="12" cy="12" r="9"/>',
   };
@@ -734,21 +735,64 @@
 
     /* LIVE, BUT FAILING, and its far side, ROLLED BACK. A reading, not a
        refusal: the deploy succeeded and the platform has nothing to say
-       against it. What the card says is what the figures did when it went
-       live, beside what they were before, and it asks for a decision rather
-       than announcing one. Rolled back is the same card with the record on
-       it and Undo where the action was. */
+       against it.
+
+       IT IS A COMPARISON, THE COCKPIT'S CLOSE CALL CARRIED OVER. It was a
+       white card of three figures with their befores in small type under
+       them, and then paragraphs, and the one thing the reader has to do --
+       set the deploy beside the one before it -- was left to the reader. Now
+       the two deploys are the two columns of a table: the last good one on
+       the left, the failing one on the right, a row for each figure with the
+       value, a word for which way it went and a bar drawn against the larger
+       of the two, and all three rows raised on white because all three are
+       the change. The action sits in the footer under the deploy it returns
+       to, so the choice is spatial: the column you want is the column with
+       the button. A raised note over the table says the one thing the system
+       cannot vouch for; what changed and what depends on it follow, side by
+       side, and the log folds under them.
+
+       The columns hold still across the rollback, so the table reads the
+       same way before and after: left is 7e1b2c9, right is a3f9c1e. Only
+       their labels move -- "The last good deploy" becomes "Live again", and
+       "Since the deploy" becomes "Rolled back" -- and Undo stands under the
+       right-hand column, because that is the deploy it would put back. */
     const rolled = state.rolled && state.rolled.ids.includes(s.id);
     const rolling = state.rolling && state.rolling.ids.includes(s.id);
     const worker = service('worker');
-    const prev = rolled ? s.deploys.find((d) => d.commit === state.rolled.from) : previous(s);
-    const good = rolled ? live(s) : prev;
+    const bad = rolled ? s.deploys.find((d) => d.commit === state.rolled.from) : n;
+    const good = rolled ? live(s) : previous(s);
     const m = s.metrics;
-    const change = (rolled ? s.deploys.find((d) => d.commit === state.rolled.from) : n) || n;
-    const changes = change.changes || [];
-    /* IN FLIGHT, the zone says what is happening and in what order, and
-       the figures stay what they were: nothing has recovered yet. */
+    const changes = (bad && bad.changes) || [];
+    const D = DEGRADED_PATCH();
+    /* The figures each column shows. The failing deploy's are the ones it
+       wrote while it served; the good one's are its record before, or, once
+       it is live again, what it is doing now. */
+    const A = { errors: rolled ? m.errors : m.errorsWas, p95: rolled ? m.p95 : m.p95Was, jobs: 0 };
+    const B = { errors: D.api.metrics.errors, p95: D.api.metrics.p95, jobs: D.worker.metrics.failedJobs };
     const now = rolling ? state.rolling.ids[state.rolling.at] : null;
+    const ROWS = [
+      { label: `${s.id} errors`, unit: 'share of requests', a: A.errors, b: B.errors, fmt: pct },
+      { label: `${s.id} response`, unit: '95th percentile', a: A.p95, b: B.p95, fmt: msec },
+      { label: `${worker.id} failed jobs`, unit: `in ${span(12)}`, a: A.jobs, b: B.jobs, fmt: String },
+    ];
+    /* A bar is the value against the larger of the pair, so the two bars
+       in a row are one drawing; a zero keeps a sliver so the track reads as
+       a measurement and not a missing one. */
+    const bar = (v, max, side) => `<span class="dc-bar" data-side="${side}" aria-hidden="true"><span class="dc-bar-mark" style="--w:${max > 0 ? Math.max(2, (v / max) * 100).toFixed(1) : 2}%"></span></span>`;
+    const dir = (side) => side === 'a'
+      ? `<span class="dc-dir" data-dir="${rolled ? 'recovering' : 'healthy'}">${icon(rolled ? 'undo' : 'checkCircle')}${rolled ? 'recovering' : 'healthy'}</span>`
+      : `<span class="dc-dir" data-dir="worse">${icon('down')}worse</span>`;
+    const head = (label, d, when) => `<th scope="col" class="dc-vs-opt">
+        <span class="dc-vs-opt-label dc-label">${label}</span>
+        <span class="dc-vs-opt-id">${esc(d.commit)}</span>
+        <span class="dc-vs-opt-who">${esc(d.msg)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${when}</span>
+      </th>`;
+    const button = rollbackButton(s, 'dc-btn dc-btn-primary');
+    const note = rolled
+      ? `<p class="dc-note">${icon('checkCircle')}<span><strong>Recorded at ${clock(state.rolled.at)}.</strong> You rolled ${esc(s.id)} and ${esc(worker.id)} back from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}. Written with the deploy, for anyone to read.</span></p>`
+      : rolling
+        ? `<p class="dc-note">${icon('clock')}<span><strong>${esc(now)} is redeploying ${esc(state.rolling.to)}.</strong> ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The right-hand column is still the failing deploy&rsquo;s until both have landed.</span></p>`
+        : `<p class="dc-note" data-tone="read">${icon('alert')}<span><strong>The errors started when ${esc(n.commit)} went live.</strong> It sends invoice totals to a tax service outside this project, and that service is timing out. The deploy may not be what broke.</span></p>`;
     html = `<div class="dc-lead" data-tone="${rolled ? 'ok' : 'read'}">
       <p class="dc-lead-kicker dc-label">${rolled ? 'Rolled back' : rolling ? 'Rolling back' : 'Live, but failing'}</p>
       <h3 class="dc-answer-h">${rolled
@@ -757,43 +801,46 @@
           ? `Rolling ${esc(s.id)} and ${esc(worker.id)} back to ${esc(state.rolling.to)}, ${esc(s.id)} first.`
           : `${esc(s.id)} is live, and failing since the deploy ${ago(n.ago)}.`}</h3>
       <p class="dc-answer-dek">${rolled
-        ? `The rollback landed ${ago(DATA.project.nowMin - state.rolled.at)}, ${esc(s.id)} first and ${esc(worker.id)} after it. ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
+        ? `${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
         : rolling
-          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the failing deploy&rsquo;s; they change when both have landed.`
-          : `${esc(n.commit)} passed its health check and is serving every request; the errors started when it went live. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
-      <div class="dc-pair">
-        <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
-          <p class="dc-card-head">${rolled ? 'Since the rollback' : 'Since the deploy'}</p>
-          <div class="dc-figures">
-            ${figure(pct(m.errors), `of ${esc(s.id)} requests erroring`, pct(m.errorsWas))}
-            ${figure(msec(m.p95), `${esc(s.id)} p95 response`, msec(m.p95Was))}
-            ${figure(String(worker.metrics.failedJobs), `${esc(worker.id)} jobs failed in ${span(12)}`, String(worker.metrics.failedJobsWas))}
-          </div>
-          <dl class="dc-answers">
-            <div><dt>What changed</dt><dd>
-              <ol class="dc-changes">${changes.map((c) => changeRow(c, null)).join('')}</ol>
-              <span class="dc-answers-fine">One commit, deployed to ${esc(s.id)} and ${esc(worker.id)} in the same push. It sends invoice totals to a tax service outside this project, and that service is timing out.</span>
-            </dd></div>
-            <div><dt>What depends on it</dt><dd>${esc(worker.id)}, which calls ${esc(s.id)}, is ${rolled ? 'recovering with it' : 'failing jobs'}. web calls ${esc(s.id)} from the browser and is unchanged.</dd></div>
-            ${rolled ? `<div><dt>Who decided, and on what</dt><dd><span class="dc-record">You, at ${clock(state.rolled.at)}. ${esc(s.id)} and ${esc(worker.id)} from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}.</span> Written with the deploy, for anyone to read.</dd></div>`
-              : `<div><dt>What to do</dt><dd>Roll ${esc(s.id)} back to ${esc(prev.commit)}. ${esc(worker.id)} deployed from the same commit and calls ${esc(s.id)}, so it goes back with it. web, postgres and redis stay where they are. <span class="dc-answers-fine">The figures say roll back. Whether the errors are this deploy&rsquo;s is yours to judge: the tax service it calls is outside this project, and it may be the thing that broke.</span></dd></div>`}
-          </dl>
-          ${logDisclosure(change.log || [], 'timeout', `The last five lines of ${s.id}’s log`)}
-          <p class="dc-card-act">${rollbackButton(s, 'dc-btn dc-btn-primary')}</p>
+          ? `Each service redeploys from the build it already has, in dependency order.`
+          : `${esc(n.commit)} passed its health check and is serving every request. The deploy before it was healthy for ${span(good.ago)}.`}</p>
+      <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
+        ${note}
+        <table class="dc-vs">
+          <caption class="dc-visually-hidden">${esc(good.commit)} and ${esc(bad.commit)} compared on the three figures that moved, then the action for each.</caption>
+          <thead><tr>
+            <td class="dc-vs-corner"></td>
+            ${head(rolled ? 'Live again' : 'The last good deploy', good, rolled ? `live ${ago(DATA.project.nowMin - state.rolled.at)}` : `live ${span(good.ago)} before`)}
+            ${head(rolled ? 'Rolled back' : 'Since the deploy', bad, rolled ? `served ${span(12)}` : `live ${span(bad.ago)}`)}
+          </tr></thead>
+          <tbody>
+            ${ROWS.map((r, i) => { const max = Math.max(r.a, r.b); return `<tr class="dc-vs-row" style="--i:${i}">
+              <th scope="row" class="dc-vs-factor"><span class="dc-vs-factor-name">${esc(r.label)}</span><span class="dc-vs-note">${esc(r.unit)}</span></th>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.a)}</span>${dir('a')}${bar(r.a, max, 'a')}</td>
+              <td class="dc-vs-cell"><span class="dc-vs-value">${r.fmt(r.b)}</span>${dir('b')}${bar(r.b, max, 'b')}</td>
+            </tr>`; }).join('')}
+          </tbody>
+        </table>
+        <!-- The actions, under the columns they belong to: a row outside the
+             table, on the table's own column widths, so it can stack on a
+             phone where a table footer cannot. -->
+        <div class="dc-vs-foot">
+          <div class="dc-vs-act">${rolled ? `<span class="dc-vs-act-note">Serving every request again.</span>` : `${button}<span class="dc-vs-act-note">${esc(worker.id)} goes back with it. Already built; about forty seconds.</span>`}</div>
+          <div class="dc-vs-act">${rolled ? `${button}<span class="dc-vs-act-note">Still built. Undo redeploys it.</span>` : `<span class="dc-vs-act-note">Keep serving it, and look at the tax service first.</span>`}</div>
         </div>
-        <div class="dc-aside" data-enter="aside:${esc(s.id)}">
-          <h4 class="dc-h">${rolled ? 'What is live now' : 'The last good deploy'}</h4>
-          <div class="dc-figures dc-figures--stack">
-            ${figure(esc(good.commit), `${good.msg}, ${good.by}`)}
-            ${figure(rolled ? span(DATA.project.nowMin - state.rolled.at) : span(prev.ago), rolled ? 'live again' : 'live before this deploy')}
-            ${figure(pct(m.errorsWas), 'of requests erroring, on that deploy')}
+        <div class="dc-read-more">
+          <div>
+            <h4 class="dc-h">What changed</h4>
+            <ol class="dc-changes">${changes.map((c) => changeRow(c, null)).join('')}</ol>
+            <p class="dc-aside-fine">One commit, deployed to ${esc(s.id)} and ${esc(worker.id)} in the same push.</p>
           </div>
-          <p class="dc-aside-fine">${rolled
-            ? `${esc(state.rolled.from)} is still built. Undo redeploys it in about forty seconds.`
-            : `Already built. A rollback redeploys it in about forty seconds.`}</p>
-          <h4 class="dc-h dc-aside-h2">What depends on it</h4>
-          ${depsStrip(s)}
+          <div>
+            <h4 class="dc-h">What depends on it</h4>
+            ${depsStrip(s)}
+          </div>
         </div>
+        ${logDisclosure((bad && bad.log) || [], 'timeout', `The last five lines of ${s.id}’s log`)}
       </div>
     </div>`;
     box.innerHTML = html;

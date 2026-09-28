@@ -374,17 +374,17 @@
    the captures are taken at two device pixels to one. Per capture, and the
    ceiling is the border box: the file's half width plus the edge below. */
 .dcw-frame--fail { --shot-w: 682px; }
-.dcw-frame--read { --shot-w: 682px; }
-/* THE EDGE IS THE PAGE'S, NOT THE FILE'S. console-shots.mjs clips these two
-   to the card's padding box with no border, and the figure draws the edge
-   the card draws on the live screen: the 2px caution ink for the refusal,
-   the 1px muted-gray for the reading, each on the figure's 12px curve. One
+.dcw-frame--read { --shot-w: 718px; }
+/* THE EDGE IS THE PAGE'S, NOT THE FILE'S. console-shots.mjs clips the
+   refusal to the card's padding box with no border, and the figure draws
+   the edge the card draws on the live screen: the 2px caution ink, on the
+   figure's 12px curve. One
    line rather than the file's edge inside the figure's. --shadow-media
    comes off, because its keyline is a second edge outside this one. */
 /* Two classes deep, because .dcw-frames img is declared later at the same
    specificity and would put the keyline back. */
 .dcw-frames .dcw-frame--fail img { border: 2px solid var(--color-caution-text); box-shadow: none; }
-.dcw-frames .dcw-frame--read img { border: 1px solid var(--color-muted-gray); box-shadow: none; }
+/* The reading carries its own ground now, so it takes the ordinary frame. */
 .case-section .dcw-frame-cap {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -759,8 +759,7 @@ html[data-embed] .dc { border-radius: 0; }
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
-.dc-card,
-.dc-read {
+.dc-card {
   background: var(--color-white);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
@@ -768,15 +767,19 @@ html[data-embed] .dc { border-radius: 0; }
 }
 
 /* ---------- Monospace, where a developer expects it ----------
-   A hash, a path, a command, a log line. --font-mono from type.css, one step
-   under the text around it because the mono face sets wider, and never
-   coloured on its own: a hash in the caution ink is a hash somebody is
-   worried about, and the word beside it says so first. */
+   A hash, a path, a command, a log line. --font-mono from type.css, and
+   never coloured on its own: a hash in the caution ink is a hash somebody
+   is worried about, and the word beside it says so first.
+
+   ONE SIZE TO A LINE. This was --text-sm wherever it landed, so a path
+   inside a 12px line of fine print came out a step larger than the words
+   around it. The standing rule for this site is that a line is one size:
+   an inline hash, path or command takes the size of the line it sits in. */
 .dc .dc-sha,
 .dc .dc-file,
 .dc .dc-cmd {
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: inherit;
   font-variant-numeric: tabular-nums;
   color: var(--color-charcoal);
 }
@@ -792,6 +795,10 @@ html[data-embed] .dc { border-radius: 0; }
   color: var(--color-charcoal);
 }
 .dc .dc-project-id .dc-label { margin-right: var(--space-2xs); }
+/* An inline label takes its line's size, by the same rule as the mono
+   above: "Project" beside the project's name, "What happens:" at the head
+   of a sentence. A label on a line of its own keeps the label size. */
+.dc p .dc-label { font-size: inherit; }
 .dc-sep { color: var(--color-muted-gray); }
 .dc-project-facts {
   display: grid;
@@ -1018,7 +1025,7 @@ html[data-embed] .dc { border-radius: 0; }
    under it against 32 beside it, and the button read as sitting low in
    its box; the top keeps 24 because a card head at the label size wants
    less above it than a pill wants below. */
-.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl) var(--space-xl); }
+.dc-card, .dc-fail { padding: var(--space-lg) var(--space-xl) var(--space-xl); }
 .dc .dc-card-head {
   display: inline-flex;
   align-items: center;
@@ -1066,8 +1073,7 @@ html[data-embed] .dc { border-radius: 0; }
    cockpit's stale note: the one card on the screen that asks the reader to
    stop and judge, and the dark line is what says so. muted-gray as a border
    on white is 6.47, on muted-light around it 5.11. */
-.dc-read { border-color: var(--color-muted-gray); }
-.dc-read.is-rolled { border-color: var(--rule-card); }
+
 
 /* ---------- The five answers, as a list with its questions ---------- */
 .dc-answers {
@@ -1182,7 +1188,7 @@ html[data-embed] .dc { border-radius: 0; }
   line-height: var(--leading-ui);
   color: var(--color-caution-text);
 }
-.dc-read.is-rolled .dc-figure-was { color: var(--color-muted-gray); font-weight: var(--weight-regular); }
+
 
 /* ---------- The panel beside the card ----------
    Not a card: the tint is the ground, and one raised surface per zone is
@@ -1835,7 +1841,7 @@ html[data-embed] .dc { border-radius: 0; }
 @media (max-width: 599px) {
   .dc { padding: var(--space-md); }
   .dc-lead { padding: var(--space-sm); }
-  .dc-card, .dc-read, .dc-fail, .dc-project, .dc-plan, .dc-aside { padding: var(--space-md); }
+  .dc-card, .dc-fail, .dc-project, .dc-plan, .dc-aside { padding: var(--space-md); }
   .dc .dc-status { padding: var(--space-sm) var(--space-md); }
   .dc .dc-answer-h { font-size: var(--text-xl); }
   .dc-project-facts { grid-template-columns: minmax(0, 1fr); }
@@ -1845,6 +1851,156 @@ html[data-embed] .dc { border-radius: 0; }
   .dcw-decision-copy { padding-left: calc(var(--dc-num) + var(--space-xs)); }
   .dcw-compare-side, .dcw-questions > li, .dcw-callout { padding: var(--space-md); }
   .case-section .dcw-question { padding: var(--space-md) var(--space-lg); }
+}
+
+/* ======================= THE READING, AS A COMPARISON =====================
+   The cockpit's close call carried over: a raised note, then the two
+   deploys as the two columns of a table, a row per figure, and the action
+   under the deploy it would put back. On the reading zone's muted-light, so
+   every ink below is measured there or on the white the rows are raised
+   onto: charcoal 12.10 / 15.33, muted-gray 5.11 / 6.47, accent-text 4.60 /
+   5.82, caution-text 5.09 / 6.45. ======================================== */
+.dc-read { display: grid; gap: var(--space-lg); margin-top: var(--space-lg); min-width: 0; }
+
+/* The note: white, raised, edged in the ink itself, the one surface in the
+   zone that asks to be stopped at -- the cockpit's stale-hours note. The
+   glyph and the first phrase take the caution ink on a reading, the sage on
+   a rollback that landed. */
+.dc .dc-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-note > span { max-width: var(--measure); }
+.dc .dc-note .dc-icon { height: 1lh; flex-shrink: 0; color: var(--color-accent-text); }
+.dc .dc-note strong { font-weight: var(--weight-semibold); }
+.dc .dc-note[data-tone="read"] .dc-icon,
+.dc .dc-note[data-tone="read"] strong { color: var(--color-caution-text); }
+
+/* The table. Fixed layout so the two deploys' columns are exactly equal: a
+   comparison with uneven columns is one the eye reads as weighted. */
+.dc .dc-vs { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.dc .dc-vs th,
+.dc .dc-vs td { padding: var(--space-sm) var(--space-md); text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule-hairline); }
+.dc .dc-vs thead th,
+.dc .dc-vs thead td { border-bottom: 1px solid var(--color-rule); }
+.dc .dc-vs-corner { width: 28%; }
+.dc .dc-vs-opt-label { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); }
+.dc .dc-vs-opt-id {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.dc .dc-vs-opt { font-weight: var(--weight-regular); }
+.dc .dc-vs-opt-who { display: block; font-size: var(--text-sm); font-weight: var(--weight-regular); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-vs-factor { font-weight: var(--weight-regular); }
+.dc .dc-vs-factor-name { display: block; font-size: var(--text-base); line-height: var(--leading-ui); color: var(--color-charcoal); }
+.dc .dc-vs-note { display: block; margin-top: var(--space-2xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+/* All three rows are the change, so all three are raised onto white, the
+   cockpit's "the tradeoff" treatment given to the whole body. */
+.dc .dc-vs-row th,
+.dc .dc-vs-row td { background: var(--color-white); }
+.dc .dc-vs-value {
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+/* Which way the figure went: a word and a glyph. Worse takes the chip the
+   cockpit gives "hurts", caution-light with the caution ink at 5.23; the
+   good deploy's word stays flat in the sage. */
+.dc .dc-dir {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.dc .dc-dir .dc-icon { height: 1lh; }
+.dc .dc-dir[data-dir="worse"] {
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+  color: var(--color-caution-text);
+}
+/* The bar: the value against the larger of the pair, so a row's two bars
+   are one drawing. The track and its ring are the cockpit's factor bar's;
+   the mark is sage for the good deploy and the caution ink for the failing
+   one, each 3.57 / 5.10 on the track, with a white ring where it crosses. */
+.dc .dc-bar {
+  position: relative;
+  display: block;
+  height: 10px;
+  margin-top: var(--space-xs);
+  border-radius: 5px;
+  background: var(--color-tag-border);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.dc .dc-bar-mark {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc(var(--w) - 4px);
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--color-accent-text);
+  box-shadow: 0 0 0 1px var(--color-white);
+}
+.dc .dc-bar[data-side="b"] .dc-bar-mark { background: var(--color-caution-text); }
+.dc-read.is-rolled .dc-bar[data-side="b"] .dc-bar-mark { background: var(--color-muted-gray); }
+.dc-read.is-rolled .dc-dir[data-dir="worse"] { background: none; padding: 0; color: var(--color-muted-gray); }
+.dc-vs-foot {
+  display: grid;
+  grid-template-columns: 28% minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: calc(-1 * var(--space-xs));
+}
+.dc-vs-foot > :first-child { grid-column: 2; }
+.dc .dc-vs-act { padding: 0 var(--space-md); }
+.dc .dc-vs-act-note { display: block; margin-top: var(--space-xs); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+
+/* What changed and what depends on it, side by side under the table. */
+.dc-read-more {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule-hairline);
+}
+@media (min-width: 800px) {
+  .dc-read-more { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-2xl); }
+}
+.dc-read .dc-log-fold { margin-top: 0; }
+
+@media (max-width: 599px) {
+  .dc .dc-vs th, .dc .dc-vs td { padding: var(--space-sm) var(--space-2xs); }
+  .dc .dc-vs-corner { width: 30%; }
+  .dc .dc-vs-value { font-size: var(--text-base); }
+  .dc .dc-vs-opt-id { font-size: var(--text-base); }
+  .dc .dc-vs-opt-who { display: none; }
+  .dc-vs-foot { grid-template-columns: minmax(0, 1fr); gap: var(--space-md); margin-top: 0; }
+  .dc-vs-foot > :first-child { grid-column: auto; }
+  .dc .dc-vs-act { padding: 0; }
 }
 
 /* ============================== MOTION ==================================
