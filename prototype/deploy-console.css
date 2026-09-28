@@ -1,0 +1,1732 @@
+/* deploy-console.css -- the deploy console prototype's own components, and
+ * nothing else. Loaded by one page, prototype/deploy-console.html, after
+ * style.css.
+ *
+ * WHY ITS OWN FILE, AND WHY NOT THE COCKPIT'S. The same reason
+ * dispatch-cockpit.css gives: reach, not taxonomy. Nothing on any other page
+ * is a deploy history, a dependency strip or a rollback plan. The cockpit's
+ * stylesheet was the model for every pattern here -- the frame, the sticky
+ * strip, the answer zone on the feature ground, the white card raised on it,
+ * the dark table head, the density switch, the row that opens in place, the
+ * motion section -- and it is copied under a second prefix rather than shared,
+ * because pulling those rules out of the cockpit into a third stylesheet is a
+ * change to a page whose every count is written down, and this file is
+ * already a page's worth of change. The shell is a candidate for a shared
+ * prototype stylesheet the day a third prototype needs it.
+ *
+ * WHAT IT INHERITS. The page is a style.css page, so the hero, the prose
+ * column, the chapter grounds, the footer blocks, the global focus ring on
+ * links and buttons, the disclosure row and the reduced-motion blanket all
+ * come from there. This file adds the console and extends the focus ring to
+ * the controls style.css does not cover.
+ *
+ * NO UPPERCASE, ANYWHERE. The labels here are lowercase sentence fragments at
+ * the kicker's size and weight, and the hero reuses .case-kicker.
+ *
+ * NO MEANING IN COLOR ALONE. Every state a row, a tag or a card can be in is
+ * also a word: "live", "failed", "failing", "recovering", "rolled back",
+ * "never deployed", "unchanged". The grounds and glyphs are a second channel.
+ *
+ * TWO STATUS COLORS, BOTH TOKENS, AND THE LINE BETWEEN THEM IS THE PAGE'S
+ * SECOND DECISION. Sage is "fine": a live deploy, a healthy service, the
+ * primary action. Caution is "not fine", and it is spent two ways that must
+ * never look alike. The caution GROUND is the platform's own refusal -- a
+ * deploy it would not promote -- and it is on one card and one tag. The
+ * caution INK is a reading: an error rate the system will not vouch for, a
+ * line in a log, a commit that touches the file the error names. A reading
+ * keeps its white card and its action; a refusal takes the ground. Every
+ * ratio below is from COLOR.md section 2, on the ground it sits on:
+ *
+ *   charcoal      on white 15.33, warm 14.02, tea-light 12.90, muted-light 12.10
+ *   muted-gray    on white  6.47, warm  5.91, tea-light  5.44, muted-light  5.11
+ *   accent-text   on white  5.82, warm  5.32, tea-light  4.90, muted-light  4.60
+ *   warm          on accent-text 5.32 (the primary button), on accent-hover 6.90
+ *   caution-text  on white 6.45, warm 5.90, tea-light 5.43, caution-light 5.23
+ *   charcoal      on caution-light 12.44 (the failed build, the failed tag)
+ *   on charcoal, the table head only: warm 14.02, ink-on-dark-secondary 8.49,
+ *                 ink-on-dark-muted 5.26, accent-on-dark 7.47
+ *
+ * EVERY SIZE IS A STEP, every space a --space-*, every duration a --motion-*.
+ * Two classes deep where the rule has to beat .case-section p.
+ *
+ * THE ONE FONT THIS PAGE USES THAT THE COCKPIT DID NOT is --font-mono, from
+ * type.css, for a commit hash, a file path, a command and a log. A developer
+ * reads those in the face their tools set them in, and a hash in the sans is
+ * a word that happens to have digits in it.
+ */
+
+/* ======================= THE WRITE-UP AROUND THE CONSOLE ==================
+   The page furniture: the hero pair, the facts, the two lists over the frame,
+   the decisions, the study and the close. Each is the cockpit page's block
+   under this page's prefix, because the two pages are one family and should
+   be laid out by one hand. ================================================= */
+
+.dc-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The hero: the argument beside the interface ---------- */
+.dcw-hero { padding-bottom: var(--space-block); }
+.dcw-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+@media (min-width: 64rem) {
+  .dcw-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+    gap: var(--space-4xl);
+  }
+}
+.dcw-hero-title { margin-bottom: var(--space-lg); }
+@media (min-width: 768px) {
+  .dcw-hero-title { font-size: var(--type-title-inset); }
+}
+.case-hero .dcw-hero-dek {
+  max-width: var(--measure);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-lede);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dcw-hero-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: var(--space-2xl) 0 0;
+}
+.dcw-hero-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dcw-hero-link:hover { color: var(--color-accent-hover); }
+}
+.dcw-hero-figure { margin: 0; min-width: 0; }
+.dcw-hero-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+.case-hero .dcw-hero-figure figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.case-hero .dcw-hero-figure figcaption strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The project, in six facts ---------- */
+.dcw-facts { margin: var(--space-4xl) 0 0; max-width: none; }
+@media (min-width: 1024px) {
+  .dcw-facts { grid-template-columns: repeat(3, 1fr); }
+}
+.case-hero .dcw-facts dd { max-width: var(--measure); }
+.case-hero .dcw-facts dd a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-hero .dcw-facts dd a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .case-hero .dcw-facts dd a:hover { color: var(--color-charcoal); }
+}
+.case-hero .dcw-facts-note {
+  margin: var(--space-xl) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- What to try, and what this is ---------- */
+.dcw-try-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl) var(--space-3xl);
+  margin: var(--space-xl) 0 0;
+}
+@media (min-width: 48rem) {
+  .dcw-try-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.dcw-try-grid .dc-label { display: block; margin: 0 0 var(--space-xs); }
+.case-section .dcw-try-grid .build-list { margin: 0; }
+.case-section .dcw-try-grid .build-list li { font-size: var(--text-sm); line-height: var(--leading-body); }
+.dcw-try-grid .build-list a { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+@media (hover: hover) and (pointer: fine) {
+  .dcw-try-grid .build-list a:hover { color: var(--color-accent-hover); }
+}
+
+/* ---------- The close ---------- */
+.dcw-close { margin: var(--space-3xl) 0 0; }
+.dcw-close::before {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-bottom: var(--space-lg);
+  background: var(--color-accent-text);
+}
+.case-section .dcw-close p {
+  text-wrap: pretty;
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+
+/* ---------- A capture takes the column it is in, and the way back ---------- */
+.dcw-scroll { display: block; }
+.dcw-full {
+  white-space: nowrap;
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dcw-full:hover { color: var(--color-accent-hover); }
+}
+@media (min-width: 64rem) {
+  .dcw-decision .dcw-full { display: none; }
+}
+
+/* ---------- The one drawing, and the one that closes ---------- */
+.dcw-scene { margin: var(--space-2xl) 0 0; }
+.dcw-scene img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.case-section .dcw-scene figcaption,
+.case-footer .dcw-scene figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.dcw-scene--close { margin: 0 0 var(--space-3xl); }
+
+/* ---------- The design question ---------- */
+.case-section .dcw-question {
+  max-width: var(--measure);
+  margin: var(--space-2xl) 0 0;
+  padding: var(--space-lg) var(--space-xl);
+  border-left: 2px solid var(--color-accent-text);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dcw-question-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The deeper argument, folded ---------- */
+.dcw-more {
+  margin: var(--space-md) 0 var(--space-xl);
+  max-width: var(--measure);
+  border-top: 1px solid var(--rule-hairline);
+}
+.dcw-more-body { padding-top: var(--space-xs); }
+.case-section .dcw-more-body .build-list { margin: var(--space-sm) 0 0; }
+.dcw-more-body .build-list strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+.case-section .dcw-more-body p {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Five decisions ---------- */
+.dc-decisions {
+  list-style: none;
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  counter-reset: decision;
+  display: grid;
+  gap: var(--space-block);
+  --dc-num: 40px;
+}
+.dcw-decision {
+  counter-increment: decision;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+.dcw-decision-copy {
+  position: relative;
+  padding-left: calc(var(--dc-num) + var(--space-sm));
+}
+.dcw-decision-copy::before {
+  content: counter(decision, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--dc-num);
+  height: var(--dc-num);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+.dcw-decision h3 {
+  min-height: var(--dc-num);
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.case-section .dcw-decision .dcw-lead {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+.dcw-shot { margin: 0; min-width: 0; }
+.dcw-shot img,
+.dcw-frames img { max-width: var(--shot-w, 100%); }
+/* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, which is half the file:
+   the captures are taken at two device pixels to one. Per capture. */
+.dcw-frame--fail { --shot-w: 682px; }
+.dcw-frame--read { --shot-w: 682px; }
+.case-section .dcw-frame-cap {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+@media (min-width: 64rem) {
+  .dcw-shot { margin-left: calc(var(--dc-num) + var(--space-sm)); }
+}
+.dcw-frames {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+.dcw-frames > li { min-width: 0; }
+.dcw-frames img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+.case-section .dcw-frame-cap span {
+  margin-right: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The study, as a shape ---------- */
+.dcw-compare {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-2xl) 0 var(--space-lg);
+  align-items: stretch;
+}
+@media (min-width: 48rem) {
+  .dcw-compare { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-xl); }
+}
+.dcw-compare-side {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.dcw-compare-side--b { border-color: var(--color-accent-text); }
+.case-section .dcw-compare-side p {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-section .dcw-compare-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.case-section .dcw-compare-vs {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-align: center;
+}
+.case-section .dcw-compare-note {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Three questions, and what each would change ---------- */
+.dcw-questions {
+  list-style: none;
+  margin: var(--space-2xl) 0 var(--space-lg);
+  padding: 0;
+  display: grid;
+  gap: var(--space-xl);
+}
+@media (min-width: 60rem) {
+  .dcw-questions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.dcw-questions > li {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.case-section .dcw-questions h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .dcw-questions p {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The assumption most likely to be wrong ---------- */
+.dcw-callout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xl);
+  margin: var(--space-2xl) 0 var(--space-2xl);
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-caution-text);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+}
+.dcw-callout-mark { flex: none; width: 160px; height: auto; display: block; }
+.dcw-callout-body { min-width: 0; }
+@media (max-width: 640px) {
+  .dcw-callout { flex-direction: column; align-items: flex-start; gap: var(--space-lg); }
+}
+.case-section .dcw-callout .dcw-callout-h {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .dcw-callout p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ============================ THE CONSOLE ================================
+   The frame, the screen, the strip and everything under it. ============== */
+
+/* ---------- The frame ----------
+   The site's device chrome, the same object the build write-ups frame their
+   captures in and the cockpit its screen: one --bezel of --device-chrome,
+   --shadow-device under it, the inner radius derived from the outer, on the
+   container's content width. */
+.dc-frame {
+  --shell-radius: 14px;
+  width: min(100% - var(--gutter) * 2, calc(var(--container-max) - var(--gutter) * 2));
+  margin: var(--space-3xl) auto 0;
+  padding: var(--bezel);
+  border-radius: var(--shell-radius);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+.dc {
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-warm);
+  padding: var(--space-xl);
+}
+@media (min-width: 48rem) {
+  .dc { padding: var(--space-3xl); }
+}
+
+/* ---------- The console on its own: ?embed, and nothing else ----------
+   The homepage's card opens this page inside a tablet, and a tablet with a
+   site nav in it is a tablet showing a website. data-embed takes everything
+   off the page but the console, and the frame with it: the tablet is the
+   frame there. Nothing is deleted and no rule here is reachable without the
+   flag, so the browser checks measure the page as they always did. */
+html[data-embed],
+html[data-embed] body { background: var(--color-warm); }
+html[data-embed] { --nav-height: 0px; }
+html[data-embed] .skip-link,
+html[data-embed] .site-nav,
+html[data-embed] .case-footer,
+html[data-embed] main > :not(#try-it),
+html[data-embed] #try-it > .container { display: none; }
+html[data-embed] #try-it { padding: 0; }
+html[data-embed] .dc-frame {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+html[data-embed] .dc { border-radius: 0; }
+
+/* The page ranges left, like the cockpit's, because its subject ranges to
+   the container's left edge and a centred column would give the words a
+   different edge from the pictures. The child combinator is load-bearing:
+   only a .case-narrow inside a .container. */
+.dcw-page .container .case-narrow { margin-inline: 0; }
+
+/* ---------- The stage: the situation over the console ---------- */
+.dc-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+.dc-situation {
+  display: grid;
+  gap: var(--space-2xs);
+  justify-items: start;
+  max-width: var(--measure);
+}
+.dc .dc-rail-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+.dc .dc-blurb {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* Inline icons: the header's idiom, sized to the text they sit in, and as
+   tall as the line at the head of a row so they centre on it by construction. */
+.dc-icon {
+  /* inline-block, because style.css makes every svg a block and an arrow
+     between two hashes would otherwise take the line for itself. */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+.dc .dc-status .dc-icon,
+.dc .dc-project-facts dt .dc-icon,
+.dc .dc-health-word .dc-icon,
+.dc .dc-history-tag .dc-icon,
+.dc .dc-sort-icon { height: 1lh; }
+
+.dc-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- The four situations, as a segmented control ----------
+   Selected is charcoal with warm text, 14.02:1; navigating and acting are
+   two colours. Sticky under the site nav, with the screen's own ground, and a
+   rule under the strip that puts the screen inside what the strip controls. */
+.dc .dc-tabs-label {
+  margin: 0 0 calc(var(--space-xs) + var(--space-sm));
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.dc .dc-tabs-hint { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.dc .dc-tabs-hint::before { content: "\00a0\2014\00a0"; }
+.dc-tabs {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  padding-block: var(--space-sm);
+  margin-block: calc(-1 * var(--space-sm));
+  background: var(--color-warm);
+  border-bottom: 1px solid var(--color-rule);
+}
+@media (max-width: 63.98rem) {
+  .dc-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--space-md));
+    padding-inline: var(--space-md);
+    scroll-padding-inline: var(--space-md);
+  }
+  .dc-tabs::-webkit-scrollbar { display: none; }
+  .dc .dc-tab { flex: 0 0 auto; scroll-snap-align: start; }
+}
+/* Every control under the sticky strip lands clear of it when the browser
+   scrolls to it: the nav, the strip's own height, and a breath. */
+#dc-panel :is(a, button, input, textarea, select, summary, [tabindex]) {
+  scroll-margin-top: calc(var(--nav-height) + 3.875rem + var(--space-sm));
+}
+.dc .dc-tab {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-tab:not([aria-selected="true"]):hover { background: var(--wash-on-light-hover); }
+}
+.dc .dc-tab[aria-selected="true"] {
+  font-weight: var(--weight-semibold);
+  background: var(--color-charcoal);
+  border-color: var(--color-charcoal);
+  color: var(--color-warm);
+}
+/* The tail on the selected pill, aimed at the screen. A pseudo-element, so
+   curves.mjs counts no element and cards.mjs measures no surface for it. */
+.dc .dc-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: -1px;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-charcoal);
+}
+
+/* The panel under the tabs: project, answer, status, the plan, then every
+   service. One column, always; the pair inside the answer is the only thing
+   that goes side by side. */
+.dc-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  min-width: 0;
+}
+
+/* A white card is the console's surface on the section's warm ground: the
+   border is the boundary, the tucked drop is the height, and the three
+   heights are the cockpit's three -- a zone, a card, and the one card being
+   acted on. */
+.dc-project,
+.dc-plan,
+.dc-table-wrap,
+.dc-aside-card {
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.dc-card,
+.dc-read {
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card-raised);
+}
+
+/* ---------- Monospace, where a developer expects it ----------
+   A hash, a path, a command, a log line. --font-mono from type.css, one step
+   under the text around it because the mono face sets wider, and never
+   coloured on its own: a hash in the caution ink is a hash somebody is
+   worried about, and the word beside it says so first. */
+.dc .dc-sha,
+.dc .dc-file,
+.dc .dc-cmd {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+.dc .dc-sha { font-weight: var(--weight-semibold); }
+
+/* ---------- The project ---------- */
+.dc-project { padding: var(--space-lg) var(--space-xl); }
+.dc .dc-project-id {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.dc .dc-project-id .dc-label { margin-right: var(--space-2xs); }
+.dc-sep { color: var(--color-muted-gray); }
+.dc-project-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm) var(--space-xl);
+  margin: 0;
+}
+.dc-project-facts dt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.dc-project-facts dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+@media (min-width: 800px) {
+  .dc-project-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- The answer zone ----------
+   Tea-light, the feature ground, with the cards on it: what the situation
+   is, then the card that answers the five questions, then the panel to
+   compare against. Its inks are warm's, so nothing changes colour to sit
+   here. It lifts at --shadow-zone, a tinted region and not a card. */
+.dc-answer { display: grid; gap: var(--space-lg); }
+.dc-lead {
+  padding: var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-tea-light);
+  box-shadow: var(--shadow-zone);
+}
+/* A READING IS NOT A REFUSAL, and the zone says which it is holding. "Live,
+   but failing" takes the alternate ground, muted-light: a different kind of
+   answer rather than a problem, the way the cockpit's close call does. The
+   failed build keeps tea-light under it, because the caution is on the card
+   and a caution ground under a caution card would be the refusal twice. */
+.dc-lead[data-tone="read"] { background: var(--color-muted-light); }
+.dc .dc-lead-kicker {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.dc-lead[data-tone="read"] .dc-lead-kicker,
+.dc-lead[data-tone="failed"] .dc-lead-kicker { color: var(--color-charcoal); }
+.dc .dc-answer-h {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.dc .dc-answer-dek {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc-pair {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+@media (min-width: 800px) {
+  .dc-pair { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+}
+.dc-pair > div { min-width: 0; }
+
+.dc-card, .dc-read, .dc-fail { padding: var(--space-lg) var(--space-xl); }
+.dc .dc-card-head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.dc .dc-card-note {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+.dc .dc-card-act { margin: var(--space-lg) 0 0; }
+
+/* ---------- The failed build: the refusal ----------
+   The one caution-grounded card on the page, with a 2px edge in the caution
+   ink, because the platform would not promote this deploy and that has to
+   look like a verdict and not like a low figure. Charcoal on caution-light
+   is 12.44; the ink as a border on tea-light is 5.43. */
+.dc-fail {
+  border: 2px solid var(--color-caution-text);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+  box-shadow: var(--shadow-card-raised);
+}
+.dc .dc-fail-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.dc .dc-fail-glyph { flex-shrink: 0; width: 1.25em; height: 1.25em; margin-top: 0.05em; color: var(--color-caution-text); }
+
+/* ---------- The reading: live, but failing ----------
+   White, raised, and edged in the ink rather than the tint, like the
+   cockpit's stale note: the one card on the screen that asks the reader to
+   stop and judge, and the dark line is what says so. muted-gray as a border
+   on white is 6.47, on muted-light around it 5.11. */
+.dc-read { border-color: var(--color-muted-gray); }
+.dc-read.is-rolled { border-color: var(--rule-card); }
+
+/* ---------- The five answers, as a list with its questions ---------- */
+.dc-answers {
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-sm);
+  border-top: 1px solid var(--rule-hairline);
+}
+.dc-answers > div {
+  padding-top: var(--space-sm);
+  border-bottom: 1px solid var(--rule-hairline);
+  padding-bottom: var(--space-sm);
+}
+.dc-answers > div:last-child { border-bottom: 0; }
+.dc .dc-answers dt {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.dc-fail .dc-answers dt { color: var(--color-charcoal); }
+.dc .dc-answers dd {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-answers dd strong { font-weight: var(--weight-semibold); }
+/* The one line the error names, set in the mono at the same size and in the
+   caution ink: a reading of the figure, on a card that is already the
+   refusal's ground. 5.23 on caution-light. */
+.dc .dc-line {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-caution-text);
+  overflow-wrap: anywhere;
+}
+.dc .dc-answers-fine {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.dc-fail .dc-answers-fine { color: var(--color-charcoal); }
+.dc .dc-record { font-weight: var(--weight-semibold); }
+
+/* What changed: the commits since it last worked, hash first. The one that
+   touches the file the error names is the suspect, and the suspect is a
+   word on the row -- "touches src/billing/invoice.ts" -- with the file in
+   the caution ink, a reading and not a verdict. */
+.dc-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.dc-change {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: baseline;
+}
+.dc .dc-change-body { display: block; min-width: 0; }
+.dc .dc-change-msg { display: block; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
+.dc .dc-change-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc-fail .dc-change-who { color: var(--color-charcoal); }
+.dc .dc-change.is-suspect .dc-file { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+
+/* ---------- The figures ----------
+   The number at --text-xl, one rung under the answer's headline; the label
+   under it; what it was before beside that, where there is a before. Three
+   across, and stacked in the narrower aside. */
+.dc-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-lg);
+  margin: var(--space-sm) 0 0;
+}
+.dc-figures--stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
+.dc-figure { min-width: 0; }
+.dc .dc-figure-v {
+  display: block;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+  overflow-wrap: anywhere;
+}
+.dc .dc-figure-l {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+/* The before, in the caution ink where the reading card shows a figure that
+   moved: "was 0.2%" beside 14% is the whole sentence. Ink, not ground. */
+.dc .dc-figure-was {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-caution-text);
+}
+.dc-read.is-rolled .dc-figure-was { color: var(--color-muted-gray); font-weight: var(--weight-regular); }
+
+/* ---------- The panel beside the card ----------
+   Not a card: the tint is the ground, and one raised surface per zone is
+   the rule. A heading, a stack of figures, and a line of fine print. */
+.dc-aside { padding: var(--space-lg) var(--space-xl); }
+.dc .dc-h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.dc .dc-aside-p {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-aside-p strong { font-weight: var(--weight-semibold); }
+.dc .dc-aside-fine {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- The dependency strip ----------
+   A row of chips, each a service and its health in words. Failing takes the
+   caution ink and a hairline in it; ok stays quiet. */
+.dc-deps { display: grid; gap: var(--space-2xs); }
+.dc .dc-deps-l {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.dc .dc-deps-l + .dc-deps-l,
+.dc .dc-dep-list + .dc-deps-l { margin-top: var(--space-xs); }
+.dc-dep-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+.dc .dc-dep {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-dep-h {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+.dc .dc-dep[data-health="failing"] { border-color: var(--color-caution-text); }
+.dc .dc-dep[data-health="failing"] .dc-dep-h { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.dc .dc-dep[data-health="recovering"] .dc-dep-h { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+
+/* ---------- The log, folded ----------
+   One step down from the line that names the error. The disclosure row is
+   style.css's; what is here is the list under it: numbered lines in the
+   mono, the failing one marked in the caution ink, wrapping rather than
+   scrolling because a log a phone cannot read is a log that was not shown. */
+.dc-log-fold { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
+.dc-log {
+  margin: 0 0 var(--space-sm);
+  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-2xl);
+  border: 1px solid var(--rule-card);
+  border-radius: 8px;
+  background: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-log li {
+  padding-left: var(--space-2xs);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.dc .dc-log li::marker { color: var(--color-muted-gray); }
+.dc .dc-log li.is-marked { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+
+/* ---------- Buttons ----------
+   The site's two shapes: a filled sage and a quiet outline, both pills. */
+.dc .dc-btn {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+.dc .dc-btn-primary {
+  background: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-btn-primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+}
+.dc .dc-btn-quiet {
+  border-color: var(--color-muted-gray);
+  color: var(--color-charcoal);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-btn-quiet:hover { background: var(--wash-on-light-hover); }
+  .dc .dc-btn:hover { transform: scale(var(--motion-lift)); }
+}
+.dc table .dc-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
+@media (hover: hover) and (pointer: fine) {
+  .dc table .dc-btn:not(.dc-btn-primary):hover { background: var(--wash-on-light-hover); }
+}
+/* The service's name inside a row button is announced and not printed: the
+   row already names it, and "Roll back api" made the action column the
+   widest thing in the table. */
+.dc .dc-btn-id--quiet {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- The status line ----------
+   A live region, always in the document, on the alternate ground so an
+   update is somewhere the eye already goes. Caution ground for the one tone
+   where the platform refused something. */
+.dc .dc-status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-sm) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-muted-light);
+  box-shadow: var(--shadow-zone);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.dc .dc-status > span { max-width: var(--measure); }
+.dc .dc-status[data-tone="refused"] { background: var(--color-caution-light); }
+.dc .dc-status:empty { display: none; }
+.dc .dc-status .dc-icon { flex-shrink: 0; color: var(--color-accent-text); }
+.dc .dc-status[data-tone="refused"] .dc-icon,
+.dc .dc-status[data-tone="read"] .dc-icon { color: var(--color-caution-text); }
+.dc .dc-status[data-tone="note"] .dc-icon { color: var(--color-muted-gray); }
+
+/* ---------- The plan: a rollback previewed ----------
+   Every service a row, whether it changes or not. The ones that change carry
+   the two hashes and an arrow; the ones that stay say why in a line. */
+.dc-plan { padding: var(--space-lg) var(--space-xl); }
+.dc .dc-plan-head {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.dc-plan-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.dc-plan-row {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.dc .dc-plan-svc { font-family: var(--font-mono); font-weight: var(--weight-semibold); }
+.dc .dc-plan-body { display: block; min-width: 0; }
+.dc .dc-plan-body .dc-icon { color: var(--color-muted-gray); }
+.dc .dc-plan-why { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-plan-row[data-change="no"] .dc-plan-svc { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.dc .dc-plan-row[data-change="no"] .dc-plan-body { color: var(--color-muted-gray); }
+.dc .dc-plan-what {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.dc .dc-plan-act {
+  margin: var(--space-md) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* ---------- Every service ----------
+   The manual path, whole: every service and every column the answer read,
+   sortable, never collapsed. The head is the dark band, in the tokens that
+   band already uses. */
+.dc .dc-services-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.dc .dc-services-h { margin: 0; }
+.dc .dc-density {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+}
+.dc .dc-density-btn {
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: var(--space-2xs) var(--space-sm);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-density-btn[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
+}
+.dc .dc-density-btn[aria-pressed="true"] {
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  font-weight: var(--weight-semibold);
+}
+
+.dc-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.dc-table {
+  width: 100%;
+  min-width: 60rem;
+  border-collapse: collapse;
+}
+.dc-table th,
+.dc-table td {
+  padding: var(--space-sm) var(--space-xs);
+  text-align: left;
+  vertical-align: middle;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.dc-table tbody th:first-child,
+.dc-table tbody td:first-child { padding-left: var(--space-md); }
+.dc-table tbody th:last-child,
+.dc-table tbody td:last-child { padding-right: var(--space-md); }
+.dc-table tbody tr:last-child th,
+.dc-table tbody tr:last-child td { border-bottom: 0; }
+.dc-table .dc-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dc-table tbody th { font-weight: var(--weight-regular); white-space: nowrap; }
+.dc-table .dc-cell-text { white-space: nowrap; }
+/* Two columns are allowed to wrap, so the table fits its wrapper at 1440
+   without a sideways scroll: the type, which is a phrase, and the list of
+   what a service depends on, which is a list. */
+.dc-table .dc-cell-type,
+.dc-table .dc-cell-deps { max-width: 9rem; }
+.dc-table .dc-cell-act { text-align: right; white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) {
+  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover th,
+  .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover td { background: var(--color-warm); }
+}
+
+.dc-table thead th {
+  --color-focus-ring: var(--color-accent-on-dark);
+  padding: 0;
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  border-bottom: 0;
+  vertical-align: top;
+}
+.dc-table th[aria-sort="ascending"],
+.dc-table th[aria-sort="descending"] { color: var(--ink-on-dark); }
+.dc .dc-th {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-xs);
+  text-align: inherit;
+}
+.dc-table thead th:first-child .dc-th { padding-left: var(--space-md); }
+.dc-table thead th:last-child .dc-th { padding-right: var(--space-md); }
+.dc-table thead th.dc-num .dc-th,
+.dc-table thead th.dc-cell-act .dc-th { justify-content: flex-end; }
+.dc .dc-th-text { display: block; min-width: 0; }
+.dc .dc-th-label { display: block; white-space: nowrap; }
+.dc .dc-th-unit {
+  display: block;
+  font-weight: var(--weight-regular);
+  color: var(--ink-on-dark-muted);
+  white-space: nowrap;
+}
+.dc .dc-sort {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-sort:hover { color: var(--ink-on-dark); }
+}
+.dc .dc-sort-icon {
+  color: var(--color-accent-on-dark);
+  opacity: 0;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.dc-table thead th.dc-num .dc-sort-icon { order: -1; }
+.dc-table th[aria-sort="ascending"] .dc-sort-icon,
+.dc-table th[aria-sort="descending"] .dc-sort-icon,
+.dc .dc-sort:focus-visible .dc-sort-icon { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-sort:hover .dc-sort-icon { opacity: 1; }
+}
+.dc-table th[aria-sort="descending"] .dc-sort-icon { rotate: 180deg; }
+@keyframes dc-sort-to-desc { from { rotate: 0deg; } }
+@keyframes dc-sort-to-asc  { from { rotate: 180deg; } }
+.dc .dc-sort-icon[data-turn="desc"] { animation: dc-sort-to-desc var(--motion-state) var(--ease); }
+.dc .dc-sort-icon[data-turn="asc"]  { animation: dc-sort-to-asc  var(--motion-state) var(--ease); }
+
+/* Row states. Each is a ground AND a word somewhere in the row.
+   Focus: the service the situation is about, on tea-light; charcoal 12.90.
+   Rolled: the alternate ground, muted-light; charcoal 12.10.
+   Failed: NO GROUND. The failed build changed nothing in production, and
+   a row painted caution would say the service is down. The caution goes on
+   the tag in the newest-deploy cell, which is the thing that failed. */
+.dc-table .dc-row.is-focus th,
+.dc-table .dc-row.is-focus td { background: var(--color-tea-light); }
+.dc-table .dc-row.is-rolled th,
+.dc-table .dc-row.is-rolled td { background: var(--color-muted-light); font-weight: var(--weight-semibold); }
+.dc-table .dc-row.is-rolled td .dc-cell-note { font-weight: var(--weight-regular); }
+
+/* The tags: a state word in a pill. Failed takes the caution ground with the
+   caution ink at 5.23 -- the refusal, on the thing refused. Rolled back is
+   the assigned idiom, sage under warm. */
+.dc .dc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  white-space: nowrap;
+  margin-left: var(--space-2xs);
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-accent-text);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  vertical-align: 0.1em;
+}
+.dc .dc-tag-failed {
+  border-color: var(--color-caution-text);
+  background: var(--color-caution-light);
+  color: var(--color-caution-text);
+}
+.dc .dc-tag-rolled {
+  background: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+.dc .dc-cell-note {
+  display: block;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+.dc-table .dc-cell-live .dc-cell-note,
+.dc-table .dc-cell-newest .dc-cell-note { max-width: 10rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Health, as a word with a glyph, and the figure under it. Failing takes the
+   caution ink; ok the sage; recovering the sage with the undo glyph; none
+   stays muted. Ink only: a cell painted caution would be a refusal, and a
+   14% error rate is a reading. */
+.dc .dc-health-word {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.dc-table .dc-cell-health[data-health="ok"] .dc-health-word,
+.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-accent-text); }
+.dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--color-caution-text); }
+.dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+
+/* ---------- A row that opens in place ---------- */
+.dc-table .dc-cell-svc { padding: 0; }
+.dc .dc-row-more {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-2xs) var(--space-xs) var(--space-md);
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc .dc-row-more:hover { color: var(--color-accent-hover); }
+}
+.dc .dc-row-chev {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--color-muted-gray);
+  rotate: -90deg;
+  transition: rotate var(--motion-state) var(--ease);
+}
+.dc .dc-row-more[aria-expanded="true"] .dc-row-chev { rotate: 0deg; }
+@keyframes dc-chev-open  { from { rotate: -90deg; } }
+@keyframes dc-chev-close { from { rotate: 0deg; } }
+.dc .dc-row-chev[data-turn="open"]  { animation: dc-chev-open  var(--motion-state) var(--ease); }
+.dc .dc-row-chev[data-turn="close"] { animation: dc-chev-close var(--motion-state) var(--ease); }
+.dc .dc-row-more:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: -3px; border-radius: 4px; }
+
+.dc-table .dc-row-detail > td { padding: 0; background: var(--color-warm); }
+.dc .dc-detail {
+  display: grid;
+  gap: 0;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  max-width: 40rem;
+}
+.dc .dc-detail-p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.dc .dc-detail-p + .dc-detail-p,
+.dc .dc-detail .dc-deps { margin-top: var(--space-sm); }
+.dc .dc-detail-p strong { font-weight: var(--weight-semibold); }
+.dc .dc-detail-h { margin: var(--space-md) 0 var(--space-2xs); }
+.dc .dc-detail-l { margin-top: var(--space-sm); }
+.dc .dc-detail-p--tight { margin-top: 0; }
+.dc .dc-detail-act { margin: var(--space-md) 0 0; }
+.dc .dc-detail-act .dc-btn { min-height: 2.75rem; padding-inline: var(--space-md); }
+
+/* The deploy history: newest first, every failure kept. The status word
+   leads each row, with the glyph the tag uses; failed in the caution ink,
+   live in the sage, superseded muted. The failing line under a failed
+   deploy, in the mono, so the history teaches. */
+.dc-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.dc-history-row {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.dc .dc-history-tag {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted-gray);
+}
+.dc .dc-history-row[data-status="live"] .dc-history-tag { color: var(--color-accent-text); }
+.dc .dc-history-row[data-status="failed"] .dc-history-tag { color: var(--color-caution-text); }
+.dc .dc-history-body { display: block; min-width: 0; }
+.dc .dc-history-who { display: block; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.dc .dc-history-fail {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-caution-text);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- A control in a row, as a target ----------
+   The button keeps its size and the target grows to 44 through a
+   pseudo-element; in compact the extender comes off. */
+.dc .dc-services:not(.is-compact) table .dc-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
+
+/* ---------- Compact ---------- */
+.dc .dc-services.is-compact .dc-table tbody th,
+.dc .dc-services.is-compact .dc-table tbody td { padding-block: var(--space-2xs); }
+.dc .dc-services.is-compact .dc-table thead .dc-th { padding-block: var(--space-2xs); }
+.dc .dc-services.is-compact .dc-row-more { min-height: 0; padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-md); }
+.dc .dc-services.is-compact .dc-table .dc-cell-note { display: none; }
+
+/* ---------- Focus ----------
+   style.css rings links, buttons and summaries. These are the rest. */
+.dc input:focus-visible,
+.dc textarea:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.dc .dc-sort:focus-visible { outline-offset: -3px; }
+
+/* ---------- Narrow ----------
+   Under 48rem four columns come off and the row disclosure carries them:
+   what stays is the service, its newest deploy, its health and the button,
+   which is the smallest set a phone reader can triage from. */
+@media (max-width: 47.99rem) {
+  .dc-table { min-width: 0; }
+  .dc-table th:nth-child(2), .dc-table td:nth-child(2),
+  .dc-table th:nth-child(3), .dc-table td:nth-child(3),
+  .dc-table th:nth-child(4), .dc-table td:nth-child(4),
+  .dc-table th:nth-child(7), .dc-table td:nth-child(7) { display: none; }
+  .dc-table th, .dc-table td { padding-inline: 2px; }
+  .dc-table tbody th:first-child, .dc-table tbody td:first-child { padding-left: var(--space-2xs); }
+  .dc-table tbody th:last-child, .dc-table tbody td:last-child { padding-right: var(--space-2xs); }
+  .dc-table thead th:first-child .dc-th { padding-left: var(--space-2xs); }
+  .dc-table thead th:last-child .dc-th { padding-right: var(--space-2xs); }
+  .dc .dc-th-label { white-space: normal; }
+  .dc .dc-th { align-items: flex-start; padding-inline: var(--space-2xs); }
+  .dc .dc-th-unit { display: none; }
+  .dc .dc-tag { font-size: var(--text-2xs); padding: 0 var(--space-2xs); margin-left: 0; }
+  /* THE PHONE READS THE STATE, NOT THE HASH. The newest cell keeps its tag
+     -- failed, rolled back, live -- and gives up the hash and the age, and
+     the health cell keeps its word and gives up its figure; both are one
+     press down in the row. Four columns of service, state, health and the
+     button fit 277px once the furniture stops asking for 470. */
+  .dc-table .dc-cell-newest .dc-sha,
+  .dc-table .dc-cell-newest .dc-cell-note,
+  .dc-table .dc-cell-health .dc-cell-note { display: none; }
+  .dc .dc-health-word { font-size: var(--text-xs); white-space: normal; }
+  /* The word alone: the glyph beside it is 16px of a 277px table, and the
+     word is the channel that matters. */
+  .dc .dc-health-word .dc-icon { display: none; }
+  .dc .dc-tag { white-space: normal; text-align: left; }
+  /* "Roll back" and "never deployed" are each allowed two lines here, which
+     is what lets the column be the width of a word rather than of a phrase. */
+  .dc-table .dc-btn { padding-inline: var(--space-xs); white-space: normal; text-align: left; }
+  .dc-table .dc-cell-act { white-space: normal; }
+  /* The id wraps at its hyphen rather than setting the column's width. */
+  .dc .dc-row-more { gap: 2px; padding-left: var(--space-2xs); white-space: normal; font-size: var(--text-xs); overflow-wrap: anywhere; }
+  .dc .dc-row-chev { width: 0.75rem; height: 0.75rem; }
+  .dc .dc-detail { padding-inline: var(--space-sm); }
+  .dc-history-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+  .dc-plan-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+}
+
+@media (max-width: 599px) {
+  .dc { padding: var(--space-md); }
+  .dc-lead { padding: var(--space-sm); }
+  .dc-card, .dc-read, .dc-fail, .dc-project, .dc-plan, .dc-aside { padding: var(--space-md); }
+  .dc .dc-status { padding: var(--space-sm) var(--space-md); }
+  .dc .dc-answer-h { font-size: var(--text-xl); }
+  .dc-project-facts { grid-template-columns: minmax(0, 1fr); }
+  .dc-figures { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
+  .dc-change { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .dc-log { padding-left: var(--space-xl); }
+  .dcw-decision-copy { padding-left: calc(var(--dc-num) + var(--space-xs)); }
+  .dcw-compare-side, .dcw-questions > li, .dcw-callout { padding: var(--space-md); }
+  .case-section .dcw-question { padding: var(--space-md) var(--space-lg); }
+}
+
+/* ============================== MOTION ==================================
+ * The cockpit's motion section, argued out in dispatch-cockpit.css and
+ * MOTION.md section 10, applied to a second operated surface. Three
+ * mechanisms, decided by whether the node survives the render: a transition
+ * where it does (.dc-status, .dc-plan), a keyframe starting at the old
+ * appearance where it is replaced (the rolled ground, the button's words),
+ * and an arrival for what is rendered many times and animated once.
+ *
+ * Every keyframe has a `from` and no `to`, so an element without the
+ * attribute is at its own resting state, with or without JavaScript, and
+ * under prefers-reduced-motion, where the blanket in style.css zeroes every
+ * duration. The two local values are the cockpit's, declared again on this
+ * screen because they are spent on it: the firm press, and the tight rise
+ * for words swapping inside a control. */
+.dc {
+  --motion-press-firm: 0.96;
+  --motion-rise-tight: calc(var(--motion-rise) / 4);
+}
+.dc .dc-btn:active,
+.dc .dc-tab:active,
+.dc .dc-density-btn:active,
+.dc .dc-row-more:active { transform: scale(var(--motion-press-firm)); }
+
+/* THE ROLLED GROUND, BOTH WAYS. A wipe from the button's end of the row to
+   the service's name on the way in, and the inverse on undo, on the site's
+   one stagger divided by the thing that makes a row of cells different from
+   a column of cards. */
+.dc-table { --cols: 8; }
+.dc-table tbody tr[data-ground] > th,
+.dc-table tbody tr[data-ground] > td {
+  --sweep: calc(var(--motion-stagger) / 3);
+  animation-duration: var(--motion-move);
+  animation-timing-function: var(--ease);
+  animation-fill-mode: backwards;
+}
+@keyframes dc-ground-fill { from { background-color: transparent; } }
+@keyframes dc-ground-drain { from { background-color: var(--color-muted-light); } }
+.dc-table tbody tr[data-ground="fill"] > th,
+.dc-table tbody tr[data-ground="fill"] > td {
+  animation-name: dc-ground-fill;
+  animation-delay: calc((var(--cols) - 1 - var(--n, 0)) * var(--sweep));
+}
+.dc-table tbody tr[data-ground="drain"] > th,
+.dc-table tbody tr[data-ground="drain"] > td {
+  animation-name: dc-ground-drain;
+  animation-delay: calc(var(--n, 0) * var(--sweep));
+}
+.dc-table tbody tr[data-ground] > :nth-child(1) { --n: 0; }
+.dc-table tbody tr[data-ground] > :nth-child(2) { --n: 1; }
+.dc-table tbody tr[data-ground] > :nth-child(3) { --n: 2; }
+.dc-table tbody tr[data-ground] > :nth-child(4) { --n: 3; }
+.dc-table tbody tr[data-ground] > :nth-child(5) { --n: 4; }
+.dc-table tbody tr[data-ground] > :nth-child(6) { --n: 5; }
+.dc-table tbody tr[data-ground] > :nth-child(7) { --n: 6; }
+.dc-table tbody tr[data-ground] > :nth-child(8) { --n: 7; }
+
+@keyframes dc-tag-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.dc-table tbody tr[data-ground="fill"] .dc-tag-rolled {
+  animation: dc-tag-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc((var(--cols) - 1) * var(--motion-stagger) / 3);
+  animation-fill-mode: backwards;
+}
+
+/* The control that changed its mind: the words rise the tight rise. On
+   `translate`, so the press and the lift on `transform` compose with it. */
+@keyframes dc-swap { from { opacity: 0; translate: 0 var(--motion-rise-tight); } }
+.dc [data-swap] { animation: dc-swap var(--motion-move) var(--ease); }
+
+/* The status line survives every render: its ground is a transition, its
+   contents take the swap. A refusal snaps rather than arrives. */
+.dc .dc-status {
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.dc .dc-status > * { animation: dc-swap var(--motion-move) var(--ease); }
+.dc .dc-status[data-tone="refused"] {
+  transition: background-color var(--motion-response) var(--ease), color var(--motion-response) var(--ease);
+}
+@keyframes dc-refuse { from { opacity: 0; } }
+.dc .dc-status[data-tone="refused"] > * { animation: dc-refuse var(--motion-response) linear; }
+
+/* The plan, in and out. No rise on the way in: keep() already scrolls it
+   into view, and a second travel for one event is decoration. The rows
+   inside it arrive in sequence, so the panel reads as opening. */
+.dc-plan { transition: opacity var(--motion-state) var(--ease); }
+.dc-plan[data-leaving] { opacity: 0; }
+@keyframes dc-plan-in { from { opacity: 0; } }
+.dc-plan-form > * {
+  animation: dc-plan-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+.dc-plan-form > :nth-child(2) { --i: 1; }
+.dc-plan-form > :nth-child(3) { --i: 2; }
+.dc-plan-form > :nth-child(4) { --i: 3; }
+
+/* What arrives, and when: each surface on its own arrival, once. */
+@keyframes dc-card-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.dc-card[data-shown],
+.dc-read[data-shown],
+.dc-fail[data-shown],
+.dc-aside[data-shown] { animation: dc-card-in var(--motion-enter) var(--ease-enter); }
+
+@keyframes dc-row-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.dc-table tbody[data-shown] > tr[data-service] {
+  animation: dc-row-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+.dc-row-detail .dc-detail[data-opened] { animation: dc-card-in var(--motion-enter) var(--ease-enter); }

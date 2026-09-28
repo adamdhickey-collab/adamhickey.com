@@ -383,13 +383,16 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
-**All four now press things, and only on one page.** They load a page, wait for
+**All four now press things, and only on two pages.** They load a page, wait for
 it to settle and measure what is there, which is the whole of twenty-eight of
-the twenty-nine. `prototype/dispatch-cockpit.html` is the exception: it renders
-its comparison, its override question, its refused button and its opened rows
-from JavaScript in response to a press, so twelve of its states were in no DOM
-any check ever saw and every one of them said "✓" about a page it had measured
-a sixth of. `scripts/lib/reachable.mjs` is the registry -- per page, named
+the thirty. The two pages under `prototype/` are the exception:
+`prototype/dispatch-cockpit.html` renders its comparison, its override
+question, its refused button and its opened rows from JavaScript in response
+to a press, so twelve of its states were in no DOM any check ever saw and
+every one of them said "✓" about a page it had measured a sixth of; since
+2026-09-28 `prototype/deploy-console.html` does the same with its failed
+build, its reading, its rollback plan and its rolled-back rows, and carries
+its own seven states in the same registry. `scripts/lib/reachable.mjs` is the registry -- per page, named
 states and the selectors to click to reach each from a fresh load -- and all
 four import it. It is curated by hand and lives outside the page deliberately,
 like the registries in `counts.mjs` and `tokens.mjs`: a `window.__states` the
@@ -411,7 +414,9 @@ unmeasured. At 2026-09-22 the tree measures 6414 resting colors, 1878 state
 rules, 26086 type sizes, 15312 elements checked for a partial border on a
 curve and 275 raised surfaces, across 29 pages (the twenty-eight of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
-`seo.mjs` leave out), plus 128 token names against 197 declarations, 6
+`seo.mjs` leave out; **30 pages since the deploy console landed on
+2026-09-28**, and the five figures are still the 29-page set until the
+post-merge sweep of that merge is read back), plus 128 token names against 197 declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 10 counted claims.
 

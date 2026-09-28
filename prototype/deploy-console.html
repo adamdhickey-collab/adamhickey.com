@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A failed deploy the developer can read in one place and put back in one press | Adam Hickey</title>
+  <meta name="description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided." />
+  <link rel="canonical" href="https://adamhickey.com/prototype/deploy-console.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/prototype/deploy-console.html" />
+  <meta property="og:title" content="A failed deploy the developer can read in one place and put back in one press | Adam Hickey" />
+  <meta property="og:description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/deploy-console.jpg?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who made it, and where it sits. The description says "prototype"
+       and "synthetic data" for the same reason the hero does: nothing here
+       may be read as an account of shipped work, and no platform is named
+       because none was worked for. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/prototype/deploy-console.html#article",
+          "headline": "A failed deploy the developer can read in one place and put back in one press",
+          "description": "A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided.",
+          "url": "https://adamhickey.com/prototype/deploy-console.html",
+          "mainEntityOfPage": "https://adamhickey.com/prototype/deploy-console.html",
+          "image": "https://adamhickey.com/img/og/deploy-console.jpg?v=1",
+          "datePublished": "2026-09-28",
+          "dateModified": "2026-09-28",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Developer tools"
+            },
+            {
+              "@type": "Thing",
+              "name": "Cloud infrastructure"
+            },
+            {
+              "@type": "Thing",
+              "name": "Failure states"
+            },
+            {
+              "@type": "Thing",
+              "name": "Information design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Observability"
+            },
+            {
+              "@type": "Thing",
+              "name": "Deployment and rollback"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/prototype/deploy-console.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "A failed deploy the developer can read in one place and put back in one press",
+              "item": "https://adamhickey.com/prototype/deploy-console.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=7" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20260926a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <!-- The chapters arrive as they are read. See reveal.css for why this is
+       its own pair of files rather than style.css's .reveal. -->
+  <link rel="stylesheet" href="../reveal.css?v=2" />
+  <link rel="stylesheet" href="deploy-console.css?v=1" />
+  <link rel="stylesheet" href="../read-aloud.css?v=4" />
+  <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
+       prototype card opens the console in a tablet over the page, and what
+       stands in that tablet has to be the console and nothing else. Set here
+       rather than in a deferred script, so the page never paints its own nav
+       and hero and then takes them away. It is data-embed and not an is-
+       class because scripts/states.mjs reads any .is-* as a state to force. -->
+  <script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.setAttribute('data-embed', '');</script>
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../reveal.js?v=1" defer></script>
+  <!-- "Listen to this page", the same control the prose pages carry. What it
+       reads here is the writing around the prototype and not the prototype:
+       .dc-frame is marked data-read-aloud="skip", because the console's text
+       is generated, changes under the reader's own presses and includes a
+       live region. -->
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The console. Deferred, no dependencies, no build step; the synthetic
+       project is the object at the top of the file. -->
+  <script src="deploy-console.js?v=1" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. See index.html for the long version. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body class="dcw-page">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- THE HERO IS A PAIR, as the cockpit's is: what the problem is, what
+         was designed, and how much of it is real, with the picture answering
+         the middle one. The crop is the reading -- the deploy that is live
+         and failing -- because that state is the argument in one frame: the
+         figures since the deploy beside the figures before it, and a
+         decision asked for rather than announced. The six facts under the
+         pair say what this is before the page claims anything. -->
+    <header class="case-hero dcw-hero">
+      <div class="container">
+        <div class="dcw-hero-grid">
+          <div class="dcw-hero-copy">
+            <p class="case-kicker">Developer tools &middot; working prototype &middot; synthetic data</p>
+            <h1 class="case-title dcw-hero-title">A failed deploy the developer can read in one place and put back in one press</h1>
+            <p class="dcw-hero-dek">Something broke in a project of six services. The screen says what is live, what failed, what changed, what depends on it and whether it can go back, in that order, because that is the order the questions come in. Putting it back is one press, previewed first, with a way back.</p>
+            <p class="dcw-hero-act" data-read-aloud="skip after">
+              <a class="btn btn-primary dcw-hero-btn" href="#try-it">Try the prototype</a>
+              <a class="dcw-hero-link" href="#the-decisions">How it was designed &rarr;</a>
+            </p>
+          </div>
+          <figure class="dcw-hero-figure">
+            <div class="dcw-scroll">
+              <img src="../img/console/live-failing.webp?v=1" width="1640" height="2004" alt="The console on a deploy that is live and failing: a heading reading &ldquo;api is live, and failing since the deploy 12 min ago&rdquo;, then a white card with three figures, 14% of api requests erroring against a smaller &ldquo;was 0.2%&rdquo;, a p95 of 2.8 s against 340 ms, and 41 worker jobs failed against 0. Under the figures, what changed, one commit, and what depends on it as a row of chips, then a sage button reading &ldquo;Roll back api&rdquo;." />
+            </div>
+            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since, beside the figures before; the one commit; what it touches; and the one action, asked for. <a class="dcw-full" href="../img/console/live-failing.webp?v=1">Full size &#8599;<span class="visually-hidden">, live but failing</span></a></figcaption>
+          </figure>
+        </div>
+        <dl class="build-facts dcw-facts">
+          <div><dt>Problem</dt><dd>The screen a developer opens when a deploy breaks holds every fact and answers no question.</dd></div>
+          <div><dt>Hypothesis</dt><dd>Arrange the screen in the order the five questions are asked, and the developer stops reconstructing the story from the parts.</dd></div>
+          <div><dt>My role</dt><dd>Product strategy, interaction design, visual design, prototyping and the front-end build.</dd></div>
+          <div><dt>Artifact</dt><dd>A working browser prototype. No platform behind it: the services, the deploys, the logs and the figures are one object at the top of the script.</dd></div>
+          <div><dt>Context</dt><dd>Self-directed, on synthetic data, informed by shipping <a href="../case-study/this-site.html">this site through its own checks</a> and by the operations floors in the case studies. Not built for or with any platform.</dd></div>
+          <div><dt>Next</dt><dd>Put it in front of developers who have been on call. Then let it propose the rollback itself, and find out whether anyone still reads the figures.</dd></div>
+        </dl>
+        <p class="dcw-facts-note">Not a reproduction of any product, and not yet tested with a developer. The project, its services, commits, authors, logs and figures are invented. The branch, the commit, the pull request, the checks and a static deploy are things I run every day; containers, cloud infrastructure and observability across many services are the part I have read and not run, and this prototype is the reading made into a screen.</p>
+      </div>
+    </header>
+
+    <!-- THE PROBLEM, first, and the one drawing on the page that is not a
+         capture: the room the interface is used in, which the interface
+         cannot show. -->
+    <section class="case-section build-chapter ground-tea" id="the-problem">
+      <div class="container">
+        <div class="case-narrow">
+          <div class="writing-measure">
+            <h2>The screens a developer opens most are the ones that open when something broke</h2>
+            <p>A developer with a project of six services gets a message that a deploy failed, or worse, gets no message and a customer. The platform has every fact: which commit is serving, which one was pushed, what the build said, what the health check saw, which services call which. Laid out as a list of services and a list of deploys, those facts are a puzzle with the picture on the box missing. The developer opens three tabs and reconstructs the story by hand, at the moment they have the least attention to spend on it.</p>
+            <div class="writing-pull"><p>Failure is a first-class state, not an edge case.</p></div>
+          </div>
+        </div>
+        <figure class="dcw-scene">
+          <img src="../img/console/developer-attention.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="An illustration of a developer at a desk late at night with two monitors, one showing a list of services and one a scrolling log, a phone lit up beside the keyboard and a mug gone cold." />
+          <figcaption>A failed deploy lands in the evening, beside a log that says what happened in the machine&rsquo;s words and a phone that says a customer noticed first.</figcaption>
+        </figure>
+        <div class="case-narrow">
+        <p class="dcw-question"><span class="dcw-question-label">The design question</span> Can one screen answer the five questions a developer asks when something broke, in the order they ask them, without hiding the parts?</p>
+        <div class="writing-measure">
+          <details class="dcw-more">
+            <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Assumptions behind the prototype</span></summary>
+            <div class="dcw-more-body">
+              <p>Assumptions, not observations: that the five questions come in one order for most developers most of the time, that a project of six services is the size at which stitching the picture together by hand starts to cost, and that a developer would rather see a log&rsquo;s last nine lines under the sentence that names the error than the whole log first. The order came from shipping this site through its own checks and reading what the log said each time something failed; a session with a developer who has carried a pager is as likely to reorder the questions as to confirm them. One more, about scale: the console here shows six services because six fit on a screen with room to read. At sixty, the answer zone holds and the table becomes a search, which is a different design and is not attempted here.</p>
+            </div>
+          </details>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE CONSOLE ITSELF, and the first time a reader meets the interface.
+         The problem, then the live panel, then the argument about it. -->
+    <section class="case-section build-chapter ground-white" id="try-it">
+      <div class="container">
+        <div class="case-narrow">
+        <div class="writing-measure">
+          <h2>Try the 90-second prototype</h2>
+          <p>One project, six services, four situations. Everything is live, then a build fails, then a deploy succeeds and the errors start, then the developer has rolled it back. The screen changes shape each time, because a refusal, a reading and a record are different kinds of answer. Four scenarios, one project, with your hands on them.</p>
+        </div>
+        <div class="dcw-try-grid">
+          <div>
+            <p class="dc-label">Three things to try</p>
+            <ol class="build-list">
+              <li>On the failed build, find which commit touched the file the error names, then open the log.</li>
+              <li>On the live-but-failing deploy, read the figures before and after, then press Roll back and read what would stay.</li>
+              <li>Roll it back, read who decided and on what, then undo it. Open any service for its history.</li>
+            </ol>
+          </div>
+          <div>
+            <p class="dc-label">What this is</p>
+            <ul class="build-list">
+              <li>Designed and built by me: plain HTML, CSS and JavaScript, no framework, no build step.</li>
+              <li>Responsive and keyboard accessible, with changes announced. At 390px the table keeps four columns and folds the rest into the row.</li>
+              <li>Synthetic data and a plain script, not a platform. Source: <a href="deploy-console.js">deploy-console.js</a>, the project as one object at the top.</li>
+              <li>Every state decided: live against newest, the failed build on the caution ground, the failing deploy as a reading on white, the plan with what stays in it, the rolled-back rows with Undo standing where Roll back was and inert for half a second so a double-click rolls back once, the empty row that says why it is empty, two densities.</li>
+            </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+      <!-- The prototype in the site's device chrome, on the container's
+           content width, exactly as the cockpit stands. -->
+      <div class="dc-frame" data-read-aloud="skip">
+        <div class="dc" id="console">
+          <p class="dc-tabs-label"><span id="dc-tabs-label">Pick a scenario</span><span class="dc-tabs-hint">the screen below changes with it</span></p>
+          <div class="dc-tabs" role="tablist" aria-labelledby="dc-tabs-label"></div>
+          <div class="dc-stage" id="dc-panel" role="tabpanel" aria-labelledby="dc-tab-live">
+            <div class="dc-situation">
+              <h3 class="dc-rail-h" id="dc-rail-h"></h3>
+              <p class="dc-blurb"></p>
+            </div>
+            <div class="dc-panel">
+              <div class="dc-project"></div>
+              <div class="dc-answer"></div>
+              <!-- The live region: one line, always in the document, updated
+                   whenever the situation, the plan or a rollback changes. -->
+              <p class="dc-status" role="status"></p>
+              <div class="dc-plan" hidden></div>
+              <div class="dc-services">
+                <div class="dc-services-bar">
+                  <h4 class="dc-h dc-services-h">Every service</h4>
+                  <div class="dc-density" role="group" aria-label="Row height">
+                    <button type="button" class="dc-density-btn" data-density="comfortable" aria-pressed="true">Comfortable</button>
+                    <button type="button" class="dc-density-btn" data-density="compact" aria-pressed="false">Compact</button>
+                  </div>
+                </div>
+                <div class="dc-table-wrap">
+                  <table class="dc-table"></table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <noscript>
+            <p>The console is built in JavaScript and it is switched off here, so the panel above is empty. The five decisions below describe what it does, one of them with captures of it running, and the source is <a href="deploy-console.js">deploy-console.js</a>, with the project as a plain object at the top.</p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIVE DECISIONS. The deeper argument for each is behind a
+         disclosure; what the reader is owed is not. One decision carries
+         pictures: the refusal and the reading, side by side, because that
+         comparison is the one the live panel can only make across two tab
+         presses and a scroll. -->
+    <section class="case-section build-chapter ground-warm" id="the-decisions">
+      <div class="container">
+        <div class="case-narrow">
+          <div class="writing-measure">
+            <h2>Five decisions, and what each one looks like</h2>
+          </div>
+        </div>
+
+        <ol class="dc-decisions">
+          <li class="dcw-decision">
+            <div class="dcw-decision-copy">
+              <h3>Live is a fact about traffic, not about time</h3>
+              <p class="dcw-lead">The deploy serving requests and the deploy most recently attempted are two different things, and the screen never lets them share a cell. Every service row carries both: the live commit and how long it has served, and the newest deploy with its state, whether that is the same deploy, a failed one, or one still building. When a build fails, the first sentence on the screen is that nothing is down.</p>
+              <details class="dcw-more">
+                <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
+                <div class="dcw-more-body">
+                  <ul class="build-list">
+                    <li><strong>&ldquo;Latest&rdquo; is the word that causes the outage call.</strong> A list sorted newest-first shows a failed deploy at the top and a developer reads it as the one serving traffic. The word live is reserved for the one that is.</li>
+                    <li><strong>The first question is answered before it is asked.</strong> The project card counts what is serving, what is a datastore and what has never deployed, so &ldquo;what is going on with my system&rdquo; has one line of answer before any scrolling.</li>
+                    <li><strong>An age is a fact too.</strong> Six days live with 0.2% errors is the sentence the failing deploy is measured against, and it sits beside the failure rather than in a history tab.</li>
+                    <li><strong>The empty row says why it is empty.</strong> A cron job that has never deployed reads &ldquo;never deployed&rdquo; and, one press down, &ldquo;nothing is wrong; nothing has happened yet.&rdquo; A blank there is indistinguishable from a broken screen.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </li>
+
+          <li class="dcw-decision">
+            <div class="dcw-decision-copy">
+              <h3>Treat a refusal and a reading as different things</h3>
+              <p class="dcw-lead">A build the platform would not promote is a refusal: the platform&rsquo;s own verdict, on the caution ground with the caution edge, and the live deploy untouched under it. A deploy that succeeded and is erroring is a reading: the platform has nothing to refuse, so the card stays white, sets the figures since the deploy beside the figures before it, and asks for a decision instead of announcing one. The two never share a channel, and the sentence under the figures says the errors may not be this deploy&rsquo;s at all.</p>
+              <details class="dcw-more">
+                <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
+                <div class="dcw-more-body">
+                  <ul class="build-list">
+                    <li><strong>A verdict and a doubt must not look alike.</strong> If a failed build and a rising error rate are painted the same, the reader learns that the color means nothing in particular. Caution ground is spent on one thing: a deploy the platform refused.</li>
+                    <li><strong>The figure carries its before.</strong> 14% means nothing until &ldquo;was 0.2%&rdquo; sits under it. The pair is the whole sentence, and the before is in the caution ink because it is the reading, not the verdict.</li>
+                    <li><strong>Correlation is stated as correlation.</strong> The errors started when the deploy did, and the commit calls a service outside the project. The card says both and lets the developer decide which one broke.</li>
+                    <li><strong>Refusal snaps; a reading arrives.</strong> The status line for a failed build appears in 80ms on its ground; the reading rises like everything else that was composed. The same rule the cockpit draws, applied to a second screen.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <figure class="dcw-shot">
+              <ol class="dcw-frames">
+                <li class="dcw-frame--fail">
+                  <div class="dcw-scroll">
+                    <img src="../img/console/failed.webp?v=1" width="1364" height="1390" loading="lazy" decoding="async" alt="A caution-outlined card on a pale caution ground, headed &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, there is nothing to roll back. A folded row offers the last nine lines of the build log and a quiet button reads &ldquo;Retry the build&rdquo;." />
+                  </div>
+                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. Caution ground, the live deploy untouched, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=1">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
+                </li>
+                <li class="dcw-frame--read">
+                  <div class="dcw-scroll">
+                    <img src="../img/console/reading.webp?v=1" width="1364" height="1478" loading="lazy" decoding="async" alt="A white card with a dark edge, headed &ldquo;Since the deploy&rdquo;, with three figures: 14% of api requests erroring, was 0.2%; p95 2.8 s, was 340 ms; 41 worker jobs failed in 12 min, was 0. Under them, what changed, one commit; what depends on it, chips reading worker failing and web ok; and what to do, roll api back to 7e1b2c9, with a note that the tax service it calls is outside the project and may be the thing that broke. A sage button reads &ldquo;Roll back api&rdquo;." />
+                  </div>
+                  <p class="dcw-frame-cap"><span>A reading</span> The platform has nothing to refuse. White card, the figures beside their befores, and a decision asked for. <a class="dcw-full" href="../img/console/reading.webp?v=1">Full size &#8599;<span class="visually-hidden">, the reading</span></a></p>
+                </li>
+              </ol>
+            </figure>
+          </li>
+
+          <li class="dcw-decision">
+            <div class="dcw-decision-copy">
+              <h3>Gather the failure; do not make the developer reconstruct it</h3>
+              <p class="dcw-lead">One card answers what failed, what changed since it last worked, what depends on it and what to do, in that order, each with the fact that answers it: the command and the one line it stopped on, the commits since the last good deploy with the one that touches the named file marked as a suspect, the dependents with their own health beside them, and a sentence that ends in an action. The log is one step down, its last nine lines, with the failing line marked again so a reader who opens it lands on the same sentence.</p>
+              <details class="dcw-more">
+                <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
+                <div class="dcw-more-body">
+                  <ul class="build-list">
+                    <li><strong>An error message is an interface.</strong> &ldquo;Build failed&rdquo; is a status; it says something happened, in the machine&rsquo;s words, and ends the conversation. What happened, to what, why, and the one thing to do next is a sentence a person can act on.</li>
+                    <li><strong>A suspect is not a verdict.</strong> The commit that touches the file the error names is marked, in words, and the line under it says that is a suspect. The developer who wrote the other commit deserves not to be accused by a color.</li>
+                    <li><strong>Progressive disclosure is order, not hiding.</strong> The line is on the card because most readers need only the line. The log is one press down because the rest need to believe it. Nothing load-bearing is behind the fold.</li>
+                    <li><strong>Retry is offered, and honest about itself.</strong> Pressing it says a retry builds the same commit and fails on the same line. A button that quietly runs the same failure again is a button that teaches people to press twice.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </li>
+
+          <li class="dcw-decision">
+            <div class="dcw-decision-copy">
+              <h3>Roll back as a coordinated act, previewed, with a way back</h3>
+              <p class="dcw-lead">Rolling api back takes worker with it, because the two moved in the same push and worker calls api, and the plan says so before anything moves: every service in the project is a row, the two that change with their two commits, the four that stay with the reason each stays, including that a database does not roll back with a deploy. One press, in dependency order. Undo takes the button&rsquo;s place and is inert for half a second, so a double-click rolls back once. The record is written with who pressed it, when, from what to what, and the figures it was decided on.</p>
+              <details class="dcw-more">
+                <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
+                <div class="dcw-more-body">
+                  <ul class="build-list">
+                    <li><strong>What stays is half of what makes it safe.</strong> A preview that lists only the two services changing leaves the developer wondering about the other four. The rows that say &ldquo;unchanged&rdquo; and why are the ones that let somebody press.</li>
+                    <li><strong>A preview is the confirmation.</strong> There is no dialog after the press, because the plan was the dialog, and it was read rather than dismissed. The way back sits where the action was.</li>
+                    <li><strong>The record is complete on purpose.</strong> The cockpit&rsquo;s override saved the reason and admitted the rest was not written yet. Here the who, the when, the from, the to and the figures are all written with the deploy, so a decision can be reconstructed by someone who was not there.</li>
+                    <li><strong>The order is stated.</strong> api first, then worker, because worker calls api and a worker rolled back onto an api that has not moved yet is a second incident. The plan says the order and the status line repeats it.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </li>
+
+          <li class="dcw-decision">
+            <div class="dcw-decision-copy">
+              <h3>Keep every service in reach, and let nothing look like nothing</h3>
+              <p class="dcw-lead">The answer zone is assistance, not the only route through the task. Every service is a row, every column that the answer read is in the table, every column sorts, every row opens on its deploy history with every failure kept in it, the rows run comfortable or compact, and a row with no deploys says never deployed rather than showing a blank. If the answer zone vanished tomorrow, this would still be a deploy console.</p>
+              <details class="dcw-more">
+                <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
+                <div class="dcw-more-body">
+                  <ul class="build-list">
+                    <li><strong>Density is a kindness when attention is short.</strong> A developer on call wants every service on one screen, not six cards with a lot of air in them. The compact end is the one a team would actually run.</li>
+                    <li><strong>Dependencies are a row of words, not a diagram.</strong> The fleet taught me that experts do not need a map of what they can recite; they need the one thing wrong in it. The strip names what a service calls and what calls it, each with its health beside it.</li>
+                    <li><strong>The history teaches.</strong> A deploy list with the failures kept in it, each with the line it failed on, is how a developer learns the shape of this project&rsquo;s bad days.</li>
+                    <li><strong>A phone gets four columns and folds the rest.</strong> The service, its newest deploy, its health and the button; everything else one press down, inside the row it belongs to.</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- WHAT IS NOT KNOWN, as a plan rather than a list of caveats. -->
+    <section class="case-section build-chapter ground-tea" id="what-next">
+      <div class="container">
+        <div class="case-narrow">
+          <div class="writing-measure">
+            <h2>What I need to learn from developers</h2>
+            <p>The prototype shows an arrangement. It does not show that the arrangement finds the fault faster, and the first session with somebody who has carried a pager would change it.</p>
+          </div>
+        </div>
+
+        <div class="dcw-compare">
+          <div class="dcw-compare-side">
+            <p class="dcw-compare-h">A service list and a deploy log</p>
+            <p>The facts as most consoles hold them, in two lists and a log.</p>
+          </div>
+          <p class="dcw-compare-vs">compared with</p>
+          <div class="dcw-compare-side dcw-compare-side--b">
+            <p class="dcw-compare-h">The same facts, arranged as five answers</p>
+            <p>This screen: live against newest, the failure gathered, the plan previewed.</p>
+          </div>
+        </div>
+        <div class="case-narrow"><div class="writing-measure">
+          <p class="dcw-compare-note">Over matched incidents: a build that fails on one line, a deploy that succeeds and errors, and a rollback that has to take a second service with it. The question is whether developers name the fault and the right action sooner, and whether they ever open the log when the card has already quoted the line.</p>
+        </div></div>
+
+        <ol class="dcw-questions">
+          <li>
+            <h3>Is the order right for a team?</h3>
+            <p>The five questions came from one person shipping alone. On a team, the first question may be who pushed, and an experienced developer may want the log before the summary. If so, the log moves up and the summary becomes its caption.</p>
+          </li>
+          <li>
+            <h3>Does anyone read the before?</h3>
+            <p>The reading leans on &ldquo;was 0.2%&rdquo; being read under 14%. If it is skipped, the before moves into the headline; if that is skipped, the card is asking for attention the incident does not have, and the figure belongs on the row of the service it is about.</p>
+          </li>
+          <li>
+            <h3>Does the plan reassure, or delay?</h3>
+            <p>Six rows of &ldquo;unchanged&rdquo; are meant to make the press safe. At two in the morning they may be six rows between a developer and the fix. If so, the unchanged rows fold, and the two that change stand alone with one line saying the rest stay.</p>
+          </li>
+        </ol>
+
+        <div class="case-narrow"><div class="writing-measure">
+          <p class="dcw-compare-note">Nothing on this screen acts without a press. The version after this one would propose the rollback itself when the figures cross a line, hold the press for a person, and write down every proposal it made with the figures it made it on. That is the line between a console and an agent, and the interface for it is this screen with one more column: who decided, and whether anyone checked.</p>
+        </div></div>
+
+        <div class="case-narrow">
+        <aside class="dcw-callout">
+          <img class="dcw-callout-mark" src="../img/site/assumption-deploy-console.png" alt="" width="320" height="180" loading="lazy" decoding="async">
+          <div class="dcw-callout-body">
+            <p class="dcw-callout-h">My biggest assumption</p>
+            <p>That the five questions are the right five, and that they come in that order. They came from my own bad days on a static site with one deploy, not from a fleet of services with a team behind them. A developer who has run production may say the first question is never what is live but who is paged, or that what changed is the only question and the rest are decoration. That is the right complaint, and the first session should be spent finding out.</p>
+          </div>
+        </aside>
+
+        <div class="writing-measure dcw-close">
+          <p>The hard part of designing for a developer&rsquo;s bad day is not showing the facts. The platform has all of them. It is deciding which question each fact answers, putting the answers in the order the questions come, and making sure nothing on the screen looks like nothing.</p>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container">
+        <div class="case-narrow">
+        <figure class="dcw-scene dcw-scene--close">
+          <img src="../img/console/put-it-back.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="An illustration of a developer at a desk pressing one key with a calm expression, the monitor showing a short list of services with one row highlighted, the lamp on and the phone face down." />
+          <figcaption>Put it back, read what was decided, and go to bed.</figcaption>
+        </figure>
+        <p class="build-service">The same argument, written out: <a href="../writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.html">What does a developer need from an interface on a bad day?</a>. The account this draws on: <a href="../case-study/this-site.html">How I built this site</a>, where every incident is written up with its fix. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
+        <a class="build-next" href="dispatch-cockpit.html">
+          <span class="build-next-eyebrow">Next prototype</span>
+          <span class="build-next-title">An AI truck recommendation the dispatcher can check and overrule &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#case-studies">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

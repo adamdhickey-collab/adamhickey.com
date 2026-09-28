@@ -281,15 +281,17 @@ The same shape of carve-out COLOR.md makes for illustration, SPACING.md for
 device frames and section 6 above for artwork -- and it is the first one this
 document has needed for an *interface* rather than a picture.
 
-Twenty-eight of the twenty-nine pages here are read. A reader scrolls, and
+Twenty-eight of the thirty pages here are read. A reader scrolls, and
 motion's job is to confirm, direct or set a place quietly enough that missing
-it costs nothing. `prototype/dispatch-cockpit.html` is the exception: it is
-**operated.** Somebody presses Assign to commit a truck. A control that
-returns no feedback you can feel is a control that gets pressed twice, and on
-this page the second press lands on Undo.
+it costs nothing. The two pages under `prototype/` are the exception: they are
+**operated.** Somebody presses Assign to commit a truck, or Roll back to put
+two services back on the deploy that was healthy. A control that returns no
+feedback you can feel is a control that gets pressed twice, and on these
+pages the second press lands on Undo.
 
 **One token, and it is the press.** `--motion-press-firm: 0.96`, declared on
-`.ck` in `prototype/dispatch-cockpit.css` and spent nowhere else. The site's
+`.ck` in `prototype/dispatch-cockpit.css` and again on `.dc` in
+`prototype/deploy-console.css`, and spent nowhere else. The site's
 `--motion-press` is 0.985, which on that page's 119px Assign button is
 **1.79px over 80ms** -- below the threshold of noticing. That is the right
 answer for a case-study card and the wrong one for a button carrying a

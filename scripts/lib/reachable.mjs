@@ -2,11 +2,11 @@
  *
  * WHAT THIS IS FOR. Every browser check in scripts/ loads a page, waits for it
  * to settle, and measures what is there. That is the whole of what they see,
- * and for twenty-seven of the twenty-eight pages it is the whole of what the
- * page is. The prototype is the exception: `prototype/dispatch-cockpit.html`
- * renders its entire interesting surface from JavaScript in response to a
- * press, so the four checks were measuring its opening screen and calling that
- * the page.
+ * and for twenty-eight of the thirty pages it is the whole of what the
+ * page is. The two prototypes are the exception: `prototype/dispatch-cockpit.html`
+ * and `prototype/deploy-console.html` render their entire interesting surface
+ * from JavaScript in response to a press, so the checks would measure an
+ * opening screen and call that the page.
  *
  * Twelve things were never measured once. `.ck-why-form` and its radios, the
  * stored-reason note, the "assigned" tag, the moved-rank arrows, an open row
@@ -85,6 +85,47 @@ export const REACHABLE = {
        the rank cell and the row's own terse Undo, which this reaches too. */
     { name: 'the recommendation assigned, and the card offering Undo',
       press: ['.ck-card-act [data-assign]'] },
+  ],
+
+  /* THE SECOND PROTOTYPE, THE SAME SHAPE. prototype/deploy-console.html
+     renders its answer zone, its plan and its table from a press, exactly as
+     the cockpit does, so the same seven-state discipline applies: the three
+     situations the opening screen is not, the two things inside them a
+     press reveals, the far side of the primary action, and the dense end
+     of the table. */
+  'prototype/deploy-console.html': [
+    /* The refusal: the failed build on the caution ground, the failed tag in
+       the newest-deploy cell, and the caution-grounded status line. */
+    { name: 'a build failed, the refusal',
+      press: ['[data-scenario="failed"]'] },
+
+    /* The log under it, opened: the mono list with its marked line. */
+    { name: 'the build log opened',
+      press: ['[data-scenario="failed"]', '.dc-log-fold summary'] },
+
+    /* The reading: the white card with the dark edge on the alternate
+       ground, the figures beside their befores in the caution ink, the
+       dependency strip with a failing chip, and the failing health cells. */
+    { name: 'live, but failing: the reading',
+      press: ['[data-scenario="degraded"]'] },
+
+    /* The plan, open: every service a row, two changing and four staying. */
+    { name: 'the rollback previewed',
+      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]'] },
+
+    /* THE FAR SIDE OF THE PRIMARY ACTION. The rolled-back card with the
+       record on it and Undo where Roll back was, the rolled ground and tag
+       on two rows, and the recovering health cells. */
+    { name: 'rolled back, and the card offering Undo',
+      press: ['[data-scenario="rolled"]'] },
+
+    /* A row opened to its deploy history, with a failed deploy in it. */
+    { name: 'a service opened to its history',
+      press: ['.dc-table [data-more="api"]'] },
+
+    /* The dense end, which is the one a team would actually run. */
+    { name: 'the services at compact density',
+      press: ['[data-density="compact"]'] },
   ],
 };
 
