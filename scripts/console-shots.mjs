@@ -81,9 +81,9 @@ const SHOTS = [
        contents, square-cornered, and the figure's own radius and border
        are the only edge a reader sees. An edge captured in the file sat
        inside the figure's edge and read as two lines. */
-    /* The card keeps its own red edge in the file: on the dark ground the
-       edge is the reading, and the page draws none over it. */
-    css: '',
+    /* The padding box only: the page draws the 2px red edge on the figure
+       at the width the screen draws it. */
+    css: '.dc-fail { border: 0 !important; border-radius: 0 !important; }',
     note: '02, first frame: a refusal, on the caution ground',
   },
   {
