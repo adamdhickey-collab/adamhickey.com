@@ -44,7 +44,7 @@ const SHOTS = [
        caption's link. */
     width: 900,
     clip: ['.dc-lead'],
-    bottomOf: '.dc-vs',
+    bottomOf: '.dc-series',
     padRight: 0,
     css: '',
     note: 'the hero: a deploy that is live and failing, read rather than refused',
@@ -93,12 +93,12 @@ const SHOTS = [
        which is 7px type. At 1000 the table is about 650 wide and the frame
        prints it near its drawn size. */
     width: 1000,
-    /* THE NOTE AND THE COMPARISON, on the zone's own ground. The reading
+    /* THE TRACE AND THE TIMELINE, on the zone's own ground. The reading
        stopped being a white card on 2026-09-28 and became the cockpit's
        close call: a raised note and a table of the two deploys. The frame is
        those two with the zone's muted-light around them, so the picture
        carries its ground and the page frames it the ordinary way. */
-    clip: ['.dc-note', '.dc-vs'],
+    clip: ['.dc-trace', '.dc-series'],
     /* The actions row starts under the table, inside the bottom margin, and
        a sliver of the button came into the frame; the frame is the reading,
        so the row is hidden for the capture and the ground runs on. */
