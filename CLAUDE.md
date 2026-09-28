@@ -410,13 +410,13 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-09-28 the tree measures 6479 resting colors, 1890 state
-rules, 26350 type sizes, 15519 elements checked for a partial border on a
-curve and 275 raised surfaces, across 29 pages (the twenty-eight of the site
+unmeasured. At 2026-09-28 the tree measures 8550 resting colors, 1986 state
+rules, 34868 type sizes, 20706 elements checked for a partial border on a
+curve and 374 raised surfaces, across 30 pages (the twenty-nine of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
-`seo.mjs` leave out; **30 pages since the deploy console landed on
-2026-09-28**, and the five figures are still the 29-page set until the
-post-merge sweep of that merge is read back), plus 128 token names against 197 declarations, 6
+`seo.mjs` leave out; **30 since the deploy console landed on 2026-09-28**,
+and every one of the five moved with it), plus 128 token names against 198
+declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 10 counted claims.
 
@@ -478,9 +478,11 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 87f91bf** -- the post-merge sweep
+CI run of `checks.yml` on **`main` at 8bb54d3** -- the post-merge sweep
 rather than a run against a branch, which is the cheapest way to take one,
 since that sweep runs whether anybody reads it or not. They replace the
+2026-09-28 set of 6479 / 1890 / 26350 / 15519 / 275 at 87f91bf, the last
+29-page set, which replaced the
 2026-09-22 set of 6414 / 1878 / 26086 / 15312 / 275 at 4e5fb53, which
 replaced the earlier 2026-09-22 sets of 6409 / 1876 / 26058 / 15276 / 276
 at fc86a61 and
@@ -501,9 +503,9 @@ the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
 
-**Thirteen commits between 4e5fb53 and 87f91bf, and the sweeps of all
-thirteen were still in the Actions list.** Ten are flat, three moved a
-count, and each of the three divides:
+**Fifteen commits between 4e5fb53 and 8bb54d3, and the sweeps of all
+fifteen were still in the Actions list.** Eleven are flat, four moved a
+count, three of the four divide, and the fourth is a page:
 
 | after | resting | state rules | type sizes | curve elements | raised | names | decl |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -515,6 +517,19 @@ count, and each of the three divides:
 | #294, #295, #296 | 6447 | 1890 | 26222 | 15383 | 275 | 128 | 197 |
 | **#297** `5c9aa82` | **6479** | 1890 | **26350** | **15519** | 275 | 128 | 197 |
 | #298, #299 `87f91bf` | 6479 | 1890 | 26350 | 15519 | 275 | 128 | 197 |
+| **#300** `c648b3e` | **8550** | **1986** | **34868** | **20706** | **374** | 128 | **198** |
+| #301 `8bb54d3` | 8550 | 1986 | 34868 | 20706 | 374 | 128 | 198 |
+
+**#300 is the row to read first, because it is the one that moved the page
+count.** It added `prototype/deploy-console.html`, a second prototype with
+seven reachable states of its own in `reachable.mjs`, a fifteenth
+stylesheet declaring a 198th token, and its share of the index, the
+case studies and the articles that now link to it. Every one of the five
+moved, and none of it is itemized here: a whole page measured on eight
+fresh loads is its author's arithmetic to write, as #267's was. What this
+row is FOR is that the next stretch starts from it rather than from the
+29-page set above, and that a count read against the wrong one of those
+two would be off by a page. #301 is this ladder, and it is flat.
 
 **#291 is the smallest move a count can make, and it is the two-character
 floor.** It made the SAP figures agree everywhere, and on the SAP article's
