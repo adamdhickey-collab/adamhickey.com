@@ -94,6 +94,17 @@ export const REACHABLE = {
      press reveals, the far side of the primary action, and the dense end
      of the table. */
   'prototype/deploy-console.html': [
+    /* The empty state that leads somewhere: the first-deploy card with its
+       four facts, the map with the never-deployed node, the primary Deploy. */
+    { name: 'the first deploy, before pressing',
+      press: ['[data-scenario="first"]'] },
+
+    /* And in flight: the steps list with one done, one under way and two
+       next, the in-flight button. reach() presses and settle() returns
+       inside the first beat, so the first step is the one under way. */
+    { name: 'the first deploy in flight',
+      press: ['[data-scenario="first"]', '[data-deploy]'] },
+
     /* The refusal: the failed build on the caution ground, the failed tag in
        the newest-deploy cell, and the caution-grounded status line. */
     { name: 'a build failed, the refusal',
@@ -112,6 +123,16 @@ export const REACHABLE = {
     /* The plan, open: every service a row, two changing and four staying. */
     { name: 'the rollback previewed',
       press: ['[data-scenario="degraded"]', '.dc-read [data-plan]'] },
+
+    /* THE OTHER ENVIRONMENT. Staging on the failing situation: the same
+       commit serving at the figures production had before, and the aside
+       naming what differs. The switch is a pressed state of its own. */
+    { name: 'staging, where the same commit is fine',
+      press: ['[data-scenario="degraded"]', '[data-env="staging"]'] },
+
+    /* The table and the feed filtered to one kind of resource. */
+    { name: 'the services alone, in the table and the feed',
+      press: ['[data-kind="service"]'] },
 
     /* THE PRESS ITSELF, IN FLIGHT. Pressing the plan's button starts a
        sequence: api takes a building deploy and reads "redeploying", lands
