@@ -57,14 +57,14 @@
          since     minutes since the LIVE deploy went live; derived below
          metrics   the figures the reading card and the health cell show */
     services: [
-      { id: 'web',      type: 'static site',       runtime: 'Vite build, served from the CDN', health: '/', needs: ['api'],
+      { id: 'web',      type: 'static site',       kind: 'service', runtime: 'Vite build, served from the CDN', health: '/', needs: ['api'], at: [0, 0],
         metrics: { errors: 0.1, errorsWas: 0.1 },
         deploys: [
           { commit: '7c04e2a', msg: 'Pricing page copy',               by: 'Dana Okafor', ago: 2 * 1440 + 3 * 60, status: 'live' },
           { commit: '51b7d3f', msg: 'Move the docs link to the footer', by: 'Dana Okafor', ago: 5 * 1440,          status: 'superseded' },
           { commit: 'e02a9d7', msg: 'Sign-up form: field order',        by: 'Priya Nair',  ago: 9 * 1440,          status: 'superseded' },
         ] },
-      { id: 'api',      type: 'web service',       runtime: 'Node 22, 2 instances', health: '/healthz', needs: ['postgres', 'redis'],
+      { id: 'api',      type: 'web service',       kind: 'service', runtime: 'Node 22, 2 instances', health: '/healthz', needs: ['postgres', 'redis'], at: [0.5, 1],
         metrics: { errors: 0.2, errorsWas: 0.2, p95: 340, p95Was: 340 },
         deploys: [
           { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 4 * 60, status: 'live' },
@@ -77,7 +77,7 @@
             fail: { stage: 'build', step: 3, of: 4, cmd: 'npm run build', line: 'src/billing/pdf.ts(12,3): error TS2304: Cannot find name ‘PageSize’.' } },
           { commit: 'c4d81e6', msg: 'Rate limit per account',           by: 'Priya Nair',  ago: 14 * 1440,         status: 'superseded' },
         ] },
-      { id: 'worker',   type: 'background worker', runtime: 'Node 22, 1 instance', health: null, needs: ['api', 'redis', 'postgres'],
+      { id: 'worker',   type: 'background worker', kind: 'service', runtime: 'Node 22, 1 instance', health: null, needs: ['api', 'redis', 'postgres'], at: [1, 0],
         metrics: { failedJobs: 0, failedJobsWas: 0 },
         deploys: [
           { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 4 * 60, status: 'live' },
@@ -86,11 +86,20 @@
       /* THE EMPTY STATE, ON PURPOSE. A cron job that has never deployed is
          not a problem and not nothing: it is a service with a schedule and
          no history, and the row has to say which of those it is. */
-      { id: 'nightly-report', type: 'cron job',   runtime: 'Node 22, runs at 3:00 am daily', health: null, needs: ['postgres'],
-        deploys: [] },
-      { id: 'postgres', type: 'database',         runtime: 'Postgres 16, 4 months old, backed up nightly at 2:00 am', health: null, needs: [],
+      { id: 'nightly-report', type: 'cron job',   kind: 'job', runtime: 'Node 22, runs at 3:00 am daily', health: null, needs: ['postgres'], at: [2, 0],
+        deploys: [],
+        /* WHAT A FIRST DEPLOY NEEDS, and where each thing came from. Three of
+           the four are read from the repository; the schedule was set when
+           the job was created. The one thing a platform cannot read is what
+           the first run will do, which is why "Run now" is offered after. */
+        first: {
+          commit: '9f3e1a2', msg: 'First report job', by: 'Priya Nair',
+          build: 'npm run build', start: 'node report.js', schedule: '3:00 am daily',
+          steps: ['Cloning northlake-app at 9f3e1a2', 'Installing dependencies', 'Building', 'Scheduling for 3:00 am daily'],
+        } },
+      { id: 'postgres', type: 'database',         kind: 'datastore', runtime: 'Postgres 16, 4 months old, backed up nightly at 2:00 am', health: null, needs: [], at: [1.5, 2],
         deploys: null },
-      { id: 'redis',    type: 'key value',        runtime: 'Redis 7, 4 months old', health: null, needs: [],
+      { id: 'redis',    type: 'key value',        kind: 'datastore', runtime: 'Redis 7, 4 months old', health: null, needs: [], at: [0.5, 2],
         deploys: null },
     ],
 
@@ -102,8 +111,15 @@
       {
         id: 'live',
         tab: 'All live',
-        blurb: 'Nothing is wrong. Six services, five of them serving, one that has never deployed. The screen still has to answer the first question, what is live right now, without being asked, because this is the screen a developer opens before they know whether anything is wrong.',
+        blurb: 'Nothing is wrong. Six services: three serving, two provisioned, one that has never deployed. The screen still has to answer the first question, what is live right now, without being asked, because this is the screen a developer opens before they know whether anything is wrong.',
         focus: null,
+        patch: {},
+      },
+      {
+        id: 'first',
+        tab: 'First deploy',
+        blurb: 'A cron job was created and has never deployed. Nothing is wrong; nothing has happened yet. The screen says what a first deploy needs, where each thing came from, and what the first run will do, then does it in order.',
+        focus: 'nightly-report',
         patch: {},
       },
       {
@@ -149,7 +165,21 @@
                 fail: { stage: 'build', step: 3, of: 4, cmd: 'npm run build', line: 'src/billing/pdf.ts(12,3): error TS2304: Cannot find name ‘PageSize’.' } },
             ],
           },
+          /* THE SECOND KIND OF FAILURE, on the same push. worker built, started,
+             and exited before it did any work: a failed deploy that is not a
+             build error, told apart in the table, the events and the row. */
+          worker: {
+            deploys: [
+              { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 13, status: 'failed',
+                fail: { stage: 'start', step: 4, of: 4, cmd: 'node worker.js', line: 'Error: TAX_SERVICE_URL is not set. Exited with code 1 after 20 s; the live deploy keeps running.' } },
+              { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 4 * 60, status: 'live' },
+              { commit: 'c4d81e6', msg: 'Rate limit per account',           by: 'Priya Nair',  ago: 14 * 1440,         status: 'superseded' },
+            ],
+          },
         },
+        events: [
+          { ago: 18, svc: 'api', kind: 'note', text: 'push by Priya Nair, 2 commits' },
+        ],
       },
       {
         id: 'degraded',
@@ -157,6 +187,7 @@
         blurb: 'The deploy succeeded and is serving, and the errors started when it did. This is not a refusal; the platform has nothing to refuse. It is a reading: the figures since the deploy, beside the figures before it, and the one action that would put them back.',
         focus: 'api',
         patch: DEGRADED_PATCH(),
+        events: DEGRADED_EVENTS(),
       },
       {
         id: 'rolled',
@@ -164,6 +195,7 @@
         blurb: 'The developer has already rolled api and worker back to the deploy that was healthy. This is what the screen owes them next: the record of who decided, on which figures, and the way to undo it.',
         focus: 'api',
         patch: DEGRADED_PATCH(),
+        events: DEGRADED_EVENTS(),
         then: (api) => api.rollback(['api', 'worker']),
       },
     ],
@@ -171,6 +203,40 @@
     /* What the plan panel says the rollback does with the answer. */
     whatHappens: 'Each service redeploys the older commit from the build it already has, in dependency order: api first, then worker. About forty seconds each. The newer commit stays in the history and can be deployed again. The rollback is recorded with who pressed it and the figures on this screen.',
   };
+
+  /* What the figures did, as events: the two lines a metric writes into the
+     feed when it crosses a line. The deploys write their own. */
+  function DEGRADED_EVENTS() {
+    return [
+      { ago: 9, svc: 'api',    kind: 'alert', text: 'error rate crossed 5% (now 14%)' },
+      { ago: 8, svc: 'worker', kind: 'alert', text: '10 jobs failed in 3 min (now 41)' },
+    ];
+  }
+
+  /* STAGING. The same project in its other environment, where the commit
+     that is failing on production has served for two hours with the figures
+     production had before. The difference is what production calls that
+     staging does not, and the zone says so: it is the one clue on the
+     screen that points past the deploy. In the situations where nothing
+     has moved on production, staging mirrors it. */
+  function STAGING_PATCH() {
+    return {
+      api: {
+        metrics: { errors: 0.3, errorsWas: 0.3, p95: 360, p95Was: 360 },
+        deploys: [
+          { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 2 * 60 + 5, status: 'live' },
+          { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 5 * 60, status: 'superseded' },
+        ],
+      },
+      worker: {
+        metrics: { failedJobs: 0, failedJobsWas: 0 },
+        deploys: [
+          { commit: 'a3f9c1e', msg: 'Move invoice totals to the tax service', by: 'Priya Nair', ago: 2 * 60 + 4, status: 'live' },
+          { commit: '7e1b2c9', msg: 'Retry on a redis timeout',         by: 'Priya Nair',  ago: 6 * 1440 + 5 * 60, status: 'superseded' },
+        ],
+      },
+    };
+  }
 
   /* The "live, but failing" services, used by two situations. A function
      rather than an object so each situation gets its own copy and the
@@ -233,8 +299,10 @@
     sortUp:   '<path d="m8 14 4-4 4 4"/>',
     arrow:    '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
     dash:     '<path d="M5 12h14"/>',
+    play:     '<path d="m6 3 14 9-14 9V3z"/>',
+    circle:   '<circle cx="12" cy="12" r="9"/>',
   };
-  const TAB_ICON = { live: 'checkCircle', failed: 'ban', degraded: 'alert', rolled: 'undo' };
+  const TAB_ICON = { live: 'checkCircle', first: 'play', failed: 'ban', degraded: 'alert', rolled: 'undo' };
   const icon = (name, cls = 'dc-icon') =>
     `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name]}</svg>`;
 
@@ -270,6 +338,9 @@
     plan: null,           /* { ids } while the rollback preview is open */
     rolling: null,        /* { ids, from, to, on, at: index of the service redeploying } while one is in flight */
     rolled: null,         /* { ids, from, to, at, on } once a rollback is made */
+    first: null,          /* { step, done, ran } while and after the first deploy */
+    env: 'production',    /* production | staging */
+    kind: 'all',          /* all | service | datastore | job: the table's and the feed's filter */
     retried: false,       /* the failed build's retry was pressed */
     armed: 0,             /* when the reader last pressed Roll back */
     open: new Set(),      /* service ids whose row is expanded */
@@ -282,8 +353,10 @@
   /* The services as this situation sees them: the base list, each patched,
      each deploy history copied so a rollback can be written into it. */
   function buildServices(scenario) {
+    const staging = STAGING_PATCH();
+    const moved = ['failed', 'degraded', 'rolled'].includes(scenario.id);
     return DATA.services.map((s) => {
-      const p = scenario.patch[s.id] || {};
+      const p = state.env === 'staging' && moved ? (staging[s.id] || {}) : (scenario.patch[s.id] || {});
       const deploys = (p.deploys || s.deploys);
       return {
         ...s,
@@ -317,6 +390,11 @@
     if (!s.deploys) return { state: 'none', word: 'provisioned' };
     if (!s.deploys.length) return { state: 'none', word: 'never deployed' };
     const n = newest(s);
+    if (n && n.first && n.status === 'live') {
+      return state.first && state.first.ran
+        ? { state: 'ok', word: 'ok', fig: 'ran just now, 4 s' }
+        : { state: 'ok', word: 'scheduled', fig: 'first run at 3:00 am' };
+    }
     if (n && n.status === 'building') return { state: 'building', word: 'redeploying', fig: `${n.commit}, about 40 s` };
     const m = s.metrics || {};
     /* A service whose live deploy is a rollback is recovering, whether the
@@ -361,14 +439,66 @@
       .sort((a, b) => a.d.ago - b.d.ago)[0];
     const lastWord = last ? `${last.s.id}, ${ago(last.d.ago)}${last.d.status === 'failed' ? ', failed' : last.d.status === 'building' ? ', building' : ''}` : 'none';
     $('.dc-project', root).innerHTML = `
-      <p class="dc-project-id"><span class="dc-label">Project</span> ${esc(p.name)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(p.env)}</p>
+      <div class="dc-project-head">
+        <p class="dc-project-id"><span class="dc-label">Project</span> ${esc(p.name)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(state.env)}</p>
+        <div class="dc-env" role="group" aria-label="Environment">
+          <button type="button" class="dc-density-btn" data-env="production" aria-pressed="${state.env === 'production'}">Production</button>
+          <button type="button" class="dc-density-btn" data-env="staging" aria-pressed="${state.env === 'staging'}">Staging</button>
+        </div>
+      </div>
       <dl class="dc-project-facts">
         <div><dt>${icon('boxes')}Services</dt><dd>${serving} of ${state.services.length} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
         <div><dt>${icon('commit')}Last deploy</dt><dd>${esc(lastWord)}</dd></div>
         <div><dt>${icon('pin')}Region</dt><dd>${esc(p.region)}</dd></div>
         <div><dt>${icon('clock')}Now</dt><dd>${clock(p.nowMin)}</dd></div>
-      </dl>`;
+      </dl>
+      ${renderMap()}`;
+    drawMap();
   }
+
+  /* THE PROJECT AS A MAP. Six services in three rows, each a button that
+     opens the service's row, with its health word beside its name, and the
+     lines between them drawn from `needs`: a caller above the thing it
+     calls, the line running down. This is the project-level view -- how
+     the services connect, at a glance -- and the words on the chips, the
+     row and the card stay the service-level view; the two answer different
+     questions. Positions are authored on the data, because six nodes want
+     a hand-placed drawing and not a layout algorithm. The lines are drawn
+     after layout from the nodes' own boxes, so a resize redraws them. */
+  function renderMap() {
+    const nodes = state.services.map((s) => {
+      const h = health(s);
+      return `<button type="button" class="dc-node" data-more="${esc(s.id)}" data-focus="map:${esc(s.id)}" data-health="${h.state}" style="--x:${s.at[0]};--y:${s.at[1]}" aria-label="${esc(s.id)}, ${esc(h.word)}; open its history">${esc(s.id)}<span class="dc-node-h">${esc(h.word)}</span></button>`;
+    }).join('');
+    return `<div class="dc-project-map">
+      <h4 class="dc-h">How the services connect</h4>
+      <div class="dc-map"><svg class="dc-map-lines" aria-hidden="true" focusable="false"></svg>${nodes}</div>
+    </div>`;
+  }
+  function drawMap() {
+    const map = $('.dc-map', root);
+    if (!map) return;
+    const svg = map.querySelector('.dc-map-lines');
+    const box = map.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    const rect = (id) => { const el = map.querySelector(`[data-more="${id}"]`); const r = el.getBoundingClientRect(); return { x: r.x - box.x, y: r.y - box.y, w: r.width, h: r.height }; };
+    let d = '';
+    for (const s of state.services) {
+      const a = rect(s.id);
+      for (const id of s.needs) {
+        const b = rect(id);
+        const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y;
+        const my = (y1 + y2) / 2;
+        /* The line into a failing service takes the caution ink: it is the
+           line a caller's own trouble runs along. A line out of a failing
+           service would paint the datastores it calls as suspects. */
+        const failing = health(service(id)).state === 'failing';
+        d += `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} C${x1.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}"${failing ? ' class="is-failing"' : ''}/>`;
+      }
+    }
+    svg.innerHTML = d;
+  }
+  window.addEventListener('resize', drawMap);
 
   /* A figure: the value large, the label under it, and what it was before
      the change beside it where there is a before. The count is charcoal and
@@ -460,6 +590,32 @@
     const s = sc.focus ? service(sc.focus) : null;
     let html = '';
 
+    if (state.env === 'staging') {
+      const api = service('api'), worker = service('worker');
+      const moved = ['failed', 'degraded', 'rolled'].includes(sc.id);
+      html = `<div class="dc-lead" data-tone="ok">
+        <p class="dc-lead-kicker dc-label">Staging</p>
+        <h3 class="dc-answer-h">${moved ? `Every service on staging is serving ${esc(live(api).commit)}, and has been for ${span(live(api).ago)}.` : 'Staging is serving the same commits as production.'}</h3>
+        <p class="dc-answer-dek">${moved ? `The commit that is ${sc.id === 'failed' ? 'failing to build' : 'failing'} on production built here and has served at ${pct(api.metrics.errors)} errors. What differs is not the code.` : 'Nothing has moved on production since staging last matched it.'}</p>
+        <div class="dc-pair">
+          <div class="dc-card" data-enter="card:staging">
+            <p class="dc-card-head">On staging</p>
+            <div class="dc-figures">
+              ${figure(pct(api.metrics.errors), 'of api requests erroring')}
+              ${figure(msec(api.metrics.p95), 'api p95 response')}
+              ${figure(String(worker.metrics.failedJobs), 'worker jobs failed')}
+            </div>
+          </div>
+          <div class="dc-aside" data-enter="aside:staging">
+            <h4 class="dc-h">What is different on production</h4>
+            <p class="dc-aside-p">${moved ? 'The tax service. Staging calls a stub that answers in 40 ms; production calls the real one, which is timing out. Same commit, different thing on the other end of the call.' : 'Nothing that shows here. The two environments share their commits until a push moves one.'}</p>
+          </div>
+        </div>
+      </div>`;
+      box.innerHTML = html;
+      return;
+    }
+
     if (!s) {
       /* ALL LIVE. The zone still earns its place: the first question answered
          in one sentence, the last change named, the figures at rest, and the
@@ -491,6 +647,50 @@
 
     const n = newest(s), l = live(s);
 
+    if (sc.id === 'first') {
+      /* THE EMPTY STATE THAT LEADS SOMEWHERE. The row says never deployed;
+         this says what a first deploy needs, where each of those came from,
+         and what the first run will do, and then does it in order when the
+         button is pressed. Three of the four are read from the repository
+         and say so; the schedule was set by hand and says so. */
+      const f = s.first, fs = state.first;
+      const done = fs && fs.done;
+      const stepAt = fs ? fs.step : -1;
+      html = `<div class="dc-lead" data-tone="${done ? 'ok' : 'first'}">
+        <p class="dc-lead-kicker dc-label">First deploy</p>
+        <h3 class="dc-answer-h">${done
+          ? (fs.ran ? `${esc(s.id)} ran once and wrote its report. It runs at 3:00 am from now on.` : `${esc(s.id)} is live at its first deploy.`)
+          : fs ? `Deploying ${esc(s.id)} for the first time.` : `${esc(s.id)} was created and has never deployed.`}</h3>
+        <p class="dc-answer-dek">${done
+          ? (fs.ran ? `Exit 0 in 4 seconds, one report written to ${esc('postgres')}. Nothing more to set up.` : `Built from ${esc(f.commit)} and scheduled. The first run is at 3:00 am; run it now to see one succeed before then.`)
+          : fs ? `Four steps, in order. The build and start commands come from the repository; the schedule was set when the job was created.` : `Nothing is wrong; nothing has happened yet. Three of the four things it needs were read from the repository, and one was set by hand.`}</p>
+        <div class="dc-pair">
+          <div class="dc-card" data-enter="first:${esc(s.id)}">
+            <p class="dc-card-head">${done ? 'The first deploy' : 'Before the first deploy'}</p>
+            <dl class="dc-answers">
+              <div><dt>Build command</dt><dd><span class="dc-cmd">${esc(f.build)}</span> <span class="dc-answers-fine">read from package.json</span></dd></div>
+              <div><dt>Start command</dt><dd><span class="dc-cmd">${esc(f.start)}</span> <span class="dc-answers-fine">read from package.json</span></dd></div>
+              <div><dt>Schedule</dt><dd>${esc(f.schedule)} <span class="dc-answers-fine">set when the job was created</span></dd></div>
+              <div><dt>Needs</dt><dd>${esc('postgres')}, which is provisioned; its address is already in the environment.</dd></div>
+            </dl>
+            ${fs ? `<ol class="dc-steps" aria-label="The deploy, step by step">${f.steps.map((t, i) => `<li data-step="${i < stepAt ? 'done' : i === stepAt ? 'now' : 'next'}">${icon(i < stepAt ? 'checkCircle' : i === stepAt ? 'clock' : 'circle')}<span>${esc(t)}</span></li>`).join('')}</ol>` : ''}
+            <p class="dc-card-act">${done
+              ? (fs.ran ? `<button type="button" class="dc-btn dc-btn-quiet" aria-disabled="true">Ran ${icon('check')} exit 0</button>` : `<button type="button" class="dc-btn dc-btn-primary" data-run="${esc(s.id)}" data-focus="deploy">Run it now</button>`)
+              : fs ? `<button type="button" class="dc-btn dc-btn-quiet" aria-disabled="true" data-focus="deploy">Deploying&hellip;</button>`
+              : `<button type="button" class="dc-btn dc-btn-primary" data-deploy="${esc(s.id)}" data-focus="deploy">Deploy ${esc(s.id)}</button>`}</p>
+          </div>
+          <div class="dc-aside" data-enter="aside:${esc(s.id)}">
+            <h4 class="dc-h">What a first deploy cannot read</h4>
+            <p class="dc-aside-p">Whether the job does what its name says. The platform can build it and schedule it; only a run says whether the report is right. That is why the first run is offered now rather than left for 3:00 am.</p>
+            <h4 class="dc-h dc-aside-h2">What depends on it</h4>
+            ${depsStrip(s)}
+          </div>
+        </div>
+      </div>`;
+      box.innerHTML = html;
+      return;
+    }
+
     if (n && n.status === 'failed') {
       /* A BUILD FAILED. The refusal: the platform would not promote this
          deploy, and the card takes the caution ground and the caution edge
@@ -500,7 +700,7 @@
       html = `<div class="dc-lead" data-tone="failed">
         <p class="dc-lead-kicker dc-label">A build failed</p>
         <h3 class="dc-answer-h">${esc(s.id)}&rsquo;s newest deploy failed to build. The live one is still serving.</h3>
-        <p class="dc-answer-dek">Nothing is down. ${esc(l.commit)} has been live for ${span(l.ago)} and is unchanged. The push ${ago(n.ago)} never reached it.</p>
+        <p class="dc-answer-dek">Nothing is down. ${esc(l.commit)} has been live for ${span(l.ago)} and is unchanged. The push ${ago(n.ago)} never reached it. worker&rsquo;s deploy from the same push started and then exited, so it failed too; its live deploy is still running.</p>
         <div class="dc-pair">
           <div class="dc-fail" data-enter="fail:${esc(s.id)}">
             <p class="dc-fail-head">${icon('ban', 'dc-fail-glyph')}${esc(n.commit)} failed at the ${esc(f.stage)}, step ${f.step} of ${f.of}</p>
@@ -510,7 +710,7 @@
                 <ol class="dc-changes">${n.changes.map((c) => changeRow(c, 'src/billing/invoice.ts')).join('')}</ol>
                 <span class="dc-answers-fine">One of the two touches the file the error names. That is a suspect, not a verdict.</span>
               </dd></div>
-              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. Nothing changed for them.</dd></div>
+              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. worker&rsquo;s own deploy of this push failed on start, a different failure from this one; its row and the feed carry the line.</dd></div>
               <div><dt>What to do</dt><dd>Fix the build and push. The live deploy keeps serving until a new one succeeds; there is nothing to roll back, because nothing moved.${state.retried ? ' <strong>Retried once, at ' + clock(DATA.project.nowMin) + ': the same error on the same line.</strong>' : ''}</dd></div>
             </dl>
             ${logDisclosure(f.log, 'error TS2339', 'The last nine lines of the build log')}
@@ -559,7 +759,7 @@
       <p class="dc-answer-dek">${rolled
         ? `The rollback landed ${ago(DATA.project.nowMin - state.rolled.at)}, ${esc(s.id)} first and ${esc(worker.id)} after it. ${esc(state.rolled.from)} stays in the history and can be deployed again once the tax service answers.`
         : rolling
-          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the deploy that failed; they change when both have landed.`
+          ? `${esc(now)} is redeploying ${esc(state.rolling.to)} from the build it already has. ${now === s.id ? `${esc(worker.id)} goes when ${esc(s.id)} is serving again.` : `${esc(s.id)} is serving ${esc(state.rolling.to)} again.`} The figures below are still the failing deploy&rsquo;s; they change when both have landed.`
           : `${esc(n.commit)} passed its health check and is serving every request; the errors started when it went live. The deploy before it was healthy for ${span(prev.ago)}.`}</p>
       <div class="dc-pair">
         <div class="dc-read${rolled ? ' is-rolled' : ''}" data-enter="read:${esc(s.id)}">
@@ -650,6 +850,7 @@
         <p class="dc-plan-head" id="dc-plan-head" tabindex="-1">Roll ${esc(names)} back to the deploy that was healthy?</p>
         <ol class="dc-plan-list">${rows}</ol>
         <p class="dc-plan-what"><span class="dc-label">What happens:</span> ${esc(DATA.whatHappens)}</p>
+        <p class="dc-plan-cmd"><span class="dc-label">The same, from a terminal:</span> <span class="dc-cmd">deploy rollback ${esc(ids.join(' '))} --to ${esc(previous(service(ids[0])).commit)}</span></p>
         <p class="dc-plan-act">
           <button type="submit" class="dc-btn dc-btn-primary">Roll back ${esc(names)}</button>
           <button type="button" class="dc-btn dc-btn-quiet" data-plan-close>Not now</button>
@@ -733,7 +934,7 @@
         <button type="button" class="dc-th dc-sort" data-sort="${c.key}" data-focus="sort:${c.key}">${label}${glyph}</button>
       </th>`;
     }).join('');
-    const body = rows.map((s, i) => {
+    const body = rows.filter((s) => state.kind === 'all' || s.kind === state.kind).map((s, i) => {
       const cls = ['dc-row'];
       const n = newest(s), l = live(s), h = health(s);
       if (state.scenario.focus === s.id) cls.push('is-focus');
@@ -771,6 +972,53 @@
     for (const b of wrap.querySelectorAll('[data-density]')) {
       b.setAttribute('aria-pressed', String(b.dataset.density === state.density));
     }
+    for (const b of root.querySelectorAll('[data-kind]')) {
+      b.setAttribute('aria-pressed', String(b.dataset.kind === state.kind));
+    }
+  }
+
+  /* WHAT HAPPENED, NEWEST FIRST, ACROSS THE PROJECT. Every deploy writes its
+     own event -- went live, failed, rolled back, first deploy -- and a
+     situation adds the lines a metric writes when it crosses a line. One
+     feed for the project rather than a tab per service, filtered by the
+     same resource control as the table, which is the observability the
+     five questions ask for in one place: what changed, in order. */
+  function events() {
+    const out = [];
+    for (const s of state.services) {
+      if (state.kind !== 'all' && s.kind !== state.kind) continue;
+      for (const d of s.deploys || []) {
+        if (d.status === 'building') out.push({ ago: d.ago, svc: s.id, kind: 'building', text: `${d.commit} redeploying` });
+        else if (d.rollback) out.push({ ago: d.ago, svc: s.id, kind: 'undo', text: `rolled back to ${d.commit} by you` });
+        else if (d.first) out.push({ ago: d.ago, svc: s.id, kind: 'play', text: `${d.commit} built and scheduled, the first deploy` });
+        else if (d.status === 'failed') out.push({ ago: d.ago, svc: s.id, kind: 'ban', text: `${d.commit} failed at the ${d.fail.stage}` });
+        else out.push({ ago: d.ago, svc: s.id, kind: 'checkCircle', text: `${d.commit} went live` });
+      }
+      if (s.first && state.first && state.first.ran) out.push({ ago: 0, svc: s.id, kind: 'checkCircle', text: 'ran once: exit 0 in 4 s' });
+    }
+    for (const e of state.scenario.events || []) {
+      if (state.env === 'staging') continue;
+      const s = service(e.svc);
+      if (state.kind !== 'all' && s && s.kind !== state.kind) continue;
+      out.push({ ago: e.ago, svc: e.svc, kind: e.kind === 'alert' ? 'alert' : 'info', text: e.text });
+    }
+    return out.sort((a, b) => a.ago - b.ago).slice(0, 8);
+  }
+  function renderEvents() {
+    const box = $('.dc-events', root);
+    if (!box) return;
+    const list = events();
+    /* An empty feed says why it is empty. Datastores are provisioned, not
+       deployed, so a feed filtered to them has nothing to show, and a blank
+       list there would be the thing this page argues against. */
+    const EMPTY = { datastore: 'Nothing here: datastores are provisioned rather than deployed, and write no events.', job: 'Nothing yet: the job has never deployed.', service: 'Nothing has happened to the services yet.', all: 'Nothing has happened yet.' };
+    if (!list.length) { box.innerHTML = `<h4 class="dc-h dc-events-h">What happened, newest first</h4><p class="dc-events-empty">${EMPTY[state.kind]}</p>`; return; }
+    box.innerHTML = `<h4 class="dc-h dc-events-h">What happened, newest first</h4>
+      <ol class="dc-event-list">${list.map((e) => `<li class="dc-event" data-kind="${e.kind}">
+        <span class="dc-event-when">${e.ago < 1 ? 'just now' : ago(e.ago)}</span>
+        <span class="dc-event-svc">${esc(e.svc)}</span>
+        <span class="dc-event-what">${icon(e.kind === 'building' ? 'clock' : e.kind)}${esc(e.text)}</span>
+      </li>`).join('')}</ol>`;
   }
 
   /* Put the keyboard somewhere without throwing the page at it: nothing moves
@@ -928,6 +1176,7 @@
     renderAnswer();
     renderPlan();
     renderTable();
+    renderEvents();
     renderSituation();
     if (status !== undefined) renderStatus(status, tone);
     if (focusKey) keep(root.querySelector(`[data-focus="${focusKey}"]`));
@@ -940,15 +1189,17 @@
     state.scenario = scenario;
     state.services = buildServices(scenario);
     state.sort = { key: 'id', dir: 'asc' };
-    state.plan = null; state.rolled = null; state.rolling = null; state.retried = false;
-    rollGen++;
+    state.plan = null; state.rolled = null; state.rolling = null; state.retried = false; state.first = null;
+    state.env = 'production'; state.kind = 'all';
+    rollGen++; deployGen++;
     state.open = new Set();
     played.clear();
     renderTabs();
     const s = scenario.focus ? service(scenario.focus) : null;
     const n = s && newest(s);
     let status, tone;
-    if (!s) { status = 'All live: six services, five serving their live deploy, nightly-report never deployed. Nothing needs you.'; tone = 'ok'; }
+    if (!s) { status = 'All live: three services serving their live deploy, two datastores provisioned, nightly-report never deployed. Nothing needs you.'; tone = 'ok'; }
+    else if (scenario.id === 'first') { status = `First deploy: ${s.id} has never deployed. Three of the four things it needs were read from the repository.`; tone = 'note'; }
     else if (n.status === 'failed') { status = `A build failed: ${s.id}’s push ${ago(n.ago)} failed at step ${n.fail.step} of ${n.fail.of}. The live deploy is unchanged and serving.`; tone = 'refused'; }
     else { status = `Live, but failing: ${s.id} has been erroring since ${n.commit} went live ${ago(n.ago)}.`; tone = 'read'; }
     render(status, tone);
@@ -1055,6 +1306,43 @@
     if (!staged) keep(root.querySelector(`[data-focus="roll:${ids[0]}"]`));
   }
 
+  /* THE FIRST DEPLOY, IN ORDER. Four steps, each a beat, then the job is
+     live and scheduled; "Run it now" then runs it once. Staged and
+     reduced-motion readers land on the deployed state at once. */
+  let deployGen = 0;
+  function firstDeploy(id) {
+    const s = service(id);
+    if (!s || !s.first || state.first) return;
+    const f = s.first;
+    const finish = () => {
+      s.deploys.unshift({ commit: f.commit, msg: f.msg, by: f.by, ago: 0, status: 'live', first: true });
+      state.first = { step: f.steps.length, done: true, ran: false };
+      render(`${id} is live at ${f.commit}, its first deploy. First run at 3:00 am, or run it now.`, 'ok');
+      markChange([id], 'fill');
+      keep(root.querySelector('[data-focus="deploy"]'));
+    };
+    if (reduced()) { finish(); return; }
+    const gen = ++deployGen;
+    state.first = { step: 0, done: false, ran: false };
+    render(`Deploying ${id}. Shown at about forty times speed.`, 'note');
+    keep(root.querySelector('[data-focus="deploy"]'));
+    const beat = ms('--motion-enter');
+    const next = () => {
+      if (gen !== deployGen) return;
+      state.first.step += 1;
+      if (state.first.step < f.steps.length) { render(); setTimeout(next, beat); }
+      else finish();
+    };
+    setTimeout(next, beat);
+  }
+  function runNow(id) {
+    if (!state.first || !state.first.done || state.first.ran) return;
+    state.first.ran = true;
+    render(`${id} ran: exit 0 in 4 s, one report written.`, 'ok');
+    markChange([id], 'fill');
+    keep(root.querySelector('[data-focus="deploy"]'));
+  }
+
   function undo() {
     const { ids, from } = state.rolled;
     for (const id of ids) {
@@ -1082,6 +1370,28 @@
       keep(root.querySelector(`[data-scenario="${id}"]`));
       return;
     }
+    if (e.target.closest('[aria-disabled="true"]')) return;
+    const env = e.target.closest('[data-env]');
+    if (env) {
+      if (env.dataset.env === state.env) return;
+      state.env = env.dataset.env;
+      state.services = buildServices(state.scenario);
+      state.plan = null; state.rolled = null; state.rolling = null; state.first = null;
+      rollGen++; deployGen++;
+      const api = service('api');
+      render(state.env === 'staging'
+        ? `Staging: every service is serving ${live(api).commit}, ${span(live(api).ago)}, at ${pct(api.metrics.errors)} errors.`
+        : 'Production.', 'note');
+      keep(root.querySelector(`[data-env="${state.env}"]`));
+      return;
+    }
+    const kind = e.target.closest('[data-kind]');
+    if (kind) {
+      state.kind = kind.dataset.kind;
+      flipRows(() => { renderTable(); renderEvents(); });
+      keep(root.querySelector(`[data-kind="${state.kind}"]`));
+      return;
+    }
     const density = e.target.closest('[data-density]');
     if (density) {
       state.density = density.dataset.density;
@@ -1091,11 +1401,19 @@
     const more = e.target.closest('[data-more]');
     if (more) {
       const id = more.dataset.more;
-      const opening = !state.open.has(id);
-      flash(root.querySelector(`[data-more="${id}"] .dc-row-chev`), 'data-turn', opening ? 'open' : 'close');
+      const fromMap = more.classList.contains('dc-node');
+      const opening = fromMap ? true : !state.open.has(id);
+      if (fromMap && state.open.has(id)) { keep(root.querySelector(`.dc-table [data-more="${id}"]`)); return; }
+      flash(root.querySelector(`.dc-table [data-more="${id}"] .dc-row-chev`), 'data-turn', opening ? 'open' : 'close');
       drawer(id, opening);
+      /* From the map, the row is the destination: open it and go there. */
+      if (fromMap) keep(root.querySelector(`.dc-table [data-more="${id}"]`));
       return;
     }
+    const dep = e.target.closest('[data-deploy]');
+    if (dep) { firstDeploy(dep.dataset.deploy); return; }
+    const run = e.target.closest('[data-run]');
+    if (run) { runNow(run.dataset.run); return; }
     const sort = e.target.closest('[data-sort]');
     if (sort) {
       const k = sort.dataset.sort;

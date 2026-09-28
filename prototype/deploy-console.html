@@ -12,12 +12,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A failed deploy the developer can read in one place and put back in one press | Adam Hickey</title>
-  <meta name="description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided." />
+  <meta name="description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: the whole journey from the screen a developer opens before anything is wrong, through a first deploy, a failed build and a deploy that is live and failing, to a rollback previewed as a coordinated act; what is live kept apart from what is newest, a map of how the services connect, a project-level feed of what happened filterable by environment and resource, and a record of who decided." />
   <link rel="canonical" href="https://adamhickey.com/prototype/deploy-console.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/prototype/deploy-console.html" />
   <meta property="og:title" content="A failed deploy the developer can read in one place and put back in one press | Adam Hickey" />
-  <meta property="og:description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided." />
+  <meta property="og:description" content="A self-directed prototype of a multi-service deploy console, on synthetic data: the whole journey from the screen a developer opens before anything is wrong, through a first deploy, a failed build and a deploy that is live and failing, to a rollback previewed as a coordinated act; what is live kept apart from what is newest, a map of how the services connect, a project-level feed of what happened filterable by environment and resource, and a record of who decided." />
   <meta property="og:image" content="https://adamhickey.com/img/og/deploy-console.jpg?v=4" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -35,7 +35,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/prototype/deploy-console.html#article",
           "headline": "A failed deploy the developer can read in one place and put back in one press",
-          "description": "A self-directed prototype of a multi-service deploy console, on synthetic data: what is live and what is newest kept apart, a failed build gathered into what failed, what changed, what depends on it and the one thing to do, a deploy that is live and failing read beside the deploy before it, and a rollback previewed as a coordinated act with a way back and a record of who decided.",
+          "description": "A self-directed prototype of a multi-service deploy console, on synthetic data: the whole journey from the screen a developer opens before anything is wrong, through a first deploy, a failed build and a deploy that is live and failing, to a rollback previewed as a coordinated act; what is live kept apart from what is newest, a map of how the services connect, a project-level feed of what happened filterable by environment and resource, and a record of who decided.",
           "url": "https://adamhickey.com/prototype/deploy-console.html",
           "mainEntityOfPage": "https://adamhickey.com/prototype/deploy-console.html",
           "image": "https://adamhickey.com/img/og/deploy-console.jpg?v=4",
@@ -73,7 +73,15 @@
             },
             {
               "@type": "Thing",
-              "name": "Deployment and rollback"
+              "name": "Coordinated rollback"
+            },
+            {
+              "@type": "Thing",
+              "name": "Multi-service systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "First-run experience"
             }
           ],
           "inLanguage": "en"
@@ -121,7 +129,7 @@
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=9" />
+  <link rel="stylesheet" href="deploy-console.css?v=12" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -140,7 +148,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The console. Deferred, no dependencies, no build step; the synthetic
        project is the object at the top of the file. -->
-  <script src="deploy-console.js?v=8" defer></script>
+  <script src="deploy-console.js?v=13" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -246,7 +254,7 @@
       <div class="container">
         <div class="dcw-hero-grid">
           <div class="dcw-hero-copy">
-            <p class="case-kicker">Developer tools &middot; working prototype &middot; synthetic data</p>
+            <p class="case-kicker">Multi-service deploy console &middot; working prototype &middot; synthetic data</p>
             <h1 class="case-title dcw-hero-title">A failed deploy the developer can read in one place and put back in one press</h1>
             <p class="dcw-hero-dek">Something broke in a project of six services. The screen answers the five questions in the order they come.</p>
             <!-- The four things the prototype does, as the cockpit's hero
@@ -269,7 +277,7 @@
             <div class="dcw-scroll">
               <img src="../img/console/live-failing.webp?v=4" width="1640" height="1934" alt="The console on a deploy that is live and failing: a heading reading &ldquo;api is live, and failing since the deploy 12 min ago&rdquo;, then a white card with three figures, 14% of api requests erroring against a smaller &ldquo;was 0.2%&rdquo;, a p95 of 2.8 s against 340 ms, and 41 worker jobs failed against 0. Under the figures, what changed, one commit, what depends on it in a sentence, and what to do, then a sage button reading &ldquo;Roll back api and worker&rdquo;. Beside the card, a panel headed &ldquo;The last good deploy&rdquo; with its commit, how long it was live and its error rate, and under it &ldquo;What depends on it&rdquo; as a row of chips, web ok and worker failing." />
             </div>
-            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since, beside the figures before; the one commit; what it touches; and the one action, asked for. <a class="dcw-full" href="../img/console/live-failing.webp?v=4">Full size &#8599;<span class="visually-hidden">, live but failing</span></a></figcaption>
+            <figcaption><strong>When the deploy succeeded and the errors started, the screen reads rather than refuses.</strong> The figures since the deploy beside the figures before it, the one commit, what depends on it, and the one action, asked for rather than taken. <a class="dcw-full" href="../img/console/live-failing.webp?v=4">Full size &#8599;<span class="visually-hidden">, live but failing</span></a></figcaption>
           </figure>
         </div>
         <dl class="build-facts dcw-facts">
@@ -280,7 +288,7 @@
           <div><dt>Context</dt><dd>Self-directed, on synthetic data, informed by shipping <a href="../case-study/this-site.html">this site through its own checks</a> and by the operations floors in the case studies. Not built for or with any platform.</dd></div>
           <div><dt>Next</dt><dd>Put it in front of developers who have been on call. Then let it propose the rollback itself, and find out whether anyone still reads the figures.</dd></div>
         </dl>
-        <p class="dcw-facts-note">Not a reproduction of any product, and not yet tested with a developer. The project, its services, commits, authors, logs and figures are invented. I run a branch, a commit, the checks and a static deploy every day; cloud infrastructure across many services is the part I have read and not run.</p>
+        <p class="dcw-facts-note">Not a reproduction of any product, and not yet tested with a developer. The project, its services, commits, authors, logs and figures are invented. I ship through a branch, a commit, the checks and a static deploy every day; cloud infrastructure across many services is the part I have read about and not run.</p>
       </div>
     </header>
 
@@ -292,7 +300,7 @@
         <div class="case-narrow">
           <div class="writing-measure">
             <h2>The screens a developer opens most are the ones that open when something broke</h2>
-            <p>A developer with six services gets a message that a deploy failed, or no message and a customer. The platform has every fact: which commit is serving, which was pushed, what the build said, what the health check saw, which service calls which. As two lists and a log, those facts are a puzzle with the picture missing, and the developer reconstructs the story by hand at the moment they have the least attention for it.</p>
+            <p>A developer with six services gets a message that a deploy failed, or no message and a customer. The platform has every fact: which commit is serving, which was pushed, what the build said, what the health check saw, which service calls which. Shown as two lists and a log, those facts are a puzzle with no picture on the box, and the developer reassembles the story by hand at the moment they have the least attention to spare.</p>
             <div class="writing-pull"><p>Failure is a first-class state, not an edge case.</p></div>
           </div>
         </div>
@@ -306,7 +314,7 @@
           <details class="dcw-more">
             <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Assumptions behind the prototype</span></summary>
             <div class="dcw-more-body">
-              <p>Assumptions, not observations: that the five questions come in one order for most developers, that six services is where stitching the picture together by hand starts to cost, and that a developer would rather see the log&rsquo;s last lines under the sentence naming the error than the whole log first. The order came from shipping this site and reading what the log said each time something failed; a developer who has carried a pager is as likely to reorder the questions as to confirm them. Six services because six fit on a screen with room to read; at sixty the table becomes a search, which is a different design.</p>
+              <p>Assumptions, not observations: that the five questions come in one order for most developers, that six services is the point where stitching the picture together by hand starts to cost time, and that a developer would rather see the log&rsquo;s last lines under the sentence naming the error than the whole log first. The order came from <a href="../case-study/this-site.html#checks">shipping this site</a> and reading what the log said each time something failed; a developer who has carried a pager is as likely to reorder the questions as to confirm them. The console shows six services because six fit on a screen with room to read; at sixty the table becomes a search, which is a different design.</p>
             </div>
           </details>
         </div>
@@ -321,13 +329,28 @@
         <div class="case-narrow">
         <div class="writing-measure">
           <h2>Try the 90-second prototype</h2>
-          <p>One project, six services, four situations. Everything is live, then a build fails, then a deploy succeeds and the errors start, then the developer has rolled it back. The screen changes shape each time, because a refusal, a reading and a record are different kinds of answer. Four scenarios, one project, with your hands on them.</p>
+          <p>One project, six services, five situations: the whole journey, from the screen a developer opens before anything is wrong, through a first deploy, a build that fails and a deploy that succeeds and errors, to a rollback. The screen changes shape each time, because an empty state, a refusal, a reading and a record are different kinds of answer.</p>
+          <!-- THE JOURNEY, AS A FIGURE, above the console: the five situations
+               as the arc a feature has to carry -- entry, empty, failure,
+               failure, recovery -- in the writing family's flow figure, whose
+               rising bar says the further right, the more the screen has to
+               hold. The failure that refuses carries the mark. -->
+          <figure class="writing-figure">
+            <figcaption>The whole journey, in five situations</figcaption>
+            <ol class="writing-flow">
+              <li data-level="1">Entry<small>all live: what is serving, before anything is wrong</small></li>
+              <li data-level="2">Empty<small>first deploy: a job that has never run, and what it needs</small></li>
+              <li data-level="3" class="writing-flow-mark">Failure<small>a build failed: the refusal, the live deploy untouched</small></li>
+              <li data-level="4">Failure<small>live, but failing: the reading, a decision asked for</small></li>
+              <li data-level="5">Recovery<small>rolled back: in order, with a record and a way back</small></li>
+            </ol>
+          </figure>
         </div>
         <div class="dcw-try-grid">
           <div>
             <p class="dc-label">Three things to try</p>
             <ol class="build-list">
-              <li>On the failed build, find which commit touched the file the error names, then open the log.</li>
+              <li>Deploy the job that has never run, then run it once. On the failed build, find which commit touched the file the error names, then open the log.</li>
               <li>On the live-but-failing deploy, read the figures before and after, then press Roll back and read what would stay.</li>
               <li>Roll it back, read who decided and on what, then undo it. Open any service for its history.</li>
             </ol>
@@ -336,9 +359,10 @@
             <p class="dc-label">What this is</p>
             <ul class="build-list">
               <li>Designed and built by me: plain HTML, CSS and JavaScript, no framework, no build step.</li>
-              <li>Responsive and keyboard accessible, with changes announced. At 390px the table keeps four columns and folds the rest into the row.</li>
+              <li>Responsive and keyboard accessible, with changes announced. At 390px the table keeps three columns and folds the rest into the row.</li>
               <li>Synthetic data and a plain script, not a platform. Source: <a href="deploy-console.js">deploy-console.js</a>, the project as one object at the top.</li>
-              <li>Every state decided: live against newest, the refusal on the caution ground, the reading on white, the plan with what stays, the rollback in order, Undo inert for half a second, the empty row that says why, two densities.</li>
+              <li>Built on the site&rsquo;s own system, extended rather than fought: one token added, and the disclosure row, the device chrome and the motion vocabulary shared with the cockpit.</li>
+              <li>Every state decided: live against newest, the map of who calls whom, the first deploy step by step, the refusal on the caution ground, the reading on white, the plan with what stays, the rollback in order, Undo inert for half a second, two densities.</li>
             </ul>
           </div>
         </div>
@@ -365,6 +389,12 @@
               <div class="dc-services">
                 <div class="dc-services-bar">
                   <h4 class="dc-h dc-services-h">Every service</h4>
+                  <div class="dc-density dc-kind" role="group" aria-label="Show">
+                    <button type="button" class="dc-density-btn" data-kind="all" aria-pressed="true">All</button>
+                    <button type="button" class="dc-density-btn" data-kind="service" aria-pressed="false">Services</button>
+                    <button type="button" class="dc-density-btn" data-kind="datastore" aria-pressed="false">Datastores</button>
+                    <button type="button" class="dc-density-btn" data-kind="job" aria-pressed="false">Jobs</button>
+                  </div>
                   <div class="dc-density" role="group" aria-label="Row height">
                     <button type="button" class="dc-density-btn" data-density="comfortable" aria-pressed="true">Comfortable</button>
                     <button type="button" class="dc-density-btn" data-density="compact" aria-pressed="false">Compact</button>
@@ -374,6 +404,9 @@
                   <table class="dc-table"></table>
                 </div>
               </div>
+              <!-- The feed: what happened across the project, newest first,
+                   written by the script from the deploys and the situation. -->
+              <div class="dc-events"></div>
             </div>
           </div>
           <noscript>
@@ -405,10 +438,10 @@
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
                   <ul class="build-list">
-                    <li><strong>&ldquo;Latest&rdquo; is the word that causes the outage call.</strong> A list sorted newest-first shows a failed deploy at the top and a developer reads it as the one serving traffic. The word live is reserved for the one that is.</li>
+                    <li><strong>&ldquo;Latest&rdquo; is the word that causes the outage call.</strong> A list sorted newest-first shows a failed deploy at the top and a developer reads it as the one serving traffic. The word &ldquo;live&rdquo; is reserved for the deploy that is serving.</li>
                     <li><strong>The first question is answered before it is asked.</strong> The project card counts what is serving, what is a datastore and what has never deployed, so &ldquo;what is going on with my system&rdquo; has one line of answer before any scrolling.</li>
                     <li><strong>An age is a fact too.</strong> Six days live with 0.2% errors is the sentence the failing deploy is measured against, and it sits beside the failure rather than in a history tab.</li>
-                    <li><strong>The empty row says why it is empty.</strong> A cron job that has never deployed reads &ldquo;never deployed&rdquo; and, one press down, &ldquo;nothing is wrong; nothing has happened yet.&rdquo; A blank there is indistinguishable from a broken screen.</li>
+                    <li><strong>The empty row says why it is empty, and leads somewhere.</strong> A cron job that has never deployed reads &ldquo;never deployed&rdquo; and, one press down, &ldquo;nothing is wrong; nothing has happened yet.&rdquo; The first-deploy situation is that row taken to its end: what the deploy needs, where each thing came from, the four steps in order, and a first run to see it succeed.</li>
                   </ul>
                 </div>
               </details>
@@ -418,7 +451,7 @@
           <li class="dcw-decision">
             <div class="dcw-decision-copy">
               <h3>Treat a refusal and a reading as different things</h3>
-              <p class="dcw-lead">A build the platform would not promote is a refusal: its own verdict, on the caution ground with the caution edge, the live deploy untouched under it. A deploy that succeeded and is erroring is a reading: nothing to refuse, so the card stays white, sets the figures since the deploy beside the figures before it, and asks for a decision. The two never share a channel.</p>
+              <p class="dcw-lead">A build the platform would not promote is a refusal: the platform&rsquo;s own verdict, set on the caution ground with the caution edge, with the live deploy untouched under it. A deploy that succeeded and is erroring is a reading: there is nothing to refuse, so the card stays white, sets the figures since the deploy beside the figures before it, and asks for a decision. The two never share a channel.</p>
               <details class="dcw-more">
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
@@ -426,7 +459,7 @@
                     <li><strong>A verdict and a doubt must not look alike.</strong> If a failed build and a rising error rate are painted the same, the reader learns that the color means nothing in particular. Caution ground is spent on one thing: a deploy the platform refused.</li>
                     <li><strong>The figure carries its before.</strong> 14% means nothing until &ldquo;was 0.2%&rdquo; sits under it. The pair is the whole sentence, and the before is in the caution ink because it is the reading, not the verdict.</li>
                     <li><strong>Correlation is stated as correlation.</strong> The errors started when the deploy did, and the commit calls a service outside the project. The card says both and lets the developer decide which one broke.</li>
-                    <li><strong>Refusal snaps; a reading arrives.</strong> The status line for a failed build appears in 80ms on its ground; the reading rises like everything else that was composed. The same rule the cockpit draws, applied to a second screen.</li>
+                    <li><strong>A refusal snaps; a reading arrives.</strong> The status line for a failed build appears at once on its ground; the reading rises in, like everything else the screen composed. The same rule the cockpit draws, applied to a second screen.</li>
                   </ul>
                 </div>
               </details>
@@ -435,9 +468,9 @@
               <ol class="dcw-frames">
                 <li class="dcw-frame--fail">
                   <div class="dcw-scroll">
-                    <img src="../img/console/failed.webp?v=5" width="1364" height="1390" loading="lazy" decoding="async" alt="A caution-outlined card on a pale caution ground, headed &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, there is nothing to roll back. A folded row offers the last nine lines of the build log and a quiet button reads &ldquo;Retry the build&rdquo;." />
+                    <img src="../img/console/failed.webp?v=6" width="1364" height="1436" loading="lazy" decoding="async" alt="A caution-outlined card on a pale caution ground, headed &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, there is nothing to roll back. A folded row offers the last nine lines of the build log and a quiet button reads &ldquo;Retry the build&rdquo;." />
                   </div>
-                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. Caution ground, the live deploy untouched, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=5">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
+                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. Caution ground, the live deploy untouched, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=6">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
                 </li>
                 <li class="dcw-frame--read">
                   <div class="dcw-scroll">
@@ -452,7 +485,7 @@
           <li class="dcw-decision">
             <div class="dcw-decision-copy">
               <h3>Gather the failure; do not make the developer reconstruct it</h3>
-              <p class="dcw-lead">One card answers what failed, what changed since it last worked, what depends on it and what to do, in that order, each with its fact: the command and the line it stopped on, the commits since the last good deploy with the one touching the named file marked as a suspect, the dependents with their health, and a sentence that ends in an action. The log is one step down, its failing line marked again.</p>
+              <p class="dcw-lead">One card answers what failed, what changed since it last worked, what depends on it and what to do, in that order, each with its fact: the command and the line it stopped on, the commits since the last good deploy with the one touching the named file marked as a suspect, the dependents with their health, and a sentence that ends in an action. The log sits one step down, with its failing line marked again.</p>
               <details class="dcw-more">
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
@@ -470,7 +503,7 @@
           <li class="dcw-decision">
             <div class="dcw-decision-copy">
               <h3>Roll back as a coordinated act, previewed, with a way back</h3>
-              <p class="dcw-lead">Rolling api back takes worker with it, because the two moved in one push and worker calls api, and the plan says so before anything moves: every service a row, the two that change with their commits, the four that stay with the reason. One press, in order, shown in order. Undo takes the button&rsquo;s place, inert for half a second. The record carries who, when, from what to what, and the figures.</p>
+              <p class="dcw-lead">Rolling api back takes worker with it, because the two moved in one push and worker calls api, and the plan says so before anything moves: every service is a row, the two that change show their commits, and the four that stay show the reason they stay. One press, in dependency order, shown in that order. Undo takes the button&rsquo;s place, inert for half a second. The record carries who decided, when, from what to what, and the figures it was decided on.</p>
               <details class="dcw-more">
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
@@ -488,21 +521,39 @@
           <li class="dcw-decision">
             <div class="dcw-decision-copy">
               <h3>Keep every service in reach, and let nothing look like nothing</h3>
-              <p class="dcw-lead">The answer zone is assistance, not the only route. Every service is a row, every column the answer read is in the table, every column sorts, every row opens on its history with the failures kept, the rows run comfortable or compact, and a row with no deploys says never deployed. If the answer zone vanished tomorrow, this would still be a deploy console.</p>
+              <p class="dcw-lead">The answer zone is assistance, not the only route. The project card draws who calls whom, and every node opens its row. Every service is a row, every column the answer read is in the table, every column sorts, every row opens on its history with the failures kept, the rows run comfortable or compact, and a row with no deploys says so and can be deployed from there. If the answer zone vanished tomorrow, this would still be a deploy console.</p>
               <details class="dcw-more">
                 <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">Why I designed it this way</span></summary>
                 <div class="dcw-more-body">
                   <ul class="build-list">
                     <li><strong>Density is a kindness when attention is short.</strong> A developer on call wants every service on one screen, not six cards with a lot of air in them. The compact end is the one a team would actually run.</li>
-                    <li><strong>Dependencies are a row of words, not a diagram.</strong> The fleet taught me that experts do not need a map of what they can recite; they need the one thing wrong in it. The strip names what a service calls and what calls it, each with its health beside it.</li>
+                    <li><strong>A diagram for the project, words for the service.</strong> How six services connect is one drawing, and it answers &ldquo;what is going on with my system&rdquo; at a glance, with the failing line in the caution ink. What one service calls and what calls it is a row of words with its health beside each, because at that level the reader wants the one thing wrong, not the shape.</li>
                     <li><strong>The history teaches.</strong> A deploy list with the failures kept in it, each with the line it failed on, is how a developer learns the shape of this project&rsquo;s bad days.</li>
-                    <li><strong>A phone gets four columns and folds the rest.</strong> The service, its newest deploy, its health and the button; everything else one press down, inside the row it belongs to.</li>
+                    <li><strong>A phone gets three columns and folds the rest.</strong> The service with its state under it, its health and the button; everything else one press down, inside the row it belongs to.</li>
                   </ul>
                 </div>
               </details>
             </div>
           </li>
         </ol>
+
+        <!-- WHAT A CRITIQUE CHANGED. The five decisions are the argument; this
+             is the method, once: what one round of critique moved on the
+             screen, kept as a fold so the page does not become a changelog. -->
+        <div class="case-narrow"><div class="writing-measure">
+          <details class="dcw-more dcw-critique">
+            <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span class="dcw-more-label">What one round of critique changed</span></summary>
+            <div class="dcw-more-body">
+              <ul class="build-list">
+                <li><strong>The button says what the plan does.</strong> It read &ldquo;Roll back api&rdquo; under a sentence saying worker goes too; one rule now names everything the plan will take, on the button, in the plan and in the status line.</li>
+                <li><strong>The plan leads with what changes.</strong> The two changing services sat under an &ldquo;unchanged&rdquo; row in project order; they sort to the top.</li>
+                <li><strong>The rollback happens in order on screen.</strong> The plan promised api first, then worker, and the press landed in one frame; the building state the data carried is shown, step by step.</li>
+                <li><strong>A row opens like a drawer.</strong> The detail appeared at full height while the rows under it were shoved down; the panel&rsquo;s height is the animation now, and the rows follow its edge.</li>
+                <li><strong>The screen stopped lecturing.</strong> Three lines of this page&rsquo;s argument had been written into the product and came out; the words that remain are the product&rsquo;s.</li>
+              </ul>
+            </div>
+          </details>
+        </div></div>
       </div>
     </section>
 
@@ -574,7 +625,7 @@
           <img src="../img/console/put-it-back.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="An illustration of a developer at a desk pressing one key with a calm expression, the monitor showing a short list of services with one row highlighted, the lamp on and the phone face down." />
           <figcaption>Put it back, read what was decided, and go to bed.</figcaption>
         </figure>
-        <p class="build-service">The same argument, written out: <a href="../writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.html">What does a developer need from an interface on a bad day?</a>. The account this draws on: <a href="../case-study/this-site.html">How I built this site</a>, where every incident is written up with its fix. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
+        <p class="build-service">The same argument, written out: <a href="../writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.html">What does a developer need from an interface on a bad day?</a> The account this draws on: <a href="../case-study/this-site.html">How I built this site</a>, where every incident is written up with its fix. If you would rather buy this as a piece of work: <a href="../engagement/working-product-prototype.html">Working Product Prototype</a>.</p>
         <a class="build-next" href="dispatch-cockpit.html">
           <span class="build-next-eyebrow">Next prototype</span>
           <span class="build-next-title">An AI truck recommendation the dispatcher can check and overrule &rarr;</span>

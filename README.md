@@ -317,8 +317,10 @@ search engine it sat under Work.
 `prototype/deploy-console.html` is the second prototype, since 2026-09-28,
 and it is the cockpit's arrangement applied to a developer's bad day: the
 problem, the live console, five decisions, what would be tested next. One
-project of six services, four situations on tabs -- all live, a build failed,
-live but failing, rolled back -- and a screen laid out in the order the five
+project of six services, five situations on tabs -- all live, a first deploy,
+a build failed, live but failing, rolled back -- a map of how the services
+connect, a feed of what happened across the project, filterable by
+environment and resource, and a screen laid out in the order the five
 questions come: what is live, what failed, what changed, what depends on it,
 can I put it back. Live is kept apart from newest on every row; a failed
 build is a refusal, on the caution ground, with the live deploy untouched
