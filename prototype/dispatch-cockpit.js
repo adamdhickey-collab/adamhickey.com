@@ -1449,9 +1449,16 @@
          does below the fold today and is the right way for this to fail. */
       }, { rootMargin: '0px 0px 4% 0px' });
     }
+    /* A SURFACE ARRIVES ONCE. A key that has played gets NOTHING on its new
+       node: an element without data-shown sits at its finished state, which
+       is the contract every keyframe here keeps, and setting the attribute
+       again on a node that did not exist a frame ago replayed the arrival
+       -- every fleet row rising and the card re-arriving on every press, so
+       that opening a row redrew the table around it. Only a key that has
+       not played is watched. Found on the deploy console, which carries
+       this function; fixed in both. */
     for (const el of root.querySelectorAll('[data-enter]')) {
-      if (played.has(el.dataset.enter)) el.setAttribute('data-shown', '');
-      else enterIO.observe(el);
+      if (!played.has(el.dataset.enter)) enterIO.observe(el);
     }
   }
 
