@@ -153,8 +153,9 @@ export const REACHABLE = {
       press: ['[data-scenario="degraded"]', '.dc-read [data-plan]', '.dc-plan-form [type="submit"]'] },
 
     /* THE FAR SIDE OF THE PRIMARY ACTION. The rolled-back card with the
-       record on it and Undo where Roll back was, the rolled ground and tag
-       on two rows, and the recovering health cells. */
+       record on it, the recovered note under it (a staged rollback lands
+       on the watched state), Undo where Roll back was, the rolled ground
+       and tag on two rows, and the health cells read from the figures. */
     { name: 'rolled back, and the card offering Undo',
       press: ['[data-scenario="rolled"]'] },
 
