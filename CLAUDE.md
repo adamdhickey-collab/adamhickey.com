@@ -414,27 +414,11 @@ unmeasured. At 2026-09-28 the tree measures 8550 resting colors, 1986 state
 rules, 34868 type sizes, 20706 elements checked for a partial border on a
 curve and 374 raised surfaces, across 30 pages (the twenty-nine of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
-`seo.mjs` leave out), plus 128 token names against 198 declarations, 6
+`seo.mjs` leave out; **30 since the deploy console landed on 2026-09-28**,
+and every one of the five moved with it), plus 128 token names against 198
+declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 10 counted claims.
-
-**That set was taken by the post-merge sweep of #300 at `c648b3e`**, the
-merge that added `prototype/deploy-console.html`, and it replaces the
-2026-09-22 set of 6414 / 1878 / 26086 / 15312 / 275 at 4e5fb53, which is
-the top row of the first ladder below. The page count moved, 29 to 30, and
-that is the number to read first. The console's own share, measured scoped
-on its branch (the rest plus 7 reachable states, so 8 fresh loads), is
-resting 2070, state rules 96, type sizes 8514, curve elements 5186 and
-raised surfaces 99, and the raised figure divides exactly: 275 + 99 is the
-374. The other four leave a residual -- resting +66, state rules +12, type
-sizes +268, curve elements +208 -- which is the drift of #287 through #299,
-thirteen commits nobody measured one at a time: the cockpit's hero dek
-became four checked lines across #297, #298 and #299, the hover rules
-moved under a pointer query in #294, and the rest retook captures or
-reworded. The 198th declaration is the console's `--dc-num`. The stretch
-is a residual and not a ladder because its sweeps were read for their
-verdicts and not their counts; the paragraph on residuals below says what
-that costs.
 
 **There are five browser numbers now, not four.** `cards.mjs` went into
 `checks.yml` on 2026-09-21 and its raised-surface count joins the sentence
@@ -462,7 +446,7 @@ every number at once.
 
 **The resting figure once moved because the instrument did, not because the
 site did**, and the account is kept because that is the exact failure the
-rest of this section exists to catch. It is the #278 row of the second
+rest of this section exists to catch. It is the #278 row of the fourth
 ladder below rather than the current figure now. #278 took the resting count from
 6010 to 6099 without touching a page:
 `resting.mjs` now measures with `prefers-reduced-motion: reduce`, and the 89
@@ -494,17 +478,21 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 4e5fb53** -- the post-merge sweep
+CI run of `checks.yml` on **`main` at 8bb54d3** -- the post-merge sweep
 rather than a run against a branch, which is the cheapest way to take one,
 since that sweep runs whether anybody reads it or not. They replace the
-earlier 2026-09-22 sets of 6409 / 1876 / 26058 / 15276 / 276 at fc86a61 and
+2026-09-28 set of 6479 / 1890 / 26350 / 15519 / 275 at 87f91bf, the last
+29-page set, which replaced the
+2026-09-22 set of 6414 / 1878 / 26086 / 15312 / 275 at 4e5fb53, which
+replaced the earlier 2026-09-22 sets of 6409 / 1876 / 26058 / 15276 / 276
+at fc86a61 and
 6371 / 1876 / 25886 / 15205 / 276 at d819fe2,
 which replaced the 2026-09-21 set of 6099 / 1874 / 24798 / 14893 / 276,
 taken the same way at
 2c783bc, which replaced the 2026-09-20 set of 5991 / 1858 / 24842 / 14749 at
 774df5e, which replaced the 2026-09-19 set of 6002 / 1859 / 24720 / 15094
 from `claude/assigned-button-ink` at d0b4be7. The set written here between
-those last two, at c680512, is not quoted again: it is a row in the fourth
+those last two, at c680512, is not quoted again: it is a row in the fifth
 ladder below, which is a better record of it than a sentence. The page count
 did not move -- 29 through all of them, which is the number to read first.
 
@@ -515,11 +503,84 @@ the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
 
+**Fifteen commits between 4e5fb53 and 8bb54d3, and the sweeps of all
+fifteen were still in the Actions list.** Eleven are flat, four moved a
+count, three of the four divide, and the fourth is a page:
+
+| after | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| #286 `4e5fb53` | 6414 | 1878 | 26086 | 15312 | 275 | 128 | 197 |
+| #287, #288, #289, #290 | 6414 | 1878 | 26086 | 15312 | 275 | 128 | 197 |
+| **#291** `8188e64` | **6413** | 1878 | 26086 | 15312 | 275 | 128 | 197 |
+| **#292** `648dc17` | **6453** | **1890** | **26246** | **15392** | 275 | 128 | 197 |
+| **#293** `c0e09ce` | **6447** | 1890 | **26222** | **15383** | 275 | 128 | 197 |
+| #294, #295, #296 | 6447 | 1890 | 26222 | 15383 | 275 | 128 | 197 |
+| **#297** `5c9aa82` | **6479** | 1890 | **26350** | **15519** | 275 | 128 | 197 |
+| #298, #299 `87f91bf` | 6479 | 1890 | 26350 | 15519 | 275 | 128 | 197 |
+| **#300** `c648b3e` | **8550** | **1986** | **34868** | **20706** | **374** | 128 | **198** |
+| #301 `8bb54d3` | 8550 | 1986 | 34868 | 20706 | 374 | 128 | 198 |
+
+**#300 is the row to read first, because it is the one that moved the page
+count.** It added `prototype/deploy-console.html`, a second prototype with
+seven reachable states of its own in `reachable.mjs`, a fifteenth
+stylesheet declaring a 198th token, and its share of the index, the
+case studies and the articles that now link to it. Every one of the five
+moved, and none of it is itemized here: a whole page measured on eight
+fresh loads is its author's arithmetic to write, as #267's was. What this
+row is FOR is that the next stretch starts from it rather than from the
+29-page set above, and that a count read against the wrong one of those
+two would be off by a page. #301 is this ladder, and it is flat.
+
+**#291 is the smallest move a count can make, and it is the two-character
+floor.** It made the SAP figures agree everywhere, and on the SAP article's
+number row that turned `>½` into `½`: the same `dt`, one character
+shorter, under the floor `resting.mjs` skips at. Type sizes held, because
+`typescale.mjs` has no floor, and curve elements held, because the element
+is still there.
+
+**#292 is four pages and a shared stylesheet, and all four of its numbers
+divide.** Each of four case studies (dispatch complexity, the Innovators
+Studio identity, SAP, USDA) gained a "How I measured this" disclosure under
+its impact table: a `details`, its `summary` holding a `span`, an `svg` and
+its `path`, a body `div` with an intro `p`, and a `dl` of N pairs, each a
+`div` with a `dt` and a `dd`. That is 8 + 3N elements a page, at N = 5, 2,
+5 and 4: 23 + 14 + 23 + 20 is the 80 curve elements. The label span, the
+intro p and the 2N of each list hold text: 12 + 6 + 12 + 10 is the 40
+resting, and 40 at 4 widths is the 160 type sizes. State rules +12 is the
+shared-stylesheet multiplier again: `.case-method-row:hover` and
+`:focus-visible` went into `case-study-base.css`, which six pages load,
+and 2 x 6 is 12.
+
+**#293 is one row of figures taken off three pages.** Lucy Learns's "18
+days on the phone" left the case study, the design system page's demo of
+that component and the working-prototype article, a `div` with a `dt` and
+a `dd` each time: 9 curve elements, 6 elements holding text (the `dt`
+"18" is two characters, so it counted), and 6 at 4 widths is the 24. The
+`0` that took its place in the design system's specimen `<pre>` is text
+inside an element that was already counted.
+
+**#297 is the cockpit's hero dek turned into a list**, one page at 8 loads:
+four `li`, each holding an `svg`, its `path` and a `span`, under one
+`ul`. 17 elements x 8 is the 136 curve elements; the four spans x 8 is the
+32 resting, and x 4 widths the 128 type sizes. The svg is `aria-hidden`,
+which `typescale.mjs` skips. No state rule was added, and #298 and #299
+changed only declarations and words on those same four lines, which is why
+the last row is flat.
+
+**#294 is worth a sentence for holding still.** It put the site's `:hover`
+rules under `@media (hover: hover) and (pointer: fine)`, and the state rule
+count came back at 1890 either side of it: a rule inside a media query is
+still a rule, and `states.mjs` still counts it. #295 recropped a capture,
+#296 moved the disclosure chevron ahead of its label (the same elements,
+reordered), #288 rewrote this section, #289 redrew two pictures, #290
+moved a margin, and #287 is the regex in `variant.mjs` the paragraph
+below promised would come back flat.
+
 **Two commits between fc86a61 and 4e5fb53, and both have pages in them.**
 #285 is the cockpit's language pass and #286 the redraw of the writing
 family against the roles. #287 landed after 4e5fb53 and is one regex in
-`variant.mjs`, which no check reads; it is not in the table, and the next
-set will show it flat.
+`variant.mjs`, which no check reads; it is the first flat row of the
+ladder above, as this paragraph said it would be.
 
 | after | resting | state rules | type sizes | curve elements | raised | names | decl |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -796,7 +857,7 @@ are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does. The three ladders above are what that looks like when the sweeps are
+does. The five ladders above are what that looks like when the sweeps are
 read back while they are still in the Actions list; the residuals under them
 are what it looks like when they are not.
 
