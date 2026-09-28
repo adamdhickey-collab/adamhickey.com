@@ -132,7 +132,7 @@
                     '==> Step 3 of 4: Building (npm run build)',
                     '    src/billing/invoice.ts(41,18): error TS2339: Property ‘taxRate’ does not exist on type ‘Invoice’.',
                     '    Found 1 error in src/billing/invoice.ts:41',
-                    '==> Build failed \u{1F622} at step 3 of 4. The live deploy (7e1b2c9) is unchanged.',
+                    '==> Build failed at step 3 of 4. The live deploy (7e1b2c9) is unchanged.',
                   ],
                 },
                 /* What changed since the last deploy that built: the commits
@@ -357,7 +357,7 @@
     $('.dc-project', root).innerHTML = `
       <p class="dc-project-id"><span class="dc-label">Project</span> ${esc(p.name)} <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(p.env)}</p>
       <dl class="dc-project-facts">
-        <div><dt>${icon('boxes')}Services</dt><dd>${state.services.length}: ${serving} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
+        <div><dt>${icon('boxes')}Services</dt><dd>${serving} of ${state.services.length} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
         <div><dt>${icon('commit')}Last deploy</dt><dd>${esc(lastWord)}</dd></div>
         <div><dt>${icon('pin')}Region</dt><dd>${esc(p.region)}</dd></div>
         <div><dt>${icon('clock')}Now</dt><dd>${clock(p.nowMin)}, every &ldquo;ago&rdquo; counts from here</dd></div>
@@ -394,8 +394,26 @@
       <span class="dc-change-who">${esc(c.by)}, ${ago(c.ago)}${c.touches ? `, touches <span class="dc-file">${esc(c.touches)}</span>` : ''}</span></span>
   </li>`;
 
+  /* WHICH SERVICES A ROLLBACK TAKES TOGETHER, decided once. Rolling api
+     back takes worker with it when the two are on the same commit and
+     worker has somewhere to go back to, because they moved in one push and
+     worker calls api. The button, the plan and the status line all read
+     this, so the press and the promise cannot disagree. */
+  function planIds(id) {
+    const s = service(id);
+    if (!s || !previous(s)) return [];
+    const ids = [id];
+    if (id === 'api') {
+      const w = service('worker');
+      if (w && live(w) && live(w).commit === live(s).commit && previous(w)) ids.push('worker');
+    }
+    return ids;
+  }
+
   /* The rollback control, wherever it appears: on the card, in a row, in an
-     open detail. `terse` is the table, where the word is the column head. */
+     open detail. `terse` is the table, where the word is the column head and
+     the button names one row; the card's button names everything the plan
+     will take. */
   function rollbackButton(s, cls = 'dc-btn', terse = false) {
     if (!s.deploys || !s.deploys.length) return '';
     if (state.rolled && state.rolled.ids.includes(s.id)) {
@@ -405,7 +423,8 @@
     }
     const prev = previous(s);
     if (!prev) return terse ? '<span class="dc-cell-note">nothing to roll back to</span>' : '';
-    return `<button type="button" class="${cls}" data-plan="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Roll back<span class="dc-btn-id${terse ? ' dc-btn-id--quiet' : ''}"> ${esc(s.id)}</span></button>`;
+    const names = terse ? s.id : planIds(s.id).join(' and ');
+    return `<button type="button" class="${cls}" data-plan="${esc(s.id)}" data-focus="roll:${esc(s.id)}">Roll back<span class="dc-btn-id${terse ? ' dc-btn-id--quiet' : ''}"> ${esc(names)}</span></button>`;
   }
 
   /* The log, folded. It is one step down from the line that names the
@@ -480,7 +499,7 @@
                 <ol class="dc-changes">${n.changes.map((c) => changeRow(c, 'src/billing/invoice.ts')).join('')}</ol>
                 <span class="dc-answers-fine">One of the two touches the file the error names. That is a suspect, not a verdict.</span>
               </dd></div>
-              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. Nothing changed for them.</dd></div>
+              <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. Nothing changed for them; the strip beside this card shows each with its own health.</dd></div>
               <div><dt>What to do</dt><dd>Fix the build and push. The live deploy keeps serving until a new one succeeds; there is nothing to roll back, because nothing moved.${state.retried ? ' <strong>Retried once, at ' + clock(DATA.project.nowMin) + ': the same error on the same line.</strong>' : ''}</dd></div>
             </dl>
             ${logDisclosure(f.log, 'error TS2339', 'The last nine lines of the build log')}
@@ -494,6 +513,8 @@
               ${figure(pct(s.metrics.errors), 'of requests erroring')}
             </div>
             <p class="dc-aside-fine">Live is a fact about traffic, not about time. The newest deploy is 14 minutes old and never served a request; this one is six days old and serves every one.</p>
+            <h4 class="dc-h dc-aside-h2">What depends on it</h4>
+            ${depsStrip(s)}
           </div>
         </div>
       </div>`;
@@ -535,7 +556,7 @@
               <ol class="dc-changes">${changes.map((c) => changeRow(c, null)).join('')}</ol>
               <span class="dc-answers-fine">One commit, deployed to ${esc(s.id)} and ${esc(worker.id)} in the same push. It sends invoice totals to a tax service outside this project, and that service is timing out.</span>
             </dd></div>
-            <div><dt>What depends on it</dt><dd>${depsStrip(s)}</dd></div>
+            <div><dt>What depends on it</dt><dd>${esc(worker.id)}, which calls ${esc(s.id)}, is ${rolled ? 'recovering with it' : 'failing jobs'}; web calls ${esc(s.id)} from the browser and its own deploy is unchanged. The strip beside this card shows each with its health.</dd></div>
             ${rolled ? `<div><dt>Who decided, and on what</dt><dd><span class="dc-record">You, at ${clock(state.rolled.at)}. ${esc(s.id)} and ${esc(worker.id)} from ${esc(state.rolled.from)} to ${esc(state.rolled.to)}, on ${esc(state.rolled.on)}.</span> Written with the deploy, for anyone to read.</dd></div>`
               : `<div><dt>What to do</dt><dd>Roll ${esc(s.id)} back to ${esc(prev.commit)}. ${esc(worker.id)} deployed from the same commit and calls ${esc(s.id)}, so it goes back with it. web, postgres and redis stay where they are. <span class="dc-answers-fine">The figures say roll back. Whether the errors are this deploy&rsquo;s is yours to judge: the tax service it calls is outside this project, and it may be the thing that broke.</span></dd></div>`}
           </dl>
@@ -552,6 +573,8 @@
           <p class="dc-aside-fine">${rolled
             ? `The commit that was rolled back is still built. Undo redeploys it in about forty seconds, in the same order.`
             : `It is already built. A rollback redeploys it in about forty seconds; nothing has to compile.`}</p>
+          <h4 class="dc-h dc-aside-h2">What depends on it</h4>
+          ${depsStrip(s)}
         </div>
       </div>
     </div>`;
@@ -583,7 +606,11 @@
     box.hidden = false;
     const ids = state.plan.ids;
     const names = ids.join(' and ');
-    const rows = state.services.map((s) => {
+    /* The two that change first, then what stays, in project order: the
+       thing being decided leads, the way the cockpit's comparison puts the
+       decisive rows at the top. */
+    const ordered = [...state.services].sort((a, b) => (ids.includes(b.id) ? 1 : 0) - (ids.includes(a.id) ? 1 : 0));
+    const rows = ordered.map((s) => {
       if (ids.includes(s.id)) {
         const from = live(s), to = previous(s);
         return `<li class="dc-plan-row" data-change="yes">
@@ -696,10 +723,17 @@
       if (n && n.status === 'failed') cls.push('is-failed');
       if (state.rolled && state.rolled.ids.includes(s.id)) cls.push('is-rolled');
       const open = state.open.has(s.id);
+      /* THE PHONE HIDES THE NEWEST-DEPLOY COLUMN, and the one thing in it a
+         phone reader must not lose is the state tag: failed, rolled back.
+         So the tag is rendered again under the service name, and the
+         stylesheet shows exactly one of the two at any width. aria-hidden on
+         the copy, so a screen reader hears the state once. */
+      const phoneTag = n && n.status === 'failed' ? `<span class="dc-tag dc-tag-failed dc-tag--phone" aria-hidden="true">${icon('ban')}failed</span>`
+        : n && n.rollback ? `<span class="dc-tag dc-tag-rolled dc-tag--phone" aria-hidden="true">rolled back</span>` : '';
       return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}" style="--i:${i}">
-        <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button></th>
+        <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneTag}</th>
         <td class="dc-cell-type">${esc(s.type)}</td>
-        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">${esc(l.msg)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
+        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
         <td class="dc-num">${l ? span(l.ago) : '<span class="dc-cell-note">—</span>'}</td>
         <td class="dc-cell-newest">${newestCell(s)}</td>
         <td class="dc-cell-health" data-health="${h.state}"><span class="dc-health-word">${h.state === 'failing' ? icon('alert') : h.state === 'ok' ? icon('checkCircle') : h.state === 'recovering' ? icon('undo') : ''}${esc(h.word)}</span>${h.fig ? `<span class="dc-cell-note">${esc(h.fig)}</span>` : ''}</td>
@@ -853,13 +887,8 @@
      moved in one push and worker calls api; the rule is written here, once,
      and the plan says it in words. */
   function plan(id) {
-    const s = service(id);
-    if (!s || !previous(s)) return;
-    const ids = [id];
-    if (id === 'api') {
-      const w = service('worker');
-      if (w && live(w) && live(w).commit === live(s).commit && previous(w)) ids.push('worker');
-    }
+    const ids = planIds(id);
+    if (!ids.length) return;
     state.plan = { ids };
     render(`Rolling back ${ids.join(' and ')} is previewed above the table: what changes, what stays, and what happens next. Nothing has moved yet.`, 'note');
     keep(root.querySelector('#dc-plan-head'));

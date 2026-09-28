@@ -1049,6 +1049,10 @@ html[data-embed] .dc { border-radius: 0; }
   color: var(--color-charcoal);
 }
 .dc .dc-aside-p strong { font-weight: var(--weight-semibold); }
+.dc .dc-aside-h2 { margin-top: var(--space-lg); }
+/* The newest-deploy tag's copy under the service name: the phone's, and
+   nowhere else. */
+.dc .dc-tag--phone { display: none; }
 .dc .dc-aside-fine {
   margin: var(--space-sm) 0 0;
   max-width: var(--measure);
@@ -1450,7 +1454,6 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-regular);
   color: var(--color-muted-gray);
 }
-.dc-table .dc-cell-live .dc-cell-note,
 .dc-table .dc-cell-newest .dc-cell-note { max-width: 10rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Health, as a word with a glyph, and the figure under it. Failing takes the
@@ -1464,8 +1467,12 @@ html[data-embed] .dc { border-radius: 0; }
   font-weight: var(--weight-semibold);
   white-space: nowrap;
 }
-.dc-table .dc-cell-health[data-health="ok"] .dc-health-word,
-.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-accent-text); }
+.dc-table .dc-cell-health[data-health="ok"] .dc-health-word { color: var(--color-accent-text); }
+/* Recovering sits on the rolled rows' muted-light, where the sage measures
+   4.6:1 against a 4.5 floor: the word takes charcoal there, 12.10, and the
+   undo glyph keeps the sage, which as a mark answers to 3:1. */
+.dc-table .dc-cell-health[data-health="recovering"] .dc-health-word { color: var(--color-charcoal); }
+.dc-table .dc-cell-health[data-health="recovering"] .dc-icon { color: var(--color-accent-text); }
 .dc-table .dc-cell-health[data-health="failing"] .dc-health-word { color: var(--color-caution-text); }
 .dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
 .dc-table .dc-cell-health[data-health="none"] .dc-health-word { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
@@ -1616,7 +1623,11 @@ html[data-embed] .dc { border-radius: 0; }
   .dc-table th:nth-child(2), .dc-table td:nth-child(2),
   .dc-table th:nth-child(3), .dc-table td:nth-child(3),
   .dc-table th:nth-child(4), .dc-table td:nth-child(4),
+  .dc-table th:nth-child(5), .dc-table td:nth-child(5),
   .dc-table th:nth-child(7), .dc-table td:nth-child(7) { display: none; }
+  /* Three columns: the service with its state tag under it, its health and
+     the button. The newest deploy's hash and age are one press down. */
+  .dc .dc-tag--phone { display: inline-flex; margin: var(--space-2xs) 0 0 var(--space-2xs); }
   .dc-table th, .dc-table td { padding-inline: 2px; }
   .dc-table tbody th:first-child, .dc-table tbody td:first-child { padding-left: var(--space-2xs); }
   .dc-table tbody th:last-child, .dc-table tbody td:last-child { padding-right: var(--space-2xs); }
@@ -1626,25 +1637,21 @@ html[data-embed] .dc { border-radius: 0; }
   .dc .dc-th { align-items: flex-start; padding-inline: var(--space-2xs); }
   .dc .dc-th-unit { display: none; }
   .dc .dc-tag { font-size: var(--text-2xs); padding: 0 var(--space-2xs); margin-left: 0; }
-  /* THE PHONE READS THE STATE, NOT THE HASH. The newest cell keeps its tag
-     -- failed, rolled back, live -- and gives up the hash and the age, and
-     the health cell keeps its word and gives up its figure; both are one
-     press down in the row. Four columns of service, state, health and the
-     button fit 277px once the furniture stops asking for 470. */
-  .dc-table .dc-cell-newest .dc-sha,
-  .dc-table .dc-cell-newest .dc-cell-note,
+  /* THE PHONE READS THE STATE, NOT THE HASH. The health cell keeps its
+     word and gives up its figure, which is one press down in the row. */
   .dc-table .dc-cell-health .dc-cell-note { display: none; }
   .dc .dc-health-word { font-size: var(--text-xs); white-space: normal; }
   /* The word alone: the glyph beside it is 16px of a 277px table, and the
      word is the channel that matters. */
   .dc .dc-health-word .dc-icon { display: none; }
   .dc .dc-tag { white-space: normal; text-align: left; }
-  /* "Roll back" and "never deployed" are each allowed two lines here, which
-     is what lets the column be the width of a word rather than of a phrase. */
-  .dc-table .dc-btn { padding-inline: var(--space-xs); white-space: normal; text-align: left; }
-  .dc-table .dc-cell-act { white-space: normal; }
-  /* The id wraps at its hyphen rather than setting the column's width. */
-  .dc .dc-row-more { gap: 2px; padding-left: var(--space-2xs); white-space: normal; font-size: var(--text-xs); overflow-wrap: anywhere; }
+  /* "never deployed" is allowed two lines; the button keeps its one. */
+  .dc-table .dc-btn { padding-inline: var(--space-xs); }
+  /* The id breaks at its hyphen and nowhere else, and the chevron wraps
+     under it when the name takes the line: a name split mid-word is a name
+     the reader has to reassemble. */
+  .dc .dc-row-more { gap: 2px; padding-left: var(--space-2xs); white-space: normal; font-size: var(--text-xs); flex-wrap: wrap; }
+  .dc-table .dc-cell-svc { white-space: normal; }
   .dc .dc-row-chev { width: 0.75rem; height: 0.75rem; }
   .dc .dc-detail { padding-inline: var(--space-sm); }
   .dc-history-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
