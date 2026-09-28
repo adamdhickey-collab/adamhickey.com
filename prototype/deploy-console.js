@@ -476,7 +476,9 @@
       <p class="dc-top-clock">${icon('clock')}<span>${clock(p.nowMin)}</span></p>`;
     const item = (glyph, label, attrs) => `<li><a class="dc-nav-item" ${attrs}>${icon(glyph)}<span>${label}</span></a></li>`;
     const off = (glyph, label) => `<li><span class="dc-nav-item" aria-disabled="true" title="In the product, not in this prototype">${icon(glyph)}<span>${label}</span></span></li>`;
-    side.innerHTML = `
+    /* The menu's contents sit in a wrapper of their own so they can stick
+       while the panel scrolls; the nav itself keeps the full-height edge. */
+    side.innerHTML = `<div class="dc-side-in">
       <p class="dc-side-back">${icon('back')}<span>${cur[1]}</span></p>
       <p class="dc-side-id">${icon(focus ? 'globe' : 'layers')}<span>${focus ? esc(focus.id) : esc(p.name)}</span></p>
       <ul class="dc-nav">
@@ -492,7 +494,8 @@
       <ul class="dc-nav">
         ${item('sliders', 'Environment', 'href="#dc-overview" data-nav="env"')}
         ${NAV_MORE.map(([g, l]) => off(g, l)).join('')}
-      </ul>`;
+      </ul>
+    </div>`;
   }
 
   /* THE PROJECT, AND THE FIRST QUESTION ANSWERED BEFORE IT IS ASKED. How

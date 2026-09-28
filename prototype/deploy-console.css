@@ -2406,6 +2406,17 @@ html[data-embed] .dc { border-radius: 0; }
 @media (hover: hover) and (pointer: fine) { .dc .disclosure-row:hover { color: var(--rd-violet-ink); background: none; } }
 .dc .dc-log-fold summary:focus-visible { outline-color: var(--rd-violet-ink); }
 
+/* THE MENU STAYS PUT. On a desktop the panel under the header runs to
+   several screens and the menu is the way around it, so its contents
+   stick under the scenario strip while the panel scrolls; the nav itself
+   stays the full height of the row, so its edge runs the whole way down.
+   The offset is the site nav, the strip and a breath, the same sum the
+   scroll margins use. Nothing between here and the page clips overflow,
+   which is what sticky needs. */
+@media (min-width: 48rem) {
+  .dc .dc-side-in { position: sticky; top: calc(var(--nav-height) + 3.875rem + var(--space-sm)); }
+}
+
 /* The narrow screen: the menu becomes a strip under the header. */
 @media (max-width: 47.99rem) {
   .dc-shell { grid-template-columns: minmax(0, 1fr); }
