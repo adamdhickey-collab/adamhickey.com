@@ -1557,7 +1557,11 @@ html[data-embed] .dc { border-radius: 0; }
 .dc-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .dc-table {
   width: 100%;
-  min-width: 60rem;
+  /* No forced minimum: the columns' own no-wrap cells set the floor, so the
+     table fits its wrapper whenever it can and scrolls only when it cannot.
+     60rem used to be forced here, and the wrapper at the container's
+     maximum is 934px, so the last column lost 26px at every width. */
+  min-width: 0;
   border-collapse: collapse;
 }
 .dc-table th,
@@ -1583,7 +1587,7 @@ html[data-embed] .dc { border-radius: 0; }
    without a sideways scroll: the type, which is a phrase, and the list of
    what a service depends on, which is a list. */
 .dc-table .dc-cell-type,
-.dc-table .dc-cell-deps { max-width: 9rem; }
+.dc-table .dc-cell-deps { max-width: 8rem; }
 .dc-table .dc-cell-act { text-align: right; white-space: nowrap; }
 @media (hover: hover) and (pointer: fine) {
   .dc-table tbody tr:not(.is-focus):not(.is-rolled):hover th,
@@ -2591,4 +2595,22 @@ html[data-embed] .dc { border-radius: 0; }
 @media (max-width: 47.99rem) {
   .dc a.dc-nav-item { position: relative; }
   .dc a.dc-nav-item::after { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, 2.75rem); height: 2.75rem; transform: translate(-50%, -50%); }
+}
+
+/* ---------- The action column stays in reach ----------
+   Between the sidebar and seven columns the table has to scroll sideways
+   from about 1290px down to 48rem, and the column that scrolled out of
+   view was the one with the button in it. The last column sticks to the
+   wrapper's right edge, on the panel so the cells it slides under do not
+   show through, with a hairline on its left where it meets them. A row's
+   own ground -- the current row's violet, a rolled row's green, the
+   pointer's -- paints these cells too, because those rules paint every
+   cell in the row. */
+.dc-table th.dc-cell-act,
+.dc-table td.dc-cell-act {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: var(--rd-panel);
+  box-shadow: -1px 0 0 var(--rd-hairline);
 }
