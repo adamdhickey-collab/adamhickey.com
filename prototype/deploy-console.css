@@ -2614,3 +2614,36 @@ html[data-embed] .dc { border-radius: 0; }
   background: var(--rd-panel);
   box-shadow: -1px 0 0 var(--rd-hairline);
 }
+
+/* ======================= THE TABLE'S TYPE, AS A HIERARCHY =================
+   One pass over the service table's type, on the fourteen steps and the
+   four weights the site already has, so the eye lands on the service
+   name, then its health, then the deploys, and the furniture stays quiet:
+
+     section head "Every service"   base  semibold
+     column headings                2xs   medium   mono caps, --tracking-label
+     service name                   base  semibold mono   (the row's anchor)
+     cell values                    sm    regular
+     deploy hash in a cell          sm    medium   mono   (readable, not loud)
+     health word                    sm    semibold        (weight and colour, not size)
+     secondary lines                xs    regular  muted  (ages, units, figures)
+     row button                     xs    medium
+
+   Comfortable keeps its row height; compact only tightens the spacing it
+   already tightened. The size of nothing here is invented: every value is
+   a step, every weight a token. ========================================= */
+.dc .dc-services-h { font-size: var(--text-base); }
+.dc-table thead th { letter-spacing: var(--tracking-label); }
+.dc .dc-th-unit { font-weight: var(--weight-regular); }
+.dc .dc-row-more { font-size: var(--text-base); }
+.dc-table tbody th, .dc-table tbody td { font-weight: var(--weight-regular); }
+.dc-table .dc-sha { font-weight: var(--weight-medium); }
+.dc .dc-row-more .dc-sha, .dc .dc-row-more { font-weight: var(--weight-semibold); }
+.dc .dc-health-word { font-weight: var(--weight-semibold); }
+.dc .dc-cell-note { font-size: var(--text-xs); font-weight: var(--weight-regular); }
+.dc-table .dc-cell-health[data-health="failing"] .dc-cell-note { font-weight: var(--weight-regular); }
+.dc table .dc-btn { font-size: var(--text-xs); font-weight: var(--weight-medium); }
+.dc .dc-services.is-compact .dc-row-more { font-size: var(--text-base); }
+@media (max-width: 47.99rem) { .dc .dc-row-more { font-size: var(--text-sm); } }
+/* A column's unit may wrap under its label; the label itself does not. */
+.dc .dc-th-unit { white-space: normal; }
