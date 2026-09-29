@@ -1222,8 +1222,8 @@
   const COLUMNS = [
     { key: 'id',      label: 'Service',      sortable: true },
     { key: 'type',    label: 'Type',         sortable: true },
-    { key: 'since',   label: 'Live',         sortable: true, unit: 'serving traffic' },
-    { key: 'newest',  label: 'Newest deploy', sortable: true, unit: 'may not be the live one' },
+    { key: 'since',   label: 'Live',         sortable: true, unit: 'serving traffic now' },
+    { key: 'newest',  label: 'Newest deploy', sortable: true, unit: 'latest push, may not be live' },
     { key: 'health',  label: 'Health',       sortable: true },
     { key: 'deps',    label: 'Depends on',   sortable: false },
     { key: 'act',     label: 'Roll back',    sortable: false, act: true },
