@@ -129,7 +129,7 @@
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="deploy-console.css?v=29" />
+  <link rel="stylesheet" href="deploy-console.css?v=30" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <!-- EMBED MODE, the cockpit's own flag on this page too. The homepage's
        prototype card opens the console in a tablet over the page, and what
@@ -148,7 +148,7 @@
   <script src="../read-aloud.js?v=3" defer></script>
   <!-- The console. Deferred, no dependencies, no build step; the synthetic
        project is the object at the top of the file. -->
-  <script src="deploy-console.js?v=25" defer></script>
+  <script src="deploy-console.js?v=26" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -468,7 +468,7 @@
                     <li><strong>&ldquo;Latest&rdquo; is the word that causes the outage call.</strong> A list sorted newest-first shows a failed deploy at the top and a developer reads it as the one serving traffic. The word &ldquo;live&rdquo; is reserved for the deploy that is serving.</li>
                     <li><strong>The first question is answered before it is asked.</strong> The project card counts what is serving, what is a datastore and what has never deployed, so &ldquo;what is going on with my system&rdquo; has one line of answer before any scrolling.</li>
                     <li><strong>An age is a fact too.</strong> Six days live with 0.2% errors is the sentence the failing deploy is measured against, and it sits beside the failure rather than in a history tab.</li>
-                    <li><strong>The empty row says why it is empty, and leads somewhere.</strong> A cron job that has never deployed reads &ldquo;never deployed&rdquo; and, one press down, &ldquo;nothing is wrong; nothing has happened yet.&rdquo; The first-deploy situation is that row taken to its end: what the deploy needs, where each thing came from, the four steps in order, and a first run to see it succeed.</li>
+                    <li><strong>The empty row says why it is empty, and leads somewhere.</strong> A cron job that has never deployed reads &ldquo;Not deployed&rdquo; with a Deploy button in its row, and, one press down, &ldquo;nothing is wrong; nothing has happened yet.&rdquo; The first-deploy situation is that row taken to its end: what the deploy needs, where each thing came from, the four steps in order, and a first run to see it succeed.</li>
                   </ul>
                 </div>
               </details>
@@ -495,9 +495,9 @@
               <ol class="dcw-frames">
                 <li class="dcw-frame--fail">
                   <div class="dcw-scroll">
-                    <img src="../img/console/failed.webp?v=12" width="1058" height="1478" loading="lazy" decoding="async" alt="A card with a red header reading &ldquo;a3f9c1e failed at the build, step 3 of 4&rdquo;, with four labeled answers under it: what failed, with the TypeScript error line in red; what changed since it last built, two commits, one marked as touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, with the build log folded under it and a button reading &ldquo;Retry the build&rdquo;." />
+                    <img src="../img/console/failed.webp?v=13" width="1058" height="1742" loading="lazy" decoding="async" alt="A card with a red header reading &ldquo;Build failed, a3f9c1e, step 3 of 4&rdquo; and, beside it, &ldquo;Production unchanged, the new build was not promoted&rdquo;; under the header two figures, 7e1b2c9 live and still serving for 6 d 4 h, a3f9c1e newest and failed 14 min ago; then four labeled answers: what stopped, with the TypeScript error kept word for word on a red rule; what changed since it last built, two commits, one tagged possible lead for touching src/billing/invoice.ts; what depends on it, web and worker, both still on the live deploy; and what to do, fix the build and push, with the build log folded under it and a quiet button reading &ldquo;Retry this commit&rdquo; beside a line saying the same build would run again." />
                   </div>
-                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. The red header, production unchanged beside it, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=12">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
+                  <p class="dcw-frame-cap"><span>A refusal</span> The platform would not promote it. The red header, production unchanged beside it, and the one thing to do. <a class="dcw-full" href="../img/console/failed.webp?v=13">Full size &#8599;<span class="visually-hidden">, the refusal</span></a></p>
                 </li>
                 <li class="dcw-frame--read">
                   <div class="dcw-scroll">

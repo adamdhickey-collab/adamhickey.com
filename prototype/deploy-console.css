@@ -2165,8 +2165,9 @@ html[data-embed] .dc { border-radius: 0; }
 @keyframes dc-card-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
 .dc-card[data-shown],
 .dc-read[data-shown],
-.dc-fail[data-shown],
 .dc-aside[data-shown] { animation: dc-card-in var(--motion-enter) var(--ease-enter); }
+/* The refusal does not arrive. A status the platform already knows does
+   not benefit from sliding into view as though it were being discovered. */
 
 @keyframes dc-row-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
 .dc-table tbody[data-shown] > tr[data-service] {
@@ -2678,3 +2679,51 @@ html[data-embed] .dc { border-radius: 0; }
   .dc-table tbody th.dc-cell-svc:first-child { padding-left: 0; }
   .dc .dc-density-l { display: none; }
 }
+
+/* ======================= THE FIRST DEPLOY AND THE REFUSAL, AFTER A CRITIQUE
+   Part 2: the never-deployed row is a state with an action, not a row of
+   muted gray; the first deploy is a readiness list, numbered vertical
+   steps and a state line while it runs; deploy success and run success
+   are two figures. Part 3: the refusal's title over a subordinate
+   production line; the error kept literal on a red rule rather than in
+   red; live against newest at the top; the suspect as a lead. ========== */
+
+/* The never-deployed row's state words take the ordinary ink. */
+.dc-table .dc-cell-live .dc-cell-text, .dc-table .dc-cell-newest .dc-cell-text { font-size: var(--text-sm); color: var(--rd-ink-2); }
+
+/* The open row and its drawer are one object: a violet edge down both. */
+.dc-table tr[data-open="true"] > th:first-child,
+.dc-table tr[data-open="true"] + .dc-row-detail > td { box-shadow: inset 2px 0 0 var(--rd-violet-ink); }
+
+/* The readiness list: a small check on the label, provenance tertiary. */
+.dc .dc-ready dt { display: inline-flex; align-items: center; gap: var(--space-2xs); }
+.dc .dc-ready dt .dc-icon { height: 1lh; color: var(--rd-green); }
+.dc .dc-ready .dc-answers-fine { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: var(--text-xs); }
+
+/* The steps: state, then a muted numeral, then the name. */
+.dc .dc-step-n { flex-shrink: 0; min-width: 1.25em; font-size: var(--text-xs); color: var(--rd-ink-muted); }
+.dc .dc-card-state { display: inline-flex; align-items: center; gap: var(--space-2xs); font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: var(--leading-ui); color: var(--rd-ink); }
+.dc .dc-card-state .dc-icon { height: 1lh; color: var(--rd-ink-2); }
+
+/* The refusal's header: the title at xl, the sub-line in the second ink,
+   and the production line medium rather than a green badge. */
+.dc .dc-fail-title { font-size: var(--text-xl); }
+.dc .dc-fail-title-sub { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--rd-ink-2); align-self: center; margin-left: var(--space-2xs); }
+.dc .dc-fail-status { font-weight: var(--weight-medium); color: var(--rd-ink-2); }
+.dc .dc-fail-status .dc-icon { color: var(--rd-green); }
+.dc-fail .dc-fail-vs { margin: var(--space-sm) 0 0; }
+.dc-fail .dc-fail-vs .dc-figure-v { font-size: var(--text-base); }
+
+/* The error, kept literal, on a rule rather than in red. */
+.dc .dc-line { color: var(--rd-ink); font-weight: var(--weight-regular); padding-left: var(--space-sm); border-left: 2px solid var(--rd-red); }
+
+/* The suspect commit: a lead. */
+.dc .dc-change.is-suspect .dc-file { color: var(--rd-ink); font-weight: var(--weight-medium); }
+.dc .dc-tag-lead { margin-left: var(--space-2xs); border-color: var(--rd-rule); background: var(--rd-raised); color: var(--rd-ink-2); font-family: var(--rd-font); font-weight: var(--weight-medium); text-transform: none; letter-spacing: var(--tracking-normal); vertical-align: 0.15em; }
+
+/* The log, recessed. */
+.dc .dc-log { padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-xl); background: var(--rd-canvas); border-radius: var(--rd-radius); }
+
+/* Retry, with its consequence beside it. */
+.dc .dc-card-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-md); }
+.dc .dc-card-act-note { max-width: var(--measure); font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--rd-ink-muted); }
