@@ -2647,3 +2647,34 @@ html[data-embed] .dc { border-radius: 0; }
 @media (max-width: 47.99rem) { .dc .dc-row-more { font-size: var(--text-sm); } }
 /* A column's unit may wrap under its label; the label itself does not. */
 .dc .dc-th-unit { white-space: normal; }
+
+/* ======================= THE TABLE, AFTER A CRITIQUE =======================
+   Five things a second reading found, each small:
+   - the Service heading sat 16px left of its values, because the cell's
+     own padding and the button's padding both applied; the cell's is off
+   - the live hash is a step heavier than the newest, so the two columns
+     stop looking identical when things are normal
+   - identifiers and hashes take the tight leading; explanatory lines keep
+     the ui leading
+   - "provisioned" and "never deployed" are states, not secondary lines,
+     so the word takes the second ink and regular weight rather than the
+     muted ink secondary lines use
+   - comfortable rows take a step more vertical room, compact a step less
+     than comfortable rather than the floor, so the two read as one system
+   The density control carries a small "View" label, since it changes how
+   the table shows and the filter beside it changes what. ================ */
+.dc-table tbody th.dc-cell-svc:first-child { padding-left: 0; }
+.dc-table .dc-cell-live .dc-sha { font-weight: var(--weight-semibold); }
+.dc-table .dc-cell-newest .dc-sha { font-weight: var(--weight-medium); }
+.dc .dc-row-more, .dc-table .dc-sha { line-height: var(--leading-tight); }
+.dc-table .dc-cell-health[data-health="none"] .dc-health-word { color: var(--rd-ink-2); font-weight: var(--weight-regular); }
+.dc-table tbody th, .dc-table tbody td { padding-block: var(--space-md); }
+.dc .dc-services.is-compact .dc-table tbody th,
+.dc .dc-services.is-compact .dc-table tbody td { padding-block: var(--space-xs); }
+.dc .dc-services.is-compact .dc-row-more { padding-block: var(--space-2xs); }
+.dc .dc-density-l { margin-right: var(--space-2xs); }
+.dc table .dc-btn { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+@media (max-width: 47.99rem) {
+  .dc-table tbody th.dc-cell-svc:first-child { padding-left: 0; }
+  .dc .dc-density-l { display: none; }
+}

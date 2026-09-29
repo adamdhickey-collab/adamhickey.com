@@ -1250,7 +1250,10 @@
       : n.status === 'building' ? `<span class="dc-tag">building</span>`
       : n.rollback ? `<span class="dc-tag dc-tag-rolled">rolled back</span>`
       : same ? '' : `<span class="dc-tag">live</span>`;
-    return `<span class="dc-sha">${esc(n.commit)}</span> ${tag}<span class="dc-cell-note">${ago(n.ago)}${same ? ', the live one' : ''}</span>`;
+    /* When the newest deploy is the live one, say so in two words rather
+       than repeating its age and adding "the live one": the age is in the
+       Live column beside it. When it is not, the tag names its state. */
+    return `<span class="dc-sha">${esc(n.commit)}</span> ${tag}<span class="dc-cell-note">${same ? 'also live' : ago(n.ago)}</span>`;
   }
 
   /* A ROW THAT CAN EXPLAIN ITSELF: the deploy history, newest first, with
@@ -1325,7 +1328,7 @@
       return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}" style="--i:${i}">
         <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneSum}</th>
         <td class="dc-cell-type">${esc(s.type)}</td>
-        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">for ${span(l.ago)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
+        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">serving for ${span(l.ago)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
         <td class="dc-cell-newest">${newestCell(s)}</td>
         <td class="dc-cell-health" data-health="${h.state}"><span class="dc-health-word">${h.state === 'failing' ? icon('alert') : h.state === 'ok' ? icon('checkCircle') : h.state === 'recovering' ? icon('undo') : ''}${esc(h.word)}</span>${h.fig ? `<span class="dc-cell-note">${esc(h.fig)}</span>` : ''}</td>
         <td class="dc-cell-deps">${s.needs.length ? s.needs.map(esc).join(', ') : '<span class="dc-cell-note">nothing</span>'}</td>
