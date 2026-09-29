@@ -478,7 +478,7 @@
      "none": nothing to probe, and the word says why in the detail. */
   function health(s) {
     if (!s.deploys) return { state: 'none', word: 'provisioned' };
-    if (!s.deploys.length) return { state: 'none', word: 'never deployed' };
+    if (!s.deploys.length) return { state: 'none', word: 'not available', fig: 'runs after the first deploy' };
     const n = newest(s);
     if (n && n.first && n.status === 'live') {
       return state.first && state.first.ran
@@ -559,6 +559,9 @@
     }
     const refused = state.services.find((s) => { const n = newest(s); return n && n.status === 'failed' && live(s); });
     if (refused) return { tone: 'green', glyph: 'checkCircle', text: `Production unchanged <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(live(refused).commit)} serving` };
+    /* The normal state says so quietly, so a chip that is missing is never
+       the signal; what is missing is an incident. */
+    if (state.services.some((s) => live(s))) return { tone: 'quiet', glyph: 'checkCircle', text: 'All services healthy' };
     return null;
   }
   const incidentChip = () => { const i = incident(); return i ? `<p class="dc-incident" data-tone="${i.tone}">${icon(i.glyph)}<span>${i.text}</span></p>` : ''; };
@@ -618,6 +621,7 @@
     const p = DATA.project;
     const serving = state.services.filter((s) => live(s)).length;
     const never = state.services.filter((s) => s.deploys && !s.deploys.length).length;
+    const failing = state.services.filter((s) => live(s) && health(s).state === 'failing').length;
     const stores = state.services.filter((s) => !s.deploys).length;
     const last = state.services
       .map((s) => ({ s, d: newest(s) }))
@@ -626,7 +630,7 @@
     const lastWord = last ? `${last.s.id}, ${ago(last.d.ago)}${last.d.status === 'failed' ? ', failed' : last.d.status === 'building' ? ', building' : ''}` : 'none';
     $('.dc-project', root).innerHTML = `
       <dl class="dc-project-facts">
-        <div><dt>${icon('boxes')}Services</dt><dd>${serving} of ${state.services.length} serving, ${stores} datastores${never ? `, ${never} never deployed` : ''}</dd></div>
+        <div><dt>${icon('boxes')}Resources</dt><dd>${state.services.length} <span class="dc-sep" aria-hidden="true">&middot;</span> ${serving - failing} serving${failing ? `, ${failing} failing` : ''}, ${stores} datastores${never ? `, ${never} not deployed` : ''}</dd></div>
         <div><dt>${icon('commit')}Last deploy</dt><dd>${esc(lastWord)}</dd></div>
         <div><dt>${icon('pin')}Region</dt><dd>${esc(p.region)}</dd></div>
         <div><dt>${icon('clock')}Now</dt><dd>${clock(p.nowMin)}</dd></div>
@@ -703,8 +707,12 @@
 
   /* One commit in a "what changed" list: the hash, the message, who and
      when, and the file the error names when this commit touched it. */
+  /* THE SUSPECT IS A LEAD, NOT A VERDICT, and its treatment says so: a
+     quiet tag, the file in the ordinary ink, and the fine line under the
+     list saying what file overlap does and does not establish. It used to
+     be a red file name, which reads as a culprit whatever the copy says. */
   const changeRow = (c, suspectFile) => `<li class="dc-change${suspectFile && c.touches === suspectFile ? ' is-suspect' : ''}">
-    <span class="dc-sha">${esc(c.sha)}</span>
+    <span class="dc-sha">${esc(c.sha)}${suspectFile && c.touches === suspectFile ? ` <span class="dc-tag dc-tag-lead">possible lead</span>` : ''}</span>
     <span class="dc-change-body"><span class="dc-change-msg">${esc(c.msg)}</span>
       <span class="dc-change-who">${esc(c.by)}, ${ago(c.ago)}${c.touches ? `, touches <span class="dc-file">${esc(c.touches)}</span>` : ''}</span></span>
   </li>`;
@@ -733,7 +741,14 @@
      the button names one row; the card's button names everything the plan
      will take. */
   function rollbackButton(s, cls = 'dc-btn', terse = false) {
-    if (!s.deploys || !s.deploys.length) return '';
+    if (!s.deploys) return '';
+    /* A service that has never deployed can be deployed from its row: the
+       empty state leads somewhere without a press on the row first. */
+    if (!s.deploys.length) {
+      if (!s.first) return '';
+      if (state.first && !state.first.done) return `<button type="button" class="${cls.replace('dc-btn-primary', 'dc-btn-quiet')}${cls.includes('dc-btn-quiet') ? '' : ' dc-btn-quiet'}" aria-disabled="true" data-focus="deploy">Deploying&hellip;</button>`;
+      return `<button type="button" class="${cls}${cls.includes('dc-btn-quiet') || cls.includes('dc-btn-primary') ? '' : ' dc-btn-quiet'}" data-deploy="${esc(s.id)}" data-focus="deploy">Deploy${terse ? `<span class="dc-btn-id dc-btn-id--quiet"> ${esc(s.id)}</span>` : ` ${esc(s.id)}`}</button>`;
+    }
     /* IN FLIGHT: the control admits the press was taken and refuses a second
        one. Not disabled in the DOM, so it stays in the tab order and reads;
        aria-disabled says what it is. */
@@ -863,23 +878,31 @@
         <p class="dc-lead-kicker dc-label">First deploy</p>
         <h3 class="dc-answer-h">${done
           ? (fs.ran ? `${esc(s.id)} ran once and wrote its report. It runs at 3:00 am from now on.` : `${esc(s.id)} is live at its first deploy.`)
-          : fs ? `Deploying ${esc(s.id)} for the first time.` : `${esc(s.id)} was created and has never deployed.`}</h3>
+          : fs ? `Deploying ${esc(s.id)} for the first time.` : `${esc(s.id)} has never deployed.`}</h3>
         <p class="dc-answer-dek">${done
           ? (fs.ran ? `Exit 0 in 4 seconds, one report written to ${esc('postgres')}. Nothing more to set up.` : `Built from ${esc(f.commit)} and scheduled. The first run is at 3:00 am; run it now to see one succeed before then.`)
-          : fs ? `Four steps, in order. The build and start commands come from the repository; the schedule was set when the job was created.` : `Nothing is wrong; nothing has happened yet. Three of the four things it needs were read from the repository, and one was set by hand.`}</p>
+          : fs ? `Four steps, in order. The build and start commands come from the repository; the schedule was set when the job was created.` : `Nothing is wrong. No version of this job has been built or run yet. Three of the four things it needs were read from the repository, and one was set by hand.`}</p>
         <div class="dc-pair">
           <div class="dc-card" data-enter="first:${esc(s.id)}">
-            <p class="dc-card-head">${done ? 'The first deploy' : 'Before the first deploy'}</p>
-            <dl class="dc-answers">
-              <div><dt>Build command</dt><dd><span class="dc-cmd">${esc(f.build)}</span> <span class="dc-answers-fine">read from package.json</span></dd></div>
-              <div><dt>Start command</dt><dd><span class="dc-cmd">${esc(f.start)}</span> <span class="dc-answers-fine">read from package.json</span></dd></div>
-              <div><dt>Schedule</dt><dd>${esc(f.schedule)} <span class="dc-answers-fine">set when the job was created</span></dd></div>
-              <div><dt>Needs</dt><dd>${esc('postgres')}, which is provisioned; its address is already in the environment.</dd></div>
+            <p class="dc-card-head">${done ? 'The first deploy' : 'Ready to deploy'}</p>
+            ${done ? `<div class="dc-figures">
+              ${figure('Live', `deploy · ${f.commit}`)}
+              ${figure(fs.ran ? 'Completed, 4 s' : 'Not yet', `first run · ${fs.ran ? 'exit 0' : 'scheduled 3:00 am'}`)}
+            </div>` : ''}
+            <!-- THE READINESS LIST: requirement, value, provenance, one
+                 hierarchy. The check is small and quiet; four large green
+                 ticks would be decoration. Provenance is the tertiary line,
+                 there to be verified, not to be read every time. -->
+            <dl class="dc-answers dc-ready">
+              <div><dt>${icon('check')}Build command</dt><dd><span class="dc-cmd">${esc(f.build)}</span> <span class="dc-answers-fine">&#8627; package.json</span></dd></div>
+              <div><dt>${icon('check')}Start command</dt><dd><span class="dc-cmd">${esc(f.start)}</span> <span class="dc-answers-fine">&#8627; package.json</span></dd></div>
+              <div><dt>${icon('check')}Schedule</dt><dd>${esc(f.schedule)} <span class="dc-answers-fine">&#8627; set when the job was created</span></dd></div>
+              <div><dt>${icon('check')}Needs</dt><dd>${esc('postgres')}, provisioned <span class="dc-answers-fine">&#8627; its address is in the environment</span></dd></div>
             </dl>
-            ${fs ? `<ol class="dc-steps" aria-label="The deploy, step by step">${f.steps.map((t, i) => `<li data-step="${i < stepAt ? 'done' : i === stepAt ? 'now' : 'next'}">${icon(i < stepAt ? 'checkCircle' : i === stepAt ? 'clock' : 'circle')}<span>${esc(t)}</span></li>`).join('')}</ol>` : ''}
+            ${fs ? `<ol class="dc-steps" aria-label="The deploy, step by step">${f.steps.map((t, i) => `<li data-step="${i < stepAt ? 'done' : i === stepAt ? 'now' : 'next'}">${icon(i < stepAt ? 'checkCircle' : i === stepAt ? 'clock' : 'circle')}<span class="dc-step-n" aria-hidden="true">${i + 1}</span><span>${esc(t)}</span></li>`).join('')}</ol>` : ''}
             <p class="dc-card-act">${done
               ? (fs.ran ? `<button type="button" class="dc-btn dc-btn-quiet" aria-disabled="true">Ran ${icon('check')} exit 0</button>` : `<button type="button" class="dc-btn dc-btn-primary" data-run="${esc(s.id)}" data-focus="deploy">Run it now</button>`)
-              : fs ? `<button type="button" class="dc-btn dc-btn-quiet" aria-disabled="true" data-focus="deploy">Deploying&hellip;</button>`
+              : fs ? `<span class="dc-card-state" data-focus="deploy" tabindex="-1">${icon('clock')}Deploying ${esc(s.id)}</span>`
               : `<button type="button" class="dc-btn dc-btn-primary" data-deploy="${esc(s.id)}" data-focus="deploy">Deploy ${esc(s.id)}</button>`}</p>
           </div>
           <div class="dc-aside" data-enter="aside:${esc(s.id)}">
@@ -907,20 +930,27 @@
         <div class="dc-pair">
           <div class="dc-fail" data-enter="fail:${esc(s.id)}">
             <div class="dc-fail-head">
-              <p class="dc-fail-title">${icon('ban', 'dc-fail-glyph')}${esc(n.commit)} failed at the ${esc(f.stage)}, step ${f.step} of ${f.of}</p>
-              <p class="dc-fail-status">${icon('checkCircle')}<span>Production unchanged <span class="dc-sep" aria-hidden="true">&middot;</span> ${esc(l.commit)} serving</span></p>
+              <p class="dc-fail-title">${icon('ban', 'dc-fail-glyph')}Build failed <span class="dc-fail-title-sub">${esc(n.commit)}, step ${f.step} of ${f.of}</span></p>
+              <p class="dc-fail-status">${icon('checkCircle')}<span>Production unchanged <span class="dc-sep" aria-hidden="true">&middot;</span> the new build was not promoted</span></p>
+            </div>
+            <!-- LIVE AGAINST NEWEST, compact, at the top of the refusal: the
+                 one fact a reader wants before the diagnosis, without going
+                 back to the table for it. -->
+            <div class="dc-figures dc-fail-vs">
+              ${figure(esc(l.commit), `live · still serving, ${span(l.ago)}`)}
+              ${figure(esc(n.commit), `newest · build failed, ${ago(n.ago)}`)}
             </div>
             <dl class="dc-answers">
-              <div><dt>What failed</dt><dd><span class="dc-cmd">${esc(f.cmd)}</span> stopped on one error: <span class="dc-line">${esc(f.line)}</span></dd></div>
+              <div><dt>What stopped</dt><dd><span class="dc-cmd">${esc(f.cmd)}</span> stopped on one error, kept word for word: <span class="dc-line">${esc(f.line)}</span></dd></div>
               <div><dt>What changed since it last built</dt><dd>
                 <ol class="dc-changes">${n.changes.map((c) => changeRow(c, 'src/billing/invoice.ts')).join('')}</ol>
-                <span class="dc-answers-fine">One of the two touches the file the error names. That is a suspect, not a verdict.</span>
+                <span class="dc-answers-fine">One of the two touches the file the error names. File overlap says where to look; it does not establish the cause.</span>
               </dd></div>
               <div><dt>What depends on it</dt><dd>${deps.map((d) => esc(d.id)).join(' and ')}, both still on the live deploy. worker&rsquo;s own deploy of this push failed on start, a different failure from this one; its row and the feed carry the line.</dd></div>
               <div><dt>What to do</dt><dd>Fix the build and push. The live deploy keeps serving until a new one succeeds; there is nothing to roll back, because nothing moved.${state.retried ? ' <strong>Retried once, at ' + clock(DATA.project.nowMin) + ': the same error on the same line.</strong>' : ''}</dd></div>
             </dl>
             ${logDisclosure(f.log, 'error TS2339', 'The last nine lines of the build log')}
-            <p class="dc-card-act"><button type="button" class="dc-btn dc-btn-quiet" data-retry="${esc(s.id)}" data-focus="retry">Retry the build</button></p>
+            <p class="dc-card-act"><button type="button" class="dc-btn dc-btn-quiet" data-retry="${esc(s.id)}" data-focus="retry">Retry this commit</button><span class="dc-card-act-note">Nothing has changed since the failed attempt; the same build runs again. Worth it if the failure was the platform&rsquo;s, not the code&rsquo;s.</span></p>
           </div>
           <div class="dc-aside" data-enter="aside:${esc(s.id)}">
             <h4 class="dc-h">Live and serving</h4>
@@ -1226,7 +1256,10 @@
     { key: 'newest',  label: 'Newest deploy', sortable: true, unit: 'latest push, may not be live' },
     { key: 'health',  label: 'Health',       sortable: true },
     { key: 'deps',    label: 'Depends on',   sortable: false },
-    { key: 'act',     label: 'Roll back',    sortable: false, act: true },
+    /* The last column answers "what can I do from here": Roll back on a
+       deployed service, Deploy on one that never has, nothing on a
+       datastore. So it is headed Action, not Roll back. */
+    { key: 'act',     label: 'Action',       sortable: false, act: true },
   ];
 
   const HEALTH_ORDER = { failing: 0, recovering: 1, ok: 2, none: 3 };
@@ -1243,7 +1276,7 @@
   function newestCell(s) {
     const n = newest(s);
     if (!s.deploys) return `<span class="dc-cell-note">provisioned, not deployed</span>`;
-    if (!n) return `<span class="dc-cell-note">never</span>`;
+    if (!n) return `<span class="dc-cell-text">None yet</span>`;
     const l = live(s);
     const same = l && l.commit === n.commit && n.status === 'live';
     const tag = n.status === 'failed' ? `<span class="dc-tag dc-tag-failed">${icon('ban')}failed</span>`
@@ -1322,13 +1355,13 @@
       const same = l && n && l.commit === n.commit && n.status === 'live';
       const dot = '<span class="dc-sep" aria-hidden="true">&middot;</span>';
       const phoneSum = !s.deploys ? '' : `<span class="dc-svc-sum">
-          <span>${l ? `live <span class="dc-svc-when"><span class="dc-sha">${esc(l.commit)}</span> ${dot} ${l.ago < 1 ? 'just now' : span(l.ago)}</span>` : 'nothing live yet'}</span>
-          <span>${!n ? 'never deployed' : n.rollback || !same ? `newest <span class="dc-svc-when"><span class="dc-sha">${esc(n.commit)}</span> ${tag || `${dot} ${ago(n.ago)}`}</span>` : 'newest is the live one'}</span>
+          <span>${l ? `live <span class="dc-svc-when"><span class="dc-sha">${esc(l.commit)}</span> ${dot} ${l.ago < 1 ? 'just now' : span(l.ago)}</span>` : 'not deployed'}</span>
+          <span>${!n ? 'newest: none yet' : n.rollback || !same ? `newest <span class="dc-svc-when"><span class="dc-sha">${esc(n.commit)}</span> ${tag || `${dot} ${ago(n.ago)}`}</span>` : 'newest is the live one'}</span>
         </span>`;
-      return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}" style="--i:${i}">
+      return `<tr class="${cls.join(' ')}" data-service="${esc(s.id)}"${open ? ' data-open="true"' : ''} style="--i:${i}">
         <th scope="row" class="dc-cell-svc"><button type="button" class="dc-row-more" data-more="${esc(s.id)}" data-focus="more:${esc(s.id)}" aria-expanded="${open}" aria-controls="dc-detail-${esc(s.id)}">${esc(s.id)}<span class="dc-visually-hidden">, ${open ? 'hide' : 'show'} its history</span>${icon('expand', 'dc-icon dc-row-chev')}</button>${phoneSum}</th>
         <td class="dc-cell-type">${esc(s.type)}</td>
-        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">serving for ${span(l.ago)}</span>` : `<span class="dc-cell-note">${s.deploys ? 'nothing yet' : 'n/a'}</span>`}</td>
+        <td class="dc-cell-live">${l ? `<span class="dc-sha">${esc(l.commit)}</span><span class="dc-cell-note">serving for ${span(l.ago)}</span>` : s.deploys ? `<span class="dc-cell-text">Not deployed</span><span class="dc-cell-note">no version is serving</span>` : `<span class="dc-cell-note">n/a</span>`}</td>
         <td class="dc-cell-newest">${newestCell(s)}</td>
         <td class="dc-cell-health" data-health="${h.state}"><span class="dc-health-word">${h.state === 'failing' ? icon('alert') : h.state === 'ok' ? icon('checkCircle') : h.state === 'recovering' ? icon('undo') : ''}${esc(h.word)}</span>${h.fig ? `<span class="dc-cell-note">${esc(h.fig)}</span>` : ''}</td>
         <td class="dc-cell-deps">${s.needs.length ? s.needs.map(esc).join(', ') : '<span class="dc-cell-note">nothing</span>'}</td>
