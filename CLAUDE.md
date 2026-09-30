@@ -418,7 +418,7 @@ and `404.html`, which the browser checks measure and `counts.mjs` and
 and every one of the five moved with it), plus 128 token names against 198
 declarations, 6
 retired by name, 54 of them resolved by the design system page rather than
-described, and 10 counted claims.
+described, and 26 counted claims.
 
 **There are five browser numbers now, not four.** `cards.mjs` went into
 `checks.yml` on 2026-09-21 and its raised-surface count joins the sentence

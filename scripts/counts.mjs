@@ -112,13 +112,44 @@ const familyTableRows = () =>
    that count has no outside to be measured against, and the entry never came
    across. See README, "What the archive holds that this tree does not". */
 
+/* The checks, read from the workflow that runs them rather than from a list
+   kept here. A static check is a `run: node scripts/<name>.mjs` step; a
+   browser check is a `check:` entry in the browser job's matrix. The Tailwind
+   job builds and diffs a stylesheet, which is a step and not a script, and
+   the prose counts scripts. cards.mjs joined the matrix on 2026-09-21 and
+   the build write-up went on saying nine checks and four renderers for nine
+   days, which is the reason these are entries and not a sentence. */
+const WORKFLOW = '.github/workflows/checks.yml';
+const staticChecks = () =>
+  new Set([...read(WORKFLOW).matchAll(/^\s+run: node scripts\/([a-z-]+)\.mjs/gm)].map(m => m[1])).size;
+const browserChecks = () =>
+  [...read(WORKFLOW).matchAll(/^\s+- check: ([a-z-]+)$/gm)].length;
+const scriptsInTree = () =>
+  fs.readdirSync(path.join(root, 'scripts')).filter(f => f.endsWith('.mjs')).length;
+const filesPresent = (...files) => files.filter(f => fs.existsSync(path.join(root, f))).length;
+
+/* Every node of every page's schema.org graph, summed: the "sixty-one nodes"
+   the build write-up stated was sixty-three by the time anyone counted. A
+   page with no graph contributes nothing rather than failing the count. */
+function schemaNodes() {
+  let n = 0;
+  for (const p of PAGES) {
+    for (const m of read(p).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      const d = JSON.parse(m[1]);
+      n += (d['@graph'] || [d]).length;
+    }
+  }
+  return n;
+}
+
 const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven',
                 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen',
                 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen',
                 20: 'twenty', 21: 'twenty-one', 22: 'twenty-two',
                 23: 'twenty-three', 24: 'twenty-four', 25: 'twenty-five',
-                26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight', 29: 'twenty-nine', 30: 'thirty' };
+                26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight', 29: 'twenty-nine', 30: 'thirty',
+                63: 'sixty-three' };
 
 /* ---------------------------------------------------------------------------
  * The claims. `says` is the sentence as written and has to still be findable;
@@ -176,6 +207,63 @@ const CLAIMS = [
   { doc: 'COLOR.md',
     says: 'token files are loaded by all twenty-nine',
     n: 29, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+
+  /* The build write-up about this site, which is the one page whose whole
+     argument is that its numbers are checked, and which carried twenty-eight
+     pages, nine checks, four renderers, twenty-five scripts and sixty-one
+     schema nodes into October 2026 with nothing holding any of them. The
+     browser counts in the same section are dated in the prose instead,
+     because no check without a browser can recount them. */
+  { doc: 'case-study/this-site.html',
+    says: 'Twenty-nine pages of plain HTML, no framework and no build step',
+    n: 29, what: 'pages, as the dek states them', of: () => PAGES.length },
+  { doc: 'case-study/this-site.html',
+    says: 'twenty-nine pages of plain HTML with no framework and no build step',
+    n: 29, what: 'pages, as the description states them', of: () => PAGES.length },
+  { doc: 'case-study/this-site.html',
+    says: '29 pages, 3 token files, 4 specs, 29 scripts',
+    n: 29, what: 'pages, as the size row states them', of: () => PAGES.length },
+  { doc: 'case-study/this-site.html',
+    says: '29 pages, 3 token files, 4 specs, 29 scripts',
+    n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
+  { doc: 'case-study/this-site.html',
+    says: '29 pages, 3 token files, 4 specs, 29 scripts',
+    n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
+  { doc: 'case-study/this-site.html',
+    says: '29 pages, 3 token files, 4 specs, 29 scripts',
+    n: 29, what: 'scripts in scripts/', of: scriptsInTree },
+  { doc: 'case-study/this-site.html',
+    says: 'Ten checks; five of them render every page in a real browser',
+    n: 10, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
+  { doc: 'case-study/this-site.html',
+    says: 'Ten checks; five of them render every page in a real browser',
+    n: 5, what: 'browser checks in the matrix', of: browserChecks },
+  { doc: 'case-study/this-site.html',
+    says: 'Twenty-nine pages, each a plain HTML file',
+    n: 29, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
+  { doc: 'case-study/this-site.html',
+    says: 'a change to the shell is a change to twenty-nine files',
+    n: 29, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
+  { doc: 'case-study/this-site.html',
+    says: 'Ten checks run on every merge. Five read the tree',
+    n: 10, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
+  { doc: 'case-study/this-site.html',
+    says: 'Ten checks run on every merge. Five read the tree',
+    n: 5, what: 'static checks in checks.yml', of: staticChecks },
+  { doc: 'case-study/this-site.html',
+    says: 'The other five open every page in Chrome',
+    n: 5, what: 'browser checks in the matrix', of: browserChecks },
+  { doc: 'case-study/this-site.html',
+    says: 'sixty-three nodes across the site',
+    n: 63, what: 'schema.org graph nodes across the pages', of: schemaNodes },
+
+  { doc: 'llms.txt',
+    says: 'ten checks that measure the rendered page',
+    n: 10, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
+
+  { doc: 'writing/what-does-a-product-design-engineer-actually-do.html',
+    says: 'checks; five of them render every page in a real browser',
+    n: 5, what: 'browser checks in the matrix', of: browserChecks },
 ];
 
 if (PAGES.length < 5) {
