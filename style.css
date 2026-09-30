@@ -1321,7 +1321,18 @@ a.case-thumb { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   .story-anim { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .story-step { opacity: 1 !important; }
+  /* No `.story-step { opacity: 1 !important }` here any more. It dates from
+     the layout where the three steps scrolled past the pinned scene and the
+     inactive ones were dimmed to 0.35; forcing them opaque was the honest
+     reduced-motion reading of that. Since the steps stack in one grid cell
+     above 900px (see .story-text-stage), the same rule printed all three
+     headings and paragraphs on top of each other for every reduced-motion
+     reader, on the homepage, at desktop width. The observer still toggles
+     is-active under the preference, and the blanket reduced-motion rule
+     further down this file (the one on `*, *::before, *::after`) already
+     flattens the cross-fade to 0.01ms, so a reduced-motion reader now gets
+     the same three steps, swapped rather than faded. Below 900px the steps
+     are in flow and the mobile block sets them opaque itself. */
 }
 
 /* Career evolution timeline (now lives inside .still-evolving on a dark bg) */
