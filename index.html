@@ -275,13 +275,27 @@
                  same picture for anyone who prefers reduced motion.
 
                  No autoplay attribute, deliberately. With it, preload is
-                 ignored and the browser fetches all 2.9MB before any code can
-                 ask whether it should -- so a reduced-motion reader paid for a
-                 clip that the script below pauses on arrival and that they
-                 never see. The script starts it instead, which is the same
-                 first frame either way because the poster is that frame. -->
-            <video class="hero-portrait-video" src="img/hero-portrait.mp4?v=1"
-                   poster="img/portrait-illus.webp?v=6" width="900" height="900"
+                 ignored and the browser fetches the whole clip before any code
+                 can ask whether it should -- so a reduced-motion reader paid
+                 for a clip that the script below pauses on arrival and that
+                 they never see. The script starts it instead, which is the
+                 same first frame either way because the poster is that frame.
+
+                 The file itself is 720x720 H.264 at about 1 Mbps, 1.17MB, with
+                 the moov atom FIRST. Until 2026-09-30 it was 960x960 at 2.4
+                 Mbps, 3.06MB, with the moov at the END, and that order is what
+                 made preload="metadata" cost the whole file: Chrome reads
+                 forward until it finds the index, which was the last 4KB, so
+                 the "metadata" request was 3MB, and play() then opened a
+                 second full-range request that could not reuse it. A cold
+                 load of this page moved 5.9MB of video for a clip drawn at
+                 470px. With the index at the front, the metadata request is
+                 the first few KB and playback is one request for the rest.
+                 The re-encode is WebCodecs in headless Chrome muxed with
+                 mp4-muxer (no ffmpeg on the Mac); every avconvert preset
+                 either keeps the bitrate or drops the size below the circle. -->
+            <video class="hero-portrait-video" src="img/hero-portrait.mp4?v=2"
+                   poster="img/portrait-illus.webp?v=6" width="720" height="720"
                    loop muted playsinline preload="metadata"
                    aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
             </video>
