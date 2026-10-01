@@ -508,14 +508,9 @@ a.case-thumb { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
-  /* One exception, and it is the reason the blanket has to say a name. The
-     blanket exists to take away the HOVER lift -- a shadow that is motion.
-     The lab card's thumb is a drawing, and --shadow-media is the ring every
-     drawing on the site rests in: it is part of framing the picture, not
-     part of an interaction. Stripping it leaves a reduced-motion reader a
-     bare rectangle where everyone else sees the same frame the writing
-     index draws. */
-  .case-card--lab .case-thumb { box-shadow: var(--shadow-media) !important; }
+  /* No exception for the lab card. Its thumb is a laptop, and the laptop's
+     resting shadow is --shadow-device on the foot, a ::after this blanket
+     does not reach, so a reduced-motion reader sees the same object. */
 }
 
 
@@ -751,18 +746,46 @@ a.case-thumb { display: block; }
   color: var(--color-accent-text);
 }
 
-/* ---------- The card's picture is a drawing ----------
-   The lab card's thumb was a tablet until 2026-10-01, the bezel and
-   --shadow-device around a capture of the prototype; see the git history
-   of this block for the argument. The lab's picture is a drawing in the
-   writing set's hand, cut to the same 1600x900 the article features are,
-   and it takes the frame every drawing on the site takes -- the tile's own
-   radius and the --shadow-media ring .writing-card and .writing-feature
-   wear -- rather than a device, because a device around artwork is a frame
-   around a picture of nothing in particular. The base .case-thumb already
-   has the 16:9, the radius and the clip; this adds the ring and nothing
-   else. The link is the whole tile, as on the three cards above. */
-.case-card--lab .case-thumb { box-shadow: var(--shadow-media); }
+/* ---------- The card's picture is a laptop ----------
+   The picture was a drawing from #340 to #343, in the --shadow-media ring
+   every drawing wears; see the git history of this block for that argument.
+   It is Agent Review's own screen now, and a screen takes a device: the
+   laptop the case studies frame their wide captures in, because a site that
+   frames its captures in a bezel and shows this one bare is holding two
+   ideas of what a screenshot is. The anchor IS the .build-laptop, so the
+   lid, the foot and --shadow-device under it come from that rule unchanged,
+   and this block only takes away what the tile was: the 16:9 (the capture
+   is 16:9 itself, and the chrome sits outside it), the clip (hidden would
+   cut the foot's --shadow-device off at the anchor's edge), and the ground.
+
+   One value changed, the lid's corner: half the tile's own --radius-xl,
+   which is the corner this picture wore before it had a laptop. 10px
+   against the case studies' 14, written as a fraction of a named radius
+   rather than as a new number, and the screen's inner radius still derives
+   from it, at 2px.
+
+   The foot's overhang moves inside the anchor, because the anchor is what
+   the focus ring is drawn around: with the foot 2% wider than the box on
+   each side, the ring was a rectangle with the laptop's foot sticking out
+   of both bottom corners. So the foot takes the anchor's full width and
+   the lid is inset by the same 2%, measured from the foot instead of from
+   the lid -- 2% / 1.04 -- which keeps the foot at exactly 104% of the lid,
+   the proportion .build-laptop::after draws. The ring then encloses the
+   whole object, at the lid's own corner rather than a:focus-visible's 4px.
+
+   The hover tilt stays, and its lift shadow does not: --shadow-lift is
+   drawn around the anchor's box, which is a rectangle standing behind a
+   laptop. */
+.case-card--lab .case-thumb {
+  --shell-radius: calc(var(--radius-xl) / 2);
+  aspect-ratio: auto;
+  overflow: visible;
+  background: none;
+  border-radius: var(--shell-radius);
+}
+.case-card--lab .case-thumb .build-laptop-lid { margin-inline: calc(2% / 1.04); }
+.case-card--lab .case-thumb::after { margin-inline: 0; }
+.case-card--lab .case-thumb.is-tilting { box-shadow: none; }
 
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
