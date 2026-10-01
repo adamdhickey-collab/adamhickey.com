@@ -152,17 +152,17 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of them were at RBA, where most of the last decade went to design systems: structural audits, the token and component architecture underneath, and the governance that keeps them alive. More recently I define, design and build products and prototypes myself, from product strategy through to a working front end. My current focus is the design problem inside AI-supported software: what an operator has to understand about a recommendation before acting on it, how confidence and constraints get expressed, and what the interface owes someone on the occasions the system is wrong.</p>
+  <p>Senior product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of them were at RBA, where most of the last decade went to design systems: structural audits, the token and component architecture underneath, and the governance that keeps them alive. Since 2026 I build what I design with coding agents: two products in use, working prototypes, and Agent Review, an experiment in what a design system has to be when an agent builds from it. My current focus is the design problem inside AI-supported software: what an operator has to understand about a recommendation before acting on it, how confidence and constraints get expressed, and what the interface owes someone on the occasions the system is wrong.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li>Product definition, design, systems and prototyping for complicated software, from ambiguity through to something a team can react to.</li>
+    <li>Agent Review — a React and TypeScript design system built for a coding agent to work inside, one feature run with its twelve rules and without, and a review tool for the designer who signs off. The components mattered more than the rules.</li>
     <li>Dispatch cockpit — a working prototype of AI-assisted load assignment: the factors behind a recommendation rather than a score, confidence expressed operationally, a one-click override that teaches, and the manual path left fully intact.</li>
     <li>Lucy Learns — an offline-first training app defined, designed and built end to end, with AI coding tools driven from a terminal rather than a chat window.</li>
-    <li>Door County Found — a regional travel guide where every place is structured data rather than a blog post. Defined, designed and built end to end, including the editing workflow.</li>
+    <li>Door County Found — a regional travel guide built on structured data, defined, designed and built end to end.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
@@ -190,7 +190,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Design tools &amp; platforms</h2>
-  <p class="inline"><span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Claude &amp; Claude Code (skills, plugins, MCP)</span><span>ChatGPT &amp; Gemini</span><span>CSS custom properties (tokens)</span><span>HTML/CSS/JavaScript</span><span>Playwright</span><span>Git/GitHub</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
+  <p class="inline"><span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Claude &amp; Claude Code (skills, plugins, MCP)</span><span>ChatGPT &amp; Gemini</span><span>CSS custom properties (tokens)</span><span>HTML/CSS/JavaScript</span><span>React &amp; TypeScript</span><span>Storybook</span><span>Playwright</span><span>Git/GitHub</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
 </section>
 
 <section>
