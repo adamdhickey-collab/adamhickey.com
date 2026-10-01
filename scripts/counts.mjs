@@ -262,7 +262,7 @@ const CLAIMS = [
     n: 10, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
 
   { doc: 'writing/what-does-a-product-design-engineer-actually-do.html',
-    says: 'checks; five of them render every page in a real browser',
+    says: 'five of them render every page in a real browser',
     n: 5, what: 'browser checks in the matrix', of: browserChecks },
 ];
 
