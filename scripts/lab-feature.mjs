@@ -11,13 +11,14 @@
  * colour line are the feature registry's, imported, so this cannot drift
  * from the articles two bands below it.
  *
- * The object: a stencil. A design system is the plate a human or an agent
- * draws through, and the mark that comes out is on spec because the plate
- * is, whoever held the brush. One cutout rather than a row of them,
- * because the row-with-one-different geometry is already the breaker
- * panel's and the stamp's. The reveal is one small butter-yellow
- * registration mark on the plate's corner: the sign that someone checked
- * it was lined up before the paint went on, which is the review.
+ * The object: a toy building brick, with a black brick clicked onto it. A
+ * component system is the brick with the studs; whoever adds the next
+ * piece, a person or an agent, it fits because the studs are the same.
+ * The black brick is the solid black shape the grammar asks for, and the
+ * one intervention. The first drawing here was a stencil plate with one
+ * window cut through it, which read as a device with a dark screen at a
+ * glance; the owner asked for something better, and steered this one
+ * himself in the chat (the black brick flush with the green one).
  *
  * Group 'ai' because the lab is the AI-as-material lead, so the plate is
  * sage; `draw.mjs take` measures the hue and says if it is not.
@@ -30,8 +31,8 @@ export const LAB = [
     id: 'lab-feature',
     group: 'ai',
     out: 'img/lab/lab-feature.webp',
-    device: 'the plate and the one mark drawn through it',
-    alt: 'A large sage stencil plate cropped by the top and both sides of the frame, one rounded-rectangle window cut out of its middle, and through the window one solid black mark that fills the cutout exactly; a small butter-yellow registration dot on the plate’s lower corner.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large stencil plate in sage green with a thin black outline, a flat rectangle with rounded corners, seen exactly straight on and drawn so big that it is cropped by the top edge and both side edges of the frame, with a band of cream ground showing beneath its bottom edge. Cut out of the plate, in the middle third of the picture, one single window: a simple rounded rectangle, wider than it is tall. Through that window, one solid black shape has been painted: a rounded rectangle that fills the cutout exactly, edge to edge, the one mark the stencil was made to give. Near the plate's lower-right corner, one small round registration dot filled butter yellow, the only other colour. No brush, no roller, no paint spatter, no hands, no other cutouts. Nothing else in the picture.`,
+    device: 'the brick and the one clicked onto it',
+    alt: 'A large sage toy building brick seen from the front and a little above, cropped by the left and bottom edges of the frame, three pairs of round studs along its top, and a smaller solid black brick clicked flush onto its right end with four black studs of its own.',
+    prompt: `New picture, same style, same hand as the reference. Cream ground. One large toy building brick in sage green with thin black outlines, a plain rectangular brick seen from the front and a little above so that its top face and the two rows of round studs on it show, drawn so big that it is cropped by the left edge and the bottom edge of the frame. Clicked onto its top, set toward the right so that it overhangs the sage brick's right end, one smaller brick that is solid black, its own studs showing as solid black bumps, the only black shape in the picture; the two interlock exactly and the black brick sits flush on the sage brick's studs. No other bricks, no baseplate, no logo or lettering on any stud, no shadow.`,
   },
 ];
