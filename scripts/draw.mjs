@@ -32,6 +32,7 @@ import { execFileSync } from 'node:child_process';
 import * as scenes from './writing-scenes.mjs';
 import * as features from './writing-features.mjs';
 import * as proof from './proof-cards.mjs';
+import * as lab from './lab-feature.mjs';
 
 /* --set features draws the article's top picture (and its index card, cut
    from the same source); the default set stays the second, in-body scene.
@@ -50,6 +51,9 @@ const SETS = {
   scenes:   { mod: scenes,   jobs: 'SCENES',   registry: 'writing-scenes.mjs',   suffix: '-2', role: 'feature', card: false },
   features: { mod: features, jobs: 'FEATURES', registry: 'writing-features.mjs', suffix: '',   role: 'feature', card: true  },
   proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'card',    card: false },
+  /* --set lab is the one drawing on the homepage's lab card, filed at the
+     path its registry names, cut as a 16:9 feature like an article's. */
+  lab:      { mod: lab,      jobs: 'LAB',      registry: 'lab-feature.mjs',      suffix: '',   role: 'feature', card: false },
 };
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--set');
