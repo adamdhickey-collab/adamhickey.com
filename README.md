@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 29 pages in nine families |
+| **What this is** | The site: 31 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -120,7 +120,7 @@ the archive so that it holds everything staging ever had.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all twenty-nine pages. Color, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-one pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The four build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
@@ -136,7 +136,7 @@ the archive so that it holds everything staging ever had.
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the twenty-nine. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-one. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -172,7 +172,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-nine pages in nine families, all hand-written HTML with no include step
+Thirty-one pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -181,11 +181,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all twenty-nine pages, so a
-change to the shell is a change to twenty-nine files.
+email icon and the skip link are hand-written into all thirty-one pages, so a
+change to the shell is a change to thirty-one files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-nine pages
+base ladder, and both regimes read it from `type.css`, which all thirty-one pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -199,6 +199,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 10 | A | An index and nine articles in three collections named for the three leads the search runs on: craft and code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
+| Lab | 2 | A | The index of the experiments in React, AI-assisted prototyping and component systems, and the Agent Review case study. The two prototypes are listed there too, at their own addresses. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
@@ -285,6 +286,19 @@ trimmed off them, on the case-study shell at the root. The homepage's
 **Prototypes** -- `prototype/dispatch-cockpit.html`. A working demo rather
 than a write-up: the page wraps a vanilla HTML, CSS and JavaScript cockpit in
 the problem it answers, five design decisions, and what would be tested next.
+
+**Lab** -- `lab/index.html` and `lab/agent-review.html`. The tenth family,
+since 2026-10-01: the door to the experiments in React, AI-assisted
+prototyping and component systems, and the first flagship's case study.
+The product the case study is about, Agent Review, is a React and
+Storybook project in its own public repository
+(`adamdhickey-collab/agent-review`), deployed by its own workflow to
+GitHub Pages, and this tree only links and embeds it: a framework and a
+build step stay out of a tree whose checks walk every file and whose
+write-up says it has neither. The two prototypes keep their addresses
+under `prototype/` and are listed on the lab index as well; the index
+wears the writing index's shell, and the case study wears the build
+write-ups'.
 
 The page lets the reader press the thing before it explains it. Since
 2026-09-20 the problem is followed straight by the live cockpit, and the
@@ -516,7 +530,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-twenty-nine live addresses, each dated. Every case study's and every article's
+thirty-one live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page
