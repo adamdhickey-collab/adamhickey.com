@@ -96,7 +96,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261001b" />
+  <link rel="stylesheet" href="../style.css?v=20261001c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=5" />
   <script src="../site-nav.js?v=20260906a" defer></script>
@@ -244,14 +244,20 @@
              The exploration callout and the queue capture came out; the
              four check outputs, the four-cell comparison of the runs and
              the four remaining callouts stayed, because they are the
-             evidence. -->
+             evidence.
+
+             Reordered 2026-10-01 for a reader with ninety seconds: the
+             question, the three conditions, what the experiment showed
+             and the loop now come before the build. The four-stage
+             overview that sat under the screenshot moved down to open the
+             build ("What I built"), with nothing removed. -->
         <p class="case-kicker">Lab &middot; case study &middot; 4 min read</p>
         <h1 class="case-title">Agent Review</h1>
-        <p class="build-dek">An experiment in making design systems executable for coding agents. A React component system with its tokens and Storybook, the rules an agent reads before touching it, a controlled experiment where Claude Code added a feature inside it, the validation that caught drift, and the tool a person uses to review the consequences and send a precise correction back.</p>
+        <p class="build-dek">AI doesn&rsquo;t remove design judgment. It moves it. Agent Review is an experiment in where it goes when a coding agent builds production UI: a React component system, the rules an agent reads first, two agent runs with and without those rules, the checks that measured them, and the tool a person uses to review what came back.</p>
 
         <div class="glance">
           <dl class="glance-facts">
-            <div><dt>Role</dt><dd>Everything: the system, the rules, the product, the experiment and the review of it</dd></div>
+            <div><dt>Role</dt><dd>Product design &middot; Design-system architecture &middot; Prototyping &middot; Front-end implementation &middot; Experiment design</dd></div>
             <div><dt>Built with</dt><dd>React, TypeScript, Vite, Storybook 10, Vitest with axe, Playwright, Claude Code, the Storybook MCP server</dd></div>
             <div><dt>Size</dt><dd>13 components, 161 stories, 12 rules, 3 branches of one feature</dd></div>
             <div><dt>Status</dt><dd>Live. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">The product</a>, <a href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">the Storybook</a>, and <a href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">the source and the record</a></dd></div>
@@ -269,9 +275,66 @@
                    alt="Agent Review on the change &ldquo;Add bulk actions to the customer table&rdquo;: a header with Return to agent, Reject and Accept; a validation line reading Visual 4 changes, Accessibility passed, Interaction passed, Components 1 shared change, Tokens passed; on the left a findings list with &ldquo;A new interaction pattern: the toolbar becomes the confirmation&rdquo; open to its evidence and a composed correction; on the right the customer table rendered from the agent&rsquo;s branch with three rows selected, a selection toolbar reading 3 selected, and the Archive button outlined and labelled Finding." />
             </div></div>
         </figure>
+      </div>
+    </header>
 
+    <section class="case-section case-overview build-chapter ground-white" id="the-question">
+      <div class="container case-narrow">
+        <h2>The question</h2>
+        <p>Coding agents can build an interface quickly. A product team still has to decide where each design decision lives:</p>
+        <ul class="build-list">
+          <li>in reusable components and tokens,</li>
+          <li>in explicit rules an agent can read,</li>
+          <li>in checks that validate it automatically, or</li>
+          <li>with a person, because nothing else can decide it.</li>
+        </ul>
+        <p>Agent Review is the system and the product I built to find out how that sorts in practice. The code is the prototype; the design problem is the sorting. React, Storybook, Vitest, Playwright, axe and Claude Code are how the question gets a measurable answer, not the point of it.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm" id="experiment-design">
+      <div class="container case-narrow">
+        <h2>The experiment</h2>
+        <p>One feature request, <em>add bulk actions to the customer table</em>, tested three ways.</p>
+        <dl class="build-facts build-facts--three">
+          <div><dt>Run 1<span class="build-facts-tag">System and explicit rules</span></dt><dd>A fresh Claude Code session gets the existing component system and the repository&rsquo;s UI rules.</dd></div>
+          <div><dt>Run 2<span class="build-facts-tag">System, no explicit rules</span></dt><dd>The same request to a fresh session with the repository and system available, but without the rule set.</dd></div>
+          <div><dt>Seeded regression<span class="build-facts-tag">Written by me, not an agent</span></dt><dd>A separate branch I broke on purpose, four ways the rules forbid, to see whether the checks catch known drift. None of its failures is an agent&rsquo;s.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea" id="what-it-showed">
+      <div class="container case-narrow">
+        <h2>What the experiment showed</h2>
+        <dl class="build-facts build-facts--two">
+          <div><dt>The system mattered more than the prompt.</dt><dd>Both runs stayed inside the system. The components, tokens and stories constrained the work more than the instructions did.</dd></div>
+          <div><dt>Rules mattered at the edges.</dt><dd>Where the system could not decide: whether to change a shared component, what an emptied table shows, and where a new interaction pattern gets written down.</dd></div>
+          <div><dt>Checks find failure. They cannot decide what the product should become.</dt><dd>They caught the token drift, the contrast failure, the overflow and the baseline changes. A person still had to read which red frame was the feature and which was the break.</dd></div>
+          <div><dt>A good review strengthens the next run.</dt><dd>Review did not only accept or reject. It sometimes produced a stronger rule, story or test that the next agent inherits.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white" id="the-loop">
+      <div class="container case-narrow">
+        <h2>The loop Agent Review supports</h2>
+        <p>Not an agent and an approval button, but a loop that ends with a different system than it started with.</p>
+        <ol class="build-loop">
+          <li><strong>System</strong>Components, tokens, stories</li>
+          <li><strong>Agent</strong>Builds the change</li>
+          <li><strong>Change</strong>A branch to inspect</li>
+          <li><strong>Checks</strong>Lint, axe, layout, visual</li>
+          <li><strong>Human judgment</strong>Reads what the checks cannot</li>
+          <li><strong>Stronger system</strong>The next agent inherits it</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm" id="what-i-built">
+      <div class="container">
         <div class="glance">
-          <p class="glance-kicker">The loop</p>
+          <p class="glance-kicker">What I built</p>
           <ol class="glance-row">
             <li class="glance-step">
               <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg></span>
@@ -324,16 +387,9 @@
           </ol>
         </div>
       </div>
-    </header>
-
-    <section class="case-section case-overview build-chapter ground-white" id="the-question">
-      <div class="container case-narrow">
-        <h2>The question</h2>
-        <p>Coding agents can produce an interface quickly. The harder problem is whether what they produce inherits the decisions a team has already made: the components, the tokens, the states, the accessibility floor. I built the smallest complete version of the loop to find out, then ran one feature request through Claude Code twice, with the rules in its context and without, and a third time by hand with the four things the rules forbid written in on purpose.</p>
-      </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-warm" id="the-product">
+    <section class="case-section case-overview build-chapter ground-white" id="the-product">
       <div class="container case-narrow">
         <h2>The product</h2>
         <p>Agent Review is the tool a product team would use to inspect UI a coding agent has changed before it merges. A queue of changes, each with its validation in five lanes. A change opened to its findings, with the affected screen rendered from the branch beside them, before and after, at three widths. Selecting a finding puts the preview in the state that shows it, at the width that shows it, with the element outlined. Then a decision: accept, reject, or return to the agent with a correction.</p>
@@ -373,7 +429,7 @@
 
     <section class="case-section case-overview build-chapter ground-warm" id="the-experiment">
       <div class="container case-narrow">
-        <h2>The experiment</h2>
+        <h2>What the agent did</h2>
         <p>The request, verbatim, and nothing else about the feature: <em>Add bulk actions to the customer table using the existing component system. A person should be able to select several customers and archive or export them.</em> Each run was a fresh session in its own worktree with the repository as its only context; the record says exactly how, including why the Storybook MCP server, though connected, was not reached.</p>
         <dl class="build-facts">
           <div><dt>Run 1, with the rules</dt><dd>Clean on every check. Checkbox for the rows, the Table&rsquo;s own selected-row composition, a second Toolbar for the selection, Button in three variants, EmptyState for a table archiving empties. Seven new stories with play functions; 92 of 92 pass with axe. One shared change, with a reason and a measurement. One new pattern, listed for review.</dd></div>
