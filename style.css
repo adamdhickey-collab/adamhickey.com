@@ -653,33 +653,54 @@ a.case-thumb { display: block; }
   padding: var(--space-xl);
 }
 .case-card--lab .case-desc { margin-top: var(--space-xs); }
-/* THE DRAWING BESIDE THE WORDS. One card the width of the three above it,
-   so from 768 up it is two even columns, the picture on the left and the
-   title, the list and the links on the right, the shape the single
-   prototype card had until 2026-09-28. Under 768 the thumb keeps the
-   stacked card's own margin under it, and the body follows. The columns
-   align at the top: the drawing is 16:9 and the list beside it runs
-   taller, and a picture centred on a list of five reads as floating. */
+/* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
+   From 1024 up it is two columns, the question, the project, the result and
+   the links on the left and the picture on the right; under 1024 it stacks,
+   the picture above the words with the stacked card's own margin under it.
+   It was side by side from 768, where the words column is 260px wide and 470
+   tall against a picture 210 tall, and a card that lopsided is not two
+   columns so much as a caption lost beside a long list.
+
+   THE WORDS COME FIRST IN THE MARKUP and the picture is moved above them
+   with `order` while the card stacks, rather than the other way round. The
+   picture is a link as well, to the same case study, and a keyboard reader
+   at a desktop width would otherwise reach the right-hand column before the
+   left. The card is a grid at every width for that reason: `order` does
+   nothing in a block.
+
+   A screen with a column of UI text in it needs more than half the card to
+   stay legible, so the picture takes the larger share, 1.3 to 1. The
+   project's name sits under the question the card asks, in the card's own
+   sans at the description's size and weight 600: a name, not a second
+   headline. The result line is the one claim a scanner should leave with,
+   so it is charcoal where the lines above it are the card's muted
+   description.
+
+   FROM 768 UP THE PANEL TAKES --space-3xl, the step SPACING.md gives "a
+   large card or a panel", where it took the card's --space-xl before. At 24
+   the laptop sat 24 from the panel's edge on three sides and read as pressed
+   against it; the 16 more is the room a picture that wide wants.
+
+   THE COLUMNS CENTRE. The words were cut to the question, the project, the
+   result and two links, which runs the picture's height from 1024 to the
+   1280 where the container stops growing (340 against 287 at 1024, 317
+   against 310 at 1100, 322 against 364 from 1280), and whichever is shorter
+   sits in the middle of the other. They aligned at the top while a list of
+   five checked lines ran the words twice the picture's height, because a
+   picture centred on a list that long reads as floating. */
+.case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
+.case-card--lab .case-thumb { order: -1; }
 .case-card--lab .case-card-body { display: flex; flex-direction: column; }
 @media (min-width: 768px) {
-  .case-card--lab {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-2xl);
-    align-items: start;
-  }
-  .case-card--lab .case-thumb { margin-bottom: 0; }
+  .case-card--lab { padding: var(--space-3xl); }
 }
-/* THE FEATURED LAB PROJECT. The card now carries a product screen rather
-   than a drawing, and a screen with a column of UI text in it needs more
-   than half the card to stay legible, so the picture takes the larger
-   share from 768 up. The project's name sits under the question the card
-   asks, in the card's own sans at the description's size and weight 600:
-   a name, not a second headline. The result line is the one claim a scanner
-   should leave with, so it is charcoal where the lines above it are the
-   card's muted description. */
-@media (min-width: 768px) {
-  .case-card--lab { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  .case-card--lab {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  .case-card--lab .case-thumb { order: 0; margin-bottom: 0; }
 }
 .case-lab-name {
   margin: var(--space-xs) 0 0;
@@ -689,7 +710,7 @@ a.case-thumb { display: block; }
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
-.case-lab-name + .case-checks { margin-top: var(--space-sm); }
+.case-lab-name + .case-lab-result { margin-top: var(--space-sm); }
 .case-lab-result { color: var(--color-charcoal); }
 /* The other two lab pieces, one quiet line under the feature. */
 .lab-also {
@@ -716,36 +737,6 @@ a.case-thumb { display: block; }
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-/* WHAT THE PROTOTYPE DOES, AS FOUR CHECKED LINES. The card's description was
-   a paragraph of five clauses; it is one short line saying what this is --
-   independent, fictional, not client work, which the card must say first --
-   and then the four things the prototype does, each led by the sage check,
-   the list the prototype pages open with. At the description's own size and
-   in charcoal rather than muted-gray, because these are the claims and the
-   line above them is the caveat. The check is 1em wide and 1lh tall, so it
-   centres on the first line by construction. */
-.case-checks {
-  list-style: none;
-  margin: 0 0 var(--space-md);
-  padding: 0;
-  display: grid;
-  gap: var(--space-2xs);
-}
-.case-checks li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-.case-check {
-  flex-shrink: 0;
-  width: 1em;
-  height: 1lh;
-  color: var(--color-accent-text);
-}
-
 /* ---------- The card's picture is a laptop ----------
    The picture was a drawing from #340 to #343, in the --shadow-media ring
    every drawing wears; see the git history of this block for that argument.
