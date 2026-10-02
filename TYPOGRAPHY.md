@@ -441,10 +441,42 @@ What counts as one, so the next one is easy to place:
 and muted, so it takes the 14px step, `--tracking-label`, and not
 `--tracking-caps`.
 
-**What this does not cover.** A label that names a field rather than the thing
-below it is not a kicker: the `Client` and `What changed` heads in a case
-study's facts strip, a table header, a `dt`. Those keep the case they have;
-changing one of them is a separate decision, and this rule does not make it.
+### Field labels
+
+**A field label is uppercase too.** It is the short name over a value or a
+list (`Client`, `My role`, `What changed`, `Social gaming`), which makes it the
+same kind of thing as a kicker: a label that says what sits under it. The
+first pass on 2026-10-02 did the kickers and eyebrows and left these in
+sentence case as a separate decision; the second pass, the same day, made it.
+Same rules as above: set in CSS, never typed, and a tracking token for the
+size, never a literal.
+
+| Class | Where | Size and tracking |
+|---|---|---|
+| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer) and the category over each list of deliverables | 14px, `--tracking-label` |
+| `.case-field-label` with its small modifier | The verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps` |
+| `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 14px, `--tracking-label` |
+| `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
+| `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
+
+The two sizes are not a choice to make per label: a field label in a strip is
+the 14px one, and the 12px one is for a label that sits over a card's list
+and shares the card with a serif title.
+
+**What this still does not cover**, and why each is its own case:
+
+- A head that is a sentence or a run name. The three `.build-facts` variants
+  on the lab page (two columns, three columns and the icon strip) hold
+  findings ("Rules mattered at the edges.") and run names, which are headings
+  in a grid, not field names, so they opt out of the strip's capitals.
+- A numeral. `.writing-facts dt` is a figure set in the serif; uppercase would
+  turn an `x` in it into an `X`.
+- The labels on a prototype's own screen (`.ck-label` and the like). Those
+  are the product's, and the cockpit sets them as lowercase fragments on
+  purpose. The lead's kicker above is the one exception.
+- The design system page's own annotations of its specimens: `.ds-num`,
+  `.ds-spec`, `.ds-step-px`. They describe a swatch or a size and are read
+  against it, like a caption.
 
 ### Superscripts, and two things the scale does not govern
 
