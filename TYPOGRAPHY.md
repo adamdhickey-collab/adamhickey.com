@@ -417,7 +417,7 @@ literal `0.04em` that no token names; they now take `--tracking-caps` like the
 rest.
 
 **The case is set in CSS and never typed.** The markup keeps ordinary
-capitalization (`Lab · case study · 4 min read`), so the text a screen reader,
+capitalization (`Lab · case study · 6 min read`), so the text a screen reader,
 a search engine and the read-aloud player receive is the sentence and not a
 shout, and a reworded kicker cannot arrive in the wrong case. Do not type a
 kicker in capitals, and do not add a kicker class that leaves out
