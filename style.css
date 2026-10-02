@@ -1057,6 +1057,24 @@ a.case-thumb { display: block; }
   color: var(--story-ink);
   margin-bottom: var(--space-xs);
 }
+/* The shift's one link out, to the case study its third step argues from.
+   The section's ink rather than its accent: --color-accent-text is 4.2:1 on
+   the third step's warm ground, under the floor, and charcoal clears every
+   ground the section cross-fades through. So the affordance is the weight
+   and the underline, in the accent, and the pointer firms the underline to
+   the ink rather than moving the color. */
+.story-step .story-link {
+  color: var(--story-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--story-accent);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--motion-state) var(--ease);
+}
+.story-step .story-link:focus-visible { text-decoration-color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .story-step .story-link:hover { text-decoration-color: currentColor; }
+}
 
 /* Right: sticky media column. */
 .story-sticky {
