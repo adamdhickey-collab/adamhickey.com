@@ -299,11 +299,16 @@ write-up says it has neither. The two prototypes keep their addresses
 under `prototype/` and are listed on the lab index as well; the index
 wears the writing index's shell, and the case study wears the build
 write-ups'. On the homepage the lab is one card under the three accounts
-in Selected work, where the two prototype cards sat until 2026-10-01: a
-drawing in the writing set's hand (`scripts/lab-feature.mjs`, through
-`draw.mjs --set lab`) beside a title written for a hiring manager and a
-list of the lab's pieces. The lab band that briefly sat between Built and
-About went with the pair, and Lab joined the navigation on every page.
+in Selected work, where the two prototype cards sat until 2026-10-01, and
+since #343 it is about Agent Review rather than the lab as a family: the
+product's own screen (`img/lab/agent-review-card.webp`, from
+`scripts/lab-cards.mjs`, the capture the lab index uses too) in the laptop
+the case studies frame their wide captures in, beside the question the lab
+asks, the project, its result and two links, with the two prototypes and
+the lab index as one line under it. The drawing the card carried before
+that, and the script that drew it, are gone. The lab band that briefly sat
+between Built and About went with the pair, and Lab joined the navigation
+on every page.
 
 The page lets the reader press the thing before it explains it. Since
 2026-09-20 the problem is followed straight by the live cockpit, and the
