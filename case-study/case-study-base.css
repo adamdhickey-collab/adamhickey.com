@@ -134,6 +134,23 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   text-transform: uppercase;
 }
 
+/* ---------- Field labels ----------
+   The label that names what sits under it: Client, My role, Timeline, What
+   changed in a facts strip, the category over a list of deliverables, the
+   verb over a column of them. Uppercase like every kicker and eyebrow, and at
+   14px that is --tracking-label. Size, line height, colour and the gap under
+   it stay with the page's own text-sm / text-xs, text-* and mb-* utilities:
+   the facts strip alternates charcoal and sage heads, and text-xs is not only
+   a size here, it is what keeps `.min-h-screen p.mb-4:not(.text-xs)` from
+   setting a 12px label at 18px. The modifier is the 12px label on a card,
+   which is a kicker's size and so takes a kicker's tracking. */
+.case-field-label {
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.case-field-label--sm { letter-spacing: var(--tracking-caps); }
+
 /* ---------- Sticky in-page section nav ---------- */
 /* The captured markup wraps the whole page in `overflow-x-hidden`, and
    `overflow-x: hidden` turns that wrapper into a scroll container, which

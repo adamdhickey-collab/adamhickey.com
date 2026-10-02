@@ -4096,13 +4096,25 @@ html.ah-lightbox-open body { overflow: hidden; }
   }
 }
 @media (min-width: 1024px) { .build-facts { grid-template-columns: repeat(4, 1fr); } }
+/* A FIELD LABEL, so it is uppercase like every other label that names what
+   sits under it (TYPOGRAPHY.md, "Kickers and eyebrows"). At 14px that is
+   --tracking-label. Three strips use these cells for something that is not a
+   field and opt out below: the numeral row (.writing-facts) and the lab's two
+   findings layouts, whose heads are sentences and run names. */
 .build-facts dt {
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: 600;
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--color-charcoal);
   margin-bottom: var(--space-2xs);
+}
+.build-facts--two dt,
+.build-facts--three dt,
+.build-facts--icons dt {
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
 }
 .build-facts dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
 
@@ -4160,6 +4172,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   display: block;
   margin-top: var(--space-2xs);
   font-weight: 400;
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
   color: var(--color-muted-gray);
 }
 /* The feedback loop as six numbered steps behind a rule: a sequence to
@@ -4480,8 +4494,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
 }
 .glance-facts dt {
-  font-family: var(--font-sans); font-size: 0.6875rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-muted-gray);
   margin: 0 0 var(--space-2xs);
 }
@@ -5783,6 +5797,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-weight: var(--weight-regular);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-title);
+  text-transform: none;
   color: var(--color-charcoal);
   margin-bottom: var(--space-xs);
   font-variant-numeric: tabular-nums;
