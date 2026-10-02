@@ -98,7 +98,7 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20261002f" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
-  <link rel="stylesheet" href="../design-psychology.css?v=5" />
+  <link rel="stylesheet" href="../design-psychology.css?v=6" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
@@ -442,9 +442,14 @@
         </dl>
         <aside class="dp-note hj-note" aria-labelledby="hj-shared-label">
           <p class="dp-note-label" id="hj-shared-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Two agents read the same rule about shared components and did opposite things, and both were defensible.</h3>
-          <p class="dp-note-body">A 1rem checkbox in a 2rem table head grew the row by two pixels. The first run changed twelve lines of the shared Table stylesheet, measured the head before and after against the base commit, and showed the Table&rsquo;s own SelectedRows story had the defect. The second run measured the same growth and flagged it rather than touch a shared file. No check can rank those two: one is a defect the feature exposed, the other a local need solved in a shared place, and only the measurement says which. It said the first, so the change was accepted and the rule now says what a reason looks like.</p>
-          <p class="dp-note-source">Evidence: rule 9 of the <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/skills/ui-quality/SKILL.md" target="_blank" rel="noopener noreferrer">ui-quality skill</a>, and both runs&rsquo; change descriptions under <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment/changes" target="_blank" rel="noopener noreferrer">docs/experiment/changes</a>.</p>
+          <h3 class="dp-note-head">Two agents read the same rule and did opposite things. Both were defensible.</h3>
+          <p class="dp-note-body">A 1rem checkbox in a 2rem table head grew the row by two pixels.</p>
+          <ul class="build-list dp-note-list">
+            <li><strong>Run one</strong> changed twelve lines of the shared Table stylesheet.</li>
+            <li><strong>Run two</strong> flagged the growth and left the shared file alone.</li>
+            <li><strong>The call:</strong> the measurement showed the Table&rsquo;s own story had the defect, so run one stood.</li>
+          </ul>
+          <p class="dp-note-source">Evidence: rule 9 of the <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/skills/ui-quality/SKILL.md" target="_blank" rel="noopener noreferrer">ui-quality skill</a>; both runs&rsquo; <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment/changes" target="_blank" rel="noopener noreferrer">change descriptions</a>.</p>
         </aside>
       </div>
     </section>
@@ -466,9 +471,14 @@
         </figure>
         <aside class="dp-note hj-note" aria-labelledby="hj-diff-label">
           <p class="dp-note-label" id="hj-diff-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Four red frames on every branch, and on two of the three every one of them is the feature working.</h3>
-          <p class="dp-note-body">The visual run flagged the same four frames on all three branches. To a pixel comparison a control column arriving and a bar running off the edge are the same event. On the first two branches all four are the change that was asked for and become the new baselines; on the seeded branch the same frames carry the overflow and the wider buttons. Reading which is which is the step the comparison cannot take, so the product makes it a field on the finding: expected, or not asked for. The seeded branch also found a check that could not fail: the overflow test measured a container whose parent clips, and it now measures every toolbar&rsquo;s own box.</p>
-          <p class="dp-note-source">Evidence: the frames and their pixel counts per branch, in <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">the experiment record</a>.</p>
+          <h3 class="dp-note-head">Four red frames on every branch. On two of the three, that was the feature working.</h3>
+          <p class="dp-note-body">A pixel comparison cannot tell a control column arriving from a bar running off the edge.</p>
+          <ul class="build-list dp-note-list">
+            <li><strong>Branches one and two:</strong> all four frames are the requested change, and become the new baselines.</li>
+            <li><strong>The seeded branch:</strong> the same four frames carry the overflow and the wider buttons.</li>
+            <li><strong>So the product</strong> makes it a field on each finding: expected, or not asked for.</li>
+          </ul>
+          <p class="dp-note-source">Evidence: pixel counts per branch, in <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">the experiment record</a>.</p>
         </aside>
       </div>
     </section>
@@ -485,8 +495,13 @@
         <aside class="dp-note hj-note" aria-labelledby="hj-return-label">
           <p class="dp-note-label" id="hj-return-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
           <h3 class="dp-note-head">A correction names the token and the rule, or it is a request to guess again.</h3>
-          <p class="dp-note-body">The bar&rsquo;s selection count measured 2.87:1 against its ground, and the fastest fix was to darken it by hand before merging. That would have left the system exactly as it was, with the next agent as likely to make the same choice. The return message instead names the token to use, <code>--color-text-secondary</code>, the rule it answers to, and the story that should show the state, composed from the finding rather than typed into a box. In that form the correction is something the agent can act on and the next reader can trace.</p>
-          <p class="dp-note-source">Evidence: the composed return message in the review, and the finding it was built from.</p>
+          <p class="dp-note-body">The bar&rsquo;s selection count measured 2.87:1 against its ground. Darkening it by hand was the fastest fix, and would have left the system as it was. The return message names:</p>
+          <ul class="build-list dp-note-list">
+            <li>the token to use, <code>--color-text-secondary</code></li>
+            <li>the rule it answers to</li>
+            <li>the story that should show the state</li>
+          </ul>
+          <p class="dp-note-source">Evidence: the return message in the review, and the finding behind it.</p>
         </aside>
       </div>
     </section>
@@ -502,9 +517,15 @@
         </ul>
         <aside class="dp-note hj-note" aria-labelledby="hj-learn-label">
           <p class="dp-note-label" id="hj-learn-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Four findings, and four different answers to what the system should learn.</h3>
-          <p class="dp-note-body">The off-token padding changed nothing: the lint already caught it, and a rule that works does not need a second copy. The overflow changed the test. The near-copy button became one line in the rules&rsquo; list of common misses. The contrast failure changed nothing either, because the token and the rule both existed and the branch did not use them, which is a review finding and not a gap. Deciding which is which is what keeps the rule set short enough for an agent to read before every change.</p>
-          <p class="dp-note-source">Evidence: the diff to the system after the review, recorded in <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment" target="_blank" rel="noopener noreferrer">docs/experiment</a>.</p>
+          <h3 class="dp-note-head">Four findings, four different answers to what the system should learn.</h3>
+          <p class="dp-note-body">Sorting them keeps the rules short enough for an agent to read each time.</p>
+          <ul class="build-list dp-note-list">
+            <li><strong>Off-token padding:</strong> nothing. The lint already caught it.</li>
+            <li><strong>Overflow:</strong> the test changed.</li>
+            <li><strong>Near-copy button:</strong> a line in the list of common misses.</li>
+            <li><strong>Contrast failure:</strong> nothing. The token and rule already existed; the branch ignored them.</li>
+          </ul>
+          <p class="dp-note-source">Evidence: the diff to the system after the review, in <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment" target="_blank" rel="noopener noreferrer">docs/experiment</a>.</p>
         </aside>
       </div>
     </section>
