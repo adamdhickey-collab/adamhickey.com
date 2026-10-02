@@ -85,7 +85,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261002a" />
+  <link rel="stylesheet" href="../style.css?v=20261002c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="ds.css?v=39" />
 </head>
@@ -319,7 +319,7 @@
             <p style="font-family:var(--font-serif);font-style:italic;font-size:var(--text-2xl);line-height:var(--leading-tight);color:var(--color-charcoal);margin:0">From an idea everyone talks about to a working experience you can judge.</p></li>
           <li><span class="ds-spec">Montserrat 400 &middot; the interface &middot; body, labels, UI</span>
             <p style="max-width:42rem;font-size:var(--text-base);line-height:var(--leading-body);margin:0">Most engagements start with a situation, not a request for deliverables. Each one has a defined shape, and when the problem is still taking shape the first step is a smaller one.</p></li>
-          <li><span class="ds-spec">Montserrat 600 &middot; tracked 0.12em &middot; kickers and eyebrows</span>
+          <li><span class="ds-spec">Montserrat 600 &middot; uppercase &middot; tracked 0.12em &middot; kickers and eyebrows</span>
             <span style="font-family:var(--font-sans);font-size:var(--text-xs);font-weight:600;letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--color-accent-text)">Engagement 04 &middot; Ideas everywhere, nothing you can use yet</span></li>
         </ul>
 
@@ -837,7 +837,7 @@
           <div class="ds-demo is-dark">
             <p class="eng3-kicker" style="margin:0">Engagement 04 &middot; Ideas everywhere, nothing you can use yet</p>
           </div>
-          <p class="ds-demo-note">The eyebrow above a page title: 0.8125rem Montserrat 600, tracked 0.08em, uppercase, in the accent for its surface. A middot separates the family from the situation.</p>
+          <p class="ds-demo-note">The eyebrow above a page title: <code>--text-xs</code> Montserrat 600, uppercase, tracked <code>--tracking-caps</code> (0.12em), in the accent for its surface. A middot separates the family from the situation. <strong>Every kicker and eyebrow on the site is this one treatment</strong>: the line above a case study or an article, the &ldquo;Next&rdquo; link at the foot of a page, the &ldquo;Key idea 2 of 6&rdquo; above each section, the section eyebrows on the homepage. The case is set in CSS, so the markup stays in ordinary capitalization. The read time above a case study&rsquo;s title is the one that is not 12px: it is 14px and muted, so it takes <code>--tracking-label</code> instead.</p>
           <details class="ds-usage">
             <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span>Markup</span></summary>
             <pre class="ds-code"><code>&lt;p class=&quot;eng3-kicker&quot;&gt;How I work &amp;middot; Ideas everywhere, nothing you can use yet&lt;/p&gt;
@@ -845,7 +845,9 @@
           </details>
           <ul class="ds-guide">
             <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> put it directly above the title, naming position and subject.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> type it in ordinary capitalization and let the stylesheet set the capitals. A screen reader and a search engine then get a sentence rather than a shout.</span></li>
             <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> use it beneath a title as a subtitle. It is an eyebrow; below the title it reads as a stray label.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> set one in sentence case, or give a new kicker class its own tracking. A kicker that leaves out <code>text-transform: uppercase</code> reads as a different kind of label from the rest.</span></li>
           </ul>
         </div>
 
@@ -1107,7 +1109,7 @@
         </div>
         <div class="ds-component">
           <h3>Read time</h3>
-          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. A single line above the title on a case study, in the same position the kicker occupies on regime A. It is written by hand, not computed &mdash; there is no build step to compute it in.</p>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. A single uppercase line above the title on a case study, in the same position the kicker occupies on regime A, and set in capitals like every other eyebrow. It is written by hand, not computed &mdash; there is no build step to compute it in.</p>
           <details class="ds-usage">
             <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span>Markup</span></summary>
             <pre class="ds-code"><code>&lt;span class=&quot;case-readtime&quot;&gt;3 min read&lt;/span&gt;
@@ -1120,7 +1122,7 @@
         </div>
         <div class="ds-component">
           <h3>Next-case closing</h3>
-          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. The foot of every case study: one link to the next one, with an eyebrow above the title. It is the only navigation at the bottom of a detail page, and it is deliberately a single destination rather than a grid &mdash; a reader who finished one case study is offered the next, not a menu.</p>
+          <p class="ds-demo-note"><strong>No specimen here, and the reason is the architecture.</strong> This lives in <code>case-study-base.css</code>, which only the six Tailwind case studies load &mdash; this page loads <code>style.css</code>. A specimen rebuilt from the design system&rsquo;s own tokens would look right and drift the moment the case studies moved, which is the one thing every other specimen on this page is built not to do. The foot of every case study: one link to the next one, with an uppercase eyebrow above the title. It is the only navigation at the bottom of a detail page, and it is deliberately a single destination rather than a grid &mdash; a reader who finished one case study is offered the next, not a menu.</p>
           <details class="ds-usage">
             <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span>Markup</span></summary>
             <pre class="ds-code"><code>&lt;section class=&quot;case-closing&quot; aria-label=&quot;Continue reading&quot;&gt;
