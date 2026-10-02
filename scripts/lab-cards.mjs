@@ -6,8 +6,14 @@
    Two are recomposed from captures that already exist under img/console/
    and img/cockpit/, cropped to 16:9 from the top of the frame, where each
    prototype's card and table sit. The third is a fresh capture of Agent
-   Review at a reviewable moment: the change open on the overflow finding,
-   with the preview at 768 and the element outlined. It is taken from the
+   Review's change screen for run 1, the accepted run, at 720px wide, which
+   is the product's own tablet layout: one column, the title, Return to
+   agent / Reject / Accept, the five checks, the components touched and the
+   first finding with its rule. It was the full desktop review at 1440, the
+   overflow finding open with the preview at 768 and the element outlined,
+   and at the size this card prints (about 600px on the home page, 456 at
+   1024) that was a miniature nobody could read; 720 wide, printed at 1280,
+   is type that survives being shrunk to a laptop. It is taken from the
    product's own dev server, so run `npm run dev` in ../agent-review first,
    or pass --from <url> for the deployed address.
 
@@ -32,7 +38,10 @@ const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== fr
 const CARDS = {
   'deploy-console': { image: 'img/console/slide-failing.webp' },
   'dispatch-cockpit': { image: 'img/cockpit/slide-close-call.webp' },
-  'agent-review': { url: `${from}#/changes/rv-2043/findings/f3-overflow`, width: 1440, height: 810 },
+  /* A url card is captured at its own CSS size and scaled by the device
+     pixel ratio to exactly 1280x720, so there is no resample step: 720 x
+     405 at 1280 / 720 = 1.778. */
+  'agent-review': { url: `${from}#/changes/rv-2041`, width: 720, height: 405 },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -40,7 +49,7 @@ const browser = await chromium.launch({ executablePath: CHROME });
 try {
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
-    const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.width ? 1280 / card.width : 1 });
     if (card.image) {
       /* Crop from the top: a 1360x1020 capture at 1280 wide is 960 tall,
          and the first 720 of it is the part with the card in it. */
@@ -55,24 +64,7 @@ try {
     }
     const file = path.join(OUT, `${slug}-card.webp`);
     const buf = await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
-    if (card.width && card.width !== 1280) {
-      /* Resample the wider capture to 1280x720 through a canvas, in the
-         same browser, so there is one encoder in the chain. */
-      const scaled = await page.evaluate(async (b64) => {
-        const img = new Image();
-        img.src = `data:image/webp;base64,${b64}`;
-        await img.decode();
-        const c = document.createElement('canvas');
-        c.width = 1280; c.height = 720;
-        const ctx = c.getContext('2d');
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(img, 0, 0, 1280, 720);
-        return c.toDataURL('image/webp', 0.86).split(',')[1];
-      }, buf.toString('base64'));
-      fs.writeFileSync(file, Buffer.from(scaled, 'base64'));
-    } else {
-      fs.writeFileSync(file, buf);
-    }
+    fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
     await page.close();
   }
