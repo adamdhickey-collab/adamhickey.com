@@ -268,7 +268,7 @@
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">More than an approve button. A person supervising an agent needs to know what it is allowed to do on its own, to be asked before the step that is expensive to undo, to read afterward what it did and what each step stood on, to stop it and pick the work up where it stopped, and to change its instructions and test the change before the next run. The scenario below is illustrative, and the prototype it draws on recommends rather than acts; that difference is the subject.</p>
+        <p class="build-dek">More than an approve button. An agent takes a run of steps, so the person supervising it has to judge the whole run, not one answer. The scenario below is illustrative, and the prototype it draws on recommends rather than acts. That difference is the subject.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -301,13 +301,21 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 7</p>
           <h2 id="a-recommendation-is-one-decision-an-agent-is-a-run-of-them">A recommendation is one decision; an agent is a run of them</h2>
-          <p>Most of what I have written about AI on this site is about one decision. A system recommends, a person judges, and the interface is what sits between the two. <a href="../prototype/dispatch-cockpit.html">Second Look</a>, my dispatch prototype, is that shape exactly: one load, one truck, one press.</p>
-          <p>An agent is a different shape. It is given a goal rather than a question, and it takes a run of steps to reach it: read the failed order, find the missing field, look up the partner&rsquo;s rule, draft the fix, resubmit, move to the next one. Nobody is watching each step, which is the point of it and also the problem. <mark>The unit a person has to be able to judge is no longer the answer. It is the run.</mark></p>
-          <p>Take an agent that works the overnight queue of failed orders. By morning it has touched forty. The specialist who arrives at seven does not need forty recommendations to review. They need to know which of the forty it was sure about, which it was not, what it did when it was not, and whether any of that can still be undone. Every section below is one of those needs.</p>
+          <p>Most of what I have written about AI here is about one decision. A system recommends and a person judges, with the interface in between. <a href="../prototype/dispatch-cockpit.html">Second Look</a>, my dispatch prototype, is that shape exactly: one load, one truck, one press.</p>
+          <p>An agent is a different shape. It is given a goal rather than a question. It takes a run of steps: read the failed order, find the missing field, look up the partner&rsquo;s rule, draft the fix, resubmit, move on.</p>
+          <p>Nobody is watching each step. That is the point of it and also the problem. <mark>The unit a person has to be able to judge is no longer the answer. It is the run.</mark></p>
+          <p>Take an agent that works the overnight queue of failed orders. By morning it has touched forty. The specialist who arrives at seven does not need forty recommendations to review. They need to know:</p>
+          <ul>
+            <li>Which of the forty it was sure about</li>
+            <li>Which it was not</li>
+            <li>What it did when it was not</li>
+            <li>Whether any of that can still be undone</li>
+          </ul>
 
           <p class="writing-eyebrow">Key idea 2 of 7</p>
           <h2 id="draw-the-line-where-a-mistake-gets-expensive-not-where-it-gets-possible">Draw the line where a mistake gets expensive, not where it gets possible</h2>
-          <p>The first design decision is made off the screen: the line between what the agent may do on its own and what it has to ask about, and the place to draw it is where a mistake becomes expensive to reverse, not where a mistake becomes possible. Reading an order costs nothing to get wrong. Drafting a correction costs a review. Resubmitting the order to a trading partner costs a phone call. Changing the rule that translates every order from that partner costs a week.</p>
+          <p>The first design decision is made off the screen. It is the line between what the agent may do on its own and what it has to ask about. Draw it where a mistake becomes expensive to reverse, not where a mistake becomes possible.</p>
+          <p>Reading an order costs nothing to get wrong. Resubmitting it to a trading partner costs a phone call. Changing the rule that translates every order from that partner costs a week.</p>
           <figure class="writing-figure">
             <figcaption>One run, and where the line falls in it</figcaption>
             <ol class="writing-flow">
@@ -318,23 +326,43 @@
               <li data-level="5" class="writing-flow-mark">Change the rule<small>every future order; a week to undo</small></li>
             </ol>
           </figure>
-          <p>Second Look draws this line in one place. Assign stages a choice that Undo reverses, and the page says that where Assign sent a driver, a confirmation would earn its place. That is the same line, drawn for a system that only recommends. <mark>Autonomy is not a setting on the agent. It is a boundary in the workflow, and engineering has to enforce it where the copy describes it.</mark> The person supervising the agent has to be able to see where the line is and move it, for this partner or this kind of order, without opening a ticket.</p>
+          <p>Second Look draws this line in one place. Assign stages a choice that Undo reverses. The page says that where Assign sent a driver, a confirmation would earn its place. That is the same line, drawn for a system that only recommends.</p>
+          <p><mark>Autonomy is not a setting on the agent. It is a boundary in the workflow, and engineering has to enforce it where the copy describes it.</mark> The person supervising the agent has to see where the line is and move it, for this partner or this kind of order, without opening a ticket.</p>
 
           <p class="writing-eyebrow">Key idea 3 of 7</p>
           <h2 id="approval-is-a-question-with-the-evidence-attached">Approval is a question with the evidence attached</h2>
-          <p>When the agent reaches the line, it asks. How it asks is most of the interface. A question that says &ldquo;Resubmit order 4471?&rdquo; is a question people learn to answer yes to, because there is nothing in it to judge.</p>
-          <p>The question that works carries its evidence. This order failed on a missing customer identifier; the same field is missing on eleven others from this partner since Tuesday; here is the corrected document beside the original with the change marked; here is the last time this correction was made, and what happened. That is Second Look&rsquo;s card asked in the other direction: the same factors and the same record, arriving as a question rather than a suggestion. <mark>An approval without the evidence is a rubber stamp, and the rubber stamp is what the agent was supposed to replace.</mark></p>
-          <p>Two things belong on the question and are usually missing. What happens if nobody answers, because at three in the morning nobody will, so the agent has to hold the order or skip it and say which it did. And what the answer is worth: whether a yes here applies to this order alone or teaches the agent to stop asking about this kind of case. A person who cannot tell those apart will answer the first one and be surprised by the second.</p>
+          <p>When the agent reaches the line, it asks. How it asks is most of the interface. A question that says &ldquo;Resubmit order 4471?&rdquo; teaches people to answer yes, because there is nothing in it to judge.</p>
+          <p>The question that works carries its evidence:</p>
+          <ul>
+            <li>This order failed on a missing customer identifier.</li>
+            <li>The same field is missing on eleven others from this partner since Tuesday.</li>
+            <li>Here is the corrected document beside the original, with the change marked.</li>
+            <li>Here is the last time this correction was made, and what happened.</li>
+          </ul>
+          <p>That is Second Look&rsquo;s card asked in the other direction: the same factors and the same record, arriving as a question rather than a suggestion. <mark>An approval without the evidence is a rubber stamp, and the rubber stamp is what the agent was supposed to replace.</mark></p>
+          <p>Two things belong on the question and are usually missing:</p>
+          <ul>
+            <li>What happens if nobody answers. At three in the morning nobody will, so the agent has to hold the order or skip it and say which it did.</li>
+            <li>What the answer is worth: whether a yes here applies to this order alone or teaches the agent to stop asking about this kind of case.</li>
+          </ul>
+          <p>A person who cannot tell the two kinds of yes apart will answer for one order and be surprised when the agent stops asking.</p>
           <aside class="dp-note" aria-labelledby="dp-scope-label">
             <p class="dp-note-label" id="dp-scope-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
             <h3 class="dp-note-head">When in doubt, do less, and say so</h3>
-            <p class="dp-note-body">The one guideline for human&ndash;AI interaction I would keep if I could keep one is the instruction to scope the service when in doubt: when the system is unsure what is wanted, it should ask or do less, not guess and do more. For an agent that is the whole design. Every step it is unsure about is a step it can hold and hand to a person, and a held step with its evidence attached is cheaper for everyone than a confident wrong one that has to be found and reversed. A held step is the state the supervising person is there for.</p>
+            <p class="dp-note-body">The one human&ndash;AI guideline I would keep is to scope the service when in doubt: ask or do less, not guess and do more. For an agent that is the whole design. A step it holds for a person, with its evidence attached, is cheaper than a confident wrong one that has to be found and reversed. That held step is what the supervising person is there for.</p>
             <p class="dp-note-source">The guidelines, with the research behind each: <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">Microsoft, Guidelines for Human-AI Interaction</a></p>
           </aside>
 
           <p class="writing-eyebrow">Key idea 4 of 7</p>
           <h2 id="the-run-has-to-be-readable-afterward-by-someone-who-was-not-there">The run has to be readable afterward, by someone who was not there</h2>
-          <p>Whatever the agent did on its own has to be readable afterward by a person who was not in the room, and readable is a stronger word than logged. A log is what the engineers get. The specialist at seven needs the run as a list: forty orders, each with what the agent decided, the step at which it decided it, what that step stood on, and whether the effect can still be reversed. The three that hit the line and waited are at the top. The one it skipped because the partner&rsquo;s rule did not cover it is next. The thirty-six it corrected and resubmitted are a group, opened only if something in the morning looks wrong.</p>
+          <p>Whatever the agent did on its own has to be readable afterward by a person who was not in the room. Readable is a stronger word than logged. The specialist at seven needs the run as a list of forty orders, each with:</p>
+          <ul>
+            <li>What the agent decided</li>
+            <li>The step at which it decided</li>
+            <li>What that step stood on</li>
+            <li>Whether the effect can still be reversed</li>
+          </ul>
+          <p>The three that hit the line and waited are at the top. The one it skipped because the partner&rsquo;s rule did not cover it is next. The thirty-six it corrected and resubmitted are a group, opened only if something in the morning looks wrong.</p>
           <figure class="writing-figure">
             <figcaption>What the log holds, and what the person needs from it</figcaption>
             <div class="writing-split">
@@ -358,12 +386,20 @@
               </div>
             </div>
           </figure>
-          <p>Second Look writes only half of this, and its page says so: the override reason is saved, and what the system recommended, on which figures, at what time, is not. A recommendation can get away with half a record for a while, because a person was there for every press. An agent that acts has to write both halves, at every step, or the person supervising it is supervising a memory. <mark>The record is the interface. If a decision cannot be reconstructed from it, the agent was not supervised. It was trusted.</mark></p>
+          <p>Second Look writes only half of this. Its page says so. The override reason is saved. What the system recommended, on which figures, at what time, is not. A recommendation can get away with half a record for a while because a person was there for every press.</p>
+          <p>An agent that acts has to write both halves at every step, or the person supervising it is supervising a memory. <mark>The record is the interface. If a decision cannot be reconstructed from it, the agent was not supervised. It was trusted.</mark></p>
 
           <p class="writing-eyebrow">Key idea 5 of 7</p>
           <h2 id="stopping-is-an-interface-and-so-is-picking-up-where-it-stopped">Stopping is an interface, and so is picking up where it stopped</h2>
-          <p>Stopping an agent sounds like one button, and it is three. Stop before the next step, which is cheap and always available. Stop and undo the last step, which is only possible if the last step was reversible and the record says so. And stop and hand the queue back, half done, to a person, which is the one nobody designs and everyone needs the first time the agent fails at order twenty-two.</p>
-          <p>What the person needs then is the state of the work: which orders are done, which are touched and not finished, which are untouched, and a way to take the queue from there without the agent&rsquo;s help. That is the question an operations floor asks when a transaction stalls, what happened, what it affects, what can I safely do next, asked of the agent instead of the system. The failure halfway through is the ordinary case, and the interface for it is the interface for the whole thing, because it is the one the person actually uses.</p>
+          <p>Stopping an agent sounds like one button, and it is three:</p>
+          <ul>
+            <li>Stop before the next step. It is cheap and always available.</li>
+            <li>Stop and undo the last step. It is only possible if the last step was reversible and the record says so.</li>
+            <li>Stop and hand the queue back, half done, to a person. It is the one nobody designs and everyone needs the first time the agent fails at order twenty-two.</li>
+          </ul>
+          <p>What the person needs then is the state of the work: which orders are done, which are touched and not finished, and which are untouched. They also need a way to take the queue from there without the agent&rsquo;s help.</p>
+          <p>That is the question an operations floor asks when a transaction stalls: what happened, what it affects, what can I safely do next. Here it is asked of the agent instead of the system.</p>
+          <p>The failure halfway through is the ordinary case. The interface for it is the interface for the whole thing, because it is the one the person actually uses.</p>
           <aside class="writing-pull" aria-hidden="true">
             <p>If a decision cannot be reconstructed from the record, the agent was not supervised. It was trusted.</p>
           </aside>
@@ -377,13 +413,28 @@
 
           <p class="writing-eyebrow">Key idea 6 of 7</p>
           <h2 id="the-instruction-is-a-design-surface-and-the-test-is-the-other-half-of-it">The instruction is a design surface, and the test is the other half of it</h2>
-          <p>The agent does what its instructions say, and the instructions are written by someone who is not an engineer: the specialist, the dispatch manager, the customer-service lead. That makes the instruction a design surface, and most of them are a text box.</p>
-          <p>The interface for an instruction needs what a good form needs: what this instruction changes, which cases it applies to, an example of it applied, and what it conflicts with. Then it needs a way to try it before it runs on real orders: last night&rsquo;s forty, replayed under the new instruction, with every decision that changed marked. That is the test set, and the test is where the person learns whether the change did what they meant. I wrote the same loop into Second Look&rsquo;s study: matched scenarios, a plausible wrong answer, a stale figure, run before shipping and again after every change. For an agent, the same loop is the control panel. <mark>A person who can change the instruction but cannot test it is not in control of the agent. They are editing it and hoping.</mark></p>
-          <p>I have tried a small version of this with a different kind of agent. In <a href="../lab/agent-review.html">Agent Review</a> a coding agent reads twelve written rules before it changes an interface, and each rule names the command that checks it, so an instruction and its test arrive together. The experiment also put the instruction in its place. The same feature request, run once with the rules and once without, stayed inside the component system both times; the rules changed what the agent did only at the edges, such as whether it touched a shared file. One request and two runs is a small sample, but it suggests the instruction is a smaller lever than it looks, and the test is where the control actually is.</p>
+          <p>The agent does what its instructions say. They are written by someone who is not an engineer: the specialist, the dispatch manager, the customer-service lead. That makes the instruction a design surface, and most are a text box.</p>
+          <p>The interface for an instruction needs what a good form needs:</p>
+          <ul>
+            <li>What this instruction changes</li>
+            <li>Which cases it applies to</li>
+            <li>An example of it applied</li>
+            <li>What it conflicts with</li>
+          </ul>
+          <p>Then it needs a way to try the instruction before it runs on real orders: last night&rsquo;s forty, replayed under the new instruction, with every decision that changed marked. That is the test set. The test is where the person learns whether the change did what they meant.</p>
+          <p>I wrote the same loop into Second Look&rsquo;s study. It used matched scenarios, a plausible wrong answer and a stale figure, run before shipping and again after every change. For an agent the same loop is the control panel. <mark>A person who can change the instruction but cannot test it is not in control of the agent. They are editing it and hoping.</mark></p>
+          <p>I have tried a small version of this with a different kind of agent. In <a href="../lab/agent-review.html">Agent Review</a> a coding agent reads twelve written rules before it changes an interface. Each rule names the command that checks it, so an instruction and its test arrive together.</p>
+          <p>Run once with the rules and once without, the same feature request stayed inside the component system both times. The rules changed what the agent did only at the edges, such as whether it touched a shared file. One request and two runs is a small sample. It suggests the instruction is a smaller lever than it looks. The test is where the control actually is.</p>
 
           <p class="writing-eyebrow">Key idea 7 of 7</p>
           <h2 id="measure-what-the-person-caught-not-what-the-agent-finished">Measure what the person caught, not what the agent finished</h2>
-          <p>An agent&rsquo;s dashboard measures what the agent finished: orders cleared, hours saved, the share resubmitted without a person. Those are the vendor&rsquo;s numbers. The supervising person&rsquo;s numbers are the other ones: how many of the agent&rsquo;s decisions a person caught before they cost anything, how many got through, how long the queue took to hand back the night it failed, and whether the instruction changes made the next night better than the last.</p>
+          <p>An agent&rsquo;s dashboard measures what the agent finished: orders cleared, hours saved, the share resubmitted without a person. Those are the vendor&rsquo;s numbers. The supervising person&rsquo;s numbers are the other ones:</p>
+          <ul>
+            <li>How many of the agent&rsquo;s decisions a person caught before they cost anything</li>
+            <li>How many got through</li>
+            <li>How long the queue took to hand back the night it failed</li>
+            <li>Whether the instruction changes made the next night better than the last</li>
+          </ul>
           <figure class="writing-figure">
             <figcaption>What Second Look already holds itself to, and what an agent would add</figcaption>
             <dl class="build-facts writing-facts">
@@ -392,14 +443,15 @@
               <div><dt>0</dt><dd>actions the prototype takes without a press; the version that acts is the one this article is about</dd></div>
             </dl>
           </figure>
-          <p>That last measure, whether the next night was better, is the one Agent Review taught me to take seriously. After one review there, of four findings, one changed a test, one became a line in the rules, and two changed nothing, because the lint already caught one and the token and the rule for the other already existed and had simply not been used. Deciding which is which is what keeps the instructions short enough to be read before every run.</p>
+          <p>That last measure, whether the next night was better, is the one Agent Review taught me to take seriously. After one review there, one of four findings changed a test and one became a line in the rules. Two changed nothing. The lint already caught one. The other already had a token and a rule that had simply not been used.</p>
+          <p>Deciding which is which keeps the instructions short enough to be read before every run.</p>
           <p>Second Look&rsquo;s measure is the decision, not the acceptance. An agent&rsquo;s is the catch, not the completion. <mark>An agent that finishes everything and is never caught is either perfect or unsupervised, and the dashboard cannot tell you which.</mark></p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">An agent is a run of decisions, so the person supervising it needs the line between what it does alone and what it asks about, a question that carries its evidence, a record the run can be reconstructed from, three kinds of stop, an instruction they can test before it runs, and a measure of what they caught rather than what it finished.</p>
-            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> before you design the agent&rsquo;s good night, design the morning after it failed at step twenty-two, and show that screen to the person who would open it.</p>
+            <p class="writing-recap-sum">An agent is a run of decisions. The person supervising it needs a line between acting and asking, evidence on every question and a readable record. They also need three kinds of stop, a test for each instruction and a measure of what they caught.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> before you design the agent&rsquo;s good night, design the morning after it failed at step twenty-two. Show that screen to the person who would open it.</p>
           </aside>
         </div>
       </div>
