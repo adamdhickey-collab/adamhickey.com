@@ -4328,6 +4328,24 @@ html.ah-lightbox-open body { overflow: hidden; }
 @media (min-width: 768px) {
   .build-flow-row--pair { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Lucy Learns: every row of phones at the hero's size. The hero sits in the
+   full frame, so its row reaches the 990px cap and a phone is 314px. The two
+   rows further down sit in .case-narrow, 896px, and the same markup gave 261:
+   the same screens, 17% smaller, in the part of the page where a reader is
+   looking hardest at the type inside them. A figure marked --wide takes the
+   hero's width instead -- the cap, or the viewport less its two gutters,
+   whichever is smaller -- and centers on the column it is breaking out of, so
+   it overhangs the prose by the same amount either side. The caption is inside
+   the figure and moves with it. 56rem is .case-narrow's own width: below it
+   the column already is the viewport and the rows agree. The row's own
+   max-width is the 990, so the figure only has to be at least that wide. */
+@media (min-width: 56rem) {
+  .case-narrow > .build-flow--wide {
+    width: min(990px, 100vw - 2 * var(--gutter));
+    margin-inline: calc(50% - min(495px, 50vw - var(--gutter)));
+  }
+}
 .build-phone {
   --shell-radius: 26px;
   border-radius: var(--shell-radius);
