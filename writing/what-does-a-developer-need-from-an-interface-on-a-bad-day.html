@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.html",
           "image": "https://adamhickey.com/img/og/what-does-a-developer-need-from-an-interface-on-a-bad-day.jpg",
           "datePublished": "2026-09-22",
-          "dateModified": "2026-10-01",
+          "dateModified": "2026-10-02",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -266,7 +266,7 @@
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">The same things anyone needs when the work has stopped: what broke, what it affects, what changed, and what they can safely do next, in that order, on a screen that assumes they are in a hurry. A developer&rsquo;s tools are opened most when something has failed, so the error message, the empty state, the log and the first ten minutes are the product rather than its edges. Every incident below happened to this site, and the Deploy Console prototype is where the same principles are tried on one screen.</p>
+        <p class="build-dek">What anyone needs when work has stopped: what broke and what it affects, what changed and what is safe to do next. Developers open their tools mostly when something has failed. So the error message and empty state, the log and the first ten minutes are the product. Every incident below happened to this site.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -299,13 +299,14 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 7</p>
           <h2 id="the-screens-a-developer-opens-most-are-the-ones-that-open-when-something-broke">The screens a developer opens most are the ones that open when something broke</h2>
-          <p>A developer does not open the dashboard when the deploy works. They get a green line in a chat window and go back to the editor. They open it when the deploy fails, when the build is red, when the service is returning errors at two in the afternoon, or when the bill doubled. Traffic to the interface runs opposite to how well things are going, which is a strange property for a product to have and the one that decides its design.</p>
-          <p>The screens that get the most attention are the ones a person arrives at already stressed, short on time and short on patience, and they have to be designed for that person rather than for the demo. Most postings for a designer on a developer product say a version of this, and the version I keep is that failure is a first-class state, not an edge case. This site is small, and it has taught me the same thing three times.</p>
+          <p>A developer does not open the dashboard when the deploy works. They get a green line in a chat window and go back to the editor. They open it when the deploy fails, the build is red, the service is returning errors at two in the afternoon or the bill doubled.</p>
+          <p>Traffic to the interface runs opposite to how well things go, and that decides the design. The screens a person reaches already stressed, short on time and short on patience get the most attention. They have to be designed for that person, not for the demo.</p>
+          <p>Most postings for a designer on a developer product say a version of this. Mine is that failure is a first-class state, not an edge case. This small site has taught me the same thing three times.</p>
 
           <p class="writing-eyebrow">Key idea 2 of 7</p>
           <h2 id="an-error-message-is-an-interface-and-most-are-written-by-the-thing-that-failed">An error message is an interface, and most are written by the thing that failed</h2>
-          <p>The error message is the interface the developer actually reads, and most of them are written by the thing that failed, at the moment it failed, by the engineer who was handling the exception rather than the person who would read it. &ldquo;Deploy failed&rdquo; is a status. &ldquo;The artifact could not be built because one tracked path is a symbolic link the runner cannot follow; here is the path, and here is the check that would have caught it before the push&rdquo; is an interface.</p>
-          <p>The second one is, in substance, what this site&rsquo;s deploy check says now, after I wrote it: it names the link, where it points, and why the upload cannot follow it. The first one is what the deploy said the day it failed fourteen seconds in, on a tree that had passed every check, because a folder had been committed as a link to a path that existed on one Mac.</p>
+          <p>The error message is the interface the developer actually reads. Most are written by the thing that failed, by an engineer handling the exception, not by the person who will read it. &ldquo;Deploy failed&rdquo; is a status. &ldquo;The artifact could not be built because one tracked path is a symbolic link the runner cannot follow. Here is the path, and here is the check that would have caught it before the push&rdquo; is an interface.</p>
+          <p>The second is what the deploy check I wrote for this site says now, in substance. It names the link, where it points and why the upload cannot follow it. The first is what the deploy said the day it failed fourteen seconds in, on a tree that had passed every check. A folder had been committed as a link to a path that existed on one Mac.</p>
           <figure class="writing-figure">
             <figcaption>A status, and an interface</figcaption>
             <div class="writing-split">
@@ -329,25 +330,31 @@
               </div>
             </div>
           </figure>
-          <p><mark>An error is a state of the product, and every state gets a decision, so the error gets one too: what does the person know, what do they need, and what is the one thing to do next.</mark> The place that decision gets made is a design review of the strings, with the engineer who owns the code that throws them in the room, because they are the only person who can change it.</p>
+          <p><mark>An error is a state of the product, and every state gets a decision. So the error gets one too: what does the person know, what do they need, and what is the one thing to do next.</mark></p>
+          <p>That decision gets made in a design review of the strings. The engineer who owns the code that throws them has to be in the room, because only they can change it.</p>
 
           <p class="writing-eyebrow">Key idea 3 of 7</p>
           <h2 id="silence-is-the-worst-failure-so-nothing-should-look-like-nothing">Silence is the worst failure, so nothing should look like nothing</h2>
-          <p>Worse than a bad error is no error. The build that produces one of this site&rsquo;s stylesheets emits only the classes it has seen a page use, so a class named in the markup that the build never saw is not an error. It is nothing at all: the type measures wrong at every width and the console says nothing. A merge that passed every check and never deployed did not look broken. It looked unchanged, which is indistinguishable from a change nobody made.</p>
-          <p>Silence is the failure a developer cannot work with, because there is nothing to search for. So the rule is to make nothing look like something. An empty list says why it is empty and what would fill it. A step that was skipped says it was skipped. A deploy that did not run is a row that says it did not run, not an absence in a list. <mark>The empty state is the product telling the truth about a moment when it has nothing to show, and the truth is almost always a reason.</mark></p>
+          <p>Worse than a bad error is no error. The build that produces one of this site&rsquo;s stylesheets emits only the classes it has seen a page use. A class the markup names and the build never saw is not an error. It is nothing at all: the type measures wrong at every width and the console says nothing.</p>
+          <p>A merge that passed every check and never deployed did not look broken. It looked unchanged, which is indistinguishable from a change nobody made. Silence is the failure a developer cannot work with, because there is nothing to search for.</p>
+          <p>So make nothing look like something. An empty list says why it is empty and what would fill it. A skipped step says it was skipped. A deploy that did not run is a row that says so, not an absence in a list.</p>
+          <p><mark>The empty state is the product telling the truth about a moment when it has nothing to show, and the truth is almost always a reason.</mark></p>
 
           <p class="writing-eyebrow">Key idea 4 of 7</p>
           <h2 id="the-first-ten-minutes-decide-whether-the-tool-is-believed">The first ten minutes decide whether the tool is believed</h2>
-          <p>A developer arrives with a repository and a deadline. Sign up, connect the repository, first deploy. Everything the product will ever be believed about is decided in those minutes, and not by whether the first deploy works. It is decided by what happens when it does not. If the first failure explains itself, the person has learned that this tool tells the truth, and every later green line is read as true. If the first failure is a status, they have learned the opposite, and they will keep a terminal open beside the product for as long as they use it.</p>
-          <p>That is the same calibration the AI articles on this site are about, arrived at from the other side. <mark>Trust in a tool is less a feeling about the brand than a record, kept by the person from the first ten minutes on, of whether the thing said what it was doing.</mark></p>
+          <p>A developer arrives with a repository and a deadline: sign up, connect the repository, first deploy. Everything the product will ever be believed about is decided in those minutes. It is decided not by whether the first deploy works but by what happens when it does not.</p>
+          <p>If the first failure explains itself, the person learns that the tool tells the truth, and every later green line is read as true. If it is a status, they learn the opposite. They keep a terminal open beside the product for as long as they use it.</p>
+          <p>That is the same calibration the AI articles on this site are about, arrived at from the other side. <mark>Trust in a tool is less a feeling about the brand than a record of whether the thing said what it was doing. The person keeps that record from the first ten minutes on.</mark></p>
           <aside class="writing-pull" aria-hidden="true">
             <p>The empty state is the product telling the truth about a moment when it has nothing to show.</p>
           </aside>
 
           <p class="writing-eyebrow">Key idea 5 of 7</p>
           <h2 id="the-log-is-the-interface-of-last-resort-so-design-it-as-one">The log is the interface of last resort, so design it as one</h2>
-          <p>Most of what a developer&rsquo;s tools tell them, they tell them in a log: a plain record of what ran, in order, with what result. It is the least designed surface in software and usually the most literal one, and when the screen is calm and the answer is in the record, the developer reads the record. Two things follow for the designer.</p>
-          <p>The first is that the log is read at the worst moment and should be designed as an interface: the failing line found first, the noise folded, the step names and the timestamps in a column the eye can run down. The second is that the screen above the log should be built from the same record rather than from a summary that can drift away from it, and that the record is not infallible either. A log can be incomplete, stale, or pointed at the wrong thing. Two of the browser checks on this site once measured the wrong tree and printed their results under the right name, which is why every one of them now prints the path, the page count and the commit it measured before it does anything else. <mark>A summary is an interpretation of the record, so the screen has to let the person reach the evidence it was derived from.</mark></p>
+          <p>Most of what a developer&rsquo;s tools say, they say in a log: a plain record of what ran, in order, with what result. It is the least designed surface in software and usually the most literal. The developer reads the record when the answer is in it. Two things follow for the designer.</p>
+          <p>The first is that the log is read at the worst moment, so it should be designed as an interface. The failing line comes first. The noise is folded. The step names and timestamps sit in a column the eye can run down.</p>
+          <p>The second is that the screen above the log should be built from the same record, not a summary that can drift from it. The record is not infallible either. A log can be incomplete, stale, or pointed at the wrong thing.</p>
+          <p>Two of the browser checks on this site once measured the wrong tree and printed their results under the right name. Now every one prints the path, the page count and the commit it measured before it does anything else. <mark>A summary is an interpretation of the record, so the screen has to let the person reach the evidence it was derived from.</mark></p>
           <!-- The second drawing: the argument's second half, in the set's style,
                from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
           <figure class="writing-figure writing-scene">
@@ -357,7 +364,13 @@
 
           <p class="writing-eyebrow">Key idea 6 of 7</p>
           <h2 id="density-is-a-kindness-when-attention-is-short">Density is a kindness when attention is short</h2>
-          <p>A developer under pressure is short on attention, not on data, the same as a dispatcher with a load to place. So the page has a hierarchy for scanning: what failed, at the top, in one line; what it affects, next; the detail, folded under it. Progressive disclosure is order, not hiding. And the page runs at two densities, comfortable and compact, because the floor is denser than the demo.</p>
+          <p>A developer under pressure is short on attention, not on data, the same as a dispatcher with a load to place. So the page has a hierarchy for scanning:</p>
+          <ul>
+            <li>What failed, at the top, in one line</li>
+            <li>What it affects, next</li>
+            <li>The detail, folded under it</li>
+          </ul>
+          <p>Progressive disclosure is order, not hiding. The page also runs at two densities, comfortable and compact, because the floor is denser than the demo.</p>
           <figure class="writing-figure">
             <figcaption>Three numbers from this site&rsquo;s own bad days</figcaption>
             <dl class="build-facts writing-facts">
@@ -366,20 +379,38 @@
               <div><dt>10</dt><dd>minutes the host keeps serving the old page after a deploy, so a fetch straight after one proves nothing</dd></div>
             </dl>
           </figure>
-          <p>The <a href="../prototype/deploy-console.html">Deploy Console</a> is my attempt at that screen, on synthetic data: six services in one table, every column sortable, every row opening on its history with the failures kept in it, and the rows at comfortable or compact. The failed build is gathered onto one card, the command and the line it stopped on, the commits since the last good deploy, what depends on it, and the log one press down with its failing line marked again. A summary sits on top, and nothing is collapsed behind it.</p>
+          <p>The <a href="../prototype/deploy-console.html">Deploy Console</a> is my attempt at that screen, on synthetic data. Six services sit in one table. Every column is sortable, and every row opens on its history with the failures kept in it. The rows run at comfortable or compact.</p>
+          <p>The failed build is gathered onto one card:</p>
+          <ul>
+            <li>The command and the line it stopped on</li>
+            <li>The commits since the last good deploy</li>
+            <li>What depends on it</li>
+            <li>The log, one press down, with its failing line marked again</li>
+          </ul>
+          <p>A summary sits on top, and nothing is collapsed behind it.</p>
 
           <p class="writing-eyebrow">Key idea 7 of 7</p>
           <h2 id="the-questions-come-in-an-order-and-the-screen-can-follow-it">The questions come in an order, and the screen can follow it</h2>
-          <p>Ship through a developer&rsquo;s tools for a season and a pattern shows. Whatever went wrong, my questions were the same, and they came in the same order: What is live right now? What failed? What changed since it last worked? What depends on the thing that changed? Can I put it back safely? Each tool exists to answer one of them. The deploy log answers the first, the check the second, the diff the third, the history the fourth, and the branch the fifth, because a change that lives on one commit is a change you can revert with one.</p>
-          <p>That order is an information architecture, and the Deploy Console is arranged in it, top to bottom. The first question turned out to be the one most screens answer badly. A list sorted newest-first puts a failed deploy at the top, and a developer reads it as the one serving traffic, so the console keeps the word <em>live</em> for the deploy that is serving and never puts it in the same cell as the newest attempt. When a build fails, its first sentence says nothing is down.</p>
-          <p>The order is mine, from shipping one site alone, and the console&rsquo;s own page lists it as an assumption: on a team the first question may be who pushed, and someone who has carried a pager may want the log before the summary. It is also close to the order an operations floor asks in when a transaction stalls, which is <a href="designing-for-the-moment-the-workflow-breaks.html">another article</a>. <mark>Knowing the questions in order, from having asked them yourself, is the best qualification I know for designing the answer.</mark></p>
-          <p>The honest map, because a team finds it out either way: the branch, the commit, the pull request, the checks and a static deploy I run daily, on this site, and every incident above is mine. Containers, cloud infrastructure and observability across many services are the part I have read and not run, and the way in is the same as it was for the rest: ship something through it, and read what the log says.</p>
+          <p>Ship through a developer&rsquo;s tools for a season and a pattern shows. Whatever went wrong, my questions were the same, in the same order. Each tool exists to answer one:</p>
+          <ul>
+            <li>What is live right now? The deploy log.</li>
+            <li>What failed? The check.</li>
+            <li>What changed since it last worked? The diff.</li>
+            <li>What depends on the thing that changed? The history.</li>
+            <li>Can I put it back safely? The branch, because a change that lives on one commit is a change you can revert with one.</li>
+          </ul>
+          <p>That order is an information architecture, and the Deploy Console is arranged in it, top to bottom. The first question turned out to be the one most screens answer badly.</p>
+          <p>A list sorted newest-first puts a failed deploy at the top, and a developer reads it as the one serving traffic. So the console keeps the word <em>live</em> for the deploy that is serving, and never in the same cell as the newest attempt. When a build fails, its first sentence says nothing is down.</p>
+          <p>The order is mine and comes from shipping one site alone. The console&rsquo;s own page lists it as an assumption. On a team the first question may be who pushed, and someone who has carried a pager may want the log before the summary.</p>
+          <p>It is also close to the order an operations floor asks in when a transaction stalls, which is <a href="designing-for-the-moment-the-workflow-breaks.html">another article</a>. <mark>Knowing the questions in order, from having asked them yourself, is the best qualification I know for designing the answer.</mark></p>
+          <p>The honest map, since a team finds it out either way. What I run daily, on this site: the branch, the commit, the pull request, the checks and a static deploy. Every incident above is mine.</p>
+          <p>Containers, cloud infrastructure and observability across many services are the part I have read and not run. The way in is the same as it was for the rest: ship something through it, and read what the log says.</p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">A developer opens the interface when something broke, so the error, the empty state, the log and the first ten minutes are the product. Each one gets a decision: what happened, to what, why, and the one thing to do next, in the order the questions come, on a page dense enough to scan in a hurry.</p>
-            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find the last error your product showed a developer, rewrite it to say what happened, to what, why, and the one thing to do, and then find the engineer who owns the code that throws it.</p>
+            <p class="writing-recap-sum">A developer opens the interface when something broke. So the error, empty state, log and first ten minutes are the product. Each answers what happened, to what and why, and what to do next, in order, on a page dense enough to scan.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find the last error your product showed a developer and rewrite it. Say what happened, to what, why, and the one thing to do. Then find the engineer who owns the code that throws it.</p>
           </aside>
         </div>
       </div>
