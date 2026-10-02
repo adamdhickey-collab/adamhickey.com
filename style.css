@@ -4233,6 +4233,14 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin-bottom: var(--space-sm);
   background: var(--color-accent-text);
 }
+/* The rule marks where a chapter OPENS, not every heading. On the Agent
+   Review write-up it sat over all ten, so it stopped meaning anything: a
+   reader's eye cannot tell a new chapter from the next section of the same
+   one when the same bar is over both. A section that continues a chapter
+   says so with .build-chapter--within and has its heading and nothing over
+   it; the sections that open one keep the bar. The dark band's own rule
+   (below) is for the chapter that closes the page, which is one. */
+.case-overview.build-chapter--within h2::before { content: none; }
 /* Dash list for the write-up body: the light-ground twin of
    .engagement-points, for facts that scan better as a list than as a
    sentence with nine commas. */
@@ -4760,6 +4768,25 @@ html.ah-lightbox-open body { overflow: hidden; }
   border-radius: 0 0 var(--bezel) var(--bezel);
   background: var(--device-chrome);
   box-shadow: var(--shadow-device);
+}
+
+/* A laptop's capture is a desktop's. On a phone the same figure carries the
+   product's own phone layout (a <picture> source, scripts/lab-shots.mjs), and
+   a phone's screen in a laptop's lid is the wrong object, so below 40rem the
+   frame becomes the phone's: the same bezel and chrome, the all-round radius
+   .build-phone authors (26px, for the same reason), no foot, and the width of
+   a phone rather than of the column. */
+@media (max-width: 40rem) {
+  .build-laptop--adapts {
+    --shell-radius: 26px;
+    max-width: 20rem;
+    margin-inline: auto;
+  }
+  .build-laptop--adapts .build-laptop-lid {
+    border-radius: var(--shell-radius);
+    box-shadow: var(--shadow-device);
+  }
+  .build-laptop--adapts::after { display: none; }
 }
 
 /* Four art eras, one picture each: the same scene under every style the app
