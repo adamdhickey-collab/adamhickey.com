@@ -432,7 +432,7 @@ What counts as one, so the next one is easy to place:
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" pages | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
 | `.writing-eyebrow` | "Key idea 2 of 6" above each section of an article | 11px |
-| `.glance-kicker` | The "My approach" and "What I built" blocks | 12px |
+| `.glance-kicker` | The "My approach" blocks. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
 | `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
 | `.ds-surface-kicker` | The ground names on the design system page | 11px |
 | `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |

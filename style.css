@@ -817,9 +817,10 @@ a.case-thumb { display: block; }
 }
 .app-id .case-kicker { display: block; margin: var(--space-2xs) 0 0; }
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
-/* One tag component, two homes: the case study cards and the product
-   cards. The products used to set their own middot-separated list, which
-   was a second way of saying the same thing. */
+/* One tag component, three homes: the case study cards, the product
+   cards and the lab index's entries. The products used to set their own
+   middot-separated list, which was a second way of saying the same thing,
+   and the lab a line of caps, which was a third. */
 .tag,
 .product-tags li {
   display: inline-block;
@@ -3933,6 +3934,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin: var(--space-sm) 0 0;
 }
+/* The lab index sets what it is and what it is made of as the homepage's
+   pills (.tag in a .tag-row), not as a line of caps: one component, under
+   the dek where .writing-meta sits. .tag-row's own margin-bottom would add
+   to the 3xl the link already pads below, so it is zeroed, and the top is
+   --space-md, the step .case-card puts between its title and the same row. */
+.case-section .writing-text .tag-row { margin: var(--space-md) 0 0; }
 .case-overview .writing-title::before { content: none; }
 /* Under .case-section for the same reason as .writing-meta and .writing-dek:
    .case-section h2 sets every section heading's margin-bottom to --space-2xl,
@@ -4443,12 +4450,20 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0 0 var(--space-md);
 }
 /* The one strip that opens on a headline rather than a kicker: "What I built"
-   on the Agent Review write-up. It is an h2, so family, size, weight and
-   tracking come from the base ladder (Crimson Text, regular, --type-section)
-   and only the spacing is set here. Two classes deep, because
-   .case-section h2 sets margin-bottom to --space-2xl and would otherwise
-   win over a single class. The other four strips keep .glance-kicker. */
-.case-section .glance-head { margin: 0 0 var(--space-xl); }
+   on the Agent Review write-up. It is an h2 in Crimson Text, regular, set at
+   --text-2xl (24px), half of --type-section at desktop, because the card it
+   heads is a strip of four stations and a 48px head over a 16px station
+   title was out of scale with the thing it labels. No sage rule above it:
+   the card's own edge already marks where the section starts, and the rule
+   (.case-overview h2::before) is for a head that opens a full-width
+   section. Two classes deep, because .case-section h2 sets margin-bottom to
+   --space-2xl and would otherwise win over a single class. The other four
+   strips keep .glance-kicker. */
+.case-section .glance-head {
+  font-size: var(--text-2xl);
+  margin: 0 0 var(--space-xl);
+}
+.case-section .glance-head::before { content: none; }
 /* ONE COLUMN ON A PHONE, since 2026-09-17. This was two columns from the
    smallest width up, and at 390 that is two 150px columns of serif holding
    "Everything: the design, the code, the checks that hold them together"
