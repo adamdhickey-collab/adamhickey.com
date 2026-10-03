@@ -92,6 +92,7 @@ const SLOT = {
      than the flat 1.15 the drab step batches needed. */
   feature: { w: 1600, h: 900 },
   card:    { w: 640,  h: 360 },
+  tour:    { w: 960,  h: 540 },
 };
 const CHARCOAL = [0x25, 0x25, 0x25];
 const WALL_TARGET = 8.0;

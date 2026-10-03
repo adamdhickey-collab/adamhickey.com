@@ -313,7 +313,14 @@ captures: each is taken from the deployed product and Storybook at two
 sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
-at a phone's width was a quarter of the screen. The drawing the card carried before
+at a phone's width was a quarter of the screen. The write-up's hero is a
+guided tour of that first capture (`walkthrough.css`, `walkthrough.js`), and
+each of its seven notes carries a small drawing, `img/lab/tour-<part>.webp`,
+16:9 at 960x540: the writing set's hand and its sage, one everyday object a
+note (a branch not yet joined, a clipboard of five checks, a power strip, a
+sieve, a watch with its back open, a spotlight, a signal), prompts in
+`scripts/tour-scenes.mjs`, drawn and filed through `scripts/draw.mjs --set
+tour` and cut by `illustrate.mjs tour`. The drawing the card carried before
 that, and the script that drew it, are gone. The lab band that briefly sat
 between Built and About went with the pair, and Lab joined the navigation
 on every page.
