@@ -318,7 +318,7 @@ guided tour of that first capture (`walkthrough.css`, `walkthrough.js`), and
 each of its seven notes carries a small drawing, `img/lab/tour-<part>.webp`,
 16:9 at 960x540: the writing set's hand and its sage, one everyday object a
 note (a branch not yet joined, a clipboard of five checks, a power strip, a
-sieve, a watch with its back open, a spotlight, a signal), prompts in
+sieve, a watch with its back open, a magnifying glass, a signal), prompts in
 `scripts/tour-scenes.mjs`, drawn and filed through `scripts/draw.mjs --set
 tour` and cut by `illustrate.mjs tour`. The drawing the card carried before
 that, and the script that drew it, are gone. The lab band that briefly sat

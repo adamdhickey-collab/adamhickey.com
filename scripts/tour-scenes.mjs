@@ -19,7 +19,8 @@
  *             shared one reaches every table
  *   findings  a sieve, and the one stone too big to pass
  *   account   a watch with its back open: it shows its works
- *   evidence  a lamp, and the one button it has picked out
+ *   evidence  a magnifying glass over a row of buttons, and the one it finds:
+ *             a stage lamp seen from the front read as no object at all
  *   decision  a signal with its middle lamp lit: return it
  *
  * Every picture is the AI group's sage, because the write-up is: the colour is
@@ -83,9 +84,9 @@ export const TOUR = [
     id: 'tour-evidence',
     group: 'ai',
     out: 'img/lab/tour-evidence.webp',
-    device: 'reveal: the one button the lamp has picked out',
-    alt: 'A sage stage spotlight seen from the front; in its round lens, a yellow button on a cream shelf with a thick black ring drawn around it.',
-    prompt: `Same style, same hand as the reference. Cream ground. One very large muted sage green stage spotlight seen straight on from the front in ${VIEW}: a thick rounded-rectangle housing cropped by the left, right and bottom edges, a solid black U-shaped yoke bracket holding it, and one big round lens centred in the middle third. The lens is the reveal: inside the circle, a plain cream shelf as one flat band across the lower half, and standing on it one small rounded rectangular button filled butter yellow, with one thick black ring drawn around it as an outline, the only thing picked out. The rest of the lens interior is plain pale cream. A thick solid black cable runs off the bottom edge. Nothing else.`,
+    device: 'reveal: the one button the glass has found',
+    alt: 'A sage magnifying glass held over a row of small black buttons; in its lens, one button shown large and filled rose.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from above like a diagram. Across the middle of the picture, one straight level row of five small identical rounded rectangular buttons, evenly spaced, each filled solid black, running from the left edge to the right edge. Laid over the middle of the row, one very large classic magnifying glass, instantly recognisable: a big perfect circle lens with a thick muted sage green rim and a black outline, filling most of the height of the picture, and one thick straight solid black handle leaving the rim at the lower right and running diagonally off the bottom right corner of the frame. The lens is the reveal: its inside is plain pale cream, and in its centre the one button under the glass is shown magnified, the same rounded rectangle about four times bigger than the others, filled dusty rose with a thick black outline, the only rose in the picture. The middle button of the row is hidden behind the glass, so two small black buttons show to the left of the rim and two to the right. No hand, no glare lines, no text. Nothing else.`,
   },
   {
     id: 'tour-decision',
