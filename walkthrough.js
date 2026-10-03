@@ -33,10 +33,13 @@
  *
  * WHERE THE PARTS ARE is in the markup, in the capture's own pixels
  * (data-rect="x y w h" on each note), because the numbers are a fact about
- * the picture and belong beside it. They were measured on the committed file,
- * img/lab/agent-review-change-run1.webp at 1440 x 1000, not on a screenshot of
- * the page: the first pins ever put on this picture landed on text because
- * they were placed from a pasted image with a different layout.
+ * the picture and belong beside it. They are measured on the screen the
+ * capture is taken of, at the capture's size, never on a screenshot of the
+ * page: the first pins ever put on the first picture landed on text because
+ * they were placed from a pasted image with a different layout. Since
+ * 2026-10-03 the picture is the delegated work,
+ * img/lab/agent-review-delegation.webp at 1440 x 1000 (lab-shots.mjs
+ * delegation); until then it was the first iteration's change screen.
  *
  * REDUCED MOTION is a media query on this script and not a rule in the
  * stylesheet. The stylesheet's blanket stops CSS animation and transition;
