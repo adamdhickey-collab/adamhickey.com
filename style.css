@@ -4106,6 +4106,21 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: var(--measure);
   margin-bottom: var(--space-3xl);
 }
+/* A write-up whose hero opens on an action, as the lab's pieces do. The dek and
+   the action are one thought, so the gap between them is a step, not the
+   section's; the Listen control goes under the row (data-read-aloud="after",
+   read-aloud.js), and the gap below it to the facts strip is as it was.
+   The marker inside the button is .product-link-ext's, which is sized in em
+   to track the type it is set in, and needs the same gap .product-link gives it. */
+.build-dek:has(+ .build-hero-act) { margin-bottom: var(--space-xl); }
+.build-hero-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: 0;
+}
+.build-hero-act .btn { gap: var(--space-xs); }
 /* The case studies' own metadata treatment: each fact stands in its own
    column behind a left rule, under a charcoal sentence-case label, rather
    than sharing one rule across the top under uppercase sage. The rules
@@ -4559,6 +4574,22 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
   font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.4;
   color: var(--color-charcoal);
+}
+/* A link in a fact has to look like one. The Agent Review write-up's Status row
+   carries three, and until 2026-10-03 they were the colour and weight of the
+   words round them with no underline, which is no cue at all (WCAG 1.4.1). The
+   sage that clears the floor on the strip's white, underlined, and charcoal on
+   hover: .build-service a, at this strip's size and in its serif, so regular
+   weight, since the serif is never bold. */
+.glance-facts a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.glance-facts a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .glance-facts a:hover { color: var(--color-charcoal); }
 }
 @media (min-width: 640px) {
   .glance-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
