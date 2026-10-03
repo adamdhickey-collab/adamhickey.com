@@ -302,10 +302,11 @@ write-ups'. On the homepage the lab is one card under the three accounts
 in Selected work, where the two prototype cards sat until 2026-10-01, and
 since #343 it is about Agent Review rather than the lab as a family: the
 product's own screen (`img/lab/agent-review-card.webp`, from
-`scripts/lab-cards.mjs`, the capture the lab index uses too: run 1's change
-screen at the product's 720px tablet layout, one column of type that can be
-read at card size, where the full desktop review it replaced on 2026-10-02
-could not) in the laptop
+`scripts/lab-cards.mjs`, the capture the lab index uses too: since
+2026-10-03 the delegated work, the product's front door, at its 784px tablet
+layout, one column of type that can be read at card size; before that run
+1's change screen at 720, and before 2026-10-02 the full desktop review,
+which could not be read at that size) in the laptop
 the case studies frame their wide captures in, beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
 the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand

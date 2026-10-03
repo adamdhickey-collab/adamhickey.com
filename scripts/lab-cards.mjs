@@ -6,6 +6,12 @@
    Two are recomposed from captures that already exist under img/console/
    and img/cockpit/, cropped to 16:9 from the top of the frame, where each
    prototype's card and table sit. The third is a fresh capture of Agent
+   Review's front door, the delegated work, at 720px wide, the product's own
+   tablet layout: the simulated label, the title, and the account the screen
+   opens on ("7 changes made and checked. 2 decisions need you."). Since the
+   second iteration (2026-10-03) the card shows that screen, because the
+   cards' words describe it; it also feeds og.mjs's agent-review and lab
+   cards. Until then it was a capture of Agent
    Review's change screen for run 1, the accepted run, at 720px wide, which
    is the product's own tablet layout: one column, the title, the five checks,
    the components touched and the first finding with its rule. (Since
@@ -25,6 +31,7 @@
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      node scripts/lab-cards.mjs                 # all three
      node scripts/lab-cards.mjs agent-review    # one
+     node scripts/lab-cards.mjs agent-review-share   # the share cards' square
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -46,7 +53,21 @@ const CARDS = {
   /* A url card is captured at its own CSS size and scaled by the device
      pixel ratio to exactly 1280x720, so there is no resample step: 720 x
      405 at 1280 / 720 = 1.778. */
-  'agent-review': { url: `${from}#/changes/rv-2041`, width: 720, height: 405, viewportHeight: 480 },
+  /* 784 wide, not 720: at 784 the 16:9 frame is 441 tall, which ends where
+     the account's Scope row begins (its box at 441, its text a few pixels
+     lower), so the three rows above it are whole. At 720 it cut the top off
+     "Unresolved". A multiple of 16, because Chrome rounds a clip to whole
+     CSS pixels and only then is 441 x 1280/784 exactly 720. Still under
+     64rem, so still the one-column layout. */
+  'agent-review': { url: `${from}#/`, width: 784, height: 441, viewportHeight: 480 },
+  /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
+     420px square and crops a 16:9 picture to its middle, which on this screen
+     cut every line at both ends. So it gets its own square: 520 wide, the
+     product's phone layout, where the square ends between the account's
+     Checked and Unresolved rows and holds the simulated label, the title,
+     the request and "7 changes made and checked. 2 decisions need you." At
+     2x it is 1040 square, printed at 420. */
+  'agent-review-share': { url: `${from}#/`, width: 520, height: 520, viewportHeight: 600, dpr: 2, out: 'agent-review-share.webp' },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -54,7 +75,7 @@ const browser = await chromium.launch({ executablePath: CHROME });
 try {
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
-    const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.width ? 1280 / card.width : 1 });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
     if (card.image) {
       /* Crop from the top: a 1360x1020 capture at 1280 wide is 960 tall,
          and the first 720 of it is the part with the card in it. */
@@ -67,7 +88,7 @@ try {
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(400);
     }
-    const file = path.join(OUT, `${slug}-card.webp`);
+    const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
     const buf = await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
