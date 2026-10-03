@@ -455,13 +455,17 @@ size, never a literal.
 |---|---|---|
 | `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer) and the category over each list of deliverables | 14px, `--tracking-label` |
 | `.case-field-label` with its small modifier | The verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps` |
-| `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 14px, `--tracking-label` |
+| `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
 
-The two sizes are not a choice to make per label: a field label in a strip is
-the 14px one, and the 12px one is for a label that sits over a card's list
-and shares the card with a serif title.
+The sizes are not a choice to make per label. A label in a `.build-facts` strip
+is the Kicker's treatment, 12px in the sage, because it is a kicker: a short
+tracked label over the thing it names. The 14px, charcoal one is the Tailwind
+case studies' strip heads (`.case-field-label`), and the other 12px one is for a
+label that sits over a card's list and shares the card with a serif title. The
+strip's labels were 14px charcoal until 2026-10-03, which made them the one
+label on the site louder than the facts under it.
 
 **What this still does not cover**, and why each is its own case:
 
