@@ -1,0 +1,222 @@
+/* ---------- The guided tour of one screen ----------
+   Agent Review's hero used to be a laptop with the product's change screen in
+   it, printed at the column's width. At that size a 13px interface is 7px, so
+   a reader saw that a product existed and not what any part of it was for.
+   The tour keeps the laptop, makes it smaller, and puts it beside a column of
+   plain words. As the reader scrolls, the camera moves in on one part of the
+   screen at a time, the rest of it dims, a numbered pin lands on the part, and
+   the note beside it says what it is. Seven parts, then the camera backs out
+   and the seven pins stay on the screen as a map.
+
+   THERE ARE TWO LAYOUTS AND THE CONTENT IS IN BOTH.
+   - THE STATIC ONE is every viewport the tour does not run in: under 64rem,
+     with reduced motion asked for, or with no script. It is the laptop at the
+     column's width with the seven pins on it, and the seven notes as a list
+     under it. Nothing is hidden and nothing waits for a scroll, which is the
+     rule MOTION.md section 5 sets: an animation that reveals content must
+     never be the only thing that reveals it. Under 40rem the laptop is the
+     phone's (the existing .build-laptop--adapts frame and the product's own
+     phone capture), the pins are not drawn, because they are placed on the
+     desktop layout, and the numbers come off the notes with them.
+   - THE TOUR is the same markup with .is-tour on it, which walkthrough.js adds
+     when the viewport is 64rem or more AND the reader has not asked for
+     reduced motion, and removes when either stops being true. The section is
+     made taller than the screen, the stage inside it sticks, and the scroll
+     position inside that height is the only clock there is.
+
+   THE MOVING PARTS ARE NOT IN THIS FILE. The camera, the spotlight, the pins'
+   arrival and the notes' fades are a function of scroll position that the
+   script evaluates every frame and writes as inline transform, opacity and
+   size. They are not transitions, because a transition has a duration and the
+   reader's thumb has none; MOTION.md names a scrubbed scene as exempt from
+   the scale for that reason, and as bound by section 5 like everything else,
+   which is what the media query on the script is. Nothing here declares a
+   custom property: every size is an existing token and the script reads
+   --nav-height and --motion-rise from the root.
+
+   Two numbers are authored rather than derived, as the laptop's lid radius is:
+   the pin's diameter, which has to be a whole button at the sizes it is
+   read, and the weight of the spotlight's scrim, which has to dim the screen
+   without hiding it. */
+
+.wt { margin: var(--space-2xl) 0 var(--space-3xl); }
+
+/* ---- the stage: the laptop ---- */
+.wt-figure { margin: 0; }
+.wt-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-white);
+}
+.wt-world { position: relative; transform-origin: 0 0; }
+.wt-world img { border-radius: 0; }
+
+/* The pin. A whole disc of the on-white sage with the digit in white, ringed
+   in white so it separates from a busy interface, and centred on the point it
+   marks. It is placed in the picture's own percentages, so it lands on the
+   same pixel at any width; the script cancels the camera's zoom on it so it
+   stays one size on the screen. */
+.wt-pin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  box-shadow: 0 0 0 2px var(--color-white), var(--shadow-card);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+/* The spotlight and its ring are one element that the script moves from one
+   part to the next. The scrim is the page's own scrim token, thinned, laid
+   outside the rectangle by a spread no screen is bigger than and clipped by
+   the screen. Hidden until the tour runs; the static layout has no use for a
+   highlight on a part nobody is pointing at. */
+.wt-focus {
+  position: absolute;
+  display: none;
+  border-radius: 4px;
+  outline: 2px solid var(--color-accent-text);
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-scrim) 50%, transparent);
+  pointer-events: none;
+}
+
+/* ---- the notes ---- */
+.wt-notes { display: grid; gap: var(--space-xl); margin-top: var(--space-2xl); }
+.wt-note { margin: 0; }
+.wt-kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+/* The same disc as the pin, in the note, so the eye can carry a number from
+   the picture to the words. */
+.wt-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0;
+  line-height: 1;
+}
+.wt-note h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.wt-body {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+/* What only the tour needs: the outro, the hint and the progress. */
+.wt-note--outro, .wt-hint, .wt-ticks, .wt-skip { display: none; }
+.wt-hint {
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* The static layout from 40rem: the seven notes in two columns, the lead
+   across both. Under 40rem the pins are not drawn (see the header), so the
+   numbers come off the notes too. */
+@media (min-width: 48rem) {
+  .wt-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-3xl); row-gap: var(--space-2xl); }
+  .wt-note--intro { grid-column: 1 / -1; max-width: var(--measure); }
+}
+@media (max-width: 40rem) {
+  .wt-pin, .wt-num { display: none; }
+}
+
+/* ================= THE TOUR ================= */
+.wt.is-tour { margin-bottom: 0; }
+.wt.is-tour .wt-sticky {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  height: calc(100svh - var(--nav-height));
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+  column-gap: var(--space-4xl);
+  align-items: center;
+}
+.wt.is-tour .wt-stage { min-width: 0; }
+.wt.is-tour .wt-world { will-change: transform; }
+.wt.is-tour .wt-focus { display: block; }
+.wt.is-tour .wt-pin { will-change: transform, opacity; }
+
+/* Every note sits in the same cell, so the column is as tall as the tallest
+   and the script only has to say which one shows. They stay in the document
+   at all times, so a screen reader meets the same seven in order. Nothing in
+   them takes focus, which is why a faded note can safely stay in the tree. */
+.wt.is-tour .wt-notes { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+.wt.is-tour .wt-note { grid-area: 1 / 1; align-self: center; will-change: transform, opacity; }
+.wt.is-tour .wt-note--intro { max-width: none; }
+.wt.is-tour .wt-note--outro, .wt.is-tour .wt-hint { display: block; }
+.wt.is-tour .wt-note h3 { font-size: var(--text-3xl); }
+
+/* Seven short bars under the laptop that fill as the tour reaches each part.
+   The track is the quiet divider, the fill is the sage, and the fill is a
+   transform the script sets, as the page's own progress line is. */
+.wt.is-tour .wt-ticks {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin-top: var(--space-xl);
+  padding: 0;
+}
+.wt-tick {
+  display: block;
+  height: var(--space-2xs);
+  border-radius: var(--space-2xs);
+  background: var(--rule-strong);
+  overflow: hidden;
+}
+.wt-tick i {
+  display: block;
+  height: 100%;
+  background: var(--color-accent-text);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* A way past a long scroll, for a reader on a keyboard. Off the screen until
+   it has focus, then at the stage's corner. It is positioned against the
+   stage, not the page, because .skip-link is positioned against the page and
+   a focus on it would scroll the reader to the top. */
+.wt.is-tour .wt-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1;
+  display: block;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+}
+.wt.is-tour .wt-skip:focus { left: 0; }

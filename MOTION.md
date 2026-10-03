@@ -181,6 +181,18 @@ They are exempt because their timing carries meaning that a shared scale
 would flatten. They are still bound by §5: all three stop for reduced
 motion.
 
+**A fourth thing moves against scroll and is not on that list, because it is
+not a drawing.** The guided tour on the Agent Review write-up
+(`walkthrough.js`) pins a laptop and scrubs a camera over a capture of the
+product, one part of the screen per stretch of scroll. Its timing is the
+reader's scroll position, as the design-to-build scene's is, and it borrows
+the one distance the scale has: a note enters and leaves by `--motion-rise`.
+It has no duration and no easing because nothing in it takes time, and no CSS
+transition, which is why §5's blanket cannot stop it. The script does, with
+the same `prefers-reduced-motion` query the blanket reads, and what is left is
+the static layout: the laptop with seven pins on it and the seven notes in a
+list. It runs from 64rem up, and the content is whole without it.
+
 ---
 
 ## 7. What the code does today
