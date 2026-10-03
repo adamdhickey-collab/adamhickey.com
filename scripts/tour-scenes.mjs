@@ -12,19 +12,25 @@
  * drawing of nothing). The reveal, a small second picture inside the object,
  * is where the two colours beyond the accent are allowed.
  *
- *   change    a branch cut to fit a trunk and not yet joined: it is a branch,
- *             and "nothing has merged" is the gap
- *   checks    a clipboard of five rows, three ticked and two open
- *   shared    one drop of dye in a glass of water, colouring all of it: a
- *             change to the shared one reaches every table. Not a count: a
- *             power strip of six sockets got matched, socket by socket, to the
- *             six components on the screen beside it; and not ripples seen
- *             from above, which are a target
- *   findings  a sieve, and the one stone too big to pass
- *   account   a watch with its back open: it shows its works
- *   evidence  a magnifying glass over a row of buttons, and the one it finds:
- *             a stage lamp seen from the front read as no object at all
- *   decision  a signal with its middle lamp lit: return it
+ * Since 2026-10-03 the tour is of the product's second iteration, the
+ * delegated work, and these are its seven. The first iteration's set (a
+ * branch not yet joined, a clipboard, a drop of dye, a sieve, an open watch,
+ * a magnifying glass, a signal) went with the first iteration's tour.
+ *
+ *   job       a key left on its hook: work handed over, the way a key is
+ *   results   a jigsaw finished but for two holes: most of it done, and the
+ *             two places it needs you. Not a count of pieces: the screen's
+ *             seven-and-two is the screen's, and a picture that counts is
+ *             read as a chart (the first set's power strip was)
+ *   checked   a spirit level with its bubble centred: a check establishes one
+ *             fact, that it is level, and nothing about whether it is the
+ *             right shelf
+ *   bounds    a kite as high as its string allows: free inside a length
+ *   pause     a service bell: it rings for you when it needs you, and only then
+ *   meaning   a paint-swatch card with two chips of exactly the same red:
+ *             one colour, two names, and no check can tell them apart
+ *   rule      a thermostat dial, set once: it keeps to the setting without
+ *             you, until you turn it
  *
  * Every picture is the AI group's sage, because the write-up is: the colour is
  * the section's, not the artist's (writing-features.mjs, ACCENTS). STYLE, REF
@@ -44,59 +50,59 @@ const VIEW = 'a strict flat elevation, the way a technical diagram is drawn: one
 
 export const TOUR = [
   {
-    id: 'tour-change',
+    id: 'tour-job',
     group: 'ai',
-    out: 'img/lab/tour-change.webp',
-    device: 'one intervention, held: the branch that has not been joined',
-    alt: 'A sage tree branch lying level across the picture, cut to fit a notch in a black trunk at the right edge, and stopping just short of it.',
-    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from the side. At the right edge, one thick solid black tree trunk, a tall vertical band running off the top and the bottom of the frame, with one clean V-shaped notch cut into its left side at the middle of the picture. Lying level from the left edge toward the trunk, one large muted sage green branch: a thick straight bar with a black outline, cropped by the left edge, tapering a little, its cut end shaped to fit the notch and stopping a clear gap short of the trunk, so the two do not touch. Five or six simple sage leaf shapes with black outlines stand up from the top of the branch. Nothing joins them yet. No ground, no sky, no other tree, no people. Nothing else in the picture.`,
+    out: 'img/lab/tour-job.webp',
+    device: 'one intervention, held: the key left on its hook for someone',
+    alt: 'A large sage key hanging from a black hook by a black ring, with a small yellow tag on the ring beside it.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly straight on. Near the top middle of the picture, one small solid black wall hook, a short bar with an upturned end, fixed to nothing visible. Hanging straight down from the hook by one solid black split ring, one very large muted sage green old-fashioned key: a big round bow at the top with a round hole in it, a long straight shaft, and a simple notched bit at the bottom, all with black outlines, drawn so big that the bit is cropped by the bottom edge of the frame. On the ring beside the key hangs one small round tag, filled butter yellow with a black outline, the only yellow in the picture and the reveal. No wall texture, no door, no lock, no hand. Nothing else.`,
   },
   {
-    id: 'tour-checks',
+    id: 'tour-results',
     group: 'ai',
-    out: 'img/lab/tour-checks.webp',
-    device: 'reveal: the two rows still open',
-    alt: 'A sage clipboard with a cream sheet of five rows: the top three checkboxes ticked in black, and the bottom two empty and filled rose.',
-    prompt: `Same style, same hand as the reference. Cream ground. One very large muted sage green clipboard seen straight on in ${VIEW}, drawn so big it is cropped by the left, right and bottom edges, with its solid black metal clip at the top middle. On the board, one cream sheet outlined in black, and on the sheet five evenly spaced rows filling the middle of the picture. Each row is a small square checkbox at the left and one short thick black line to its right, with no writing. In the top three rows the checkbox holds one bold solid black tick. The bottom two rows are the reveal: their checkboxes are empty squares filled dusty rose, with black outlines, and the only rose in the picture. Nothing else.`,
+    out: 'img/lab/tour-results.webp',
+    device: 'reveal: the two holes still open',
+    alt: 'A sage jigsaw puzzle seen from above, finished except for two missing pieces whose empty shapes are filled rose.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from above like a diagram. One very large muted sage green jigsaw puzzle, finished but for two pieces, filling the picture and cropped by the left, right and bottom edges: a flat sheet of large simple interlocking pieces, each with plain rounded tabs and blanks, all the same sage, separated by thin black outlines. Near the middle, two pieces are missing, not next to each other. Their two empty holes, each the exact shape of a piece, are the reveal: filled dusty rose with black outlines, the only rose in the picture. No loose pieces, no box, no picture printed on the puzzle, no table. Nothing else.`,
   },
   {
-    id: 'tour-shared',
+    id: 'tour-checked',
     group: 'ai',
-    out: 'img/lab/tour-shared.webp',
-    device: 'reveal: one drop, and the whole glass it colours',
-    alt: 'A sage drinking glass of water seen from the side, one yellow drop falling into it, and yellow dye spreading down through all of the water.',
-    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from the side. One very large muted sage green drinking glass, a plain straight-sided tumbler drawn as a flat tall rectangle with thick sage walls and a thick sage base, black outlines, centred left to right and so big it is cropped by the bottom edge of the frame. The water inside is a flat pale cream fill with a straight level surface line near the top. Just above the water, one small round butter yellow drop falling, with a black outline. The reveal is in the water: from the surface down, butter yellow dye spreading in a few soft rounded billowing plumes with black outlines, reaching both walls and the bottom of the glass so that the whole of the water is touched by it, strongest at the top and paling toward the bottom, the one soft gradient in the picture. No straw, no ice, no splash, no reflections, no shading on the glass, no table. Nothing else.`,
+    out: 'img/lab/tour-checked.webp',
+    device: 'reveal: the one fact the tool establishes',
+    alt: 'A long sage spirit level resting on a black band, its middle vial showing a yellow bubble centred exactly between two black marks.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from the side. Across the middle of the picture, one very long muted sage green spirit level, a thick straight horizontal bar with black outlines, so long that it is cropped by the left and right edges. At its centre, one window holding a short horizontal glass vial outlined in black, with two thin black vertical marks on the vial a little apart. Between the two marks, resting exactly centred, one oval bubble filled butter yellow with a black outline: the reveal, the only yellow in the picture. Below the level, one plain flat solid black band runs across the full width of the frame and off the bottom edge, the surface it rests on. No numbers, no scale marks along the bar, no shelf, no wall. Nothing else.`,
   },
   {
-    id: 'tour-findings',
+    id: 'tour-bounds',
     group: 'ai',
-    out: 'img/lab/tour-findings.webp',
-    device: 'reveal: the one stone too big to pass',
-    alt: 'A sage kitchen sieve filled with a regular mesh of small holes, one large rose stone wedged in the middle of it, and three black grains falling below.',
-    prompt: `Same style, same hand as the reference. Cream ground. One very large muted sage green kitchen sieve seen straight on from the front in ${VIEW}: a big circle with a thick rim, cropped by the top, left and right edges. Its mesh is a regular grid of about forty large empty holes, each a plain cream circle with a thin black outline, filling the whole disc. Wedged into the middle of the mesh, one single round stone, much bigger than any hole, filled dusty rose with a black outline, pressed into the mesh; it is the reveal and the only rose in the picture. Below the sieve, a short loose vertical column of three small solid black dots, the grains that passed through. Nothing else.`,
+    out: 'img/lab/tour-bounds.webp',
+    device: 'one intervention, held: as high as the string allows',
+    alt: 'A large sage diamond kite high in the frame with one yellow quarter, its black string running taut down and off the bottom left corner.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly straight on. In the upper middle of the picture, one very large muted sage green diamond kite, a flat four-sided shape with black outlines and two thin black cross spars, drawn so big that its top point is cropped by the top edge of the frame. From its bottom point hangs a short tail of three small black bows on a black line. From the crossing of the spars, one thin solid black string runs down in one long straight diagonal line and off the bottom left corner of the frame, pulled taut: the kite is as high as the string allows. The reveal is inside the kite: its lower left quarter is filled butter yellow, the only yellow in the picture. No clouds, no sky colour, no ground, no hand. Nothing else.`,
   },
   {
-    id: 'tour-account',
+    id: 'tour-pause',
     group: 'ai',
-    out: 'img/lab/tour-account.webp',
-    device: 'reveal: the watch that shows its works',
-    alt: 'A sage pocket watch with its back open, showing three interlocking cogs, two filled yellow and one rose, and a black chain running off the top.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large round muted sage green pocket watch seen straight on in ${VIEW}: a thick circular case cropped by the bottom edge, with its small winding crown and loop at the top and one thick solid black chain rising from the loop and off the top of the frame. The back of the case is open, and the circle is the reveal: inside it, the movement, three plain interlocking cog wheels with black outlines, each a simple ring with a few big square teeth and a black pin at its centre, two filled butter yellow and one filled dusty rose. No hands, no numbers, no dial, no glass glare. Nothing else.`,
+    out: 'img/lab/tour-pause.webp',
+    device: 'reveal: the one button, rung only when it is needed',
+    alt: 'A large sage service bell seen from the side on a black counter, its small push button on top filled yellow.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from the side. One large muted sage green service bell, the kind on a hotel front desk: a wide smooth half-dome with a black outline, sitting on a flat round base, filling the middle of the picture. From the top of the dome rises one short straight solid black stem to a small round push button. The button is the reveal: filled butter yellow with a black outline, the only yellow in the picture. Under the bell, one plain flat solid black band, the counter, runs off the left, right and bottom edges of the frame. No sound lines, no hand, no text. Nothing else.`,
   },
   {
-    id: 'tour-evidence',
+    id: 'tour-meaning',
     group: 'ai',
-    out: 'img/lab/tour-evidence.webp',
-    device: 'reveal: the one button the glass has found',
-    alt: 'A sage magnifying glass held over a row of small black buttons; in its lens, one button shown large and filled rose.',
-    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from above like a diagram. Across the middle of the picture, one straight level row of five small identical rounded rectangular buttons, evenly spaced, each filled solid black, running from the left edge to the right edge. Laid over the middle of the row, one very large classic magnifying glass, instantly recognisable: a big perfect circle lens with a thick muted sage green rim and a black outline, filling most of the height of the picture, and one thick straight solid black handle leaving the rim at the lower right and running diagonally off the bottom right corner of the frame. The lens is the reveal: its inside is plain pale cream, and in its centre the one button under the glass is shown magnified, the same rounded rectangle about four times bigger than the others, filled dusty rose with a thick black outline, the only rose in the picture. The middle button of the row is hidden behind the glass, so two small black buttons show to the left of the rim and two to the right. No hand, no glare lines, no text. Nothing else.`,
+    out: 'img/lab/tour-meaning.webp',
+    device: 'reveal: one colour, twice',
+    alt: 'A tall sage paint-swatch card with four square chips: two cream, and the two in the middle the exact same rose.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly straight on, upright and not tilted. One very large muted sage green paint swatch card, a tall rounded rectangle with a black outline and one small round black hole near its top, drawn so big that it is cropped by the top and bottom edges of the frame. On the card, one vertical column of four large square colour chips, each outlined in black, evenly spaced with sage between them. The top chip and the bottom chip are plain cream. The two middle chips, one directly above the other, are the reveal: both filled with exactly the same dusty rose, identical in every way, the only rose in the picture. No writing, no names, no numbers on the card. Nothing else.`,
   },
   {
-    id: 'tour-decision',
+    id: 'tour-rule',
     group: 'ai',
-    out: 'img/lab/tour-decision.webp',
-    device: 'reveal: the one lamp that is lit',
-    alt: 'A sage traffic signal with three round lamps in a column on a black pole, the middle lamp lit yellow and the other two dark.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large muted sage green three-lamp traffic signal seen straight on in ${VIEW}: a tall rounded rectangle housing drawn so big it is cropped by the top edge, standing on one thick solid black pole that runs off the bottom edge. Three equal round lamps in a vertical column, each under a small solid black visor hood. The top and bottom lamps are dark, filled solid black. The middle lamp is the reveal and the only light: filled butter yellow. No red, no green, no other colour. Nothing else.`,
+    out: 'img/lab/tour-rule.webp',
+    device: 'one intervention, held: set once, and it keeps to it',
+    alt: 'A large sage thermostat dial on its wall plate, a ring of black ticks round its edge, and its one pointer, filled yellow, set to a single mark.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly straight on. One very large round muted sage green thermostat dial on a square sage wall plate, black outlines, drawn so big that the plate is cropped by the top, bottom and right edges and the round dial fills the middle of the picture. Around the dial's edge, a ring of short evenly spaced black tick marks, with no numbers. On the dial, one raised pointer turned to a single setting about a third of the way round from the bottom left: the pointer is the reveal, filled butter yellow with a black outline, the only yellow in the picture. No screen, no wires, no hand, no text. Nothing else.`,
   },
 ];

@@ -45,7 +45,9 @@
    answered, with "use this for similar cases" checked and the rule shown as
    it will read), and quiet (every decision made, nothing left to ask). The
    delegated run is a simulation played back the same way every time, so
-   these three are reproducible to the pixel from the same build. Quality 0.86, the figure
+   these three are reproducible to the pixel from the same build. Since the
+   hero's tour moved to the delegated work, delegation is the hero at 1440,
+   change is a figure at 1100, and record is a completed change opened. Quality 0.86, the figure
    the artwork set uses. Chrome's WebP output is not byte-stable between runs,
    so scope a re-run to the figure that moved. Look at every capture before
    committing it: a wrong story id renders Storybook's "Couldn't find story"
@@ -72,10 +74,12 @@ const PHONE = { width: 375, height: 720 };
 
 /* Each shot says how to get the product into the state it shows. */
 const SHOTS = {
+  /* The first iteration's review of run 1, the new-pattern finding open. It
+     was the hero at 1440 until the hero's tour moved to the delegated work
+     (2026-10-03); it is a figure in "The product" now, at the figures' 1100. */
   change: {
     file: 'agent-review-change-run1',
     app: '#/changes/rv-2041/findings/f1-new-pattern',
-    desktop: { size: { width: 1440, height: 1000 } },
   },
   drift: {
     file: 'agent-review-change-drift-768',
@@ -93,9 +97,28 @@ const SHOTS = {
       await page.waitForTimeout(400);
     },
   },
+  /* The hero, and its tour: the delegated work as a person finds it, at 1440
+     like the hero before it, because the tour's regions and pins are in this
+     file's own pixels. Re-measure all seven if its layout changes. */
   delegation: {
     file: 'agent-review-delegation',
     app: '#/',
+    desktop: { size: { width: 1440, height: 1000 } },
+  },
+  /* One completed change, open: the agent's own choice between two tokens
+     that share a red, with what each check established, what no check
+     could, its history and the revert. */
+  record: {
+    file: 'agent-review-delegation-record',
+    app: '#/',
+    open: async (page) => {
+      const record = page.locator('.record', { hasText: 'The failed-payment red' });
+      await record.locator('summary').click();
+      await record.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+      await page.evaluate(() => window.scrollBy(0, -12));
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
   },
   rule: {
     file: 'agent-review-delegation-rule',
