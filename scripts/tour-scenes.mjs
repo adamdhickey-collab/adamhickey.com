@@ -15,8 +15,11 @@
  *   change    a branch cut to fit a trunk and not yet joined: it is a branch,
  *             and "nothing has merged" is the gap
  *   checks    a clipboard of five rows, three ticked and two open
- *   shared    one cable and one switch feeding six sockets: a change to the
- *             shared one reaches every table
+ *   shared    one drop of dye in a glass of water, colouring all of it: a
+ *             change to the shared one reaches every table. Not a count: a
+ *             power strip of six sockets got matched, socket by socket, to the
+ *             six components on the screen beside it; and not ripples seen
+ *             from above, which are a target
  *   findings  a sieve, and the one stone too big to pass
  *   account   a watch with its back open: it shows its works
  *   evidence  a magnifying glass over a row of buttons, and the one it finds:
@@ -31,7 +34,7 @@
  * one strict viewpoint (drawing-one-viewpoint) and draws any ground as a band.
  *
  * Drawn small: about 410 CSS pixels wide on the page, so the object is large
- * and there are few parts. The six sockets and the sieve's mesh are the most
+ * and there are few parts. The sieve's mesh is the most
  * detail any of them carries.
  */
 
@@ -60,9 +63,9 @@ export const TOUR = [
     id: 'tour-shared',
     group: 'ai',
     out: 'img/lab/tour-shared.webp',
-    device: 'one multiplied: six sockets on one cable and one switch',
-    alt: 'A sage power strip running edge to edge with six identical round sockets in a row, a thick black cable leaving it, and one small lamp at its left end lit yellow.',
-    prompt: `Same style, same hand as the reference. Cream ground. One very large muted sage green power strip seen straight on in ${VIEW}: a long thick rounded bar running horizontally across the middle of the picture and cropped by the left and right edges. Along its face, six identical round sockets in one straight evenly spaced row, each a black circle with two short black slot marks cut into it. At its left end, one small rocker switch with a round lamp lit butter yellow, the only yellow in the picture and the reveal. A single thick solid black cable leaves the bottom of the strip and runs off the bottom edge of the frame. Nothing is plugged in. No wall, no plug, no other outlets. Nothing else.`,
+    device: 'reveal: one drop, and the whole glass it colours',
+    alt: 'A sage drinking glass of water seen from the side, one yellow drop falling into it, and yellow dye spreading down through all of the water.',
+    prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly from the side. One very large muted sage green drinking glass, a plain straight-sided tumbler drawn as a flat tall rectangle with thick sage walls and a thick sage base, black outlines, centred left to right and so big it is cropped by the bottom edge of the frame. The water inside is a flat pale cream fill with a straight level surface line near the top. Just above the water, one small round butter yellow drop falling, with a black outline. The reveal is in the water: from the surface down, butter yellow dye spreading in a few soft rounded billowing plumes with black outlines, reaching both walls and the bottom of the glass so that the whole of the water is touched by it, strongest at the top and paling toward the bottom, the one soft gradient in the picture. No straw, no ice, no splash, no reflections, no shading on the glass, no table. Nothing else.`,
   },
   {
     id: 'tour-findings',
