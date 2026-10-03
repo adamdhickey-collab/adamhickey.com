@@ -4212,9 +4212,13 @@ html.ah-lightbox-open body { overflow: hidden; }
   stroke-dasharray: 1;
 }
 .build-facts--icons.is-armed .build-facts-icon path { stroke-dashoffset: 1; }
+/* The offset is NOT reset to 0 here. glance-draw has only a `to` keyframe, so
+   its start is whatever the path already has, and the armed 1 above is that
+   start: with a 0 declared on this rule the draw ran from 0 to 0 and the
+   icons simply appeared, delays and all. `forwards` holds the end, and the
+   armed 1 shows through the stagger delay, so a late icon waits undrawn. */
 .build-facts--icons.is-drawn .build-facts-icon path {
-  stroke-dashoffset: 0;
-  animation: glance-draw var(--motion-draw) var(--ease) backwards;
+  animation: glance-draw var(--motion-draw) var(--ease) forwards;
 }
 .build-facts--icons.is-drawn > div:nth-child(2) .build-facts-icon path { animation-delay: 0.2s; }
 .build-facts--icons.is-drawn > div:nth-child(3) .build-facts-icon path { animation-delay: 0.4s; }
@@ -5142,6 +5146,32 @@ html.ah-lightbox-open body { overflow: hidden; }
    line goes anyway. */
 .build-chapter.ground-charcoal .build-phone { outline: 1px solid var(--rule-on-dark-strong); outline-offset: -1px; }
 .build-chapter.ground-charcoal .build-laptop-lid { box-shadow: 0 0 0 1px var(--rule-on-dark-strong); }
+
+/* THE FACTS STRIP ON CHARCOAL. .build-facts is authored for a light ground
+   in three places the list above does not reach. Its left rule is
+   --color-tag-border, the quiet hairline, which is 1.06:1 on tea-light and
+   nothing at all on charcoal: that was the "can barely see them" in the
+   report, and on the dark ground it needs the dark ground's own line.
+   --rule-on-dark-strong is the one chosen, 3.47:1, over --rule-on-dark at
+   1.53:1, the step COLOR.md gives a plain divider: both were drawn beside
+   each other on this strip, the divider read as present-but-quiet, and the
+   report was that the lines could not be seen. The strong step also clears
+   the 3:1 floor, so the rule holds if a reader treats it as the edge of a
+   cell, and at 1px beside 14px text it does not read as a box. Its line icons are --color-accent-text, 2.63:1 on charcoal and marked
+   "never on charcoal", so they take --color-accent-on-dark, 7.47:1, the
+   same sage as the h2 dash above. And the dt is the full ink where the
+   list above gives a dt the secondary: in the lab's finding layouts the dt
+   is the claim, a sentence, and a claim dimmer than the paragraph under it
+   inverts the order a reader takes it in. The same three variants turn the
+   uppercase label off, for the same reason (.build-facts--two dt). The tag
+   under a run name is --color-muted-gray, 2.37:1 here, and takes the
+   quietest ink the ladder allows, 5.26:1. */
+.build-chapter.ground-charcoal .build-facts > div { border-left-color: var(--rule-on-dark-strong); }
+.build-chapter.ground-charcoal .build-facts--two dt,
+.build-chapter.ground-charcoal .build-facts--three dt,
+.build-chapter.ground-charcoal .build-facts--icons dt { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .build-facts-icon { color: var(--color-accent-on-dark); }
+.build-chapter.ground-charcoal .build-facts-tag { color: var(--ink-on-dark-muted); }
 /* The reading column. The container stays wide, because the figures and
    fact lists inside it want the room; only the prose takes the measure.
    Capping the container instead would have shrunk every figure on the build

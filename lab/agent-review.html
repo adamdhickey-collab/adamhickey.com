@@ -96,7 +96,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261003c" />
+  <link rel="stylesheet" href="../style.css?v=20261003d" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=6" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
@@ -344,14 +344,20 @@
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter build-chapter--within ground-tea" id="what-it-showed">
+    <!-- The page's one dark band between the opening and the build, so the
+         scroll changes pace here: the findings are the turn in the argument,
+         and the ground says so. The last chapter is charcoal for the same
+         reason at the other end. The four line icons are the "What each run
+         built" set's drawing (24px, 1.5 stroke, drawn once as the strip
+         scrolls in), in the on-dark sage the ground gives them. -->
+    <section class="case-section case-overview build-chapter build-chapter--within ground-charcoal" id="what-it-showed">
       <div class="container case-narrow">
         <h2>What the experiment showed</h2>
-        <dl class="build-facts build-facts--two build-facts--aligned">
-          <div><dt>The components mattered more than the rules.</dt><dd>Both agent runs followed the existing components, tokens and stories, whether or not they had the written rules.</dd></div>
-          <div><dt>Rules mattered at the edges.</dt><dd>Where the system could not decide: whether to change a shared component, what an emptied table shows, and where a new interaction pattern gets written down.</dd></div>
-          <div><dt>Checks find failure. They cannot decide what the product should become.</dt><dd>They caught the token drift, the contrast failure, the overflow and the baseline changes. A product designer still had to read which red frame was the feature and which was the break.</dd></div>
-          <div><dt>A good review strengthens the next run.</dt><dd>Review did not only accept or reject. It sometimes produced a stronger rule, story or test that the next agent inherits.</dd></div>
+        <dl class="build-facts build-facts--two build-facts--aligned build-facts--icons">
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 4h7v7H4z"/><path pathLength="1" d="M13 4h7v7h-7z"/><path pathLength="1" d="M4 13h7v7H4z"/><path pathLength="1" d="M20 16.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/></svg>The components mattered more than the rules.</dt><dd>Both agent runs followed the existing components, tokens and stories, whether or not they had the written rules.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 7V5a2 2 0 0 1 2-2h2"/><path pathLength="1" d="M17 3h2a2 2 0 0 1 2 2v2"/><path pathLength="1" d="M21 17v2a2 2 0 0 1-2 2h-2"/><path pathLength="1" d="M7 21H5a2 2 0 0 1-2-2v-2"/><path pathLength="1" d="M7 12h10"/></svg>Rules mattered at the edges.</dt><dd>Where the system could not decide: whether to change a shared component, what an emptied table shows, and where a new interaction pattern gets written down.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/><path pathLength="1" d="m21 21-4.3-4.3"/><path pathLength="1" d="M11 7.5v4"/><path pathLength="1" d="M11 14.5h.01"/></svg>Checks find failure. They cannot decide what the product should become.</dt><dd>They caught the token drift, the contrast failure, the overflow and the baseline changes. A product designer still had to read which red frame was the feature and which was the break.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>A good review strengthens the next run.</dt><dd>Review did not only accept or reject. It sometimes produced a stronger rule, story or test that the next agent inherits.</dd></div>
         </dl>
       </div>
     </section>
@@ -582,12 +588,19 @@
       };
       var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
       paint();
-      var icons = document.querySelector('.build-facts--icons');
-      if (icons && 'IntersectionObserver' in window) {
-        icons.classList.add('is-armed');
-        new IntersectionObserver(function (entries, io) {
-          if (entries[0].isIntersecting) { icons.classList.add('is-drawn'); io.disconnect(); }
-        }, { threshold: 0.3 }).observe(icons);
+      /* Every strip with line icons draws its own once, as it scrolls in:
+         "What the experiment showed" and "What each run built". */
+      var strips = document.querySelectorAll('.build-facts--icons');
+      if (strips.length && 'IntersectionObserver' in window) {
+        var drawn = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('is-drawn'); drawn.unobserve(e.target); }
+          });
+        }, { threshold: 0.3 });
+        Array.prototype.forEach.call(strips, function (strip) {
+          strip.classList.add('is-armed');
+          drawn.observe(strip);
+        });
       }
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
