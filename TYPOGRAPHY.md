@@ -474,7 +474,7 @@ now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
 
 - A head that is a sentence or a run name. The three `.build-facts` variants
   on the lab page (two columns, three columns and the icon strip) hold
-  findings ("Rules mattered at the edges.") and run names, which are headings
+  findings ("The rules mattered where the system was silent.") and run names, which are headings
   in a grid, not field names, so they opt out of the strip's capitals.
 - A numeral. `.writing-facts dt` is a figure set in the serif; uppercase would
   turn an `x` in it into an `X`.
