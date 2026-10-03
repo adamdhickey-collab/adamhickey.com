@@ -7,9 +7,14 @@
    and img/cockpit/, cropped to 16:9 from the top of the frame, where each
    prototype's card and table sit. The third is a fresh capture of Agent
    Review's change screen for run 1, the accepted run, at 720px wide, which
-   is the product's own tablet layout: one column, the title, Return to
-   agent / Reject / Accept, the five checks, the components touched and the
-   first finding with its rule. It was the full desktop review at 1440, the
+   is the product's own tablet layout: one column, the title, the five checks,
+   the components touched and the first finding with its rule. (Since
+   2026-10-03 the decision buttons are not in it: below 64rem the product puts
+   them in a bar fixed to the bottom of the screen, so the capture's viewport is
+   taller than the card, 480 to its 405, and the card is the top 405 of it,
+   which keeps the first finding whole and leaves the bar below the frame. Taken
+   at the card's own height the bar covers the finding's row. The decision
+   buttons are in the write-up's hero.) It was the full desktop review at 1440, the
    overflow finding open with the preview at 768 and the element outlined,
    and at the size this card prints (about 600px on the home page, 456 at
    1024) that was a miniature nobody could read; 720 wide, printed at 1280,
@@ -41,7 +46,7 @@ const CARDS = {
   /* A url card is captured at its own CSS size and scaled by the device
      pixel ratio to exactly 1280x720, so there is no resample step: 720 x
      405 at 1280 / 720 = 1.778. */
-  'agent-review': { url: `${from}#/changes/rv-2041`, width: 720, height: 405 },
+  'agent-review': { url: `${from}#/changes/rv-2041`, width: 720, height: 405, viewportHeight: 480 },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -57,7 +62,7 @@ try {
       await page.setContent(`<style>html,body{margin:0;background:#fff}img{display:block;width:1280px;height:auto}</style><img src="data:image/webp;base64,${data}">`);
       await page.waitForLoadState('load');
     } else {
-      await page.setViewportSize({ width: card.width, height: card.height });
+      await page.setViewportSize({ width: card.width, height: card.viewportHeight ?? card.height });
       await page.goto(card.url, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(400);
