@@ -4141,25 +4141,35 @@ html.ah-lightbox-open body { overflow: hidden; }
   }
 }
 @media (min-width: 1024px) { .build-facts { grid-template-columns: repeat(4, 1fr); } }
-/* A FIELD LABEL, so it is uppercase like every other label that names what
-   sits under it (TYPOGRAPHY.md, "Kickers and eyebrows"). At 14px that is
-   --tracking-label. Three strips use these cells for something that is not a
-   field and opt out below: the numeral row (.writing-facts) and the lab's two
-   findings layouts, whose heads are sentences and run names. */
+/* A FIELD LABEL, and a kicker: the same treatment as the line above a page
+   title (the design system's Kicker), at the same size, in the same colour.
+   12px, Montserrat 600, uppercase, tracked --tracking-caps, in the sage
+   (--color-accent-text, which clears 4.5:1 on every light ground these strips
+   sit on). It was 14px charcoal on --tracking-label, a second label style that
+   said the same thing in a louder voice than the facts under it. Set here, on
+   the component, so every page that uses the strip changes together.
+
+   Three strips use these cells for something that is not a field and opt out
+   below: the numeral row (.writing-facts, which sets all of its own) and the
+   lab's two findings layouts and its icon strip, whose heads are sentences and
+   run names. Those inherit this rule, so the opt-out restores the size and the
+   charcoal as well as the case, or they would turn small and sage with it. */
 .build-facts dt {
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--color-charcoal);
+  color: var(--color-accent-text);
   margin-bottom: var(--space-2xs);
 }
 .build-facts--two dt,
 .build-facts--three dt,
 .build-facts--icons dt {
+  font-size: var(--text-sm);
   letter-spacing: var(--tracking-normal);
   text-transform: none;
+  color: var(--color-charcoal);
 }
 .build-facts dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
 
