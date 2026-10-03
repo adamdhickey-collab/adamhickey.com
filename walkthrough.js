@@ -20,8 +20,14 @@
  *     INTRO   the whole screen, the lead note
  *     part i  the camera moves in for MOVE of the unit, then holds
  *     OUTRO   the camera backs out to the whole screen with seven pins on it
- * A unit is 42% of the viewport's height, so the tour is about 3.5 screens of
- * scrolling. The camera interpolates the centre and the log of the zoom, not
+ * A unit is UNIT of the viewport's height, 60%, so the tour is about five
+ * screens of scrolling. It opened at 42% with the camera travelling for 40% of
+ * that, which put a whole move between two parts inside 150px on a 900px
+ * window: a notch and a half of a mouse wheel, and one notch took the zoom from
+ * 1.4 to 2. That read as the page lurching, not as a camera the reader was
+ * driving. A move is about 245px of scroll there now and the hold after it
+ * about 300. UNIT is the one number to change if it should take more or less.
+ * The camera interpolates the centre and the log of the zoom, not
  * the transform's own numbers, so a move between two far-apart parts is one
  * smooth glide and not a slide with a late zoom.
  *
@@ -60,9 +66,11 @@
   var IW = +img.getAttribute('width');
   var IH = +img.getAttribute('height');
   var ZMAX = 2.1;          /* the capture is 2x, so this is still sharp */
+  var UNIT = 0.6;          /* of the viewport's height: the scroll one part takes */
+  var UNIT_MIN = 430;      /* px, so a short window does not shorten the scroll with it */
   var INTRO = 0.5;         /* units of scroll */
   var OUTRO = 0.9;
-  var MOVE = 0.4;          /* how much of a unit the camera spends travelling */
+  var MOVE = 0.45;         /* how much of a unit the camera spends travelling */
   var OUT_MOVE = 0.45;
   var T = INTRO + N + OUTRO;
 
@@ -182,7 +190,7 @@
     var style = getComputedStyle(document.documentElement);
     navH = parseFloat(style.getPropertyValue('--nav-height')) || 80;
     rise = parseFloat(style.getPropertyValue('--motion-rise')) || 20;
-    runway = Math.round(T * Math.max(300, window.innerHeight * 0.42));
+    runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
     root.style.height = (sticky.offsetHeight + runway) + 'px';
     W = world.offsetWidth;
     H = world.offsetHeight;
