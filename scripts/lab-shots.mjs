@@ -39,7 +39,13 @@
    Slugs: change (the accepted run, with the new-pattern finding open), drift
    (the seeded branch, the overflow finding, the preview at 768 with the bar
    outlined), return (the dialog over the seeded branch), storybook (the
-   ArchiveConfirmation story and its interactions). Quality 0.86, the figure
+   ArchiveConfirmation story and its interactions). Since the second
+   iteration (2026-10-03), three of the delegated work, the product's front
+   door: delegation (the run as a person finds it), rule (the first question
+   answered, with "use this for similar cases" checked and the rule shown as
+   it will read), and quiet (every decision made, nothing left to ask). The
+   delegated run is a simulation played back the same way every time, so
+   these three are reproducible to the pixel from the same build. Quality 0.86, the figure
    the artwork set uses. Chrome's WebP output is not byte-stable between runs,
    so scope a re-run to the figure that moved. Look at every capture before
    committing it: a wrong story id renders Storybook's "Couldn't find story"
@@ -85,6 +91,47 @@ const SHOTS = {
       await page.getByRole('button', { name: 'Return to agent' }).click();
       await page.getByRole('dialog').waitFor();
       await page.waitForTimeout(400);
+    },
+  },
+  delegation: {
+    file: 'agent-review-delegation',
+    app: '#/',
+  },
+  rule: {
+    file: 'agent-review-delegation-rule',
+    app: '#/',
+    open: async (page) => {
+      await page.getByRole('button', { name: 'Use the diff pair' }).click();
+      await page.getByText('Also use this answer for similar cases').click();
+      /* From "Why it paused" down to Apply: the reason, the recommendation,
+         what is waiting, and the rule as it will read, with no line cut at
+         the top edge. On a phone that is taller than the screen, so the
+         phone shows the confirmation from its first line. */
+      const phone = (page.viewportSize()?.width ?? 0) < 500;
+      const from = phone ? page.locator('.ask__confirm').first() : page.locator('.ask__facts').nth(1);
+      await from.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+      if (!phone) await page.evaluate(() => window.scrollBy(0, -16));
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  quiet: {
+    file: 'agent-review-delegation-quiet',
+    app: '#/',
+    open: async (page) => {
+      const apply = () => page.getByRole('button', { name: 'Apply' }).click();
+      await page.getByRole('button', { name: 'Use the diff pair' }).click();
+      await page.getByText('Also use this answer for similar cases').click();
+      await apply();
+      await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
+      await apply();
+      await page.getByRole('button', { name: 'Use the diff remove ink' }).click();
+      await page.getByText('Add this case to your rule').click();
+      await apply();
+      await page.getByText('Nothing needs your attention.').waitFor();
+      await page.mouse.move(0, 0); /* off the record the last press left it over */
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(300);
     },
   },
   storybook: {
