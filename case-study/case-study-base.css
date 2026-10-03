@@ -137,19 +137,23 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 /* ---------- Field labels ----------
    The label that names what sits under it: Client, My role, Timeline, What
    changed in a facts strip, the category over a list of deliverables, the
-   verb over a column of them. Uppercase like every kicker and eyebrow, and at
-   14px that is --tracking-label. Size, line height, colour and the gap under
-   it stay with the page's own text-sm / text-xs, text-* and mb-* utilities:
-   the facts strip alternates charcoal and sage heads, and text-xs is not only
-   a size here, it is what keeps `.min-h-screen p.mb-4:not(.text-xs)` from
-   setting a 12px label at 18px. The modifier is the 12px label on a card,
-   which is a kicker's size and so takes a kicker's tracking. */
+   verb over a column of them. It is the design system's Kicker, the same
+   treatment `.build-facts dt` takes on the write-up pages: 12px in the sage,
+   uppercase, on --tracking-caps. The class owns all of it, so a label cannot
+   be typed at another size or in another ink. Until 2026-10-03 size and
+   colour were the page's own text-sm and text-* utilities, and the strip's
+   heads were 14px charcoal, louder than the facts under them.
+   --color-accent-text clears 4.5:1 on the white strip and on the warm cards,
+   the two grounds these sit on. text-xs stays in the markup for one reason:
+   it is what keeps `.min-h-screen p.mb-4:not(.text-xs)` from setting a <p>
+   label at 18px. */
 .case-field-label {
+  font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
+  color: var(--color-accent-text);
 }
-.case-field-label--sm { letter-spacing: var(--tracking-caps); }
 
 /* ---------- Sticky in-page section nav ---------- */
 /* The captured markup wraps the whole page in `overflow-x-hidden`, and
