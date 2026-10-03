@@ -402,6 +402,14 @@ clear 3:1 against **both**. 0.38 is the minimum that does; 0.40 leaves
 headroom: 3.79 outside the button, 3.18 inside. A boundary is only a boundary
 against what is on each side of it.
 
+It is also the left rule of a fact cell on a charcoal chapter
+(`.build-facts` under `.build-chapter.ground-charcoal`), which is a divider by
+this table's own wording and not a control. The first step was drawn there
+first and read as present but quiet; the report on the same strip on a light
+ground was that its lines could not be seen at all (`--color-tag-border` is
+1.06:1 on tea-light). A rule a reader is meant to find is spent at the strong
+step, which also clears 3:1; a hairline nobody needs to find stays at the first.
+
 Below 0.55 is not text.
 
 ### Wash on dark
