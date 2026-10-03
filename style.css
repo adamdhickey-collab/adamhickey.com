@@ -1060,18 +1060,38 @@ a.case-thumb { display: block; }
   margin-bottom: var(--space-xs);
 }
 /* The shift's one link out, to the case study its third step argues from.
+   It is its own line under the paragraph, not a sentence inside it: the
+   paragraph makes the argument and names the project, and a reader who wants
+   the evidence has somewhere to go that is plainly a link rather than a
+   bold run in the middle of a sentence. It says what pressing it does, and
+   ends on the same text arrow the site's other onward links use. The
+   accessible name carries the destination (the paragraph above is not its
+   paragraph any more), and begins with the visible words.
+
    The section's ink rather than its accent: --color-accent-text is 4.2:1 on
    the third step's warm ground, under the floor, and charcoal clears every
    ground the section cross-fades through. So the affordance is the weight
    and the underline, in the accent, and the pointer firms the underline to
    the ink rather than moving the color. */
+.story-step .story-more { margin-top: var(--space-md); }
 .story-step .story-link {
+  position: relative;
+  display: inline-block;
   color: var(--story-ink);
   font-weight: 600;
   text-decoration: underline;
   text-decoration-color: var(--story-accent);
   text-underline-offset: 0.2em;
   transition: text-decoration-color var(--motion-state) var(--ease);
+}
+/* A line of 18px text is not a 44px target, so the target grows behind it
+   rather than around it: the underline stays on the words. The same trick as
+   .case-ask-link and .glance-more, for the same reason. */
+.story-step .story-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
 }
 .story-step .story-link:focus-visible { text-decoration-color: currentColor; }
 @media (hover: hover) and (pointer: fine) {
