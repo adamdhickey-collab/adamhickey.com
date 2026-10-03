@@ -226,7 +226,11 @@
 /* ---------- writing rules ---------- */
 .ds-rules { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xl); max-width: 46rem; }
 .ds-rules li { border-left: 2px solid var(--color-accent-text); padding-left: var(--space-md); }
-.ds-rules strong {
+/* The label is the list item's OWN strong, a direct child. Selected as any
+   strong in the list, a bolded phrase inside the sentence under it became a
+   block too: five of them broke out of their sentences as a second heading
+   and left a comma at the head of the next line. */
+.ds-rules li > strong {
   display: block;
   font-family: var(--font-sans);
   font-size: var(--text-base);
