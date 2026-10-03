@@ -453,19 +453,22 @@ size, never a literal.
 
 | Class | Where | Size and tracking |
 |---|---|---|
-| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer) and the category over each list of deliverables | 14px, `--tracking-label` |
-| `.case-field-label` with its small modifier | The verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps` |
+| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, and the verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
 | `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
 
 The sizes are not a choice to make per label. A label in a `.build-facts` strip
 is the Kicker's treatment, 12px in the sage, because it is a kicker: a short
-tracked label over the thing it names. The 14px, charcoal one is the Tailwind
-case studies' strip heads (`.case-field-label`), and the other 12px one is for a
-label that sits over a card's list and shares the card with a serif title. The
-strip's labels were 14px charcoal until 2026-10-03, which made them the one
-label on the site louder than the facts under it.
+tracked label over the thing it names. The Tailwind case studies'
+`.case-field-label` is the same treatment, and the class sets all of it (size,
+tracking, case and ink), so a label there cannot be typed at another size or in
+another color; `text-xs` stays in its markup only to keep one paragraph rule in
+`case-study-base.css` from setting a `<p>` label at 18px. Both were 14px
+charcoal until 2026-10-03, which made them the one label on the site louder
+than the facts under it, and the Tailwind strips had set `What changed` apart
+in the sage while the other three heads were charcoal. All four are the sage
+now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
 
 **What this still does not cover**, and why each is its own case:
 
