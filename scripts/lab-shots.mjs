@@ -126,14 +126,16 @@ const SHOTS = {
     open: async (page) => {
       await page.getByRole('button', { name: 'Use the diff pair' }).click();
       await page.getByText('Also use this answer for similar cases').click();
-      /* From "Why it paused" down to Apply: the reason, the recommendation,
-         what is waiting, and the rule as it will read, with no line cut at
-         the top edge. On a phone that is taller than the screen, so the
-         phone shows the confirmation from its first line. */
+      /* The whole card from its top edge down to Apply: the question, what
+         no check can say, the answer chosen, and the rule as it will read.
+         Since the glanceable pass (agent-review#7, 2026-10-04) the reason,
+         the recommendation and what is waiting are folded under the card,
+         so the card fits from its head. On a phone that is taller than the
+         screen, so the phone shows the confirmation from its first line. */
       const phone = (page.viewportSize()?.width ?? 0) < 500;
-      const from = phone ? page.locator('.ask__confirm').first() : page.locator('.ask__facts').nth(1);
+      const from = phone ? page.locator('.ask__confirm').first() : page.locator('.ask').first();
       await from.evaluate((el) => el.scrollIntoView({ block: 'start' }));
-      if (!phone) await page.evaluate(() => window.scrollBy(0, -16));
+      if (!phone) await page.evaluate(() => window.scrollBy(0, -12));
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
     },
