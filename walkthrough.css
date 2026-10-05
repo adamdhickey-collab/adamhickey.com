@@ -42,13 +42,37 @@
 
 .wt { margin: var(--space-2xl) 0 var(--space-3xl); }
 
-/* ---- the stage: the laptop ---- */
+/* ---- the stage: the tablet ----
+   A TABLET, NOT A LAPTOP, since 2026-10-05. The frame was the case studies'
+   laptop: a lid with the picture in it and a foot under it, so the top and
+   the bottom of the object were two different things. It is one bezel of
+   --device-chrome all the way round now, the same above the screen as below
+   it. That is the site's phone object (.build-phone in style.css: the bezel,
+   the chrome, --shadow-device, the screen's corner derived from the shell's)
+   with one value changed, the corner, which from 40rem up is the tile's
+   --radius-xl, as the tablet in app-device.css has it. Under 40rem the
+   picture is the product's own phone capture and the object is the phone
+   itself, at a phone's width. The corner is written on the two elements
+   rather than as --shell-radius, so this file still declares no custom
+   property. "The laptop" in the notes below and in walkthrough.js is this
+   frame. */
 .wt-figure { margin: 0; }
+@media (min-width: 40.0625rem) {
+  .wt-figure { border-radius: var(--radius-xl); }
+  .wt-figure .wt-screen { border-radius: calc(var(--radius-xl) - var(--bezel)); }
+}
+@media (max-width: 40rem) {
+  .wt-figure { max-width: 20rem; margin-inline: auto; }
+}
+/* The screen's own ground is the lid's chrome, not white: the capture is the
+   product's dark theme since 2026-10-05, and a white ground under a dark
+   picture showed as a pale arc in each rounded corner, where the clip's
+   antialiasing lets the ground through. */
 .wt-screen {
   position: relative;
   overflow: hidden;
   border-radius: calc(var(--shell-radius) - var(--bezel));
-  background: var(--color-white);
+  background: var(--device-chrome);
 }
 .wt-world { position: relative; transform-origin: 0 0; }
 .wt-world img { border-radius: 0; }
@@ -86,12 +110,15 @@
    part to the next. The scrim is the page's own scrim token, thinned, laid
    outside the rectangle by a spread no screen is bigger than and clipped by
    the screen. Hidden until the tour runs; the static layout has no use for a
-   highlight on a part nobody is pointing at. */
+   highlight on a part nobody is pointing at. The ring is the on-dark sage
+   since 2026-10-05: it is drawn on the capture, the capture is the product's
+   dark theme, and --color-accent-text on a ground that dark is under 3:1
+   (COLOR.md keeps it off charcoal for the same reason). */
 .wt-focus {
   position: absolute;
   display: none;
   border-radius: 4px;
-  outline: 2px solid var(--color-accent-text);
+  outline: 2px solid var(--color-accent-on-dark);
   box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-scrim) 50%, transparent);
   pointer-events: none;
 }
@@ -204,6 +231,10 @@
   grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
   column-gap: var(--space-4xl);
   align-items: center;
+  /* Room above and below the stage, which walkthrough.js subtracts from the
+     height it fits the laptop to: a foot and a row of bars that touch the
+     bottom of the window read as cut off. */
+  padding-block: var(--space-md);
 }
 .wt.is-tour .wt-stage { min-width: 0; }
 .wt.is-tour .wt-world { will-change: transform; }

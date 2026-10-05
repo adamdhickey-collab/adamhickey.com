@@ -307,8 +307,8 @@ product's own screen (`img/lab/agent-review-card.webp`, from
 layout (784px, and 832px since 2026-10-05, where the app's top bar holds on
 one line), one column of type that can be read at card size; before that run
 1's change screen at 720, and before 2026-10-02 the full desktop review,
-which could not be read at that size) in the laptop
-the case studies frame their wide captures in, beside the question the lab
+which could not be read at that size) in a tablet, one bezel all round
+(the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
 the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
 captures: each is taken from the deployed product and Storybook at two
