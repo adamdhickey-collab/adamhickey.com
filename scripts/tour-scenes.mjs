@@ -1,4 +1,11 @@
 /**
+ * RETIRED FROM THE PAGE 2026-10-05. The tour's notes carry no drawings now:
+ * Adam found they did not help, and the product takes their room. The seven
+ * files, img/lab/tour-<part>.webp, are out of the tree. This registry stays
+ * as the record of the set and the way to draw it again (draw.mjs --set
+ * tour), so `draw.mjs --set tour status` will say all seven are owed, which
+ * is true and is not a to-do.
+ *
  * One small drawing for each part of the Agent Review tour, beside its note.
  * draw.mjs --set tour reads this to queue the jobs for a browser to draw, and
  * to file what comes back; illustrate.mjs cuts each to the `tour` slot, 960x540.

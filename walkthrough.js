@@ -41,6 +41,12 @@
  * img/lab/agent-review-delegation.webp at 1440 x 1000 (lab-shots.mjs
  * delegation); until then it was the first iteration's change screen.
  *
+ * THE PAGER, since 2026-10-05: a previous and a next button at the two ends
+ * of the progress bars. A press scrolls the page to the next stop, the t at
+ * which a part is best looked at, and the tour follows because the tour
+ * follows the scroll. So the buttons are a second way to move the same
+ * number, never a second clock, and a reader can mix the two freely.
+ *
  * REDUCED MOTION is a media query on this script and not a rule in the
  * stylesheet. The stylesheet's blanket stops CSS animation and transition;
  * a scrubbed scene is neither, so the contract (MOTION.md, section 5) is kept
@@ -54,21 +60,36 @@
 
   var sticky = root.querySelector('.wt-sticky');
   var stage = root.querySelector('.wt-stage');
+  var screen = root.querySelector('.wt-screen');
   var world = root.querySelector('.wt-world');
   var img = world.querySelector('img');
   var focus = root.querySelector('.wt-focus');
   var pins = [].slice.call(root.querySelectorAll('.wt-pin'));
   var notes = [].slice.call(root.querySelectorAll('.wt-note'));
   var fills = [].slice.call(root.querySelectorAll('.wt-tick i'));
+  var prev = root.querySelector('.wt-step--prev');
+  var next = root.querySelector('.wt-step--next');
+  var status = root.querySelector('.wt-status');
   var intro = root.querySelector('.wt-note--intro');
   var outro = root.querySelector('.wt-note--outro');
   var steps = notes.filter(function (n) { return n.hasAttribute('data-rect'); });
   var N = steps.length;
-  if (!N || !sticky || !stage || !world || !img || !focus || !intro || !outro) return;
+  if (!N || !sticky || !stage || !screen || !world || !img || !focus || !intro || !outro) return;
 
   /* The capture's own pixels. */
   var IW = +img.getAttribute('width');
   var IH = +img.getAttribute('height');
+  /* THE SCREEN IS A WINDOW ONTO THE PAGE, since 2026-10-05. The picture is the
+     whole screen the product opens on, 1300 tall, and a frame that shows all
+     of it is nearly square: on a laptop its height, not its column, is what
+     limits it, so the product was printed smaller than the room it had. While
+     the tour runs the frame is FH of the picture tall (data-fold on the
+     screen, in the capture's pixels: a window the shape the product is used
+     in) and the camera travels the page under it, down to the checks and
+     back. The closing map pulls back until the whole page fits the window's
+     height, on the frame's own dark ground. Without the tour the frame is
+     the whole picture, as it was. */
+  var FH = Math.min(IH, +screen.getAttribute('data-fold') || IH);
   var ZMAX = 2.1;          /* the capture is 2x, so this is still sharp */
   var UNIT = 0.6;          /* of the viewport's height: the scroll one part takes */
   var UNIT_MIN = 430;      /* px, so a short window does not shorten the scroll with it */
@@ -79,7 +100,20 @@
   var LEAD = 40;           /* capture px: the room the camera leaves left of a part, for its pin */
   var T = INTRO + N + OUTRO;
 
-  var home = { rect: { x: 0, y: 0, w: IW, h: IH }, cx: IW / 2, cy: IH / 2, z: 1 };
+  /* WHERE A PRESS LANDS. The pager's two buttons move the page's scroll
+     position, and nothing else: there is still one clock, the scroll, and
+     render(t) is still the only thing that draws. A stop is the t a part is
+     best looked at, HOLD into its unit: the camera arrived at MOVE (0.45)
+     and the note is whole from 0.3 until it starts to leave at 0.75. The
+     lead is t = 0 and the closing map is the same HOLD into the outro. */
+  var HOLD = 0.6;
+  var NEAR = 0.05;         /* units: closer than this to a stop is at it */
+  var stops = [0];
+  for (var k = 0; k < N; k++) stops.push(INTRO + k + HOLD);
+  stops.push(INTRO + N + HOLD);
+
+  var home = { rect: { x: 0, y: 0, w: IW, h: FH }, cx: IW / 2, cy: FH / 2, z: 1 };
+  var map = { rect: { x: 0, y: 0, w: IW, h: IH }, cx: IW / 2, cy: IH / 2, z: FH / IH };
   var frames = steps.map(function (n) {
     var r = n.getAttribute('data-rect').split(/\s+/).map(Number);
     var rect = { x: r[0], y: r[1], w: r[2], h: r[3] };
@@ -88,7 +122,7 @@
        stands outside the part's left edge, so the camera aims LEAD/2 left of
        the part's centre: at 64rem the even margin was 40px and the pin and
        its gap need 38. */
-    var z = Math.min(ZMAX, 0.86 * IW / rect.w, 0.8 * IH / rect.h);
+    var z = Math.min(ZMAX, 0.86 * IW / rect.w, 0.8 * FH / rect.h);
     return { rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z) };
   });
 
@@ -100,13 +134,14 @@
   }
   function mix(a, b, e) { return a + (b - a) * e; }
 
-  var rise = 20, navH = 80, W = 0, H = 0, runway = 1;
+  var rise = 20, navH = 80, W = 0, H = 0, HS = 0, runway = 1;
   var live = false, queued = false;
 
   function cameraAt(t) {
     var from = home, to = home, e = 0, ring = 0;
     if (t >= INTRO + N) {
       from = frames[N - 1];
+      to = map;
       e = ease((t - INTRO - N) / OUT_MOVE);
       ring = 1 - e;
     } else if (t >= INTRO) {
@@ -143,8 +178,11 @@
   function render(t) {
     var c = cameraAt(t);
     var z = c.z;
-    var tx = clamp(W / 2 - z * (c.cx / IW) * W, W - z * W, 0);
-    var ty = clamp(H / 2 - z * (c.cy / IH) * H, H - z * H, 0);
+    /* W x HS is the window, W x H the page under it. Zoomed in, the page is
+       held to the window's edges; pulled back past 1 (the map) it is narrower
+       than the window and sits in the middle of it. */
+    var tx = z >= 1 ? clamp(W / 2 - z * (c.cx / IW) * W, W - z * W, 0) : (W - z * W) / 2;
+    var ty = clamp(HS / 2 - z * (c.cy / IH) * H, Math.min(0, HS - z * H), 0);
     world.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + z + ')';
 
     /* The spotlight: one rectangle that slides from part to part. Its ring
@@ -180,12 +218,68 @@
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
     fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + clamp(t - INTRO - i, 0, 1) + ')'; });
+    ends(t);
   }
+
+  /* The pager. A button with nowhere left to go says so, and is written only
+     when that changes: render() runs on every frame of a scroll. */
+  var atStart = null, atEnd = null;
+  function ends(t) {
+    var s = t <= stops[0] + NEAR, e = t >= stops[stops.length - 1] - NEAR;
+    if (prev && s !== atStart) { atStart = s; prev.setAttribute('aria-disabled', s ? 'true' : 'false'); }
+    if (next && e !== atEnd) { atEnd = e; next.setAttribute('aria-disabled', e ? 'true' : 'false'); }
+  }
+  function now() {
+    return clamp((navH - root.getBoundingClientRect().top) / runway, 0, 1) * T;
+  }
+  /* What a screen reader hears after a press: the part's own kicker, without
+     the digit its disc draws. */
+  function name(i) {
+    var note = i === 0 ? intro : i > N ? outro : steps[i - 1];
+    var kicker = note.querySelector('.wt-kicker');
+    var num = kicker && kicker.querySelector('.wt-num');
+    var words = kicker ? kicker.textContent.replace(num ? num.textContent : '', '').trim() : '';
+    return i >= 1 && i <= N ? 'Part ' + i + ' of ' + N + ': ' + words : words;
+  }
+  /* One press is one stop from where the reader is, or, while the page is
+     still gliding to the stop a press asked for, from that stop: two quick
+     presses are two parts, not one. The glide is the page's own smooth
+     scroll (style.css), so it is the browser's, and it is off wherever the
+     site turns smooth scrolling off. The stop a press asked for is forgotten
+     the moment the page gets there, the moment the reader moves it some
+     other way (a wheel, a finger, a key), and after 1.2s whatever happened,
+     so a press never starts from a place the reader has already left. A
+     button at the end of its travel does nothing: it is aria-disabled so
+     that it can keep its focus, which means the click still arrives. */
+  var aim = null, aimed = 0, said = null;
+  function hush() { said = null; if (status && status.textContent) status.textContent = ''; }
+  function forget() { aim = null; hush(); }
+  function go(dir, button) {
+    if (!live || button.getAttribute('aria-disabled') === 'true') return;
+    var t = aim !== null && Date.now() - aimed < 1200 ? stops[aim] : now();
+    var to = -1, i;
+    if (dir > 0) { for (i = 0; i < stops.length; i++) if (stops[i] > t + NEAR) { to = i; break; } }
+    else { for (i = stops.length - 1; i >= 0; i--) if (stops[i] < t - NEAR) { to = i; break; } }
+    if (to < 0) return;
+    aim = to; aimed = Date.now();
+    var top = root.getBoundingClientRect().top + window.pageYOffset - navH + (stops[to] / T) * runway;
+    window.scrollTo({ top: Math.round(top) });
+    if (status) { status.textContent = name(to); said = to; }
+  }
+  if (prev) prev.addEventListener('click', function () { go(-1, prev); });
+  if (next) next.addEventListener('click', function () { go(1, next); });
+  window.addEventListener('wheel', forget, { passive: true });
+  window.addEventListener('touchstart', forget, { passive: true });
+  window.addEventListener('keydown', function (e) { if (e.target !== prev && e.target !== next) forget(); });
 
   function update() {
     queued = false;
     if (!live) return;
     var progress = clamp((navH - root.getBoundingClientRect().top) / runway, 0, 1);
+    if (aim !== null && Math.abs(progress * T - stops[aim]) < NEAR) aim = null;
+    /* What the status line last said stops being true once the reader is half
+       a part away from it by any means, a dragged scrollbar included. */
+    if (said !== null && aim === null && Math.abs(progress * T - stops[said]) > 0.5) hush();
     render(progress * T);
   }
   function onScroll() {
@@ -203,15 +297,27 @@
      bars ran off the bottom. So the stage is held to the width at which its
      height, the lid, the foot and the bars included, is the room the sticky
      box has. Measured, not authored: the chrome is whatever the stage is
-     taller than the picture, and the ratio is the picture's own. A window with
+     taller than the window, and the ratio is the window's own. A window with
      room to spare is left alone, and the stage never goes under half its
      column, so a very short window gets a small laptop and not a sliver. */
+  /* The window's size follows the stage's width, so it is set whenever that
+     width is. */
+  function frame() {
+    W = world.offsetWidth;
+    HS = W * FH / IW;
+    H = W * IH / IW;
+    screen.style.height = HS + 'px';
+  }
   function fit() {
     stage.style.maxWidth = '';
+    frame();
     var cs = getComputedStyle(sticky);
     var room = sticky.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
     var over = stage.offsetHeight - room;
-    if (over > 0) stage.style.maxWidth = Math.max(stage.offsetWidth / 2, stage.offsetWidth - over * IW / IH) + 'px';
+    if (over > 0) {
+      stage.style.maxWidth = Math.max(stage.offsetWidth / 2, stage.offsetWidth - over * IW / FH) + 'px';
+      frame();
+    }
   }
 
   function measure() {
@@ -221,8 +327,6 @@
     runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
     root.style.height = (sticky.offsetHeight + runway) + 'px';
     fit();
-    W = world.offsetWidth;
-    H = world.offsetHeight;
   }
   function onResize() { if (live) { measure(); update(); } }
 
@@ -249,6 +353,7 @@
     root.style.height = '';
     clear([world], ['transform']);
     clear([stage], ['max-width']);
+    clear([screen], ['height']);
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
