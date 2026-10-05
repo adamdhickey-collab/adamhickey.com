@@ -12,12 +12,13 @@
    - THE STATIC ONE is every viewport the tour does not run in: under 64rem,
      with reduced motion asked for, or with no script. It is the laptop at the
      column's width with the seven pins on it, and the seven notes as a list
-     under it. Nothing is hidden and nothing waits for a scroll, which is the
+     under it, closed by the note that sums the screen up. Nothing is hidden and nothing waits for a scroll, which is the
      rule MOTION.md section 5 sets: an animation that reveals content must
      never be the only thing that reveals it. Under 40rem the laptop is the
      phone's (the existing .build-laptop--adapts frame and the product's own
      phone capture), the pins are not drawn, because they are placed on the
-     desktop layout, and the numbers come off the notes with them.
+     desktop layout, and the numbers and the drawings come off the notes
+     with them.
    - THE TOUR is the same markup with .is-tour on it, which walkthrough.js adds
      when the viewport is 64rem or more AND the reader has not asked for
      reduced motion, and removes when either stops being true. The section is
@@ -163,8 +164,12 @@
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
-/* What only the tour needs: the outro, the hint and the progress. */
-.wt-note--outro, .wt-hint, .wt-ticks, .wt-skip { display: none; }
+/* What only the tour needs: the hint, the progress and the way past it. The
+   outro is NOT one of them, since 2026-10-05: its head ("Seven parts, one
+   aim") is the plainest summary of the screen, and a reader on a phone or
+   with reduced motion never saw it. In the static layout it closes the
+   list. */
+.wt-hint, .wt-ticks, .wt-skip { display: none; }
 .wt-hint {
   margin: var(--space-md) 0 0;
   font-size: var(--text-sm);
@@ -177,10 +182,15 @@
    numbers come off the notes too. */
 @media (min-width: 48rem) {
   .wt-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-3xl); row-gap: var(--space-2xl); }
-  .wt-note--intro { grid-column: 1 / -1; max-width: var(--measure); }
+  .wt-note--intro, .wt-note--outro { grid-column: 1 / -1; max-width: var(--measure); }
 }
+/* Under 40rem the drawings go too, since 2026-10-05. They were drawn to sit
+   beside the pins, and without the pins each one pointed at nothing; with
+   them in, a phone reader scrolled eleven screens of pictures before
+   meeting the product again. The notes read as a tight list under the
+   phone capture instead. Desktop and tablet keep them. */
 @media (max-width: 40rem) {
-  .wt-pin, .wt-num { display: none; }
+  .wt-pin, .wt-num, .wt-art { display: none; }
 }
 
 /* ================= THE TOUR ================= */
@@ -206,8 +216,8 @@
    them takes focus, which is why a faded note can safely stay in the tree. */
 .wt.is-tour .wt-notes { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 0; }
 .wt.is-tour .wt-note { grid-area: 1 / 1; align-self: center; will-change: transform, opacity; }
-.wt.is-tour .wt-note--intro { max-width: none; }
-.wt.is-tour .wt-note--outro, .wt.is-tour .wt-hint { display: block; }
+.wt.is-tour .wt-note--intro, .wt.is-tour .wt-note--outro { max-width: none; }
+.wt.is-tour .wt-hint { display: block; }
 .wt.is-tour .wt-note h3 { font-size: var(--text-3xl); }
 
 /* Seven short bars under the laptop that fill as the tour reaches each part.

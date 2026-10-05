@@ -303,8 +303,9 @@ in Selected work, where the two prototype cards sat until 2026-10-01, and
 since #343 it is about Agent Review rather than the lab as a family: the
 product's own screen (`img/lab/agent-review-card.webp`, from
 `scripts/lab-cards.mjs`, the capture the lab index uses too: since
-2026-10-03 the delegated work, the product's front door, at its 784px tablet
-layout, one column of type that can be read at card size; before that run
+2026-10-03 the delegated work, the product's front door, at its tablet
+layout (784px, and 832px since 2026-10-05, where the app's top bar holds on
+one line), one column of type that can be read at card size; before that run
 1's change screen at 720, and before 2026-10-02 the full desktop review,
 which could not be read at that size) in the laptop
 the case studies frame their wide captures in, beside the question the lab
