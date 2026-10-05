@@ -111,7 +111,18 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
  * setProperty(), which is every place a browser actually learns a custom
  * property in this repository. Prose does not get a vote.
  * ------------------------------------------------------------------------- */
-const DECLARE = /(--[a-z][a-z0-9-]*[a-z0-9])(?![a-z0-9-])\s*:/g;
+/* A declaration starts at a property position, and nothing a selector is made
+   of can stand just before one. The regex used to ask only for two hyphens, a
+   name and a colon, and #369 put `.build-laptop--adapts::after` in style.css:
+   a class with a BEM modifier and a pseudo-element after it, which reads as
+   `--adapts:` to a scanner that never looks left. The check printed 222
+   declarations from 6d93402 until this was closed, and the 222nd was a
+   selector. The verdict never moved, because nothing names --adapts; the
+   count did, and the count is the thing the ledger in CLAUDE.md reads. So:
+   refuse a match whose previous character could be part of an identifier.
+   What CAN precede a real declaration is `{`, `;`, whitespace or the start of
+   a style="" attribute, and none of those is excluded. */
+const DECLARE = /(?<![A-Za-z0-9_-])(--[a-z][a-z0-9-]*[a-z0-9])(?![a-z0-9-])\s*:/g;
 
 /* Comments are not declarations, and in this repository they read exactly like
    them. style.css carries "/* Deeper than --color-accent: at 12px ... *\/" --
