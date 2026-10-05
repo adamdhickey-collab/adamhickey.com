@@ -419,7 +419,10 @@ once, and every one of the five moved with them) and 20 reachable states
 (13 on the deploy console and 7 on the cockpit; **20 since #313**, up from
 the 14 the 30-page set was measured with, and a reachable state is a fresh
 load that moves three of the five without a page arriving), plus 129 token
-names against 221 declarations in 15 stylesheets, 6
+names against 221 declarations in 16 stylesheets (221 in 15 at d90efe7;
+`walkthrough.css` arrived with #377 declaring nothing, and the 222 the check
+printed from #369 until #398 was a selector read as a declaration, set out
+under the drift paragraph below), 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 26 counted claims across 6 documents.
 
@@ -1058,6 +1061,29 @@ measured row. `tokens.mjs`
 holds every name the docs USE to a declaration; the total it prints is a
 count, and a count in prose here is the same kind of hand-maintained number
 as the four above.
+
+**The 222nd was not a token, and the count went up for it anyway, until
+#398.** #369 put `.build-laptop--adapts::after` in `style.css`, and
+`tokens.mjs` found a declaration by looking for two hyphens, a name and a
+colon: `--adapts:` is there, inside a class with a modifier and a
+pseudo-element after it. So from 6d93402 the total it printed was 221
+custom properties and one selector, 222 at #393's 37644b5 and at #396's
+0062d55. The verdict was not wrong for it -- nothing in the specs names
+`--adapts`, and a declaration only ever vouches for a name somebody uses --
+but it was the instrument moving rather than the site, in the one count
+here that looked too simple to do that. #398 corrected the instrument: a
+declaration starts at a property position, so the scan now refuses a match
+whose previous character could be part of an identifier, which is exactly
+where a selector's modifier leaves one. Run over every stylesheet and
+`style=""` attribute in the tree, the old and new scans differ by that one
+name, and at d90efe7, before #369, they agree on every name; the count is
+221 again, in 16 stylesheets, and the names held at 129. The stylesheet
+count moved in the same stretch for an ordinary reason: `walkthrough.css`
+is the 16th, arriving with the tour in #377, and it declares nothing. This
+is #283's lesson from the other side. There the check got stricter and the
+count held while its meaning changed; here the count moved and the site had
+not, and a ladder column read without the arithmetic would have taken the
+222 for a token.
 
 The older sets carry an account of how they were reached, and all of them
 are kept, because what a stale tripwire costs is a reading that comes back
