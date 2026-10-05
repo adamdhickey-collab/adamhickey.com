@@ -12,11 +12,13 @@
  * This file adds the cockpit and extends the focus ring to the controls
  * style.css does not cover: inputs, textareas and disclosure summaries.
  *
- * NO UPPERCASE, ANYWHERE. The site's kickers are tracked capitals; this
- * page's labels are lowercase sentence fragments at the same size and
- * weight, and the hero reuses .case-kicker, which is one of the two site
- * labels that is not uppercased. The glance block and the design
- * psychology note are not used here for that reason.
+ * ONE UPPERCASE LABEL, AND IT IS THE KICKER. Every kicker and eyebrow on the
+ * site is tracked capitals (TYPOGRAPHY.md, "Kickers and eyebrows"), and that
+ * includes the hero's .case-kicker and the answer zone's .ck-lead-kicker. The
+ * rest of this page's labels are lowercase sentence fragments at the same
+ * size and weight, which is what keeps the one kicker legible as the kicker.
+ * The glance block and the design psychology note are not used here because
+ * they are labels in capitals of a kind this screen does not otherwise have.
  *
  * NO MEANING IN COLOR ALONE. Every state a row or a card can be in is also a
  * word: "recommended", "assigned", "over hours", "helps", "hurts". The grounds
@@ -639,6 +641,8 @@
   display: block;
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--color-accent-text);
 }
 
@@ -675,9 +679,11 @@
    already right and only the margins need resetting under a disclosure.
    The lead-in is .ckw-frame-cap span's treatment, a beat up the page: the
    claim in sage semibold, the sentence under it in charcoal. accent-text on
-   warm is 5.32:1. */
+   warm is 5.32:1. The lead-in is the item's first element and only that: a
+   word stressed inside the sentence after it is bold in the sentence's own
+   charcoal, not a second claim. */
 .case-section .ckw-more-body .build-list { margin: var(--space-sm) 0 0; }
-.ckw-more-body .build-list strong {
+.ckw-more-body .build-list li > strong:first-child {
   font-weight: var(--weight-semibold);
   color: var(--color-accent-text);
 }
@@ -1531,6 +1537,8 @@ html[data-embed] .ck { border-radius: 0; }
   margin: 0 0 var(--space-2xs);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--color-accent-text);
 }
 .ck-lead[data-tone="close"] .ck-lead-kicker { color: var(--color-charcoal); }

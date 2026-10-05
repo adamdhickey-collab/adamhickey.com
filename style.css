@@ -508,9 +508,11 @@ a.case-thumb { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
-  /* No exception for the lab card. Its thumb is a laptop, and the laptop's
-     resting shadow is --shadow-device on the foot, a ::after this blanket
-     does not reach, so a reduced-motion reader sees the same object. */
+  /* One exception, the lab card. Its thumb is a tablet, and --shadow-device
+     is that object's resting shadow, not a hover effect, so a reduced-motion
+     reader sees the same object. (While it was a laptop the shadow sat on
+     the foot, a ::after this blanket did not reach.) */
+  .case-card--lab .case-thumb { box-shadow: var(--shadow-device) !important; }
 }
 
 
@@ -681,13 +683,18 @@ a.case-thumb { display: block; }
    the laptop sat 24 from the panel's edge on three sides and read as pressed
    against it; the 16 more is the room a picture that wide wants.
 
-   THE COLUMNS CENTRE. The words were cut to the question, the project, the
-   result and two links, which runs the picture's height from 1024 to the
-   1280 where the container stops growing (340 against 287 at 1024, 317
-   against 310 at 1100, 322 against 364 from 1280), and whichever is shorter
-   sits in the middle of the other. They aligned at the top while a list of
-   five checked lines ran the words twice the picture's height, because a
-   picture centred on a list that long reads as floating. */
+   THE COLUMNS CENTRE, and the words are now the taller of the two. They were
+   cut to the question, the project, the result and two links so the column
+   ran the picture's height; the card has since been asked to say what the
+   project is and what a design team should take from it, which is a plain
+   sentence and three short list items more. Measured at 2026-10-02, the
+   words are 465 against a picture of 364 at 1280 and 484 against 287 at
+   1024, where they were 321 and 340, so the picture sits in the middle of a
+   taller column and the card is 101px taller at 1280 (446 to 547) and 144px
+   at 1024 (422 to 566). That is the price of the explanation rather than an
+   accident of it. A list of five checked lines ran the words to twice the
+   picture's height before, which is where this rule stopped being
+   comfortable. */
 .case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
 .case-card--lab .case-thumb { order: -1; }
 .case-card--lab .case-card-body { display: flex; flex-direction: column; }
@@ -702,16 +709,13 @@ a.case-thumb { display: block; }
   }
   .case-card--lab .case-thumb { order: 0; margin-bottom: 0; }
 }
-.case-lab-name {
+.case-lab-lead {
   margin: var(--space-xs) 0 0;
-  font-family: var(--font-sans);
+  max-width: 32rem;
   font-size: var(--text-base);
-  font-weight: 600;
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
-.case-lab-name + .case-lab-result { margin-top: var(--space-sm); }
-.case-lab-result { color: var(--color-charcoal); }
 /* The other two lab pieces, one quiet line under the feature. */
 .lab-also {
   margin: var(--space-md) 0 0;
@@ -737,46 +741,40 @@ a.case-thumb { display: block; }
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-/* ---------- The card's picture is a laptop ----------
+/* ---------- The card's picture is a tablet ----------
    The picture was a drawing from #340 to #343, in the --shadow-media ring
    every drawing wears; see the git history of this block for that argument.
-   It is Agent Review's own screen now, and a screen takes a device: the
-   laptop the case studies frame their wide captures in, because a site that
-   frames its captures in a bezel and shows this one bare is holding two
-   ideas of what a screenshot is. The anchor IS the .build-laptop, so the
-   lid, the foot and --shadow-device under it come from that rule unchanged,
-   and this block only takes away what the tile was: the 16:9 (the capture
-   is 16:9 itself, and the chrome sits outside it), the clip (hidden would
-   cut the foot's --shadow-device off at the anchor's edge), and the ground.
+   It is Agent Review's own screen now, and a screen takes a device, because
+   a site that frames its captures in a bezel and shows this one bare is
+   holding two ideas of what a screenshot is.
 
-   One value changed, the lid's corner: half the tile's own --radius-xl,
-   which is the corner this picture wore before it had a laptop. 10px
-   against the case studies' 14, written as a fraction of a named radius
-   rather than as a new number, and the screen's inner radius still derives
-   from it, at 2px.
+   THE DEVICE IS A TABLET since 2026-10-05, at Adam's request, where it was
+   the case studies' laptop: a lid with a foot under it, so the object's top
+   and bottom were two different things. It is one bezel all the way round
+   now, the same above the screen as below it, which is the frame the case
+   study's own tour puts this product in (walkthrough.css). The anchor IS
+   the .build-phone, so the bezel, the chrome, --shadow-device and the
+   screen's derived corner come from that rule unchanged, and this block
+   changes one value, the shell's corner, to the tile's own --radius-xl,
+   and takes away the tile's 16:9 (the capture is 16:9 itself, and the bezel
+   sits outside it).
 
-   The foot's overhang moves inside the anchor, because the anchor is what
-   the focus ring is drawn around: with the foot 2% wider than the box on
-   each side, the ring was a rectangle with the laptop's foot sticking out
-   of both bottom corners. So the foot takes the anchor's full width and
-   the lid is inset by the same 2%, measured from the foot instead of from
-   the lid -- 2% / 1.04 -- which keeps the foot at exactly 104% of the lid,
-   the proportion .build-laptop::after draws. The ring then encloses the
-   whole object, at the lid's own corner rather than a:focus-visible's 4px.
-
-   The hover tilt stays, and its lift shadow does not: --shadow-lift is
-   drawn around the anchor's box, which is a rectangle standing behind a
-   laptop. */
+   The anchor's box is the object now, so the focus ring is drawn around
+   the tablet at its own corner, and the hover tilt's --shadow-lift is the
+   lift of that object: neither needs the exception the laptop did, whose
+   foot stood outside the box. */
 .case-card--lab .case-thumb {
-  --shell-radius: calc(var(--radius-xl) / 2);
+  --shell-radius: var(--radius-xl);
   aspect-ratio: auto;
-  overflow: visible;
-  background: none;
-  border-radius: var(--shell-radius);
 }
-.case-card--lab .case-thumb .build-laptop-lid { margin-inline: calc(2% / 1.04); }
-.case-card--lab .case-thumb::after { margin-inline: 0; }
-.case-card--lab .case-thumb.is-tilting { box-shadow: none; }
+
+/* The words: a plain account, then three things worth taking away. The list
+   is .build-list's own dash, tightened to this column: its 24px bottom
+   margin is a write-up's, and the intro above it is a lead-in, not a
+   paragraph, so it sits closer to the list than to the line above. */
+.case-card--lab .case-lab-intro { margin-top: var(--space-md); margin-bottom: var(--space-xs); color: var(--color-muted-gray); }
+.case-card--lab .case-lab-points { margin: 0; gap: var(--space-xs); }
+.case-card--lab .case-lab-points li { max-width: 32rem; }
 
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
@@ -817,9 +815,10 @@ a.case-thumb { display: block; }
 }
 .app-id .case-kicker { display: block; margin: var(--space-2xs) 0 0; }
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
-/* One tag component, two homes: the case study cards and the product
-   cards. The products used to set their own middot-separated list, which
-   was a second way of saying the same thing. */
+/* One tag component, three homes: the case study cards, the product
+   cards and the lab index's entries. The products used to set their own
+   middot-separated list, which was a second way of saying the same thing,
+   and the lab a line of caps, which was a third. */
 .tag,
 .product-tags li {
   display: inline-block;
@@ -1049,18 +1048,38 @@ a.case-thumb { display: block; }
   margin-bottom: var(--space-xs);
 }
 /* The shift's one link out, to the case study its third step argues from.
+   It is its own line under the paragraph, not a sentence inside it: the
+   paragraph makes the argument and names the project, and a reader who wants
+   the evidence has somewhere to go that is plainly a link rather than a
+   bold run in the middle of a sentence. It says what pressing it does, and
+   ends on the same text arrow the site's other onward links use. The
+   accessible name carries the destination (the paragraph above is not its
+   paragraph any more), and begins with the visible words.
+
    The section's ink rather than its accent: --color-accent-text is 4.2:1 on
    the third step's warm ground, under the floor, and charcoal clears every
    ground the section cross-fades through. So the affordance is the weight
    and the underline, in the accent, and the pointer firms the underline to
    the ink rather than moving the color. */
+.story-step .story-more { margin-top: var(--space-md); }
 .story-step .story-link {
+  position: relative;
+  display: inline-block;
   color: var(--story-ink);
   font-weight: 600;
   text-decoration: underline;
   text-decoration-color: var(--story-accent);
   text-underline-offset: 0.2em;
   transition: text-decoration-color var(--motion-state) var(--ease);
+}
+/* A line of 18px text is not a 44px target, so the target grows behind it
+   rather than around it: the underline stays on the words. The same trick as
+   .case-ask-link and .glance-more, for the same reason. */
+.story-step .story-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
 }
 .story-step .story-link:focus-visible { text-decoration-color: currentColor; }
 @media (hover: hover) and (pointer: fine) {
@@ -3933,6 +3952,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin: var(--space-sm) 0 0;
 }
+/* The lab index sets what it is and what it is made of as the homepage's
+   pills (.tag in a .tag-row), not as a line of caps: one component, under
+   the dek where .writing-meta sits. .tag-row's own margin-bottom would add
+   to the 3xl the link already pads below, so it is zeroed, and the top is
+   --space-md, the step .case-card puts between its title and the same row. */
+.case-section .writing-text .tag-row { margin: var(--space-md) 0 0; }
 .case-overview .writing-title::before { content: none; }
 /* Under .case-section for the same reason as .writing-meta and .writing-dek:
    .case-section h2 sets every section heading's margin-bottom to --space-2xl,
@@ -4069,6 +4094,25 @@ html.ah-lightbox-open body { overflow: hidden; }
   max-width: var(--measure);
   margin-bottom: var(--space-3xl);
 }
+/* A write-up whose hero opens on an action, as the lab's pieces do. The dek and
+   the action are one thought, so the gap between them is a step, not the
+   section's; the Listen control goes under the row (data-read-aloud="after",
+   read-aloud.js), and the gap below it to the facts strip is as it was.
+   The marker inside the button is .product-link-ext's, which is sized in em
+   to track the type it is set in, and needs the same gap .product-link gives it. */
+.build-dek:has(+ .build-hero-act) { margin-bottom: var(--space-xl); }
+/* A lede in two paragraphs (the Agent Review write-up: the problem, then
+   what was built). They are one lede, so the gap between them is a
+   paragraph's, not the hero's. */
+.build-dek:has(+ .build-dek) { margin-bottom: var(--space-lg); }
+.build-hero-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: 0;
+}
+.build-hero-act .btn { gap: var(--space-xs); }
 /* The case studies' own metadata treatment: each fact stands in its own
    column behind a left rule, under a charcoal sentence-case label, rather
    than sharing one rule across the top under uppercase sage. The rules
@@ -4089,13 +4133,52 @@ html.ah-lightbox-open body { overflow: hidden; }
   }
 }
 @media (min-width: 1024px) { .build-facts { grid-template-columns: repeat(4, 1fr); } }
+/* A FIELD LABEL, and a kicker: the same treatment as the line above a page
+   title (the design system's Kicker), at the same size, in the same colour.
+   12px, Montserrat 600, uppercase, tracked --tracking-caps, in the sage
+   (--color-accent-text, which clears 4.5:1 on every light ground these strips
+   sit on). It was 14px charcoal on --tracking-label, a second label style that
+   said the same thing in a louder voice than the facts under it. Set here, on
+   the component, so every page that uses the strip changes together.
+
+   Three strips use these cells for something that is not a field and opt out
+   below: the numeral row (.writing-facts, which sets all of its own) and the
+   lab's two findings layouts and its icon strip, whose heads are sentences and
+   run names. Those inherit this rule, so the opt-out restores the size and the
+   charcoal as well as the case, or they would turn small and sage with it. */
 .build-facts dt {
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
   margin-bottom: var(--space-2xs);
+}
+.build-facts--two dt,
+.build-facts--three dt,
+.build-facts--icons dt {
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+  color: var(--color-charcoal);
+}
+/* The findings band (two columns with icons): each head is the title of its
+   cell, a sentence a reader takes first, so it sets as the ladder's h4 block
+   title (20, sans 600, tight leading) rather than at the paragraph's 14, and
+   the icon over it grows to 32 to sit with a 20px line. The run strip keeps
+   14 and 24: its four columns are narrow, and a 20px run name wraps. */
+.build-facts--two.build-facts--icons dt {
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  margin-bottom: var(--space-xs);
+  text-wrap: balance; /* two even lines, not a full line and one word */
+}
+.build-facts--two .build-facts-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: var(--space-sm);
 }
 .build-facts dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
 
@@ -4138,9 +4221,13 @@ html.ah-lightbox-open body { overflow: hidden; }
   stroke-dasharray: 1;
 }
 .build-facts--icons.is-armed .build-facts-icon path { stroke-dashoffset: 1; }
+/* The offset is NOT reset to 0 here. glance-draw has only a `to` keyframe, so
+   its start is whatever the path already has, and the armed 1 above is that
+   start: with a 0 declared on this rule the draw ran from 0 to 0 and the
+   icons simply appeared, delays and all. `forwards` holds the end, and the
+   armed 1 shows through the stagger delay, so a late icon waits undrawn. */
 .build-facts--icons.is-drawn .build-facts-icon path {
-  stroke-dashoffset: 0;
-  animation: glance-draw var(--motion-draw) var(--ease) backwards;
+  animation: glance-draw var(--motion-draw) var(--ease) forwards;
 }
 .build-facts--icons.is-drawn > div:nth-child(2) .build-facts-icon path { animation-delay: 0.2s; }
 .build-facts--icons.is-drawn > div:nth-child(3) .build-facts-icon path { animation-delay: 0.4s; }
@@ -4153,12 +4240,31 @@ html.ah-lightbox-open body { overflow: hidden; }
   display: block;
   margin-top: var(--space-2xs);
   font-weight: 400;
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
   color: var(--color-muted-gray);
 }
 /* The feedback loop as six numbered steps behind a rule: a sequence to
-   scan, not a diagram to decode. Three across from 640, two rows, so the
-   steps read in order; the last is the one that closes the loop and takes
-   the sage. */
+   scan, not a diagram to decode. One column on a phone and three across
+   from 640, in two rows, so the steps read in order; the last is the one
+   that closes the loop and takes the sage.
+
+   SIX ACROSS FROM 64rem, since 2026-10-05, and wider than the words above
+   it. A loop is one line, and two rows of three broke it in the middle:
+   the eye went 01 02 03, back to the left edge, 04 05 06, and the step
+   that closes the loop sat under the one that opens it for no reason. Six
+   columns do not fit the 56rem text column (a step would be 125px, and
+   "The product designer reads what the checks cannot" five lines), so the
+   list sits in its own frame, .build-loop-frame, which takes
+   --container-max from 64rem: the frame the hero and the nav use. The
+   heading and its line stay in the narrow column over it. Under 64rem the
+   frame is the narrow column and nothing moved.
+
+   The frame is a second container, so the line above it is the last
+   paragraph of the first and gives up its bottom margin
+   (.case-section p:last-child); the frame's top margin puts back exactly
+   that step, at every width. Two classes on the selector because
+   .case-narrow sets max-width and margin further down this file, at one. */
 .build-loop {
   list-style: none;
   margin: 0 0 var(--space-xl);
@@ -4168,7 +4274,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   gap: var(--space-lg) var(--space-xl);
   counter-reset: loop;
 }
+.case-narrow.build-loop-frame { margin-top: var(--space-md); }
 @media (min-width: 640px) { .build-loop { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 64rem) {
+  .case-narrow.build-loop-frame { max-width: var(--container-max); }
+  .build-loop { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
 .build-loop li {
   counter-increment: loop;
   border-top: 1px solid var(--color-tag-border);
@@ -4202,6 +4313,14 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin-bottom: var(--space-sm);
   background: var(--color-accent-text);
 }
+/* The rule marks where a chapter OPENS, not every heading. On the Agent
+   Review write-up it sat over all ten, so it stopped meaning anything: a
+   reader's eye cannot tell a new chapter from the next section of the same
+   one when the same bar is over both. A section that continues a chapter
+   says so with .build-chapter--within and has its heading and nothing over
+   it; the sections that open one keep the bar. The dark band's own rule
+   (below) is for the chapter that closes the page, which is one. */
+.case-overview.build-chapter--within h2::before { content: none; }
 /* Dash list for the write-up body: the light-ground twin of
    .engagement-points, for facts that scan better as a list than as a
    sentence with nine commas. */
@@ -4306,6 +4425,24 @@ html.ah-lightbox-open body { overflow: hidden; }
    already agree: both wrap to two, then to one, at the same widths. */
 @media (min-width: 768px) {
   .build-flow-row--pair { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Lucy Learns: every row of phones at the hero's size. The hero sits in the
+   full frame, so its row reaches the 990px cap and a phone is 314px. The two
+   rows further down sit in .case-narrow, 896px, and the same markup gave 261:
+   the same screens, 17% smaller, in the part of the page where a reader is
+   looking hardest at the type inside them. A figure marked --wide takes the
+   hero's width instead -- the cap, or the viewport less its two gutters,
+   whichever is smaller -- and centers on the column it is breaking out of, so
+   it overhangs the prose by the same amount either side. The caption is inside
+   the figure and moves with it. 56rem is .case-narrow's own width: below it
+   the column already is the viewport and the rows agree. The row's own
+   max-width is the 990, so the figure only has to be at least that wide. */
+@media (min-width: 56rem) {
+  .case-narrow > .build-flow--wide {
+    width: min(990px, 100vw - 2 * var(--gutter));
+    margin-inline: calc(50% - min(495px, 50vw - var(--gutter)));
+  }
 }
 .build-phone {
   --shell-radius: 26px;
@@ -4437,11 +4574,26 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-flow + .glance,
 .build-shot + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
 .glance-kicker {
-  font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-accent-text);
   margin: 0 0 var(--space-md);
 }
+/* The one strip that opens on a headline rather than a kicker: "What I built"
+   on the Agent Review write-up. It is an h2 in Crimson Text, regular, set at
+   --text-2xl (24px), half of --type-section at desktop, because the card it
+   heads is a strip of four stations and a 48px head over a 16px station
+   title was out of scale with the thing it labels. No sage rule above it:
+   the card's own edge already marks where the section starts, and the rule
+   (.case-overview h2::before) is for a head that opens a full-width
+   section. Two classes deep, because .case-section h2 sets margin-bottom to
+   --space-2xl and would otherwise win over a single class. The other four
+   strips keep .glance-kicker. */
+.case-section .glance-head {
+  font-size: var(--text-2xl);
+  margin: 0 0 var(--space-xl);
+}
+.case-section .glance-head::before { content: none; }
 /* ONE COLUMN ON A PHONE, since 2026-09-17. This was two columns from the
    smallest width up, and at 390 that is two 150px columns of serif holding
    "Everything: the design, the code, the checks that hold them together"
@@ -4458,8 +4610,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
 }
 .glance-facts dt {
-  font-family: var(--font-sans); font-size: 0.6875rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-muted-gray);
   margin: 0 0 var(--space-2xs);
 }
@@ -4467,6 +4619,22 @@ html.ah-lightbox-open body { overflow: hidden; }
   margin: 0;
   font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.4;
   color: var(--color-charcoal);
+}
+/* A link in a fact has to look like one. The Agent Review write-up's Status row
+   carries three, and until 2026-10-03 they were the colour and weight of the
+   words round them with no underline, which is no cue at all (WCAG 1.4.1). The
+   sage that clears the floor on the strip's white, underlined, and charcoal on
+   hover: .build-service a, at this strip's size and in its serif, so regular
+   weight, since the serif is never bold. */
+.glance-facts a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.glance-facts a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .glance-facts a:hover { color: var(--color-charcoal); }
 }
 @media (min-width: 640px) {
   .glance-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -4698,6 +4866,25 @@ html.ah-lightbox-open body { overflow: hidden; }
   box-shadow: var(--shadow-device);
 }
 
+/* A laptop's capture is a desktop's. On a phone the same figure carries the
+   product's own phone layout (a <picture> source, scripts/lab-shots.mjs), and
+   a phone's screen in a laptop's lid is the wrong object, so below 40rem the
+   frame becomes the phone's: the same bezel and chrome, the all-round radius
+   .build-phone authors (26px, for the same reason), no foot, and the width of
+   a phone rather than of the column. */
+@media (max-width: 40rem) {
+  .build-laptop--adapts {
+    --shell-radius: 26px;
+    max-width: 20rem;
+    margin-inline: auto;
+  }
+  .build-laptop--adapts .build-laptop-lid {
+    border-radius: var(--shell-radius);
+    box-shadow: var(--shadow-device);
+  }
+  .build-laptop--adapts::after { display: none; }
+}
+
 /* Four art eras, one picture each: the same scene under every style the app
    has had. Until 2026-09-05 this was a grid of eight thumbnails per era,
    three eras deep -- and a quarter of the 896px case column is a 4:3
@@ -4851,6 +5038,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--color-accent-text);
   margin-bottom: var(--space-md);
 }
@@ -4989,6 +5177,32 @@ html.ah-lightbox-open body { overflow: hidden; }
    line goes anyway. */
 .build-chapter.ground-charcoal .build-phone { outline: 1px solid var(--rule-on-dark-strong); outline-offset: -1px; }
 .build-chapter.ground-charcoal .build-laptop-lid { box-shadow: 0 0 0 1px var(--rule-on-dark-strong); }
+
+/* THE FACTS STRIP ON CHARCOAL. .build-facts is authored for a light ground
+   in three places the list above does not reach. Its left rule is
+   --color-tag-border, the quiet hairline, which is 1.06:1 on tea-light and
+   nothing at all on charcoal: that was the "can barely see them" in the
+   report, and on the dark ground it needs the dark ground's own line.
+   --rule-on-dark-strong is the one chosen, 3.47:1, over --rule-on-dark at
+   1.53:1, the step COLOR.md gives a plain divider: both were drawn beside
+   each other on this strip, the divider read as present-but-quiet, and the
+   report was that the lines could not be seen. The strong step also clears
+   the 3:1 floor, so the rule holds if a reader treats it as the edge of a
+   cell, and at 1px beside 14px text it does not read as a box. Its line icons are --color-accent-text, 2.63:1 on charcoal and marked
+   "never on charcoal", so they take --color-accent-on-dark, 7.47:1, the
+   same sage as the h2 dash above. And the dt is the full ink where the
+   list above gives a dt the secondary: in the lab's finding layouts the dt
+   is the claim, a sentence, and a claim dimmer than the paragraph under it
+   inverts the order a reader takes it in. The same three variants turn the
+   uppercase label off, for the same reason (.build-facts--two dt). The tag
+   under a run name is --color-muted-gray, 2.37:1 here, and takes the
+   quietest ink the ladder allows, 5.26:1. */
+.build-chapter.ground-charcoal .build-facts > div { border-left-color: var(--rule-on-dark-strong); }
+.build-chapter.ground-charcoal .build-facts--two dt,
+.build-chapter.ground-charcoal .build-facts--three dt,
+.build-chapter.ground-charcoal .build-facts--icons dt { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .build-facts-icon { color: var(--color-accent-on-dark); }
+.build-chapter.ground-charcoal .build-facts-tag { color: var(--ink-on-dark-muted); }
 /* The reading column. The container stays wide, because the figures and
    fact lists inside it want the room; only the prose takes the measure.
    Capping the container instead would have shrunk every figure on the build
@@ -5202,7 +5416,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   margin-bottom: var(--space-xs);
 }
 .build-next-title {
@@ -5759,6 +5974,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   font-weight: var(--weight-regular);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-title);
+  text-transform: none;
   color: var(--color-charcoal);
   margin-bottom: var(--space-xs);
   font-variant-numeric: tabular-nums;

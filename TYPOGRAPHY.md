@@ -48,7 +48,7 @@ than the plain-English alternatives.
 | **hed** | The headline itself | `h1`, `.hero-title`, `.case-title` |
 | **dek** | The short line between the hed and the body | `--type-lede`, `.eng3-dek`, `.build-dek`, `.ds-dek` |
 | **lede** | The opening passage of the body | `.ds-lede`, `.about-lede` |
-| **kicker** / **eyebrow** | The small tracked label above the hed | `.case-kicker`, `.hero-eyebrow`, `.eng3-kicker` |
+| **kicker** / **eyebrow** | The small tracked label above the hed, **always uppercase** (section 6, "Kickers and eyebrows") | `.case-kicker`, `.hero-eyebrow`, `.eng3-kicker` |
 
 **Not "standfirst".** That is the British word for a dek, and the site used
 both for the same element until they were reconciled: `.build-standfirst`
@@ -386,13 +386,16 @@ type set tight only looks slightly tight. So `h1` takes
 
 **"Label" is a treatment, not a case.** The first draft of this rule said
 uppercase always gets tracking and lowercase never gets a positive value, and
-applying it went wrong immediately: `.case-kicker`, `.ds-num`, `.ds-spec`,
-`.ds-table th` and the lightbox caption are all set in sentence case and all
-carry deliberate label tracking. Reading them as "lowercase" would have
-stripped the treatment from five components in the name of tidiness. So the
-positive steps go to anything *set as a label* — kicker, eyebrow, tag, table
-header, meta line — whether or not it is uppercase, and the size decides
-which of the two.
+applying it went wrong immediately: `.ds-num`, `.ds-spec`, `.ds-table th`
+and the lightbox caption were all set in sentence case and all carried
+deliberate label tracking. Reading them as "lowercase" would have stripped the
+treatment from four components in the name of tidiness. So the positive steps
+go to anything *set as a label* — kicker, eyebrow, tag, table header, meta
+line — whether or not it is uppercase, and the size decides which of the two.
+`.case-kicker` was a fifth member of that list until 2026-10-02, when it and
+every other kicker and eyebrow went uppercase (next section). That settled the
+kicker's case; it did not turn "label" into "uppercase", and the other four
+are still read the way this paragraph reads them.
 
 What does not get positive tracking: running text, headings, and **numerals**.
 A tracked two-digit numeral is just a gap; `.story-num`, `.eng3-num` and
@@ -400,6 +403,87 @@ A tracked two-digit numeral is just a gap; `.story-num`, `.eng3-num` and
 
 The site used eleven distinct positive tracking values between 0.015em and
 0.18em, which is nine more than any reader can perceive as intentional.
+
+### Kickers and eyebrows
+
+**Every kicker and eyebrow on the site is uppercase.** One treatment, no
+exceptions, since 2026-10-02: Montserrat 600, `--text-xs` (12px) or
+`--text-2xs` (11px), `text-transform: uppercase`, `letter-spacing:
+var(--tracking-caps)`, in `--color-accent-text` (or `--color-accent-on-dark`
+on a dark ground, or charcoal where sage would read as a recommendation).
+Before that the case-study kickers and the "Next" links at the foot of the
+case studies and build write-ups were sentence case, with the foot links on a
+literal `0.04em` that no token names; they now take `--tracking-caps` like the
+rest.
+
+**The case is set in CSS and never typed.** The markup keeps ordinary
+capitalization (`Lab · case study · 6 min read`), so the text a screen reader,
+a search engine and the read-aloud player receive is the sentence and not a
+shout, and a reworded kicker cannot arrive in the wrong case. Do not type a
+kicker in capitals, and do not add a kicker class that leaves out
+`text-transform`.
+
+What counts as one, so the next one is easy to place:
+
+| Class | Where | Size |
+|---|---|---|
+| `.hero-eyebrow`, `.section-eyebrow`, `.case-card-eyebrow`, `.product-eyebrow` | Homepage | 11 – 12px |
+| `.case-kicker` | The top of every detail page: case studies, build write-ups, writing, lab, prototypes | 12px |
+| `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" pages | 12px |
+| `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
+| `.writing-eyebrow` | "Key idea 2 of 6" above each section of an article | 11px |
+| `.glance-kicker` | The "My approach" blocks. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
+| `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
+| `.ds-surface-kicker` | The ground names on the design system page | 11px |
+| `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |
+
+`.case-readtime` is the one that does not sit at a kicker's size: it is 14px
+and muted, so it takes the 14px step, `--tracking-label`, and not
+`--tracking-caps`.
+
+### Field labels
+
+**A field label is uppercase too.** It is the short name over a value or a
+list (`Client`, `My role`, `What changed`, `Social gaming`), which makes it the
+same kind of thing as a kicker: a label that says what sits under it. The
+first pass on 2026-10-02 did the kickers and eyebrows and left these in
+sentence case as a separate decision; the second pass, the same day, made it.
+Same rules as above: set in CSS, never typed, and a tracking token for the
+size, never a literal.
+
+| Class | Where | Size and tracking |
+|---|---|---|
+| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, and the verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
+| `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
+| `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
+| `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
+
+The sizes are not a choice to make per label. A label in a `.build-facts` strip
+is the Kicker's treatment, 12px in the sage, because it is a kicker: a short
+tracked label over the thing it names. The Tailwind case studies'
+`.case-field-label` is the same treatment, and the class sets all of it (size,
+tracking, case and ink), so a label there cannot be typed at another size or in
+another color; `text-xs` stays in its markup only to keep one paragraph rule in
+`case-study-base.css` from setting a `<p>` label at 18px. Both were 14px
+charcoal until 2026-10-03, which made them the one label on the site louder
+than the facts under it, and the Tailwind strips had set `What changed` apart
+in the sage while the other three heads were charcoal. All four are the sage
+now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
+
+**What this still does not cover**, and why each is its own case:
+
+- A head that is a sentence or a run name. The three `.build-facts` variants
+  on the lab page (two columns, three columns and the icon strip) hold
+  findings ("The rules mattered where the system was silent.") and run names, which are headings
+  in a grid, not field names, so they opt out of the strip's capitals.
+- A numeral. `.writing-facts dt` is a figure set in the serif; uppercase would
+  turn an `x` in it into an `X`.
+- The labels on a prototype's own screen (`.ck-label` and the like). Those
+  are the product's, and the cockpit sets them as lowercase fragments on
+  purpose. The lead's kicker above is the one exception.
+- The design system page's own annotations of its specimens: `.ds-num`,
+  `.ds-spec`, `.ds-step-px`. They describe a swatch or a size and are read
+  against it, like a caption.
 
 ### Superscripts, and two things the scale does not govern
 

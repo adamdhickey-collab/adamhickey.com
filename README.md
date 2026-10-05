@@ -302,10 +302,28 @@ write-ups'. On the homepage the lab is one card under the three accounts
 in Selected work, where the two prototype cards sat until 2026-10-01, and
 since #343 it is about Agent Review rather than the lab as a family: the
 product's own screen (`img/lab/agent-review-card.webp`, from
-`scripts/lab-cards.mjs`, the capture the lab index uses too) in the laptop
-the case studies frame their wide captures in, beside the question the lab
+`scripts/lab-cards.mjs`, the capture the lab index uses too: since
+2026-10-03 the delegated work, the product's front door, at its tablet
+layout (784px, and 832px since 2026-10-05, where the app's top bar holds on
+one line), one column of type that can be read at card size; before that run
+1's change screen at 720, and before 2026-10-02 the full desktop review,
+which could not be read at that size) in a tablet, one bezel all round
+(the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
-the lab index as one line under it. The drawing the card carried before
+the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
+captures: each is taken from the deployed product and Storybook at two
+sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
+phone one at 375 on a touch device, and the page offers the phone's through
+`<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
+at a phone's width was a quarter of the screen. The write-up's hero is a
+guided tour of that first capture (`walkthrough.css`, `walkthrough.js`):
+seven notes beside the product in a tablet, with a previous and a next
+button at the two ends of its progress bars. Each note carried a small
+drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came off
+the page and out of the tree so the product could take the room; the
+prompts that drew them are still `scripts/tour-scenes.mjs`, behind
+`scripts/draw.mjs --set tour`, as the record of the set and the way back to
+it. The drawing the card carried before
 that, and the script that drew it, are gone. The lab band that briefly sat
 between Built and About went with the pair, and Lab joined the navigation
 on every page.

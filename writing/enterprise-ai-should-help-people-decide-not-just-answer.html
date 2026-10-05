@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/enterprise-ai-should-help-people-decide-not-just-answer.html",
           "image": "https://adamhickey.com/img/og/enterprise-ai-should-help-people-decide-not-just-answer.jpg",
           "datePublished": "2026-09-10",
-          "dateModified": "2026-10-02",
+          "dateModified": "2026-10-05",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -108,8 +108,8 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261002a" />
-  <link rel="stylesheet" href="../design-psychology.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20261005b" />
+  <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <script src="../site-nav.js?v=20260906a" defer></script>
@@ -253,7 +253,7 @@
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">A useful AI feature helps someone judge a recommendation and act on it appropriately. That means designing the evidence beside the answer, the uncertainty around it, controls that have a real effect, the path for when the suggestion is wrong, and a record a person who was not there can read. Acceptance is not the measure of success; the quality of the decision is. The worked example is Second Look, a dispatch recommendation prototype on synthetic data, which shows the interaction and does not yet show that it improves decisions.</p>
+        <p class="build-dek">A useful AI feature helps someone judge a recommendation and act on it appropriately. Acceptance is not the measure of success. The quality of the decision is. The worked example is Second Look, a dispatch recommendation prototype on synthetic data. It shows the interaction. It does not yet show that it improves decisions.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -286,17 +286,18 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 7</p>
           <h2 id="a-suspected-cause-is-a-place-to-start-not-permission-to-act">A suspected cause is a place to start, not permission to act</h2>
-          <p>AI earns its place in an enterprise workflow when it helps someone make a better decision or finish a real task. Producing an answer is one part of that. The person still has to understand what the answer rests on, what is still uncertain, and what happens if they act on it.</p>
+          <p>AI earns its place in an enterprise workflow when it helps someone make a better decision or finish a real task. An answer is only part of that. The person still has to understand what it rests on, what is still uncertain, and what happens if they act on it.</p>
           <p>Take a proposed feature that groups failed orders and suggests a likely cause.</p>
-          <p>The system notices that twelve rejected orders appear to share a missing customer identifier, and suggests a problem in the rules that translate the partner&rsquo;s documents into the receiving system&rsquo;s format.</p>
+          <p>The system notices that twelve rejected orders appear to share a missing customer identifier. It suggests a problem in the rules that translate the partner&rsquo;s documents into the receiving system&rsquo;s format.</p>
           <p>That is a good place to start an investigation.</p>
           <p>It is not yet permission to change the rule or resubmit twelve orders. <mark>The design work lives in that distance.</mark></p>
-          <p>I have built one working version of that distance, for a different job. <a href="../prototype/dispatch-cockpit.html">Second Look</a> is a dispatch prototype: the system recommends a truck for a load, and the dispatcher decides whether it is right. It runs on synthetic data, the ranking is a transparent weighted rule rather than a model, and it has not yet been in front of a working dispatcher. It carries the rest of this article because it is the one I can show rather than describe.</p>
+          <p>I have built one working version of that distance, for a different job. <a href="../prototype/dispatch-cockpit.html">Second Look</a> is a dispatch prototype. The system recommends a truck for a load, and the dispatcher decides whether it is right.</p>
+          <p>It runs on synthetic data. The ranking is a transparent weighted rule rather than a model. It has not yet been in front of a working dispatcher. It carries the rest of this article because it is the one I can show rather than describe.</p>
 
           <p class="writing-eyebrow">Key idea 2 of 7</p>
           <h2 id="finding-summarizing-suggesting-drafting-and-acting-are-five-different-products">Finding, summarizing, suggesting, drafting and acting are five different products</h2>
           <p>Before choosing between a conversational interface and a recommendation card, the team has to settle what role it is giving the system.</p>
-          <p>Is it finding the relevant records? Summarizing the evidence? Suggesting a cause? Drafting a correction? Taking an action? Each of those is a different product, with a different cost when it is wrong.</p>
+          <p>Each role is a different product, with a different cost when it is wrong.</p>
           <figure class="writing-figure">
             <figcaption>Five roles, and the cost of being wrong</figcaption>
             <ol class="writing-flow">
@@ -307,18 +308,23 @@
               <li data-level="5" class="writing-flow-mark">Act<small>unattended</small></li>
             </ol>
           </figure>
-          <p>Second Look is deliberately the third of the five. It suggests, and nothing on its screen acts without a press. Its own page names the next step, a version that assigns the clear picks itself and holds the close calls for a person, and calls that step the line between a recommendation and an agent. Crossing it is a conversation about reliability, permissions, consequences and recovery, held with product, engineering and whoever owns the model. <mark>A designer should not imply that an action is safe because it was easy to draw as a button.</mark></p>
-          <p>Part of settling the role is asking whether the task needs AI at all. A known rule deserves a clear deterministic answer, not a generated explanation of itself. In Second Look the driver&rsquo;s hours-of-service limit is a federal regulation, so the system enforces it before any score is figured, and the truck it removes keeps its row and its reason in the one caution color on the screen. There is nothing about that limit to learn or to rank.</p>
+          <p>Second Look is deliberately the third of the five. It suggests, and nothing on its screen acts without a press. Its own page names the next step: a version that assigns the clear picks itself and holds the close calls for a person. The page calls that step the line between a recommendation and an agent.</p>
+          <p>Crossing it is a conversation about reliability, permissions, consequences and recovery. It is held with product, engineering and whoever owns the model. <mark>A designer should not imply that an action is safe because it was easy to draw as a button.</mark></p>
+          <p>Part of settling the role is asking whether the task needs AI at all. A known rule deserves a clear deterministic answer, not a generated explanation of itself.</p>
+          <p>In Second Look the driver&rsquo;s hours-of-service limit is a federal regulation. The system enforces it before any score is figured. The truck it removes keeps its row and its reason in the one caution color on the screen. There is nothing about that limit to learn or to rank.</p>
 
           <p class="writing-eyebrow">Key idea 3 of 7</p>
           <h2 id="put-the-evidence-beside-the-recommendation">Put the evidence beside the recommendation</h2>
-          <p>Second Look puts five factors under the recommended truck, each with its value, its verdict and where it stands against the rest of the fleet, and the same five columns run down the data table beside it. A score would have been simpler to draw. It is also the one number that cannot be checked against anything, and five figures can be argued with.</p>
-          <p>The evidence has to be drawn from the records rather than generated alongside the answer, because <mark>an explanation that sounds right and cites nothing is worse than no explanation</mark>. And uncertainty belongs in the same place. When two trucks are level, the screen says so, names the tradeoff, faster pickup against more driver hours, and declines to pick. When one of the two rests on a stale figure, the card says how old it is and what it left: the hours reading is 45 minutes old, the last one left 30 minutes to spare, check the logbook before assigning. The doubt does not move the ranking. It changes what the dispatcher does before pressing.</p>
+          <p>Second Look puts five factors under the recommended truck. Each shows its value, its verdict and where it stands against the rest of the fleet. The same five columns run down the data table beside it.</p>
+          <p>A score would have been simpler to draw. It is also the one number that cannot be checked against anything. Five figures can be argued with.</p>
+          <p>The evidence has to be drawn from the records rather than generated alongside the answer, because <mark>an explanation that sounds right and cites nothing is worse than no explanation</mark>. And uncertainty belongs in the same place.</p>
+          <p>When two trucks are level, the screen says so. It names the tradeoff, faster pickup against more driver hours, and declines to pick.</p>
+          <p>When one of the two rests on a stale figure, the card says how old it is and what it left. The hours reading is 45 minutes old. The last one left 30 minutes to spare. Check the logbook before assigning. The doubt does not move the ranking. It changes what the dispatcher does before pressing.</p>
           <p>The wording carries the claim. &ldquo;These orders share a missing field&rdquo; and &ldquo;changing this mapping will resolve these orders&rdquo; are not the same sentence.</p>
           <aside class="dp-note" aria-labelledby="dp-trust-label">
             <p class="dp-note-label" id="dp-trust-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
             <h3 class="dp-note-head">More trust is not the goal. Calibrated trust is.</h3>
-            <p class="dp-note-body">The aim is that someone relies on the system where reliance is earned and questions it where something is missing. A confidence figure is where this usually goes wrong: before putting ninety-two percent on a screen, the team has to be able to say what it measures, and someone has to watch a real user read it. A number the product cannot stand behind buys trust it has not earned.</p>
+            <p class="dp-note-body">The aim is reliance where it is earned, and questions where something is missing. A confidence figure is where this usually goes wrong. Before putting ninety-two percent on a screen, the team has to say what it measures and watch a real user read it. A number the product cannot stand behind buys unearned trust.</p>
             <p class="dp-note-source">On explainability and trust: <a href="https://pair.withgoogle.com/chapter/explainability-trust/" target="_blank" rel="noopener noreferrer">Google PAIR, Explainability + Trust</a></p>
           </aside>
           <aside class="writing-pull" aria-hidden="true">
@@ -333,14 +339,24 @@
 
           <p class="writing-eyebrow">Key idea 4 of 7</p>
           <h2 id="give-people-control-that-does-something">Give people control that does something</h2>
-          <p>The dispatcher has the phone call the system cannot hear, so disagreeing has to be cheap. In Second Look, Assign sits at the end of every row the rule allows, not only the recommended one, with no dialog in the way. The question about why comes afterward, it is optional, and Skip weighs the same as Save.</p>
-          <p>Feedback needs the same honesty. Dismissing a suggestion might hide it, flag it for review, or feed a later retraining cycle, and the interface should say which instead of implying that the system just learned something. The override prompt says where its answer goes: three matching reasons on one customer in a month send a review to the dispatch manager, the one person who can change what the ranking weighs. Whether three is the right number is a guess, and the prototype&rsquo;s page says the reasons on the prompt were guessed too.</p>
+          <p>The dispatcher has the phone call the system cannot hear, so disagreeing has to be cheap.</p>
+          <p>In Second Look, Assign sits at the end of every row the rule allows, not only the recommended one. There is no dialog in the way. The question about why comes afterward. It is optional, and Skip weighs the same as Save.</p>
+          <p>Feedback needs the same honesty. Dismissing a suggestion might hide it, flag it for review, or feed a later retraining cycle. The interface should say which. It should not imply that the system just learned something.</p>
+          <p>The override prompt says where its answer goes. Three matching reasons on one customer in a month send a review to the dispatch manager, the one person who can change what the ranking weighs. Whether three is the right number is a guess. The prototype&rsquo;s page says the reasons on the prompt were guessed too.</p>
           <p>A more autonomous feature needs more than this: an authorized scope and stopping conditions that engineering enforces rather than the copy describes. That is the subject of <a href="what-does-a-person-need-to-supervise-an-ai-agent.html">a separate article</a>.</p>
 
           <p class="writing-eyebrow">Key idea 5 of 7</p>
           <h2 id="prototype-the-wrong-answer">Prototype the wrong answer</h2>
-          <p>Second Look was built around four scenarios rather than one happy path: a clear pick, a close call where it declines to choose, a stale figure under one of the two level trucks, and a rule that removes the truck that would otherwise rank first. The wrong answers are the ones worth building, because a correct suggestion teaches nobody where to look.</p>
-          <p>What it does not have yet is the watching. The study it was built for puts the fleet table alone beside the table with the recommendation, over a straightforward call, a plausible wrong one, and a load where a figure on screen is stale. Can a dispatcher detect the mismatch? Do they know how to dig further? Can they keep working when the system cannot help? The fourth case on the list below, one that changes while the person is reviewing it, is the one the prototype does not have.</p>
+          <p>Second Look was built around four scenarios rather than one happy path:</p>
+          <ul>
+            <li>A clear pick</li>
+            <li>A close call where it declines to choose</li>
+            <li>A stale figure under one of the two level trucks</li>
+            <li>A rule that removes the truck that would otherwise rank first</li>
+          </ul>
+          <p>The wrong answers are the ones worth building, because a correct suggestion teaches nobody where to look.</p>
+          <p>What it does not have yet is the watching. The study it was built for puts the fleet table alone beside the table with the recommendation. It does this over a straightforward call, a plausible wrong one, and a load where a figure on screen is stale.</p>
+          <p>The fourth case in the list below, one that changes while the person is reviewing it, is the one the prototype does not have.</p>
           <figure class="writing-figure">
             <figcaption>The four cases to build, and what to watch for</figcaption>
             <div class="writing-split">
@@ -364,23 +380,41 @@
               </div>
             </div>
           </figure>
-          <p>Simulated output is enough to test the interaction before a model is ready, as long as everyone stays clear that <mark>a successful prototype test says nothing about whether the model is accurate</mark>. Second Look has no model at all, which makes that easy to remember.</p>
+          <p>Simulated output is enough to test the interaction before a model is ready. That holds as long as everyone stays clear that <mark>a successful prototype test says nothing about whether the model is accurate</mark>. Second Look has no model at all.</p>
 
           <p class="writing-eyebrow">Key idea 6 of 7</p>
           <h2 id="measure-the-decision-not-the-acceptance">Measure the decision, not the acceptance</h2>
           <p>Acceptance rate is the easiest number to collect and the wrong one to call success. <mark>A high rate can mean the suggestions are good. It can equally mean people are clicking through them.</mark></p>
-          <p>The study written for Second Look orders its measures on purpose: decision quality first, then missed constraints, checking effort, and time last. A faster wrong answer is the failure that design could plausibly cause, so it is the one to look for. Correct decisions, unnecessary interventions, successful recoveries, and whether the underlying problem takes less work to fix: those are the measures, read alongside the AI team&rsquo;s own evaluation of the model.</p>
+          <p>The study written for Second Look orders its measures on purpose:</p>
+          <ul>
+            <li>Decision quality first</li>
+            <li>Then missed constraints</li>
+            <li>Then checking effort</li>
+            <li>Time last</li>
+          </ul>
+          <p>A faster wrong answer is the failure that design could plausibly cause, so it is the one to look for.</p>
+          <p>The measures are correct decisions, unnecessary interventions, successful recoveries, and whether the underlying problem takes less work to fix. They are read alongside the AI team&rsquo;s own evaluation of the model.</p>
 
           <p class="writing-eyebrow">Key idea 7 of 7</p>
           <h2 id="leave-a-record-a-person-who-was-not-there-can-read">Leave a record a person who was not there can read</h2>
-          <p>The last part of the relationship is the one usability work tends not to reach. People and AI systems develop a relationship over time. Second Look shows a truck&rsquo;s record on this kind of load, on time on 38 of the last 40, and puts the two late ones and what to watch for because of them on the card. A dispatcher who has read &ldquo;38 of 40&rdquo; on one lane a dozen times stops reading it, and what is left are the two lines saying what to check. The instinct in a product is to hide where the system is weak until it improves. The better move is to help people see it, so they know when to move fast and when to slow down. Microsoft&rsquo;s <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">guidelines for human&ndash;AI interaction</a> put this under &ldquo;over time.&rdquo;</p>
-          <p>So some of these products should expose their history. Not a technical log of model events. A useful history: what the system recommended, on which records, at what time; what happened; when a person chose differently, and why; and where this kind of recommendation tends to fail. That is the same record an auditor would ask for. Second Look writes half of it. It saves the override reason with the load, and its page says that what the system recommended, on which figures, at what time, is not written down yet, so a decision on it cannot be fully reconstructed by someone who was not there. A production version would need both halves. The <a href="../prototype/deploy-console.html">Deploy Console</a>, built after it, writes the whole record with each rollback: who decided, when, from what to what, and the figures it was decided on.</p>
-          <p>The opportunity here is larger than adding a chat window. It is to give someone better evidence, a better starting point, and the right amount of help, while keeping the consequences of the decision legible to the person who owns it.</p>
+          <p>The last part of the relationship is the one usability work tends not to reach. People and AI systems develop a relationship over time.</p>
+          <p>Second Look shows a truck&rsquo;s record on this kind of load, on time on 38 of the last 40. It puts the two late ones on the card, with what to watch for because of them. A dispatcher who has read &ldquo;38 of 40&rdquo; on one lane a dozen times stops reading it. What is left are the two lines saying what to check.</p>
+          <p>The instinct in a product is to hide where the system is weak until it improves. The better move is to help people see it, so they know when to move fast and when to slow down. Microsoft&rsquo;s <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">guidelines for human&ndash;AI interaction</a> put this under &ldquo;over time.&rdquo;</p>
+          <p>So some of these products should expose their history. Not a technical log of model events. A useful history holds:</p>
+          <ul>
+            <li>What the system recommended, on which records, at what time</li>
+            <li>What happened</li>
+            <li>When a person chose differently, and why</li>
+            <li>Where this kind of recommendation tends to fail</li>
+          </ul>
+          <p>That is the same record an auditor would ask for. Second Look writes half of it. It saves the override reason with the load. Its page says that what the system recommended, on which figures, at what time, is not written down yet. A decision on it cannot be fully reconstructed by someone who was not there. A production version would need both halves.</p>
+          <p>The <a href="../prototype/deploy-console.html">Deploy Console</a>, built after it, writes the whole record with each rollback. That is who decided, when, from what to what, and the figures it was decided on.</p>
+          <p>The opportunity here is larger than adding a chat window. It is to give someone better evidence, a better starting point and the right amount of help. It is also to keep the consequences of the decision legible to the person who owns it.</p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">An answer is useful when the person can judge it and act on it. That means the evidence beside the recommendation, controls that do something, a path for when it is wrong, and a record someone else can read later. Measure the decision, not the acceptance rate.</p>
+            <p class="writing-recap-sum">An answer is useful when the person can judge it and act on it. That means the evidence beside the recommendation, controls that do something, a path for when it is wrong and a record someone else can read later. Measure the decision, not the acceptance rate.</p>
             <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> prototype the wrong answer before the right one, and watch whether anyone notices.</p>
           </aside>
         </div>

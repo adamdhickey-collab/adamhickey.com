@@ -42,7 +42,7 @@
           "mainEntityOfPage": "https://adamhickey.com/case-study/this-site.html",
           "image": "https://adamhickey.com/img/og/this-site.jpg",
           "datePublished": "2026-09-17",
-          "dateModified": "2026-10-02",
+          "dateModified": "2026-10-05",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -94,7 +94,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261002a" />
+  <link rel="stylesheet" href="../style.css?v=20261005b" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
@@ -211,15 +211,15 @@
          check on this tree prints. -->
     <header class="case-hero">
       <div class="container">
-        <p class="case-kicker">Build write-up &middot; 8 min read</p>
+        <p class="case-kicker">Build write-up &middot; 7 min read</p>
         <h1 class="case-title">How I built this site</h1>
-        <p class="build-dek">Thirty-one pages of plain HTML, no framework and no build step, held to four written specs by ten checks that measure the rendered page: every color a reader can see, every type size, every curve. It is the closest thing to a production codebase I own, and it is how I work.</p>
+        <p class="build-dek">Thirty-one pages of plain HTML, no framework and no build step, held to four written specs by ten checks that measure the rendered page. It is the closest thing to a production codebase I own, and it is how I work.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
             <div><dt>Built with</dt><dd>HTML and CSS, Node scripts, and one Chrome that measures every page</dd></div>
-            <div><dt>Size</dt><dd>31 pages, 3 token files, 4 specs, 30 scripts</dd></div>
+            <div><dt>Size</dt><dd>31 pages, 3 token files, 4 specs, 32 scripts</dd></div>
             <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
           </dl>
         </div>
@@ -297,19 +297,24 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2>The problem</h2>
-        <p>A portfolio that says design systems, accessibility and prototypes in real code, and is itself a template with a contrast failure in the hero, says the opposite of what it means. The site had to be built to the standard it claims for the work, or the claim was decoration.</p>
-        <p>That standard is not a look. It is that the rules are written down, that the page is measured against them rather than eyeballed, and that a change which breaks a rule is refused before a stranger sees it. Those are the three things I ask of a production codebase, and there was no reason a personal site should be held to less.</p>
+        <p>A portfolio says design systems, accessibility and prototypes in real code. A site that is itself a template with a contrast failure in the hero says the opposite. It had to be built to the standard it claims for the work, or the claim was decoration.</p>
+        <p>That standard is not a look. It is three things I ask of a production codebase, and a personal site should get no less:</p>
+        <ul class="build-list">
+          <li>The rules are written down</li>
+          <li>The page is measured against them, not eyeballed</li>
+          <li>A change that breaks a rule is refused before a stranger sees it</li>
+        </ul>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-warm">
       <div class="container case-narrow">
         <h2 id="tokens">Tokens first, and the specs are the rule</h2>
-        <p>Three files hold every value the site is allowed to use: the colors, the type scale and the leading and tracking that go with it, and the spacing and radii of the page shell. Nothing is made up in place. A component that needs a size takes one of the steps; a color that is not in the palette is not a color.</p>
-        <p>Four documents sit over those files and are normative: typography, color, spacing and motion. Where a spec and the stylesheet disagree, one of them is a bug, and it has not always been the stylesheet. All four have been found stale at least once, which is why a check reads them.</p>
+        <p>Three files hold every value the site is allowed to use. One holds the colors. One holds the type scale, with its leading and tracking. One holds the spacing and radii of the page shell. A component that needs a size takes one of the steps, and a color that is not in the palette is not a color.</p>
+        <p>Four normative documents sit over those files: typography, color, spacing and motion. When a spec and the stylesheet disagree, one of them is a bug. All four have been found stale at least once, so a check reads them.</p>
         <ul class="build-list">
-          <li>The type scale is fourteen steps, and every rendered size on every page at four widths is one of them. Headings ride four fluid ramps between named steps, all sharing one viewport window so the ladder stays in order at every width</li>
-          <li>The color spec tabulates every ink on every ground with its measured ratio; the fills and the text steps of the accent are two tokens because the one that clears a 2px rule does not clear small type</li>
+          <li>The type scale is fourteen steps, and every rendered size on every page at four widths is one of them. Headings ride four fluid ramps between named steps. All four share one viewport window, so the ladder stays in order at every width</li>
+          <li>The color spec tabulates every ink on every ground with its measured ratio. The accent splits into two tokens, one for fills and one for text steps. The fill token clears a 2px rule but does not clear small type</li>
           <li>Motion is six durations and one curve, and a duration that is not one of them is refused by the same token check</li>
         </ul>
       </div>
@@ -318,45 +323,56 @@
     <section class="case-section case-overview build-chapter ground-tea">
       <div class="container case-narrow">
         <h2 id="pages">The pages, written by hand</h2>
-        <p>Thirty-one pages, each a plain HTML file with its content in the markup. The header, the navigation and the skip link are copied into every one rather than pulled from an include, so a change to the shell is a change to thirty-one files, and the site knows it: a check counts how many pages load each stylesheet and holds the documentation to that number.</p>
-        <p>There is no build step. One file is generated, the Tailwind stylesheet the six oldest case studies still load, and the pipeline rebuilds it and diffs the bytes against what is committed, because that build emits only the classes it has seen and a class the markup names that the build has never met is not an error. It is nothing at all, silently.</p>
-        <p>About a third of the markup is comments, and they are not what the code does. They are why: which alternative was tried, what it measured, and what sent it back. A rule with no reason attached is the first thing the next change deletes.</p>
+        <p>Thirty-one pages, each a plain HTML file. The header, the navigation and the skip link are copied into every one rather than pulled from an include. So a change to the shell is a change to thirty-one files. The site knows it: a check counts how many pages load each stylesheet and holds the documentation to that number.</p>
+        <p>There is no build step. One file is generated: the Tailwind stylesheet the six oldest case studies still load. The pipeline rebuilds it and diffs the bytes against what is committed. It has to, because that build emits only the classes it has seen. A class the markup names that the build has never met is not an error. It is nothing at all, silently.</p>
+        <p>About a third of the markup is comments. They say why, not what: which alternative was tried, what it measured, and what sent it back. A rule with no reason attached is the first thing the next change deletes.</p>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2 id="checks">What the checks measure</h2>
-        <p>Ten checks run on every merge. Five read the tree and finish in about a second: that it can be deployed at all, that every token the specs name exists, that every number the documentation asserts still counts, that what each page tells a machine matches the page, and that every article's key ideas are still its headings. The other five open every page in Chrome and measure what rendered. The figures below are the sweep of 30 September 2026, at e10d336; they move with nearly every merge, which is what the paragraph after them is about.</p>
+        <p>Ten checks run on every merge. Five read the tree and finish in about a second. Each confirms one thing:</p>
         <ul class="build-list">
-          <li>Every color a reader can see, at rest and in every reachable state: 11,530 measurements across the site, each against its floor. This one reads ink over artwork by the pixel, because a caption on a photograph has no background color to compute from, and it was that caption that once shipped at 3.88:1</li>
+          <li>It can be deployed at all</li>
+          <li>Every token the specs name exists</li>
+          <li>Every number the documentation asserts still counts</li>
+          <li>What each page tells a machine matches the page</li>
+          <li>Every article's key ideas are still its headings</li>
+        </ul>
+        <p>The other five open every page in Chrome and measure what rendered. The figures below are the sweep of 30 September 2026, at e10d336. They move with nearly every merge.</p>
+        <ul class="build-list">
+          <li>Every color a reader can see, at rest and in every reachable state: 11,530 measurements across the site, each against its floor. This one reads ink over artwork by the pixel. A caption on a photograph has no background color to compute from, and that caption once shipped at 3.88:1</li>
           <li>Every hover, focus and script-applied state, forced: 2,005 state rules, each measured once per page that loads it</li>
           <li>Every rendered type size at four widths against the fourteen steps: 47,792 of them</li>
           <li>Every curved corner, for a border that follows only part of the curve: 29,216 elements</li>
-          <li>Every card on a ground, for an edge a reader can actually see against it: 374 raised surfaces, at a floor of 1.2:1</li>
+          <li>Every card on a ground, for an edge a reader can see against it: 374 raised surfaces, at a floor of 1.2:1</li>
         </ul>
-        <p>The prototype page renders its interesting surface from JavaScript in response to a press, and for a while every check said the page passed while measuring a sixth of it. A registry now names the states a reader can reach and the selectors that reach them; each check presses its way into every one before measuring, and a selector that matches nothing fails the run rather than quietly covering less. Its first pass found a live hover at 1.29:1.</p>
-        <p>The counts are watched as much as the verdicts. The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured. A run that comes back materially smaller means something stopped being measured, and that is worth more than any single pass.</p>
+        <p>The prototype page renders its interesting surface from JavaScript in response to a press. For a while every check said the page passed while measuring a sixth of it.</p>
+        <p>A registry now names the states a reader can reach and the selectors that reach them. Each check presses into every one before measuring. A selector that matches nothing fails the run rather than quietly covering less. Its first pass found a live hover at 1.29:1.</p>
+        <p>The counts are watched as much as the verdicts. The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured. A run that comes back materially smaller means something stopped being measured.</p>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-warm">
       <div class="container case-narrow">
         <h2 id="reads">Two things the site does for a reader that a check made honest</h2>
-        <p>Every page of writing can read itself aloud, in the browser's own voice, marking the sentence and the word as it goes. It hands the synthesizer one sentence at a time, because a single long utterance stops mid-word after fifteen seconds in Chrome and reports no position at all in Safari, and it marks the live text with the CSS Highlight API rather than wrapping words in spans, so the text a reader copies is the text that was there before they pressed the button.</p>
-        <p>Every page carries a canonical address, a share card rendered from the site's own type, and a schema.org graph, sixty-seven nodes across the site, all naming one Person. Dates are stamped from the file's last commit rather than typed, so the sitemap and the article can never disagree about when a page changed. A check holds all of it, and it holds the sitemap to listing every page exactly once.</p>
+        <p>Every page of writing can read itself aloud, in the browser's own voice, marking the sentence and the word as it goes. It hands the synthesizer one sentence at a time. A single long utterance stops mid-word after fifteen seconds in Chrome, and in Safari it reports no position at all.</p>
+        <p>It marks the live text with the CSS Highlight API rather than wrapping words in spans. So the text a reader copies is the text that was there before they pressed the button.</p>
+        <p>Every page carries a canonical address, a share card rendered from the site's own type, and a schema.org graph. The graph is sixty-seven nodes across the site, all naming one Person.</p>
+        <p>Dates are stamped from the file's last commit rather than typed, so the sitemap and the article can never disagree about when a page changed. A check holds all of it, and holds the sitemap to listing every page exactly once.</p>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-tea">
       <div class="container case-narrow">
         <h2 id="ship">Nothing ships on a feeling</h2>
-        <p>A merge to the main branch is the live site about a minute later. There is no staging host in front of it any more; the branch and its checks are the gate, and what a stranger sees is the merge. That is a reason to make the guards refuse rather than warn.</p>
+        <p>A merge to the main branch is the live site about a minute later. There is no staging host in front of it any more. The branch and its checks are the gate. That is a reason to make the guards refuse rather than warn.</p>
         <ul class="build-list">
           <li>The deploy tars the repository, and one tracked symlink the runner cannot follow loses the whole thing. A check refuses any symlink and any tracked file the ignore rules match, before the upload and before the merge</li>
-          <li>Pull requests are squash-merged, so a branch and the main line diverge by construction. A script decides whether a force-push can lose work by asking, per file, whether the branch's version exists anywhere in the main line's history; it exits 0, 1, or 2 for could not tell, and 2 is not a yes</li>
-          <li>The résumé is rendered from a script, to one Letter page at 1,056 pixels of 1,056. A tailored copy is a list of exact-match text swaps, and a swap that matches zero times or twice refuses to render, because a résumé that silently edited the wrong sentence is worse than one that did not render</li>
-          <li>A green run of the checks does not mean the site updated. Two workflows, failing independently; the instruction is to look for the deploy on the merge commit, and to fetch with a cache-buster before deciding it failed</li>
+          <li>Pull requests are squash-merged, so a branch and the main line diverge by construction. A script decides whether a force-push can lose work. Per file, it asks whether the branch's version exists anywhere in the main line's history. It exits 0, 1, or 2 for could not tell, and 2 is not a yes</li>
+          <li>The résumé is rendered from a script, to one Letter page at 1,056 pixels of 1,056. A tailored copy is a list of exact-match text swaps. A swap that matches zero times or twice refuses to render. A résumé that silently edited the wrong sentence is worse than one that did not render</li>
+          <li>A green run of the checks does not mean the site updated. The two workflows fail independently. Look for the deploy on the merge commit, and fetch with a cache-buster before deciding it failed</li>
         </ul>
         <p>Since June, and before the change that wrote this sentence: 512 commits, 331 pull requests, and a written account under each of why. The account is the product as much as the pages are.</p>
       </div>
@@ -365,10 +381,16 @@
     <section class="case-section case-overview build-chapter ground-charcoal">
       <div class="container case-narrow">
         <h2 id="what-ai-did">What AI actually did</h2>
-        <p>The scripts were mostly written by an AI working in a terminal, to rules I set, and nearly every rule came from a failure I found first. The pixel-reading contrast check exists because a caption shipped at 3.88:1 and the ordinary check could not see it. The state registry exists because a page passed on a sixth of itself. The token check exists because the specs drifted from the stylesheet three times before anyone read them against it.</p>
-        <p>What that changed is not who decides. It is how fast a bad idea can be shown to be bad. A rule I would once have written down and hoped to remember is now a script that refuses, and the argument over whether it should exist happened once, in a comment, where the next person can read it.</p>
-        <p>The design is mine at every step: the scale, the palette, the order of the page, and every sentence. The judgment about what a check should hold the site to is mine. The honest line is the one the other write-ups use, and it is the same here: the thinking happened out loud, with something that answered back, and I decided what was true.</p>
-        <p>What it cost is worth saying. The site is slower to change than a template would be, because a change that moves a number has to move the sentence that states it, and a change to a shared stylesheet waits for a nine-minute run. That is the price of a claim being checked everywhere it is made, and for a site whose subject is that claim, it is the right price.</p>
+        <p>An AI working in a terminal wrote most of the scripts, to rules I set. Nearly every rule came from a failure I found first:</p>
+        <ul class="build-list">
+          <li>The pixel-reading contrast check exists because a caption shipped at 3.88:1 and the ordinary check could not see it</li>
+          <li>The state registry exists because a page passed on a sixth of itself</li>
+          <li>The token check exists because the specs drifted from the stylesheet three times before anyone read them against it</li>
+        </ul>
+        <p>What that changed is not who decides. It is how fast a bad idea can be shown to be bad. I would once have written a rule down and hoped to remember it. Now it is a script that refuses. The argument over whether it should exist happened once, in a comment, where the next person can read it.</p>
+        <p>The design is mine at every step: the scale, the palette, the order of the page, and every sentence. So is the judgment about what a check should hold the site to.</p>
+        <p>As in the other write-ups, the thinking happened out loud, with something that answered back, and I decided what was true.</p>
+        <p>It had a cost. The site is slower to change than a template would be. A change that moves a number has to move the sentence that states it. A change to a shared stylesheet waits for a nine-minute run. That is the price of checking a claim everywhere it is made, and for a site whose subject is that claim, it is the right price.</p>
       </div>
     </section>
 

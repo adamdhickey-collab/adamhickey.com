@@ -12,14 +12,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Agent Review: Making a Design System Executable for Coding Agents | Adam Hickey</title>
-  <meta name="description" content="A case study in reviewing UI written by coding agents: a React component system with tokens and a Storybook, the rules an agent reads before touching it, a controlled experiment where Claude Code added a feature inside it, the validation that caught where it drifted, and the tool a product designer uses to review the consequences and send a precise correction back." />
+  <meta name="description" content="A case study in handing UI work to a coding agent. Agent Review is a working prototype of the screen a person reads afterward: what the agent did, the boundaries it worked inside, and the few decisions that are still theirs. It plays one scripted run, a static scenario and not an integration, and it was designed from an experiment with two real Claude Code runs inside a React component system, with twelve written rules and without." />
 
   <link rel="canonical" href="https://adamhickey.com/lab/agent-review.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/lab/agent-review.html" />
   <meta property="og:title" content="Agent Review: Making a Design System Executable for Coding Agents | Adam Hickey" />
-  <meta property="og:description" content="A case study in reviewing UI written by coding agents: a React component system with tokens and a Storybook, the rules an agent reads before touching it, a controlled experiment where Claude Code added a feature inside it, the validation that caught where it drifted, and the tool a product designer uses to review the consequences and send a precise correction back." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/agent-review.jpg" />
+  <meta property="og:description" content="A case study in handing UI work to a coding agent. Agent Review is a working prototype of the screen a person reads afterward: what the agent did, the boundaries it worked inside, and the few decisions that are still theirs. It plays one scripted run, a static scenario and not an integration, and it was designed from an experiment with two real Claude Code runs inside a React component system, with twelve written rules and without." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/agent-review.jpg?v=7" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -34,12 +34,12 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/lab/agent-review.html#article",
           "headline": "Agent Review: making a design system executable for coding agents",
-          "description": "A case study in reviewing UI written by coding agents: a React component system with tokens and a Storybook, the rules an agent reads before touching it, a controlled experiment where Claude Code added a feature inside it, the validation that caught where it drifted, and the tool a product designer uses to review the consequences and send a precise correction back.",
+          "description": "A case study in handing UI work to a coding agent. Agent Review is a working prototype of the screen a person reads afterward: what the agent did, the boundaries it worked inside, and the few decisions that are still theirs. It plays one scripted run, a static scenario and not an integration, and it was designed from an experiment with two real Claude Code runs inside a React component system, with twelve written rules and without.",
           "url": "https://adamhickey.com/lab/agent-review.html",
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
-          "image": "https://adamhickey.com/img/og/agent-review.jpg",
+          "image": "https://adamhickey.com/img/og/agent-review.jpg?v=7",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-10-01",
+          "dateModified": "2026-10-05",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -96,9 +96,10 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261002a" />
+  <link rel="stylesheet" href="../style.css?v=20261005b" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
-  <link rel="stylesheet" href="../design-psychology.css?v=5" />
+  <link rel="stylesheet" href="../design-psychology.css?v=7" />
+  <link rel="stylesheet" href="../walkthrough.css?v=8" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
@@ -230,99 +231,336 @@
     <header class="case-hero">
       <div class="container">
         <!-- The lab's first flagship, and the first page on this site whose
-             subject is a thing built in a framework. The product, its
+             subject is a thing built in a framework. The prototype, its
              Storybook and its source live in their own public repository
              (adamdhickey-collab/agent-review) and deploy from there; this
-             page is the account, in the shell the build write-ups wear,
-             with the Human judgment note (design-psychology.css, #337) at
-             the four moments a decision could not be delegated to the
-             agent or to a check. Every figure on the page is one the
-             repository's record carries: docs/experiment/README.md there
-             is the source, and a number here that disagrees with it is
-             wrong here.
+             page is the account, in the shell the build write-ups wear.
+             Every fact on it is one the repository's record carries:
+             PROJECT.md for the prototype and docs/experiment/README.md for
+             the runs, and a number here that disagrees with either is wrong
+             here. The story count in the facts strip is read from the
+             deployed Storybook's index.json, not carried by hand.
 
-             Tightened the day after it shipped, from 3,500 words to about
-             half: the hero carries the whole argument for a reader with
-             thirty seconds, and everything under it says each thing once.
-             The exploration callout and the queue capture came out; the
-             four check outputs, the four-cell comparison of the runs and
-             the four remaining callouts stayed, because they are the
-             evidence.
+             Restructured 2026-10-05 to be about the prototype as it is, and
+             read cold by three people the same day, which reordered it: the
+             problem comes before the product. The lede is the problem, the
+             question, what was built and what this is, in that order; the
+             tour is under it; then the experiment behind it and what its two
+             runs showed, the loop, how it works, and what it hasn't shown
+             yet. "The question" and "What I learned" are no longer sections:
+             the first is the lede and the second is under the findings.
 
-             Reordered 2026-10-01 for a reader with ninety seconds: the
-             question, the three conditions, what the experiment showed
-             and the loop now come before the build. The four-stage
-             overview that sat under the screenshot moved down to open the
-             build ("What I built"), with nothing removed. -->
-        <p class="case-kicker">Lab &middot; case study &middot; 4 min read</p>
+             WHAT THE PAGE MAY NOT CLAIM. Nothing can be handed to Agent
+             Review: it is a working prototype, a static scenario and not an
+             integration, and the lede and the Status row say so. The run it
+             plays is scripted; the experiment's two runs were real, happened
+             once each, and are a small sample.
+
+             The kicker's minutes are the words in <main> at 238 a minute,
+             the silent-reading average for non-fiction, rounded to the
+             nearest minute. The tour's notes count, because they are in the
+             document whether or not the tour runs: about 1,560 words, so 7
+             minutes. The page before the restructure was 2,241 words and 9;
+             the restructure alone was about 1,750 and 7. -->
+        <p class="case-kicker">Lab &middot; case study &middot; 7 min read</p>
         <h1 class="case-title">Agent Review</h1>
-        <p class="build-dek">AI doesn&rsquo;t remove design judgment. It moves it. Agent Review is an experiment in where it goes when a coding agent builds production UI: a React component system, the rules an agent reads first, two agent runs with and without those rules, the checks that measured them, and the tool a product designer uses to review what came back.</p>
+        <p class="build-dek">AI doesn&rsquo;t remove design judgment. It moves it. A coding agent, an AI tool that writes the code itself, can build a screen in minutes. The hard part is knowing what it did, and what still needs you. How can someone delegate more of the work, and still understand the results, the boundaries, and the decisions that are still theirs?</p>
+        <p class="build-dek">I built a component system, ran a coding agent in it twice, and designed Agent Review around what those runs could not decide. It is a working prototype of the screen a person reads after handing an agent the work, and the run it plays is scripted.</p>
+        <!-- The way in to the prototype, in the hero, as on the lab's other two
+             pieces, which open on "Try the prototype". Until 2026-10-03 this
+             page's only link to the product was the first word group of the
+             Status row below, set in the same colour and weight as the words
+             round it with no underline, so a reader could not see it was one.
+             The Listen control goes under this row, not under the dek, and
+             "skip" keeps a voice reading the page from reading the button out
+             between the dek and the first heading (read-aloud.js). -->
+        <p class="build-hero-act" data-read-aloud="skip after">
+          <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Product design &middot; Design-system architecture &middot; Prototyping &middot; Front-end implementation &middot; Experiment design</dd></div>
-            <div><dt>Built with</dt><dd>React, TypeScript, Vite, Storybook 10, Vitest with axe, Playwright, Claude Code, the Storybook MCP server</dd></div>
-            <div><dt>Size</dt><dd>13 components, 161 stories, 12 rules, 3 branches of one feature</dd></div>
-            <div><dt>Status</dt><dd>Live. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">The product</a>, <a href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">the Storybook</a>, and <a href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">the source and the record</a></dd></div>
+            <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
+            <div><dt>Size</dt><dd>13 components &middot; 233 stories, each a tested state &middot; 12 written rules for the agent &middot; 3 versions of one feature</dd></div>
+            <div><dt>Status</dt><dd>A working prototype: a static scenario, not an integration. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">The prototype</a>, <a href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">the Storybook</a>, and <a href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">the source and the record</a></dd></div>
           </dl>
         </div>
+        <!-- Who made it, when, and who wrote the code, in one line, because
+             two of three cold readers could not tell from "I built it" beside
+             "Built with ... Claude Code". Every clause is something the
+             public repository shows: its first commit is 2026-10-01, every
+             commit is from one account, and every commit carries a
+             Co-Authored-By line naming Claude. The footer's service line
+             (.build-service) is the small sans line this wants. -->
+        <p class="build-service">A solo project, begun October 1, 2026 and still in progress, built with Claude Code: every commit in the public repository is from my account and co-authored by Claude.</p>
 
-        <!-- The review of the first run, captured from the product at 1440
-             by Playwright in the same Chromium the tests use, at 2x. The
-             finding open is the new interaction pattern; the preview on the
-             right is the agent's branch rendered from code, not a picture
-             of it, with the Archive button outlined as the finding's target. -->
-        <figure class="build-shot">
-          <div class="build-laptop"><div class="build-laptop-lid">
-              <img src="../img/lab/agent-review-change-run1.webp?v=1" width="1440" height="1000" fetchpriority="high" decoding="async"
-                   alt="Agent Review on the change &ldquo;Add bulk actions to the customer table&rdquo;: a header with Return to agent, Reject and Accept; a validation line reading Visual 4 changes, Accessibility passed, Interaction passed, Components 1 shared change, Tokens passed; on the left a findings list with &ldquo;A new interaction pattern: the toolbar becomes the confirmation&rdquo; open to its evidence and a composed correction; on the right the customer table rendered from the agent&rsquo;s branch with three rows selected, a selection toolbar reading 3 selected, and the Archive button outlined and labelled Finding." />
-            </div></div>
-        </figure>
+        <!-- The delegated work, as a guided tour of one screen: the
+             screen "Try the prototype" opens on. The picture is scripts/lab-shots.mjs
+             `delegation`, at 1440 (the hero's size), and every number in
+             data-rect and in the pins' left and top is in that capture's own
+             pixels, measured on the deployed product at 1440 x 1000. If the
+             screen's layout changes, re-measure all seven. RE-MEASURED
+             2026-10-04 for the glanceable pass (agent-review#7): the account
+             became a bar and check badges, the boundaries three counted
+             rows, and the first decision's answers two cards, so every
+             region moved; each is the element's own box plus 10px (the
+             panel and its rules as drawn). LINED UP 2026-10-05: a region's
+             top and bottom are its own, but its sides are its column's, the
+             main column plus 10px (150 to 946) or the panel as drawn (960
+             to 1280; to 1301 since the note on its right side below), so
+             the spotlight only slides up and down a column;
+             the decision's two parts and the rules had been inset inside
+             their card and panel. The decision splits where its answers
+             begin: the pause is the card's head, its question and why it
+             asks ("Both answers are the same pixels"), and what no check
+             can say is "If --color-danger is made louder later" and the two
+             answers under it. A pin's left is its region's left edge and
+             its top the middle of the region's first line (the job's
+             delegation line, the account's lead, the checks row, the
+             panel's heading, the decision's tags, the line over its
+             answers, the rules' heading), and walkthrough.css stands it just
+             outside that edge, as the note's disc stands beside its
+             kicker; until then each sat 18px past the end of the line it
+             marked. RE-MEASURED 2026-10-05, the second time that day, on
+             the deployed product at 1440 x 1000: after the design refresh
+             (agent-review#9) the decision's answer cards came back 16px
+             shorter, and after the icon family (agent-review#11) the icons
+             are 20px where they were 16, so every row and badge grew by a
+             pixel or two and the boundaries panel by seven (306 to 313):
+             five regions moved by a pixel, the panel and the rules region
+             by more, and the pins followed. RE-MEASURED 2026-10-05, the
+             third time that day, and the picture is 1440 x 1300 now: after
+             phase 3 (agent-review#14) the decision comes first and the
+             checks sit under the decisions, at y 1147, which a 1000px
+             picture does not reach, so part 3 would have had nothing to
+             point at. 1300 holds the whole screen down to the checks' last
+             line (1279). The product is its dark theme here, the default
+             since agent-review#15, so every capture on this page is dark;
+             the Relay preview inside a capture stays light, as the product
+             it shows is. Regions and pins come from the DOM, not from the
+             picture, by the rules above (the pause is the card's head to the
+             end of its reason, the rules' region ends where the panel does);
+             a taller picture is a taller frame, so walkthrough.js holds the
+             stage to the window it sticks in. ROOM ON THE RIGHT OF THE PANEL
+             since 2026-10-05, at Adam's request: the panel as drawn ends at
+             1280 with no padding on that side, so its counts (4, 2, 1) sat
+             1px inside the spotlight's edge and the rules' longest line
+             7.5px inside it, while the panel's own padding kept its words
+             21.5px off the left edge. The two regions in that column run to
+             1301 now, 22px past the counts, so the column is 960 to
+             1301 and still one pair of sides. The rule for any region: no
+             edge nearer than 8px to what it holds, measured as ink on the
+             capture, and a side with no padding of its own takes the
+             opposite side's. At that date the least is 8.5px (the panel's
+             heading under its top edge) and every side edge has 10px or
+             more. THE FRAME IS A TABLET since
+             2026-10-05, at Adam's request: one bezel all round, the same
+             top and bottom, where it was a laptop with a lid and a foot
+             (walkthrough.css says how it is drawn). With the script,
+             at 64rem and up and without reduced motion, scrolling moves a
+             camera in on each part and the note beside it follows
+             (walkthrough.js). In every other case this is the laptop with
+             seven pins on it and the seven notes under it, in order; under
+             40rem it is the phone capture in a phone, with no pins, because
+             they are placed on the desktop layout. The closing note ("Seven
+             parts, one aim") is in both layouts since 2026-10-05; it was the
+             tour's alone, and a reader on a phone never saw the plainest
+             summary on the page. The run is simulated, and
+             the first note says so as well as the screen. THE NOTES CARRY
+             NO DRAWINGS since 2026-10-05 (Adam: "I don't think they're
+             very helpful"): each had a small picture above it, and the
+             column is words now, narrower, with the product larger beside
+             it. data-fold on the screen is how tall the tour's window onto
+             the picture is, in the capture's pixels (walkthrough.js). -->
+        <section class="wt" aria-labelledby="wt-title">
+          <h2 class="visually-hidden" id="wt-title">A tour of the delegated work</h2>
+          <div class="wt-sticky">
+            <a class="wt-skip" href="#the-experiment">Skip the tour</a>
+            <div class="wt-stage">
+            <figure class="wt-figure build-phone">
+                <div class="wt-screen" data-fold="1000">
+                  <div class="wt-world">
+                    <picture>
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-phone.webp?v=6" width="375" height="720" />
+                      <img src="../img/lab/agent-review-delegation.webp?v=7" width="1440" height="1300" fetchpriority="high" decoding="async"
+                           alt="Agent Review&rsquo;s delegated work in its default dark theme, in a simulated run: &ldquo;Bring the billing screens onto the token layer&rdquo;, the account reading &ldquo;7 changes made and checked. 2 decisions need you.&rdquo; over a bar of 26 of 36 literals on tokens, the first decision with its two answers side by side, the second asking whether to add a token for a fully round corner, the three checks as badges with what is unresolved and the scope under them, and the boundaries beside it as three counted groups above &ldquo;Your rules&rdquo;." />
+                    </picture>
+                    <span class="wt-focus" aria-hidden="true"></span>
+            <span class="wt-pin" style="left: 10.42%; top: 9.58%" aria-hidden="true">1</span>
+            <span class="wt-pin" style="left: 10.42%; top: 17.47%" aria-hidden="true">2</span>
+            <span class="wt-pin" style="left: 10.42%; top: 90.11%" aria-hidden="true">3</span>
+            <span class="wt-pin" style="left: 66.67%; top: 9.92%" aria-hidden="true">4</span>
+            <span class="wt-pin" style="left: 10.42%; top: 30.36%" aria-hidden="true">5</span>
+            <span class="wt-pin" style="left: 10.42%; top: 39.23%" aria-hidden="true">6</span>
+            <span class="wt-pin" style="left: 66.67%; top: 24.69%" aria-hidden="true">7</span>
+                  </div>
+                </div>
+            </figure>
+            <!-- The pager: the seven progress bars with a way to press through
+                 them, since 2026-10-05 (Adam: a previous and a next button,
+                 "seamlessly integrated with the step counter"). The buttons
+                 move the page's own scroll position by one part, so pressing
+                 and scrolling are the same clock (walkthrough.js). They are
+                 real buttons with names; the status line under them is for a
+                 screen reader, and says which part a press landed on. Only
+                 the tour shows any of it. -->
+            <div class="wt-pager">
+              <button class="wt-step wt-step--prev" type="button" aria-label="Previous part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg></button>
+              <div class="wt-ticks" aria-hidden="true"><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span></div>
+              <button class="wt-step wt-step--next" type="button" aria-label="Next part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></button>
+              <p class="wt-status visually-hidden" role="status"></p>
+            </div>
+            </div>
+            <div class="wt-notes">
+              <div class="wt-note wt-note--intro">
+                <p class="wt-kicker">The product</p>
+                <h3>One delegated job, and what came of it.</h3>
+                <p class="wt-body">This is the screen Agent Review opens on: work an agent was handed. Seven parts, and what each is for.</p>
+                <p class="wt-hint" aria-hidden="true">Scroll, or press the arrows, to step through &darr;</p>
+              </div>
+              <div class="wt-note" data-rect="150 106 796 97">
+                <p class="wt-kicker"><span class="wt-num">1</span>The job</p>
+                <h3>An agent was handed a job, and did most of it.</h3>
+                <p class="wt-body">Claude Code was asked to move the billing screens of Relay, a made-up product, onto its design tokens (the named colors and sizes its screens share), and to merge any change that left a screen looking exactly the same. The strip above the title says the run is simulated.</p>
+              </div>
+              <div class="wt-note" data-rect="150 207 796 116">
+                <p class="wt-kicker"><span class="wt-num">2</span>The account</p>
+                <h3>Results first, not a queue to clear.</h3>
+                <p class="wt-body">Seven changes made and checked, two decisions left, and a bar of how much of the job is done. Every number is counted from the work below it.</p>
+              </div>
+              <div class="wt-note" data-rect="150 1137 796 152">
+                <p class="wt-kicker"><span class="wt-num">3</span>The checks</p>
+                <h3>Each check says what it established, and what it couldn’t.</h3>
+                <p class="wt-body">A first try failed two checks and was fixed without asking. One result is inconclusive, and it’s listed as unresolved, not passed.</p>
+              </div>
+              <div class="wt-note" data-rect="960 116 341 287">
+                <p class="wt-kicker"><span class="wt-num">4</span>The boundaries</p>
+                <h3>Seven sentences say what it may do alone.</h3>
+                <p class="wt-body">What it does on its own, what it asks about first, and what is off limits for this job, each a row that opens to its sentences. A pause names the one that stopped it.</p>
+              </div>
+              <div class="wt-note" data-rect="150 358 796 141">
+                <p class="wt-kicker"><span class="wt-num">5</span>A pause</p>
+                <h3>It stops only where a boundary says to.</h3>
+                <p class="wt-body">This one is about meaning, so it asks one narrow question and recommends an answer. When it needs permission it doesn’t have, it asks with a different card.</p>
+              </div>
+              <div class="wt-note" data-rect="150 491 796 159">
+                <p class="wt-kicker"><span class="wt-num">6</span>What no check can say</p>
+                <h3>Same red, two names. Every check passes either way.</h3>
+                <p class="wt-body">A passing check is a fact about the code. Which name the red carries is a decision, so each answer shows what it would do if the red changed later.</p>
+              </div>
+              <div class="wt-note" data-rect="960 302 341 101">
+                <p class="wt-kicker"><span class="wt-num">7</span>Your rules</p>
+                <h3>An answer becomes a rule only if you say so.</h3>
+                <p class="wt-body">An answer can cover similar cases, in plain words you can edit or revoke. Until you make one, there are none.</p>
+              </div>
+              <div class="wt-note wt-note--outro">
+                <p class="wt-kicker">The whole screen</p>
+                <h3>Seven parts, one aim: ask for a person less often.</h3>
+                <p class="wt-body">Below: the experiment behind it, the loop it supports, and how it works.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script src="../walkthrough.js?v=6"></script>
       </div>
     </header>
 
-    <section class="case-section case-overview build-chapter ground-white" id="the-question">
+    <!-- The experiment the prototype came out of: real runs and real checks,
+         recorded in agent-review's docs/experiment/README.md, and every
+         figure in this section and the band under it is that record's. The
+         review screens built for the experiment are not on this page.
+
+         What the record says, and the page must not round up: each run
+         happened once, as a subagent of the session building the project,
+         without the Storybook MCP tools; Run 2 had the rules removed, so it
+         did not "read the same rule"; neither agent version failed a check,
+         and the defects the checks caught were planted by hand; the review
+         changed the system, and no run has tested that since. The rule the
+         note links is the file at 129fa90, the commit both runs were cut
+         from, because rule 9 was reworded after the review. -->
+    <section class="case-section case-overview build-chapter ground-white" id="the-experiment">
       <div class="container case-narrow">
-        <h2>The question</h2>
-        <p>Coding agents can build an interface quickly. A product team still has to decide where each design decision lives:</p>
+        <h2>The experiment behind it</h2>
+        <p>Agent Review came out of an experiment with real agents and real checks. I built a React component system, wrote twelve rules for an agent to read before touching it, and asked for one feature, <strong>bulk actions on the customer table</strong>, three ways:</p>
         <ul class="build-list">
-          <li>in reusable components and tokens,</li>
-          <li>in explicit rules an agent can read,</li>
-          <li>in checks that validate it automatically, or</li>
-          <li>with a person, because nothing else can decide it.</li>
+          <li><strong>Run 1:</strong> Claude Code, with the system and the twelve rules, and told to read them first.</li>
+          <li><strong>Run 2:</strong> the same request, with the rules and the project&rsquo;s documents removed.</li>
+          <li><strong>A version I broke on purpose:</strong> four defects the rules forbid, planted by hand to test the checks. None of its failures is an agent&rsquo;s.</li>
         </ul>
-        <p>Agent Review is the system and the product I built to find out how that sorts in practice. The code is the prototype; the design problem is the sorting. React, Storybook, Vitest, Playwright, axe and Claude Code are how the question gets a measurable answer, not the point of it.</p>
+        <p>Each ran once, as a subagent of the Claude Code session I was building the project in, with only the repository to read and without the Storybook&rsquo;s MCP tools. Two runs is a small sample, so read what follows as what happened, not as laws.</p>
+        <!-- The one picture of the component system the runs happened in:
+             the Storybook, on the story the agent wrote in Run 1 for the
+             archive question, with its test's steps passing in the panel.
+             scripts/lab-shots.mjs `storybook`, desktop and phone (the phone
+             is the story on its own, because the Storybook has no phone
+             layout worth showing). Two cold readers said the real work was
+             invisible without it. What the caption says of the story is
+             checked against the branch at e50a20e: the story and its play
+             function are the agent's. -->
+        <figure class="build-shot">
+          <picture>
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-storybook-phone.webp?v=3" width="375" height="480" />
+                <img src="../img/lab/agent-review-storybook.webp?v=6" width="1100" height="720" loading="lazy" decoding="async"
+                     alt="The ArchiveConfirmation story: three customers selected, and the selection toolbar asking &ldquo;Archive 3 customers?&rdquo; with Cancel and a red Archive 3 customers button." />
+              </picture>
+          <figcaption>The component system the runs happened in, as its Storybook: every state of every component is a story, and every story is also a test. This story is one the agent wrote in Run 1. Its test presses Archive and checks that the toolbar asks &ldquo;Archive 3 customers?&rdquo;, that the confirming button takes focus, and that Escape cancels.</figcaption>
+        </figure>
+        <aside class="dp-note hj-note" aria-labelledby="hj-shared-label hj-shared-head">
+          <p class="dp-note-label" id="hj-shared-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
+          <h3 class="dp-note-head" id="hj-shared-head">With the rule, Run 1 changed a shared file. Without it, Run 2 left it alone.</h3>
+          <p class="dp-note-body">A checkbox made the shared data table&rsquo;s header row about two pixels taller.</p>
+          <ul class="build-list dp-note-list">
+            <li><strong>Run 1, with the rule in front of it,</strong> changed the shared stylesheet and wrote down why.</li>
+            <li><strong>Run 2, without it,</strong> measured the same two pixels and left the shared file alone.</li>
+            <li><strong>My call:</strong> the data table already had the flaw, in its own tested example, so Run 1&rsquo;s fix stayed.</li>
+          </ul>
+          <p class="dp-note-source">Evidence: <a href="https://github.com/adamdhickey-collab/agent-review/blob/129fa9046decc8820383ee42749c1cdbbc0bcf3a/skills/ui-quality/SKILL.md" target="_blank" rel="noopener noreferrer">rule 9 as it read for the runs</a> (reworded since), and both runs in <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">the experiment record</a>.</p>
+        </aside>
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-warm" id="experiment-design">
+    <!-- The page's one dark band, so the scroll changes pace here: what the
+         two runs showed is the turn in the argument, and the ground says so.
+         The four line icons (24px, 1.5 stroke, drawn once as the strip
+         scrolls in) take the on-dark sage the ground gives them. Each head
+         is set to break into two even lines and each cell's text runs three
+         (style.css, .build-facts--two.build-facts--icons), so a reworded
+         cell gets measured at 1440 and 390 before it ships. The heads are
+         what happened in two runs, in the past tense, not laws. The words
+         under the strip are what the page used to say in "What I learned". -->
+    <section class="case-section case-overview build-chapter build-chapter--within ground-charcoal" id="what-it-showed">
       <div class="container case-narrow">
-        <h2>The experiment</h2>
-        <p>One feature request, <em>add bulk actions to the customer table</em>, tested three ways.</p>
-        <dl class="build-facts build-facts--three build-facts--aligned">
-          <div><dt>Run 1<span class="build-facts-tag">System and explicit rules</span></dt><dd>A fresh Claude Code session gets the existing component system and the repository&rsquo;s UI rules.</dd></div>
-          <div><dt>Run 2<span class="build-facts-tag">System, no explicit rules</span></dt><dd>The same request to a fresh session with the repository and system available, but without the rule set.</dd></div>
-          <div><dt>Seeded regression<span class="build-facts-tag">Written by me, not an agent</span></dt><dd>A separate branch I broke on purpose, four ways the rules forbid, to see whether the checks catch known drift. None of its failures is an agent&rsquo;s.</dd></div>
+        <h2>What the two runs showed</h2>
+        <dl class="build-facts build-facts--two build-facts--aligned build-facts--icons">
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 4h7v7H4z"/><path pathLength="1" d="M13 4h7v7h-7z"/><path pathLength="1" d="M4 13h7v7H4z"/><path pathLength="1" d="M20 16.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/></svg>Both runs stayed inside the component system.</dt><dd>Each built the feature from the existing components, with the twelve rules or without them, and neither hard-coded a value.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 7V5a2 2 0 0 1 2-2h2"/><path pathLength="1" d="M17 3h2a2 2 0 0 1 2 2v2"/><path pathLength="1" d="M21 17v2a2 2 0 0 1-2 2h-2"/><path pathLength="1" d="M7 21H5a2 2 0 0 1-2-2v-2"/><path pathLength="1" d="M7 12h10"/></svg>The twelve rules mattered where the system was silent.</dt><dd>They settled what components could not: changing a shared one, what an emptied data table shows, and where a new pattern goes.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/><path pathLength="1" d="m21 21-4.3-4.3"/><path pathLength="1" d="M11 7.5v4"/><path pathLength="1" d="M11 14.5h.01"/></svg>The checks found no defect in either agent&rsquo;s version.</dt><dd>On the version I broke on purpose they found what I planted: 17 hard-coded values and text at 2.87:1 contrast.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>Review changed the system. No run has tested it since.</dt><dd>The overflow test had passed a toolbar 58px too wide, so I rewrote it, and four of the twelve rules gained wording.</dd></div>
         </dl>
+        <p>The checks found more defects in my own work than in the agents&rsquo;: what I planted, and before any run, three accessibility gaps in my own components. Each agent flagged its own judgment calls. Run 2 was returned with two corrections, each naming the exact component to use, so nothing is left to guess.</p>
+        <p>The judgment didn&rsquo;t go away. It moved, to the questions the checks left open:</p>
+        <ul class="build-list">
+          <li>Was the shared change a real fix, or a shortcut?</li>
+          <li>Is the new confirm-before-archive step one the product wants?</li>
+          <li>Is a changed screen the feature, or a break? The pixel comparison flagged four on every version and couldn&rsquo;t tell.</li>
+        </ul>
+        <p>Agent Review is designed around questions like these.</p>
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-tea" id="what-it-showed">
-      <div class="container case-narrow">
-        <h2>What the experiment showed</h2>
-        <dl class="build-facts build-facts--two build-facts--aligned">
-          <div><dt>The components mattered more than the rules.</dt><dd>Both agent runs followed the existing components, tokens and stories, whether or not they had the written rules.</dd></div>
-          <div><dt>Rules mattered at the edges.</dt><dd>Where the system could not decide: whether to change a shared component, what an emptied table shows, and where a new interaction pattern gets written down.</dd></div>
-          <div><dt>Checks find failure. They cannot decide what the product should become.</dt><dd>They caught the token drift, the contrast failure, the overflow and the baseline changes. A product designer still had to read which red frame was the feature and which was the break.</dd></div>
-          <div><dt>A good review strengthens the next run.</dt><dd>Review did not only accept or reject. It sometimes produced a stronger rule, story or test that the next agent inherits.</dd></div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-white" id="the-loop">
+    <!-- The loop the prototype is built around: a model, not a result. The
+         experiment went round it once, and the band above says the last
+         step has not been tested by a second run, so nothing beside this
+         may say it was shown to happen. Six across from 64rem, in a frame
+         wider than the words over it (style.css, .build-loop-frame); three
+         across and then one column under that, as it always was. -->
+    <section class="case-section case-overview build-chapter build-chapter--within ground-white" id="the-loop">
       <div class="container case-narrow">
         <h2>The loop Agent Review supports</h2>
         <p>Not an agent and an approval button, but a loop that ends with a different system than it started with.</p>
+      </div>
+      <div class="container case-narrow build-loop-frame">
         <ol class="build-loop">
           <li><strong>System</strong>Components, tokens, stories</li>
           <li><strong>Agent</strong>Builds the change</li>
@@ -334,186 +572,76 @@
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-warm" id="what-i-built">
-      <div class="container">
-        <div class="glance">
-          <p class="glance-kicker">What I built</p>
-          <ol class="glance-row">
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>01</span>The system</p>
-                <ul class="glance-points">
-                  <li>One token layer, thirteen components, every state a story</li>
-                  <li>Axe runs on every story as a test</li>
-                  <li>A lint that reports any value written where a token exists</li>
-                </ul>
-                <a class="glance-more" href="#the-system">The system</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.5,-1.5)"><path pathLength="1" d="M3 21l1.2-4.2L15 6l3 3L7.2 19.8 3 21z"/><path pathLength="1" d="M13.2 7.8l3 3"/></g></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>02</span>The rules</p>
-                <ul class="glance-points">
-                  <li>Twelve rules an agent reads before changing UI</li>
-                  <li>Each names the command that checks it</li>
-                  <li>The Storybook readable by an agent over MCP</li>
-                </ul>
-                <a class="glance-more" href="#the-rules">Legible to an agent</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>03</span>The experiment</p>
-                <ul class="glance-points">
-                  <li>One request, two real runs: with the rules, and without</li>
-                  <li>Both clean on every check; the differences were judgment</li>
-                  <li>A third branch seeded with the four drifts the checks exist for</li>
-                </ul>
-                <a class="glance-more" href="#the-experiment">What the agent did</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3.8 19.2h4.6a2.8 2.8 0 0 0 2.8-2.8V9.2a2.8 2.8 0 0 1 2.8-2.8h6"/><path pathLength="1" d="m17.4 3.6 2.8 2.8-2.8 2.8"/></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>04</span>The review</p>
-                <ul class="glance-points">
-                  <li>Each finding reproduces itself in a live preview</li>
-                  <li>A correction composed from findings, not typed from memory</li>
-                  <li>What the system learned, as a diff</li>
-                </ul>
-                <a class="glance-more" href="#the-review">Human review</a>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-white" id="the-product">
+    <!-- The prototype, part by part. EVERYTHING IN THIS SECTION IS THE
+         SCRIPTED RUN, and its first line says so: nothing in it was run, the
+         check counts and the commit hashes are written to agree with each
+         other (agent-review's src/data/billing.ts), and no figure here may
+         be offered as evidence of anything. The tour in the hero already
+         shows the account, the boundaries and the first decision, so this
+         section does not repeat them. The three figures are
+         scripts/lab-shots.mjs (rule, record, quiet), from the same
+         playback, so they retake exactly; each caption opens on the word
+         the screen itself wears, Simulated. -->
+    <section class="case-section case-overview build-chapter ground-warm" id="how-it-works">
       <div class="container case-narrow">
-        <h2>The product</h2>
-        <p>Agent Review is the tool a product designer on the team would use to inspect UI a coding agent has changed before it merges. A queue of changes, each with its validation in five lanes. A change opened to its findings, with the affected screen rendered from the branch beside them, before and after, at three widths. Selecting a finding puts the preview in the state that shows it, at the width that shows it, with the element outlined. Then a decision: accept, reject, or return to the agent with a correction.</p>
-        <p>The product and the screen it reviews are built from the same component system, as an internal tool and a product at one company would be. That is what lets a finding say &ldquo;Button / secondary / compact already covers this&rdquo; and open the story in one press. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try it</a>; the three experiment branches are the first three rows of the queue.</p>
-      </div>
-    </section>
+        <h2>How it works</h2>
+        <p>Everything in this section is the scripted run, labeled Simulated on the screen: the agent&rsquo;s actions, the check counts and the commit hashes are written, not produced.</p>
 
-    <section class="case-section case-overview build-chapter ground-tea" id="the-system">
-      <div class="container case-narrow">
-        <h2>The system</h2>
-        <p>Thirteen components from one token layer in a plain CSS file, with no component kit underneath and no utility framework, because the component model is the point and the tokens should not hide behind utility names.</p>
+        <h3>A decision: one narrow question, and what each answer does</h3>
+        <p>The run hits three kinds of trouble, and stops for two of them:</p>
         <ul class="build-list">
-          <li>Every value a token: spacing on a 4px scale, four type sizes, semantic color, two radii, one shadow, one focus ring, three durations.</li>
-          <li>Every state a story, and not only a Default: a Button has ten, a Table nine, the review&rsquo;s own components sixty-nine. 161 in all.</li>
-          <li>Every story a test: Vitest renders each one in Chromium and runs axe on it, with violations set to fail. A token lint reports any literal written where a token exists. Playwright holds the screens to their baselines and every toolbar to its own box at 768.</li>
+          <li><strong>A problem it can fix, so it doesn&rsquo;t stop:</strong> it named a token that doesn&rsquo;t exist, two checks failed, and it corrected the name. Nobody was asked.</li>
+          <li><strong>Missing intent, so it asks:</strong> one red has two token names, and nothing it can measure says which was meant.</li>
+          <li><strong>Past its permission, so it asks:</strong> the fix needs a new token, which every screen would share. It asks for that one step.</li>
         </ul>
+        <p>Each question names the boundary that stopped it and recommends an answer. Each answer shows what it would do if that red is made louder later: one stays as it is, one follows it.</p>
+
+        <h3>Your rules: an answer that covers similar cases</h3>
+        <p>An answer becomes one of your rules only if you check a box, and the box starts unchecked. The rule says in plain words what it covers and what it doesn&rsquo;t, and you can edit or revoke it later.</p>
         <figure class="build-shot">
-          <img src="../img/lab/agent-review-storybook.webp?v=2" width="1440" height="900" loading="lazy" decoding="async"
-               alt="The Storybook, open on Product / CustomerTable / ArchiveConfirmation: the sidebar lists System, Product and Review groups; the canvas shows the customer table with three rows selected and the selection toolbar turned into the question &ldquo;Archive 3 customers?&rdquo; with Cancel and a red Archive 3 customers button; the panel below shows the interaction test&rsquo;s steps passing." />
-          <figcaption>The Storybook. The story shown is one the agent wrote; its play function presses Archive and asserts the question, the focus, and that Escape cancels.</figcaption>
+          <picture>
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-rule-phone.webp?v=5" width="375" height="720" />
+                <img src="../img/lab/agent-review-delegation-rule.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
+                     alt="The first decision answered with &ldquo;Use the diff pair&rdquo;, the box &ldquo;Also use this answer for similar cases&rdquo; checked, and the rule as it will read: what it covers, what it doesn&rsquo;t, and the three waiting changes it settles now, above Cancel and Apply." />
+              </picture>
+          <figcaption>Simulated: the first decision answered, and the rule as it will read, before it is applied.</figcaption>
+        </figure>
+
+        <h3>The record: work you can take back</h3>
+        <p>Every completed change opens to what changed, why, under which boundaries, and what each check established. Any merged change can be reverted, and the history keeps both.</p>
+        <figure class="build-shot">
+          <picture>
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-record-phone.webp?v=5" width="375" height="720" />
+                <img src="../img/lab/agent-review-delegation-record.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
+                     alt="A completed change opened: the failed-payment red made --color-danger, the line before and after, why, the two boundaries it acted under, the three checks and what each established, and what no check establishes." />
+              </picture>
+          <figcaption>Simulated: a completed change, opened. The commit it names is written, not a real one.</figcaption>
+        </figure>
+
+        <h3>Nothing to decide</h3>
+        <p>When every decision is made, the &ldquo;Needs you&rdquo; section is gone and the account says &ldquo;Nothing needs your attention.&rdquo; Nothing is invented to fill the space.</p>
+        <figure class="build-shot">
+          <picture>
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-quiet-phone.webp?v=5" width="375" height="720" />
+                <img src="../img/lab/agent-review-delegation-quiet.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
+                     alt="The same run after the decisions: &ldquo;Nothing needs your attention.&rdquo; and &ldquo;13 changes made and checked. Completed work is below.&rdquo;, with the account under it, the completed work listed below, and the rule beside it." />
+              </picture>
+          <figcaption>Simulated: every decision made, 13 changes checked, and all 36 hard-coded values now tokens.</figcaption>
         </figure>
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-white" id="the-rules">
+    <section class="case-section case-overview build-chapter ground-tea" id="not-yet-shown">
       <div class="container case-narrow">
-        <h2>Making the system legible to an agent</h2>
-        <p>A design system is documentation people read. For an agent it has to be context it can act on, so the repository carries a <code>CLAUDE.md</code> a Claude Code session loads on entering, pointing at twelve rules in <code>skills/ui-quality/SKILL.md</code>. Each says what to do, how to tell whether you did it, and what happens if you did not. Three of them, as written:</p>
+        <h2>What it hasn&rsquo;t shown yet</h2>
+        <p>The experiment&rsquo;s findings come from two real runs. The delegated work is a prototype I haven&rsquo;t tested with anyone: its run is simulated, with no model behind it, and nothing can be handed to it yet. Whether it cuts review time or earns trust is the question, not the finding. What I&rsquo;d test next:</p>
         <ul class="build-list">
-          <li><strong>Never write a value where a token exists.</strong> How to check: the token lint. If no token fits, that is a finding about the token layer, not a reason to write a literal.</li>
-          <li><strong>Do not change a shared component to solve a local need.</strong> A change with a reason in writing is allowed, and the reason has a shape: what you measured, on which story, before and after.</li>
-          <li><strong>A new interaction pattern needs a person to look at it.</strong> Build it behind a story, describe it, and mark the change for review.</li>
+          <li>Can a person explain what they&rsquo;ve delegated?</li>
+          <li>Do they understand why the agent paused?</li>
+          <li>Can they spot a wrong automatic action?</li>
+          <li>Can they correct or revoke one of their rules?</li>
+          <li>Does it cut interruptions without hiding a failure?</li>
         </ul>
-        <p>The rules end with how to describe a change, in seven sections, so a reviewer finds the shared changes and the new patterns where the rules say they will be. The Storybook also runs an MCP server, verified answering, so a logged-in agent can read a component&rsquo;s props and run a story&rsquo;s tests without reading the source.</p>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-warm" id="the-experiment">
-      <div class="container case-narrow">
-        <h2>What the agent did</h2>
-        <p>The request, verbatim, and nothing else about the feature: <em>Add bulk actions to the customer table using the existing component system. A person should be able to select several customers and archive or export them.</em> Each run was a fresh session in its own worktree with the repository as its only context; the record says exactly how, including why the Storybook MCP server, though connected, was not reached.</p>
-        <dl class="build-facts build-facts--aligned build-facts--icons">
-          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M8 5H6.5A1.5 1.5 0 0 0 5 6.5v13A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 17.5 5H16"/><path pathLength="1" d="M9 3.5h6V6.5H9z"/><path pathLength="1" d="m8.8 13.2 2.2 2.2 4.2-4.4"/></svg>Run 1, with the rules</dt><dd>Clean on every check. Checkbox for the rows, the Table&rsquo;s own selected-row composition, a second Toolbar for the selection, Button in three variants, EmptyState for a table archiving empties. Seven new stories with play functions; 92 of 92 pass with axe. One shared change, with a reason and a measurement. One new pattern, listed for review.</dd></div>
-          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6 3h8l4 4v14H6z"/><path pathLength="1" d="M14 3v4h4"/><path pathLength="1" d="M9 14h6"/></svg>Run 2, without the rules</dt><dd>Also clean on every check, with the same components. It swapped the title toolbar out instead of adding a bar, flagged the same head-row growth the first run fixed rather than touch a shared file, and left the emptied table with a head and nothing under it.</dd></div>
-          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 3.5 21 19.5H3z"/><path pathLength="1" d="M12 10v4.5"/><path pathLength="1" d="M12 17h.01"/></svg>The seeded drift</dt><dd>Not an agent&rsquo;s run. The first run&rsquo;s screen with four things done to it the rules forbid: a local button with its own stylesheet, the count in a literal ink, a bar that does not wrap at 768, and the shared Button&rsquo;s padding changed so the two line up.</dd></div>
-          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M5 7h14"/><path pathLength="1" d="M5 12h14"/><path pathLength="1" d="M5 17h9"/></svg>What that says</dt><dd>Both runs followed the existing components, tokens and stories, with the written rules and without them. What the rules changed was judgment at the edges, and where a reviewer finds things.</dd></div>
-        </dl>
-        <aside class="dp-note hj-note" aria-labelledby="hj-shared-label">
-          <p class="dp-note-label" id="hj-shared-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Two agents read the same rule about shared components and did opposite things, and both were defensible.</h3>
-          <p class="dp-note-body">A 1rem checkbox in a 2rem table head grew the row by two pixels. The first run changed twelve lines of the shared Table stylesheet, measured the head before and after against the base commit, and showed the Table&rsquo;s own SelectedRows story had the defect. The second run measured the same growth and flagged it rather than touch a shared file. No check can rank those two: one is a defect the feature exposed, the other a local need solved in a shared place, and only the measurement says which. It said the first, so the change was accepted and the rule now says what a reason looks like.</p>
-          <p class="dp-note-source">Evidence: rule 9 of the <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/skills/ui-quality/SKILL.md" target="_blank" rel="noopener noreferrer">ui-quality skill</a>, and both runs&rsquo; change descriptions under <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment/changes" target="_blank" rel="noopener noreferrer">docs/experiment/changes</a>.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-tea" id="what-caught-it">
-      <div class="container case-narrow">
-        <h2>What caught the drift</h2>
-        <p>The seeded branch is where the mechanism shows. Each catch is a different instrument, and each is the check&rsquo;s output as it was printed.</p>
-        <ul class="build-list">
-          <li><strong>The token lint:</strong> seventeen values off the token layer, with file and line. <code>padding: 10px 14px</code>, <code>border: 1px solid #d0d0d0</code>, <code>padding: 0 10px</code> in the shared Button, and fourteen more.</li>
-          <li><strong>Axe, on the Selected story:</strong> <code>insufficient color contrast of 2.87 (foreground color: #7a8db8, background color: #e9effc). Expected contrast ratio of 4.5:1</code>. The states with no story were not tested, which is what the rule about stories is for.</li>
-          <li><strong>The 768 check:</strong> <code>toolbar &ldquo;Selected customers&rdquo; overflows its box (792 vs 734)</code>.</li>
-          <li><strong>The visual baselines:</strong> four frames differ, one of them the Invoices screen, which the change never mentioned. Every compact Button is 4px wider: the shared change, seen where nobody was looking.</li>
-        </ul>
-        <figure class="build-shot">
-          <img src="../img/lab/agent-review-change-drift-768.webp?v=3" width="1440" height="1000" loading="lazy" decoding="async"
-               alt="Agent Review on the seeded branch with the finding &ldquo;The bar overflows at 768&rdquo; open: the header reads 2 blocking findings, cannot accept as is, with Accept disabled; the validation line shows Accessibility 1 regression and Tokens 17 off the layer in red; the preview is set to 768 pixels and shows the customer table with a bar reading 3 of 12 customers selected, four locally styled buttons running past the right edge, and the bar outlined and labelled Finding." />
-          <figcaption>The overflow finding, reproduced: the preview narrows to 768, renders the branch, and outlines the bar.</figcaption>
-        </figure>
-        <aside class="dp-note hj-note" aria-labelledby="hj-diff-label">
-          <p class="dp-note-label" id="hj-diff-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Four red frames on every branch, and on two of the three every one of them is the feature working.</h3>
-          <p class="dp-note-body">The visual run flagged the same four frames on all three branches. To a pixel comparison a control column arriving and a bar running off the edge are the same event. On the first two branches all four are the change that was asked for and become the new baselines; on the seeded branch the same frames carry the overflow and the wider buttons. Reading which is which is the step the comparison cannot take, so the product makes it a field on the finding: expected, or not asked for. The seeded branch also found a check that could not fail: the overflow test measured a container whose parent clips, and it now measures every toolbar&rsquo;s own box.</p>
-          <p class="dp-note-source">Evidence: the frames and their pixel counts per branch, in <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">the experiment record</a>.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-white" id="the-review">
-      <div class="container case-narrow">
-        <h2>Human review</h2>
-        <p>Three decisions, made in Agent Review the way the product designer reviewing the change would make them. The first run: accepted, both open questions in its favour, its branch merged. The second: returned with two corrections, neither a defect a check can see. The seeded branch: returned with all five, two of them blocking, and Accept disabled while they stand, with the reason beside the button rather than greyed out silently.</p>
-        <figure class="build-shot">
-          <img src="../img/lab/agent-review-return.webp?v=1" width="1440" height="1000" loading="lazy" decoding="async"
-               alt="The Return to agent panel open over the seeded branch&rsquo;s review: a list of six findings with checkboxes, five checked, and a message to the agent composed from them, beginning &ldquo;Returning this change with 5 corrections. Please address each and re-run npm run check before reopening&rdquo;, then numbered corrections naming the tokens to use and the Button variants to replace the local button with. Below, 5 of 6 findings, Cancel, and Send to agent." />
-          <figcaption>Return to agent. The designer chooses findings; each contributes its correction, with the rule it answers to; the result is editable before it is sent.</figcaption>
-        </figure>
-        <aside class="dp-note hj-note" aria-labelledby="hj-return-label">
-          <p class="dp-note-label" id="hj-return-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">A correction names the token and the rule, or it is a request to guess again.</h3>
-          <p class="dp-note-body">The bar&rsquo;s selection count measured 2.87:1 against its ground, and the fastest fix was to darken it by hand before merging. That would have left the system exactly as it was, with the next agent as likely to make the same choice. The return message instead names the token to use, <code>--color-text-secondary</code>, the rule it answers to, and the story that should show the state, composed from the finding rather than typed into a box. In that form the correction is something the agent can act on and the next reader can trace.</p>
-          <p class="dp-note-source">Evidence: the composed return message in the review, and the finding it was built from.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-warm" id="what-changed">
-      <div class="container case-narrow">
-        <h2>What changed in the system</h2>
-        <p>The review is only worth doing if the system is different afterwards. The diff after the three decisions:</p>
-        <ul class="build-list">
-          <li><strong>The rules.</strong> The bar of actions over a selection joins the list of common misses. The inline confirmation becomes the system&rsquo;s second shape for a destructive action, with the first run&rsquo;s story as its reference. Rule 9 says what a reason for a shared change looks like, and that &ldquo;so the buttons line up&rdquo; is not one.</li>
-          <li><strong>The component and the product.</strong> The Table&rsquo;s control column fits a checkbox without growing the row. The customer table has bulk actions, seven stories reach its new states, and an emptied table renders the system&rsquo;s EmptyState.</li>
-          <li><strong>The tests.</strong> The 768 check measures every toolbar&rsquo;s own box; the visual tests start their own server rather than reuse whatever is on the port, after the first run&rsquo;s visual pass measured a different checkout and passed.</li>
-        </ul>
-        <aside class="dp-note hj-note" aria-labelledby="hj-learn-label">
-          <p class="dp-note-label" id="hj-learn-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
-          <h3 class="dp-note-head">Four findings, and four different answers to what the system should learn.</h3>
-          <p class="dp-note-body">The off-token padding changed nothing: the lint already caught it, and a rule that works does not need a second copy. The overflow changed the test. The near-copy button became one line in the rules&rsquo; list of common misses. The contrast failure changed nothing either, because the token and the rule both existed and the branch did not use them, which is a review finding and not a gap. Deciding which is which is what keeps the rule set short enough for an agent to read before every change.</p>
-          <p class="dp-note-source">Evidence: the diff to the system after the review, recorded in <a href="https://github.com/adamdhickey-collab/agent-review/tree/main/docs/experiment" target="_blank" rel="noopener noreferrer">docs/experiment</a>.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-charcoal" id="what-i-learned">
-      <div class="container case-narrow">
-        <h2>What I learned</h2>
-        <p>The most useful part of a design system, for an agent, turned out to be the part that runs. Two runs with and without twelve carefully written rules both stayed inside the system, because the components, the tokens and the stories were there as code and the agent read code. The rules earned their keep at the edges: the empty state nobody asked for, how to treat a shared file, where to write down a new pattern. A smaller job than I expected, and a more precise one. The checks also found more defects in my own work than in the agent&rsquo;s, which is the same instrument pointed at the project; a system that measures itself is the only kind an agent should be trusted inside.</p>
-        <p>And the judgment did not go away; it moved. Not to approving or rejecting, which a check could do, but to the questions a check returns unanswered: is this shared change a defect exposed or a shortcut taken, is this pattern one the product wants, is this red frame the feature or the break. The product is built so that those are the only questions left on the screen when the product designer gets to it.</p>
       </div>
     </section>
 
@@ -522,7 +650,7 @@
       <div class="container case-narrow">
         <div class="case-ask">
           <h2 class="case-ask-title">Want this on your team?</h2>
-          <p>A component system an agent works inside, the rules it reads, the checks that measure what comes back, and the review that keeps judgment where it belongs. It starts with the system you already have.</p>
+          <p>A component system an agent works inside, the rules it reads, the checks that measure what comes back, and a review that asks for a person only where one is needed. It starts with the system you already have.</p>
           <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
         </div>
         <p class="build-service">The thinking behind this is in <a href="../writing/what-does-a-design-system-need-once-ai-is-in-the-product.html">what a design system needs once AI is in the product</a> and <a href="../writing/what-does-a-person-need-to-supervise-an-ai-agent.html">what a person needs to supervise an AI agent</a>; the way of working is <a href="../engagement/design-system-foundation.html">setting standards other teams adopt</a>.</p>
@@ -559,12 +687,19 @@
       };
       var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
       paint();
-      var icons = document.querySelector('.build-facts--icons');
-      if (icons && 'IntersectionObserver' in window) {
-        icons.classList.add('is-armed');
-        new IntersectionObserver(function (entries, io) {
-          if (entries[0].isIntersecting) { icons.classList.add('is-drawn'); io.disconnect(); }
-        }, { threshold: 0.3 }).observe(icons);
+      /* Every strip with line icons draws its own once, as it scrolls in:
+         "What the experiment showed" is the one on this page. */
+      var strips = document.querySelectorAll('.build-facts--icons');
+      if (strips.length && 'IntersectionObserver' in window) {
+        var drawn = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('is-drawn'); drawn.unobserve(e.target); }
+          });
+        }, { threshold: 0.3 });
+        Array.prototype.forEach.call(strips, function (strip) {
+          strip.classList.add('is-armed');
+          drawn.observe(strip);
+        });
       }
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
