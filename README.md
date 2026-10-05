@@ -316,13 +316,14 @@ sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen. The write-up's hero is a
-guided tour of that first capture (`walkthrough.css`, `walkthrough.js`), and
-each of its seven notes carries a small drawing, `img/lab/tour-<part>.webp`,
-16:9 at 960x540: the writing set's hand and its sage, one everyday object a
-note (a branch not yet joined, a clipboard of five checks, a drop of dye in a glass of water, a
-sieve, a watch with its back open, a magnifying glass, a signal), prompts in
-`scripts/tour-scenes.mjs`, drawn and filed through `scripts/draw.mjs --set
-tour` and cut by `illustrate.mjs tour`. The drawing the card carried before
+guided tour of that first capture (`walkthrough.css`, `walkthrough.js`):
+seven notes beside the product in a tablet, with a previous and a next
+button at the two ends of its progress bars. Each note carried a small
+drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came off
+the page and out of the tree so the product could take the room; the
+prompts that drew them are still `scripts/tour-scenes.mjs`, behind
+`scripts/draw.mjs --set tour`, as the record of the set and the way back to
+it. The drawing the card carried before
 that, and the script that drew it, are gone. The lab band that briefly sat
 between Built and About went with the pair, and Lab joined the navigation
 on every page.

@@ -191,7 +191,12 @@ It has no duration and no easing because nothing in it takes time, and no CSS
 transition, which is why §5's blanket cannot stop it. The script does, with
 the same `prefers-reduced-motion` query the blanket reads, and what is left is
 the static layout: the tablet with seven pins on it and the seven notes in a
-list. It runs from 64rem up, and the content is whole without it.
+list. It runs from 64rem up, and the content is whole without it. Since
+2026-10-05 two buttons at the ends of its progress bars step through the
+parts. They are not a second clock: a press moves the page's scroll position
+to the next part and the tour follows the scroll as it always has, so the
+glide is the page's own smooth scroll (§5 turns that off with the rest) and
+pressing and scrolling can be mixed freely.
 
 ---
 
