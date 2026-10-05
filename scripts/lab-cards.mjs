@@ -53,13 +53,16 @@ const CARDS = {
   /* A url card is captured at its own CSS size and scaled by the device
      pixel ratio to exactly 1280x720, so there is no resample step: 720 x
      405 at 1280 / 720 = 1.778. */
-  /* 784 wide, not 720: at 784 the 16:9 frame is 441 tall, which ends where
-     the account's Scope row begins (its box at 441, its text a few pixels
-     lower), so the three rows above it are whole. At 720 it cut the top off
-     "Unresolved". A multiple of 16, because Chrome rounds a clip to whole
-     CSS pixels and only then is 441 x 1280/784 exactly 720. Still under
-     64rem, so still the one-column layout. */
-  'agent-review': { url: `${from}#/`, width: 784, height: 441, viewportHeight: 480 },
+  /* 832 wide, since 2026-10-05 (it was 784, and 720 before that). The app's
+     top bar gained a theme switch in the design refresh and its icons grew
+     in the icon family, and at 784 the bar no longer fits on one line:
+     "Agent Review", "Delegated work" and "Dana Whitfield" each broke in two,
+     which read as broken at the size the card prints. The bar holds from 832
+     (measured at 784, 800, 832, 848 and up). A multiple of 16, because
+     Chrome rounds a clip to whole CSS pixels and only then is 468 x
+     1280/832 exactly 720. Still under 64rem, so still the one-column
+     layout. */
+  'agent-review': { url: `${from}#/`, width: 832, height: 468, viewportHeight: 510 },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
