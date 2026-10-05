@@ -44,11 +44,15 @@
 
 /* ---- the stage: the laptop ---- */
 .wt-figure { margin: 0; }
+/* The screen's own ground is the lid's chrome, not white: the capture is the
+   product's dark theme since 2026-10-05, and a white ground under a dark
+   picture showed as a pale arc in each rounded corner, where the clip's
+   antialiasing lets the ground through. */
 .wt-screen {
   position: relative;
   overflow: hidden;
   border-radius: calc(var(--shell-radius) - var(--bezel));
-  background: var(--color-white);
+  background: var(--device-chrome);
 }
 .wt-world { position: relative; transform-origin: 0 0; }
 .wt-world img { border-radius: 0; }
@@ -86,12 +90,15 @@
    part to the next. The scrim is the page's own scrim token, thinned, laid
    outside the rectangle by a spread no screen is bigger than and clipped by
    the screen. Hidden until the tour runs; the static layout has no use for a
-   highlight on a part nobody is pointing at. */
+   highlight on a part nobody is pointing at. The ring is the on-dark sage
+   since 2026-10-05: it is drawn on the capture, the capture is the product's
+   dark theme, and --color-accent-text on a ground that dark is under 3:1
+   (COLOR.md keeps it off charcoal for the same reason). */
 .wt-focus {
   position: absolute;
   display: none;
   border-radius: 4px;
-  outline: 2px solid var(--color-accent-text);
+  outline: 2px solid var(--color-accent-on-dark);
   box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-scrim) 50%, transparent);
   pointer-events: none;
 }
