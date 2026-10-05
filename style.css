@@ -508,9 +508,11 @@ a.case-thumb { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
-  /* No exception for the lab card. Its thumb is a laptop, and the laptop's
-     resting shadow is --shadow-device on the foot, a ::after this blanket
-     does not reach, so a reduced-motion reader sees the same object. */
+  /* One exception, the lab card. Its thumb is a tablet, and --shadow-device
+     is that object's resting shadow, not a hover effect, so a reduced-motion
+     reader sees the same object. (While it was a laptop the shadow sat on
+     the foot, a ::after this blanket did not reach.) */
+  .case-card--lab .case-thumb { box-shadow: var(--shadow-device) !important; }
 }
 
 
@@ -739,46 +741,32 @@ a.case-thumb { display: block; }
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-/* ---------- The card's picture is a laptop ----------
+/* ---------- The card's picture is a tablet ----------
    The picture was a drawing from #340 to #343, in the --shadow-media ring
    every drawing wears; see the git history of this block for that argument.
-   It is Agent Review's own screen now, and a screen takes a device: the
-   laptop the case studies frame their wide captures in, because a site that
-   frames its captures in a bezel and shows this one bare is holding two
-   ideas of what a screenshot is. The anchor IS the .build-laptop, so the
-   lid, the foot and --shadow-device under it come from that rule unchanged,
-   and this block only takes away what the tile was: the 16:9 (the capture
-   is 16:9 itself, and the chrome sits outside it), the clip (hidden would
-   cut the foot's --shadow-device off at the anchor's edge), and the ground.
+   It is Agent Review's own screen now, and a screen takes a device, because
+   a site that frames its captures in a bezel and shows this one bare is
+   holding two ideas of what a screenshot is.
 
-   One value changed, the lid's corner: half the tile's own --radius-xl,
-   which is the corner this picture wore before it had a laptop. 10px
-   against the case studies' 14, written as a fraction of a named radius
-   rather than as a new number, and the screen's inner radius still derives
-   from it, at 2px.
+   THE DEVICE IS A TABLET since 2026-10-05, at Adam's request, where it was
+   the case studies' laptop: a lid with a foot under it, so the object's top
+   and bottom were two different things. It is one bezel all the way round
+   now, the same above the screen as below it, which is the frame the case
+   study's own tour puts this product in (walkthrough.css). The anchor IS
+   the .build-phone, so the bezel, the chrome, --shadow-device and the
+   screen's derived corner come from that rule unchanged, and this block
+   changes one value, the shell's corner, to the tile's own --radius-xl,
+   and takes away the tile's 16:9 (the capture is 16:9 itself, and the bezel
+   sits outside it).
 
-   The foot's overhang moves inside the anchor, because the anchor is what
-   the focus ring is drawn around: with the foot 2% wider than the box on
-   each side, the ring was a rectangle with the laptop's foot sticking out
-   of both bottom corners. So the foot takes the anchor's full width and
-   the lid is inset by the same 2%, measured from the foot instead of from
-   the lid -- 2% / 1.04 -- which keeps the foot at exactly 104% of the lid,
-   the proportion .build-laptop::after draws. The ring then encloses the
-   whole object, at the lid's own corner rather than a:focus-visible's 4px.
-
-   The hover tilt stays, and its lift shadow does not: --shadow-lift is
-   drawn around the anchor's box, which is a rectangle standing behind a
-   laptop. */
+   The anchor's box is the object now, so the focus ring is drawn around
+   the tablet at its own corner, and the hover tilt's --shadow-lift is the
+   lift of that object: neither needs the exception the laptop did, whose
+   foot stood outside the box. */
 .case-card--lab .case-thumb {
-  --shell-radius: calc(var(--radius-xl) / 2);
+  --shell-radius: var(--radius-xl);
   aspect-ratio: auto;
-  overflow: visible;
-  background: none;
-  border-radius: var(--shell-radius);
 }
-.case-card--lab .case-thumb .build-laptop-lid { margin-inline: calc(2% / 1.04); }
-.case-card--lab .case-thumb::after { margin-inline: 0; }
-.case-card--lab .case-thumb.is-tilting { box-shadow: none; }
 
 /* The words: a plain account, then three things worth taking away. The list
    is .build-list's own dash, tightened to this column: its 24px bottom
