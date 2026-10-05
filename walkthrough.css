@@ -17,7 +17,8 @@
      never be the only thing that reveals it. Under 40rem the laptop is the
      phone's (the existing .build-laptop--adapts frame and the product's own
      phone capture), the pins are not drawn, because they are placed on the
-     desktop layout, and the numbers come off the notes with them.
+     desktop layout, and the numbers and the drawings come off the notes
+     with them.
    - THE TOUR is the same markup with .is-tour on it, which walkthrough.js adds
      when the viewport is 64rem or more AND the reader has not asked for
      reduced motion, and removes when either stops being true. The section is
@@ -183,8 +184,13 @@
   .wt-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-3xl); row-gap: var(--space-2xl); }
   .wt-note--intro, .wt-note--outro { grid-column: 1 / -1; max-width: var(--measure); }
 }
+/* Under 40rem the drawings go too, since 2026-10-05. They were drawn to sit
+   beside the pins, and without the pins each one pointed at nothing; with
+   them in, a phone reader scrolled eleven screens of pictures before
+   meeting the product again. The notes read as a tight list under the
+   phone capture instead. Desktop and tablet keep them. */
 @media (max-width: 40rem) {
-  .wt-pin, .wt-num { display: none; }
+  .wt-pin, .wt-num, .wt-art { display: none; }
 }
 
 /* ================= THE TOUR ================= */

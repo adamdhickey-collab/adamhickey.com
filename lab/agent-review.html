@@ -96,10 +96,10 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261003f" />
+  <link rel="stylesheet" href="../style.css?v=20261005a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="../walkthrough.css?v=3" />
+  <link rel="stylesheet" href="../walkthrough.css?v=4" />
   <link rel="stylesheet" href="../read-aloud.css?v=4" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
@@ -259,8 +259,9 @@
              The kicker's minutes are the words in <main> at 238 a minute,
              the silent-reading average for non-fiction, rounded to the
              nearest minute. The tour's notes count, because they are in the
-             document whether or not the tour runs: WORDS words, so MIN
-             minutes. -->
+             document whether or not the tour runs: about 1,560 words, so 7
+             minutes. The page before the restructure was 2,241 words and 9;
+             the restructure alone was about 1,750 and 7. -->
         <p class="case-kicker">Lab &middot; case study &middot; 7 min read</p>
         <h1 class="case-title">Agent Review</h1>
         <p class="build-dek">AI doesn&rsquo;t remove design judgment. It moves it. A coding agent, an AI tool that writes the code itself, can build a screen in minutes. The hard part is knowing what it did, and what still needs you. How can someone delegate more of the work, and still understand the results, the boundaries, and the decisions that are still theirs?</p>
@@ -281,7 +282,7 @@
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Product design &middot; Design-system architecture &middot; Prototyping &middot; Front-end implementation &middot; Experiment design</dd></div>
             <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
-            <div><dt>Size</dt><dd>13 components &middot; 208 stories, each a tested state &middot; 12 written rules for the agent &middot; 3 versions of one feature</dd></div>
+            <div><dt>Size</dt><dd>13 components &middot; 214 stories, each a tested state &middot; 12 written rules for the agent &middot; 3 versions of one feature</dd></div>
             <div><dt>Status</dt><dd>A working prototype: a static scenario, not an integration. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">The prototype</a>, <a href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">the Storybook</a>, and <a href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">the source and the record</a></dd></div>
           </dl>
         </div>
@@ -448,6 +449,23 @@
           <li><strong>A version I broke on purpose:</strong> four defects the rules forbid, planted by hand to test the checks. None of its failures is an agent&rsquo;s.</li>
         </ul>
         <p>Each ran once, as a subagent of the Claude Code session I was building the project in, with only the repository to read and without the Storybook&rsquo;s MCP tools. Two runs is a small sample, so read what follows as what happened, not as laws.</p>
+        <!-- The one picture of the component system the runs happened in:
+             the Storybook, on the story the agent wrote in Run 1 for the
+             archive question, with its test's steps passing in the panel.
+             scripts/lab-shots.mjs `storybook`, desktop and phone (the phone
+             is the story on its own, because the Storybook has no phone
+             layout worth showing). Two cold readers said the real work was
+             invisible without it. What the caption says of the story is
+             checked against the branch at e50a20e: the story and its play
+             function are the agent's. -->
+        <figure class="build-shot">
+          <picture>
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-storybook-phone.webp?v=3" width="375" height="480" />
+                <img src="../img/lab/agent-review-storybook.webp?v=5" width="1100" height="720" loading="lazy" decoding="async"
+                     alt="The ArchiveConfirmation story: three customers selected, and the selection toolbar asking &ldquo;Archive 3 customers?&rdquo; with Cancel and a red Archive 3 customers button." />
+              </picture>
+          <figcaption>The component system the runs happened in, as its Storybook: every state of every component is a story, and every story is also a test. This story is one the agent wrote in Run 1. Its test presses Archive and checks that the toolbar asks &ldquo;Archive 3 customers?&rdquo;, that the confirming button takes focus, and that Escape cancels.</figcaption>
+        </figure>
         <aside class="dp-note hj-note" aria-labelledby="hj-shared-label hj-shared-head">
           <p class="dp-note-label" id="hj-shared-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"></path><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"></path><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"></path><path d="M7 21h10"></path></svg>Human judgment</p>
           <h3 class="dp-note-head" id="hj-shared-head">With the rule, Run 1 changed a shared file. Without it, Run 2 left it alone.</h3>
@@ -478,7 +496,7 @@
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 4h7v7H4z"/><path pathLength="1" d="M13 4h7v7h-7z"/><path pathLength="1" d="M4 13h7v7H4z"/><path pathLength="1" d="M20 16.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/></svg>Both runs stayed inside the component system.</dt><dd>Each built the feature from the existing components, with the twelve rules or without them, and neither hard-coded a value.</dd></div>
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 7V5a2 2 0 0 1 2-2h2"/><path pathLength="1" d="M17 3h2a2 2 0 0 1 2 2v2"/><path pathLength="1" d="M21 17v2a2 2 0 0 1-2 2h-2"/><path pathLength="1" d="M7 21H5a2 2 0 0 1-2-2v-2"/><path pathLength="1" d="M7 12h10"/></svg>The twelve rules mattered where the system was silent.</dt><dd>They settled what components could not: changing a shared one, what an emptied data table shows, and where a new pattern goes.</dd></div>
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/><path pathLength="1" d="m21 21-4.3-4.3"/><path pathLength="1" d="M11 7.5v4"/><path pathLength="1" d="M11 14.5h.01"/></svg>The checks found no defect in either agent&rsquo;s version.</dt><dd>On the version I broke on purpose they found what I planted: 17 hard-coded values and text at 2.87:1 contrast.</dd></div>
-          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>Review changed the system. No&nbsp;run&nbsp;has&nbsp;tested&nbsp;it&nbsp;since.</dt><dd>The overflow test had passed a toolbar 58px too wide, so I rewrote it, and four of the twelve rules gained wording.</dd></div>
+          <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>Review changed the system. No run has tested it since.</dt><dd>The overflow test had passed a toolbar 58px too wide, so I rewrote it, and four of the twelve rules gained wording.</dd></div>
         </dl>
         <p>The checks found more defects in my own work than in the agents&rsquo;: what I planted, and before any run, three accessibility gaps in my own components. Each agent flagged its own judgment calls. Run 2 was returned with two corrections, each naming the exact component to use, so nothing is left to guess.</p>
         <p>The judgment didn&rsquo;t go away. It moved, to the questions the checks left open:</p>
