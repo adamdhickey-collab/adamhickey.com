@@ -75,6 +75,7 @@
   var OUTRO = 0.9;
   var MOVE = 0.45;         /* how much of a unit the camera spends travelling */
   var OUT_MOVE = 0.45;
+  var LEAD = 40;           /* capture px: the room the camera leaves left of a part, for its pin */
   var T = INTRO + N + OUTRO;
 
   var home = { rect: { x: 0, y: 0, w: IW, h: IH }, cx: IW / 2, cy: IH / 2, z: 1 };
@@ -82,9 +83,12 @@
     var r = n.getAttribute('data-rect').split(/\s+/).map(Number);
     var rect = { x: r[0], y: r[1], w: r[2], h: r[3] };
     /* Fit the part into 86% of the screen's width and 80% of its height, so
-       there is always a margin of the dimmed screen around it. */
+       there is always a margin of the dimmed screen around it. The pin
+       stands outside the part's left edge, so the camera aims LEAD/2 left of
+       the part's centre: at 64rem the even margin was 40px and the pin and
+       its gap need 38. */
     var z = Math.min(ZMAX, 0.86 * IW / rect.w, 0.8 * IH / rect.h);
-    return { rect: rect, cx: rect.x + rect.w / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z) };
+    return { rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z) };
   });
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -153,20 +157,20 @@
     focus.style.outlineOffset = (2 / z) + 'px';
     focus.style.borderRadius = (4 / z) + 'px';
 
-    /* Pins land as the camera arrives and stay, so the last frame is a map.
-       The current one is a little larger and carries a halo while it lands. */
+    /* Pins fade in as the camera arrives and stay, so the last frame is a
+       map. A pin is one size on the screen from the moment it appears: the
+       scale only cancels the zoom, and the gap off the part's edge is divided
+       by the zoom for the same reason (walkthrough.css draws the pin). Until
+       2026-10-05 a pin grew from half size as it landed, swelled a fifth while
+       its part was looked at and carried a halo, and the same number read at
+       three sizes in one tour. */
     var settled = ease((t - INTRO - N) / OUT_MOVE);
     pins.forEach(function (pin, i) {
       var born = ease((t - INTRO - i) / 0.3);
-      var here = presence(t, i);
-      var grow = 0.5 + 0.5 * born + 0.2 * here;
       /* Behind the part being looked at, a pin recedes to a trace; backing out
          to the whole screen brings all seven to full strength. */
-      pin.style.opacity = born * (0.4 + 0.6 * Math.max(here, settled));
-      pin.style.transform = 'translate(-50%,-50%) scale(' + (grow / z) + ')';
-      pin.style.boxShadow = born < 1
-        ? '0 0 0 2px var(--color-white), 0 0 0 ' + (2 + 14 * (1 - born)) + 'px var(--color-accent-ring)'
-        : '';
+      pin.style.opacity = born * (0.4 + 0.6 * Math.max(presence(t, i), settled));
+      pin.style.transform = 'translate(calc(-100% - var(--space-sm) / ' + z + '), -50%) scale(' + (1 / z) + ')';
     });
 
     /* The notes: the lead leaves, each part arrives and leaves, the last one
@@ -223,7 +227,7 @@
     root.style.height = '';
     clear([world], ['transform']);
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
-    clear(pins, ['opacity', 'transform', 'box-shadow']);
+    clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
     clear(fills, ['transform']);
   }
