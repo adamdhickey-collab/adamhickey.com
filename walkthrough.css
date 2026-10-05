@@ -53,10 +53,16 @@
 .wt-world img { border-radius: 0; }
 
 /* The pin. A whole disc of the on-white sage with the digit in white, ringed
-   in white so it separates from a busy interface, and centred on the point it
-   marks. It is placed in the picture's own percentages, so it lands on the
-   same pixel at any width; the script cancels the camera's zoom on it so it
-   stays one size on the screen. */
+   in white so it separates from a busy interface: the note's own disc, at the
+   note's own size. Its left and top are the LEFT EDGE of the part it marks,
+   at the middle of the part's first line, in the picture's own percentages,
+   so it lands on the same pixel at any width; the transform stands it
+   outside that edge, a --space-sm gap off it (the gap between the note's
+   disc and its kicker), centred on that line. It used to sit on the line
+   it marked, 18px past the line's end, where every part's pin landed at a
+   different place on its highlight and crowded the last word. The script
+   cancels the camera's zoom on the disc and on the gap, so both are one size
+   on the screen, and the disc never grows or shrinks. */
 .wt-pin {
   position: absolute;
   display: grid;
@@ -71,7 +77,8 @@
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
   line-height: 1;
-  transform: translate(-50%, -50%);
+  transform-origin: 100% 50%;
+  transform: translate(calc(-100% - var(--space-sm)), -50%);
   pointer-events: none;
 }
 /* The spotlight and its ring are one element that the script moves from one
