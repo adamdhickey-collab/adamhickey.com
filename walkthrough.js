@@ -53,6 +53,7 @@
   if (!root || !window.matchMedia) return;
 
   var sticky = root.querySelector('.wt-sticky');
+  var stage = root.querySelector('.wt-stage');
   var world = root.querySelector('.wt-world');
   var img = world.querySelector('img');
   var focus = root.querySelector('.wt-focus');
@@ -63,7 +64,7 @@
   var outro = root.querySelector('.wt-note--outro');
   var steps = notes.filter(function (n) { return n.hasAttribute('data-rect'); });
   var N = steps.length;
-  if (!N || !sticky || !world || !img || !focus || !intro || !outro) return;
+  if (!N || !sticky || !stage || !world || !img || !focus || !intro || !outro) return;
 
   /* The capture's own pixels. */
   var IW = +img.getAttribute('width');
@@ -193,12 +194,33 @@
     window.requestAnimationFrame(update);
   }
 
+  /* THE SCREEN HAS TO FIT THE WINDOW IT STICKS IN. The stage is as wide as its
+     column, and the picture's height follows from that width, so the taller
+     the picture the shorter the window it fits. At 1440 x 1000 it fitted down
+     to a 650px window; the capture is 1300 tall since 2026-10-05 (the whole
+     screen, the checks under the decisions included) and the same arithmetic
+     gave a stage 14px taller than an 800px window, whose foot and progress
+     bars ran off the bottom. So the stage is held to the width at which its
+     height, the lid, the foot and the bars included, is the room the sticky
+     box has. Measured, not authored: the chrome is whatever the stage is
+     taller than the picture, and the ratio is the picture's own. A window with
+     room to spare is left alone, and the stage never goes under half its
+     column, so a very short window gets a small laptop and not a sliver. */
+  function fit() {
+    stage.style.maxWidth = '';
+    var cs = getComputedStyle(sticky);
+    var room = sticky.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    var over = stage.offsetHeight - room;
+    if (over > 0) stage.style.maxWidth = Math.max(stage.offsetWidth / 2, stage.offsetWidth - over * IW / IH) + 'px';
+  }
+
   function measure() {
     var style = getComputedStyle(document.documentElement);
     navH = parseFloat(style.getPropertyValue('--nav-height')) || 80;
     rise = parseFloat(style.getPropertyValue('--motion-rise')) || 20;
     runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
     root.style.height = (sticky.offsetHeight + runway) + 'px';
+    fit();
     W = world.offsetWidth;
     H = world.offsetHeight;
   }
@@ -226,6 +248,7 @@
     root.classList.remove('is-tour');
     root.style.height = '';
     clear([world], ['transform']);
+    clear([stage], ['max-width']);
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);

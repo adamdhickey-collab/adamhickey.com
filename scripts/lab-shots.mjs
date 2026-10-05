@@ -25,6 +25,17 @@
      desktop's. The Storybook has no phone layout worth showing, so its phone
      figure is the story itself, rendered on its own.
 
+   EVERY APP CAPTURE IS THE DARK THEME. It has been the product's default
+   since agent-review#15 (2026-10-05) and a capture context sets no theme, so
+   nothing here chooses one. Relay, the product inside the preview frame, is
+   light in it, as it always is. The Storybook figure is the exception that
+   looks unchanged: its story is Relay's own, in Storybook's own chrome.
+   Take them from a PRODUCTION build (the deployed address, or `npm run build`
+   served under /agent-review/), not the dev server: until #15 the built
+   stylesheet rewrote every light-dark() token on the root and Relay came out
+   dark in a build while it was light in dev, and a capture from dev would
+   have shown the wrong thing.
+
    The product is read from its DEPLOYED address by default, and so is the
    Storybook: the dev server has no onboarding checklist or upgrade toast to
    wait out, but the deployed one is what a reader of this page will open, and
@@ -99,11 +110,14 @@ const SHOTS = {
   },
   /* The hero, and its tour: the delegated work as a person finds it, at 1440
      like the hero before it, because the tour's regions and pins are in this
-     file's own pixels. Re-measure all seven if its layout changes. */
+     file's own pixels. Re-measure all seven if its layout changes. 1300 tall
+     since 2026-10-05, not 1000: since agent-review#14 the checks sit under
+     the two decisions (y 1147 to 1279), and the tour's third part points at
+     them, so a shorter picture leaves it nothing to point at. */
   delegation: {
     file: 'agent-review-delegation',
     app: '#/',
-    desktop: { size: { width: 1440, height: 1000 } },
+    desktop: { size: { width: 1440, height: 1300 } },
   },
   /* One completed change, open: the agent's own choice between two tokens
      that share a red, with what each check established, what no check
