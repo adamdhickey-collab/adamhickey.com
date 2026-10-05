@@ -419,7 +419,9 @@ once, and every one of the five moved with them) and 20 reachable states
 (13 on the deploy console and 7 on the cockpit; **20 since #313**, up from
 the 14 the 30-page set was measured with, and a reachable state is a fresh
 load that moves three of the five without a page arriving), plus 129 token
-names against 222 declarations in 16 stylesheets, 6
+names against 221 declarations in 16 stylesheets (printed as 222 at 37644b5,
+and on every sweep from #369 until #398 corrected the instrument, for a
+selector read as a declaration; the drift paragraph below has it), 6
 retired by name, 54 of them resolved by the design system page rather than
 described, and 26 counted claims across 6 documents.
 
@@ -701,9 +703,12 @@ surfaces went 4 to 6, and nothing else on the page or the site moved.
 +36 / +15; the lab index, +10 / +40 / +13; and two `code` elements on the
 design system page, +2 / +8 / +2.
 
-**#369 also moved the declarations, 221 -> 222, and the 222nd is not a
-token**; the paragraph on declarations below has it. #377 is the 16th
-stylesheet, `walkthrough.css`, declaring nothing.
+**#369 moved the printed declarations, 221 -> 222, and the 222nd was not a
+token.** The column reads 222 from that row to the foot of the ladder
+because that is what the check printed; the true figure on every one of
+those rows is 221, and the paragraph on declarations below has it, with
+#398's correction. #377 is the 16th stylesheet, `walkthrough.css`,
+declaring nothing.
 
 **The six image commits are flat, as the carve-out requires**, and so are
 #341, which was the previous rewrite of this section, #342, #346 to #348,
@@ -1242,7 +1247,7 @@ named them, 191 at 774df5e when the cockpit's cards took an elevation
 instead of a 1px line and the one card a screen asks you to act on needed a
 second resting height to say so, which is `--shadow-card-raised`, 193
 through #267, 194 through #272, 197 through #299, 198 at #300, 221 at #316,
-and 222 now. The total held across #267 while a token was
+and 221 now, printed as 222 from #369 until #398. The total held across #267 while a token was
 being retired, which is the kind of thing only a count can tell you:
 `--color-accent-deep` left the stylesheets and the same commit's focus-ring
 work put two more in, so the number that moved there is the retired-by-name
@@ -1256,20 +1261,30 @@ them rows in the ladder for #302 through #338 above. The names count moved once 
 stretch, 128 -> 129, for `--color-slate`, which COLOR.md names with a
 measured row.
 
-**The 222nd is not a token, and the count went up for it anyway.** #369 put
-`.build-laptop--adapts::after` in `style.css`, and `tokens.mjs` finds a
-declaration by looking for two hyphens, a name and a colon: `--adapts:` is
-there, inside a class with a modifier and a pseudo-element after it. So the
-total it prints is 221 custom properties and one selector, and has been
-since 6d93402. The verdict is not wrong for it -- nothing in the specs names
+**The 222nd was not a token, and the count went up for it anyway, until
+#398.** #369 put `.build-laptop--adapts::after` in `style.css`, and
+`tokens.mjs` found a declaration by looking for two hyphens, a name and a
+colon: `--adapts:` is there, inside a class with a modifier and a
+pseudo-element after it. So from 6d93402 the total it printed was 221
+custom properties and one selector, 222 at #393's 37644b5 and at #396's
+0062d55. The verdict was not wrong for it -- nothing in the specs names
 `--adapts`, and a declaration only ever vouches for a name somebody uses --
-but this is the instrument moving rather than the site, in the one count
-here that looked too simple to do that. The stylesheet count moved in the
-same stretch for an ordinary reason: `walkthrough.css` is the 16th, arriving
-with the tour in #377, and it declares nothing. `tokens.mjs`
-holds every name the docs USE to a declaration; the total it prints is a
-count, and a count in prose here is the same kind of hand-maintained number
-as the four above.
+but it was the instrument moving rather than the site, in the one count
+here that looked too simple to do that. #398 corrected the instrument: a
+declaration starts at a property position, so the scan now refuses a match
+whose previous character could be part of an identifier, which is exactly
+where a selector's modifier leaves one. Run over every stylesheet and
+`style=""` attribute in the tree, the old and new scans differ by that one
+name, and at d90efe7, before #369, they agree on every name; the count is
+221 again, in 16 stylesheets, and the names held at 129. The stylesheet
+count moved in the same stretch for an ordinary reason: `walkthrough.css`
+is the 16th, arriving with the tour in #377, and it declares nothing. This
+is #283's lesson from the other side. There the check got stricter and the
+count held while its meaning changed; here the count moved and the site had
+not, and a ladder column read without the arithmetic would have taken the
+222 for a token. `tokens.mjs` holds every name the docs USE to a
+declaration; the total it prints is a count, and a count in prose here is
+the same kind of hand-maintained number as the four above.
 
 The older sets carry an account of how they were reached, and all of them
 are kept, because what a stale tripwire costs is a reading that comes back
