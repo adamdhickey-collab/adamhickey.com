@@ -4113,6 +4113,10 @@ html.ah-lightbox-open body { overflow: hidden; }
    The marker inside the button is .product-link-ext's, which is sized in em
    to track the type it is set in, and needs the same gap .product-link gives it. */
 .build-dek:has(+ .build-hero-act) { margin-bottom: var(--space-xl); }
+/* A lede in two paragraphs (the Agent Review write-up: the problem, then
+   what was built). They are one lede, so the gap between them is a
+   paragraph's, not the hero's. */
+.build-dek:has(+ .build-dek) { margin-bottom: var(--space-lg); }
 .build-hero-act {
   display: flex;
   flex-wrap: wrap;
@@ -4253,9 +4257,26 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-muted-gray);
 }
 /* The feedback loop as six numbered steps behind a rule: a sequence to
-   scan, not a diagram to decode. Three across from 640, two rows, so the
-   steps read in order; the last is the one that closes the loop and takes
-   the sage. */
+   scan, not a diagram to decode. One column on a phone and three across
+   from 640, in two rows, so the steps read in order; the last is the one
+   that closes the loop and takes the sage.
+
+   SIX ACROSS FROM 64rem, since 2026-10-05, and wider than the words above
+   it. A loop is one line, and two rows of three broke it in the middle:
+   the eye went 01 02 03, back to the left edge, 04 05 06, and the step
+   that closes the loop sat under the one that opens it for no reason. Six
+   columns do not fit the 56rem text column (a step would be 125px, and
+   "The product designer reads what the checks cannot" five lines), so the
+   list sits in its own frame, .build-loop-frame, which takes
+   --container-max from 64rem: the frame the hero and the nav use. The
+   heading and its line stay in the narrow column over it. Under 64rem the
+   frame is the narrow column and nothing moved.
+
+   The frame is a second container, so the line above it is the last
+   paragraph of the first and gives up its bottom margin
+   (.case-section p:last-child); the frame's top margin puts back exactly
+   that step, at every width. Two classes on the selector because
+   .case-narrow sets max-width and margin further down this file, at one. */
 .build-loop {
   list-style: none;
   margin: 0 0 var(--space-xl);
@@ -4265,7 +4286,12 @@ html.ah-lightbox-open body { overflow: hidden; }
   gap: var(--space-lg) var(--space-xl);
   counter-reset: loop;
 }
+.case-narrow.build-loop-frame { margin-top: var(--space-md); }
 @media (min-width: 640px) { .build-loop { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 64rem) {
+  .case-narrow.build-loop-frame { max-width: var(--container-max); }
+  .build-loop { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
 .build-loop li {
   counter-increment: loop;
   border-top: 1px solid var(--color-tag-border);
