@@ -4101,10 +4101,13 @@ html.ah-lightbox-open body { overflow: hidden; }
    The marker inside the button is .product-link-ext's, which is sized in em
    to track the type it is set in, and needs the same gap .product-link gives it. */
 .build-dek:has(+ .build-hero-act) { margin-bottom: var(--space-xl); }
-/* A lede in two paragraphs (the Agent Review write-up: the problem, then
-   what was built). They are one lede, so the gap between them is a
-   paragraph's, not the hero's. */
-.build-dek:has(+ .build-dek) { margin-bottom: var(--space-lg); }
+/* A lede followed by a list (the Agent Review write-up: the claim in a
+   paragraph, then the question, the experiment and the product as three
+   labelled lines). They are one lede, so the gap between them is a
+   paragraph's, not the hero's; .build-list's own bottom margin is the step
+   to the action under it. Until 2026-10-05 this was two paragraphs and the
+   rule was .build-dek:has(+ .build-dek). */
+.build-dek:has(+ .build-list) { margin-bottom: var(--space-lg); }
 .build-hero-act {
   display: flex;
   flex-wrap: wrap;
