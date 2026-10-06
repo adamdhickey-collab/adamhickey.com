@@ -1,4 +1,8 @@
 /**
+ * Two sets for the Agent Review write-up live here. LOOP, at the foot of
+ * the file, is on the page since 2026-10-06: the six steps of the loop.
+ * TOUR, everything above it, is not:
+ *
  * RETIRED FROM THE PAGE 2026-10-05. The tour's notes carry no drawings now:
  * Adam found they did not help, and the product takes their room. The seven
  * files, img/lab/tour-<part>.webp, are out of the tree. This registry stays
@@ -111,5 +115,85 @@ export const TOUR = [
     device: 'one intervention, held: set once, and it keeps to it',
     alt: 'A large sage thermostat dial on its wall plate, a ring of black ticks round its edge, and its one pointer, filled yellow, set to a single mark.',
     prompt: `Same style, same hand as the reference. Cream ground. Drawn in ${VIEW}, seen exactly straight on. One very large round muted sage green thermostat dial on a square sage wall plate, black outlines, drawn so big that the plate is cropped by the top, bottom and right edges and the round dial fills the middle of the picture. Around the dial's edge, a ring of short evenly spaced black tick marks, with no numbers. On the dial, one raised pointer turned to a single setting about a third of the way round from the bottom left: the pointer is the reveal, filled butter yellow with a black outline, the only yellow in the picture. No screen, no wires, no hand, no text. Nothing else.`,
+  },
+];
+
+/* ---------- THE LOOP, since 2026-10-06 ----------
+   One drawing for each of the six steps of the loop on the same page
+   (#the-loop), where each step had a hairline over it. draw.mjs --set loop
+   reads these; illustrate.mjs cuts each to the `mark` slot, 352x352 on a
+   transparent ground, with the disc found and set at the same size in the
+   same place in every file.
+
+   A different brief from the tour's, so its own preamble: the drawings sit
+   on the band's white rather than on a ground of their own, so the ground is
+   transparent, and they are built on a disc (Adam: "use the circle as the
+   foundation of the graphic, but then break the border a bit"), the object
+   in front of the disc and out past its edge in one or two places. The
+   disc is the site's tea-light, the object the AI group's sage. They are
+   read at about 176px, so each is one object with very few parts.
+
+     system    two toy bricks: the parts a product is built from
+     agent     a robot arm lowering one more brick
+     change    a branch with one new shoot
+     checks    a clipboard, three boxes ticked and one empty: a check
+               establishes some things and not others
+     judgment  a level balance with the same rose card on each pan, the
+               page's own "same red, two names": no measurement tells
+               them apart, so a person decides
+     stronger  picture 1 again, one brick higher: the loop closes on the
+               system it started from
+
+   Picture 1 was first drawn as a cylinder and an arch on a block, and read
+   as a padlock; it was redrawn as two bricks in the same chat, which is the
+   prompt below, and picture 6 follows it. Picture 6 as filed is Adam's own
+   redraw, the same day, which centres the yellow brick on the white one;
+   the prompt below is the one it replaced, and drew it off to one side.
+   They are empty-alt on the page,
+   because the step's own words beside each say what it shows. */
+export const LOOP_STYLE = "The attached image is the style reference for every picture in this conversation. Match its hand exactly: a flat vector illustration with thin near-black outlines of one even weight on every shape, flat fills, no shading, no hatching, no gradients, no paper texture, no gloss, no 3D, no photographic look, no drop shadows. No people, no hands, no faces. No text, letters, numbers, logos or readable labels anywhere.\n\nThis conversation makes a set of six small spot illustrations, one per message, for the six steps of a loop on a web page. They sit side by side, so they must read as one set.\n\nEvery picture is built on the same foundation: one circle, centred in the image, its diameter about two-thirds of the image width, the same size and place in every picture. The circle is filled flat with pale sage #E8EDE5 and outlined in the same thin near-black line. One everyday object sits on that circle, drawn large, and breaks out past the circle's edge in one or two places, so the circle reads as a stage the object leans out of, not a frame it is trapped in. Where the object crosses the circle, the object is in front and the circle's outline stops behind it.\n\nThe background outside the circle is fully TRANSPARENT: a PNG with an alpha channel, nothing behind the drawing, no ground colour, no white, no cream, no shadow.\n\nColour is held to muted sage green #657D60, white, black as a solid shape (never as a shadow), the circle's pale sage, and, only where I ask for it, one small accent of butter yellow #F0DF7C or dusty rose #D9A3B4. Strict flat front elevation, the way a technical diagram is drawn: no perspective, no vanishing point, no ellipses, no depth.\n\nThese are read at about 140 pixels wide, so: one object, very few parts, bold simple shapes, no fine detail. Simpler than you think is correct.";
+
+export const LOOP = [
+  {
+    id: 'loop-system',
+    out: 'img/lab/loop-system.webp',
+    step: 'System',
+    device: "two toy bricks, the long one wider than the disc: the parts a product is built from",
+    prompt: "Picture 1 of 6, System. Two plain toy building bricks of the snap-together kind, with no logo, seen exactly from the front. A long muted sage green brick lies across the lower middle of the circle, wider than the circle, so both of its ends reach out past the circle's left and right edges. Its row of round studs on top shows as small flat rectangles. A shorter white brick is snapped on top of it, a little left of centre, with its own studs on top. The parts a product is built from. Transparent background.",
+  },
+  {
+    id: 'loop-agent',
+    out: 'img/lab/loop-agent.webp',
+    step: 'Agent',
+    device: "a robot arm reaching in past the disc, lowering one more brick",
+    prompt: "Same style, same circle, same size and place. Picture 2 of 6, Agent. A small industrial robot arm, the kind on an assembly line, in muted sage green with solid black joints, reaching in from the upper right, out past the circle's edge, its two-fingered gripper lowering one white toy brick, the same kind as picture 1, towards the middle of the circle. It is building something. Nothing human about it: no face, no eyes. Transparent background.",
+  },
+  {
+    id: 'loop-change',
+    out: 'img/lab/loop-change.webp',
+    step: 'Change',
+    device: "a branch with one new shoot, its leaf the yellow",
+    prompt: "Same style, same circle, same size and place. Picture 3 of 6, Change. A single bare tree branch, flat, crossing the circle from lower left to upper right and out past its edge on the right, with three sage leaves along it, and one new forked shoot partway along carrying a single fresh leaf in butter yellow #F0DF7C. A new branch, grown off the old one, waiting to be looked at. Transparent background.",
+  },
+  {
+    id: 'loop-checks',
+    out: 'img/lab/loop-checks.webp',
+    step: 'Checks',
+    device: "a clipboard of four boxes, three ticked and one left empty",
+    prompt: "Same style, same circle, same size and place. Picture 4 of 6, Checks. A clipboard in muted sage green with a solid black clip, standing upright in the circle, its clip and the top of its board rising out through the top edge of the circle. On its white sheet, four rows, each a small square box beside a thick black bar: the top three boxes hold bold black check marks and the fourth box is empty. Transparent background.",
+  },
+  {
+    id: 'loop-judgment',
+    out: 'img/lab/loop-judgment.webp',
+    step: 'Human judgment',
+    device: "a level balance with the same rose card on each pan: no measurement tells them apart",
+    prompt: "Same style, same circle, same size and place. Picture 5 of 6, Human judgment. An old balance scale, flat front view: a solid black upright post and level beam, and two shallow pans in muted sage green hanging from thin black lines, the two pans reaching out past both the left and right edges of the circle. On each pan sits one small square card of exactly the same dusty rose #D9A3B4, and the beam is perfectly level: no measurement can tell the two apart, so a person has to decide. Transparent background.",
+  },
+  {
+    id: 'loop-stronger',
+    out: 'img/lab/loop-stronger.webp',
+    step: 'Stronger system',
+    device: "picture 1 again, one yellow brick higher",
+    prompt: "Same style, same circle, same size and place. Picture 6 of 6, Stronger system. The same two toy bricks as picture 1, the same shapes, colours and place, the long sage brick reaching past both sides of the circle and the white brick on it, with one new brick in butter yellow #F0DF7C snapped on top of the white one, so the stack now rises out through the top edge of the circle. The system one piece stronger, ready for the next build. Transparent background.",
   },
 ];
