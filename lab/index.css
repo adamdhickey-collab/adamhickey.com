@@ -1,0 +1,39 @@
+/* lab/index.css -- the lab index's own rules, on top of the writing list in
+   style.css. One page loads this file.
+
+   The writing index sets an 18rem card beside its words, which suits a
+   drawing. The lab's three cards are screenshots of working software, and at
+   18rem a 16px label in the product printed under 6px: a picture of a
+   screen nobody could read. So the page takes the wide frame Agent Review's
+   chapters use, and the picture takes seven twelfths of the row, 681px from
+   1280, where the same label prints at about 13px. The words take the other
+   five.
+
+   The row holds from 80rem, where the frame reaches its full width. Under
+   that it would squeeze the picture back toward 535px, which is where the
+   product's labels stop being legible, so it stacks instead: the picture
+   over its words, up to 48rem wide, the size at which the product prints
+   at about its own scale. The first entry drops its top padding and the
+   last its bottom, because the section already pads both, and at this size
+   the two stacked into a band of empty page. */
+.writing-list--wide .writing-link {
+  grid-template-columns: minmax(0, 48rem);
+  gap: var(--space-xl);
+}
+.writing-list--wide .writing-item:first-child .writing-link { padding-top: 0; }
+.writing-list--wide .writing-item:last-child .writing-link { padding-bottom: 0; }
+@media (min-width: 80rem) {
+  .writing-list--wide .writing-link {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+}
+
+/* Each entry is a title, one sentence of what it is, and three short lines
+   of what it does, so a reader can take the row in at a glance rather than
+   read a paragraph to find the point. The lines are .build-list, the site's
+   list for facts that scan better as a list; its own bottom margin would
+   add to the space the tag row already puts above itself, so it is zeroed,
+   and the top is the same --space-md the tag row takes. */
+.writing-text .writing-points { margin: var(--space-md) 0 0; }
