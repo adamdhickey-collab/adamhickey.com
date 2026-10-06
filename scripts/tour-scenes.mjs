@@ -1,7 +1,9 @@
 /**
- * Two sets for the Agent Review write-up live here, and neither is on the
- * page. LOOP, at the foot of the file, was there for one day, 2026-10-06:
- * the six steps of the loop, retired the same day for one drawn line
+ * The Agent Review write-up's drawings live here. One is on the page: MAT,
+ * at the very foot, the objects on the tour's cutting mat. STAGE, above
+ * it, was the desk the mat replaced the same day. Two sets are not on the
+ * page either. LOOP, near the foot of the file, was there for one day,
+ * 2026-10-06: the six steps of the loop, retired the same day for one drawn line
  * through all six (.ar-rail in lab/agent-review.css), so that the loop
  * reads as one system moving through six states rather than six pictures.
  * Its six files, img/lab/loop-<step>.webp, are out of the tree, and this
@@ -203,8 +205,12 @@ export const LOOP = [
   },
 ];
 
-/* THE TOUR'S DESK, 2026-10-06: the ground behind the sticky stage while the
-   tour runs (desktop only: walkthrough.js runs the tour from 64rem, and
+/* THE TOUR'S DESK, 2026-10-06, and RETIRED FROM THE PAGE THE SAME DAY for
+   the cutting mat below (MAT): a flat-vector desk said "a desk", where the
+   mat, its grid and the pieces cut on it say the system is made here. The
+   three cuts, img/lab/tour-stage-*.webp, are out of the tree; this stays as
+   the record and the way to draw it again. It was the ground behind the
+   sticky stage while the tour ran (desktop only: walkthrough.js runs the tour from 64rem, and
    agent-review.css draws the desk only while it does). A flat lay, so the
    tablet over it reads as lying on a designer's desk. The objects keep to
    the top edge and the two right-hand corners, because the screen covers the
@@ -254,4 +260,60 @@ Colour is held to the pale sage ground #E8EDE5, muted sage green #657D60, butter
 
 The right edge from one-quarter to three-quarters of the height must be completely empty pale sage ground, and so must the whole centre and the whole bottom edge left of the plant. Keep the ground flat pale sage #E8EDE5.`,
   ],
+};
+
+/* THE TOUR'S CUTTING MAT, 2026-10-06: what lies on the mat behind the
+   sticky stage while the tour runs. The mat itself, its colour and its
+   grid, is CSS (lab/agent-review.css, section 6), so this is only the
+   objects, drawn on a TRANSPARENT ground: a ruler, a palette of paper
+   chips, and interface pieces cut from card beside the craft knife that cut
+   them. Systems thinking as a bench rather than a diagram: the grid the
+   pieces are squared to, the palette they are cut from, the parts already
+   made, the tool still out.
+
+   The hand is the How I work still lifes (img/engagement/01-04), not the
+   writing set's: real paper and office materials photographed flat from
+   above, with img/engagement/02-system.webp attached as the reference
+   (made with `sips -s format png` into img/inbox/still-life-reference.png).
+   The prompt asks for no shadows, because a shadow drawn on a ground that
+   is not there would float; the mat casts them, with a filter over the
+   objects' own outlines.
+
+   Drawn first time in one chat. Not a draw.mjs set: one picture, fetched
+   from the chat to ~/Downloads, filed by hand as img/inbox/tour-mat.png and
+   cut by `illustrate.mjs cutout`, which refuses a picture that is not
+   mostly transparent and, run without --part, lists the groups it finds,
+   so a redraw is measured again before it is cut:
+     node scripts/illustrate.mjs cutout img/inbox/tour-mat.png img/lab/tour-mat.webp \
+       --part ruler=128,205,672,87,top --part chips=870,80,598,404 --part kit=690,530,840,460
+   The ruler's rectangle starts at its tick marks and says `top`: the page
+   shows only that edge, cut by the mat's top, and the cut is meant. */
+export const MAT = {
+  id: 'tour-mat',
+  out: 'img/lab/tour-mat.webp',
+  attach: 'img/inbox/still-life-reference.png',
+  aspect: 'Draw this as a wide 3:2 landscape image.',
+  /* As cut from the 1536x1024 drawing; each part is trimmed to its opaque
+     pixels, so the files are 632x67, 558x364 and 799x420, and those
+     heights are the numbers in the stylesheet's sizes. */
+  parts: {
+    ruler: [128, 205, 672, 87, 'top'],
+    chips: [870, 80, 598, 404],
+    kit: [690, 530, 840, 460],
+  },
+  prompt: `The attached picture is the style reference: a top-down still life of real paper and office materials, photographed flat from directly above in soft, even daylight from the upper left. Matte cream cardstock, muted colours, quiet realism. Match that look exactly: real materials, soft and calm, no gloss, no harsh highlights, no cartoon outlines.
+
+Make a PNG with a fully TRANSPARENT background. No table, no mat, no ground, no paper behind the objects, and no cast shadows: only the objects themselves, each with a clean edge against transparency. They will be laid onto a cutting mat on a web page, which supplies the ground and the shadows.
+
+A strict top-down plan view: no perspective, no tilt, every object lying perfectly flat.
+
+Three groups of objects, well apart from one another with empty transparent space between them:
+
+1. Along the top, left of centre: a short steel ruler lying horizontally, brushed stainless steel, with fine engraved tick marks along its lower edge, long and short. No numbers, letters or logos on it.
+
+2. Top right: a palette of six small square colour chips cut from matte cardstock, laid in a neat 3 by 2 grid with even gaps, every chip the same size and squared to the grid: muted sage green #657D60, dusty rose #D9A3B4, butter yellow #F0DF7C, slate blue #56718C, charcoal #252525, and cream.
+
+3. Bottom right: a small, tidy set of interface pieces cut from cream cardstock, laid out in neat rows with even gaps like a component library: a pill-shaped button with a slate blue fill, a toggle switch with a sage track and a cream knob, a square checkbox with a sage tick, a small card with a slate rectangle and three thin grey rule lines, and a slider track with a round charcoal knob. Beside them, lying diagonally with its blade toward the pieces, a craft knife (an X-Acto knife): a slim silver knurled aluminium handle, a silver collet and a short angled blade. Two or three thin curled paper offcuts lie near the blade's tip.
+
+No text, letters, numbers, logos or brand marks anywhere. No hands and no people. Nothing else in the frame. Draw this as a wide 3:2 landscape image.`,
 };
