@@ -60,7 +60,7 @@
    7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
       the question the checks left open and the three it comes down to, sit
       on a sage rectangle, so the band is two surfaces and not one charcoal
-      field, and the findings' second row sits on the panel's foot.
+      field, with room between the findings' two rows.
 
    8. THE TWO WAYS IN, ON ONE LINE. "Try the prototype" and "Listen to
       this page" sit side by side under the opening, at one height. */
@@ -125,23 +125,25 @@
   .ar-panel { padding: var(--space-3xl); }
 }
 
-/* THE FINDINGS MEET THE PANEL'S FOOT. From 640 the four findings are two
+/* ROOM BETWEEN THE FINDINGS' TWO ROWS. From 640 the four findings are two
    rows of two, each finding two tracks of the strip's own grid (style.css,
    .build-facts--aligned). A fifth track between the rows is the space
-   between them: --space-3xl at least, where the strip's gap gave
-   --space-xl, and from 80rem, where the panel stands beside them and both
-   take the row's full height, whatever is left over, so the second row's
-   last line lands on the panel's bottom edge and the two read as one block. */
+   between them: --space-3xl, where the strip's gap gave --space-xl, and
+   from 80rem, where the panel stands beside them, --space-4xl and
+   --space-md, 64px. From #413 until 2026-10-06 the findings stretched there
+   to end on the panel's bottom edge, which put 85px between the rows;
+   Adam had the second row up by about 20 and let the two blocks end where
+   they end. */
 @media (min-width: 640px) {
   .ar-findings {
-    grid-template-rows: auto auto minmax(var(--space-3xl), 1fr) auto auto;
+    grid-template-rows: auto auto var(--space-3xl) auto auto;
     row-gap: 0;
   }
   .ar-findings > div:nth-child(-n+2) { grid-row: 1 / span 2; }
   .ar-findings > div:nth-child(n+3) { grid-row: 4 / span 2; }
 }
 @media (min-width: 80rem) {
-  .ar-findings, .ar-split--wide-first > .ar-panel { align-self: stretch; }
+  .ar-findings { grid-template-rows: auto auto calc(var(--space-4xl) + var(--space-md)) auto auto; }
 }
 
 /* ---- 6. the tour's panel ---- */
