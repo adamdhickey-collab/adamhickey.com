@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
-import { reach, reachableFor } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
 
 const root = resolveRoot('typescale.mjs');
 const only = pageFilters();
@@ -49,12 +49,18 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext(MEASURING);
-/* Webfonts do not set font-size; blocking them makes the run hermetic and stops
-   it hanging on a machine with no route to Google Fonts. */
-await ctx.route(/^https?:/, r =>
-  new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
-const page = await ctx.newPage();
+/* Every context this check measures in is made here: the one its pages share,
+   and one for each state that holds a moment (lib/reachable.mjs, stage()),
+   which must measure under the same conditions as everything else. */
+async function context() {
+  const c = await browser.newContext(MEASURING);
+  /* Webfonts do not set font-size; blocking them makes the run hermetic and stops
+     it hanging on a machine with no route to Google Fonts. */
+  await c.route(/^https?:/, r =>
+    new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
+  return c;
+}
+const shared = await (await context()).newPage();
 
 /* ---------------------------------------------------------------------------
  * Everything below this line runs inside the page.
@@ -105,10 +111,12 @@ let reached = 0;
    an opened row -- so at rest this was checking the scale against a fraction
    of the sizes the page actually renders. */
 async function sizesAt(rel, w, state) {
+  const page = await stage(shared, state, context);
   await page.setViewportSize({ width: w, height: 1000 });
   await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
   if (state) await reach(page, state);
   const rows = await page.evaluate(IN_PAGE);
+  await held(page, state);
   if (!rows.length) {
     say(`\n  ${rel} rendered no measurable text at ${w}px${state ? ` in "${state.name}"` : ''}. Cannot tell whether it conforms.\n`);
     server.close(); await browser.close();
@@ -133,10 +141,8 @@ for (const rel of chosen) {
       catch (e) {
         say(`\n  ✗ cannot measure ${rel}\n`);
         say(`      ${e.message}`);
-        if (e.unreached) {
-          say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
-          say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
-        } else say('');
+        const why = advice(e);
+        say(why.length ? `\n${why.map((l) => '    ' + l).join('\n')}\n` : '');
         server.close(); await browser.close();
         process.exit(2);
       }

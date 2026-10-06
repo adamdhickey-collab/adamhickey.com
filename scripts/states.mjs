@@ -51,8 +51,9 @@
  * and for the boundary of a control.
  */
 import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
 import { COLOR_TOOLKIT, findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
-import { reach, reachableFor } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
 const listOnly = process.argv.includes('--list');
@@ -157,19 +158,30 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext(MEASURING);
+/* Every context this check measures in is made here: the one its pages share,
+   and one for each state that holds a moment (lib/reachable.mjs, stage()),
+   which must measure under the same conditions as everything else. */
+async function context() {
+  const c = await browser.newContext(MEASURING);
 
-/* Nothing off this machine. Webfonts do not change a color, and font-size is
- * set by CSS whichever family resolves, so the size that picks the floor is the
- * same either way. Blocking them makes the run hermetic and fast — and stops
- * `document.fonts.ready` hanging forever behind a request that cannot complete,
- * which is what it does on a machine with no route to Google Fonts. */
-await ctx.route(/^https?:/, r => {
-  const u = new URL(r.request().url());
-  return u.hostname === '127.0.0.1' ? r.continue() : r.abort();
-});
+  /* Nothing off this machine. Webfonts do not change a color, and font-size is
+   * set by CSS whichever family resolves, so the size that picks the floor is the
+   * same either way. Blocking them makes the run hermetic and fast — and stops
+   * `document.fonts.ready` hanging forever behind a request that cannot complete,
+   * which is what it does on a machine with no route to Google Fonts. */
+  await c.route(/^https?:/, r => {
+    const u = new URL(r.request().url());
+    return u.hostname === '127.0.0.1' ? r.continue() : r.abort();
+  });
 
-const page = await ctx.newPage();
+  /* The measuring pass waits out each element's transition on this, a timer
+     in Node, and not on a setTimeout in the page: a held state's page has
+     its clock stopped, and a timer there would never fire. Transitions are
+     not on that clock, so the wait still ends on a settled color. */
+  await c.exposeFunction('__checkWait', (ms) => sleep(ms));
+  return c;
+}
+const shared = await (await context()).newPage();
 
 const failures = [];
 const unmeasurable = [];
@@ -194,6 +206,7 @@ if (!chosen.length) {
    because no radio existed until a reader overrode a recommendation. Counted
    as a rule, measured on zero elements, reported as fine. */
 async function measure(file, state, baseCounts) {
+  const page = await stage(shared, state, context);
   await page.goto(origin + '/' + file.split(path.sep).join('/'), { waitUntil: 'load' });
   /* Raced, not awaited outright: a blocked font request can leave fonts.ready
      pending forever, and a layout with fallback metrics still reports the right
@@ -249,7 +262,7 @@ async function measure(file, state, baseCounts) {
       const ms = (v) => Math.max(0, ...String(v).split(',').map(x => parseFloat(x) * (x.includes('ms') ? 1 : 1000) || 0));
       return Math.min(1200, ms(cs.transitionDuration) + ms(cs.transitionDelay) + 60);
     };
-    const wait = (t) => new Promise(r => setTimeout(r, t));
+    const wait = (t) => window.__checkWait(t);
 
     for (const { sel, kind, state } of rules) {
       /* A class in the markup is a VARIANT; a class a script adds is a STATE.
@@ -324,6 +337,7 @@ async function measure(file, state, baseCounts) {
     }
     return { out, counts };
   }, [IN_PAGE, found, state ? baseCounts : null]);
+  await held(page, state);
 
   const where = state ? { file, reached: state.name } : { file };
   for (const r of results) {
@@ -344,10 +358,8 @@ for (const file of chosen) {
     catch (e) {
       say(`\n  ✗ cannot measure ${file}\n`);
       say(`      ${e.message}`);
-      if (e.unreached) {
-        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
-        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
-      } else say('');
+      const why = advice(e);
+      say(why.length ? `\n${why.map((l) => '    ' + l).join('\n')}\n` : '');
       await browser.close(); server.close();
       process.exit(2);
     }

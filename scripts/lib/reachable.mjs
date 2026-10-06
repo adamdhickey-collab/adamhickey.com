@@ -40,7 +40,48 @@
  * reached, which is the failure this file exists to prevent -- so `reach`
  * throws on a selector it cannot find rather than pressing on, and the check
  * that called it reports the page as unmeasurable rather than as passing.
+ *
+ * A STATE THAT IS A MOMENT SAYS SO. Two of the console's states are a press
+ * in flight, a first deploy and a rollback, and the page ends each of them
+ * itself a couple of seconds later, whatever is measuring. Reaching one is
+ * not the same as measuring it: states.mjs walks every rule the state gained
+ * at 60ms or more an element, and by the time it got to the in-flight
+ * button's hover rule the button had been replaced by the finished state's,
+ * which it then measured under the moment's name. "Rolling back..." was
+ * measured in 0 runs of 7. So a state like that names, in `holds`, a
+ * selector that matches only while the moment lasts, and every check asks
+ * `held` when it has finished measuring the state: does it still match,
+ * and is it still the element that matched when the measuring began. If
+ * not, the check measured something else, and it reports the page as
+ * unmeasurable, exactly as it does for a press `reach` cannot find.
+ *
+ * HOW A MOMENT IS HELD. From this side, not the page's, for the reason a
+ * registry beats a hook. The page ends the moment with setTimeout, one beat
+ * per step, so a held state is measured on a page whose clock this file
+ * can stop: `stage` gives it a context of its own with Playwright's clock
+ * installed before the load, and `reach` stops that clock just before the
+ * last press. The press renders the moment; the beat it schedules never
+ * comes. CSS transitions and animations are not on that clock, so the
+ * press's own arrivals still finish, and so does anything a check forces.
+ * It is the same moment every run, which a race could not promise: the
+ * other checks were reaching the first deploy 460 to 580ms after the press,
+ * either side of its first 500ms beat, so some runs measured its first step
+ * under way and some its second.
+ *
+ * Two consequences. A held page cannot wait on its own setTimeout, so every
+ * wait in here and in states.mjs's measuring pass is timed from Node. And a
+ * context of its own, because installing a clock is for the life of a
+ * context and pausing one carries into every page it loads after; sharing
+ * would leave the next page's clock stopped before it had loaded.
+ *
+ * resting.mjs measures with reduced motion, and under it the console lands
+ * every press at once: there is no flight to hold, and resting.mjs was
+ * measuring the landed state under both in-flight names, every run. So the
+ * last press of a held state is made with motion allowed, and the page goes
+ * back to stillness before anything is measured.
  */
+
+import { setTimeout as sleep } from 'node:timers/promises';
 
 export const REACHABLE = {
   /* THE LAB INDEX, A WORKSPACE. lab/index.html shows one welcome card and
@@ -118,11 +159,13 @@ export const REACHABLE = {
     { name: 'the first deploy, before pressing',
       press: ['[data-scenario="first"]'] },
 
-    /* And in flight: the steps list with one done, one under way and two
-       next, the in-flight button. reach() presses and settle() returns
-       inside the first beat, so the first step is the one under way. */
+    /* And in flight: the steps list with the first step under way and
+       three next, and the in-flight button, "Deploying...". The page takes
+       four 500ms beats to land it, so this is a moment, and it is held:
+       the clock stops before the Deploy press, and no beat ever comes. */
     { name: 'the first deploy in flight',
-      press: ['[data-scenario="first"]', '[data-deploy]'] },
+      press: ['[data-scenario="first"]', '[data-deploy]'],
+      holds: '.dc-btn[aria-disabled="true"][data-focus="deploy"]' },
 
     /* The refusal: the failed build on the caution ground, the failed tag in
        the newest-deploy cell, and the caution-grounded status line. */
@@ -161,15 +204,18 @@ export const REACHABLE = {
 
     /* THE PRESS ITSELF, IN FLIGHT. Pressing the plan's button starts a
        sequence: api takes a building deploy and reads "redeploying", lands
-       about a second later, then worker does the same. reach() presses and
-       settle() returns once the press's own arrivals finish, well inside
-       that first second, so what is measured is api building and worker
-       waiting: the building tag, the redeploying word, the in-flight button
-       with aria-disabled and the "Rolling back" zone. The one state on the
-       page that a fresh load plus a press reaches for a moment only, and
-       the moment is long enough to be the same one every run. */
+       about a second later, then worker does the same, and the in-flight
+       buttons become Undo. What is measured is api building and worker
+       waiting: the building tag, the redeploying word, the in-flight
+       button with aria-disabled and the "Rolling back" zone. This comment
+       used to say the moment was long enough to be the same one every run.
+       It was long enough to reach and not to measure: states.mjs finished
+       measuring this state about six seconds after the press, and in 7
+       runs of 7 it had measured "Undo: redeploy a3f9c1e" where the
+       in-flight button had been. Held now, like the first deploy above. */
     { name: 'a rollback in flight, the first service redeploying',
-      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]', '.dc-plan-form [type="submit"]'] },
+      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]', '.dc-plan-form [type="submit"]'],
+      holds: '.dc-btn[aria-disabled="true"][data-focus^="roll:"]' },
 
     /* THE FAR SIDE OF THE PRIMARY ACTION. The rolled-back card with the
        record on it, the recovered note under it (a staged rollback lands
@@ -188,6 +234,22 @@ export const REACHABLE = {
   ],
 };
 
+/* The page to measure a state on. Most states are measured on the page the
+ * check shares across every load. A state that holds a moment gets a page of
+ * its own, in a context of its own made by the check's own recipe, so it
+ * measures under the same conditions as the rest, with the clock installed
+ * before anything loads. `held` lets it go. */
+const clocked = new WeakSet();
+const moment = new WeakMap();
+export async function stage(shared, state, context) {
+  if (!state || !state.holds) return shared;
+  const ctx = await context();
+  await ctx.clock.install();
+  const page = await ctx.newPage();
+  clocked.add(page);
+  return page;
+}
+
 /* The states registered for a page, or an empty list. Separators normalised
    because the callers hand this whatever pages() gave them, which carries the
    platform's -- and a key that silently fails to match is this file quietly
@@ -199,7 +261,27 @@ export const reachableFor = (file) => REACHABLE[String(file).split('\\').join('/
  * Returns nothing and throws on a selector that is not there, because a state
  * that cannot be reached must not read as a state with nothing wrong in it. */
 export async function reach(page, state) {
-  for (const sel of state.press) {
+  /* A held state pressed on a page with no clock would pause the clock of
+     the context every other page shares (pauseAt installs one if there is
+     none), and every page after it would load stopped. */
+  if (state.holds && !clocked.has(page)) {
+    throw new Error(`reaching "${state.name}": it holds a moment, and only a page from stage() can hold one`);
+  }
+  const last = state.press.length - 1;
+  for (const [i, sel] of state.press.entries()) {
+    /* THE CLOCK STOPS BEFORE THE PRESS THAT OPENS THE MOMENT, not after it.
+       Stopped after, what is held is wherever the beats had got to by the
+       time this returned, which is a different step on a slower machine.
+       pauseAt() wants a time that is not in the page's past, and the
+       page's clock was installed from this machine's, so a second ahead is
+       always ahead: whatever the page already had due in that second
+       fires on the way, as it would have during the settle anyway. */
+    let still = false;
+    if (state.holds && i === last) {
+      await page.clock.pauseAt(Date.now() + 1000);
+      still = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (still) await page.emulateMedia({ reducedMotion: 'no-preference' });
+    }
     const found = await page.evaluate((s) => {
       const el = document.querySelector(s);
       if (!el) return false;
@@ -217,20 +299,72 @@ export async function reach(page, state) {
       throw e;
     }
     await settle(page);
+    if (still) await page.emulateMedia({ reducedMotion: 'reduce' });
   }
+  /* What the moment is as the measuring begins: the element itself, not
+     the selector, so held() can tell a moment that lasted from one the page
+     rebuilt halfway through and that only matches again. */
+  if (state.holds) moment.set(page, await page.$(state.holds));
+}
+
+/* Is the moment still there now that the measuring is done, and is it the
+ * same one? Two ways to lose it, both seen on the console: the page ends it
+ * (the rollback's buttons became Undo), or the page rebuilds it, which
+ * render() does on every beat, so the element a rule was measuring is
+ * detached halfway and its replacement matches the selector as if nothing
+ * happened. Asked only of a state that names `holds`, and tagged like
+ * reach()'s throw, because the advice differs: an unreached state wants its
+ * selector fixed, an ended one wants its moment held. Either way it closes
+ * the page stage() opened. */
+export async function held(page, state) {
+  if (!state || !state.holds) return;
+  try {
+    const now = await page.evaluate(([was, s]) => ({
+      matches: !!document.querySelector(s),
+      same: !!was && was.isConnected && was.matches(s),
+    }), [moment.get(page) || null, state.holds]);
+    if (now.same) return;
+    const e = new Error(now.matches
+      ? `measuring "${state.name}": the page rebuilt the moment while it was being measured, so ${state.holds} matches an element that was not there when the measuring began`
+      : `measuring "${state.name}": the moment ended before the measuring did, and nothing matches ${state.holds}`);
+    e.ended = true;
+    throw e;
+  } finally {
+    if (clocked.has(page)) await page.context().close();
+  }
+}
+
+/* What to tell a person when a state could not be measured, by the way it
+ * failed. Six checks print it, so it is said once, here. */
+export function advice(e) {
+  if (e.unreached) return [
+    'A state in scripts/lib/reachable.mjs no longer reaches anything.',
+    'Fix the selector or retire the state; do not leave it unreached.',
+  ];
+  if (e.ended) return [
+    'A state in scripts/lib/reachable.mjs is a moment, and it did not hold while',
+    'this check measured it, so what got measured was something else. Moments',
+    'are held by stopping the page\'s clock (stage() and reach() in that file);',
+    'one that still ends is ended by something that clock does not stop.',
+  ];
+  return [];
 }
 
 /* Wait out whatever the press started. The same question resting.mjs asks of a
  * whole page after load, asked again after each press: a colour measured on
  * its way to the answer is not the answer, and which one gets recorded would
- * otherwise depend on how fast the machine is. */
+ * otherwise depend on how fast the machine is.
+ *
+ * Capped from here rather than by a timer in the page, because on a held
+ * page that timer would never fire, and an animation that never finishes
+ * would then hold the run forever. A wait the cap abandons is rejected
+ * when the page navigates away; nothing is listening for it by then. */
 export async function settle(page) {
-  await page.evaluate(async () => {
+  const finished = page.evaluate(async () => {
     const timing = (a) => (a.effect && a.effect.getTiming ? a.effect.getTiming() : null);
     const endless = (a) => { const t = timing(a); return !t || t.iterations === Infinity; };
-    await Promise.race([
-      Promise.allSettled(document.getAnimations().filter((a) => !endless(a)).map((a) => a.finished)),
-      new Promise((r) => setTimeout(r, 1200)),
-    ]);
+    await Promise.allSettled(document.getAnimations().filter((a) => !endless(a)).map((a) => a.finished));
   });
+  finished.catch(() => {});
+  await Promise.race([finished, sleep(1200)]);
 }
