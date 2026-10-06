@@ -202,3 +202,56 @@ export const LOOP = [
     prompt: "Same style, same circle, same size and place. Picture 6 of 6, Stronger system. The same two toy bricks as picture 1, the same shapes, colours and place, the long sage brick reaching past both sides of the circle and the white brick on it, with one new brick in butter yellow #F0DF7C snapped on top of the white one, so the stack now rises out through the top edge of the circle. The system one piece stronger, ready for the next build. Transparent background.",
   },
 ];
+
+/* THE TOUR'S DESK, 2026-10-06: the ground behind the sticky stage while the
+   tour runs (desktop only: walkthrough.js runs the tour from 64rem, and
+   agent-review.css draws the desk only while it does). A flat lay, so the
+   tablet over it reads as lying on a designer's desk. The objects keep to
+   the top edge and the two right-hand corners, because the screen covers the
+   left two-thirds, the pager runs under it, and the note sits across the
+   right third from about 35% to 68% of the height; text never crosses a
+   drawn object. Drawn in one chat with the binoculars attached, then
+   corrected once ("push them into the corners"), because the first pass had
+   the mug, the notes and the plant reaching into the note's band. Not a
+   draw.mjs set: one picture, filed by hand from the clipboard to
+   img/inbox/tour-stage.png and cut by `illustrate.mjs stage`, which solves
+   its ground to --color-tea-light and writes each group below as its own
+   file. Both prompts are here so a redraw starts from what worked. */
+export const STAGE = {
+  id: 'tour-stage',
+  out: 'img/lab/tour-stage.webp',
+  aspect: 'Draw this as a wide 3:2 landscape image.',
+  /* The three groups as cut from the 1536x1024 drawing of 2026-10-06, each
+     with a band of ground round the side the frame does not crop:
+       node scripts/illustrate.mjs stage img/inbox/tour-stage.png img/lab/tour-stage.webp \
+         --part pencil=96,0,584,48 --part cup=1264,0,272,244 --part plant=1172,680,364,344
+     A redraw moves the objects, so measure them again before cutting. */
+  parts: {
+    pencil: [96, 0, 584, 48],
+    cup: [1264, 0, 272, 244],
+    plant: [1172, 680, 364, 344],
+  },
+  prompts: [
+    `The attached image is the style reference. Match its hand exactly: a flat vector illustration with thin near-black outlines of one even weight on every shape, flat fills, no shading, no hatching, no gradients, no paper texture, no gloss, no 3D, no photographic look, no drop shadows, no border or frame. No people, no hands, no faces. No text, letters, numbers, logos or readable labels anywhere.
+
+This picture is a BACKGROUND for a web page. A tablet screenshot will be laid over the left two-thirds of it and a short column of text over the middle of the right third, so most of the picture must be empty ground and stay quiet.
+
+Draw a designer's desk seen from directly above, a flat lay: a strict top-down plan view, no perspective, no tilt, no horizon, every object lying flat. The desk surface is the whole ground: flat pale sage #E8EDE5 from edge to edge, with no wood grain, no texture and no desk edges.
+
+Objects appear in only three places, each cropped by the frame's edge, as if the camera is looking at the middle of a bigger desk:
+1. Along the top edge, left of centre: one long pencil lying horizontally, its body butter yellow #F0DF7C with a black tip, kept within the top tenth of the frame.
+2. The top-right corner: a round mug seen from above, white with a black handle, a muted sage green circle of tea inside, and beside it a small square stack of blank dusty rose #D9A3B4 paper notes. Keep them within the right quarter and the top third.
+3. The bottom-right corner: the leaves of a potted plant seen from above, muted sage green #657D60, reaching in from the corner, with a black binder clip near them. Keep them within the right quarter and the bottom third.
+
+Everything else is plain empty pale sage ground: no other objects, no scattered small things, no dots, no lines, no shadows. The middle of the right edge, from one-third to two-thirds of the height, is empty. The whole bottom edge left of the plant is empty. The whole centre is empty.
+
+Colour is held to the pale sage ground #E8EDE5, muted sage green #657D60, butter yellow #F0DF7C, dusty rose #D9A3B4, white, and black as solid shapes. Nothing else. Sparse and calm: it sits behind content and must not compete with it.`,
+    `Same picture, same style, same colours and same objects, with three changes, because a column of text will sit over the middle of the right edge:
+
+1. Make the mug and the stack of rose notes about two-thirds of their current size and push them up into the top-right corner, so the corner crops them: the mug runs off the top edge and the notes run off the right edge. Nothing of theirs may reach lower than one-quarter of the image's height.
+2. Push the plant and the binder clip down into the bottom-right corner, so the bottom and right edges crop the leaves. Nothing of theirs may reach higher than three-quarters of the image's height.
+3. Let the pencil run off the top edge slightly, so the frame crops it too.
+
+The right edge from one-quarter to three-quarters of the height must be completely empty pale sage ground, and so must the whole centre and the whole bottom edge left of the plant. Keep the ground flat pale sage #E8EDE5.`,
+  ],
+};

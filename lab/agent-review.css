@@ -18,7 +18,7 @@
       right, so a reader's eye finds the same two columns all the way down.
       Two places flip it to 7 to 5, because what comes first there is the
       wider thing: the hero, where the title and the lede are the page's
-      opening and the facts card is a sidebar to them, and the dark band,
+      opening and the intro video is a sidebar to them, and the dark band,
       where the four findings are the content and the paragraphs under
       them are what they mean. The dark band waits for 80rem, for the
       reason at the foot of this file. Under 64rem nothing is a grid and the
@@ -41,7 +41,139 @@
       and carries no pins, so the seven numbered notes under it pointed at
       nothing and ran on for a screen and a half. The phone gets a lead and
       five labeled lines (.wt-brief in the page) instead; walkthrough.css is
-      unchanged and from 40rem the brief is not displayed. */
+      unchanged and from 40rem the brief is not displayed.
+
+   4. EVERY SCREEN OPENS FULL SIZE. The four captures beside the words and
+      the tour's screen are links to their own files, which lightbox.js
+      opens over the page, as the homepage opens its About photographs.
+      On a phone the lightbox zooms and pans, so the desktop capture can be
+      read there too. The corner badge says the picture opens, because a
+      cursor is the only other thing that would, and a phone has none.
+
+   5. THE INTRO VIDEO'S PLACE. Beside the opening, where the facts card sat
+      from #405 until 2026-10-06; a labeled frame until the video exists.
+
+   6. THE TOUR'S DESK. While the tour runs, the screen and the notes sit on
+      a drawing of a designer's desk seen from above, so the tablet reads as
+      lying on it. Desktop only, because the tour is. */
+
+/* ---- 6. the tour's desk ---- */
+/* Only while the tour runs, which walkthrough.js starts from 64rem for a
+   reader who has not asked for stillness: the phone and the static layout
+   keep the page's ground. The desk is a pseudo-element inset from the
+   sticky box's top and bottom, so its rounded corners clear the nav and the
+   foot of the window; the box's padding grows by that inset, and
+   walkthrough.js fits the screen to the room left inside it. The edge is
+   --rule-card, the line COLOR.md asks of a tea-light zone on warm.
+
+   The drawing is three cuts of one picture (tour-scenes.mjs, STAGE), not
+   the picture: under background-size: cover a box that runs from 1.2 to
+   1.8 wide to tall with the window moved the corners into the note at one
+   end of that range and blew them up at the other. Each cut is pinned to
+   its own edge and sized from the box's height at one scale, the whole
+   drawing standing 56% of the box tall, so the plant tops out under 19% of
+   the height from the bottom and the mug under 14% from the top, clear of
+   the band the note sits in at every window the tour runs in. Their ground
+   is --color-tea-light exactly (illustrate.mjs stage), the colour under
+   them, so a cut's edge is not a seam. */
+.wt.is-tour .wt-sticky {
+  isolation: isolate;
+  padding: calc(var(--space-md) + var(--space-2xl)) var(--space-3xl);
+}
+.wt.is-tour .wt-sticky::before {
+  content: "";
+  position: absolute;
+  inset: var(--space-md) 0;
+  z-index: -1;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background:
+    url("../img/lab/tour-stage-pencil.webp?v=1") left var(--space-4xl) top 0 / auto calc(56% * 48 / 1024) no-repeat,
+    url("../img/lab/tour-stage-cup.webp?v=1") right top / auto calc(56% * 244 / 1024) no-repeat,
+    url("../img/lab/tour-stage-plant.webp?v=1") right bottom / auto calc(56% * 344 / 1024) no-repeat,
+    var(--color-tea-light);
+}
+
+/* ---- 5. the intro video's place ---- */
+/* A labeled frame at the video's shape until the Loom is recorded: the
+   charcoal a player shows before it loads, the tour's disc round a play
+   mark, and the words. Nothing in it is a control, so nothing presses. Under
+   64rem it sits under the way in, a component's gap below it. */
+.ar-hero-video {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-sm);
+  aspect-ratio: 16 / 9;
+  margin: var(--space-2xl) 0 0;
+  border-radius: 12px;
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+}
+.ar-hero-video-play {
+  box-sizing: content-box;
+  display: grid;
+  place-items: center;
+  width: var(--space-4xl);
+  height: var(--space-4xl);
+  border: 2px solid var(--ink-on-dark);
+  border-radius: 50%;
+}
+.ar-hero-video-play svg { width: var(--space-xl); height: var(--space-xl); }
+.ar-hero-video-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+}
+
+/* ---- 4. the screens open full size ---- */
+.ar-zoom {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+}
+/* The ring follows the picture's own corner: .build-shot img's 12px, and
+   the tour screen's inner radius inside the bezel. */
+.build-shot .ar-zoom:focus-visible { border-radius: 12px; }
+.ar-zoom--tour:focus-visible { border-radius: calc(var(--shell-radius) - var(--bezel)); }
+/* The badge is the tour's disc (walkthrough.css, THE DISC) with an icon in
+   place of a digit: the same sage, white stroke and shadow, so it reads on
+   the dark captures and on the page's light grounds alike. */
+.ar-zoom-badge {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  box-sizing: content-box;
+  display: grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  box-shadow: var(--shadow-resting), var(--shadow-card);
+  color: var(--color-white);
+  transition: transform var(--motion-state) var(--ease);
+}
+.ar-zoom-badge svg { width: var(--space-md); height: var(--space-md); }
+.ar-zoom:focus-visible .ar-zoom-badge { transform: scale(var(--motion-lift)); }
+@media (hover: hover) and (pointer: fine) {
+  .ar-zoom:hover .ar-zoom-badge { transform: scale(var(--motion-lift)); }
+}
+/* A figcaption under a screen is a sentence, and the lightbox's caption is
+   an uppercase label made for the homepage's short photo credits. The
+   script marks a caption it took from a figcaption, and it sets in
+   sentence case at the reading size. */
+.ah-lightbox-figure .ah-lightbox-note {
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+  text-align: center;
+}
 
 /* ---- 3. the tour, on a phone ---- */
 .wt-brief { display: none; }
@@ -171,18 +303,16 @@
 
 /* ---- 1. the two columns ---- */
 @media (min-width: 64rem) {
-  /* The hero: the opening on the left, the facts card beside it as a
-     column of four rather than a row of four under it. The card keeps its
-     own edge and inset; only the margin that set it under the lede goes. */
+  /* The hero: the opening on the left, the intro video beside it, centred
+     on the opening's height. The facts card is under both, as the row of
+     four it was before the page split. */
   .ar-hero {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     column-gap: var(--space-4xl);
     align-items: start;
   }
-  .ar-hero > .glance { margin: 0; }
-  .ar-hero .glance-facts { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); }
-  .ar-hero + .build-service { margin-top: var(--space-2xl); }
+  .ar-hero > .ar-hero-video { margin: 0; align-self: center; }
 
   /* Every split but the dark band's, which waits for 80rem (below). */
   .ar-split:not(.ar-split--wide-first) {
