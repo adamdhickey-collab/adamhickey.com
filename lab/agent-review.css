@@ -25,12 +25,17 @@
       markup reads in the order it always did, so the phone and the tablet
       see the page they saw before.
 
-   2. A DRAWING ON EACH STEP OF THE LOOP, where each step had a hairline
-      rule over it (.build-loop in style.css). The drawings are the writing
-      set's hand on a pale sage disc, with the object breaking out of the
-      disc, on a transparent ground so the band's white shows through. Under
-      640 the steps are one column and the drawing goes beside its words
-      rather than over them, so six steps are not six screens.
+   2. THE LOOP AS ONE LINE, where six drawings sat on six steps. A rail
+      runs through the six: the change leaves the main line on a branch,
+      is checked and read there, and comes back to a system with one more
+      part. It is artwork drawn in code, so its colours are the
+      palette's sage and inks plus the two the drawings' style spec
+      allows as an accent and nothing else (README, img/writing/), each
+      held to one meaning: rose where a person has to read, yellow where
+      what they read became part of the system. COLOR.md section 6 has
+      them as artwork, declared on .ar-rail and nowhere else. From 64rem
+      it is one drawing over six equal columns; under that the line runs
+      down the left beside each step.
 
    3. THE PHONE'S VERSION OF THE TOUR. Under 40rem the capture is the phone's
       and carries no pins, so the seven numbered notes under it pointed at
@@ -182,38 +187,118 @@
   .wt-brief .build-list { margin-bottom: 0; }
 }
 
-/* ---- 2. the loop's drawings ---- */
-/* A column, so the drawing can go above the step's number: the number is
-   the list's own ::before, and it is generated ahead of every child. */
-.build-loop--drawn li {
-  display: flex;
-  flex-direction: column;
-  border-top: 0;
-  padding-top: 0;
+/* ---- 2. the loop, as one line ---- */
+/* The two artwork colours, and the steps the drawing mixes from them and
+   from the sage, so every fill below is a name rather than a number. */
+.ar-rail {
+  --rl-rose: #d9a3b4;
+  --rl-butter: #f0df7c;
+  --rl-rose-ink: color-mix(in srgb, var(--rl-rose) 70%, var(--color-charcoal));
+  --rl-rose-ground: color-mix(in srgb, var(--rl-rose) 18%, var(--color-white));
+  --rl-butter-ink: color-mix(in srgb, var(--rl-butter) 70%, var(--color-charcoal));
+  --rl-sage-fill: color-mix(in srgb, var(--color-accent-text) 40%, var(--color-tea-light));
+  --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
+  position: relative;
+  margin: var(--space-2xl) 0 0;
 }
-.build-loop--drawn .build-loop-art { order: -1; }
-/* The drawings stand taller than the hairline did, so the line over them
-   gets a step more air than a paragraph's. */
-.case-section p + .build-loop--drawn { margin-top: var(--space-2xl); }
-.build-loop--drawn span { display: block; }
-.build-loop-art {
-  display: block;
-  width: 100%;
-  max-width: 11rem;
-  height: auto;
-  margin: 0 0 var(--space-xs);
+.rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Every stroke is the same 1.25, so the line, the brackets and the arrows
+   read as one pen; the parts are a step lighter so the line leads. */
+.rl-line, .rl-quiet, .rl-text, .rl-ink {
+  fill: none;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-@media (max-width: 639.98px) {
-  .build-loop--drawn li {
-    display: grid;
-    grid-template-columns: 5rem minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto auto 1fr;
-    column-gap: var(--space-md);
+.rl-line { stroke: var(--color-accent-text); }
+.rl-quiet { stroke: var(--rule-card); }
+.rl-dashed { stroke-dasharray: 2 4; }
+.rl-text { stroke: var(--color-muted-gray); stroke-width: 1; }
+.rl-ink { stroke: var(--color-charcoal); stroke-width: 1.5; }
+.rl-box { fill: var(--color-warm); stroke: var(--color-muted-gray); stroke-width: 1; }
+.rl-box--change { stroke: var(--color-accent-text); }
+.rl-mark--sage { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-mark--grey { fill: var(--color-rule); }
+.rl-mark--new { fill: var(--rl-butter); stroke: var(--rl-butter-ink); stroke-width: 1; }
+.rl-area { fill: none; stroke: var(--rule-card); stroke-width: 1; stroke-dasharray: 2 4; }
+.rl-area--agent { fill: var(--color-tea-light); }
+.rl-agent { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-pass { fill: var(--rl-sage-pale); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-flag { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
+.rl-review { fill: var(--rl-rose-ground); stroke: var(--rl-rose); stroke-width: 1; }
+.rl-note, .rl-cursor { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; stroke-linejoin: round; }
+.rl-node { fill: var(--color-accent-text); }
+.rl-node--decision { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
+
+/* The steps: no hairline over each, because the line is the rule now, and
+   the description a step quieter than the name over it. */
+.build-loop--rail { margin-bottom: 0; }
+.build-loop--rail li { border-top: 0; padding-top: 0; }
+.build-loop--rail li > span { color: var(--color-muted-gray); }
+
+/* UNDER 64rem, ONE COLUMN, the line down the left. Each step is a row:
+   its stretch of the line, then its words. A row is as tall as the taller
+   of the two, and the stretch's lines are drawn far past its own foot
+   (overflow visible) and cut at the row's (.rl-step), so one row's line
+   meets the next one's at any height the words take. The rows touch;
+   the room between them is padding inside each, which the line crosses. */
+.rl-wide { display: none; }
+.build-loop--rail {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  max-width: 32rem;
+}
+.build-loop--rail li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  column-gap: var(--space-md);
+}
+.build-loop--rail li::before { grid-column: 2; grid-row: 1; }
+.build-loop--rail strong { grid-column: 2; grid-row: 2; }
+.build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-xl); }
+.rl-step {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  overflow: hidden;
+  padding-bottom: var(--space-md);
+}
+.rl-step svg { width: 100%; height: auto; overflow: visible; }
+
+/* FROM 64rem, SIX ACROSS UNDER ONE DRAWING. The columns have no gap, so
+   each is exactly a sixth of the frame and lines up with its 200 units of
+   the drawing's 1200; the room between captions is each one's own right
+   padding instead. */
+@media (min-width: 64rem) {
+  .rl-wide { display: block; width: 100%; height: auto; overflow: visible; }
+  .build-loop--rail {
+    max-width: none;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: 0;
+    margin-top: var(--space-2xl);
   }
-  .build-loop--drawn .build-loop-art { grid-column: 1; grid-row: 1 / -1; margin: 0; }
-  .build-loop--drawn li::before { grid-column: 2; grid-row: 2; }
-  .build-loop--drawn strong { grid-column: 2; grid-row: 3; }
-  .build-loop--drawn span { grid-column: 2; grid-row: 4; }
+  .build-loop--rail li { display: block; padding-right: var(--space-xl); }
+  .build-loop--rail li > span { padding-bottom: 0; }
+  .rl-step { display: none; }
+}
+
+/* The line draws itself once, left to right, as the drawing scrolls in:
+   the page's script arms it and marks it drawn, as it does the findings'
+   icons. Without the script, or with reduced motion, it is simply there.
+   The arrowhead waits for the line to arrive and then appears: drawn
+   with a dash, its round cap would sit there as a dot while it waited. */
+.rl-draw { stroke-dasharray: 1; }
+.ar-rail.is-armed .rl-draw { stroke-dashoffset: 1; }
+.ar-rail.is-armed .rl-tip { opacity: 0; }
+.ar-rail.is-drawn .rl-draw { animation: glance-draw var(--motion-draw) var(--ease) forwards; }
+.ar-rail.is-drawn .rl-tip { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
+@keyframes rl-tip { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ar-rail.is-armed .rl-draw { stroke-dashoffset: 0; }
+  .ar-rail.is-armed .rl-tip { opacity: 1; }
+  .ar-rail.is-drawn .rl-draw,
+  .ar-rail.is-drawn .rl-tip { animation: none; }
 }
 
 /* ---- 1. the two columns ---- */

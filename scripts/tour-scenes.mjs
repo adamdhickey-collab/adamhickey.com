@@ -1,7 +1,12 @@
 /**
- * Two sets for the Agent Review write-up live here. LOOP, at the foot of
- * the file, is on the page since 2026-10-06: the six steps of the loop.
- * TOUR, everything above it, is not:
+ * Two sets for the Agent Review write-up live here, and neither is on the
+ * page. LOOP, at the foot of the file, was there for one day, 2026-10-06:
+ * the six steps of the loop, retired the same day for one drawn line
+ * through all six (.ar-rail in lab/agent-review.css), so that the loop
+ * reads as one system moving through six states rather than six pictures.
+ * Its six files, img/lab/loop-<step>.webp, are out of the tree, and this
+ * registry stays the way to draw them again, as the tour's does.
+ * TOUR, everything above it:
  *
  * RETIRED FROM THE PAGE 2026-10-05. The tour's notes carry no drawings now:
  * Adam found they did not help, and the product takes their room. The seven
@@ -118,7 +123,7 @@ export const TOUR = [
   },
 ];
 
-/* ---------- THE LOOP, since 2026-10-06 ----------
+/* ---------- THE LOOP, 2026-10-06, retired the same day (header) ----------
    One drawing for each of the six steps of the loop on the same page
    (#the-loop), where each step had a hairline over it. draw.mjs --set loop
    reads these; illustrate.mjs cuts each to the `mark` slot, 352x352 on a
