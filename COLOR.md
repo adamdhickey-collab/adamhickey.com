@@ -762,6 +762,19 @@ purpose, so `typescale.mjs` holds the screen to the fourteen steps like any
 page, and `resting.mjs` and `states.mjs` measure its inks on its own
 grounds like any other.
 
+**The Agent Review loop's rail.** Since 2026-10-06 the six steps of the
+loop on `lab/agent-review.html` sit under one drawing in code, a line the
+change travels along, in place of six drawings. It is artwork by this
+section's rule, and its colours are the drawings' rather than the
+interface's: the palette's sage, inks and lines, plus butter yellow
+`#f0df7c` and dusty rose `#d9a3b4`, the two accents the README's style spec
+already allows the drawings. They are `--rl-butter` and `--rl-rose`,
+declared on `.ar-rail` in `lab/agent-review.css` and nowhere else, with the
+drawing's other fills mixed from them and from the sage there, and each
+holds one meaning: rose where a person has to read what the checks could
+not, yellow where what they read became part of the system, spent once.
+Neither carries text, and neither styles anything outside the figure.
+
 ---
 
 ## 7. What the code does today
