@@ -394,9 +394,14 @@ to a press, so twelve of its states were in no DOM any check ever saw and
 every one of them said "✓" about a page it had measured a sixth of; since
 2026-09-28 `prototype/deploy-console.html` does the same with its failed
 build, its reading, its rollback plan and its rolled-back rows, and carries
-its own seven states in the same registry. `scripts/lib/reachable.mjs` is the registry -- per page, named
-states and the selectors to click to reach each from a fresh load -- and all
-four import it. It is curated by hand and lives outside the page deliberately,
+its own states in the same registry, fourteen since #411. Three of the
+console's are timed: a first deploy and a rollback in flight, which the page
+ends by itself about two seconds after the press, and the first deploy
+landed, four beats after it. Each names a `holds` selector and is measured
+on a page whose clock the registry stops (#407, #411); the registry's
+header has how. `scripts/lib/reachable.mjs` is the registry -- per page, named
+states and the selectors to click to reach each from a fresh load -- and
+every browser check imports it, `targets.mjs` too. It is curated by hand and lives outside the page deliberately,
 like the registries in `counts.mjs` and `tokens.mjs`: a `window.__states` the
 page exported would ship test scaffolding to readers and let a change to the
 page quietly edit the list of what gets measured. `reach()` throws on a
@@ -412,17 +417,17 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-10-06 the tree measures 12103 resting colors, 2214 state
-rules, 50584 type sizes, 30442 elements checked for a partial border on a
-curve and 383 raised surfaces, across 32 pages (the thirty-one of the site
+unmeasured. At 2026-10-06 the tree measures 12445 resting colors, 2215 state
+rules, 52180 type sizes, 31631 elements checked for a partial border on a
+curve and 391 raised surfaces, across 32 pages (the thirty-one of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out; **32 since the lab landed on 2026-10-01**, two pages at
-once, and every one of the five moved with them) and 23 reachable states
-(13 on the deploy console, 7 on the cockpit and 3 on the lab index; **23
-since #401**, up from the 20 every set from #313 to #399 was measured with,
+once, and every one of the five moved with them) and 24 reachable states
+(14 on the deploy console, 7 on the cockpit and 3 on the lab index; **24
+since #411**, up from the 23 every set from #401 to #410 was measured with,
 and a reachable state is a fresh load that moves every count but state rules
-without a page arriving), plus 129 token
-names against 221 declarations in 17 stylesheets (printed as 222 at 37644b5,
+without a page arriving), plus 131 token
+names against 228 declarations in 18 stylesheets (printed as 222 at 37644b5,
 and on every sweep from #369 until #398 corrected the instrument, for a
 selector read as a declaration; the drift paragraph below has it), 6
 retired by name, 54 of them resolved by the design system page rather than
@@ -486,10 +491,12 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 093af5d**, run 37493422745 -- the
+CI run of `checks.yml` on **`main` at 96b1678**, run 37515183663 -- the
 post-merge sweep rather than a run against a branch, which is the cheapest
 way to take one, since that sweep runs whether anybody reads it or not. They
-replace the 2026-10-05 set of 12020 / 2201 / 49800 / 30031 / 377 at 37644b5,
+replace the 2026-10-06 set of 12103 / 2214 / 50584 / 30442 / 383 at 093af5d,
+run 37493422745, the only set taken with 23 reachable states, which replaced
+the 2026-10-05 set of 12020 / 2201 / 49800 / 30031 / 377 at 37644b5,
 run 37375088662, the last taken with 20 reachable states, which replaced the
 2026-10-01 set of 11725 / 2143 / 48584 / 29624 / 379 at d90efe7,
 run 36900617872, the first 32-page set, which replaced the
@@ -539,6 +546,93 @@ against it, that branch merged, and the sweep of the merge was sitting in
 the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
+
+**Ten commits between 093af5d and 96b1678, and all ten have a sweep in the
+Actions list.** All ten are pull requests: #403, #402, #404, #405, #406,
+#407, #409, #408, #410 and #411, in the order they merged. Four rows are
+flat and six moved a count. Two of the six are the instrument, and one of
+those two moved the reach column.
+
+| after | reach | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| #400 `093af5d` | 23 | 12103 | 2214 | 50584 | 30442 | 383 | 129 | 221 |
+| #403, #402 | 23 | 12103 | 2214 | 50584 | 30442 | 383 | 129 | 221 |
+| **#404** `4a7169d` | 23 | **12105** | 2214 | **50592** | **30444** | 383 | 129 | 221 |
+| **#405** `46e6c4f` | 23 | 12105 | 2214 | **50634** | **30487** | 383 | 129 | 221 |
+| #406 `bd0adb1` | 23 | 12105 | 2214 | 50634 | 30487 | 383 | 129 | 221 |
+| **#407** `2e25226` | 23 | **12088** | 2214 | 50634 | 30487 | 383 | 129 | 221 |
+| **#409** `e6ef0d6` | 23 | 12088 | 2214 | 50634 | **30600** | 383 | **131** | **228** |
+| **#408** `b88f78b` | 23 | **12089** | **2215** | **50658** | **30645** | **384** | 131 | 228 |
+| #410 `2428614` | 23 | 12089 | 2215 | 50658 | 30645 | 384 | 131 | 228 |
+| **#411** `96b1678` | **24** | **12445** | 2215 | **52180** | **31631** | **391** | 131 | 228 |
+
+**#411 is the row to read first, because it moved the reach column, and it
+is one state.** It registered the deploy console's first deploy after it
+lands as a fourteenth state on that page, 23 -> 24. A new state is one more
+fresh load, so every count but state rules moves by that load's own count,
+and measured scoped they are the deltas to the digit: 356 resting colors,
+370 / 370 / 391 / 391 type sizes at the four widths, 986 elements and 7
+raised surfaces. The 356 is the same 356 `resting.mjs` measured before #407,
+under the in-flight state's name.
+
+**#407 is the instrument, and it took 17 resting colors off without a page
+changing.** The console's two in-flight states end by themselves about two
+seconds after the press. `resting.mjs`, measuring with reduced motion, under
+which the console lands a press at once, had been measuring the landed
+screens under both in-flight names. Held now, the first deploy measures 351
+instead of 356 and the rollback 372 instead of 384. Curve elements could
+have moved by one as well, because the other checks had been catching the
+first deploy either side of its first beat, and step 1 draws a `checkCircle`
+with one path more than step 0's `circle`. It did not move: 46e6c4f's sweep
+had caught step 0, the step now held. The one curve element a Mac and the
+runner disagreed by at 37644b5 is consistent with the same race, the Mac
+catching step 1, though it was never measured. **The state-measurement
+total**, which is not a column, went 3055 -> 3056 at #407 ("Deploying...",
+caught in one of the thirteen sweeps from 0062d55 to bd0adb1, now measured
+on every run) and
+3056 -> 3058 at #411 ("Run it now", under the two rules carrying `.dc
+.dc-btn-primary:hover`). It was the one number here that moved from run to
+run without the tree moving, and it should not any more.
+
+**Every moving row was reconciled against its pages.** Each was measured on
+the Mac at the commit and its parent, each tree extracted with its own
+scripts, scoped to the pages its diff touched beyond a cache-buster, and the
+per-page deltas add up to the sweep's delta to the digit on all six.
+
+**#404 is the homepage alone**, +2 / +8 / +2: the hero's new thesis
+paragraph and the bold line inside it, two elements holding text at four
+widths. The sixteen other text elements it rewrote there, and the words it
+changed on `case-study/this-site.html`, `lab/agent-review.html` and
+`lab/index.html`, changed inside elements that were already counted.
+
+**#405, #409 and #408 are `lab/agent-review.html`, three times.**
+
+- **#405:** type sizes +42 and curve elements +43, with resting flat, and
+  `lab/agent-review.css` arriving as the 18th stylesheet, declaring nothing.
+  The 42 do not divide by four: +10 / +10 / +11 / +11 at 375, 400, 1280 and
+  1440. They are a tour note's paragraph and a five-item list with a bold
+  label on each item, which `resting.mjs` reads as visually hidden and
+  `typescale.mjs` counts, one fewer at the two phone widths. The other 32
+  elements hold no text and were not itemized.
+- **#409:** curve elements +113 and nothing else a browser check sees. 112
+  of the 113 are inside an SVG (54 -> 166 on the page): the loop drawn in
+  code as one rail where six drawings were (images 12 -> 6). Neither text
+  check counts anything inside an SVG. Its names and declarations are the
+  rail's palette: seven `--rl-*` declarations on `.ar-rail` in
+  `lab/agent-review.css` (221 -> 228), two of which, `--rl-butter` and
+  `--rl-rose`, COLOR.md names (129 -> 131).
+- **#408:** +1 / +1 / +24 / +45 / +1. The state rule is `.wt.is-tour
+  .wt-sticky::before`, the drawn desk under the tour. The +24 is six
+  elements at four widths: the label on the intro video's place, the one
+  new element holding visible text, and five visually hidden "Open full
+  size:" labels on the full-size screens. The close's questions were
+  rewritten into as many elements as they had (three `li` became `strong`
+  leads, and a `p` became an `li`). The raised surface was not read out.
+  The homepage's 216 deleted lines measure flat; they are its lightbox
+  script, moved to `lightbox.js`.
+
+#406 rewrote the homepage hero in fewer words inside elements already
+counted, #410 is a gap on a phone, #402 is a width, and #403 is this file.
 
 **Eight commits between 37644b5 and 093af5d, and all eight have a sweep in
 the Actions list.** All eight are pull requests: #396, #395, #397, #398,
@@ -1348,7 +1442,7 @@ are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does. The eight ladders above are what that looks like when the sweeps are
+does. The nine ladders above are what that looks like when the sweeps are
 read back while they are still in the Actions list; the residuals under them
 are what it looks like when they are not.
 
