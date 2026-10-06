@@ -409,26 +409,12 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   margin-bottom: 0;
 }
 @media (min-width: 768px) { .case-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-4xl); margin-bottom: 0; } }
-/* Three accounts across at desktop rather than two: since the hire-me pass
-   the section makes one argument in three parts, and a third card alone on
-   a second row would read as the one that did not fit. Between the base
-   rule's two-column breakpoint and desktop the two columns would strand it
-   the same way, so the three stay in one column there. */
-@media (min-width: 768px) and (max-width: 1023.98px) { .case-grid--three { grid-template-columns: 1fr; gap: var(--space-2xl); } }
-@media (min-width: 1024px) { .case-grid--three { grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); } }
-/* THE LAB, under the three: one card, since 2026-10-01. From 2026-09-28
-   it was the two prototypes as a pair, and before that the one prototype
-   card spanning the three-column grid with its picture beside its text.
-   The lab index now lists both prototypes beside Agent Review, so the row
-   is the door to the lab rather than two of its three pieces, and it takes
-   the spanning shape back: one column at every width, the card's own grid
-   putting the drawing beside the words from 768 up. Its own grid rather
-   than a fourth cell in the three-grid, because it is not a fourth peer;
-   it is the same judgment carried into code, set apart under the accounts.
-   The space above it is --space-block, the ramp SPACING.md gives to major
-   blocks inside a section, since 2026-09-30. */
-.case-grid--lab { margin-top: var(--space-block); }
-@media (min-width: 768px) { .case-grid--lab { grid-template-columns: 1fr; gap: var(--space-2xl); } }
+/* Selected work is four accounts since 2026-10-06, two by two on the rule
+   above. It was three across from the hire-me pass (.case-grid--three, one
+   column from 768 to 1024 so a third card was never left alone on a row),
+   with the lab as a fourth thing under them in a grid of its own
+   (.case-grid--lab). Agent Review is a peer now, the second of the four,
+   so the base grid takes all four and both modifiers went. */
 
 /* --- Cross-document view transitions ------------------------------------
    Clicking a case card morphs its thumbnail into the case study page's
@@ -451,14 +437,13 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 }
 
 .case-card { display: block; text-align: left; }
-/* The pointer belongs to the cards that ARE a link. Three of the four are an
-   anchor around the whole tile; the prototype card is a div with two links
-   in it, because it has two things to offer, and a hand over its empty half
-   would promise a click that is not there. Same reasoning the note in
-   cursor.js gives for keeping the swell off .strength-card. */
-a.case-card { cursor: pointer; }
-/* And the tile inside that card is the anchor instead, which is inline until
+/* The pointer belongs to the cards that ARE a link. On the homepage all four
+   are, since 2026-10-06; until then the lab card was a div with two links in
+   it, and a hand over its empty half would have promised a click that was
+   not there. Same reasoning the note in cursor.js gives for keeping the
+   swell off .strength-card. A tile that is itself the anchor is inline until
    it is told otherwise. */
+a.case-card { cursor: pointer; }
 a.case-thumb { display: block; }
 .case-thumb {
   position: relative;
@@ -508,11 +493,10 @@ a.case-thumb { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .case-thumb, .case-thumb img { transform: none !important; box-shadow: none !important; }
-  /* One exception, the lab card. Its thumb is a tablet, and --shadow-device
-     is that object's resting shadow, not a hover effect, so a reduced-motion
-     reader sees the same object. (While it was a laptop the shadow sat on
-     the foot, a ::after this blanket did not reach.) */
-  .case-card--lab .case-thumb { box-shadow: var(--shadow-device) !important; }
+  /* One exception, a thumb that is a device (Agent Review's). Its
+     --shadow-device is that object's resting shadow, not a hover effect, so
+     a reduced-motion reader sees the same object. */
+  .case-thumb.build-phone { box-shadow: var(--shadow-device) !important; }
 }
 
 
@@ -595,130 +579,39 @@ a.case-thumb { display: block; }
    the title. This is the gap that line used to provide. */
 .case-grid .case-card .tag-row { margin-top: var(--space-md); }
 
-/* --- The self-directed prototype, closing Selected work ------------------
-   It spans the grid rather than taking a column. Five cards in a
-   two-column grid orphans the fifth, and an orphan reads as a case study
-   that ran out of room instead of as the different kind of thing this
-   is: a working demo on invented data under four accounts of client
-   work. Horizontal from 768 up, with the cockpit's own first screen as
-   the picture. The thumb keeps the section's 16/9 -- the source is the
-   1000x1000 square cockpit.mjs captures for the share card, and left at
-   1/1 it made this the tallest thing on the page and put the one card
-   that is not a case study out of rhythm with the four that are. The
-   crop is anchored to the top rather than the middle, so what survives
-   it is the load, the truck the system picked and the factors it
-   weighed, instead of a band cut through the middle of both. Everything
-   else is the card component untouched: the same thumb frame and tilt,
-   the same title ramp, tags and go-line. */
-.case-card--lab {
-  /* The feature ground, per COLOR.md: the hero card's green, for the one
-     thing in this section that is not a case study. It was tea-light until
-     #97, went to the alternate ground there, and comes back now, because
-     both of #97's reasons have since stopped being true.
+/* --- Agent Review among the accounts, since 2026-10-06 --------------------
+   Selected work was three client accounts across, with the lab under them
+   as one wide feature card on a tea-light panel. The positioning pass that
+   day moved Agent Review into the sequence as the second of four (systems
+   at scale, agents, operational judgment, a measured change) and asked that
+   it carry the same weight as the accounts and no more. So it is the same
+   card in the same grid: thumb, title, description, go-line. The panel,
+   its padding, its eyebrow, the picture beside the words and the second
+   link went with the feature; git has them (#338 through #393). Four cards
+   take the base .case-grid's two columns from 768 up, two rows of two, so
+   nothing is stranded and the grid needs no modifier.
 
-     #97's argument was that tea-light is what the screen inside the tablet
-     is painted, so the panel and the picture on it were one green and the
-     bezel had to hold the two apart alone. Neither half holds. The capture
-     is `slide-close-call.webp` and its ground measures #f5f5f0 -- warm, not
-     tea -- so the panel and the screen were never going to be one green;
-     and there is no "alone" left for the bezel to do, because the thumb
-     wears --device-chrome, #1b1d22 at --bezel, which is a hard dark edge
-     between the panel and the screen whatever either is painted.
+   Two things on this card differ from the other three, and both are what
+   the thing is rather than how loud it is.
 
-     What the alternate ground did do, by the end, was collide inward rather
-     than outward: --color-muted-light is also what the close-call card
-     inside the capture is painted (dispatch-cockpit.css, .ck-lead
-     [data-tone="close"]), so the panel and the innermost card were the same
-     value with a screen between them. Tea-light separates from both.
+   ITS PICTURE IS A SCREEN, so it wears a device: .build-phone's bezel,
+   chrome and --shadow-device, at the tile's own --radius-xl rather than a
+   phone's 26px. A site that frames its captures in a bezel and shows one
+   bare is holding two ideas of what a screenshot is. It keeps the tile's
+   16:9 so its title lines up with the one beside it; the capture is 16:9
+   too, and filling the box inside the bezel crops it by the bezel, a few
+   pixels top and bottom.
 
-     Its ink table is warm's -- charcoal, muted-gray, accent-text -- so
-     nothing inside the card changes color to sit on it, and every one of
-     the three gains headroom moving off the alternate ground: charcoal
-     12.10 -> 12.90, muted-gray 5.11 -> 5.44, accent-text 4.60 -> 4.90.
-     That last is the pair COLOR.md names as the one to re-measure first
-     whenever a value moves, and this move takes it further from the 4.5
-     floor, not nearer. */
-  background: var(--color-tea-light);
-  /* The same outer edge every card and zone on the site takes: the ink at
-     24%, composited over this panel's own tea-light, which puts it at
-     1.74:1 against the warm ground. */
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  /* THE SAME RUNG THE PANEL INSIDE THE PICTURE TAKES. This is the cockpit's
-     .ck-lead one level out: a tinted region on the warm ground, 1.09:1 away
-     from it by fill, with the thing worth looking at sitting on top of it.
-     It was flat, so the four case cards beside it -- which are white
-     thumbnails on the same ground -- read as being at the same height as
-     the panel that is meant to hold the odd one out. --shadow-zone puts it
-     in front without giving a region the drop of an object. */
-  box-shadow: var(--shadow-zone);
-  padding: var(--space-xl);
-}
-.case-card--lab .case-desc { margin-top: var(--space-xs); }
-/* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
-   From 1024 up it is two columns, the question, the project, the result and
-   the links on the left and the picture on the right; under 1024 it stacks,
-   the picture above the words with the stacked card's own margin under it.
-   It was side by side from 768, where the words column is 260px wide and 470
-   tall against a picture 210 tall, and a card that lopsided is not two
-   columns so much as a caption lost beside a long list.
-
-   THE WORDS COME FIRST IN THE MARKUP and the picture is moved above them
-   with `order` while the card stacks, rather than the other way round. The
-   picture is a link as well, to the same case study, and a keyboard reader
-   at a desktop width would otherwise reach the right-hand column before the
-   left. The card is a grid at every width for that reason: `order` does
-   nothing in a block.
-
-   A screen with a column of UI text in it needs more than half the card to
-   stay legible, so the picture takes the larger share, 1.3 to 1. The
-   project's name sits under the question the card asks, in the card's own
-   sans at the description's size and weight 600: a name, not a second
-   headline. The result line is the one claim a scanner should leave with,
-   so it is charcoal where the lines above it are the card's muted
-   description.
-
-   FROM 768 UP THE PANEL TAKES --space-3xl, the step SPACING.md gives "a
-   large card or a panel", where it took the card's --space-xl before. At 24
-   the laptop sat 24 from the panel's edge on three sides and read as pressed
-   against it; the 16 more is the room a picture that wide wants.
-
-   THE COLUMNS CENTRE, and the words are now the taller of the two. They were
-   cut to the question, the project, the result and two links so the column
-   ran the picture's height; the card has since been asked to say what the
-   project is and what a design team should take from it, which is a plain
-   sentence and three short list items more. Measured at 2026-10-02, the
-   words are 465 against a picture of 364 at 1280 and 484 against 287 at
-   1024, where they were 321 and 340, so the picture sits in the middle of a
-   taller column and the card is 101px taller at 1280 (446 to 547) and 144px
-   at 1024 (422 to 566). That is the price of the explanation rather than an
-   accident of it. A list of five checked lines ran the words to twice the
-   picture's height before, which is where this rule stopped being
-   comfortable. */
-.case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
-.case-card--lab .case-thumb { order: -1; }
-.case-card--lab .case-card-body { display: flex; flex-direction: column; }
-@media (min-width: 768px) {
-  .case-card--lab { padding: var(--space-3xl); }
-}
-@media (min-width: 1024px) {
-  .case-card--lab {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-    gap: var(--space-2xl);
-    align-items: center;
-  }
-  .case-card--lab .case-thumb { order: 0; margin-bottom: 0; }
-}
-.case-lab-lead {
-  margin: var(--space-xs) 0 0;
-  max-width: 32rem;
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-/* The other two lab pieces, one quiet line under the feature. */
+   ITS THREE POINTS STAND WHERE THE OTHERS' TAGS STAND. .build-list's dash,
+   at the description's size and in its grey, so the list weighs what the
+   line above it weighs. */
+.case-thumb.build-phone { --shell-radius: var(--radius-xl); }
+.case-thumb.build-phone img { height: 100%; }
+.case-card .case-points { margin: var(--space-md) 0 0; gap: var(--space-2xs); }
+.case-card .case-points li { color: var(--color-muted-gray); max-width: 32rem; }
+/* The rest of the lab, one quiet line under the four. */
 .lab-also {
-  margin: var(--space-md) 0 0;
+  margin: var(--space-2xl) 0 0;
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
@@ -726,55 +619,6 @@ a.case-thumb { display: block; }
 .lab-also a { color: var(--color-charcoal); text-decoration: underline; text-decoration-color: var(--color-rule); text-underline-offset: 0.2em; }
 @media (hover: hover) and (pointer: fine) { .lab-also a:hover { text-decoration-color: var(--color-accent-text); } }
 .lab-also a:focus-visible { text-decoration-color: var(--color-accent-text); }
-
-/* The card's eyebrow is the section eyebrow's type at the card's own
-   margin: the lab is the one thing in this section that is a family rather
-   than an account, and the word is the label the lab index and the nav
-   use for it. Under the h3's own gap, not the section head's. */
-.case-card-eyebrow {
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-2xs);
-  font-weight: 600;
-  line-height: var(--leading-ui);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-accent-text);
-}
-/* ---------- The card's picture is a tablet ----------
-   The picture was a drawing from #340 to #343, in the --shadow-media ring
-   every drawing wears; see the git history of this block for that argument.
-   It is Agent Review's own screen now, and a screen takes a device, because
-   a site that frames its captures in a bezel and shows this one bare is
-   holding two ideas of what a screenshot is.
-
-   THE DEVICE IS A TABLET since 2026-10-05, at Adam's request, where it was
-   the case studies' laptop: a lid with a foot under it, so the object's top
-   and bottom were two different things. It is one bezel all the way round
-   now, the same above the screen as below it, which is the frame the case
-   study's own tour puts this product in (walkthrough.css). The anchor IS
-   the .build-phone, so the bezel, the chrome, --shadow-device and the
-   screen's derived corner come from that rule unchanged, and this block
-   changes one value, the shell's corner, to the tile's own --radius-xl,
-   and takes away the tile's 16:9 (the capture is 16:9 itself, and the bezel
-   sits outside it).
-
-   The anchor's box is the object now, so the focus ring is drawn around
-   the tablet at its own corner, and the hover tilt's --shadow-lift is the
-   lift of that object: neither needs the exception the laptop did, whose
-   foot stood outside the box. */
-.case-card--lab .case-thumb {
-  --shell-radius: var(--radius-xl);
-  aspect-ratio: auto;
-}
-
-/* The words: a plain account, then three things worth taking away. The list
-   is .build-list's own dash, tightened to this column: its 24px bottom
-   margin is a write-up's, and the intro above it is a lead-in, not a
-   paragraph, so it sits closer to the list than to the line above. */
-.case-card--lab .case-lab-intro { margin-top: var(--space-md); margin-bottom: var(--space-xs); color: var(--color-muted-gray); }
-.case-card--lab .case-lab-points { margin: 0; gap: var(--space-xs); }
-.case-card--lab .case-lab-points li { max-width: 32rem; }
 
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
@@ -933,7 +777,10 @@ a.case-thumb { display: block; }
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-title);
   color: var(--story-ink);
-  max-width: 36rem;
+  /* No cap of its own since 2026-10-06; .story-head's 56rem is the cap. It
+     was 36rem, which held "The design-to-build shift" on one line, and "What
+     changes when agents can build" broke to two from 1024 up -- under a
+     sticky title whose pinned boxes leave room for exactly one line. */
   transition: color var(--motion-ambient) var(--ease);
 }
 /* Mobile: larger header and a clear gap below the header before the
@@ -3610,6 +3457,29 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-charcoal);
   margin: 0 0 var(--space-xl);
 }
+/* The thesis, since 2026-10-06: the dek's second paragraph, a step down at
+   body size and in the same ink, opening on a bold clause the way the shift
+   section's steps open on .story-lead-in. A paragraph and not a callout --
+   no rule, no ground, no serif -- so it reads as the page's own voice
+   continuing rather than a quote set beside it. It sits one --space-md under
+   the dek, which closes up from --space-xl here, so the two read as one
+   block over the buttons; the buttons keep their own margin above. It runs
+   the dek's width, as the dek runs the headline's, so the block has one
+   right edge; at --measure it broke to three lines at 1440 and left
+   "software." alone on the last. */
+.hero-invite:has(+ .hero-thesis) { margin-bottom: var(--space-md); }
+.hero-thesis {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+  text-wrap: pretty;
+  margin: 0 0 var(--space-xl);
+}
+.hero-thesis strong { font-weight: 600; }
+/* Between the dek (no delay) and the buttons (0.35s), in stagger steps. */
+.hero-thesis.reveal { transition-delay: calc(var(--motion-stagger) * 3); }
+@media (max-width: 767.98px) { .hero-thesis.reveal { transition-delay: var(--motion-stagger); } }
 
 /* The resume-level scan under the hero: six capabilities, each the engagement
    pages' station mark with its label and detail set beside it, GROUPED
@@ -4997,19 +4867,6 @@ html.ah-lightbox-open body { overflow: hidden; }
 @media (hover: hover) and (pointer: fine) {
   .product-link-quiet:hover { border-bottom-color: var(--color-accent-text); }
 }
-/* The one place this link does not sit on white. --color-tag-border is #e5e5e0
-   and it has no ground left under it here: 1.01:1 on the alternate ground this
-   card used to wear, 1.06:1 on the tea-light it wears now. Either way the
-   underline WAS the ground, and the link read as bare text beside an
-   underlined one. The ink table does not change on either ground -- the note
-   on .case-card--lab is right about that -- but a LINE is not ink, and a
-   hairline tuned against white has nothing left here. --color-rule is the next
-   step down and lands at 1.31:1 on tea-light, a shade firmer than the 1.22:1
-   it measured on the old ground and still under --color-tag-border's 1.26:1 on
-   white: the same faintness the pattern has everywhere else, not a heavier
-   underline. The hover step is unchanged; accent-text is 4.90:1 on this ground,
-   up from 4.60:1, and was always visible. */
-.case-card--lab .product-link-quiet { border-bottom-color: var(--color-rule); }
 
 /* Also removed by the distill pass, and also only dead because the card was
    held back. `.visually-hidden` is the load-bearing one: without it the
