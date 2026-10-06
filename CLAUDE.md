@@ -383,9 +383,11 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
-**All four now press things, and only on two pages.** They load a page, wait for
-it to settle and measure what is there, which is the whole of twenty-eight of
-the thirty. The two pages under `prototype/` are the exception:
+**All four now press things, and only on three pages.** They load a page, wait for
+it to settle and measure what is there, which is the whole of twenty-nine of
+the thirty-two. Since #401 the lab index is the third: `lab/index.html` keeps
+its three pieces in hidden articles and opens one at a press, so it carries a
+state per piece. The two pages under `prototype/` are the first two:
 `prototype/dispatch-cockpit.html` renders its comparison, its override
 question, its refused button and its opened rows from JavaScript in response
 to a press, so twelve of its states were in no DOM any check ever saw and
@@ -410,16 +412,17 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-10-05 the tree measures 12020 resting colors, 2201 state
-rules, 49800 type sizes, 30031 elements checked for a partial border on a
-curve and 377 raised surfaces, across 32 pages (the thirty-one of the site
+unmeasured. At 2026-10-06 the tree measures 12103 resting colors, 2214 state
+rules, 50584 type sizes, 30442 elements checked for a partial border on a
+curve and 383 raised surfaces, across 32 pages (the thirty-one of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out; **32 since the lab landed on 2026-10-01**, two pages at
-once, and every one of the five moved with them) and 20 reachable states
-(13 on the deploy console and 7 on the cockpit; **20 since #313**, up from
-the 14 the 30-page set was measured with, and a reachable state is a fresh
-load that moves three of the five without a page arriving), plus 129 token
-names against 221 declarations in 16 stylesheets (printed as 222 at 37644b5,
+once, and every one of the five moved with them) and 23 reachable states
+(13 on the deploy console, 7 on the cockpit and 3 on the lab index; **23
+since #401**, up from the 20 every set from #313 to #399 was measured with,
+and a reachable state is a fresh load that moves every count but state rules
+without a page arriving), plus 129 token
+names against 221 declarations in 17 stylesheets (printed as 222 at 37644b5,
 and on every sweep from #369 until #398 corrected the instrument, for a
 selector read as a declaration; the drift paragraph below has it), 6
 retired by name, 54 of them resolved by the design system page rather than
@@ -483,10 +486,12 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 37644b5**, run 37375088662 -- the
+CI run of `checks.yml` on **`main` at 093af5d**, run 37493422745 -- the
 post-merge sweep rather than a run against a branch, which is the cheapest
 way to take one, since that sweep runs whether anybody reads it or not. They
-replace the 2026-10-01 set of 11725 / 2143 / 48584 / 29624 / 379 at d90efe7,
+replace the 2026-10-05 set of 12020 / 2201 / 49800 / 30031 / 377 at 37644b5,
+run 37375088662, the last taken with 20 reachable states, which replaced the
+2026-10-01 set of 11725 / 2143 / 48584 / 29624 / 379 at d90efe7,
 run 36900617872, the first 32-page set, which replaced the
 2026-09-28 set of 8550 / 1986 / 34868 / 20706 / 374 at 8bb54d3,
 the first 30-page set and the last taken with 14 reachable states, which
@@ -508,7 +513,7 @@ moved twice across them, each time at a set's own commit -- 29 through
 87f91bf, 30 at 8bb54d3, 32 at d90efe7 and since -- and it is the number to
 read first.
 
-**That run took two attempts, and the first one is the kind of red this
+**37644b5's run took two attempts, and the first one is the kind of red this
 section has no other name for.** Four of the five browser legs finished on
 attempt 1. The fifth, `states.mjs`, was nine and a half minutes into a leg
 that takes twelve and a half when the runner was shut down under it ("The
@@ -534,6 +539,58 @@ against it, that branch merged, and the sweep of the merge was sitting in
 the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
+
+**Eight commits between 37644b5 and 093af5d, and all eight have a sweep in
+the Actions list.** All eight are pull requests: #396, #395, #397, #398,
+#355, #399, #401 and #400, in the order they merged. Four rows are flat and
+four moved a count, one of the four the instrument. The `reach` column is
+back, because #401 moved it.
+
+| after | reach | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| #393 `37644b5` | 20 | 12020 | 2201 | 49800 | 30031 | 377 | 129 | 222 |
+| **#396** `0062d55` | 20 | 12020 | **2204** | 49800 | **30032** | 377 | 129 | 222 |
+| #395, #397 | 20 | 12020 | 2204 | 49800 | 30032 | 377 | 129 | 222 |
+| **#398** `878f965` | 20 | 12020 | 2204 | 49800 | 30032 | 377 | 129 | **221** |
+| #355 `266e169` | 20 | 12020 | 2204 | 49800 | 30032 | 377 | 129 | 221 |
+| **#399** `158a26d` | 20 | **12025** | 2204 | **49820** | **30038** | 377 | 129 | 221 |
+| **#401** `3ba78de` | **23** | **12103** | **2214** | **50584** | **30442** | **383** | 129 | 221 |
+| #400 `093af5d` | 23 | 12103 | 2214 | 50584 | 30442 | 383 | 129 | 221 |
+
+**#401 is the row to read first, because it moved the reach column, and
+it is one page.** It made `lab/index.html` a workspace whose three pieces sit
+in hidden articles that open one at a press, and gave the page a reachable
+state per piece, 20 -> 23. Measured scoped on both trees, as resting / state
+rules / type sizes / curve elements / raised, the lab index went from 31 /
+70 / 132 / 90 / 0 on one load to 109 / 80 / 896 / 494 / 6 on four, and
++78 / +10 / +764 / +404 / +6 is the sweep's delta to the digit. **State
+rules +10 are `lab/workspace.css`**, the 17th stylesheet, on the one page
+that loads it: five `:focus-visible` rules, four `:hover` and
+`.ws-file.is-current`. The rules that show a pane or fill the preview set
+`display` and no colour, so `states.mjs` does not count them, and the
+stylesheet re-points `--color-focus-ring` without declaring a new name, so
+declarations held at 221. The six raised surfaces are new with the page;
+how they split between the rest and the three states was not read out.
+
+**Measuring the base needed the base's own scripts.** Run with today's
+`reachable.mjs`, the 158a26d tree is unmeasurable: `.ws-file` matches
+nothing in its markup, and `reach()` throws, as it is meant to. The base
+figures are from that tree extracted with `git archive`, its own `scripts/`
+and a `node_modules` symlink, which is the way to measure any commit older
+than a registry change.
+
+**Only #401 was reconciled against its page.** The ladder below says every
+moving row was; this one does not claim that. #396 is the tour's previous
+and next buttons, with its drawings gone: state rules +3 and one curve
+element. #399 is the Agent
+Review hero, +5 / +20 / +6: five elements holding text at four widths, and
+one more holding none. #398 is the instrument: `tokens.mjs` stopped reading
+a selector as a declaration, and the printed total went back to the true
+221, as the declarations paragraph below sets out. #395 is a highlight's
+geometry, #397 is words in this file, and #355 changed words inside elements
+that were already counted. #400 is sizes and no colour: a 44px floor for the
+Listen button and the read-aloud player on a touch device, in
+`read-aloud.css`, and the cache-buster on the pages that load it.
 
 **Fifty-nine commits between d90efe7 and 37644b5, and all fifty-nine have
 a sweep in the Actions list, one of them in two attempts.** Fifty-three are
@@ -1291,7 +1348,7 @@ are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does. The seven ladders above are what that looks like when the sweeps are
+does. The eight ladders above are what that looks like when the sweeps are
 read back while they are still in the Actions list; the residuals under them
 are what it looks like when they are not.
 
