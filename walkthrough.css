@@ -202,9 +202,11 @@
 .wt.is-tour { margin-bottom: 0; }
 .wt.is-tour .wt-sticky {
   position: sticky;
+  /* As tall as what it holds, and stuck in the middle of the window under
+     the nav: walkthrough.js sets the top from the box's own height. Until
+     2026-10-06 it was the window's height under the nav, which on a tall
+     monitor left a third of a screen of empty ground above the panel. */
   top: var(--nav-height);
-  height: calc(100vh - var(--nav-height));
-  height: calc(100svh - var(--nav-height));
   display: grid;
   /* THE PRODUCT TAKES THE ROOM. 2.5 to 1 since 2026-10-05, where it was 1.85
      to 1 with a wider gap: the notes lost their drawings, so their column
@@ -221,9 +223,9 @@
 }
 .wt.is-tour .wt-stage { min-width: 0; grid-column: 1; grid-row: 3; }
 
-/* THE TITLE OVER THE SCREEN: the name and what the block is, "Agent Review
-   feature walkthrough", large, and the one sentence that says what it is,
-   in the left column above the stage, held still while the parts change.
+/* THE TITLE OVER THE SCREEN: what the block is, "Feature walkthrough",
+   large, and one sentence that says exactly what is on the screen, in the
+   left column above the stage, held still while the parts change.
    The name is a title, --text-5xl in the serif; the sentence is its
    tagline, at the notes' own --text-base in regular weight, close under it.
 
