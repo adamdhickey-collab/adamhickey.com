@@ -67,7 +67,10 @@
  * press scrolls the page to the next stop, the t at which a part is best
  * looked at, and the tour follows because the tour
  * follows the scroll. So the buttons are a second way to move the same
- * number, never a second clock, and a reader can mix the two freely.
+ * number, never a second clock, and a reader can mix the two freely. Since
+ * the evening of 2026-10-06 a press moves the scroll at its own steady pace
+ * rather than the browser's (THE GLIDE, below), and a count rides the bars'
+ * leading edge, "3 of 7", its number turning over as each part begins.
  *
  * REDUCED MOTION is a media query on this script and not a rule in the
  * stylesheet. The stylesheet's blanket stops CSS animation and transition;
@@ -91,6 +94,9 @@
   var pins = [].slice.call(root.querySelectorAll('.wt-pin'));
   var notes = [].slice.call(root.querySelectorAll('.wt-note'));
   var fills = [].slice.call(root.querySelectorAll('.wt-tick i'));
+  var ticks = [].slice.call(root.querySelectorAll('.wt-tick'));
+  var count = root.querySelector('.wt-count');
+  var digits = count ? [].slice.call(count.querySelectorAll('.wt-count-n > span')) : [];
   var prev = root.querySelector('.wt-step--prev');
   var next = root.querySelector('.wt-step--next');
   var status = root.querySelector('.wt-status');
@@ -149,6 +155,20 @@
   stops.push(INTRO + N + HOLD);
 
   var home = { rect: { x: 0, y: 0, w: IW, h: FH }, cx: IW / 2, cy: FH / 2, z: 1 };
+  /* WHERE THE CAMERA CAN ACTUALLY LOOK, since the evening of 2026-10-06. A
+     centre the window cannot reach at zoom z without showing past the
+     picture's edge is held at the nearest one it can, exactly where the
+     clamp in render() would hold the view anyway. The camera interpolates
+     between these held centres. Aimed at the parts' own centres, a part near
+     the picture's foot, the completed work, sat still for the first half of
+     a move while its centre travelled inside the clamp, then set off at full
+     speed: invisible while a press took 380ms, a lunge once it took a
+     second. */
+  function held(f) {
+    f.cx = clamp(f.cx, IW / (2 * f.z), IW - IW / (2 * f.z));
+    f.cy = clamp(f.cy, FH / (2 * f.z), IH - FH / (2 * f.z));
+    return f;
+  }
   function rectOf(attr) {
     var r = attr.split(/\s+/).map(Number);
     return { x: r[0], y: r[1], w: r[2], h: r[3] };
@@ -161,7 +181,7 @@
        the part's centre: at 64rem the even margin was 40px and the pin and
        its gap need 38. */
     var z = Math.min(ZMAX, 0.86 * IW / rect.w, 0.8 * FH / rect.h);
-    return { rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z), scene: sceneOf(n) };
+    return held({ rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z), scene: sceneOf(n) });
   });
   /* Where the closing note backs out to. Until 2026-10-06 it was the whole
      picture, pulled back until it fitted the window's height, with all the
@@ -169,7 +189,7 @@
      now, which the earlier pins do not point into, so it is the view the
      closing note names, at full size. */
   var outroView = outro.hasAttribute('data-view') ? rectOf(outro.getAttribute('data-view')) : home.rect;
-  var map = { rect: outroView, cx: outroView.x + outroView.w / 2, cy: outroView.y + outroView.h / 2, z: Math.max(1, Math.min(ZMAX, IW / outroView.w, FH / outroView.h)) };
+  var map = held({ rect: outroView, cx: outroView.x + outroView.w / 2, cy: outroView.y + outroView.h / 2, z: Math.max(1, Math.min(ZMAX, IW / outroView.w, FH / outroView.h)) });
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
   /* Ease in and out, cubic: the camera starts and stops softly. */
@@ -180,6 +200,9 @@
   function mix(a, b, e) { return a + (b - a) * e; }
 
   var rise = 20, navH = 80, pin = 80, W = 0, H = 0, HS = 0, runway = 1;
+  var glide = 1000;        /* ms a press takes for one part: two --motion-enter, set in measure() */
+  var SWAP = 0.3;          /* units: how long the count's number takes to turn over */
+  var tickAt = [], countW = 0, barsW = 0;
   var live = false, queued = false;
 
   function cameraAt(t) {
@@ -303,7 +326,36 @@
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
     fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + clamp(t - INTRO - i, 0, 1) + ')'; });
+    counted(t);
     ends(t);
+  }
+
+  /* THE COUNT, since 2026-10-06 (Adam: "a little small type follow as a
+     line gets filled", reading 0 of 7 and then 1 of 7, changing as it moves
+     along with the bar). It stands over the fill's leading edge, kept to the
+     bars' two ends, so it travels with the sage exactly: the same
+     clamp(t - INTRO - i) the fills are scaled by. The number turns over as
+     a part begins, the moment the last note has gone and the camera sets
+     off: the old one rises out and the new one rises in, a quarter of
+     --motion-rise, which is how MOTION.md section 10 lets words swap,
+     travelling rather than fading in place. Like everything else here it
+     is a function of t, so scrolling back turns it back. */
+  function counted(t) {
+    if (!count || digits.length < 2 || !tickAt.length) return;
+    var p = t - INTRO;
+    var i = clamp(Math.floor(p), 0, N - 1);
+    var tick = tickAt[i];
+    var x = tick.left + clamp(p - i, 0, 1) * tick.width;
+    count.style.transform = 'translateX(' + clamp(x - countW / 2, 0, Math.max(0, barsW - countW)) + 'px)';
+    var k = clamp(Math.round(p), 0, N - 1);
+    var s = ease((p - k) / SWAP + 0.5);
+    var lift = rise / 4;
+    if (digits[0].textContent !== String(k)) digits[0].textContent = k;
+    if (digits[1].textContent !== String(k + 1)) digits[1].textContent = k + 1;
+    digits[0].style.opacity = 1 - s;
+    digits[0].style.transform = 'translateY(' + (-s * lift) + 'px)';
+    digits[1].style.opacity = s;
+    digits[1].style.transform = 'translateY(' + ((1 - s) * lift) + 'px)';
   }
 
   /* The pager. A button with nowhere left to go says so, and is written only
@@ -326,29 +378,71 @@
     var words = kicker ? kicker.textContent.replace(num ? num.textContent : '', '').trim() : '';
     return i >= 1 && i <= N ? 'Part ' + i + ' of ' + N + ': ' + words : words;
   }
-  /* One press is one stop from where the reader is, or, while the page is
-     still gliding to the stop a press asked for, from that stop: two quick
-     presses are two parts, not one. The glide is the page's own smooth
-     scroll (style.css), so it is the browser's, and it is off wherever the
-     site turns smooth scrolling off. The stop a press asked for is forgotten
-     the moment the page gets there, the moment the reader moves it some
-     other way (a wheel, a finger, a key), and after 1.2s whatever happened,
-     so a press never starts from a place the reader has already left. A
-     button at the end of its travel does nothing: it is aria-disabled so
-     that it can keep its focus, which means the click still arrives. */
-  var aim = null, aimed = 0, said = null;
+  /* One press is one stop from where the reader is, or, while a press is
+     still gliding to the stop it asked for, from that stop: two quick
+     presses are two parts, not one. The stop a press asked for is forgotten
+     the moment the page gets there and the moment the reader moves it some
+     other way (a wheel, a finger, a key), so a press never starts from a
+     place the reader has already left. A button at the end of its travel
+     does nothing: it is aria-disabled so that it can keep its focus, which
+     means the click still arrives. */
+  var aim = null, said = null;
   function hush() { said = null; if (status && status.textContent) status.textContent = ''; }
-  function forget() { aim = null; hush(); }
+  function forget() { aim = null; stopGlide(); hush(); }
+
+  /* THE GLIDE, since the evening of 2026-10-06 (Adam: the presses moved
+     "too quickly", and should be "smoother, less jarring and easier to see
+     what's going on"). A press used to hand the move to the page's own
+     smooth scroll, which covers a part's 600px in about 380ms on its own
+     curve. The camera travels in the middle 45% of that distance, where the
+     curve is fastest, so it crossed the screen in 50 to 84ms and the notes
+     swapped in about 67: a cut, not a move. So a press moves the scroll
+     itself now, at a steady rate of one part per two --motion-enter, the
+     part leaving and the next arriving. Steady, because the scroll position
+     is the tour's progress, and MOTION.md gives progress `linear`; the
+     things that travel already ease on their own (the camera's ease(), the
+     notes' presence()), so a press shows the note go in about 250ms and the
+     camera glide for about 450, softly at both ends. It is still the page's
+     scroll position that moves, a frame at a time, so render(t) is still
+     the only thing that draws, and the moment anything else moves the page
+     (a wheel, a finger, a key, a dragged scrollbar) the glide lets go. A
+     press during a glide sets off from where the page is, at the same pace,
+     and a run of quick presses is held to one and a half parts' time. */
+  var gliding = null;
+  function stopGlide() {
+    if (!gliding) return;
+    window.cancelAnimationFrame(gliding.raf);
+    gliding = null;
+  }
+  function glideTo(top, parts) {
+    stopGlide();
+    var g = { from: window.pageYOffset, to: top, start: 0, ms: glide * clamp(parts, 0.25, 1.5), raf: 0 };
+    g.set = g.from;
+    gliding = g;
+    function step(stamp) {
+      if (gliding !== g) return;
+      if (Math.abs(window.pageYOffset - g.set) > 2) { gliding = null; return; }
+      if (!g.start) g.start = stamp;
+      var u = clamp((stamp - g.start) / g.ms, 0, 1);
+      g.set = Math.round(mix(g.from, g.to, u));
+      window.scrollTo({ top: g.set, behavior: 'instant' });
+      update();
+      if (u < 1) g.raf = window.requestAnimationFrame(step);
+      else gliding = null;
+    }
+    g.raf = window.requestAnimationFrame(step);
+  }
   function go(dir, button) {
     if (!live || button.getAttribute('aria-disabled') === 'true') return;
-    var t = aim !== null && Date.now() - aimed < 1200 ? stops[aim] : now();
+    var here = now();
+    var t = aim !== null && gliding ? stops[aim] : here;
     var to = -1, i;
     if (dir > 0) { for (i = 0; i < stops.length; i++) if (stops[i] > t + NEAR) { to = i; break; } }
     else { for (i = stops.length - 1; i >= 0; i--) if (stops[i] < t - NEAR) { to = i; break; } }
     if (to < 0) return;
-    aim = to; aimed = Date.now();
+    aim = to;
     var top = root.getBoundingClientRect().top + window.pageYOffset - pin + (stops[to] / T) * runway;
-    window.scrollTo({ top: Math.round(top) });
+    glideTo(Math.round(top), Math.abs(stops[to] - here));
     if (status) { status.textContent = name(to); said = to; }
   }
   if (prev) prev.addEventListener('click', function () { go(-1, prev); });
@@ -419,6 +513,7 @@
     var style = getComputedStyle(document.documentElement);
     navH = parseFloat(style.getPropertyValue('--nav-height')) || 80;
     rise = parseFloat(style.getPropertyValue('--motion-rise')) || 20;
+    glide = 2 * (parseFloat(style.getPropertyValue('--motion-enter')) || 500);
     runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
     fit();
     /* THE BOX HUGS WHAT IT HOLDS AND STICKS IN THE MIDDLE OF THE WINDOW.
@@ -432,6 +527,10 @@
     pin = navH + Math.max(0, (window.innerHeight - navH - sticky.offsetHeight) / 2);
     sticky.style.top = pin + 'px';
     root.style.height = (sticky.offsetHeight + runway) + 'px';
+    /* Where each bar starts and how wide it is, for the count to ride. */
+    tickAt = ticks.map(function (el) { return { left: el.offsetLeft, width: el.offsetWidth }; });
+    countW = count ? count.offsetWidth : 0;
+    barsW = bars ? bars.clientWidth : 0;
   }
   function onResize() { if (live) { measure(); update(); } }
 
@@ -455,6 +554,8 @@
   function leave() {
     if (!live) return;
     live = false;
+    stopGlide();
+    aim = null;
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     root.classList.remove('is-tour');
@@ -467,6 +568,8 @@
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
     clear(fills, ['transform']);
+    if (count) clear([count], ['transform']);
+    clear(digits, ['opacity', 'transform']);
     clear(scenes, ['opacity']);
     if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
     shown = -1;
