@@ -43,7 +43,8 @@
    Storybook is not served there, so --only skips it).
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-     node scripts/lab-shots.mjs                      # all eight
+     node scripts/lab-shots.mjs                      # every slug
+     node scripts/lab-shots.mjs tour-start tour-rule tour-quiet   # the tour's three scenes
      node scripts/lab-shots.mjs return               # the return dialog, both sizes
      node scripts/lab-shots.mjs --from http://localhost:5173/agent-review/ change drift return
 
@@ -57,8 +58,11 @@
    it will read), and quiet (every decision made, nothing left to ask). The
    delegated run is a simulation played back the same way every time, so
    these three are reproducible to the pixel from the same build. Since the
-   hero's tour moved to the delegated work, delegation is the hero at 1440,
-   change is a figure at 1100, and record is a completed change opened. Quality 0.86, the figure
+   hero's tour moved to the delegated work, change is a figure at 1100 and
+   record is a completed change opened. Since 2026-10-06 the tour is three
+   scenes of the delegated work at 1440, tour-start, tour-rule and
+   tour-quiet (their recipes say what each is), which replaced the one
+   picture the slug delegation took. Quality 0.86, the figure
    the artwork set uses. Chrome's WebP output is not byte-stable between runs,
    so scope a re-run to the figure that moved. Look at every capture before
    committing it: a wrong story id renders Storybook's "Couldn't find story"
@@ -108,16 +112,54 @@ const SHOTS = {
       await page.waitForTimeout(400);
     },
   },
-  /* The hero, and its tour: the delegated work as a person finds it, at 1440
-     like the hero before it, because the tour's regions and pins are in this
-     file's own pixels. Re-measure all seven if its layout changes. 1300 tall
-     since 2026-10-05, not 1000: since agent-review#14 the checks sit under
-     the two decisions (y 1147 to 1279), and the tour's third part points at
-     them, so a shorter picture leaves it nothing to point at. */
-  delegation: {
-    file: 'agent-review-delegation',
+  /* THE TOUR'S THREE SCENES, since 2026-10-06: the same screen in three
+     states, which the tour dissolves between where the story moves on (the
+     walkthrough's header in walkthrough.js). Each is the page from its top
+     at 1440 and TOUR_H tall, so all three share one set of coordinates: a
+     region measured on one is the same place on the others, and the camera
+     glides across a change of scene as it glides across one picture. The
+     tour's regions and pins are in these files' own pixels; re-measure all
+     seven if the screen's layout moves.
+
+     start: the run as a person finds it, with Dana's request open, because
+     the tour's first part is the request. Its phone version is the first
+     decision from its top, the one part of the story a phone shows.
+     rule: the first question answered with the diff pair and "use this for
+     similar cases" checked, so the card has turned into the rule as it will
+     read. quiet: every decision made, nothing left to ask. Neither has a
+     phone version: the tour shows them only where it runs, from 64rem. */
+  'tour-start': {
+    file: 'agent-review-tour-start',
     app: '#/',
-    desktop: { size: { width: 1440, height: 1300 } },
+    desktop: { size: { width: 1440, height: 1000 } },
+    open: async (page) => {
+      await openRequest(page);
+      await tourSize(page);
+    },
+    phoneScroll: '.ask',
+  },
+  'tour-rule': {
+    file: 'agent-review-tour-rule',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 } },
+    phone: false,
+    open: async (page) => {
+      await openRequest(page);
+      await page.getByRole('button', { name: 'Use the diff pair' }).click();
+      await page.getByText('Also use this answer for similar cases').click();
+      await tourSize(page);
+    },
+  },
+  'tour-quiet': {
+    file: 'agent-review-tour-quiet',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 } },
+    phone: false,
+    open: async (page) => {
+      await openRequest(page);
+      await answerAll(page);
+      await tourSize(page);
+    },
   },
   /* One completed change, open: the agent's own choice between two tokens
      that share a red, with what each check established, what no check
@@ -158,16 +200,7 @@ const SHOTS = {
     file: 'agent-review-delegation-quiet',
     app: '#/',
     open: async (page) => {
-      const apply = () => page.getByRole('button', { name: 'Apply' }).click();
-      await page.getByRole('button', { name: 'Use the diff pair' }).click();
-      await page.getByText('Also use this answer for similar cases').click();
-      await apply();
-      await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
-      await apply();
-      await page.getByRole('button', { name: 'Use the diff remove ink' }).click();
-      await page.getByText('Add this case to your rule').click();
-      await apply();
-      await page.getByText('Nothing needs your attention.').waitFor();
+      await answerAll(page);
       await page.mouse.move(0, 0); /* off the record the last press left it over */
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(300);
@@ -179,6 +212,36 @@ const SHOTS = {
     phone: { url: `${from}storybook/iframe.html?id=${STORY}&viewMode=story`, size: { width: 375, height: 480 }, wait: 'story' },
   },
 };
+
+/* The tour's scenes are TOUR_H tall: the run as found is 1903 at 1440
+   (agent-review, 2026-10-06), and its last part, the completed work, ends at
+   1887. The answered screen is taller and is cut there, below anything the
+   tour points at; the quiet one is shorter and the page's ground runs on
+   under it. */
+const TOUR_H = 1904;
+async function tourSize(page) {
+  await page.mouse.move(0, 0);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  if ((page.viewportSize()?.width ?? 0) >= 1440) await page.setViewportSize({ width: 1440, height: TOUR_H });
+  await page.waitForTimeout(300);
+}
+async function openRequest(page) {
+  await page.getByText('Dana’s request').click();
+}
+/* Every decision made, the first with a rule that the third widens: the
+   quiet screen. */
+async function answerAll(page) {
+  const apply = () => page.getByRole('button', { name: 'Apply' }).click();
+  await page.getByRole('button', { name: 'Use the diff pair' }).click();
+  await page.getByText('Also use this answer for similar cases').click();
+  await apply();
+  await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
+  await apply();
+  await page.getByRole('button', { name: 'Use the diff remove ink' }).click();
+  await page.getByText('Add this case to your rule').click();
+  await apply();
+  await page.getByText('Nothing needs your attention.').waitFor();
+}
 
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
@@ -201,6 +264,7 @@ try {
   for (const [slug, shot] of Object.entries(SHOTS)) {
     if (only.length && !only.includes(slug)) continue;
     for (const kind of ['desktop', 'phone']) {
+      if (shot[kind] === false) continue;
       const spec = shot[kind];
       const size = spec?.size ?? (kind === 'desktop' ? DESKTOP : PHONE);
       const ctx = await browser.newContext(

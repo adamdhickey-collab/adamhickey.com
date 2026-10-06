@@ -19,7 +19,7 @@
  * THE TIMELINE, in units of one part:
  *     INTRO   the whole screen, the lead note
  *     part i  the camera moves in for MOVE of the unit, then holds
- *     OUTRO   the camera backs out to the whole screen with seven pins on it
+ *     OUTRO   the camera backs out to the closing view, on the last scene
  * A unit is UNIT of the viewport's height, 60%, so the tour is about five
  * screens of scrolling. It opened at 42% with the camera travelling for 40% of
  * that, which put a whole move between two parts inside 150px on a 900px
@@ -39,7 +39,27 @@
  * they were placed from a pasted image with a different layout. Since
  * 2026-10-03 the picture is the delegated work,
  * img/lab/agent-review-delegation.webp at 1440 x 1000 (lab-shots.mjs
- * delegation); until then it was the first iteration's change screen.
+ * delegation); until then it was the first iteration's change screen. Since
+ * 2026-10-06 it is three pictures, the scenes below, and the numbers are in
+ * their shared pixels.
+ *
+ * SCENES, since 2026-10-06. The walkthrough is a story now, not a tour of
+ * one screen's parts, and the story needs the screen in more than one
+ * state: the run as found, then the first question answered with its rule,
+ * then nothing left to ask. Each state is a .wt-scene in the world, a full
+ * capture of the same page from its top at the same size, so the three
+ * share one set of coordinates and a part's data-rect means the same place
+ * on any of them. A note (and a pin) names its scene with data-scene; one
+ * that names none is on the first. Where the story moves to another scene,
+ * the next one dissolves in on top while the camera makes its move, on the
+ * same eased number, so the answer cards turn into the rule in place
+ * rather than cutting to another picture. A scene later in the document is
+ * drawn over an earlier one, and scrolling back runs the same dissolve the
+ * other way. Pins belong to a scene and show only as much as it does. The
+ * closing note can name a view (data-view="x y w h", the capture's pixels)
+ * for the camera to back out to; without one it backs out to the first
+ * screen's worth at the top. Without the tour only the first scene is
+ * drawn, and the others are never fetched.
  *
  * THE PAGER, since 2026-10-05: a previous and a next button at the two ends
  * of the progress bars. A press scrolls the page to the next stop, the t at
@@ -76,6 +96,18 @@
   var steps = notes.filter(function (n) { return n.hasAttribute('data-rect'); });
   var N = steps.length;
   if (!N || !sticky || !stage || !screen || !world || !img || !focus || !intro || !outro) return;
+
+  /* The scenes, in document order, which is drawing order. A page with one
+     picture and no .wt-scene is one scene, the world itself. */
+  var scenes = [].slice.call(world.querySelectorAll('.wt-scene'));
+  var names = scenes.map(function (el) { return el.getAttribute('data-scene'); });
+  function sceneOf(el) { return Math.max(0, names.indexOf(el.getAttribute('data-scene'))); }
+  var introScene = sceneOf(intro), outroScene = sceneOf(outro);
+  var pinScene = pins.map(sceneOf);
+  /* The full-size link follows the scene in view while the tour runs, and is
+     given back as it was when the tour stops. */
+  var zoom = root.querySelector('.ar-zoom--tour');
+  var zoomHref = zoom ? zoom.getAttribute('href') : null;
 
   /* The capture's own pixels. */
   var IW = +img.getAttribute('width');
@@ -114,18 +146,27 @@
   stops.push(INTRO + N + HOLD);
 
   var home = { rect: { x: 0, y: 0, w: IW, h: FH }, cx: IW / 2, cy: FH / 2, z: 1 };
-  var map = { rect: { x: 0, y: 0, w: IW, h: IH }, cx: IW / 2, cy: IH / 2, z: FH / IH };
+  function rectOf(attr) {
+    var r = attr.split(/\s+/).map(Number);
+    return { x: r[0], y: r[1], w: r[2], h: r[3] };
+  }
   var frames = steps.map(function (n) {
-    var r = n.getAttribute('data-rect').split(/\s+/).map(Number);
-    var rect = { x: r[0], y: r[1], w: r[2], h: r[3] };
+    var rect = rectOf(n.getAttribute('data-rect'));
     /* Fit the part into 86% of the screen's width and 80% of its height, so
        there is always a margin of the dimmed screen around it. The pin
        stands outside the part's left edge, so the camera aims LEAD/2 left of
        the part's centre: at 64rem the even margin was 40px and the pin and
        its gap need 38. */
     var z = Math.min(ZMAX, 0.86 * IW / rect.w, 0.8 * FH / rect.h);
-    return { rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z) };
+    return { rect: rect, cx: rect.x + rect.w / 2 - LEAD / 2, cy: rect.y + rect.h / 2, z: Math.max(1, z), scene: sceneOf(n) };
   });
+  /* Where the closing note backs out to. Until 2026-10-06 it was the whole
+     picture, pulled back until it fitted the window's height, with all the
+     pins on it as a map; the last scene is a different state of the screen
+     now, which the earlier pins do not point into, so it is the view the
+     closing note names, at full size. */
+  var outroView = outro.hasAttribute('data-view') ? rectOf(outro.getAttribute('data-view')) : home.rect;
+  var map = { rect: outroView, cx: outroView.x + outroView.w / 2, cy: outroView.y + outroView.h / 2, z: Math.max(1, Math.min(ZMAX, IW / outroView.w, FH / outroView.h)) };
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
   /* Ease in and out, cubic: the camera starts and stops softly. */
@@ -162,6 +203,43 @@
       h: mix(from.rect.h, to.rect.h, e),
       ring: ring
     };
+  }
+
+  /* Which scene the story is in at t, and how far a change of scene has got:
+     the move's own eased number, so the next state dissolves in while the
+     camera travels to its part. */
+  function sceneAt(t) {
+    if (t >= INTRO + N) return { from: frames[N - 1].scene, to: outroScene, e: ease((t - INTRO - N) / OUT_MOVE) };
+    if (t >= INTRO) {
+      var i = Math.min(N - 1, Math.floor(t - INTRO));
+      return { from: i ? frames[i - 1].scene : introScene, to: frames[i].scene, e: ease((t - INTRO - i) / MOVE) };
+    }
+    return { from: introScene, to: introScene, e: 1 };
+  }
+  /* How much of scene k a reader sees: all of a scene the story stays in,
+     and the two halves of a dissolve while it moves. */
+  function seen(sc, k) {
+    if (sc.from === sc.to) return k === sc.to ? 1 : 0;
+    return k === sc.to ? sc.e : k === sc.from ? 1 - sc.e : 0;
+  }
+  var shown = -1;
+  function drawScenes(sc) {
+    /* The later scene is drawn over the earlier and fades on top of it, so
+       the dissolve never shows the ground through two half-faded pictures. */
+    var up = sc.to > sc.from;
+    scenes.forEach(function (el, k) {
+      var o = 0;
+      if (k === sc.from) o = up || sc.from === sc.to ? 1 : 1 - sc.e;
+      if (k === sc.to) o = up ? sc.e : 1;
+      el.style.opacity = o;
+    });
+    var now = sc.e >= 0.5 ? sc.to : sc.from;
+    if (zoom && scenes[now] && now !== shown) {
+      shown = now;
+      var pic = scenes[now].querySelector('img');
+      zoom.setAttribute('href', pic.currentSrc || pic.getAttribute('src'));
+      zoom.setAttribute('data-zoom-alt', pic.getAttribute('alt') || '');
+    }
   }
 
   /* How present part i is: arriving with the camera, leaving in the last
@@ -205,11 +283,14 @@
        its part was looked at and carried a halo, and the same number read at
        three sizes in one tour. */
     var settled = ease((t - INTRO - N) / OUT_MOVE);
+    var sc = sceneAt(t);
+    if (scenes.length) drawScenes(sc);
     pins.forEach(function (pin, i) {
       var born = ease((t - INTRO - i) / 0.3);
       /* Behind the part being looked at, a pin recedes to a trace; backing out
-         to the whole screen brings all seven to full strength. */
-      pin.style.opacity = born * (0.4 + 0.6 * Math.max(presence(t, i), settled));
+         to the whole screen brings all seven to full strength. A pin is only
+         as visible as its scene. */
+      pin.style.opacity = born * (0.4 + 0.6 * Math.max(presence(t, i), settled)) * (scenes.length ? seen(sc, pinScene[i]) : 1);
       pin.style.transform = 'translate(calc(-100% - var(--space-sm) / ' + z + '), -50%) scale(' + (1 / z) + ')';
     });
 
@@ -380,6 +461,9 @@
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
     clear(fills, ['transform']);
+    clear(scenes, ['opacity']);
+    if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
+    shown = -1;
   }
 
   var mq = window.matchMedia('(min-width: 64rem) and (prefers-reduced-motion: no-preference)');

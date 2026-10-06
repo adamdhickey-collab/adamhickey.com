@@ -8,7 +8,8 @@
    prototype's card and table sit. The third is a fresh capture of Agent
    Review's front door, the delegated work, at 720px wide, the product's own
    tablet layout: the simulated label, the title, and the account the screen
-   opens on ("7 changes made and checked. 2 decisions need you."). Since the
+   opens on ("7 changes made and checked. 2 decisions need you."); since
+   2026-10-06 the first decision on that screen instead (see its entry). Since the
    second iteration (2026-10-03) the card shows that screen, because the
    cards' words describe it; it also feeds og.mjs's agent-review and lab
    cards. Until then it was a capture of Agent
@@ -62,7 +63,15 @@ const CARDS = {
      Chrome rounds a clip to whole CSS pixels and only then is 468 x
      1280/832 exactly 720. Still under 64rem, so still the one-column
      layout. */
-  'agent-review': { url: `${from}#/`, width: 832, height: 468, viewportHeight: 510 },
+  /* ON THE FIRST DECISION, since 2026-10-06, not the top of the screen. The
+     write-up's walkthrough became a story about one red with two meanings,
+     and the top of the screen (the title and the account) said a product
+     existed without saying what it is for. So the card is scrolled to the
+     first decision's own edge, 10px above it, which puts the question, the
+     two reds side by side, the checks passed with either token, "Nothing
+     failed." and the two answers' first lines in the frame: the case the
+     product exists for, at a size the card can be read at. */
+  'agent-review': { url: `${from}#/`, width: 832, height: 468, viewportHeight: 510, scrollTo: '.ask', offset: 10 },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
@@ -89,6 +98,12 @@ try {
       await page.setViewportSize({ width: card.width, height: card.viewportHeight ?? card.height });
       await page.goto(card.url, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
+      if (card.scrollTo) {
+        await page.evaluate(([sel, off]) => {
+          const el = document.querySelector(sel);
+          window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - off);
+        }, [card.scrollTo, card.offset ?? 0]);
+      }
       await page.waitForTimeout(400);
     }
     const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
