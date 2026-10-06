@@ -69,9 +69,18 @@ const CARDS = {
      existed without saying what it is for. So the card is scrolled to the
      first decision's own edge, 10px above it, which puts the question, the
      two reds side by side, the checks passed with either token, "Nothing
-     failed." and the two answers' first lines in the frame: the case the
-     product exists for, at a size the card can be read at. */
-  'agent-review': { url: `${from}#/`, width: 832, height: 468, viewportHeight: 510, scrollTo: '.ask', offset: 10 },
+     failed.", "Now imagine the failure style gets stronger." and the two
+     answers' first lines in the frame: the case the product exists for, at
+     a size the card can be read at.
+     864 x 486 since agent-review#17 (2026-10-06), when each answer came to
+     open on the choice it makes ("Separate the meanings") over its outcome
+     ("Only the failure gets louder"). At 832 the frame's foot cut the
+     outcome through its middle, and moving the frame down instead brought
+     the "Needs you" heading in at its top. 864 is still a multiple of 16
+     (486 x 1280/864 is exactly 720), still holds the bar on one line and is
+     still under 64rem; the card lays out the same, and its foot lands in
+     the 8px between the outcomes and the specimens under them. */
+  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask', offset: 10 },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
