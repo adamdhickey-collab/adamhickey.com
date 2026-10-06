@@ -219,7 +219,43 @@
      bottom of the window read as cut off. */
   padding-block: var(--space-md);
 }
-.wt.is-tour .wt-stage { min-width: 0; }
+.wt.is-tour .wt-stage { min-width: 0; grid-column: 1; grid-row: 3; }
+
+/* THE TITLE OVER THE SCREEN: the name, then one paragraph, the tagline in
+   the ink and why it matters a step quieter after it, in the left column
+   above the stage, held still while the parts change. One paragraph and
+   not two lines, because two broke a word onto a line of its own at most
+   widths and cost the screen a line of height.
+   The left column is four rows, a spring, the title, the stage, a spring,
+   so the title and the screen centre together as one block and the title
+   never drifts away from the tablet on a tall window; the notes span all
+   four and centre as before. walkthrough.js subtracts the title's height,
+   margin included, from the room it fits the screen to. */
+.wt-head { display: none; }
+.wt.is-tour .wt-sticky { grid-template-rows: 1fr auto auto 1fr; }
+.wt.is-tour .wt-notes { grid-column: 2; grid-row: 1 / -1; }
+.wt.is-tour .wt-head {
+  display: block;
+  grid-column: 1;
+  grid-row: 2;
+  margin-bottom: var(--space-lg);
+}
+.wt-head-name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.wt-head-line {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+.wt-head-line strong { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
 .wt.is-tour .wt-world { will-change: transform; }
 .wt.is-tour .wt-focus { display: block; }
 .wt.is-tour .wt-pin { will-change: transform, opacity; }

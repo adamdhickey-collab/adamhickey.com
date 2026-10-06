@@ -59,6 +59,7 @@
   if (!root || !window.matchMedia) return;
 
   var sticky = root.querySelector('.wt-sticky');
+  var head = root.querySelector('.wt-head');
   var stage = root.querySelector('.wt-stage');
   var screen = root.querySelector('.wt-screen');
   var world = root.querySelector('.wt-world');
@@ -313,6 +314,10 @@
     frame();
     var cs = getComputedStyle(sticky);
     var room = sticky.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    /* The title over the stage (.wt-head) shares the column, so its height
+       and the margin under it come out of the room; a page without one, or
+       the static layout, which does not display it, reads 0. */
+    if (head && head.offsetHeight) room -= head.offsetHeight + parseFloat(getComputedStyle(head).marginBottom);
     var over = stage.offsetHeight - room;
     if (over > 0) {
       stage.style.maxWidth = Math.max(stage.offsetWidth / 2, stage.offsetWidth - over * IW / FH) + 'px';
@@ -338,6 +343,9 @@
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
+    /* The title's height depends on its typeface, which may still be
+       arriving when the tour starts: fit again once it has. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
   }
   /* Give back exactly what render() wrote and nothing else: a pin's left and
      top are in the markup and are what the static layout draws it by. */
