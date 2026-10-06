@@ -8,6 +8,7 @@
  *   node scripts/illustrate.mjs feature img/inbox/sap-fiori.png       img/writing/standardizing-ux-across-40-sap-fiori-apps.webp --brightness 1
  *   node scripts/illustrate.mjs card    img/inbox/sap-fiori.png       img/writing/standardizing-ux-across-40-sap-fiori-apps-card.webp --brightness 1
  *   node scripts/illustrate.mjs card    img/inbox/01-clarity.png       img/engagement/01-clarity.webp --brightness 1 --breathe 0.94
+ *   node scripts/illustrate.mjs mark    img/inbox/loop-system.png      img/lab/loop-system.webp
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
@@ -93,7 +94,20 @@ const SLOT = {
   feature: { w: 1600, h: 900 },
   card:    { w: 640,  h: 360 },
   tour:    { w: 960,  h: 540 },
+  /* A spot drawing on a transparent ground, built on a disc: the six steps
+     of the Agent Review loop (draw.mjs --set loop). Square, and 352 because
+     it is printed at most 11rem wide, 176px, and a capture is never printed
+     above half its file. Not cropped by border, not lifted: see `mark`
+     below. */
+  mark:    { w: 352,  h: 352 },
 };
+/* The share of a mark's slot its disc spans, in every file of the set, so
+   six drawings side by side carry six discs of one size on one line
+   whatever the generator did with the frame. 0.72 is the most the six of
+   2026-10-06 take: at 0.76 four of them lose the end of a brick, an arm or
+   a branch off a side, and the cut refuses. --disc overrides it for a
+   drawing whose object reaches further out than the set's. */
+let DISC = 0.72;
 const CHARCOAL = [0x25, 0x25, 0x25];
 const WALL_TARGET = 8.0;
 const LIFT = { brightness: 1.15, contrast: 1.06 };
@@ -146,6 +160,8 @@ if (gi >= 0) { ceiling = Number(args[gi + 1]); args.splice(gi, 2); }
 let floor = 0;
 const fi = args.indexOf('--floor');
 if (fi >= 0) { floor = Number(args[fi + 1]); args.splice(fi, 2); }
+const di = args.indexOf('--disc');
+if (di >= 0) { DISC = Number(args[di + 1]); args.splice(di, 2); }
 const [role, inPath, outPath] = args;
 const wallMode = role === 'wall';
 const grainMode = role === 'grain';
@@ -153,7 +169,7 @@ if (wallMode && !matchPath) { console.error('  ✗ wall needs --match <the page\
 if (grainMode && !(ceiling > 0)) { console.error('  \u2717 --ceiling must be positive'); process.exit(2); }
 if (grainMode && floor >= ceiling) { console.error('  \u2717 --floor must be under --ceiling'); process.exit(2); }
 if (!role || !inPath || (role !== 'report' && !wallMode && !grainMode && (!SLOT[role] || !outPath)) || !(LIFT.brightness > 0)) {
-  console.error('usage: illustrate.mjs <step|invite|hero|feature|card> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  console.error('usage: illustrate.mjs <step|invite|hero|feature|card|tour|mark> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s] [--disc f]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
   process.exit(2);
 }
 if (!(breathe > 0 && breathe <= 1)) { console.error('  ✗ --breathe is a fraction of the slot, over 0 and at most 1'); process.exit(2); }
@@ -166,6 +182,11 @@ if (breathe !== 1 && ['hero', 'wall', 'grain', 'report'].includes(role)) {
   console.error(`  ✗ --breathe does not apply to ${role}; it frames a drawing, and ${role} measures one`);
   process.exit(2);
 }
+if (role === 'mark' && (manualCrop || breathe !== 1)) {
+  console.error('  ✗ a mark is framed by its disc, not by --crop or --breathe; use --disc');
+  process.exit(2);
+}
+if (!(DISC > 0 && DISC < 1)) { console.error('  ✗ --disc is the disc\'s share of the slot, between 0 and 1'); process.exit(2); }
 if (manualCrop && role !== 'report') {
   const want = SLOT[role].w / SLOT[role].h, got = manualCrop[2] / manualCrop[3];
   if (Math.abs(want - got) > 0.01) { console.error(`  ✗ --crop is ${got.toFixed(3)}:1; the ${role} slot is ${want.toFixed(3)}:1`); process.exit(2); }
@@ -180,7 +201,7 @@ const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 const page = await browser.newPage();
 
-const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, wallTarget, lift, quality, manualCrop, breathe, ceiling, floor }) => {
+const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, wallTarget, lift, quality, manualCrop, breathe, ceiling, floor, disc }) => {
   const lum = (r, g, b) => {
     const c = [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
@@ -412,6 +433,106 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
     };
   }
 
+  /* A MARK is framed by its disc, not by its edges. The generator is asked
+     for one circle, centred, two-thirds of the frame, and puts it somewhere
+     near there, a different somewhere each time; six of them side by side
+     would carry six discs of six sizes on six lines. So the disc is found
+     and every file is cut to the same square around it: the disc's centre
+     at the slot's centre, its diameter `disc` of the slot.
+
+     The disc is the drawing's commonest opaque colour near the pale sage
+     it was asked to be filled with, and its edge is wherever that fill meets the outline with transparency
+     just past it. Where the object crosses the edge there is object past
+     the outline, not transparency, so those stretches of the edge are left
+     out of the fit rather than read as a dent. A least-squares circle
+     through what is left, refitted once without the worst residuals, is
+     the disc. Nothing is lifted: the ground is transparent, so there is no
+     wall to solve and no mean luminance to hold. */
+  if (role === 'mark') {
+    const d = sctx.getImageData(0, 0, W, H).data;
+    const at = (x, y) => (y * W + x) * 4;
+    const bins = new Map();
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 250) continue;
+      const k = (d[i] >> 4) << 8 | (d[i + 1] >> 4) << 4 | (d[i + 2] >> 4);
+      bins.set(k, (bins.get(k) || 0) + 1);
+    }
+    /* Commonest is not enough on its own: a clipboard's sheet is more white
+       than its disc is sage. So the disc is the commonest bin near the fill
+       the prompt asks for, tea-light #E8EDE5, which the generator returns
+       a few levels off; failing that, the commonest that is not white. */
+    const near = (k) => { const c = [(k >> 8) * 16 + 8, ((k >> 4) & 15) * 16 + 8, (k & 15) * 16 + 8]; return Math.max(...c.map((v, j) => Math.abs(v - [0xE8, 0xED, 0xE5][j]))) <= 24; };
+    const white = (k) => (k >> 8) >= 15 && ((k >> 4) & 15) >= 15 && (k & 15) >= 15;
+    const ranked = [...bins.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k);
+    const mode = ranked.find((k) => near(k) && !white(k)) ?? ranked.find((k) => !white(k));
+    let fr = 0, fg = 0, fb = 0, fn = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 250) continue;
+      if (((d[i] >> 4) << 8 | (d[i + 1] >> 4) << 4 | (d[i + 2] >> 4)) !== mode) continue;
+      fr += d[i]; fg += d[i + 1]; fb += d[i + 2]; fn++;
+    }
+    const fill = [fr / fn, fg / fn, fb / fn];
+    const isFill = (x, y) => { const i = at(x, y); return d[i + 3] > 200 && Math.abs(d[i] - fill[0]) < 16 && Math.abs(d[i + 1] - fill[1]) < 16 && Math.abs(d[i + 2] - fill[2]) < 16; };
+    const reach = Math.max(6, Math.round(W * 0.014));
+    const clearPast = (x, y, dx, dy) => {
+      for (let k = 1; k <= reach; k++) {
+        const xx = x + dx * k, yy = y + dy * k;
+        if (xx < 0 || yy < 0 || xx >= W || yy >= H || d[at(xx, yy) + 3] < 40) return true;
+      }
+      return false;
+    };
+    const pts = [];
+    for (let y = 0; y < H; y += 2) {
+      let l = -1, r = -1;
+      for (let x = 0; x < W; x++) if (isFill(x, y)) { if (l < 0) l = x; r = x; }
+      if (l >= 0 && clearPast(l, y, -1, 0)) pts.push([l, y]);
+      if (r >= 0 && clearPast(r, y, 1, 0)) pts.push([r, y]);
+    }
+    for (let x = 0; x < W; x += 2) {
+      let t = -1, b = -1;
+      for (let y = 0; y < H; y++) if (isFill(x, y)) { if (t < 0) t = y; b = y; }
+      if (t >= 0 && clearPast(x, t, 0, -1)) pts.push([x, t]);
+      if (b >= 0 && clearPast(x, b, 0, 1)) pts.push([x, b]);
+    }
+    // Kasa: x^2 + y^2 + Dx + Ey + F = 0, solved by its normal equations.
+    const fit = (ps) => {
+      let sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0, sz = 0, sxz = 0, syz = 0; const n = ps.length;
+      for (const [x, y] of ps) { const z = x * x + y * y; sx += x; sy += y; sxx += x * x; syy += y * y; sxy += x * y; sz += z; sxz += x * z; syz += y * z; }
+      const A = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]], B = [-sxz, -syz, -sz];
+      const det = (m) => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+      const D0 = det(A);
+      const col = (j) => A.map((row, i) => row.map((v, k) => (k === j ? B[i] : v)));
+      const [D, E, F] = [0, 1, 2].map((j) => det(col(j)) / D0);
+      const cx = -D / 2, cy = -E / 2;
+      return { cx, cy, r: Math.sqrt(cx * cx + cy * cy - F) };
+    };
+    let c = fit(pts);
+    const res = pts.map(([x, y]) => Math.abs(Math.hypot(x - c.cx, y - c.cy) - c.r));
+    const cut = [...res].sort((a, b) => a - b)[Math.floor(res.length * 0.8)];
+    const kept = pts.filter((_, i) => res[i] <= Math.max(cut, 2));
+    c = fit(kept);
+
+    const side = (2 * c.r) / disc;
+    const sx = c.cx - side / 2, sy = c.cy - side / 2;
+    // What of the drawing falls outside that square, so a cut that clips an
+    // object reaching far out of its disc says so rather than shipping it.
+    let minX = W, minY = H, maxX = -1, maxY = -1;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (d[at(x, y) + 3] > 40) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+    const clip = { left: Math.max(0, Math.round(sx - minX)), top: Math.max(0, Math.round(sy - minY)), right: Math.max(0, Math.round(maxX - (sx + side))), bottom: Math.max(0, Math.round(maxY - (sy + side))) };
+
+    const out = document.createElement('canvas'); out.width = slot.w; out.height = slot.h;
+    const octx = out.getContext('2d');
+    octx.imageSmoothingEnabled = true; octx.imageSmoothingQuality = 'high';
+    octx.drawImage(img, sx, sy, side, side, 0, 0, slot.w, slot.h);
+    return {
+      width: W, height: H, fill: fill.map(Math.round), points: pts.length, kept: kept.length,
+      disc: { cx: +c.cx.toFixed(1), cy: +c.cy.toFixed(1), r: +c.r.toFixed(1) },
+      offset: { x: +((c.cx - W / 2) / W).toFixed(3), y: +((c.cy - H / 2) / H).toFixed(3) },
+      share: +((2 * c.r) / W).toFixed(3), clip,
+      webp: out.toDataURL('image/webp', quality).split(',')[1],
+    };
+  }
+
   if (role === 'report') {
     const all = meanOf(sctx, 0, 0, W, H);
     const out = { width: W, height: H, meanLuminance: +all.mean.toFixed(1) };
@@ -477,7 +598,7 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
   const all = meanOf(octx, 0, 0, slot.w, slot.h);
   const webp = out.toDataURL('image/webp', quality).split(',')[1];
   return { source: { width: W, height: H, border, inset, crop: [cx, cy, cw, ch] }, breathe: { scale: breathe, box: [bx, by, bw, bh] }, brightness: +brightness.toFixed(3), meanLuminance: +all.mean.toFixed(1), wallRatio, wallHex, webp };
-}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, breathe, ceiling, floor });
+}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, breathe, ceiling, floor, disc: DISC });
 
 await browser.close();
 
@@ -525,6 +646,18 @@ if (wallMode) {
   writeFileSync(dest, Buffer.from(result.webp, 'base64'));
   console.log(`  ${result.width}x${result.height}, ${(statSync(dest).size / 1024).toFixed(0)}KB`);
   if (a.mean < 126 || a.mean > 184) console.log(`  ● mean luminance ${a.mean} is outside the set's 126-184; look at it beside its neighbors before committing`);
+  process.exit(0);
+}
+
+if (role === 'mark') {
+  writeFileSync(outPath, Buffer.from(result.webp, 'base64'));
+  const { disc: c, offset: o, clip } = result;
+  console.log(`  ${inPath} -> ${outPath}`);
+  console.log(`  source ${result.width}x${result.height}, disc fill rgb(${result.fill.join(', ')}), edge from ${result.kept} of ${result.points} points`);
+  console.log(`  disc at ${c.cx},${c.cy} r ${c.r}: ${(result.share * 100).toFixed(1)}% of the source's width, off centre by ${(o.x * 100).toFixed(1)}% across and ${(o.y * 100).toFixed(1)}% down`);
+  console.log(`  ${SLOT.mark.w}x${SLOT.mark.h} with the disc at ${(DISC * 100).toFixed(0)}% of it, ${(statSync(outPath).size / 1024).toFixed(0)}KB`);
+  const lost = Object.entries(clip).filter(([, v]) => v > 0);
+  if (lost.length) { console.log(`  ✗ the cut clips the drawing: ${lost.map(([k, v]) => `${v}px off the ${k}`).join(', ')}; try a smaller --disc`); process.exit(1); }
   process.exit(0);
 }
 
