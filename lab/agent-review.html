@@ -101,9 +101,10 @@
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../walkthrough.css?v=8" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=1" />
+  <link rel="stylesheet" href="agent-review.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../lightbox.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -407,6 +408,7 @@
             <a class="wt-skip" href="#the-experiment">Skip the tour</a>
             <div class="wt-stage">
             <figure class="wt-figure build-phone">
+                <a class="ar-zoom ar-zoom--tour" href="../img/lab/agent-review-delegation.webp?v=7" data-zoom><span class="visually-hidden">Open full size: </span>
                 <div class="wt-screen" data-fold="1000">
                   <div class="wt-world">
                     <picture>
@@ -424,6 +426,8 @@
             <span class="wt-pin" style="left: 66.67%; top: 24.69%" aria-hidden="true">7</span>
                   </div>
                 </div>
+                <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
+                </a>
             </figure>
             <!-- The pager: the seven progress bars with a way to press through
                  them, since 2026-10-05 (Adam: a previous and a next button,
@@ -550,11 +554,14 @@
              checked against the branch at e50a20e: the story and its play
              function are the agent's. -->
         <figure class="build-shot ar-split-media ar-split-media--held">
+          <a class="ar-zoom" href="../img/lab/agent-review-storybook.webp?v=6" data-zoom><span class="visually-hidden">Open full size: </span>
           <picture>
                 <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-storybook-phone.webp?v=3" width="375" height="480" />
                 <img src="../img/lab/agent-review-storybook.webp?v=6" width="1100" height="720" loading="lazy" decoding="async"
                      alt="The ArchiveConfirmation story: three customers selected, and the selection toolbar asking &ldquo;Archive 3 customers?&rdquo; with Cancel and a red Archive 3 customers button." />
               </picture>
+          <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
+          </a>
           <figcaption>The component system the runs happened in, as its Storybook: every state of every component is a story, and every story is also a test. This story is one the agent wrote in Run 1. Its test presses Archive and checks that the toolbar asks &ldquo;Archive 3 customers?&rdquo;, that the confirming button takes focus, and that Escape cancels.</figcaption>
         </figure>
         <aside class="dp-note hj-note ar-split-text" aria-labelledby="hj-shared-label hj-shared-head">
@@ -592,12 +599,11 @@
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>Review changed the system. No run has tested it since.</dt><dd>The overflow test had passed a toolbar 58px too wide, so I rewrote it, and four of the twelve rules gained wording.</dd></div>
         </dl>
         <div class="ar-split-text">
-        <p>The checks found more defects in my own work than in the agents&rsquo;: what I planted, and before any run, three accessibility gaps in my own components. Each agent flagged its own judgment calls. Run 2 was returned with two corrections, each naming the exact component to use, so nothing is left to guess.</p>
         <p>The judgment didn&rsquo;t go away. It moved, to the questions the checks left open:</p>
         <ul class="build-list">
-          <li>Was the shared change a real fix, or a shortcut?</li>
-          <li>Is the new confirm-before-archive step one the product wants?</li>
-          <li>Is a changed screen the feature, or a break? The pixel comparison flagged four on every version and couldn&rsquo;t tell.</li>
+          <li><strong>Was the shared change a real fix, or a shortcut?</strong></li>
+          <li><strong>Is the new confirm-before-archive step one the product wants?</strong></li>
+          <li><strong>Is a changed screen the feature, or a break?</strong> The pixel comparison flagged four on every version and couldn&rsquo;t tell.</li>
         </ul>
         <p>Agent Review is designed around questions like these.</p>
         </div>
@@ -669,11 +675,14 @@
         <p>An answer becomes one of your rules only if you check a box, and the box starts unchecked. The rule says in plain words what it covers and what it doesn&rsquo;t, and you can edit or revoke it later.</p>
         </div>
         <figure class="build-shot ar-split-media">
+          <a class="ar-zoom" href="../img/lab/agent-review-delegation-rule.webp?v=5" data-zoom><span class="visually-hidden">Open full size: </span>
           <picture>
                 <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-rule-phone.webp?v=5" width="375" height="720" />
                 <img src="../img/lab/agent-review-delegation-rule.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
                      alt="The first decision answered with &ldquo;Use the diff pair&rdquo;, the box &ldquo;Also use this answer for similar cases&rdquo; checked, and the rule as it will read: what it covers, what it doesn&rsquo;t, and the three waiting changes it settles now, above Cancel and Apply." />
               </picture>
+          <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
+          </a>
           <figcaption>Simulated: the first decision answered, and the rule as it will read, before it is applied.</figcaption>
         </figure>
         </div>
@@ -684,11 +693,14 @@
         <p>Every completed change opens to what changed, why, under which boundaries, and what each check established. Any merged change can be reverted, and the history keeps both.</p>
         </div>
         <figure class="build-shot ar-split-media">
+          <a class="ar-zoom" href="../img/lab/agent-review-delegation-record.webp?v=5" data-zoom><span class="visually-hidden">Open full size: </span>
           <picture>
                 <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-record-phone.webp?v=5" width="375" height="720" />
                 <img src="../img/lab/agent-review-delegation-record.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
                      alt="A completed change opened: the failed-payment red made --color-danger, the line before and after, why, the two boundaries it acted under, the three checks and what each established, and what no check establishes." />
               </picture>
+          <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
+          </a>
           <figcaption>Simulated: a completed change, opened. The commit it names is written, not a real one.</figcaption>
         </figure>
         </div>
@@ -699,11 +711,14 @@
         <p>When every decision is made, the &ldquo;Needs you&rdquo; section is gone and the account says &ldquo;Nothing needs your attention.&rdquo; Nothing is invented to fill the space.</p>
         </div>
         <figure class="build-shot ar-split-media">
+          <a class="ar-zoom" href="../img/lab/agent-review-delegation-quiet.webp?v=5" data-zoom><span class="visually-hidden">Open full size: </span>
           <picture>
                 <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-quiet-phone.webp?v=5" width="375" height="720" />
                 <img src="../img/lab/agent-review-delegation-quiet.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
                      alt="The same run after the decisions: &ldquo;Nothing needs your attention.&rdquo; and &ldquo;13 changes made and checked. Completed work is below.&rdquo;, with the account under it, the completed work listed below, and the rule beside it." />
               </picture>
+          <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
+          </a>
           <figcaption>Simulated: every decision made, 13 changes checked, and all 36 hard-coded values now tokens.</figcaption>
         </figure>
         </div>
@@ -730,14 +745,12 @@
 
     </main>
   <footer class="case-footer">
-      <div class="container case-wide">
-        <div class="ar-split">
-        <div class="case-ask ar-split-text">
+      <div class="container case-narrow">
+        <div class="case-ask">
           <h2 class="case-ask-title">Want this on your team?</h2>
           <p>A component system an agent works inside, the rules it reads, the checks that measure what comes back, and a review that asks for a person only where one is needed. It starts with the system you already have.</p>
           <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
         </div>
-        <div class="ar-split-media">
         <p class="build-service">The thinking behind this is in <a href="../writing/what-does-a-design-system-need-once-ai-is-in-the-product.html">what a design system needs once AI is in the product</a> and <a href="../writing/what-does-a-person-need-to-supervise-an-ai-agent.html">what a person needs to supervise an AI agent</a>; the way of working is <a href="../engagement/design-system-foundation.html">setting standards other teams adopt</a>.</p>
         <a class="build-next" href="../prototype/deploy-console.html">
           <span class="build-next-eyebrow">Next in the lab</span>
@@ -747,8 +760,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
           Back to the lab
         </a>
-        </div>
-        </div>
       </div>
     </footer>
   <!-- The progress line, as on an article: the 4px sage rule under the nav
