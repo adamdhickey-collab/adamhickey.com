@@ -42,6 +42,24 @@
  */
 
 export const REACHABLE = {
+  /* THE LAB INDEX, A WORKSPACE. lab/index.html shows one welcome card and
+     keeps its three pieces in hidden articles that workspace.js reveals one
+     at a time, so a fresh load measures a third of what the page says. A
+     piece is a file link in the explorer; pressing it fills the preview, and
+     the two prototypes make their frame the first time they are opened. The
+     frame is a document of its own that these checks measure as the page it
+     is, so what each state adds here is the article around it. */
+  'lab/index.html': [
+    { name: 'Agent Review open in the preview',
+      press: ['.ws-file[data-piece="agent-review"]'] },
+
+    { name: 'the deploy console open in the preview',
+      press: ['.ws-file[data-piece="deploy-console"]'] },
+
+    { name: 'the dispatch cockpit open in the preview',
+      press: ['.ws-file[data-piece="dispatch-cockpit"]'] },
+  ],
+
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying
        which trucks changed rank, which only appear across a genuine switch. */
