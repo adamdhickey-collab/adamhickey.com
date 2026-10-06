@@ -61,9 +61,11 @@
  * screen's worth at the top. Without the tour only the first scene is
  * drawn, and the others are never fetched.
  *
- * THE PAGER, since 2026-10-05: a previous and a next button at the two ends
- * of the progress bars. A press scrolls the page to the next stop, the t at
- * which a part is best looked at, and the tour follows because the tour
+ * THE PAGER, since 2026-10-05: a previous and a next button, at the two ends
+ * of the progress bars until 2026-10-06 and since then a solid pair in the
+ * panel's top right corner, with the bars across the panel under it all. A
+ * press scrolls the page to the next stop, the t at which a part is best
+ * looked at, and the tour follows because the tour
  * follows the scroll. So the buttons are a second way to move the same
  * number, never a second clock, and a reader can mix the two freely.
  *
@@ -80,6 +82,7 @@
 
   var sticky = root.querySelector('.wt-sticky');
   var head = root.querySelector('.wt-head');
+  var bars = root.querySelector('.wt-pager');
   var stage = root.querySelector('.wt-stage');
   var screen = root.querySelector('.wt-screen');
   var world = root.querySelector('.wt-world');
@@ -402,6 +405,9 @@
        and the margin under it come out of the room; a page without one, or
        the static layout, which does not display it, reads 0. */
     if (head && head.offsetHeight) room -= head.offsetHeight + parseFloat(getComputedStyle(head).marginBottom);
+    /* So do the progress bars, since 2026-10-06 a row of their own under
+       the screen and the notes rather than a row inside the stage. */
+    if (bars && bars.offsetHeight) room -= bars.offsetHeight + parseFloat(getComputedStyle(bars).marginTop);
     var over = stage.offsetHeight - room;
     if (over > 0) {
       stage.style.maxWidth = Math.max(stage.offsetWidth / 2, stage.offsetWidth - over * IW / FH) + 'px';

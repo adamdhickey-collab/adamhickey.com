@@ -99,9 +99,9 @@
   <link rel="stylesheet" href="../style.css?v=20261006a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="../walkthrough.css?v=13" />
+  <link rel="stylesheet" href="../walkthrough.css?v=14" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=10" />
+  <link rel="stylesheet" href="agent-review.css?v=11" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../lightbox.js?v=1" defer></script>
@@ -408,6 +408,25 @@
               <p class="wt-head-name">Feature walkthrough</p>
               <p class="wt-head-line">Shown below: Agent Review&rsquo;s report on one design job handed to an AI coding agent.</p>
             </header>
+            <!-- PREVIOUS AND NEXT, in the panel's top right corner, since
+                 2026-10-06 (Adam: "more prominent in the upper right corner
+                 of the card", grouped, and solid "for stronger visual
+                 emphasis"). From 2026-10-05 they were the two ends of the
+                 progress bars under the screen ("seamlessly integrated with
+                 the step counter"), outlined, where they read as part of the
+                 bar rather than as the way through it. They sit on the
+                 title's row, beside it, and wear the site's primary button:
+                 the sage ground and the warm ink. A press moves the page's
+                 own scroll position by one part, so pressing and scrolling
+                 are the same clock (walkthrough.js). They are real buttons
+                 with names, first after the title for a keyboard; the status
+                 line is for a screen reader, and says which part a press
+                 landed on. Only the tour shows them. -->
+            <div class="wt-nav" role="group" aria-label="Step through the walkthrough">
+              <button class="wt-step wt-step--prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg></button>
+              <button class="wt-step wt-step--next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></button>
+              <p class="wt-status visually-hidden" role="status"></p>
+            </div>
             <div class="wt-stage">
             <figure class="wt-figure build-phone">
                 <a class="ar-zoom ar-zoom--tour" href="../img/lab/agent-review-tour-start.webp?v=1" data-zoom><span class="visually-hidden">Open full size: </span>
@@ -441,20 +460,6 @@
                 <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
                 </a>
             </figure>
-            <!-- The pager: the seven progress bars with a way to press through
-                 them, since 2026-10-05 (Adam: a previous and a next button,
-                 "seamlessly integrated with the step counter"). The buttons
-                 move the page's own scroll position by one part, so pressing
-                 and scrolling are the same clock (walkthrough.js). They are
-                 real buttons with names; the status line under them is for a
-                 screen reader, and says which part a press landed on. Only
-                 the tour shows any of it. -->
-            <div class="wt-pager">
-              <button class="wt-step wt-step--prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg></button>
-              <div class="wt-ticks" aria-hidden="true"><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span></div>
-              <button class="wt-step wt-step--next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></button>
-              <p class="wt-status visually-hidden" role="status"></p>
-            </div>
             </div>
             <div class="wt-notes">
               <!-- The lead says the point once, in the page's own words: the
@@ -463,7 +468,7 @@
                 <p class="wt-kicker">One delegated job</p>
                 <h3>The agent didn&rsquo;t stop because something failed.</h3>
                 <p class="wt-body">It stopped because everything passed and the answer still wasn&rsquo;t knowable. Seven steps, from the request to the one question no check could answer.</p>
-                <p class="wt-hint" aria-hidden="true">Scroll, or press the arrows, to step through &darr;</p>
+                <p class="wt-hint" aria-hidden="true">Scroll, or press the arrows above, to step through &darr;</p>
               </div>
               <!-- THE PHONE'S VERSION, since 2026-10-06 (Adam: the seven notes
                    under the phone capture were "too long" and lost focus down
@@ -526,9 +531,15 @@
                 <p class="wt-body">Two smaller answers later, all 36 values are merged. Human judgment didn&rsquo;t disappear. It moved to the questions the checks couldn&rsquo;t answer.</p>
               </div>
             </div>
+            <!-- THE PROGRESS BARS, across the whole panel, since 2026-10-06
+                 (Adam: the pagination "full width of the whole card"): a row
+                 of their own under the screen and the notes, from the
+                 screen's left edge to the notes' right. They fill as the
+                 tour reaches each part. Only the tour shows them. -->
+            <div class="wt-pager" aria-hidden="true"><div class="wt-ticks" aria-hidden="true"><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span></div></div>
           </div>
         </section>
-        <script src="../walkthrough.js?v=9"></script>
+        <script src="../walkthrough.js?v=10"></script>
       </div>
     </header>
 

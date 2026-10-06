@@ -209,7 +209,7 @@
    aim") is the plainest summary of the screen, and a reader on a phone or
    with reduced motion never saw it. In the static layout it closes the
    list. */
-.wt-hint, .wt-ticks, .wt-skip, .wt-pager { display: none; }
+.wt-hint, .wt-ticks, .wt-skip, .wt-pager, .wt-nav { display: none; }
 .wt-hint {
   margin: var(--space-md) 0 0;
   font-size: var(--text-sm);
@@ -269,14 +269,18 @@
    name's baseline to the tagline's capitals (--space-md read too tight),
    and from the tagline's baseline to the top of the tablet --space-xl and
    --space-lg, 44px.
-   The left column is four rows, a spring, the title, the stage, a spring,
-   so the title and the screen centre together as one block and the title
-   never drifts away from the tablet on a tall window; the notes span all
-   four and centre as before. walkthrough.js subtracts the title's height,
-   margin included, from the room it fits the screen to. */
+   The box is five rows, a spring, the title, the stage, the progress bars,
+   a spring, so the title, the screen and the bars centre together as one
+   block and the title never drifts away from the tablet on a tall window.
+   The title's row holds previous and next on the right (THE WAY THROUGH,
+   below), the stage's row holds the notes beside the screen, centred on
+   it, and the bars run under both, across the panel. Until 2026-10-06 the
+   notes spanned every row and the bars sat under the screen alone, between
+   the two buttons. walkthrough.js subtracts the title's height and the
+   bars', margins included, from the room it fits the screen to. */
 .wt-head { display: none; }
-.wt.is-tour .wt-sticky { grid-template-rows: 1fr auto auto 1fr; }
-.wt.is-tour .wt-notes { grid-column: 2; grid-row: 1 / -1; }
+.wt.is-tour .wt-sticky { grid-template-rows: 1fr auto auto auto 1fr; }
+.wt.is-tour .wt-notes { grid-column: 2; grid-row: 3; }
 .wt.is-tour .wt-head {
   display: block;
   grid-column: 1;
@@ -316,32 +320,49 @@
 .wt.is-tour .wt-hint { display: block; }
 .wt.is-tour .wt-note h3 { font-size: var(--text-3xl); }
 
-/* THE PAGER: a previous button, seven short bars, a next button, in one row
-   under the screen. The bars fill as the tour reaches each part: the track is
-   the quiet divider, the fill is the sage, and the fill is a transform the
-   script sets, as the page's own progress line is. The buttons, since
-   2026-10-05, are the same control's two ends, so a reader can press through
-   the parts as well as scroll through them.
-
-   A button is the site's quiet control, .ra-listen from read-aloud.css, as a
-   circle: a hairline of --color-muted-gray, the charcoal ink, and the same
-   inversion under a pointer. 2.75rem is the 44px target SPACING.md gives a
-   control, written the way that file writes it; the chevron is the line icon
-   .btn-back wears, at --space-lg. A button at the end of its travel is
-   aria-disabled, not disabled, so it keeps the focus a keyboard reader
-   pressed it with; it goes to the rule colour and stops answering. */
+/* THE PROGRESS BARS: seven short bars in a row of their own under the
+   screen and the notes, across both columns, the whole width of the panel
+   (Adam, 2026-10-06: "full width of the whole card"). They fill as the tour
+   reaches each part: the track is the quiet divider, the fill is the sage,
+   and the fill is a transform the script sets, as the page's own progress
+   line is. From 2026-10-05 to then they ran under the screen alone, between
+   the previous and the next button. */
 .wt.is-tour .wt-pager {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
+  display: block;
+  grid-column: 1 / -1;
+  grid-row: 4;
   margin-top: var(--space-lg);
 }
 .wt.is-tour .wt-ticks {
-  flex: 1 1 auto;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: var(--space-xs);
   padding: 0;
+}
+
+/* THE WAY THROUGH: previous and next, grouped, in the panel's top right
+   corner, on the title's row, the top of the pair on the top of the
+   title's capitals (Adam, 2026-10-06: "more prominent in the upper right
+   corner of the card", and solid "for stronger visual emphasis"). They
+   were outlined circles at the two ends of the bars, the site's quiet
+   control, and read as the bar's end caps rather than as the way through.
+
+   Each is the site's primary button as a circle: the sage ground
+   (--color-accent-text) and the warm ink, the same pair .btn-primary is
+   (style.css), and the same lift under a pointer. 2.75rem is the 44px
+   target SPACING.md gives a control, written the way that file writes it;
+   the chevron is the line icon .btn-back wears, at --space-lg. A button at
+   the end of its travel is aria-disabled, not disabled, so it keeps the
+   focus a keyboard reader pressed it with; it drops its ground for the
+   hairline in the rule colour and stops answering, so the one that still
+   goes somewhere is the solid one. */
+.wt.is-tour .wt-nav {
+  display: flex;
+  gap: var(--space-sm);
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  align-self: start;
 }
 .wt-step {
   flex: none;
@@ -350,10 +371,10 @@
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid var(--color-muted-gray);
+  border: 1px solid var(--color-accent-text);
   border-radius: var(--radius-pill);
-  background: transparent;
-  color: var(--color-charcoal);
+  background: var(--color-accent-text);
+  color: var(--color-warm);
   cursor: pointer;
   transition: background-color var(--motion-state) var(--ease),
               color var(--motion-state) var(--ease),
@@ -362,9 +383,7 @@
 .wt-step svg { display: block; width: var(--space-lg); height: var(--space-lg); }
 @media (hover: hover) and (pointer: fine) {
   .wt-step:hover {
-    background: var(--color-charcoal);
-    color: var(--ink-on-dark);
-    border-color: var(--color-charcoal);
+    background: color-mix(in srgb, var(--color-accent-text) 90%, transparent);
   }
 }
 .wt-step:focus-visible {
