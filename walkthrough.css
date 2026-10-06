@@ -105,7 +105,8 @@
    object, so the eye can carry a number from the picture to the words: a
    whole disc of the on-white sage with the digit in white, a white stroke
    round it, and a tight shadow under the stroke. Since 2026-10-05 they are
-   one rule, at Adam's request; until then the note's disc wore a sage ring,
+   one rule, at Adam's request (the note's disc has since lost its stroke
+   and its shadow to the sage, under the notes below); until then it wore a sage ring,
    because a white ring on the warm ground has no edge of its own. The shadow
    is what gives it one, and it is two of the scale's steps laid together,
    each doing one job: --shadow-resting is a faint even halo, which draws the
@@ -180,7 +181,20 @@
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-.wt-num { flex: none; }
+/* THE NOTE'S DISC IS THE SAGE ALONE, since the evening of 2026-10-06
+   (Adam: "fill in the stroke on this pin that's outside of the screen to
+   the same color of the fill"). The pin keeps its white stroke and its
+   shadow, because it stands on the dark capture, where the sage alone is
+   under 3:1 and the stroke is its edge. Beside the note, on the panel's
+   light ground, the sage is its own edge: the stroke takes the fill's
+   colour, and the shadow, there to draw a white stroke's edge on a light
+   ground, goes with it. The border stays, so the disc is still the pin's
+   size across. */
+.wt-num {
+  flex: none;
+  border-color: var(--color-accent-text);
+  box-shadow: none;
+}
 .wt-note h3 {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-serif);
@@ -333,21 +347,32 @@
    site logo" where the fill ends, 1px and about 40 tall). The wordmark is
    "adam" in charcoal and "hickey" in sage, and a charcoal hairline at
    exactly 45 degrees (adam-logo.svg, M277.3.3 147 130.7) cuts the h where
-   the one becomes the other. The bars do the same: each is --space-lg tall
-   with square ends, the fill ends on a 45-degree cut rather than a square
-   one, and one 1px charcoal slash, --space-3xl tall, stands on the cut and
-   runs past the bar above and below, as the logo's runs past the letters.
+   the one becomes the other. The bars do the same: the fill ends on a
+   45-degree cut rather than a square one, and one 1px charcoal slash,
+   --space-3xl tall, stands on the cut and runs past the bar above and
+   below, as the logo's runs past the letters.
 
-   THE GAP IS THE BAR'S HEIGHT, and that is what makes the slash travel
-   rather than jump. A 45-degree cut across a bar --space-lg tall runs
-   --space-lg along it, so a bar is full when its cut has gone that far past
-   its end, and the next one starts when its cut is that far before its
-   start. With a gap of the same --space-lg the two are one place: the slash
-   lies across the gap, from the full bar's foot to the empty bar's head,
-   and the whole row is one track it moves along at an even rate. The script
-   sets --fill on each fill and --progress, 0 to 1, on the row; the cut is a
-   clip-path and the slash is placed with left, so neither is ever scaled
-   out of its angle or its 1px.
+   SLIM, CLOSE AND DOTTED, from later the same evening (Adam: "half as
+   tall", "one pixel spacing between them", and "fill the gray with a one
+   pixel dot pattern"). Each bar is half --space-lg with square ends, the
+   bars are a hairline apart, and the part still to come is a screen of 1px
+   dots in --color-muted-gray rather than a flat tint: the sage is solid
+   where the tour has been and the rest is only drawn in.
+
+   ONE FRONT, NOT SEVEN. With the gap as wide as the bar, a bar's cut could
+   finish where the next one's started; at a hairline it cannot, because a
+   45-degree cut runs a bar's height along it, and seven separate cuts would
+   jump back that far at every part. So the fill is one diagonal front
+   crossing the whole row, and each bar shows the part of it that falls on
+   the bar. At a part's start the front stands in the middle of the hairline
+   before its bar, so the slash crosses the gap and nicks the end of one bar
+   and the head of the next, as the logo's crosses the h. At the start it
+   stands half a bar's height before the first bar, where nothing is filled,
+   and at the end as far past the last, where everything is. walkthrough.js
+   measures the bars when the window is measured and sets the front in px,
+   --front on the row and --cut on each fill (the front from that bar's
+   start); the cut is a clip-path and the slash is placed with left, so
+   neither is ever scaled out of its angle or its 1px.
 
    It needs room above it, which a 4px bar did not: --space-3xl from the
    screen's foot to the slash's top, and the panel's own --space-2xl and
@@ -365,7 +390,7 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: center;
-  gap: var(--space-lg);
+  gap: 1px;
   height: var(--space-3xl);
   padding: 0;
 }
@@ -427,38 +452,45 @@
   color: var(--color-rule);
   cursor: default;
 }
+/* The dots: one in the corner of every tile, and the tile is a third of
+   the bar's height less the dot, so the four rows are the bar's top edge,
+   its bottom edge and two between, evenly, and the dots draw the bar's
+   outline as well as fill it. A conic quarter at 1px 1px is a square dot
+   with hard edges, where a radial one is a blurred disc. */
 .wt-tick {
   display: block;
-  height: var(--space-lg);
-  background: var(--rule-strong);
+  height: calc(var(--space-lg) / 2);
+  background:
+    conic-gradient(from 270deg at 1px 1px, var(--color-muted-gray) 90deg, transparent 0)
+    0 0 / calc((var(--space-lg) / 2 - 1px) / 3) calc((var(--space-lg) / 2 - 1px) / 3);
 }
-/* The cut's top is --fill of the way along the bar and its run past the
-   end, and its foot is --space-lg behind the top: empty at 0, whole at 1.
-   The shape's back edge is a run behind the bar's start, where the box
-   clips it, rather than on it: an empty bar's clip was a zero-width shape
-   standing on that edge, and on a bar that starts between two pixels its
-   antialiasing drew a sage hairline down the empty bar's head. */
+/* The cut's middle is --cut from the bar's start, and it runs half the
+   bar's height either side of that: its top ahead, its foot behind. The
+   shape reaches past the bar on every side but the cut, a bar's height
+   behind its start and a pixel above and below it, carrying the 45 degrees
+   that pixel further, so the box's own edges, which land on whole pixels,
+   are the bar's and the clip draws only the cut. Clipped on the edges
+   themselves, a bar that sits between two pixels was antialiased along
+   them: a dashed row of the dots showed under the sage's foot, and an empty
+   bar's head wore a sage hairline. */
 .wt-tick i {
   display: block;
   height: 100%;
   background: var(--color-accent-text);
   clip-path: polygon(
-    calc(var(--space-lg) * -1) 0,
-    calc(var(--fill, 0) * (100% + var(--space-lg))) 0,
-    calc(var(--fill, 0) * (100% + var(--space-lg)) - var(--space-lg)) 100%,
-    calc(var(--space-lg) * -1) 100%
+    calc(var(--space-lg) / -2) -1px,
+    calc(var(--cut, var(--space-lg) / -2) + var(--space-lg) / 4 + 1px) -1px,
+    calc(var(--cut, var(--space-lg) / -2) - var(--space-lg) / 4 - 1px) calc(100% + 1px),
+    calc(var(--space-lg) / -2) calc(100% + 1px)
   );
 }
-/* The slash's middle is the cut's middle: --progress of the way along the
-   row and its one extra gap, less half a gap, so it stands half a gap
-   before the first bar at the start and half a gap after the last at the
-   end, inside the panel's --space-3xl of side. Drawn as an svg line, like
-   the logo's own, so the hairline is antialiased along its length rather
-   than stepped. */
+/* The slash's middle is the front, so it stands on every bar's cut at once.
+   Drawn as an svg line, like the logo's own, so the hairline is antialiased
+   along its length rather than stepped. */
 .wt-slash {
   position: absolute;
   top: 0;
-  left: calc(var(--progress, 0) * (100% + var(--space-lg)) - var(--space-lg) / 2 - var(--space-3xl) / 2);
+  left: calc(var(--front, 0px) - var(--space-3xl) / 2);
   width: var(--space-3xl);
   height: var(--space-3xl);
   overflow: visible;

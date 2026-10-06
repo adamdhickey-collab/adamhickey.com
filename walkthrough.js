@@ -303,10 +303,13 @@
     place(intro, ease((INTRO - t) / 0.25));
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
-    /* The bars: how full each is, and how far along the row the slash on
-       their cut stands (walkthrough.css draws both from these). */
-    fills.forEach(function (f, i) { f.style.setProperty('--fill', clamp(t - INTRO - i, 0, 1)); });
-    if (ticks && fills.length) ticks.style.setProperty('--progress', clamp((t - INTRO) / fills.length, 0, 1));
+    /* The bars: one front across the row, the slash on it and each fill
+       cut by it (walkthrough.css draws both from these). */
+    if (lane) {
+      var x = front(t);
+      ticks.style.setProperty('--front', x + 'px');
+      fills.forEach(function (f, i) { f.style.setProperty('--cut', (x - lane.at[i]) + 'px'); });
+    }
     ends(t);
   }
 
@@ -419,12 +422,42 @@
     }
   }
 
+  /* THE BARS' FRONT. One diagonal front crosses the row, and each part
+     moves it from one gap's middle to the next: from the hairline before its
+     bar to the hairline after it, so the slash crosses a gap as the parts
+     change. The first part starts it half a bar's height before the first
+     bar, where its cut has not reached the bar, and the last ends it as far
+     past the last bar, where the cut has passed it. Measured with the
+     window, in the row's own px, because the bars are a fraction of it and
+     a hairline apart, and a rounded position would put the slash on a bar's
+     edge rather than in the gap. */
+  var lane = null;
+  function measureBars() {
+    lane = null;
+    if (!ticks || !fills.length) return;
+    var row = ticks.getBoundingClientRect();
+    var boxes = fills.map(function (f) { return f.parentNode.getBoundingClientRect(); });
+    if (!boxes[0].height) return;
+    var half = boxes[0].height / 2;
+    lane = {
+      at: boxes.map(function (b) { return b.left - row.left; }),
+      stops: boxes.map(function (b, i) {
+        return i ? (boxes[i - 1].right + b.left) / 2 - row.left : b.left - row.left - half;
+      }).concat(boxes[boxes.length - 1].right - row.left + half)
+    };
+  }
+  function front(t) {
+    var s = clamp(t - INTRO, 0, fills.length), k = Math.min(fills.length - 1, Math.floor(s));
+    return mix(lane.stops[k], lane.stops[k + 1], s - k);
+  }
+
   function measure() {
     var style = getComputedStyle(document.documentElement);
     navH = parseFloat(style.getPropertyValue('--nav-height')) || 80;
     rise = parseFloat(style.getPropertyValue('--motion-rise')) || 20;
     runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
     fit();
+    measureBars();
     /* THE BOX HUGS WHAT IT HOLDS AND STICKS IN THE MIDDLE OF THE WINDOW.
        Since 2026-10-06 the sticky box is as tall as the title, the stage
        and the panel round them, not as tall as the window: a window-tall
@@ -470,8 +503,8 @@
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
-    clear(fills, ['--fill']);
-    if (ticks) clear([ticks], ['--progress']);
+    clear(fills, ['--cut']);
+    if (ticks) clear([ticks], ['--front']);
     clear(scenes, ['opacity']);
     if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
     shown = -1;
