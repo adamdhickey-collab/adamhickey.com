@@ -167,6 +167,7 @@ const SHOTS = {
   record: {
     file: 'agent-review-delegation-record',
     app: '#/',
+    desktop: { clip: mainColumn },
     open: async (page) => {
       const record = page.locator('.record', { hasText: 'The failed-payment red' });
       await record.locator('summary').click();
@@ -179,6 +180,7 @@ const SHOTS = {
   rule: {
     file: 'agent-review-delegation-rule',
     app: '#/',
+    desktop: { clip: mainColumn },
     open: async (page) => {
       await page.getByRole('button', { name: 'Use the diff pair' }).click();
       await page.getByText('Also use this answer for similar cases').click();
@@ -212,6 +214,17 @@ const SHOTS = {
     phone: { url: `${from}storybook/iframe.html?id=${STORY}&viewMode=story`, size: { width: 375, height: 480 }, wait: 'story' },
   },
 };
+
+/* The rule and the record are the run's main column alone, since
+   2026-10-06: scrolled down to the card, the aside beside it is a sentence
+   or nothing, and it took a third of the picture. The clip keeps the left
+   gutter the screen gives the column and repeats it on the right, so the
+   picture is 756 wide at 1100 and the aside's edge stays out of it. The
+   quiet screen keeps its aside, which holds the rule it is showing. */
+async function mainColumn(page) {
+  const box = await page.locator('.delegation__main').first().boundingBox();
+  return { x: 0, y: 0, width: Math.round(box.x * 2 + box.width), height: page.viewportSize().height };
+}
 
 /* The tour's scenes are TOUR_H tall: the run as found is 1903 at 1440
    (agent-review, 2026-10-06), and its last part, the completed work, ends at
@@ -254,9 +267,9 @@ async function settle(page) {
   if (missing) throw new Error(`Storybook says it could not find the story: ${page.url()}`);
 }
 
-async function write(name, suffix, page) {
+async function write(name, suffix, page, clip) {
   const file = path.join(OUT, `${name}${suffix}.webp`);
-  fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
+  fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
 }
 
@@ -285,7 +298,7 @@ try {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);
       }
-      await write(shot.file, kind === 'phone' ? '-phone' : '', page);
+      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined);
       await ctx.close();
     }
   }
