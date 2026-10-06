@@ -135,7 +135,7 @@
   }
   function mix(a, b, e) { return a + (b - a) * e; }
 
-  var rise = 20, navH = 80, W = 0, H = 0, HS = 0, runway = 1;
+  var rise = 20, navH = 80, pin = 80, W = 0, H = 0, HS = 0, runway = 1;
   var live = false, queued = false;
 
   function cameraAt(t) {
@@ -231,7 +231,7 @@
     if (next && e !== atEnd) { atEnd = e; next.setAttribute('aria-disabled', e ? 'true' : 'false'); }
   }
   function now() {
-    return clamp((navH - root.getBoundingClientRect().top) / runway, 0, 1) * T;
+    return clamp((pin - root.getBoundingClientRect().top) / runway, 0, 1) * T;
   }
   /* What a screen reader hears after a press: the part's own kicker, without
      the digit its disc draws. */
@@ -263,7 +263,7 @@
     else { for (i = stops.length - 1; i >= 0; i--) if (stops[i] < t - NEAR) { to = i; break; } }
     if (to < 0) return;
     aim = to; aimed = Date.now();
-    var top = root.getBoundingClientRect().top + window.pageYOffset - navH + (stops[to] / T) * runway;
+    var top = root.getBoundingClientRect().top + window.pageYOffset - pin + (stops[to] / T) * runway;
     window.scrollTo({ top: Math.round(top) });
     if (status) { status.textContent = name(to); said = to; }
   }
@@ -276,7 +276,7 @@
   function update() {
     queued = false;
     if (!live) return;
-    var progress = clamp((navH - root.getBoundingClientRect().top) / runway, 0, 1);
+    var progress = clamp((pin - root.getBoundingClientRect().top) / runway, 0, 1);
     if (aim !== null && Math.abs(progress * T - stops[aim]) < NEAR) aim = null;
     /* What the status line last said stops being true once the reader is half
        a part away from it by any means, a dragged scrollbar included. */
@@ -313,7 +313,10 @@
     stage.style.maxWidth = '';
     frame();
     var cs = getComputedStyle(sticky);
-    var room = sticky.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    /* The window under the nav, not the sticky box: the box is as tall as
+       what it holds (walkthrough.css), so it cannot say how much room the
+       window has. */
+    var room = window.innerHeight - navH - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
     /* The title over the stage (.wt-head) shares the column, so its height
        and the margin under it come out of the room; a page without one, or
        the static layout, which does not display it, reads 0. */
@@ -330,8 +333,18 @@
     navH = parseFloat(style.getPropertyValue('--nav-height')) || 80;
     rise = parseFloat(style.getPropertyValue('--motion-rise')) || 20;
     runway = Math.round(T * Math.max(UNIT_MIN, window.innerHeight * UNIT));
-    root.style.height = (sticky.offsetHeight + runway) + 'px';
     fit();
+    /* THE BOX HUGS WHAT IT HOLDS AND STICKS IN THE MIDDLE OF THE WINDOW.
+       Since 2026-10-06 the sticky box is as tall as the title, the stage
+       and the panel round them, not as tall as the window: a window-tall
+       box on a tall monitor put half its slack between the page above and
+       the panel, a gap of a third of a screen on the way in. So its top is
+       set here, to centre it under the nav while it is stuck, and the
+       clock runs from the moment it sticks there rather than from the nav
+       (now(), go(), update()), so the tour still takes the whole runway. */
+    pin = navH + Math.max(0, (window.innerHeight - navH - sticky.offsetHeight) / 2);
+    sticky.style.top = pin + 'px';
+    root.style.height = (sticky.offsetHeight + runway) + 'px';
   }
   function onResize() { if (live) { measure(); update(); } }
 
@@ -361,6 +374,7 @@
     root.style.height = '';
     clear([world], ['transform']);
     clear([stage], ['max-width']);
+    clear([sticky], ['top']);
     clear([screen], ['height']);
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
