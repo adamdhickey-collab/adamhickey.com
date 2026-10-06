@@ -10,6 +10,7 @@
  *   node scripts/illustrate.mjs card    img/inbox/01-clarity.png       img/engagement/01-clarity.webp --brightness 1 --breathe 0.94
  *   node scripts/illustrate.mjs mark    img/inbox/loop-system.png      img/lab/loop-system.webp
  *   node scripts/illustrate.mjs stage   img/inbox/tour-stage.png       img/lab/tour-stage.webp --part cup=1264,0,272,244
+ *   node scripts/illustrate.mjs cutout  img/inbox/tour-mat.png         img/lab/tour-mat.webp --part ruler=120,120,700,180
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
@@ -102,13 +103,22 @@ const SLOT = {
      below. */
   mark:    { w: 352,  h: 352 },
   /* A ground for words to sit on: the desk behind the Agent Review tour
-     (tour-scenes.mjs, STAGE), the screen and the notes laid over it. 3:2,
+     (tour-scenes.mjs, STAGE), the screen and the notes laid over it, for
+     one afternoon; the tour's ground is a CSS mat now, with a cutout on it. 3:2,
      the generator's own size, because the box it fills runs from about 1.2
      to 1.8 wide to tall with the window and is cut by background-size:
      cover. Not lifted and not contrasted: its ground is SOLVED to
      --color-tea-light, exactly, so the notes over it read at the ratios
      COLOR.md quotes for that ground (see `stage` below). */
   stage:   { w: 1536, h: 1024 },
+  /* Objects drawn on a TRANSPARENT ground, to lie on a ground the page
+     draws itself: the cutting mat behind the Agent Review tour, whose grid
+     is CSS, so no ground in a picture could line up with it. Nothing is
+     solved, lifted or contrasted; each --part is trimmed to the opaque
+     pixels inside its rectangle and written with its alpha. With no
+     --part, the run only lists the groups it finds, which is how the
+     rectangles are measured after a redraw. */
+  cutout:  { w: 1536, h: 1024 },
 };
 /* The share of a mark's slot its disc spans, in every file of the set, so
    six drawings side by side carry six discs of one size on one line
@@ -178,8 +188,12 @@ if (fi >= 0) { floor = Number(args[fi + 1]); args.splice(fi, 2); }
    corner. The rectangles come from the registry (tour-scenes.mjs, STAGE). */
 const parts = [];
 for (let pi; (pi = args.indexOf('--part')) >= 0;) {
-  const [name, rect] = args[pi + 1].split('=');
-  parts.push({ name, rect: rect.split(',').map(Number) });
+  const [name, spec] = args[pi + 1].split('=');
+  /* A cutout's rectangle may go on to name the sides it cuts through on
+     purpose (ruler=148,205,632,67,top), so an object the page means to show
+     cropped is not reported as cut by accident. */
+  const fields = spec.split(',');
+  parts.push({ name, rect: fields.slice(0, 4).map(Number), cuts: fields.slice(4) });
   args.splice(pi, 2);
 }
 const di = args.indexOf('--disc');
@@ -188,14 +202,14 @@ const [role, inPath, outPath] = args;
 /* A stage takes no lift: its ground is moved onto the token instead, and a
    brightness or contrast laid on top would move it off again. */
 if (role === 'stage') { if (bi < 0) LIFT.brightness = 1; LIFT.contrast = 1; }
-if (parts.length && role !== 'stage') { console.error('  ✗ --part cuts a stage; it does not apply to ' + role); process.exit(2); }
+if (parts.length && role !== 'stage' && role !== 'cutout') { console.error('  ✗ --part cuts a stage or a cutout; it does not apply to ' + role); process.exit(2); }
 const wallMode = role === 'wall';
 const grainMode = role === 'grain';
 if (wallMode && !matchPath) { console.error('  ✗ wall needs --match <the page\'s hero>'); process.exit(2); }
 if (grainMode && !(ceiling > 0)) { console.error('  \u2717 --ceiling must be positive'); process.exit(2); }
 if (grainMode && floor >= ceiling) { console.error('  \u2717 --floor must be under --ceiling'); process.exit(2); }
 if (!role || !inPath || (role !== 'report' && !wallMode && !grainMode && (!SLOT[role] || !outPath)) || !(LIFT.brightness > 0)) {
-  console.error('usage: illustrate.mjs <step|invite|hero|feature|card|tour|mark|stage> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s] [--disc f]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  console.error('usage: illustrate.mjs <step|invite|hero|feature|card|tour|mark|stage|cutout> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s] [--disc f]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
   process.exit(2);
 }
 if (!(breathe > 0 && breathe <= 1)) { console.error('  ✗ --breathe is a fraction of the slot, over 0 and at most 1'); process.exit(2); }
@@ -459,6 +473,68 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
     };
   }
 
+  /* A CUTOUT is objects on transparency. The ground is checked rather than
+     assumed: a generator asked for transparency sometimes paints a
+     checkerboard instead, and that is a picture of transparency with every
+     pixel opaque. Each part is the opaque pixels (alpha 8 and up) inside its
+     rectangle, trimmed to their bounds; a part whose opaque pixels reach its
+     rectangle's edge has had an object cut through, and says so. With no
+     parts, the groups are found on a 16px lattice and listed. */
+  if (role === 'cutout') {
+    const d = sctx.getImageData(0, 0, W, H).data;
+    const a = (x, y) => d[(y * W + x) * 4 + 3];
+    let clear = 0;
+    for (let i = 3; i < d.length; i += 4) if (d[i] === 0) clear++;
+    const share = clear / (W * H);
+    if (share < 0.2) return { width: W, height: H, share, refused: true };
+    const bounds = (x0, y0, w, h) => {
+      let l = x0 + w, r = -1, t = y0 + h, b = -1;
+      for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) {
+        if (a(x, y) < 8) continue;
+        if (x < l) l = x; if (x > r) r = x; if (y < t) t = y; if (y > b) b = y;
+      }
+      return r < 0 ? null : [l, t, r - l + 1, b - t + 1];
+    };
+    if (!parts.length) {
+      const S = 16, gw = Math.ceil(W / S), gh = Math.ceil(H / S), on = new Uint8Array(gw * gh), seen = new Uint8Array(gw * gh);
+      for (let gy = 0; gy < gh; gy++) for (let gx = 0; gx < gw; gx++) {
+        let hit = 0;
+        for (let y = gy * S; y < Math.min(H, gy * S + S) && !hit; y++) for (let x = gx * S; x < Math.min(W, gx * S + S); x++) if (a(x, y) >= 8) { hit = 1; break; }
+        on[gy * gw + gx] = hit;
+      }
+      const groups = [];
+      for (let i = 0; i < on.length; i++) {
+        if (!on[i] || seen[i]) continue;
+        const stack = [i]; seen[i] = 1; let l = gw, r = 0, t = gh, b = 0, n = 0;
+        while (stack.length) {
+          const j = stack.pop(), x = j % gw, y = (j / gw) | 0; n++;
+          l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y);
+          /* Two cells of reach, so an offcut a few pixels from its knife is
+             one group with it rather than a group of its own. */
+          for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+            const xx = x + dx, yy = y + dy;
+            if (xx < 0 || yy < 0 || xx >= gw || yy >= gh) continue;
+            const k = yy * gw + xx;
+            if (on[k] && !seen[k]) { seen[k] = 1; stack.push(k); }
+          }
+        }
+        groups.push({ cells: n, rect: bounds(l * S, t * S, Math.min(W, (r + 1) * S) - l * S, Math.min(H, (b + 1) * S) - t * S) });
+      }
+      return { width: W, height: H, share, groups: groups.sort((p, q) => q.cells - p.cells) };
+    }
+    const cut = parts.map(({ name, rect: [x, y, w, h], cuts = [] }) => {
+      const bb = bounds(x, y, w, h);
+      if (!bb) return { name, rect: [x, y, w, h], empty: true };
+      const [l, t, bw, bh] = bb;
+      const touches = [l === x && 'left', t === y && 'top', l + bw === x + w && 'right', t + bh === y + h && 'bottom'].filter(Boolean)
+        .filter(side => !cuts.includes(side) && !((side === 'left' && x === 0) || (side === 'top' && y === 0) || (side === 'right' && x + w === W) || (side === 'bottom' && y + h === H)));
+      const c = document.createElement('canvas'); c.width = bw; c.height = bh;
+      c.getContext('2d').drawImage(img, l, t, bw, bh, 0, 0, bw, bh);
+      return { name, rect: [x, y, w, h], box: bb, touches, webp: c.toDataURL('image/webp', quality).split(',')[1] };
+    });
+    return { width: W, height: H, share, cut };
+  }
+
   /* A MARK is framed by its disc, not by its edges. The generator is asked
      for one circle, centred, two-thirds of the frame, and puts it somewhere
      near there, a different somewhere each time; six of them side by side
@@ -704,6 +780,25 @@ if (wallMode) {
   console.log(`  ${result.width}x${result.height}, ${(statSync(dest).size / 1024).toFixed(0)}KB`);
   if (a.mean < 126 || a.mean > 184) console.log(`  ● mean luminance ${a.mean} is outside the set's 126-184; look at it beside its neighbors before committing`);
   process.exit(0);
+}
+
+if (role === 'cutout') {
+  if (result.refused) { console.log(`  ✗ ${inPath}: only ${(result.share * 100).toFixed(0)}% of the picture is transparent; a cutout is objects on transparency (a painted checkerboard is not)`); process.exit(1); }
+  console.log(`  ${inPath}, ${result.width}x${result.height}, ${(result.share * 100).toFixed(1)}% transparent`);
+  if (result.groups) {
+    for (const g of result.groups) console.log(`  group at ${g.rect.join(',')}`);
+    console.log('  cut each with --part name=x,y,w,h, a rectangle with transparency all round the group');
+    process.exit(0);
+  }
+  let bad = 0;
+  for (const p of result.cut) {
+    if (p.empty) { console.log(`  ✗ ${p.name}: nothing opaque in ${p.rect.join(',')}`); bad++; continue; }
+    const file = outPath.replace(/\.webp$/, `-${p.name}.webp`);
+    writeFileSync(file, Buffer.from(p.webp, 'base64'));
+    console.log(`  ${p.name}: ${p.box.join(',')} -> ${file}, ${p.box[2]}x${p.box[3]}, ${(statSync(file).size / 1024).toFixed(1)}KB`);
+    if (p.touches.length) { console.log(`  ✗ ${p.name} reaches the ${p.touches.join(' and ')} of its rectangle; an object may be cut through`); bad++; }
+  }
+  process.exit(bad ? 1 : 0);
 }
 
 if (role === 'mark') {
