@@ -61,7 +61,46 @@
    7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
       the question the checks left open and the three it comes down to, sit
       on a sage rectangle, so the band is two surfaces and not one charcoal
-      field, and the findings' second row sits on the panel's foot. */
+      field, and the findings' second row sits on the panel's foot.
+
+   8. THE TWO WAYS IN, ON ONE LINE. "Try the prototype" and "Listen to
+      this page" sit side by side under the opening, at one height. */
+
+/* ---- 8. the two ways in, on one line ---- */
+/* read-aloud.js puts its bar straight after the element marked
+   data-read-aloud="after", which on this page is the row holding "Try the
+   prototype", so the two stacked, a --space-xl apart, and the listen pill
+   stood 38px beside a 50px button. From 40rem, where a column holds both,
+   the opening is a grid of two columns: everything spans both, but the
+   button's row takes the first and the bar the second, so they share a
+   line a --space-md apart: at 64rem the half column is 458px and the two
+   with their labels at one size take 455 of it. Grid items keep their
+   margins, so the dek and the list sit where they did. Under 40rem they
+   stack as before.
+
+   ONE HEIGHT AT EVERY WIDTH: the pill's least height is the button's own,
+   written from the same tokens the button is built from (.btn: a
+   --space-sm above and below a --text-base line at the body's leading), so
+   the two match whether they share a line or not. It is taller than the
+   44px floor a coarse pointer gets (read-aloud.css), so that holds too.
+   And one size on the line: the pill's label is the button's --text-base
+   here, where read-aloud.css sets it at --text-sm under a dek. */
+.ar-hero-main .ra-listen {
+  min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
+  font-size: var(--text-base);
+  white-space: nowrap;
+}
+@media (min-width: 40rem) {
+  .ar-hero-main {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-md);
+    align-items: center;
+  }
+  .ar-hero-main > * { grid-column: 1 / -1; }
+  .ar-hero-main > .build-hero-act { grid-column: 1; }
+  .ar-hero-main > .ra-bar { grid-column: 2; grid-row: auto; margin: 0; }
+}
 
 /* ---- 7. the sage panel in the dark band ---- */
 /* The sage is --color-accent-text, the one sage on light, as a fill: the
