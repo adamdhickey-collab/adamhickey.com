@@ -242,7 +242,15 @@
    of the two, and the stretch's lines are drawn far past its own foot
    (overflow visible) and cut at the row's (.rl-step), so one row's line
    meets the next one's at any height the words take. The rows touch;
-   the room between them is padding inside each, which the line crosses. */
+   the room between them is padding inside each, which the line crosses.
+
+   THE WORDS SET EVERY ROW, so the gap after each step's words is the
+   same --space-4xl whatever its drawing is. That holds because every
+   drawing but the last is at most 100 units tall (6.25rem), under the
+   shortest step's words, number, name and one line, plus that gap. A
+   drawing taller than that sets its own row, and the gap after the words
+   beside it grows by the difference: at 112 and 124 units the gaps ran
+   28 to 81px down one phone screen. Keep a new drawing under 100. */
 .rl-wide { display: none; }
 .build-loop--rail {
   grid-template-columns: minmax(0, 1fr);
@@ -257,12 +265,11 @@
 }
 .build-loop--rail li::before { grid-column: 2; grid-row: 1; }
 .build-loop--rail strong { grid-column: 2; grid-row: 2; }
-.build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-xl); }
+.build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-4xl); }
 .rl-step {
   grid-column: 1;
   grid-row: 1 / -1;
   overflow: hidden;
-  padding-bottom: var(--space-md);
 }
 .rl-step svg { width: 100%; height: auto; overflow: visible; }
 
