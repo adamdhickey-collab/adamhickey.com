@@ -90,7 +90,14 @@
   <link rel="stylesheet" href="../type.css?v=5" />
   <link rel="stylesheet" href="../style.css?v=20261005c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="workspace.css?v=1" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="workspace.js?v=1" defer></script>
+  <!-- The workspace shell takes the whole viewport and scrolls inside its
+       panes, which is only right when workspace.js is there to switch them.
+       The class is set here, before first paint, and only by script: without
+       one the page below is a heading, a paragraph and three links. -->
+  <script>document.documentElement.classList.add('lab-ws');</script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -214,34 +221,64 @@
     </div>
   </nav>
 
-  <main id="main">
-    <header class="case-hero">
-      <div class="container case-narrow">
-        <!-- The lab is the fourth family that is self-directed rather than
-             client work, and the first that is about how the work is made
-             rather than what was made: a component system an agent can work
-             inside, the tool a person reviews its output with, and the two
-             prototypes that came before it. Three entries, newest first.
-             The index wears the writing index's shell on purpose: a card
-             beside its words, a hairline between entries, nothing to learn.
-             The two prototypes keep their addresses under /prototype/,
-             where six articles already link them; this page is the door,
-             not a move. -->
-        <p class="case-kicker">Lab &middot; three pieces</p>
-        <h1 class="case-title">Design systems for humans and agents</h1>
-        <p class="build-dek">Experiments in React, AI-assisted prototyping, component systems, and interfaces where design decisions survive all the way into code. Self-directed, on synthetic data, and built end to end: each one is a question about how a product team works once coding agents are on it, answered with something that runs.</p>
-      </div>
+  <main id="main" class="ws is-editor">
+    <!-- The lab as a workspace: the three pieces are files, the editor opens
+         one, and a scripted assistant points at them. The page is a plain
+         page before it is any of that. The h1 and every description are in
+         this markup, the files are real links to the real pages, and
+         workspace.js only chooses which of the three articles is showing, so
+         a reader without script and a crawler that does not run it get the
+         same three pieces and the same words. The two prototypes keep their
+         addresses under /prototype/, where six articles already link them;
+         this page is the door, not a move. Until the workspace this index
+         wore the writing index's shell, a card beside its words and a
+         hairline between entries, and the cards' copy is those entries'. -->
+    <header class="ws-titlebar">
+      <h1 class="ws-title">Design systems for humans and agents</h1>
     </header>
 
-    <section class="case-section case-overview">
-      <div class="container case-narrow">
-        <ol class="writing-list">
-          <li class="writing-item">
-            <a class="writing-link" href="agent-review.html">
-              <img class="writing-card" src="../img/lab/agent-review-card.webp?v=12" width="1280" height="720" alt="" decoding="async" />
-              <div class="writing-text">
-                <h3 class="writing-title">Agent Review: making a design system executable for coding agents</h3>
-                <p class="writing-dek">How can someone hand a coding agent more of the work and still understand what it did? Agent Review is a working prototype of the screen they read afterward: results first, boundaries in plain words, the few decisions that are still theirs, and rules they can edit or revoke. Its run is scripted. It was designed from an experiment where Claude Code built one feature twice inside a React component system, with twelve written rules and without.</p>
+    <div class="ws-panes">
+      <nav class="ws-explorer" aria-labelledby="ws-explorer-label">
+        <p class="ws-panel-label" id="ws-explorer-label">Files</p>
+        <ul class="ws-tree">
+          <li>
+            <button type="button" class="ws-folder" aria-expanded="true">
+              <svg class="ws-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+              lab
+            </button>
+            <ul>
+              <li><a class="ws-file" href="agent-review.html" data-piece="agent-review">agent-review.html</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="ws-folder" aria-expanded="true">
+              <svg class="ws-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+              prototype
+            </button>
+            <ul>
+              <li><a class="ws-file" href="../prototype/deploy-console.html" data-piece="deploy-console">deploy-console.html</a></li>
+              <li><a class="ws-file" href="../prototype/dispatch-cockpit.html" data-piece="dispatch-cockpit">dispatch-cockpit.html</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <section class="ws-editor" aria-labelledby="ws-editor-label">
+        <p class="ws-panel-label" id="ws-editor-label">Preview</p>
+        <div class="ws-editor-body">
+          <div class="ws-window">
+            <div class="ws-window-empty">
+              <p class="ws-kicker">Lab &middot; three pieces</p>
+              <h2 class="ws-welcome-title">Open a piece</h2>
+              <p class="ws-lede">Experiments in React, AI-assisted prototyping, component systems, and interfaces where design decisions survive all the way into code. Self-directed, on synthetic data, and built end to end: each one is a question about how a product team works once coding agents are on it, answered with something that runs.</p>
+              <p class="ws-hint">Pick a file under <span class="ws-hint-where">Files</span>.</p>
+            </div>
+
+            <div class="ws-preview" aria-live="polite">
+              <article class="ws-piece" id="piece-agent-review" data-words="agent review storybook react typescript claude code rules experiment" hidden>
+                <p class="ws-kicker">Case study</p>
+                <h2>Agent Review: making a design system executable for coding agents</h2>
+                <p class="ws-lede">How can someone hand a coding agent more of the work and still understand what it did? Agent Review is a working prototype of the screen they read afterward: results first, boundaries in plain words, the few decisions that are still theirs, and rules they can edit or revoke. Its run is scripted. It was designed from an experiment where Claude Code built one feature twice inside a React component system, with twelve written rules and without.</p>
                 <div class="tag-row">
                   <span class="tag">Case study</span>
                   <span class="tag">Working prototype and public Storybook</span>
@@ -250,49 +287,58 @@
                   <span class="tag">Storybook</span>
                   <span class="tag">Claude Code</span>
                 </div>
-              </div>
-            </a>
-          </li>
-          <li class="writing-item">
-            <a class="writing-link" href="../prototype/deploy-console.html">
-              <img class="writing-card" src="../img/lab/deploy-console-card.webp?v=1" width="1280" height="720" alt="" loading="lazy" decoding="async" />
-              <div class="writing-text">
-                <h3 class="writing-title">Rollcall: a broken deploy the developer can read and roll back</h3>
-                <p class="writing-dek">A multi-service deploy console for the moment something broke, arranged in the order developers ask their five questions: what is live, what failed, what changed, what depends on it, can I put it back. The deploy serving traffic kept apart from the newest attempt, a failed build explained on one card, and a rollback previewed before it runs and undone in one press.</p>
-                <div class="tag-row">
-                  <span class="tag">Working prototype</span>
-                  <span class="tag">Plain HTML, CSS and JavaScript</span>
-                  <span class="tag">Synthetic data</span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="writing-item">
-            <a class="writing-link" href="../prototype/dispatch-cockpit.html">
-              <img class="writing-card" src="../img/lab/dispatch-cockpit-card.webp?v=1" width="1280" height="720" alt="" loading="lazy" decoding="async" />
-              <div class="writing-text">
-                <h3 class="writing-title">Second Look: an AI recommendation the dispatcher can check and overrule</h3>
-                <p class="writing-dek">Human-in-the-loop decision support for freight dispatch: the factors behind a pick shown with their values and their age, a close call that names its tradeoff rather than picking, a legal limit the system enforces before it scores, and a one-click override that asks why afterwards. Built on one hypothesis: a dispatcher spends less time reconstructing a recommendation when the interface shows what needs checking.</p>
-                <div class="tag-row">
-                  <span class="tag">Working prototype</span>
-                  <span class="tag">Plain HTML, CSS and JavaScript</span>
-                  <span class="tag">Synthetic data</span>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ol>
-      </div>
-    </section>
+                <a class="btn btn-primary ws-open" href="agent-review.html">Read the case study</a>
+                <img class="ws-media" src="../img/lab/agent-review-card.webp?v=12" width="1280" height="720" alt="" loading="lazy" decoding="async" />
+              </article>
 
-    </main>
-  <footer class="case-footer">
-      <div class="container case-narrow">
-        <a class="btn-back" href="../index.html#case-studies">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-          Back to the homepage
-        </a>
-      </div>
-    </footer>
+              <article class="ws-piece" id="piece-deploy-console" data-words="rollcall deploy console rollback developer build failed bad day" hidden>
+                <p class="ws-kicker">Prototype</p>
+                <h2>Rollcall: a broken deploy the developer can read and roll back</h2>
+                <p class="ws-lede">A multi-service deploy console for the moment something broke, arranged in the order developers ask their five questions: what is live, what failed, what changed, what depends on it, can I put it back. The deploy serving traffic kept apart from the newest attempt, a failed build explained on one card, and a rollback previewed before it runs and undone in one press.</p>
+                <div class="tag-row">
+                  <span class="tag">Working prototype</span>
+                  <span class="tag">Plain HTML, CSS and JavaScript</span>
+                  <span class="tag">Synthetic data</span>
+                </div>
+                <a class="btn btn-primary ws-open" href="../prototype/deploy-console.html">Open the prototype</a>
+                <div class="ws-media" data-embed="../prototype/deploy-console.html?embed" data-title="Rollcall, the deploy console prototype, running"></div>
+              </article>
+
+              <article class="ws-piece" id="piece-dispatch-cockpit" data-words="second look dispatch cockpit freight recommendation override dispatcher ai decision" hidden>
+                <p class="ws-kicker">Prototype</p>
+                <h2>Second Look: an AI recommendation the dispatcher can check and overrule</h2>
+                <p class="ws-lede">Human-in-the-loop decision support for freight dispatch: the factors behind a pick shown with their values and their age, a close call that names its tradeoff rather than picking, a legal limit the system enforces before it scores, and a one-click override that asks why afterwards. Built on one hypothesis: a dispatcher spends less time reconstructing a recommendation when the interface shows what needs checking.</p>
+                <div class="tag-row">
+                  <span class="tag">Working prototype</span>
+                  <span class="tag">Plain HTML, CSS and JavaScript</span>
+                  <span class="tag">Synthetic data</span>
+                </div>
+                <a class="btn btn-primary ws-open" href="../prototype/dispatch-cockpit.html">Open the prototype</a>
+                <div class="ws-media" data-embed="../prototype/dispatch-cockpit.html?embed" data-title="Second Look, the dispatch cockpit prototype, running"></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="ws-agent" aria-labelledby="ws-agent-label">
+        <p class="ws-panel-label" id="ws-agent-label">Assistant</p>
+        <div class="ws-thread" role="log">
+          <p class="ws-msg"><strong>Assistant</strong>I know these three pieces and nothing else. Ask about one, or open a file. This panel is scripted: it matches your words to a piece, no model runs, and nothing you type leaves the page.</p>
+        </div>
+        <form class="ws-composer">
+          <label class="visually-hidden" for="ws-input">Ask about a piece</label>
+          <textarea id="ws-input" rows="1" placeholder="Try: rollback"></textarea>
+          <button type="submit">Ask</button>
+        </form>
+      </aside>
+    </div>
+
+    <div class="ws-dock" role="group" aria-label="Panels">
+      <button type="button" data-pane="explorer" aria-pressed="false">Files</button>
+      <button type="button" data-pane="editor" aria-pressed="true">Preview</button>
+      <button type="button" data-pane="agent" aria-pressed="false">Assistant</button>
+    </div>
+  </main>
 </body>
 </html>
