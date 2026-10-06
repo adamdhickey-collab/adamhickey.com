@@ -99,9 +99,9 @@
   <link rel="stylesheet" href="../style.css?v=20261006a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="../walkthrough.css?v=8" />
+  <link rel="stylesheet" href="../walkthrough.css?v=9" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=5" />
+  <link rel="stylesheet" href="agent-review.css?v=6" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../lightbox.js?v=1" defer></script>
@@ -269,11 +269,17 @@
              facts card sat in that column from #405 until 2026-10-06, when
              Adam put it back under the hero as the row of four it was, and
              gave the column to a walk-through video he will record. Until
-             it exists the place holds a labeled frame. -->
+             it exists the place holds a labeled frame. Since 2026-10-06 the
+             two columns are halves and the kicker and the title are a row of
+             their own over them (.ar-hero-head), so the video fills the
+             right half and its top edge is the dek's first line (Adam: the
+             frame "aligned at the top with that text"). -->
         <div class="ar-hero">
-        <div class="ar-hero-main">
+        <div class="ar-hero-head">
         <p class="case-kicker">Lab &middot; case study &middot; 7 min read</p>
         <h1 class="case-title">Agent Review</h1>
+        </div>
+        <div class="ar-hero-main">
         <!-- Cut 2026-10-05 for a reader who has never heard of the product:
              the dek was two paragraphs, 107 words, opening on the page's
              thesis and naming React, written rules and a scripted run before
@@ -413,6 +419,19 @@
           <h2 class="visually-hidden" id="wt-title">A tour of the delegated work</h2>
           <div class="wt-sticky">
             <a class="wt-skip" href="#the-experiment">Skip the tour</a>
+            <!-- THE TOUR'S TITLE, since 2026-10-06 (Adam: the name, a tagline
+                 and why it matters, above the prototype, in view the whole
+                 time the reader steps through). It sits over the screen in
+                 the sticky box, so it stays while the parts change beside
+                 it; walkthrough.js takes its height out of the room it fits
+                 the screen to. Every line is the hero's own, cut down: the
+                 dek, and the second half of "Why it exists". Only the tour
+                 shows it, because everywhere else the hero is a scroll
+                 above, and a voice reading the page has read it already. -->
+            <header class="wt-head" data-read-aloud="skip">
+              <p class="wt-head-name">Agent Review</p>
+              <p class="wt-head-line"><strong>The screen you read after handing design work to an AI coding agent.</strong> An agent can build a screen in minutes. Knowing what it did, and what still needs you, is the hard part.</p>
+            </header>
             <div class="wt-stage">
             <figure class="wt-figure build-phone">
                 <a class="ar-zoom ar-zoom--tour" href="../img/lab/agent-review-delegation.webp?v=7" data-zoom><span class="visually-hidden">Open full size: </span>
@@ -521,7 +540,7 @@
             </div>
           </div>
         </section>
-        <script src="../walkthrough.js?v=6"></script>
+        <script src="../walkthrough.js?v=7"></script>
       </div>
     </header>
 
@@ -594,18 +613,20 @@
          (style.css, .build-facts--two.build-facts--icons), so a reworded
          cell gets measured at 1440 and 390 before it ships. The heads are
          what happened in two runs, in the past tense, not laws. The words
-         under the strip are what the page used to say in "What I learned". -->
+         under the strip are what the page used to say in "What I learned".
+         Since 2026-10-06 those words sit on a sage panel (.ar-panel), to
+         break up a band that was all charcoal (Adam: "maybe sage"). -->
     <section class="case-section case-overview build-chapter build-chapter--within ground-charcoal" id="what-it-showed">
       <div class="container case-wide">
         <h2>What the two runs showed</h2>
         <div class="ar-split ar-split--wide-first">
-        <dl class="build-facts build-facts--two build-facts--aligned build-facts--icons ar-split-media">
+        <dl class="build-facts build-facts--two build-facts--aligned build-facts--icons ar-split-media ar-findings">
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 4h7v7H4z"/><path pathLength="1" d="M13 4h7v7h-7z"/><path pathLength="1" d="M4 13h7v7H4z"/><path pathLength="1" d="M20 16.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/></svg>Both runs stayed inside the component system.</dt><dd>Each built the feature from the existing components, with the twelve rules or without them, and neither hard-coded a value.</dd></div>
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 7V5a2 2 0 0 1 2-2h2"/><path pathLength="1" d="M17 3h2a2 2 0 0 1 2 2v2"/><path pathLength="1" d="M21 17v2a2 2 0 0 1-2 2h-2"/><path pathLength="1" d="M7 21H5a2 2 0 0 1-2-2v-2"/><path pathLength="1" d="M7 12h10"/></svg>The twelve rules mattered where the system was silent.</dt><dd>They settled what components could not: changing a shared one, what an emptied data table shows, and where a new pattern goes.</dd></div>
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/><path pathLength="1" d="m21 21-4.3-4.3"/><path pathLength="1" d="M11 7.5v4"/><path pathLength="1" d="M11 14.5h.01"/></svg>The checks found no defect in either agent&rsquo;s version.</dt><dd>On the version I broke on purpose they found what I planted: 17 hard-coded values and text at 2.87:1 contrast.</dd></div>
           <div><dt><svg class="build-facts-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M16 7h6v6"/><path pathLength="1" d="m22 7-8.5 8.5-5-5L2 17"/></svg>Review changed the system. No run has tested it since.</dt><dd>The overflow test had passed a toolbar 58px too wide, so I rewrote it, and four of the twelve rules gained wording.</dd></div>
         </dl>
-        <div class="ar-split-text">
+        <div class="ar-split-text ar-panel">
         <p>The judgment didn&rsquo;t go away. It moved, to the questions the checks left open:</p>
         <ul class="build-list">
           <li><strong>Was the shared change a real fix, or a shortcut?</strong></li>

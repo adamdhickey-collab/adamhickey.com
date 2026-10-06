@@ -104,7 +104,7 @@ const SLOT = {
   mark:    { w: 352,  h: 352 },
   /* A ground for words to sit on: the desk behind the Agent Review tour
      (tour-scenes.mjs, STAGE), the screen and the notes laid over it, for
-     one afternoon; the tour's ground is a CSS mat now, with a cutout on it. 3:2,
+     one afternoon; the tour's ground is a CSS mat now. 3:2,
      the generator's own size, because the box it fills runs from about 1.2
      to 1.8 wide to tall with the window and is cut by background-size:
      cover. Not lifted and not contrasted: its ground is SOLVED to

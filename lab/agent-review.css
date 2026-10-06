@@ -54,10 +54,96 @@
       from #405 until 2026-10-06; a labeled frame until the video exists.
 
    6. THE TOUR'S CUTTING MAT. While the tour runs, the screen and the notes
-      sit on a self-healing cutting mat seen from above, with a ruler, a
-      palette of paper chips, and interface pieces cut from card beside the
-      knife that cut them, so the tablet reads as lying on the bench where
-      the system is made. Desktop only, because the tour is. */
+      sit on a self-healing cutting mat seen from above, its grid and
+      nothing else, so the tablet reads as lying squared on the bench where
+      the system is made. Desktop only, because the tour is.
+
+   7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
+      the question the checks left open and the three it comes down to, sit
+      on a sage rectangle, so the band is two surfaces and not one charcoal
+      field, and the findings' second row sits on the panel's foot.
+
+   8. THE TWO WAYS IN, ON ONE LINE. "Try the prototype" and "Listen to
+      this page" sit side by side under the opening, at one height. */
+
+/* ---- 8. the two ways in, on one line ---- */
+/* read-aloud.js puts its bar straight after the element marked
+   data-read-aloud="after", which on this page is the row holding "Try the
+   prototype", so the two stacked, a --space-xl apart, and the listen pill
+   stood 38px beside a 50px button. From 40rem, where a column holds both,
+   the opening is a grid of two columns: everything spans both, but the
+   button's row takes the first and the bar the second, so they share a
+   line a --space-md apart: at 64rem the half column is 458px and the two
+   with their labels at one size take 455 of it. Grid items keep their
+   margins, so the dek and the list sit where they did. Under 40rem they
+   stack as before.
+
+   ONE HEIGHT AT EVERY WIDTH: the pill's least height is the button's own,
+   written from the same tokens the button is built from (.btn: a
+   --space-sm above and below a --text-base line at the body's leading), so
+   the two match whether they share a line or not. It is taller than the
+   44px floor a coarse pointer gets (read-aloud.css), so that holds too.
+   And one size on the line: the pill's label is the button's --text-base
+   here, where read-aloud.css sets it at --text-sm under a dek. */
+.ar-hero-main .ra-listen {
+  min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
+  font-size: var(--text-base);
+  white-space: nowrap;
+}
+@media (min-width: 40rem) {
+  .ar-hero-main {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-md);
+    align-items: center;
+  }
+  .ar-hero-main > * { grid-column: 1 / -1; }
+  .ar-hero-main > .build-hero-act { grid-column: 1; }
+  .ar-hero-main > .ra-bar { grid-column: 2; grid-row: auto; margin: 0; }
+}
+
+/* ---- 7. the sage panel in the dark band ---- */
+/* The sage is --color-accent-text, the one sage on light, as a fill: the
+   ground the site's primary button already is, carrying the band's own
+   warm ink at 5.32:1 (COLOR.md, the fill/text line), so every word in it
+   keeps the colour the band gave it. The list's dashes are the one thing
+   that would vanish, being the band's on-dark sage, so on the panel they
+   take the warm ink too. Against the charcoal round it the fill alone is
+   2.63:1, under the 3:1 a fill needs to be its own edge (cards.mjs), so it
+   carries the band's divider, --rule-on-dark, as a keyline: a hairline of
+   the warm ink at 14%, drawn over the sage. The inset is --space-2xl, and
+   from 48rem --space-3xl, the step SPACING.md gives a generous panel. */
+.ar-panel {
+  padding: var(--space-2xl);
+  border: 1px solid var(--rule-on-dark);
+  border-radius: var(--radius-xl);
+  background: var(--color-accent-text);
+}
+.ar-panel > :first-child { margin-top: 0; }
+.ar-panel > :last-child { margin-bottom: 0; }
+.build-chapter.ground-charcoal .ar-panel .build-list li::before { background: var(--ink-on-dark); }
+@media (min-width: 48rem) {
+  .ar-panel { padding: var(--space-3xl); }
+}
+
+/* THE FINDINGS MEET THE PANEL'S FOOT. From 640 the four findings are two
+   rows of two, each finding two tracks of the strip's own grid (style.css,
+   .build-facts--aligned). A fifth track between the rows is the space
+   between them: --space-3xl at least, where the strip's gap gave
+   --space-xl, and from 80rem, where the panel stands beside them and both
+   take the row's full height, whatever is left over, so the second row's
+   last line lands on the panel's bottom edge and the two read as one block. */
+@media (min-width: 640px) {
+  .ar-findings {
+    grid-template-rows: auto auto minmax(var(--space-3xl), 1fr) auto auto;
+    row-gap: 0;
+  }
+  .ar-findings > div:nth-child(-n+2) { grid-row: 1 / span 2; }
+  .ar-findings > div:nth-child(n+3) { grid-row: 4 / span 2; }
+}
+@media (min-width: 80rem) {
+  .ar-findings, .ar-split--wide-first > .ar-panel { align-self: stretch; }
+}
 
 /* ---- 6. the tour's cutting mat ---- */
 /* Only while the tour runs, which walkthrough.js starts from 64rem for a
@@ -78,53 +164,27 @@
    puts the screen, so a heavy line runs on from the tablet's left side,
    above it and below, and squares it on the mat.
 
-   THE OBJECTS LIE ON IT, on the ::after over the grid: three cuts of one
-   drawing on a transparent ground (tour-scenes.mjs, MAT; illustrate.mjs
-   cutout), each pinned to its own edge and sized from the box's height at
-   one scale, the whole drawing standing 44% of the box tall, because the
-   box runs from 1.2 to 1.8 wide to tall with the window. The ruler shows
-   only its tick edge, cut by the mat's top, because a short window fits the
-   screen to within --space-2xl of that edge and a whole ruler went under the
-   tablet; the knife runs off the bottom corner, which buys the pieces beside
-   it room under the longest note. Checked by the rectangle at eleven
-   windows from 1024x768 to 2560x1440 and nineteen scroll points each: the
-   nearest anything comes to a note, the pager or the screen is 20px.
-
-   The drawing carries no shadow, because the generator's would have been
-   cast on a ground that is not there. The mat casts them: the filter reads
-   each object's own outline, a contact line and a soft fall, both charcoal,
-   so every edge on the mat is lit the same way. */
+   NOTHING LIES ON IT. From #412 a ruler, a palette of paper chips and
+   interface pieces with the knife that cut them sat in its corners, drawn
+   on a transparent ground (tour-scenes.mjs, MAT); the same day they came
+   off, and the grid says the system on its own. */
 .wt.is-tour .wt-sticky {
   isolation: isolate;
   padding: calc(var(--space-md) + var(--space-2xl)) var(--space-3xl);
 }
-.wt.is-tour .wt-sticky::before,
-.wt.is-tour .wt-sticky::after {
+.wt.is-tour .wt-sticky::before {
   content: "";
   position: absolute;
   inset: var(--space-md) 0;
   z-index: -1;
-  border: 1px solid transparent;
+  border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
-}
-.wt.is-tour .wt-sticky::before {
-  border-color: var(--rule-card);
   background:
     linear-gradient(var(--color-white) 1px, transparent 1px) calc(var(--space-3xl) - 1px) calc(var(--space-3xl) - 1px) / 100% calc(var(--space-2xl) * 5),
     linear-gradient(90deg, var(--color-white) 1px, transparent 1px) calc(var(--space-3xl) - 1px) calc(var(--space-3xl) - 1px) / calc(var(--space-2xl) * 5) 100%,
     linear-gradient(color-mix(in srgb, var(--color-white) 50%, transparent) 1px, transparent 1px) calc(var(--space-3xl) - 1px) calc(var(--space-3xl) - 1px) / 100% var(--space-2xl),
     linear-gradient(90deg, color-mix(in srgb, var(--color-white) 50%, transparent) 1px, transparent 1px) calc(var(--space-3xl) - 1px) calc(var(--space-3xl) - 1px) / var(--space-2xl) 100%,
     var(--color-tea-light);
-}
-.wt.is-tour .wt-sticky::after {
-  background:
-    url("../img/lab/tour-mat-ruler.webp?v=1") left var(--space-3xl) top 0 / auto calc(44% * 67 / 1024) no-repeat,
-    url("../img/lab/tour-mat-chips.webp?v=1") right var(--space-2xl) top var(--space-md) / auto calc(44% * 364 / 1024) no-repeat,
-    url("../img/lab/tour-mat-kit.webp?v=1") right 0 bottom calc(var(--space-xl) * -1) / auto calc(44% * 420 / 1024) no-repeat;
-  background-clip: padding-box;
-  filter:
-    drop-shadow(0 1px 1px color-mix(in srgb, var(--color-charcoal) 22%, transparent))
-    drop-shadow(0 var(--space-2xs) var(--space-xs) color-mix(in srgb, var(--color-charcoal) 12%, transparent));
 }
 
 /* ---- 5. the intro video's place ---- */
@@ -343,16 +403,30 @@
 
 /* ---- 1. the two columns ---- */
 @media (min-width: 64rem) {
-  /* The hero: the opening on the left, the intro video beside it, centred
-     on the opening's height. The facts card is under both, as the row of
+  /* The hero: the kicker and the title across the top, then the opening
+     on the left and the intro video beside it, in halves. The video fills
+     its half and starts on the dek's row, so its top edge is the dek's
+     first line at every width; it was 5 of 12, centred on the opening's
+     height, until 2026-10-06. The facts card is under both, as the row of
      four it was before the page split. */
   .ar-hero {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: var(--space-4xl);
     align-items: start;
   }
-  .ar-hero > .ar-hero-video { margin: 0; align-self: center; }
+  .ar-hero > .ar-hero-head { grid-column: 1 / -1; }
+  .ar-hero > .ar-hero-main { grid-column: 1; grid-row: 2; }
+  .ar-hero > .ar-hero-video { grid-column: 2; grid-row: 2; margin: 0; }
+  /* The frame's top meets the TOP OF THE LETTERS, not the top of the
+     line: the dek's line box starts a half-leading and the face's ascent
+     above its capitals (7 to 8px at its sizes), so the dek is trimmed to
+     its cap height and the row is where the capitals start. The row gap
+     gives the title back the half-leading the trim took, to the nearest
+     step. A browser without text-box keeps the line box and lands the
+     frame those few pixels high. */
+  .ar-hero { row-gap: var(--space-xs); }
+  .ar-hero > .ar-hero-main > .build-dek:first-child { text-box: trim-start cap alphabetic; }
 
   /* Every split but the dark band's, which waits for 80rem (below). */
   .ar-split:not(.ar-split--wide-first) {
