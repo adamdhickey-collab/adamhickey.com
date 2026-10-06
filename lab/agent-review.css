@@ -364,16 +364,30 @@
 
 /* ---- 1. the two columns ---- */
 @media (min-width: 64rem) {
-  /* The hero: the opening on the left, the intro video beside it, centred
-     on the opening's height. The facts card is under both, as the row of
+  /* The hero: the kicker and the title across the top, then the opening
+     on the left and the intro video beside it, in halves. The video fills
+     its half and starts on the dek's row, so its top edge is the dek's
+     first line at every width; it was 5 of 12, centred on the opening's
+     height, until 2026-10-06. The facts card is under both, as the row of
      four it was before the page split. */
   .ar-hero {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: var(--space-4xl);
     align-items: start;
   }
-  .ar-hero > .ar-hero-video { margin: 0; align-self: center; }
+  .ar-hero > .ar-hero-head { grid-column: 1 / -1; }
+  .ar-hero > .ar-hero-main { grid-column: 1; grid-row: 2; }
+  .ar-hero > .ar-hero-video { grid-column: 2; grid-row: 2; margin: 0; }
+  /* The frame's top meets the TOP OF THE LETTERS, not the top of the
+     line: the dek's line box starts a half-leading and the face's ascent
+     above its capitals (7 to 8px at its sizes), so the dek is trimmed to
+     its cap height and the row is where the capitals start. The row gap
+     gives the title back the half-leading the trim took, to the nearest
+     step. A browser without text-box keeps the line box and lands the
+     frame those few pixels high. */
+  .ar-hero { row-gap: var(--space-xs); }
+  .ar-hero > .ar-hero-main > .build-dek:first-child { text-box: trim-start cap alphabetic; }
 
   /* Every split but the dark band's, which waits for 80rem (below). */
   .ar-split:not(.ar-split--wide-first) {
