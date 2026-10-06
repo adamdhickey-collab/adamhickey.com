@@ -303,12 +303,12 @@
     place(intro, ease((INTRO - t) / 0.25));
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
-    /* The bars: one front across the row, the slash on it and each fill
+    /* The bars: one front across the row, the slash on it and each bar
        cut by it (walkthrough.css draws both from these). */
     if (lane) {
       var x = front(t);
       ticks.style.setProperty('--front', x + 'px');
-      fills.forEach(function (f, i) { f.style.setProperty('--cut', (x - lane.at[i]) + 'px'); });
+      fills.forEach(function (f, i) { f.parentNode.style.setProperty('--cut', (x - lane.at[i]) + 'px'); });
     }
     ends(t);
   }
@@ -503,7 +503,7 @@
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
-    clear(fills, ['--cut']);
+    clear(fills.map(function (f) { return f.parentNode; }), ['--cut']);
     if (ticks) clear([ticks], ['--front']);
     clear(scenes, ['opacity']);
     if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
