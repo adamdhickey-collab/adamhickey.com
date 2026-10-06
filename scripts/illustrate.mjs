@@ -9,6 +9,7 @@
  *   node scripts/illustrate.mjs card    img/inbox/sap-fiori.png       img/writing/standardizing-ux-across-40-sap-fiori-apps-card.webp --brightness 1
  *   node scripts/illustrate.mjs card    img/inbox/01-clarity.png       img/engagement/01-clarity.webp --brightness 1 --breathe 0.94
  *   node scripts/illustrate.mjs mark    img/inbox/loop-system.png      img/lab/loop-system.webp
+ *   node scripts/illustrate.mjs stage   img/inbox/tour-stage.png       img/lab/tour-stage.webp --part cup=1264,0,272,244
  *   node scripts/illustrate.mjs report img/engagement/clarity-hero.webp
  *   node scripts/illustrate.mjs wall   img/engagement/step-system-02.webp --match img/engagement/system-hero.webp
  *   node scripts/illustrate.mjs grain  img/engagement/step-embedded-03.webp
@@ -100,6 +101,14 @@ const SLOT = {
      above half its file. Not cropped by border, not lifted: see `mark`
      below. */
   mark:    { w: 352,  h: 352 },
+  /* A ground for words to sit on: the desk behind the Agent Review tour
+     (tour-scenes.mjs, STAGE), the screen and the notes laid over it. 3:2,
+     the generator's own size, because the box it fills runs from about 1.2
+     to 1.8 wide to tall with the window and is cut by background-size:
+     cover. Not lifted and not contrasted: its ground is SOLVED to
+     --color-tea-light, exactly, so the notes over it read at the ratios
+     COLOR.md quotes for that ground (see `stage` below). */
+  stage:   { w: 1536, h: 1024 },
 };
 /* The share of a mark's slot its disc spans, in every file of the set, so
    six drawings side by side carry six discs of one size on one line
@@ -109,6 +118,7 @@ const SLOT = {
    drawing whose object reaches further out than the set's. */
 let DISC = 0.72;
 const CHARCOAL = [0x25, 0x25, 0x25];
+const TEA_LIGHT = [0xe8, 0xed, 0xe5];   // --color-tea-light, the ground a stage is solved to
 const WALL_TARGET = 8.0;
 const LIFT = { brightness: 1.15, contrast: 1.06 };
 const QUALITY = 0.86;
@@ -160,16 +170,32 @@ if (gi >= 0) { ceiling = Number(args[gi + 1]); args.splice(gi, 2); }
 let floor = 0;
 const fi = args.indexOf('--floor');
 if (fi >= 0) { floor = Number(args[fi + 1]); args.splice(fi, 2); }
+/* --part name=x,y,w,h, as many as wanted, stage only: instead of the whole
+   picture, write each rectangle of the solved picture to <out>-<name>.webp.
+   A stage is a few objects on an empty ground, and a box that changes
+   shape with the window cannot hold one picture's corners still under
+   background-size: cover, so each group is cut out and pinned to its own
+   corner. The rectangles come from the registry (tour-scenes.mjs, STAGE). */
+const parts = [];
+for (let pi; (pi = args.indexOf('--part')) >= 0;) {
+  const [name, rect] = args[pi + 1].split('=');
+  parts.push({ name, rect: rect.split(',').map(Number) });
+  args.splice(pi, 2);
+}
 const di = args.indexOf('--disc');
 if (di >= 0) { DISC = Number(args[di + 1]); args.splice(di, 2); }
 const [role, inPath, outPath] = args;
+/* A stage takes no lift: its ground is moved onto the token instead, and a
+   brightness or contrast laid on top would move it off again. */
+if (role === 'stage') { if (bi < 0) LIFT.brightness = 1; LIFT.contrast = 1; }
+if (parts.length && role !== 'stage') { console.error('  ✗ --part cuts a stage; it does not apply to ' + role); process.exit(2); }
 const wallMode = role === 'wall';
 const grainMode = role === 'grain';
 if (wallMode && !matchPath) { console.error('  ✗ wall needs --match <the page\'s hero>'); process.exit(2); }
 if (grainMode && !(ceiling > 0)) { console.error('  \u2717 --ceiling must be positive'); process.exit(2); }
 if (grainMode && floor >= ceiling) { console.error('  \u2717 --floor must be under --ceiling'); process.exit(2); }
 if (!role || !inPath || (role !== 'report' && !wallMode && !grainMode && (!SLOT[role] || !outPath)) || !(LIFT.brightness > 0)) {
-  console.error('usage: illustrate.mjs <step|invite|hero|feature|card|tour|mark> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s] [--disc f]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
+  console.error('usage: illustrate.mjs <step|invite|hero|feature|card|tour|mark|stage> <in> <out> [--crop x,y,w,h] [--brightness n] [--breathe s] [--disc f]\n       illustrate.mjs wall <file> [<out>] --match <hero>\n       illustrate.mjs grain <file> [<out>] [--ceiling n]\n       illustrate.mjs report <file>');
   process.exit(2);
 }
 if (!(breathe > 0 && breathe <= 1)) { console.error('  ✗ --breathe is a fraction of the slot, over 0 and at most 1'); process.exit(2); }
@@ -201,7 +227,7 @@ const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 const page = await browser.newPage();
 
-const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, wallTarget, lift, quality, manualCrop, breathe, ceiling, floor, disc }) => {
+const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charcoal, tea, wallTarget, lift, quality, manualCrop, breathe, ceiling, floor, disc, parts }) => {
   const lum = (r, g, b) => {
     const c = [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
@@ -594,11 +620,42 @@ const result = await page.evaluate(async ({ dataUrl, matchUrl, role, slot, charc
     }
   }
   render(brightness);
+  /* STAGE: the ground is the commonest colour, binned at 4 levels a channel
+     and averaged inside its bin. Every pixel within 12 of it (summed over
+     the channels) becomes --color-tea-light exactly, which also flattens the
+     generator's faint grain; every other pixel moves by the same offset the
+     ground did, so an outline's antialiasing still meets the ground it
+     sits on. The text over a stage is then measured against a known colour
+     rather than against whatever the generator returned. */
+  let ground = null;
+  if (role === 'stage') {
+    const id = octx.getImageData(0, 0, slot.w, slot.h), d = id.data;
+    const key = (i) => ((d[i] >> 2) << 12) | ((d[i + 1] >> 2) << 6) | (d[i + 2] >> 2);
+    const bins = new Map();
+    for (let i = 0; i < d.length; i += 4) { const k = key(i); bins.set(k, (bins.get(k) || 0) + 1); }
+    let bk = 0, bn = 0;
+    for (const [k, n] of bins) if (n > bn) { bn = n; bk = k; }
+    const sum = [0, 0, 0]; let n = 0;
+    for (let i = 0; i < d.length; i += 4) if (key(i) === bk) { sum[0] += d[i]; sum[1] += d[i + 1]; sum[2] += d[i + 2]; n++; }
+    const g = sum.map(v => v / n), off = tea.map((t, c) => t - g[c]);
+    let flat = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      if (Math.abs(d[i] - g[0]) + Math.abs(d[i + 1] - g[1]) + Math.abs(d[i + 2] - g[2]) <= 12) { d[i] = tea[0]; d[i + 1] = tea[1]; d[i + 2] = tea[2]; flat++; }
+      else for (let c = 0; c < 3; c++) d[i + c] = Math.max(0, Math.min(255, Math.round(d[i + c] + off[c])));
+    }
+    octx.putImageData(id, 0, 0);
+    ground = { found: g.map(v => Math.round(v)), shift: off.map(v => Math.round(v)), flat: +(flat / (d.length / 4)).toFixed(3) };
+    ground.parts = parts.map(({ name, rect: [x, y, w, h] }) => {
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(out, x, y, w, h, 0, 0, w, h);
+      return { name, rect: [x, y, w, h], webp: c.toDataURL('image/webp', quality).split(',')[1] };
+    });
+  }
   if (role === 'hero') { const wall = meanOf(octx, ...wallBox(slot.w, slot.h)); wallRatio = +ratio(wall.rgb, charcoal).toFixed(2); wallHex = '#' + wall.rgb.map(v => Math.round(v).toString(16).padStart(2, '0')).join(''); }
   const all = meanOf(octx, 0, 0, slot.w, slot.h);
   const webp = out.toDataURL('image/webp', quality).split(',')[1];
-  return { source: { width: W, height: H, border, inset, crop: [cx, cy, cw, ch] }, breathe: { scale: breathe, box: [bx, by, bw, bh] }, brightness: +brightness.toFixed(3), meanLuminance: +all.mean.toFixed(1), wallRatio, wallHex, webp };
-}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, breathe, ceiling, floor, disc: DISC });
+  return { source: { width: W, height: H, border, inset, crop: [cx, cy, cw, ch] }, breathe: { scale: breathe, box: [bx, by, bw, bh] }, brightness: +brightness.toFixed(3), meanLuminance: +all.mean.toFixed(1), wallRatio, wallHex, ground, webp };
+}, { dataUrl, matchUrl, role, slot: SLOT[role] || null, charcoal: CHARCOAL, tea: TEA_LIGHT, wallTarget: WALL_TARGET, lift: LIFT, quality: QUALITY, manualCrop, breathe, ceiling, floor, disc: DISC, parts });
 
 await browser.close();
 
@@ -661,7 +718,18 @@ if (role === 'mark') {
   process.exit(0);
 }
 
-writeFileSync(outPath, Buffer.from(result.webp, 'base64'));
+if (!result.ground?.parts?.length) writeFileSync(outPath, Buffer.from(result.webp, 'base64'));
+if (role === 'stage') {
+  const g = result.ground;
+  if (!g.parts.length) console.log(`  ${inPath} -> ${outPath}, ${(statSync(outPath).size / 1024).toFixed(0)}KB`);
+  console.log(`  ground rgb(${g.found.join(', ')}) moved by ${g.shift.map(v => (v >= 0 ? '+' : '') + v).join('/')} onto --color-tea-light; ${(g.flat * 100).toFixed(1)}% of the picture is that ground exactly`);
+  for (const part of g.parts) {
+    const file = outPath.replace(/\.webp$/, `-${part.name}.webp`);
+    writeFileSync(file, Buffer.from(part.webp, 'base64'));
+    console.log(`  ${part.name}: ${part.rect.join(',')} -> ${file}, ${(statSync(file).size / 1024).toFixed(1)}KB`);
+  }
+  process.exit(0);
+}
 const s = result.source;
 console.log(`  ${inPath} -> ${outPath}`);
 console.log(`  source ${s.width}x${s.height}` + (s.border ? `, border ${s.border}px on all four sides, ${s.inset}px taken off each` : ', no border') + `, crop ${s.crop.join('x')}` +
