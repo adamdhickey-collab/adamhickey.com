@@ -99,7 +99,7 @@
   <link rel="stylesheet" href="../style.css?v=20261006a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="../walkthrough.css?v=12" />
+  <link rel="stylesheet" href="../walkthrough.css?v=13" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
   <link rel="stylesheet" href="agent-review.css?v=10" />
   <script src="../site-nav.js?v=20260906a" defer></script>
@@ -335,127 +335,107 @@
              (.build-service) is the small sans line this wants. -->
         <p class="build-service">A solo project, begun October 1, 2026 and still in progress, built with Claude Code: every commit in the public repository is from my account and co-authored by Claude.</p>
 
-        <!-- The delegated work, as a guided tour of one screen: the
-             screen "Try the prototype" opens on. The picture is scripts/lab-shots.mjs
-             `delegation`, at 1440 (the hero's size), and every number in
-             data-rect and in the pins' left and top is in that capture's own
-             pixels, measured on the deployed product at 1440 x 1000. If the
-             screen's layout changes, re-measure all seven. RE-MEASURED
-             2026-10-04 for the glanceable pass (agent-review#7): the account
-             became a bar and check badges, the boundaries three counted
-             rows, and the first decision's answers two cards, so every
-             region moved; each is the element's own box plus 10px (the
-             panel and its rules as drawn). LINED UP 2026-10-05: a region's
-             top and bottom are its own, but its sides are its column's, the
-             main column plus 10px (150 to 946) or the panel as drawn (960
-             to 1280; to 1301 since the note on its right side below), so
-             the spotlight only slides up and down a column;
-             the decision's two parts and the rules had been inset inside
-             their card and panel. The decision splits where its answers
-             begin: the pause is the card's head, its question and why it
-             asks ("Both answers are the same pixels"), and what no check
-             can say is "If --color-danger is made louder later" and the two
-             answers under it. A pin's left is its region's left edge and
-             its top the middle of the region's first line (the job's
-             delegation line, the account's lead, the checks row, the
-             panel's heading, the decision's tags, the line over its
-             answers, the rules' heading), and walkthrough.css stands it just
-             outside that edge, as the note's disc stands beside its
-             kicker; until then each sat 18px past the end of the line it
-             marked. RE-MEASURED 2026-10-05, the second time that day, on
-             the deployed product at 1440 x 1000: after the design refresh
-             (agent-review#9) the decision's answer cards came back 16px
-             shorter, and after the icon family (agent-review#11) the icons
-             are 20px where they were 16, so every row and badge grew by a
-             pixel or two and the boundaries panel by seven (306 to 313):
-             five regions moved by a pixel, the panel and the rules region
-             by more, and the pins followed. RE-MEASURED 2026-10-05, the
-             third time that day, and the picture is 1440 x 1300 now: after
-             phase 3 (agent-review#14) the decision comes first and the
-             checks sit under the decisions, at y 1147, which a 1000px
-             picture does not reach, so part 3 would have had nothing to
-             point at. 1300 holds the whole screen down to the checks' last
-             line (1279). The product is its dark theme here, the default
-             since agent-review#15, so every capture on this page is dark;
-             the Relay preview inside a capture stays light, as the product
-             it shows is. Regions and pins come from the DOM, not from the
-             picture, by the rules above (the pause is the card's head to the
-             end of its reason, the rules' region ends where the panel does);
-             a taller picture is a taller frame, so walkthrough.js holds the
-             stage to the window it sticks in. ROOM ON THE RIGHT OF THE PANEL
-             since 2026-10-05, at Adam's request: the panel as drawn ends at
-             1280 with no padding on that side, so its counts (4, 2, 1) sat
-             1px inside the spotlight's edge and the rules' longest line
-             7.5px inside it, while the panel's own padding kept its words
-             21.5px off the left edge. The two regions in that column run to
-             1301 now, 22px past the counts, so the column is 960 to
-             1301 and still one pair of sides. The rule for any region: no
-             edge nearer than 8px to what it holds, measured as ink on the
-             capture, and a side with no padding of its own takes the
-             opposite side's. At that date the least is 8.5px (the panel's
-             heading under its top edge) and every side edge has 10px or
-             more. THE FRAME IS A TABLET since
-             2026-10-05, at Adam's request: one bezel all round, the same
-             top and bottom, where it was a laptop with a lid and a foot
-             (walkthrough.css says how it is drawn). With the script,
-             at 64rem and up and without reduced motion, scrolling moves a
-             camera in on each part and the note beside it follows
-             (walkthrough.js). In every other case this is the laptop with
-             seven pins on it and the seven notes under it, in order; under
-             40rem it is the phone capture in a phone, with no pins, because
-             they are placed on the desktop layout, and since 2026-10-06 a
-             lead and five lines (.wt-brief) in place of the seven notes,
-             which agent-review.css hides there. The closing note ("Seven
-             parts, one aim") is in both layouts since 2026-10-05; it was the
-             tour's alone, and a reader on a phone never saw the plainest
-             summary on the page. The run is simulated, and
-             the first note says so as well as the screen. THE NOTES CARRY
-             NO DRAWINGS since 2026-10-05 (Adam: "I don't think they're
-             very helpful"): each had a small picture above it, and the
-             column is words now, narrower, with the product larger beside
-             it. data-fold on the screen is how tall the tour's window onto
-             the picture is, in the capture's pixels (walkthrough.js). -->
+        <!-- THE WALKTHROUGH: one delegated job, told as a story, since
+             2026-10-06. It was a tour of the screen's parts (the job, the
+             account, the checks, the boundaries, a pause, what no check can
+             say, your rules). It is a story about where the agent's work
+             holds up on its own and where it doesn't, in seven steps:
+             the assignment; the routine work, a mistake it fixed itself
+             included; the red that means two things; every check passing
+             with either token; the one question it asks; what the answer
+             changes later; and the answer kept as a rule. It closes on the
+             screen gone quiet. The red is the protagonist, so four of the
+             seven point at the one decision card, and the boundaries come
+             up where one stopped the agent rather than as a step of their
+             own. The point it carries, and must not turn into "the AI made a
+             mistake and a person fixed it": stopping is the agent doing its
+             job right, and the person adds what no check can establish.
+
+             THREE SCENES, ONE SET OF COORDINATES. The pictures are
+             scripts/lab-shots.mjs `tour-start`, `tour-rule` and
+             `tour-quiet`: the same screen in three states, each the page
+             from its top at 1440 and 1904 tall, from the product's
+             production build. Because they share their pixels, a region
+             measured on one is the same place on the others, and the tour
+             (walkthrough.js) moves its camera across a change of scene as
+             it moves across one picture while the next scene dissolves in:
+             the answer cards turn into the rule in place. Only the first
+             is shown without the tour; the other two load only where the
+             tour runs. A note or a pin on another scene says so with
+             data-scene.
+
+             REGIONS AND PINS come from the DOM, measured on the build at
+             1440 x 1904, by the rules this tour has kept since 2026-10-05:
+             a region's top and bottom are its part's own box plus 10px, its
+             sides are the main column's, 150 to 946, so the spotlight only
+             slides up and down; a pin's left is that edge and its top the
+             middle of the part's first line (walkthrough.css stands it just
+             outside), except for three parts whose subject is not their
+             first line: 3 stands at the two reds, 4 at the passed checks and
+             5 at the question itself. On their first lines, 5 and 3 were 30px
+             apart on the static picture at 900 and touched at 40rem. The
+             parts: the header with the request open; the
+             checks down to the end of the completed work; "Today, the same
+             red"; the checks with either name and the line under them; the
+             whole first card; its answers; and, on the rule scene, the
+             confirmation. If the screen's layout moves, re-measure all
+             seven. The frame is a tablet (walkthrough.css), the product its
+             dark theme, the run simulated, and the first note says so as
+             well as the screen.
+
+             Without the script, under 64rem or with reduced motion, this is
+             the first scene in the tablet with its six pins and the notes
+             under it; under 40rem it is the phone capture, the first
+             decision from its top, with a lead and five lines (.wt-brief)
+             in place of the seven notes. data-fold on the screen is how tall
+             the tour's window onto the picture is, in the capture's pixels. -->
         <section class="wt" aria-labelledby="wt-title">
-          <h2 class="visually-hidden" id="wt-title">A tour of the delegated work</h2>
+          <h2 class="visually-hidden" id="wt-title">A walkthrough of one delegated job</h2>
           <div class="wt-sticky">
-            <a class="wt-skip" href="#the-experiment">Skip the tour</a>
+            <a class="wt-skip" href="#the-experiment">Skip the walkthrough</a>
             <!-- THE TOUR'S TITLE, since 2026-10-06 (Adam: the name, a tagline
                  and why it matters, above the prototype, in view the whole
                  time the reader steps through). It sits over the screen in
                  the sticky box, so it stays while the parts change beside
                  it; walkthrough.js takes its height out of the room it fits
-                 the screen to. The line is the hero's dek, cut down; "why it
-                 matters" followed it in the same paragraph for an
-                 afternoon, and came off with the bold (Adam: the name
-                 larger, the one sentence in regular weight). The heading
-                 says what the block is, "Feature walkthrough", and the line
-                 under it says exactly what is on the screen, naming the
-                 product the heading no longer does (Adam: "I just want to
-                 be clear what they're looking at"). Only the tour
-                 shows it, because everywhere else the hero is a scroll
-                 above, and a voice reading the page has read it already. -->
+                 the screen to. The heading says what the block is, "Feature
+                 walkthrough", and the line under it says exactly what is on
+                 the screen (Adam: "I just want to be clear what they're
+                 looking at"). Only the tour shows it, because everywhere
+                 else the hero is a scroll above, and a voice reading the
+                 page has read it already. -->
             <header class="wt-head" data-read-aloud="skip">
               <p class="wt-head-name">Feature walkthrough</p>
               <p class="wt-head-line">Shown below: Agent Review&rsquo;s report on one design job handed to an AI coding agent.</p>
             </header>
             <div class="wt-stage">
             <figure class="wt-figure build-phone">
-                <a class="ar-zoom ar-zoom--tour" href="../img/lab/agent-review-delegation.webp?v=7" data-zoom><span class="visually-hidden">Open full size: </span>
+                <a class="ar-zoom ar-zoom--tour" href="../img/lab/agent-review-tour-start.webp?v=1" data-zoom><span class="visually-hidden">Open full size: </span>
                 <div class="wt-screen" data-fold="1000">
                   <div class="wt-world">
+                    <div class="wt-scene" data-scene="start">
                     <picture>
-                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-phone.webp?v=6" width="375" height="720" />
-                      <img src="../img/lab/agent-review-delegation.webp?v=7" width="1440" height="1300" fetchpriority="high" decoding="async"
-                           alt="Agent Review&rsquo;s delegated work in its default dark theme, in a simulated run: &ldquo;Bring the billing screens onto the token layer&rdquo;, the account reading &ldquo;7 changes made and checked. 2 decisions need you.&rdquo; over a bar of 26 of 36 literals on tokens, the first decision with its two answers side by side, the second asking whether to add a token for a fully round corner, the three checks as badges with what is unresolved and the scope under them, and the boundaries beside it as three counted groups above &ldquo;Your rules&rdquo;." />
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tour-start-phone.webp?v=1" width="375" height="720" />
+                      <img src="../img/lab/agent-review-tour-start.webp?v=1" width="1440" height="1904" fetchpriority="high" decoding="async"
+                           alt="Agent Review in its default dark theme, in a simulated run: &ldquo;Bring the billing screens onto the token layer&rdquo; with Dana&rsquo;s request open, the account reading &ldquo;7 changes made and checked. 2 decisions need you.&rdquo;, and the first decision: &ldquo;Payment failed&rdquo; and a plan change from Starter to Growth side by side in the same red, the three checks passed with either token, and two answers showing what happens to both if danger is made louder later. Under it, a second decision, the run&rsquo;s checks and the completed work." />
                     </picture>
+                    </div>
+                    <div class="wt-scene" data-scene="rule">
+                      <img src="../img/lab/agent-review-tour-rule.webp?v=1" width="1440" height="1904" loading="lazy" decoding="async"
+                           alt="The same screen with the first decision answered &ldquo;Use the diff pair&rdquo; and &ldquo;Also use this answer for similar cases&rdquo; checked: the rule as it will read, the three waiting changes it settles now, and that a case that matches won&rsquo;t ask next time." />
+                    </div>
+                    <div class="wt-scene" data-scene="quiet">
+                      <img src="../img/lab/agent-review-tour-quiet.webp?v=1" width="1440" height="1904" loading="lazy" decoding="async"
+                           alt="The same run after every decision: &ldquo;Nothing needs your attention.&rdquo;, all 36 values merged, the rule beside the work with what it has done, and the completed work marked your answer, your rule or allowed once." />
+                    </div>
                     <span class="wt-focus" aria-hidden="true"></span>
-            <span class="wt-pin" style="left: 10.42%; top: 9.58%" aria-hidden="true">1</span>
-            <span class="wt-pin" style="left: 10.42%; top: 17.47%" aria-hidden="true">2</span>
-            <span class="wt-pin" style="left: 10.42%; top: 90.11%" aria-hidden="true">3</span>
-            <span class="wt-pin" style="left: 66.67%; top: 9.92%" aria-hidden="true">4</span>
-            <span class="wt-pin" style="left: 10.42%; top: 30.36%" aria-hidden="true">5</span>
-            <span class="wt-pin" style="left: 10.42%; top: 39.23%" aria-hidden="true">6</span>
-            <span class="wt-pin" style="left: 66.67%; top: 24.69%" aria-hidden="true">7</span>
+            <span class="wt-pin" style="left: 10.42%; top: 6.54%" aria-hidden="true">1</span>
+            <span class="wt-pin" style="left: 10.42%; top: 76.64%" aria-hidden="true">2</span>
+            <span class="wt-pin" style="left: 10.42%; top: 29.60%" aria-hidden="true">3</span>
+            <span class="wt-pin" style="left: 10.42%; top: 36.03%" aria-hidden="true">4</span>
+            <span class="wt-pin" style="left: 10.42%; top: 25.87%" aria-hidden="true">5</span>
+            <span class="wt-pin" style="left: 10.42%; top: 40.48%" aria-hidden="true">6</span>
+            <span class="wt-pin" data-scene="rule" style="left: 10.42%; top: 41.19%" aria-hidden="true">7</span>
                   </div>
                 </div>
                 <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
@@ -470,83 +450,85 @@
                  screen reader, and says which part a press landed on. Only
                  the tour shows any of it. -->
             <div class="wt-pager">
-              <button class="wt-step wt-step--prev" type="button" aria-label="Previous part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg></button>
+              <button class="wt-step wt-step--prev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg></button>
               <div class="wt-ticks" aria-hidden="true"><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span><span class="wt-tick"><i></i></span></div>
-              <button class="wt-step wt-step--next" type="button" aria-label="Next part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="wt-step wt-step--next" type="button" aria-label="Next step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></button>
               <p class="wt-status visually-hidden" role="status"></p>
             </div>
             </div>
             <div class="wt-notes">
+              <!-- The lead says the point once, in the page's own words: the
+                   seven steps show it, and nothing after this repeats it. -->
               <div class="wt-note wt-note--intro">
-                <p class="wt-kicker">The product</p>
-                <h3>One delegated job, and what came of it.</h3>
-                <p class="wt-body">This is the screen Agent Review opens on: work an agent was handed. Seven parts, and what each is for.</p>
+                <p class="wt-kicker">One delegated job</p>
+                <h3>The agent didn&rsquo;t stop because something failed.</h3>
+                <p class="wt-body">It stopped because everything passed and the answer still wasn&rsquo;t knowable. Seven steps, from the request to the one question no check could answer.</p>
                 <p class="wt-hint" aria-hidden="true">Scroll, or press the arrows, to step through &darr;</p>
               </div>
               <!-- THE PHONE'S VERSION, since 2026-10-06 (Adam: the seven notes
                    under the phone capture were "too long" and lost focus down
                    the page). Under 40rem the capture has no pins, so seven
-                   numbered notes point at nothing; the phone gets the point of
-                   the screen as a lead and five labels instead, and the notes
-                   and the intro's line go. Not a .wt-note, because
-                   walkthrough.js treats every .wt-note as a part of the tour;
-                   from 40rem this is not displayed and the notes are the
-                   content, as before. Every line is a part's note, cut down:
-                   2 and 1, 4, 5, 3, 7, in that order. -->
+                   numbered notes point at nothing; the phone gets the story
+                   as a lead and five lines instead, and the notes and the
+                   intro's line go. Not a .wt-note, because walkthrough.js
+                   treats every .wt-note as a part of the tour; from 40rem
+                   this is not displayed and the notes are the content. The
+                   lead finishes the intro's sentence, whose second half a
+                   phone does not show. -->
               <div class="wt-brief">
-                <p class="wt-body">The screen you read after handing a job to an agent, shown here in a simulated run. It&rsquo;s built to ask for you less often:</p>
+                <p class="wt-body">It stopped because everything passed and the answer still wasn&rsquo;t knowable. The run, which is simulated, in five lines:</p>
                 <ul class="build-list">
-                  <li><strong>Results first:</strong> what&rsquo;s done, and what&rsquo;s left.</li>
-                  <li><strong>Clear boundaries:</strong> what it may do alone, and what it must ask.</li>
-                  <li><strong>Narrow questions:</strong> it stops only where a boundary says to.</li>
-                  <li><strong>Honest checks:</strong> what each established, and what it couldn&rsquo;t.</li>
-                  <li><strong>Your call:</strong> an answer becomes a rule only if you say so.</li>
+                  <li><strong>The job:</strong> move 36 hard-coded values in the billing screens onto the design system, without changing how anything looks.</li>
+                  <li><strong>Routine:</strong> 26 moved, checked and merged with nobody asked, one of them after a wrong token name it caught and fixed.</li>
+                  <li><strong>One red, two meanings:</strong> &ldquo;Payment failed&rdquo; and a replaced plan in the same red. Every check passes either way.</li>
+                  <li><strong>One question:</strong> is this red a failure, or a value that was replaced?</li>
+                  <li><strong>One answer, kept:</strong> it became a rule that settled three more changes, and a case like them won&rsquo;t ask again.</li>
                 </ul>
               </div>
-              <div class="wt-note" data-rect="150 106 796 97">
-                <p class="wt-kicker"><span class="wt-num">1</span>The job</p>
-                <h3>An agent was handed a job, and did most of it.</h3>
-                <p class="wt-body">Claude Code was asked to move the billing screens of Relay, a made-up product, onto its design tokens (the named colors and sizes its screens share), and to merge any change that left a screen looking exactly the same. The strip above the title says the run is simulated.</p>
+              <div class="wt-note" data-rect="150 106 796 163">
+                <p class="wt-kicker"><span class="wt-num">1</span>The assignment</p>
+                <h3>Move 36 values onto the design system. Change nothing anyone can see.</h3>
+                <p class="wt-body">Dana, a product designer, asked Claude Code to swap the hard-coded colors and sizes in Relay&rsquo;s billing screens for the design system&rsquo;s named ones, its tokens. Merge what&rsquo;s safe, ask about the rest. Relay is made up, and the run is simulated.</p>
               </div>
-              <div class="wt-note" data-rect="150 207 796 116">
-                <p class="wt-kicker"><span class="wt-num">2</span>The account</p>
-                <h3>Results first, not a queue to clear.</h3>
-                <p class="wt-body">Seven changes made and checked, two decisions left, and a bar of how much of the job is done. Every number is counted from the work below it.</p>
+              <div class="wt-note" data-rect="150 1425 796 472">
+                <p class="wt-kicker"><span class="wt-num">2</span>Routine work</p>
+                <h3>Most of the job needed nobody.</h3>
+                <p class="wt-body">Seven changes, made, checked and merged on its own. In one, its first try named a token that doesn&rsquo;t exist: two checks failed, and it fixed its own mistake. A failed check is a problem it can solve.</p>
               </div>
-              <div class="wt-note" data-rect="150 1137 796 152">
-                <p class="wt-kicker"><span class="wt-num">3</span>The checks</p>
-                <h3>Each check says what it established, and what it couldn’t.</h3>
-                <p class="wt-body">A first try failed two checks and was fixed without asking. One result is inconclusive, and it’s listed as unresolved, not passed.</p>
+              <div class="wt-note" data-rect="150 505 796 142">
+                <p class="wt-kicker"><span class="wt-num">3</span>Something different</p>
+                <h3>The same red, twice. Does it mean the same thing?</h3>
+                <p class="wt-body">&ldquo;Payment failed&rdquo; is a failure. &ldquo;Starter&rdquo;, struck through beside &ldquo;Growth&rdquo;, is a plan that was replaced. Two tokens draw this red: <code>--color-danger</code>, for something wrong, and <code>--color-diff-remove-ink</code>, for an old value.</p>
               </div>
-              <div class="wt-note" data-rect="960 116 341 287">
-                <p class="wt-kicker"><span class="wt-num">4</span>The boundaries</p>
-                <h3>Seven sentences say what it may do alone.</h3>
-                <p class="wt-body">What it does on its own, what it asks about first, and what is off limits for this job, each a row that opens to its sentences. A pause names the one that stopped it.</p>
+              <div class="wt-note" data-rect="150 639 796 122">
+                <p class="wt-kicker"><span class="wt-num">4</span>Everything passes</p>
+                <h3>Nothing failed.</h3>
+                <p class="wt-body">With either token the lint passes, no pixel moves and the accessibility check passes. The checks can prove the screen looks the same. They can&rsquo;t tell what the red means.</p>
               </div>
-              <div class="wt-note" data-rect="150 358 796 141">
-                <p class="wt-kicker"><span class="wt-num">5</span>A pause</p>
-                <h3>It stops only where a boundary says to.</h3>
-                <p class="wt-body">This one is about meaning, so it asks one narrow question and recommends an answer. When it needs permission it doesn’t have, it asks with a different card.</p>
+              <div class="wt-note" data-rect="150 424 796 607">
+                <p class="wt-kicker"><span class="wt-num">5</span>One question</p>
+                <h3>So it stops, and asks a product question.</h3>
+                <p class="wt-body">Not &ldquo;which token?&rdquo; but &ldquo;is this red a failure, or a value that was replaced?&rdquo; Its delegation says to ask when the evidence for what a value means conflicts. Stopping here is the job done right.</p>
               </div>
-              <div class="wt-note" data-rect="150 491 796 159">
-                <p class="wt-kicker"><span class="wt-num">6</span>What no check can say</p>
-                <h3>Same red, two names. Every check passes either way.</h3>
-                <p class="wt-body">A passing check is a fact about the code. Which name the red carries is a decision, so each answer shows what it would do if the red changed later.</p>
+              <div class="wt-note" data-rect="150 752 796 186">
+                <p class="wt-kicker"><span class="wt-num">6</span>Why it matters later</p>
+                <h3>Perfect today, wrong tomorrow.</h3>
+                <p class="wt-body">Today both answers look the same. Say danger is made louder next year: with the diff tokens, only &ldquo;Payment failed&rdquo; gets louder. With danger, the old plan shouts too, as if changing plans were an error.</p>
               </div>
-              <div class="wt-note" data-rect="960 302 341 101">
-                <p class="wt-kicker"><span class="wt-num">7</span>Your rules</p>
-                <h3>An answer becomes a rule only if you say so.</h3>
-                <p class="wt-body">An answer can cover similar cases, in plain words you can edit or revoke. Until you make one, there are none.</p>
+              <div class="wt-note" data-rect="150 752 796 371" data-scene="rule">
+                <p class="wt-kicker"><span class="wt-num">7</span>One answer, kept</p>
+                <h3>One answer settles three more changes.</h3>
+                <p class="wt-body">A replaced value isn&rsquo;t a failure, so it takes the diff tokens. Kept as a rule, the answer settles the invoice amount, the seat count and the billing email, and the next case like them won&rsquo;t ask. A removed line is close but not the same, so it still asks.</p>
               </div>
-              <div class="wt-note wt-note--outro">
-                <p class="wt-kicker">The whole screen</p>
-                <h3>Seven parts, one aim: ask for a person less often.</h3>
-                <p class="wt-body">Below: the experiment behind it, the loop it supports, and how it works.</p>
+              <div class="wt-note wt-note--outro" data-scene="quiet" data-view="0 250 1440 1000">
+                <p class="wt-kicker">The end of the run</p>
+                <h3>Nothing needs you, and a rule is ready for next time.</h3>
+                <p class="wt-body">Two smaller answers later, all 36 values are merged. Human judgment didn&rsquo;t disappear. It moved to the questions the checks couldn&rsquo;t answer.</p>
               </div>
             </div>
           </div>
         </section>
-        <script src="../walkthrough.js?v=8"></script>
+        <script src="../walkthrough.js?v=9"></script>
       </div>
     </header>
 
@@ -812,21 +794,21 @@
           <li><strong>Missing intent, so it asks:</strong> one red has two token names, and nothing it can measure says which was meant.</li>
           <li><strong>Past its permission, so it asks:</strong> the fix needs a new token, which every screen would share. It asks for that one step.</li>
         </ul>
-        <p>Each question names the boundary that stopped it and recommends an answer. Each answer shows what it would do if that red is made louder later: one stays as it is, one follows it.</p>
+        <p>Each question names the boundary that stopped it and recommends an answer. A question about meaning shows the red beside its twin, the checks as they came back with either token, and what each answer does if danger is made louder later: with one, only the failure gets louder; with the other, both do.</p>
         </div>
         </div>
 
         <div class="ar-split">
         <div class="ar-split-text">
         <h3>Your rules: an answer that covers similar cases</h3>
-        <p>An answer becomes one of your rules only if you check a box, and the box starts unchecked. The rule says in plain words what it covers and what it doesn&rsquo;t, and you can edit or revoke it later.</p>
+        <p>An answer becomes one of your rules only if you check a box, and the box starts unchecked. The rule says in plain words what it covers and what it doesn&rsquo;t, a case that matches stops asking, and you can edit or revoke it later.</p>
         </div>
         <figure class="build-shot ar-split-media">
-          <a class="ar-zoom" href="../img/lab/agent-review-delegation-rule.webp?v=5" data-zoom><span class="visually-hidden">Open full size: </span>
+          <a class="ar-zoom" href="../img/lab/agent-review-delegation-rule.webp?v=6" data-zoom><span class="visually-hidden">Open full size: </span>
           <picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-rule-phone.webp?v=5" width="375" height="720" />
-                <img src="../img/lab/agent-review-delegation-rule.webp?v=5" width="1100" height="760" loading="lazy" decoding="async"
-                     alt="The first decision answered with &ldquo;Use the diff pair&rdquo;, the box &ldquo;Also use this answer for similar cases&rdquo; checked, and the rule as it will read: what it covers, what it doesn&rsquo;t, and the three waiting changes it settles now, above Cancel and Apply." />
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-delegation-rule-phone.webp?v=6" width="375" height="720" />
+                <img src="../img/lab/agent-review-delegation-rule.webp?v=6" width="1100" height="760" loading="lazy" decoding="async"
+                     alt="The first decision answered with &ldquo;Use the diff pair&rdquo;, under &ldquo;Payment failed&rdquo; and the plan change in the same red and the checks passed with either token. The box &ldquo;Also use this answer for similar cases&rdquo; is checked, and the rule reads as it will: what it covers, what it doesn&rsquo;t, the three waiting changes it settles now, and that a case that matches won&rsquo;t ask next time, above Cancel and Apply." />
               </picture>
           <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
           </a>

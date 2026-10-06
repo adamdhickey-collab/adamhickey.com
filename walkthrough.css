@@ -8,6 +8,14 @@
    the note beside it says what it is. Seven parts, then the camera backs out
    and the seven pins stay on the screen as a map.
 
+   SINCE 2026-10-06 THE SEVEN PARTS ARE A STORY, and the screen is shown in
+   more than one state: the run as found, the first question answered with
+   its rule, and nothing left to ask. Each state is a scene (.wt-scene), a
+   capture of the same page at the same size, stacked in the world; the
+   script dissolves from one to the next as the camera moves, and the camera
+   backs out at the end onto the last scene rather than onto a map of pins.
+   Without the tour only the first scene is drawn.
+
    THERE ARE TWO LAYOUTS AND THE CONTENT IS IN BOTH.
    - THE STATIC ONE is every viewport the tour does not run in: under 64rem,
      with reduced motion asked for, or with no script. It is the laptop at the
@@ -75,6 +83,23 @@
 }
 .wt-world { position: relative; transform-origin: 0 0; }
 .wt-world img { border-radius: 0; }
+
+/* THE SCENES (walkthrough.js, SCENES). The first is the picture the static
+   layout shows. The others, and the pins that stand on them (only a pin on
+   a later scene names one, with data-scene), are not displayed until the
+   tour runs, so their pictures are never fetched where it doesn't. In the
+   tour each lies over the first at the world's full size, and the script
+   says how much of it shows. */
+.wt-scene + .wt-scene,
+.wt-pin[data-scene] { display: none; }
+.wt.is-tour .wt-scene + .wt-scene {
+  display: block;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.wt.is-tour .wt-scene { will-change: opacity; }
+.wt.is-tour .wt-pin[data-scene] { display: grid; }
 
 /* THE DISC. The pin on the screen and the number beside a note are one
    object, so the eye can carry a number from the picture to the words: a
@@ -170,6 +195,14 @@
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
+}
+/* A token's name in a note, as the product sets one: the mono face, at the
+   line's own size (one size per line), and never broken at a hyphen, where
+   "--color-danger" split after its two would read as two words. */
+.wt-note code {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  white-space: nowrap;
 }
 /* What only the tour needs: the hint, the progress and the way past it. The
    outro is NOT one of them, since 2026-10-05: its head ("Seven parts, one

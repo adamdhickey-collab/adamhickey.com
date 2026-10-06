@@ -183,15 +183,18 @@ motion.
 
 **A fourth thing moves against scroll and is not on that list, because it is
 not a drawing.** The guided tour on the Agent Review write-up
-(`walkthrough.js`) pins a tablet and scrubs a camera over a capture of the
-product, one part of the screen per stretch of scroll. Its timing is the
+(`walkthrough.js`) pins a tablet and scrubs a camera over captures of the
+product, one part of the screen per stretch of scroll. Since 2026-10-06 the
+captures are three states of one screen, and where the story moves to the
+next state it dissolves in during the camera's move, on the same scrolled
+number, so a dissolve is no more a timed animation than the camera is. Its timing is the
 reader's scroll position, as the design-to-build scene's is, and it borrows
 the one distance the scale has: a note enters and leaves by `--motion-rise`.
 It has no duration and no easing because nothing in it takes time, and no CSS
 transition, which is why §5's blanket cannot stop it. The script does, with
 the same `prefers-reduced-motion` query the blanket reads, and what is left is
-the static layout: the tablet with seven pins on it and the seven notes in a
-list. It runs from 64rem up, and the content is whole without it. Since
+the static layout: the tablet with the first state and its six pins on it,
+and the seven notes in a list. It runs from 64rem up, and the content is whole without it. Since
 2026-10-05 two buttons at the ends of its progress bars step through the
 parts. They are not a second clock: a press moves the page's scroll position
 to the next part and the tour follows the scroll as it always has, so the
