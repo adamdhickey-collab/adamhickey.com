@@ -32,6 +32,7 @@
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      node scripts/lab-cards.mjs                 # all three
      node scripts/lab-cards.mjs agent-review    # one
+     node scripts/lab-cards.mjs agent-review-phone   # its phone version
      node scripts/lab-cards.mjs agent-review-share   # the share cards' square
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
@@ -81,6 +82,15 @@ const CARDS = {
      still under 64rem; the card lays out the same, and its foot lands in
      the 8px between the outcomes and the specimens under them. */
   'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask', offset: 10 },
+  /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
+     card at phone width too"). Under 40rem the homepage prints its picture
+     206 to 300px wide, and the 864 layout at that size set the card's text
+     about 4px tall. This is the product's own phone layout, 375 wide, from
+     the same edge 10px above the first decision, down to the two reds: the
+     question, then "A failure" beside "A replaced value". The frame's foot
+     lands in the 12px between the tiles and the checks under them. At 2x it
+     is 750 x 780, printed at about 261 on a 375 phone. */
+  'agent-review-phone': { url: `${from}#/`, width: 375, height: 390, viewportHeight: 812, dpr: 2, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
