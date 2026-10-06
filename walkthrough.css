@@ -370,9 +370,20 @@
    stands half a bar's height before the first bar, where nothing is filled,
    and at the end as far past the last, where everything is. walkthrough.js
    measures the bars when the window is measured and sets the front in px,
-   --front on the row and --cut on each fill (the front from that bar's
+   --front on the row and --cut on each bar (the front from that bar's
    start); the cut is a clip-path and the slash is placed with left, so
    neither is ever scaled out of its angle or its 1px.
+
+   THE TWO HALVES SLIP, as the logo's do (Adam, the same evening: "to make
+   the illusion complete, the dot pattern has to be a few pixels down").
+   "hickey" sits lower than "adam" where the slash cuts between them, so the
+   bar is cut and slipped the same way: the sage rides half --space-2xs
+   high and the dots half --space-2xs low, 4px apart, centred on the slash,
+   which stays where it was. Each half is its own layer, the sage the bar's
+   i and the dots its ::before, each clipped to its own side of the cut and
+   moved with translate. A clip moves with its element, so each polygon
+   carries the cut the other way by the same half step, and both halves
+   still end exactly on the slash.
 
    It needs room above it, which a 4px bar did not: --space-2xl from the
    screen's foot to the slash's top, and the panel's own --space-2xl under
@@ -455,35 +466,54 @@
   color: var(--color-rule);
   cursor: default;
 }
-/* The dots: one in the corner of every tile, and the tile is a third of
+.wt-tick {
+  position: relative;
+  display: block;
+  height: calc(var(--space-lg) / 2);
+}
+.wt-tick::before,
+.wt-tick i {
+  position: absolute;
+  inset: 0;
+}
+/* The cut's middle is --cut from the bar's start, and it runs half the
+   bar's height either side of that: its top ahead, its foot behind. Each
+   half's shape reaches past the bar on every side but the cut, a bar's
+   height past its far end and a pixel above and below it, carrying the 45
+   degrees that pixel further, so the box's own edges, which land on whole
+   pixels, are the bar's and the clip draws only the cut. Clipped on the
+   edges themselves, a bar that sits between two pixels was antialiased
+   along them: a dashed row of the dots showed under the sage's foot, and
+   an empty bar's head wore a sage hairline.
+
+   The dots: one in the corner of every tile, and the tile is a third of
    the bar's height less the dot, so the four rows are the bar's top edge,
    its bottom edge and two between, evenly, and the dots draw the bar's
    outline as well as fill it. A conic quarter at 1px 1px is a square dot
-   with hard edges, where a radial one is a blurred disc. */
-.wt-tick {
-  display: block;
-  height: calc(var(--space-lg) / 2);
+   with hard edges, where a radial one is a blurred disc. Half --space-2xs
+   low, so the cut is carried back by as much. */
+.wt-tick::before {
+  content: "";
+  translate: 0 calc(var(--space-2xs) / 2);
   background:
     conic-gradient(from 270deg at 1px 1px, var(--color-muted-gray) 90deg, transparent 0)
     0 0 / calc((var(--space-lg) / 2 - 1px) / 3) calc((var(--space-lg) / 2 - 1px) / 3);
+  clip-path: polygon(
+    calc(var(--cut, var(--space-lg) / -2) + var(--space-lg) / 4 + 1px - var(--space-2xs) / 2) -1px,
+    calc(100% + var(--space-lg) / 2) -1px,
+    calc(100% + var(--space-lg) / 2) calc(100% + 1px),
+    calc(var(--cut, var(--space-lg) / -2) - var(--space-lg) / 4 - 1px - var(--space-2xs) / 2) calc(100% + 1px)
+  );
 }
-/* The cut's middle is --cut from the bar's start, and it runs half the
-   bar's height either side of that: its top ahead, its foot behind. The
-   shape reaches past the bar on every side but the cut, a bar's height
-   behind its start and a pixel above and below it, carrying the 45 degrees
-   that pixel further, so the box's own edges, which land on whole pixels,
-   are the bar's and the clip draws only the cut. Clipped on the edges
-   themselves, a bar that sits between two pixels was antialiased along
-   them: a dashed row of the dots showed under the sage's foot, and an empty
-   bar's head wore a sage hairline. */
+/* The sage, half --space-2xs high, so the cut is carried on by as much. */
 .wt-tick i {
   display: block;
-  height: 100%;
+  translate: 0 calc(var(--space-2xs) / -2);
   background: var(--color-accent-text);
   clip-path: polygon(
     calc(var(--space-lg) / -2) -1px,
-    calc(var(--cut, var(--space-lg) / -2) + var(--space-lg) / 4 + 1px) -1px,
-    calc(var(--cut, var(--space-lg) / -2) - var(--space-lg) / 4 - 1px) calc(100% + 1px),
+    calc(var(--cut, var(--space-lg) / -2) + var(--space-lg) / 4 + 1px + var(--space-2xs) / 2) -1px,
+    calc(var(--cut, var(--space-lg) / -2) - var(--space-lg) / 4 - 1px + var(--space-2xs) / 2) calc(100% + 1px),
     calc(var(--space-lg) / -2) calc(100% + 1px)
   );
 }
