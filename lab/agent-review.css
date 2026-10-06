@@ -61,7 +61,7 @@
    7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
       the question the checks left open and the three it comes down to, sit
       on a sage rectangle, so the band is two surfaces and not one charcoal
-      field. */
+      field, and the findings' second row sits on the panel's foot. */
 
 /* ---- 7. the sage panel in the dark band ---- */
 /* The sage is --color-accent-text, the one sage on light, as a fill: the
@@ -85,6 +85,25 @@
 .build-chapter.ground-charcoal .ar-panel .build-list li::before { background: var(--ink-on-dark); }
 @media (min-width: 48rem) {
   .ar-panel { padding: var(--space-3xl); }
+}
+
+/* THE FINDINGS MEET THE PANEL'S FOOT. From 640 the four findings are two
+   rows of two, each finding two tracks of the strip's own grid (style.css,
+   .build-facts--aligned). A fifth track between the rows is the space
+   between them: --space-3xl at least, where the strip's gap gave
+   --space-xl, and from 80rem, where the panel stands beside them and both
+   take the row's full height, whatever is left over, so the second row's
+   last line lands on the panel's bottom edge and the two read as one block. */
+@media (min-width: 640px) {
+  .ar-findings {
+    grid-template-rows: auto auto minmax(var(--space-3xl), 1fr) auto auto;
+    row-gap: 0;
+  }
+  .ar-findings > div:nth-child(-n+2) { grid-row: 1 / span 2; }
+  .ar-findings > div:nth-child(n+3) { grid-row: 4 / span 2; }
+}
+@media (min-width: 80rem) {
+  .ar-findings, .ar-split--wide-first > .ar-panel { align-self: stretch; }
 }
 
 /* ---- 6. the tour's cutting mat ---- */
