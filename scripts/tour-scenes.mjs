@@ -1,8 +1,9 @@
 /**
- * The Agent Review write-up's drawings live here. One is on the page: MAT,
- * at the very foot, the objects on the tour's cutting mat. STAGE, above
- * it, was the desk the mat replaced the same day. Two sets are not on the
- * page either. LOOP, near the foot of the file, was there for one day,
+ * The Agent Review write-up's drawings live here, and none is on the page.
+ * MAT, at the very foot, was the objects on the tour's cutting mat, and
+ * STAGE, above it, the desk the mat replaced; both went the same day, and
+ * the mat is its grid alone now. Two sets before them are not on the page
+ * either. LOOP, near the foot of the file, was there for one day,
  * 2026-10-06: the six steps of the loop, retired the same day for one drawn line
  * through all six (.ar-rail in lab/agent-review.css), so that the loop
  * reads as one system moving through six states rather than six pictures.
@@ -262,8 +263,11 @@ The right edge from one-quarter to three-quarters of the height must be complete
   ],
 };
 
-/* THE TOUR'S CUTTING MAT, 2026-10-06: what lies on the mat behind the
-   sticky stage while the tour runs. The mat itself, its colour and its
+/* THE TOUR'S CUTTING MAT, 2026-10-06, and RETIRED FROM THE PAGE THE SAME
+   DAY: Adam kept the mat and its grid and took everything off it. The three
+   cuts, img/lab/tour-mat-*.webp, are out of the tree; this stays as the
+   record and the way to draw them again. It was what lay on the mat behind
+   the sticky stage while the tour ran. The mat itself, its colour and its
    grid, is CSS (lab/agent-review.css, section 6), so this is only the
    objects, drawn on a TRANSPARENT ground: a ruler, a palette of paper
    chips, and interface pieces cut from card beside the craft knife that cut
