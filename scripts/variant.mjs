@@ -76,9 +76,12 @@ const argv = process.argv.slice(2);
    with the cards put back to ambiguity-first and prototype-last on 2026-09-17. */
 const BASE = {
   name: 'craft',
-  dek: 'I design complex software and build it: the interface, the design system that holds it together, and working prototypes in real code.',
+  /* The dek as main carries it since 2026-10-06. It had been left at the
+     pre-2026-10-01 sentence ("... working prototypes in real code") through
+     two rewrites, so --revert would have put back a dek the site retired. */
+  dek: 'Twenty years designing complicated software taught me where judgment matters. Now I design the interfaces, systems and boundaries that let people and coding agents build and work together.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
-  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
+  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
     'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
     'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'what-does-a-design-system-need-once-ai-is-in-the-product', 'standardizing-ux-across-40-sap-fiori-apps'],

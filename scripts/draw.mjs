@@ -48,6 +48,11 @@ import * as tour from './tour-scenes.mjs';
    --set tour draws the small picture beside each note of the Agent Review
    tour, 16:9 at 960x540 (`illustrate.mjs tour`) for a column about 410px wide.
    Each job names its own output under img/lab/.
+   --set loop draws the six steps of the same page's loop, from the same
+   registry under its own preamble (`style`): square, on a transparent
+   ground, each built on a disc, cut by `illustrate.mjs mark` to 352x352.
+   A mark has no wall and no mean luminance, so `take` files it and skips
+   the report.
    Everything that used to be a `FEATURES ?` ternary is a column here, so a
    fourth set is a row rather than an edit in five places. */
 const SETS = {
@@ -55,13 +60,15 @@ const SETS = {
   features: { mod: features, jobs: 'FEATURES', registry: 'writing-features.mjs', suffix: '',   role: 'feature', card: true  },
   proof:    { mod: proof,    jobs: 'PROOF',    registry: 'proof-cards.mjs',      suffix: '',   role: 'card',    card: false },
   tour:     { mod: tour,     jobs: 'TOUR',     registry: 'tour-scenes.mjs',      suffix: '',   role: 'tour',    card: false },
+  loop:     { mod: tour,     jobs: 'LOOP',     registry: 'tour-scenes.mjs',      suffix: '',   role: 'mark',    card: false, style: 'LOOP_STYLE', aspect: 'Draw this as a square 1:1 image.' },
 };
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--set');
 const SET = si >= 0 ? argv.splice(si, 2)[1] : 'scenes';
 if (!SETS[SET]) { console.error(`--set is ${Object.keys(SETS).join(', ')}, not ${SET}`); process.exit(2); }
 const { mod, registry: REGISTRY, suffix: SUFFIX, role: ROLE, card: CARDS } = SETS[SET];
-const { STYLE, REF } = mod;
+const STYLE = mod[SETS[SET].style || 'STYLE'];
+const { REF } = mod;
 const JOBS = mod[SETS[SET].jobs];
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -69,7 +76,7 @@ const INBOX = resolve(root, 'img/inbox');
 const QUEUE = resolve(INBOX, 'QUEUE.json');
 const REF_PNG = resolve(INBOX, 'style-reference.png');
 const DOWNLOADS = join(homedir(), 'Downloads');
-const ASPECT = 'Draw this as a wide 16:9 landscape image.';
+const ASPECT = SETS[SET].aspect || 'Draw this as a wide 16:9 landscape image.';
 
 const short = (p) => p.replace(`${root}/`, '');
 const readQueue = () => {
@@ -187,7 +194,7 @@ if (cmd === 'queue') {
      source in the same run -- cutting it later, from the WebP, would put a
      second lossy pass on it. */
   if (job.card) cut('card', job.card);
-  execFileSync('node', [resolve(root, 'scripts/illustrate.mjs'), 'report', job.final], { stdio: 'inherit', cwd: root });
+  if (ROLE !== 'mark') execFileSync('node', [resolve(root, 'scripts/illustrate.mjs'), 'report', job.final], { stdio: 'inherit', cwd: root });
   /* The colour group is the index's section, so a drawing that comes back in
      the wrong accent breaks the grouping a reader scrolls past. The generator
      cannot hit a hex, so this measures what it actually did rather than

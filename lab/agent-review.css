@@ -1,0 +1,156 @@
+/* ---------- The Agent Review write-up's own layout ----------
+   lab/agent-review.html is the one page that loads this file, as
+   lab/workspace.css is the lab index's. It holds three things the shared
+   case-study shell does not have, and none of them declares a custom
+   property: every size is a token from shell.css or type.css.
+
+   1. THE FULL FRAME, IN TWO COLUMNS, FROM 64rem. Until 2026-10-06 every
+      chapter sat in .case-narrow, 56rem, a blog's single column down the
+      middle of a 1440 screen with 272px of ground either side, and the hero
+      left half its width empty beside a 52ch lede. The chapters are in
+      .case-wide now, the --container-max frame the nav, the hero and the
+      engagement pages use, and each one splits into the words and the
+      thing they are about: a figure, a list, the findings, the questions.
+      The words keep --measure, so no line reads longer; what got bigger is
+      the room beside them.
+
+      One split, 5 to 7, the words on the left and the evidence on the
+      right, so a reader's eye finds the same two columns all the way down.
+      Two places flip it to 7 to 5, because what comes first there is the
+      wider thing: the hero, where the title and the lede are the page's
+      opening and the facts card is a sidebar to them, and the dark band,
+      where the four findings are the content and the paragraphs under
+      them are what they mean. The dark band waits for 80rem, for the
+      reason at the foot of this file. Under 64rem nothing is a grid and the
+      markup reads in the order it always did, so the phone and the tablet
+      see the page they saw before.
+
+   2. A DRAWING ON EACH STEP OF THE LOOP, where each step had a hairline
+      rule over it (.build-loop in style.css). The drawings are the writing
+      set's hand on a pale sage disc, with the object breaking out of the
+      disc, on a transparent ground so the band's white shows through. Under
+      640 the steps are one column and the drawing goes beside its words
+      rather than over them, so six steps are not six screens.
+
+   3. THE PHONE'S VERSION OF THE TOUR. Under 40rem the capture is the phone's
+      and carries no pins, so the seven numbered notes under it pointed at
+      nothing and ran on for a screen and a half. The phone gets a lead and
+      five labeled lines (.wt-brief in the page) instead; walkthrough.css is
+      unchanged and from 40rem the brief is not displayed. */
+
+/* ---- 3. the tour, on a phone ---- */
+.wt-brief { display: none; }
+@media (max-width: 40rem) {
+  .wt-notes { gap: var(--space-sm); }
+  .wt-note:not(.wt-note--intro),
+  .wt-note--intro .wt-body { display: none; }
+  .wt-note--intro h3 { margin-bottom: 0; text-wrap: balance; }
+  .wt-brief { display: block; }
+  .wt-brief .wt-body { margin-bottom: var(--space-md); }
+  .wt-brief .build-list { margin-bottom: 0; }
+}
+
+/* ---- 2. the loop's drawings ---- */
+/* A column, so the drawing can go above the step's number: the number is
+   the list's own ::before, and it is generated ahead of every child. */
+.build-loop--drawn li {
+  display: flex;
+  flex-direction: column;
+  border-top: 0;
+  padding-top: 0;
+}
+.build-loop--drawn .build-loop-art { order: -1; }
+/* The drawings stand taller than the hairline did, so the line over them
+   gets a step more air than a paragraph's. */
+.case-section p + .build-loop--drawn { margin-top: var(--space-2xl); }
+.build-loop--drawn span { display: block; }
+.build-loop-art {
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  margin: 0 0 var(--space-xs);
+}
+@media (max-width: 639.98px) {
+  .build-loop--drawn li {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto auto 1fr;
+    column-gap: var(--space-md);
+  }
+  .build-loop--drawn .build-loop-art { grid-column: 1; grid-row: 1 / -1; margin: 0; }
+  .build-loop--drawn li::before { grid-column: 2; grid-row: 2; }
+  .build-loop--drawn strong { grid-column: 2; grid-row: 3; }
+  .build-loop--drawn span { grid-column: 2; grid-row: 4; }
+}
+
+/* ---- 1. the two columns ---- */
+@media (min-width: 64rem) {
+  /* The hero: the opening on the left, the facts card beside it as a
+     column of four rather than a row of four under it. The card keeps its
+     own edge and inset; only the margin that set it under the lede goes. */
+  .ar-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .ar-hero > .glance { margin: 0; }
+  .ar-hero .glance-facts { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); }
+  .ar-hero + .build-service { margin-top: var(--space-2xl); }
+
+  /* Every split but the dark band's, which waits for 80rem (below). */
+  .ar-split:not(.ar-split--wide-first) {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--space-4xl);
+    align-items: start;
+    grid-auto-flow: row dense;
+  }
+  .ar-split > .ar-split-text { grid-column: 1; }
+  .ar-split > .ar-split-media { grid-column: 2; }
+
+  /* A column's own first and last margins are the grid's to give, not
+     the element's: a figure's --space-2xl over it would put the screen a
+     step lower than the heading beside it. */
+  .ar-split:not(.ar-split--wide-first) > .build-shot,
+  .ar-split:not(.ar-split--wide-first) > .build-list { margin-top: 0; margin-bottom: 0; }
+  .ar-split:not(.ar-split--wide-first) .ar-split-text > :first-child,
+  .ar-split:not(.ar-split--wide-first) .ar-split-media > :first-child { margin-top: 0; }
+  .ar-split:not(.ar-split--wide-first) .ar-split-text > :last-child,
+  .ar-split:not(.ar-split--wide-first) .ar-split-media > :last-child { margin-bottom: 0; }
+  .ar-split > .dp-note { margin-bottom: 0; }
+
+  /* One part of a chapter to the next, and a paragraph to the split under
+     it: the gap between major blocks inside a band. */
+  .ar-split + .ar-split { margin-top: var(--space-block); }
+  p + .ar-split { margin-top: var(--space-2xl); }
+
+  /* The Storybook beside the experiment holds still while the words and
+     the note beside it scroll past: it is the one picture of the system
+     the whole column is about. It spans both of the column's rows, and it
+     stops at the bottom of the section's grid. */
+  .ar-split-media--held {
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-2xl));
+  }
+}
+
+/* THE DARK BAND SPLITS AT 80rem, not 64. Its four findings are set to
+   break each head into two even lines (style.css, .build-facts--two
+   .build-facts--icons), which a cell needs about 320px for, and in seven
+   twelfths of a 1024 frame a cell is about 250: every head went to three
+   lines. From 1280 the cell is about 320 again. Between the two it is the
+   band it was, the findings across the frame and the words under them. */
+@media (min-width: 80rem) {
+  .ar-split--wide-first {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .ar-split--wide-first > .ar-split-media { grid-column: 1; }
+  .ar-split--wide-first > .ar-split-text { grid-column: 2; }
+  .ar-split--wide-first > .build-facts { margin-top: 0; margin-bottom: 0; }
+}
