@@ -2,11 +2,12 @@
  *
  * WHAT THIS IS FOR. Every browser check in scripts/ loads a page, waits for it
  * to settle, and measures what is there. That is the whole of what they see,
- * and for twenty-eight of the thirty pages it is the whole of what the
+ * and for twenty-nine of the thirty-two pages it is the whole of what the
  * page is. The two prototypes are the exception: `prototype/dispatch-cockpit.html`
  * and `prototype/deploy-console.html` render their entire interesting surface
  * from JavaScript in response to a press, so the checks would measure an
- * opening screen and call that the page.
+ * opening screen and call that the page. Since #401 the lab index is a third,
+ * a smaller one: its three pieces are in the markup but hidden until pressed.
  *
  * Twelve things were never measured once. `.ck-why-form` and its radios, the
  * stored-reason note, the "assigned" tag, the moved-rank arrows, an open row
