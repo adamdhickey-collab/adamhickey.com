@@ -268,8 +268,24 @@ dt.is-reading-block, dd.is-reading-block {
   .ra-voice { max-width: 8.5rem; }
   .ra-btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   /* The label is gone, so the glyph is the whole target: hold it at a size
-     a thumb can find. */
-  .ra-btn { padding: var(--space-2xs) var(--space-sm); min-width: 44px; min-height: 36px; }
+     a thumb can find. The height is the coarse-pointer rule below, which
+     owns it at every width; this one held 36px until 2026-10-06. */
+  .ra-btn { padding: var(--space-2xs) var(--space-sm); min-width: 44px; }
+}
+
+/* A thumb needs 44px of target and a pointer does not, and on a desktop the
+   bar is a compact pill that 44px buttons would swell to half again its
+   height. So the floor is for a coarse pointer, at every width -- a tablet is
+   not under 480 -- and it covers the Listen pill (38px), the player's three
+   buttons (32px, and 36px under 480) and the voice select (32px). The pills
+   keep their border, so they grow visibly rather than behind themselves the
+   way .case-ask-link's hit zone does: the buttons sit one --space-2xs apart,
+   and a pseudo-element target would overlap its neighbour. The player wraps,
+   so the taller controls make the bar taller and move nothing else. */
+@media (pointer: coarse) {
+  .ra-listen,
+  .ra-btn,
+  .ra-voice { min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
