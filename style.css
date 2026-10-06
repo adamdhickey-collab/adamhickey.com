@@ -1044,6 +1044,22 @@ a.case-thumb { display: block; }
   transition: color var(--motion-ambient) var(--ease);
 }
 @media (min-width: 768px) { .story-step p { font-size: var(--text-lg); } }
+/* A SHORT WINDOW, since 2026-10-06. The stage is the window's height less the
+   nav and 8.5rem, and the steps are centred in it, so on a short window the
+   longest steps ran past it top and bottom: step 03 by 42px at 900x700 and
+   92px at 900x650, step 02 by 42px at 900x650, step 03 by 30px even at
+   1280x600 -- past the circle and up under the sticky title. The copy cannot
+   be cut to fit every height, so on a short window the paragraphs take the
+   body step instead of the reading step, one step down the scale. */
+@media (min-width: 900px) and (max-height: 720px) {
+  .story-step p { font-size: var(--text-base); }
+}
+/* Shorter still, the numeral over each step goes too: the rail beside the
+   circle carries the same 01, 02, 03, and the step's own copy of it is the
+   line the stage can least afford at 900x600. */
+@media (min-width: 900px) and (max-height: 620px) {
+  .story-num { display: none; }
+}
 .story-step .story-lead-in {
   display: block;
   font-weight: 600;

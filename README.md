@@ -578,7 +578,8 @@ the one word a hiring manager reads as a permanent commitment to consulting,
 and every head term survives without it. The description and the Person's `knowsAbout`
 say the same five things the practice wants to be found for: complex
 enterprise software, enterprise design systems, legacy modernization, AI
-product prototyping, embedded senior product design. `seo.mjs` holds each
+product prototyping and agentic workflows (since 2026-10-06, where it said
+AI-supported decision workflows), embedded senior product design. `seo.mjs` holds each
 page's `og:title` to its `<title>`, and the share cards `og.mjs` renders
 carry the h1's name, since a feed is where the name is the thing to
 recognize.

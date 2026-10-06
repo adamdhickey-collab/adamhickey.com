@@ -81,7 +81,7 @@ const BASE = {
      two rewrites, so --revert would have put back a dek the site retired. */
   dek: 'Twenty years designing complicated software taught me where judgment matters. Now I design the interfaces, systems and boundaries that let people and coding agents build and work together.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
-  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'AI decisions', 'Research'],
+  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
     'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
     'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'what-does-a-design-system-need-once-ai-is-in-the-product', 'standardizing-ux-across-40-sap-fiori-apps'],
