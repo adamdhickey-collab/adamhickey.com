@@ -150,9 +150,10 @@ the archive so that it holds everything staging ever had.
 
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
-the six-item proof strip and the client logos) → Selected work (four
-accounts as peers since 2026-10-06 -- SAP, Agent Review, dispatch, USDA --
-and one line under them to the rest of the lab) → How I work inside a
+the six-item proof strip and the client logos) → Selected work (three
+client case studies -- SAP, dispatch, USDA since 2026-10-06 -- then Agent
+Review as the lab's one feature card, and a line to the rest of the lab) →
+How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own
 page under `engagement/`) → What changes when agents can build (the scroll
@@ -201,7 +202,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 10 | A | An index and nine articles in three collections named for the three leads the search runs on: craft and code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
-| Lab | 2 | A | The index of the experiments in React, AI-assisted prototyping and component systems, and the Agent Review case study. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from the navigation, and from Selected work, where Agent Review was one card under the accounts until 2026-10-06 and is the second of four since. Since 2026-10-06 the index is a workspace (`lab/workspace.css`, `lab/workspace.js`): the three pieces are files, one press opens a piece in the preview, a scripted assistant points at them, and without script the page is a heading and three links. |
+| Lab | 2 | A | The index of the experiments in React, AI-assisted prototyping and component systems, and the Agent Review case study. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. Since 2026-10-06 the index is a workspace (`lab/workspace.css`, `lab/workspace.js`): the three pieces are files, one press opens a piece in the preview, a scripted assistant points at them, and without script the page is a heading and three links. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
