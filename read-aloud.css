@@ -149,6 +149,13 @@ dt.is-reading-block, dd.is-reading-block {
   flex-wrap: wrap;
   gap: var(--space-xs) var(--space-md);
   padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-lg);
+  /* A fixed box with left: 50% and no width sizes into the space to the
+     RIGHT of its left edge, which is half the viewport: on a 375px phone the
+     bar was 188px wide and wrapped to three rows with most of the screen
+     unused. max-content sizes it to its controls, and the max-width below
+     still caps it a --space-md off each edge, where it wraps. The centring
+     is the translate's, so nothing else moves. Until 2026-10-06. */
+  width: max-content;
   max-width: calc(100vw - 2 * var(--space-md));
   border-radius: var(--radius-pill);
   background: var(--color-charcoal);
