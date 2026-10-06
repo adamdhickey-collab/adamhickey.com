@@ -38,7 +38,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { findChrome, loadChromium, MEASURING, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
-import { reach, reachableFor } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
 
 const root = resolveRoot('curves.mjs');
 const only = pageFilters();
@@ -52,9 +52,15 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext(MEASURING);
-await ctx.route(/^https?:/, r => new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
-const page = await ctx.newPage();
+/* Every context this check measures in is made here: the one its pages share,
+   and one for each state that holds a moment (lib/reachable.mjs, stage()),
+   which must measure under the same conditions as everything else. */
+async function context() {
+  const c = await browser.newContext(MEASURING);
+  await c.route(/^https?:/, r => new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
+  return c;
+}
+const shared = await (await context()).newPage();
 
 /* A side counts as drawn only if it has width, a style, and a color that is
    not fully transparent. The nav reserved its space with a transparent
@@ -108,12 +114,14 @@ let scanned = 0, elements = 0, reached = 0;
    row -- so at rest this check was looking at a page with most of its curves
    not yet drawn. */
 async function scan(rel, state) {
+  const page = await stage(shared, state, context);
   await page.goto(`${origin}/${rel}`, { waitUntil: 'domcontentloaded' });
   if (state) await reach(page, state);
   const rest = await page.evaluate(IN_PAGE);
   elements += await page.evaluate(`document.querySelectorAll('body *').length`);
   await page.evaluate(FORCE);
   const forced = await page.evaluate(IN_PAGE);
+  await held(page, state);
   for (const r of [...rest, ...forced]) {
     const key = `${r.sel}|${r.sides}`;
     if (!found.has(key)) found.set(key, { ...r, pages: new Set() });
@@ -129,10 +137,8 @@ for (const rel of chosen) {
     catch (e) {
       say(`\n  ✗ cannot measure ${rel}\n`);
       say(`      ${e.message}`);
-      if (e.unreached) {
-        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
-        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
-      } else say('');
+      const why = advice(e);
+      say(why.length ? `\n${why.map((l) => '    ' + l).join('\n')}\n` : '');
       server.close(); await browser.close();
       process.exit(2);
     }

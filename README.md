@@ -499,6 +499,18 @@ page quietly edit the list of what gets measured. `reach()` throws on a selector
 that matches nothing, so a state going stale fails the run rather than silently
 covering less.
 
+Reaching a state is not the same as measuring it, and two of the console's
+proved it. A first deploy and a rollback in flight are moments the page ends
+itself about two seconds after the press, and `states.mjs`, which walks a
+state's rules one element at a time, measured the rollback's finished Undo
+button under the in-flight name in every run that was looked at, while
+`resting.mjs`, measuring with reduced motion, never saw either moment at
+all. A state like that now names a `holds` selector. It is measured on a
+page whose clock the registry stops just before the press, so the beats
+that would end the moment never come, and every check asks afterwards
+whether the moment is still there and still the same element, failing the
+run as unmeasurable when it is not.
+
 It found a real one on its first pass. `table` is a type selector, so
 `.ck table .ck-btn:hover` outranks `.ck .ck-btn-primary:hover`, and the
 comparison is a `<table>` -- hovering its Assign button kept the near-white ink

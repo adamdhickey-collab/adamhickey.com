@@ -61,7 +61,7 @@
  * one does not, 2 when it could not find out -- which is not a pass.
  */
 import { findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
-import { reach, reachableFor } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
 const enhanced = process.argv.includes('--enhanced');
@@ -249,10 +249,16 @@ const IN_PAGE = String.raw`
 const { server, origin } = await serve(root);
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-await ctx.route(/^https?:/, r =>
-  new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
-const page = await ctx.newPage();
+/* Every context this check measures in is made here: the one its pages share,
+   and one for each state that holds a moment (lib/reachable.mjs, stage()),
+   which must measure under the same conditions as everything else. */
+async function context() {
+  const c = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  await c.route(/^https?:/, r =>
+    new URL(r.request().url()).hostname === '127.0.0.1' ? r.continue() : r.abort());
+  return c;
+}
+const shared = await (await context()).newPage();
 
 const chosen = pages(root).filter(f => !only.length || only.some(o => f.includes(o)));
 if (!chosen.length) {
@@ -267,11 +273,13 @@ const byReason = { size: 0, inline: 0, spacing: 0 };
 let measured = 0, reachedCount = 0;
 
 async function sweep(rel, w, state) {
+  const page = await stage(shared, state, context);
   await page.setViewportSize({ width: w, height: 1000 });
   await page.goto(`${origin}/${rel}`, { waitUntil: 'load' });
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]));
   if (state) await reach(page, state);
   const rows = await page.evaluate(IN_PAGE);
+  await held(page, state);
   const where = state ? `${rel} (${state.name})` : rel;
   for (const t of rows) {
     measured += 1;
@@ -289,10 +297,8 @@ for (const rel of chosen) {
       catch (e) {
         say(`\n  ✗ cannot measure ${rel}\n`);
         say(`      ${e.message}`);
-        if (e.unreached) {
-          say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
-          say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
-        } else say('');
+        const why = advice(e);
+        say(why.length ? `\n${why.map((l) => '    ' + l).join('\n')}\n` : '');
         server.close(); await browser.close();
         process.exit(2);
       }
