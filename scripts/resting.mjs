@@ -57,7 +57,7 @@
 import path from 'node:path';
 import { AT_REST, COLOR_TOOLKIT, findChrome, loadChromium, pageFilters, pages, resolveRoot, serve } from './lib/harness.mjs';
 import { decodePNG, pixels } from './lib/png.mjs';
-import { reach, reachableFor } from './lib/reachable.mjs';
+import { advice, held, reach, reachableFor, stage } from './lib/reachable.mjs';
 
 const strict = process.argv.includes('--strict');
 const showUnmeasurable = process.argv.includes('--unmeasurable');
@@ -300,7 +300,10 @@ const { server, origin } = await serve(root);
 
 const chromePath = findChrome();
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
-const ctx = await browser.newContext(AT_REST);
+/* Every context this check measures in is made here: the one its pages share,
+   and one for each state that holds a moment (lib/reachable.mjs, stage()),
+   which must measure under the same conditions as everything else. */
+const context = () => browser.newContext(AT_REST);
 
 const failures = [];
 const unmeasurable = [];
@@ -309,7 +312,7 @@ const byPixels = [];   // answered by looking at the rendered pixels, not comput
 const moving = [];   // still repainting a color when measured, so sampled mid-flight
 let checked = 0;
 
-const page = await ctx.newPage();
+const shared = await (await context()).newPage();
 const chosen = pages(root).filter((f) => !only.length || only.some((o) => f.includes(o)));
 
 if (!chosen.length) {
@@ -328,6 +331,7 @@ if (!chosen.length) {
    that stops being reachable fails loudly instead of quietly measuring
    whatever the previous press happened to leave on the screen. */
 async function measure(file, state) {
+  const page = await stage(shared, state, context);
   /* 'load' rather than 'domcontentloaded': stylesheets are not parsed at
      DOMContentLoaded, and a page measured before its CSS arrives reports the
      browser's defaults as the site's colors. */
@@ -397,6 +401,7 @@ async function measure(file, state) {
 
   const results = await page.evaluate(`(${IN_PAGE}).restingText()`);
   await measureProbes(page, results);
+  await held(page, state);
 
   const where = state ? { file, state: state.name } : { file };
   for (const r of results) {
@@ -416,10 +421,8 @@ for (const file of chosen) {
     catch (e) {
       say(`\n  ✗ cannot measure ${file}\n`);
       say(`      ${e.message}`);
-      if (e.unreached) {
-        say(`\n    A state in scripts/lib/reachable.mjs no longer reaches anything.`);
-        say(`    Fix the selector or retire the state; do not leave it unreached.\n`);
-      } else say('');
+      const why = advice(e);
+      say(why.length ? `\n${why.map((l) => '    ' + l).join('\n')}\n` : '');
       await browser.close(); server.close();
       process.exit(2);
     }
