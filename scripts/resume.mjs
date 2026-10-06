@@ -138,7 +138,16 @@ const html = String.raw`<!doctype html>
   li { margin: 0 0 1pt; padding-left: 2pt; }
   li::marker { color: #5c5f5c; }
   .inline { line-height: 1.5; }
-  .inline span + span::before { content: "\00a0\00a0\00b7\00a0\00a0"; color: #5c5f5c; }
+  /* An item never breaks inside itself: "Data- / Dense" and "React & /
+     TypeScript" were two lines of one term. Each item is an inline-block,
+     which keeps its words together and still lets the run wrap between
+     items, and the separator rides on the END of an item rather than the
+     start of the next, so a wrapped line ends on a dot instead of opening
+     with one. */
+  .inline span { display: inline-block; }
+  .inline span:not(:last-child)::after { content: "\00a0\00a0\00b7\00a0\00a0"; color: #5c5f5c; }
+  .inline b { font-weight: 600; }
+  li b { font-weight: 600; }
   .prior .job { margin-top: 5pt; }
   .prior p { margin-top: 1pt; }
 </style>
@@ -146,23 +155,22 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Enterprise product strategy · UX · Design systems · AI-supported decision workflows</p>
+  <p class="tagline">Senior Product Designer · Complex Systems · Design Systems · Agentic Workflows · Prototyping in Code</p>
   <p class="contact"><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years in complicated enterprise software, for organizations like Cargill, Intel, CBRE and Toro. Thirteen of them were at RBA, where most of the last decade went to design systems: structural audits, the token and component architecture underneath, and the governance that keeps them alive. Since 2026 I build what I design with coding agents: two products in use, working prototypes, and Agent Review, an experiment in what a design system has to be when an agent builds from it. My current focus is the design problem inside AI-supported software: what an operator has to understand about a recommendation before acting on it, how confidence and constraints get expressed, and what the interface owes someone on the occasions the system is wrong.</p>
+  <p>Senior product designer with 20 years designing complicated enterprise software and systems for organizations including Cargill, Intel, CBRE and Toro. My work has moved from interface craft, to design systems and governance at scale, to designing and building working products with coding agents. I&rsquo;m now focused on the product-design problems created when AI can act: how autonomy is bounded, how design systems become executable guidance, what can be verified automatically, and where human judgment still belongs. I bring enterprise systems experience, interaction design and hands-on prototyping in code to teams figuring out how the next generation of software gets made.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li>Agent Review — a React and TypeScript design system built for a coding agent to work inside, one feature run with its twelve rules and without, and a review tool for the designer who signs off. The components mattered more than the rules.</li>
-    <li>Dispatch cockpit — a working prototype of AI-assisted load assignment: the factors behind a recommendation rather than a score, confidence expressed operationally, a one-click override that teaches, and the manual path left fully intact.</li>
-    <li>Lucy Learns — an offline-first training app defined, designed and built end to end, with AI coding tools driven from a terminal rather than a chat window.</li>
-    <li>Door County Found — a regional travel guide built on structured data, defined, designed and built end to end.</li>
+    <li><b>Agent Review</b> — Designed and built a React and TypeScript prototype for delegating UI work to coding agents. Defined the agent&rsquo;s boundaries, twelve written design rules, and automated visual and accessibility checks; ran the same feature with and without the rules to find where automation ends and human judgment begins.</li>
+    <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
+    <li><b>Lucy Learns</b> and <b>Door County Found</b> — two products in use, defined, designed and built end to end: an offline-first training app and a regional travel guide built on structured data.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
@@ -185,12 +193,13 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>Product Strategy</span><span>Product Definition</span><span>Complex Workflows</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Design Systems, Tokens &amp; Governance</span><span>Accessibility</span><span>Rapid Prototyping</span><span>Design-to-Code Workflows</span><span>Data-Dense &amp; Decision-Support Interfaces</span><span>AI-Supported Decision Workflows</span><span>Explainability &amp; Appropriate Trust</span></p>
+  <p class="inline"><span>Product Strategy</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Complex Workflows</span><span>Design Systems &amp; Governance</span><span>Accessibility</span><span>Decision-Support Interfaces</span><span>Human&ndash;AI Interaction</span><span>Agentic Workflows</span><span>AI Autonomy &amp; Escalation</span><span>Design-to-Code Systems</span></p>
 </section>
 
 <section>
-  <h2>Design tools &amp; platforms</h2>
-  <p class="inline"><span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Claude &amp; Claude Code (skills, plugins, MCP)</span><span>ChatGPT &amp; Gemini</span><span>CSS custom properties (tokens)</span><span>HTML/CSS/JavaScript</span><span>React &amp; TypeScript</span><span>Storybook</span><span>Playwright</span><span>Git/GitHub</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
+  <h2>Tools &amp; platforms</h2>
+  <p class="inline"><b>Prototyping &amp; build:</b> <span>React</span><span>TypeScript</span><span>HTML/CSS/JavaScript</span><span>Storybook</span><span>Playwright</span><span>Vitest &amp; axe</span><span>Git/GitHub</span><span>Claude Code (skills, plugins, MCP)</span></p>
+  <p class="inline"><b>Design &amp; platforms:</b> <span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>CSS custom properties (tokens)</span><span>ChatGPT &amp; Gemini</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
 </section>
 
 <section>

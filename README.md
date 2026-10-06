@@ -151,10 +151,13 @@ the archive so that it holds everything staging ever had.
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
 the six-item proof strip and the client logos) → Selected work (three
-client case studies, then the two prototypes as a pair) → How I work inside a
+client case studies -- SAP, dispatch, USDA since 2026-10-06 -- then Agent
+Review as the lab's one feature card, and a line to the rest of the lab) →
+How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own
-page under `engagement/`) → The design-to-build shift (the scroll story) → Built end to end (the
+page under `engagement/`) → What changes when agents can build (the scroll
+story, "The design-to-build shift" until 2026-10-06) → Built end to end (the
 two products, ending on the line to `other.html`, where the book and the
 "Identity and illustration" shelf now live) → About, which links the two career case studies → the
 contact section, headed "Describe what is happening". Since #24 there is no
@@ -575,7 +578,8 @@ the one word a hiring manager reads as a permanent commitment to consulting,
 and every head term survives without it. The description and the Person's `knowsAbout`
 say the same five things the practice wants to be found for: complex
 enterprise software, enterprise design systems, legacy modernization, AI
-product prototyping, embedded senior product design. `seo.mjs` holds each
+product prototyping and agentic workflows (since 2026-10-06, where it said
+AI-supported decision workflows), embedded senior product design. `seo.mjs` holds each
 page's `og:title` to its `<title>`, and the share cards `og.mjs` renders
 carry the h1's name, since a feed is where the name is the thing to
 recognize.
