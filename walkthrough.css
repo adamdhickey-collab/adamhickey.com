@@ -365,10 +365,41 @@
    of the room it fits the screen to. */
 .wt.is-tour .wt-pager {
   display: block;
+  position: relative;
   grid-column: 1 / -1;
   grid-row: 4;
   margin-top: var(--space-4xl);
 }
+
+/* THE COUNT, since the evening of 2026-10-06 (Adam: "a little small type
+   follow as a line gets filled", 0 of 7, then 1 of 7, changing as it moves
+   along with the bar). It stands --space-sm over the bars, in the room
+   between them and the screen, so the row's own height and the margin
+   walkthrough.js fits the screen by are as they were. It is the notes'
+   kicker, the same size, weight, tracking, capitals and sage, so the
+   number over the bar and the number on the note read as one voice; its
+   figures are tabular, so it does not change width as it counts. The
+   script sets where it stands, under the fill's leading edge, and turns
+   the number over: the two figures share one cell, the one going and the
+   one coming, and only their opacity and a few pixels of rise are
+   written. */
+.wt-count {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + var(--space-sm));
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent-text);
+  will-change: transform;
+}
+.wt-count-n { display: inline-grid; }
+.wt-count-n > span { grid-area: 1 / 1; }
 .wt.is-tour .wt-ticks {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
