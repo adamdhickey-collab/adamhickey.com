@@ -156,7 +156,17 @@
    PLAIN, since 2026-10-06. The same day it was a drawn desk (#408), a
    cutting mat with a ruler, chips and cut pieces on it (#412), and the
    mat's grid alone (#413); Adam found the grid distracting, and the
-   ground is the tea-light the hero card and the pull-outs use. */
+   ground is the tea-light the hero card and the pull-outs use.
+
+   IT HUGS WHAT IS ON IT. The panel is not the sticky box but the rows the
+   title and the stage sit in (walkthrough.css: a spring, the title, the
+   stage, a spring), placed there as an absolutely positioned grid item,
+   so its containing block is those two rows across both columns. It
+   reaches --space-2xl above the title and below the pager, and out to
+   the box's sides. On a short window the springs are nothing and the
+   panel is the full height, inset --space-md, as before; on a tall one it
+   stops --space-2xl past what it carries, where it used to fill the
+   window and leave the screen floating in the middle of it. */
 .wt.is-tour .wt-sticky {
   isolation: isolate;
   padding: calc(var(--space-md) + var(--space-2xl)) var(--space-3xl);
@@ -164,7 +174,9 @@
 .wt.is-tour .wt-sticky::before {
   content: "";
   position: absolute;
-  inset: var(--space-md) 0;
+  grid-row: 2 / 4;
+  grid-column: 1 / -1;
+  inset: calc(var(--space-2xl) * -1) calc(var(--space-3xl) * -1);
   z-index: -1;
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
