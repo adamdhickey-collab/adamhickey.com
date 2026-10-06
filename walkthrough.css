@@ -221,13 +221,19 @@
 }
 .wt.is-tour .wt-stage { min-width: 0; grid-column: 1; grid-row: 3; }
 
-/* THE TITLE OVER THE SCREEN: the name, large, and the one sentence that
-   says what it is, in the left column above the stage, held still while
-   the parts change. The name is a title, --text-5xl in the serif; the
-   sentence is a dek under it, --text-lg in regular weight. The sentence's
-   box is trimmed at its baseline, so the --space-xl under it is measured
-   from the bottom of its letters to the top of the tablet, not from the
-   foot of its line.
+/* THE TITLE OVER THE SCREEN: the name and what the block is, "Agent Review
+   feature walkthrough", large, and the one sentence that says what it is,
+   in the left column above the stage, held still while the parts change.
+   The name is a title, --text-5xl in the serif; the sentence is its
+   tagline, at the notes' own --text-base in regular weight, close under it.
+
+   Both boxes are trimmed to their letters (text-box), the name at both
+   ends, so the panel's --space-2xl above it (agent-review.css) is from its
+   capitals too, and each space below is the space a reader sees rather
+   than a margin plus whatever leading the faces carry: --space-xl from the
+   name's baseline to the tagline's capitals (--space-md read too tight),
+   and from the tagline's baseline to the top of the tablet --space-xl and
+   --space-lg, 44px.
    The left column is four rows, a spring, the title, the stage, a spring,
    so the title and the screen centre together as one block and the title
    never drifts away from the tablet on a tall window; the notes span all
@@ -240,7 +246,7 @@
   display: block;
   grid-column: 1;
   grid-row: 2;
-  margin-bottom: var(--space-xl);
+  margin-bottom: calc(var(--space-xl) + var(--space-lg));
 }
 .wt-head-name {
   margin: 0;
@@ -250,13 +256,15 @@
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-title);
   color: var(--color-charcoal);
+  text-box: trim-both cap alphabetic;
+  text-wrap: balance;
 }
 .wt-head-line {
-  margin: var(--space-sm) 0 0;
-  font-size: var(--text-lg);
+  margin: var(--space-xl) 0 0;
+  font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
-  text-box: trim-end cap alphabetic;
+  text-box: trim-both cap alphabetic;
   text-wrap: balance; /* two even lines where it wraps, not a line and a word */
 }
 .wt.is-tour .wt-world { will-change: transform; }
