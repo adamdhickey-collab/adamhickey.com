@@ -512,7 +512,10 @@ all. A state like that now names a `holds` selector. It is measured on a
 page whose clock the registry stops just before the press, so the beats
 that would end the moment never come, and every check asks afterwards
 whether the moment is still there and still the same element, failing the
-run as unmeasurable when it is not.
+run as unmeasurable when it is not. The first deploy's far side, which
+lands four beats after the press and which only `resting.mjs` had ever
+measured, by accident, is a state of its own reached the same way: the
+stopped clock is run forward until the landed screen is there.
 
 It found a real one on its first pass. `table` is a type selector, so
 `.ck table .ck-btn:hover` outranks `.ck .ck-btn-primary:hover`, and the

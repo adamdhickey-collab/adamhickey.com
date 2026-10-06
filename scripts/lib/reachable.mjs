@@ -61,7 +61,9 @@
  * can stop: `stage` gives it a context of its own with Playwright's clock
  * installed before the load, and `reach` stops that clock just before the
  * last press. The press renders the moment; the beat it schedules never
- * comes. CSS transitions and animations are not on that clock, so the
+ * comes. A state that lands a few beats later, like the first deploy's far
+ * side, is reached by running the stopped clock forward until `holds`
+ * matches, and stopping it there. CSS transitions and animations are not on that clock, so the
  * press's own arrivals still finish, and so does anything a check forces.
  * It is the same moment every run, which a race could not promise: the
  * other checks were reaching the first deploy 460 to 580ms after the press,
@@ -167,6 +169,20 @@ export const REACHABLE = {
       press: ['[data-scenario="first"]', '[data-deploy]'],
       holds: '.dc-btn[aria-disabled="true"][data-focus="deploy"]' },
 
+    /* THE FAR SIDE OF THE FIRST DEPLOY. The same press, four beats on: the
+       card says the job is live at its first deploy, with its two figures,
+       the four steps all done, and "Run it now" where Deploy was; the row
+       reads live, and nothing to roll back to. Until #407 no state showed
+       this on purpose -- resting.mjs measured it by accident, under the
+       in-flight name, because reduced motion lands the press at once.
+       Held where the Run button first appears: the clock is run forward
+       to the landing and stopped there. Nothing on this screen ends by
+       itself, so the hold is for the guard: held() still checks that what
+       was measured is the screen that landed. */
+    { name: 'the first deploy landed, offering a first run',
+      press: ['[data-scenario="first"]', '[data-deploy]'],
+      holds: '[data-run]' },
+
     /* The refusal: the failed build on the caution ground, the failed tag in
        the newest-deploy cell, and the caution-grounded status line. */
     { name: 'a build failed, the refusal',
@@ -241,6 +257,8 @@ export const REACHABLE = {
  * before anything loads. `held` lets it go. */
 const clocked = new WeakSet();
 const moment = new WeakMap();
+const STEP = 100;      /* ms of the page's time per step toward a held state */
+const LIMIT = 30000;   /* and how far it may run before the state counts as unreached */
 export async function stage(shared, state, context) {
   if (!state || !state.holds) return shared;
   const ctx = await context();
@@ -297,6 +315,24 @@ export async function reach(page, state) {
       const e = new Error(`reaching "${state.name}": nothing matches ${sel}`);
       e.unreached = true;
       throw e;
+    }
+    /* A HELD STATE IS THE FIRST MOMENT, AT OR AFTER THE LAST PRESS, IN WHICH
+       `holds` MATCHES. The in-flight states are there the instant the press
+       renders, so this runs no time at all for them. The landed first deploy
+       is four beats later, so the stopped clock is run forward a step at a
+       time until it matches, and stops again there. It is the page's time
+       being run, not this machine's: the same step every run, and no real
+       second spent waiting. A step is small next to any beat the page
+       keeps, so it cannot carry the page past one moment into the next. */
+    if (state.holds && i === last) {
+      for (let t = 0; !(await page.evaluate((s) => !!document.querySelector(s), state.holds)); t += STEP) {
+        if (t >= LIMIT) {
+          const e = new Error(`reaching "${state.name}": nothing matches ${state.holds} within ${LIMIT / 1000}s of the page's time after the last press`);
+          e.unreached = true;
+          throw e;
+        }
+        await page.clock.runFor(STEP);
+      }
     }
     await settle(page);
     if (still) await page.emulateMedia({ reducedMotion: 'reduce' });
