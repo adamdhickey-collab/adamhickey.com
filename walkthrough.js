@@ -90,6 +90,7 @@
   var focus = root.querySelector('.wt-focus');
   var pins = [].slice.call(root.querySelectorAll('.wt-pin'));
   var notes = [].slice.call(root.querySelectorAll('.wt-note'));
+  var ticks = root.querySelector('.wt-ticks');
   var fills = [].slice.call(root.querySelectorAll('.wt-tick i'));
   var prev = root.querySelector('.wt-step--prev');
   var next = root.querySelector('.wt-step--next');
@@ -302,7 +303,10 @@
     place(intro, ease((INTRO - t) / 0.25));
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
-    fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + clamp(t - INTRO - i, 0, 1) + ')'; });
+    /* The bars: how full each is, and how far along the row the slash on
+       their cut stands (walkthrough.css draws both from these). */
+    fills.forEach(function (f, i) { f.style.setProperty('--fill', clamp(t - INTRO - i, 0, 1)); });
+    if (ticks && fills.length) ticks.style.setProperty('--progress', clamp((t - INTRO) / fills.length, 0, 1));
     ends(t);
   }
 
@@ -466,7 +470,8 @@
     clear([focus], ['left', 'top', 'width', 'height', 'opacity', 'outline-width', 'outline-offset', 'border-radius']);
     clear(pins, ['opacity', 'transform']);
     clear(notes, ['opacity', 'transform']);
-    clear(fills, ['transform']);
+    clear(fills, ['--fill']);
+    if (ticks) clear([ticks], ['--progress']);
     clear(scenes, ['opacity']);
     if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
     shown = -1;

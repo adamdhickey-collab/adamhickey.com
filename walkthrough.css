@@ -326,17 +326,47 @@
    reaches each part: the track is the quiet divider, the fill is the sage,
    and the fill is a transform the script sets, as the page's own progress
    line is. From 2026-10-05 to then they ran under the screen alone, between
-   the previous and the next button. */
+   the previous and the next button.
+
+   THE LOGO'S SLASH, since the same evening (Adam: "much thicker, maybe 20
+   pixels", square, and "an angled stroke that mimics the same angle in my
+   site logo" where the fill ends, 1px and about 40 tall). The wordmark is
+   "adam" in charcoal and "hickey" in sage, and a charcoal hairline at
+   exactly 45 degrees (adam-logo.svg, M277.3.3 147 130.7) cuts the h where
+   the one becomes the other. The bars do the same: each is --space-lg tall
+   with square ends, the fill ends on a 45-degree cut rather than a square
+   one, and one 1px charcoal slash, --space-3xl tall, stands on the cut and
+   runs past the bar above and below, as the logo's runs past the letters.
+
+   THE GAP IS THE BAR'S HEIGHT, and that is what makes the slash travel
+   rather than jump. A 45-degree cut across a bar --space-lg tall runs
+   --space-lg along it, so a bar is full when its cut has gone that far past
+   its end, and the next one starts when its cut is that far before its
+   start. With a gap of the same --space-lg the two are one place: the slash
+   lies across the gap, from the full bar's foot to the empty bar's head,
+   and the whole row is one track it moves along at an even rate. The script
+   sets --fill on each fill and --progress, 0 to 1, on the row; the cut is a
+   clip-path and the slash is placed with left, so neither is ever scaled
+   out of its angle or its 1px.
+
+   It needs room above it, which a 4px bar did not: --space-3xl from the
+   screen's foot to the slash's top, and the panel's own --space-2xl and
+   --space-sm under it, so the bar sits near the middle of the space between
+   the screen and the panel's edge. walkthrough.js takes the row's height
+   and that margin out of the room it fits the screen to. */
 .wt.is-tour .wt-pager {
   display: block;
   grid-column: 1 / -1;
   grid-row: 4;
-  margin-top: var(--space-lg);
+  margin-top: var(--space-3xl);
 }
 .wt.is-tour .wt-ticks {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: var(--space-xs);
+  align-items: center;
+  gap: var(--space-lg);
+  height: var(--space-3xl);
   padding: 0;
 }
 
@@ -399,18 +429,45 @@
 }
 .wt-tick {
   display: block;
-  height: var(--space-2xs);
-  border-radius: var(--space-2xs);
+  height: var(--space-lg);
   background: var(--rule-strong);
-  overflow: hidden;
 }
+/* The cut's top is --fill of the way along the bar and its run past the
+   end, and its foot is --space-lg behind the top: empty at 0, whole at 1.
+   The shape's back edge is a run behind the bar's start, where the box
+   clips it, rather than on it: an empty bar's clip was a zero-width shape
+   standing on that edge, and on a bar that starts between two pixels its
+   antialiasing drew a sage hairline down the empty bar's head. */
 .wt-tick i {
   display: block;
   height: 100%;
   background: var(--color-accent-text);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
+  clip-path: polygon(
+    calc(var(--space-lg) * -1) 0,
+    calc(var(--fill, 0) * (100% + var(--space-lg))) 0,
+    calc(var(--fill, 0) * (100% + var(--space-lg)) - var(--space-lg)) 100%,
+    calc(var(--space-lg) * -1) 100%
+  );
 }
+/* The slash's middle is the cut's middle: --progress of the way along the
+   row and its one extra gap, less half a gap, so it stands half a gap
+   before the first bar at the start and half a gap after the last at the
+   end, inside the panel's --space-3xl of side. Drawn as an svg line, like
+   the logo's own, so the hairline is antialiased along its length rather
+   than stepped. */
+.wt-slash {
+  position: absolute;
+  top: 0;
+  left: calc(var(--progress, 0) * (100% + var(--space-lg)) - var(--space-lg) / 2 - var(--space-3xl) / 2);
+  width: var(--space-3xl);
+  height: var(--space-3xl);
+  overflow: visible;
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1px;
+  pointer-events: none;
+}
+.wt-slash path { vector-effect: non-scaling-stroke; }
 
 /* A way past a long scroll, for a reader on a keyboard. Off the screen until
    it has focus, then at the stage's corner. It is positioned against the
