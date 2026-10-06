@@ -2,12 +2,13 @@
  *
  * WHAT THIS IS FOR. Every browser check in scripts/ loads a page, waits for it
  * to settle, and measures what is there. That is the whole of what they see,
- * and for twenty-nine of the thirty-two pages it is the whole of what the
- * page is. The two prototypes are the exception: `prototype/dispatch-cockpit.html`
+ * and for thirty of the thirty-two pages it is the whole of what the page
+ * is. The two prototypes are the exception: `prototype/dispatch-cockpit.html`
  * and `prototype/deploy-console.html` render their entire interesting surface
  * from JavaScript in response to a press, so the checks would measure an
- * opening screen and call that the page. Since #401 the lab index is a third,
- * a smaller one: its three pieces are in the markup but hidden until pressed.
+ * opening screen and call that the page. From #401 the lab index was a third,
+ * a smaller one, while it kept its three pieces hidden until pressed; it is a
+ * plain list again, and measured on one load.
  *
  * Twelve things were never measured once. `.ck-why-form` and its radios, the
  * stored-reason note, the "assigned" tag, the moved-rank arrows, an open row
@@ -86,24 +87,6 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 
 export const REACHABLE = {
-  /* THE LAB INDEX, A WORKSPACE. lab/index.html shows one welcome card and
-     keeps its three pieces in hidden articles that workspace.js reveals one
-     at a time, so a fresh load measures a third of what the page says. A
-     piece is a file link in the explorer; pressing it fills the preview, and
-     the two prototypes make their frame the first time they are opened. The
-     frame is a document of its own that these checks measure as the page it
-     is, so what each state adds here is the article around it. */
-  'lab/index.html': [
-    { name: 'Agent Review open in the preview',
-      press: ['.ws-file[data-piece="agent-review"]'] },
-
-    { name: 'the deploy console open in the preview',
-      press: ['.ws-file[data-piece="deploy-console"]'] },
-
-    { name: 'the dispatch cockpit open in the preview',
-      press: ['.ws-file[data-piece="dispatch-cockpit"]'] },
-  ],
-
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying
        which trucks changed rank, which only appear across a genuine switch. */

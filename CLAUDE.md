@@ -383,11 +383,12 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
-**All four now press things, and only on three pages.** They load a page, wait for
-it to settle and measure what is there, which is the whole of twenty-nine of
-the thirty-two. Since #401 the lab index is the third: `lab/index.html` keeps
-its three pieces in hidden articles and opens one at a press, so it carries a
-state per piece. The two pages under `prototype/` are the first two:
+**All four now press things, and only on two pages.** They load a page, wait for
+it to settle and measure what is there, which is the whole of thirty of the
+thirty-two. From #401 the lab index was a third, while `lab/index.html` kept
+its three pieces in hidden articles and opened one at a press; it went back
+to a plain list the same day, and its three states left the registry with
+the workspace. The two pages under `prototype/` are the two:
 `prototype/dispatch-cockpit.html` renders its comparison, its override
 question, its refused button and its opened rows from JavaScript in response
 to a press, so twelve of its states were in no DOM any check ever saw and
