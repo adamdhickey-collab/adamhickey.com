@@ -76,9 +76,9 @@
  * leading edge, "3 of 7", its number turning over as each part begins.
  *
  * THE SETTLE, since 2026-10-07: when the reader stops scrolling partway
- * through a move, the page glides on to the stop in the direction they were
- * going, so the tour comes to rest on a part and never between two (THE
- * SETTLE, below). It is the pager's glide, started by the scroll ending
+ * through a move, the page glides to the nearer of the move's two parts, so
+ * the tour comes to rest on a part and never between two (THE SETTLE,
+ * below). It is the pager's glide, started by the scroll ending
  * rather than by a press.
  *
  * REDUCED MOTION is a media query on this script and not a rule in the
@@ -493,6 +493,7 @@
       var u = g.ms ? clamp((stamp - g.start) / g.ms, 0, 1) : 1;
       g.set = Math.round(base + (u < 1 ? at(u) : target) / T * runway);
       window.scrollTo({ top: g.set, behavior: 'instant' });
+      lastY = window.pageYOffset;
       update();
       if (u < 1) g.raf = window.requestAnimationFrame(step);
       else gliding = null;
@@ -506,6 +507,7 @@
     if (dir > 0) { for (i = 0; i < stops.length; i++) if (stops[i] > t + NEAR) { to = i; break; } }
     else { for (i = stops.length - 1; i >= 0; i--) if (stops[i] < t - NEAR) { to = i; break; } }
     if (to < 0) return;
+    refused = null;
     aim = to;
     glideTo(stops[to]);
     if (status) { status.textContent = name(to); said = to; }
@@ -520,18 +522,30 @@
      section ... snap to each of the steps"). Scrolling by hand, a reader
      could stop anywhere, and a stop in the middle of a move is a frame no
      one chose: the camera halfway between two parts, two notes half faded.
-     So when the scroll comes to rest inside a move, the page glides on to
-     the stop at the move's far end, or back to the one at its near end if
-     the reader was last scrolling up, at a press's pace.
+     So when the scroll comes to rest inside a move, the page glides, at a
+     press's pace, to the nearer of the two parts the move runs between:
+     on, once the reader is past its middle, and otherwise back to the part
+     they were leaving.
 
      Only inside a move. Between moves nothing on the screen changes, so a
      scroll that ends there already shows a part, and the page is left
      where the reader put it; that is also what lets a reader scroll off
-     either end of the tour without being pulled back into it. And by the
-     direction of travel, not the nearer stop: the first notch of a mouse
-     wheel off a part carries the page a few hundredths into the next move,
-     and settling to the nearer stop would hand every slow wheel straight
-     back to the part it had just left.
+     either end of the tour without being pulled back into it.
+
+     The nearer part, not the next one, since the same day (Adam: it "pulls
+     much too eagerly"). It first went on in the direction of travel
+     however little of the move had been made, so the smallest nudge past
+     a part was a whole part, and an overshoot carried the reader on to a
+     part they had not finished reading.
+
+     A SECOND PUSH GOES THROUGH. Sent back from a move, the next scroll
+     that ends in the same move the same way carries on to the far part,
+     however short. Without that the nearer part is a trap: a part is 81px
+     of still page and then a move of 378 on a 900px window, so the first
+     notch of a mouse wheel off a part ends a twentieth of the way into the
+     move, and three taps of an arrow key a tenth, and a reader taking it a
+     notch at a time would be handed back to the same part forever. With it the
+     tour has a detent: a nudge is refused, and a second one goes.
 
      It is not CSS scroll snapping. That snaps the glide's own per-frame
      scrolls, and it carries a part across at the browser's speed, which
@@ -541,7 +555,7 @@
      otherwise SETTLE ms without a scroll. The direction is read only from
      scrolls the glide did not make. */
   var SETTLE = 150;
-  var dir = 0, lastY = 0, rest = 0;
+  var dir = 0, lastY = 0, rest = 0, refused = null;
   var ended = 'onscrollend' in window;
   function settle() {
     rest = 0;
@@ -550,10 +564,14 @@
     if (raw <= 0 || raw >= 1) return;
     var m = moveAt(raw * T);
     if (m.j < 0 || m.x <= 0 || m.x >= 1) return;
-    /* Move j runs from stop j to stop j + 1. A page that has not been
-       scrolled yet, restored mid-move on a reload, goes to the nearer. */
-    var back = dir ? dir < 0 : m.x < 0.5;
-    aim = back ? m.j : m.j + 1;
+    /* Move j runs from stop j to stop j + 1. A page restored mid-move on a
+       reload has no direction, and goes to the nearer. */
+    var on = m.x >= 0.5 ? 1 : -1;
+    if (dir && on !== dir) {
+      if (refused && refused.j === m.j && refused.dir === dir) { on = dir; refused = null; }
+      else refused = { j: m.j, dir: dir };
+    } else refused = null;
+    aim = on > 0 ? m.j + 1 : m.j;
     glideTo(stops[aim]);
   }
 
@@ -671,6 +689,7 @@
     aim = null;
     window.clearTimeout(rest);
     rest = 0;
+    refused = null;
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('scrollend', settle);
     window.removeEventListener('resize', onResize);
