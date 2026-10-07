@@ -68,41 +68,56 @@ const CARDS = {
      write-up's walkthrough became a story about one red with two meanings,
      and the top of the screen (the title and the account) said a product
      existed without saying what it is for. So the card is scrolled to the
-     first decision's own edge, 10px above it, which puts the question, the
-     two reds side by side, the checks passed with either token, "Nothing
-     failed.", "Now imagine the failure style gets stronger." and the two
-     answers' first lines in the frame: the case the product exists for, at
-     a size the card can be read at.
+     first decision's own edge, just above it, which puts the question, the
+     two reds side by side, the checks passing either way, why that makes it
+     a person's decision, and the two answers' first lines in the frame: the
+     case the product exists for, at a size the card can be read at.
      864 x 486 since agent-review#17 (2026-10-06), when each answer came to
      open on the choice it makes ("Separate the meanings") over its outcome
      ("Only the failure gets louder"). At 832 the frame's foot cut the
      outcome through its middle, and moving the frame down instead brought
      the "Needs you" heading in at its top. 864 is still a multiple of 16
      (486 x 1280/864 is exactly 720), still holds the bar on one line and is
-     still under 64rem; the card lays out the same, and its foot lands in
-     the 8px between the outcomes and the specimens under them. */
-  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask', offset: 10 },
+     still under 64rem; the card lays out the same.
+     6px above the card, not 10, since agent-review#19 (2026-10-07), when the
+     card came to ask "These two reds look the same. Should they mean the
+     same thing?" and to say "So this isn't a testing problem. It's a
+     meaning decision." over its answers. The frame holds the question, the
+     two reds, the checks, that line, "Should these meanings stay
+     separate?" and each answer's heading and the sentence under it. At 10
+     the foot clipped that sentence's line box; at 6 it lands in the 8px
+     between the sentence and the specimens under it, and the "Needs you"
+     heading, 12px above the card, stays out. */
+  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask', offset: 6 },
   /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
      card at phone width too"). Under 40rem the homepage prints its picture
      206 to 300px wide, and the 864 layout at that size set the card's text
      about 4px tall. This is the product's own phone layout, 375 wide, from
      the same edge 10px above the first decision, down to the two reds: the
-     question, then what the agent wants to change over the existing
-     pattern with the same red. The frame's foot lands in the 12px between
-     the tiles and the checks under them. 408 tall since agent-review#18
-     (2026-10-07), when each tile gained the line naming its part and the
-     tiles came to end at 401 instead of 384; it was 390. At 3x it is
-     1125 x 1224, printed 261 to 315 wide on a phone, which is a 3x screen:
-     at 2x, until 2026-10-07, a 430 iPhone stretched it by a quarter. */
-  'agent-review-phone': { url: `${from}#/`, width: 375, height: 408, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
+     question, then the replaced value over the failure. The frame's foot
+     lands in the 12px between the tiles and the checks under them. 410
+     tall since agent-review#19 (2026-10-07), when the tiles came to be
+     headed by their meanings and to end at 404; it was 408 from
+     agent-review#18, and 390 before. At 3x it is 1125 x 1230, printed 261
+     to 315 wide on a phone, which is a 3x screen: at 2x, until 2026-10-07,
+     a 430 iPhone stretched it by a quarter. */
+  'agent-review-phone': { url: `${from}#/`, width: 375, height: 410, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
-     cut every line at both ends. So it gets its own square: 520 wide, the
-     product's phone layout, where the square ends between the account's
-     Checked and Unresolved rows and holds the simulated label, the title,
-     the request and "7 changes made and checked. 2 decisions need you." At
-     2x it is 1040 square, printed at 420. */
-  'agent-review-share': { url: `${from}#/`, width: 520, height: 520, viewportHeight: 600, dpr: 2, out: 'agent-review-share.webp' },
+     cut every line at both ends. So it gets its own square, in the product's
+     phone layout. It was 520, which ended between the account's rows, and
+     as the screen grew it came to end on the first decision's question, cut
+     through its middle: until 2026-10-07 the share cards showed the question
+     two versions old ("Is the red in a plan change a failure, or a value
+     that was replaced?"), because nobody retook the square when the
+     question changed. 620 since agent-review#19 (2026-10-07): the simulated
+     label fits on one line there, so the square holds the run's title, the
+     account, the question whole on one line ("These two reds look the same.
+     Should they mean the same thing?"), the two reds side by side, and
+     "Both approaches pass the automated checks.", and ends in the 8px
+     between that line and the badges under it. At 2x it is 1240 square,
+     printed at 420. */
+  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, out: 'agent-review-share.webp' },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
