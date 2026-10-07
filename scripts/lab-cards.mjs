@@ -34,6 +34,7 @@
      node scripts/lab-cards.mjs agent-review    # one
      node scripts/lab-cards.mjs agent-review-phone   # its phone version
      node scripts/lab-cards.mjs agent-review-share   # the share cards' square
+     node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -118,6 +119,16 @@ const CARDS = {
      between that line and the badges under it. At 2x it is 1240 square,
      printed at 420. */
   'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, out: 'agent-review-share.webp' },
+  /* The write-up's hero, since 2026-10-07 (Adam: "an extended view of what
+     we're showing on the homepage card"): the homepage card's frame, at its
+     864 and from the same edge 6px above the first decision, carried down
+     to the card's foot. Below the two answers the card cut off, it holds
+     their specimens, what each makes louder and the buttons that choose
+     them, the rule line ("Asks you first"), and the closed evidence. The
+     card ends at 708 and the next one starts at 720, so 714 lands in the
+     12px between them. At 2x it is 1728 x 1428, printed 442 to 568 wide in
+     the hero's right half, inside the tablet's bezel. */
+  'agent-review-hero': { url: `${from}#/`, width: 864, height: 714, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
 };
 
 fs.mkdirSync(OUT, { recursive: true });

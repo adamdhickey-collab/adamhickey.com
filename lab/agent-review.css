@@ -194,33 +194,28 @@
   background: var(--color-tea-light);
 }
 
-/* ---- 5. the intro video ---- */
-/* The Loom, in a frame at the recording's own shape: 1148 by 720, Loom's
-   poster at full size, a browser window a hair short of 16:10. The frame
-   was 16:9 while it held a placeholder, and at that shape the player
-   pillarboxes the recording in black. The charcoal is what shows while the
-   player loads, and the corner clips it. Since later on 2026-10-07 it is
-   empty until the next take, and an empty frame is white space rather than
-   a dark box (Adam: "make it white space instead of the dark box"), so
-   :empty takes it out of the layout: from 64rem the hero's columns are
-   fixed halves and the right one stands blank, and under 64rem, where the
-   frame stacks, there is no 237px hole under the way in. A player inside
-   makes it not :empty, and the frame comes back with it on its own. The
-   iframe rule stays for it. Under 64rem it sits under the way in, a
-   component's gap below it. */
-.ar-hero-video {
-  aspect-ratio: 1148 / 720;
-  margin: var(--space-2xl) 0 0;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--color-charcoal);
+/* ---- 5. the hero's picture ---- */
+/* The first decision, whole, in the homepage card's tablet: .build-phone's
+   bezel, chrome and --shadow-device, at the homepage tile's own corner
+   (style.css, .case-card--lab .case-thumb), so it reads as the same object.
+   The caption is .build-shot's, with the prototypes' bold lead. It is the
+   right column and nothing else, so it is drawn only where there is one
+   (section 1); the markup's <source> keeps a phone from fetching it. Until
+   later on 2026-10-07 this was the Loom's frame, and its rules are in
+   #442's diff. */
+.ar-hero-shot { display: none; margin: 0; min-width: 0; }
+.ar-hero-shot .build-phone { --shell-radius: var(--radius-xl); }
+.ar-hero-shot figcaption {
+  margin-top: var(--space-sm);
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
 }
-.ar-hero-video:empty { display: none; }
-.ar-hero-video iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
+.ar-hero-shot figcaption strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
 }
 
 /* ---- 4. the screens open full size ---- */
@@ -230,9 +225,10 @@
   cursor: zoom-in;
 }
 /* The ring follows the picture's own corner: .build-shot img's 12px, and
-   the tour screen's inner radius inside the bezel. */
+   the tour's and the hero's screen's inner radius inside the bezel. */
 .build-shot .ar-zoom:focus-visible { border-radius: 12px; }
-.ar-zoom--tour:focus-visible { border-radius: calc(var(--shell-radius) - var(--bezel)); }
+.ar-zoom--tour:focus-visible,
+.ar-hero-shot .ar-zoom:focus-visible { border-radius: calc(var(--shell-radius) - var(--bezel)); }
 /* The badge is the tour's disc (walkthrough.css, THE DISC) with an icon in
    place of a digit: the same sage, white stroke and shadow, so it reads on
    the dark captures and on the page's light grounds alike. */
@@ -407,11 +403,11 @@
 /* ---- 1. the two columns ---- */
 @media (min-width: 64rem) {
   /* The hero: the kicker and the title across the top, then the opening
-     on the left and the intro video beside it, in halves. The video fills
-     its half and starts on the dek's row, so its top edge is the dek's
-     first line at every width; it was 5 of 12, centred on the opening's
-     height, until 2026-10-06. The facts card is under both, as the row of
-     four it was before the page split. */
+     on the left and the first decision beside it, in halves. The picture
+     fills its half and starts on the dek's row, so its top edge is the
+     dek's first line at every width; the video was 5 of 12, centred on the
+     opening's height, until 2026-10-06. The facts card is under both, as
+     the row of four it was before the page split. */
   .ar-hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -420,7 +416,7 @@
   }
   .ar-hero > .ar-hero-head { grid-column: 1 / -1; }
   .ar-hero > .ar-hero-main { grid-column: 1; grid-row: 2; }
-  .ar-hero > .ar-hero-video { grid-column: 2; grid-row: 2; margin: 0; }
+  .ar-hero > .ar-hero-shot { display: block; grid-column: 2; grid-row: 2; }
   /* The frame's top meets the TOP OF THE LETTERS, not the top of the
      line: the dek's line box starts a half-leading and the face's ascent
      above its capitals (7 to 8px at its sizes), so the dek is trimmed to
