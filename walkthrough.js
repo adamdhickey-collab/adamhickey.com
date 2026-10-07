@@ -75,6 +75,12 @@
  * rather than the browser's (THE GLIDE, below), and a count rides the bars'
  * leading edge, "3 of 7", its number turning over as each part begins.
  *
+ * THE SETTLE, since 2026-10-07: when the reader stops scrolling partway
+ * through a move, the page glides on to the stop in the direction they were
+ * going, so the tour comes to rest on a part and never between two (THE
+ * SETTLE, below). It is the pager's glide, started by the scroll ending
+ * rather than by a press.
+ *
  * REDUCED MOTION is a media query on this script and not a rule in the
  * stylesheet. The stylesheet's blanket stops CSS animation and transition;
  * a scrubbed scene is neither, so the contract (MOTION.md, section 5) is kept
@@ -510,6 +516,47 @@
   window.addEventListener('touchstart', forget, { passive: true });
   window.addEventListener('keydown', function (e) { if (e.target !== prev && e.target !== next) forget(); });
 
+  /* THE SETTLE, since 2026-10-07 (Adam: "as a user scrolls through the
+     section ... snap to each of the steps"). Scrolling by hand, a reader
+     could stop anywhere, and a stop in the middle of a move is a frame no
+     one chose: the camera halfway between two parts, two notes half faded.
+     So when the scroll comes to rest inside a move, the page glides on to
+     the stop at the move's far end, or back to the one at its near end if
+     the reader was last scrolling up, at a press's pace.
+
+     Only inside a move. Between moves nothing on the screen changes, so a
+     scroll that ends there already shows a part, and the page is left
+     where the reader put it; that is also what lets a reader scroll off
+     either end of the tour without being pulled back into it. And by the
+     direction of travel, not the nearer stop: the first notch of a mouse
+     wheel off a part carries the page a few hundredths into the next move,
+     and settling to the nearer stop would hand every slow wheel straight
+     back to the part it had just left.
+
+     It is not CSS scroll snapping. That snaps the glide's own per-frame
+     scrolls, and it carries a part across at the browser's speed, which
+     is the 50ms camera THE GLIDE was written to get rid of.
+
+     The scroll's end is the browser's scrollend where it has one, and
+     otherwise SETTLE ms without a scroll. The direction is read only from
+     scrolls the glide did not make. */
+  var SETTLE = 150;
+  var dir = 0, lastY = 0, rest = 0;
+  var ended = 'onscrollend' in window;
+  function settle() {
+    rest = 0;
+    if (!live || gliding) return;
+    var raw = (pin - root.getBoundingClientRect().top) / runway;
+    if (raw <= 0 || raw >= 1) return;
+    var m = moveAt(raw * T);
+    if (m.j < 0 || m.x <= 0 || m.x >= 1) return;
+    /* Move j runs from stop j to stop j + 1. A page that has not been
+       scrolled yet, restored mid-move on a reload, goes to the nearer. */
+    var back = dir ? dir < 0 : m.x < 0.5;
+    aim = back ? m.j : m.j + 1;
+    glideTo(stops[aim]);
+  }
+
   function update() {
     queued = false;
     if (!live) return;
@@ -521,6 +568,10 @@
     render(progress * T);
   }
   function onScroll() {
+    var y = window.pageYOffset;
+    if (!gliding && y !== lastY) dir = y > lastY ? 1 : -1;
+    lastY = y;
+    if (!ended) { window.clearTimeout(rest); rest = window.setTimeout(settle, SETTLE); }
     if (queued) return;
     queued = true;
     window.requestAnimationFrame(update);
@@ -599,7 +650,10 @@
     root.classList.add('is-tour');
     measure();
     update();
+    lastY = window.pageYOffset;
+    dir = 0;
     window.addEventListener('scroll', onScroll, { passive: true });
+    if (ended) window.addEventListener('scrollend', settle);
     window.addEventListener('resize', onResize);
     /* The title's height depends on its typeface, which may still be
        arriving when the tour starts: fit again once it has. */
@@ -615,7 +669,10 @@
     live = false;
     stopGlide();
     aim = null;
+    window.clearTimeout(rest);
+    rest = 0;
     window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('scrollend', settle);
     window.removeEventListener('resize', onResize);
     root.classList.remove('is-tour');
     root.style.height = '';
