@@ -231,8 +231,11 @@ async function mainColumn(page) {
   return { x: 0, y: 0, width: Math.round(box.x * 2 + box.width), height: page.viewportSize().height };
 }
 
-/* The tour's scenes are TOUR_H tall: the run as found is 2030 at 1440
-   (agent-review#18, 2026-10-07, when the first card's two tiles each came
+/* The tour's scenes are TOUR_H tall: the run as found is 2018 at 1440
+   (agent-review#19, 2026-10-07, when the first card came to ask whether two
+   reds that look the same should mean the same thing, and its answers lost
+   the token rows under them; 2030 from agent-review#18, when the first
+   card's two tiles each came
    to name their part and lost the line over them; 2034 from #17, when each
    answer gained its choice and what each element takes, and 1903 before
    it), and its last part, the completed work, ends at 2014. The answered screen is taller and
