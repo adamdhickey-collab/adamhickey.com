@@ -18,8 +18,11 @@
  *
  * THE TIMELINE, in units of one part:
  *     INTRO   the whole screen, the lead note
- *     part i  the camera moves in for MOVE of the unit, then holds
+ *     part i  the camera moves in, then holds
  *     OUTRO   the camera backs out to the closing view, on the last scene
+ * Each move starts LEAVE before its unit, as the note before it starts to
+ * leave, and lands MOVE into it: one eased number, which the camera, the
+ * change of scene and the progress bars all share (moveAt, below).
  * A unit is UNIT of the viewport's height, 60%, so the tour is about five
  * screens of scrolling. It opened at 42% with the camera travelling for 40% of
  * that, which put a whole move between two parts inside 150px on a 900px
@@ -137,8 +140,9 @@
   var UNIT_MIN = 430;      /* px, so a short window does not shorten the scroll with it */
   var INTRO = 0.5;         /* units of scroll */
   var OUTRO = 0.9;
-  var MOVE = 0.45;         /* how much of a unit the camera spends travelling */
+  var MOVE = 0.45;         /* how far into its unit a move lands */
   var OUT_MOVE = 0.45;
+  var LEAVE = 0.25;        /* how far before its unit a move starts: the note before it leaving */
   var LEAD = 40;           /* capture px: the room the camera leaves left of a part, for its pin */
   var T = INTRO + N + OUTRO;
 
@@ -201,23 +205,46 @@
 
   var rise = 20, navH = 80, pin = 80, W = 0, H = 0, HS = 0, runway = 1;
   var glide = 1000;        /* ms a press takes for one part: two --motion-enter, set in measure() */
-  var SWAP = 0.3;          /* units: how long the count's number takes to turn over */
+  var SWAP = 0.4;          /* of a move: the middle stretch in which the count's number turns over */
   var tickAt = [], countW = 0, barsW = 0;
   var live = false, queued = false;
 
-  function cameraAt(t) {
+  /* ONE MOVE, ONE EASED NUMBER, since the evening of 2026-10-06 (Adam: the
+     bar "still animating when the content above it has already stopped",
+     and then "the same easing effect so they really felt synced up"). Move
+     j takes the camera to part j, from the lead's whole screen for j = 0,
+     and move N backs it out to the close. It starts LEAVE before part j's
+     unit, as the note before it starts to leave, and lands MOVE into it,
+     and nothing on the screen moves outside a move. The camera, the change
+     of scene and the progress bars all read the same e, so they set off,
+     gather speed and settle together; the notes cross inside it, the old
+     one going in its first third and the new one arriving after.
+
+     Until then the camera travelled only the last MOVE of that stretch,
+     while the old note left before it, and the bars filled with the raw
+     scroll position across the whole of every unit, holds included: on a
+     press the bar ran for a second around a camera that moved for 450ms.
+     x is the move's own linear progress, for the count's number. */
+  function moveAt(t) {
+    var j = Math.floor(t - INTRO + LEAVE);
+    if (j < 0) return { j: -1, x: 0, e: 0 };
+    j = Math.min(j, N);
+    var x = clamp((t - INTRO - j + LEAVE) / (LEAVE + (j < N ? MOVE : OUT_MOVE)), 0, 1);
+    return { j: j, x: x, e: ease(x) };
+  }
+
+  function cameraAt(m) {
     var from = home, to = home, e = 0, ring = 0;
-    if (t >= INTRO + N) {
+    if (m.j >= N) {
       from = frames[N - 1];
       to = map;
-      e = ease((t - INTRO - N) / OUT_MOVE);
+      e = m.e;
       ring = 1 - e;
-    } else if (t >= INTRO) {
-      var i = Math.min(N - 1, Math.floor(t - INTRO));
-      from = i ? frames[i - 1] : home;
-      to = frames[i];
-      e = ease((t - INTRO - i) / MOVE);
-      ring = i ? 1 : e;
+    } else if (m.j >= 0) {
+      from = m.j ? frames[m.j - 1] : home;
+      to = frames[m.j];
+      e = m.e;
+      ring = m.j ? 1 : e;
     }
     return {
       cx: mix(from.cx, to.cx, e),
@@ -234,12 +261,9 @@
   /* Which scene the story is in at t, and how far a change of scene has got:
      the move's own eased number, so the next state dissolves in while the
      camera travels to its part. */
-  function sceneAt(t) {
-    if (t >= INTRO + N) return { from: frames[N - 1].scene, to: outroScene, e: ease((t - INTRO - N) / OUT_MOVE) };
-    if (t >= INTRO) {
-      var i = Math.min(N - 1, Math.floor(t - INTRO));
-      return { from: i ? frames[i - 1].scene : introScene, to: frames[i].scene, e: ease((t - INTRO - i) / MOVE) };
-    }
+  function sceneAt(m) {
+    if (m.j >= N) return { from: frames[N - 1].scene, to: outroScene, e: m.e };
+    if (m.j >= 0) return { from: m.j ? frames[m.j - 1].scene : introScene, to: frames[m.j].scene, e: m.e };
     return { from: introScene, to: introScene, e: 1 };
   }
   /* How much of scene k a reader sees: all of a scene the story stays in,
@@ -272,7 +296,7 @@
      quarter of its unit. The same number drives the note and the pin's lift. */
   function presence(t, i) {
     var b = INTRO + i;
-    return ease((t - b) / 0.3) * ease((b + 1 - t) / 0.25);
+    return ease((t - b) / 0.3) * ease((b + 1 - t) / LEAVE);
   }
 
   function place(el, p) {
@@ -281,7 +305,8 @@
   }
 
   function render(t) {
-    var c = cameraAt(t);
+    var m = moveAt(t);
+    var c = cameraAt(m);
     var z = c.z;
     /* W x HS is the window, W x H the page under it. Zoomed in, the page is
        held to the window's edges; pulled back past 1 (the map) it is narrower
@@ -308,8 +333,8 @@
        2026-10-05 a pin grew from half size as it landed, swelled a fifth while
        its part was looked at and carried a halo, and the same number read at
        three sizes in one tour. */
-    var settled = ease((t - INTRO - N) / OUT_MOVE);
-    var sc = sceneAt(t);
+    var settled = m.j >= N ? m.e : 0;
+    var sc = sceneAt(m);
     if (scenes.length) drawScenes(sc);
     pins.forEach(function (pin, i) {
       var born = ease((t - INTRO - i) / 0.3);
@@ -322,33 +347,37 @@
 
     /* The notes: the lead leaves, each part arrives and leaves, the last one
        arrives once the camera has started backing out. */
-    place(intro, ease((INTRO - t) / 0.25));
+    place(intro, ease((INTRO - t) / LEAVE));
     steps.forEach(function (n, i) { place(n, presence(t, i)); });
     place(outro, ease((t - INTRO - N - 0.1) / 0.35));
-    fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + clamp(t - INTRO - i, 0, 1) + ')'; });
-    counted(t);
+    /* The bars: a whole bar for every part reached, and the one being moved
+       to filling on the move's own e, so the fill's edge travels with the
+       camera rather than with the scroll. */
+    var p = m.j < 0 ? 0 : m.j >= N ? N : m.j + m.e;
+    fills.forEach(function (f, i) { f.style.transform = 'scaleX(' + clamp(p - i, 0, 1) + ')'; });
+    counted(m, p);
     ends(t);
   }
 
   /* THE COUNT, since 2026-10-06 (Adam: "a little small type follow as a
      line gets filled", reading 0 of 7 and then 1 of 7, changing as it moves
      along with the bar). It stands over the fill's leading edge, kept to the
-     bars' two ends, so it travels with the sage exactly: the same
-     clamp(t - INTRO - i) the fills are scaled by. The number turns over as
-     a part begins, the moment the last note has gone and the camera sets
-     off: the old one rises out and the new one rises in, a quarter of
-     --motion-rise, which is how MOTION.md section 10 lets words swap,
-     travelling rather than fading in place. Like everything else here it
-     is a function of t, so scrolling back turns it back. */
-  function counted(t) {
+     bars' two ends, so it travels with the sage exactly: the same p the
+     fills are scaled by, which is the move's own e. Its number turns over in
+     the middle of each move, the old one rising out and the new one rising
+     in, a quarter of --motion-rise, which is how MOTION.md section 10 lets
+     words swap, travelling rather than fading in place. Like everything
+     else here it is a function of t, so scrolling back turns it back. */
+  function counted(m, p) {
     if (!count || digits.length < 2 || !tickAt.length) return;
-    var p = t - INTRO;
     var i = clamp(Math.floor(p), 0, N - 1);
     var tick = tickAt[i];
     var x = tick.left + clamp(p - i, 0, 1) * tick.width;
     count.style.transform = 'translateX(' + clamp(x - countW / 2, 0, Math.max(0, barsW - countW)) + 'px)';
-    var k = clamp(Math.round(p), 0, N - 1);
-    var s = ease((p - k) / SWAP + 0.5);
+    /* Before the first move it reads 0, after the last part it reads N, and
+       during move j it turns from j to j + 1. */
+    var k = clamp(m.j, 0, N - 1);
+    var s = m.j < 0 ? 0 : m.j >= N ? 1 : ease((m.x - (1 - SWAP) / 2) / SWAP);
     var lift = rise / 4;
     if (digits[0].textContent !== String(k)) digits[0].textContent = k;
     if (digits[1].textContent !== String(k + 1)) digits[1].textContent = k + 1;
@@ -394,37 +423,69 @@
      "too quickly", and should be "smoother, less jarring and easier to see
      what's going on"). A press used to hand the move to the page's own
      smooth scroll, which covers a part's 600px in about 380ms on its own
-     curve. The camera travels in the middle 45% of that distance, where the
+     curve. The camera travelled in the middle of that distance, where the
      curve is fastest, so it crossed the screen in 50 to 84ms and the notes
      swapped in about 67: a cut, not a move. So a press moves the scroll
-     itself now, at a steady rate of one part per two --motion-enter, the
-     part leaving and the next arriving. Steady, because the scroll position
-     is the tour's progress, and MOTION.md gives progress `linear`; the
-     things that travel already ease on their own (the camera's ease(), the
-     notes' presence()), so a press shows the note go in about 250ms and the
-     camera glide for about 450, softly at both ends. It is still the page's
-     scroll position that moves, a frame at a time, so render(t) is still
-     the only thing that draws, and the moment anything else moves the page
-     (a wheel, a finger, a key, a dragged scrollbar) the glide lets go. A
-     press during a glide sets off from where the page is, at the same pace,
-     and a run of quick presses is held to one and a half parts' time. */
+     itself, at a steady rate of one unit per two --motion-enter. Steady,
+     because the scroll position is the tour's progress and MOTION.md gives
+     progress `linear`; what travels eases on the move's own e.
+
+     ONLY THROUGH THE MOVES, since later the same evening (Adam: the bar
+     was "still animating when the content above it has already stopped").
+     Between two stops a unit's worth of scroll is a move of LEAVE + MOVE,
+     0.7 of it, with a stretch either side in which nothing on the screen
+     changes. A press crosses those stretches in a single frame and spends
+     its time on the move alone, so a part takes 700ms, between the camera's
+     old 450 and the bar's old second, and the bar, the camera, the change
+     of scene and the count all start on the first frame and settle on the
+     last. Scrolling by hand still takes the stretches as they come.
+
+     It is still the page's scroll position that moves, a frame at a time,
+     so render(t) is still the only thing that draws, and the moment
+     anything else moves the page (a wheel, a finger, a key, a dragged
+     scrollbar) the glide lets go. A press during a glide sets off from
+     where the page is, at the same pace, and a run of quick presses is held
+     to one and a half moves' time. */
   var gliding = null;
   function stopGlide() {
     if (!gliding) return;
     window.cancelAnimationFrame(gliding.raf);
     gliding = null;
   }
-  function glideTo(top, parts) {
+  /* The stretches of t between a and b in which a move is under way, in the
+     order a press travels them. */
+  function movesBetween(a, b) {
+    var lo = Math.min(a, b), hi = Math.max(a, b), out = [];
+    for (var j = 0; j <= N; j++) {
+      var s = Math.max(lo, INTRO + j - LEAVE), e = Math.min(hi, INTRO + j + (j < N ? MOVE : OUT_MOVE));
+      if (e > s) out.push(b >= a ? [s, e] : [e, s]);
+    }
+    return b >= a ? out : out.reverse();
+  }
+  function glideTo(target) {
     stopGlide();
-    var g = { from: window.pageYOffset, to: top, start: 0, ms: glide * clamp(parts, 0.25, 1.5), raf: 0 };
-    g.set = g.from;
+    var base = root.getBoundingClientRect().top + window.pageYOffset - pin;
+    var spans = movesBetween(now(), target);
+    var length = spans.reduce(function (sum, w) { return sum + Math.abs(w[1] - w[0]); }, 0);
+    /* t at fraction u of the press: along the moves, with the stretches
+       between them taken in no time at all. */
+    function at(u) {
+      var d = u * length;
+      for (var k = 0; k < spans.length; k++) {
+        var w = spans[k], len = Math.abs(w[1] - w[0]);
+        if (d <= len) return w[0] + (w[1] > w[0] ? d : -d);
+        d -= len;
+      }
+      return target;
+    }
+    var g = { start: 0, ms: glide * Math.min(length, 1.5 * (LEAVE + MOVE)), raf: 0, set: window.pageYOffset };
     gliding = g;
     function step(stamp) {
       if (gliding !== g) return;
       if (Math.abs(window.pageYOffset - g.set) > 2) { gliding = null; return; }
       if (!g.start) g.start = stamp;
-      var u = clamp((stamp - g.start) / g.ms, 0, 1);
-      g.set = Math.round(mix(g.from, g.to, u));
+      var u = g.ms ? clamp((stamp - g.start) / g.ms, 0, 1) : 1;
+      g.set = Math.round(base + (u < 1 ? at(u) : target) / T * runway);
       window.scrollTo({ top: g.set, behavior: 'instant' });
       update();
       if (u < 1) g.raf = window.requestAnimationFrame(step);
@@ -434,15 +495,13 @@
   }
   function go(dir, button) {
     if (!live || button.getAttribute('aria-disabled') === 'true') return;
-    var here = now();
-    var t = aim !== null && gliding ? stops[aim] : here;
+    var t = aim !== null && gliding ? stops[aim] : now();
     var to = -1, i;
     if (dir > 0) { for (i = 0; i < stops.length; i++) if (stops[i] > t + NEAR) { to = i; break; } }
     else { for (i = stops.length - 1; i >= 0; i--) if (stops[i] < t - NEAR) { to = i; break; } }
     if (to < 0) return;
     aim = to;
-    var top = root.getBoundingClientRect().top + window.pageYOffset - pin + (stops[to] / T) * runway;
-    glideTo(Math.round(top), Math.abs(stops[to] - here));
+    glideTo(stops[to]);
     if (status) { status.textContent = name(to); said = to; }
   }
   if (prev) prev.addEventListener('click', function () { go(-1, prev); });
