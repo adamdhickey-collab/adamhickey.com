@@ -767,6 +767,20 @@ a.case-thumb { display: block; }
   --shell-radius: var(--radius-xl);
   aspect-ratio: auto;
 }
+/* Since 2026-10-07 the screen is the Loom walkthrough rather than a
+   capture of the product, so it is not a link and does not tilt
+   (index.html says why). The player takes the screen's place as the
+   capture had it: full width, the screen's derived corner, and the
+   recording's own shape, 1148 by 720 (Loom's poster), so it plays without
+   bars. The charcoal is what shows while it loads, as on the case study. */
+.case-card--lab .case-thumb iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1148 / 720;
+  border: 0;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-charcoal);
+}
 
 /* The words: a plain account, then three things worth taking away. The list
    is .build-list's own dash, tightened to this column: its 24px bottom
