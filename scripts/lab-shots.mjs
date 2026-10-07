@@ -226,10 +226,11 @@ async function mainColumn(page) {
   return { x: 0, y: 0, width: Math.round(box.x * 2 + box.width), height: page.viewportSize().height };
 }
 
-/* The tour's scenes are TOUR_H tall: the run as found is 2034 at 1440
-   (agent-review#17, 2026-10-06, when each answer on the first card gained
-   its choice and what each element takes; 1903 before it), and its last
-   part, the completed work, ends at 2018. The answered screen is taller and
+/* The tour's scenes are TOUR_H tall: the run as found is 2030 at 1440
+   (agent-review#18, 2026-10-07, when the first card's two tiles each came
+   to name their part and lost the line over them; 2034 from #17, when each
+   answer gained its choice and what each element takes, and 1903 before
+   it), and its last part, the completed work, ends at 2014. The answered screen is taller and
    is cut there, below anything the tour points at; the quiet one is shorter
    and the page's ground runs on under it. */
 const TOUR_H = 2035;
