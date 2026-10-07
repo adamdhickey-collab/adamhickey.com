@@ -20,10 +20,15 @@
      1100 that preview is wider than its column and pans, which is right for
      a reader and wrong for a picture of the screen.
    - Phone is captured at 375 on a touch device, so the product's own phone
-     layout and its bottom decision bar are what is shown, printed at 1x in a
-     343px column. That is the type the product has, not a miniature of the
-     desktop's. The Storybook has no phone layout worth showing, so its phone
-     figure is the story itself, rendered on its own.
+     layout and its bottom decision bar are what is shown, printed in a
+     343-381px column. That is the type the product has, not a miniature of
+     the desktop's. The Storybook has no phone layout worth showing, so its
+     phone figure is the story itself, rendered on its own.
+     It is captured at 3x, 1125 pixels across. Until 2026-10-07 it was 1x,
+     375 pixels for a column a 3x iPhone draws with 1029 to 1143, so every
+     phone figure was stretched about three times and its type was soft
+     enough for a reader to notice. A phone is the one place these files are
+     shown, and the screens they are shown on are 3x.
 
    EVERY APP CAPTURE IS THE DARK THEME. It has been the product's default
    since agent-review#15 (2026-10-05) and a capture context sets no theme, so
@@ -283,7 +288,7 @@ try {
       const spec = shot[kind];
       const size = spec?.size ?? (kind === 'desktop' ? DESKTOP : PHONE);
       const ctx = await browser.newContext(
-        kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 1 } : { viewport: size, deviceScaleFactor: 2 },
+        kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: 2 },
       );
       const page = await ctx.newPage();
       /* A touch context applies its emulation to the next navigation, so the
