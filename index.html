@@ -122,7 +122,7 @@
   <link rel="stylesheet" href="color.css?v=8" />
   <link rel="stylesheet" href="shell.css?v=6" />
   <link rel="stylesheet" href="type.css?v=5" />
-  <link rel="stylesheet" href="style.css?v=20261007a" />
+  <link rel="stylesheet" href="style.css?v=20261007b" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
@@ -768,12 +768,32 @@
                 <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Open Agent Review<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
               </p>
             </div>
-            <a class="case-thumb build-phone" href="lab/agent-review.html" aria-label="Read the Agent Review case study">
-                <picture>
-                <source media="(max-width: 40rem)" srcset="img/lab/agent-review-card-phone.webp?v=2" width="750" height="816" />
-                <img decoding="async" loading="lazy" src="img/lab/agent-review-card.webp?v=15" alt="Agent Review&rsquo;s first decision in a simulated run, in its default dark theme: &ldquo;Is the old plan red because something failed, or because it was replaced?&rdquo;, with what the agent wants to change, the old plan struck through beside the new one, a replaced value, beside an existing pattern with the same red, &ldquo;Payment failed&rdquo;, a failure, the three checks passed with either token, &ldquo;Nothing failed.&rdquo;, &ldquo;Now imagine the failure style gets stronger.&rdquo;, and the two answers beginning under it: separate the meanings and only the failure gets louder, or keep them coupled and both get louder." width="1280" height="720"/>
-                </picture>
-            </a>
+            <!-- THE SCREEN IN THE TABLET IS THE VIDEO since 2026-10-07 (Adam:
+                 "add the video to the homepage Agent Review card too"): the
+                 Loom walkthrough the case study's hero plays, "Design Tokens,
+                 Agent Checks, and Meaning", 1:39, with the same player
+                 settings (lab/agent-review.html has why each one is off).
+                 The capture it replaces was the first decision; the video's
+                 first frame is the same run, with that decision under the
+                 account, so the card still shows what it showed and now
+                 talks it through.
+
+                 Three things went with the capture. The tile is a div, not
+                 a link to the case study, because a player cannot sit inside
+                 a link; "Read the case study" beside it is the way in. The
+                 phone capture (agent-review-card-phone.webp, #429) is not
+                 used here any more: a video can be made full screen, where
+                 a capture could only be read at the card's width.
+                 scripts/lab-cards.mjs still takes both captures, and the lab
+                 index still prints the desktop one. And the hover tilt skips
+                 this tile (setupCaseTilt, below), because the page stops
+                 hearing the pointer once it is over the player.
+
+                 Lazy, and below the fold at every width, so the player loads
+                 as the reader scrolls toward it, not with the page. -->
+            <div class="case-thumb build-phone">
+              <iframe src="https://www.loom.com/embed/cd76e99bc4c74fcd9d61d3a153e4c609?hideEmbedTopBar=true&amp;hide_owner=true&amp;hide_share=true&amp;hide_title=true&amp;hide_speed=true" title="Design Tokens, Agent Checks, and Meaning: a walkthrough of Agent Review, on Loom" loading="lazy" allowfullscreen></iframe>
+            </div>
           </div>
           <p class="lab-also">Also in the lab: <a href="prototype/deploy-console.html">Deploy Console</a> &middot; <a href="prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, and <a href="lab/index.html">the lab index</a>.</p>
         </div>
@@ -1821,6 +1841,9 @@
       if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
       const MAX_RX = 6, MAX_RY = 8; // degrees
       document.querySelectorAll('.case-grid .case-thumb').forEach(thumb => {
+        // Not the lab card's video: over the player the page stops hearing
+        // the pointer, so the tile would freeze at whatever tilt it had.
+        if (thumb.querySelector('iframe')) return;
         thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
           const r = thumb.getBoundingClientRect();
