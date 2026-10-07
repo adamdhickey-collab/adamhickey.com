@@ -418,16 +418,17 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-10-06 the tree measures 12445 resting colors, 2215 state
-rules, 52180 type sizes, 31631 elements checked for a partial border on a
-curve and 391 raised surfaces, across 32 pages (the thirty-one of the site
+unmeasured. At 2026-10-07 the tree measures 12376 resting colors, 2205 state
+rules, 51456 type sizes, 31250 elements checked for a partial border on a
+curve and 385 raised surfaces, across 32 pages (the thirty-one of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
 `seo.mjs` leave out; **32 since the lab landed on 2026-10-01**, two pages at
-once, and every one of the five moved with them) and 24 reachable states
-(14 on the deploy console, 7 on the cockpit and 3 on the lab index; **24
-since #411**, up from the 23 every set from #401 to #410 was measured with,
-and a reachable state is a fresh load that moves every count but state rules
-without a page arriving), plus 131 token
+once, and every one of the five moved with them) and 21 reachable states
+(14 on the deploy console and 7 on the cockpit; **21 since #419**, when the
+lab index went back to a list and its 3 states left the registry, down from
+the 24 every set from #411 to #418 was measured with, and a reachable state
+is a fresh load that moves every count but state rules without a page
+arriving or leaving), plus 131 token
 names against 228 declarations in 18 stylesheets (printed as 222 at 37644b5,
 and on every sweep from #369 until #398 corrected the instrument, for a
 selector read as a declaration; the drift paragraph below has it), 6
@@ -492,10 +493,12 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 96b1678**, run 37515183663 -- the
+CI run of `checks.yml` on **`main` at 12e4630**, run 37695416700 -- the
 post-merge sweep rather than a run against a branch, which is the cheapest
 way to take one, since that sweep runs whether anybody reads it or not. They
-replace the 2026-10-06 set of 12103 / 2214 / 50584 / 30442 / 383 at 093af5d,
+replace the 2026-10-06 set of 12445 / 2215 / 52180 / 31631 / 391 at 96b1678,
+run 37515183663, the only set taken with 24 reachable states, which replaced
+the 2026-10-06 set of 12103 / 2214 / 50584 / 30442 / 383 at 093af5d,
 run 37493422745, the only set taken with 23 reachable states, which replaced
 the 2026-10-05 set of 12020 / 2201 / 49800 / 30031 / 377 at 37644b5,
 run 37375088662, the last taken with 20 reachable states, which replaced the
@@ -547,6 +550,124 @@ against it, that branch merged, and the sweep of the merge was sitting in
 the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
+
+**Thirty-six commits between 96b1678 and 12e4630, and all thirty-six have a
+sweep in the Actions list, each green on its first attempt.** All thirty-six
+are pull requests, #412 through #447 with none missing, in the order they
+merged. Nineteen rows are flat and seventeen moved a count. One of the
+seventeen is the instrument, and it moved the reach column: #419 changed
+`scripts/lib/reachable.mjs`, the only file of any check that changed in the
+stretch. `gh run list --commit <sha>` returned nothing for some of these
+sweeps although they are there; the Actions API, `runs?head_sha=<sha>`,
+found every one. Ask it before deciding a merge never ran.
+
+| after | reach | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| #411 `96b1678` | 24 | 12445 | 2215 | 52180 | 31631 | 391 | 131 | 228 |
+| **#412** `dd61889` | 24 | 12445 | **2217** | 52180 | 31631 | 391 | 131 | 228 |
+| #414 `7ef0684` | 24 | 12445 | 2217 | 52180 | 31631 | 391 | 131 | 228 |
+| **#413** `9616c25` | 24 | 12445 | **2215** | **52192** | **31636** | **392** | 131 | 228 |
+| **#415** `4dcfbc2` | 24 | 12445 | 2215 | **52188** | **31635** | 392 | 131 | 228 |
+| #416, #417, #418 | 24 | 12445 | 2215 | 52188 | 31635 | 392 | 131 | 228 |
+| **#419** `d782ec6` | **21** | **12367** | **2205** | **51424** | **31231** | **386** | 131 | 228 |
+| #420 `85ad704` | 21 | 12367 | 2205 | 51424 | 31231 | 386 | 131 | 228 |
+| **#421** `b8fd4d1` | 21 | **12376** | 2205 | **51460** | **31243** | 386 | 131 | 228 |
+| **#422** `2731208` | 21 | **12378** | 2205 | **51468** | **31250** | 386 | 131 | 228 |
+| **#423** `f5e1ff9` | 21 | 12378 | 2205 | 51468 | **31251** | 386 | 131 | 228 |
+| #424 `4c0f028` | 21 | 12378 | 2205 | 51468 | 31251 | 386 | 131 | 228 |
+| **#426** `c12ce23` | 21 | 12378 | 2205 | 51468 | **31253** | 386 | 131 | **230** |
+| #425 `67de71e` | 21 | 12378 | 2205 | 51468 | 31253 | 386 | 131 | 230 |
+| **#427** `6a01ea5` | 21 | **12377** | 2205 | **51460** | **31250** | 386 | 131 | 230 |
+| #428, #430, #431 | 21 | 12377 | 2205 | 51460 | 31250 | 386 | 131 | 230 |
+| **#429** `be6416d` | 21 | 12377 | 2205 | 51460 | **31252** | 386 | 131 | 230 |
+| **#432** `057a7ac` | 21 | 12377 | 2205 | 51460 | **31250** | 386 | 131 | **228** |
+| **#433** `eb6beda` | 21 | 12377 | 2205 | 51460 | **31254** | 386 | 131 | 228 |
+| #434, #435, #437, #438 | 21 | 12377 | 2205 | 51460 | 31254 | 386 | 131 | 228 |
+| **#436** `0ad24a0` | 21 | **12376** | 2205 | **51456** | **31251** | 386 | 131 | 228 |
+| #439, #440 | 21 | 12376 | 2205 | 51456 | 31251 | 386 | 131 | 228 |
+| **#441** `98dbf0b` | 21 | 12376 | 2205 | 51456 | **31249** | **387** | 131 | 228 |
+| #442 `a5e291c` | 21 | 12376 | 2205 | 51456 | 31249 | 387 | 131 | 228 |
+| **#443** `712c0ac` | 21 | 12376 | 2205 | 51456 | **31251** | **386** | 131 | 228 |
+| #444 `d9936fe` | 21 | 12376 | 2205 | 51456 | 31251 | 386 | 131 | 228 |
+| **#445** `04a6ef6` | 21 | 12376 | 2205 | 51456 | **31250** | 386 | 131 | 228 |
+| **#447** `0ec4d1c` | 21 | 12376 | 2205 | 51456 | 31250 | **385** | 131 | 228 |
+| #446 `12e4630` | 21 | 12376 | 2205 | 51456 | 31250 | 385 | 131 | 228 |
+
+**#419 is the row to read first, because it moved the reach column and
+every browser count came back smaller, and it is #401 run backwards.** It
+put the lab index back to a list of three pieces and took the workspace's
+three states out of `reachable.mjs`, 24 -> 21, and `lab/workspace.css` with
+them, so the stylesheets printed 17 until #421 added `lab/index.css` and
+made them 18 again; declarations held at 228, because the workspace
+re-pointed `--color-focus-ring` without declaring a new name. Measured
+scoped on its own tree and its parent's, as resting / state rules / type
+sizes / curve elements / raised, the lab index went from 109 / 80 / 896 /
+494 / 6 on four loads to 31 / 70 / 132 / 90 / 0 on one: -78 / -10 / -764 /
+-404 / -6, the sweep's delta to the digit, and #401's row in the ladder
+below with every sign turned over. 31 / 70 / 132 / 90 / 0 are the figures
+that ladder records for the page before #401. `lab/agent-review.css`
+changed in the same commit, and the case study measured flat. The
+state-measurement total went 3058 -> 3053, the lab index's 72
+measurements becoming 67.
+
+**Every moving row was reconciled against its pages.** Each was measured on
+the Mac at the commit and its parent, each tree extracted with its own
+scripts, scoped to the pages its diff touched beyond a cache-buster, and
+the per-page deltas add up to the sweep's delta to the digit on all
+seventeen. `index.html` as a filter is the four index pages together; where
+a row below says the homepage, it is the one of the four whose markup
+changed.
+
+**Eleven rows are the Agent Review case study alone**, most of them the
+walkthrough being rebuilt.
+
+- **#412 and #413 are a pair.** The cutting mat under the tour added a
+  second `.wt.is-tour .wt-sticky::before` and an `::after`, two state rules
+  that set a color, 2215 -> 2217, and the grid-only mat took both out. #413
+  also moved type sizes +12, curve elements +5 and raised surfaces +1 (a
+  title over the tour, a sage panel in the dark band, the intro video's
+  place); resting held, so the twelve are three elements holding text that
+  `resting.mjs` skips, at four widths. Not itemized beyond that. #415 is -4
+  type sizes and -1 curve element: one more element of that kind, gone.
+- **#422 is the seven-step story**, +2 / +8 / +7: two elements holding text
+  at four widths, and five that hold none. The homepage it also touched
+  measured flat.
+- **#423 +1, #426 +2, #432 -2 and #433 +4** are curve elements in the
+  walkthrough's previous, next and progress bar, which hold no text. #426
+  and #432 are also the declarations column: #426's bar wrote `--fill` and
+  `--progress` from `walkthrough.js`, and `tokens.mjs` counts a name a
+  script sets with `setProperty` as declared, 228 -> 230. Renamed `--front`
+  and `--cut` between #428 and #431 without the count moving, they left with
+  #432's plainer bar, 230 -> 228. No document names any of the four.
+- **#436, #445 and #447 are the hero's video.** #436 turned the placeholder
+  into the Loom player: the play mark's `span`, its `svg` and `path` and the
+  "Loom intro video" label out, an `iframe` in, -1 / -4 / -3. #445 took the
+  `iframe` out and kept its frame, -1 curve element. #447 set that empty
+  frame `display: none`, which is the one raised surface fewer: `cards.mjs`
+  asks nothing of a surface that is not drawn.
+
+**The lab index is two rows**: #419, above, and #421, which gave it the wide
+frame and each entry a sentence and three points: +9 / +36 / +12, nine
+elements holding text at four widths, and the state-measurement total +3,
+3053 -> 3056, where it stands now.
+
+**The homepage is four rows, and two of them cancel.** #427 rewrote the
+agents section in half the words: -1 / -8 / -3, two elements holding text
+fewer at four widths, one of which `resting.mjs` was not counting. #429 put
+the card's picture in a `picture` with a phone `source`, +2 curve elements
+holding no text. #441 played the Loom in the card's tablet, a `div` and an
+`iframe` in for the link, its `picture`, `source` and `img`: -2 curve
+elements, and one raised surface more, not read out. #443 put the capture
+back, and is #441 with every sign turned over.
+
+**#446 is flat, and was measured flat before it merged**: the walkthrough's
+question reworded inside elements already counted, and eight captures
+retaken. #444 rewrote the case study's opening and the homepage card's lead
+the same way. The other flat rows are #414, which was the previous rewrite
+of this section, #416 to #418, #420, #424, #425, #428, #430, #431, #434,
+#435, #437 to #440 and #442. **#449 and #448 landed while this ladder was
+being written**, after 12e4630, and their sweeps are the first rows of the
+next one.
 
 **Ten commits between 093af5d and 96b1678, and all ten have a sweep in the
 Actions list.** All ten are pull requests: #403, #402, #404, #405, #406,
@@ -1443,7 +1564,7 @@ are kept, because what a stale tripwire costs is a reading that comes back
 low -- the direction that hides a page falling out of measurement rather
 than announcing it. Re-measure and rewrite these five when they have
 visibly drifted again, and name the commit measured, the way this paragraph
-does. The nine ladders above are what that looks like when the sweeps are
+does. The ten ladders above are what that looks like when the sweeps are
 read back while they are still in the Actions list; the residuals under them
 are what it looks like when they are not.
 
