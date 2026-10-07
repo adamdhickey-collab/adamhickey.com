@@ -91,9 +91,10 @@ const CARDS = {
      pattern with the same red. The frame's foot lands in the 12px between
      the tiles and the checks under them. 408 tall since agent-review#18
      (2026-10-07), when each tile gained the line naming its part and the
-     tiles came to end at 401 instead of 384; it was 390. At 2x it is
-     750 x 816, printed at about 261 on a 375 phone. */
-  'agent-review-phone': { url: `${from}#/`, width: 375, height: 408, viewportHeight: 812, dpr: 2, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
+     tiles came to end at 401 instead of 384; it was 390. At 3x it is
+     1125 x 1224, printed 261 to 315 wide on a phone, which is a 3x screen:
+     at 2x, until 2026-10-07, a 430 iPhone stretched it by a quarter. */
+  'agent-review-phone': { url: `${from}#/`, width: 375, height: 408, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
