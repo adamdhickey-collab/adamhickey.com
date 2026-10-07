@@ -200,8 +200,14 @@
    was 16:9 while it held a placeholder, and at that shape the player
    pillarboxes the recording in black. The charcoal is what shows while the
    player loads, and the corner clips it. Since later on 2026-10-07 it is
-   empty, the charcoal alone, until the next take: the iframe rule stays for
-   it. Under 64rem it sits under the way in, a component's gap below it. */
+   empty until the next take, and an empty frame is white space rather than
+   a dark box (Adam: "make it white space instead of the dark box"), so
+   :empty takes it out of the layout: from 64rem the hero's columns are
+   fixed halves and the right one stands blank, and under 64rem, where the
+   frame stacks, there is no 237px hole under the way in. A player inside
+   makes it not :empty, and the frame comes back with it on its own. The
+   iframe rule stays for it. Under 64rem it sits under the way in, a
+   component's gap below it. */
 .ar-hero-video {
   aspect-ratio: 1148 / 720;
   margin: var(--space-2xl) 0 0;
@@ -209,6 +215,7 @@
   overflow: hidden;
   background: var(--color-charcoal);
 }
+.ar-hero-video:empty { display: none; }
 .ar-hero-video iframe {
   display: block;
   width: 100%;
