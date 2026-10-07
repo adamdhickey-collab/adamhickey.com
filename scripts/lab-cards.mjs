@@ -87,10 +87,13 @@ const CARDS = {
      206 to 300px wide, and the 864 layout at that size set the card's text
      about 4px tall. This is the product's own phone layout, 375 wide, from
      the same edge 10px above the first decision, down to the two reds: the
-     question, then "A failure" beside "A replaced value". The frame's foot
-     lands in the 12px between the tiles and the checks under them. At 2x it
-     is 750 x 780, printed at about 261 on a 375 phone. */
-  'agent-review-phone': { url: `${from}#/`, width: 375, height: 390, viewportHeight: 812, dpr: 2, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
+     question, then what the agent wants to change over the existing
+     pattern with the same red. The frame's foot lands in the 12px between
+     the tiles and the checks under them. 408 tall since agent-review#18
+     (2026-10-07), when each tile gained the line naming its part and the
+     tiles came to end at 401 instead of 384; it was 390. At 2x it is
+     750 x 816, printed at about 261 on a 375 phone. */
+  'agent-review-phone': { url: `${from}#/`, width: 375, height: 408, viewportHeight: 812, dpr: 2, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
   /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square: 520 wide, the
