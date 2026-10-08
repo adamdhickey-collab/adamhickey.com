@@ -128,8 +128,13 @@ const facts = (src) => list(src,
 const collections = (src) => list(src,
   '<section class="case-section case-overview">\n      <div class="container case-narrow">\n',
   /* An <h2> since #206 made the three collections headings; the reader was
-     written to the <p> they were before and read zero blocks until #287. */
-  /        <h2 class="writing-eyebrow">[^<]+<\/h2>\n        <p class="writing-collection-dek">[\s\S]*?<\/p>\n        <ol class="writing-list">\n[\s\S]*?\n        <\/ol>\n/g,
+     written to the <p> they were before and read zero blocks until #287.
+     #438 put a comment between the first collection's dek and its list,
+     and the dek, matched lazily up to "</p> then <ol>", ran on through the
+     second collection to find one: two blocks, with the first two read as
+     one. The dek and a comment now each stop at their own close, comments
+     are allowed before the list, and a comment travels with its block. */
+  /        <h2 class="writing-eyebrow">[^<]+<\/h2>\n        <p class="writing-collection-dek">(?:(?!<\/p>)[\s\S])*<\/p>\n(?:        <!--(?:(?!-->)[\s\S])*-->\n)*        <ol class="writing-list">\n[\s\S]*?\n        <\/ol>\n/g,
   '      </div>\n    </section>',
   (b) => b.match(/writing-eyebrow">([^<]+)</)[1], 3, 'the three collections');
 
