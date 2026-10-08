@@ -65,6 +65,23 @@
    8. THE TWO WAYS IN, ON ONE LINE. "Try the prototype" and "Listen to
       this page" sit side by side under the opening, at one height. */
 
+/* ---- 10. on a phone, the walkthrough before the facts ---- */
+/* Under 40rem the hero is one column with no picture (section 5), so a
+   phone read about two screens of words, the title, the dek, three lines,
+   two buttons, then the four facts and the line under them, before the
+   first screen of the product. Since 2026-10-08 (a design critique) the
+   facts and that line follow the walkthrough there instead: the hero's
+   buttons, then the run itself. The markup keeps its order, so a voice
+   and a keyboard meet the facts where they always did; what moves is the
+   picture, a screen earlier. Flex does not collapse margins, so the
+   walkthrough's foot is let go and the facts keep their own top. */
+@media (max-width: 40rem) {
+  .case-hero > .container { display: flex; flex-direction: column; }
+  .case-hero > .container > .glance,
+  .case-hero > .container > .build-service { order: 1; }
+  .case-hero > .container > .wt { margin-bottom: 0; }
+}
+
 /* ---- 9. the three kinds of work ---- */
 /* "The two reds are just one example" (#one-example): the kinds of work
    the walkthrough's one example belongs to, stacked in the words' column
@@ -332,9 +349,39 @@
   transition: transform var(--motion-state) var(--ease);
 }
 .ar-zoom-badge svg { width: var(--space-md); height: var(--space-md); }
+/* WHAT THE BADGE DOES, SAID ON HOVER AND FOCUS, since 2026-10-08 (a design
+   critique: a small disc in a corner has to be guessed at). A label in the
+   badge's own dress, the sage with the white rim and the same shadow, so it
+   reads on a dark capture and a light ground alike, opens to its left. It
+   is decoration: the badge is aria-hidden, and the link already says "Open
+   full size" to a screen reader. Opacity only, so reduced motion has
+   nothing to stop. */
+.ar-zoom-badge::before {
+  content: "Open full size";
+  position: absolute;
+  right: calc(100% + var(--space-xs));
+  top: 50%;
+  translate: 0 -50%;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 2px solid var(--color-white);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-text);
+  box-shadow: var(--shadow-resting), var(--shadow-card);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.ar-zoom:focus-visible .ar-zoom-badge::before { opacity: 1; }
 .ar-zoom:focus-visible .ar-zoom-badge { transform: scale(var(--motion-lift)); }
 @media (hover: hover) and (pointer: fine) {
   .ar-zoom:hover .ar-zoom-badge { transform: scale(var(--motion-lift)); }
+  .ar-zoom:hover .ar-zoom-badge::before { opacity: 1; }
 }
 /* A figcaption under a screen is a sentence, and the lightbox's caption is
    an uppercase label made for the homepage's short photo credits. The
@@ -472,15 +519,19 @@
    with a dash, its round cap would sit there as a dot while it waited. */
 .rl-draw { stroke-dasharray: 1; }
 .ar-rail.is-armed .rl-draw { stroke-dashoffset: 1; }
-.ar-rail.is-armed .rl-tip { opacity: 0; }
+.ar-rail.is-armed .rl-tip,
+.ar-rail.is-armed .rl-late { opacity: 0; }
 .ar-rail.is-drawn .rl-draw { animation: glance-draw var(--motion-draw) var(--ease) forwards; }
-.ar-rail.is-drawn .rl-tip { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
+.ar-rail.is-drawn .rl-tip,
+.ar-rail.is-drawn .rl-late { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
 @keyframes rl-tip { to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
   .ar-rail.is-armed .rl-draw { stroke-dashoffset: 0; }
-  .ar-rail.is-armed .rl-tip { opacity: 1; }
+  .ar-rail.is-armed .rl-tip,
+  .ar-rail.is-armed .rl-late { opacity: 1; }
   .ar-rail.is-drawn .rl-draw,
-  .ar-rail.is-drawn .rl-tip { animation: none; }
+  .ar-rail.is-drawn .rl-tip,
+  .ar-rail.is-drawn .rl-late { animation: none; }
 }
 
 /* ---- 1. the two columns ---- */
