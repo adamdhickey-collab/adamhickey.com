@@ -148,8 +148,8 @@ const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen',
                 20: 'twenty', 21: 'twenty-one', 22: 'twenty-two',
                 23: 'twenty-three', 24: 'twenty-four', 25: 'twenty-five',
-                26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight', 29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one',
-                63: 'sixty-three', 67: 'sixty-seven' };
+                26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight', 29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one', 32: 'thirty-two',
+                63: 'sixty-three', 67: 'sixty-seven', 69: 'sixty-nine' };
 
 /* ---------------------------------------------------------------------------
  * The claims. `says` is the sentence as written and has to still be findable;
@@ -164,28 +164,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Thirty-one pages in ten families',
-    n: 31, what: 'pages', of: () => PAGES.length },
+    says: 'Thirty-two pages in ten families',
+    n: 32, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 31 pages in ten families',
-    n: 31, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 32 pages in ten families',
+    n: 32, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Thirty-one pages in ten families',
+    says: 'Thirty-two pages in ten families',
     n: 10, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Thirty-one pages in ten families',
-    n: 31, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Thirty-two pages in ten families',
+    n: 32, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all thirty-one pages',
-    n: 31, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all thirty-two pages',
+    n: 32, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all thirty-one pages',
-    n: 31, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all thirty-two pages',
+    n: 32, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -193,20 +193,20 @@ const CLAIMS = [
      where the prose said there was none is the reason to enter claims rather
      than trust that someone did. */
   { doc: 'design-system/index.html',
-    says: 'Thirty-one pages, and the only edition',
-    n: 31, what: 'pages, as the editions list states them', of: () => PAGES.length },
+    says: 'Thirty-two pages, and the only edition',
+    n: 32, what: 'pages, as the editions list states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Eighteen of them',
     n: 18, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by twenty-five pages',
-    n: 25, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty-six pages',
+    n: 26, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all thirty-one',
-    n: 31, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all thirty-two',
+    n: 32, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 
   /* The build write-up about this site, which is the one page whose whole
      argument is that its numbers are checked, and which carried twenty-eight
@@ -215,22 +215,22 @@ const CLAIMS = [
      browser counts in the same section are dated in the prose instead,
      because no check without a browser can recount them. */
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-one pages of plain HTML, no framework and no build step',
-    n: 31, what: 'pages, as the dek states them', of: () => PAGES.length },
+    says: 'Thirty-two pages of plain HTML, no framework and no build step',
+    n: 32, what: 'pages, as the dek states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'thirty-one pages of plain HTML with no framework and no build step',
-    n: 31, what: 'pages, as the description states them', of: () => PAGES.length },
+    says: 'thirty-two pages of plain HTML with no framework and no build step',
+    n: 32, what: 'pages, as the description states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '31 pages, 3 token files, 4 specs, 32 scripts',
-    n: 31, what: 'pages, as the size row states them', of: () => PAGES.length },
+    says: '32 pages, 3 token files, 4 specs, 32 scripts',
+    n: 32, what: 'pages, as the size row states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '31 pages, 3 token files, 4 specs, 32 scripts',
+    says: '32 pages, 3 token files, 4 specs, 32 scripts',
     n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
   { doc: 'case-study/this-site.html',
-    says: '31 pages, 3 token files, 4 specs, 32 scripts',
+    says: '32 pages, 3 token files, 4 specs, 32 scripts',
     n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
   { doc: 'case-study/this-site.html',
-    says: '31 pages, 3 token files, 4 specs, 32 scripts',
+    says: '32 pages, 3 token files, 4 specs, 32 scripts',
     n: 32, what: 'scripts in scripts/', of: scriptsInTree },
   { doc: 'case-study/this-site.html',
     says: 'Ten checks; five of them render every page in a real browser',
@@ -239,11 +239,11 @@ const CLAIMS = [
     says: 'Ten checks; five of them render every page in a real browser',
     n: 5, what: 'browser checks in the matrix', of: browserChecks },
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-one pages, each a plain HTML file',
-    n: 31, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
+    says: 'Thirty-two pages, each a plain HTML file',
+    n: 32, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'a change to the shell is a change to thirty-one files',
-    n: 31, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
+    says: 'a change to the shell is a change to thirty-two files',
+    n: 32, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
   { doc: 'case-study/this-site.html',
     says: 'Ten checks run on every merge. Five read the tree',
     n: 10, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
@@ -254,8 +254,8 @@ const CLAIMS = [
     says: 'The other five open every page in Chrome',
     n: 5, what: 'browser checks in the matrix', of: browserChecks },
   { doc: 'case-study/this-site.html',
-    says: 'sixty-seven nodes across the site',
-    n: 67, what: 'schema.org graph nodes across the pages', of: schemaNodes },
+    says: 'sixty-nine nodes across the site',
+    n: 69, what: 'schema.org graph nodes across the pages', of: schemaNodes },
 
   { doc: 'llms.txt',
     says: 'ten checks that measure the rendered page',

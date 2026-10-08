@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Systems for AI Coding Agents: Meaning, Behavior, Context and Exceptions | Adam Hickey</title>
+  <meta name="description" content="What a design system has to explain to a coding agent: components and tokens say what to build with, but an agent also needs what each part means, how it behaves, where the usual answer holds and where it does not, worked through Agent Review&rsquo;s two reds and when a review should and should not add a rule." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html" />
+  <meta property="og:title" content="Design Systems for AI Coding Agents: Meaning, Behavior, Context and Exceptions | Adam Hickey" />
+  <meta property="og:description" content="What a design system has to explain to a coding agent: components and tokens say what to build with, but an agent also needs what each part means, how it behaves, where the usual answer holds and where it does not, worked through Agent Review&rsquo;s two reds and when a review should and should not add a rule." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-a-design-system-needs-to-explain-to-an-agent.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the nine articles and the case
+       studies name one person rather than eighteen with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html#article",
+          "headline": "What a design system needs to explain to an agent",
+          "description": "What a design system has to explain to a coding agent: components and tokens say what to build with, but an agent also needs what each part means, how it behaves, where the usual answer holds and where it does not, worked through Agent Review’s two reds and when a review should and should not add a rule.",
+          "url": "https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html",
+          "image": "https://adamhickey.com/img/og/what-a-design-system-needs-to-explain-to-an-agent.jpg",
+          "datePublished": "2026-10-08",
+          "dateModified": "2026-10-08",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Design systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "AI coding agents"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What a design system needs to explain to an agent",
+              "item": "https://adamhickey.com/writing/what-a-design-system-needs-to-explain-to-an-agent.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=8" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20261007c" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Lab</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. data-lead
+       is the article's collection on the index, and the line takes that
+       collection's colour. -->
+  <div class="writing-progress" data-lead="craft" aria-hidden="true"></div>
+
+    <main id="main">
+    <!-- THE AGENT-READER ARTICLE, written 2026-10-08 in place of the design
+         engineer article on the index. That article keeps its address and
+         is no longer listed; this one leads "Designing with code", which was
+         "Craft and code". The design-system-for-AI article takes up AI
+         inside the product and says, in its first section, that AI building
+         the product is a second problem with the same words. This is that
+         second problem, told from what Agent Review has actually shown.
+
+         WHAT IT MAY NOT CLAIM, the same list the case study keeps: the run
+         is simulated, the experiment was two real runs and one seeded
+         branch, once each, and nothing has been tested with anyone. Nothing
+         learns; a rule exists because a person kept one. The empty-state
+         case is an illustration and says so in its first words. Every other
+         fact traces to the agent-review repository's PROJECT.md,
+         docs/experiment/README.md or skills/ui-quality/SKILL.md, and to
+         lab/agent-review.html. Katie Dill's talk is paraphrased, not
+         quoted, from its captions; no transcript was published with it. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <h1 class="case-title">What a design system needs to explain to an agent</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">Components and tokens tell a coding agent what an interface is made of. To build the right thing, it also needs to know what each part means, how it should behave, where the usual answer holds and where it doesn&rsquo;t. I&rsquo;ve been working that out in Agent Review, a prototype I built for supervising a coding agent&rsquo;s design work.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#an-agent-can-already-build-from-the-parts">An agent can already build from the parts</a></li>
+            <li><a href="#following-the-rules-can-still-leave-the-meaning-open">Following the rules can still leave the meaning open</a></li>
+            <li><a href="#the-designer-decides-what-each-thing-is-for">The designer decides what each thing is for</a></li>
+            <li><a href="#keep-the-answer-but-not-always-as-a-new-rule">Keep the answer, but not always as a new rule</a></li>
+            <li><a href="#some-answers-only-show-up-when-people-use-the-product">Some answers only show up when people use the product</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, in the set's hand, of the
+             argument rather than the topic. Under the dek so the answer is
+             read before the picture is, and inside the hero so it sits on
+             the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-a-design-system-needs-to-explain-to-an-agent.webp?v=1" width="1600" height="900" alt="Two identical dusty slate panels side by side on a cream ground, cropped by the top and bottom of the frame, and one small ochre card pinned with a black pushpin to the right-hand panel." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
+          <h2 id="an-agent-can-already-build-from-the-parts">An agent can already build from the parts</h2>
+          <p>Before I designed anything for review, I ran a small experiment. I gave Claude Code the same request twice: add bulk actions to a customer table built from a React component system. One run read twelve written design rules first. The other had only the components, the tokens and the stories.</p>
+          <p>Both stayed inside the system. Each reused existing components and wrote every value as a token, and the checks found no defect in either version.</p>
+          <p>Design systems have always been good at this. On the <a href="standardizing-ux-across-40-sap-fiori-apps.html">SAP Fiori program</a>, one style guide and component library was much of how many teams, building at different times, inherited the same decisions. An agent is one more builder reading the same files.</p>
+          <p>Stripe&rsquo;s Katie Dill made the broader case in a <a href="https://www.youtube.com/watch?v=GLvFTMtw4Jk" target="_blank" rel="noopener noreferrer">talk at the Lenny and Friends Summit<span class="visually-hidden"> (opens in a new tab)</span></a>. With more people and more automation doing the building, there is no longer always a designer in the room to fill in what was never written down, so a system has to carry intent, not only consistency. My question is narrower: which parts of that intent can a design system actually carry?</p>
+
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
+          <h2 id="following-the-rules-can-still-leave-the-meaning-open">Following the rules can still leave the meaning open</h2>
+          <p><a href="../lab/agent-review.html">Agent Review</a>&rsquo;s simulated run shows where the parts run out. An agent moves 36 hard-coded values in a set of billing screens onto design tokens, changing nothing anyone can see. Two of the values are the same red: a payment that failed, and an old plan struck through because it was replaced.</p>
+          <p>The system has a token for each meaning, and today both are the same red. So either name passes the token lint, the visual comparison and the accessibility check.</p>
+          <p>The trouble comes later. If the danger red gets stronger, every replaced value that borrowed it gets stronger too, and a routine plan change starts to look like an error. Two things can look the same and say different things, and a change to the look alone changes what both of them say.</p>
+          <figure class="writing-figure">
+            <figcaption>What the checks established about the red, and what they couldn&rsquo;t</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">The checks established</p>
+                <ul>
+                  <li>A token was used, not a raw value</li>
+                  <li>The screen matches its baseline</li>
+                  <li>The text clears its contrast floor</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">No check could establish</p>
+                <ul>
+                  <li>Which of the two tokens was meant</li>
+                  <li>Whether the two reds should mean the same thing</li>
+                  <li>What a later change to either one will do</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p><mark>A passing check establishes what that check measures, and nothing beyond it.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
+          <h2 id="the-designer-decides-what-each-thing-is-for">The designer decides what each thing is for</h2>
+          <p>The question isn&rsquo;t which token to use. It&rsquo;s whether these two reds should mean the same thing, and that is a product decision. I&rsquo;d answer it as I would on any team: ask what each one tells the reader, then picture the next change. A failed payment needs someone to act. A replaced plan records what changed. They should stay separate, so only the failure gets louder.</p>
+          <p>In Agent Review the agent doesn&rsquo;t guess. The limits on its job tell it to ask when the evidence for a value&rsquo;s meaning conflicts, so it stops with one question, the evidence for each reading and a recommendation. A person answers.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A passing check establishes what that check measures, and nothing beyond it.</p>
+          </aside>
+          <p>The same gap shows up far from color. <strong>An illustration, not an Agent Review feature:</strong> a list of invoices comes back empty. The system&rsquo;s empty state renders correctly whether nothing is overdue, a filter hid everything, or this person can&rsquo;t see the account. The first is good news, the second needs a way to clear the filter, and the third needs to say who can grant access. &ldquo;Use the empty state&rdquo; is followed all three times. <mark>Only someone who knows why the list is empty can say what it should help a person do next.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
+          <h2 id="keep-the-answer-but-not-always-as-a-new-rule">Keep the answer, but not always as a new rule</h2>
+          <p>Once a decision is made, the reflex is to write a rule. In Agent Review an answer becomes one only when a person checks a box that starts unchecked, and the rule says where it applies and why, and can be revoked. The answer about the two reds settles three more waiting changes, and a matching case won&rsquo;t ask again.</p>
+          <p>A rule is only one place to keep an answer, though. Reviewing the experiment&rsquo;s three versions changed the system in four places, and its twelve rules stayed twelve:</p>
+          <ul>
+            <li><strong>A better test.</strong> The layout check had passed a toolbar 58 pixels too wide, because a parent hid the overflow from what it measured. Now it measures each toolbar.</li>
+            <li><strong>A clearer rule.</strong> Changing a shared component already needed a reason in writing. The rule now says what a reason looks like: what was measured, where, before and after.</li>
+            <li><strong>A condition written down.</strong> The runs asked before archiving customers, and I kept that confirmation as a pattern. The rule for destructive actions now says when a confirmation fits and when an undo does.</li>
+            <li><strong>A pointer to what exists.</strong> The system already had the bar of actions a selection needs. The rules now name it, so an agent finds it before building another.</li>
+          </ul>
+          <p><mark>Most of what a review teaches belongs in something the system already has.</mark> Each new rule is one more thing an agent, and its reviewer, reads before every run.</p>
+
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
+          <h2 id="some-answers-only-show-up-when-people-use-the-product">Some answers only show up when people use the product</h2>
+          <p>Some decisions can&rsquo;t be written down ahead of time, because nobody knows the answer yet. In the experiment, the visual comparison flagged four changed screens on every version and couldn&rsquo;t tell the feature from a break. Whether the product wanted the new confirmation took a person reading it. Whether it slows down someone who archives customers all day would take watching them work.</p>
+          <p>Agent Review is at that stage too. It&rsquo;s a working prototype that plays simulated runs, informed by one small experiment, and I haven&rsquo;t tested it with anyone. Next I&rsquo;d put it in front of designers and engineers supervising real agent work. Can they say what the agent did from its account alone? Do they catch a decision it got wrong? Can they set up guidance without spending more time reviewing?</p>
+          <p><mark>A design system can carry what a team has decided. Noticing what it hasn&rsquo;t decided is still the job.</mark></p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">Components and tokens tell an agent what to build with. A design system also has to explain what each part means, how it behaves, where the usual answer holds and where it doesn&rsquo;t. When every check passes and the meaning is still open, a person decides, and the answer goes where the next agent will find it, which isn&rsquo;t always a new rule.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find two things in your system that look the same, and ask whether anything written down says they mean the same thing. If nothing does, the next agent will decide for you, and every check will pass.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A text line
+             rather than a pitch, for the same reason the case studies end on
+             one. -->
+        <p class="build-service">The account this draws on: <a href="../lab/agent-review.html">Agent Review</a>, where a coding agent finishes what the checks can verify and stops at the decisions they can&rsquo;t, and <a href="../case-study/sap-product-maturity.html">Making 40+ enterprise apps feel like one product</a>, the system many teams built from. If this is the situation you are in: <a href="../engagement/design-system-foundation.html">how I set standards other teams adopt</a>.</p>
+        <a class="build-next" href="what-makes-an-interface-feel-finished.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What makes an interface feel finished? &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

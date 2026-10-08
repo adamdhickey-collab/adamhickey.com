@@ -28,6 +28,15 @@
  *   - the block between <!-- keys:start --> and <!-- keys:end --> in the hero
  *     (inserted after the dek if the markers are missing)
  *   - the <p class="writing-meta"> of each entry on the index
+ *
+ * An article can be kept at its address and left off the index. Until
+ * 2026-10-08 an article that left the nine was deleted and its URL left to
+ * 404; "What does a product design engineer actually do?" was the first to
+ * be unlisted instead, because its place went to a new article and its
+ * address is still linked and still read. It is named in UNLISTED below.
+ * Its list and eyebrows are held to its h2s like any other's; the index is
+ * held to NOT carrying it, so an unlisted article cannot drift back into
+ * the nine without someone taking it out of the set.
  */
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -57,6 +66,9 @@ say(`keys.mjs: ${ROOT}, ${articles.length} articles, ${commit()}`);
 const inner = (html) => html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 /* The id: the text with its entities decoded to nothing, lowercased, hyphened. */
 const slug = (html) => inner(html).replace(/&[a-z]+;|&#\d+;/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/* Kept at their address, off the index (see the header). */
+const UNLISTED = new Set(['what-does-a-product-design-engineer-actually-do']);
 
 const faults = [];
 const fault = (f, msg) => faults.push(`${f}: ${msg}`);
@@ -137,6 +149,10 @@ for (const f of articles) {
   let next = src;
   for (const [s, { count, minutes }] of ideas) {
     const re = new RegExp(`(<a class="writing-link" href="${s}\\.html">[\\s\\S]*?<p class="writing-meta">)[^<]*(<\\/p>)`);
+    if (UNLISTED.has(s)) {
+      if (re.test(next)) fault('index.html', `${s}.html is unlisted but has an entry; take it out of UNLISTED or off the index`);
+      continue;
+    }
     if (!re.test(next)) { fault('index.html', `no entry for ${s}.html`); continue; }
     next = next.replace(re, `$1${count} ideas &middot; ${minutes} min read$2`);
   }

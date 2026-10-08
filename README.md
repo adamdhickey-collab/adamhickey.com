@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 31 pages in ten families |
+| **What this is** | The site: 32 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -120,7 +120,7 @@ the archive so that it holds everything staging ever had.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-one pages. Color, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-two pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The four build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
@@ -132,11 +132,11 @@ the archive so that it holds everything staging ever had.
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
 | `prototype/deploy-console.html`, `prototype/deploy-console.{css,js}` | The deploy console prototype, the second page under `prototype/` since 2026-09-28: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the project -- six services with their deploy histories -- as one object at the top of the script. `scripts/console.mjs` captures the reading for the share card, and `scripts/console-shots.mjs` the four stills: the hero's reading, the refusal and the reading decision 02 sits beside, and the 4:3 window the homepage card prints. It carries the cockpit's `?embed` flag for the same reason, and its stylesheet copies the cockpit's shell -- the frame, the sticky strip, the answer zone, the dark table head, the density switch, the row that opens in place, the motion section -- under a second prefix rather than sharing it; the shell is a candidate for a shared prototype stylesheet the day a third prototype needs one |
-| `writing/*.html` | The index and nine articles, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
+| `writing/*.html` | The index, the nine articles it lists and one it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-one. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-two. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -175,7 +175,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-one pages in ten families, all hand-written HTML with no include step
+Thirty-two pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -184,11 +184,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-one pages, so a
-change to the shell is a change to thirty-one files.
+email icon and the skip link are hand-written into all thirty-two pages, so a
+change to the shell is a change to thirty-two files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-one pages
+base ladder, and both regimes read it from `type.css`, which all thirty-two pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -199,7 +199,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 4 | A | Products built end to end, alone, and this site. |
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
-| Writing | 10 | A | An index and nine articles in three collections named for the three leads the search runs on: craft and code, enterprise and operational software, AI as the material. |
+| Writing | 11 | A | An index and nine articles in three collections named for the three leads the search runs on: designing with code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
 | Lab | 2 | A | The index of the experiments in React, AI-assisted prototyping and component systems, and the Agent Review case study. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
@@ -229,7 +229,7 @@ tree it sits in, so every number in it is one a check here prints.
 `engagement/ai-product-prototype.html` until #24; see "Two live URLs now
 404".
 
-**Writing** -- `writing/index.html` and the nine articles beside it. No fact
+**Writing** -- `writing/index.html` and the articles beside it. No fact
 block; an article has no four facts to state. The kicker, the title and a dek
 that is the article's whole answer in three or four sentences, then the essay
 on the `.writing-measure` column, then one line naming the engagement it
@@ -268,6 +268,19 @@ system needs once AI is in the product, and what a person needs to supervise
 an AI agent -- the word "agent" had not appeared in any of the three AI
 articles. Each has its two drawings in the set's hand, on its collection's
 accent.
+
+**Redrawn a third time on 2026-10-08, and for the first time nothing 404s.**
+"Craft and code" became "Designing with code", and "What a design system
+needs to explain to an agent" took the design-engineer article's place at
+its head: what a coding agent can build from components and tokens, what
+it still cannot know about meaning, and where a reviewer's answer should
+be kept, worked through Agent Review. The design-engineer article was not
+retired. It keeps its address, its sitemap entry and the links into it,
+and is simply no longer listed, so the family is eleven pages and the
+index still shows nine. `keys.mjs` names it in an UNLISTED set and holds
+the index to not carrying it. The new article has one drawing rather than
+two, by the brief it was written to, and its card's small second colour is
+an ochre rather than a reveal's butter (see `img/writing/` below).
 
 #59 added three in positions two to four, and they are the first written for a
 reader hiring a designer onto a team rather than buying a piece of work: what
@@ -389,7 +402,7 @@ the console leading, each with its picture over its text.
 | `img/site/` | Case-study screens, client logos and the built-step drawings, the bulk of the folder |
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
 | `img/engagement/` | The four card still lifes at 1080x720, each "How I work" page's hero, and the numbered step drawings (the four invitation drawings went with the invitation band on 2026-09-17). **The four card pictures are the still lifes again since 2026-09-17**: `01-clarity`, `02-system`, `03-embedded` and `04-ai` are the homepage's "How I work" grid, real objects on an office theme, each on its own wall, at this folder's 3:2 and 1080x720, the bytes the archive's #77 and #104 left them at. From #135 to then they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut to 16:9 (#150); that registry stays, and nothing on the site loads its output now. They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
-| `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct |
+| `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. One picture carries a third, on purpose: the agent article's feature (2026-10-08) pins a small card in muted ochre `#D4A548`, a deeper sibling of the butter, to one of two identical slate panels, because its brief asked for ink-blue, cream and a small ochre; the job says so in its own colour line (`colours` in `writing-features.mjs`) The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct |
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page, rendered by `scripts/og.mjs` from the page's title and its own picture. The homepage's is `index.jpg`, and the design system page, which has no card of its own, points at that one. Until 2026-09-17 the homepage kept a hand-drawn `img/og-card.jpg`; it named the independent practice a week after the site stopped, and went the day the eyebrow moved to Senior |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
@@ -579,7 +592,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-thirty-one live addresses, each dated. Every case study's and every article's
+thirty-two live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page
