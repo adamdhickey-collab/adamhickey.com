@@ -25,6 +25,23 @@
   margin-bottom: var(--space-2xl);
   line-height: var(--leading-body);
 }
+/* The links to the four specs sit inside these sentences, and until
+   2026-10-08 they were the sentence's own color with no underline. The
+   site's prose link, as style.css gives it to .writing-measure p a. */
+.ds-lede a,
+.ds-demo-note a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.ds-lede a:focus-visible,
+.ds-demo-note a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .ds-lede a:hover,
+  .ds-demo-note a:hover { color: var(--color-charcoal); }
+}
 
 /* section index number, echoing the engagement cards */
 .ds-num {

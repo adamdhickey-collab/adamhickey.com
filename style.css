@@ -3879,6 +3879,33 @@ html.ah-lightbox-open body { overflow: hidden; }
    gaps read as a list rather than as prose. Three quarters of that keeps the
    sentences grouped while the section gap above stays clearly larger. */
 .writing-measure p { margin-bottom: 0.75rem; }
+/* A link in running text has to look like one. Until 2026-10-08 the
+   twenty-two in the articles' paragraphs took the global
+   `a { color: inherit; text-decoration: none }` and nothing else, so "a talk
+   at the Lenny and Friends Summit" was the color and weight of the sentence
+   round it, with no cue at all (WCAG 1.4.1); so was the homepage's "This
+   site is built the same way." under Built. .build-service a's treatment,
+   which is what a link inside body prose on a light ground looks like here.
+   The Design psychology note's source line is left out by name: it is a
+   footnote at --text-xs with a lighter link of its own in
+   design-psychology.css, which sets no weight, so 600 would reach it. */
+.writing-measure p:not(.dp-note-source) a,
+.writing-measure li a,
+.section-head p a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.writing-measure p:not(.dp-note-source) a:focus-visible,
+.writing-measure li a:focus-visible,
+.section-head p a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .writing-measure p:not(.dp-note-source) a:hover,
+  .writing-measure li a:hover,
+  .section-head p a:hover { color: var(--color-charcoal); }
+}
 /* The essays' lists take .build-list's sage dash rather than a disc, so the
    three page families mark an item the same way. The size is the essays'
    own, --text-lg on --leading-reading, because these sit in a reading column
