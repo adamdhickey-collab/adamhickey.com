@@ -306,9 +306,31 @@
     }
   }
 
+  /* THE WAY PAST HOLDS THE TOUR STILL. The skip link scrolls the page, at
+     the site's smooth pace, through every stretch still to come, and a
+     tour that answered would open each step on the way out, five or six
+     moves in a second. So from the press until that scroll ends the tour
+     ignores the scroll; it catches up with one step when the scroll is
+     over, by which time the panel has left the window. */
+  var skip = root.querySelector('.wt-skip');
+  var passing = false, passed = 0;
+  function pass() {
+    passing = true;
+    window.clearTimeout(passed);
+    passed = window.setTimeout(passOver, 2000);
+  }
+  function passOver() {
+    if (!passing) return;
+    passing = false;
+    window.clearTimeout(passed);
+    onScroll();
+  }
+  if (skip) skip.addEventListener('click', function () { if (live) pass(); });
+  if ('onscrollend' in window) window.addEventListener('scrollend', passOver);
+
   function update() {
     queued = false;
-    if (!live) return;
+    if (!live || passing) return;
     var px = scrolled();
     fill(px);
     var k = stepAt(px);
@@ -484,6 +506,8 @@
     idx = -1;
     filled = [];
     window.clearTimeout(settled);
+    window.clearTimeout(passed);
+    passing = false;
     window.removeEventListener('scroll', onScroll);
     root.classList.remove('is-tour');
     root.removeAttribute('data-step');
