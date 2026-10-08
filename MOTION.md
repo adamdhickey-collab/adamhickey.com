@@ -181,25 +181,28 @@ They are exempt because their timing carries meaning that a shared scale
 would flatten. They are still bound by §5: all three stop for reduced
 motion.
 
-**A fourth thing moves against scroll and is not on that list, because it is
-not a drawing.** The guided tour on the Agent Review write-up
-(`walkthrough.js`) pins a tablet and scrubs a camera over captures of the
-product, one part of the screen per stretch of scroll. Since 2026-10-06 the
-captures are three states of one screen, and where the story moves to the
-next state it dissolves in during the camera's move, on the same scrolled
-number, so a dissolve is no more a timed animation than the camera is. Its timing is the
-reader's scroll position, as the design-to-build scene's is, and it borrows
-the one distance the scale has: a note enters and leaves by `--motion-rise`.
-It has no duration and no easing because nothing in it takes time, and no CSS
-transition, which is why §5's blanket cannot stop it. The script does, with
-the same `prefers-reduced-motion` query the blanket reads, and what is left is
-the static layout: the tablet with the first state and its six pins on it,
-and the seven notes in a list. It runs from 64rem up, and the content is whole without it. Since
-2026-10-05 two buttons at the ends of its progress bars step through the
-parts. They are not a second clock: a press moves the page's scroll position
-to the next part and the tour follows the scroll as it always has, so the
-glide is the page's own smooth scroll (§5 turns that off with the rest) and
-pressing and scrolling can be mixed freely.
+**A fourth thing moves with scroll and is not on that list, because it is
+not a drawing, and since 2026-10-08 it is on the scale.** The guided tour on
+the Agent Review write-up (`walkthrough.js`) pins a tablet beside a list of
+seven steps. Where the reader has scrolled to says which step is open, and
+opening one is a timed move: the camera travels to that step's part of the
+screen and, where the story changes state, the next capture dissolves in, in
+`--motion-enter` plus `--motion-state`, 700ms, on `--ease`, both read from the
+root. The step's words open at `--motion-enter`, a disc takes its colour at
+`--motion-state`, and the line down the list, which creeps toward the next
+step as the reader scrolls between two, is the scroll-progress job:
+`--motion-response`, linear, or the step's own time when a press moved it.
+Until then the camera was scrubbed against scroll, with no duration and no
+easing, and from 2026-10-07 the page glided onto the nearer part whenever a
+scroll ended between two, which a reader with a wheel met as the page moving
+400px on its own. The transitions stop under §5's blanket; the camera is drawn
+by script, so the script stops with the same `prefers-reduced-motion` query,
+and what is left is the static layout: the tablet with the first state and
+its five pins on it, and the seven steps in a list. It runs from 64rem up,
+where its tallest step fits the window, and the content is whole without it.
+Its two buttons and the steps in the list move the page's scroll position to
+a step and nothing else, so pressing and scrolling are one state and can be
+mixed freely.
 
 ---
 

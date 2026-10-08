@@ -320,8 +320,11 @@ phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen. The write-up's hero is a
 guided tour of that first capture (`walkthrough.css`, `walkthrough.js`):
-seven notes beside the product in a tablet, with a previous and a next
-button at the two ends of its progress bars. Each note carried a small
+seven steps listed beside the product in a tablet, in the order their parts
+sit on the screen, each opening as the reader scrolls to it, with up and
+down buttons and a way past over the list (since 2026-10-08; until then
+seven notes, one at a time, with a previous and a next button at the two
+ends of a row of progress bars). Each note carried a small
 drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came off
 the page and out of the tree so the product could take the room; the
 prompts that drew them are still `scripts/tour-scenes.mjs`, behind

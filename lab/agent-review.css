@@ -98,8 +98,8 @@
        beside the facts strip's field label (12px caps on --tracking-caps);
      - who acts, on a line of its own, as the card's title;
      - one sentence on what the kind is;
-     - the situation it covers, under a hairline, labelled by the site's
-       tag saying what that situation is: in the prototype, or proposed.
+     - the situation it covers, under a hairline, under a field label
+       saying where that situation is: in the prototype, or proposed.
    They stay a column, not a row of three, so they are three compact cards
    beside the picture rather than three feature tiles across the page. The
    column runs past the picture, so the picture holds still beside it as it
@@ -154,12 +154,28 @@
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
 }
-/* The tag is the case's label, on a line of its own: beside the sentence
-   it wrapped raggedly in a narrow card ("A shared / component."). */
-.ar-kind-case .tag {
+/* WHERE THE SITUATION IS, as a field label rather than a tag, since
+   2026-10-08 (Adam: "the misuse of the tag style"). A .tag is a topic on
+   a card (Enterprise software, Design systems), and a pill reads as one
+   of a set a reader could filter by; "In the prototype" and "Proposed"
+   say whether the situation is built, which is a fact about the line
+   under them. So it takes the muted field label the case studies' glance
+   row uses for Role and Built with (TYPOGRAPHY.md, Field labels): 11px
+   caps on --tracking-caps in the muted gray, 6.47:1 on white, on a line
+   of its own, because beside the sentence it wrapped raggedly in a
+   narrow card ("A shared / component."). Muted rather than the sage,
+   because the card's kicker is the sage and says what the card is; this
+   says something about one line of it. */
+.ar-kind-where {
   display: block;
-  width: fit-content;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  line-height: var(--leading-ui);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
 }
 @media (max-width: 40rem) {
   .ar-kind { padding: var(--space-md) var(--space-lg); }
@@ -261,23 +277,23 @@
    ground is the tea-light the hero card and the pull-outs use.
 
    IT HUGS WHAT IS ON IT. The panel is the rows the title, the stage and
-   the progress bars sit in (walkthrough.css: a spring, the title, the
-   stage, the bars, a spring), placed there as an absolutely positioned
-   grid item, so its containing block is those three rows across both
-   columns. It reaches --space-2xl and --space-sm, 44px, above the title's
-   capitals, --space-4xl below the bars, the same as above them (Adam, the
-   evening of 2026-10-06: about 10px less under the bar, which was 59px
-   from the panel's edge; 47 while the bars' row was the 40px a slash on
-   them needed, and 48 since the slash went), and out to the box's sides. Since the same day the sticky box hugs too
-   (walkthrough.js centres it in the window), so the springs are nothing,
-   the panel is the box less --space-md top and bottom, and there is no
-   empty ground between the page above and the panel on the way in. */
+   the side sit in (walkthrough.css: a spring, the title, the stage, a
+   spring the side reaches into where it is the taller), placed there as
+   an absolutely positioned grid item, so its containing block is those
+   rows across both columns. It
+   reaches --space-2xl and --space-sm, 44px, above the title's capitals,
+   and the same below the stage or the side, since 2026-10-08: the row of progress
+   bars it used to close on (48px of room either side of them, Adam's
+   figure of the evening of 2026-10-06) went with the move to a list
+   beside the screen. The sticky box hugs too (walkthrough.js centres it
+   in the window), so the springs are nothing, the panel is the box less
+   --space-md top and bottom, and there is no empty ground between the
+   page above and the panel on the way in. */
 .wt.is-tour .wt-sticky {
   isolation: isolate;
   padding:
     calc(var(--space-md) + var(--space-2xl) + var(--space-sm))
-    var(--space-3xl)
-    calc(var(--space-md) + var(--space-4xl));
+    var(--space-3xl);
 }
 .wt.is-tour .wt-sticky::before {
   content: "";
@@ -286,12 +302,18 @@
   grid-column: 1 / -1;
   inset:
     calc((var(--space-2xl) + var(--space-sm)) * -1)
-    calc(var(--space-3xl) * -1)
-    calc(var(--space-4xl) * -1);
+    calc(var(--space-3xl) * -1);
   z-index: -1;
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   background: var(--color-tea-light);
+}
+/* Under 47.5rem of window the panel's room round its contents is a step
+   tighter, --space-xl for 44px, so the tour still fits a short laptop
+   window (walkthrough.css, SHORT WINDOWS). */
+@media (max-height: 47.5rem) {
+  .wt.is-tour .wt-sticky { padding: calc(var(--space-md) + var(--space-xl)) var(--space-3xl); }
+  .wt.is-tour .wt-sticky::before { inset: calc(var(--space-xl) * -1) calc(var(--space-3xl) * -1); }
 }
 
 /* ---- 5. the hero's picture ---- */
@@ -401,7 +423,7 @@
 .wt-brief { display: none; }
 @media (max-width: 40rem) {
   .wt-notes { gap: var(--space-sm); }
-  .wt-note:not(.wt-note--intro),
+  .wt-steps,
   .wt-note--intro .wt-body { display: none; }
   .wt-note--intro h3 { margin-bottom: 0; text-wrap: balance; }
   .wt-brief { display: block; }
