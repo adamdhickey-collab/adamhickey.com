@@ -117,8 +117,12 @@ const CARDS = {
      Should they mean the same thing?"), the two reds side by side, and
      "Both approaches pass the automated checks.", and ends in the 8px
      between that line and the badges under it. At 2x it is 1240 square,
-     printed at 420. */
-  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, out: 'agent-review-share.webp' },
+     printed at 420. Since agent-review#20 (2026-10-07) the strip names the
+     two runs and wraps to a second row at 620, 64px taller, so the square
+     starts 8px above the strip rather than at the product's bar, which the
+     share card's own title stands in for, and ends on the first row of
+     check badges under "Both approaches pass the automated checks." */
+  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: '.delegation__sim', offset: 8, out: 'agent-review-share.webp' },
   /* The write-up's hero, since 2026-10-07 (Adam: "an extended view of what
      we're showing on the homepage card"): the homepage card's frame, at its
      864 and from the same edge 6px above the first decision, carried down
