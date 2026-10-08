@@ -98,8 +98,8 @@
        beside the facts strip's field label (12px caps on --tracking-caps);
      - who acts, on a line of its own, as the card's title;
      - one sentence on what the kind is;
-     - the situation it covers, under a hairline, labelled by the site's
-       tag saying what that situation is: in the prototype, or proposed.
+     - the situation it covers, under a hairline, under a field label
+       saying where that situation is: in the prototype, or proposed.
    They stay a column, not a row of three, so they are three compact cards
    beside the picture rather than three feature tiles across the page. The
    column runs past the picture, so the picture holds still beside it as it
@@ -154,12 +154,28 @@
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
 }
-/* The tag is the case's label, on a line of its own: beside the sentence
-   it wrapped raggedly in a narrow card ("A shared / component."). */
-.ar-kind-case .tag {
+/* WHERE THE SITUATION IS, as a field label rather than a tag, since
+   2026-10-08 (Adam: "the misuse of the tag style"). A .tag is a topic on
+   a card (Enterprise software, Design systems), and a pill reads as one
+   of a set a reader could filter by; "In the prototype" and "Proposed"
+   say whether the situation is built, which is a fact about the line
+   under them. So it takes the muted field label the case studies' glance
+   row uses for Role and Built with (TYPOGRAPHY.md, Field labels): 11px
+   caps on --tracking-caps in the muted gray, 6.47:1 on white, on a line
+   of its own, because beside the sentence it wrapped raggedly in a
+   narrow card ("A shared / component."). Muted rather than the sage,
+   because the card's kicker is the sage and says what the card is; this
+   says something about one line of it. */
+.ar-kind-where {
   display: block;
-  width: fit-content;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  line-height: var(--leading-ui);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
 }
 @media (max-width: 40rem) {
   .ar-kind { padding: var(--space-md) var(--space-lg); }

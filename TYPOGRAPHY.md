@@ -456,6 +456,7 @@ size, never a literal.
 | `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, and the verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
 | `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
+| `.ar-kind-where` | Where each situation under the Agent Review write-up's three kinds of work is (In the prototype, Proposed); a pill tag until 2026-10-08 | 11px, `--tracking-caps`, muted: the glance row's label, because the card's own kicker is the sage |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
 
 The sizes are not a choice to make per label. A label in a `.build-facts` strip
