@@ -68,26 +68,42 @@
 /* ---- 9. the three kinds of work ---- */
 /* "The two reds are just one example" (#one-example): the kinds of work
    the walkthrough's one example belongs to, stacked in the words' column
-   beside the second run's card. Each kind is the facts strip's field label
-   (12px sage caps on --tracking-caps, as .build-facts dt sets it), what
-   happens to it in bold leading a sentence, and one situation under it,
-   smaller, opened by the site's tag saying what that situation is: in the
-   prototype, or proposed. A visible rule, --color-rule (COLOR.md's rule for
-   fact-block columns; the tag border's quiet hairline vanishes on the tea
-   ground), runs down the left of each kind and ties its parts together;
-   there is no card, so the three read as a list and not as three
-   features. */
+   beside the second run's card.
+
+   EACH KIND IS A CARD, since 2026-10-07 (Adam: "a little more formatting
+   ... a white background ... so it doesn't feel so text heavy"). It was
+   three runs of text behind a rule. The card is the ladder's rung 2, as the
+   site draws it everywhere (shell.css): white, the --rule-card edge, the
+   --shadow-card drop and --radius-xl. Inside it, four parts a reader can
+   take in order or skip between:
+     - the head: the kind's own mark, the same one the prototype draws for
+       that group of boundaries (a check, a question, a lock), in the sage,
+       beside the facts strip's field label (12px caps on --tracking-caps);
+     - who acts, on a line of its own, as the card's title;
+     - one sentence on what the kind is;
+     - the situation it covers, under a hairline, labelled by the site's
+       tag saying what that situation is: in the prototype, or proposed.
+   They stay a column, not a row of three, so they are three compact cards
+   beside the picture rather than three feature tiles across the page. The
+   column runs past the picture, so the picture holds still beside it as it
+   scrolls (.ar-split-media--held, the Storybook figure's rule in section
+   1). */
 .ar-kinds {
   display: grid;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   margin: var(--space-xl) 0;
 }
-.ar-kinds > div {
-  padding-left: var(--space-md);
-  border-left: 1px solid var(--color-rule);
+.ar-kind {
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
 .ar-kinds dt {
-  margin-bottom: var(--space-2xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -95,13 +111,42 @@
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-.ar-kinds dd { margin: 0; }
+.ar-kind-icon {
+  flex: none;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ar-kinds dd { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
+.ar-kinds .ar-kind-who {
+  margin: var(--space-xs) 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
 .ar-kinds .ar-kind-case {
-  margin-top: var(--space-sm);
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-tag-border);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
 }
-.ar-kind-case .tag { margin-right: var(--space-xs); }
+/* The tag is the case's label, on a line of its own: beside the sentence
+   it wrapped raggedly in a narrow card ("A shared / component."). */
+.ar-kind-case .tag {
+  display: block;
+  width: fit-content;
+  margin-bottom: var(--space-xs);
+}
+@media (max-width: 40rem) {
+  .ar-kind { padding: var(--space-md) var(--space-lg); }
+}
 
 /* ---- 8. the two ways in, on one line ---- */
 /* read-aloud.js puts its bar straight after the element marked
