@@ -114,7 +114,11 @@ if (cmd === 'queue') {
        and the group is the index's section rather than the artist's choice.
        The sentence is the registry's, so it and the preamble agree on what
        else a picture may carry. */
-    prompt: `${i === 0 ? `${STYLE}\n\n` : ''}${s.prompt}${s.group ? `\n\n${features.accentLine(s.group)}` : ''}\n\n${ASPECT}`,
+    /* A job that names its own colours (`colours`) says them in place of
+       the group's line, because the line also allows the two reveal
+       colours, and a job with a different second colour would be told
+       both. The first is the agent article's ochre, 2026-10-08. */
+    prompt: `${i === 0 ? `${STYLE}\n\n` : ''}${s.prompt}${s.group ? `\n\n${s.colours || features.accentLine(s.group)}` : ''}\n\n${ASPECT}`,
     done: existsSync(resolve(INBOX, `${s.id}${SUFFIX}.png`)),
     ...(CARDS ? { card: resolve(root, `img/writing/${s.id}-card.webp`) } : {}),
     /* Both sets carry a group now, so `take` measures a scene's hue too. */

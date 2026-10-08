@@ -65,6 +65,7 @@ const CARDS = {
      regrouping. */
   'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
+  'what-a-design-system-needs-to-explain-to-an-agent':     { kicker: 'Writing', title: 'What a design system needs to explain to an agent', image: 'img/writing/what-a-design-system-needs-to-explain-to-an-agent.webp', position: '70% center' },
   'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
   'what-makes-an-interface-feel-finished':                 { kicker: 'Writing', title: 'What makes an interface feel finished?', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
   'what-does-a-developer-need-from-an-interface-on-a-bad-day': { kicker: 'Writing', title: 'What does a developer need from an interface on a bad day?', image: 'img/writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.webp' },
@@ -99,7 +100,10 @@ function html(card) {
   .name { font-size: 28px; }
   .where { font-family: Montserrat, system-ui, sans-serif; font-weight: 500; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: ${C['--color-muted-gray']}; }
   .frame { align-self: center; width: 420px; height: 420px; border-radius: 18px; overflow: hidden; background: ${C['--color-white']}; box-shadow: 0 1px 0 ${C['--color-rule']}, 0 24px 48px -24px rgba(37,37,37,.35); }
-  .frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  /* A card may name where its square sits on the picture (\`position\`),
+     for a drawing whose point is off-centre; the agent article's ochre
+     card was cut in half by the centred square. */
+  .frame img { width: 100%; height: 100%; object-fit: cover; object-position: ${card.position || 'top center'}; display: block; }
 </style></head><body>
   ${onHero ? '<div class="hero"></div>' : ''}
   <div class="card">

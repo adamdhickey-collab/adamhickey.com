@@ -83,7 +83,10 @@ const BASE = {
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
-    'Craft and code': ['what-makes-an-interface-feel-finished', 'what-does-a-product-design-engineer-actually-do', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
+    /* "Craft and code" until 2026-10-08, when the agent article took the
+       design engineer article's place at its head (that one is unlisted,
+       not gone). The private variants name the old eyebrow until moved. */
+    'Designing with code': ['what-a-design-system-needs-to-explain-to-an-agent', 'what-makes-an-interface-feel-finished', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
     'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'what-does-a-design-system-need-once-ai-is-in-the-product', 'standardizing-ux-across-40-sap-fiori-apps'],
     'AI as the material': ['enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent', 'what-should-a-working-prototype-actually-prove'],
   },

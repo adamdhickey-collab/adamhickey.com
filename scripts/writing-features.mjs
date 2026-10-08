@@ -50,7 +50,7 @@
 
 export const ACCENTS = {
   'ai':      { name: 'muted sage green',  hex: '#657d60', section: 'AI as the material' },
-  'systems': { name: 'dusty slate blue',  hex: '#56718c', section: 'Craft and code' },
+  'systems': { name: 'dusty slate blue',  hex: '#56718c', section: 'Designing with code' },
   'release': { name: 'warm terracotta',   hex: '#c0714e', section: 'Enterprise and operational software' },
   /* The keys predate the 2026-09-17 regrouping and are what accent.mjs bins
      by, so they kept their names when the sections took the three leads'. */
@@ -109,7 +109,26 @@ export const FEATURES = [
     prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One large work boot in cream with black outlines, seen from the side, drawn so big it is cropped by the left edge and the top, its sole planted flat. Under the sole, one solid black shape: a wide splash of mud, spreading from beneath the boot toward the right, the only thing on the ground. The boot is plain and worn, laces drawn as simple black lines. Nothing else.`,
   },
 
-  /* ---- Craft and code --------------------------------------------- */
+  /* ---- Designing with code ---------------------------------------- */
+  /* Drawn 2026-10-08 for the article that took the design engineer
+     article's place on the index (that one keeps its address and its
+     drawing). The brief asked for muted ink-blue, warm cream and a small
+     ochre accent: the ink-blue is the section's own slate, the cream the
+     set's ground, and the ochre is a deeper sibling of the reveal's butter,
+     between it and the terracotta, so it sits in the palette rather than
+     beside it. It is the one colour beyond the accent here and is said in
+     the job's own colour line, which replaces the group's (see draw.mjs).
+     Two identical things, and one small note pinned to one of them: the
+     two reds, said without a red. Not a reveal inside the object, so it is
+     not the pegboard's tag either; it is an annotation laid on top. */
+  {
+    id: 'what-a-design-system-needs-to-explain-to-an-agent',
+    group: 'systems',
+    device: 'two of the same, one annotated',
+    alt: 'Two identical dusty slate panels side by side on a cream ground, cropped by the top and bottom of the frame, and one small ochre card pinned with a black pushpin to the right-hand panel.',
+    prompt: `Same style, same hand as the reference. Cream ground. Two identical tall rectangular panels in dusty slate blue with black outlines, each about a third of the frame wide, standing side by side in the middle of the frame with a narrow strip of cream ground between them and cream ground to either side, both cropped by the top and bottom edges of the frame. The two panels are exactly the same colour, size and shape, plain and flat, with nothing drawn on them. Pinned to the face of the right-hand panel, a little above its middle, is one small plain card, a rectangle about a third as wide as the panel, filled muted ochre, held by one round pushpin whose head is a solid black circle. The card is slightly tilted. Nothing on the left panel. No text, no lines on the card, no shadow. Nothing else in the picture.`,
+    colours: `The panels' colour is dusty slate blue, #56718c. The only other colours are the putty-cream ground, black, and the small card's muted ochre, #D4A548, which appears nowhere else.`,
+  },
   {
     id: 'what-does-a-product-design-engineer-actually-do',
     group: 'systems',
