@@ -67,7 +67,8 @@
    record is a completed change opened. Since 2026-10-06 the tour is three
    scenes of the delegated work at 1440, tour-start, tour-rule and
    tour-quiet (their recipes say what each is), which replaced the one
-   picture the slug delegation took. Quality 0.86, the figure
+   picture the slug delegation took. Since 2026-10-07, scope is the
+   prototype's second run, the shared table, its decision whole. Quality 0.86, the figure
    the artwork set uses. Chrome's WebP output is not byte-stable between runs,
    so scope a re-run to the figure that moved. Look at every capture before
    committing it: a wrong story id renders Storybook's "Couldn't find story"
@@ -210,6 +211,23 @@ const SHOTS = {
       await answerAll(page);
       await page.mouse.move(0, 0); /* off the record the last press left it over */
       await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(300);
+    },
+  },
+  /* The second run's decision (agent-review#20, 2026-10-07): a permission
+     boundary, the card whole, from its head to its answers, in the main
+     column only. 904 tall rather than the figures' 760, because the case it
+     makes runs from what was asked to what each answer does, and the card
+     is 878 at 1100. On a phone, the card from its top. */
+  scope: {
+    file: 'agent-review-scope',
+    app: '#/runs/shared-table',
+    desktop: { size: { width: 1100, height: 904 }, clip: mainColumn },
+    open: async (page) => {
+      const phone = (page.viewportSize()?.width ?? 0) < 500;
+      await page.locator('.ask').first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
+      if (!phone) await page.evaluate(() => window.scrollBy(0, -12));
+      await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
     },
   },
