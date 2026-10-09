@@ -18,10 +18,15 @@
    get, it reflows from a phone to the card's widest column, and it costs
    nothing to retake when the product's words move. Nothing in it moves.
 
-   ONE PAGE LOADS THIS FILE, index.html, which is why it is its own
-   stylesheet rather than a block in style.css: the card's other rules
-   stay where they are, and a change here is scoped to the one page that
-   draws it (CLAUDE.md, the check table). It declares no custom property
+   TWO PAGES LOAD THIS FILE since later on 2026-10-09: index.html, where
+   the composition is the lab card's picture and a link to the case study,
+   and lab/agent-review.html, where the same composition is the hero's
+   right half in place of the tablet capture (Adam: "reuse this image at
+   the beginning of the case study page ... much cleaner and easier to
+   understand"). It is its own stylesheet rather than a block in style.css
+   so the two pages share one copy and nothing else loads it; a change
+   here is the two-page row of CLAUDE.md's check table, so the whole suite
+   runs on the branch before a merge. It declares no custom property
    and names no new color or size: charcoal and its on-dark inks, the warm
    ground and its ink table, the type scale, the spacing scale, and two
    radii, the panel's --radius-xl and a derived inner corner, the way the
@@ -290,11 +295,37 @@
   opacity: 0.85;
 }
 
-/* In the card's grid (style.css, .case-card--lab): first under 1024, the
-   way the picture was, with the stacked card's own step under it, and the
-   second column from 1024 up, where the grid's gap parts the two. */
-.case-card--lab .lab-feature { order: -1; margin-bottom: var(--space-xl); }
+/* ON THE HOMEPAGE THE COMPOSITION IS A LINK TO THE CASE STUDY, since
+   later on 2026-10-09 (Adam: "link to the case study with the same hover
+   effects we're using in the cards above"). The anchor around it is a
+   .case-thumb, so the card grid's magnetic tilt (index.html,
+   setupCaseTilt; style.css, .case-grid .case-thumb.is-tilting) lifts it
+   and tilts it toward the pointer exactly as the three accounts' pictures
+   above it, and .case-card--lab .case-thumb's own rules place it as the
+   picture was: first under 1024, the second column from 1024 up. What
+   .case-thumb brings that a panel does not want is undone here: its 16:9
+   (the lab card's rule already lifts it), the muted ground under the
+   panel, the picture's margin under 1024 (the stacked card's own step
+   instead), and the tablet's resting shadow that the reduced-motion
+   blanket keeps for a device. The panel inside keeps the tile's corner,
+   so the ring and the lift are the panel's own shape. */
+a.case-thumb.lab-feature-link {
+  display: block;
+  aspect-ratio: auto;
+  background: var(--color-charcoal);
+  margin-bottom: var(--space-xl);
+}
+a.case-thumb.lab-feature-link .lab-feature { margin: 0; }
 @media (min-width: 1024px) {
-  .case-card--lab .lab-feature { order: 0; margin-bottom: 0; padding: var(--space-2xl); }
+  a.case-thumb.lab-feature-link { margin-bottom: 0; }
+  .lab-feature { padding: var(--space-2xl); }
   .lab-feature-head { font-size: var(--text-3xl); }
 }
+@media (prefers-reduced-motion: reduce) {
+  .case-card--lab a.case-thumb.lab-feature-link { box-shadow: none !important; }
+}
+
+/* ON THE CASE STUDY it is the hero's right half from 64rem
+   (lab/agent-review.css places it in the hero's grid) and follows the
+   opening on one column below that, a step under the way in. */
+.ar-hero-feature { margin: var(--space-xl) 0 0; }
