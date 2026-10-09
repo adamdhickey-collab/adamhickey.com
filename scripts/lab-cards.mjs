@@ -106,7 +106,9 @@ const CARDS = {
      to 315 wide on a phone, which is a 3x screen: at 2x, until 2026-10-07,
      a 430 iPhone stretched it by a quarter. */
   'agent-review-phone': { url: `${from}#/`, width: 375, height: 410, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
-  /* The lab index's share card picture (og.mjs, lab; the case study's too
+  /* No share card uses this since later on 2026-10-09, when og.mjs lab
+     took agent-review-og as the case study's had. It was the lab index's
+     share card picture (og.mjs, lab; the case study's too
      until 2026-10-09, when it took the feature below). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square, in the product's
@@ -174,8 +176,8 @@ const CARDS = {
      as tiles, the bar, and the first decision with its two reds. Measured
      from the page, not fixed, so it follows the layout. At 2x it is about
      1592 square. It replaced agent-review-feature (the homepage's
-     composition) for og.mjs agent-review; the lab index's card keeps the
-     phone-layout square, agent-review-share. */
+     composition) for og.mjs agent-review, and the phone-layout square,
+     agent-review-share, for og.mjs lab, later the same day. */
   'agent-review-og': {
     url: `${from}#/`, width: 1440, viewportHeight: 1200, dpr: 2, out: 'agent-review-og.webp',
     region: async (page) => {

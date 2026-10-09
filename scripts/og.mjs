@@ -55,7 +55,11 @@ const CARDS = {
   'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
   'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
   'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
-  'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-share.webp' },
+  /* The lab's picture is the case study's since later on 2026-10-09: the
+     app itself, a square of the run's main column (lab-cards.mjs
+     agent-review-og), so the lab and the case study unfurl alike. It was
+     the phone-layout square, agent-review-share, before. */
+  'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-og.webp' },
   /* The case study's picture is the product itself since later on
      2026-10-09 (lab-cards.mjs agent-review-og): a square of the run's main
      column, desktop layout, dark. It was the homepage's composition for a
