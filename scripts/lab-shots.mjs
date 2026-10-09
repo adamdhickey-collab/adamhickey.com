@@ -266,7 +266,12 @@ async function mainColumn(page) {
    fell through the middle of the third completed change, and the run as
    found is 2133 tall, so it is shown whole, down to its last row. The rule
    scene is 2224 and is cut below the confirmation the tour points at; the
-   quiet scene is 2035 and the ground runs on under it. */
+   quiet scene is 2035 and the ground runs on under it.
+   The run as found is 2127 since agent-review#25 (2026-10-09), when the
+   first card's checks line lost the 5px of empty line box under it. TOUR_H
+   stays 2133, so the pictures, their width and height and the pins'
+   percentages keep one size, and the page's ground runs 6px on under the
+   last row. */
 const TOUR_H = 2133;
 async function tourSize(page) {
   await page.mouse.move(0, 0);
