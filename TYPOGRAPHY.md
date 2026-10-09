@@ -185,6 +185,14 @@ the layout's own breakpoint rather than an unreconciled second curve. A ramp is
 sized against the column it lands in. That is the argument, and it is the only
 place it applies.
 
+**One dek takes the next ramp up.** Since 2026-10-09 the Agent Review
+write-up's dek (`.ar-hero .build-dek`, `lab/agent-review.css`) is on
+`--type-subsection`, 24 → 34, rather than `--type-lede`: the question and the
+thesis under the title are that page's claim, and at 24 they read as an
+introduction to it. It moves to an existing ramp rather than a size between
+the two, so it sits on a step at every width, and it keeps the dek's
+`--leading-tight`. Every other dek stays on `--type-lede`.
+
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
 
