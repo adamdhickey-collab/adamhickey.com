@@ -56,10 +56,12 @@ const CARDS = {
   'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
   'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
   'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-share.webp' },
-  /* The case study's picture is the homepage's composition since 2026-10-09
-     (lab-cards.mjs agent-review-feature), not the product's square: a post
-     unfurls with the same picture the homepage opens the project on. */
-  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', image: 'img/lab/agent-review-feature.webp' },
+  /* The case study's picture is the product itself since later on
+     2026-10-09 (lab-cards.mjs agent-review-og): a square of the run's main
+     column, desktop layout, dark. It was the homepage's composition for a
+     few hours that day (agent-review-feature), and the phone-layout square
+     before that. */
+  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', image: 'img/lab/agent-review-og.webp' },
   'deploy-console':                    { kicker: 'Prototype · synthetic data',              title: 'A broken deploy the developer can read and roll back',            image: 'img/site/deploy-console.webp' },  'product-clarity': { kicker: 'How I work', title: 'Turn ambiguity into a decision', sub: 'The product has become complicated', hero: 'img/engagement/clarity-hero.webp' },  'design-system-foundation': { kicker: 'How I work', title: 'Set standards other teams adopt', sub: 'The products need a system', hero: 'img/engagement/system-hero.webp' },  'embedded-senior-product-design': { kicker: 'How I work', title: 'Own the design inside the team, not beside it', sub: 'An initiative with no senior owner', hero: 'img/engagement/embedded-hero.webp' },  'working-product-prototype': { kicker: 'How I work', title: 'Carry the direction into something that works', sub: 'Ideas everywhere, nothing you can use yet', hero: 'img/engagement/ai-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
