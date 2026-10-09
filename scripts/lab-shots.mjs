@@ -260,8 +260,14 @@ async function mainColumn(page) {
    answer gained its choice and what each element takes, and 1903 before
    it), and its last part, the completed work, ends at 2014. The answered screen is taller and
    is cut there, below anything the tour points at; the quiet one is shorter
-   and the page's ground runs on under it. */
-const TOUR_H = 2035;
+   and the page's ground runs on under it.
+   2133 since agent-review#23 (2026-10-09), when the account's three counts
+   became tiles and everything under them sat 74px lower: at 2035 the cut
+   fell through the middle of the third completed change, and the run as
+   found is 2133 tall, so it is shown whole, down to its last row. The rule
+   scene is 2224 and is cut below the confirmation the tour points at; the
+   quiet scene is 2035 and the ground runs on under it. */
+const TOUR_H = 2133;
 async function tourSize(page) {
   await page.mouse.move(0, 0);
   await page.evaluate(() => window.scrollTo(0, 0));
