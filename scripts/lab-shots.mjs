@@ -142,18 +142,82 @@ const SHOTS = {
       await openRequest(page);
       await tourSize(page);
     },
-    phoneScroll: '.ask',
+    /* On a phone, the two directions from their question, since the
+       trade-off (2026-10-09): the hero's phone figure is the agent's read,
+       just above, and the card's top would show it again. */
+    phoneScroll: '.ask__options',
   },
-  'tour-rule': {
-    file: 'agent-review-tour-rule',
+  /* THE TRADE-OFF'S SCENES, since 2026-10-09 (agent-review#28): the first
+     question became a choice between two defensible directions, and the
+     tour's second and third scenes became the decision and what it left.
+     decide: the direction the agent did NOT recommend, keep the red for
+     now, chosen, with a reason in the person's own words that the agent
+     could not have known, and "use this decision for similar cases"
+     checked, so the plan, the reason and the rule show under both cards.
+     after: the same decision applied (and the new token allowed once
+     before it, so the notice is the decision's), the decision record a few
+     lines down. Both are the person overruling a reasonable
+     recommendation with context, which is the point of the product, and
+     both are as real in the app as the recommended path. */
+  'tour-decide': {
+    file: 'agent-review-tour-decide',
     app: '#/',
     desktop: { size: { width: 1440, height: 1000 } },
     phone: false,
     open: async (page) => {
       await openRequest(page);
-      await page.getByRole('button', { name: 'Use the diff pair' }).click();
-      await page.getByText('Also use this answer for similar cases').click();
+      await decideKeep(page);
       await tourSize(page);
+    },
+  },
+  'tour-after': {
+    file: 'agent-review-tour-after',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 } },
+    phone: false,
+    open: async (page) => {
+      await openRequest(page);
+      await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
+      await page.getByRole('button', { name: 'Apply' }).click();
+      await decideKeep(page);
+      await page.getByRole('button', { name: 'Apply' }).click();
+      await page.locator('.decided').first().waitFor();
+      await tourSize(page);
+    },
+  },
+  /* THE SIGNATURE IMAGE, since 2026-10-09: the case study's hero is the
+     trade-off itself, the agent's read (what it recommends, what it can't
+     determine) over the two directions side by side, each with how it
+     would look and three benefits and three risks. Desktop at 1100, where
+     the type prints largest in the hero's half, cut from the card's own
+     edges, 8px of ground each side. On a phone the two cards stack to
+     1,300px, so the phone figure is the read alone. */
+  tradeoff: {
+    file: 'agent-review-tradeoff',
+    app: '#/',
+    desktop: { size: { width: 1100, height: 1000 }, clip: tradeoffClip },
+    phone: { size: { width: 375, height: 720 }, clip: tradeoffClip },
+    open: async (page) => {
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  /* The decision record the tour ends on, as a figure: the same decision,
+     whole, in the main column. On a phone, the record from its top. */
+  decision: {
+    file: 'agent-review-decision',
+    app: '#/',
+    desktop: { size: { width: 1100, height: 760 }, clip: recordClip },
+    open: async (page) => {
+      await decideKeep(page);
+      await page.getByRole('button', { name: 'Apply' }).click();
+      const record = page.locator('.decided').first();
+      await record.waitFor();
+      const phone = (page.viewportSize()?.width ?? 0) < 500;
+      await record.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+      await page.evaluate((by) => window.scrollBy(0, by), phone ? -8 : -12);
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
     },
   },
   'tour-quiet': {
@@ -188,8 +252,8 @@ const SHOTS = {
     app: '#/',
     desktop: { clip: mainColumn },
     open: async (page) => {
-      await page.getByRole('button', { name: 'Use the diff pair' }).click();
-      await page.getByText('Also use this answer for similar cases').click();
+      await page.getByRole('button', { name: /^Choose\s+Separate the meanings$/ }).click();
+      await page.getByText('Use this decision for similar cases').click();
       /* The whole card from its top edge down to Apply: the question, what
          no check can say, the answer chosen, and the rule as it will read.
          Since the glanceable pass (agent-review#7, 2026-10-04) the reason,
@@ -271,8 +335,14 @@ async function mainColumn(page) {
    first card's checks line lost the 5px of empty line box under it. TOUR_H
    stays 2133, so the pictures, their width and height and the pins'
    percentages keep one size, and the page's ground runs 6px on under the
-   last row. */
-const TOUR_H = 2133;
+   last row.
+   2529 since agent-review#28 (2026-10-09, later), when the first question
+   became a trade-off: the agent's read and two directions with their
+   benefits and risks made the card 1,075 tall, and the run as found is
+   2529, shown whole. The decide scene is 3168 and is cut below its plan;
+   the after scene is 3304 and is cut below its decision record, which
+   ends at 2387. */
+const TOUR_H = 2529;
 async function tourSize(page) {
   await page.mouse.move(0, 0);
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -282,16 +352,49 @@ async function tourSize(page) {
 async function openRequest(page) {
   await page.getByText('Dana’s request').click();
 }
+/* The reason the person gives for keeping the red, in their own words:
+   context about the people who use the screen that no file in the
+   repository holds, which is the agent's "What I can't determine". It is
+   the simulated person's, written for the scene, and claims no research. */
+const REASON = 'Billing support scans this feed for red during renewal week. Keep it until we’ve tested a neutral style with them.';
+async function decideKeep(page) {
+  await page.getByRole('button', { name: /^Choose\s+Keep the red for now$/ }).click();
+  await page.getByRole('textbox', { name: 'Your reason' }).fill(REASON);
+  await page.getByText('Use this decision for similar cases').click();
+}
+/* The decision record's cut: the main column, from 12px above the record
+   to 12px under it. */
+async function recordClip(page) {
+  const col = await mainColumn(page);
+  const box = await page.locator('.decided').first().boundingBox();
+  return { ...col, height: Math.round(box.y + box.height + 12) };
+}
+/* The hero's cut: on a desktop, from the agent's read to the foot of the two
+   directions, at the card's own edges plus 8px; on a phone, the read alone. */
+async function tradeoffClip(page) {
+  const phone = (page.viewportSize()?.width ?? 0) < 500;
+  const box = await page.evaluate((phone) => {
+    const ask = document.querySelector('.ask');
+    const top = ask.querySelector('.ask__read').getBoundingClientRect().top + scrollY;
+    const end = (phone ? ask.querySelector('.ask__read') : ask.querySelector('.ask__choices')).getBoundingClientRect().bottom + scrollY;
+    const card = ask.getBoundingClientRect();
+    return { x: Math.max(0, card.left - 8), y: top - 12, width: card.width + 16, height: end - top + 12 + 8 };
+  }, phone);
+  await page.setViewportSize({ width: page.viewportSize().width, height: Math.ceil(box.y + box.height) + 1 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  return { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
+}
 /* Every decision made, the first with a rule that the third widens: the
    quiet screen. */
 async function answerAll(page) {
   const apply = () => page.getByRole('button', { name: 'Apply' }).click();
-  await page.getByRole('button', { name: 'Use the diff pair' }).click();
-  await page.getByText('Also use this answer for similar cases').click();
+  await page.getByRole('button', { name: /^Choose\s+Separate the meanings$/ }).click();
+  await page.getByText('Use this decision for similar cases').click();
   await apply();
   await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
   await apply();
-  await page.getByRole('button', { name: 'Use the diff remove ink' }).click();
+  await page.getByRole('button', { name: /^Choose\s+Separate the meanings$/ }).click();
   await page.getByText('Add this case to your rule').click();
   await apply();
   await page.getByText('Nothing needs your attention.').waitFor();
