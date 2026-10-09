@@ -308,7 +308,26 @@ async function settle(page) {
   if (missing) throw new Error(`Storybook says it could not find the story: ${page.url()}`);
 }
 
+/* The app draws itself larger in a wide desktop window (agent-review#27,
+   app/scale.css: 1.125 from 1296px and 1.25 from 1440, as a page zoom), and
+   the tour and the hero are taken at 1440. These are pictures of its layout
+   at its own size, and the tour's height and pins are measured on them at
+   1, so every context holds the app at 1. The step is held, --zoom, rather
+   than the zoom property itself, because the app divides the heights it
+   takes from the window by the step. A capture that comes out drawn at
+   anything else is refused rather than written, which is also what a
+   renamed step would do. */
+async function holdAtOne(ctx) {
+  await ctx.addInitScript(() => {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(':root { --zoom: 1 !important; }');
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  });
+}
+
 async function write(name, suffix, page, clip) {
+  const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
+  if (zoom !== '1') throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
   const file = path.join(OUT, `${name}${suffix}.webp`);
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
@@ -324,6 +343,7 @@ try {
       const ctx = await browser.newContext(
         kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: 2 },
       );
+      await holdAtOne(ctx);
       const page = await ctx.newPage();
       /* A touch context applies its emulation to the next navigation, so the
          phone starts from a blank page; otherwise it is laid out as a mouse's. */
