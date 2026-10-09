@@ -198,6 +198,15 @@ try {
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
+    /* The app draws itself larger from a 1296px window (agent-review#27,
+       app/scale.css). Every card here is narrower than that today, and
+       lab-shots.mjs has why a picture of the app holds it at 1 anyway: the
+       step, --zoom, is held, and a card drawn at anything else is refused. */
+    await page.addInitScript(() => {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(':root { --zoom: 1 !important; }');
+      document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    });
     let buf;
     if (card.page) {
       site ??= await serve(ROOT);
@@ -228,6 +237,8 @@ try {
       await page.waitForTimeout(400);
       if (card.region) buf = await page.screenshot({ type: 'webp', quality: 86, clip: await card.region(page) });
     }
+    const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
+    if (zoom !== '1') throw new Error(`${slug}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
     const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
