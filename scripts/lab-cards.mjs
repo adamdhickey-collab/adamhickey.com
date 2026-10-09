@@ -35,6 +35,7 @@
      node scripts/lab-cards.mjs agent-review-phone   # its phone version
      node scripts/lab-cards.mjs agent-review-share   # the share cards' square
      node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
+     node scripts/lab-cards.mjs agent-review-feature # the write-up's share card picture, from the homepage
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -43,6 +44,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
+import { serve } from './lib/harness.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'img/lab');
@@ -103,7 +105,8 @@ const CARDS = {
      to 315 wide on a phone, which is a 3x screen: at 2x, until 2026-10-07,
      a 430 iPhone stretched it by a quarter. */
   'agent-review-phone': { url: `${from}#/`, width: 375, height: 410, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
-  /* The share cards' picture (og.mjs, agent-review and lab). Their frame is a
+  /* The lab index's share card picture (og.mjs, lab; the case study's too
+     until 2026-10-09, when it took the feature below). Their frame is a
      420px square and crops a 16:9 picture to its middle, which on this screen
      cut every line at both ends. So it gets its own square, in the product's
      phone layout. It was 520, which ended between the account's rows, and
@@ -137,15 +140,44 @@ const CARDS = {
      692 lands in the 12px between them, where 714 showed the next card's top
      edge. At 2x it is 1728 x 1384. */
   'agent-review-hero': { url: `${from}#/`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
+  /* The case study's share card picture, since 2026-10-09: the homepage's
+     own composition (index.html, figure.lab-feature, lab-feature.css) rather
+     than a capture of the product. The square above shows the product's
+     screen, a question about two reds that a reader has to follow before
+     the project's point reaches them; the composition says the point in one
+     line and shows the interaction under it in four beats, which is why the
+     homepage card took it in #461, and a post that unfurls should show the
+     same picture the page opens on. It is captured from this tree, served
+     the way og.mjs serves it, at the homepage's 1440 layout, where the
+     figure is 623 x 602, at 2x: 1246 x 1204, printed 420 square in the
+     card's frame (object-fit cover, top center), which trims the panel's
+     bottom padding and nothing else. Reduced motion, so the card is not
+     waiting on its reveal. Retake it when lab-feature.css or the figure's
+     words change; the lab index's card keeps the product's square. */
+  'agent-review-feature': { page: 'index.html', element: 'figure.lab-feature', width: 1440, dpr: 2, out: 'agent-review-feature.webp' },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
+/* A page card is served from this tree, like og.mjs's cards, only when one
+   is asked for. */
+let site;
 try {
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
-    if (card.image) {
+    let buf;
+    if (card.page) {
+      site ??= await serve(ROOT);
+      await page.setViewportSize({ width: card.width, height: 1000 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(`${site.origin}/${card.page}`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => document.fonts.ready);
+      const el = page.locator(card.element);
+      await el.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400);
+      buf = await el.screenshot({ type: 'webp', quality: 86 });
+    } else if (card.image) {
       /* Crop from the top: a 1360x1020 capture at 1280 wide is 960 tall,
          and the first 720 of it is the part with the card in it. */
       const data = fs.readFileSync(path.join(ROOT, card.image)).toString('base64');
@@ -164,11 +196,12 @@ try {
       await page.waitForTimeout(400);
     }
     const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
-    const buf = await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
+    buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
     await page.close();
   }
 } finally {
   await browser.close();
+  site?.server.close();
 }
