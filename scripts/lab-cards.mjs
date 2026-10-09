@@ -35,7 +35,8 @@
      node scripts/lab-cards.mjs agent-review-phone   # its phone version
      node scripts/lab-cards.mjs agent-review-share   # the share cards' square
      node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
-     node scripts/lab-cards.mjs agent-review-feature # the write-up's share card picture, from the homepage
+     node scripts/lab-cards.mjs agent-review-feature # the homepage composition, unused since agent-review-og
+     node scripts/lab-cards.mjs agent-review-og      # the write-up's share card picture, the app itself
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -163,6 +164,27 @@ const CARDS = {
      waiting on its reveal. Retake it when lab-feature.css or the figure's
      words change; the lab index's card keeps the product's square. */
   'agent-review-feature': { page: 'index.html', element: 'figure.lab-feature', width: 1440, dpr: 2, out: 'agent-review-feature.webp' },
+  /* The case study's share card picture since later on 2026-10-09 (Adam:
+     "update the og card to the app capture too", after the LinkedIn
+     Featured thumbnail became the app): the product itself, desktop
+     layout, dark, so a post unfurls with the screen the case study is
+     about. The share card's frame is a 420 square, so it is a square of
+     the run's main column (its box plus 10px each side, the tour's own
+     rule) from 16px above the account's lead: the lead, the three counts
+     as tiles, the bar, and the first decision with its two reds. Measured
+     from the page, not fixed, so it follows the layout. At 2x it is about
+     1592 square. It replaced agent-review-feature (the homepage's
+     composition) for og.mjs agent-review; the lab index's card keeps the
+     phone-layout square, agent-review-share. */
+  'agent-review-og': {
+    url: `${from}#/`, width: 1440, viewportHeight: 1200, dpr: 2, out: 'agent-review-og.webp',
+    region: async (page) => {
+      const col = await page.locator('.delegation__main').first().boundingBox();
+      const lead = await page.locator('.outcome__lead').first().boundingBox();
+      const side = Math.round(col.width + 20);
+      return { x: Math.round(col.x - 10), y: Math.round(lead.y - 16), width: side, height: side };
+    },
+  },
 };
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -202,6 +224,7 @@ try {
         }, [card.scrollTo, card.offset ?? 0]);
       }
       await page.waitForTimeout(400);
+      if (card.region) buf = await page.screenshot({ type: 'webp', quality: 86, clip: await card.region(page) });
     }
     const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
