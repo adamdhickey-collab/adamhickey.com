@@ -7,14 +7,17 @@
  * Until 2026-10-06 this was an inline script at the foot of index.html, for
  * the About photographs. It moved here when the Agent Review write-up's
  * screens took it too, so the two pages run one lightbox rather than two
- * copies of it.
+ * copies of it. The write-up gave its screens' links up on 2026-10-09, and
+ * the homepage is its one page again.
  *
  * What it shows under the picture:
  *   - data-zoom-caption, if the link carries one (HTML; the homepage's short
  *     photo labels, set in the lightbox's uppercase caption);
- *   - otherwise the figcaption of the figure the link sits in, as text, set
- *     in sentence case (.ah-lightbox-note), because a figcaption is a
- *     sentence and an uppercase sentence does not read.
+ *   - otherwise the figcaption of the figure the link sits in, as text,
+ *     marked .ah-lightbox-note, because a figcaption is a sentence and an
+ *     uppercase sentence does not read. The write-up's stylesheet set that
+ *     note in sentence case; no page loads a rule for it now, so a page
+ *     that takes this path again brings one.
  * The picture's alt is data-zoom-alt, or else the alt of the image inside
  * the link.
  */
