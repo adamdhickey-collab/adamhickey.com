@@ -128,11 +128,15 @@ const CARDS = {
      864 and from the same edge 6px above the first decision, carried down
      to the card's foot. Below the two answers the card cut off, it holds
      their specimens, what each makes louder and the buttons that choose
-     them, the rule line ("Asks you first"), and the closed evidence. The
-     card ends at 708 and the next one starts at 720, so 714 lands in the
-     12px between them. At 2x it is 1728 x 1428, printed 442 to 568 wide in
-     the hero's right half, inside the tablet's bezel. */
-  'agent-review-hero': { url: `${from}#/`, width: 864, height: 714, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
+     them, the rule line ("Asks for your judgment"), and the closed evidence.
+     The card ended at 708 and the next one started at 720, so 714 landed in
+     the 12px between them; printed 442 to 568 wide in the hero's right
+     half, inside the tablet's bezel. */
+  /* 692 since agent-review#22 (2026-10-09): the card folded its three check
+     badges to one line and ends at 686 now; the next card starts at 698, so
+     692 lands in the 12px between them, where 714 showed the next card's top
+     edge. At 2x it is 1728 x 1384. */
+  'agent-review-hero': { url: `${from}#/`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
 };
 
 fs.mkdirSync(OUT, { recursive: true });

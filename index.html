@@ -125,6 +125,7 @@
   <link rel="stylesheet" href="style.css?v=20261009a" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
+  <link rel="stylesheet" href="lab-feature.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -793,25 +794,78 @@
               <p class="section-eyebrow case-card-eyebrow">Lab &middot; current exploration</p>
               <h3>When coding agents join the team, where does design judgment go?</h3>
               <p class="case-lab-lead">Into the rules, the boundaries, and the decisions that still need a person.</p>
-              <p class="case-desc"><strong>Agent Review</strong> is a working prototype for supervising coding agents without reviewing every action. It shows when an agent should proceed on its own, when it should ask a person to decide, and when it needs approval.</p>
+              <p class="case-desc">As agents do more of the work, human judgment becomes the design challenge. <strong>Agent Review</strong> is a working prototype for supervising coding agents without reviewing every action: it tells apart what an agent can finish on its own, what needs a person&rsquo;s judgment, and what needs explicit approval.</p>
               <p class="product-actions">
                 <a class="product-link" href="lab/agent-review.html">Read the case study</a>
                 <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Open Agent Review<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
               </p>
             </div>
-            <!-- THE SCREEN IS THE CAPTURE AGAIN, since later on 2026-10-07
-                 (Adam: "just use the image on the homepage for agent review
-                 but keep the video on the detailed page"). For an afternoon
-                 (#441) the tablet played the case study's Loom; the case
-                 study's hero played it until later that day, and holds an
-                 empty frame for the next take. With the capture back, the tile is a
-                 link to the case study again and tilts on hover again. -->
-            <a class="case-thumb build-phone" href="lab/agent-review.html" aria-label="Read the Agent Review case study">
-                <picture>
-                <source media="(max-width: 40rem)" srcset="img/lab/agent-review-card-phone.webp?v=5" width="1125" height="1230" />
-                <img decoding="async" loading="lazy" src="img/lab/agent-review-card.webp?v=17" alt="Agent Review&rsquo;s first decision in a simulated run, in its default dark theme: &ldquo;These two reds look the same. Should they mean the same thing?&rdquo;, with a replaced value, the old plan struck through with an arrow to the new one, beside a failure, &ldquo;Payment failed&rdquo;, each saying what its red means; &ldquo;Both approaches pass the automated checks.&rdquo; over the three checks; &ldquo;So this isn&rsquo;t a testing problem. It&rsquo;s a meaning decision.&rdquo;; and, under &ldquo;Should these meanings stay separate?&rdquo;, the two answers beginning: keep the meanings separate, recommended, or keep them linked." width="1280" height="720"/>
-                </picture>
-            </a>
+            <!-- THE COMPOSITION, since 2026-10-09, in place of the capture.
+                 The screenshot was the first decision card in a tablet
+                 (scripts/lab-cards.mjs agent-review, and -phone under 40rem),
+                 readable at the card's size and about a token question: a
+                 reader had to follow a design-token problem before the
+                 project's point reached them. This column says the point in
+                 one sentence and shows the interaction under it in four
+                 beats, the real run's simplified: the checks passed; a
+                 question stayed open; a person is asked, with the
+                 recommended answer on the table; the answer is kept as a
+                 rule. It is HTML and CSS (lab-feature.css, loaded by this
+                 page only), so it reflows, reads to a screen reader and a
+                 crawler as text, and costs nothing to retake. Nothing in it
+                 moves. The tablet capture is still what the case study's
+                 hero and the lab index show, and the capture scripts still
+                 take it. The .case-thumb rules for this card in style.css
+                 are unused now and left in place, as .case-lab-intro was,
+                 to spare the site-wide buster. -->
+            <figure class="lab-feature" aria-labelledby="lab-feature-head">
+              <p class="lab-feature-head" id="lab-feature-head">Automation found no errors. <span class="lab-feature-turn">Judgment found a question.</span></p>
+              <ol class="lab-feature-steps">
+                <li class="lab-feature-step" data-step="checks">
+                  <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+                  <span class="lab-feature-text">
+                    <span class="lab-feature-label">Automated checks</span>
+                    <span class="lab-feature-pills">
+                      <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Lint</span>
+                      <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Pixels</span>
+                      <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Accessibility</span>
+                    </span>
+                    <span class="lab-feature-body">All passed. Nothing on the screen moved.</span>
+                  </span>
+                </li>
+                <li class="lab-feature-step" data-step="open">
+                  <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 9.2a2.6 2.6 0 0 1 5 1c0 1.7-2.5 2.3-2.5 2.3V14"/><path d="M12 17.5h.01"/></svg></span>
+                  <span class="lab-feature-text">
+                    <span class="lab-feature-label">Still open</span>
+                    <span class="lab-feature-body">Two values share one red. The checks can&rsquo;t say whether they should share a meaning.</span>
+                  </span>
+                </li>
+                <li class="lab-feature-step" data-step="judgment">
+                  <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span>
+                  <span class="lab-feature-text">
+                    <span class="lab-feature-decision">
+                      <span class="lab-feature-label">Needs judgment</span>
+                      <span class="lab-feature-reds">
+                        <span class="lab-feature-red"><span class="lab-feature-red-head">Replaced value</span><span>Plan <s>Starter</s> <span class="lab-feature-red-arrow" aria-hidden="true">&rarr;</span><span class="visually-hidden">, now</span> <span class="lab-feature-red-new">Growth</span></span></span>
+                        <span class="lab-feature-red"><span class="lab-feature-red-head">Failure</span><span class="lab-feature-red-failed">Payment failed</span></span>
+                      </span>
+                      <span class="lab-feature-question">Same red. Should they mean the same thing?</span>
+                      <span class="lab-feature-choices">
+                        <span class="lab-feature-choice lab-feature-choice--rec">Keep the meanings separate <small>Recommended</small></span>
+                        <span class="lab-feature-choice">Keep them linked</span>
+                      </span>
+                    </span>
+                  </span>
+                </li>
+                <li class="lab-feature-step" data-step="rule">
+                  <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 0 0-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 0 0 4-4v-1"/></svg></span>
+                  <span class="lab-feature-text">
+                    <span class="lab-feature-label">Kept as a rule</span>
+                    <span class="lab-feature-body">One answer settles three more changes. The next matching case doesn&rsquo;t ask.</span>
+                  </span>
+                </li>
+              </ol>
+            </figure>
           </div>
           <p class="lab-also">Also in the lab: <a href="prototype/deploy-console.html">Deploy Console</a> &middot; <a href="prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, and <a href="lab/index.html">the lab index</a>.</p>
         </div>
