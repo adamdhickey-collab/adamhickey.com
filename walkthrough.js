@@ -88,10 +88,6 @@
   var scenes = [].slice.call(world.querySelectorAll('.wt-scene'));
   var names = scenes.map(function (el) { return el.getAttribute('data-scene'); });
   function sceneOf(el) { return Math.max(0, names.indexOf(el.getAttribute('data-scene'))); }
-  /* The full-size link follows the scene in view while the tour runs, and is
-     given back as it was when the tour stops. */
-  var zoom = root.querySelector('.ar-zoom--tour');
-  var zoomHref = zoom ? zoom.getAttribute('href') : null;
 
   /* The capture's own pixels. The screen is a window onto the picture, FH
      of it tall (data-fold), and the camera travels the picture under it. */
@@ -204,7 +200,7 @@
     };
   }
 
-  var drawn = null, move = null, raf = 0, shown = -1;
+  var drawn = null, move = null, raf = 0;
   function draw(c) {
     drawn = c;
     var z = c.z;
@@ -231,14 +227,6 @@
       el.style.opacity = c.pn[i];
       el.style.transform = 'translate(calc(-100% - var(--space-sm) / ' + z + '), -50%) scale(' + (1 / z) + ')';
     });
-    var top = 0;
-    c.sc.forEach(function (v, i) { if (v >= 0.5) top = i; });
-    if (zoom && scenes[top] && top !== shown) {
-      shown = top;
-      var pic = scenes[top].querySelector('img');
-      zoom.setAttribute('href', pic.currentSrc || pic.getAttribute('src'));
-      zoom.setAttribute('data-zoom-alt', pic.getAttribute('alt') || '');
-    }
   }
   function moveTo(k, now) {
     var to = frameValues(k);
@@ -526,8 +514,6 @@
     clear(pins, ['opacity', 'transform']);
     clear(lines, ['transform']);
     clear(scenes, ['opacity']);
-    if (zoom) { zoom.setAttribute('href', zoomHref); zoom.removeAttribute('data-zoom-alt'); }
-    shown = -1;
   }
 
   var mq = window.matchMedia('(min-width: 64rem) and (prefers-reduced-motion: no-preference)');
