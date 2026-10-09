@@ -125,7 +125,7 @@
   <link rel="stylesheet" href="style.css?v=20261009a" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="lab-feature.css?v=1" />
+  <link rel="stylesheet" href="lab-feature.css?v=2" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -815,9 +815,22 @@
                  crawler as text, and costs nothing to retake. Nothing in it
                  moves. The tablet capture is still what the case study's
                  hero and the lab index show, and the capture scripts still
-                 take it. The .case-thumb rules for this card in style.css
-                 are unused now and left in place, as .case-lab-intro was,
-                 to spare the site-wide buster. -->
+                 take it.
+
+                 A LINK AGAIN, since later the same day (Adam: "link to the
+                 case study with the same hover effects we're using in the
+                 cards above"): the anchor around the composition is the
+                 .case-thumb the picture was, so setupCaseTilt below and the
+                 .case-grid .case-thumb rules in style.css give it the three
+                 accounts' lift and tilt, and lab-feature.css takes back the
+                 parts of .case-thumb a panel does not want. Its name is the
+                 composition's first sentence and "Read the case study", so a
+                 screen reader's link list says what it is and where it goes;
+                 the words under the card say the same, so nothing is lost
+                 on a reader who skips the link. The same composition now
+                 opens the case study (lab/agent-review.html, the hero),
+                 where it is not a link. -->
+            <a class="case-thumb lab-feature-link" href="lab/agent-review.html" aria-labelledby="lab-feature-head lab-feature-cta">
             <figure class="lab-feature" aria-labelledby="lab-feature-head">
               <p class="lab-feature-head" id="lab-feature-head">Automation found no errors. <span class="lab-feature-turn">Judgment found a question.</span></p>
               <ol class="lab-feature-steps">
@@ -866,6 +879,8 @@
                 </li>
               </ol>
             </figure>
+            <span class="visually-hidden" id="lab-feature-cta">Read the case study.</span>
+            </a>
           </div>
           <p class="lab-also">Also in the lab: <a href="prototype/deploy-console.html">Deploy Console</a> &middot; <a href="prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, and <a href="lab/index.html">the lab index</a>.</p>
         </div>

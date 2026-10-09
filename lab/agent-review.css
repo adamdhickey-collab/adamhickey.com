@@ -317,28 +317,12 @@
 }
 
 /* ---- 5. the hero's picture ---- */
-/* The first decision, whole, in the homepage card's tablet: .build-phone's
-   bezel, chrome and --shadow-device, at the homepage tile's own corner
-   (style.css, .case-card--lab .case-thumb), so it reads as the same object.
-   The caption is .build-shot's, with the prototypes' bold lead. It is the
-   right column and nothing else, so it is drawn only where there is one
-   (section 1); the markup's <source> keeps a phone from fetching it. Until
-   later on 2026-10-07 this was the Loom's frame, and its rules are in
-   #442's diff. */
-.ar-hero-shot { display: none; margin: 0; min-width: 0; }
-.ar-hero-shot .build-phone { --shell-radius: var(--radius-xl); }
-.ar-hero-shot figcaption {
-  margin-top: var(--space-sm);
-  max-width: var(--measure);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-}
-.ar-hero-shot figcaption strong {
-  font-weight: var(--weight-semibold);
-  color: var(--color-charcoal);
-}
+/* The hero's right half is the homepage card's composition since later on
+   2026-10-09 (lab-feature.css draws it; its .ar-hero-feature rule gives it
+   the step under the way in on one column, and section 1 below puts it in
+   the grid). Until then it was the first decision in the homepage card's
+   tablet, with a caption (the rules are in #461's diff), and until later
+   on 2026-10-07 the Loom's frame (#442's diff). */
 
 /* ---- 4. the screens open full size ---- */
 .ar-zoom {
@@ -346,64 +330,66 @@
   display: block;
   cursor: zoom-in;
 }
-/* The ring follows the picture's own corner: .build-shot img's 12px, and
-   the tour's and the hero's screen's inner radius inside the bezel. */
+/* The ring follows the picture's own corner: a figure's 12px, and the
+   tour's screen's inner radius inside the bezel. */
 .build-shot .ar-zoom:focus-visible { border-radius: 12px; }
-.ar-zoom--tour:focus-visible,
-.ar-hero-shot .ar-zoom:focus-visible { border-radius: calc(var(--shell-radius) - var(--bezel)); }
-/* The badge is the tour's disc (walkthrough.css, THE DISC) with an icon in
-   place of a digit: the same sage, white stroke and shadow, so it reads on
-   the dark captures and on the page's light grounds alike. */
+.ar-zoom--tour:focus-visible { border-radius: calc(var(--shell-radius) - var(--bezel)); }
+/* THE BADGE IS THE ABOUT SECTION'S, since later on 2026-10-09 (Adam: the
+   full-size control should look and work as it does there, and the "Open
+   full size" label that opened beside it on hover should go). style.css,
+   .about-media-zoom, value for value: a 30px disc of the scrim at 55%, the
+   white expand icon at 14px, 0.85 opacity, and on hover and focus the disc
+   goes to 80% while the picture itself lifts by --motion-lift inside its
+   frame. The link says "Open full size" to a screen reader, and the disc
+   says it to everyone else; nothing else needs to. Until then the badge
+   was the tour's sage disc with a white rim and, from 2026-10-08, a label
+   that opened to its left (#461's diff). */
 .ar-zoom-badge {
   position: absolute;
-  right: var(--space-sm);
-  bottom: var(--space-sm);
-  box-sizing: content-box;
-  display: grid;
-  place-items: center;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  border: 2px solid var(--color-white);
-  border-radius: 50%;
-  background: var(--color-accent-text);
-  box-shadow: var(--shadow-resting), var(--shadow-card);
-  color: var(--color-white);
-  transition: transform var(--motion-state) var(--ease);
-}
-.ar-zoom-badge svg { width: var(--space-md); height: var(--space-md); }
-/* WHAT THE BADGE DOES, SAID ON HOVER AND FOCUS, since 2026-10-08 (a design
-   critique: a small disc in a corner has to be guessed at). A label in the
-   badge's own dress, the sage with the white rim and the same shadow, so it
-   reads on a dark capture and a light ground alike, opens to its left. It
-   is decoration: the badge is aria-hidden, and the link already says "Open
-   full size" to a screen reader. Opacity only, so reduced motion has
-   nothing to stop. */
-.ar-zoom-badge::before {
-  content: "Open full size";
-  position: absolute;
-  right: calc(100% + var(--space-xs));
-  top: 50%;
-  translate: 0 -50%;
-  padding: var(--space-2xs) var(--space-sm);
-  border: 2px solid var(--color-white);
+  right: 0.5rem;
+  bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   border-radius: var(--radius-pill);
-  background: var(--color-accent-text);
-  box-shadow: var(--shadow-resting), var(--shadow-card);
+  background: color-mix(in srgb, var(--color-scrim) 55%, transparent);
   color: var(--color-white);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--motion-state) var(--ease);
+  opacity: 0.85;
+  transition: opacity var(--motion-state) var(--ease), background-color var(--motion-state) var(--ease);
 }
-.ar-zoom:focus-visible .ar-zoom-badge::before { opacity: 1; }
-.ar-zoom:focus-visible .ar-zoom-badge { transform: scale(var(--motion-lift)); }
+.ar-zoom-badge svg { width: 14px; height: 14px; }
+.ar-zoom:focus-visible .ar-zoom-badge {
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-scrim) 80%, transparent);
+}
+/* A figure's picture lifts inside its frame, as the About photographs do:
+   the frame is the link, clipped to the picture's corner and carrying the
+   ring --shadow-media gave the picture, so the lifted picture stays inside
+   it. The tour's screen does not lift: a screen scaling inside a bezel
+   reads as slipping out of the device (style.css says so of the phones),
+   so on the tour only the disc answers. */
+.build-shot .ar-zoom {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+.build-shot .ar-zoom img {
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform var(--motion-enter) var(--ease);
+}
+.build-shot .ar-zoom:focus-visible img { transform: scale(var(--motion-lift)); }
 @media (hover: hover) and (pointer: fine) {
-  .ar-zoom:hover .ar-zoom-badge { transform: scale(var(--motion-lift)); }
-  .ar-zoom:hover .ar-zoom-badge::before { opacity: 1; }
+  .ar-zoom:hover .ar-zoom-badge {
+    opacity: 1;
+    background: color-mix(in srgb, var(--color-scrim) 80%, transparent);
+  }
+  .build-shot .ar-zoom:hover img { transform: scale(var(--motion-lift)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .build-shot .ar-zoom img { transition: none; transform: none !important; }
 }
 /* A figcaption under a screen is a sentence, and the lightbox's caption is
    an uppercase label made for the homepage's short photo credits. The
@@ -572,7 +558,7 @@
   }
   .ar-hero > .ar-hero-head { grid-column: 1 / -1; }
   .ar-hero > .ar-hero-main { grid-column: 1; grid-row: 2; }
-  .ar-hero > .ar-hero-shot { display: block; grid-column: 2; grid-row: 2; }
+  .ar-hero > .ar-hero-feature { grid-column: 2; grid-row: 2; margin: 0; }
   /* The frame's top meets the TOP OF THE LETTERS, not the top of the
      line: the dek's line box starts a half-leading and the face's ascent
      above its capitals (7 to 8px at its sizes), so the dek is trimmed to

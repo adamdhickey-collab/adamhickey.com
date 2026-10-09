@@ -101,7 +101,8 @@
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../walkthrough.css?v=22" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=21" />
+  <link rel="stylesheet" href="../lab-feature.css?v=2" />
+  <link rel="stylesheet" href="agent-review.css?v=22" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../lightbox.js?v=1" defer></script>
@@ -380,19 +381,67 @@
              the real one in the markup and fetches it first.
 
              The Loom this half played until #445, with the embed's settings
-             and why the referrer is left alone, is in #442's diff. -->
-        <figure class="ar-hero-shot">
-          <div class="build-phone">
-            <a class="ar-zoom" href="../img/lab/agent-review-hero.webp?v=3" data-zoom><span class="visually-hidden">Open full size: </span>
-            <picture>
-              <source media="(max-width: 63.98rem)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="1" height="1" />
-              <img src="../img/lab/agent-review-hero.webp?v=3" width="1728" height="1384" fetchpriority="high" decoding="async"
-                   alt="Agent Review&rsquo;s first decision in a simulated run, in its default dark theme: &ldquo;These two reds look the same. Should they mean the same thing?&rdquo;, with a replaced value, the old plan struck through with an arrow to the new one, beside a failure, &ldquo;Payment failed&rdquo;, each saying what its red means; &ldquo;All 3 automated checks passed, with either token.&rdquo; on one line, the three results folded under it; &ldquo;So this isn&rsquo;t a testing problem. It&rsquo;s a meaning decision.&rdquo;; and, under &ldquo;Should these meanings stay separate?&rdquo;, two answers side by side. Keep the meanings separate, recommended: only the failure gets louder, and its button reads &ldquo;Use the diff pair&rdquo;. Keep them linked: both get louder, marked with a warning. Under them, the rule that made the agent ask, &ldquo;Asks for your judgment: When the evidence for what a value means conflicts.&rdquo;, and the evidence and the code, closed." />
-            </picture>
-            <span class="ar-zoom-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span>
-            </a>
-          </div>
-          <figcaption><strong>Where the checks can&rsquo;t decide, the agent stops and asks.</strong> The first decision in one of the prototype&rsquo;s two simulated runs, with the answer it recommends.</figcaption>
+             and why the referrer is left alone, is in #442's diff.
+
+             THE COMPOSITION, since later on 2026-10-09: the homepage card's
+             own figure (index.html, lab-feature.css), the four beats of the
+             run under "Automation found no errors. Judgment found a
+             question.", in place of the tablet (Adam: "reuse this image at
+             the beginning of the case study page and replace what we have
+             in the right hand side there ... much cleaner and easier to
+             understand"). It is drawn at every width now, under the way in
+             on one column and as the right half from 64rem, because it is
+             not the walkthrough's picture twice: the walkthrough shows the
+             product, this says what the product is for. The hero capture
+             (img/lab/agent-review-hero.webp, lab-cards.mjs agent-review-hero)
+             is unreferenced and left in place. -->
+        <figure class="lab-feature ar-hero-feature" aria-labelledby="lab-feature-head">
+          <p class="lab-feature-head" id="lab-feature-head">Automation found no errors. <span class="lab-feature-turn">Judgment found a question.</span></p>
+          <ol class="lab-feature-steps">
+            <li class="lab-feature-step" data-step="checks">
+              <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+              <span class="lab-feature-text">
+                <span class="lab-feature-label">Automated checks</span>
+                <span class="lab-feature-pills">
+                  <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Lint</span>
+                  <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Pixels</span>
+                  <span class="lab-feature-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Accessibility</span>
+                </span>
+                <span class="lab-feature-body">All passed. Nothing on the screen moved.</span>
+              </span>
+            </li>
+            <li class="lab-feature-step" data-step="open">
+              <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 9.2a2.6 2.6 0 0 1 5 1c0 1.7-2.5 2.3-2.5 2.3V14"/><path d="M12 17.5h.01"/></svg></span>
+              <span class="lab-feature-text">
+                <span class="lab-feature-label">Still open</span>
+                <span class="lab-feature-body">Two values share one red. The checks can&rsquo;t say whether they should share a meaning.</span>
+              </span>
+            </li>
+            <li class="lab-feature-step" data-step="judgment">
+              <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span>
+              <span class="lab-feature-text">
+                <span class="lab-feature-decision">
+                  <span class="lab-feature-label">Needs judgment</span>
+                  <span class="lab-feature-reds">
+                    <span class="lab-feature-red"><span class="lab-feature-red-head">Replaced value</span><span>Plan <s>Starter</s> <span class="lab-feature-red-arrow" aria-hidden="true">&rarr;</span><span class="visually-hidden">, now</span> <span class="lab-feature-red-new">Growth</span></span></span>
+                    <span class="lab-feature-red"><span class="lab-feature-red-head">Failure</span><span class="lab-feature-red-failed">Payment failed</span></span>
+                  </span>
+                  <span class="lab-feature-question">Same red. Should they mean the same thing?</span>
+                  <span class="lab-feature-choices">
+                    <span class="lab-feature-choice lab-feature-choice--rec">Keep the meanings separate <small>Recommended</small></span>
+                    <span class="lab-feature-choice">Keep them linked</span>
+                  </span>
+                </span>
+              </span>
+            </li>
+            <li class="lab-feature-step" data-step="rule">
+              <span class="lab-feature-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 0 0-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 0 0 4-4v-1"/></svg></span>
+              <span class="lab-feature-text">
+                <span class="lab-feature-label">Kept as a rule</span>
+                <span class="lab-feature-body">One answer settles three more changes. The next matching case doesn&rsquo;t ask.</span>
+              </span>
+            </li>
+          </ol>
         </figure>
         </div>
 
