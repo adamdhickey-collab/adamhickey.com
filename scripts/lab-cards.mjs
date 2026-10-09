@@ -91,8 +91,15 @@ const CARDS = {
      separate?" and each answer's heading and the sentence under it. At 10
      the foot clipped that sentence's line box; at 6 it lands in the 8px
      between the sentence and the specimens under it, and the "Needs you"
-     heading, 12px above the card, stays out. */
-  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask', offset: 6 },
+     heading, 12px above the card, stays out.
+     ON THE TRADE-OFF, since later on 2026-10-09 (agent-review#28), when
+     the first question became a choice between two defensible fixes and
+     the case study's hero became that choice. From the card's own edge the
+     frame now ends inside the line under "Which trade-off is acceptable?",
+     so it starts 12px above the agent's read instead: what it recommends,
+     what it can't determine, the question, and the two directions' heads
+     side by side, the one "Recommended" label among them. */
+  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask__read', offset: 12 },
   /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
      card at phone width too"). Under 40rem the homepage prints its picture
      206 to 300px wide, and the 864 layout at that size set the card's text
