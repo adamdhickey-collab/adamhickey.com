@@ -124,8 +124,16 @@ const CARDS = {
      two runs and wraps to a second row at 620, 64px taller, so the square
      starts 8px above the strip rather than at the product's bar, which the
      share card's own title stands in for, and ends on the first row of
-     check badges under "Both approaches pass the automated checks." */
-  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: '.delegation__sim', offset: 8, out: 'agent-review-share.webp' },
+     check badges under "Both approaches pass the automated checks."
+     Since agent-review#23 (2026-10-09) the account's three counts are
+     rows at this width, about 125px where their line was 24, and from
+     the strip the square ended on the question with the two reds below
+     it. So it starts 8px above the run's title instead: the title, the
+     request, the counts, the bar, the question, both reds and "All 3
+     automated checks passed, with either token.", ending in the 12px
+     under that line. The Simulated strip is above it now; the case
+     study says the run is simulated where the picture is used. */
+  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: 'h1', offset: 8, out: 'agent-review-share.webp' },
   /* The write-up's hero, since 2026-10-07 (Adam: "an extended view of what
      we're showing on the homepage card"): the homepage card's frame, at its
      864 and from the same edge 6px above the first decision, carried down
