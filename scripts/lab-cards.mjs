@@ -106,8 +106,16 @@ const CARDS = {
      frame now ends inside the line under "Which trade-off is acceptable?",
      so it starts 12px above the agent's read instead: what it recommends,
      what it can't determine, the question, and the two directions' heads
-     side by side, the one "Recommended" label among them. */
-  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.ask__read', offset: 12 },
+     side by side, the one "Recommended" label among them.
+     ON THE PREVIEW, since Preview Studio (agent-review#30, 2026-10-11): the
+     first thing on the screen under the account is the interface the
+     decision changes, the billing activity beside the payment history with
+     the replaced plan and "Payment failed" in the same red, the first marked
+     as the decision and the second as its twin, and the key under them
+     saying what each red means. At 864 the two screens sit side by side
+     and, from 2px inside the preview's canvas to the foot of its key, are
+     the card's 486 exactly. */
+  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.studio-preview__canvas', offset: -2 },
   /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
      card at phone width too"). Under 40rem the homepage prints its picture
      206 to 300px wide, and the 864 layout at that size set the card's text
@@ -192,14 +200,18 @@ const CARDS = {
      from the page, not fixed, so it follows the layout. At 2x it is about
      1592 square. It replaced agent-review-feature (the homepage's
      composition) for og.mjs agent-review, and the phone-layout square,
-     agent-review-share, for og.mjs lab, later the same day. */
+     agent-review-share, for og.mjs lab, later the same day.
+     Since Preview Studio (agent-review#30, 2026-10-11) the square is the
+     case study's hero, in a square: the workspace's left column at 1200,
+     from 8px over the preview, the two reds in place over the agent's read,
+     at the column's edges plus 8px. */
   'agent-review-og': {
-    url: `${from}#/`, width: 1440, viewportHeight: 1200, dpr: 2, out: 'agent-review-og.webp',
+    url: `${from}#/`, width: 1200, viewportHeight: 1300, dpr: 2, out: 'agent-review-og.webp',
     region: async (page) => {
-      const col = await page.locator('.delegation__main').first().boundingBox();
-      const lead = await page.locator('.outcome__lead').first().boundingBox();
-      const side = Math.round(col.width + 20);
-      return { x: Math.round(col.x - 10), y: Math.round(lead.y - 16), width: side, height: side };
+      const col = await page.locator('.studio__stage').first().boundingBox();
+      const preview = await page.locator('.studio-preview').first().boundingBox();
+      const side = Math.round(col.width + 16);
+      return { x: Math.round(col.x - 8), y: Math.round(preview.y - 8), width: side, height: side };
     },
   },
 };
