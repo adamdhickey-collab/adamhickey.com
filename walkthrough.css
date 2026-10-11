@@ -82,10 +82,12 @@
 @media (max-width: 40rem) {
   .wt-figure { max-width: 20rem; margin-inline: auto; }
 }
-/* The screen's own ground is the lid's chrome, not white: the capture is the
-   product's dark theme since 2026-10-05, and a white ground under a dark
+/* The screen's own ground is the lid's chrome, not white. From 2026-10-05
+   the capture was the product's dark theme, and a white ground under a dark
    picture showed as a pale arc in each rounded corner, where the clip's
-   antialiasing lets the ground through. */
+   antialiasing lets the ground through. The capture is the light theme
+   since 2026-10-11 (agent-review#29), and the chrome stays: under a light
+   picture its arc is the bezel's own colour, which is what surrounds it. */
 .wt-screen {
   position: relative;
   overflow: hidden;
@@ -165,15 +167,17 @@
    part to the next. The scrim is the page's own scrim token, thinned, laid
    outside the rectangle by a spread no screen is bigger than and clipped by
    the screen. Hidden until the tour runs; the static layout has no use for a
-   highlight on a part nobody is pointing at. The ring is the on-dark sage
-   since 2026-10-05: it is drawn on the capture, the capture is the product's
-   dark theme, and --color-accent-text on a ground that dark is under 3:1
-   (COLOR.md keeps it off charcoal for the same reason). */
+   highlight on a part nobody is pointing at. The ring is drawn on the
+   capture, so it takes the capture's ground: the sage, --color-accent-text,
+   since 2026-10-11, when the capture became the product's light theme
+   (agent-review#29); from 2026-10-05 it was the on-dark sage, because the
+   capture was dark and the sage on a ground that dark is under 3:1 (COLOR.md
+   keeps it off charcoal for the same reason). */
 .wt-focus {
   position: absolute;
   display: none;
   border-radius: 4px;
-  outline: 2px solid var(--color-accent-on-dark);
+  outline: 2px solid var(--color-accent-text);
   box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-scrim) 50%, transparent);
   pointer-events: none;
 }

@@ -19,7 +19,7 @@
   <meta property="og:url" content="https://adamhickey.com/lab/agent-review.html" />
   <meta property="og:title" content="Agent Review: Where Design Judgment Goes When Coding Agents Join the Team | Adam Hickey" />
   <meta property="og:description" content="A case study in supervising AI coding agents. Agent Review is an interactive prototype for the decisions an agent can find but should not make alone: it shows the trade-offs, brings a person into the decision, and keeps the reasoning for the next run. It plays two simulated runs, and it grew out of a real experiment: two Claude Code runs inside a React component system, with twelve design rules and without." />
-  <meta property="og:image" content="https://adamhickey.com/img/og/agent-review.jpg?v=13" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/agent-review.jpg?v=15" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -37,9 +37,9 @@
           "description": "A case study in supervising AI coding agents. Agent Review is an interactive prototype for the decisions an agent can find but should not make alone: it shows the trade-offs, brings a person into the decision, and keeps the reasoning for the next run. It plays two simulated runs, and it grew out of a real experiment: two Claude Code runs inside a React component system, with twelve design rules and without.",
           "url": "https://adamhickey.com/lab/agent-review.html",
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
-          "image": "https://adamhickey.com/img/og/agent-review.jpg?v=13",
+          "image": "https://adamhickey.com/img/og/agent-review.jpg?v=15",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-10-09",
+          "dateModified": "2026-10-11",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -99,7 +99,7 @@
   <link rel="stylesheet" href="../style.css?v=20261009a" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="../walkthrough.css?v=22" />
+  <link rel="stylesheet" href="../walkthrough.css?v=23" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
   <link rel="stylesheet" href="agent-review.css?v=25" />
   <script src="../site-nav.js?v=20260906a" defer></script>
@@ -408,18 +408,28 @@
              it recommends, what it can't determine) over the two directions
              side by side, each with how it would look, three benefits and
              three risks. scripts/lab-shots.mjs `tradeoff`, from a production
-             build at 1100, cut at the card's edges, 740 by 797 CSS pixels.
+             build at 1100, cut at the card's edges, 740 by 805 CSS pixels
+             (797 until 2026-10-11, when the card took Stripe's palette and 4px
+             more padding, agent-review#29).
              On a phone the two directions stack to 1,300px, so the phone
              figure is the read alone, 375 by 397. The composition this
              replaces is still the homepage card (index.html, lab-feature.css,
-             which this page no longer loads). -->
+             which this page no longer loads).
+             PREVIEW STUDIO, since 2026-10-11 (agent-review#30): the decision
+             card became a workspace, the screen a decision changes beside an
+             inspector holding the decision, so the hero is the workspace's
+             left half: the billing activity beside the payment history, the
+             replaced plan and "Payment failed" in the same red, marked, the
+             key saying what each red means, and the agent's read under them.
+             lab-shots.mjs `tradeoff` at 1200, 804 by 787; the phone figure is
+             still the read alone, 375 by 429. -->
         <figure class="build-shot ar-hero-feature">
           <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tradeoff-phone.webp?v=1" width="375" height="397" />
-            <img src="../img/lab/agent-review-tradeoff.webp?v=1" width="740" height="797" fetchpriority="high" decoding="async"
-                 alt="The prototype&rsquo;s decision card, in its dark theme. The agent&rsquo;s read: Recommended, separate the meanings, because the same red stands for a failure and a replaced value; and What I can&rsquo;t determine, whether people who use the billing activity screen rely on the red to notice a plan change during time-sensitive work, which could change the recommendation, with what it inferred rather than checked and a Request evidence button. Under it, &ldquo;Which trade-off is acceptable?&rdquo; and two cards of the same shape: Separate the meanings, recommended, where failures stay red and the replaced plan turns neutral with a &ldquo;Replaced&rdquo; label; and Keep the red for now, where both stay red and the plan gains the same label. Each shows how it would look and lists three benefits and three risks, with its own Choose button." />
+            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tradeoff-phone.webp?v=3" width="375" height="429" />
+            <img src="../img/lab/agent-review-tradeoff.webp?v=3" width="804" height="787" fetchpriority="high" decoding="async"
+                 alt="The prototype&rsquo;s preview of the screen a decision changes: the billing activity beside the payment history, where the replaced plan, Starter struck through to Growth, and &ldquo;Payment failed&rdquo; are the same red. The plan is marked as the decision and the failure as the same red; a key under them says one red means the value was replaced, hard-coded #b42318 from the old billing app, and the other that something went wrong, --color-danger. Under it, the agent&rsquo;s read: Recommended, separate the meanings; and What I can&rsquo;t determine, whether people rely on the red to notice a plan change, with what it inferred rather than checked and a Request evidence button." />
           </picture>
-          <figcaption><strong>One red means &ldquo;payment failed&rdquo; on one screen and &ldquo;plan replaced&rdquo; on another.</strong> The agent proposes two fixes, recommends one, and says what it can&rsquo;t know.</figcaption>
+          <figcaption><strong>One red means &ldquo;payment failed&rdquo; on one screen and &ldquo;plan replaced&rdquo; on another.</strong> The agent recommends a fix, and says what it can&rsquo;t know.</figcaption>
         </figure>
         </div>
 
@@ -427,7 +437,7 @@
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Product strategy and design &middot; Interaction design &middot; Design-system architecture &middot; Accessibility &middot; Experimentation &middot; Implementation</dd></div>
             <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
-            <div><dt>Size</dt><dd>14 components &middot; 258 stories, each a tested state &middot; 12 design rules for the agent &middot; 3 versions of one feature</dd></div>
+            <div><dt>Size</dt><dd>14 components &middot; 282 stories, each a tested state &middot; 12 design rules for the agent &middot; 3 versions of one feature</dd></div>
             <div><dt>Status</dt><dd>An interactive prototype playing two simulated runs, informed by a real coding-agent experiment. <a href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">The prototype</a>, <a href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">the Storybook</a>, and <a href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">the source and experiment record</a></dd></div>
           </dl>
         </div>
@@ -540,8 +550,8 @@
              agent-review#22, as percentages of 2035, and stood 20 to 41px
              above their parts at 2133; each is a percentage of 2133 now.
              The frame is a tablet (walkthrough.css), the product its
-             dark theme, the run simulated, and the first note says so as
-             well as the screen.
+             default theme (dark until 2026-10-11, light since), the run
+             simulated, and the first note says so as well as the screen.
 
              THE TRADE-OFF, since later on 2026-10-09 (agent-review#28). The
              first question became a choice between two defensible fixes, and
@@ -568,6 +578,60 @@
              middles of the account's first line, the question, the read's
              first label, the trade-off's question, the plan's first line, the
              record's head and the record's first label), as shares of 2529.
+
+             STRIPE'S PALETTE, since 2026-10-11 (agent-review#29). The review
+             took its own palette, from Stripe's dashboard, and light became
+             its default again, so the three scenes are the light theme and
+             the page every other figure shows is too. The layout moved with
+             it: the bar is 48px, the page has 24px over and under, the title
+             is 24px bold, the account's counts are tiles, and the decision
+             card is 20px inside its edge. The run as found is 2671 tall,
+             shown whole (decide 3310 and after 3404, each cut at 2671), and
+             every region and pin was re-measured by the rules above on the
+             production build at 1440, held at 1, after the same measurement
+             reproduced the previous seven to the pixel on the previous build.
+             The same scenes in the dark theme are -dark.webp beside them
+             (lab-shots.mjs --theme dark), unused here.
+
+             PREVIEW STUDIO, later on 2026-10-11 (agent-review#30). The screen
+             became a workspace: the interface the decision changes, rendered
+             large on the left with the element marked, and the decision in
+             an inspector on the right, one at a time; a direction is chosen
+             with "Select and preview", which previews it, not applied. So the
+             parts are no longer one column and the camera moves across as
+             well as down, and the rule that a region's sides are the main
+             column's is gone: each region is its part's own box plus 10px.
+             The scenes are taken at 1600, not 1440, because the workspace is
+             1440 at most and at 1440 its left edge was 24px from the
+             picture's, and the tablet draws the picture at about half size,
+             so a pin, a fixed size on the screen, needs about 60 of the
+             picture's pixels beside a part; at 1600 it is 104px in. They
+             are 2660 tall: the run as found is 2354 and the ground runs on
+             under it; the decide scene is cut inside its rule's preview and
+             the after scene 37px under its record. The steps' parts: the
+             header and the account; the preview, the two reds in place; the
+             agent's read under it; on a fourth scene, weigh, the two
+             directions with the preview beside them; on
+             the decide scene, across the whole workspace, the preview
+             proposing the chosen direction beside the chosen card, down to
+             the reason; on the
+             after scene, the notice down to the next decision's reason for
+             asking (the removed line item, close to the rule but outside it),
+             across the whole workspace; and the record. The weigh and decide
+             scenes draw the preview where it follows the page to once a
+             person has scrolled to the directions or to the chosen card
+             (lab-shots.mjs followTo): in the app the shorter column follows
+             the page, and a picture of the whole page at its top would show
+             it a screen above them. Pins at the box
+             middles of the delegation line, the preview's toolbar, the
+             read's first label, the first direction's first sentence (the
+             inspector is in the same place on the weigh scene, so the pin is
+             the start scene's and shows in the static layout too; its height
+             is the gap between the preview's toolbar and its frame where
+             the preview has followed on the weigh scene, so it covers no
+             words there), the preview's
+             toolbar where it followed on the decide scene, the notice and the record's
+             head, at each region's left edge, as shares of 1600 and 2660.
 
              Without the script, under 64rem, with reduced motion or in a
              window too short for the tour's tallest step, this is the
@@ -603,27 +667,31 @@
                   <div class="wt-world">
                     <div class="wt-scene" data-scene="start">
                     <picture>
-                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tour-start-phone.webp?v=11" width="375" height="720" />
-                      <img src="../img/lab/agent-review-tour-start.webp?v=11" width="1440" height="2529" decoding="async"
-                           alt="Agent Review in its default dark theme, in a simulated run: &ldquo;Bring the billing screens onto the token layer&rdquo; with Dana&rsquo;s request open, the results reading &ldquo;7 changes made and checked. 2 decisions need you.&rdquo;, and the first decision, &ldquo;Separate the two meanings of red, or keep the familiar signal?&rdquo;: a replaced plan, the old plan struck through in red with an arrow to the new one, hard-coded from the old billing app, beside &ldquo;Payment failed&rdquo; in the same red; the checks folded to one line; the agent&rsquo;s read, recommending it separate the meanings and saying it can&rsquo;t determine whether people rely on the red to notice a plan change; and two directions side by side, separate the meanings or keep the red for now, each with how it would look and three benefits and three risks. Under it, a second decision, the run&rsquo;s checks and the completed work." />
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tour-start-phone.webp?v=13" width="375" height="720" />
+                      <img src="../img/lab/agent-review-tour-start.webp?v=13" width="1600" height="2660" decoding="async"
+                           alt="Agent Review in a simulated run: &ldquo;Bring the billing screens onto the token layer&rdquo; with Dana&rsquo;s request open and the results, &ldquo;7 changes made and checked. 2 decisions need you.&rdquo; Under them, the workspace. On the left, a preview of the billing activity beside the payment history, the replaced plan and &ldquo;Payment failed&rdquo; in the same red, each marked, and the agent&rsquo;s read: it recommends separating the meanings and says what it can&rsquo;t determine. On the right, the first of two decisions, &ldquo;Separate the two meanings of red, or keep the familiar signal?&rdquo;, the checks passing either way, and two directions, separate the meanings or keep the red for now, each with three benefits, three risks and a Select and preview button. Under the workspace, the run&rsquo;s checks and the completed work." />
                     </picture>
                     </div>
+                    <div class="wt-scene" data-scene="weigh">
+                      <img src="../img/lab/agent-review-tour-weigh.webp?v=1" width="1600" height="2660" loading="lazy" decoding="async"
+                           alt="The same screen scrolled to the two directions: the preview of the billing activity and the payment history, the two reds still the same, has followed the page down and sits beside the two cards, separate the meanings, recommended, and keep the red for now, each with three benefits, three risks and a Select and preview button." />
+                    </div>
                     <div class="wt-scene" data-scene="decide">
-                      <img src="../img/lab/agent-review-tour-decide.webp?v=1" width="1440" height="2529" loading="lazy" decoding="async"
-                           alt="The same screen with keep the red for now chosen, its card marked and its button pressed, the recommended card beside it: under them, what the agent will do if it is applied, in five steps; Dana&rsquo;s reason, in her words, that billing support scans the feed for red during renewal week; and &ldquo;Use this decision for similar cases&rdquo; checked, with the rule as it will read and the three waiting changes it settles now." />
+                      <img src="../img/lab/agent-review-tour-decide.webp?v=3" width="1600" height="2660" loading="lazy" decoding="async"
+                           alt="The same screen with keep the red for now selected: the preview says Proposed: Keep the red for now, not applied, and shows the old plan still red, with a &ldquo;Replaced&rdquo; label. In the inspector its card is marked, and under the two cards is what the agent will do if it is applied, in five steps; Dana&rsquo;s reason, in her words, that billing support scans the feed for red during renewal week; and &ldquo;Use this decision for similar cases&rdquo; checked, with the rule as it will read and the three waiting changes it settles now." />
                     </div>
                     <div class="wt-scene" data-scene="after">
-                      <img src="../img/lab/agent-review-tour-after.webp?v=1" width="1440" height="2529" loading="lazy" decoding="async"
-                           alt="The same run after the decision: the notice says it was decided, applied and kept as a rule that settled three waiting changes; one close case still asks; and the decision record: what the agent did, from keeping the red and adding the label to writing the exception down and opening a review, then Dana&rsquo;s reason in her words, the trade-off accepted, the risk that remains, the open follow-up, and the rule it became." />
+                      <img src="../img/lab/agent-review-tour-after.webp?v=3" width="1600" height="2660" loading="lazy" decoding="async"
+                           alt="The same run after the decision: the notice says it was decided, applied and kept as a rule that settled three waiting changes, and that one change is asking now. The workspace shows that one, a removed line item on the invoice, close to the rule but outside it. Under it, the decision record: what the agent did, from keeping the red and adding the label to writing the exception down and opening a review, then Dana&rsquo;s reason in her words, the trade-off accepted, the risk that remains, the open follow-up, and the rule it became." />
                     </div>
                     <span class="wt-focus" aria-hidden="true"></span>
-            <span class="wt-pin" style="left: 10.42%; top: 4.96%" aria-hidden="true">1</span>
-            <span class="wt-pin" style="left: 10.42%; top: 23.70%" aria-hidden="true">2</span>
-            <span class="wt-pin" style="left: 10.42%; top: 32.05%" aria-hidden="true">3</span>
-            <span class="wt-pin" style="left: 10.42%; top: 41.08%" aria-hidden="true">4</span>
-            <span class="wt-pin" data-scene="decide" style="left: 10.42%; top: 61.70%" aria-hidden="true">5</span>
-            <span class="wt-pin" data-scene="after" style="left: 10.42%; top: 72.03%" aria-hidden="true">6</span>
-            <span class="wt-pin" data-scene="after" style="left: 10.42%; top: 83.14%" aria-hidden="true">7</span>
+            <span class="wt-pin" style="left: 5.88%; top: 4.60%" aria-hidden="true">1</span>
+            <span class="wt-pin" style="left: 5.88%; top: 16.29%" aria-hidden="true">2</span>
+            <span class="wt-pin" style="left: 5.88%; top: 36.89%" aria-hidden="true">3</span>
+            <span class="wt-pin" style="left: 72.69%; top: 35.98%" aria-hidden="true">4</span>
+            <span class="wt-pin" data-scene="decide" style="left: 5.88%; top: 51.33%" aria-hidden="true">5</span>
+            <span class="wt-pin" data-scene="after" style="left: 5.88%; top: 15.57%" aria-hidden="true">6</span>
+            <span class="wt-pin" data-scene="after" style="left: 5.88%; top: 78.15%" aria-hidden="true">7</span>
                   </div>
                 </div>
             </figure>
@@ -686,7 +754,7 @@
                   <p class="wt-body">A second run, below, stops for approval instead.</p>
                 </div>
                 <ol class="wt-steps">
-                  <li class="wt-note" data-rect="150 106 796 391">
+                  <li class="wt-note" data-rect="94 103 1412 292">
                     <button class="wt-jump" type="button" aria-label="Step 1: The job"></button>
                     <p class="wt-kicker"><span class="wt-num">1</span>The job</p>
                     <div class="wt-more"><div class="wt-more-in">
@@ -695,16 +763,16 @@
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 531 796 225">
+                  <li class="wt-note" data-rect="94 399 1048 551">
                     <button class="wt-jump" type="button" aria-label="Step 2: The problem"></button>
                     <p class="wt-kicker"><span class="wt-num">2</span>The problem</p>
                     <div class="wt-more"><div class="wt-more-in">
                       <h3>One red, two meanings.</h3>
-                      <p class="wt-body">The old plan is red because it was replaced; &ldquo;Payment failed&rdquo; is red because something went wrong. The plan&rsquo;s red is a copy of the failure&rsquo;s, from the old billing app.</p>
+                      <p class="wt-body">The preview shows both: the old plan is red because it was replaced; &ldquo;Payment failed&rdquo;, because something went wrong. The plan&rsquo;s red is a copy of the failure&rsquo;s.</p>
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 780 796 239">
+                  <li class="wt-note" data-rect="94 946 1048 215">
                     <button class="wt-jump" type="button" aria-label="Step 3: What it can’t know"></button>
                     <p class="wt-kicker"><span class="wt-num">3</span>What it can&rsquo;t know</p>
                     <div class="wt-more"><div class="wt-more-in">
@@ -713,7 +781,7 @@
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 1011 796 525">
+                  <li class="wt-note" data-rect="94 882 1412 906" data-scene="weigh">
                     <button class="wt-jump" type="button" aria-label="Step 4: The trade-off"></button>
                     <p class="wt-kicker"><span class="wt-num">4</span>The trade-off</p>
                     <div class="wt-more"><div class="wt-more-in">
@@ -722,16 +790,16 @@
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 1528 796 647" data-scene="decide">
+                  <li class="wt-note" data-rect="94 1331 1412 890" data-scene="decide">
                     <button class="wt-jump" type="button" aria-label="Step 5: The decision"></button>
                     <p class="wt-kicker"><span class="wt-num">5</span>The decision</p>
                     <div class="wt-more"><div class="wt-more-in">
                       <h3>The person picks the trade-off, and says why.</h3>
-                      <p class="wt-body">Dana keeps the red, against the recommendation, with context the agent couldn&rsquo;t have: in this simulated run, billing support scans the feed for red at renewal time. The plan shows what the agent will do.</p>
+                      <p class="wt-body">Dana keeps the red, against the recommendation, with context the agent couldn&rsquo;t have: in this simulated run, billing support scans the feed for red at renewal time. The preview shows it, not yet applied.</p>
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 1785 796 292" data-scene="after">
+                  <li class="wt-note" data-rect="94 384 1412 361" data-scene="after">
                     <button class="wt-jump" type="button" aria-label="Step 6: The work"></button>
                     <p class="wt-kicker"><span class="wt-num">6</span>The work</p>
                     <div class="wt-more"><div class="wt-more-in">
@@ -740,7 +808,7 @@
                     </div></div>
                     <span class="wt-line" aria-hidden="true"><i></i></span>
                   </li>
-                  <li class="wt-note" data-rect="150 2069 796 311" data-scene="after">
+                  <li class="wt-note" data-rect="94 2042 1068 592" data-scene="after">
                     <button class="wt-jump" type="button" aria-label="Step 7: The record"></button>
                     <p class="wt-kicker"><span class="wt-num">7</span>The record</p>
                     <div class="wt-more"><div class="wt-more-in">
@@ -820,17 +888,17 @@
             <dd class="ar-kind-case"><span class="ar-kind-where">In the prototype</span> <strong>A shared component.</strong> Fixing one screen changes forty others. Should the agent proceed?</dd>
           </div>
         </dl>
-        <p>The prototype plays two of these stops. The same stop can come up around an ambiguous requirement, a shared design-system change, an accessibility trade-off, conflicting patterns, an architectural choice, unwritten product intent, a consequential workflow change, or an exception to a rule. None of those is built; the two runs are what the prototype demonstrates.</p>
+        <p>The prototype plays two of these stops. The same stop comes up around ambiguous requirements, accessibility trade-offs, conflicting patterns or unwritten product intent; none is built.</p>
         <p>Agent Review is designed for the space between passing checks and making the right call. Routine work continues. Unresolved decisions go to the right person. Useful answers become guidance for the next run. That holds as agents improve: autonomous work needs an explicit way to tell what can be finished, what needs judgment, and what needs authorization.</p>
         <p class="build-hero-act"><a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/#/runs/shared-table" target="_blank" rel="noopener noreferrer">Try the second run<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
         </div>
         <figure class="build-shot ar-split-media ar-split-media--held">
           <picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-scope-phone.webp?v=3" width="375" height="720" />
-                <img src="../img/lab/agent-review-scope.webp?v=4" width="756" height="904" loading="lazy" decoding="async"
-                     alt="The prototype&rsquo;s second run, in its dark theme: a decision marked Needs approval, &ldquo;The fix is in a table 40 screens share. Change it for all of them?&rdquo;, with what the agent was asked and what it proposes, the one-line change to the shared Table, the forty screens by area and the Table&rsquo;s owner, what was checked beside what wasn&rsquo;t (12 of the 40 screens have a visual baseline; 28 have none), &ldquo;So this isn&rsquo;t a technical problem. It&rsquo;s a permission decision.&rdquo;, and three answers: this screen only, recommended; all 40 screens, approved once; or more evidence first." />
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-scope-phone.webp?v=5" width="375" height="720" />
+                <img src="../img/lab/agent-review-scope.webp?v=6" width="1176" height="1079" loading="lazy" decoding="async"
+                     alt="The prototype&rsquo;s second run as a workspace: the customer list in the preview, marked, and under it the forty screens the shared Table is on, by area, twelve filled for a visual baseline and twenty-eight hollow. Beside it the decision, marked Needs approval: &ldquo;The fix is in a table 40 screens share. Change it for all of them?&rdquo;, &ldquo;So this isn&rsquo;t a technical problem. It&rsquo;s a permission decision.&rdquo;, that the shared Table is Priya Raman&rsquo;s to change, and three answers: this screen only, recommended; all 40 screens, approved once; or more evidence first. Under the preview, the recommendation and what was asked and proposed." />
               </picture>
-          <figcaption><strong>The prototype&rsquo;s second run, also simulated.</strong> Each of its three answers ends differently.</figcaption>
+          <figcaption><strong>The second run, also simulated.</strong> The fix reaches 40 screens; each answer ends differently.</figcaption>
         </figure>
         </div>
       </div>
@@ -869,22 +937,46 @@
         <h2>The design decisions behind it</h2>
         <div class="ar-split">
         <div class="ar-split-text">
-        <p>My first version was a queue of changes waiting for review. As agents get more capable, approving every change becomes the bottleneck, so I redesigned around completed work: what happened, what was verified, and what still needs a person.</p>
-        <p>Two more decisions make that safe:</p>
+        <p>My first version was a queue of changes to review. As agents improve, approving every change becomes the bottleneck, so I redesigned around completed work: what happened, what was verified, what still needs a person.</p>
+        <p>Three more decisions shape it:</p>
         <ul class="build-list">
+          <li><strong>A decision beside what it changes.</strong> The affected screen sits next to the controls, current or proposed, a layout drawn from Ferndesk&rsquo;s change review and Cofounder&rsquo;s preview workspace.</li>
           <li><strong>Job boundaries, not confidence scores.</strong> A few sentences per delegation say what the agent may do on its own, and every change cites the one it acted under. Design rules say how to build; job boundaries say what this agent may decide.</li>
-          <li><strong>Decisions that keep their reasons.</strong> When a person decides, the record keeps why, what they accepted and what&rsquo;s left to do. It becomes a rule only if they keep it, scoped and revocable. A wider permission, like changing a shared component, has to come from that component&rsquo;s owner.</li>
+          <li><strong>Decisions that keep their reasons.</strong> When a person decides, the record keeps why, what they accepted and what&rsquo;s left to do. It becomes a rule only if they keep it, scoped and revocable.</li>
         </ul>
         </div>
         <figure class="build-shot ar-split-media">
           <picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-decision-phone.webp?v=1" width="375" height="720" />
-                <img src="../img/lab/agent-review-decision.webp?v=1" width="756" height="637" loading="lazy" decoding="async"
+                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-decision-phone.webp?v=3" width="375" height="720" />
+                <img src="../img/lab/agent-review-decision.webp?v=3" width="756" height="661" loading="lazy" decoding="async"
                      alt="A decision record in the prototype: keep the red for now, decided by you at 14:26 on the billing activity. What the agent did: kept the red on --color-danger, added a &ldquo;Replaced&rdquo; label and icon, wrote the exception into the design system&rsquo;s list, opened a task to review it, recorded the decision, and applied it to the three changes the rule covers. Then the reason, in the person&rsquo;s words; the trade-off accepted; the risk that remains; an open follow-up; and the reusable guidance, kept as a rule that three later changes followed." />
               </picture>
           <figcaption><strong>A decision, recorded.</strong> The reason, the trade-off and the follow-up stay with the work, and each change that follows it names it.</figcaption>
         </figure>
         </div>
+        <!-- THE TWO THEMES, since 2026-10-11 (agent-review#29, and Adam:
+             retake the pictures "for both light and dark mode", with light
+             emphasized). Every other picture on this page is the light theme,
+             the review's default since that day, because the page is light.
+             This one shows both: the run as a person finds it, its first
+             screen, taken in each theme and cut on a diagonal, light on the
+             left. scripts/lab-cards.mjs `agent-review-themes`, 1440 x 900 at
+             2x; on a phone, the product's phone layout at 375 x 720, 3x. The
+             review's palette is taken from Stripe's dashboard; Relay, inside
+             the preview frame, keeps its own in both themes, which is what
+             the caption's second sentence says.
+             PREVIEW STUDIO, since agent-review#30 (later the same day): a cool
+             slate palette with a teal accent, the screen a workspace, and the
+             theme Light, Dark or the system's, which the caption says first;
+             Relay stays light in its preview in both. Retaken the same way. -->
+        <figure class="build-shot">
+          <picture>
+            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-themes-phone.webp?v=2" width="375" height="720" />
+            <img src="../img/lab/agent-review-themes.webp?v=2" width="1440" height="900" loading="lazy" decoding="async"
+                 alt="The same screen of the prototype in both of its themes, cut on a diagonal: on the left, the light theme, white panels on a pale slate page with a teal accent, the run&rsquo;s title and counts and the preview of the two reds; on the right, the dark theme, the same layout in deep blue-grey, with the decision&rsquo;s inspector beside the preview. The product inside the preview is light in both." />
+          </picture>
+          <figcaption><strong>Light, dark, or the system&rsquo;s.</strong> Every color is a token with a light and a dark value; Relay, the product under review, stays light.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -926,7 +1018,7 @@
         <figure class="build-shot ar-split-media ar-split-media--held">
           <picture>
                 <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-storybook-phone.webp?v=4" width="375" height="480" />
-                <img src="../img/lab/agent-review-storybook.webp?v=6" width="1100" height="720" loading="lazy" decoding="async"
+                <img src="../img/lab/agent-review-storybook.webp?v=7" width="1100" height="720" loading="lazy" decoding="async"
                      alt="The ArchiveConfirmation story: three customers selected, and the selection toolbar asking &ldquo;Archive 3 customers?&rdquo; with Cancel and a red Archive 3 customers button." />
               </picture>
           <figcaption><strong>Every component state is a story, and every story is a test.</strong> The component system&rsquo;s Storybook; the agent wrote this story in Run 1.</figcaption>
