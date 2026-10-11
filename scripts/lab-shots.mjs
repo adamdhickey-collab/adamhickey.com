@@ -30,11 +30,17 @@
      enough for a reader to notice. A phone is the one place these files are
      shown, and the screens they are shown on are 3x.
 
-   EVERY APP CAPTURE IS THE DARK THEME. It has been the product's default
-   since agent-review#15 (2026-10-05) and a capture context sets no theme, so
-   nothing here chooses one. Relay, the product inside the preview frame, is
-   light in it, as it always is. The Storybook figure is the exception that
-   looks unchanged: its story is Relay's own, in Storybook's own chrome.
+   EVERY APP CAPTURE IS TAKEN IN BOTH THEMES, since agent-review#29
+   (2026-10-11), when the review took Stripe's palette and light became its
+   default again. --theme light (the default) writes the files the page
+   shows; --theme dark writes the same shots with -dark at the end of the
+   name. The theme is chosen the way the app's toggle chooses it, by the
+   remembered choice in localStorage, set before the page loads, light as
+   well as dark, so a capture never depends on the app's default. Relay,
+   the product inside the preview frame, is light in both, as it always is.
+   The Storybook figure has no dark version: its story is Relay's own, in
+   Storybook's own chrome. From 2026-10-05 to 2026-10-11 every capture was
+   the dark theme, the app's default then.
    Take them from a PRODUCTION build (the deployed address, or `npm run build`
    served under /agent-review/), not the dev server: until #15 the built
    stylesheet rewrote every light-dark() token on the root and Relay came out
@@ -52,6 +58,7 @@
      node scripts/lab-shots.mjs tour-start tour-rule tour-quiet   # the tour's three scenes
      node scripts/lab-shots.mjs return               # the return dialog, both sizes
      node scripts/lab-shots.mjs --from http://localhost:5173/agent-review/ change drift return
+     node scripts/lab-shots.mjs --theme dark tradeoff   # the same, in the dark theme, as *-dark.webp
 
    Slugs: change (the accepted run, with the new-pattern finding open), drift
    (the seeded branch, the overflow finding, the preview at 768 with the bar
@@ -87,7 +94,9 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback;
 };
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
-const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from');
+const theme = arg('--theme', 'light');
+if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
+const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme');
 const STORY = 'product-customertable--archive-confirmation';
 
 const DESKTOP = { width: 1100, height: 760 };
@@ -297,6 +306,7 @@ const SHOTS = {
   },
   storybook: {
     file: 'agent-review-storybook',
+    light: true, /* Relay's own story in Storybook's chrome: one theme */
     desktop: { url: `${from}storybook/?path=/story/${STORY}&addonPanel=storybook/interactions/panel`, size: { width: 1100, height: 720 }, wait: 'storybook' },
     phone: { url: `${from}storybook/iframe.html?id=${STORY}&viewMode=story`, size: { width: 375, height: 480 }, wait: 'story' },
   },
@@ -341,8 +351,15 @@ async function mainColumn(page) {
    benefits and risks made the card 1,075 tall, and the run as found is
    2529, shown whole. The decide scene is 3168 and is cut below its plan;
    the after scene is 3304 and is cut below its decision record, which
-   ends at 2387. */
-const TOUR_H = 2529;
+   ends at 2387.
+   2671 since agent-review#29 (2026-10-11), Stripe's palette: the bar is
+   48px where it was 44, the page has 24px over and under where it had 16,
+   the title is 24px bold, the account's counts are tiles with their marks
+   on tinted squares, and the decision card is 20px inside its edge where it
+   was 16. The run as found is 2671, shown whole; the decide scene is 3310
+   and the after scene 3404, each cut there, below anything the tour points
+   at (the after scene's record ends at 2470). */
+const TOUR_H = 2671;
 async function tourSize(page) {
   await page.mouse.move(0, 0);
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -421,16 +438,27 @@ async function settle(page) {
    anything else is refused rather than written, which is also what a
    renamed step would do. */
 async function holdAtOne(ctx) {
-  await ctx.addInitScript(() => {
+  await ctx.addInitScript((theme) => {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(':root { --zoom: 1 !important; }');
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-  });
+    /* The theme, as the app's toggle remembers it (useTheme.ts). Storage can
+       throw on a page that is not the app's; nothing here needs it there. */
+    try {
+      localStorage.setItem('agent-review:theme', theme);
+    } catch {}
+  }, theme);
 }
 
 async function write(name, suffix, page, clip) {
   const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
   if (zoom !== '1') throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
+  /* A capture in the wrong theme is refused, as one at the wrong size is. */
+  if (!name.includes('storybook')) {
+    const drawn = await page.evaluate(() => document.documentElement.dataset.theme ?? getComputedStyle(document.documentElement).colorScheme);
+    if (drawn !== theme) throw new Error(`${name}${suffix}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
+  }
+  if (theme === 'dark') suffix += '-dark';
   const file = path.join(OUT, `${name}${suffix}.webp`);
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
@@ -439,6 +467,7 @@ async function write(name, suffix, page, clip) {
 try {
   for (const [slug, shot] of Object.entries(SHOTS)) {
     if (only.length && !only.includes(slug)) continue;
+    if (theme === 'dark' && shot.light) continue;
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];

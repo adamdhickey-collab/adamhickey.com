@@ -37,6 +37,7 @@
      node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
      node scripts/lab-cards.mjs agent-review-feature # the homepage composition, unused since agent-review-og
      node scripts/lab-cards.mjs agent-review-og      # the write-up's share card picture, the app itself
+     node scripts/lab-cards.mjs agent-review-themes  # the write-up's light/dark figure, both sizes
 
    Quality 0.86, the figure the artwork set uses. Chrome's WebP output is
    not byte-stable between runs, so a re-run that changes nothing visible
@@ -51,7 +52,14 @@ const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'img/lab');
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const from = (() => { const i = process.argv.indexOf('--from'); return i > -1 ? process.argv[i + 1] : 'http://localhost:5173/agent-review/'; })();
-const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== from);
+/* The app's theme, since agent-review#29 (2026-10-11): light by default,
+   the app's own default again; --theme dark writes the same app cards with
+   -dark at the end of the name. Chosen the way the app's toggle chooses,
+   in localStorage before the page loads, so a card never depends on the
+   app's default. The page and image cards have one version. */
+const theme = (() => { const i = process.argv.indexOf('--theme'); return i > -1 ? process.argv[i + 1] : 'light'; })();
+if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
+const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== from && a !== theme);
 
 const CARDS = {
   'deploy-console': { image: 'img/console/slide-failing.webp' },
@@ -176,8 +184,8 @@ const CARDS = {
   /* The case study's share card picture since later on 2026-10-09 (Adam:
      "update the og card to the app capture too", after the LinkedIn
      Featured thumbnail became the app): the product itself, desktop
-     layout, dark, so a post unfurls with the screen the case study is
-     about. The share card's frame is a 420 square, so it is a square of
+     layout, light (dark until 2026-10-11), so a post unfurls with the
+     screen the case study is about. The share card's frame is a 420 square, so it is a square of
      the run's main column (its box plus 10px each side, the tour's own
      rule) from 16px above the account's lead: the lead, the three counts
      as tiles, the bar, and the first decision with its two reds. Measured
@@ -196,24 +204,79 @@ const CARDS = {
   },
 };
 
+/* THE TWO THEMES, ONE PICTURE, since 2026-10-11 (agent-review#29): the
+   write-up's figure for the review's light and dark themes. The run as a
+   person finds it, its first screen, taken once in each theme and cut on a
+   diagonal, light on the left and dark on the right, so the same layout
+   reads as one screen in two palettes. Desktop at 1440 x 900, the whole
+   first screen with the boundaries beside the work; phone at 375 x 720 on a
+   touch device at 3x, the product's own phone layout. The cut runs from 56%
+   along the top to 44% along the foot, through the middle of the screen.
+   The two halves are composited in the page and written by the same
+   screenshot the other cards are, so Chrome is still the only encoder. */
+const THEMES = {
+  desktop: { width: 1440, height: 900, dpr: 2, out: 'agent-review-themes.webp' },
+  phone: { width: 375, height: 720, dpr: 3, phone: true, out: 'agent-review-themes-phone.webp' },
+};
+async function themes(browser) {
+  const { devices } = await import('playwright-core');
+  const { defaultBrowserType: _ignored, ...iphone } = devices['iPhone 13'];
+  for (const size of Object.values(THEMES)) {
+    const shots = {};
+    for (const t of ['light', 'dark']) {
+      const ctx = await browser.newContext(size.phone ? { ...iphone, viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr } : { viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr });
+      await ctx.addInitScript((t) => {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(':root { --zoom: 1 !important; }');
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+        try {
+          localStorage.setItem('agent-review:theme', t);
+        } catch {}
+      }, t);
+      const page = await ctx.newPage();
+      if (size.phone) await page.goto('about:blank'); /* a touch context applies to the next navigation */
+      await page.goto(`${from}#/`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => document.fonts.ready);
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(400);
+      const drawn = await page.evaluate(() => [document.documentElement.dataset.theme, getComputedStyle(document.documentElement).zoom]);
+      if (drawn[0] !== t || drawn[1] !== '1') throw new Error(`agent-review-themes: the app is drawn ${drawn[0]} at ${drawn[1]}, not ${t} at 1`);
+      shots[t] = (await page.screenshot({ type: 'png' })).toString('base64');
+      await ctx.close();
+    }
+    const page = await browser.newPage({ viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr });
+    await page.setContent(`<style>html,body{margin:0}img{position:absolute;inset:0;width:${size.width}px;height:${size.height}px}.dark{clip-path:polygon(56% 0,100% 0,100% 100%,44% 100%)}</style><img src="data:image/png;base64,${shots.light}"><img class="dark" src="data:image/png;base64,${shots.dark}">`);
+    await page.waitForLoadState('load');
+    const file = path.join(OUT, size.out);
+    fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
+    console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
+    await page.close();
+  }
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
 /* A page card is served from this tree, like og.mjs's cards, only when one
    is asked for. */
 let site;
 try {
+  if (theme === 'light' && only.includes('agent-review-themes')) await themes(browser);
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
+    if (theme === 'dark' && !card.url) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
     /* The app draws itself larger from a 1296px window (agent-review#27,
        app/scale.css). Every card here is narrower than that today, and
        lab-shots.mjs has why a picture of the app holds it at 1 anyway: the
        step, --zoom, is held, and a card drawn at anything else is refused. */
-    await page.addInitScript(() => {
+    await page.addInitScript((theme) => {
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(':root { --zoom: 1 !important; }');
       document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-    });
+      try {
+        localStorage.setItem('agent-review:theme', theme);
+      } catch {}
+    }, theme);
     let buf;
     if (card.page) {
       site ??= await serve(ROOT);
@@ -246,7 +309,12 @@ try {
     }
     const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
     if (zoom !== '1') throw new Error(`${slug}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
-    const file = path.join(OUT, card.out ?? `${slug}-card.webp`);
+    if (card.url) {
+      const drawn = await page.evaluate(() => document.documentElement.dataset.theme);
+      if (drawn !== theme) throw new Error(`${slug}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
+    }
+    const name = card.out ?? `${slug}-card.webp`;
+    const file = path.join(OUT, theme === 'dark' ? name.replace(/\.webp$/, '-dark.webp') : name);
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
