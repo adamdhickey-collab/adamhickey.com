@@ -51,12 +51,13 @@ const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'img/lab');
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const from = (() => { const i = process.argv.indexOf('--from'); return i > -1 ? process.argv[i + 1] : 'http://localhost:5173/agent-review/'; })();
-/* The app's theme, since agent-review#29 (2026-10-11): light by default,
-   the app's own default again; --theme dark writes the same app cards with
-   -dark at the end of the name. Chosen the way the app's toggle chooses,
+/* The app's theme: dark by default, the app's own default since
+   agent-review#32 (2026-10-11, later still; light for a few hours that day,
+   under agent-review#29); --theme light writes the same app cards with
+   -light at the end of the name. Chosen the way the app's control chooses,
    in localStorage before the page loads, so a card never depends on the
    app's default. The page and image cards have one version. */
-const theme = (() => { const i = process.argv.indexOf('--theme'); return i > -1 ? process.argv[i + 1] : 'light'; })();
+const theme = (() => { const i = process.argv.indexOf('--theme'); return i > -1 ? process.argv[i + 1] : 'dark'; })();
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== from && a !== theme);
 
@@ -213,8 +214,8 @@ const CARDS = {
 /* THE TWO THEMES, ONE PICTURE, since 2026-10-11 (agent-review#29): the
    write-up's figure for the review's light and dark themes. The run as a
    person finds it, its first screen, taken once in each theme and cut on a
-   diagonal, light on the left and dark on the right, so the same layout
-   reads as one screen in two palettes. Desktop at 1440 x 900, the whole
+   diagonal, dark on the left (the default, since agent-review#32) and light
+   on the right, so the same layout reads as one screen in two palettes. Desktop at 1440 x 900, the whole
    first screen with the boundaries beside the work; phone at 375 x 720 on a
    touch device at 3x, the product's own phone layout. The cut runs from 56%
    along the top to 44% along the foot, through the middle of the screen.
@@ -245,13 +246,13 @@ async function themes(browser) {
       await page.evaluate(() => document.fonts.ready);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(400);
-      const drawn = await page.evaluate(() => [document.documentElement.dataset.theme, getComputedStyle(document.documentElement).zoom]);
+      const drawn = await page.evaluate(() => [getComputedStyle(document.documentElement).colorScheme, getComputedStyle(document.documentElement).zoom]);
       if (drawn[0] !== t || drawn[1] !== '1') throw new Error(`agent-review-themes: the app is drawn ${drawn[0]} at ${drawn[1]}, not ${t} at 1`);
       shots[t] = (await page.screenshot({ type: 'png' })).toString('base64');
       await ctx.close();
     }
     const page = await browser.newPage({ viewport: { width: size.width, height: size.height }, deviceScaleFactor: size.dpr });
-    await page.setContent(`<style>html,body{margin:0}img{position:absolute;inset:0;width:${size.width}px;height:${size.height}px}.dark{clip-path:polygon(56% 0,100% 0,100% 100%,44% 100%)}</style><img src="data:image/png;base64,${shots.light}"><img class="dark" src="data:image/png;base64,${shots.dark}">`);
+    await page.setContent(`<style>html,body{margin:0}img{position:absolute;inset:0;width:${size.width}px;height:${size.height}px}.light{clip-path:polygon(56% 0,100% 0,100% 100%,44% 100%)}</style><img src="data:image/png;base64,${shots.dark}"><img class="light" src="data:image/png;base64,${shots.light}">`);
     await page.waitForLoadState('load');
     const file = path.join(OUT, size.out);
     fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
@@ -266,10 +267,10 @@ const browser = await chromium.launch({ executablePath: CHROME });
    is asked for. */
 let site;
 try {
-  if (theme === 'light' && only.includes('agent-review-themes')) await themes(browser);
+  if (theme === 'dark' && only.includes('agent-review-themes')) await themes(browser);
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
-    if (theme === 'dark' && !card.url) continue;
+    if (theme === 'light' && !card.url) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
     /* The app draws itself larger from a 1296px window (agent-review#27,
        app/scale.css). Every card here is narrower than that today, and
@@ -316,11 +317,11 @@ try {
     const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
     if (zoom !== '1') throw new Error(`${slug}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
     if (card.url) {
-      const drawn = await page.evaluate(() => document.documentElement.dataset.theme);
+      const drawn = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
       if (drawn !== theme) throw new Error(`${slug}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
     }
     const name = card.out ?? `${slug}-card.webp`;
-    const file = path.join(OUT, theme === 'dark' ? name.replace(/\.webp$/, '-dark.webp') : name);
+    const file = path.join(OUT, theme === 'light' ? name.replace(/\.webp$/, '-light.webp') : name);
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);

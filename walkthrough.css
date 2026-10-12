@@ -168,16 +168,17 @@
    outside the rectangle by a spread no screen is bigger than and clipped by
    the screen. Hidden until the tour runs; the static layout has no use for a
    highlight on a part nobody is pointing at. The ring is drawn on the
-   capture, so it takes the capture's ground: the sage, --color-accent-text,
-   since 2026-10-11, when the capture became the product's light theme
-   (agent-review#29); from 2026-10-05 it was the on-dark sage, because the
-   capture was dark and the sage on a ground that dark is under 3:1 (COLOR.md
-   keeps it off charcoal for the same reason). */
+   capture, so it takes the capture's ground: the on-dark sage, because the
+   capture is the product's dark theme, its default since agent-review#32
+   (2026-10-11, later still), and the sage on a ground that dark is under
+   3:1 (COLOR.md keeps it off charcoal for the same reason). For a few hours
+   that day the capture was light and the ring --color-accent-text; from
+   2026-10-05 to then it was dark and this. */
 .wt-focus {
   position: absolute;
   display: none;
   border-radius: 4px;
-  outline: 2px solid var(--color-accent-text);
+  outline: 2px solid var(--color-accent-on-dark);
   box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-scrim) 50%, transparent);
   pointer-events: none;
 }
@@ -237,6 +238,30 @@
      balance for the same reason. */
   text-wrap: balance;
 }
+/* A STEP IS A LINE TO SCAN, since 2026-10-11 (later still; Adam: the steps
+   read as wordy, make them scannable, get to the point). The lead keeps its
+   serif heading above; each of the seven steps has, under its kicker, one
+   line in the sans, bold, and then two facts as the site's own dashed list
+   (.build-list), at the body size and its tighter line, so a step is read
+   the way its kicker is. The serif heading went with the sentence it
+   introduced. */
+.wt-steps .wt-note h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+.wt-facts {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wt-facts li { margin: 0; }
+.wt-facts li + li { margin-top: var(--space-xs); }
 .wt-body {
   margin: 0;
   font-size: var(--text-base);
