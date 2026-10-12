@@ -328,7 +328,7 @@ which could not be read at that size) in a tablet, one bezel all round
 asks, the project, its result and two links, with the two prototypes and
 the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
 captures: each is taken from the deployed product and Storybook at two
-sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
+sizes, a desktop one at 1100px (1520 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen. The write-up's hero is a

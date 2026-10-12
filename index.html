@@ -122,11 +122,12 @@
   <link rel="stylesheet" href="color.css?v=8" />
   <link rel="stylesheet" href="shell.css?v=6" />
   <link rel="stylesheet" href="type.css?v=5" />
-  <link rel="stylesheet" href="style.css?v=20261012a" />
+  <link rel="stylesheet" href="style.css?v=20261012b" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
+  <script src="ask.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -836,25 +837,38 @@
                  away. The question is also in the link's name, so a screen
                  reader hears it once; the overlay is hidden from it. The lab
                  index keeps the plain capture (agent-review-card.webp). The
-                 rules are in style.css, "The question over the picture". -->
-            <a class="case-thumb build-phone lab-ask" href="lab/agent-review.html" aria-label="Read the Agent Review case study: separate the two meanings of red, or keep the familiar signal?">
-              <span class="lab-ask-frame">
+                 rules are in style.css, "The question over the picture".
+                 ONE SOURCE, TWO LEADERS, since later on 2026-10-12 (Adam's
+                 mockup): the word "red" is underlined, one stem drops from
+                 the underline to a level bar in the canvas, and the bar's
+                 ends turn down, one to the top of the capsule round
+                 "Starter", the other down the blank column inside the
+                 payment history's right edge and in to the capsule round
+                 "Payment failed". The capsules are placed here, as before;
+                 the stem starts under a word of live type, so ask.js draws
+                 the paths from the figure's own layout, and data-ask-panels
+                 and data-ask-right are the two places it needs that no
+                 capsule gives: where the white card begins and where the
+                 right branch descends, both printed by the capture recipe.
+                 The phone picture is the compact capture, the two marked
+                 rows and their keys, so a phone sees both reds and what
+                 each means; its leaders stay off. The link's name says
+                 which word is which, for a reader who hears the page. -->
+            <a class="case-thumb build-phone lab-ask" href="lab/agent-review.html" aria-label="Read the Agent Review case study: separate the two meanings of red, or keep the familiar signal? One red marks a replaced plan, Starter changed to Growth; the same red marks a failed payment.">
+              <span class="lab-ask-frame" data-ask-panels="27.86" data-ask-right="89.93">
                 <picture>
-                <source media="(max-width: 40rem)" srcset="img/lab/agent-review-card-ask-phone.webp?v=1" width="1125" height="2364" />
-                <img decoding="async" loading="lazy" src="img/lab/agent-review-card-ask.webp?v=1" alt="Agent Review&rsquo;s preview of the screen a decision changes, in a simulated run, under a strip of the preview&rsquo;s canvas: the billing activity beside the payment history, where the replaced plan, Starter struck through to Growth, and &ldquo;Payment failed&rdquo; are the same red. The plan is marked as the decision and the failure as the same red, and a key under them says one red means the value was replaced and the other that something went wrong." width="1280" height="1001"/>
+                <source media="(max-width: 40rem)" srcset="img/lab/agent-review-card-ask-phone.webp?v=2" width="1125" height="2058" />
+                <img decoding="async" loading="lazy" src="img/lab/agent-review-card-ask.webp?v=1" alt="Agent Review&rsquo;s preview of the screen a decision changes, in a simulated run, under a strip of the preview&rsquo;s canvas: the billing activity and the payment history, where the replaced plan, Starter struck through to Growth, and &ldquo;Payment failed&rdquo; are the same red. The plan is marked as the decision and the failure as the same red, and a key under each says one red means the value was replaced and the other that something went wrong." width="1280" height="1001"/>
                 </picture>
                 <span class="lab-ask-words" aria-hidden="true">
                   <span class="lab-ask-kicker">Decision 1 of 2 &middot; where the agent stopped</span>
-                  <span class="lab-ask-q">Separate the two meanings of red, or keep the familiar signal?</span>
+                  <span class="lab-ask-q">Separate the two meanings of <span class="lab-ask-red">red</span>,<br class="lab-ask-br" /> or keep the familiar signal?</span>
                 </span>
-                <svg class="lab-ask-leads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                  <line class="lab-ask-halo" x1="27" y1="25.5" x2="44.4" y2="38.9" /><line class="lab-ask-lead" x1="27" y1="25.5" x2="44.4" y2="38.9" />
-                  <line class="lab-ask-halo" x1="58" y1="25.5" x2="75.35" y2="43.6" /><line class="lab-ask-lead" x1="58" y1="25.5" x2="75.35" y2="43.6" />
-                </svg>
-                <span class="lab-ask-ring lab-ask-ring--wide" style="left: 41.2%; top: 38.9%; width: 6.4%; height: 4.7%" aria-hidden="true"></span>
-                <span class="lab-ask-ring lab-ask-ring--wide" style="left: 69.3%; top: 43.6%; width: 12.1%; height: 4.7%" aria-hidden="true"></span>
-                <span class="lab-ask-ring lab-ask-ring--phone" style="left: 11.3%; top: 33.7%; width: 13%; height: 4.4%" aria-hidden="true"></span>
-                <span class="lab-ask-ring lab-ask-ring--phone" style="left: 32.1%; top: 89.1%; width: 26.5%; height: 4.4%" aria-hidden="true"></span>
+                <svg class="lab-ask-leads" aria-hidden="true" focusable="false"><path class="lab-ask-stem" /><path class="lab-ask-branch" /></svg>
+                <span class="lab-ask-ring lab-ask-ring--wide" data-ask="plan" style="left: 41.2%; top: 39.03%; width: 6.44%; height: 4.56%" aria-hidden="true"></span>
+                <span class="lab-ask-ring lab-ask-ring--wide" data-ask="failed" style="left: 69.22%; top: 43.7%; width: 12.29%; height: 4.56%" aria-hidden="true"></span>
+                <span class="lab-ask-ring lab-ask-ring--phone" data-ask="plan" style="left: 10.4%; top: 38.98%; width: 14.84%; height: 4.5%" aria-hidden="true"></span>
+                <span class="lab-ask-ring lab-ask-ring--phone" data-ask="failed" style="left: 31.18%; top: 75.81%; width: 28.32%; height: 4.5%" aria-hidden="true"></span>
               </span>
             </a>
           </div>

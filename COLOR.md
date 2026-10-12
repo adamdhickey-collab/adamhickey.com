@@ -775,6 +775,23 @@ holds one meaning: rose where a person has to read what the checks could
 not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
 
+**The question's leaders.** Since 2026-10-12 the homepage's lab card and
+the Agent Review case study's hero set the decision's question over the
+capture and draw one line from the word "red" to each of the two reds it
+means (`ask.js`; the rules in `style.css`, "The question over the
+picture"). The line crosses from the app's dark canvas onto its white
+panels, and neither of the palette's two sages reads on both:
+`--color-accent-text` is 2.63 on charcoal and `--color-accent-on-dark`
+1.88 on white. So the line is `--ask-line`, the two mixed half and half,
+`#799473`: 3.34 on white, 3.12 on the panel's `#f7f7f8`, 3.97 on the
+canvas's `#25313d`. It is a line and a capsule's edge, never text,
+declared on `.lab-ask-frame` and used nowhere else. The canvas's colour is
+named beside it, as `--ask-canvas`, and painted under the picture, which
+covers it: it is there so that `resting.mjs` measures the question on the
+ground it sits on rather than on whatever painted ancestor it finds (the
+kicker's sage reads 6.44 on it, the warm ink 12.1), and it is the one
+place a capture's own colour is written into a stylesheet.
+
 ---
 
 ## 7. What the code does today

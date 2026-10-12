@@ -39,7 +39,7 @@
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
           "image": "https://adamhickey.com/img/og/agent-review.jpg?v=16",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-10-11",
+          "dateModified": "2026-10-12",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -96,14 +96,15 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261012a" />
+  <link rel="stylesheet" href="../style.css?v=20261012b" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../walkthrough.css?v=24" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=25" />
+  <link rel="stylesheet" href="agent-review.css?v=26" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../ask.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -424,13 +425,45 @@
              lab-shots.mjs `tradeoff` at 1200, 804 by 787; the phone figure is
              still the read alone, 375 by 429. Dark, and drawn at zoom 1.25
              in a 1440 window since agent-review#32 (later still), 941 by
-             1017, so its words print a little larger in the hero's half. -->
+             1017, so its words print a little larger in the hero's half.
+             UNDER THE QUESTION, since 2026-10-12 (Adam's mockup, the
+             homepage card's treatment carried here): the picture starts at
+             the preview's canvas, with a strip of its ground above the
+             panels (lab-shots.mjs tradeoff, 1021 by 1080, from a 1520 window so
+             the right leader has a blank column to descend in), and on the strip
+             the decision's own question in the site's type, "red"
+             underlined, one stem from it to a bar and a branch from each
+             end down to its word, each ringed: the same words, colour and
+             line as the homepage card, from the same rules (style.css,
+             "The question over the picture") and the same script (ask.js),
+             which draws each figure's leaders from its own layout. The
+             capsules' places and the two the leaders need (data-ask-panels,
+             data-ask-right) are the recipe's printout for this crop; the
+             homepage card's are its own. The read stays under the panels.
+             On a phone the figure is the homepage card's compact phone
+             capture (lab-cards.mjs agent-review-ask-phone): the two marked
+             rows with their keys, so a phone reader sees both reds and
+             what each means, where the read alone showed neither. The
+             question and the kicker are real text here, not the link's
+             name as on the homepage, so a reader who hears the page gets
+             the question once, before the picture's description. -->
         <figure class="build-shot ar-hero-feature">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-tradeoff-phone.webp?v=4" width="375" height="429" />
-            <img src="../img/lab/agent-review-tradeoff.webp?v=4" width="941" height="1017" fetchpriority="high" decoding="async"
-                 alt="The prototype&rsquo;s preview of the screen a decision changes: the billing activity beside the payment history, where the replaced plan, Starter struck through to Growth, and &ldquo;Payment failed&rdquo; are the same red. The plan is marked as the decision and the failure as the same red; a key under them says one red means the value was replaced, hard-coded #b42318 from the old billing app, and the other that something went wrong, --color-danger. Under it, the agent&rsquo;s read: Recommended, separate the meanings; and What I can&rsquo;t determine, whether people rely on the red to notice a plan change, with what it inferred rather than checked and a Request evidence button." />
-          </picture>
+          <div class="lab-ask-frame" data-ask-panels="20.66" data-ask-right="90.08">
+            <picture>
+              <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-card-ask-phone.webp?v=2" width="375" height="686" />
+              <img src="../img/lab/agent-review-tradeoff.webp?v=5" width="1021" height="1080" fetchpriority="high" decoding="async"
+                   alt="The prototype&rsquo;s preview of the screen a decision changes, under a strip of the preview&rsquo;s canvas: the billing activity and the payment history, where the replaced plan, Starter struck through to Growth, and &ldquo;Payment failed&rdquo; are the same red. The plan is marked as the decision and the failure as the same red; a key under each says one red means the value was replaced, hard-coded #b42318 from the old billing app, and the other that something went wrong, --color-danger. Under them, the agent&rsquo;s read: Recommended, separate the meanings; and What I can&rsquo;t determine, whether people rely on the red to notice a plan change, with what it inferred rather than checked and a Request evidence button." />
+            </picture>
+            <div class="lab-ask-words">
+              <span class="lab-ask-kicker">Decision 1 of 2 &middot; where the agent stopped</span>
+              <span class="lab-ask-q">Separate the two meanings of <span class="lab-ask-red">red</span>,<br class="lab-ask-br" /> or keep the familiar signal?</span>
+            </div>
+            <svg class="lab-ask-leads" aria-hidden="true" focusable="false"><path class="lab-ask-stem" /><path class="lab-ask-branch" /></svg>
+            <span class="lab-ask-ring lab-ask-ring--wide" data-ask="plan" style="left: 40.58%; top: 29.36%; width: 6.81%; height: 3.57%" aria-hidden="true"></span>
+            <span class="lab-ask-ring lab-ask-ring--wide" data-ask="failed" style="left: 70.17%; top: 33.01%; width: 13%; height: 3.57%" aria-hidden="true"></span>
+            <span class="lab-ask-ring lab-ask-ring--phone" data-ask="plan" style="left: 10.4%; top: 38.98%; width: 14.84%; height: 4.5%" aria-hidden="true"></span>
+            <span class="lab-ask-ring lab-ask-ring--phone" data-ask="failed" style="left: 31.18%; top: 75.81%; width: 28.32%; height: 4.5%" aria-hidden="true"></span>
+          </div>
           <figcaption><strong>One red means &ldquo;payment failed&rdquo; on one screen and &ldquo;plan replaced&rdquo; on another.</strong> The agent recommends a fix, and says what it can&rsquo;t know.</figcaption>
         </figure>
         </div>

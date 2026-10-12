@@ -260,13 +260,37 @@ const SHOTS = {
      column's own edges, 8px of ground round it. On a phone the read alone,
      as before: the two screens stack there, to a picture too tall for the
      hero. */
+  /* UNDER THE QUESTION, since 2026-10-12: the picture starts at the
+     preview's canvas rather than at the tab bar over it, with a strip of
+     the canvas's own ground above the panels (a padding put on the canvas
+     for the capture only, as lab-cards.mjs agent-review-ask does, 180px at
+     the app's size, 225 drawn at 1.25), on which the page sets the
+     decision's question in its own type and draws one leader from the
+     word "red" to each of the two words it is about (lab/agent-review.html,
+     .lab-ask; the rules are in style.css, "The question over the picture",
+     and the leaders in ask.js). The bar would have put the file's name
+     between the question and the screen it asks about. The read stays
+     under the panels. No phone capture: the phone figure is the compact
+     one lab-cards.mjs agent-review-ask-phone takes, the two marked rows
+     and their keys, which the homepage card shares. Every place the page
+     needs is printed after the capture (`places`): paste them into the
+     markup when the picture is retaken.
+     A 1520 WINDOW, not 1440, since the leaders: the right one descends in
+     the blank column between the end of the payment history's header,
+     "Northwind Traders", and the panel's right edge, and at 1440 the
+     stage is 740px at the app's size and that column 17px, which the line
+     touched; at 1520 the stage is about 804 and the column about 43, 12px
+     clear of the words at the hero's narrowest print (458px, at a 1024
+     window). The words print about 4% smaller for it. The homepage card's
+     capture, at 864 on one column, has 47. */
   tradeoff: {
     file: 'agent-review-tradeoff',
     app: '#/',
-    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: tradeoffClip },
-    phone: { size: { width: 375, height: 720 }, clip: tradeoffClip },
-    open: async (page) => {
+    desktop: { size: { width: 1520, height: 1000 }, zoom: 1.25, clip: tradeoffClip, strip: 180 },
+    phone: false,
+    open: async (page, kind, spec) => {
       await page.mouse.move(0, 0);
+      if (spec?.strip) await page.addStyleTag({ content: `.studio-preview__canvas { padding-top: ${spec.strip}px !important; }` });
       await page.waitForTimeout(300);
     },
   },
@@ -483,22 +507,49 @@ async function recordClip(page) {
   const box = await page.locator('.decided').first().boundingBox();
   return { ...col, height: Math.round(box.y + box.height + 12) };
 }
-/* The hero's cut, since Preview Studio: on a desktop, the workspace's left
-   column from the preview's top to the foot of the agent's read, at the
-   column's own edges plus 8px; on a phone, the read alone. */
+/* The hero's cut, since Preview Studio: the workspace's left column from
+   2px inside the preview's canvas (its top, from the tab bar over it until
+   2026-10-12) to the foot of the agent's read, at the column's own edges
+   plus 8px. Until 2026-10-12 a phone got the read alone from here. */
 async function tradeoffClip(page) {
-  const phone = (page.viewportSize()?.width ?? 0) < 500;
-  const box = await page.evaluate((phone) => {
+  const box = await page.evaluate(() => {
     const read = document.querySelector('.ask--read .ask__read').getBoundingClientRect();
-    const from = phone ? read : document.querySelector('.studio-preview').getBoundingClientRect();
-    const col = phone ? read : document.querySelector('.studio__stage').getBoundingClientRect();
-    const top = from.top + scrollY;
-    return { x: Math.max(0, col.left - 8), y: top - (phone ? 12 : 8), width: col.width + 16, height: read.bottom + scrollY - top + (phone ? 12 : 8) + 8 };
-  }, phone);
+    const from = document.querySelector('.studio-preview__canvas').getBoundingClientRect();
+    const col = document.querySelector('.studio__stage').getBoundingClientRect();
+    const top = from.top + scrollY + 2;
+    return { x: Math.max(0, col.left - 8), y: top, width: col.width + 16, height: read.bottom + scrollY - top + 8 };
+  });
   await page.setViewportSize({ width: page.viewportSize().width, height: Math.ceil(box.y + box.height) + 1 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(300);
-  return { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
+  const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
+  await places(page, clip);
+  return clip;
+}
+/* The places the page's question points at, as shares of the picture, in
+   the form the markup takes (index.html and lab/agent-review.html,
+   .lab-ask-frame): each red word's box padded to its capsule, 7px by 6 at
+   the app's size; where the white card the panels sit on begins, under which the leaders'
+   bar may not sit; and the blank column between the end of the payment history's
+   header and the panel's right edge, where the right leader descends,
+   two fifths of the way across it, with its width printed so a header
+   that has grown into it is seen. Rects are in the window's
+   pixels, which is what the clip is in too, so a page drawn at 1.25 pads at
+   1.25. */
+async function places(page, clip) {
+  const p = await page.evaluate((clip) => {
+    const pct = (v, of) => +((v / of) * 100).toFixed(2);
+    const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+    const pad = { x: 7 * zoom, y: 6 * zoom };
+    const box = (el) => { const r = el.getBoundingClientRect(); return { l: r.left + scrollX - clip.x, t: r.top + scrollY - clip.y, r: r.right + scrollX - clip.x, b: r.bottom + scrollY - clip.y }; };
+    const ring = (sel) => { const b = box(document.querySelector(sel)); return `left: ${pct(b.l - pad.x, clip.width)}%; top: ${pct(b.t - pad.y, clip.height)}%; width: ${pct(b.r - b.l + 2 * pad.x, clip.width)}%; height: ${pct(b.b - b.t + 2 * pad.y, clip.height)}%`; };
+    const payment = [...document.querySelectorAll('.sketch')].find((s) => s.getAttribute('aria-label') === 'Payment history');
+    const history = box(payment);
+    const sub = box(payment.querySelector('.sketch__sub'));
+    const blank = history.r - sub.r;
+    return { plan: ring('.activity__old'), failed: ring('.sketch__status--failed'), panels: pct(box(document.querySelector('.studio-preview__frame')).t, clip.height), right: pct(sub.r + blank * 0.4, clip.width), blank: +blank.toFixed(1) };
+  }, clip);
+  console.log(`  plan:   ${p.plan}\n  failed: ${p.failed}\n  data-ask-panels="${p.panels}" data-ask-right="${p.right}"  (the right branch has ${p.blank}px of blank column)`);
 }
 /* The whole workspace, from 12px over it to 12px under the inspector, at
    its own edges plus 12px. */
@@ -601,7 +652,7 @@ try {
         await page.getByText(/^pass$/i).first().waitFor({ timeout: 30000 }).catch(() => console.warn(`  ${slug}: the interactions panel never said Pass`));
       }
       await settle(page);
-      if (shot.open) await shot.open(page);
+      if (shot.open) await shot.open(page, kind, spec);
       if (kind === 'phone' && shot.phoneScroll) {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);

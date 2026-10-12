@@ -770,41 +770,84 @@ a.case-thumb { display: block; }
 
 /* ---------- The question over the picture ----------
    Since 2026-10-12. The picture is the two screens under a strip of the
-   preview's own canvas (lab-cards.mjs agent-review-ask), and on the strip
-   the decision's own question, "Separate the two meanings of red, or keep
-   the familiar signal?", with a kicker naming the decision and two leaders
-   down to the two words the question is about, each ringed. Text in code
-   over a picture, as every label on this site is, so it is read, measured
-   and translated like text; the strip is in the picture because it is the
-   app's canvas, not a ground of this site's, and a ground drawn here in a
-   near-enough grey would have met the capture's at a seam.
+   preview's own canvas (lab-cards.mjs agent-review-ask on the homepage;
+   lab-shots.mjs tradeoff on the case study's hero, which carries the same
+   treatment since later that day), and on the strip the decision's own
+   question, "Separate the two meanings of red, or keep the familiar
+   signal?", with a kicker naming the decision and a leader from the word
+   "red" to each of the two words the question is about, each ringed. Text
+   in code over a picture, as every label on this site is, so it is read,
+   measured and translated like text; the strip is in the picture because
+   it is the app's canvas, not a ground of this site's, and a ground drawn
+   here in a near-enough grey would have met the capture's at a seam.
+
+   ONE SOURCE, TWO LEADERS, since later on 2026-10-12 (Adam's mockup). The
+   first version drew two straight lines from under the question, each
+   with a warm halo so it read on the canvas and on the white panel alike.
+   Now "red" carries a short underline, one stem drops from its middle to
+   a level bar in the canvas, and the bar's ends turn down to the two
+   capsules: the left to the top of the one round "Starter", the right
+   down the blank column inside the payment history's edge and in to the
+   side of the one round "Payment failed". The paths are ask.js's, drawn
+   from each figure's own layout, because the stem starts under a word of
+   live type; the rings and the words are placed here. No halo, no
+   arrowhead, no dot: one 1.5px stroke with round caps and bends, in one
+   colour that reads on both grounds, and the rings the same stroke, so
+   cap and ring meet as one line.
+
+   THE LINE'S COLOUR is the sage between the two the palette has, mixed
+   half and half from --color-accent-text (sage on light, 2.63 on charcoal)
+   and --color-accent-on-dark (sage on charcoal, 1.88 on white): #799473,
+   which measures 3.34 on white, 3.12 on the card's #f7f7f8 and 3.97 on
+   the canvas's #25313d. It is a line and a capsule's edge, never text, so
+   no floor applies; it is declared on the frame and used nowhere else, as
+   the rail's colours are on .ar-rail (COLOR.md, section 6).
 
    The frame is the picture's box (the tablet's padding is outside it), so
    every place is a percentage of the picture, as the tour's pins are, and
    holds at every width the picture prints at. The words sit on the canvas,
    which is dark: the kicker in the sage that is only ever on a dark ground,
-   the question in the warm ink that goes on charcoal. The leaders and rings
-   cross from the canvas onto the white panels, so each is the sage ink
-   that reads on white with a warm halo under it that reads on the canvas:
-   one mark that is visible on both grounds rather than two colours.
+   the question in the warm ink that goes on charcoal. Their top is a share
+   of the WIDTH (2.75cqw, which is the 3.5% of the homepage picture's height
+   it was), because the strip is a share of the width in both captures and
+   the hero's picture is taller than the card's.
 
    The question steps with the picture's width, as a container, because the
    strip is a fixed share of the picture (a quarter at 864) and the words
    must stay inside it at every width: 24px from 36rem, 20 from 30, 18 from
-   20, 16 under that. Measured against the strip at each of the card's
-   widths (465 to 607px two-column, 615 to 745 one-column, 276 on a phone),
-   each is two lines with room under them. On a phone the two screens are
-   stacked and the second red is most of the picture away, so the rings
-   take their own places and the leaders stay off; the question alone says
-   what to look for, and the rings say where. */
+   20, 16 under that. From 24rem "red," ends the first line, so the stem
+   drops from over the space between the two screens; narrower, the break
+   goes and the line wraps as it will. On a phone the picture is the
+   compact stacked capture, the two marked rows with their keys, so the
+   rings take their own places and the leaders stay off: the second red is
+   still half the picture away, and a branch to it would run the length of
+   the billing activity. The question and the capsules say what to look for
+   and where. */
 .lab-ask-frame {
+  --ask-line: color-mix(in srgb, var(--color-accent-text), var(--color-accent-on-dark));
+  --ask-canvas: #25313d;
   position: relative;
   display: block;
   container-type: inline-size;
 }
+/* In the write-up's figure the canvas's own colour is painted under the
+   picture, which covers it to the corner: nothing of it is seen. It is
+   there so that the words are measured on the ground they sit on.
+   resting.mjs finds a ground by walking up to the first painted ancestor,
+   and the picture is a sibling it cannot see: in the figure that walk
+   reaches the page's warm ground and read the warm ink at 1:1, where on
+   the canvas the kicker measures 6.44 and the question 12.1. The radius is
+   the picture's (.build-shot img), so the fill does not show at a corner.
+   Not in the tablet on the homepage: there the walk reaches the tablet's
+   own charcoal, which is dark as the canvas is, and a second dark fill
+   inside it would be a surface cards.mjs asks for an edge on. */
+.build-shot .lab-ask-frame {
+  background-color: var(--ask-canvas);
+  border-radius: 12px;
+}
 .lab-ask-words {
   position: absolute;
-  top: 3.5%;
+  top: 2.75cqw;
   left: 8%;
   right: 8%;
   display: flex;
@@ -829,9 +872,18 @@ a.case-thumb { display: block; }
   color: var(--ink-on-dark);
   text-wrap: balance;
 }
+.lab-ask-br { display: none; }
 @container (min-width: 20rem) { .lab-ask-q { font-size: var(--text-lg); } }
+@container (min-width: 24rem) { .lab-ask-br { display: initial; } }
 @container (min-width: 30rem) { .lab-ask-q { font-size: var(--text-xl); } }
 @container (min-width: 36rem) { .lab-ask-q { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); } }
+.lab-ask-red {
+  text-decoration: underline;
+  text-decoration-color: var(--ask-line);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
+  text-decoration-skip-ink: none;
+}
 .lab-ask-leads {
   position: absolute;
   inset: 0;
@@ -840,21 +892,25 @@ a.case-thumb { display: block; }
   overflow: visible;
   pointer-events: none;
 }
-.lab-ask-leads line { fill: none; vector-effect: non-scaling-stroke; }
-.lab-ask-leads .lab-ask-halo { stroke: var(--color-warm); stroke-width: 4; }
-.lab-ask-leads .lab-ask-lead { stroke: var(--color-accent-text); stroke-width: 1.5; }
+.lab-ask-leads path {
+  fill: none;
+  stroke: var(--ask-line);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
 .lab-ask-ring {
   position: absolute;
-  border: 2px solid var(--color-accent-text);
+  border: 1.5px solid var(--ask-line);
   border-radius: var(--radius-pill);
-  box-shadow: 0 0 0 2px var(--color-warm);
   pointer-events: none;
 }
 .lab-ask-ring--phone { display: none; }
 @media (max-width: 40rem) {
   .lab-ask-ring--wide, .lab-ask-leads { display: none; }
   .lab-ask-ring--phone { display: block; }
-  .lab-ask-words { top: 3%; left: 7%; right: 7%; }
+  .lab-ask-words { top: 4cqw; left: 7%; right: 7%; }
 }
 
 /* The words: a plain account, then three things worth taking away. The list

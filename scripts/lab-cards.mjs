@@ -152,8 +152,30 @@ const CARDS = {
      four places whenever the app's sketch moves (scratchpad tools, or any
      getBoundingClientRect of .activity__old and .sketch__status--failed
      against the clip). */
+  /* ONE SOURCE, TWO LEADERS, since later on 2026-10-12: the two leaders
+     became one stem from under the word "red" to a level bar, and a branch
+     from each end of it down to its word, drawn by ask.js from the word's
+     own place and the capsules' (the mockup's shape); the capture is the
+     same. The places are printed after each capture now, in the form the
+     markup takes, with two more the leaders need: where the panels begin,
+     above which the bar has to sit, and the blank column the right branch
+     descends in. The case study's hero carries the same words and leaders
+     over its own, taller capture (lab-shots.mjs tradeoff).
+     THE PHONE PICTURE IS COMPACT, since the same day: the stacked layout
+     put "Payment failed" 1,500px under "Starter", at the foot of the
+     picture with its key cut off, so a phone reader saw one red and no
+     meaning. The capture hides the rows the question is not about (the
+     invoice sent, the billing contact, the payment method, the two paid
+     invoices; `compact`, a rule put on the page for the capture only, as
+     the strip is), leaving each screen's header, its marked row and its
+     key: 170 of strip, then the billing activity's header and plan row, the
+     replaced-value key, the payment history's header and failed row, and
+     the failure key, 686px at 375, 1125 x 2058 at 3x, 2px inside the
+     canvas's top to its foot. The case study's hero uses this picture on a
+     phone too. Both reds' capsules are on it and the leaders stay off: the
+     second red is still half the picture away. */
   'agent-review-ask': { url: `${from}#/`, width: 864, height: 676, viewportHeight: 720, strip: 190, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask.webp' },
-  'agent-review-ask-phone': { url: `${from}#/`, width: 375, height: 788, viewportHeight: 812, dpr: 3, strip: 170, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
+  'agent-review-ask-phone': { url: `${from}#/`, width: 375, height: 686, viewportHeight: 812, dpr: 3, strip: 170, compact: true, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
   /* No share card uses this since later on 2026-10-09, when og.mjs lab
      took agent-review-og as the case study's had. It was the lab index's
      share card picture (og.mjs, lab; the case study's too
@@ -280,6 +302,31 @@ async function themes(browser) {
   }
 }
 
+/* The places the page's question points at, as shares of the picture, in
+   the form the markup takes (index.html and lab/agent-review.html,
+   .lab-ask-frame): each red word's box padded to its capsule, 7px by 6;
+   where the panels begin, under which the leaders' bar may not sit; and the
+   blank column between the end of the payment history's header and the
+   panel's right edge, where the right leader descends, two fifths of the
+   way across it, with its width printed so a header that has grown into
+   it is seen. The same helper is in lab-shots.mjs, which pads at
+   the page's zoom. */
+async function places(page, clip) {
+  const p = await page.evaluate((clip) => {
+    const pct = (v, of) => +((v / of) * 100).toFixed(2);
+    const pad = { x: 7, y: 6 };
+    const box = (el) => { const r = el.getBoundingClientRect(); return { l: r.left - clip.x, t: r.top - clip.y, r: r.right - clip.x, b: r.bottom - clip.y }; };
+    const ring = (sel) => { const b = box(document.querySelector(sel)); return `left: ${pct(b.l - pad.x, clip.width)}%; top: ${pct(b.t - pad.y, clip.height)}%; width: ${pct(b.r - b.l + 2 * pad.x, clip.width)}%; height: ${pct(b.b - b.t + 2 * pad.y, clip.height)}%`; };
+    const payment = [...document.querySelectorAll('.sketch')].find((s) => s.getAttribute('aria-label') === 'Payment history');
+    const history = box(payment);
+    const sub = box(payment.querySelector('.sketch__sub'));
+    const blank = history.r - sub.r;
+    const canvas = box(document.querySelector('.studio-preview__canvas'));
+    return { plan: ring('.activity__old'), failed: ring('.sketch__status--failed'), panels: pct(box(document.querySelector('.studio-preview__frame')).t, clip.height), right: pct(sub.r + blank * 0.4, clip.width), blank: +blank.toFixed(1), foot: +canvas.b.toFixed(1) };
+  }, clip);
+  console.log(`  plan:   ${p.plan}\n  failed: ${p.failed}\n  data-ask-panels="${p.panels}" data-ask-right="${p.right}"  (the right branch has ${p.blank}px of blank column)  (the canvas ends ${p.foot}px down)`);
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
 /* A page card is served from this tree, like og.mjs's cards, only when one
@@ -327,6 +374,9 @@ try {
       /* A strip of the preview's canvas above its panels, for the picture
          only (agent-review-ask, above): the app itself has none. */
       if (card.strip) await page.addStyleTag({ content: `.studio-preview__canvas { padding-top: ${card.strip}px !important; }` });
+      /* The compact phone picture (agent-review-ask-phone, above): the
+         rows the question is not about are not drawn. */
+      if (card.compact) await page.addStyleTag({ content: '.sketch__row:not([data-focus]):not([data-twin]) { display: none !important; }' });
       if (card.scrollTo) {
         await page.evaluate(([sel, off]) => {
           const el = document.querySelector(sel);
@@ -347,6 +397,7 @@ try {
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
+    if (card.strip) await places(page, { x: 0, y: 0, width: card.width, height: card.height });
     await page.close();
   }
 } finally {
