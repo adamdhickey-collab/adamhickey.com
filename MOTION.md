@@ -178,7 +178,7 @@ and they are not on the scale:
   has just drawn.
 - **The ping** before the homepage's status line (`.status-ping`, since
   2026-10-12, after a Lottie Adam picked): three hairline rings growing from
-  the centre and fading, each over 3600ms on `scale`, a third of a cycle
+  the centre and fading, each over 7200ms on `scale`, a third of a cycle
   apart. The ripple's rhythm is the drawing's, so it is not a duration on
   the scale.
 
