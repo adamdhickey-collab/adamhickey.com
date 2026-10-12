@@ -119,7 +119,14 @@ const arg = (name, fallback) => {
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
 const theme = arg('--theme', 'dark');
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
-const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme');
+/* The desktop captures are 2x. --scale 3 writes the tour's scenes once more
+   at 3x, as `-3x` files, for the srcset that serves them to a large monitor
+   (lab/agent-review.html, since 2026-10-12); the same page at the same
+   size, so every region and pin holds. Only the tour's scenes take it: the
+   figures print well under half their file at 2x already. */
+const scale = +arg('--scale', '2');
+if (scale !== 2 && scale !== 3) throw new Error(`--scale is 2 or 3, not ${scale}`);
+const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme' && all[i - 1] !== '--scale');
 const STORY = 'product-customertable--archive-confirmation';
 /* The tour's width (Preview Studio, 2026-10-11): 1600 of the app at zoom
    1.25 and a 48px margin each side at that zoom; TOUR_H, its height, is
@@ -578,9 +585,10 @@ try {
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];
+      if (scale !== 2 && (kind === 'phone' || spec !== TOUR)) continue; /* the 3x set is the tour's desktop scenes only */
       const size = spec?.size ?? (kind === 'desktop' ? DESKTOP : PHONE);
       const ctx = await browser.newContext(
-        kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: 2 },
+        kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: scale },
       );
       await hold(ctx, kind === 'phone' ? 1 : (spec?.zoom ?? 1), kind === 'phone' ? 0 : (spec?.pad ?? 0));
       const page = await ctx.newPage();
@@ -598,7 +606,7 @@ try {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);
       }
-      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
+      await write(shot.file, kind === 'phone' ? '-phone' : scale === 2 ? '' : `-${scale}x`, page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
       await ctx.close();
     }
   }
