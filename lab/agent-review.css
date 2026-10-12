@@ -633,15 +633,26 @@
   .ar-split + .ar-split { margin-top: var(--space-block); }
   p + .ar-split { margin-top: var(--space-2xl); }
 
-  /* The Storybook beside the experiment holds still while the words and
-     the note beside it scroll past: it is the one picture of the system
-     the whole column is about. It spans both of the column's rows, and it
-     stops at the bottom of the section's grid. */
-  .ar-split-media--held {
-    grid-row: 1 / span 2;
+  /* EVERY SPLIT HOLDS ITS SHORTER COLUMN while the taller one scrolls past,
+     since 2026-10-12 (Adam: the pictures that follow the text, as in the
+     experiment, should do it "throughout the whole page"; until then two
+     did and four did not). Both columns are sticky, and only the shorter
+     can move: the taller one is its row's whole height, so the grid gives
+     it no room. So a picture beside a longer column of words holds still
+     beside them (the design choices, the shared table, the experiment), and
+     the words of a first-minute moment, shorter than their picture, stay
+     beside it as it goes by. A split with two text blocks keeps its text
+     scrolling, since a held first block would have the second slide up
+     under it. */
+  .ar-split:not(.ar-split--wide-first) > .ar-split-media,
+  .ar-split:not(.ar-split--wide-first):not(:has(> .ar-split-text ~ .ar-split-text)) > .ar-split-text {
     position: sticky;
     top: calc(var(--nav-height) + var(--space-2xl));
   }
+  /* The Storybook beside the experiment spans both of its column's rows, the
+     words and the note under them, and stops at the bottom of the section's
+     grid. */
+  .ar-split-media--held { grid-row: 1 / span 2; }
 }
 
 /* THE DARK BAND SPLITS AT 80rem, not 64. Its four findings are set to
