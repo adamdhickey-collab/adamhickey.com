@@ -35,7 +35,6 @@
      node scripts/lab-cards.mjs agent-review-phone   # its phone version
      node scripts/lab-cards.mjs agent-review-share   # the share cards' square
      node scripts/lab-cards.mjs agent-review-hero    # the write-up's hero, the card extended
-     node scripts/lab-cards.mjs agent-review-feature # the homepage composition, unused since agent-review-og
      node scripts/lab-cards.mjs agent-review-og      # the write-up's share card picture, the app itself
      node scripts/lab-cards.mjs agent-review-themes  # the write-up's light/dark figure, both sizes
 
@@ -128,7 +127,13 @@ const CARDS = {
      agent-review#18, and 390 before. At 3x it is 1125 x 1230, printed 261
      to 315 wide on a phone, which is a 3x screen: at 2x, until 2026-10-07,
      a 430 iPhone stretched it by a quarter. */
-  'agent-review-phone': { url: `${from}#/`, width: 375, height: 410, viewportHeight: 812, dpr: 3, scrollTo: '.ask', offset: 10, out: 'agent-review-card-phone.webp' },
+  /* ON THE PREVIEW, since Preview Studio (agent-review#30, 2026-10-11): at
+     375 the two screens stack inside the preview's canvas, the billing
+     activity over the payment history, and the canvas holds both whole in
+     618px; the card is that, from 2px inside the canvas's top to its foot,
+     so the marked plan and "Payment failed" are both in it. At 3x it is
+     1125 x 1854. */
+  'agent-review-phone': { url: `${from}#/`, width: 375, height: 618, viewportHeight: 812, dpr: 3, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-phone.webp' },
   /* No share card uses this since later on 2026-10-09, when og.mjs lab
      took agent-review-og as the case study's had. It was the lab index's
      share card picture (og.mjs, lab; the case study's too
@@ -174,21 +179,10 @@ const CARDS = {
      692 lands in the 12px between them, where 714 showed the next card's top
      edge. At 2x it is 1728 x 1384. */
   'agent-review-hero': { url: `${from}#/`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
-  /* The case study's share card picture, since 2026-10-09: the homepage's
-     own composition (index.html, figure.lab-feature, lab-feature.css) rather
-     than a capture of the product. The square above shows the product's
-     screen, a question about two reds that a reader has to follow before
-     the project's point reaches them; the composition says the point in one
-     line and shows the interaction under it in four beats, which is why the
-     homepage card took it in #461, and a post that unfurls should show the
-     same picture the page opens on. It is captured from this tree, served
-     the way og.mjs serves it, at the homepage's 1440 layout, where the
-     figure is 623 x 602, at 2x: 1246 x 1204, printed 420 square in the
-     card's frame (object-fit cover, top center), which trims the panel's
-     bottom padding and nothing else. Reduced motion, so the card is not
-     waiting on its reveal. Retake it when lab-feature.css or the figure's
-     words change; the lab index's card keeps the product's square. */
-  'agent-review-feature': { page: 'index.html', element: 'figure.lab-feature', width: 1440, dpr: 2, out: 'agent-review-feature.webp' },
+  /* agent-review-feature, the homepage's drawn composition (index.html
+     figure.lab-feature, lab-feature.css), was a recipe here from 2026-10-09
+     to 2026-10-11, when the homepage went back to the product's own capture
+     and the composition and its stylesheet left the tree. */
   /* The case study's share card picture since later on 2026-10-09 (Adam:
      "update the og card to the app capture too", after the LinkedIn
      Featured thumbnail became the app): the product itself, desktop
