@@ -198,13 +198,18 @@
   list-style: none;
 }
 .wt-note { margin: 0; }
-.wt-kicker {
+/* Two classes deep, because .case-section p is class-and-element and beats a
+   bare class on specificity: wherever the walkthrough falls back to static
+   (a phone, a short window) the kicker set at 18px charcoal with reading
+   leading. The tour's own .wt.is-tour rules below are deeper still. */
+.wt .wt-kicker {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   margin: 0 0 var(--space-sm);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-text);
