@@ -46,7 +46,7 @@ than the plain-English alternatives.
 | Word | Means | Where it appears |
 |---|---|---|
 | **hed** | The headline itself | `h1`, `.hero-title`, `.case-title` |
-| **dek** | The short line between the hed and the body | `--type-lede`, `.eng3-dek`, `.build-dek`, `.ds-dek` |
+| **dek** | The short line between the hed and the body | `--type-lede`, `.eng3-dek`, `.build-dek`, `.ds-dek`, `.case-lab-lead` |
 | **lede** | The opening passage of the body | `.ds-lede`, `.about-lede` |
 | **kicker** / **eyebrow** | The small tracked label above the hed, **always uppercase** (section 6, "Kickers and eyebrows") | `.case-kicker`, `.hero-eyebrow`, `.eng3-kicker` |
 
@@ -444,6 +444,7 @@ What counts as one, so the next one is easy to place:
 | `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
 | `.ds-surface-kicker` | The ground names on the design system page | 11px |
 | `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |
+| `.related-label` | "Related" over the list of pages at the foot of an article, a prototype, a build write-up or a case study (`related.css`) | 12px |
 
 `.case-readtime` is the one that does not sit at a kicker's size: it is 14px
 and muted, so it takes the 14px step, `--tracking-label`, and not
@@ -466,6 +467,7 @@ size, never a literal.
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
 | `.ar-kind-where` | Where each situation under the Agent Review write-up's three kinds of work is (In the prototype, Proposed); a pill tag until 2026-10-08 | 11px, `--tracking-caps`, muted: the glance row's label, because the card's own kicker is the sage |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
+| `.related-kind` | The kind of page each row of a Related list goes to (Article, Case study, Build write-up, Prototype, How I work), beside its title (`related.css`) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 
 The sizes are not a choice to make per label. A label in a `.build-facts` strip
 is the Kicker's treatment, 12px in the sage, because it is a kicker: a short

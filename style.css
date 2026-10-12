@@ -668,7 +668,7 @@ a.case-thumb { display: block; }
   box-shadow: var(--shadow-zone);
   padding: var(--space-xl);
 }
-.case-card--lab .case-desc { margin-top: var(--space-xs); }
+.case-card--lab .case-desc { margin-top: var(--space-md); }
 /* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
    From 1024 up it is two columns, the question, the project, the result and
    the links on the left and the picture on the right; under 1024 it stacks,
@@ -726,11 +726,22 @@ a.case-thumb { display: block; }
   .case-card--lab .case-thumb,
   .case-card--lab .same-red { order: 0; margin-bottom: 0; }
 }
+/* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
+   own sans at the description's size, charcoal where the description is
+   muted, so the two read as one paragraph that changed ink halfway (Adam:
+   "almost looks like the same style as the paragraph below, but it's just a
+   little different"). It is a dek by TYPOGRAPHY.md's definition, the short
+   line between the hed and the body, so it takes .build-dek's treatment: the
+   serif on --type-lede at --leading-tight. Name, dek and description now
+   differ by family or by size, never by ink alone, and the description
+   stands a paragraph's step below it. */
 .case-lab-lead {
-  margin: var(--space-xs) 0 0;
+  margin: 0;
   max-width: 32rem;
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
+  font-family: var(--font-serif);
+  font-size: var(--type-lede);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
   color: var(--color-charcoal);
 }
 /* The other two lab pieces, one quiet line under the feature. */
@@ -4051,8 +4062,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    `a { color: inherit; text-decoration: none }` and nothing else, so "a talk
    at the Lenny and Friends Summit" was the color and weight of the sentence
    round it, with no cue at all (WCAG 1.4.1); so was the homepage's "This
-   site is built the same way." under Built. .build-service a's treatment,
-   which is what a link inside body prose on a light ground looks like here.
+   site is built the same way." under Built. This is what a link inside
+   body prose on a light ground looks like here.
    The Design psychology note's source line is left out by name: it is a
    footnote at --text-xs with a lighter link of its own in
    design-psychology.css, which sets no weight, so 600 would reach it. */
@@ -4865,7 +4876,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    carries three, and until 2026-10-03 they were the colour and weight of the
    words round them with no underline, which is no cue at all (WCAG 1.4.1). The
    sage that clears the floor on the strip's white, underlined, and charcoal on
-   hover: .build-service a, at this strip's size and in its serif, so regular
+   hover: the prose link (.writing-measure p a), at this strip's size and in
+   its serif, so regular
    weight, since the serif is never bold. */
 .glance-facts a {
   color: var(--color-accent-text);
@@ -5519,8 +5531,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    opinion about, but nothing. The same failure .about-beat-text's note
    records, on the one page that is nothing but a way out.
 
-   .build-service a's treatment, which is what a link inside body prose on a
-   light ground looks like on this site: accent-text, 600, underlined at the
+   The prose link's treatment (.writing-measure p a), which is what a link
+   inside body prose on a light ground looks like on this site: accent-text, 600, underlined at the
    0.2em offset, charcoal on hover and focus so the pointer moves it toward
    the page rather than away. */
 .miss-list a {
@@ -5678,24 +5690,14 @@ html.ah-lightbox-open body { overflow: hidden; }
   .build-next:hover .build-next-title { color: var(--color-accent-text); }
 }
 
-/* The engagement this build is evidence for. Small type, so charcoal on
-   hover rather than deep -- see .case-closing-service, which is this line's
-   opposite number in the other regime. */
+/* A line of small type at a build's foot: on the Agent Review write-up, who
+   built it and with what. Until 2026-10-12 this class also carried the links
+   to the pages a build draws on, run together in a sentence; those are the
+   Related list now (related.css). */
 .build-service {
   margin: 0 0 var(--space-xl);
   color: var(--color-charcoal);
   font-size: var(--text-sm);
-}
-.build-service a {
-  color: var(--color-accent-text);
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  transition: color var(--motion-state) var(--ease);
-}
-.build-service a:focus-visible { color: var(--color-charcoal); }
-@media (hover: hover) and (pointer: fine) {
-  .build-service a:hover { color: var(--color-charcoal); }
 }
 
 /* ---------- The ask, at the foot of every case study ----------
@@ -5707,9 +5709,11 @@ html.ah-lightbox-open body { overflow: hidden; }
    pitch, and a button on this warm ground would outshout the next-case
    title beneath it.
 
-   Small type, so the sage is the darker step and the hover goes to charcoal,
-   for the reasons .build-service gives. case-study/case-study-base.css carries the same rules for the
-   other family; the two deliberately do not share a stylesheet. */
+   Small type, so the sage is the darker step, --color-accent-text, 5.32:1 on
+   this warm ground where --color-accent-deep is 4.12:1 against a 4.5 floor,
+   and the hover goes to charcoal rather than to deep.
+   case-study/case-study-base.css carries the same rules for the other
+   family; the two deliberately do not share a stylesheet. */
 .case-ask {
   margin: 0 0 var(--space-2xl);
   max-width: var(--measure);
