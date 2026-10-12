@@ -775,6 +775,18 @@ holds one meaning: rose where a person has to read what the checks could
 not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
 
+**The prototype's red, in "Same red. Different meaning."** Since 2026-10-12
+the homepage's featured project and the top of the Agent Review case study
+draw the prototype's first problem in code: the two fragments the product
+shows in one red, "Payment failed" and a struck-through "Starter". That red
+is the product's, `#b42318`, the old billing app's hard-coded value and the
+value of the prototype's own danger token, so the picture shows exactly the red the
+product does. It is `--same-red`, declared on `.same-red` in `style.css` and
+used nowhere else: a picture of a product's colour, by this section's rule,
+not an interface colour of this site. It does carry text, the two
+fragments, and on the figure's white it measures 6.54:1, over the 4.5 floor
+on its own. The figure's connector and capsules are `--color-accent-text`.
+
 ---
 
 ## 7. What the code does today

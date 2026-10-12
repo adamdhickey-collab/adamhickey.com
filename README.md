@@ -150,9 +150,10 @@ the archive so that it holds everything staging ever had.
 
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
-the six-item proof strip and the client logos) → Selected work (three
-client case studies -- SAP, dispatch, USDA since 2026-10-06 -- then Agent
-Review as the lab's one feature card, and a line to the rest of the lab) →
+the six-item proof strip and the client logos) → Selected work (Agent
+Review first since 2026-10-12, as the featured self-directed prototype, with
+a line to the rest of the lab, then the three client case studies -- SAP,
+dispatch, USDA since 2026-10-06 -- under "Established enterprise work") →
 How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own
@@ -314,7 +315,11 @@ build step stay out of a tree whose checks walk every file and whose
 write-up says it has neither. The two prototypes keep their addresses
 under `prototype/` and are listed on the lab index as well; the index
 wears the writing index's shell, and the case study wears the build
-write-ups'. On the homepage the lab is one card under the three accounts
+write-ups'. Since 2026-10-12 the homepage's Agent Review card leads
+Selected work, above the three accounts, and its picture is no longer a
+capture: it is "Same red. Different meaning.", the prototype's first problem
+drawn in code (style.css; the connector is `same-red.js`), which the case
+study opens on too. Before that the lab was one card under the three accounts
 in Selected work, where the two prototype cards sat until 2026-10-01, and
 since #343 it is about Agent Review rather than the lab as a family: the
 product's own screen (`img/lab/agent-review-card.webp`, from
