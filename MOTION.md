@@ -166,7 +166,7 @@ about vestibular triggers, not about forbidding change.
 ## 6. Artwork is not interface
 
 The same carve-out COLOR.md makes for illustration and SPACING.md makes for
-device frames. Three things on this site are drawings that happen to move,
+device frames. Four things on this site are drawings that happen to move,
 and they are not on the scale:
 
 - **The leaf sway** on the story illustration: a 5.5s ease-in-out loop with
@@ -176,12 +176,17 @@ and they are not on the scale:
   timing is the reader's scroll position, not a duration.
 - **The hero logo reveal**, a one-shot clip that fades out over the mark it
   has just drawn.
+- **The radar** on the homepage's status chip (`.hero-intent::before`,
+  since 2026-10-12): a sweep turning once every 2400ms, linear, on `rotate`.
+  A radar turns at one speed, so its time is the drawing's and not an
+  easing on the scale.
 
 They are exempt because their timing carries meaning that a shared scale
-would flatten. They are still bound by §5: all three stop for reduced
-motion.
+would flatten. They are still bound by §5: all four stop for reduced
+motion. The radar needs no rule to do it: the blanket runs it once in
+0.01ms, and a whole turn rests where it began.
 
-**A fourth thing moves with scroll and is not on that list, because it is
+**One more thing moves with scroll and is not on that list, because it is
 not a drawing, and since 2026-10-08 it is on the scale.** The guided tour on
 the Agent Review write-up (`walkthrough.js`) pins a tablet beside a list of
 seven steps. Where the reader has scrolled to says which step is open, and
