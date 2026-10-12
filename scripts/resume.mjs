@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-/* Renders "Adam Hickey Resume.pdf" from the HTML below.
+/* Renders the two résumés from the HTML below: "Adam Hickey Resume.pdf",
+ * the reading copy a person downloads from the site, and "Adam Hickey Resume
+ * (detailed).pdf", the one-column copy written to be parsed, which llms.txt
+ * points an assistant at and every tailored variant is cut from.
  *
  * The résumé used to exist only as a PDF: the HTML that produced it lived in
  * a session scratchpad and was gone once the session was. Every edit since
@@ -7,16 +10,22 @@
  * the markup, run the script, commit both.
  *
  *   node scripts/resume.mjs                 # writes ../Adam Hickey Resume.pdf
+ *   node scripts/resume.mjs --full          # writes ../Adam Hickey Resume (detailed).pdf
  *   node scripts/resume.mjs --out x.pdf     # writes somewhere else
  *   node scripts/resume.mjs --png x.png     # a full-page screenshot, for eyeballing
  *   node scripts/resume.mjs --variant P     # renders a tailored copy from P
  *
- * THE DEFAULT IS THE ONE THAT SHIPS. The PDF at the repository root is linked
+ * Render both and commit both whenever a fact changes: they are one set of
+ * facts at two lengths, and the reading copy must never say what the
+ * detailed one does not.
+ *
+ * THE DEFAULT IS THE ONE THAT SHIPS. "Adam Hickey Resume.pdf" is linked
  * twice from index.html and is what an inbound reader downloads; it is general
- * on purpose and is never tailored to a posting.
+ * on purpose and is never tailored to a posting. Until 2026-10-12 that was the
+ * detailed copy, which reads well to a filter and like a form to a person.
  *
  * A VARIANT is a small JSON file naming a target and a list of {from, to}
- * edits applied to the markup below. Each `from` must match exactly once or
+ * edits applied to the detailed copy's markup, below. Each `from` must match exactly once or
  * the render refuses -- a tailored résumé that silently edited the wrong
  * sentence is worse than one that did not render. The variants live in the
  * private practice-hq repository, in resumes/, because a file naming twelve
@@ -25,8 +34,9 @@
  * published at adamhickey.com, which is why the script refuses to put one
  * there.
  *
- * The one-page contract applies to variants too, and the base already renders
- * at 1056px of 1056. A variant that adds a line has to take one back.
+ * The one-page contract applies to variants too, and the detailed copy
+ * already renders at 1056px of 1056. A variant that adds a line has to take
+ * one back.
  *
  * Deliberately a .mjs holding a template string rather than a .html file:
  * every check in this repository enumerates *.html under the root as a page
@@ -56,12 +66,17 @@ import { findChrome, loadChromium } from './lib/harness.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
-const outFlag = argv.indexOf('--out');
-const out = outFlag >= 0 ? path.resolve(argv[outFlag + 1]) : path.join(here, '..', 'Adam Hickey Resume.pdf');
-const pngFlag = argv.indexOf('--png');
-const png = pngFlag >= 0 ? path.resolve(argv[pngFlag + 1]) : null;
 const varFlag = argv.indexOf('--variant');
 const variantPath = varFlag >= 0 ? path.resolve(argv[varFlag + 1]) : null;
+/* A variant is always cut from the detailed copy: that is the one written to
+   be parsed, and the one every variant's {from} was written against. */
+const full = argv.includes('--full') || Boolean(variantPath);
+const outFlag = argv.indexOf('--out');
+const out = outFlag >= 0
+  ? path.resolve(argv[outFlag + 1])
+  : path.join(here, '..', full ? 'Adam Hickey Resume (detailed).pdf' : 'Adam Hickey Resume.pdf');
+const pngFlag = argv.indexOf('--png');
+const png = pngFlag >= 0 ? path.resolve(argv[pngFlag + 1]) : null;
 
 const html = String.raw`<!doctype html>
 <html lang="en">
@@ -218,10 +233,237 @@ const html = String.raw`<!doctype html>
 </body>
 </html>`;
 
+/* THE READING COPY. The document above is written to be parsed: every
+   keyword a screener's filter or an assistant might look for, in one column,
+   in the order an applicant tracking system expects. This one is written to
+   be looked at, by a person who clicked "résumé" on the site and wants the
+   shape of twenty years in the time it takes to scroll a PDF. Same facts,
+   about half the words, two columns: the story on the left, the reference
+   material (contact, school, skills, tools, clients) on the right, where an
+   eye looks for it.
+
+   It is what the site links. It is a cut of the detailed copy, never a
+   rewrite with new claims: nothing here says what that document or the site
+   does not (the two client names it adds, Banner Bank and International
+   Trucks, are the enterprise consulting case study's), so a fact changing
+   there is a fact to change here.
+
+   Same rules as above: the site's two families, Crimson Text at 400 only,
+   no italic in the sans, and the ink ladder written out as values. Sage
+   (#556b51, COLOR.md's --color-accent-text, 5.82:1 on white) carries the
+   role titles and nothing else, the one place a reader's eye should land
+   after the name. */
+/* The wordmark is read from the site's own file at render time rather than
+   pasted in, so a redrawn logo reaches the résumé on its next render instead
+   of the two quietly drifting. It goes in as an <img> so the SVG's own
+   class names (.st0 to .st4) cannot meet this page's styles. */
+const logo = 'data:image/svg+xml;base64,' +
+  fs.readFileSync(path.join(here, '..', 'img', 'site', 'adam-logo.svg')).toString('base64');
+
+const reading = String.raw`<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Adam Hickey Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.62in 0.7in 0.5in;
+    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #252525;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+  p { margin: 0; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .page {
+    display: grid;
+    grid-template-columns: 1fr 2.3in;
+    column-gap: 0.45in;
+  }
+  /* The wordmark says the name, so the name is not set again beside it
+     (the practice's documents follow the same rule). It is still text,
+     laid over the wordmark in transparent ink, so a reader can search the
+     PDF for it or copy it out. The usual visually-hidden clip does not do
+     that here: Chrome drops clipped text from the PDF's text layer, and the
+     file then had no "Adam Hickey" in it anywhere but the email address. */
+  .wordmark { display: block; height: 0.62in; width: auto; margin-left: -2pt; }
+  h1 { position: relative; margin: 0; }
+  .name-text {
+    position: absolute; left: 0; top: 0.12in;
+    font-size: 24pt; line-height: 1; white-space: nowrap;
+    color: transparent;
+  }
+  .title {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #556b51;
+    margin: 5pt 0 0;
+  }
+  .intro {
+    font-size: 10.5pt;
+    line-height: 1.5;
+    margin: 18pt 0 0;
+  }
+  h2 {
+    font-size: 11pt;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 5pt;
+  }
+  main section { margin-top: 24pt; }
+  aside section + section { margin-top: 22pt; }
+  /* The reference this was drawn from hangs each role on a dot, with a
+     hairline running down beside what was done there. It is the one
+     ornament on the page, and it earns its place by making a role and its
+     paragraph read as one thing. */
+  .role {
+    position: relative;
+    padding-left: 15pt;
+  }
+  .role + .role { margin-top: 9pt; }
+  .role::before {
+    content: "";
+    position: absolute;
+    left: 1.5pt;
+    top: 5pt;
+    width: 4pt;
+    height: 4pt;
+    border-radius: 50%;
+    background: #5c5f5c;
+  }
+  .role:has(.did)::after {
+    content: "";
+    position: absolute;
+    left: 3.2pt;
+    top: 13pt;
+    bottom: 2pt;
+    width: 0.6pt;
+    background: #d0d0c8;
+  }
+  .role h3 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #556b51;
+    margin: 0;
+  }
+  .dates { color: #5c5f5c; }
+  .role .dates { margin: 1pt 0 3pt; }
+  .work li + li { margin-top: 6pt; }
+  .work b, aside b { font-weight: 600; }
+  aside { padding-top: 4pt; }
+  aside p + p { margin-top: 0; }
+  aside .dates { margin: 1pt 0 2pt; }
+  .as { color: #556b51; font-weight: 500; }
+  .earlier .dates + p { margin-top: 6pt; }
+</style>
+</head>
+<body>
+<div class="page">
+<main>
+  <header>
+    <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
+    <p class="title">Senior Product Designer</p>
+  </header>
+  <p class="intro">Twenty years designing complicated enterprise software. My work has moved from interface craft, to design systems and governance at scale, to designing and building working products with coding agents.</p>
+
+  <section>
+    <h2>Independent</h2>
+    <div class="role">
+      <h3>Product design and prototyping</h3>
+      <p class="dates">2026 – Present</p>
+      <p class="did">Designed and built Agent Review, a React and TypeScript prototype for handing UI work to coding agents, with written design rules and automated checks marking where automation ends and human judgment begins. Also Dispatch Cockpit, a decision-support prototype for expert dispatchers, and two products in use, Lucy Learns and Door County Found.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>RBA Inc</h2>
+    <div class="role">
+      <h3>Lead UX Product Designer</h3>
+      <p class="dates">2013 – 2026</p>
+      <p class="did">Led enterprise product design and UX strategy for clients in manufacturing, healthcare, financial services and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, and led the accessibility, DesignOps and governance practices.</p>
+    </div>
+  </section>
+
+  <section class="work">
+    <h2>Selected work</h2>
+    <ul>
+      <li><b>40+ SAP applications</b> on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+      <li><b>A USDA grant-management portal</b> that cut operational overhead 80%.</li>
+      <li><b>Sprout, a design system for Cargill:</b> tokens in the code, mirrored as Figma variables under a written sync contract.</li>
+      <li><b>Real-time logistics for a 450+ truck fleet:</b> the decision surface for a dispatcher short on attention rather than data.</li>
+    </ul>
+  </section>
+</main>
+
+<aside>
+  <section>
+    <h2>Contact</h2>
+    <p><a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
+    <p><a href="https://adamhickey.com">adamhickey.com</a></p>
+    <p><a href="https://www.linkedin.com/in/adamdhickey">linkedin.com/in/adamdhickey</a></p>
+  </section>
+
+  <section>
+    <h2>Expertise</h2>
+    <ul>
+      <li>Product strategy</li>
+      <li>Interaction design</li>
+      <li>Complex workflows</li>
+      <li>Design systems and governance</li>
+      <li>Accessibility</li>
+      <li>Human–AI interaction</li>
+      <li>Prototyping in code</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Tools</h2>
+    <p>Figma, React, TypeScript, Storybook, Playwright, Claude Code, Git and GitHub</p>
+  </section>
+
+  <section>
+    <h2>Clients</h2>
+    <p>Cargill, Intel, CBRE, Toro, Banner Bank, International Trucks</p>
+  </section>
+
+  <section class="earlier">
+    <h2>Earlier</h2>
+    <p>Pixel Farm</p>
+    <p class="as">Interactive Designer / Developer</p>
+    <p class="dates">2008 – 2013</p>
+    <p>LEVEL</p>
+    <p class="as">Interactive Designer</p>
+    <p class="dates">2006 – 2008</p>
+    <p>ByDesign</p>
+    <p class="as">Graphic Designer</p>
+    <p class="dates">2005 – 2006</p>
+  </section>
+
+  <section>
+    <h2>University of Minnesota</h2>
+    <p class="dates">2005</p>
+    <p>BS in Graphic Design</p>
+  </section>
+</aside>
+</div>
+</body>
+</html>`;
+
 /* Variants are applied to the authored markup, not to a rendered file, so a
    tailored copy is the same document with a few sentences swapped rather than
    a second résumé drifting away from the first. */
-let doc = html;
+let doc = full ? html : reading;
 let variant = null;
 if (variantPath) {
   variant = JSON.parse(fs.readFileSync(variantPath, 'utf8'));
