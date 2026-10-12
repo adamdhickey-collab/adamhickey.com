@@ -427,7 +427,21 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    it is the same judgment carried into code, set apart under the accounts.
    The space above it is --space-block, the ramp SPACING.md gives to major
    blocks inside a section, since 2026-09-30. */
-.case-grid--lab { margin-top: var(--space-block); }
+/* Since 2026-10-12 the lab card leads the section rather than closing it
+   (index.html, "Agent Review leads the section"), so the block's space is
+   under it, before the label over the enterprise accounts. */
+.case-grid--lab { margin-bottom: var(--space-block); }
+.case-group-label {
+  margin: 0 0 var(--space-xl);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  scroll-margin-top: calc(var(--nav-height) + var(--space-xl));
+}
 @media (min-width: 768px) { .case-grid--lab { grid-template-columns: 1fr; gap: var(--space-2xl); } }
 
 /* --- Cross-document view transitions ------------------------------------
@@ -696,7 +710,9 @@ a.case-thumb { display: block; }
    picture's height before, which is where this rule stopped being
    comfortable. */
 .case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
-.case-card--lab .case-thumb { order: -1; }
+.case-card--lab .case-thumb,
+.case-card--lab .same-red { order: -1; }
+.case-card--lab .same-red { margin-bottom: var(--space-xl); }
 .case-card--lab .case-card-body { display: flex; flex-direction: column; }
 @media (min-width: 768px) {
   .case-card--lab { padding: var(--space-3xl); }
@@ -707,7 +723,8 @@ a.case-thumb { display: block; }
     gap: var(--space-2xl);
     align-items: center;
   }
-  .case-card--lab .case-thumb { order: 0; margin-bottom: 0; }
+  .case-card--lab .case-thumb,
+  .case-card--lab .same-red { order: 0; margin-bottom: 0; }
 }
 .case-lab-lead {
   margin: var(--space-xs) 0 0;
@@ -768,71 +785,137 @@ a.case-thumb { display: block; }
   aspect-ratio: auto;
 }
 
-/* ---------- The question over the picture ----------
-   Since 2026-10-12. The picture is the two screens under a strip of the
-   preview's own canvas (lab-cards.mjs agent-review-ask), and on the strip
-   the decision's own question, "Separate the two meanings of red, or keep
-   the familiar signal?", with a kicker naming the decision and two leaders
-   down to the two words the question is about, each ringed. Text in code
-   over a picture, as every label on this site is, so it is read, measured
-   and translated like text; the strip is in the picture because it is the
-   app's canvas, not a ground of this site's, and a ground drawn here in a
-   near-enough grey would have met the capture's at a seam.
+/* ---------- Same red, different meaning ----------
+   Since 2026-10-12 (a hiring-manager review: the teaser was a screenshot
+   whose words printed at 5 to 8px on the card it sat on). The homepage's
+   featured project and the top of the Agent Review case study carry the
+   prototype's first problem as a drawing in code instead: the two reds,
+   each with the words it sits in and what it means, one label over them
+   and one takeaway under them. Live text at the page's own sizes, so it is
+   read, measured and translated like the rest of the page; the complete
+   interface is a screenshot further down the case study, where a reader
+   has the context for it.
 
-   The frame is the picture's box (the tablet's padding is outside it), so
-   every place is a percentage of the picture, as the tour's pins are, and
-   holds at every width the picture prints at. The words sit on the canvas,
-   which is dark: the kicker in the sage that is only ever on a dark ground,
-   the question in the warm ink that goes on charcoal. The leaders and rings
-   cross from the canvas onto the white panels, so each is the sage ink
-   that reads on white with a warm halo under it that reads on the canvas:
-   one mark that is visible on both grounds rather than two colours.
+   THE CONNECTOR. "red" in the label is underlined, and one stem drops from
+   the middle of the underline. Two columns wide, it divides at a level bar
+   into two balanced branches, each down to the top of the capsule round
+   its red: the label is a three-column grid whose middle is "red", so the
+   word stands at the figure's centre, and the capsules stand at their
+   columns' centres, so the two branches are mirror images. Stacked, on a
+   narrow figure, the stem drops straight into the first capsule and the
+   second branch leaves it just under the label, runs down the figure's
+   left gutter and turns in to the second capsule's side. The paths are
+   same-red.js's, drawn from the figure's own layout; without the script
+   the figure is complete and only the lines are missing. One 1.5px stroke,
+   round caps and bends, no arrowheads: the line says the two share an
+   appearance, not that one leads to the other. The capsules are the same
+   stroke, so where a branch arrives it meets its ring as one line.
 
-   The question steps with the picture's width, as a container, because the
-   strip is a fixed share of the picture (a quarter at 864) and the words
-   must stay inside it at every width: 24px from 36rem, 20 from 30, 18 from
-   20, 16 under that. Measured against the strip at each of the card's
-   widths (465 to 607px two-column, 615 to 745 one-column, 276 on a phone),
-   each is two lines with room under them. On a phone the two screens are
-   stacked and the second red is most of the picture away, so the rings
-   take their own places and the leaders stay off; the question alone says
-   what to look for, and the rings say where. */
-.lab-ask-frame {
+   THE RED is the prototype's own, #b42318, the hard-coded red of the old
+   billing app and the value of its --color-danger, so both fragments are
+   exactly the red the product shows. It is a picture of a product's
+   colour, declared on the figure and used nowhere else, as the rail's
+   artwork colours are on .ar-rail (COLOR.md, section 6). On white it
+   measures 6.54:1, so the struck "Starter" and "Payment failed" are text
+   that clears 4.5 on their own.
+
+   The figure is a white card on whatever ground it sits on, the ladder's
+   rung 2 (--rule-card edge, --shadow-card, --radius-xl), and lays itself
+   out by its own width, as a container, not the window's: two columns from
+   30rem of figure, stacked under it. */
+.same-red {
+  --same-red: #b42318;
   position: relative;
-  display: block;
-  container-type: inline-size;
+  container: same-red / inline-size;
+  margin: 0;
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
-.lab-ask-words {
-  position: absolute;
-  top: 3.5%;
-  left: 8%;
-  right: 8%;
+.same-red-label {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.same-red-label > :first-child { text-align: end; white-space: pre; }
+.same-red-label > :last-child { text-align: start; white-space: pre; }
+.same-red-word {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-text);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+  text-decoration-skip-ink: none;
+}
+.same-red-cases {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.same-red-case {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-xs);
-  pointer-events: none;
+  min-width: 0;
 }
-.lab-ask-kicker {
+/* The capsule: the red in the words it sits in, as the prototype shows it. */
+.same-red-ui {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-xs) var(--space-md);
+  border: 1.5px solid var(--color-accent-text);
+  border-radius: var(--radius-pill);
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  white-space: nowrap;
+}
+.same-red-hit { color: var(--same-red); }
+.same-red-hit s { text-decoration-thickness: 1.5px; }
+.same-red-where {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--color-accent-on-dark);
+  color: var(--color-muted-gray);
 }
-.lab-ask-q {
-  font-family: var(--font-serif);
+.same-red-means {
+  margin: 0;
+  max-width: 22rem;
+  font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
-  color: var(--ink-on-dark);
-  text-wrap: balance;
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
 }
-@container (min-width: 20rem) { .lab-ask-q { font-size: var(--text-lg); } }
-@container (min-width: 30rem) { .lab-ask-q { font-size: var(--text-xl); } }
-@container (min-width: 36rem) { .lab-ask-q { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); } }
-.lab-ask-leads {
+.same-red-means strong { font-weight: var(--weight-semibold); }
+.same-red-take {
+  margin: var(--space-2xl) 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-hairline);
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  text-align: center;
+}
+.same-red-leads {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -840,30 +923,24 @@ a.case-thumb { display: block; }
   overflow: visible;
   pointer-events: none;
 }
-.lab-ask-leads line { fill: none; vector-effect: non-scaling-stroke; }
-.lab-ask-leads .lab-ask-halo { stroke: var(--color-warm); stroke-width: 4; }
-.lab-ask-leads .lab-ask-lead { stroke: var(--color-accent-text); stroke-width: 1.5; }
-.lab-ask-ring {
-  position: absolute;
-  border: 2px solid var(--color-accent-text);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 0 0 2px var(--color-warm);
-  pointer-events: none;
+.same-red-leads path {
+  fill: none;
+  stroke: var(--color-accent-text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.lab-ask-ring--phone { display: none; }
-@media (max-width: 40rem) {
-  .lab-ask-ring--wide, .lab-ask-leads { display: none; }
-  .lab-ask-ring--phone { display: block; }
-  .lab-ask-words { top: 3%; left: 7%; right: 7%; }
+/* Stacked, the second branch runs down the left gutter, so the cases keep
+   clear of it. */
+@container same-red (max-width: 29.99rem) {
+  .same-red-cases { padding-inline: var(--space-lg); }
 }
-
-/* The words: a plain account, then three things worth taking away. The list
-   is .build-list's own dash, tightened to this column: its 24px bottom
-   margin is a write-up's, and the intro above it is a lead-in, not a
-   paragraph, so it sits closer to the list than to the line above. */
-.case-card--lab .case-lab-intro { margin-top: var(--space-md); margin-bottom: var(--space-xs); color: var(--color-muted-gray); }
-.case-card--lab .case-lab-points { margin: 0; gap: var(--space-xs); }
-.case-card--lab .case-lab-points li { max-width: 32rem; }
+@container same-red (min-width: 30rem) {
+  .same-red-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl); }
+}
+@container same-red (min-width: 36rem) {
+  .same-red-label { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+}
 
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
@@ -3724,6 +3801,26 @@ html.ah-lightbox-open body { overflow: hidden; }
    700, which at --text-lg in the sans reads as a heading dropped into the
    sentence rather than a phrase leaning forward in it. */
 .hero-invite strong { font-weight: var(--weight-semibold); }
+.hero-invite:has(+ .hero-intent) { margin-bottom: var(--space-md); }
+/* The intent line under the dek (index.html, "The intent, in one line"):
+   the dek's own size step down, in the secondary ink, with the résumé as a
+   link in the prose-link treatment. The dek's bottom margin is the gap. */
+.hero-intent {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+.hero-intent a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) { .hero-intent a:hover { color: var(--color-charcoal); } }
+.hero-intent a:focus-visible { color: var(--color-charcoal); }
 
 /* The resume-level scan under the hero: six capabilities, each the engagement
    pages' station mark with its label and detail set beside it, GROUPED

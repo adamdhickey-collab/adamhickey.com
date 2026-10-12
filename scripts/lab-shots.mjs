@@ -365,6 +365,79 @@ const SHOTS = {
       await page.waitForTimeout(300);
     },
   },
+  /* THE FIRST MINUTE, since 2026-10-12 (a hiring-manager review): focused
+     crops of the states the case study's three moments and its evidence
+     point at, each cut at its own part's edges so it prints large in a half
+     column, from the same production build as everything else here.
+
+     directions: the decision in the inspector, from the panel's head to the
+     second direction's button: the question, each direction's main risk in
+     view, and the two buttons. */
+  directions: {
+    file: 'agent-review-directions',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector') },
+    phone: { clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector', 8) },
+    open: async (page) => {
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  /* proposed: "Keep the red for now" selected and not applied: the preview
+     says so in its bar, and the old plan is still red, with the label the
+     direction adds. On a phone, the preview's bar down to the first screen's
+     key. */
+  proposed: {
+    file: 'agent-review-proposed',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio-preview', '.studio-preview', '.studio-preview') },
+    phone: { clip: (page) => partClip(page, '.studio-preview', '.studio-preview .sketch__caption', '.studio-preview', 8) },
+    open: async (page) => {
+      await page.getByRole('button', { name: /^Select and preview\s+Keep the red for now$/ }).click();
+      await page.mouse.move(0, 0);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(300);
+    },
+  },
+  /* rule: the rule a decision can become, as the person sees it before
+     applying: the box checked, the rule in words, what it doesn't cover,
+     what it settles now, what happens next time, and that revoking it
+     doesn't undo what it did; then Cancel and Apply. */
+  'rule-scope': {
+    file: 'agent-review-rule-scope',
+    app: '#/',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector') },
+    phone: { clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector', 8) },
+    open: async (page) => {
+      await decideKeep(page);
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  /* THE EARLIER APPROACH AND THE CURRENT ONE, at the same window: the
+     review queue, the first iteration's front door and still in the
+     prototype under "Reviews", and the delegated work it was redesigned
+     into. Each is the first screen a person meets at an 1100px window,
+     uncut, so it prints at about its own size across the case study's
+     column. */
+  'before-queue': {
+    file: 'agent-review-before-queue',
+    app: '#/queue',
+    desktop: { size: { width: 1100, height: 640 }, zoom: 1 },
+    open: async (page) => {
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  'after-account': {
+    file: 'agent-review-after-account',
+    app: '#/',
+    desktop: { size: { width: 1100, height: 640 }, zoom: 1 },
+    open: async (page) => {
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
   storybook: {
     file: 'agent-review-storybook',
     light: true, /* Relay's own story in Storybook's chrome: one theme */
@@ -512,6 +585,29 @@ async function studioClip(page) {
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(300);
   return { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
+}
+/* A part of the page, cut at its own edges: from the top of `from` to the
+   foot of `to`, as wide as `col`, with `pad` of ground round it. The window
+   is made tall enough to hold it, so nothing scrolls inside the cut. */
+async function partClip(page, from, to, col, pad = 12) {
+  /* Measured in a window taller than the page, so a sticky part (the
+     confirmation's Cancel and Apply bar) sits where it is in the flow and
+     not over the words above it. */
+  await page.setViewportSize({ width: page.viewportSize().width, height: 4000 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  const box = await page.evaluate(([from, to, col]) => {
+    const f = document.querySelector(from).getBoundingClientRect();
+    const all = document.querySelectorAll(to);
+    const t = all[all.length - 1].getBoundingClientRect();
+    const c = document.querySelector(col).getBoundingClientRect();
+    return { x: c.left, y: f.top + scrollY, width: c.width, bottom: t.bottom + scrollY };
+  }, [from, to, col]);
+  const clip = { x: Math.max(0, box.x - pad), y: Math.max(0, box.y - pad), width: box.width + 2 * pad, height: box.bottom - box.y + 2 * pad };
+  await page.setViewportSize({ width: page.viewportSize().width, height: Math.ceil(clip.y + clip.height) + 1 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  return { x: Math.round(clip.x), y: Math.round(clip.y), width: Math.round(Math.min(clip.width, page.viewportSize().width - clip.x)), height: Math.round(clip.height) };
 }
 /* Every decision made, the first with a rule that the third widens: the
    quiet screen. */
