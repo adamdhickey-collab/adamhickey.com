@@ -135,6 +135,25 @@ const CARDS = {
      so the marked plan and "Payment failed" are both in it. At 3x it is
      1125 x 1854. */
   'agent-review-phone': { url: `${from}#/`, width: 375, height: 618, viewportHeight: 812, dpr: 3, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-phone.webp' },
+  /* THE HOMEPAGE'S CARD, since 2026-10-12 (Adam: the picture should say at a
+     glance what the project is about, and the line to say it with is the
+     decision's own question, "Separate the two meanings of red, or keep the
+     familiar signal?", pointing at the two reds). The same two cards, with a
+     strip of the preview's own canvas above the panels (`strip`, a
+     padding-top put on the canvas for the capture only), on which the
+     homepage sets the question in its own type (index.html, .lab-ask) and
+     draws two leaders down to the words, whose places are measured in the
+     clip: at 864, "Starter" at 42.01% / 39.92% and "Payment failed" at
+     70.03% / 44.59% (each 2.79% tall); at 375, 12.27% / 34.70% and 33.04% /
+     90.07%. The lab index keeps the plain card above. The strip is 190px
+     at 864, 28% of the picture: the kicker and two lines of the question at
+     the narrowest the card prints (465px, at a 1024 window) with room
+     under them; 170 at 375, where the kicker wraps. Re-measure the
+     four places whenever the app's sketch moves (scratchpad tools, or any
+     getBoundingClientRect of .activity__old and .sketch__status--failed
+     against the clip). */
+  'agent-review-ask': { url: `${from}#/`, width: 864, height: 676, viewportHeight: 720, strip: 190, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask.webp' },
+  'agent-review-ask-phone': { url: `${from}#/`, width: 375, height: 788, viewportHeight: 812, dpr: 3, strip: 170, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
   /* No share card uses this since later on 2026-10-09, when og.mjs lab
      took agent-review-og as the case study's had. It was the lab index's
      share card picture (og.mjs, lab; the case study's too
@@ -305,6 +324,9 @@ try {
       await page.setViewportSize({ width: card.width, height: card.viewportHeight ?? card.height });
       await page.goto(card.url, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
+      /* A strip of the preview's canvas above its panels, for the picture
+         only (agent-review-ask, above): the app itself has none. */
+      if (card.strip) await page.addStyleTag({ content: `.studio-preview__canvas { padding-top: ${card.strip}px !important; }` });
       if (card.scrollTo) {
         await page.evaluate(([sel, off]) => {
           const el = document.querySelector(sel);

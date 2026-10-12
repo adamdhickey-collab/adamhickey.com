@@ -768,6 +768,95 @@ a.case-thumb { display: block; }
   aspect-ratio: auto;
 }
 
+/* ---------- The question over the picture ----------
+   Since 2026-10-12. The picture is the two screens under a strip of the
+   preview's own canvas (lab-cards.mjs agent-review-ask), and on the strip
+   the decision's own question, "Separate the two meanings of red, or keep
+   the familiar signal?", with a kicker naming the decision and two leaders
+   down to the two words the question is about, each ringed. Text in code
+   over a picture, as every label on this site is, so it is read, measured
+   and translated like text; the strip is in the picture because it is the
+   app's canvas, not a ground of this site's, and a ground drawn here in a
+   near-enough grey would have met the capture's at a seam.
+
+   The frame is the picture's box (the tablet's padding is outside it), so
+   every place is a percentage of the picture, as the tour's pins are, and
+   holds at every width the picture prints at. The words sit on the canvas,
+   which is dark: the kicker in the sage that is only ever on a dark ground,
+   the question in the warm ink that goes on charcoal. The leaders and rings
+   cross from the canvas onto the white panels, so each is the sage ink
+   that reads on white with a warm halo under it that reads on the canvas:
+   one mark that is visible on both grounds rather than two colours.
+
+   The question steps with the picture's width, as a container, because the
+   strip is a fixed share of the picture (a quarter at 864) and the words
+   must stay inside it at every width: 24px from 36rem, 20 from 30, 18 from
+   20, 16 under that. Measured against the strip at each of the card's
+   widths (465 to 607px two-column, 615 to 745 one-column, 276 on a phone),
+   each is two lines with room under them. On a phone the two screens are
+   stacked and the second red is most of the picture away, so the rings
+   take their own places and the leaders stay off; the question alone says
+   what to look for, and the rings say where. */
+.lab-ask-frame {
+  position: relative;
+  display: block;
+  container-type: inline-size;
+}
+.lab-ask-words {
+  position: absolute;
+  top: 3.5%;
+  left: 8%;
+  right: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  pointer-events: none;
+}
+.lab-ask-kicker {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-on-dark);
+}
+.lab-ask-q {
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--ink-on-dark);
+  text-wrap: balance;
+}
+@container (min-width: 20rem) { .lab-ask-q { font-size: var(--text-lg); } }
+@container (min-width: 30rem) { .lab-ask-q { font-size: var(--text-xl); } }
+@container (min-width: 36rem) { .lab-ask-q { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); } }
+.lab-ask-leads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.lab-ask-leads line { fill: none; vector-effect: non-scaling-stroke; }
+.lab-ask-leads .lab-ask-halo { stroke: var(--color-warm); stroke-width: 4; }
+.lab-ask-leads .lab-ask-lead { stroke: var(--color-accent-text); stroke-width: 1.5; }
+.lab-ask-ring {
+  position: absolute;
+  border: 2px solid var(--color-accent-text);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 0 2px var(--color-warm);
+  pointer-events: none;
+}
+.lab-ask-ring--phone { display: none; }
+@media (max-width: 40rem) {
+  .lab-ask-ring--wide, .lab-ask-leads { display: none; }
+  .lab-ask-ring--phone { display: block; }
+  .lab-ask-words { top: 3%; left: 7%; right: 7%; }
+}
+
 /* The words: a plain account, then three things worth taking away. The list
    is .build-list's own dash, tightened to this column: its 24px bottom
    margin is a write-up's, and the intro above it is a lead-in, not a
