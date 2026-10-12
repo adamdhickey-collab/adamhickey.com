@@ -108,7 +108,11 @@
   gap: var(--space-block);
 }
 .ar-moment h3 { margin: 0 0 var(--space-md); }
-.ar-moment-kicker {
+/* Two classes deep, because .case-section p is class-and-element and beats a
+   bare class on specificity: the kicker shipped at 18px charcoal with reading
+   leading, as loud as the paragraph under its h3. Same fix as
+   .eng3-proof-client and .writing-meta in style.css. */
+.ar-moment .ar-moment-kicker {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -116,14 +120,37 @@
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-text);
+  margin: 0 0 var(--space-xs);
 }
-.ar-moment-kicker { margin: 0 0 var(--space-xs); }
 
 /* A crop taller than it is wide (the inspector, the rule) prints at its own
    width at most, so it is not blown up to the column's 700px and three
    screens tall. */
 .ar-shot--narrow { max-width: 28rem; }
 .ar-split > .ar-shot--narrow { justify-self: center; width: 100%; }
+/* The decision's inspector prints at the problem picture's scale, so the
+   same text in the two reads the same size: both are 2x captures at the
+   app's 1.25 zoom, and the inspector is 449 of the problem picture's 941
+   CSS pixels, so it takes that share of the same column at every width.
+   From 40rem, where both are the desktop captures; on a phone each crop
+   fills the column. It starts at the column's left edge, where the problem
+   picture above it starts, rather than floating in the middle of it. */
+@media (min-width: 40rem) {
+  .ar-moment .ar-split > .ar-shot--narrow { width: calc(100% * 449 / 941); justify-self: start; }
+}
+/* The rule's scope, under the list in the text column, prints at the scale
+   of the preview beside it for the same reason: both are 2x captures at the
+   app's 1.25 zoom, and the crop is 449 of the preview's 949 CSS pixels. The
+   preview fills the media column, so the crop takes 449/949 of that, which
+   from 64rem is seven fifths of its own column (the split's 5fr and 7fr),
+   and below 64rem, where the two stack, the column itself. It keeps the
+   column's left edge, the line the list's markers stand on. */
+@media (min-width: 40rem) {
+  .ar-split-text > .ar-shot--narrow { width: calc(100% * 449 / 949); }
+}
+@media (min-width: 64rem) {
+  .ar-split-text > .ar-shot--narrow { width: calc(100% * 7 / 5 * 449 / 949); }
+}
 
 /* The walkthrough's disclosure: the site's disclosure row (style.css,
    .disclosure-row) at the body size, between two hairlines, closed by
