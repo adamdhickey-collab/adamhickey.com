@@ -39,11 +39,25 @@
    recipe that reached the second decision steps to it with "Next decision",
    and the cuts that were the decision card's are the workspace's own parts.
 
-   EVERY APP CAPTURE IS TAKEN IN BOTH THEMES, since agent-review#29
-   (2026-10-11), when the review took Stripe's palette and light became its
-   default again. --theme light (the default) writes the files the page
-   shows; --theme dark writes the same shots with -dark at the end of the
-   name. The theme is chosen the way the app's toggle chooses it, by the
+   EVERY APP CAPTURE CAN BE TAKEN IN EITHER THEME, since agent-review#29
+   (2026-10-11). --theme dark (the default, since agent-review#32 made dark
+   the review's default later that day) writes the files the page shows;
+   --theme light writes the same shots with -light at the end of the name,
+   which nothing on the page uses.
+
+   DRAWN LARGER, since the same day (Adam: the screenshots are hard to read;
+   bump the text up without changing the layout). A shot can hold the app at
+   a zoom step of its own (`zoom` on its desktop spec), the way the app draws
+   itself larger in a wide window (app/scale.css): the window is sized so
+   the layout holds, and the picture's text is that much larger. The tour is
+   taken at 1.25 in a 1600px window, 1280 CSS px of layout, the narrowest
+   that keeps the two screens side by side and the workspace two columns;
+   and because the tablet fits each step's part to its own width, and the
+   inspector keeps its 340px while the stage gives, a step's words come out
+   about a fifth larger in the tablet. The tour also holds a 48px margin on
+   the root (`pad`), the page's own ground, so a pin has room beside the
+   workspace's edge. The hero is 1.25 in a 1440 window, the scope and
+   decision figures 1.125. A phone is the product's own layout at 1. The theme is chosen the way the app's toggle chooses it, by the
    remembered choice in localStorage, set before the page loads, light as
    well as dark, so a capture never depends on the app's default. Relay,
    the product inside the preview frame, is light in both, as it always is.
@@ -67,7 +81,7 @@
      node scripts/lab-shots.mjs tour-start tour-rule tour-quiet   # the tour's three scenes
      node scripts/lab-shots.mjs return               # the return dialog, both sizes
      node scripts/lab-shots.mjs --from http://localhost:5173/agent-review/ change drift return
-     node scripts/lab-shots.mjs --theme dark tradeoff   # the same, in the dark theme, as *-dark.webp
+     node scripts/lab-shots.mjs --theme light tradeoff  # the same, in the light theme, as *-light.webp
 
    Slugs: change (the accepted run, with the new-pattern finding open), drift
    (the seeded branch, the overflow finding, the preview at 768 with the bar
@@ -103,12 +117,15 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback;
 };
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
-const theme = arg('--theme', 'light');
+const theme = arg('--theme', 'dark');
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
 const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme');
 const STORY = 'product-customertable--archive-confirmation';
-/* The tour's width (Preview Studio, 2026-10-11); TOUR_H, its height, is with its scenes below. */
-const TOUR_W = 1600;
+/* The tour's width (Preview Studio, 2026-10-11): 1600 of the app at zoom
+   1.25 and a 48px margin each side at that zoom; TOUR_H, its height, is
+   with its scenes below. */
+const TOUR_W = 1720;
+const TOUR = { size: { width: TOUR_W, height: 1000 }, zoom: 1.25, pad: 48 };
 
 const DESKTOP = { width: 1100, height: 760 };
 const PHONE = { width: 375, height: 720 };
@@ -157,7 +174,7 @@ const SHOTS = {
   'tour-start': {
     file: 'agent-review-tour-start',
     app: '#/',
-    desktop: { size: { width: TOUR_W, height: 1000 } },
+    desktop: TOUR,
     open: async (page) => {
       await openRequest(page);
       await tourSize(page);
@@ -174,7 +191,7 @@ const SHOTS = {
   'tour-weigh': {
     file: 'agent-review-tour-weigh',
     app: '#/',
-    desktop: { size: { width: TOUR_W, height: 1000 } },
+    desktop: TOUR,
     phone: false,
     open: async (page) => {
       await openRequest(page);
@@ -197,7 +214,7 @@ const SHOTS = {
   'tour-decide': {
     file: 'agent-review-tour-decide',
     app: '#/',
-    desktop: { size: { width: TOUR_W, height: 1000 } },
+    desktop: TOUR,
     phone: false,
     open: async (page) => {
       await openRequest(page);
@@ -209,7 +226,7 @@ const SHOTS = {
   'tour-after': {
     file: 'agent-review-tour-after',
     app: '#/',
-    desktop: { size: { width: TOUR_W, height: 1000 } },
+    desktop: TOUR,
     phone: false,
     open: async (page) => {
       await openRequest(page);
@@ -239,7 +256,7 @@ const SHOTS = {
   tradeoff: {
     file: 'agent-review-tradeoff',
     app: '#/',
-    desktop: { size: { width: 1200, height: 1000 }, clip: tradeoffClip },
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: tradeoffClip },
     phone: { size: { width: 375, height: 720 }, clip: tradeoffClip },
     open: async (page) => {
       await page.mouse.move(0, 0);
@@ -251,7 +268,7 @@ const SHOTS = {
   decision: {
     file: 'agent-review-decision',
     app: '#/',
-    desktop: { size: { width: 1100, height: 760 }, clip: recordClip },
+    desktop: { size: { width: 1440, height: 760 }, zoom: 1.125, clip: recordClip },
     open: async (page) => {
       await decideKeep(page);
       await page.getByRole('button', { name: 'Apply' }).click();
@@ -267,7 +284,7 @@ const SHOTS = {
   'tour-quiet': {
     file: 'agent-review-tour-quiet',
     app: '#/',
-    desktop: { size: { width: TOUR_W, height: 1000 } },
+    desktop: TOUR,
     phone: false,
     open: async (page) => {
       await openRequest(page);
@@ -333,7 +350,7 @@ const SHOTS = {
   scope: {
     file: 'agent-review-scope',
     app: '#/runs/shared-table',
-    desktop: { size: { width: 1200, height: 1000 }, clip: studioClip },
+    desktop: { size: { width: 1300, height: 1000 }, zoom: 1.125, clip: studioClip },
     open: async (page) => {
       const phone = (page.viewportSize()?.width ?? 0) < 500;
       if (phone) await page.locator('.studio__inspector').first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
@@ -407,8 +424,14 @@ async function mainColumn(page) {
    at 1520. At 1600 the parts are 104px in. The run as found is 2354 tall and the
    ground runs on under it; the decide scene is 3417 and is cut inside its
    rule's preview, below the reason the tour points at; the after scene is
-   3504 and is cut 37px under its decision record, which ends at 2623. */
-const TOUR_H = 2660;
+   3504 and is cut 37px under its decision record, which ends at 2623.
+   3350, and 1720 wide, since the same day's end (agent-review#32, dark by
+   default; and the shots drawn larger, TOUR above): the app at zoom 1.25
+   in 1600px with a 60px margin each side. The run as found is 2940 tall
+   and the ground runs on under it; the decide scene is 4267 and is cut
+   inside its rule's preview; the after scene is 4427 and is cut 36px under
+   its decision record, which ends at 3314. */
+const TOUR_H = 3350;
 async function tourSize(page) {
   await page.mouse.move(0, 0);
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -519,28 +542,30 @@ async function settle(page) {
    takes from the window by the step. A capture that comes out drawn at
    anything else is refused rather than written, which is also what a
    renamed step would do. */
-async function holdAtOne(ctx) {
-  await ctx.addInitScript((theme) => {
+async function hold(ctx, zoom = 1, pad = 0) {
+  await ctx.addInitScript(({ theme, zoom, pad }) => {
     const sheet = new CSSStyleSheet();
-    sheet.replaceSync(':root { --zoom: 1 !important; }');
+    sheet.replaceSync(`:root { --zoom: ${zoom} !important; ${pad ? `padding-inline: ${pad}px;` : ''} }`);
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-    /* The theme, as the app's toggle remembers it (useTheme.ts). Storage can
+    /* The theme, as the app's control remembers it (useTheme.ts). Storage can
        throw on a page that is not the app's; nothing here needs it there. */
     try {
       localStorage.setItem('agent-review:theme', theme);
     } catch {}
-  }, theme);
+  }, { theme, zoom, pad });
 }
 
-async function write(name, suffix, page, clip) {
+async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
   const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
-  if (zoom !== '1') throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not 1 (${page.url()})`);
-  /* A capture in the wrong theme is refused, as one at the wrong size is. */
-  if (!name.includes('storybook')) {
-    const drawn = await page.evaluate(() => document.documentElement.dataset.theme ?? getComputedStyle(document.documentElement).colorScheme);
+  if (zoom !== String(expected)) throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not ${expected} (${page.url()})`);
+  /* A capture in the wrong theme is refused, as one at the wrong size is.
+     The scheme is read, not the attribute: dark is the root's own and puts
+     nothing on it. */
+  if (!oneTheme) {
+    const drawn = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
     if (drawn !== theme) throw new Error(`${name}${suffix}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
   }
-  if (theme === 'dark') suffix += '-dark';
+  if (theme === 'light' && !oneTheme) suffix += '-light';
   const file = path.join(OUT, `${name}${suffix}.webp`);
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
@@ -549,7 +574,7 @@ async function write(name, suffix, page, clip) {
 try {
   for (const [slug, shot] of Object.entries(SHOTS)) {
     if (only.length && !only.includes(slug)) continue;
-    if (theme === 'dark' && shot.light) continue;
+    if (theme !== 'dark' && shot.light) continue; /* one theme: written under the plain name by the default run only */
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];
@@ -557,7 +582,7 @@ try {
       const ctx = await browser.newContext(
         kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: 2 },
       );
-      await holdAtOne(ctx);
+      await hold(ctx, kind === 'phone' ? 1 : (spec?.zoom ?? 1), kind === 'phone' ? 0 : (spec?.pad ?? 0));
       const page = await ctx.newPage();
       /* A touch context applies its emulation to the next navigation, so the
          phone starts from a blank page; otherwise it is laid out as a mouse's. */
@@ -573,7 +598,7 @@ try {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);
       }
-      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined);
+      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
       await ctx.close();
     }
   }
