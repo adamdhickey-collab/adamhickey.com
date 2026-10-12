@@ -176,7 +176,7 @@ and they are not on the scale:
   timing is the reader's scroll position, not a duration.
 - **The hero logo reveal**, a one-shot clip that fades out over the mark it
   has just drawn.
-- **The radar** on the homepage's status chip (`.hero-intent::before`,
+- **The radar** before the homepage's status line (`.hero-intent::before`,
   since 2026-10-12): a sweep turning once every 2400ms, linear, on `rotate`.
   A radar turns at one speed, so its time is the drawing's and not an
   easing on the scale.
