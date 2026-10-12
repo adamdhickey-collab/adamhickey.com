@@ -176,15 +176,17 @@ and they are not on the scale:
   timing is the reader's scroll position, not a duration.
 - **The hero logo reveal**, a one-shot clip that fades out over the mark it
   has just drawn.
-- **The radar** before the homepage's status line (`.hero-intent::before`,
-  since 2026-10-12): a sweep turning once every 2400ms, linear, on `rotate`.
-  A radar turns at one speed, so its time is the drawing's and not an
-  easing on the scale.
+- **The ping** before the homepage's status line (`.status-ping`, since
+  2026-10-12, after a Lottie Adam picked): three hairline rings growing from
+  the centre and fading, each over 3600ms on `scale`, a third of a cycle
+  apart. The ripple's rhythm is the drawing's, so it is not a duration on
+  the scale.
 
 They are exempt because their timing carries meaning that a shared scale
 would flatten. They are still bound by §5: all four stop for reduced
-motion. The radar needs no rule to do it: the blanket runs it once in
-0.01ms, and a whole turn rests where it began.
+motion. The ping needs no rule to do it: the blanket runs each ring once
+in 0.01ms, and each then rests on its declared state, which is drawn as a
+still ping, three rings at 40, 70 and 100% fading outward.
 
 **One more thing moves with scroll and is not on that list, because it is
 not a drawing, and since 2026-10-08 it is on the scale.** The guided tour on
