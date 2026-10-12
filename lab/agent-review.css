@@ -133,9 +133,23 @@
    app's 1.25 zoom, and the inspector is 449 of the problem picture's 941
    CSS pixels, so it takes that share of the same column at every width.
    From 40rem, where both are the desktop captures; on a phone each crop
-   fills the column. */
+   fills the column. It starts at the column's left edge, where the problem
+   picture above it starts, rather than floating in the middle of it. */
 @media (min-width: 40rem) {
-  .ar-moment .ar-split > .ar-shot--narrow { width: calc(100% * 449 / 941); }
+  .ar-moment .ar-split > .ar-shot--narrow { width: calc(100% * 449 / 941); justify-self: start; }
+}
+/* The rule's scope, under the list in the text column, prints at the scale
+   of the preview beside it for the same reason: both are 2x captures at the
+   app's 1.25 zoom, and the crop is 449 of the preview's 949 CSS pixels. The
+   preview fills the media column, so the crop takes 449/949 of that, which
+   from 64rem is seven fifths of its own column (the split's 5fr and 7fr),
+   and below 64rem, where the two stack, the column itself. It keeps the
+   column's left edge, the line the list's markers stand on. */
+@media (min-width: 40rem) {
+  .ar-split-text > .ar-shot--narrow { width: calc(100% * 449 / 949); }
+}
+@media (min-width: 64rem) {
+  .ar-split-text > .ar-shot--narrow { width: calc(100% * 7 / 5 * 449 / 949); }
 }
 
 /* The walkthrough's disclosure: the site's disclosure row (style.css,
