@@ -300,7 +300,30 @@
 }
 
 /* ================= THE TOUR ================= */
-.wt.is-tour { margin-bottom: 0; }
+/* THE PANEL IS AS WIDE AS THE WINDOW, to 1920, since 2026-10-12 (Adam: on a
+   large monitor the walkthrough should fill the screen, so the screenshots
+   can be read; crisp, and capped somewhere about 1920). The page's column
+   is --container-max, 1280, and the panel stood inside it at 754px of
+   screen on every window from 1440 up. Now the panel steps out of the
+   column to the window's width less the gutters, until the window is
+   120rem wide, and holds there: 944px of screen at 1440, 1424 from 1920.
+   100vw rather than the container, because the container is the column;
+   the margins are the difference, halved, so the panel is centred on it.
+   On a Windows scrollbar 100vw is 17px wider than the page, and the
+   gutter on each side is more than that, so the panel still fits. The
+   side holds at 24rem once the panel is wide enough to give it more, so
+   the width goes to the screen, which is the point; under 1280 the side
+   was narrower than that already and nothing moves. Where the window is
+   too short for the screen at that width, walkthrough.js narrows the
+   stage to fit, as it did. The captures are 2x and, from 1920 at 2x, 3x
+   (the srcset in lab/agent-review.html), so the picture stays sharp
+   through the camera's zoom. The static layout, under 64rem or for a
+   reader who asked for stillness, is not touched. */
+.wt.is-tour {
+  margin-bottom: 0;
+  width: calc(min(100vw, 120rem) - 2 * var(--gutter));
+  margin-inline: calc((100% - min(100vw, 120rem) + 2 * var(--gutter)) / 2);
+}
 
 /* THE PANEL: the title over the screen on the left, the side beside both.
    The box is four rows, a spring, the title, the stage, a spring, so the
@@ -320,7 +343,7 @@
   position: sticky;
   top: var(--nav-height);
   display: grid;
-  grid-template-columns: minmax(0, 2.2fr) minmax(19rem, 1fr);
+  grid-template-columns: minmax(0, 2.2fr) minmax(19rem, 24rem); /* the side's cap: the panel's extra width is the screen's (above) */
   grid-template-rows: 1fr auto auto 1fr;
   column-gap: var(--space-3xl);
   padding-block: var(--space-md);

@@ -94,7 +94,7 @@
   var IW = +img.getAttribute('width');
   var IH = +img.getAttribute('height');
   var FH = Math.min(IH, +screen.getAttribute('data-fold') || IH);
-  var ZMAX = 2.1;          /* the capture is 2x, so this is still sharp */
+  var ZMAX = 2.1;          /* the capture is 2x, and 3x where the panel is wide (the srcset), so this is still sharp */
   var LEAD = 40;           /* capture px: the room the camera leaves left of a part, for its pin */
   var UNIT = 0.45;         /* of the window's height: the scroll one step takes */
   var UNIT_MIN = 360;      /* px, so a short window does not shorten the scroll with it */
