@@ -166,7 +166,7 @@ about vestibular triggers, not about forbidding change.
 ## 6. Artwork is not interface
 
 The same carve-out COLOR.md makes for illustration and SPACING.md makes for
-device frames. Four things on this site are drawings that happen to move,
+device frames. Three things on this site are drawings that happen to move,
 and they are not on the scale:
 
 - **The leaf sway** on the story illustration: a 5.5s ease-in-out loop with
@@ -176,17 +176,10 @@ and they are not on the scale:
   timing is the reader's scroll position, not a duration.
 - **The hero logo reveal**, a one-shot clip that fades out over the mark it
   has just drawn.
-- **The ping** before the homepage's status line (`.status-ping`, since
-  2026-10-12, after a Lottie Adam picked): three hairline rings growing from
-  the centre and fading, each over 7200ms on `scale`, a third of a cycle
-  apart. The ripple's rhythm is the drawing's, so it is not a duration on
-  the scale.
 
 They are exempt because their timing carries meaning that a shared scale
-would flatten. They are still bound by §5: all four stop for reduced
-motion. The ping needs no rule to do it: the blanket runs each ring once
-in 0.01ms, and each then rests on its declared state, which is drawn as a
-still ping, three rings at 40, 70 and 100% fading outward.
+would flatten. They are still bound by §5: all three stop for reduced
+motion.
 
 **One more thing moves with scroll and is not on that list, because it is
 not a drawing, and since 2026-10-08 it is on the scale.** The guided tour on
