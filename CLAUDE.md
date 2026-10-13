@@ -365,7 +365,7 @@ CSS or is declared retired in the script's own registry -- **except where the
 design system page resolves a name rather than discussing one.** Its swatches
 and its token table carry the name in `data-token` and hand it to the browser,
 so a retired token there is a blank card in a grid of colors rather than a
-sentence about a color that was removed. Those 54 are held to a declaration
+sentence about a color that was removed. Those 59 are held to a declaration
 and retirement does not excuse them, which is what stops a token the site has
 merged away from coming back as a swatch nobody notices is dead.
 `counts.mjs` does the
@@ -432,7 +432,7 @@ arriving or leaving), plus 131 token
 names against 228 declarations in 18 stylesheets (printed as 222 at 37644b5,
 and on every sweep from #369 until #398 corrected the instrument, for a
 selector read as a declaration; the drift paragraph below has it), 6
-retired by name, 54 of them resolved by the design system page rather than
+retired by name, 59 of them resolved by the design system page rather than
 described, and 26 counted claims across 6 documents.
 
 **There are five browser numbers now, not four.** `cards.mjs` went into
