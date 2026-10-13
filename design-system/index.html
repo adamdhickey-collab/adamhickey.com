@@ -85,7 +85,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261013a" />
+  <link rel="stylesheet" href="../style.css?v=20261013b" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="ds.css?v=42" />
 </head>
@@ -226,7 +226,7 @@
         <p class="ds-demo-note"><span class="ds-cr-key ds-cr-pass">4.50+</span> passes AA for text at any size. <span class="ds-cr-key ds-cr-large">3.00+</span> is legal for text at 24px and up, and for the boundary of a control. <span class="ds-cr-key ds-cr-fail">under 3</span> is decoration only.</p>
         <ul class="ds-rules ds-rules-after">
           <li><strong>The four light grounds share one ink system</strong><span>Charcoal, muted gray and the sage are all legal as body text on white, warm, tea and muted light. That is the whole reason four grounds are allowed to exist: four surfaces, one set of inks, nothing to remember.</span></li>
-          <li><strong>Charcoal flips completely</strong><span>Muted gray drops to 2.37:1 on it and the light sage to 2.63:1, so neither appears there as ink. The dark band takes warm and the sage on dark. The light sage can still be a fill on charcoal, as the primary button is, because what has to clear the floor is the warm type on it, at 5.32:1. This is the most plausible mistake in the system, because muted gray is the right answer on all four other grounds.</span></li>
+          <li><strong>Charcoal flips completely</strong><span>Muted gray drops to 2.37:1 on it and the light sage to 2.63:1, so neither appears there as ink. The dark band takes warm and the sage on dark. A fill is a different question from an ink, because what has to clear the floor is the type on it. On the dark band the primary button is a warm fill with charcoal type. This is the most plausible mistake in the system, because muted gray is the right answer on all four other grounds.</span></li>
           <li><strong>Sage on muted light has no headroom</strong><span>4.60:1 against a 4.5 floor. It passes, and it is the first pair to re-measure if either value ever moves.</span></li>
         </ul>
 
@@ -615,7 +615,7 @@
         <ul class="ds-rules ds-rules-after">
           <li><strong>A device shell takes its own radius</strong><span><code>--shell-radius</code> is set per device, at 18, 26 or 30px, because a phone frame is a drawing of an object. Its screen derives its corner with <code>calc()</code>, outer radius minus bezel, so the frame reads as a ring of one width.</span></li>
           <li><strong>Focus rings sit outside what they ring</strong><span>The ring draws at 4px with a 3px offset, so it frames the control rather than matching its corner.</span></li>
-          <li><strong>Two button shapes, by job</strong><span>The primary and ghost buttons on the dark band are square. The back button is a pill, the shape this rule gives any control whose corners are its short side.</span></li>
+          <li><strong>Two button shapes, by job</strong><span>The primary and ghost buttons are square. The back button is a pill, the shape this rule gives any control whose corners are its short side.</span></li>
         </ul>
 
         <h3 class="ds-sub">Breakpoints</h3>
@@ -731,9 +731,12 @@
 
         <div class="ds-component">
           <h3>Buttons</h3>
-          <div class="ds-demo is-dark">
+          <div class="ds-demo">
+            <a href="#components" class="btn btn-primary">Explore Agent Review</a>
+            <a href="#components" class="btn btn-ghost btn-ghost-light">See enterprise work</a>
+          </div>
+          <div class="ds-demo is-dark eng3-split-cta">
             <a href="#components" class="btn btn-primary">Start a conversation</a>
-            <a href="#components" class="btn btn-ghost">See the work</a>
           </div>
           <div class="ds-demo">
             <a class="btn-back" href="#components">
@@ -741,20 +744,26 @@
               Back to the work
             </a>
           </div>
-          <p class="ds-demo-note">Primary is the sage fill, carrying warm type at 5.32:1. Ghost is a hairline. Both live on the dark band. On a light ground the only button is the pill back link at the foot of a detail page, and everything else is a text link.</p>
+          <p class="ds-demo-note">Primary is the sage fill, carrying warm type at 5.32:1, and ghost is its outline: the two ways into a view, as in the homepage hero and in Contact. On the dark band, in an engagement page&rsquo;s closing panel, the primary turns warm with charcoal type. The back pill closes a detail page. Everything else is a text link.</p>
           <p class="ds-states-title">States</p>
           <div class="ds-states">
             <div class="ds-states-row">
               <p class="ds-states-label">Primary</p>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-primary" href="#components">Start a conversation</a></div><figcaption>Rest<code class="ds-state-rule"></code></figcaption></figure>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-primary" href="#components" data-force="hover">Start a conversation</a></div><figcaption>Hover<code class="ds-state-rule"></code></figcaption></figure>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-primary" href="#components" data-force="focus">Start a conversation</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-primary" href="#components">Explore Agent Review</a></div><figcaption>Rest<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-primary" href="#components" data-force="hover">Explore Agent Review</a></div><figcaption>Hover<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-primary" href="#components" data-force="focus">Explore Agent Review</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
             </div>
             <div class="ds-states-row">
               <p class="ds-states-label">Ghost</p>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-ghost" href="#components">See the work</a></div><figcaption>Rest<code class="ds-state-rule"></code></figcaption></figure>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-ghost" href="#components" data-force="hover">See the work</a></div><figcaption>Hover<code class="ds-state-rule"></code></figcaption></figure>
-              <figure class="ds-state"><div class="ds-state-stage" data-ground="dark" inert><a class="btn btn-ghost" href="#components" data-force="focus">See the work</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-ghost btn-ghost-light" href="#components">See enterprise work</a></div><figcaption>Rest<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-ghost btn-ghost-light" href="#components" data-force="hover">See enterprise work</a></div><figcaption>Hover<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn btn-ghost btn-ghost-light" href="#components" data-force="focus">See enterprise work</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
+            </div>
+            <div class="ds-states-row">
+              <p class="ds-states-label">Primary, on the dark band</p>
+              <figure class="ds-state"><div class="ds-state-stage eng3-split-cta" data-ground="dark" inert><a class="btn btn-primary" href="#components">Start a conversation</a></div><figcaption>Rest<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage eng3-split-cta" data-ground="dark" inert><a class="btn btn-primary" href="#components" data-force="hover">Start a conversation</a></div><figcaption>Hover<code class="ds-state-rule"></code></figcaption></figure>
+              <figure class="ds-state"><div class="ds-state-stage eng3-split-cta" data-ground="dark" inert><a class="btn btn-primary" href="#components" data-force="focus">Start a conversation</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
             </div>
             <div class="ds-states-row">
               <p class="ds-states-label">Back</p>
@@ -763,16 +772,21 @@
               <figure class="ds-state"><div class="ds-state-stage" data-ground="light" inert><a class="btn-back" href="#components" data-force="focus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Back to the work</a></div><figcaption>Focus<code class="ds-state-rule"></code></figcaption></figure>
             </div>
           </div>
-          <p class="ds-demo-note">Each state is the site&rsquo;s own rule, cloned from the stylesheet as this page loads, and the declaration it sets is printed under it. There is no pressed or disabled state: nothing on the site disables a button, and a press navigates.</p>
+          <p class="ds-demo-note">Each state is the site&rsquo;s own rule, cloned from the stylesheet as this page loads, and the declaration it sets is printed under it. Hover darkens the sage to its hover step, and the two outline buttons fill charcoal. There is no pressed or disabled state: nothing on the site disables a button, and a press navigates.</p>
           <dl class="ds-anatomy">
-            <div><dt>Classes</dt><dd><code>.btn</code> with <code>.btn-primary</code> or <code>.btn-ghost</code>, and <code>.btn-back</code></dd></div>
-            <div><dt>Variants</dt><dd>Primary and ghost on the dark band. Back, a pill, on a light ground.</dd></div>
-            <div><dt>Tokens</dt><dd data-tokens-of="btn btn-primary btn-ghost btn-back"></dd></div>
+            <div><dt>Classes</dt><dd><code>.btn</code> with <code>.btn-primary</code>, or with <code>.btn-ghost</code> and <code>.btn-ghost-light</code>, and <code>.btn-back</code></dd></div>
+            <div><dt>Variants</dt><dd>Primary and ghost on a light ground. The primary inside <code>.eng3-split-cta</code> on the dark band. Back, a pill, at the foot of a detail page.</dd></div>
+            <div><dt>Tokens</dt><dd data-tokens-of="btn btn-primary btn-ghost btn-ghost-light btn-back"></dd></div>
           </dl>
           <details class="ds-usage">
             <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span>Markup</span></summary>
-            <pre class="ds-code"><code>&lt;a class=&quot;btn btn-primary&quot; href=&quot;/contact&quot;&gt;Start a conversation&lt;/a&gt;
-&lt;a class=&quot;btn btn-ghost&quot; href=&quot;/work&quot;&gt;See the work&lt;/a&gt;
+            <pre class="ds-code"><code>&lt;a class=&quot;btn btn-primary&quot; href=&quot;/lab/agent-review.html&quot;&gt;Explore Agent Review&lt;/a&gt;
+&lt;a class=&quot;btn btn-ghost btn-ghost-light&quot; href=&quot;#enterprise-work&quot;&gt;See enterprise work&lt;/a&gt;
+
+&lt;!-- the dark band: an engagement page&rsquo;s closing panel --&gt;
+&lt;div class=&quot;eng3-split-cta&quot;&gt;
+  &lt;a class=&quot;btn btn-primary&quot; href=&quot;mailto:&hellip;&quot;&gt;Start a conversation&lt;/a&gt;
+&lt;/div&gt;
 
 &lt;!-- light ground, foot of a detail page --&gt;
 &lt;a class=&quot;btn-back&quot; href=&quot;/work&quot;&gt;
@@ -782,8 +796,8 @@
           </details>
           <ul class="ds-guide">
             <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> give a view one primary at most. A second one is two things claiming to be the next step.</span></li>
-            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> pair primary with ghost on the dark band, where both were measured.</span></li>
-            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> put a filled button on light ground. The only light-ground button is the back pill; everything else is a text link.</span></li>
+            <li class="ds-guide-do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Do</b> pair the primary with the ghost when a view offers two ways in, as the homepage hero and Contact do.</span></li>
+            <li class="ds-guide-dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span><b>Don&rsquo;t</b> put a button where a link will do. Prose takes text links, and the foot of a detail page takes the back pill.</span></li>
           </ul>
         </div>
 
@@ -1295,7 +1309,7 @@
         <ul class="ds-rules ds-rules-gap">
           <li><strong>One focus ring, everywhere</strong><span>Every link and button: a 2px outline in <code>--color-focus-ring</code>, offset 3px, on <code>:focus-visible</code>, so keyboard users get it and mouse clicks stay clean. Each ground sets the ring&rsquo;s color, so on charcoal it is the sage on dark, as below.</span></li>
         </ul>
-        <div class="ds-demo is-dark" inert>
+        <div class="ds-demo is-dark eng3-split-cta" inert>
           <a href="#a11y" class="btn btn-primary" data-force="focus">Start a conversation</a>
         </div>
         <ul class="ds-rules">
@@ -1384,6 +1398,18 @@
             <div class="ds-log-body">
               <p>The sage on light was two values: <code>#556b51</code> for text and <code>#657d60</code> for fills, on the theory that fills wanted a lighter step. Nobody had checked. The site&rsquo;s largest sage fill, the primary button, had used the text step all along, because warm type on the lighter sage measured 4.12:1, under the text floor.</p>
               <p>Merging the two put every fill further from its ground, and turned up the one place it could not be a straight swap: the focus ring on charcoal, where the text sage reads 2.63:1. The ring became a token each ground sets, and on charcoal it went from 3.40:1 to 7.47:1.</p>
+            </div>
+          </details>
+          <details class="ds-log">
+            <summary class="disclosure-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span><span class="ds-log-area">Buttons</span>A hover nobody could see</span></summary>
+            <div class="ds-log-body">
+              <p>The state grid on this page showed it the day it was built: none of the three buttons changed visibly under a pointer.</p>
+              <ul class="build-list">
+                <li><strong>The primary</strong> mixed the sage 90% with transparent, letting the ground through, so it moved 1.25:1 from rest. On white its warm label fell to <strong>4.24:1</strong>, under the text floor, and no check saw it, because a <code>color-mix()</code> with transparency is a color the contrast checks cannot composite. It takes <code>--color-accent-hover</code> now: 6.90:1, and a change you can see.</li>
+                <li><strong>The ghost</strong> filled charcoal on hover, which on the dark band is no change at all. Every ghost on the site turned out to be the light-ground form, whose hover already inverted, so the dark form takes the dark band&rsquo;s hover wash.</li>
+                <li><strong>The back pill</strong> had a transition and no hover rule. It takes the light-ground ghost&rsquo;s, so the two outline buttons answer a pointer the same way.</li>
+              </ul>
+              <p>The same pass found this page documenting the buttons on the wrong ground: primary and ghost live on light grounds, and on the dark band the primary turns warm.</p>
             </div>
           </details>
           <details class="ds-log">
@@ -1874,10 +1900,21 @@
         var owner = fig.querySelector('[data-force]');
         var out = fig.querySelector('.ds-state-rule');
         if (!owner || !out) return;
-        var lines = [];
+        /* One declaration per property, the last one read: rules come in
+           stylesheet order, and an override is written after its base, so
+           the last is the one the cascade paints. */
+        var decl = {};
         said.forEach(function (pair) {
-          if (pair[0] === owner && lines.indexOf(pair[1]) < 0) lines.push(pair[1]);
+          if (pair[0] !== owner) return;
+          pair[1].split(';').forEach(function (d) {
+            var i = d.indexOf(':');
+            if (i < 0) return;
+            var prop = d.slice(0, i).trim();
+            delete decl[prop];
+            decl[prop] = d.slice(i + 1).trim();
+          });
         });
+        var lines = Object.keys(decl).map(function (k) { return k + ': ' + decl[k] + ';'; });
         out.textContent = lines.length ? lines.join(' ') : 'No rule for this state.';
       });
     })();
