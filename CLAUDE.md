@@ -418,18 +418,19 @@ is not.
 
 **Watch the counts, not only the verdict.** `states.mjs` once passed clean at
 416 state rules and at 617, and the gap was a third of the site going
-unmeasured. At 2026-10-07 the tree measures 12376 resting colors, 2205 state
-rules, 51456 type sizes, 31250 elements checked for a partial border on a
-curve and 385 raised surfaces, across 32 pages (the thirty-one of the site
+unmeasured. At 2026-10-13 the tree measures 12828 resting colors, 2452 state
+rules, 53312 type sizes, 32739 elements checked for a partial border on a
+curve and 402 raised surfaces, across 33 pages (the thirty-two of the site
 and `404.html`, which the browser checks measure and `counts.mjs` and
-`seo.mjs` leave out; **32 since the lab landed on 2026-10-01**, two pages at
-once, and every one of the five moved with them) and 21 reachable states
+`seo.mjs` leave out; **33 since #456 on 2026-10-08**, when the article "What
+a design system needs to explain to an agent" arrived, and 32 from the lab's
+two pages on 2026-10-01 until then) and 21 reachable states
 (14 on the deploy console and 7 on the cockpit; **21 since #419**, when the
 lab index went back to a list and its 3 states left the registry, down from
 the 24 every set from #411 to #418 was measured with, and a reachable state
 is a fresh load that moves every count but state rules without a page
-arriving or leaving), plus 131 token
-names against 228 declarations in 18 stylesheets (printed as 222 at 37644b5,
+arriving or leaving), plus 132 token
+names against 229 declarations in 19 stylesheets (printed as 222 at 37644b5,
 and on every sweep from #369 until #398 corrected the instrument, for a
 selector read as a declaration; the drift paragraph below has it), 6
 retired by name, 59 of them resolved by the design system page rather than
@@ -493,10 +494,12 @@ check with the defect rather than spend 14 real elements on four checks that
 gain nothing.
 
 The figures above are a re-measurement, not a delta. They were taken by the
-CI run of `checks.yml` on **`main` at 12e4630**, run 37695416700 -- the
+CI run of `checks.yml` on **`main` at 394f29f**, run 38442358727 -- the
 post-merge sweep rather than a run against a branch, which is the cheapest
 way to take one, since that sweep runs whether anybody reads it or not. They
-replace the 2026-10-06 set of 12445 / 2215 / 52180 / 31631 / 391 at 96b1678,
+replace the 2026-10-07 set of 12376 / 2205 / 51456 / 31250 / 385 at 12e4630,
+run 37695416700, the last 32-page set, which replaced the
+2026-10-06 set of 12445 / 2215 / 52180 / 31631 / 391 at 96b1678,
 run 37515183663, the only set taken with 24 reachable states, which replaced
 the 2026-10-06 set of 12103 / 2214 / 50584 / 30442 / 383 at 093af5d,
 run 37493422745, the only set taken with 23 reachable states, which replaced
@@ -520,9 +523,10 @@ taken the same way at
 from `claude/assigned-button-ink` at d0b4be7. The set written here between
 those last two, at c680512, is not quoted again: it is the #267 row of the
 last ladder below, which is a better record of it than a sentence. The page count
-moved twice across them, each time at a set's own commit -- 29 through
-87f91bf, 30 at 8bb54d3, 32 at d90efe7 and since -- and it is the number to
-read first.
+moved three times across them -- 29 through 87f91bf, 30 at 8bb54d3, 32 at
+d90efe7, 33 at d12a3ed (#456) and since -- and it is the number to read
+first. The first two moves landed on a set's own commit; the third is a row
+in the ladder for 12e4630 to 394f29f below.
 
 **37644b5's run took two attempts, and the first one is the kind of red this
 section has no other name for.** Four of the five browser legs finished on
@@ -550,6 +554,111 @@ against it, that branch merged, and the sweep of the merge was sitting in
 the Actions list before anybody had to remember to look. Re-measuring cost
 three `gh run view --log` calls. The cost of NOT doing it is the residuals
 further down.
+
+**Forty-seven commits between 12e4630 and 394f29f, and all forty-seven have
+a sweep in the Actions list, each green on its first attempt.** All
+forty-seven are pull requests, #448 through #495 less #482, which was closed
+without merging, in the order they merged. Twenty-four rows are flat and
+twenty-three moved a count. **None of the twenty-three is the instrument**:
+no check script, nothing in `scripts/lib/` and not `checks.yml` changed in
+the stretch, so every move below is the site. The reach column held at 21
+throughout. The stylesheet count moved three times, read off `tokens.mjs`:
+18 -> 19 at #461 (`lab-feature.css`, the homepage's composition), back to 18
+at #478 (the same file, gone with it) and 19 at #485 (`related.css`).
+
+| after | reach | resting | state rules | type sizes | curve elements | raised | names | decl |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| #446 `12e4630` | 21 | 12376 | 2205 | 51456 | 31250 | 385 | 131 | 228 |
+| **#449** `b01c2a0` | 21 | **12378** | 2205 | **51468** | **31264** | **386** | 131 | 228 |
+| #448, #450 | 21 | 12378 | 2205 | 51468 | 31264 | 386 | 131 | 228 |
+| **#451** `2182b33` | 21 | **12354** | 2205 | **51364** | **31205** | 386 | 131 | 228 |
+| **#452** `9205da6` | 21 | **12376** | 2205 | **51460** | **31250** | 386 | 131 | 228 |
+| **#453** `d25851c` | 21 | 12376 | 2205 | 51460 | **31261** | **389** | 131 | 228 |
+| **#454** `bc4fb26` | 21 | **12384** | 2205 | **51496** | **31275** | 389 | 131 | 228 |
+| **#455** `38f83fe` | 21 | **12381** | **2214** | **51484** | **31289** | 389 | 131 | 228 |
+| **#456** `d12a3ed` | 21 | **12463** | **2287** | **51820** | **31458** | **390** | 131 | 228 |
+| #457, #459 | 21 | 12463 | 2287 | 51820 | 31458 | 390 | 131 | 228 |
+| **#458** `3fdce8f` | 21 | 12463 | **2453** | 51820 | 31458 | 390 | 131 | 228 |
+| **#460** `0bee4e6` | 21 | **12462** | 2453 | **51816** | **31457** | 390 | 131 | 228 |
+| **#461** `0411f43` | 21 | **12485** | 2453 | **51912** | **31517** | **392** | 131 | 228 |
+| #462 `46248e8` | 21 | 12485 | 2453 | 51912 | 31517 | 392 | 131 | 228 |
+| **#463** `5a9b0f9` | 21 | **12505** | **2455** | **51996** | **31567** | 392 | 131 | 228 |
+| #464 to #470, #472 | 21 | 12505 | 2455 | 51996 | 31567 | 392 | 131 | 228 |
+| **#471** `4117276` | 21 | 12505 | **2453** | **51980** | **31535** | 392 | 131 | 228 |
+| #473 `b5217e7` | 21 | 12505 | 2453 | 51980 | 31535 | 392 | 131 | 228 |
+| **#474** `64ee2cf` | 21 | **12487** | 2453 | **51904** | **31480** | **390** | 131 | 228 |
+| #475, #476 | 21 | 12487 | 2453 | 51904 | 31480 | 390 | 131 | 228 |
+| **#477** `926346c` | 21 | **12491** | 2453 | **51920** | **31490** | 390 | 131 | 228 |
+| **#478** `3c288a0` | 21 | **12469** | 2453 | **51824** | **31429** | **389** | 131 | 228 |
+| **#479** `ea796cd` | 21 | **12476** | 2453 | **51852** | **31443** | 389 | 131 | 228 |
+| **#480** `a18ceda` | 21 | **12478** | 2453 | 51852 | **31456** | 389 | 131 | 228 |
+| #481 `9135026` | 21 | 12478 | 2453 | 51852 | 31456 | 389 | 131 | 228 |
+| **#483** `0d904a0` | 21 | **12530** | **2509** | **52104** | **31570** | **391** | **132** | **229** |
+| #486, #484 | 21 | 12530 | 2509 | 52104 | 31570 | 391 | 132 | 229 |
+| **#485** `3248e9b` | 21 | **12636** | **2477** | **52528** | **32073** | 391 | 132 | 229 |
+| #487, #488 | 21 | 12636 | 2477 | 52528 | 32073 | 391 | 132 | 229 |
+| **#489** `a759eac` | 21 | 12636 | 2477 | 52528 | **32075** | 391 | 132 | 229 |
+| #490, #491, #492 | 21 | 12636 | 2477 | 52528 | 32075 | 391 | 132 | 229 |
+| **#493** `5eb787b` | 21 | **12634** | **2423** | **52516** | **32070** | 391 | 132 | 229 |
+| **#494** `7f7d93a` | 21 | **12800** | **2425** | **53200** | **32693** | **405** | 132 | 229 |
+| **#495** `394f29f` | 21 | **12828** | **2452** | **53312** | **32739** | **402** | 132 | 229 |
+
+**#456 is the row to read first, because it moved the page count**, 32 ->
+33, and every one of the five moved with it: the article "What a design
+system needs to explain to an agent" arrived, the writing index regrouped
+under Designing with code, and the this-site write-up changed with them. +82
+/ +73 / +336 / +169 / +1 is the page arriving plus those edits, and it was
+read off the sweep rather than split by page.
+
+**Only the last three rows were reconciled against their pages**, each
+measured on the Mac against the tree before it, extracted with its own
+scripts. The ladder does not claim the same for the other twenty; their
+paragraph below says which commit did what without the arithmetic.
+
+- **#493 took the homepage's intent line out**: a `p`, its link, the link's
+  visually hidden span, and the ping's two spans. Resting -2 is the `p` and
+  the `a`; type sizes -12 is those two and the hidden span at four widths;
+  curve elements -5 is all five. **State rules -54 is 2 x 27**:
+  `.hero-intent a:hover` and `.hero-intent a:focus-visible` left
+  `style.css`, which 27 pages load, and `states.mjs --list` diffed on
+  this-site and the design system page shows exactly those two going from
+  each.
+- **#494 is the design system page rebuilt as a reference**, plus one link
+  on each of two pages. Scoped on the design system page, against f26d9ba,
+  the commit its branch was cut from, whose copy of that page differs from
+  #493's only by a cache-buster: resting +164, state rules +2, type sizes
+  +676, curve elements +621, raised +14 (17 -> 31): the palette by role, state grids, elevation and corner tiles, the
+  icon set, the checks and the decision log. The two links, on the this-site
+  write-up and the Design System Foundation page, are the other +2 / 0 / +8
+  / +2 / 0. The two state rules are `.ds-copy:hover` and
+  `.ds-copy.is-copied::after`, diffed with `--list`, and the two linking
+  pages measure flat. `tokens.mjs`'s names resolved by the design system
+  page went 54 -> 59, which is not a column here.
+- **#495 is the button hovers.** State rules +27 is `.btn-back:hover` on
+  each page that loads `style.css`, diffed on three of them; the primary's
+  and ghost's hovers were already counted and changed value, not number.
+  +28 / +112 / +46 is the design system page's button entry rebuilt on the
+  grounds the buttons live on; the first two were measured on that page and
+  the third read off, and it can only be that page, the one whose markup
+  changed beyond a cache-buster. **Raised -3 had to be chased before it
+  was accepted**: the primary's and ghost's state rows moved from charcoal
+  stages to white ones, which `cards.mjs` does not count on a white page
+  (-6), and a row for the dark-band primary added three charcoal stages
+  (+3).
+
+**The rest, read off and not itemized.** #449 to #455 and #461 to #480 are
+the Agent Review case study and the homepage's lab card rebuilt several
+times over: the hero, the walkthrough, the three kinds of work, the
+homepage composition (#461) and its retirement (#478). That run's state
+rule moves are #455's +9, #463's +2 and #471's -2. #460 made the homepage
+hero one paragraph. #458 is the prose link group, the largest state rule
+move in the stretch at +166, not split by page. #483 put Agent Review at
+the head of the homepage and is the 132nd name and the 229th declaration,
+`--same-red`, which `COLOR.md` names. #485 is the Related list on
+seventeen pages, `related.css` arriving as the 19th stylesheet, with state
+rules down 32. #489 is the status ping, curve elements +2, which #493 took
+out with its line. Flat rows: #448, #450, #457, #459, #462, #464 to #470,
+#472, #473, #475, #476, #481, #484, #486, #487, #488 and #490 to #492.
 
 **Thirty-six commits between 96b1678 and 12e4630, and all thirty-six have a
 sweep in the Actions list, each green on its first attempt.** All thirty-six
