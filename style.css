@@ -1651,12 +1651,25 @@ a.case-thumb { display: block; }
    carries text has to clear the text floor against that text, not the 3:1
    floor a bare fill would. On accent-text the same warm reads 5.32:1. */
 .btn-primary { background: var(--color-accent-text); }
+/* HOVER TAKES THE PALETTE'S HOVER STEP, since 2026-10-13. It was the sage
+   mixed 90% with transparent, which lets the ground through: on charcoal
+   that is a shade darker and on white a shade lighter, 1.25:1 from rest
+   either way, and on white the warm label on it fell to 4.24:1, under the
+   text floor. No check could see it, because a color-mix() with
+   transparency computes to color(srgb ... / 0.9), which the contrast checks
+   cannot composite. --color-accent-hover is the darker step COLOR.md
+   defines for exactly this: 1.30:1 from rest on any ground, and warm on it
+   reads 6.90:1. The design system page's state grid is what showed it. */
 @media (hover: hover) and (pointer: fine) {
-  .btn-primary:hover { background: color-mix(in srgb, var(--color-accent-text) 90%, transparent); }
+  .btn-primary:hover { background: var(--color-accent-hover); }
 }
 .btn-ghost { border: 1px solid var(--color-muted-gray); }
+/* On the dark band a ghost's hover is the dark band's own hover wash. It
+   filled charcoal until 2026-10-13, which on charcoal is no change at all;
+   every ghost on the site is .btn-ghost-light, whose hover below inverts,
+   so only the dark-band form ever showed it, on the design system page. */
 @media (hover: hover) and (pointer: fine) {
-  .btn-ghost:hover { background: var(--color-charcoal); }
+  .btn-ghost:hover { background: var(--wash-on-dark-hover); }
 }
 
 .lucy {
@@ -5625,6 +5638,17 @@ html.ah-lightbox-open body { overflow: hidden; }
   transition: background-color var(--motion-move) var(--ease), color var(--motion-move) var(--ease), border-color var(--motion-move) var(--ease);
 }
 .btn-back svg { width: 18px; height: 18px; }
+/* The back pill had the transition and no hover until 2026-10-13. It takes
+   the light-ground ghost's hover, so the site's two outline buttons on a
+   light ground answer a pointer the same way: they fill charcoal and the
+   label turns warm. The chevron is currentColor and turns with it. */
+@media (hover: hover) and (pointer: fine) {
+  .btn-back:hover {
+    background: var(--color-charcoal);
+    color: var(--ink-on-dark);
+    border-color: var(--color-charcoal);
+  }
+}
 
 /* ---------- Where a build write-up goes next ----------
    The three build write-ups ended on "Back to the work" and nothing else,
