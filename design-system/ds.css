@@ -49,6 +49,7 @@
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--color-accent-text);
   display: block;
   margin-bottom: var(--space-xs);
@@ -64,7 +65,7 @@
   padding: 0;
 }
 .ds-swatch {
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--color-white);
   box-shadow: var(--shadow-card);
@@ -130,7 +131,7 @@
 
 /* ---------- component demos ---------- */
 .ds-demo {
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   padding: var(--space-2xl);
   margin: 0 0 var(--space-sm);
   background: var(--color-white);
@@ -194,7 +195,7 @@
 .ds-motion-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); width: 100%; }
 .ds-motion-demo .ds-rv {
   background: var(--color-tea-light);
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   min-height: 92px;
   display: flex;
   align-items: center;
@@ -221,20 +222,40 @@
   .ds-motion-demo.play .ds-rv { transition: none; }
 }
 
-/* ---------- icon demo ----------
-   The icons borrow .eng3-icon for size, color and hairline; the draw-on
-   reuses the site's eng3-draw keyframes, re-armed by toggling .play. */
-.ds-icon-row { display: flex; gap: var(--space-3xl); align-items: center; }
-.ds-icon-row .eng3-icon path,
-.ds-icon-row .eng3-icon circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.ds-icon-row.play .eng3-icon path,
-.ds-icon-row.play .eng3-icon circle {
+/* ---------- icon set ----------
+   Every draw-on icon the site uses, at 32px in the sage. The hidden start
+   of the draw-on is gated behind [data-draw], which the page script sets,
+   so without JavaScript the set renders drawn rather than blank. The
+   keyframes are the site's own eng3-draw. */
+.ds-icon-grid {
+  list-style: none; margin: 0; padding: 0; width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  gap: var(--space-xl) var(--space-md);
+}
+.ds-icon-grid li { display: grid; justify-items: center; gap: var(--space-xs); text-align: center; }
+.ds-icon-grid li > span {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ds-icon {
+  width: 32px; height: 32px;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  color: var(--color-accent-text);
+}
+.ds-icon-grid[data-draw] .ds-icon path,
+.ds-icon-grid[data-draw] .ds-icon circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.ds-icon-grid[data-draw].play .ds-icon path,
+.ds-icon-grid[data-draw].play .ds-icon circle {
   animation: eng3-draw var(--motion-draw) var(--ease) forwards;
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
 }
 @media (prefers-reduced-motion: reduce) {
-  .ds-icon-row .eng3-icon path,
-  .ds-icon-row .eng3-icon circle { stroke-dashoffset: 0; animation: none; }
+  .ds-icon-grid[data-draw] .ds-icon path,
+  .ds-icon-grid[data-draw] .ds-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 
 /* the engagement card specimen needs a width like the real grid column */
@@ -270,7 +291,7 @@
   padding: 0;
 }
 .ds-surface {
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   padding: var(--space-lg) var(--space-lg) var(--space-lg);
   min-height: 170px;
   display: flex;
@@ -313,12 +334,11 @@
   padding: var(--space-xs) var(--space-md);
   font-size: var(--text-sm);
 }
-/* the site's focus ring, held on for the specimen */
-.ds-focus-demo {
-  outline: 2px solid var(--color-accent-text);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
+/* The focus ring specimen is the site's own a:focus-visible rule, cloned
+   onto [data-force~="focus"] by the page script, so the ring takes
+   --color-focus-ring from the ground it sits on, as every real one does.
+   It was a hand-copied outline in the light sage until 2026-10-13, which
+   drew the 2.63:1 ring on charcoal that the palette exists to forbid. */
 
 /* ---------- shell: sticky grouped sidebar beside the content ----------
    Modeled on the organization of the Sprout system: sections gathered
@@ -349,7 +369,42 @@
   overflow-y: auto;
   padding-right: var(--space-xs);
 }
-@media (max-width: 1023.98px) { .ds-side { display: none; } }
+/* Below the two-column shell the sidebar is a sticky bar of chips under the
+   header, so a reader on a phone can still jump between sections. It is the
+   same links in the same order: the groups and numbers drop out, and the
+   reading marker stays. The bar's own height joins the anchor offset. */
+@media (max-width: 1023.98px) {
+  html { scroll-padding-top: calc(var(--nav-height) + var(--space-4xl) + var(--space-sm)); }
+  .ds-side {
+    display: flex;
+    gap: var(--space-xs);
+    top: var(--nav-height);
+    z-index: 5;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: var(--space-xs) var(--gutter);
+    background: var(--color-white);
+    box-shadow: var(--shadow-resting);
+  }
+  .ds-side::-webkit-scrollbar { display: none; }
+  /* Scoped under .ds-side so they outrank the sidebar's own rules below,
+     which come later in this file at the same specificity. */
+  .ds-side .ds-side-group, .ds-side .ds-side-body, .ds-side .ds-side-body-inner { display: contents; }
+  .ds-side .ds-side-group + .ds-side-group { margin-top: 0; }
+  .ds-side .ds-side-title, .ds-side .ds-side-num { display: none; }
+  .ds-side .ds-side-link {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 var(--space-md);
+    white-space: nowrap;
+  }
+  .ds-side .ds-side-lead { margin-bottom: 0; }
+}
 
 .ds-side-group + .ds-side-group { margin-top: var(--space-lg); }
 /* Group titles are labels, not controls: nothing in this nav collapses. */
@@ -371,7 +426,7 @@
   align-items: baseline;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-xs);
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   text-decoration: none;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
@@ -544,8 +599,8 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
 }
 .ds-space:last-child { border-bottom: 0; }
 .ds-space code { font-size: var(--text-2xs); }
-.ds-space-bar { display: block; height: 14px; background: var(--color-muted-light); border-radius: 2px; }
-.ds-space-bar i { display: block; height: 100%; background: var(--color-accent-text); border-radius: 2px; }
+.ds-space-bar { display: block; height: 14px; background: var(--color-muted-light); border-radius: var(--radius-pill); }
+.ds-space-bar i { display: block; height: 100%; background: var(--color-accent-text); border-radius: var(--radius-pill); }
 .ds-space-px, .ds-space-tw {
   font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
   letter-spacing: var(--tracking-label); color: var(--color-muted-gray);
@@ -610,7 +665,7 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
 }
 .ds-mdot {
   position: absolute; top: 1px; left: 1px;
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 8px; height: 8px; border-radius: var(--radius-pill);
   background: var(--color-accent-text);
 }
 /* The dot travels on `left`, not on a translateX percentage: a percentage
@@ -645,7 +700,7 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
   border: 1px solid var(--color-rule); border-radius: var(--radius-xl);
   font-family: var(--font-sans); font-size: var(--text-sm);
 }
-.ds-rm-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-muted-gray); flex: 0 0 auto; }
+.ds-rm-dot { width: 10px; height: 10px; border-radius: var(--radius-pill); background: var(--color-muted-gray); flex: 0 0 auto; }
 .ds-rm.is-reduced .ds-rm-dot { background: var(--color-accent-text); }
 .ds-rm strong { font-weight: 600; }
 
@@ -697,10 +752,10 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
 .ds-usage[open] > summary { margin-bottom: var(--space-xs); }
 .ds-code {
   margin: 0;
-  padding: var(--space-md);
+  padding: var(--space-lg);
   background: var(--color-white);
   border: 1px solid var(--color-tag-border);
-  border-radius: 8px;
+  border-radius: var(--radius-xl);
   overflow-x: auto;
 }
 .ds-code code {
@@ -724,12 +779,230 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
   gap: var(--space-xs);
   align-items: start;
 }
-.ds-guide svg { width: 16px; height: 16px; margin-top: 3px; }
+/* One line tall, so the viewBox centres the mark on the first line of the
+   text beside it in whatever leading that text sets: no hand-picked nudge.
+   The cross is --color-caution-text, the caution that is legal on a light
+   ground; --color-caution is 2.62:1 on white and is for charcoal only. */
+.ds-guide svg { width: 16px; height: 1lh; font-size: var(--text-sm); line-height: var(--leading-body); }
 .ds-guide-do svg { color: var(--color-accent-text); }
-.ds-guide-dont svg { color: var(--color-caution); }
+.ds-guide-dont svg { color: var(--color-caution-text); }
 .ds-guide span {
   font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
 .ds-guide b { font-weight: 600; }
+
+/* ---------------------------------------------------------------------------
+   2026-10-13: THE REFERENCE PASS. What the page added when it became a
+   reference first and a record second: live figures in the hero, the
+   palette grouped by role, state grids and anatomy on the core components,
+   elevation and corner specimens, the checks, the decision log, and copy
+   buttons on token names. Spacing that used to be inline rem is here, on
+   the steps. */
+.ds-flush { margin: 0; }
+.ds-flush-top { margin-top: 0; }
+.ds-stack { margin: 0 0 var(--space-xl); }
+.ds-demo-block { display: block; }
+/* The accessibility demos take their gap from the section rather than a
+   class, because cards.mjs exempts the tea stage by its exact class list. */
+#a11y .ds-demo { margin-bottom: var(--space-2xl); }
+.ds-note-gap { margin-bottom: var(--space-xl); }
+.ds-lede-tight { margin-bottom: var(--space-lg); }
+.ds-rules-after { margin-top: var(--space-xl); }
+.ds-rules-gap { margin-bottom: var(--space-2xl); }
+.ds-hero-title { margin: var(--space-2xs) 0 0; }
+.ds-hero-dek { margin: var(--space-xs) 0 0; }
+.ds-type-sample { max-width: var(--measure); margin: 0; }
+.ds-footer-note { font-size: var(--text-sm); color: var(--ink-on-dark-secondary); margin: 0; }
+
+/* Hero: the site's own number row, counted from this page as it loads. */
+.ds-stats { margin: var(--space-2xl) 0 var(--space-lg); max-width: 46rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 640px) { .ds-stats { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.ds-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md);
+  margin: 0;
+  font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-muted-gray);
+}
+
+/* Palette, grouped by role. Three columns from 640, and the sage on light
+   takes two of them, because it carries its hover beside it. */
+.ds-palette .ds-scale-tier:first-child { margin-top: 0; }
+@media (min-width: 640px) {
+  .ds-palette .ds-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ds-swatch-wide { grid-column: span 2; }
+}
+.ds-swatch-states { display: grid; grid-template-columns: 1fr 1fr; }
+.ds-swatch-state {
+  display: flex; align-items: flex-end;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  color: var(--color-warm);
+}
+.ds-swatch-meta code + code { margin-top: 0; }
+
+/* Copy buttons on token names and values. A button styled as the code it
+   holds; the ring is the site's button:focus-visible. */
+/* No padding, so a token name sits exactly where the bare code did; the
+   hover wash reaches past the text with a spread shadow instead, which moves
+   nothing. */
+.ds-copy {
+  appearance: none;
+  margin: 0; padding: 0;
+  border: 0; border-radius: var(--radius-pill);
+  background: none;
+  font: inherit; color: inherit; text-align: left;
+  cursor: copy;
+  transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
+}
+.ds-copy code { display: inline; margin: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .ds-copy:hover {
+    background: var(--wash-on-light-hover);
+    box-shadow: 0 0 0 var(--space-2xs) var(--wash-on-light-hover);
+  }
+}
+.ds-copy.is-copied::after {
+  content: "Copied";
+  margin-left: var(--space-xs);
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ds-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Elevation: the four rungs, each tile wearing its own token, on the warm
+   ground they are drawn against. Every tile takes --rule-card as its edge,
+   as the ladder in shell.css says a card does. */
+.ds-elevation {
+  list-style: none; margin: 0 0 var(--space-xl); padding: var(--space-2xl);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-xl);
+  background: var(--color-warm);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ds-elevation li { display: grid; gap: var(--space-xs); align-content: start; }
+.ds-elevation code { font-size: var(--text-xs); color: var(--color-charcoal); }
+.ds-elevation li > span:last-child { font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.ds-elev-tile {
+  display: block; height: 72px; margin-bottom: var(--space-xs);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ds-elev-zone { background: var(--color-tea-light); box-shadow: var(--shadow-zone); }
+.ds-elev-card { box-shadow: var(--shadow-card); }
+.ds-elev-raised { box-shadow: var(--shadow-card-raised); }
+.ds-elev-popover { box-shadow: var(--shadow-popover); }
+
+/* Corners, at their own token. */
+.ds-corners {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: var(--space-xl);
+}
+/* Every tile sits in the same 72px row, so the names under them line up
+   whatever each tile's own height. */
+.ds-corners li { display: grid; grid-template-rows: 72px auto auto 1fr; gap: var(--space-2xs); align-content: start; }
+.ds-corners code { font-size: var(--text-xs); color: var(--color-charcoal); }
+.ds-corner-tile {
+  display: block; height: 72px; align-self: center;
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+}
+.ds-corner-pill { height: 44px; border-radius: var(--radius-pill); }
+.ds-corners li > code, .ds-corners li > .ds-copy { margin-top: var(--space-sm); justify-self: start; }
+.ds-corner-xl { border-radius: var(--radius-xl); }
+.ds-corner-circle { width: 72px; border-radius: 50%; }
+.ds-corner-px {
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  font-variant-numeric: tabular-nums; color: var(--color-accent-text);
+}
+.ds-corner-job { font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+
+/* State grids. Each stage holds a real component; the states are the site's
+   own :hover and :focus-visible rules, cloned onto [data-force] by the page
+   script. The stages are inert: a picture of a state, not a second control. */
+.ds-states-title {
+  margin: var(--space-xl) 0 var(--space-sm);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ds-states { display: grid; gap: var(--space-xl); margin: 0 0 var(--space-md); }
+.ds-states-row { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); align-items: start; }
+.ds-states-row-four { grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+.ds-states-label {
+  grid-column: 1 / -1; margin: 0;
+  font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; color: var(--color-charcoal);
+}
+.ds-state { margin: 0; display: grid; gap: var(--space-xs); }
+.ds-state-stage {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 112px; padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+}
+.ds-state-stage[data-ground="dark"] {
+  background: var(--color-charcoal);
+  --color-focus-ring: var(--color-accent-on-dark);
+}
+.ds-state-stage[data-ground="light"],
+.ds-state-stage[data-ground="white"] { background: var(--color-white); border: 1px solid var(--rule-card); }
+.ds-state-stage details { width: 100%; }
+.ds-state-stage .case-grid { width: 100%; grid-template-columns: 1fr; }
+.ds-state figcaption {
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  line-height: var(--leading-ui); color: var(--color-charcoal);
+}
+.ds-state-rule {
+  display: block; margin-top: var(--space-2xs);
+  font-size: var(--text-2xs); font-weight: 400; color: var(--color-muted-gray);
+  overflow-wrap: anywhere;
+}
+.ds-state-rule:empty { display: none; }
+
+/* Anatomy: what the component is made of, the tokens read from its rules. */
+.ds-anatomy { margin: 0 0 var(--space-xl); max-width: 46rem; }
+.ds-anatomy > div {
+  display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-top: 1px solid var(--color-muted-light);
+}
+.ds-anatomy > div:last-child { border-bottom: 1px solid var(--color-muted-light); }
+.ds-anatomy dt {
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  line-height: var(--leading-body);
+  color: var(--color-accent-text);
+}
+.ds-anatomy dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
+.ds-anatomy dd code { font-size: var(--text-xs); }
+.ds-token-list { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-sm); }
+
+.ds-markup-only {
+  margin-right: var(--space-xs);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* The checks. */
+.ds-checks { gap: var(--space-lg); margin-bottom: var(--space-xl); }
+.ds-checks li > strong code { font-size: var(--text-sm); }
+
+/* Decision log: the site's own disclosure, one per entry. */
+.ds-logs { max-width: 46rem; border-top: 1px solid var(--color-muted-light); }
+.ds-log { border-bottom: 1px solid var(--color-muted-light); }
+.ds-log > summary { font-size: var(--text-base); color: var(--color-charcoal); }
+.ds-log-area {
+  margin-right: var(--space-xs);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ds-log-body { padding: 0 0 var(--space-xl) calc(1em + var(--space-xs)); }
+.ds-log-body p {
+  max-width: var(--measure); margin: 0 0 var(--space-md);
+  font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal);
+}
+.ds-log-body .build-list { margin: 0 0 var(--space-md); }
+.ds-log-body .ds-table { margin-bottom: var(--space-md); }

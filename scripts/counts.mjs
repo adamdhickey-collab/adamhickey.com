@@ -191,10 +191,12 @@ const CLAIMS = [
      header promised "nothing now holds it to it" was fixed, while the editions
      table went unregistered and drifted a page behind the tree. A gap exactly
      where the prose said there was none is the reason to enter claims rather
-     than trust that someone did. */
+     than trust that someone did. The editions list left the page on
+     2026-10-13; the page count moved to How it's enforced, which names
+     this check as the thing that holds it. */
   { doc: 'design-system/index.html',
-    says: 'Thirty-two pages, and the only edition',
-    n: 32, what: 'pages, as the editions list states them', of: () => PAGES.length },
+    says: 'across all thirty-two pages',
+    n: 32, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Eighteen of them',
     n: 18, what: 'component entries on the page',
