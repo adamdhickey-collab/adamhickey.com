@@ -511,10 +511,12 @@ a.case-thumb { display: block; }
    tile), the frame stays shadowless and transform-free, and overflow
    is opened up so the img's shadow isn't clipped by the frame. */
 @media (hover: hover) and (pointer: fine) {
-  .case-grid .case-thumb {
+  .case-grid .case-thumb,
+  .case-grid .same-red-link .same-red {
     transition: transform var(--motion-enter) var(--ease),  box-shadow var(--motion-enter) var(--ease);
   }
-  .case-grid .case-thumb.is-tilting {
+  .case-grid .case-thumb.is-tilting,
+  .case-grid .same-red-link .same-red.is-tilting {
     transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--motion-lift));
     transition: transform var(--motion-move) var(--ease-enter),  box-shadow var(--motion-enter) var(--ease);
     box-shadow: var(--shadow-lift);
@@ -711,8 +713,17 @@ a.case-thumb { display: block; }
    comfortable. */
 .case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
 .case-card--lab .case-thumb,
-.case-card--lab .same-red { order: -1; }
-.case-card--lab .same-red { margin-bottom: var(--space-xl); }
+.case-card--lab .same-red-link { order: -1; }
+.case-card--lab .same-red-link { margin-bottom: var(--space-xl); }
+/* The figure is the card's picture and a link to its case study, so the
+   link is the grid item and the figure fills it. Hovering it does what
+   hovering a work card does: the picture tilts and lifts (the tilt rule
+   above), and the card's title and its case-study link turn sage. */
+.same-red-link { display: block; color: inherit; border-radius: var(--radius-xl); }
+@media (hover: hover) and (pointer: fine) {
+  .case-card--lab:has(.same-red-link:hover) h3,
+  .case-card--lab:has(.same-red-link:hover) .product-link:not(.product-link-quiet) { color: var(--color-accent-text); }
+}
 .case-card--lab .case-card-body { display: flex; flex-direction: column; }
 @media (min-width: 768px) {
   .case-card--lab { padding: var(--space-3xl); }
@@ -724,7 +735,7 @@ a.case-thumb { display: block; }
     align-items: center;
   }
   .case-card--lab .case-thumb,
-  .case-card--lab .same-red { order: 0; margin-bottom: 0; }
+  .case-card--lab .same-red-link { order: 0; margin-bottom: 0; }
 }
 /* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
    own sans at the description's size, charcoal where the description is
