@@ -122,7 +122,7 @@
   <link rel="stylesheet" href="color.css?v=8" />
   <link rel="stylesheet" href="shell.css?v=6" />
   <link rel="stylesheet" href="type.css?v=5" />
-  <link rel="stylesheet" href="style.css?v=20261013b" />
+  <link rel="stylesheet" href="style.css?v=20261015a" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
@@ -627,7 +627,13 @@
 
              The eyebrow says what kind of thing this is, a self-directed
              working prototype, so its place at the top of Selected work
-             reads as relevance and not as a client deployment. -->
+             reads as relevance and not as a client deployment.
+
+             THE FIGURE IS A LINK TO THE CASE STUDY, since 2026-10-15, and
+             answers a pointer the way the work cards' pictures under it do:
+             the same tilt and lift (setupCaseTilt below), the card's title
+             and its "Read the case study" turning sage. Its name is the
+             destination; the figure's own description still describes it. -->
         <div class="case-grid case-grid--lab stagger">
           <div class="case-card case-card--lab reveal">
             <div class="case-card-body">
@@ -640,7 +646,8 @@
                 <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Open the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
               </p>
             </div>
-            <figure class="same-red" data-same-red aria-describedby="same-red-home-desc">
+            <a class="same-red-link" href="lab/agent-review.html" aria-label="Read the Agent Review case study" aria-describedby="same-red-home-desc">
+            <figure class="same-red" data-same-red>
               <p class="visually-hidden" id="same-red-home-desc">From the prototype&rsquo;s first simulated run: on the payment history, &ldquo;Payment failed&rdquo; is red because something went wrong. On the billing activity, a plan replaced from Starter to Growth shows the struck-through &ldquo;Starter&rdquo; in exactly the same red, though nothing went wrong.</p>
               <p class="same-red-label"><span>Same </span><span class="same-red-word">red</span><span>. Different meaning.</span></p>
               <ul class="same-red-cases">
@@ -658,6 +665,7 @@
               <svg class="same-red-leads" aria-hidden="true" focusable="false"><path /></svg>
               <figcaption class="same-red-take">The checks pass. The right decision still needs context.</figcaption>
             </figure>
+            </a>
           </div>
           <p class="lab-also">Also in the lab: <a href="prototype/deploy-console.html">Deploy Console</a> &middot; <a href="prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, and <a href="lab/index.html">the lab index</a>.</p>
         </div>
@@ -1752,7 +1760,9 @@
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
       const MAX_RX = 6, MAX_RY = 8; // degrees
-      document.querySelectorAll('.case-grid .case-thumb').forEach(thumb => {
+      /* The lab card's figure tilts as a thumbnail does: it is that card's
+         picture, and a link to its case study like theirs. */
+      document.querySelectorAll('.case-grid .case-thumb, .case-grid .same-red-link .same-red').forEach(thumb => {
         thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
           const r = thumb.getBoundingClientRect();
