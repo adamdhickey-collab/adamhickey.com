@@ -6389,6 +6389,21 @@ html.ah-lightbox-open body { overflow: hidden; }
    carry the terracotta, on --color-caution-light with a --color-caution
    edge: a ground and a hairline, never text. */
 .writing-figure { margin: var(--space-2xl) 0; }
+/* A figure with columns leaves the measure for the article's whole column.
+   The measure is a reading width, and none of these is read along a line:
+   a flow, a split, a number row and a rail are read across, so at 52ch
+   their columns were narrower than the prose beside them. The column is
+   .case-narrow, named a container here so a figure can ask its width; the
+   figure keeps the text's left edge and runs to the column's right one.
+   Below the measure the two widths are the same, so a phone sees nothing
+   move. A drawing in the body (.writing-scene) stays at the measure: it
+   is one picture, not columns. */
+.case-narrow:has(> .writing-measure) { container: essay-column / inline-size; }
+.writing-measure > .writing-rail,
+.writing-measure > .writing-figure:has(> .writing-flow, > .writing-split, > .writing-facts) {
+  width: 100cqi;
+  max-width: none;
+}
 .writing-flow {
   list-style: none;
   margin: 0;
@@ -6543,9 +6558,10 @@ html.ah-lightbox-open body { overflow: hidden; }
    most of the drawings are wider than tall; a square left them a band of
    white above and below and broke the stacked line into short dashes.
    Across, the width is the column's, capped: a rail of five fills the
-   measure at 6.75rem a tile, and a rail of three would otherwise print
-   its drawings at the same small size in a column twice as wide. The
-   cqi is the figure's own width (it is the container). */
+   article's column at 9rem a tile, and a rail of three would otherwise
+   print its drawings at the same small size in a column twice as wide.
+   11.25rem is the ceiling, because the tiles are 360px and that is half.
+   The cqi is the figure's own width (it is the container). */
 .writing-rail { container: writing-rail / inline-size; }
 .writing-rail-steps {
   --rail-tile: 8rem;
@@ -6609,14 +6625,14 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-rail-steps li > span:last-child { grid-column: 2; grid-row: 3; }
 @container writing-rail (min-width: 34rem) {
   .writing-rail-steps {
-    --rail-tile: min(6.75rem, (100cqi - 4 * var(--space-md)) / 5);
+    --rail-tile: min(9rem, (100cqi - 4 * var(--space-md)) / 5);
     grid-template-columns: none;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
     gap: var(--space-md);
   }
-  .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(8.5rem, (100cqi - 3 * var(--space-md)) / 4); }
-  .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(10rem, (100cqi - 2 * var(--space-md)) / 3); }
+  .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(10.5rem, (100cqi - 3 * var(--space-md)) / 4); }
+  .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(11.25rem, (100cqi - 2 * var(--space-md)) / 3); }
   .writing-measure .writing-rail-steps li {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
@@ -6636,7 +6652,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 /* A number row is .build-facts with the number first: the figure in serif
    at --text-4xl over its label, so the numbers the prose used to carry in a
    subordinate clause stand where a case study would put them. Fills the
-   column at 7rem a tile, which puts five across at the desktop measure.
+   column at 7rem a tile, which puts seven across in the article's column.
 
    The four selectors were .writing-measure .writing-facts until 2026-09-22,
    and the comment above already said "where a case study would put them"
