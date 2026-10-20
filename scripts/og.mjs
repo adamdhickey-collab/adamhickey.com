@@ -88,6 +88,13 @@ const CARDS = {
      html() lays a card with no image out as one column, the way the
      writing index's sub-titled card reads. */
   'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', sub: 'Design the infrastructure behind great design' },
+  /* The three that lead the collections since 2026-10-20, one per word of
+     the position article. Type alone until their drawings exist, as above;
+     the kicker names the collection so a card in a feed says where in the
+     argument it sits. */
+  'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', sub: 'A paved road with marked exits, not a fence' },
+  'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', sub: 'Build to find out, and know when it isn’t good enough' },
+  'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', sub: 'Reliance that matches how good the system really is' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
