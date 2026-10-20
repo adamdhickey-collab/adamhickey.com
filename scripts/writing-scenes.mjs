@@ -101,4 +101,37 @@ export const SCENES = [
     alt: 'The cream venetian blind on a terracotta field, every slat tilted the same way except the bottom three, which still tilt the other way, and the black pull cord drawn taut mid-pull.',
     prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. The same large cream venetian blind as before fills the frame side to side and is cropped by the top and bottom: many identical horizontal slats, evenly spaced, all tilted at the same angle, except the bottom three, which are still tilted the opposite way. The one pull cord, a single solid black line down the right-hand third, is drawn pulled taut at a slight angle rather than hanging straight. No window, no wall, no room. Nothing else.`,
   },
+  /* ---- The four that lead, 2026-10-20 ------------------------------- */
+  {
+    id: 'what-makes-a-good-product-designer-now',
+    group: 'release',
+    device: 'the same trellis, one shoot cut back',
+    caption: 'The line where a person decides: the system carries what grows along it, and someone still chooses what is cut back.',
+    alt: 'The terracotta trellis again, closer, its black vine following the lattice, and one shoot that grew off the lattice into empty ground cut cleanly, the cut piece lying below it with a dusty-rose cut face.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta garden trellis as before, seen exactly straight on, now closer, so the diamond lattice is cropped by the top, left and bottom edges and ends a little right of the middle, with cream ground to its right. The same solid black vine with simple solid black leaves climbs along the slats. Halfway up, one shoot grew off the edge of the lattice into the empty cream to the right, and it has been cut: the stub ends cleanly at the trellis edge, and the cut piece, a short solid black length of shoot with two leaves, lies on the bottom edge of the frame below it. The reveal: the two cut ends are each a small oval filled dusty rose. No shears, no hands, no ground line. Nothing else in the picture.`,
+  },
+  {
+    id: 'what-changes-when-ai-agents-join-the-product-team',
+    group: 'systems',
+    device: 'the same road, a draft stretch marked as one',
+    caption: 'A draft named as a draft: the stretch nobody has signed for yet is drawn in outline, and it says so before anyone builds on it.',
+    alt: 'The dusty slate road from above again, its black dashed centre line running up to a stretch drawn only in black dashed outline with no paving, and one small dusty-rose traffic cone standing where the paving ends.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same wide dusty slate blue road as before, in the same strict top-down plan view, flat, running from the bottom edge of the frame up through the middle third, with the same line of solid black centre dashes. A little above the middle of the picture the paving stops in a straight edge. Beyond it, continuing to the top edge, the road goes on only as an outline: two thin black dashed lines where its sides will be, with cream ground between them and no fill. Standing exactly on the line where the paving ends, one small traffic cone seen from above as a circle within a circle, the reveal, filled dusty rose with a black outline. No cars, no signs, no workers. Nothing else in the picture.`,
+  },
+  {
+    id: 'what-is-a-product-designer-for-when-anyone-can-build',
+    group: 'ai',
+    device: 'the same level, the bubble found',
+    caption: 'Good enough, found by building: one shim under the beam, and the bubble between the marks.',
+    alt: 'The sage spirit level again on its black beam, one small black wedge driven under the beam’s right end, and the butter-yellow bubble now resting exactly between the two centre marks.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same long sage green spirit level as before, in the same strict flat side elevation, cropped by the left edge of the frame, lying on the same solid black beam. This time the beam's right end is visible, inside the frame, and under it, one small wedge, a solid black triangle, has been driven in to shim it up. In the middle of the level, the same window with its two thin black centre marks, and inside it the reveal: the butter yellow bubble now rests exactly between the two marks. No hammer, no tools, no hands. Nothing else in the picture.`,
+  },
+  {
+    id: 'who-decides-when-software-can-act-on-its-own',
+    group: 'release',
+    device: 'the same seesaw, tipped by what was put on it',
+    caption: 'Reliance that matches the evidence: the decision tips by what has been put on it to check, not by how sure the system sounds.',
+    alt: 'The cream seesaw on its terracotta field again, its plank now tipped down to the left on the black pivot, a small stack of three cream cards at the low end, and one card in the middle of the stack dusty rose.',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. The same long cream seesaw as before, in the same strict flat side elevation, on the same solid black triangular pivot standing on the bottom edge, still cropped by the left and right edges of the frame. The plank is now tipped down on the left side at a gentle angle, the left end low and the right end high. On the plank near the low left end sits one small neat stack of three plain cards, flat cream rectangles with black outlines, and the reveal: the middle card of the stack is filled dusty rose. Nothing on the high end. No people, no shadow. Nothing else in the picture.`,
+  },
 ];

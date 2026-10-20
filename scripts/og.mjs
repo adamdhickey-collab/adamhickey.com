@@ -84,17 +84,16 @@ const CARDS = {
   'what-does-a-person-need-to-supervise-an-ai-agent': { kicker: 'Writing', title: 'What does a person need to supervise an AI agent?', image: 'img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp' },
   'what-does-a-design-system-need-once-ai-is-in-the-product': { kicker: 'Writing', title: 'What does a design system need once AI is in the product?', image: 'img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp' },
   /* The position article, 2026-10-20, above the three collections. Type
-     alone until its drawing exists (P8 in the content review's prompts);
-     html() lays a card with no image out as one column, the way the
-     writing index's sub-titled card reads. */
-  'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', sub: 'Design the infrastructure behind great design' },
+     alone until its drawing existed; it carries its feature like the rest
+     since the drawings for the four that lead were made, the same day. */
+  'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', image: 'img/writing/what-makes-a-good-product-designer-now.webp' },
   /* The three that lead the collections since 2026-10-20, one per word of
      the position article. Type alone until their drawings exist, as above;
      the kicker names the collection so a card in a feed says where in the
      argument it sits. */
-  'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', sub: 'A paved road with marked exits, not a fence' },
-  'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', sub: 'Build to find out, and know when it isn’t good enough' },
-  'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', sub: 'Reliance that matches how good the system really is' },
+  'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', image: 'img/writing/what-changes-when-ai-agents-join-the-product-team.webp' },
+  'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', image: 'img/writing/what-is-a-product-designer-for-when-anyone-can-build.webp' },
+  'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', image: 'img/writing/who-decides-when-software-can-act-on-its-own.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
