@@ -284,7 +284,7 @@ ${FLAT}`,
     group: 'systems',
     device: 'the black ribbon, made fast',
     situation: 'Several teams solve the same problem differently.',
-    heading: 'Set standards other teams adopt',
+    heading: 'Build the system everyone builds from',
     alt: 'A large slate cleat planted on the bottom edge of the frame with cream above and beside its horns, one solid black rope turned tight around it and running away taut off both edges',
     prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue cleat, the simple T-shaped kind a rope is made fast to, standing upright in the centre of the frame with its base cut off by the bottom edge, so it reads as planted there, but a little smaller than the frame otherwise: its two horns end inside the frame with a band of empty cream beyond each about an eighth of the picture's width, and a band of empty cream above the horns about a tenth of the picture's height. One solid black rope is turned tight around the waist of the cleat, crossing over itself once, and runs away from it in both directions, off the left edge and off the right edge of the frame, drawn as one even ribbon of solid black and pulled straight and taut. The slate cleat is the largest thing in the picture. No boat, no dock, no water, no post, no loose rope ends, no second cleat. Nothing else in the picture.
 
@@ -308,7 +308,7 @@ ${FLAT}`,
     group: 'release',
     device: 'object on an accent field; past the launch',
     situation: 'Plenty of ideas and sketches. Nothing anyone can use yet.',
-    heading: 'Carry the direction into something that works',
+    heading: 'Build to find out',
     alt: 'A large cream paper dart climbing across a full terracotta field, its nose reaching close to the upper right corner and its tail near the left edge, one solid black line behind it curving down from the tail and off the bottom left corner of the frame',
     prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large paper airplane, a simple folded paper dart seen from the side, drawn in cream with thin black outlines, drawn big enough to cross the whole frame: its nose reaches close to the upper right corner and its tail sits near the left edge, with only a narrow band of terracotta, about a twentieth of the picture's height, above the highest point of the dart. Its nose is pointed toward the upper right, clearly in flight and climbing. Its folds are drawn as two or three thin black lines, nothing more. Behind it, one solid black line, its flight path, leaves the dart's tail, curves down to the left and runs off the bottom left corner of the frame, drawn as one even ribbon of solid black. No hands, no sticky notes, no crumpled paper, no pencil, no runway, no clouds, no other planes. Nothing else in the picture.
 
