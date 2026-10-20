@@ -6380,15 +6380,20 @@ html.ah-lightbox-open body { overflow: hidden; }
    through the drawings' middles. Either way the line is each step's
    ::before, reaching to the next step's drawing, so it meets the next one
    whatever height or width the words take; the drawing is an opaque white
-   square and sits over it, so the line shows only between drawings.
+   tile and sits over it, so the line shows only between drawings.
 
-   THE TILE IS A LENGTH, never a percentage, at every width: the line's
-   top is half a tile, and a percentage there would be read against the
-   step's height. 6rem across fits five columns at the 34rem threshold
-   exactly ((34rem - 4 x --space-md) / 5); from 42rem, 7rem. */
+   THE TILE IS 3:2 AND ITS WIDTH IS A LENGTH, never a percentage: the
+   line's top is half the tile's height, a third of its width, and a
+   percentage there would be read against the step's height. 3:2 because
+   most of the drawings are wider than tall; a square left them a band of
+   white above and below and broke the stacked line into short dashes.
+   Across, the width is the column's, capped: a rail of five fills the
+   measure at 6.75rem a tile, and a rail of three would otherwise print
+   its drawings at the same small size in a column twice as wide. The
+   cqi is the figure's own width (it is the container). */
 .writing-rail { container: writing-rail / inline-size; }
 .writing-rail-steps {
-  --rail-tile: 6.5rem;
+  --rail-tile: 8rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -6413,7 +6418,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   content: "";
   position: absolute;
   left: calc(var(--rail-tile) / 2);
-  top: calc(var(--rail-tile) / 2);
+  top: calc(var(--rail-tile) / 3);
   width: 1.5px;
   height: calc(100% + var(--space-xl));
   border-radius: 0;
@@ -6431,7 +6436,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-rail-num {
   grid-column: 2;
   grid-row: 1;
-  padding-top: var(--space-md);
+  padding-top: var(--space-xs);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-caps);
@@ -6449,19 +6454,21 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-rail-steps li > span:last-child { grid-column: 2; grid-row: 3; }
 @container writing-rail (min-width: 34rem) {
   .writing-rail-steps {
-    --rail-tile: 6rem;
+    --rail-tile: min(6.75rem, (100cqi - 4 * var(--space-md)) / 5);
     grid-template-columns: none;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
     gap: var(--space-md);
   }
+  .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(8.5rem, (100cqi - 3 * var(--space-md)) / 4); }
+  .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(10rem, (100cqi - 2 * var(--space-md)) / 3); }
   .writing-measure .writing-rail-steps li {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
   }
   .writing-measure .writing-rail-steps li:not(:last-child)::before {
     left: calc(var(--rail-tile) / 2);
-    top: calc(var(--rail-tile) / 2);
+    top: calc(var(--rail-tile) / 3);
     width: calc(100% + var(--space-md));
     height: 1.5px;
   }
@@ -6469,9 +6476,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-rail-num { grid-column: 1; grid-row: auto; padding-top: 0; }
   .writing-measure .writing-rail-steps strong { grid-column: 1; grid-row: auto; }
   .writing-rail-steps li > span:last-child { grid-column: 1; grid-row: auto; }
-}
-@container writing-rail (min-width: 42rem) {
-  .writing-rail-steps { --rail-tile: 7rem; }
 }
 
 /* A number row is .build-facts with the number first: the figure in serif

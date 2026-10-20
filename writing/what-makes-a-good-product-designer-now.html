@@ -112,7 +112,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261020b" />
+  <link rel="stylesheet" href="../style.css?v=20261020c" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
   <link rel="stylesheet" href="../related.css?v=1" />
@@ -278,11 +278,12 @@
          this-site write-up (ten checks), the SAP case study (40+ apps) and
          the Agent Review case study (twelve design rules).
 
-         THE FIGURES ARE CODE until the art arrives: two flows, a split, a
-         flow of three and a number row, the article family's own three
-         kinds. The ChatGPT drawings briefed on 2026-10-20 replace none of
-         them; they are the feature and the card, which this page does not
-         have yet, and its share card is type alone. -->
+         THE FIGURES ARE RAILS since the art pass of 2026-10-20 (style.css,
+         "THE RAIL"): five of the six are ChatGPT's drawings, cut from four
+         sheets drawn in one chat so every tile is in one hand, with every
+         word as the page's own text and every drawing alt="". The number
+         row stays a number row; figures are the claim there. The sheets
+         themselves are local in img/inbox/, which .gitignore keeps out. -->
     <header class="case-hero">
       <div class="container case-narrow">
         <p class="case-kicker">Writing &middot; 10 min read</p>
@@ -318,26 +319,14 @@
           <h2 id="the-building-got-fast-so-the-judgment-moved-upstream">The building got fast, so the judgment moved upstream</h2>
           <p>For most of my career, design ended at the handoff. I drew the blueprint, someone else built it, and months later we found out what survived the translation. The work ran as a relay: research, design, a specification, engineering, QA, each leg waiting on the one before.</p>
           <p>That relay is coming apart. I build what I design now, with coding agents, and a working version of an idea takes days instead of a quarter. An agent will build every branch it&rsquo;s asked for, and a few it wasn&rsquo;t.</p>
-          <figure class="writing-figure">
-            <figcaption>How the work used to run, and how it runs once agents build</figcaption>
-            <div class="writing-split">
-              <div>
-                <p class="writing-split-head">The relay</p>
-                <ul>
-                  <li>Research, design, a specification, the build, QA</li>
-                  <li>Each leg waits on the one before</li>
-                  <li>Months before anyone sees what survived</li>
-                </ul>
-              </div>
-              <div>
-                <p class="writing-split-head">The loop</p>
-                <ul>
-                  <li>The system: what each part means, the rules, the checks</li>
-                  <li>People and agents build from it, in days</li>
-                  <li>A person decides what the checks can&rsquo;t, and the system keeps the answer</li>
-                </ul>
-              </div>
-            </div>
+          <figure class="writing-figure writing-rail">
+            <figcaption>How the work runs once agents build</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-loop-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>The system</strong><span>what each part means, the rules, the checks</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-loop-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>People and agents build</strong><span>from the system, in days</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-loop-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>The checks</strong><span>every change has to pass them</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-loop-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>A person decides</strong><span>what the checks can&rsquo;t, and the system keeps the answer</span></li>
+            </ol>
           </figure>
           <p><mark>When building is cheap, the expensive mistakes move.</mark> A badly drawn screen used to cost one screen. A badly written rule now repeats across every screen an agent touches. A well-written one improves all of them, without anyone inspecting a pixel.</p>
           <p>So the designer&rsquo;s leverage moved upstream, into what the building is made from:</p>
@@ -356,14 +345,14 @@
           <p><a href="https://www.atlassian.com/blog/ai-at-work/atlassian-design-system-building-the-context-engine-for-the-ai-era" target="_blank" rel="noopener noreferrer">Atlassian&rsquo;s design system team<span class="visually-hidden"> (opens in a new tab)</span></a> describes the same shift as building a context engine: an MCP server, structured context files and skills, so an agent builds with the system rather than around it.</p>
           <p><a href="https://technology.justworks.com/when-everything-speaks-nobody-listens-f1a7c5894e26" target="_blank" rel="noopener noreferrer">Molly Misek&rsquo;s work at Justworks<span class="visually-hidden"> (opens in a new tab)</span></a> makes the same move with words. Her team sorted everything the product says to customers into tasks, things to do, and notices, things to know, then gave each type a trigger, a priority, an expiration and a rule for how long it persists. That&rsquo;s meaning, written down where a system can act on it.</p>
           <p>My own example is a red. In <a href="../lab/agent-review.html">Agent Review</a>, my prototype for supervising coding agents, the same red marks &ldquo;Payment failed&rdquo; on one screen and a replaced plan on another. Lint passes. Accessibility passes. Whether people rely on that red to spot a problem at renewal isn&rsquo;t in the code, so no check can say which fix is right.</p>
-          <figure class="writing-figure">
+          <figure class="writing-figure writing-rail">
             <figcaption>What a component has to carry once an agent builds from it</figcaption>
-            <ol class="writing-flow">
-              <li data-level="1">Looks<small>color, type, space: what most systems write down</small></li>
-              <li data-level="2" class="writing-flow-mark">Means<small>what it signals, where the two reds part</small></li>
-              <li data-level="3">Behaves<small>its states, its errors, its motion</small></li>
-              <li data-level="4">Applies<small>where it holds and where it doesn&rsquo;t</small></li>
-              <li data-level="5">Owner<small>who may change it, and who approves</small></li>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-carries-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Looks</strong><span>color, type, space: what most systems write down</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-carries-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Means</strong><span>what it signals, where the two reds part</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-carries-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Behaves</strong><span>its states, its errors, its motion</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-carries-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Applies</strong><span>where it holds and where it doesn&rsquo;t</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-carries-5.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">05</span><strong>Owner</strong><span>who may change it, and who approves</span></li>
             </ol>
           </figure>
           <p><mark>A component that only says how it looks will be used everywhere it looks right.</mark> One that also says what it means, how it behaves and where it doesn&rsquo;t apply can be used correctly by a builder who has never met the team.</p>
@@ -374,17 +363,14 @@
           <p><a href="https://www.brownlow.design/case-studies/korl" target="_blank" rel="noopener noreferrer">Ryan Brownlow&rsquo;s account of designing Korl<span class="visually-hidden"> (opens in a new tab)</span></a>, an AI product for building sales presentations, is a good picture of the second. He prototyped with Figma&rsquo;s MCP server and Claude Code to test with users, and testing showed that people&rsquo;s hand edits broke the presentation&rsquo;s sync with its data. The answer was a variable for every piece of tracked data, one source of truth, not better generation.</p>
           <p>Speed also makes it easy to skip the part that tells you what to build. <a href="https://www.justworks.com/tech-blog/ai-native-building-then-and-now" target="_blank" rel="noopener noreferrer">Julia D&rsquo;Amico, Justworks&rsquo; VP of Product<span class="visually-hidden"> (opens in a new tab)</span></a>, wrote this year about building much of an applicant tracking system with agents. The AI&rsquo;s first drafts were generic, and conversations with real customers surfaced what it had missed.</p>
           <p>I learned the same thing on my own projects. <a href="../case-study/lucy-learns.html">Lucy Learns</a>, a dog-training app I built for my household, shipped with voice commands, so the handler could say &ldquo;next step&rdquo; with a leash in one hand. A couple of real sessions took them out. Someone speaking brightly at a phone is using the cue voice, and the dog hears every word as meant for her. The AI I built it with didn&rsquo;t flag that. Using it did.</p>
-          <!-- The first rail (style.css, "THE RAIL"): ChatGPT's drawings,
-               one sheet cut to five tiles at one scale, and the words as
-               text. The sheet's source is local in img/inbox/. -->
           <figure class="writing-figure writing-rail">
             <figcaption>What a working prototype is for</figcaption>
             <ol class="writing-rail-steps">
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-1.webp?v=1" width="320" height="320" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>A question</strong><span>the thing that makes the next step risky</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-2.webp?v=1" width="320" height="320" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>A working version</strong><span>real code, in days rather than months</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-3.webp?v=1" width="320" height="320" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Real use</strong><span>the people who would use it, on real inputs</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-4.webp?v=1" width="320" height="320" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Evidence</strong><span>what held, and what broke</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-5.webp?v=1" width="320" height="320" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">05</span><strong>A call</strong><span>build it, kill it or park it</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>A question</strong><span>the thing that makes the next step risky</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>A working version</strong><span>real code, in days rather than months</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Real use</strong><span>the people who would use it, on real inputs</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Evidence</strong><span>what held, and what broke</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-5.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">05</span><strong>A call</strong><span>build it, kill it or park it</span></li>
             </ol>
           </figure>
           <p><mark>A working prototype is a question, asked in a form people can answer.</mark> It should end in a call, made on what the people using it did rather than on how fast it came together.</p>
@@ -399,12 +385,12 @@
           <p><a href="https://womenwhocode.com/agenda/" target="_blank" rel="noopener noreferrer">Zakiya Pope<span class="visually-hidden"> (opens in a new tab)</span></a>, a behavioral design leader at TIAA, describes what makes people say yes: an experience that feels clear, easy, normal, safe and worth it. Those signals can help someone start saving for retirement, or make one choice feel inevitable. When software can tune them for each person, the design work is the decision, not the screen.</p>
           <p>Trust alone is the wrong target. Researchers at Microsoft argue for <a href="https://www.microsoft.com/en-us/research/publication/overreliance-on-ai-literature-review/" target="_blank" rel="noopener noreferrer">appropriate reliance<span class="visually-hidden"> (opens in a new tab)</span></a> instead: people accepting a recommendation when it&rsquo;s right and rejecting it when it isn&rsquo;t. Explanations don&rsquo;t guarantee that. In <a href="https://www.microsoft.com/en-us/research/publication/does-the-whole-exceed-its-parts-the-effect-of-ai-explanations-on-complementary-team-performance/" target="_blank" rel="noopener noreferrer">one study<span class="visually-hidden"> (opens in a new tab)</span></a>, they made people more likely to accept the AI&rsquo;s recommendation whether it was right or not.</p>
           <p>Agent Review sorts an agent&rsquo;s work into three lanes, and a person only ever sees two of them.</p>
-          <figure class="writing-figure">
+          <figure class="writing-figure writing-rail">
             <figcaption>Three kinds of work, and who decides each</figcaption>
-            <ol class="writing-flow">
-              <li data-level="1">Proceeds on its own<small>clear instructions, permission, passing checks; recorded</small></li>
-              <li data-level="3" class="writing-flow-mark">Needs judgment<small>context missing, or two defensible answers; a person decides</small></li>
-              <li data-level="5">Needs approval<small>past what the delegation allows; whoever owns it approves</small></li>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-lanes-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Proceeds on its own</strong><span>clear instructions, permission, passing checks; recorded</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-lanes-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Needs judgment</strong><span>context missing, or two defensible answers; a person decides</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-lanes-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Needs approval</strong><span>past what the delegation allows; whoever owns it approves</span></li>
             </ol>
           </figure>
           <p><a href="../prototype/dispatch-cockpit.html">Second Look</a>, my dispatch prototype, draws the line from the other side. It enforces the federal hours-of-service limit before any score is figured, and nothing on the screen can argue past it. A close call between two trucks it leaves to the dispatcher, and names the trade-off.</p>
@@ -429,12 +415,12 @@
           <h2 id="it-s-the-job-i-started-with-at-a-longer-reach">It&rsquo;s the job I started with, at a longer reach</h2>
           <p>I started in 2005 as a <a href="../case-study/hybrid-designer.html">hybrid designer and developer</a>. At the studios I worked in, designing and building weren&rsquo;t separate jobs yet, so I did both, in a room where whoever shipped it sat close enough to argue with.</p>
           <p>Then the jobs split, and I followed the work into UX and product design: <a href="../case-study/enterprise-consulting.html">thirteen years at RBA</a> on large enterprise products for CBRE, Toro, Banner Bank and International Trucks, and, the longest engagement, building and running a UX practice inside a global enterprise. That&rsquo;s where I learned that most design problems are communication problems, and that coherence at scale takes systems: shared patterns, governance, honest measurement.</p>
-          <figure class="writing-figure">
+          <figure class="writing-figure writing-rail">
             <figcaption>Twenty years, three eras, one job</figcaption>
-            <ol class="writing-flow">
-              <li data-level="1">Craft, 2005<small>designing and building, one job</small></li>
-              <li data-level="3">Systems, 2013<small>the standards other teams built from</small></li>
-              <li data-level="5">Agents, 2026<small>both again, at a longer reach</small></li>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-eras-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Craft, 2005</strong><span>designing and building, one job</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-eras-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Systems, 2013</strong><span>the standards other teams built from</span></li>
+              <li><img src="../img/writing/what-makes-a-good-product-designer-now-eras-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Agents, 2026</strong><span>both again, at a longer reach</span></li>
             </ol>
           </figure>
           <p>This year the two halves came back together. I build with coding agents now: two products in use, three working prototypes, client work, and this site. The hardest design problem I worked on this year wasn&rsquo;t any of those. It was saying what I do now, and the answer was shorter than I expected. <mark>I design the system good work comes from, I build enough of it to know it holds, and I decide, with the people who own the product, where a person stays in charge.</mark></p>
