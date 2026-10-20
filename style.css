@@ -1001,12 +1001,12 @@ a.case-thumb { display: block; }
    arrowhead), sized from --loop-gap, so it is no element of its own.
 
    THE BUILD, once, the first time the figure is in view (loop.js, which
-   the homepage and the lab index both load): the relay's legs arrive one after another, then the band,
-   then each step in turn with its icon drawing itself and its line running
-   on to the next, and last the line back into the system, which answers with
-   one ring. It is the loop being described in the order it runs. Without
-   script, or under reduced motion, nothing is armed and the figure is simply
-   there.
+   the homepage and the lab index both load): the relay's legs arrive one
+   after another, then the band, then each step in turn with its icon
+   drawing itself and its line running on to the next, and last the line
+   back into the system. It is the loop described in the order it runs, and
+   nothing pulses or glows: the order is the point. Without script, or under
+   reduced motion, nothing is armed and the figure is simply there.
 
    The figure's paragraphs are scoped under .loop, because a page's own
    paragraph rule (.case-section p on the lab index) outranks a bare class
@@ -1067,7 +1067,9 @@ a.case-thumb { display: block; }
   --color-focus-ring: var(--color-accent-on-dark);
 }
 .loop-steps {
-  --loop-gap: var(--space-2xl);
+  --loop-gap: var(--space-3xl);
+  --loop-inset: var(--space-xs);
+  --loop-tip: calc(var(--space-xs) * 0.7071);
   --loop-line: var(--color-accent-on-dark);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1123,29 +1125,36 @@ a.case-thumb { display: block; }
 .loop-step--checks { background: var(--color-tea-light); --loop-disc: var(--color-accent-text); --loop-icon: var(--color-warm); }
 .loop-step--person { background: var(--color-caution-light); --loop-disc: var(--color-caution-text); --loop-icon: var(--color-warm); }
 /* The connectors. ::before is the line across the gap, ::after the
-   arrowhead at its far end; the stack has three, all down. */
+   arrowhead at its far end; the stack has three, all down. Each stops
+   --loop-inset short of both steps it joins, so it sits in the gap rather
+   than touching either edge, and the arrowhead's point lands where the line
+   ends: --loop-tip is the distance from a rotated square's center to its
+   corner. */
 .loop-step::before,
 .loop-step::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
+.loop-step::after {
+  box-sizing: border-box;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-right: 2px solid var(--loop-line);
+  border-bottom: 2px solid var(--loop-line);
+}
 .loop-step:not(:last-child)::before {
   left: 50%;
-  top: 100%;
+  top: calc(100% + var(--loop-inset));
   width: 2px;
-  height: var(--loop-gap);
+  height: calc(var(--loop-gap) - var(--loop-inset) * 2);
   margin-left: -1px;
   background: var(--loop-line);
   transform-origin: top;
 }
 .loop-step:not(:last-child)::after {
   left: 50%;
-  top: calc(100% + var(--loop-gap) - var(--space-2xs));
-  width: var(--space-xs);
-  height: var(--space-xs);
-  border-right: 2px solid var(--loop-line);
-  border-bottom: 2px solid var(--loop-line);
+  top: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip));
   transform: translate(-50%, -50%) rotate(45deg);
 }
 .loop .loop-back {
@@ -1166,7 +1175,7 @@ a.case-thumb { display: block; }
 }
 @container loop (min-width: 24rem) {
   .loop-now { padding: var(--space-xl); }
-  .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); --loop-gap: var(--space-3xl); }
+  .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); --loop-gap: var(--space-4xl); }
   /* In the two-by-two a step is narrow, so the icon goes above its words. */
   .loop-step { grid-template-columns: minmax(0, 1fr); padding: var(--space-md) var(--space-lg) var(--space-lg); }
   .loop-icon { grid-row: auto; align-self: start; margin-bottom: var(--space-sm); }
@@ -1178,20 +1187,20 @@ a.case-thumb { display: block; }
      person back into the system. */
   .loop-step:nth-child(odd)::before {
     top: 50%;
-    width: var(--loop-gap);
     height: 2px;
+    width: calc(var(--loop-gap) - var(--loop-inset) * 2);
     margin: -1px 0 0;
   }
-  .loop-step:nth-child(1)::before { left: 100%; transform-origin: left; }
-  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
-  .loop-step:nth-child(3)::before { left: auto; right: 100%; transform-origin: right; }
-  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
+  .loop-step:nth-child(1)::before { left: calc(100% + var(--loop-inset)); transform-origin: left; }
+  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
+  .loop-step:nth-child(3)::before { left: auto; right: calc(100% + var(--loop-inset)); transform-origin: right; }
+  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
   .loop-step:nth-child(4)::before {
     left: 50%;
     top: auto;
-    bottom: 100%;
+    bottom: calc(100% + var(--loop-inset));
     width: 2px;
-    height: var(--loop-gap);
+    height: calc(var(--loop-gap) - var(--loop-inset) * 2);
     margin-left: -1px;
     background: var(--loop-line);
     transform-origin: bottom;
@@ -1199,20 +1208,18 @@ a.case-thumb { display: block; }
   .loop-step:nth-child(4)::after {
     left: 50%;
     top: auto;
-    bottom: calc(100% + var(--loop-gap) - var(--space-2xs));
-    width: var(--space-xs);
-    height: var(--space-xs);
-    border-right: 2px solid var(--loop-line);
-    border-bottom: 2px solid var(--loop-line);
+    bottom: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip));
     transform: translate(-50%, 50%) rotate(-135deg);
   }
 }
 
 /* The build. --loop-beat is one step's turn: the step lands, its icon
-   draws, its line runs on. Everything is keyed off it and --i. */
+   draws, its line runs on, and the next step lands as the line arrives.
+   Everything is keyed off it and --i. About three seconds end to end:
+   long enough to read as an order, short enough not to be waited for. */
 .loop {
-  --loop-beat: calc(var(--motion-move) * 2);
-  --loop-start: calc(var(--motion-enter) + var(--motion-move) * 2);
+  --loop-beat: calc(var(--motion-move) + var(--motion-stagger) * 2);
+  --loop-start: calc(var(--motion-move) * 2);
 }
 .loop--armed .loop-relay li,
 .loop--armed .loop-span,
@@ -1226,15 +1233,15 @@ a.case-thumb { display: block; }
 .loop--armed .loop-icon circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
 .loop--armed[data-play] .loop-relay li {
   animation: loop-in var(--motion-move) var(--ease-enter) both;
-  animation-delay: calc(var(--i) * var(--motion-stagger) * 2);
+  animation-delay: calc(var(--i) * var(--motion-stagger));
 }
 .loop--armed[data-play] .loop-span {
   animation: loop-fade var(--motion-enter) var(--ease) both;
-  animation-delay: calc(var(--motion-stagger) * 10);
+  animation-delay: calc(var(--motion-stagger) * 5);
 }
 .loop--armed[data-play] .loop-now {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
-  animation-delay: var(--motion-enter);
+  animation-delay: var(--motion-move);
 }
 .loop--armed[data-play] .loop-step {
   animation: loop-land var(--motion-move) var(--ease-enter) both;
@@ -1243,20 +1250,15 @@ a.case-thumb { display: block; }
 .loop--armed[data-play] .loop-icon path,
 .loop--armed[data-play] .loop-icon circle {
   animation: eng3-draw var(--motion-draw) var(--ease) forwards;
-  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-stagger) * 2);
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-stagger));
 }
 .loop--armed[data-play] .loop-step::before {
   animation: loop-run var(--motion-move) var(--ease) both;
-  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-move));
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-state));
 }
 .loop--armed[data-play] .loop-step::after {
   animation: loop-fade var(--motion-state) var(--ease) both;
-  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-move) * 2);
-}
-/* The answer arriving back: the system rings once, as the line reaches it. */
-.loop--armed[data-play] .loop-step--system {
-  animation: loop-land var(--motion-move) var(--ease-enter) both, loop-ring var(--motion-ambient) var(--ease) both;
-  animation-delay: var(--loop-start), calc(var(--loop-start) + var(--loop-beat) * 4);
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-state) * 2);
 }
 .loop--armed[data-play] .loop-back {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
@@ -1264,15 +1266,12 @@ a.case-thumb { display: block; }
 }
 .loop--armed[data-play] .loop-take {
   animation: loop-fade var(--motion-enter) var(--ease) both;
-  animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4 + var(--motion-enter));
+  animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4 + var(--motion-move));
 }
 @keyframes loop-in { from { opacity: 0; transform: translateY(var(--space-xs)); } to { opacity: 1; transform: none; } }
 @keyframes loop-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes loop-land { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes loop-land { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
 @keyframes loop-run { from { transform: scale(0); } to { transform: none; } }
-@keyframes loop-ring {
-  from { box-shadow: 0 0 0 0 var(--color-accent-on-dark); }
-  to   { box-shadow: 0 0 0 var(--space-md) transparent; }
 }
 
 /* ---------- The app's identity: its icon and its name ----------
