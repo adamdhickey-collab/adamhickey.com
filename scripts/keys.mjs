@@ -36,7 +36,10 @@
  * address is still linked and still read. It is named in UNLISTED below.
  * Its list and eyebrows are held to its h2s like any other's; the index is
  * held to NOT carrying it, so an unlisted article cannot drift back into
- * the nine without someone taking it out of the set.
+ * the nine without someone taking it out of the set. Three more joined it
+ * on 2026-10-20, when the index regrouped as The system, The build and The
+ * judgment and an article came in at the head of each: the developer's bad
+ * day, the workflow that breaks, and the SAP article.
  */
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -68,7 +71,12 @@ const inner = (html) => html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 const slug = (html) => inner(html).replace(/&[a-z]+;|&#\d+;/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /* Kept at their address, off the index (see the header). */
-const UNLISTED = new Set(['what-does-a-product-design-engineer-actually-do']);
+const UNLISTED = new Set([
+  'what-does-a-product-design-engineer-actually-do',
+  'what-does-a-developer-need-from-an-interface-on-a-bad-day',
+  'designing-for-the-moment-the-workflow-breaks',
+  'standardizing-ux-across-40-sap-fiori-apps',
+]);
 
 const faults = [];
 const fault = (f, msg) => faults.push(`${f}: ${msg}`);
