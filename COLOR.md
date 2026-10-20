@@ -787,20 +787,6 @@ not an interface colour of this site. It does carry text, the two
 fragments, and on the figure's white it measures 6.54:1, over the 4.5 floor
 on its own. The figure's connector and capsules are `--color-accent-text`.
 
-**Faunaform's day, on its build write-up.** Since 2026-10-20
-`case-study/faunaform.html` opens on the studio's own hero, "One day of
-light", ported from the shop theme into `case-study/faunaform-day.css`: seven
-skies, each hour's sun on one arc, the scenes on one horizon. Its colours
-are the prints' inks, so they are artwork by this section's rule. Each hour
-has a sky, a sun and a light ink, declared on `.ffd` only as
-`--ffd-<animal>-sky`, `-sun` and `-light` (the owl's sky `#475687` through
-the hare's `#455284`; the file's header lists all twenty), with the paper
-`--ffd-paper` `#fbfaf7`. None of them carries text: the hours and the
-animals' names are set under the skies on the page's white, in the site's
-own inks, and the wordmark over the skies is an image. The one control on
-the figure, its pause button, is an icon on a scrim disc that clears 13.6:1
-on the darkest sky and 6.2:1 on white.
-
 ---
 
 ## 7. What the code does today
@@ -1062,8 +1048,8 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by thirty-one pages; the
-token files are loaded by all thirty-seven, so anything defined in `style.css` is
+`style.css` holds no shared token at all. It is loaded by thirty pages; the
+token files are loaded by all thirty-six, so anything defined in `style.css` is
 invisible to the six Tailwind case studies. That single fact caused three
 separate bugs across this work and the type work before it: a regression that
 shipped for two commits, an undefined `--color-accent` that had never
