@@ -175,4 +175,40 @@ export const FEATURES = [
        eight thick ones read as a blind. The count is in the prompt twice. */
     prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One large venetian blind in cream with black outlines fills the frame from side to side and is cropped by the top and bottom: exactly EIGHT identical horizontal slats, no more, each slat thick, about as tall as the gap of terracotta showing between it and the next, evenly spaced, all tilted at exactly the same angle. Eight slats only, drawn big. One pull cord, a single solid black line, hangs straight down the right-hand third from the top of the frame to the bottom, and is the only thing that is not a slat. No window, no wall, no room. Nothing else.`,
   },
+  /* ---- The four that lead, 2026-10-20 ------------------------------- */
+  /* The position article and the three collection leads, words only on the
+     index from #499 until these. The accents no longer map one-to-one to
+     the index's sections since the regroup into The system, The build and
+     The judgment, so each lead takes the colour that keeps its column from
+     reading as one hue: slate for the system, sage for the build,
+     terracotta for the start and the judgment, the judgment's on a full
+     field so the two terracottas do not read as a pair. */
+  {
+    id: 'what-makes-a-good-product-designer-now',
+    group: 'release',
+    device: 'the structure behind the growth, with a reveal at its top',
+    alt: 'A large terracotta garden trellis cropped by the frame, one solid black vine climbing it along the lattice, and one small butter-yellow flower open at the top of the vine.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta garden trellis, a flat lattice of crossed slats in a diamond grid, seen exactly straight on, drawn so big it is cropped by the top and bottom edges of the frame and filling the middle third left to right, with cream ground either side. One vine, a single solid black winding shape with a few simple solid black leaves, climbs from the bottom edge up the lattice, following the slats, and stops just below the top edge. At the tip of the vine, one small open flower, the reveal, filled butter yellow with a black outline. No pot, no wall, no ground line. Nothing else in the picture.`,
+  },
+  {
+    id: 'what-changes-when-ai-agents-join-the-product-team',
+    group: 'systems',
+    device: 'a road, not a fence; the exit marked',
+    alt: 'A wide dusty slate road seen from directly above, running from the bottom edge to the top, with a black dashed centre line, one exit lane peeling off to the right and off the frame, and a small butter-yellow arrow painted at the fork.',
+    prompt: `Same style, same hand as the reference. Cream ground. One wide road surface in dusty slate blue with black outlines, drawn in a strict top-down plan view, flat, with no perspective and no vanishing point, running straight from the bottom edge of the frame to the top edge through the middle third. Down its centre, one line of evenly spaced solid black dashes. A little below the middle of the picture, one exit lane of the same slate peels off the right-hand side of the road in a smooth curve and runs off the right edge of the frame. Painted on the road surface just before the fork, one small arrow, the reveal, filled butter yellow, bending toward the exit. No cars, no signs, no fences, no grass. Nothing else in the picture.`,
+  },
+  {
+    id: 'what-is-a-product-designer-for-when-anyone-can-build',
+    group: 'ai',
+    device: 'the instrument that says not yet',
+    alt: 'A long sage spirit level lying on a black beam that runs off both edges of the frame, and in its window one butter-yellow bubble resting just off the centre mark.',
+    prompt: `Same style, same hand as the reference. Cream ground. One long sage green spirit level, a carpenter's level, drawn as a strict flat side elevation with no perspective, so long it is cropped by the left and right edges of the frame, lying across the middle of the picture. It rests on one solid black beam, a long flat band that also runs off both edges. In the middle of the level, one small window, a rounded rectangle with a black outline and two thin black centre marks, and inside it the reveal: one small oval bubble filled butter yellow, resting just off centre, to the right of the two marks, not between them. No tools, no wall, no shading. Nothing else in the picture.`,
+  },
+  {
+    id: 'who-decides-when-software-can-act-on-its-own',
+    group: 'release',
+    device: 'object on an accent field; a no as cheap as a yes',
+    alt: 'A cream seesaw on a terracotta field, drawn flat from the side, its plank perfectly level on a solid black triangular pivot, cropped by the left and right edges.',
+    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One long playground seesaw in cream with black outlines, drawn as a strict flat side elevation with no perspective: one long thick plank, so long it is cropped by the left and right edges of the frame, resting exactly level across the middle of the picture on one pivot, a solid black triangle standing on the bottom edge of the frame and cropped by it. The plank is perfectly horizontal, tipped neither way. Two plain handles, small upright cream loops with black outlines, one near each end of the visible plank, the same height. No people, no ground line, no shadow. Nothing else in the picture.`,
+  },
 ];
