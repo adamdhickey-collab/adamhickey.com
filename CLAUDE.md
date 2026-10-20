@@ -1826,12 +1826,23 @@ Two more since #32:
   article ends on a recap and one thing to do. The list and the eyebrows
   are written from the h2s by `node scripts/keys.mjs --write`, and the
   check runs in `checks.yml`, so **reword a heading and run --write in the
-  same commit.** Three figure kinds, all inside the essay column and all in
+  same commit.** Four figure kinds, all inside the essay column and all in
   tokens: a flow (`.writing-flow`, stages with a rising bar), a split
-  (`.writing-split`, two columns behind two rules) and a number row
-  (`.build-facts.writing-facts`). A figure with a label is code, never a
+  (`.writing-split`, two columns behind two rules), a number row
+  (`.build-facts.writing-facts`) and, since 2026-10-20, a rail
+  (`.writing-rail`, style.css "THE RAIL"): a sequence of small drawings
+  joined by one sage line, each step's number, name and line set as text
+  beside or under its drawing. A figure with a label is still code, never a
   generated image, because the checks cannot read a label in a bitmap and
-  the style spec forbids text in the drawings anyway. The second drawing
+  the style spec forbids text in the drawings anyway: a rail's drawings
+  carry no word and are `alt=""`, and all its words are the page's. The
+  drawings are ChatGPT's, in the Agent Review rail's line language (sage
+  pen, small interface glyphs, rose where a person reads or decides,
+  butter for one new part), asked for as one 3 x 2 sheet of square tiles
+  per figure in one chat, with a screenshot of that rail as the reference,
+  and cut to `img/writing/<slug>-<figure>-<n>.webp` at 320px, one shared
+  scale across an article. The sheets stay local in `img/inbox/`. The
+  position article is the first to use them. The second drawing
   in an article body is `img/writing/<slug>-2.webp`, from
   `scripts/writing-scenes.mjs` through the loop below.
 

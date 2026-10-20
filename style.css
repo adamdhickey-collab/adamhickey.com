@@ -6384,11 +6384,15 @@ html.ah-lightbox-open body { overflow: hidden; }
 
    THE TILE IS A LENGTH, never a percentage, at every width: the line's
    top is half a tile, and a percentage there would be read against the
-   step's height. 6rem across fits five columns at the 34rem threshold
-   exactly ((34rem - 4 x --space-md) / 5); from 42rem, 7rem. */
+   step's height. Stacked it is 7.5rem. Across, it is one column exactly,
+   worked out from the figure's own width (cqi) and its count of steps, up
+   to 9rem: at the essay column's width five steps get about 7rem each and
+   three get the 9rem. Each figure's drawings are cut at that figure's own
+   scale, so they fill their tiles; one scale for a whole article left the
+   narrow drawings at half the size of the wide one's. */
 .writing-rail { container: writing-rail / inline-size; }
 .writing-rail-steps {
-  --rail-tile: 6.5rem;
+  --rail-tile: 7.5rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -6449,7 +6453,8 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-rail-steps li > span:last-child { grid-column: 2; grid-row: 3; }
 @container writing-rail (min-width: 34rem) {
   .writing-rail-steps {
-    --rail-tile: 6rem;
+    --rail-n: 3;
+    --rail-tile: min(9rem, (100cqi - (var(--rail-n) - 1) * var(--space-md)) / var(--rail-n));
     grid-template-columns: none;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
@@ -6470,8 +6475,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-measure .writing-rail-steps strong { grid-column: 1; grid-row: auto; }
   .writing-rail-steps li > span:last-child { grid-column: 1; grid-row: auto; }
 }
-@container writing-rail (min-width: 42rem) {
-  .writing-rail-steps { --rail-tile: 7rem; }
+@container writing-rail (min-width: 34rem) {
+  .writing-rail-steps:has(> li:nth-child(4)) { --rail-n: 4; }
+  .writing-rail-steps:has(> li:nth-child(5)) { --rail-n: 5; }
 }
 
 /* A number row is .build-facts with the number first: the figure in serif
