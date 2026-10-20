@@ -83,6 +83,11 @@ const CARDS = {
   'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
   'what-does-a-person-need-to-supervise-an-ai-agent': { kicker: 'Writing', title: 'What does a person need to supervise an AI agent?', image: 'img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp' },
   'what-does-a-design-system-need-once-ai-is-in-the-product': { kicker: 'Writing', title: 'What does a design system need once AI is in the product?', image: 'img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp' },
+  /* The position article, 2026-10-20, above the three collections. Type
+     alone until its drawing exists (P8 in the content review's prompts);
+     html() lays a card with no image out as one column, the way the
+     writing index's sub-titled card reads. */
+  'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', sub: 'Design the infrastructure behind great design' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});

@@ -76,10 +76,14 @@ const argv = process.argv.slice(2);
    with the cards put back to ambiguity-first and prototype-last on 2026-09-17. */
 const BASE = {
   name: 'craft',
-  /* The dek as main carries it since 2026-10-06. It had been left at the
-     pre-2026-10-01 sentence ("... working prototypes in real code") through
-     two rewrites, so --revert would have put back a dek the site retired. */
-  dek: 'Twenty years in enterprise software taught me where judgment matters. Now I design how people and coding agents build together.',
+  /* The dek as main carries it since 2026-10-20, when it took the position
+     article's phrase. It had been left at the pre-2026-10-01 sentence ("...
+     working prototypes in real code") through two rewrites once, so
+     --revert would have put back a dek the site retired; keep it in step.
+     It carries the <strong> the page does: written without it, --status
+     read main as "NOT the base ordering" from the day the bold went in,
+     and --revert would have taken the bold out. */
+  dek: 'Twenty years in enterprise software taught me where judgment matters. Now I design the infrastructure behind great design: what <strong>people and coding agents</strong> build from, and where a person decides.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
