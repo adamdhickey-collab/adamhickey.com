@@ -1826,13 +1826,19 @@ Two more since #32:
   article ends on a recap and one thing to do. The list and the eyebrows
   are written from the h2s by `node scripts/keys.mjs --write`, and the
   check runs in `checks.yml`, so **reword a heading and run --write in the
-  same commit.** Three figure kinds, all inside the essay column and all in
+  same commit.** Four figure kinds, all inside the essay column and all in
   tokens: a flow (`.writing-flow`, stages with a rising bar), a split
-  (`.writing-split`, two columns behind two rules) and a number row
-  (`.build-facts.writing-facts`). A figure with a label is code, never a
-  generated image, because the checks cannot read a label in a bitmap and
-  the style spec forbids text in the drawings anyway. The second drawing
-  in an article body is `img/writing/<slug>-2.webp`, from
+  (`.writing-split`, two columns behind two rules), a number row
+  (`.build-facts.writing-facts`) and, since 2026-10-20, a rail
+  (`.writing-rail`, "THE RAIL" in `style.css`): steps joined by one sage
+  line after Agent Review's learning loop, each a small wordless drawing
+  over its number, name and one line of text. A figure with a label is
+  still code, never a generated image, because the checks cannot read a
+  label in a bitmap: a rail's drawings carry no word and are `alt=""`, and
+  every label is the page's own text. They are drawn in ChatGPT as one
+  3 x 2 sheet per figure, so a figure's steps are in one hand, and cut to
+  3:2 tiles at one shared scale; the sheets stay in `img/inbox/`. The
+  second drawing in an article body is `img/writing/<slug>-2.webp`, from
   `scripts/writing-scenes.mjs` through the loop below.
 
 `llms.txt` at the root is the site in a page of markdown for an assistant

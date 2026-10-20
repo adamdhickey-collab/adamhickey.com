@@ -9,6 +9,9 @@
  *   node scripts/draw.mjs clip 0          the clipboard's picture -> the job's PNG
  *   node scripts/draw.mjs land 0 [file]   the newest ~/Downloads picture -> the job's PNG
  *   node scripts/draw.mjs take 0          the job's PNG -> img/writing/<slug>[-2].webp, via illustrate.mjs
+ *   node scripts/draw.mjs sheet <name>    the clipboard's picture -> img/inbox/<name>-sheet.png (a rail's sheet)
+ *   node scripts/draw.mjs slice <name> <tile,tile,-,...> [360x240]
+ *                                         a rail's 3 x 2 sheet -> img/writing/<tile>.webp, one shared scale
  *
  * The drawings are made in ChatGPT through the user's own Chrome, in the
  * chat the account already pays for, rather than through the image API. The
@@ -211,7 +214,85 @@ if (cmd === 'queue') {
     console.log(`\n  ${ok ? '\u2713' : '\u2717'} accent hue ${hue} reads as ${band}; ${want.section} wants ${want.name} ${want.hex}`);
     if (!ok) console.log('    redraw it naming the colour again, or the index loses its three groups');
   }
+} else if (cmd === 'sheet') {
+  /* THE RAIL (style.css) is drawn differently from the scenes: one 3 x 2
+     sheet of small wordless glyphs per figure, in one chat whose first
+     message attached the rail reference, so every step of a figure is in
+     one hand. A sheet is not a queued job; this files the clipboard's
+     picture under the figure's name for slice to cut. */
+  const name = argv[1];
+  if (!name) { console.error('sheet <name>'); process.exit(1); }
+  const out = resolve(INBOX, `${name}-sheet.png`);
+  mkdirSync(INBOX, { recursive: true });
+  execFileSync('osascript', [
+    '-e', `set f to open for access POSIX file "${out}" with write permission`,
+    '-e', 'set eof f to 0',
+    '-e', 'write (the clipboard as «class PNGf») to f',
+    '-e', 'close access f',
+  ]);
+  console.log(`✓ clipboard → ${short(out)}  (${statSync(out).size} bytes)`);
+} else if (cmd === 'slice') {
+  /* A sheet's six cells, read left to right and top to bottom, cut to one
+     tile per name; "-" skips a cell, so one sheet can hold two figures.
+     Each cell's drawing is found by its non-white pixels, and every tile
+     of one cut is the same crop size -- the widest drawing, or the tallest
+     at the tile's aspect, plus a margin -- centred on its own drawing, so
+     a figure's drawings print at one scale. A crop wider than its cell
+     sees only its own cell, on white: the neighbour does not bleed in.
+     Near-white goes to white, so the tile sits on the page's ground. */
+  const [, name, namesArg, size = '360x240'] = argv;
+  if (!name || !namesArg) { console.error('slice <name> <tile,tile,-,...> [WxH]'); process.exit(1); }
+  const sheet = resolve(INBOX, `${name}-sheet.png`);
+  if (!existsSync(sheet)) { console.error(`no sheet at ${short(sheet)}; run: node scripts/draw.mjs sheet ${name}`); process.exit(1); }
+  const names = namesArg.split(',');
+  const [OW, OH] = size.split('x').map(Number);
+  const { loadChromium, findChrome } = await import('./lib/harness.mjs');
+  const browser = await loadChromium('draw.mjs slice').launch({ executablePath: findChrome() });
+  const page = await browser.newPage();
+  const dataUrl = `data:image/png;base64,${readFileSync(sheet).toString('base64')}`;
+  const res = await page.evaluate(async ({ dataUrl, skip, OW, OH }) => {
+    const im = new Image(); im.src = dataUrl; await im.decode();
+    const W = im.naturalWidth, H = im.naturalHeight, cw = W / 3, ch = H / 2;
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'); g.drawImage(im, 0, 0);
+    const px = g.getImageData(0, 0, W, H).data;
+    const boxes = skip.map((_, k) => {
+      const x0 = (k % 3) * cw, y0 = Math.floor(k / 3) * ch;
+      let minx = 1e9, miny = 1e9, maxx = -1, maxy = -1;
+      for (let y = Math.round(y0) + 4; y < y0 + ch - 4; y++) for (let x = Math.round(x0) + 4; x < x0 + cw - 4; x++) {
+        const i = (y * W + x) * 4;
+        if (Math.min(px[i], px[i + 1], px[i + 2]) < 225) { minx = Math.min(minx, x); maxx = Math.max(maxx, x); miny = Math.min(miny, y); maxy = Math.max(maxy, y); }
+      }
+      return { x0, y0, w: maxx - minx, h: maxy - miny, cx: (minx + maxx) / 2, cy: (miny + maxy) / 2 };
+    });
+    const ar = OW / OH;
+    const side = Math.ceil(Math.max(...boxes.filter((_, k) => !skip[k]).map((b) => Math.max(b.w, b.h * ar))) * 1.16);
+    const out = boxes.map((b, k) => {
+      if (skip[k]) return null;
+      const cell = document.createElement('canvas'); cell.width = W; cell.height = H;
+      const cg = cell.getContext('2d'); cg.fillStyle = '#fff'; cg.fillRect(0, 0, W, H);
+      cg.drawImage(c, b.x0, b.y0, cw, ch, b.x0, b.y0, cw, ch);
+      const t = document.createElement('canvas'); t.width = OW; t.height = OH;
+      const tg = t.getContext('2d'); tg.fillStyle = '#fff'; tg.fillRect(0, 0, OW, OH);
+      tg.imageSmoothingQuality = 'high';
+      tg.drawImage(cell, b.cx - side / 2, b.cy - side / ar / 2, side, side / ar, 0, 0, OW, OH);
+      const d = tg.getImageData(0, 0, OW, OH); const p = d.data;
+      for (let i = 0; i < p.length; i += 4) if (Math.min(p[i], p[i + 1], p[i + 2]) >= 251) { p[i] = p[i + 1] = p[i + 2] = 255; }
+      tg.putImageData(d, 0, 0);
+      return t.toDataURL('image/webp', 0.9);
+    });
+    return { side, out };
+  }, { dataUrl, skip: names.map((x) => x === '-'), OW, OH });
+  await browser.close();
+  const dir = resolve(root, 'img/writing');
+  res.out.forEach((u, k) => {
+    if (!u) return;
+    const f = resolve(dir, `${names[k]}.webp`);
+    writeFileSync(f, Buffer.from(u.split(',')[1], 'base64'));
+    console.log(`✓ ${short(f)}  (${statSync(f).size} bytes)`);
+  });
+  console.log(`  one scale: ${res.side}px of sheet across each ${OW}x${OH} tile`);
 } else {
-  console.error('queue [ids] | status | next [i] | clip <i> | land <i> [file] | take <i> [illustrate args]');
+  console.error('queue [ids] | status | next [i] | clip <i> | land <i> [file] | take <i> [illustrate args] | sheet <name> | slice <name> <tiles> [WxH]');
   process.exit(1);
 }
