@@ -998,7 +998,9 @@ a.case-thumb { display: block; }
    from 24rem they go round a two-by-two, the system top left, building,
    checks, and the person bottom left with the line back up into the system.
    Each connector is the step's own ::before (the line) and ::after (its
-   arrowhead), sized from --loop-gap, so it is no element of its own.
+   arrowhead), sized from --loop-gap, so it is no element of its own. Each
+   stops --loop-inset short of both steps it joins, so the line and its
+   arrowhead sit in the gap rather than touching either box.
 
    THE BUILD, once, the first time the figure is in view (loop.js, which
    the homepage and the lab index both load): the relay's legs arrive one after another, then the band,
@@ -1068,6 +1070,7 @@ a.case-thumb { display: block; }
 }
 .loop-steps {
   --loop-gap: var(--space-2xl);
+  --loop-inset: var(--space-xs);
   --loop-line: var(--color-accent-on-dark);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1132,16 +1135,16 @@ a.case-thumb { display: block; }
 }
 .loop-step:not(:last-child)::before {
   left: 50%;
-  top: 100%;
+  top: calc(100% + var(--loop-inset));
   width: 2px;
-  height: var(--loop-gap);
+  height: calc(var(--loop-gap) - var(--loop-inset) * 2);
   margin-left: -1px;
   background: var(--loop-line);
   transform-origin: top;
 }
 .loop-step:not(:last-child)::after {
   left: 50%;
-  top: calc(100% + var(--loop-gap) - var(--space-2xs));
+  top: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--space-2xs));
   width: var(--space-xs);
   height: var(--space-xs);
   border-right: 2px solid var(--loop-line);
@@ -1178,20 +1181,20 @@ a.case-thumb { display: block; }
      person back into the system. */
   .loop-step:nth-child(odd)::before {
     top: 50%;
-    width: var(--loop-gap);
+    width: calc(var(--loop-gap) - var(--loop-inset) * 2);
     height: 2px;
     margin: -1px 0 0;
   }
-  .loop-step:nth-child(1)::before { left: 100%; transform-origin: left; }
-  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
-  .loop-step:nth-child(3)::before { left: auto; right: 100%; transform-origin: right; }
-  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
+  .loop-step:nth-child(1)::before { left: calc(100% + var(--loop-inset)); transform-origin: left; }
+  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--space-2xs)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
+  .loop-step:nth-child(3)::before { left: auto; right: calc(100% + var(--loop-inset)); transform-origin: right; }
+  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--space-2xs)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
   .loop-step:nth-child(4)::before {
     left: 50%;
     top: auto;
-    bottom: 100%;
+    bottom: calc(100% + var(--loop-inset));
     width: 2px;
-    height: var(--loop-gap);
+    height: calc(var(--loop-gap) - var(--loop-inset) * 2);
     margin-left: -1px;
     background: var(--loop-line);
     transform-origin: bottom;
@@ -1199,7 +1202,7 @@ a.case-thumb { display: block; }
   .loop-step:nth-child(4)::after {
     left: 50%;
     top: auto;
-    bottom: calc(100% + var(--loop-gap) - var(--space-2xs));
+    bottom: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--space-2xs));
     width: var(--space-xs);
     height: var(--space-xs);
     border-right: 2px solid var(--loop-line);
