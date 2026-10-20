@@ -976,20 +976,41 @@ a.case-thumb { display: block; }
 /* ---------- The loop: how the work runs now ----------
    The homepage Lab card's picture since 2026-10-20, and the position
    article's first figure in small: the relay the work used to run as, muted,
-   over the loop it runs as now. Everything in it is type, so a reader, a
-   screen reader through the link's description and the checks all read the
-   same words.
+   over the loop it runs as now. Everything in it is type and line, so a
+   reader, a screen reader through the link's description and the checks all
+   read the same words.
 
-   The same rung as "Same red" above: a white card (--rule-card edge,
-   --shadow-card, --radius-xl) that lays itself out by its own width, as a
-   container. Under 24rem of figure the four steps stack with a down-arrow
-   between each pair; from 24rem they go round a two-by-two, the system top
-   left, building, checks, and the person bottom left with the arrow back up
-   into the system. The arrows are glyphs in ::after, in the accent ink, so
-   they sit in the gaps and are no element of their own. Two steps carry a
-   color: the system on the feature ground with an accent edge, because it
-   is where the work starts and ends, and the person on the caution edge,
-   because it is the one place the loop stops for someone. */
+   THE CONTRAST IS THE ARGUMENT, so the two halves are drawn as unequally as
+   the idea is. Before is quiet: grey pills on the white card, a row of
+   hand-offs. Now is the dark band with a color per step, each with its icon
+   from the site's set (design system, "Icons"), and the steps joined by one
+   line in the on-dark sage that runs round the two-by-two and back into the
+   system. Four grounds, each with the ink it carries (COLOR.md):
+     the system   --color-accent-on-dark, charcoal ink  7.47
+     the build    --color-slate, warm ink               4.64
+     the checks   --color-tea-light, charcoal ink      12.90
+     the person   --color-caution-light, charcoal ink  12.44
+   The system is the sage because it is where the work starts and ends; the
+   person is the caution family because it is the one place the loop stops
+   for someone.
+
+   Under 24rem of figure the steps stack with a line down between each pair;
+   from 24rem they go round a two-by-two, the system top left, building,
+   checks, and the person bottom left with the line back up into the system.
+   Each connector is the step's own ::before (the line) and ::after (its
+   arrowhead), sized from --loop-gap, so it is no element of its own.
+
+   THE BUILD, once, the first time the figure is in view (loop.js, which
+   the homepage and the lab index both load): the relay's legs arrive one after another, then the band,
+   then each step in turn with its icon drawing itself and its line running
+   on to the next, and last the line back into the system, which answers with
+   one ring. It is the loop being described in the order it runs. Without
+   script, or under reduced motion, nothing is armed and the figure is simply
+   there.
+
+   The figure's paragraphs are scoped under .loop, because a page's own
+   paragraph rule (.case-section p on the lab index) outranks a bare class
+   and set them at the reading size, in charcoal, on the dark band. */
 .loop {
   position: relative;
   container: loop / inline-size;
@@ -1002,7 +1023,7 @@ a.case-thumb { display: block; }
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
-.loop-tag {
+.loop .loop-tag {
   margin: 0 0 var(--space-sm);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
@@ -1012,11 +1033,7 @@ a.case-thumb { display: block; }
   text-transform: uppercase;
   color: var(--color-muted-gray);
 }
-.loop-tag--now { color: var(--color-accent-text); }
-.loop-before {
-  padding-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--rule-hairline);
-}
+.loop .loop-tag--now { color: var(--color-accent-on-dark); }
 .loop-relay {
   display: flex;
   flex-wrap: wrap;
@@ -1035,7 +1052,7 @@ a.case-thumb { display: block; }
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-.loop-span {
+.loop .loop-span {
   margin: var(--space-sm) 0 0;
   font-family: var(--font-serif);
   font-size: var(--text-base);
@@ -1043,10 +1060,18 @@ a.case-thumb { display: block; }
   line-height: var(--leading-tight);
   color: var(--color-muted-gray);
 }
+.loop-now {
+  padding: var(--space-md);
+  background: var(--color-charcoal);
+  border-radius: var(--radius-xl);
+  --color-focus-ring: var(--color-accent-on-dark);
+}
 .loop-steps {
+  --loop-gap: var(--space-2xl);
+  --loop-line: var(--color-accent-on-dark);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xl);
+  gap: var(--loop-gap);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1054,55 +1079,85 @@ a.case-thumb { display: block; }
 .loop-step {
   position: relative;
   display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-md);
+  row-gap: var(--space-2xs);
   align-content: start;
-  gap: var(--space-2xs);
+  justify-items: start;
   margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-white);
-  border: 1.5px solid var(--color-charcoal);
+  padding: var(--space-md);
   border-radius: var(--radius-xl);
+  color: var(--color-charcoal);
+  --loop-disc: var(--color-charcoal);
+  --loop-icon: var(--color-accent-on-dark);
+}
+.loop-icon {
+  grid-row: span 2;
+  align-self: center;
+  box-sizing: content-box;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  padding: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--loop-disc);
+  color: var(--loop-icon);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .loop-step b {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
 }
 .loop-step span {
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
 }
-.loop-step--system { background: var(--color-tea-light); border-color: var(--color-accent-text); }
-.loop-step--person { border-color: var(--color-caution); }
-/* The arrows are a step up from the words they join, at --text-xl: at
-   the step's own 16px the fallback face the glyphs come from (Montserrat
-   has no arrows) drew them at about half the x-height of the labels. */
+.loop-step--system { background: var(--color-accent-on-dark); }
+.loop-step--build  { background: var(--color-slate); color: var(--color-warm); --loop-disc: var(--color-warm); --loop-icon: var(--color-slate); }
+.loop-step--checks { background: var(--color-tea-light); --loop-disc: var(--color-accent-text); --loop-icon: var(--color-warm); }
+.loop-step--person { background: var(--color-caution-light); --loop-disc: var(--color-caution-text); --loop-icon: var(--color-warm); }
+/* The connectors. ::before is the line across the gap, ::after the
+   arrowhead at its far end; the stack has three, all down. */
+.loop-step::before,
 .loop-step::after {
+  content: "";
   position: absolute;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-sans);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: 1;
-  color: var(--color-accent-text);
+  pointer-events: none;
 }
-.loop-step:not(:last-child)::after { content: "\2193"; inset: 100% 0 auto 0; height: var(--space-xl); }
-.loop-back {
-  margin: var(--space-md) 0 0;
+.loop-step:not(:last-child)::before {
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: var(--loop-gap);
+  margin-left: -1px;
+  background: var(--loop-line);
+  transform-origin: top;
+}
+.loop-step:not(:last-child)::after {
+  left: 50%;
+  top: calc(100% + var(--loop-gap) - var(--space-2xs));
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-right: 2px solid var(--loop-line);
+  border-bottom: 2px solid var(--loop-line);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.loop .loop-back {
+  margin: var(--space-lg) 0 0;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--color-accent-text);
+  color: var(--color-accent-on-dark);
   text-align: center;
 }
 .loop-take {
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--rule-hairline);
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   line-height: var(--leading-tight);
@@ -1110,14 +1165,114 @@ a.case-thumb { display: block; }
   text-align: center;
 }
 @container loop (min-width: 24rem) {
-  .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl); }
+  .loop-now { padding: var(--space-xl); }
+  .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); --loop-gap: var(--space-3xl); }
+  /* In the two-by-two a step is narrow, so the icon goes above its words. */
+  .loop-step { grid-template-columns: minmax(0, 1fr); padding: var(--space-md) var(--space-lg) var(--space-lg); }
+  .loop-icon { grid-row: auto; align-self: start; margin-bottom: var(--space-sm); }
   .loop-step:nth-child(2) { grid-column: 2; grid-row: 1; }
   .loop-step:nth-child(3) { grid-column: 2; grid-row: 2; }
   .loop-step:nth-child(4) { grid-column: 1; grid-row: 2; }
-  .loop-step:nth-child(1)::after { content: "\2192"; inset: 0 auto 0 100%; width: var(--space-2xl); height: auto; }
-  .loop-step:nth-child(2)::after { content: "\2193"; inset: 100% 0 auto 0; height: var(--space-2xl); }
-  .loop-step:nth-child(3)::after { content: "\2190"; inset: 0 100% 0 auto; width: var(--space-2xl); height: auto; }
-  .loop-step:nth-child(4)::after { content: "\2191"; inset: auto 0 100% 0; height: var(--space-2xl); }
+  /* Across: the system to the build, left to right; the checks to the
+     person, right to left. Up and down: the build to the checks, and the
+     person back into the system. */
+  .loop-step:nth-child(odd)::before {
+    top: 50%;
+    width: var(--loop-gap);
+    height: 2px;
+    margin: -1px 0 0;
+  }
+  .loop-step:nth-child(1)::before { left: 100%; transform-origin: left; }
+  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
+  .loop-step:nth-child(3)::before { left: auto; right: 100%; transform-origin: right; }
+  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--space-2xs)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
+  .loop-step:nth-child(4)::before {
+    left: 50%;
+    top: auto;
+    bottom: 100%;
+    width: 2px;
+    height: var(--loop-gap);
+    margin-left: -1px;
+    background: var(--loop-line);
+    transform-origin: bottom;
+  }
+  .loop-step:nth-child(4)::after {
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + var(--loop-gap) - var(--space-2xs));
+    width: var(--space-xs);
+    height: var(--space-xs);
+    border-right: 2px solid var(--loop-line);
+    border-bottom: 2px solid var(--loop-line);
+    transform: translate(-50%, 50%) rotate(-135deg);
+  }
+}
+
+/* The build. --loop-beat is one step's turn: the step lands, its icon
+   draws, its line runs on. Everything is keyed off it and --i. */
+.loop {
+  --loop-beat: calc(var(--motion-move) * 2);
+  --loop-start: calc(var(--motion-enter) + var(--motion-move) * 2);
+}
+.loop--armed .loop-relay li,
+.loop--armed .loop-span,
+.loop--armed .loop-now,
+.loop--armed .loop-step,
+.loop--armed .loop-back,
+.loop--armed .loop-take { opacity: 0; }
+.loop--armed .loop-step::before { transform: scale(0); }
+.loop--armed .loop-step::after { opacity: 0; }
+.loop--armed .loop-icon path,
+.loop--armed .loop-icon circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.loop--armed[data-play] .loop-relay li {
+  animation: loop-in var(--motion-move) var(--ease-enter) both;
+  animation-delay: calc(var(--i) * var(--motion-stagger) * 2);
+}
+.loop--armed[data-play] .loop-span {
+  animation: loop-fade var(--motion-enter) var(--ease) both;
+  animation-delay: calc(var(--motion-stagger) * 10);
+}
+.loop--armed[data-play] .loop-now {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: var(--motion-enter);
+}
+.loop--armed[data-play] .loop-step {
+  animation: loop-land var(--motion-move) var(--ease-enter) both;
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat));
+}
+.loop--armed[data-play] .loop-icon path,
+.loop--armed[data-play] .loop-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-stagger) * 2);
+}
+.loop--armed[data-play] .loop-step::before {
+  animation: loop-run var(--motion-move) var(--ease) both;
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-move));
+}
+.loop--armed[data-play] .loop-step::after {
+  animation: loop-fade var(--motion-state) var(--ease) both;
+  animation-delay: calc(var(--loop-start) + var(--i) * var(--loop-beat) + var(--motion-move) * 2);
+}
+/* The answer arriving back: the system rings once, as the line reaches it. */
+.loop--armed[data-play] .loop-step--system {
+  animation: loop-land var(--motion-move) var(--ease-enter) both, loop-ring var(--motion-ambient) var(--ease) both;
+  animation-delay: var(--loop-start), calc(var(--loop-start) + var(--loop-beat) * 4);
+}
+.loop--armed[data-play] .loop-back {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4);
+}
+.loop--armed[data-play] .loop-take {
+  animation: loop-fade var(--motion-enter) var(--ease) both;
+  animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4 + var(--motion-enter));
+}
+@keyframes loop-in { from { opacity: 0; transform: translateY(var(--space-xs)); } to { opacity: 1; transform: none; } }
+@keyframes loop-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes loop-land { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes loop-run { from { transform: scale(0); } to { transform: none; } }
+@keyframes loop-ring {
+  from { box-shadow: 0 0 0 0 var(--color-accent-on-dark); }
+  to   { box-shadow: 0 0 0 var(--space-md) transparent; }
 }
 
 /* ---------- The app's identity: its icon and its name ----------
