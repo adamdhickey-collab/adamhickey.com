@@ -196,7 +196,7 @@ the built file for a class before trusting it, or add it to the markup and
 rebuild, which is what makes it exist.
 
 The trap runs the other way too. The `content` glob is `case-study/*.html`,
-which includes the five build write-ups that never load the file, and
+which includes the four build write-ups that never load the file, and
 Tailwind reads every word in those files as a candidate class. A sentence
 containing the word "fixed" made the build emit `.fixed`, the committed file
 lacked it, and `checks` went red on a pull request that had not touched a
