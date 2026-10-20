@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 33 pages in ten families |
+| **What this is** | The site: 34 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,14 +119,14 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the four build write-ups, the ten writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-three pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the twelve writing pages, the design system page and the two prototype pages load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-four pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
-| `reveal.css`, `reveal.js` | The four build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
+| `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
 | `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the twenty-five pages with prose worth hearing -- the nine writing articles, the ten case studies, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
-| `case-study/*.html` | Ten case studies: four client engagements, two career-arc pages and four build write-ups |
+| `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages and five build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
@@ -136,7 +136,7 @@ the archive so that it holds everything staging ever had.
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-three. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-four. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -177,7 +177,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-three pages in ten families, all hand-written HTML with no include step
+Thirty-four pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -186,11 +186,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-three pages, so a
-change to the shell is a change to thirty-three files.
+email icon and the skip link are hand-written into all thirty-four pages, so a
+change to the shell is a change to thirty-four files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-three pages
+base ladder, and both regimes read it from `type.css`, which all thirty-four pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -199,7 +199,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Homepage | 1 | A | The page every other page hangs off. |
 | Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
-| Build write-ups | 4 | A | Products built end to end, alone, and this site. |
+| Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 12 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for the three leads the search runs on: designing with code, enterprise and operational software, AI as the material. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
@@ -598,7 +598,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-thirty-three live addresses, each dated. Every case study's and every article's
+thirty-four live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page
