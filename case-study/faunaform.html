@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How I&rsquo;m building Faunaform | Adam Hickey</title>
+  <meta name="description" content="A build write-up for Faunaform, a screen-print studio for Minnesota wildlife art: an AI image model draws, studio software I built with Claude Code makes every drawing printable, and every call about the art is mine. One print, the black bear, from the first idea to its four screens." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/faunaform.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/faunaform.html" />
+  <meta property="og:title" content="How I&rsquo;m building Faunaform | Adam Hickey" />
+  <meta property="og:description" content="A build write-up for Faunaform, a screen-print studio for Minnesota wildlife art: an AI image model draws, studio software I built with Claude Code makes every drawing printable, and every call about the art is mine. One print, the black bear, from the first idea to its four screens." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/faunaform.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/faunaform.html#article",
+          "headline": "How I’m building Faunaform",
+          "description": "A build write-up for Faunaform, a screen-print studio for Minnesota wildlife art: an AI image model draws, studio software I built with Claude Code makes every drawing printable, and every call about the art is mine. One print, the black bear, from the first idea to its four screens.",
+          "url": "https://adamhickey.com/case-study/faunaform.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/faunaform.html",
+          "image": "https://adamhickey.com/img/og/faunaform.jpg",
+          "datePublished": "2026-10-20",
+          "dateModified": "2026-10-20",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/faunaform.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Built end to end",
+              "item": "https://adamhickey.com/#built"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How I’m building Faunaform",
+              "item": "https://adamhickey.com/case-study/faunaform.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- This page uses the site's own stylesheet rather than the Tailwind CDN the
+       older captured case studies load, so it costs one request instead of a
+       framework. -->
+  <link rel="stylesheet" href="../color.css?v=8" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20261020a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <!-- The chapters arrive as they are read. See reveal.css for why this is
+       its own pair of files rather than style.css's .reveal. -->
+  <link rel="stylesheet" href="../reveal.css?v=2" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <link rel="stylesheet" href="../related.css?v=1" />
+  <link rel="stylesheet" href="faunaform-day.css?v=1" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../reveal.js?v=1" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="faunaform-day.js?v=1" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Lab</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+  <main id="main">
+    <!-- FAUNAFORM, written 2026-10-20. A build write-up in the Lucy Learns
+         pattern for Adam's screen-print studio, featured on the site before
+         the first print is pulled, by his decision that day. It is a story
+         of the process and a showcase of the design work, and it links to
+         nothing of the studio's own: not the private studio site, not the
+         shop's design preview.
+
+         WHERE THE WORDS COME FROM: the studio repository (../faunaform: the
+         README, docs/, config/print-costs.json, config/paper.json, the
+         check-six measurements) and the shop theme's page "How a drawing is
+         made" (../faunaform-shop), which Adam wrote and which is condensed
+         here for a product-design reader. The museum pictures are public
+         domain, from open collections, and carry their credits. The
+         drawings are the image model's, judged and redrawn on Adam's
+         direction; every picture of a print is a simulation, and the page
+         says so where the pictures start.
+
+         WHAT IT MAY NOT CLAIM: nothing is printed, signed or pulled by hand
+         yet; no price is set; no buyer has seen it. The booth renders, the
+         private ChatGPT links in the design files and the unreleased second
+         series stay out. -->
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Build write-up &middot; in progress &middot; 9 min read</p>
+        <h1 class="case-title">How I&rsquo;m building Faunaform</h1>
+        <p class="build-dek">Seven Minnesota animals, each drawn for one hour of one day, to be screen printed by hand in four flat inks. An image model draws, software I wrote with Claude Code makes every drawing printable, and every call about the art is mine. More than ten rounds in its first six days, most of them stopped on purpose. Nothing is printed yet; the first proof is next.</p>
+
+        <!-- Faunaform: one day of light. The shop's animated hero as a figure, linked
+             to nothing. The page loads, in its <head>, after style.css (which holds
+             .visually-hidden and the tokens' base rules):
+               <link rel="stylesheet" href="faunaform-day.css?v=1" />
+               <script src="faunaform-day.js?v=1" defer></script>
+             The art is in img/faunaform/day/. The words a screen reader hears are the
+             figcaption; the hours are drawing and their captions repeat it, so they
+             are hidden from it. -->
+        <figure class="ffd" data-ffd>
+          <figcaption class="visually-hidden">Seven screen-print scenes side by side, one Minnesota animal for each hour of one day: a great horned owl before dawn, a sandhill crane at sunrise, a moose in the morning mist, a common loon at noon, a black bear at golden hour, a red fox at sunset and a snowshoe hare at dusk, under one arc of the sun.</figcaption>
+          <div class="ffd__day">
+            <img class="ffd__mark ffd__mark--sky" src="../img/faunaform/day/wordmark.svg" alt="Faunaform" width="1049" height="114">
+            <img class="ffd__mark ffd__mark--page" src="../img/faunaform/day/wordmark-ink.svg" alt="Faunaform" width="1049" height="114">
+            <button class="ffd__pause" type="button" data-ffd-pause aria-pressed="false" aria-label="Pause the motion" hidden>
+              <svg class="ffd__icon--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
+              <svg class="ffd__icon--play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
+            </button>
+            <div class="ffd__hour ffd__hour--owl" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/owl-horizon.png" alt="" width="1254" height="1218" loading="lazy" decoding="async"></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Before dawn</span><span class="ffd__name">Great horned owl</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--crane" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/crane-horizon.png" alt="" width="1254" height="1371" loading="lazy" decoding="async"><img class="ffd__glints" src="../img/faunaform/day/crane-glints.png" alt="" width="1254" height="1371" loading="lazy" decoding="async"><img class="ffd__glints ffd__glints--b" src="../img/faunaform/day/crane-glints-b.png" alt="" width="1254" height="1371" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/crane-plants.png" alt="" width="1254" height="1371" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Sunrise</span><span class="ffd__name">Sandhill crane</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--moose" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/moose-horizon.png?v=2" alt="" width="1254" height="1142" loading="lazy" decoding="async"><img class="ffd__glints" src="../img/faunaform/day/moose-glints.png?v=2" alt="" width="1254" height="1142" loading="lazy" decoding="async"><img class="ffd__glints ffd__glints--b" src="../img/faunaform/day/moose-glints-b.png?v=2" alt="" width="1254" height="1142" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/moose-plants.png?v=2" alt="" width="1254" height="1142" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Morning mist</span><span class="ffd__name">Moose</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--loon" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/loon-horizon.png" alt="" width="1254" height="1229" loading="lazy" decoding="async"><img class="ffd__glints" src="../img/faunaform/day/loon-glints.png" alt="" width="1254" height="1229" loading="lazy" decoding="async"><img class="ffd__glints ffd__glints--b" src="../img/faunaform/day/loon-glints-b.png" alt="" width="1254" height="1229" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/loon-plants.png" alt="" width="1254" height="1229" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Noon</span><span class="ffd__name">Common loon</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--bear" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/bear-horizon.png" alt="" width="1254" height="1135" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/bear-plants.png" alt="" width="1254" height="1135" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Golden hour</span><span class="ffd__name">Black bear</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--fox" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/fox-horizon.png" alt="" width="1254" height="1080" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/fox-plants.png" alt="" width="1254" height="1080" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Sunset</span><span class="ffd__name">Red fox</span></div>
+            </div>
+            <div class="ffd__hour ffd__hour--rabbit" aria-hidden="true">
+              <div class="ffd__tile">
+                <span class="ffd__clouds"><span class="ffd__cloud ffd__cloud--far"></span><span class="ffd__cloud ffd__cloud--near"></span></span>
+                <span class="ffd__path"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false"><path d="M0 800 Q500 -520 1000 800"/></svg></span>
+                <span class="ffd__disc"></span>
+                <span class="ffd__art"><span class="ffd__scene"><img src="../img/faunaform/day/rabbit-horizon.png" alt="" width="1254" height="1194" loading="lazy" decoding="async"><span class="ffd__plants"><img src="../img/faunaform/day/rabbit-plants.png" alt="" width="1254" height="1194" loading="lazy" decoding="async"></span></span></span>
+              </div>
+              <div class="ffd__caption"><span class="ffd__when">Dusk</span><span class="ffd__name">Snowshoe hare</span></div>
+            </div>
+          </div>
+        </figure>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Everything: art direction, brand, the studio&rsquo;s software, the shop&rsquo;s design</dd></div>
+            <div><dt>Built with</dt><dd>ChatGPT to draw, Claude Code for the studio&rsquo;s software and the shop, Vectorizer.AI for curves</dd></div>
+            <div><dt>Runs as</dt><dd>A private studio site and a print pipeline: drawings in, film-ready screens out</dd></div>
+            <div><dt>Status</dt><dd>In progress: supplies ordered, the first proof next</dd></div>
+          </dl>
+        </div>
+
+        <div class="glance">
+          <p class="glance-kicker">My approach</p>
+          <ol class="glance-row">
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>01</span>Research</p>
+                <ul class="glance-points">
+                  <li>An animal, an hour and a season, from what it really does here</li>
+                  <li>Old prints from open museum collections, one idea each</li>
+                  <li>Field marks and plants written into the brief word for word</li>
+                </ul>
+                <a class="glance-more" href="#one-print">One print, start to finish</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(3,-0.25)"><circle pathLength="1" cx="9" cy="5.8" r="1.8"/><path pathLength="1" d="M8.2 7.4 3 20.5"/><path pathLength="1" d="M9.8 7.4 15 20.5"/><path pathLength="1" d="M3.9 15.6a10.5 10.5 0 0 0 10.2 0"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>02</span>Draw</p>
+                <ul class="glance-points">
+                  <li>An image model draws from a written brief, a minute a take</li>
+                  <li>Three takes for a new animal, one pushed further</li>
+                  <li>Round after round, until nothing is left I&rsquo;d change</li>
+                </ul>
+                <a class="glance-more" href="#who-does-what">Who does what</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>03</span>Make it printable</p>
+                <ul class="glance-points">
+                  <li>Every pixel set to one of four inks or the bare paper</li>
+                  <li>Every shape too thin for a screen, found and marked</li>
+                  <li>Smooth curves, then four film-ready screens</li>
+                </ul>
+                <a class="glance-more" href="#printable">Making it printable</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.5,0)"><circle pathLength="1" cx="11.5" cy="12" r="8.5"/><path pathLength="1" d="M7.8 12.3l2.5 2.5 4.9-5.2"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>04</span>Print</p>
+                <ul class="glance-points">
+                  <li>The bear first, on paper and then on birch</li>
+                  <li>Buyer research before a price is set</li>
+                  <li>Fairs asked about AI-assisted work before applying</li>
+                </ul>
+                <a class="glance-more" href="#how-ill-check">How I&rsquo;ll check it</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="the-problem">The problem</h2>
+        <p>An image model can draw a striking wildlife print in a minute. It can&rsquo;t tell you whether the print will print. At six inches a screen holds a line down to about a millimeter and a half and no thinner, four inks have to land on top of each other, and every color has to be an ink you actually own. It can&rsquo;t tell you whether the bear is a bear either: a black bear isn&rsquo;t a small grizzly, and the difference is a handful of marks.</p>
+        <p>So the studio has the same problem as software an agent helped build. The output has to survive real constraints, and someone has to answer for every call. The collection is one idea, One day of light: seven animals, each under the sun at its own hour of one day and its own month of one year, from the great horned owl before dawn in January to the snowshoe hare at dusk in December.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="who-does-what">Who does what</h2>
+        <p>Every step of the work says who does it. It started as a note to myself, and it became the most useful line on every page about the work, because it&rsquo;s the honest answer to the question everyone asks about AI and art.</p>
+        <ul class="build-list">
+          <li><strong>Me.</strong> The idea, the research, every choice and the final say. And the printing.</li>
+          <li><strong>An AI image model, ChatGPT.</strong> It draws and redraws a picture from a written brief, in about a minute a take.</li>
+          <li><strong>An AI assistant, Claude.</strong> It helps with the research, turns a direction into a brief, and writes the studio&rsquo;s software.</li>
+          <li><strong>Studio software.</strong> Ordinary code, not AI, so it does exactly the same thing every time. It fixes the colors, measures the shapes and makes the screens.</li>
+        </ul>
+        <dl class="build-facts writing-facts">
+          <div><dt>39</dt><dd>scripts in the studio&rsquo;s software, written with Claude Code in the first week</dd></div>
+          <div><dt>81</dt><dd>briefs, each kept as a file, so any drawing can be asked for again and compared</dd></div>
+          <div><dt>19</dt><dd>rules in the print standard every drawing is checked against</dd></div>
+        </dl>
+        <p>Two habits came over from <a href="lucy-learns.html">Lucy Learns</a>. Every brief is a file, never a paragraph pasted into a chat. Every drawing records where it came from: its round, its chosen take and its source. That makes the work repeatable, and it&rsquo;s the answer when a fair asks how a piece was made.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="one-print">One print, start to finish</h2>
+        <p>The black bear at golden hour, drawn between 16 and 19 October 2026. Every picture of a print on this page is a drawing or a simulation; nothing has been pulled yet.</p>
+
+        <h3>An animal, an hour, a season</h3>
+        <p>Every print starts from something the animal really does here. Black bears in Minnesota are out by day as well as at dawn and dusk, and blueberries ripen in July and August. So the bear is in the berry patch in August, head down, at golden hour, with the sun low behind the birches.</p>
+
+        <h3>Old prints, one idea each</h3>
+        <p>Claude searched the open collections of the Met, the Art Institute of Chicago and the Cleveland Museum of Art for pictures that solved a problem like this one, mostly old Japanese prints and design books. Each went on the board for one idea: a pose, a shape, a way of placing the sun. The pictures never go to the image model. Their ideas go into words.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/ref-keisai.webp?v=1" width="800" height="550" loading="lazy" decoding="async" alt="A woodblock page of two bears, each one dark shape on short legs with nothing drawn inside it." />
+              <span class="build-pair-label">One dark shape</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/ref-sekka.webp?v=1" width="800" height="542" loading="lazy" decoding="async" alt="One dark, round mass filling the sheet over pale grasses, with the moon tucked behind it." />
+              <span class="build-pair-label">One round mass</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/ref-hiroshige.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="Sparrows in snow among nandina, its red berries drawn as plain round dots in loose clusters." />
+              <span class="build-pair-label">Berries as dots</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/ref-stencil.webp?v=1" width="800" height="587" loading="lazy" decoding="async" alt="A dark paper stencil cut with an even carpet of mallow leaves, some solid and some open." />
+              <span class="build-pair-label">An even carpet of leaves</span>
+            </div>
+          </div>
+          <figcaption>Kuwagata Keisai, Abbreviated Drawing Styles for Birds and Animals, 1797, The Metropolitan Museum of Art. Kamisaka Sekka, Autumn Night, 1909&ndash;10, Cleveland Museum of Art. Utagawa Hiroshige, Sparrows Flitting about Snow-covered Nandina, about 1840, and Stencil with Design of Mallows, Japan, late 19th century, both Art Institute of Chicago. All public domain. The bear as one dark shape and its berries as dots made it to the print; the big sun behind its back didn&rsquo;t.</figcaption>
+        </figure>
+
+        <h3>Getting the animal right</h3>
+        <p>The difference between a black bear and a small grizzly is a handful of marks, so they go into the brief word for word: a straight face from forehead to nose, no shoulder hump, tall, round-tipped ears, a tan muzzle. So do the plants that grow where it feeds, in the month it feeds there: paper birch, lowbush blueberry, bunchberry, bracken fern. An early drawing put the bear among yellow flowers that bloom in June. It moved to the August berry patch.</p>
+
+        <h3>The brief, then the drawing</h3>
+        <p>The brief carries the field marks, the plants, the hour, and which of the four inks each thing is printed in. One finished print from the series goes along, to show the style. The bear&rsquo;s opened: &ldquo;An American black bear on all fours in a paper birch grove in August, side-on facing right, head lowered toward a patch of lowbush blueberries.&rdquo;</p>
+        <p>The image model draws a brief in about a minute. For a new animal I ask for three takes and push one further. The bear began as a dark dome under a huge sun, when the series was still planned in cut wood. A day later, with the series now one day of light, it stood in a birch grove at golden hour.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-concept.webp?v=1" width="800" height="1000" loading="lazy" decoding="async" alt="The first concept: a dark bear made of wood-grain pieces, head down at red berries, under a huge yellow sun on a pale wood ground." />
+              <span class="build-pair-label">16 October &middot; planned in wood</span>
+            </div>
+            <div class="build-pair-item is-after">
+              <img src="../img/faunaform/bear-golden.webp?v=1" width="800" height="1000" loading="lazy" decoding="async" alt="Golden hour: the bear in aubergine among birch trunks and blue and amber plants, a low orange sun behind it." />
+              <span class="build-pair-label">17 October &middot; golden hour</span>
+            </div>
+          </div>
+        </figure>
+
+        <h3>Saying what&rsquo;s wrong</h3>
+        <p>Most of the work is here: looking hard and saying exactly what isn&rsquo;t right. The first square bear came back with a soft haze in its sky and a row of small triangle trees on the far shore. Every ink in these prints is flat, so it went back with a correction, and the second take mended both and kept the rest. A picture goes round like this until there&rsquo;s nothing left I&rsquo;d change.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-take-1.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="Take one: the square bear among birches and berries, its sky softly blurred and small triangle trees along the far shore." />
+              <span class="build-pair-label">Take one</span>
+            </div>
+            <div class="build-pair-item is-after">
+              <img src="../img/faunaform/bear-take-2.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="Take two: the same composition with a flat sky in hard bands and the triangle trees gone." />
+              <span class="build-pair-label">Take two, kept</span>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="printable">Making it printable</h2>
+        <p>A picture that looks right on screen isn&rsquo;t finished until every shape will print. This is where the software takes over, because it&rsquo;s the part that has to come out the same every time.</p>
+
+        <h3>Exact inks</h3>
+        <p>The image model&rsquo;s colors are close, never exact, and a screen can only print the inks it has. The software gives every pixel one of the four inks or the bare paper, measures how far each moved, and leaves every shape one flat color with a clean edge.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-inks.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="The bear simulated in four inks on white paper: amber light, orange sun, greyed blue sky and shadow, and an aubergine bear." />
+              <span class="build-pair-label">Four inks and the paper</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-inks-detail.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="A close-up of the sun between two birch trunks, every shape one flat ink with a clean edge." />
+              <span class="build-pair-label">Up close</span>
+            </div>
+          </div>
+          <figcaption>Simulations of the print, not photographs.</figcaption>
+        </figure>
+
+        <h3>Will it print?</h3>
+        <p>The first prints are six inches square, and at that size a shape thinner than about 1.5&nbsp;mm won&rsquo;t hold ink cleanly. The software measures every shape and marks the ones too thin in magenta and the ones about to vanish in cyan. They go back to the image model with one rule: widen, never remove. Nothing should be narrower than the bear&rsquo;s eye. The bear took two passes, then I approved it.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-check.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="The bear in grey with every place too thin to print at six inches marked in magenta, mostly in the plants and the birch marks." />
+              <span class="build-pair-label">Too thin, marked</span>
+            </div>
+            <div class="build-pair-item is-after">
+              <img src="../img/faunaform/bear-approved.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="The approved bear in full color after two passes, its plants and birch marks widened." />
+              <span class="build-pair-label">Approved, 19 October</span>
+            </div>
+          </div>
+        </figure>
+        <dl class="build-facts writing-facts">
+          <div><dt>4.0 &rarr; 2.8%</dt><dd>of the bear too thin to print, before and after its redraw</dd></div>
+          <div><dt>7.6 &rarr; 3.3%</dt><dd>of the fox</dd></div>
+          <div><dt>4.2 &rarr; 2.1%</dt><dd>of the loon</dd></div>
+        </dl>
+
+        <h3>Smooth curves, then four screens</h3>
+        <p>The picture is still made of pixels, which turn to stairs up close. A tracing tool, Vectorizer.AI, redraws every edge as a smooth curve, so the films come out crisp. Then the software splits the print into its screens, lighter inks under darker with a 0.3&nbsp;mm overlap and registration marks on every film. The bear&rsquo;s four inks fit on two screens.</p>
+        <figure class="build-pair">
+          <div class="build-pair-row">
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-pixels.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="The bear&rsquo;s eye enlarged, its edges stepped in visible pixels." />
+              <span class="build-pair-label">Pixels</span>
+            </div>
+            <div class="build-pair-item is-after">
+              <img src="../img/faunaform/bear-curves.webp?v=1" width="800" height="800" loading="lazy" decoding="async" alt="The same eye redrawn in smooth curves." />
+              <span class="build-pair-label">Curves</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-screen-light.webp?v=1" width="520" height="520" loading="lazy" decoding="async" alt="The light screen alone: every sunlit plane in amber." />
+              <span class="build-pair-label">Light</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-screen-sky.webp?v=1" width="520" height="520" loading="lazy" decoding="async" alt="The sky screen alone: the sky and every shadow in greyed blue." />
+              <span class="build-pair-label">Sky</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-screen-sun.webp?v=1" width="520" height="520" loading="lazy" decoding="async" alt="The sun screen alone: the low sun and a few berries in orange, almost all bare paper." />
+              <span class="build-pair-label">Sun</span>
+            </div>
+            <div class="build-pair-item">
+              <img src="../img/faunaform/bear-screen-deep.webp?v=1" width="520" height="520" loading="lazy" decoding="async" alt="The deep screen alone: the bear and the dark marks on the birch bark in aubergine." />
+              <span class="build-pair-label">Deep</span>
+            </div>
+          </div>
+          <figcaption>The eye in pixels and in curves, then the bear&rsquo;s four screens, each printed in order from light to deep. Wherever no ink lands, the paper stays white.</figcaption>
+        </figure>
+        <p>The rules all of this answers to are written down: the print standard, nineteen of them across five stages, from how many inks a print may have to how thin a gap can be. Every rule is marked provisional until the first proof. The same inputs always give the same outputs.</p>
+        <p><mark>The model widens the search. Code holds the production truth.</mark></p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="three-decisions">Three decisions that shaped it</h2>
+
+        <h3>The medium came last</h3>
+        <p>It began on 14 October as laser-cut wood: a tool read the loon drawing as 76 shapes, 27 veneer pieces and three levels. Wood veneer, matboard and a wood collage followed, each judged on simulated renders rather than on materials bought. By the 16th it was screen printing, because a screen gives the flat, bold shapes the idea needs at a cost a small studio can carry. Trying four media in three days cost nothing but compute.</p>
+
+        <h3>One idea, held across seven pieces</h3>
+        <p>Golden hour here lasts thirty-five to fifty minutes, and in it sunlit things turn gold while shadows, lit only by the blue sky, turn blue-violet. Every hour has its own version of that, so every print takes its four inks from its own sky. Printmakers have done this for a century: Hiroshi Yoshida printed the same sailing boats six times, morning to night, from the same blocks in new colors. These prints do it with seven animals. Every later round had to keep that idea or go, and more than ten rounds went.</p>
+
+        <h3>Say what AI did, in plain words</h3>
+        <p>&ldquo;AI-assisted&rdquo;, never &ldquo;AI-generated&rdquo;. No render shown as a finished piece. &ldquo;Designed to be screen printed by hand&rdquo; until a proof exists. Some art fairs here exclude AI-assisted work, so organizers get asked before any application. Disclosure is a design problem too: research suggests a label that says AI changes what people will pay, so the wording has to be honest and considered at the same time.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="how-ill-check">How I&rsquo;ll check it</h2>
+        <p>Three things, in order.</p>
+        <ul class="build-list">
+          <li><strong>The first proof.</strong> The bear, on paper and then on a birch panel. Every rule in the standard is confirmed or rewritten against it.</li>
+          <li><strong>Buyer research before a price.</strong> Two rounds, six to eight people and then eight to ten, before anything is for sale.</li>
+          <li><strong>Fairs asked first.</strong> Organizers asked about AI-assisted work before any application.</li>
+        </ul>
+        <dl class="build-facts writing-facts">
+          <div><dt>$392.70</dt><dd>in bench, ink and paper for the first run, ordered 19 October</dd></div>
+          <div><dt>2</dt><dd>screens carry the bear&rsquo;s four inks</dd></div>
+          <div><dt>$8.52</dt><dd>a print in materials and time on paper at a run of fifty, before frames</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="product-design">What it has to do with product design</h2>
+        <p>It&rsquo;s the argument of this site, applied to art. A standard every piece is checked against. Colors and sizes held as tokens. A decision log, and an archive of the rounds that didn&rsquo;t make it. An image model to widen the search, software to hold what must not drift, and a person deciding what ships.</p>
+        <p>That&rsquo;s <a href="../writing/what-makes-a-good-product-designer-now.html">the infrastructure behind great design</a>, at the scale of one studio and one bear.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- No "Try it" here, on purpose: the studio site is private and the
+             shop is unreleased, and Adam asked for the work without a link
+             to either. The ask and the related list as every write-up has
+             them. -->
+        <div class="case-ask">
+          <h2 class="case-ask-title">Want this on your team?</h2>
+          <p>Tell me about the role and the product, in a few sentences. I will tell you plainly whether I am the right fit, and if I am not, I will say so.</p>
+          <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
+        </div>
+        <nav class="related" aria-labelledby="related-label">
+          <p class="related-label" id="related-label">Related</p>
+          <ul class="related-list">
+            <li><a class="related-link" href="../writing/what-makes-a-good-product-designer-now.html"><span class="related-kind">Article</span><span class="related-title">What makes a good product designer now?</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="lucy-learns.html"><span class="related-kind">Build write-up</span><span class="related-title">How I built Lucy Learns</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="this-site.html"><span class="related-kind">Build write-up</span><span class="related-title">How I built this site</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </nav>
+        <a class="build-next" href="while-were-here.html">
+          <span class="build-next-eyebrow">Built end to end</span>
+          <span class="build-next-title">How I built While We&rsquo;re Here &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#built">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

@@ -87,12 +87,14 @@ const BASE = {
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
-    /* "Craft and code" until 2026-10-08, when the agent article took the
-       design engineer article's place at its head (that one is unlisted,
-       not gone). The private variants name the old eyebrow until moved. */
-    'Designing with code': ['what-a-design-system-needs-to-explain-to-an-agent', 'what-makes-an-interface-feel-finished', 'what-does-a-developer-need-from-an-interface-on-a-bad-day'],
-    'Enterprise and operational software': ['designing-for-the-moment-the-workflow-breaks', 'what-does-a-design-system-need-once-ai-is-in-the-product', 'standardizing-ux-across-40-sap-fiori-apps'],
-    'AI as the material': ['enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent', 'what-should-a-working-prototype-actually-prove'],
+    /* The position article's three words since 2026-10-20, a new article at
+       the head of each. Until then "Designing with code" ("Craft and code"
+       until 2026-10-08), "Enterprise and operational software" and "AI as
+       the material"; the private variants name those eyebrows until moved,
+       and three of their articles are unlisted now, not gone. */
+    'The system': ['what-changes-when-ai-agents-join-the-product-team', 'what-a-design-system-needs-to-explain-to-an-agent', 'what-does-a-design-system-need-once-ai-is-in-the-product'],
+    'The build': ['what-is-a-product-designer-for-when-anyone-can-build', 'what-should-a-working-prototype-actually-prove', 'what-makes-an-interface-feel-finished'],
+    'The judgment': ['who-decides-when-software-can-act-on-its-own', 'enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent'],
   },
 };
 
@@ -142,9 +144,12 @@ const collections = (src) => list(src,
   '      </div>\n    </section>',
   (b) => b.match(/writing-eyebrow">([^<]+)</)[1], 3, 'the three collections');
 
+/* An entry may carry writing-item--lead: since 2026-10-20 the article at
+   the head of each collection is words only until its drawing is made, the
+   way Start here is, and that modifier is what drops the card column. */
 const articles = (block, name, expect) => list(block,
   '<ol class="writing-list">\n',
-  /          <li class="writing-item">\n[\s\S]*?\n          <\/li>\n/g,
+  /          <li class="writing-item(?: writing-item--lead)?">\n[\s\S]*?\n          <\/li>\n/g,
   '        </ol>',
   (b) => b.match(/href="([a-z0-9-]+)\.html"/)[1], expect, `the articles in ${name}`);
 
@@ -201,7 +206,7 @@ function status(home, index) {
   const writing = {};
   for (const b of col.items) {
     const name = col.key(b);
-    writing[name] = articles(b, name, (b.match(/<li class="writing-item">/g) || []).length).items.map((x) => x.match(/href="([a-z0-9-]+)\.html"/)[1]);
+    writing[name] = articles(b, name, (b.match(/<li class="writing-item(?: writing-item--lead)?">/g) || []).length).items.map((x) => x.match(/href="([a-z0-9-]+)\.html"/)[1]);
   }
   return {
     dek: home.match(/<p class="hero-invite reveal">([\s\S]*?)<\/p>/)[1],

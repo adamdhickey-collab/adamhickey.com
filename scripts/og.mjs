@@ -51,6 +51,9 @@ const CARDS = {
   'hybrid-designer':                   { kicker: 'Career · 2005 to 2013',                title: '8 years as a hybrid designer / developer',                      image: 'img/site/pixel-farm-building.webp' },
   'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
   'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
+  /* Faunaform, 2026-10-20: the approved bear, square like the frame.
+     The homepage card's wide day picture lost its wordmark to the crop. */
+  'faunaform':                         { kicker: 'Built end to end',                          title: 'How I’m building Faunaform',                                    image: 'img/faunaform/bear-approved.webp' },
   'while-were-here':                   { kicker: 'Built end to end',                          title: 'How I built While We’re Here',                             image: 'img/products/while-were-here.webp' },
   'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
   'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
@@ -88,6 +91,13 @@ const CARDS = {
      html() lays a card with no image out as one column, the way the
      writing index's sub-titled card reads. */
   'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', sub: 'Design the infrastructure behind great design' },
+  /* The three that lead the collections since 2026-10-20, one per word of
+     the position article. Type alone until their drawings exist, as above;
+     the kicker names the collection so a card in a feed says where in the
+     argument it sits. */
+  'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', sub: 'A paved road with marked exits, not a fence' },
+  'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', sub: 'Build to find out, and know when it isn’t good enough' },
+  'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', sub: 'Reliance that matches how good the system really is' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
