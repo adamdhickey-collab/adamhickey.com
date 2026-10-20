@@ -994,8 +994,11 @@ a.case-thumb { display: block; }
    person is the caution family because it is the one place the loop stops
    for someone.
 
-   Under 24rem of figure the steps stack with a line down between each pair;
-   from 24rem they go round a two-by-two, the system top left, building,
+   Under 24rem of figure the steps stack with a line down between each
+   pair, every inset a step tighter and the icon a step smaller, so a
+   step's words get what width a phone has. The figure's own padding
+   drops at 640px instead, because it is the container and cannot query
+   itself. From 24rem they go round a two-by-two, the system top left, building,
    checks, and the person bottom left with the line back up into the system.
    Each connector is the step's own ::before (the line) and ::after (its
    arrowhead), sized from --loop-gap, so it is no element of its own. Each
@@ -1024,6 +1027,9 @@ a.case-thumb { display: block; }
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
+}
+@media (max-width: 640px) {
+  .loop { padding: var(--space-md); }
 }
 .loop .loop-tag {
   margin: 0 0 var(--space-sm);
@@ -1063,7 +1069,7 @@ a.case-thumb { display: block; }
   color: var(--color-muted-gray);
 }
 .loop-now {
-  padding: var(--space-md);
+  padding: var(--space-sm);
   background: var(--color-charcoal);
   border-radius: var(--radius-xl);
   --color-focus-ring: var(--color-accent-on-dark);
@@ -1083,12 +1089,12 @@ a.case-thumb { display: block; }
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--space-md);
+  column-gap: var(--space-sm);
   row-gap: var(--space-2xs);
   align-content: start;
   justify-items: start;
   margin: 0;
-  padding: var(--space-md);
+  padding: var(--space-sm);
   border-radius: var(--radius-xl);
   color: var(--color-charcoal);
   --loop-disc: var(--color-charcoal);
@@ -1098,8 +1104,8 @@ a.case-thumb { display: block; }
   grid-row: span 2;
   align-self: center;
   box-sizing: content-box;
-  width: var(--space-xl);
-  height: var(--space-xl);
+  width: var(--space-lg);
+  height: var(--space-lg);
   padding: var(--space-xs);
   border-radius: var(--radius-pill);
   background: var(--loop-disc);
@@ -1172,7 +1178,7 @@ a.case-thumb { display: block; }
   .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); --loop-gap: var(--space-3xl); }
   /* In the two-by-two a step is narrow, so the icon goes above its words. */
   .loop-step { grid-template-columns: minmax(0, 1fr); padding: var(--space-md) var(--space-lg) var(--space-lg); }
-  .loop-icon { grid-row: auto; align-self: start; margin-bottom: var(--space-sm); }
+  .loop-icon { grid-row: auto; align-self: start; width: var(--space-xl); height: var(--space-xl); margin-bottom: var(--space-sm); }
   .loop-step:nth-child(2) { grid-column: 2; grid-row: 1; }
   .loop-step:nth-child(3) { grid-column: 2; grid-row: 2; }
   .loop-step:nth-child(4) { grid-column: 1; grid-row: 2; }
