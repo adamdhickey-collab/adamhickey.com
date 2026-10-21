@@ -38,10 +38,10 @@
  *   second screen's side at its middle.
  *
  * Every bend is a quarter circle of R, and every coordinate is rounded to a
- * half pixel so a 1.5px stroke sits on the pixel grid. Places are taken as
- * differences of bounding rects against the SVG's own rect, so a transform
- * on an ancestor (the page's reveal) moves everything together and changes
- * nothing.
+ * half pixel so a 1.5px stroke sits on the pixel grid. Places are taken
+ * from layout offsets against the figure, which the SVG fills, so no
+ * transform moves them: not the page's reveal on an ancestor, and not the
+ * build's own scale on a case while it plays.
  */
 (function () {
   'use strict';
@@ -70,9 +70,25 @@
     if (!stem || !toA || !toB || !label || marks.length < 2 || screens.length < 2) return;
     var box = svg.getBoundingClientRect();
     if (!box.width) return;
+    /* Where an element is laid out, not where it is drawn this frame: its
+       offsets summed up to the figure, whose padding box the SVG fills. The
+       build scales each case from 0.96 and the figure is on screen at load,
+       so a rect taken while it plays finds the disc a few pixels low, and
+       the branch drawn to it ran into the ring once the case landed. The
+       disc is an svg, which has no offsets, so it is placed from its screen
+       by its own resolved left and top, plus its centring translate. */
     var at = function (el) {
-      var r = el.getBoundingClientRect();
-      return { l: r.left - box.left, t: r.top - box.top, r: r.right - box.left, b: r.bottom - box.top };
+      var x = 0, y = 0, n = el, w, h;
+      if (el instanceof SVGElement) {
+        var cs = getComputedStyle(el), p = at(el.parentElement);
+        var own = new DOMMatrix(cs.transform === 'none' ? '' : cs.transform);
+        w = parseFloat(cs.width); h = parseFloat(cs.height);
+        x = p.l + el.parentElement.clientLeft + parseFloat(cs.left) + own.e;
+        y = p.t + el.parentElement.clientTop + parseFloat(cs.top) + own.f;
+        return { l: x, t: y, r: x + w, b: y + h };
+      }
+      while (n && n !== fig) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+      return { l: x, t: y, r: x + el.offsetWidth, b: y + el.offsetHeight };
     };
     var l = at(label), a = at(marks[0]), b = at(marks[1]), bs = at(screens[1]), as = at(screens[0]);
     /* A branch ends clear of what it lands on: outside its ring, and back
