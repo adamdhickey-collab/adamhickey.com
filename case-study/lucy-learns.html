@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/case-study/lucy-learns.html",
           "image": "https://adamhickey.com/img/og/lucy-learns.jpg",
           "datePublished": "2026-09-05",
-          "dateModified": "2026-10-20",
+          "dateModified": "2026-10-21",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -234,18 +234,28 @@
   </nav>
 
   <main id="main">
+    <!-- THREE TRIES, since the voice pass of 2026-10-21 (VOICE.md, and
+         Adam's brief that day): the page is the iteration now. Voice
+         commands, then the timer, which broke on the pauses of real
+         sessions run from Lucy's boot camp handouts, then the teleprompter,
+         which is a direction and not a design yet, and says so wherever it
+         appears. The pictures chapter asks whether every step needs one, and
+         what held through all three versions follows. Out with it: the
+         reference stack, the falsifiable criteria, the blind pilot's recipe
+         and the six things the timer did; the eras, the pair and every
+         screen stay. About 830 words of running text, from 1,433. -->
     <header class="case-hero">
       <div class="container">
-        <p class="case-kicker">Build write-up &middot; 10 min read</p>
+        <p class="case-kicker">Build write-up &middot; 7 min read</p>
         <h1 class="case-title">How I built Lucy Learns</h1>
-        <p class="build-dek">A dog-training app that works offline, built for my own household. I designed, built and illustrated it alone, with the AI tools run from a terminal instead of a chat window. What that changed about how I work, and what it did not.</p>
+        <p class="build-dek">A dog-training app for my own household, and three tries at one problem: following instructions with a leash in one hand and a dog who doesn&rsquo;t follow a script.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Everything: product, design, build</dd></div>
             <div><dt>Built with</dt><dd>Plain JavaScript, a service worker and the Web Speech API; no framework, no build step</dd></div>
             <div><dt>Runs as</dt><dd>An installable phone app that works offline, served from GitHub Pages</dd></div>
-            <div><dt>Status</dt><dd>In use, still in development</dd></div>
+            <div><dt>Status</dt><dd>In use. The next version, a teleprompter, isn&rsquo;t built yet</dd></div>
           </dl>
         </div>
 
@@ -305,9 +315,9 @@
                 <ul class="glance-points">
                   <li>Progress in the trainer&rsquo;s levels, not points and streaks</li>
                   <li>One instruction per screen, one tap per rep</li>
-                  <li>Voice commands cut after real sessions, then a step timer</li>
+                  <li>Three tries at the session: voice commands, a timer, a teleprompter</li>
                 </ul>
-                <a class="glance-more" href="#three-decisions">Five decisions</a>
+                <a class="glance-more" href="#three-tries">Three tries</a>
               </div>
             </li>
             <li class="glance-step">
@@ -320,7 +330,7 @@
                   <li>Illustrations from JSON specs a Node script posts to an image model</li>
                   <li>AI built working versions in an afternoon. I judged them</li>
                 </ul>
-                <a class="glance-more" href="#the-terminal">A terminal, not a chat window</a>
+                <a class="glance-more" href="#pictures">The pictures</a>
               </div>
             </li>
             <li class="glance-step">
@@ -329,11 +339,11 @@
                 <p class="glance-title"><span>04</span>Test</p>
                 <ul class="glance-points">
                   <li>On a real phone: installed, offline, one-handed</li>
-                  <li>A contrast script gates every commit against the WCAG floor</li>
+                  <li>Real sessions, with handouts from Lucy&rsquo;s boot camp</li>
                   <li>A blind pilot: four models, shuffled order, filenames hidden</li>
                   <li>Two pictures failed and were redrawn until strangers read them right</li>
                 </ul>
-                <a class="glance-more" href="#how-i-checked">How I checked it</a>
+                <a class="glance-more" href="#takes-features-out">What takes features out</a>
               </div>
             </li>
           </ol>
@@ -344,55 +354,35 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2 id="the-problem">The problem</h2>
-        <p>We hired a professional trainer for our dog and got a stack of handouts: good instructions, written for a person sitting still. Practice happens in a hallway, leash in one hand and treat pouch in the other, five minutes at a time. By evening nobody remembers whether the barking is getting better or it was just a bad Tuesday.</p>
-        <p>So the app has a narrow job: turn the handouts into something you can run one-handed. It also records enough that &ldquo;is this working&rdquo; has an answer. It supports the trainer. It does not replace one or diagnose behavior.</p>
+        <p>We hired a professional trainer for our dog and got a stack of handouts: good instructions, written for someone sitting still.</p>
+        <p>Practice happens in a hallway, leash in one hand and treat pouch in the other, five minutes at a time. By evening, nobody remembers whether the barking is getting better or it was just a bad Tuesday.</p>
+        <p>So the app has a narrow job: turn the handouts into something you can run one-handed, and record enough that &ldquo;is this working?&rdquo; has an answer. It supports the trainer. It doesn&rsquo;t replace one.</p>
       </div>
     </section>
 
-    <section class="case-section case-overview build-chapter ground-warm">
+    <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
-        <h2 id="three-decisions">Five decisions that shaped it</h2>
-
-        <h3>Progress is measured in the trainer&rsquo;s units, not mine</h3>
-        <p>The obvious move is points, streaks or a satisfying progress bar. The unit here is the level, the trainer&rsquo;s own. The number on the app&rsquo;s program map is the number in her lesson report, so nobody reconciles the two in their head. Points would have looked more like a product and been worse at the job.</p>
-
-        <figure class="build-flow build-flow--wide">
-          <ol class="build-flow-row">
-            <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-activities.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Activities library, grouped by goal: the Calm Door Greetings track with five stations, and cards for Doorbell Predicts Rewards and Stay While the Door Opens, each with its level." /></div>
-              <p class="build-flow-cap">The program, in her levels</p>
-            </li>
-            <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-progress.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Progress tab: Jumping in two sessions this week after none last week, a Summary for your trainer card, six sessions, 83 percent calm, and per-behavior counts." /></div>
-              <p class="build-flow-cap">The week, ready to hand to the trainer</p>
-            </li>
-            <li class="build-flow-step">
-              <div class="build-phone"><img src="../img/lucy/tab-profile.webp?v=3" width="620" height="1342" loading="lazy" decoding="async" alt="The Profile tab: Lucy&rsquo;s card noting she gets over-aroused at arrivals, and Commands we use (&ldquo;Go to bed,&rdquo; &ldquo;Back,&rdquo; &ldquo;Stay&rdquo;) above a line to confirm the wording with the trainer." /></div>
-              <p class="build-flow-cap">The cues, in her words</p>
-            </li>
-          </ol>
-          <figcaption>All three are hers: her levels, a week to hand over at the next lesson, and the words she says out loud, set once and repeated on every activity screen.</figcaption>
-        </figure>
-
-        <h3>Logging happens during the session, not after it</h3>
-        <p>One tap after each repetition, one more on arousal to save the session. That is the entire logging burden, capped deliberately: anything heavier does not get used with a dog attached to your other arm. The tally records what happened, not a reconstruction at the end of the day.</p>
-
-        <h3>Speaking and listening, split</h3>
-        <!-- This paragraph used to restate all six facts the cards below
-             draw, so the argument arrived twice and the figure had nothing
-             left to say. Two sentences of setup now; the cards do the work. -->
-        <p>Voice looks like one feature. It is two, and they cost nothing like the same thing.</p>
-
-        <!-- The two-switch decision, drawn: the asymmetry is the whole
-             argument, and a diagram carries it faster than the paragraph.
-             Kept after listening came out on 2026-09-05, because the
-             asymmetry is why the speaking half survived the removal
-             untouched; the heading after it says what took listening out.
-             It was an SVG until 2026-09-06, its labels as <text>, and SVG
-             text scales with the viewBox: at 390px the card headings
-             measured about 8px and the rows 7, on the one page that is
-             about a phone. Two HTML cards carry the same asymmetry in real
-             type, and stack below 600px. -->
+        <h2 id="three-tries">Three tries at the same screen</h2>
+        <p>Every version of the session screen has had one job: keep the handler&rsquo;s eyes and hands on the dog. The first two failed at it in the hallway, and each failure told me what to try next.</p>
+        <!-- The three tries as a rail, the articles' figure for a sequence
+             (style.css, "THE RAIL"), whose step rules are scoped to the
+             article column, so it sits in one here. Wordless drawings from
+             one ChatGPT sheet in the rails' hand, every word the page's own
+             text, every drawing alt="". The tiles are cut on white, as the
+             articles' are, so this chapter is the white one and What held
+             takes the warm ground. -->
+        <div class="writing-measure">
+          <figure class="writing-figure writing-rail">
+            <figcaption>Three ways to move a session forward</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/lucy/try-01-voice.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Talk to the phone</strong><span>Lucy heard every command as hers</span></li>
+              <li><img src="../img/lucy/try-02-timer.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Follow a clock</strong><span>a dog doesn&rsquo;t keep time</span></li>
+              <li><img src="../img/lucy/try-03-prompter.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Follow the handler</strong><span>next: a script that keeps its place by hearing you</span></li>
+            </ol>
+          </figure>
+        </div>
+        <h3>Try one: talk to the phone</h3>
+        <p>Voice looked like one feature. It was two: the app reading steps aloud, and the app listening for commands.</p>
         <figure class="build-diagram">
           <div class="build-switch-row">
             <div class="build-switch-card build-switch-card--on">
@@ -414,117 +404,39 @@
           </div>
           <figcaption>Two switches, not one. Bundled, the reliable half would have been hostage to the fragile one. When the fragile half came out, the reliable one did not move.</figcaption>
         </figure>
-
-        <h3>Listening came out the first time it met the hallway</h3>
-        <p>The split held up. The listening half did not, and the microphone was not why. It was a misconception, and it was mine: I designed the commands for the handler and forgot who else was listening.</p>
-        <p>A handler saying &ldquo;next step&rdquo; brightly at a phone is saying words in the cue voice. The dog is being taught that words in that voice are for her. The commands avoided every cue and still shared the room with them, and Lucy was distracted by every one. The AI I built it with did not flag that up front either. A couple of real sessions did.</p>
-        <!-- What replaced listening was five separate design choices carried
-             in two paragraphs of running prose, and a reader skimming for
-             "so what shipped instead" had to read both to find out. The
-             choices are a list; the reason it came out, and what that costs
-             any voice feature, are an argument, and stay paragraphs. -->
-        <p>So the listening came out and the steps turn by themselves instead:</p>
-        <ul class="build-list">
-          <li>A switch on the get-ready screen puts each step on a timer. The same control sits on every step, beside a pause and a live count. The pace gets changed where it feels wrong, not on a settings page</li>
-          <li>The Next button fills as the clock runs, so from arm&rsquo;s length you can see it about to press itself</li>
-          <li>The clock never answers the rep question. It walks the steps and stops on the last one, because a timer that answered it would be the reflex &ldquo;went well&rdquo; made automatic</li>
-          <li>One session rewrote every label to say timer or step, because &ldquo;Move on by itself&rdquo; was met with &ldquo;move what on?&rdquo;</li>
-          <li>The voice reads the step&rsquo;s number in front of each instruction: the beat the handler wanted, and the cushion an idle audio route needed</li>
-          <li>Reading aloud did not move at all, because it asks nothing of anyone&rsquo;s voice</li>
-        </ul>
-        <!-- The arithmetic of the episode, which was a subordinate clause at
-             the end of a 90-word paragraph and is the one part of this
-             section a skimmer actually wants. The number row the writing
-             articles use, de-scoped in style.css so a case study can have
-             one: two figures, and the second is the point -- the half that
-             shipped on did not move when the other half came out, which is
-             what the two switches above were FOR. It had a third, "18 days
-             on the phone", until 2026-09-24: listening came out after a
-             couple of sessions, and the lesson is the testing, not the
-             time. -->
+        <p>The listening half failed, and the microphone wasn&rsquo;t why. It was a misconception, and it was mine: I designed the commands for the handler and forgot who else was listening.</p>
+        <p>Say &ldquo;next step&rdquo; brightly at a phone and you&rsquo;re using the cue voice. Lucy is being taught that words in that voice are for her, and she was distracted by every one.</p>
+        <p>The AI I built it with didn&rsquo;t flag that. Neither did I. A couple of real sessions did, and listening came out.</p>
         <dl class="build-facts writing-facts">
           <div><dt>1</dt><dd>day to replace it with a timer that walks the steps</dd></div>
           <div><dt>0</dt><dd>changes to the speaking half, which shipped on and stayed on</dd></div>
         </dl>
-        <p>Listening was a conversational interface. It failed on nothing an accuracy figure measures. The words were caught and the steps turned. The number would have looked fine. No review of the design would have found it, mine or the AI&rsquo;s. The problem was in the room. Only using the product there, with the people and the dog it is for, could show it.</p>
-        <p>What a voice feature has to settle before it ships is not whether it hears the person using it. It is who else is in earshot, and what that sound has already been taught to mean.</p>
-
-        <h3>Built for two postures</h3>
-        <p>The session screen is designed around where your hands are, which turns out to be two different places.</p>
-        <!-- The two postures, illustrated. -->
-        <figure class="build-modes">
-          <div class="build-modes-row">
-            <div class="build-mode">
-              <div class="build-mode-shot">
-                <img src="../img/lucy/mode-hands-full.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A woman in a hallway, phone in one hand, leash in the other, looks down at a black dog with a white chest. A treat pouch hangs at her hip." />
-              </div>
-              <h4>In one hand</h4>
-              <p>Phone in whichever hand the leash leaves free. The app reads each step aloud so you never look down, and with the timer on the steps turn by themselves. The one tap left is the one that says how the rep went.</p>
-            </div>
-            <div class="build-mode">
-              <div class="build-mode-shot">
-                <img src="../img/lucy/mode-hands-free.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A tablet upright on a wooden stand on a coffee table. Beyond it a woman crouches, both hands open and empty, facing a black dog on a gray floor bed." />
-              </div>
-              <h4>On a stand</h4>
-              <p>The setup for the busiest moments: the phone, or an iPad, propped upright in portrait where you practice. The instruction reads from a step away. The steps turn on the timer. Both hands stay with the dog until the rep question needs a thumb.</p>
-            </div>
-          </div>
-          <figcaption>Same session, two postures. Nothing about the screen changes between them.</figcaption>
+        <h3>Try two: follow a clock</h3>
+        <p>So the steps turned on a timer instead. The Next button fills as the clock runs, so from arm&rsquo;s length you can see it about to press itself, and it never answers the rep question for you.</p>
+        <p>Then Lucy went to a training boot camp, and we came home with handouts written for exactly what she was learning. We loaded them into the app and ran real sessions.</p>
+        <p>The timer didn&rsquo;t hold up. A dog doesn&rsquo;t keep time: when something goes wrong, the session pauses, and the clock doesn&rsquo;t.</p>
+        <h3>Try three: follow the handler</h3>
+        <p>The next version is a teleprompter. It shows the script in type large enough to read from across the hallway, and keeps its place by hearing you.</p>
+        <!-- A sketch, not a capture: the teleprompter is not designed or built
+             yet (Adam, 2026-10-21), so this is a ChatGPT drawing in the rails'
+             hand with the script as bars, no words, and the caption says so
+             before anything else. Replace it with a capture from
+             scripts/lucy.mjs once the screen exists. -->
+        <figure class="build-shot">
+          <img src="../img/lucy/prompter-sketch.webp?v=1" width="1600" height="900" loading="lazy" decoding="async"
+               alt="A sketch of a phone propped upright on a sage stand, its screen showing a small picture of a dog bed above five thick bars of script, the third marked in butter yellow as the current line, with a small sage listening mark below them and a black dog with a white chest sitting beside it." />
+          <figcaption>A sketch of the next version, not built yet: the script in large type, propped where you practice, with the line it heard you reach marked.</figcaption>
         </figure>
-
-        <!-- Design psychology. The recurring note: the eye, the word, a
-             headline that is a reason to read, and the one decision it
-             explains. It sits AFTER the two postures rather than before them,
-             so it accounts for a choice the reader has just watched being
-             made, which is the editorial rule -- explain a decision, not a
-             definition. -->
-        <aside class="dp-note" aria-labelledby="dp-postures-label">
-          <p class="dp-note-label" id="dp-postures-label">
-            <svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            Design psychology
-          </p>
-          <h3 class="dp-note-head">Keep attention on the dog, not the interface.</h3>
-          <p class="dp-note-body">Training asks a handler to watch an animal and read a screen at once, and only one can have their eyes. So the screen carries one instruction at a time, large enough to read from a step away, and the steps turn on a timer. A thumb gets only the question the log needs.</p>
-          <p class="dp-note-source">On step-by-step instructions: <a href="https://www.w3.org/TR/coga-usable/" target="_blank" rel="noopener noreferrer">W3C, Making Content Usable for People with Cognitive and Learning Disabilities</a></p>
-        </aside>
+        <p>It isn&rsquo;t built, and I don&rsquo;t know yet whether it holds up. Listening comes back in a different job, and it still needs a microphone in a room with a dog in it.</p>
+        <p>What the three have in common: the hallway found every problem, and each fix changed the approach instead of polishing the one before.</p>
       </div>
     </section>
-
     <section class="case-section case-overview build-chapter ground-tea">
       <div class="container case-narrow">
-        <h2 id="the-terminal">A terminal, not a chat window</h2>
-        <p>It did not decide what to build. Every decision above came from watching two people fail to practice consistently, and from twenty years of knowing which shortcuts turn into support tickets later.</p>
-        <p>The hard part of illustrating a training app is not getting a model to draw a woman training a dog. It is that it has to be the same dog every time, in the same room. Nothing may change from one screen to the next except the behavior being taught.</p>
-        <p>The dog turns toward her. The leash goes slack. The door opens. That is a design problem before it is a drawing problem. It has an established state, one intended change, and a long list of things that have to stay put.</p>
-        <!-- The reference stack was a sentence with six commas in it, and
-             the order is the whole point of the stack -- an ordered thing
-             written as running prose is the one case a list is not a
-             stylistic preference. What the script refuses, and why a drifted
-             redraw goes back rather than forward, is reasoning, and stays
-             a paragraph under it. -->
-        <p>What the terminal changed is how far I can carry that alone. Each scene is a JSON spec that a Node script assembles and posts to OpenAI&rsquo;s image model. The reference images go in a set order, each with a named job:</p>
-        <ul class="build-list">
-          <li>The style exemplar, always first</li>
-          <li>A likeness sheet for the handler and one for Lucy: black coat, white chest, scruffy face, collar with the round blue tag, never a harness</li>
-          <li>For an adjacent moment, the previous picture itself, so that nothing but the action may differ</li>
-          <li>The wording to put in front of it, its numbered list generated from that same array</li>
-          <li>One sentence naming what this picture has to get right, which every round is checked against before anyone looks at it twice</li>
-        </ul>
-        <p>A chat window drew the first eight and it worked. What it lost is what makes a bad picture diagnosable: which references were attached, and in what order, the strongest lever on consistency there is.</p>
-        <p>As ordered data, a wrong request is refused before it costs anything. A redraw that drifts goes back to the last round that was right, not forward from the drifted one. Every round is on file, so going back is a choice rather than a memory.</p>
+        <h2 id="pictures">Do the pictures earn their place?</h2>
+        <p>Every level opens on a picture, and getting them consistent took a month. A training app needs the same dog in the same room on every screen, with only the behavior changing.</p>
+        <p>So each scene became a JSON spec that a Node script posts to OpenAI&rsquo;s image model, with the reference images in a set order and every round on file.</p>
         <p>The four styles the app has had show where the time went.</p>
-        <!-- Four styles in a month, one picture each. The same composition
-             exists in every era -- the handler in a chair, Lucy asleep on her
-             bed beside her -- so the rows compare the drawing rather than the
-             subject, which four different scenes could not. Until 2026-09-05
-             this was the eight pilot scenes drawn three times: twenty-four
-             thumbnails, none of them large enough to see a style in, and the
-             lavender era missing entirely because the page only ever showed
-             the sets that were still on disk. Each note also carried a
-             four-cell strip of dates, counts, rounds and hours; it came out
-             the same day, because it read as file metadata beside the
-             picture and the two chat window eras could only fill it with
-             "Not recorded". What the rounds were for is in the prose. -->
         <figure class="build-eras">
           <ol class="build-eras-list">
             <li class="build-era">
@@ -534,7 +446,7 @@
               </div>
               <div class="build-era-note">
                 <p class="build-era-title"><span>01</span>Painted, in a chat window</p>
-                <p>The set the app launched with. It is a picture of a house rather than an instruction. The room has more detail than the step, and at the 56 pixels the program map gives it, none of it survives. Lucy is also not the same dog twice: twelve of the thirty it drew put her in a harness she does not own.</p>
+                <p>The launch set: a picture of a house, not an instruction. At the 56 pixels the program map gives it, none of the detail survives, and twelve of the thirty put Lucy in a harness she doesn&rsquo;t own.</p>
               </div>
             </li>
             <li class="build-era">
@@ -544,7 +456,7 @@
               </div>
               <div class="build-era-note">
                 <p class="build-era-title"><span>02</span>Warm vector, still in a chat window</p>
-                <p>The room empties out and the rules about the dog get absolute. Flat fills, one action per frame, never a harness in any image, ever. It was still drawn by pasting paragraphs into a chat window. No round was recorded. No picture could be asked for the same way twice.</p>
+                <p>The room empties out and the rules get absolute: flat fills, one action a frame, never a harness. Still pasted into a chat window, so no round was recorded.</p>
               </div>
             </li>
             <li class="build-era">
@@ -554,7 +466,7 @@
               </div>
               <div class="build-era-note">
                 <p class="build-era-title"><span>03</span>Cool and flat, from the terminal</p>
-                <p>The first set a script drew rather than a conversation: every scene a JSON spec, the reference images ordered, every round on file. It also took the app&rsquo;s chrome a little too literally and painted the violet onto the walls. That was the one thing nobody asked for.</p>
+                <p>The first set a script drew. It also took the app&rsquo;s chrome too literally and painted the violet onto the walls, which nobody asked for.</p>
               </div>
             </li>
             <li class="build-era">
@@ -564,15 +476,12 @@
               </div>
               <div class="build-era-note">
                 <p class="build-era-title"><span>04</span>The wall repainted, in one afternoon</p>
-                <p>The violet belonged to the app, not the room, and taking it back out meant repainting every wall in the library. The same change a month earlier would have been another five days in a chat window. This time it was an afternoon, with every round on file.</p>
+                <p>Taking the violet back out meant repainting every wall in the library. A month earlier, in a chat window, that was five more days. From the terminal it was an afternoon.</p>
               </div>
             </li>
           </ol>
           <figcaption>One scene, drawn four ways in a month. A chat window can make a picture. It cannot repaint sixty-three of them between lunch and dinner.</figcaption>
         </figure>
-
-        <!-- Where those sixty-three pictures sit in the product: the three
-             screens that are nothing without them. -->
         <figure class="build-flow build-flow--wide">
           <ol class="build-flow-row">
             <li class="build-flow-step">
@@ -590,50 +499,9 @@
           </ol>
           <figcaption>Where the pictures sit: the welcome, every level&rsquo;s opening scene, and the ten dogs and fourteen people a household picks from all come from one script, in one room.</figcaption>
         </figure>
-        <p>Making a picture got cheap, so making one stopped being the accomplishment. The decisions moved up a level:</p>
-        <ul class="build-list">
-          <li>What has to stay the same</li>
-          <li>What is allowed to vary</li>
-          <li>Whether the picture shows the behavior it claims to</li>
-          <li>When to stop</li>
-        </ul>
-        <p>The judgment did not change. The distance between thinking and making did.</p>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-charcoal">
-      <div class="container case-narrow">
-        <h2 id="how-i-checked">How I checked it before shipping it</h2>
-        <p>Three things, all cheap.</p>
-
-        <!-- The chapter counted its checks in the first line and then buried
-             all three in a run of paragraphs, so the one chapter on the page
-             with a countable structure was the only one not showing it.
-             Headings the way "Five decisions" does them, and the recipe in
-             the last paragraph as the list it had always been: four
-             instructions, each a separate thing to do. -->
-        <h3>Acceptance criteria that can be falsified</h3>
-        <p>Every line is observably true or false on a real phone, and someone who has never seen the code reaches the same verdict I would. Written that way they are testable rather than admirable.</p>
-
-        <h3>A blind pilot, before a real panel</h3>
-        <p>The illustrations came out of a model, so the second check is an evaluation. Does the output show what it claims to, judged by someone who was not in the room when it was made?</p>
-        <ul class="build-list">
-          <li>Four language models, no knowledge of the project, saw the same eight images in different orders</li>
-          <li>One question each: what is the person doing, and what is the dog doing</li>
-          <li>Two pictures failed outright, all four viewers misreading them the same way</li>
-          <li>Both were redrawn and passed the same blind check with fresh viewers before shipping</li>
-        </ul>
-        <p>Not a substitute for testing with people. A way to catch the obvious failures for free, before the expensive test is worth running. The shape of it transfers to anything generated:</p>
-        <ul class="build-list">
-          <li>Fix the question the output has to answer before any output exists</li>
-          <li>Put it to viewers with no stake and no context</li>
-          <li>Shuffle the order, so position cannot flatter a picture, and hide the filenames, so the name cannot answer the question on the image&rsquo;s behalf</li>
-          <li>Read agreement among wrong readings as the strongest signal in the set. Four viewers failing the same way is a fault in the artifact, not four opinions</li>
-        </ul>
-        <p>What makes it an evaluation rather than a reaction is that the pass mark was written down first.</p>
-
-          <!-- The clearest single artifact of the method: one failure, its
-               fix, and the fact that strangers arbitrated both. -->
+        <p>The boot camp handouts made me ask a harder question. Does someone running a session need a picture of every step, down to where everything sits? I don&rsquo;t think so.</p>
+        <p>The next version keeps one picture at the start of each exercise, to set the scene, and then goes straight to the script.</p>
+        <p>When a picture does have to say something, it gets checked. Four language models with no knowledge of the project read eight shuffled scenes, and the two they all misread were redrawn.</p>
           <figure class="build-pair">
             <div class="build-pair-row">
               <div class="build-pair-item">
@@ -647,14 +515,74 @@
                 <span class="build-pair-label">After &middot; redrawn</span>
               </div>
             </div>
-            <figcaption>Scene 07, before and after, both in the art style of the time. The claim was &ldquo;coming off the bed.&rdquo; Every viewer read the first version as a dog standing on it. Fresh viewers read the redraw as a departure. The set has since been redrawn twice, and this composition survived both unchanged.</figcaption>
+            <figcaption>Scene 07, before and after. The claim was &ldquo;coming off the bed.&rdquo; Every viewer read the first version as a dog standing on it, and fresh viewers read the redraw as leaving. The composition has survived two redraws since.</figcaption>
           </figure>
-        <h3>Use, which is the check that takes features out</h3>
-        <p>Anything I am not sure of ships switched off. It gets turned on in the hallway and either earns its place or goes.</p>
-        <p>Voice commands went after a couple of real sessions, for a reason no diagram could have shown and no AI raised. The timer that replaced them had every label rewritten after one session. A feature that survives that is one I have watched work, not one I expect to.</p>
       </div>
     </section>
-
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="what-held">What held through every version</h2>
+        <h3>Progress in the trainer&rsquo;s units, not mine</h3>
+        <p>The obvious move was points, streaks or a satisfying progress bar. I used the trainer&rsquo;s levels instead, so the number on the program map is the number in her lesson report.</p>
+        <p>Points would have looked more like a product, and been worse at the job.</p>
+        <figure class="build-flow build-flow--wide">
+          <ol class="build-flow-row">
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-activities.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Activities library, grouped by goal: the Calm Door Greetings track with five stations, and cards for Doorbell Predicts Rewards and Stay While the Door Opens, each with its level." /></div>
+              <p class="build-flow-cap">The program, in her levels</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-progress.webp?v=5" width="620" height="1342" loading="lazy" decoding="async" alt="The Progress tab: Jumping in two sessions this week after none last week, a Summary for your trainer card, six sessions, 83 percent calm, and per-behavior counts." /></div>
+              <p class="build-flow-cap">The week, ready to hand to the trainer</p>
+            </li>
+            <li class="build-flow-step">
+              <div class="build-phone"><img src="../img/lucy/tab-profile.webp?v=3" width="620" height="1342" loading="lazy" decoding="async" alt="The Profile tab: Lucy&rsquo;s card noting she gets over-aroused at arrivals, and Commands we use (&ldquo;Go to bed,&rdquo; &ldquo;Back,&rdquo; &ldquo;Stay&rdquo;) above a line to confirm the wording with the trainer." /></div>
+              <p class="build-flow-cap">The cues, in her words</p>
+            </li>
+          </ol>
+          <figcaption>All three are hers: her levels, a week to hand over at the next lesson, and the words she says out loud, set once and repeated on every activity screen.</figcaption>
+        </figure>
+        <h3>Logging happens during the session, not after it</h3>
+        <p>One tap after each rep, one more on arousal to save the session. That&rsquo;s the whole logging burden, on purpose: anything heavier doesn&rsquo;t get used with a dog attached to your other arm.</p>
+        <h3>Built for two postures</h3>
+        <p>The session screen is designed around where your hands are, which turns out to be two different places.</p>
+        <figure class="build-modes">
+          <div class="build-modes-row">
+            <div class="build-mode">
+              <div class="build-mode-shot">
+                <img src="../img/lucy/mode-hands-full.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A woman in a hallway, phone in one hand, leash in the other, looks down at a black dog with a white chest. A treat pouch hangs at her hip." />
+              </div>
+              <h4>In one hand</h4>
+              <p>Phone in whichever hand the leash leaves free. The app reads each step aloud and the timer turns them, so the one tap left is how the rep went.</p>
+            </div>
+            <div class="build-mode">
+              <div class="build-mode-shot">
+                <img src="../img/lucy/mode-hands-free.webp?v=5" width="1200" height="900" loading="lazy" decoding="async" alt="A tablet upright on a wooden stand on a coffee table. Beyond it a woman crouches, both hands open and empty, facing a black dog on a gray floor bed." />
+              </div>
+              <h4>On a stand</h4>
+              <p>The phone or an iPad, propped up where you practice. The instruction reads from a step away, and both hands stay with the dog until the rep question needs a thumb.</p>
+            </div>
+          </div>
+          <figcaption>Same session, two postures. Nothing about the screen changes between them.</figcaption>
+        </figure>
+        <aside class="dp-note" aria-labelledby="dp-postures-label">
+          <p class="dp-note-label" id="dp-postures-label">
+            <svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Design psychology
+          </p>
+          <h3 class="dp-note-head">Keep attention on the dog, not the interface.</h3>
+          <p class="dp-note-body">A handler can watch the dog or read the screen, not both. So the screen carries one instruction at a time, large enough to read from a step away, and the steps turn on a timer.</p>
+          <p class="dp-note-source">On step-by-step instructions: <a href="https://www.w3.org/TR/coga-usable/" target="_blank" rel="noopener noreferrer">W3C, Making Content Usable for People with Cognitive and Learning Disabilities</a></p>
+        </aside>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="takes-features-out">Use is the check that takes features out</h2>
+        <p>The AI didn&rsquo;t decide what to build. Every decision here came from watching two people try to practice with a dog, in a hallway, five minutes at a time.</p>
+        <p>Anything I&rsquo;m not sure of ships switched off, gets turned on in the hallway, and earns its place or goes. Voice commands went. The timer is next. A feature that survives that is one I&rsquo;ve watched work.</p>
+      </div>
+    </section>
     </main>
   <footer class="case-footer">
       <div class="container case-narrow">
