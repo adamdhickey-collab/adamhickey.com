@@ -975,8 +975,12 @@ a.case-thumb { display: block; }
    are drawn alike so the eye compares their shapes, and the shape is the
    argument: Before is five words joined by chevrons, a line that ends, in
    the quiet on-dark ink; Now is four steps across, joined by arrows, with
-   one line back from the last into the first. How long each took is in its
-   tag, months and days.
+   one line back from the last into the first. Each tag names what the row
+   is, the design process before and now (Adam: the bare Before and Now
+   needed "a little more information"), and how long it took, months and
+   days. Inside 18rem (the longer tag is 275px on one line) it would wrap
+   and the shorter would not, so both drop their time onto a line of its
+   own there and the two stay alike.
 
    THE COLOR IS ON THE DISCS, each the step's ground from the version before
    with the icon in the ink that ground carried (COLOR.md), and the names
@@ -1039,6 +1043,10 @@ a.case-thumb { display: block; }
   color: var(--ink-on-dark-muted);
 }
 .loop .loop-tag--now { color: var(--color-accent-on-dark); }
+@container loop (max-width: 18rem) {
+  .loop-tag-sep { display: none; }
+  .loop-tag-time { display: block; }
+}
 /* The relay runs the panel's width, as the steps under it do, so the two
    rows are one length and differ only in shape. Each leg but the last grows
    to fill its share, and its chevron sits in the middle of the room after
