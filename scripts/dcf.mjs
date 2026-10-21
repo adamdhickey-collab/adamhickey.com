@@ -1,6 +1,9 @@
-/* The Door County Found phone screens, grabbed from the product itself.
+/* The Door County Found phone screens, and the homepage card, grabbed from
+ * the product itself.
  *
- *   node scripts/dcf.mjs                          both screens, from a fresh build
+ *   node scripts/dcf.mjs                          all three, from a fresh build
+ *   node scripts/dcf.mjs card                     only the homepage card
+ *   node scripts/dcf.mjs phones                   only the two phone screens
  *   node scripts/dcf.mjs --app <path>             a checkout somewhere else
  *   node scripts/dcf.mjs --no-build               reuse the dist/ already there
  *
@@ -91,6 +94,28 @@ const SCREENS = [
   },
 ];
 
+/* THE HOMEPAGE CARD, since 2026-10-21: the site's own first screen, its
+ * header and the whole hero, at the 16:9 the Built end to end cards print
+ * at. The hero is 838px tall at every desktop width, so a 1490x838 viewport
+ * is the header and the hero exactly, at 16:9, and nothing of the section
+ * under it. Until then the card cropped img/products/door-county-found.webp,
+ * a 1400x897 capture, to 16:9 from the middle, which cut the logo in half;
+ * that file stays, since the write-up's share card is drawn from it. Written
+ * at the other cards' 1672x941 (scripts/built-cards.mjs). */
+const CARD = {
+  name: 'card',
+  file: 'img/products/door-county-found-card.webp',
+  url: '/index.html',
+  view: { width: 1490, height: 838, scale: 2 },
+  out: { width: 1672, height: 941 },
+};
+
+/* `node scripts/dcf.mjs card` writes only the card, and `phones` only the
+ * two phone screens; with neither, all three. A re-encode is never
+ * byte-identical, so writing only what changed keeps the diff honest. */
+const only = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--app');
+const wants = (name) => !only.length || only.includes(name);
+
 /* Chromium is the only WebP encoder this repository relies on; lucy.mjs and
  * illustrate.mjs made the same choice, and a second encoder would be a second
  * answer to how a pixel is rounded. */
@@ -106,11 +131,11 @@ async function encode(page, bytes, mime, { width, height }, quality = QUALITY) {
   return Buffer.from(b64, 'base64');
 }
 
-function write(rel, buf) {
+function write(rel, buf, out = OUT) {
   const abs = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(abs), { recursive: true });
   fs.writeFileSync(abs, buf);
-  console.log(`  ${rel}  ${OUT.width}x${OUT.height}  ${(buf.length / 1024).toFixed(1)} KB`);
+  console.log(`  ${rel}  ${out.width}x${out.height}  ${(buf.length / 1024).toFixed(1)} KB`);
 }
 
 if (!fs.existsSync(path.join(APP, 'package.json'))) {
@@ -137,7 +162,7 @@ const ctx = await browser.newContext({
 });
 const encoder = await ctx.newPage();
 console.log('');
-for (const s of SCREENS) {
+for (const s of wants('phones') ? SCREENS : []) {
   const page = await ctx.newPage();
   await page.goto(origin + s.url, { waitUntil: 'load' });
   await s.ready(page);
@@ -145,6 +170,24 @@ for (const s of SCREENS) {
   const png = await page.screenshot({ type: 'png' });
   write(s.file, await encode(encoder, png, 'image/png', OUT));
   await page.close();
+}
+if (wants(CARD.name)) {
+  /* A desktop, not the phone context above: the header is the whole point,
+     and it only carries the logo beside the full menu at this width. */
+  const desk = await browser.newContext({
+    viewport: { width: CARD.view.width, height: CARD.view.height },
+    deviceScaleFactor: CARD.view.scale,
+    reducedMotion: 'reduce',
+  });
+  const page = await desk.newPage();
+  await page.goto(origin + CARD.url, { waitUntil: 'load' });
+  await page.waitForFunction(() => [...document.images]
+    .filter((i) => i.getBoundingClientRect().top < window.innerHeight)
+    .every((i) => i.complete && i.naturalWidth > 0), null, { timeout: 20000 });
+  await page.waitForTimeout(400);
+  const png = await page.screenshot({ type: 'png' });
+  write(CARD.file, await encode(encoder, png, 'image/png', CARD.out), CARD.out);
+  await desk.close();
 }
 await browser.close();
 server.close();

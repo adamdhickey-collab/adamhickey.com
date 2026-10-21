@@ -3,15 +3,20 @@
  * img/products/<slug>-card.webp. Since 2026-10-21 the section is a three-up
  * grid of the same .case-card the enterprise accounts above it use, so each
  * product needs a 16:9 picture at the accounts' own 1672x941. Door County
- * Found already had one (img/products/door-county-found.webp, a screen of the
- * site, which .case-thumb crops to 16:9). Lucy Learns had only phone screens
- * and Faunaform only square prints, so this lays them out on a ground:
+ * Found's is a screen of the site itself, so scripts/dcf.mjs captures it
+ * from the sibling checkout (`node scripts/dcf.mjs card`). Lucy Learns had
+ * only phone screens and Faunaform only square prints, so this lays them out
+ * on a ground:
  *
  *   lucy-learns   the splash, today's session and the end of a session,
  *                 the three screens the old homepage card showed, in order
- *   faunaform     the seven prints, four over three, in the day's order
+ *   faunaform     the wordmark over the seven prints, four over three, in
+ *                 the day's order
  *
  * Every picture in them is already on the site; nothing here is drawn. The
+ * wordmark is a copy of the studio's (faunaform/output/brand/wordmark/
+ * faunaform-wordmark.svg) with its viewBox trimmed to the letters, as the
+ * shop's header trims it, so this runs without the sibling. The
  * grounds, corners and shadows are the site's tokens, read from color.css and
  * shell.css in the page, so a token change is a re-run rather than a redraw.
  *
@@ -43,11 +48,17 @@ const CARDS = {
   },
   faunaform: {
     ground: '--color-warm',
-    body: ['owl crane moose loon', 'bear fox rabbit'].map((row) =>
+    body: '<img class="mark" src="/img/faunaform/faunaform-wordmark.svg" alt="">' +
+      ['owl crane moose loon', 'bear fox rabbit'].map((row) =>
       `<div class="row">${row.split(' ').map((a) => `<img class="print" src="/img/faunaform/print-${a}.webp" alt="">`).join('')}</div>`).join(''),
+    /* The wordmark over the prints, as the shop's header sets it over its
+       day: 52 of the picture's 941 is about 18px as the card prints it on
+       a desktop, where any smaller stops reading as a name. The prints gave
+       up a little to make the room, 0.37 of the height to 0.35. */
     css: `body { flex-direction: column; gap: var(--space-2xl); }
+          .mark { height: 52px; width: auto; margin-bottom: var(--space-xl); }
           .row { display: flex; gap: var(--space-2xl); }
-          .print { width: ${Math.round(H * 0.37)}px; height: auto; box-shadow: var(--shadow-card-raised); }`,
+          .print { width: ${Math.round(H * 0.35)}px; height: auto; box-shadow: var(--shadow-card-raised); }`,
   },
 };
 
