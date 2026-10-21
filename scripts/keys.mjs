@@ -39,7 +39,9 @@
  * the nine without someone taking it out of the set. Three more joined it
  * on 2026-10-20, when the index regrouped as The system, The build and The
  * judgment and an article came in at the head of each: the developer's bad
- * day, the workflow that breaks, and the SAP article.
+ * day, the workflow that breaks, and the SAP article. A fifth on
+ * 2026-10-21: the interface-feel-finished article, when the usability
+ * testing article took its place in The build.
  */
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -76,6 +78,7 @@ const UNLISTED = new Set([
   'what-does-a-developer-need-from-an-interface-on-a-bad-day',
   'designing-for-the-moment-the-workflow-breaks',
   'standardizing-ux-across-40-sap-fiori-apps',
+  'what-makes-an-interface-feel-finished',
 ]);
 
 const faults = [];

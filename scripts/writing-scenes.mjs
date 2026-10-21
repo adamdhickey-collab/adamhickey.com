@@ -134,4 +134,12 @@ export const SCENES = [
     alt: 'The cream seesaw on its terracotta field again, its plank now tipped down to the left on the black pivot, a small stack of three cream cards at the low end, and one card in the middle of the stack dusty rose.',
     prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. The same long cream seesaw as before, in the same strict flat side elevation, on the same solid black triangular pivot standing on the bottom edge, still cropped by the left and right edges of the frame. The plank is now tipped down on the left side at a gentle angle, the left end low and the right end high. On the plank near the low left end sits one small neat stack of three plain cards, flat cream rectangles with black outlines, and the reveal: the middle card of the stack is filled dusty rose. Nothing on the high end. No people, no shadow. Nothing else in the picture.`,
   },
+  {
+    id: 'how-should-you-test-a-product-now-that-ai-can-help',
+    group: 'ai',
+    device: 'the same lawn, paved where people walked',
+    caption: 'Watch where people actually go, then build there: the walk follows the line they wore, not the one that was drawn.',
+    alt: 'The same sage lawn from straight above, the cream walk now running in one long diagonal across it where the shortcut had worn, the old right-angle corner left as a thin dashed outline in the grass, and one small butter-yellow flag planted beside the new walk.',
+    prompt: `Same style, same hand as before. The ground is the full sage green, edge to edge: the same lawn, seen from straight above as a plan, with no perspective and no depth. The cream paved walk with black outlines and thin black joint lines now enters from the bottom edge and runs straight along the diagonal where the black worn shortcut used to be, then leaves by the right edge. Where the old right-angle corner was, only a faint thin black dashed outline of it remains in the grass. At the bend of the new walk stands one small flag on a thin black pole, its flag filled butter yellow, the only yellow in the picture. No people, no footprints, no shadows. Nothing else in the picture.`,
+  },
 ];
