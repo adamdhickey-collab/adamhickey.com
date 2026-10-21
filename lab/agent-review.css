@@ -108,64 +108,78 @@
    one label over them and one takeaway under them. Live text at the page's
    own sizes, so it is read, measured and translated like the rest.
 
-   THE LABEL is the red figure's grid, the word the connector leaves from in
-   the middle column, so it stands at the figure's centre: "Every action is
-   a button." on the first row, and "Except cancel." on a second, in the
-   third column only, so the stem drops past it, not through it.
+   ON THE LOOP'S DARK PANEL since the same day (Adam: "higher visual impact,
+   more color", "similar to the one on the homepage"): style.css, "The
+   loop", is the model, and the two figures now read as one family. The
+   white card it was had its label set off-centre by a three-column grid
+   and its two cases at different heights, so nothing lined up; now the
+   label is two centred lines and the cases are two screens of one height.
 
-   THE CONNECTOR is the red figure's (quiet-cancel.js, from same-red.js):
-   one stem from under "action" divides into a branch down to each action.
-   There is no capsule round the actions now: three cold readers took a
-   capsule round the grey text for a button, which is the one thing it must
-   not look like, so a branch ends at the action itself. One 1.5px stroke,
-   round caps and bends, no arrowheads.
+   THE COLOR SAYS WHICH SIDE A THING IS ON, and there are two:
+     the system    --color-accent-on-dark: "action", the stem, the branch
+                   to "Change plan", its check disc and "The checks pass."
+     the exception --color-caution: "Except cancel." and the branch to
+                   "Cancel subscription"; its disc is the caution ground
+                   with the caution ink, as the loop's person step is.
+   --color-caution is 4.17:1 on charcoal, so it is only ever a line or
+   type at --text-2xl, where the floor is 3:1, never small text.
 
-   THE TWO LOOKS are the product's. "Change plan" is drawn as a button, an
-   edge and a white fill; "Cancel subscription" as the link the old billing
-   app built by hand, small, underlined and in its grey, #6a6a76, the value
-   of the prototype's own muted token. That grey is a picture of a
-   product's colour, declared on the figure and used nowhere else
-   (COLOR.md, section 6), and on white it measures 5.33:1, so it is text
-   that clears 4.5 on its own.
+   THE CONNECTOR (quiet-cancel.js): one stem from under the label divides
+   into a branch down to each screen, landing on the disc that sits on the
+   screen's top edge. Three paths, one per stroke color, each a single run
+   so it can draw itself.
 
-   The figure is a white card, the ladder's rung 2 (--rule-card edge,
-   --shadow-card, --radius-xl), and lays itself out by its own width, as a
-   container: two columns from 30rem of figure, stacked under it. */
+   THE TWO LOOKS are the product's, on a white screen each, which is the
+   product's own ground. "Change plan" is drawn as a button, an edge and a
+   white fill; "Cancel subscription" as the link the old billing app built
+   by hand, small, underlined and in its grey, #6a6a76, the value of the
+   prototype's own muted token. That grey is a picture of a product's
+   colour, declared on the figure and used nowhere else (COLOR.md, section
+   6), and on white it measures 5.33:1, so it is text that clears 4.5.
+
+   THE BUILD, once, the first time the figure is in view, as the loop's:
+   the rule, then the exception, the stem drawing down and dividing, each
+   screen landing as its branch arrives, and last the takeaway. Without
+   script, or under reduced motion, nothing is armed and the figure is
+   simply there, which is what the checks measure.
+
+   Two columns from 30rem of figure, stacked under it. */
 .quiet-cancel {
   --quiet-cancel-ink: #6a6a76;
+  --qc-system: var(--color-accent-on-dark);
+  --qc-except: var(--color-caution);
+  --qc-disc: calc(var(--space-xl) + var(--space-xs));
   position: relative;
   container: quiet-cancel / inline-size;
   margin: 0;
-  padding: var(--space-xl);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
+  padding: var(--space-xl) var(--space-md);
+  background: var(--color-charcoal);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
+  color: var(--ink-on-dark);
 }
-.quiet-cancel-label {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+@media (min-width: 640px) {
+  .quiet-cancel { padding: var(--space-2xl) var(--space-xl); }
+}
+.quiet-cancel .quiet-cancel-label {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--ink-on-dark);
+  text-align: center;
+  text-wrap: balance;
 }
-.quiet-cancel-label > :first-child { text-align: end; white-space: pre; }
-.quiet-cancel-label > :nth-child(3) { text-align: start; white-space: pre; }
-.quiet-cancel-except { grid-column: 3; }
-.quiet-cancel-word {
-  text-decoration: underline;
-  text-decoration-color: var(--color-accent-text);
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 0.18em;
-  text-decoration-skip-ink: none;
-}
+.quiet-cancel-rule,
+.quiet-cancel-except { display: block; }
+.quiet-cancel-word { color: var(--qc-system); }
+.quiet-cancel-except { color: var(--qc-except); }
 .quiet-cancel-cases {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2xl);
-  margin: var(--space-3xl) 0 0;
+  margin: var(--space-4xl) 0 0;
   padding: 0;
   list-style: none;
   text-align: center;
@@ -174,16 +188,64 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-md);
   min-width: 0;
 }
-/* Where a branch arrives: the action itself, in the look it has, with a
-   hairline of room round it so a line stops just short of the words. */
+/* The product's screen: its own white ground, the page's name at its head
+   and the action under it. The disc sits on its top edge, where the branch
+   lands. The name keeps one place in both screens and the action takes the
+   room under it, centred, so the button and the link sit on one line
+   although the button is the taller. */
+.quiet-cancel-screen {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 18rem;
+  min-height: calc(var(--space-4xl) * 2.5);
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 2px var(--qc-tone);
+}
+.quiet-cancel-case--system { --qc-tone: var(--qc-system); }
+.quiet-cancel-case--hand { --qc-tone: var(--qc-except); }
+.quiet-cancel-mark {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: var(--qc-disc);
+  height: var(--qc-disc);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  transform: translate(-50%, -50%);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quiet-cancel-case--system .quiet-cancel-mark { background: var(--qc-system); color: var(--color-charcoal); }
+.quiet-cancel-case--hand .quiet-cancel-mark { background: var(--color-caution-light); color: var(--color-caution-text); box-shadow: 0 0 0 2px var(--qc-except); }
+.quiet-cancel .quiet-cancel-where {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
 .quiet-cancel-ui {
-  display: inline-flex;
+  display: flex;
+  flex: 1;
   align-items: center;
   margin: 0;
-  padding: var(--space-2xs);
   font-family: var(--font-sans);
   line-height: var(--leading-ui);
   white-space: nowrap;
@@ -201,35 +263,33 @@
   color: var(--quiet-cancel-ink);
   text-decoration: underline;
 }
-.quiet-cancel-where {
-  margin: var(--space-2xs) 0 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-muted-gray);
-}
-.quiet-cancel-means {
+.quiet-cancel .quiet-cancel-means {
   margin: 0;
-  max-width: 22rem;
+  max-width: 18rem;
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--ink-on-dark-secondary);
 }
-.quiet-cancel-means strong { font-weight: var(--weight-semibold); }
+.quiet-cancel .quiet-cancel-means strong {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--ink-on-dark);
+}
 .quiet-cancel-take {
   margin: var(--space-2xl) 0 0;
   padding-top: var(--space-lg);
-  border-top: 1px solid var(--rule-hairline);
+  border-top: 1px solid var(--rule-on-dark);
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  color: var(--ink-on-dark);
   text-align: center;
+  text-wrap: balance;
 }
+.quiet-cancel-pass { color: var(--qc-system); }
 .quiet-cancel-leads {
   position: absolute;
   inset: 0;
@@ -240,21 +300,67 @@
 }
 .quiet-cancel-leads path {
   fill: none;
-  stroke: var(--color-accent-text);
-  stroke-width: 1.5;
+  stroke: var(--qc-system);
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.quiet-cancel-leads .quiet-cancel-lead--hand { stroke: var(--qc-except); }
 /* Stacked, the second branch runs down the left gutter, so the cases keep
    clear of it. */
 @container quiet-cancel (max-width: 29.99rem) {
-  .quiet-cancel-cases { padding-inline: var(--space-lg); }
+  .quiet-cancel-cases { padding-inline: var(--space-xl); }
 }
 @container quiet-cancel (min-width: 30rem) {
   .quiet-cancel-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl); }
 }
 @container quiet-cancel (min-width: 36rem) {
-  .quiet-cancel-label { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+  .quiet-cancel .quiet-cancel-label { font-size: var(--text-3xl); }
+}
+
+/* The build. Keyed off --qc-beat, the loop's own beat, so the two figures
+   move at one pace: about two and a half seconds end to end. */
+.quiet-cancel {
+  --qc-beat: calc(var(--motion-move) + var(--motion-stagger) * 2);
+}
+.quiet-cancel--armed .quiet-cancel-rule,
+.quiet-cancel--armed .quiet-cancel-except,
+.quiet-cancel--armed .quiet-cancel-case,
+.quiet-cancel--armed .quiet-cancel-means,
+.quiet-cancel--armed .quiet-cancel-take { opacity: 0; }
+.quiet-cancel--armed .quiet-cancel-leads path,
+.quiet-cancel--armed .quiet-cancel-mark path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.quiet-cancel--armed[data-play] .quiet-cancel-rule {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-except {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: var(--qc-beat);
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-lead--stem {
+  animation: eng3-draw var(--motion-move) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 2);
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-lead--system,
+.quiet-cancel--armed[data-play] .quiet-cancel-lead--hand {
+  animation: eng3-draw var(--motion-enter) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 2 + var(--motion-move));
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-case {
+  animation: loop-land var(--motion-move) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 3 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-mark path {
+  animation: eng3-draw var(--motion-enter) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-means {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel--armed[data-play] .quiet-cancel-take {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 5 + var(--motion-move));
 }
 
 .ar-moments {
