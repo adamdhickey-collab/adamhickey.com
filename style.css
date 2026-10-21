@@ -739,6 +739,36 @@ a.case-thumb { display: block; }
   .case-card--lab .case-thumb { order: 0; }
   .case-card--lab .loop-link { margin-top: 0; }
 }
+/* THE PANEL IS 16:9 WHERE IT STANDS FOR A PICTURE, since 2026-10-21: in
+   the homepage's lab card, over the work cards' 16:9 pictures (Adam: "the
+   same proportion as the rectangles below"), and leading the lab index,
+   over its pieces' 16:9 screenshots (Adam: "on the lab page landing page
+   as well"). Its two rows alone made it a band: 623 by 283 beside the
+   card's words from 1280 up, 2.2:1, and 681 by 283 on the lab index, 2.4:1.
+   At 16:9 those are 350 and 383 tall; the card's words are 351, so the
+   panel and the words now start and end together.
+
+   The height it gains goes to the room between the two processes, 20 to 71
+   on the homepage and to 104 on the lab index, and to the panel's top and
+   bottom, --space-2xl where the figure takes --space-xl. Only top and
+   bottom: at 2xl on the sides too, a step's column is 140 wide in the card
+   and "A person decides" breaks onto two lines.
+
+   From 1024 on both pages, where the card puts the figure beside its
+   words. At 1024 the card's panel is 481 wide and its rows already fill
+   16:9, so it stands a pixel over and the gap holds at 20; the lab index's,
+   stacked there at its 36rem, is 576 by 324 with 48 between. Under 1024 it
+   keeps the height of its rows: the card's figure runs the card's width,
+   where 16:9 would be a panel 430 tall on a tablet, and on a phone 16:9 is
+   shorter than the rows on either page. */
+@media (min-width: 1024px) {
+  .case-card--lab .loop,
+  .writing-item--lead .loop {
+    aspect-ratio: 16 / 9;
+    align-content: space-between;
+    padding-block: var(--space-2xl);
+  }
+}
 /* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
    own sans at the description's size, charcoal where the description is
    muted, so the two read as one paragraph that changed ink halfway (Adam:
