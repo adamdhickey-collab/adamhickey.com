@@ -336,14 +336,20 @@ build step stay out of a tree whose checks walk every file and whose
 write-up says it has neither. The two prototypes keep their addresses
 under `prototype/` and are listed on the lab index as well; the index
 wears the writing index's shell, and the case study wears the build
-write-ups'. Since 2026-10-12 the homepage's Agent Review card leads
-Selected work, above the three accounts, and its picture is no longer a
-capture: it is "Same red. Different meaning.", the prototype's first problem
-drawn in code (style.css; the connector is `same-red.js`), which the case
-study opens on too. Before that the lab was one card under the three accounts
-in Selected work, where the two prototype cards sat until 2026-10-01, and
-since #343 it is about Agent Review rather than the lab as a family: the
-product's own screen (`img/lab/agent-review-card.webp`, from
+write-ups'. Since 2026-10-20 the homepage's featured card leads Selected
+work, above the three accounts: "How product design works now", which
+introduces the lab through the position article rather than through one
+product. Its figure is that article's loop drawn in code (style.css, "The
+loop", and `loop.js`) and a link to the article; the card's first link is
+the article too, and its second the lab index. A line under the card naming
+the lab's pieces came out on 2026-10-21, leaving the navigation's Lab link
+and the lab index to carry them. From 2026-10-12 to 2026-10-20 the card was
+Agent Review alone, and its picture was the prototype's first example drawn
+in code (style.css, with `same-red.js` as its connector), which went to the
+case study's opening when the card changed. Before that the lab was one card
+under the three accounts in Selected work, where the two prototype cards sat
+until 2026-10-01, and since #343 it was about Agent Review rather than the
+lab as a family: the product's own screen (`img/lab/agent-review-card.webp`, from
 `scripts/lab-cards.mjs`, the capture the lab index uses too: since
 2026-10-03 the delegated work, the product's front door, at its tablet
 layout (784px, and 832px since 2026-10-05, where the app's top bar holds on
@@ -352,8 +358,7 @@ one line), one column of type that can be read at card size; before that run
 which could not be read at that size) in a tablet, one bezel all round
 (the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
-the lab index as one line under it until 2026-10-21, when that line came
-out and the navigation's Lab link and the lab index were left to carry them. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
+the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
 captures: each is taken from the deployed product and Storybook at two
 sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
