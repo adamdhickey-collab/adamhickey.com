@@ -674,17 +674,17 @@ a.case-thumb { display: block; }
 /* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
    From 1024 up it is two columns, the question, the project, the result and
    the links on the left and the picture on the right; under 1024 it stacks,
-   the picture above the words with the stacked card's own margin under it.
-   It was side by side from 768, where the words column is 260px wide and 470
+   the words first and the picture under them, with the stacked card's own
+   margin between. It was side by side from 768, where the words column is 260px wide and 470
    tall against a picture 210 tall, and a card that lopsided is not two
    columns so much as a caption lost beside a long list.
 
-   THE WORDS COME FIRST IN THE MARKUP and the picture is moved above them
-   with `order` while the card stacks, rather than the other way round. The
-   picture is a link as well, to the same case study, and a keyboard reader
-   at a desktop width would otherwise reach the right-hand column before the
-   left. The card is a grid at every width for that reason: `order` does
-   nothing in a block.
+   THE WORDS COME FIRST IN THE MARKUP, so a keyboard reader at a desktop
+   width reaches the left-hand column before the right, and since 2026-10-21
+   they come first on a phone too: the picture had been moved above them
+   with `order` while the card stacked, and a phone opened the card on the
+   figure before it had said what the figure was (Adam: "after the headline
+   and other copy"). A Lab card with a .case-thumb still takes the `order`.
 
    A screen with a column of UI text in it needs more than half the card to
    stay legible, so the picture takes the larger share, 1.3 to 1. The
@@ -712,9 +712,8 @@ a.case-thumb { display: block; }
    picture's height before, which is where this rule stopped being
    comfortable. */
 .case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
-.case-card--lab .case-thumb,
-.case-card--lab .loop-link { order: -1; }
-.case-card--lab .loop-link { margin-bottom: var(--space-xl); }
+.case-card--lab .case-thumb { order: -1; }
+.case-card--lab .loop-link { margin-top: var(--space-xl); }
 /* The figure is the card's picture and a link to the position article, so
    the link is the grid item and the figure fills it. Hovering it does what
    hovering a work card does: the picture tilts and lifts (the tilt rule
@@ -736,8 +735,8 @@ a.case-thumb { display: block; }
     gap: var(--space-2xl);
     align-items: center;
   }
-  .case-card--lab .case-thumb,
-  .case-card--lab .loop-link { order: 0; margin-bottom: 0; }
+  .case-card--lab .case-thumb { order: 0; }
+  .case-card--lab .loop-link { margin-top: 0; }
 }
 /* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
    own sans at the description's size, charcoal where the description is
@@ -788,17 +787,6 @@ a.case-thumb { display: block; }
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-text);
-}
-/* THE JOKE ABOVE THE EYEBROW, since 2026-10-20: the card's argument told
-   once before, as a monk copying a book by hand and then the same monk
-   holding up one piece of type beside a press. One picture of the two, so
-   they share a floor line and a scale at every width; drawn in ChatGPT on
-   a transparent ground, cut by `illustrate.mjs cutout` and stored at 3x of
-   the 18rem it prints at. The card's columns centre (align-items above),
-   so the words column grows by the picture and stays centred on the loop. */
-.case-lab-scribe {
-  width: min(18rem, 100%);
-  margin-bottom: var(--space-xl);
 }
 /* ---------- The card's picture is a tablet ----------
    The picture was a drawing from #340 to #343, in the --shadow-media ring
@@ -991,48 +979,65 @@ a.case-thumb { display: block; }
    reader, a screen reader through the link's description and the checks all
    read the same words.
 
-   THE CONTRAST IS THE ARGUMENT, so the two halves are drawn as unequally as
-   the idea is. Before is quiet: grey pills on the white card, a row of
-   hand-offs. Now is the dark band with a color per step, each with its icon
-   from the site's set (design system, "Icons"), and the steps joined by one
-   line in the on-dark sage that runs round the two-by-two and back into the
-   system. Four grounds, each with the ink it carries (COLOR.md):
-     the system   --color-accent-on-dark, charcoal ink  7.47
-     the build    --color-slate, warm ink               4.64
-     the checks   --color-tea-light, charcoal ink      12.90
-     the person   --color-caution-light, charcoal ink  12.44
+   TWO ROWS ON ONE DARK PANEL since 2026-10-21, where it was a white card
+   holding a dark band holding four colored boxes, each with a line of its
+   own under its name: 1021px tall on a phone and 679 beside the card's words
+   at 1280 (Adam: "on mobile it takes up way too much room"). The two rows
+   are drawn alike so the eye compares their shapes, and the shape is the
+   argument: Before is five words joined by chevrons, a line that ends, in
+   the quiet on-dark ink; Now is four steps across, joined by arrows, with
+   one line back from the last into the first. How long each took is in its
+   tag, months and days.
+
+   THE COLOR IS ON THE DISCS, each the step's ground from the version before
+   with the icon in the ink that ground carried (COLOR.md), and the names
+   are the panel's own --ink-on-dark:
+     the system   --color-accent-on-dark disc, charcoal icon
+     the build    --color-slate disc, warm icon
+     the checks   --color-tea-light disc, accent-text icon
+     the person   --color-caution-light disc, caution-text icon
    The system is the sage because it is where the work starts and ends; the
    person is the caution family because it is the one place the loop stops
    for someone.
 
-   Under 24rem of figure the steps stack with a line down between each pair;
-   from 24rem they go round a two-by-two, the system top left, building,
-   checks, and the person bottom left with the line back up into the system.
-   Each connector is the step's own ::before (the line) and ::after (its
-   arrowhead), sized from --loop-gap, so it is no element of its own.
+   Four columns at every width, so a phone sees the loop as a loop rather
+   than a stack: the names are --text-xs over a 36px disc there and grow
+   with the figure from 28rem. Each arrow is the step's own ::before (the
+   line) and ::after (its head), running between the two discs at their
+   middle; the way back is .loop-back, a square U whose sides stand under
+   the first and last columns' middles, which is what its 12.5% margins are
+   (half of one column in four), with its own words inside it.
 
    THE BUILD, once, the first time the figure is in view (loop.js, which
    the homepage and the lab index both load): the relay's legs arrive one
-   after another, then the band, then each step in turn with its icon
-   drawing itself and its line running on to the next, and last the line
-   back into the system. It is the loop described in the order it runs, and
-   nothing pulses or glows: the order is the point. Without script, or under
-   reduced motion, nothing is armed and the figure is simply there.
+   after another, then each step in turn with its icon drawing itself and
+   its arrow running on to the next, and last the way back. It is the loop
+   described in the order it runs, and nothing pulses or glows: the order is
+   the point. Without script, or under reduced motion, nothing is armed and
+   the figure is simply there.
 
    The figure's paragraphs are scoped under .loop, because a page's own
    paragraph rule (.case-section p on the lab index) outranks a bare class
-   and set them at the reading size, in charcoal, on the dark band. */
+   and set them at the reading size, in charcoal, on the dark panel. */
 .loop {
   position: relative;
   container: loop / inline-size;
   display: grid;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
   margin: 0;
-  padding: var(--space-xl);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
+  padding: var(--space-md);
+  background: var(--color-charcoal);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
+  color: var(--ink-on-dark);
+  --loop-line: var(--color-accent-on-dark);
+  --loop-inset: var(--space-2xs);
+  --loop-tip: calc(var(--space-xs) * 0.7071);
+}
+/* The figure is its own container and cannot query itself, so its padding
+   steps up with the page instead. */
+@media (min-width: 640px) {
+  .loop { padding: var(--space-xl); }
 }
 .loop .loop-tag {
   margin: 0 0 var(--space-sm);
@@ -1042,75 +1047,71 @@ a.case-thumb { display: block; }
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--color-muted-gray);
+  color: var(--ink-on-dark-muted);
 }
 .loop .loop-tag--now { color: var(--color-accent-on-dark); }
+/* The relay runs the panel's width, as the steps under it do, so the two
+   rows are one length and differ only in shape. Each leg but the last grows
+   to fill its share, and its chevron sits in the middle of the room after
+   its word: auto margins on both sides, with the gaps as the least room a
+   phone gets. The translate centres the chevron's two strokes, which sit in
+   one half of the rotated square, on the square's own middle. */
 .loop-relay {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .loop-relay li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
   margin: 0;
-  padding: var(--space-2xs) var(--space-sm);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-pill);
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--ink-on-dark-secondary);
 }
-.loop .loop-span {
-  margin: var(--space-sm) 0 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-base);
-  font-style: italic;
-  line-height: var(--leading-tight);
-  color: var(--color-muted-gray);
-}
-.loop-now {
-  padding: var(--space-md);
-  background: var(--color-charcoal);
-  border-radius: var(--radius-xl);
-  --color-focus-ring: var(--color-accent-on-dark);
+.loop-relay li:not(:last-child) { flex: 1 0 auto; }
+.loop-relay li:not(:last-child)::after {
+  content: "";
+  flex: none;
+  margin-inline: auto;
+  box-sizing: border-box;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-right: 1px solid var(--ink-on-dark-muted);
+  border-bottom: 1px solid var(--ink-on-dark-muted);
+  transform: translateX(-25%) rotate(-45deg);
 }
 .loop-steps {
-  --loop-gap: var(--space-3xl);
-  --loop-inset: var(--space-xs);
-  --loop-tip: calc(var(--space-xs) * 0.7071);
-  --loop-line: var(--color-accent-on-dark);
+  --loop-icon-size: var(--space-lg);
+  --loop-icon-pad: var(--space-xs);
+  --loop-disc-size: calc(var(--loop-icon-size) + var(--loop-icon-pad) * 2);
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--loop-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .loop-step {
   position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--space-md);
-  row-gap: var(--space-2xs);
-  align-content: start;
-  justify-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
   margin: 0;
-  padding: var(--space-md);
-  border-radius: var(--radius-xl);
-  color: var(--color-charcoal);
-  --loop-disc: var(--color-charcoal);
-  --loop-icon: var(--color-accent-on-dark);
+  text-align: center;
+  color: var(--ink-on-dark);
 }
 .loop-icon {
-  grid-row: span 2;
-  align-self: center;
   box-sizing: content-box;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  padding: var(--space-xs);
+  width: var(--loop-icon-size);
+  height: var(--loop-icon-size);
+  padding: var(--loop-icon-pad);
   border-radius: var(--radius-pill);
   background: var(--loop-disc);
   color: var(--loop-icon);
@@ -1122,110 +1123,88 @@ a.case-thumb { display: block; }
 }
 .loop-step b {
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
+  text-wrap: balance;
 }
-.loop-step span {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-}
-.loop-step--system { background: var(--color-accent-on-dark); }
-.loop-step--build  { background: var(--color-slate); color: var(--color-warm); --loop-disc: var(--color-warm); --loop-icon: var(--color-slate); }
-.loop-step--checks { background: var(--color-tea-light); --loop-disc: var(--color-accent-text); --loop-icon: var(--color-warm); }
-.loop-step--person { background: var(--color-caution-light); --loop-disc: var(--color-caution-text); --loop-icon: var(--color-warm); }
-/* The connectors. ::before is the line across the gap, ::after the
-   arrowhead at its far end; the stack has three, all down. Each stops
-   --loop-inset short of both steps it joins, so it sits in the gap rather
-   than touching either edge, and the arrowhead's point lands where the line
-   ends: --loop-tip is the distance from a rotated square's center to its
-   corner. */
-.loop-step::before,
-.loop-step::after {
+.loop-step--system { --loop-disc: var(--color-accent-on-dark); --loop-icon: var(--color-charcoal); }
+.loop-step--build  { --loop-disc: var(--color-slate); --loop-icon: var(--color-warm); }
+.loop-step--checks { --loop-disc: var(--color-tea-light); --loop-icon: var(--color-accent-text); }
+.loop-step--person { --loop-disc: var(--color-caution-light); --loop-icon: var(--color-caution-text); }
+/* The arrows, from one disc to the next. A column is the step's own box,
+   so the next disc's near edge is half a column on plus half a column back
+   less half a disc; each line stops --loop-inset short of both discs, and
+   the head's point lands where the line ends: --loop-tip is the distance
+   from a rotated square's center to its corner. */
+.loop-step:not(:last-child)::before,
+.loop-step:not(:last-child)::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.loop-step::after {
+.loop-step:not(:last-child)::before {
+  top: calc(var(--loop-disc-size) / 2 - 1px);
+  left: calc(50% + var(--loop-disc-size) / 2 + var(--loop-inset));
+  width: calc(100% - var(--loop-disc-size) - var(--loop-inset) * 2);
+  height: 2px;
+  background: var(--loop-line);
+  transform-origin: left;
+}
+.loop-step:not(:last-child)::after {
+  top: calc(var(--loop-disc-size) / 2);
+  left: calc(150% - var(--loop-disc-size) / 2 - var(--loop-inset) - var(--loop-tip));
   box-sizing: border-box;
   width: var(--space-xs);
   height: var(--space-xs);
   border-right: 2px solid var(--loop-line);
   border-bottom: 2px solid var(--loop-line);
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
-.loop-step:not(:last-child)::before {
-  left: 50%;
-  top: calc(100% + var(--loop-inset));
-  width: 2px;
-  height: calc(var(--loop-gap) - var(--loop-inset) * 2);
-  margin-left: -1px;
-  background: var(--loop-line);
-  transform-origin: top;
-}
-.loop-step:not(:last-child)::after {
-  left: 50%;
-  top: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip));
-  transform: translate(-50%, -50%) rotate(45deg);
-}
+/* The way back: down from the last step, along, and up into the first,
+   with the head at the top of the left side. Its corners are square,
+   because a border on three sides of a rounded box is what curves.mjs
+   refuses: the line is a rule on a square edge, like the arrows above it. */
 .loop .loop-back {
-  margin: var(--space-lg) 0 0;
+  position: relative;
+  margin: var(--space-sm) 12.5% 0;
+  padding: var(--space-sm) var(--space-sm) var(--space-xs);
+  border: 2px solid var(--loop-line);
+  border-top: 0;
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-accent-on-dark);
   text-align: center;
+  text-wrap: balance;
 }
-.loop-take {
-  font-family: var(--font-serif);
-  font-size: var(--text-lg);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-  text-align: center;
+.loop .loop-back::before {
+  content: "";
+  position: absolute;
+  top: var(--loop-tip);
+  left: -1px;
+  box-sizing: border-box;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-right: 2px solid var(--loop-line);
+  border-bottom: 2px solid var(--loop-line);
+  transform: translate(-50%, -50%) rotate(-135deg);
+  pointer-events: none;
 }
-@container loop (min-width: 24rem) {
-  .loop-now { padding: var(--space-xl); }
-  .loop-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); --loop-gap: var(--space-4xl); }
-  /* In the two-by-two a step is narrow, so the icon goes above its words. */
-  .loop-step { grid-template-columns: minmax(0, 1fr); padding: var(--space-md) var(--space-lg) var(--space-lg); }
-  .loop-icon { grid-row: auto; align-self: start; margin-bottom: var(--space-sm); }
-  .loop-step:nth-child(2) { grid-column: 2; grid-row: 1; }
-  .loop-step:nth-child(3) { grid-column: 2; grid-row: 2; }
-  .loop-step:nth-child(4) { grid-column: 1; grid-row: 2; }
-  /* Across: the system to the build, left to right; the checks to the
-     person, right to left. Up and down: the build to the checks, and the
-     person back into the system. */
-  .loop-step:nth-child(odd)::before {
-    top: 50%;
-    height: 2px;
-    width: calc(var(--loop-gap) - var(--loop-inset) * 2);
-    margin: -1px 0 0;
-  }
-  .loop-step:nth-child(1)::before { left: calc(100% + var(--loop-inset)); transform-origin: left; }
-  .loop-step:nth-child(1)::after { left: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip)); top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
-  .loop-step:nth-child(3)::before { left: auto; right: calc(100% + var(--loop-inset)); transform-origin: right; }
-  .loop-step:nth-child(3)::after { left: auto; right: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip)); top: 50%; transform: translate(50%, -50%) rotate(135deg); }
-  .loop-step:nth-child(4)::before {
-    left: 50%;
-    top: auto;
-    bottom: calc(100% + var(--loop-inset));
-    width: 2px;
-    height: calc(var(--loop-gap) - var(--loop-inset) * 2);
-    margin-left: -1px;
-    background: var(--loop-line);
-    transform-origin: bottom;
-  }
-  .loop-step:nth-child(4)::after {
-    left: 50%;
-    top: auto;
-    bottom: calc(100% + var(--loop-gap) - var(--loop-inset) - var(--loop-tip));
-    transform: translate(-50%, 50%) rotate(-135deg);
-  }
+@container loop (min-width: 28rem) {
+  .loop-steps { --loop-icon-size: var(--space-xl); --loop-icon-pad: var(--space-sm); }
+  .loop-step { gap: var(--space-sm); }
+  .loop-step b,
+  .loop-relay li,
+  .loop .loop-back { font-size: var(--text-sm); }
+}
+@container loop (min-width: 34rem) {
+  .loop-step b { font-size: var(--text-base); }
 }
 
 /* The build. --loop-beat is one step's turn: the step lands, its icon
-   draws, its line runs on, and the next step lands as the line arrives.
+   draws, its arrow runs on, and the next step lands as the arrow arrives.
    Everything is keyed off it and --i. About three seconds end to end:
    long enough to read as an order, short enough not to be waited for. */
 .loop {
@@ -1233,11 +1212,9 @@ a.case-thumb { display: block; }
   --loop-start: calc(var(--motion-move) * 2);
 }
 .loop--armed .loop-relay li,
-.loop--armed .loop-span,
-.loop--armed .loop-now,
+.loop--armed .loop-tag--now,
 .loop--armed .loop-step,
-.loop--armed .loop-back,
-.loop--armed .loop-take { opacity: 0; }
+.loop--armed .loop-back { opacity: 0; }
 .loop--armed .loop-step::before { transform: scale(0); }
 .loop--armed .loop-step::after { opacity: 0; }
 .loop--armed .loop-icon path,
@@ -1246,12 +1223,8 @@ a.case-thumb { display: block; }
   animation: loop-in var(--motion-move) var(--ease-enter) both;
   animation-delay: calc(var(--i) * var(--motion-stagger));
 }
-.loop--armed[data-play] .loop-span {
+.loop--armed[data-play] .loop-tag--now {
   animation: loop-fade var(--motion-enter) var(--ease) both;
-  animation-delay: calc(var(--motion-stagger) * 5);
-}
-.loop--armed[data-play] .loop-now {
-  animation: loop-in var(--motion-enter) var(--ease-enter) both;
   animation-delay: var(--motion-move);
 }
 .loop--armed[data-play] .loop-step {
@@ -1275,15 +1248,10 @@ a.case-thumb { display: block; }
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
   animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4);
 }
-.loop--armed[data-play] .loop-take {
-  animation: loop-fade var(--motion-enter) var(--ease) both;
-  animation-delay: calc(var(--loop-start) + var(--loop-beat) * 4 + var(--motion-move));
-}
 @keyframes loop-in { from { opacity: 0; transform: translateY(var(--space-xs)); } to { opacity: 1; transform: none; } }
 @keyframes loop-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes loop-land { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
 @keyframes loop-run { from { transform: scale(0); } to { transform: none; } }
-}
 
 /* ---------- The app's identity: its icon and its name ----------
    The two prototypes are products, and a product is recognised by its icon
