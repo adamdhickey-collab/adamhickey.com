@@ -91,14 +91,171 @@
   color: var(--color-muted-gray);
 }
 .ar-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
-.ar-hero-feature.same-red { margin-top: var(--space-2xl); }
+.ar-hero-feature.quiet-cancel { margin-top: var(--space-2xl); }
 /* Two buttons fill the row in the hero's half column, so the Listen
    control takes the row under them rather than a third place beside. */
 @media (min-width: 40rem) {
   .ar-hero .ar-hero-main > .build-hero-act { grid-column: 1 / -1; }
   .ar-hero .ar-hero-main > .ra-bar { grid-column: 1 / -1; justify-self: start; margin-top: var(--space-md); }
 }
-@media (min-width: 64rem) { .ar-hero > .ar-hero-feature.same-red { margin: 0; align-self: center; } }
+@media (min-width: 64rem) { .ar-hero > .ar-hero-feature.quiet-cancel { margin: 0; align-self: center; } }
+
+/* ---------- Every action is a button. Except cancel. ----------
+   Since 2026-10-21, in place of "Same red. Different meaning." (style.css
+   until then, when the prototype's first decision changed): the problem
+   drawn in code at the top of the case study. Two actions from Relay's
+   billing settings, each in the look it has there, what each is under it,
+   one label over them and one takeaway under them. Live text at the page's
+   own sizes, so it is read, measured and translated like the rest.
+
+   THE LABEL is the red figure's grid, the word the connector leaves from in
+   the middle column, so it stands at the figure's centre: "Every action is
+   a button." on the first row, and "Except cancel." on a second, in the
+   third column only, so the stem drops past it, not through it.
+
+   THE CONNECTOR is the red figure's (quiet-cancel.js, from same-red.js):
+   one stem from under "action" divides into a branch down to each action.
+   There is no capsule round the actions now: three cold readers took a
+   capsule round the grey text for a button, which is the one thing it must
+   not look like, so a branch ends at the action itself. One 1.5px stroke,
+   round caps and bends, no arrowheads.
+
+   THE TWO LOOKS are the product's. "Change plan" is drawn as a button, an
+   edge and a white fill; "Cancel subscription" as the link the old billing
+   app built by hand, small, underlined and in its grey, #6a6a76, the value
+   of the prototype's own muted token. That grey is a picture of a
+   product's colour, declared on the figure and used nowhere else
+   (COLOR.md, section 6), and on white it measures 5.33:1, so it is text
+   that clears 4.5 on its own.
+
+   The figure is a white card, the ladder's rung 2 (--rule-card edge,
+   --shadow-card, --radius-xl), and lays itself out by its own width, as a
+   container: two columns from 30rem of figure, stacked under it. */
+.quiet-cancel {
+  --quiet-cancel-ink: #6a6a76;
+  position: relative;
+  container: quiet-cancel / inline-size;
+  margin: 0;
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.quiet-cancel-label {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.quiet-cancel-label > :first-child { text-align: end; white-space: pre; }
+.quiet-cancel-label > :nth-child(3) { text-align: start; white-space: pre; }
+.quiet-cancel-except { grid-column: 3; }
+.quiet-cancel-word {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-text);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+  text-decoration-skip-ink: none;
+}
+.quiet-cancel-cases {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.quiet-cancel-case {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+/* Where a branch arrives: the action itself, in the look it has, with a
+   hairline of room round it so a line stops just short of the words. */
+.quiet-cancel-ui {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: var(--space-2xs);
+  font-family: var(--font-sans);
+  line-height: var(--leading-ui);
+  white-space: nowrap;
+}
+.quiet-cancel-button {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-muted-gray);
+  background: var(--color-white);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-charcoal);
+}
+.quiet-cancel-hand {
+  font-size: var(--text-sm);
+  color: var(--quiet-cancel-ink);
+  text-decoration: underline;
+}
+.quiet-cancel-where {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+.quiet-cancel-means {
+  margin: 0;
+  max-width: 22rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.quiet-cancel-means strong { font-weight: var(--weight-semibold); }
+.quiet-cancel-take {
+  margin: var(--space-2xl) 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-hairline);
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  text-align: center;
+}
+.quiet-cancel-leads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.quiet-cancel-leads path {
+  fill: none;
+  stroke: var(--color-accent-text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Stacked, the second branch runs down the left gutter, so the cases keep
+   clear of it. */
+@container quiet-cancel (max-width: 29.99rem) {
+  .quiet-cancel-cases { padding-inline: var(--space-lg); }
+}
+@container quiet-cancel (min-width: 30rem) {
+  .quiet-cancel-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl); }
+}
+@container quiet-cancel (min-width: 36rem) {
+  .quiet-cancel-label { font-size: var(--text-2xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+}
 
 .ar-moments {
   list-style: none;

@@ -49,14 +49,10 @@
    bump the text up without changing the layout). A shot can hold the app at
    a zoom step of its own (`zoom` on its desktop spec), the way the app draws
    itself larger in a wide window (app/scale.css): the window is sized so
-   the layout holds, and the picture's text is that much larger. The tour is
-   taken at 1.25 in a 1600px window, 1280 CSS px of layout, the narrowest
-   that keeps the two screens side by side and the workspace two columns;
-   and because the tablet fits each step's part to its own width, and the
-   inspector keeps its 340px while the stage gives, a step's words come out
-   about a fifth larger in the tablet. The tour also holds a 48px margin on
-   the root (`pad`), the page's own ground, so a pin has room beside the
-   workspace's edge. The hero is 1.25 in a 1440 window, the scope and
+   the layout holds, and the picture's text is that much larger. (The
+   seven-step tour, taken at 1.25 in a 1600px window with a 48px margin,
+   came off the case study on 2026-10-21, and its recipes with it.) The
+   hero is 1.25 in a 1440 window, the scope and
    decision figures 1.125. A phone is the product's own layout at 1. The theme is chosen the way the app's toggle chooses it, by the
    remembered choice in localStorage, set before the page loads, light as
    well as dark, so a capture never depends on the app's default. Relay,
@@ -78,7 +74,7 @@
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      node scripts/lab-shots.mjs                      # every slug
-     node scripts/lab-shots.mjs tour-start tour-rule tour-quiet   # the tour's three scenes
+     node scripts/lab-shots.mjs tradeoff directions decision   # the three moments
      node scripts/lab-shots.mjs return               # the return dialog, both sizes
      node scripts/lab-shots.mjs --from http://localhost:5173/agent-review/ change drift return
      node scripts/lab-shots.mjs --theme light tradeoff  # the same, in the light theme, as *-light.webp
@@ -94,9 +90,9 @@
    delegated run is a simulation played back the same way every time, so
    these three are reproducible to the pixel from the same build. Since the
    hero's tour moved to the delegated work, change is a figure at 1100 and
-   record is a completed change opened. Since 2026-10-06 the tour is three
-   scenes of the delegated work at 1440, tour-start, tour-rule and
-   tour-quiet (their recipes say what each is), which replaced the one
+   record is a completed change opened. From 2026-10-06 to 2026-10-21 the
+   tour was scenes of the delegated work (tour-start and the rest), which
+   replaced the one
    picture the slug delegation took. Since 2026-10-07, scope is the
    prototype's second run, the shared table, its decision whole. Quality 0.86, the figure
    the artwork set uses. Chrome's WebP output is not byte-stable between runs,
@@ -119,21 +115,11 @@ const arg = (name, fallback) => {
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
 const theme = arg('--theme', 'dark');
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
-/* The desktop captures are 2x. --scale 3 writes the tour's scenes once more
-   at 3x, as `-3x` files, for the srcset that serves them to a large monitor
-   (lab/agent-review.html, since 2026-10-12); the same page at the same
-   size, so every region and pin holds. Only the tour's scenes take it: the
-   figures print well under half their file at 2x already. */
-const scale = +arg('--scale', '2');
-if (scale !== 2 && scale !== 3) throw new Error(`--scale is 2 or 3, not ${scale}`);
-const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme' && all[i - 1] !== '--scale');
+/* The desktop captures are 2x; the figures print well under half their file
+   at that. (A --scale 3 set was the tour's alone, and went with it.) */
+const scale = 2;
+const only = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--from' && all[i - 1] !== '--theme');
 const STORY = 'product-customertable--archive-confirmation';
-/* The tour's width (Preview Studio, 2026-10-11): 1600 of the app at zoom
-   1.25 and a 48px margin each side at that zoom; TOUR_H, its height, is
-   with its scenes below. */
-const TOUR_W = 1720;
-const TOUR = { size: { width: TOUR_W, height: 1000 }, zoom: 1.25, pad: 48 };
-
 const DESKTOP = { width: 1100, height: 760 };
 const PHONE = { width: 375, height: 720 };
 
@@ -162,100 +148,15 @@ const SHOTS = {
       await page.waitForTimeout(400);
     },
   },
-  /* THE TOUR'S THREE SCENES, since 2026-10-06: the same screen in three
-     states, which the tour dissolves between where the story moves on (the
-     walkthrough's header in walkthrough.js). Each is the page from its top
-     at TOUR_W and TOUR_H, so all three share one set of coordinates: a
-     region measured on one is the same place on the others, and the camera
-     glides across a change of scene as it glides across one picture. The
-     tour's regions and pins are in these files' own pixels; re-measure all
-     seven if the screen's layout moves.
-
-     start: the run as a person finds it, with Dana's request open, because
-     the tour's first part is the request. Its phone version is the first
-     decision from its top, the one part of the story a phone shows.
-     rule: the first question answered with the diff pair and "use this for
-     similar cases" checked, so the card has turned into the rule as it will
-     read. quiet: every decision made, nothing left to ask. Neither has a
-     phone version: the tour shows them only where it runs, from 64rem. */
-  'tour-start': {
-    file: 'agent-review-tour-start',
-    app: '#/',
-    desktop: TOUR,
-    open: async (page) => {
-      await openRequest(page);
-      await tourSize(page);
-    },
-    /* On a phone, the two directions from their question, since the
-       trade-off (2026-10-09): the hero's phone figure is the agent's read,
-       just above, and the card's top would show it again. */
-    phoneScroll: '.ask__options',
-  },
-  /* THE TWO DIRECTIONS, weighed, since Preview Studio (agent-review#30):
-     the run as found, with the preview where it follows the page to once
-     the two directions are at the top of the window (followTo, below), so
-     the tour's fourth step shows the interface beside the cards. */
-  'tour-weigh': {
-    file: 'agent-review-tour-weigh',
-    app: '#/',
-    desktop: TOUR,
-    phone: false,
-    open: async (page) => {
-      await openRequest(page);
-      await tourSize(page);
-      await followTo(page, '.studio__inspector .ask__choices');
-    },
-  },
-  /* THE TRADE-OFF'S SCENES, since 2026-10-09 (agent-review#28): the first
-     question became a choice between two defensible directions, and the
-     tour's second and third scenes became the decision and what it left.
-     decide: the direction the agent did NOT recommend, keep the red for
-     now, chosen, with a reason in the person's own words that the agent
-     could not have known, and "use this decision for similar cases"
-     checked, so the plan, the reason and the rule show under both cards.
-     after: the same decision applied (and the new token allowed once
-     before it, so the notice is the decision's), the decision record a few
-     lines down. Both are the person overruling a reasonable
-     recommendation with context, which is the point of the product, and
-     both are as real in the app as the recommended path. */
-  'tour-decide': {
-    file: 'agent-review-tour-decide',
-    app: '#/',
-    desktop: TOUR,
-    phone: false,
-    open: async (page) => {
-      await openRequest(page);
-      await decideKeep(page);
-      await tourSize(page);
-      await followTo(page, '.studio__inspector .ask__choice[data-chosen]');
-    },
-  },
-  'tour-after': {
-    file: 'agent-review-tour-after',
-    app: '#/',
-    desktop: TOUR,
-    phone: false,
-    open: async (page) => {
-      await openRequest(page);
-      /* The new token is the second decision; the workspace shows one at a
-         time, so it steps to it, and after it is allowed the first is back. */
-      await page.getByRole('button', { name: 'Next decision' }).click();
-      await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
-      await page.getByRole('button', { name: 'Apply' }).click();
-      await decideKeep(page);
-      await page.getByRole('button', { name: 'Apply' }).click();
-      await page.locator('.decided').first().waitFor();
-      await tourSize(page);
-    },
-  },
-  /* THE SIGNATURE IMAGE, since 2026-10-09: the case study's hero is the
+  /* THE SIGNATURE IMAGE, since 2026-10-09: the first moment's figure is the
      trade-off itself. Until Preview Studio it was the decision card, the
      agent's read over the two directions; since agent-review#30 it is the
-     workspace's left half, the problem in place: the billing activity
-     beside the payment history, the replaced plan and "Payment failed" in
-     the same red, the first marked as the decision and the second as its
-     twin, the key saying what each red means, and under them the agent's
-     read, what it recommends and what it can't determine. Desktop at 1200,
+     workspace's left half, the problem in place. Since agent-review#35
+     (2026-10-21) that is billing settings, "Cancel subscription" built by
+     hand among the system's buttons, marked as the decision, "Change plan"
+     marked as its twin, a caption under each, and under them the agent's
+     read, what it recommends and what it can't determine. (Until then: the
+     billing activity beside the payment history, two reds.) Desktop at 1200,
      the narrowest window where the two screens sit side by side, cut at the
      column's own edges, 8px of ground round it. On a phone the read alone,
      as before: the two screens stack there, to a picture too tall for the
@@ -270,14 +171,14 @@ const SHOTS = {
       await page.waitForTimeout(300);
     },
   },
-  /* The decision record the tour ends on, as a figure: the same decision,
-     whole, in the main column. On a phone, the record from its top. */
+  /* The decision record, as a figure: Dana's decision, whole, in the main
+     column. On a phone, the record from its top. */
   decision: {
     file: 'agent-review-decision',
     app: '#/',
     desktop: { size: { width: 1440, height: 760 }, zoom: 1.125, clip: recordClip },
     open: async (page) => {
-      await decideKeep(page);
+      await decideOwnChange(page);
       await page.getByRole('button', { name: 'Apply' }).click();
       const record = page.locator('.decided').first();
       await record.waitFor();
@@ -286,17 +187,6 @@ const SHOTS = {
       await page.evaluate((by) => window.scrollBy(0, by), phone ? -8 : -12);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
-    },
-  },
-  'tour-quiet': {
-    file: 'agent-review-tour-quiet',
-    app: '#/',
-    desktop: TOUR,
-    phone: false,
-    open: async (page) => {
-      await openRequest(page);
-      await answerAll(page);
-      await tourSize(page);
     },
   },
   /* One completed change, open: the agent's own choice between two tokens
@@ -320,7 +210,7 @@ const SHOTS = {
     app: '#/',
     desktop: { clip: mainColumn },
     open: async (page) => {
-      await page.getByRole('button', { name: /^Select and preview\s+Separate the meanings$/ }).click();
+      await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
       await page.getByText('Use this decision for similar cases').click();
       /* The whole card from its top edge down to Apply: the question, what
          no check can say, the answer chosen, and the rule as it will read.
@@ -383,17 +273,18 @@ const SHOTS = {
       await page.waitForTimeout(300);
     },
   },
-  /* proposed: "Keep the red for now" selected and not applied: the preview
-     says so in its bar, and the old plan is still red, with the label the
-     direction adds. On a phone, the preview's bar down to the first screen's
-     key. */
+  /* proposed: "Make it a Button in its own change" selected and not
+     applied: the preview says so in its bar, and that it draws the change
+     the direction opens, and "Cancel subscription" is the system's button
+     beside the others. On a phone, the preview's bar down to the first
+     caption. (Until 2026-10-21, "Keep the red for now".) */
   proposed: {
     file: 'agent-review-proposed',
     app: '#/',
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio-preview', '.studio-preview', '.studio-preview') },
     phone: { clip: (page) => partClip(page, '.studio-preview', '.studio-preview .sketch__caption', '.studio-preview', 8) },
     open: async (page) => {
-      await page.getByRole('button', { name: /^Select and preview\s+Keep the red for now$/ }).click();
+      await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
       await page.mouse.move(0, 0);
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(300);
@@ -409,7 +300,7 @@ const SHOTS = {
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector') },
     phone: { clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector', 8) },
     open: async (page) => {
-      await decideKeep(page);
+      await decideOwnChange(page);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
     },
@@ -457,95 +348,16 @@ async function mainColumn(page) {
   return { x: 0, y: 0, width: Math.round(box.x * 2 + box.width), height: page.viewportSize().height };
 }
 
-/* The tour's scenes are TOUR_H tall: the run as found is 2058 at 1440
-   (agent-review#22, 2026-10-09, when the account gained a line counting the
-   run by mode and the first card folded its checks to one line; 2018 before,
-   (agent-review#19, 2026-10-07, when the first card came to ask whether two
-   reds that look the same should mean the same thing, and its answers lost
-   the token rows under them; 2030 from agent-review#18, when the first
-   card's two tiles each came
-   to name their part and lost the line over them; 2034 from #17, when each
-   answer gained its choice and what each element takes, and 1903 before
-   it), and its last part, the completed work, ends at 2014. The answered screen is taller and
-   is cut there, below anything the tour points at; the quiet one is shorter
-   and the page's ground runs on under it.
-   2133 since agent-review#23 (2026-10-09), when the account's three counts
-   became tiles and everything under them sat 74px lower: at 2035 the cut
-   fell through the middle of the third completed change, and the run as
-   found is 2133 tall, so it is shown whole, down to its last row. The rule
-   scene is 2224 and is cut below the confirmation the tour points at; the
-   quiet scene is 2035 and the ground runs on under it.
-   The run as found is 2127 since agent-review#25 (2026-10-09), when the
-   first card's checks line lost the 5px of empty line box under it. TOUR_H
-   stays 2133, so the pictures, their width and height and the pins'
-   percentages keep one size, and the page's ground runs 6px on under the
-   last row.
-   2529 since agent-review#28 (2026-10-09, later), when the first question
-   became a trade-off: the agent's read and two directions with their
-   benefits and risks made the card 1,075 tall, and the run as found is
-   2529, shown whole. The decide scene is 3168 and is cut below its plan;
-   the after scene is 3304 and is cut below its decision record, which
-   ends at 2387.
-   2671 since agent-review#29 (2026-10-11), Stripe's palette: the bar is
-   48px where it was 44, the page has 24px over and under where it had 16,
-   the title is 24px bold, the account's counts are tiles with their marks
-   on tinted squares, and the decision card is 20px inside its edge where it
-   was 16. The run as found is 2671, shown whole; the decide scene is 3310
-   and the after scene 3404, each cut there, below anything the tour points
-   at (the after scene's record ends at 2470).
-   2660, and 1600 wide (TOUR_W, above), since agent-review#30 (2026-10-11,
-   later): Preview Studio. The screen is a workspace, the preview and the
-   read on the left and the inspector on the right, so the tour's parts are
-   no longer one column and the camera moves across as well as down. It is
-   taken at 1600, not 1440, because the workspace is 1440 at most and at
-   1440 its parts' left edges were 24px from the picture's; the tablet draws
-   the picture at about half size, so a pin, a fixed size on the screen,
-   needs about 60 of the picture's pixels beside a part, and was cut in two
-   at 1520. At 1600 the parts are 104px in. The run as found is 2354 tall and the
-   ground runs on under it; the decide scene is 3417 and is cut inside its
-   rule's preview, below the reason the tour points at; the after scene is
-   3504 and is cut 37px under its decision record, which ends at 2623.
-   3350, and 1720 wide, since the same day's end (agent-review#32, dark by
-   default; and the shots drawn larger, TOUR above): the app at zoom 1.25
-   in 1600px with a 60px margin each side. The run as found is 2940 tall
-   and the ground runs on under it; the decide scene is 4267 and is cut
-   inside its rule's preview; the after scene is 4427 and is cut 36px under
-   its decision record, which ends at 3314. */
-const TOUR_H = 3350;
-async function tourSize(page) {
-  await page.mouse.move(0, 0);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  if ((page.viewportSize()?.width ?? 0) >= TOUR_W) await page.setViewportSize({ width: TOUR_W, height: TOUR_H });
-  await page.waitForTimeout(300);
-}
-/* The preview where it is once a person has scrolled down to the plan.
-   In the app the workspace's shorter column follows the page while the
-   longer one is read (DelegationScreen's useFollow), so the interface stays
-   beside the decision about it; a picture of the whole page at its top
-   shows it where it started instead, a screen above the plan. The decide
-   scene is the page as it looks with the chosen card at the top of the
-   window: the left column drawn there, beside the card, where following
-   puts it. Only that one column moves, by the distance the window would
-   have scrolled; nothing else on the page is touched. */
-async function followTo(page, selector) {
-  await page.evaluate((selector) => {
-    const stage = document.querySelector('.studio__stage');
-    const to = document.querySelector(selector);
-    const by = to.getBoundingClientRect().top - stage.getBoundingClientRect().top;
-    stage.style.transform = `translateY(${Math.round(by)}px)`;
-  }, selector);
-  await page.waitForTimeout(300);
-}
-async function openRequest(page) {
-  await page.getByText('Dana’s request').click();
-}
-/* The reason the person gives for keeping the red, in their own words:
-   context about the people who use the screen that no file in the
-   repository holds, which is the agent's "What I can't determine". It is
-   the simulated person's, written for the scene, and claims no research. */
-const REASON = 'Billing support scans this feed for red during renewal week. Keep it until we’ve tested a neutral style with them.';
-async function decideKeep(page) {
-  await page.getByRole('button', { name: /^Select and preview\s+Keep the red for now$/ }).click();
+/* The reason Dana gives for her decision, in her own words: the one thing
+   no file in the repository holds, why cancel is quiet, which is the
+   agent's "What I can't determine", in front of the agent's draft. It is
+   the simulated person's, as the prototype's DANAS_REASON has it
+   (agent-review src/data/billing.ts), and claims no real retention test.
+   Until 2026-10-21 the reason was for keeping the red. */
+const REASON =
+  'The grey link is from a retention test last year that ended without a decision, and nobody turned it off. How easy it is to cancel is a product decision, so it gets its own change. A quiet Button would let any agent make any action this hard to find.';
+async function decideOwnChange(page) {
+  await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
   await page.getByRole('textbox', { name: 'Your reason' }).fill(REASON);
   await page.getByText('Use this decision for similar cases').click();
 }
@@ -613,12 +425,12 @@ async function partClip(page, from, to, col, pad = 12) {
    quiet screen. */
 async function answerAll(page) {
   const apply = () => page.getByRole('button', { name: 'Apply' }).click();
-  await page.getByRole('button', { name: /^Select and preview\s+Separate the meanings$/ }).click();
+  await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
   await page.getByText('Use this decision for similar cases').click();
   await apply();
   await page.getByRole('button', { name: 'Add --radius-full, this once' }).click();
   await apply();
-  await page.getByRole('button', { name: /^Select and preview\s+Separate the meanings$/ }).click();
+  await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
   await page.getByText('Add this case to your rule').click();
   await apply();
   await page.getByText('Nothing needs your attention.').waitFor();
@@ -637,10 +449,9 @@ async function settle(page) {
 
 /* The app draws itself larger in a wide desktop window (agent-review#27,
    app/scale.css, as a page zoom: 1.125 from 1296px and 1.25 from 1440 until
-   Preview Studio, 1.0625 and 1.125 since), and the tour and the hero are
-   taken wider than the first step. These are pictures of its layout
-   at its own size, and the tour's height and pins are measured on them at
-   1, so every context holds the app at 1. The step is held, --zoom, rather
+   Preview Studio, 1.0625 and 1.125 since), and the hero is taken wider
+   than the first step. These are pictures of its layout at its own size,
+   so every context holds the app at 1. The step is held, --zoom, rather
    than the zoom property itself, because the app divides the heights it
    takes from the window by the step. A capture that comes out drawn at
    anything else is refused rather than written, which is also what a
@@ -681,7 +492,6 @@ try {
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];
-      if (scale !== 2 && (kind === 'phone' || spec !== TOUR)) continue; /* the 3x set is the tour's desktop scenes only */
       const size = spec?.size ?? (kind === 'desktop' ? DESKTOP : PHONE);
       const ctx = await browser.newContext(
         kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: scale },
@@ -702,7 +512,7 @@ try {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);
       }
-      await write(shot.file, kind === 'phone' ? '-phone' : scale === 2 ? '' : `-${scale}x`, page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
+      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
       await ctx.close();
     }
   }
