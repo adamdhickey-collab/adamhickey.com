@@ -101,10 +101,10 @@
   <link rel="stylesheet" href="../related.css?v=1" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=29" />
+  <link rel="stylesheet" href="agent-review.css?v=30" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="../quiet-cancel.js?v=1" defer></script>
+  <script src="../quiet-cancel.js?v=2" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -287,21 +287,27 @@
         </div>
         <figure class="quiet-cancel ar-hero-feature" data-quiet-cancel aria-describedby="quiet-cancel-desc">
           <p class="visually-hidden" id="quiet-cancel-desc">On Relay&rsquo;s billing settings, every action is a button except &ldquo;Cancel subscription&rdquo;, small grey text built by hand.</p>
-          <p class="quiet-cancel-label"><span>Every </span><span class="quiet-cancel-word">action</span><span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
+          <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
           <ul class="quiet-cancel-cases">
-            <li class="quiet-cancel-case">
-              <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
-              <p class="quiet-cancel-where">Billing settings</p>
+            <li class="quiet-cancel-case quiet-cancel-case--system" style="--i:0">
+              <div class="quiet-cancel-screen">
+                <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
+                <p class="quiet-cancel-where">Billing settings</p>
+                <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
+              </div>
               <p class="quiet-cancel-means"><strong>A button from the design system.</strong> Like every other action here.</p>
             </li>
-            <li class="quiet-cancel-case">
-              <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
-              <p class="quiet-cancel-where">Billing settings</p>
+            <li class="quiet-cancel-case quiet-cancel-case--hand" style="--i:1">
+              <div class="quiet-cancel-screen">
+                <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 6.5v7.5"/><path pathLength="1" d="M12 18v.01"/></svg>
+                <p class="quiet-cancel-where">Billing settings</p>
+                <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
+              </div>
               <p class="quiet-cancel-means"><strong>Small grey text, built by hand.</strong> The system would make it a button.</p>
             </li>
           </ul>
-          <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path /></svg>
-          <figcaption class="quiet-cancel-take">The checks pass. The agent&rsquo;s fix would make hiding an action a supported style.</figcaption>
+          <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
+          <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass.</span> The agent&rsquo;s fix would make hiding an action a supported style.</figcaption>
         </figure>
         </div>
       </div>
