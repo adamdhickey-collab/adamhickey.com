@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 38 pages in ten families |
+| **What this is** | The site: 39 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,12 +119,12 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the fifteen writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-seven pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the sixteen writing pages, the design system page and the two prototype pages load it |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-nine pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
-| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-two pages with prose worth hearing -- the fourteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-three pages with prose worth hearing -- the fifteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
 | `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages and five build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
@@ -177,7 +177,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-eight pages in ten families, all hand-written HTML with no include step
+Thirty-nine pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -186,11 +186,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-eight pages, so a
+email icon and the skip link are hand-written into all thirty-nine pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-eight pages
+base ladder, and both regimes read it from `type.css`, which all thirty-nine pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -201,7 +201,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
-| Writing | 15 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Four more keep their addresses off the index. |
+| Writing | 16 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
 | Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
@@ -303,6 +303,17 @@ plus the one to start with. The three new ones have no drawings yet; their
 rows on the index drop the card column the way Start here does
 (`writing-item--lead`), and their share cards are type alone, until the
 ChatGPT infographics the same plan briefs are made.
+
+**One more swap on 2026-10-21.** "How should you test a product now that AI
+can help?" took The build's third place from "What makes an interface feel
+finished?", whose case the this-site write-up makes. The interface article
+keeps its address like the other four, so the family is sixteen pages and
+the index still shows nine, plus the one to start with. The new article
+says what an AI agent checks well and what only a person can tell you, why
+synthetic users are rehearsal rather than research (Nielsen Norman Group),
+and where analytics fit, worked through Lucy Learns and Agent Review. Its
+feature and second scene are a desire path, and its two sequences are rails
+cut from one sheet drawn to the position article's rail sheet.
 
 #59 added three in positions two to four, and they are the first written for a
 reader hiring a designer onto a team rather than buying a piece of work: what

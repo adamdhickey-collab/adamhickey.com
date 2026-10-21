@@ -93,7 +93,7 @@ const BASE = {
        the material"; the private variants name those eyebrows until moved,
        and three of their articles are unlisted now, not gone. */
     'The system': ['what-changes-when-ai-agents-join-the-product-team', 'what-a-design-system-needs-to-explain-to-an-agent', 'what-does-a-design-system-need-once-ai-is-in-the-product'],
-    'The build': ['what-is-a-product-designer-for-when-anyone-can-build', 'what-should-a-working-prototype-actually-prove', 'what-makes-an-interface-feel-finished'],
+    'The build': ['what-is-a-product-designer-for-when-anyone-can-build', 'what-should-a-working-prototype-actually-prove', 'how-should-you-test-a-product-now-that-ai-can-help'],
     'The judgment': ['who-decides-when-software-can-act-on-its-own', 'enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent'],
   },
 };

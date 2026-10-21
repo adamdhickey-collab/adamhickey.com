@@ -99,6 +99,9 @@ const CARDS = {
   'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', image: 'img/writing/what-changes-when-ai-agents-join-the-product-team.webp' },
   'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', image: 'img/writing/what-is-a-product-designer-for-when-anyone-can-build.webp' },
   'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', image: 'img/writing/who-decides-when-software-can-act-on-its-own.webp' },
+  /* The build's third since 2026-10-21, in the interface-feel-finished
+     article's place. */
+  'how-should-you-test-a-product-now-that-ai-can-help': { kicker: 'Writing · the build', title: 'How should you test a product now that AI can help?', image: 'img/writing/how-should-you-test-a-product-now-that-ai-can-help.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
