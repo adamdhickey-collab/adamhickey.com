@@ -352,7 +352,8 @@ one line), one column of type that can be read at card size; before that run
 which could not be read at that size) in a tablet, one bezel all round
 (the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
-the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
+the lab index as one line under it until 2026-10-21, when that line came
+out and the navigation's Lab link and the lab index were left to carry them. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
 captures: each is taken from the deployed product and Storybook at two
 sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
