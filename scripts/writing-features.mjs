@@ -211,4 +211,15 @@ export const FEATURES = [
     alt: 'A cream seesaw on a terracotta field, drawn flat from the side, its plank perfectly level on a solid black triangular pivot, cropped by the left and right edges.',
     prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One long playground seesaw in cream with black outlines, drawn as a strict flat side elevation with no perspective: one long thick plank, so long it is cropped by the left and right edges of the frame, resting exactly level across the middle of the picture on one pivot, a solid black triangle standing on the bottom edge of the frame and cropped by it. The plank is perfectly horizontal, tipped neither way. Two plain handles, small upright cream loops with black outlines, one near each end of the visible plank, the same height. No people, no ground line, no shadow. Nothing else in the picture.`,
   },
+  /* The build's third since 2026-10-21. A desire path: the paved walk is
+     what the team designed and reviewed, the worn line across the grass is
+     where people actually went. Seen from straight above, the one view in
+     which a path's shape reads at a glance. */
+  {
+    id: 'how-should-you-test-a-product-now-that-ai-can-help',
+    group: 'ai',
+    device: 'object on an accent field; the path people actually walk',
+    alt: 'A sage lawn seen from straight above, a cream paved walk turning a sharp right angle across it, and one solid black worn path cutting straight across the corner of the grass.',
+    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream: a lawn, seen from straight above, the way a map or a site plan is drawn, with no perspective, no horizon and no depth. Across it runs one wide paved walk in cream with black outlines and a few thin black joint lines across it, entering from the bottom edge of the frame, running straight up to the middle, turning a sharp right angle and leaving by the right edge. Cutting straight across the inside of that corner, diagonally from the walk's lower stretch to its right-hand stretch, is one narrow worn path drawn as a single solid black shape with slightly ragged edges, the only black shape in the picture: the shortcut people actually walk. No people, no footprints, no trees, no benches, no shadows. Nothing else in the picture.`,
+  },
 ];

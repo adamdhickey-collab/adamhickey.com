@@ -28,7 +28,7 @@ which map to the same variables. Never hardcode a family name or a bracketed
 Tailwind font (`font-['Montserrat']`).
 
 **Serif (Crimson Text)** — hero titles, page titles, section and subsection
-headings, deks and ledes, pull quotes, display numerals.
+headings, deks and ledes, pull quotes, figure titles, display numerals.
 
 **Sans (Montserrat)** — body copy, block and card titles, eyebrows, kickers,
 tags, metadata, captions, table headers and cells, buttons, navigation, and
@@ -504,6 +504,14 @@ now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
 - The design system page's own annotations of its specimens: `.ds-num`,
   `.ds-spec`, `.ds-step-px`. They describe a swatch or a size and are read
   against it, like a caption.
+- The title over an article's figure: the `figcaption` of a flow, a split, a
+  number row or a rail (`.writing-figure`, not a `.writing-scene`). It was
+  the eyebrow's 11px capitals until 2026-10-21, and a sixty-character
+  sentence in tracked capitals was the hardest line on the page to read. It
+  is the figure's heading, so it is serif at 400 in charcoal: `--text-xl`
+  below 640px, where the section's `h2` is 24 to 27px and a 24px title
+  would tie it, and `--text-2xl` from 640, the pull's size, since the
+  serif's x-height puts 20px under the 18px sans prose beside it.
 
 ### Superscripts, and two things the scale does not govern
 

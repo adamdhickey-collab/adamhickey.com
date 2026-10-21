@@ -252,6 +252,16 @@ source. A chat that stops answering has hit the account's image cap for the
 period; `draw.mjs status` says what is still owed.
 
 
+## Before changing copy
+
+`VOICE.md` is the copy spec, normative like the four below: how the site
+sounds (a scene, a question, what was decided, short paragraphs), the habits
+that read as machine-written, what a page may claim, which page each
+recurring story lives on, and a word budget per family. Read it before
+rewriting any page. Since 2026-10-21 the site is being rewritten to it one
+family at a time; a page not yet rewritten is not a counterexample.
+
+
 ## Before pushing a change to color, type, spacing or motion
 
 The four specs are normative: `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`,

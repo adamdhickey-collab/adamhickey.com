@@ -108,7 +108,7 @@
   <link rel="stylesheet" href="../color.css?v=8" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=5" />
-  <link rel="stylesheet" href="../style.css?v=20261021c" />
+  <link rel="stylesheet" href="../style.css?v=20261021h" />
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
   <link rel="stylesheet" href="../related.css?v=1" />
@@ -268,15 +268,16 @@
          docs/experiment/README.md or skills/ui-quality/SKILL.md, and to
          lab/agent-review.html. Katie Dill's talk is paraphrased, not
          quoted, from its captions; no transcript was published with it. -->
+    <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): the same five ideas and Katie Dill as the one outside voice, in about 720 words of running text instead of 1,230, with no paragraph over 40. Dana’s brief is paraphrased rather than quoted; her reason is quoted in part, word for word from billing.ts; the three ways forward and the four changes keep one sentence each. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">What a design system needs to explain to an agent</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">Components and tokens tell a coding agent what an interface is made of. To build the right thing, it also needs to know what each part means, how it should behave, where the usual answer holds and where it doesn&rsquo;t. I&rsquo;ve been working that out in Agent Review, a prototype I built for supervising a coding agent&rsquo;s design work.</p>
+        <p class="build-dek">Components and tokens tell a coding agent what an interface is made of. It also needs to know what each part means and where the usual answer stops holding, which I&rsquo;ve been working out in Agent Review.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -307,16 +308,17 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 5</p>
           <h2 id="an-agent-can-already-build-from-the-parts">An agent can already build from the parts</h2>
-          <p>Before I designed anything for review, I ran a small experiment. I gave Claude Code the same request twice: add bulk actions to a customer table built from a React component system. One run read twelve written design rules first. The other had only the components, the tokens and the stories.</p>
-          <p>Both stayed inside the system. Each reused existing components and wrote every value as a token, and the checks found no defect in either version.</p>
-          <p>Design systems have always been good at this. On the <a href="standardizing-ux-across-40-sap-fiori-apps.html">SAP Fiori program</a>, one style guide and component library was much of how many teams, building at different times, inherited the same decisions. An agent is one more builder reading the same files.</p>
-          <p>Stripe&rsquo;s Katie Dill made the broader case in a <a href="https://www.youtube.com/watch?v=GLvFTMtw4Jk" target="_blank" rel="noopener noreferrer">talk at the Lenny and Friends Summit<span class="visually-hidden"> (opens in a new tab)</span></a>. With more people and more automation doing the building, there is no longer always a designer in the room to fill in what was never written down, so a system has to carry intent, not only consistency. My question is narrower: which parts of that intent can a design system actually carry?</p>
+          <p>Before I designed anything for review, I gave Claude Code the same request twice: add bulk actions to a customer data table built from a React component system.</p>
+          <p>One run read twelve written design rules first. The other had only the components, the tokens and the stories. Both stayed inside the system, and the checks found no defect in either.</p>
+          <p>Design systems have always been good at this, as on the <a href="standardizing-ux-across-40-sap-fiori-apps.html">SAP Fiori program</a>, and an agent is one more builder reading the same files.</p>
+          <p>Stripe&rsquo;s Katie Dill made the broader case in a <a href="https://www.youtube.com/watch?v=GLvFTMtw4Jk" target="_blank" rel="noopener noreferrer">talk at the Lenny and Friends Summit<span class="visually-hidden"> (opens in a new tab)</span></a>: with more automation doing the building, there isn&rsquo;t always a designer in the room, so a system has to carry intent.</p>
+          <p>My question is narrower. Which parts of that intent can a design system actually carry?</p>
 
           <p class="writing-eyebrow">Key idea 2 of 5</p>
           <h2 id="following-the-rules-can-still-leave-the-meaning-open">Following the rules can still leave the meaning open</h2>
-          <p><a href="../lab/agent-review.html">Agent Review</a>&rsquo;s simulated run shows where the parts run out. Dana, the product designer on billing, delegates a job to Claude Code: bring Relay&rsquo;s billing screens onto the design system. &ldquo;Move the values onto tokens and the controls onto the system&rsquo;s components. Nothing should look different: merge what doesn&rsquo;t move a pixel, and ask me about the rest.&rdquo;</p>
-          <p>Every action on Billing settings is the system&rsquo;s Button except &ldquo;Cancel subscription,&rdquo; which is small grey text built by hand in the old billing app. The system&rsquo;s rule says actions are Buttons, so following it makes cancel easier to find, in a job meant to change nothing anyone can see. The token lint, the accessibility check and the visual comparison pass either way.</p>
-          <p>If the grey text is a leftover, the rule fixes it. If it&rsquo;s quiet on purpose, following the rule reverses a product decision as a side effect of a cleanup. Nothing in the code says which.</p>
+          <p><a href="../lab/agent-review.html">Agent Review</a>&rsquo;s simulated run shows where the parts run out. Dana, the product designer on billing, hands Claude Code a job: bring Relay&rsquo;s billing screens onto the design system, and change nothing anyone can see.</p>
+          <p>Every action on Billing settings is the system&rsquo;s Button except &ldquo;Cancel subscription,&rdquo; small grey text built by hand. The rule says actions are Buttons, so following it makes cancel easier to find, in a job meant to change nothing.</p>
+          <p>If the grey text is a leftover, the rule fixes it. If it&rsquo;s quiet on purpose, following the rule reverses a product decision during a cleanup. Nothing in the code says which.</p>
           <figure class="writing-figure">
             <figcaption>What the checks established about cancel, and what they couldn&rsquo;t</figcaption>
             <div class="writing-split">
@@ -342,43 +344,46 @@
 
           <p class="writing-eyebrow">Key idea 3 of 5</p>
           <h2 id="the-designer-decides-what-each-thing-is-for">The designer decides what each thing is for</h2>
-          <p>The question isn&rsquo;t which component to use. It&rsquo;s how easy it should be to cancel.</p>
-          <p>In Agent Review the agent doesn&rsquo;t guess. It stops on that one change, says what it can&rsquo;t determine (whether cancel is quiet on purpose, and who decides how easy it is to find) and offers three ways forward:</p>
+          <p>So the real question isn&rsquo;t which component to use. It&rsquo;s how easy it should be to cancel.</p>
+          <p>In Agent Review the agent doesn&rsquo;t guess. It stops on that one change, says what it can&rsquo;t determine, and offers three ways forward:</p>
           <ul>
-            <li><strong>Add a quiet variant.</strong> The agent recommends a variant of the Button that matches the grey text, so nothing visible changes. The risk: any later agent can make any action this quiet.</li>
-            <li><strong>Make it a Button in its own change.</strong> Cancel stays as built here, as an exception that ends in two weeks, and a separate change owned by product design makes it a Button. The risk: cancel stays hard to find until then.</li>
-            <li><strong>Request evidence.</strong> It searches the repository and asks again. Here that settles nothing: nothing in the repository says why cancel is quiet.</li>
+            <li><strong>Add a quiet variant.</strong> The agent&rsquo;s recommendation, so nothing visible changes. The risk: any later agent can make any action this quiet.</li>
+            <li><strong>Make it a Button in its own change.</strong> Cancel stays as built until product design changes it. The risk: it stays hard to find until then.</li>
+            <li><strong>Request evidence.</strong> It searches the repository and asks again, which here settles nothing.</li>
           </ul>
-          <p>Dana chooses the second, against the recommendation. Her reason, simulated like the rest of the run: &ldquo;The grey link is from a retention test last year that ended without a decision, and nobody turned it off. How easy it is to cancel is a product decision, so it gets its own change. A quiet Button would let any agent make any action this hard to find.&rdquo; The growth team counts cancellations before and after to learn from, but the change ships either way.</p>
-          <p>The test&rsquo;s history, who owns how easy it is to leave, what a new variant would let the next agent do: none of that is in the code, and all of it decided the answer.</p>
+          <p>Dana chooses the second, against the recommendation. Her reason, simulated like the rest of the run: &ldquo;The grey link is from a retention test last year that ended without a decision, and nobody turned it off.&rdquo;</p>
+          <p>The test&rsquo;s history, who owns how easy it is to leave, what a variant would let the next agent do: none of it was in the code, and all of it decided the answer.</p>
           <aside class="writing-pull" aria-hidden="true">
             <p>A passing check establishes what that check measures, and nothing beyond it.</p>
           </aside>
-          <p>The same gap shows up far from billing. <strong>An illustration, not an Agent Review feature:</strong> a list of invoices comes back empty. The system&rsquo;s empty state renders correctly whether nothing is overdue, a filter hid everything, or this person can&rsquo;t see the account. The first is good news, the second needs a way to clear the filter, and the third needs to say who can grant access. &ldquo;Use the empty state&rdquo; is followed all three times. <mark>Only someone who knows why the list is empty can say what it should help a person do next.</mark></p>
+          <p><strong>An illustration, not an Agent Review feature:</strong> a list of invoices comes back empty. The system&rsquo;s empty state renders correctly whether nothing is overdue, a filter hid everything, or this person can&rsquo;t see the account.</p>
+          <p><mark>Only someone who knows why the list is empty can say what it should help a person do next.</mark></p>
 
           <p class="writing-eyebrow">Key idea 4 of 5</p>
           <h2 id="keep-the-answer-but-not-always-as-a-new-rule">Keep the answer, but not always as a new rule</h2>
-          <p>Once a decision is made, the reflex is to write a rule. In Agent Review an answer becomes one only when a person checks a box that starts unchecked, and the rule says where it applies and why, and can be revoked. Dana keeps hers. On the billing screens, an action built by hand that ends or reduces a subscription never gets a quiet variant: it stays as built, under an exception with an end date, until its own change makes it a Button. That settles &ldquo;Downgrade plan&rdquo; and &ldquo;Remove seats.&rdquo; &ldquo;Remove card&rdquo; is a close case outside the rule, so it still asks.</p>
+          <p>Once a decision is made, the reflex is to write a rule. In Agent Review an answer becomes one only when a person checks a box that starts unchecked.</p>
+          <p>Dana keeps hers: on the billing screens, a hand-built action that ends or reduces a subscription never gets a quiet variant. That settles &ldquo;Downgrade plan&rdquo; and &ldquo;Remove seats.&rdquo; &ldquo;Remove card&rdquo; falls outside it, so it still asks.</p>
           <p>A rule is only one place to keep an answer, though. Reviewing the experiment&rsquo;s three versions changed the system in four places, and its twelve rules stayed twelve:</p>
           <ul>
-            <li><strong>A better test.</strong> The layout check had passed a toolbar 58 pixels too wide, because a parent hid the overflow from what it measured. Now it measures each toolbar.</li>
-            <li><strong>A clearer rule.</strong> Changing a shared component already needed a reason in writing. The rule now says what a reason looks like: what was measured, where, before and after.</li>
-            <li><strong>A condition written down.</strong> The runs asked before archiving customers, and I kept that confirmation as a pattern. The rule for destructive actions now says when a confirmation fits and when an undo does.</li>
-            <li><strong>A pointer to what exists.</strong> The system already had the bar of actions a selection needs. The rules now name it, so an agent finds it before building another.</li>
+            <li><strong>A better test.</strong> The layout check had passed a toolbar 58 pixels too wide. Now it measures each toolbar.</li>
+            <li><strong>A clearer rule.</strong> It says what a reason for changing a shared component looks like: what was measured, where, before and after.</li>
+            <li><strong>A condition written down.</strong> When a confirmation fits a destructive action, and when an undo does.</li>
+            <li><strong>A pointer to what exists.</strong> The bar of actions a selection needs, named, so an agent finds it before building another.</li>
           </ul>
-          <p><mark>Most of what a review teaches belongs in something the system already has.</mark> Each new rule is one more thing an agent, and its reviewer, reads before every run.</p>
+          <p><mark>Most of what a review teaches belongs in something the system already has.</mark> Every new rule is one more thing an agent reads before every run.</p>
 
           <p class="writing-eyebrow">Key idea 5 of 5</p>
           <h2 id="some-answers-only-show-up-when-people-use-the-product">Some answers only show up when people use the product</h2>
-          <p>Some decisions can&rsquo;t be written down ahead of time, because nobody knows the answer yet. In the experiment, the visual comparison flagged four changed screens on every version and couldn&rsquo;t tell the feature from a break. Whether the product wanted the new confirmation took a person reading it. Whether it slows down someone who archives customers all day would take watching them work.</p>
-          <p>Agent Review is at that stage too. It&rsquo;s a working prototype that plays simulated runs, informed by one small experiment, and I haven&rsquo;t tested it with anyone. Next I&rsquo;d put it in front of designers and engineers supervising real agent work. Can they say what the agent did from its account alone? Do they catch a decision it got wrong? Can they set up guidance without spending more time reviewing?</p>
+          <p>Some decisions can&rsquo;t be written down ahead of time, because nobody knows the answer yet. In the experiment, the visual comparison flagged four changed screens on every version and couldn&rsquo;t tell a feature from a break.</p>
+          <p>Agent Review is at that stage too. It plays simulated runs, informed by one small experiment, and I haven&rsquo;t tested it with anyone.</p>
+          <p>Next I&rsquo;d put it in front of designers and engineers supervising real agent work. Can they tell what the agent did from its account alone? Do they catch a decision it got wrong?</p>
           <p><mark>A design system can carry what a team has decided. Noticing what it hasn&rsquo;t decided is still the job.</mark></p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">Components and tokens tell an agent what to build with. A design system also has to explain what each part means, how it behaves, where the usual answer holds and where it doesn&rsquo;t. When every check passes and the meaning is still open, a person decides, and the answer goes where the next agent will find it, which isn&rsquo;t always a new rule.</p>
-            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find a part of your product that was built by hand instead of from the system, and ask whether anything written down says why. If nothing does, the next agent will decide for you, and every check will pass.</p>
+            <p class="writing-recap-sum">Components and tokens tell an agent what to build with. When every check passes and the meaning is still open, a person decides, and the answer goes where the next agent will find it.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find a part of your product built by hand, not from the system, and ask whether anything written down says why. If nothing does, the next agent will decide for you, and every check will pass.</p>
           </aside>
         </div>
       </div>

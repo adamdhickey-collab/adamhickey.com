@@ -200,8 +200,7 @@ const html = String.raw`<!doctype html>
   <h2>Selected projects</h2>
   <ul>
     <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
-    <li>Sprout, a design system for Cargill: tokens in the code, mirrored as Figma variables under a written sync contract, and packaged as a Claude Code skill.</li>
-    <li>Cutting operational overhead 80% with a USDA grant-management portal (research, workflows, accessibility).</li>
+    <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal (research, workflows, accessibility).</li>
     <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher who is short on attention rather than short on data.</li>
   </ul>
 </section>
@@ -228,7 +227,7 @@ const html = String.raw`<!doctype html>
   <p>Shipped two native iOS apps and an iPad app, plus configurator and store-locator builds for Lund Boats and Fulton Beer. Built front-end experiences in HTML, CSS and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
   <p>Designed and built front-end websites in HTML, CSS, and Flash with project managers, creative leads, writers, and developers.</p>
-  <div class="job"><span><b>ByDesign</b> — Graphic Designer</span><span class="dates">Jan 2005 – Jan 2006</span></div>
+  <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
 </section>
 </body>
 </html>`;
@@ -399,8 +398,7 @@ const reading = String.raw`<!doctype html>
     <h2>Selected work</h2>
     <ul>
       <li><b>40+ SAP applications</b> on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
-      <li><b>A USDA grant-management portal</b> that cut operational overhead 80%.</li>
-      <li><b>Sprout, a design system for Cargill:</b> tokens in the code, mirrored as Figma variables under a written sync contract.</li>
+      <li><b>A USDA grant-management portal</b> that took data-analysis requests from 45–55 hours to just over 10.</li>
       <li><b>Real-time logistics for a 450+ truck fleet:</b> the decision surface for a dispatcher short on attention rather than data.</li>
     </ul>
   </section>
@@ -446,8 +444,8 @@ const reading = String.raw`<!doctype html>
     <p class="as">Interactive Designer</p>
     <p class="dates">2006 – 2008</p>
     <p>ByDesign</p>
-    <p class="as">Graphic Designer</p>
-    <p class="dates">2005 – 2006</p>
+    <p class="as">Design Intern</p>
+    <p class="dates">2004 – 2006</p>
   </section>
 
   <section>

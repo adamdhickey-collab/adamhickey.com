@@ -416,6 +416,12 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    the same way, so the three stay in one column there. */
 @media (min-width: 768px) and (max-width: 1023.98px) { .case-grid--three { grid-template-columns: 1fr; gap: var(--space-2xl); } }
 @media (min-width: 1024px) { .case-grid--three { grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); } }
+/* Built end to end's four, two by two from tablet up: an even count fills
+   the base rule's two columns with nothing stranded, and four across would
+   halve the pictures. The three-grid's gap across, so the two sections
+   match; down, a step more, because a card's tags and link sat too close
+   to the picture under them for the rows to read as two (2026-10-21). */
+@media (min-width: 768px) { .case-grid--four { grid-template-columns: repeat(2, 1fr); gap: var(--space-4xl) var(--space-2xl); } }
 /* THE LAB, under the three: one card, since 2026-10-01. From 2026-09-28
    it was the two prototypes as a pair, and before that the one prototype
    card spanning the three-column grid with its picture beside its text.
@@ -738,6 +744,55 @@ a.case-thumb { display: block; }
   }
   .case-card--lab .case-thumb { order: 0; }
   .case-card--lab .loop-link { margin-top: 0; }
+}
+/* THE PANEL IS 16:9 WHERE IT STANDS FOR A PICTURE, since 2026-10-21: in
+   the homepage's lab card, over the work cards' 16:9 pictures (Adam: "the
+   same proportion as the rectangles below"), and leading the lab index,
+   over its pieces' 16:9 screenshots (Adam: "on the lab page landing page
+   as well"). Its two rows alone made it a band: 623 by 283 beside the
+   card's words from 1280 up, 2.2:1, and 681 by 283 on the lab index, 2.4:1.
+   At 16:9 those are 350 and 383 tall; the card's words are 351, so the
+   panel and the words now start and end together.
+
+   The height it gains goes to the room between the two processes, 20 to 71
+   on the homepage and to 104 on the lab index, and to the panel's top and
+   bottom, --space-2xl where the figure takes --space-xl. Only top and
+   bottom: at 2xl on the sides too, a step's column is 140 wide in the card
+   and "A person decides" breaks onto two lines.
+
+   From 1024 on both pages, where the card puts the figure beside its
+   words. At 1024 the card's panel is 481 wide and its rows already fill
+   16:9, so it stands a pixel over and the gap holds at 20; the lab index's,
+   stacked there at its 36rem, is 576 by 324 with 48 between. Under 1024 it
+   keeps the height of its rows: the card's figure runs the card's width,
+   where 16:9 would be a panel 430 tall on a tablet, and on a phone 16:9 is
+   shorter than the rows on either page.
+
+   TOP AND BOTTOM ARE --space-4xl FROM 1280, since 2026-10-21 (Adam: "a
+   little more padding on the top and bottom of this while keeping the
+   overall container the same height", then "50 pixels"; 48 is the nearest
+   step, since every step is a multiple of 4 and so is any sum of them).
+   The panel's height is the 16:9, so what each edge gains comes out of the
+   room between the processes, and under 1280 each panel takes only what
+   it has room for:
+     both from 1280        48, 4xl   104 -> 72 on the lab index, 71 -> 39 on the homepage
+     lab index 1024-1279   40, 3xl    48 -> 32
+     homepage 1024-1279    32, 2xl   unchanged
+   4xl on the lab index under 1280 would stand the panel 4 over its 16:9.
+   Under 1280 the homepage's rows already fill the 16:9 or overrun it (20
+   between at 1024 to 1100, 34 at 1150), so it takes nothing there. */
+@media (min-width: 1024px) {
+  .case-card--lab .loop,
+  .writing-item--lead .loop {
+    aspect-ratio: 16 / 9;
+    align-content: space-between;
+    padding-block: var(--space-2xl);
+  }
+  .writing-item--lead .loop { padding-block: var(--space-3xl); }
+}
+@media (min-width: 1280px) {
+  .case-card--lab .loop,
+  .writing-item--lead .loop { padding-block: var(--space-4xl); }
 }
 /* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
    own sans at the description's size, charcoal where the description is
@@ -6102,8 +6157,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .writing-keys-label,
 .case-section .writing-eyebrow,
-.case-section .writing-recap-label,
-.case-section .writing-figure figcaption {
+.case-section .writing-recap-label {
   font-family: var(--font-sans);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
@@ -6113,6 +6167,36 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin: 0 0 var(--space-sm);
   max-width: none;
+}
+/* The title over a flow, a split, a number row or a rail is the figure's
+   heading, not a kicker: a sentence of sixty or seventy characters saying
+   what the figure argues. It took the eyebrow's 11px tracked capitals until
+   2026-10-21, and a whole sentence in those was the hardest line on the page
+   to read. Now it speaks in the headings' voice: serif, regular, in the
+   heading ink. --text-2xl from 640px, the pull's size, because the serif's
+   small x-height puts --text-xl under the 18px sans beside it and the line
+   stops reading as a title. Below 640 it is --text-xl, a key idea's size,
+   because the section's h2 is 24 to 27px there and a 24px title would tie
+   it; from 640 the h2 is past 26px and still climbing. A scene's caption
+   sits under its drawing and reads after it, so it keeps its own rule
+   below. */
+.case-section .writing-figure:not(.writing-scene) figcaption {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  margin: 0 0 var(--space-md);
+  max-width: none;
+}
+@media (min-width: 640px) {
+  .case-section .writing-figure:not(.writing-scene) figcaption {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-heading);
+    margin-bottom: var(--space-lg);
+  }
 }
 .writing-keys ol {
   list-style: none;
@@ -6522,8 +6606,8 @@ html.ah-lightbox-open body { overflow: hidden; }
 
 /* The second drawing, in the body, at the column's width: the argument's
    second half, drawn, where the feature under the dek drew the first. Same
-   frame as the feature; the caption is the figure label in the muted ink,
-   under the picture rather than over it, because a caption reads after. */
+   frame as the feature; the caption is small sans in the muted ink, under
+   the picture rather than over it, because a caption reads after. */
 .writing-scene { margin: var(--space-2xl) 0; }
 .writing-scene img {
   display: block; width: 100%; height: auto;
@@ -6542,8 +6626,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   /* The same token, and the same reason, the build write-ups' captions carry:
      a caption at --text-xs filling the 620px essay column is 78ch, which is
      105 characters. Only one of the eighteen was long enough to show it. The
-     label above a .writing-figure keeps max-width: none, because that one is
-     a short uppercase label rather than a sentence. */
+     title above a .writing-figure keeps max-width: none, because it is a
+     heading of one line across the figure, not a sentence to read along. */
   max-width: var(--measure);
 }
 
