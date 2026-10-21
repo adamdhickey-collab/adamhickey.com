@@ -51,6 +51,14 @@
 
   function half(n) { return Math.round(n * 2) / 2; }
 
+  /* How far outside its box an element's ring reaches: the spread of its
+     box-shadow, which is how the discs and the screens draw their edge. A
+     branch has to stop there, or it runs through the ring into the disc. */
+  function ring(el) {
+    var lengths = (getComputedStyle(el).boxShadow.match(/-?[\d.]+px/g) || []).map(parseFloat);
+    return lengths.length >= 4 ? Math.max(0, lengths[3]) : 0;
+  }
+
   function draw(fig) {
     var svg = fig.querySelector('.quiet-cancel-leads');
     var stem = svg && svg.querySelector('.quiet-cancel-lead--stem');
@@ -67,6 +75,12 @@
       return { l: r.left - box.left, t: r.top - box.top, r: r.right - box.left, b: r.bottom - box.top };
     };
     var l = at(label), a = at(marks[0]), b = at(marks[1]), bs = at(screens[1]), as = at(screens[0]);
+    /* A branch ends clear of what it lands on: outside its ring, and back
+       by the round cap's half-width, which reaches past the path's end. */
+    var cap = (parseFloat(getComputedStyle(toA).strokeWidth) || 0) / 2;
+    a.t -= ring(marks[0]) + cap;
+    b.t -= ring(marks[1]) + cap;
+    var bEdge = bs.l - ring(screens[1]) - cap;
     var ox = half(box.width / 2);
     var oy = half(l.b + 8);
     if (bs.t > as.b) {
@@ -76,7 +90,7 @@
       stem.setAttribute('d', 'M' + ox + ' ' + oy + 'V' + split);
       toA.setAttribute('d', 'M' + ox + ' ' + split + 'V' + half(a.t));
       toB.setAttribute('d', 'M' + ox + ' ' + split + 'H' + (gx + R) + 'Q' + gx + ' ' + split + ' ' + gx + ' ' + (split + R) +
-          'V' + (by - R) + 'Q' + gx + ' ' + by + ' ' + (gx + R) + ' ' + by + 'H' + half(bs.l));
+          'V' + (by - R) + 'Q' + gx + ' ' + by + ' ' + (gx + R) + ' ' + by + 'H' + half(bEdge));
     } else {
       var lx = half((a.l + a.r) / 2), rx = half((b.l + b.r) / 2);
       var top = Math.min(a.t, b.t), bar = half(oy + (top - oy) / 2);
