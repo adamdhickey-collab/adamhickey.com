@@ -18,12 +18,22 @@
    container query), not the window's, because the figure sits in a column.
 
    WHAT CHANGED FROM THE SHOP. Nothing is a link and nothing answers a
-   pointer but the pause button. No words are set over the skies: the shop's
-   hour names, tagline and label were paper on mid-tone skies, which
-   resting.mjs would hold to 4.5:1 pixel by pixel and which several skies
-   miss. The hours and the animals are a caption row under the skies instead,
-   on the page's own ground, in the site's type and inks; the wordmark is a
-   picture (img/faunaform/day/wordmark.svg, its paper baked in), not text.
+   pointer but the pause button. The shop's hour names and label were small
+   paper words on mid-tone skies, which resting.mjs would hold to 4.5:1
+   pixel by pixel and which several skies miss, so the hours and the animals
+   are a caption row under the skies instead, on the page's own ground, in
+   the site's type and inks. The wordmark is a picture
+   (img/faunaform/day/wordmark.svg, its paper baked in), not text.
+
+   THE TAGLINE, since 2026-10-21: the shop's own line under the wordmark,
+   "Seven Minnesota animals, each at its own hour of the day." It is the one
+   set of words left over the skies, and it is set at --text-2xl so that it
+   is large text, held to 3:1 rather than 4.5: --ink-on-dark measures about
+   3.1:1 on the palest skies it crosses (sunrise and morning mist) and 5:1
+   at noon. Smaller, it would fail; it stays one or two lines inside
+   --ffd-tagline-cols columns, clear of the arc where it falls through the
+   sky at either end of the day. Four over three it is on the page under
+   the wordmark, in the page's ink.
 
    ARTWORK, NOT INTERFACE (COLOR.md section 6). The colours below are each
    print's inks and the shop's paper, sampled from the shop's rendered hero
@@ -96,8 +106,14 @@
      clouds rest --ffd-cloud-floor of a column above it, their strips as tall
      as the studio's art over its width, the near laid --ffd-cloud-gap over
      the far, their windows reaching --ffd-cloud-reach above the sky. The
-     wordmark spans --ffd-lockup-cols columns, its middle --ffd-mark-at of
-     the way down the sky. */
+     lockup: the wordmark spans --ffd-lockup-cols columns, the tagline sits
+     --ffd-lockup-gap of the wordmark's width under it (the shop's 0.048)
+     and wraps inside --ffd-tagline-cols, and the two are one group centred
+     in the open sky, as the shop centres its words: from the noon sun's
+     lower edge (its radius is --ffd-noon-r of a column, 17cqi over two) down
+     to --ffd-land-top, the top of the loon's pines, the highest land under
+     the group, measured in columns from the top of the sky on the rendered
+     figure (1.67; the moose's and the bear's begin at 1.85). */
   --ffd-count: 7;
   --ffd-sky: 1.5;
   --ffd-grid-sky: 0.62;
@@ -111,7 +127,10 @@
   --ffd-cloud-gap: 2cqi;
   --ffd-cloud-reach: 30cqi;
   --ffd-lockup-cols: 2.6;
-  --ffd-mark-at: 0.5;
+  --ffd-lockup-gap: 0.048;
+  --ffd-tagline-cols: 4;
+  --ffd-noon-r: 0.085;
+  --ffd-land-top: 1.67;
 
   /* The artwork's time, the shop's: each sun sets off --ffd-sun-step after
      the one before and glides for --ffd-sun-travel; each scene rises over
@@ -330,15 +349,27 @@
   color: var(--color-charcoal);
 }
 
-/* The wordmark. In one row it is paper in the open sky under the noon sun,
-   as the shop's lockup is; four over three there is no open sky, so it is
-   the shop's ink on the page above the tiles, as the shop's is on a phone. */
+/* The wordmark and its tagline. In one row they are paper in the open sky
+   under the noon sun, as the shop's lockup is; four over three there is no
+   open sky, so they are the shop's ink on the page above the tiles, as the
+   shop's wordmark is on a phone. */
+.ffd__lockup {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+}
 .ffd__mark { max-width: none; height: auto; }
 .ffd__mark--sky { display: none; }
-.ffd__mark--page {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: calc(var(--ffd-lockup-cols) * 25cqi);
+.ffd__mark--page { width: calc(var(--ffd-lockup-cols) * 25cqi); }
+.ffd__tagline {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-body);
+  text-wrap: balance;
+  color: var(--color-charcoal);
 }
 
 /* The pause button. The motion never stops on its own, so it can be paused
@@ -415,16 +446,34 @@
   /* The suns set off from their columns' edges, so a column lets its sun
      out over its neighbour; the figure's edge cuts the first. */
   .ffd__tile { overflow: visible; }
+  /* The group in the open sky, centred between the noon sun's lower edge
+     and the top of the land under it (see the geometry above). */
+  .ffd__lockup {
+    --ffd-col: calc(100cqi / var(--ffd-count));
+    --ffd-open-top: calc(var(--ffd-col) * (var(--ffd-sky) * (var(--ffd-arc-low) - var(--ffd-arc-span)) + var(--ffd-noon-r)));
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: var(--ffd-open-top);
+    height: calc(var(--ffd-col) * var(--ffd-land-top) - var(--ffd-open-top));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--ffd-lockup-cols) * var(--ffd-col) * var(--ffd-lockup-gap));
+    pointer-events: none;
+  }
   .ffd__mark--page { display: none; }
   .ffd__mark--sky {
     display: block;
-    position: absolute;
-    z-index: 3;
-    left: 50%;
-    top: calc(var(--ffd-mark-at) * var(--ffd-sky) * 100cqi / var(--ffd-count));
-    width: calc(var(--ffd-lockup-cols) * 100cqi / var(--ffd-count));
-    translate: -50% -50%;
-    pointer-events: none;
+    width: calc(var(--ffd-lockup-cols) * var(--ffd-col));
+  }
+  .ffd__tagline {
+    max-width: calc(var(--ffd-tagline-cols) * var(--ffd-col));
+    font-size: var(--text-2xl);
+    line-height: var(--leading-heading);
+    color: var(--ink-on-dark);
   }
   .ffd__pause {
     position: absolute;
@@ -452,7 +501,7 @@
      at --ffd-intro-end). Each of these only adds to what breathes, on its
      own property or its own wrapper, and ends where it began, so when the
      class goes nothing is swapped and nothing jumps. */
-  .ffd.is-drawing .ffd__mark { animation: ffd-words var(--ffd-words) var(--ease-enter) both; }
+  .ffd.is-drawing :is(.ffd__mark, .ffd__tagline) { animation: ffd-words var(--ffd-words) var(--ease-enter) both; }
   .ffd.is-drawing .ffd__path svg { animation: ffd-sweep-part var(--ffd-sun-step) linear calc(var(--ffd-path-at) + var(--ffd-i) * var(--ffd-sun-step)) both; }
   .ffd.is-drawing .ffd__disc { animation: ffd-travel var(--ffd-sun-travel) var(--ease) var(--ffd-sun-at) both, ffd-breathe var(--ffd-breath) ease-in-out infinite; }
   .ffd.is-drawing .ffd__art { animation: ffd-fade var(--ffd-rise) var(--ease-enter) calc(var(--ffd-sun-at) + var(--ffd-sun-travel) / 2) both; }
@@ -504,3 +553,14 @@
    hero's own figures, --space-2xl above (the button sat flush on the sky
    without it) and --space-3xl below, before the facts. */
 .case-hero .ffd { margin: var(--space-2xl) 0 var(--space-3xl); }
+
+/* ON THE HOMEPAGE, since 2026-10-21: the Faunaform card's picture. The day
+   hangs in one row only from 40rem of figure, and the card's picture column
+   is narrower than that, so this card stacks: the figure across the row and
+   the card's words under it. The words keep the measure the other cards'
+   words have beside their pictures. .ffd__go makes the whole figure a way
+   into the write-up, as every other product picture is; the pause button
+   stands above it. */
+.product.product--day { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+.product--day .product-body { max-width: var(--measure); }
+.ffd__go { position: absolute; inset: 0; z-index: 3; }
