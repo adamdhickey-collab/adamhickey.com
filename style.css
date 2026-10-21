@@ -760,7 +760,21 @@ a.case-thumb { display: block; }
    stacked there at its 36rem, is 576 by 324 with 48 between. Under 1024 it
    keeps the height of its rows: the card's figure runs the card's width,
    where 16:9 would be a panel 430 tall on a tablet, and on a phone 16:9 is
-   shorter than the rows on either page. */
+   shorter than the rows on either page.
+
+   TOP AND BOTTOM ARE --space-4xl FROM 1280, since 2026-10-21 (Adam: "a
+   little more padding on the top and bottom of this while keeping the
+   overall container the same height", then "50 pixels"; 48 is the nearest
+   step, since every step is a multiple of 4 and so is any sum of them).
+   The panel's height is the 16:9, so what each edge gains comes out of the
+   room between the processes, and under 1280 each panel takes only what
+   it has room for:
+     both from 1280        48, 4xl   104 -> 72 on the lab index, 71 -> 39 on the homepage
+     lab index 1024-1279   40, 3xl    48 -> 32
+     homepage 1024-1279    32, 2xl   unchanged
+   4xl on the lab index under 1280 would stand the panel 4 over its 16:9.
+   Under 1280 the homepage's rows already fill the 16:9 or overrun it (20
+   between at 1024 to 1100, 34 at 1150), so it takes nothing there. */
 @media (min-width: 1024px) {
   .case-card--lab .loop,
   .writing-item--lead .loop {
@@ -768,6 +782,11 @@ a.case-thumb { display: block; }
     align-content: space-between;
     padding-block: var(--space-2xl);
   }
+  .writing-item--lead .loop { padding-block: var(--space-3xl); }
+}
+@media (min-width: 1280px) {
+  .case-card--lab .loop,
+  .writing-item--lead .loop { padding-block: var(--space-4xl); }
 }
 /* THE CARD'S DEK, under its name. Until 2026-10-12 it was the description's
    own sans at the description's size, charcoal where the description is
