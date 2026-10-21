@@ -227,7 +227,7 @@ const html = String.raw`<!doctype html>
   <p>Shipped two native iOS apps and an iPad app, plus configurator and store-locator builds for Lund Boats and Fulton Beer. Built front-end experiences in HTML, CSS and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
   <p>Designed and built front-end websites in HTML, CSS, and Flash with project managers, creative leads, writers, and developers.</p>
-  <div class="job"><span><b>ByDesign</b> — Graphic Designer</span><span class="dates">Jan 2005 – Jan 2006</span></div>
+  <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
 </section>
 </body>
 </html>`;
@@ -444,8 +444,8 @@ const reading = String.raw`<!doctype html>
     <p class="as">Interactive Designer</p>
     <p class="dates">2006 – 2008</p>
     <p>ByDesign</p>
-    <p class="as">Graphic Designer</p>
-    <p class="dates">2005 – 2006</p>
+    <p class="as">Design Intern</p>
+    <p class="dates">2004 – 2006</p>
   </section>
 
   <section>
