@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 37 pages in ten families |
+| **What this is** | The site: 38 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -177,7 +177,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-seven pages in ten families, all hand-written HTML with no include step
+Thirty-eight pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -186,11 +186,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-seven pages, so a
+email icon and the skip link are hand-written into all thirty-eight pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-seven pages
+base ladder, and both regimes read it from `type.css`, which all thirty-eight pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -204,7 +204,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 15 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Four more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
-| Lab | 2 | A | The index of the experiments in React, AI-assisted prototyping and component systems, and the Agent Review case study. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
+| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
@@ -325,7 +325,9 @@ trimmed off them, on the case-study shell at the root. The homepage's
 than a write-up: the page wraps a vanilla HTML, CSS and JavaScript cockpit in
 the problem it answers, five design decisions, and what would be tested next.
 
-**Lab** -- `lab/index.html` and `lab/agent-review.html`. The tenth family,
+**Lab** -- `lab/index.html`, `lab/agent-review.html` and, since 2026-10-21,
+`lab/designing-motion.html`, the homepage's former scroll story kept as the
+lab's last entry, an exploration rather than a test. The tenth family,
 since 2026-10-01: the door to the experiments in React, AI-assisted
 prototyping and component systems, and the first flagship's case study.
 The product the case study is about, Agent Review, is a React and
