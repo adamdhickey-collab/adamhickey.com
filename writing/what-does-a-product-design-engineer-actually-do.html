@@ -44,7 +44,7 @@
           "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html",
           "image": "https://adamhickey.com/img/og/what-does-a-product-design-engineer-actually-do.jpg",
           "datePublished": "2026-09-17",
-          "dateModified": "2026-10-20",
+          "dateModified": "2026-10-21",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -218,6 +218,17 @@
   <div class="writing-progress" data-lead="craft" aria-hidden="true"></div>
 
   <main id="main">
+    <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): eight ideas to five. Tokens
+         and motion folded into the component, as the values under it and the
+         part a diff now reviews; the branch folded into the pull request, as
+         the change it carries. Every figure is the one the page already had,
+         and the sentence counts.mjs registers ("five of them render every
+         page in a real browser") is kept word for word. Out: the two-tool
+         token pipeline, the postings' vocabulary, the review tool's three
+         widths, the lint's seventeen in the prose (the number row keeps it),
+         and the cache and port stories behind the green check.
+         ONE OUTSIDE VOICE since the voice pass of 2026-10-21 (VOICE.md):
+         none. The page cited no outside source before it, and cites none. -->
     <!-- THE TENTH ARTICLE, and the sequel to "Where does design end and
          development begin, now?". That one drew the line; this one is what
          happens on the far side of it, Tuesday to Tuesday. Written 2026-09-17
@@ -239,13 +250,13 @@
          on purpose. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 11 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">What does a product design engineer actually do?</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">The same thing a product designer does, carried into the codebase. The component is the deliverable, and the design system is a folder of files everyone can read. The judgment does not move. It gets attached to evidence. The worked example is Agent Review, a React and Storybook system I built.</p>
+        <p class="build-dek">The same thing a product designer does, carried into the codebase. The component is the deliverable, and the judgment doesn&rsquo;t move: it gets attached to evidence. The worked example is Agent Review, a React and Storybook system I built.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -255,10 +266,7 @@
           <ol>
             <li><a href="#the-handoff-did-not-move-it-dissolved">The handoff did not move; it dissolved</a></li>
             <li><a href="#the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</a></li>
-            <li><a href="#tokens-flow-one-way-from-a-file-everyone-can-read">Tokens flow one way, from a file everyone can read</a></li>
             <li><a href="#a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</a></li>
-            <li><a href="#the-prototype-is-a-branch-not-a-file">The prototype is a branch, not a file</a></li>
-            <li><a href="#motion-is-code-you-can-review">Motion is code you can review</a></li>
             <li><a href="#the-checks-are-part-of-the-design-system">The checks are part of the design system</a></li>
             <li><a href="#a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</a></li>
           </ol>
@@ -276,18 +284,15 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <p class="writing-eyebrow">Key idea 1 of 8</p>
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
           <h2 id="the-handoff-did-not-move-it-dissolved">The handoff did not move; it dissolved</h2>
-          <p>For years a design job was a document that went somewhere else. You made the file, somebody built from it, and quality leaked out in the gap between the two. AI coding tools moved that line. A designer can now build the thing, verify it and stand behind it.</p>
-          <p>I came to this from product design, enterprise design systems and UX architecture, not engineering. I now use React, TypeScript and Storybook to carry that work into code. The evidence is one project built that way, <a href="../lab/agent-review.html">Agent Review</a>, and this site.</p>
-          <p>There is no far side. <mark>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</mark> Every decision now has evidence attached. It is code that runs, and a colleague can open it.</p>
-          <p class="writing-eyebrow">Key idea 2 of 8</p>
+          <p>For years a design job was a document that went somewhere else. You made the file, somebody built from it, and quality leaked out in the gap between the two.</p>
+          <p>AI coding tools moved that line. I came to this from product design, enterprise design systems and UX architecture, not engineering, and I now use React, TypeScript and Storybook to carry that work into code.</p>
+          <p><mark>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</mark> The evidence here is one project built that way, <a href="../lab/agent-review.html">Agent Review</a>, and this site.</p>
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
           <h2 id="the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</h2>
-          <p>In a product codebase the unit of design is a component: a button, a data table, a status line, a card. In React it is a function that takes properties and returns markup.</p>
-          <p>In TypeScript the properties are typed, so the contract between design and engineering is a list the compiler reads, not a note in a Figma frame.</p>
-          <p>Agent Review has fourteen components, and the Button is the plainest of them: primary, secondary, danger or ghost, default or compact, loading, disabled. That is one file, and ten stories show its states.</p>
-          <p>Storybook is the showroom for that file. It renders every component in every state on a page a designer can open without running the product. It is the design system&rsquo;s own site, generated from the system, and the artifact a design engineer most clearly owns.</p>
-          <p>Agent Review has 258 stories, and every story is also a test. Vitest renders it in Chromium and runs axe on it, with violations set to fail. A state with no story is a state nothing checks.</p>
+          <p>In a product codebase the unit of design is a component: a button, a data table, a status line. In TypeScript its properties are typed, so the contract between design and engineering is a list the compiler reads.</p>
+          <p>Agent Review has fourteen components and 284 stories in Storybook, and every story is also a test: Vitest renders it in Chromium and runs axe on it. A state with no story is a state nothing checks.</p>
           <figure class="writing-figure">
             <figcaption>What the component replaces, and what it keeps</figcaption>
             <div class="writing-split">
@@ -311,33 +316,13 @@
               </div>
             </div>
           </figure>
-          <p>This site is the same idea at a smaller scale. It has three token files and a component set in plain HTML and CSS, with Node scripts standing where a build would. Agent Review was built to answer a design question rather than to ship a product.</p>
-          <p>Agent Review has one author, one scenario and no users. What I can say about it is what it taught me about the work. I have not run a production React codebase, and I would rather say that here than have it discovered.</p>
-          <p class="writing-eyebrow">Key idea 3 of 8</p>
-          <h2 id="tokens-flow-one-way-from-a-file-everyone-can-read">Tokens flow one way, from a file everyone can read</h2>
-          <p>A design system that lives in code has one source for every value. It is a file of tokens, usually JSON, that says what <strong>--color-accent</strong> is and what <strong>--space-lg</strong> is.</p>
-          <p>A tool such as Style Dictionary turns that file into whatever each platform needs: CSS custom properties for the web, constants for iOS and Android, a table for the documentation. Tokens Studio does the same from inside Figma.</p>
-          <p><mark>The file is upstream of everything, so parity between the design and the code is not a review step; it is the only way the values exist.</mark></p>
-          <p>The design-engineer postings&rsquo; vocabulary comes from this file. A <strong>primitive</strong> token is a raw value with a plain name: a green, a size. A <strong>semantic</strong> token says what the value is for: the accent, the text on a dark ground, the inset of a panel.</p>
-          <p>Semantic tokens point at primitives, components point at semantic tokens, and nothing points at a hex code. Change the green in one place and every button, badge and link moves with it, on every platform, in one pull request.</p>
-          <p>The file has a third reader now, a coding agent. In Agent Review&rsquo;s experiment both agent runs stayed on it. Every value they wrote was a token, with the rules in front of them and without.</p>
-          <p>The check runs the other way. A token lint reads every declaration against a typed list of the layer&rsquo;s names. On the branch I seeded with the failures the rules forbid, it reported seventeen values written where a token existed.</p>
-          <p>I have done this part of the job longest, on the <a href="standardizing-ux-across-40-sap-fiori-apps.html">Fiori program</a> and in this site&rsquo;s color spec. It is where the tooling changes least.</p>
-          <p>My color spec tabulates every ink on every ground with its measured ratio. Agent Review&rsquo;s token layer does the same in a form a build and a lint can read. What the pipeline adds is that the discipline no longer depends on anyone remembering it.</p>
-          <p class="writing-eyebrow">Key idea 4 of 8</p>
+          <p>Under the components is one file of tokens. Semantic tokens point at primitives, components point at semantic tokens, and nothing points at a hex code, so changing the green moves every button in one pull request.</p>
+          <p>Motion lives there too: a duration, a curve, a spring&rsquo;s stiffness. A transition in Storybook can be played, interrupted and commented on by line, so a spring that overshoots by a hair is a diff.</p>
+          <p><mark>Code doesn&rsquo;t make motion easier to write. It makes it reviewable.</mark></p>
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
           <h2 id="a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</h2>
-          <p>A pull request is a proposed change to the codebase, with its reasoning written above it and its difference rendered below it. A design engineer spends more of the day there than in any tool with a canvas.</p>
-          <p>Reading a diff shows what actually shipped, not what was intended. Opening a pull request proposes a change engineering can accept with a click instead of a meeting.</p>
-          <p>The postings say &ldquo;comfortable participating in pull request reviews.&rdquo; At nine in the morning that means: read the change, open the story, press the states, and leave a comment on the line rather than in a channel.</p>
-          <p>Agent Review is my attempt at designing that review for a change an agent wrote. The change opens to its findings, with the affected screen rendered from the branch beside them, before and after, at three widths. Selecting a finding puts the preview in the state that shows it.</p>
-          <p>On a team the review also runs the other way. An engineer reads a component I wrote and sees the failure modes I do not. So <mark>the review is not a gate the design has to pass; it is the second pair of eyes the design has been missing.</mark></p>
-          <p>On this site almost every change goes through a branch and a pull request too, and I read my own diff there beside the checks.</p>
-          <aside class="writing-pull" aria-hidden="true">
-            <p>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</p>
-          </aside>
-          <p class="writing-eyebrow">Key idea 5 of 8</p>
-          <h2 id="the-prototype-is-a-branch-not-a-file">The prototype is a branch, not a file</h2>
-          <p>Here is the day for a change that starts as an idea, not a ticket.</p>
+          <p>A pull request is a proposed change with its reasoning above it and its difference below it. A design engineer spends more of the day there than in any tool with a canvas.</p>
+          <p>At nine in the morning that means: read the change, open the story, press the states, and leave a comment on the line rather than in a channel.</p>
           <figure class="writing-figure">
             <figcaption>One change, brief to shipped</figcaption>
             <ol class="writing-flow">
@@ -348,33 +333,22 @@
               <li class="writing-flow-mark">Ship<small>the merge is the handover, and there is no other</small></li>
             </ol>
           </figure>
-          <p>The tools that changed this write code from a description. They are Claude Code in a terminal, which Agent Review was built with, and editors such as Cursor. A working prototype on a branch used to cost a week of an engineer&rsquo;s time. The mechanical part of it is now a session. The time goes to the decisions rather than the syntax.</p>
-          <p>Agent Review&rsquo;s experiment is that list run three times: one feature request, bulk actions on a customer table, on three branches. Two were written by a coding agent, one with the rules in its context and one without. I wrote the third by hand. All three open in the review tool as changes with findings.</p>
-          <p>What those tools do not take out is the judgment. The posting that says a design engineer should use AI without relying on it has the emphasis right.</p>
-          <p>The two agent runs read the same rule about shared components and did opposite things. One changed twelve lines of the shared Table stylesheet and showed its measurement of the head row before and after. The other measured the same defect and flagged it instead. Both were defensible, and it took a person reading the measurement to say which was right.</p>
-          <p><mark>The prototype is real because I can read what it does, not because something wrote it quickly.</mark></p>
+          <p>A working prototype on a branch used to cost a week of an engineer&rsquo;s time. With Claude Code in a terminal the mechanical part is a session, and the time goes to the decisions.</p>
+          <p>In Agent Review&rsquo;s experiment, two agent runs read the same rule about shared components and did opposite things. One changed the shared data table&rsquo;s stylesheet; the other flagged the same defect. Both were defensible.</p>
+          <p>It took a person reading the measurement to say which was right. <mark>The prototype is real because I can read what it does.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</p>
+          </aside>
           <!-- The second drawing: the argument's second half, in the set's style,
                from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
           <figure class="writing-figure writing-scene">
             <img src="../img/writing/what-does-a-product-design-engineer-actually-do-2.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="The slate stamp lifted clear at the top of the frame, and below it a row of four identical black impressions on cream, the third filled dusty rose." />
             <figcaption>Instances: one stamp, the same mark every time, and the one that is different is different on purpose.</figcaption>
           </figure>
-          <p class="writing-eyebrow">Key idea 6 of 8</p>
-          <h2 id="motion-is-code-you-can-review">Motion is code you can review</h2>
-          <p>The craft the postings name most precisely is motion: easing curves, spring physics, transitions that can be interrupted halfway and reversed without a stutter.</p>
-          <p>In a design tool those are a demo somebody plays in a meeting. In the codebase they are a handful of values in the token file and a component that reads them: a duration, a curve, a spring&rsquo;s stiffness and damping.</p>
-          <p>Framer Motion, now simply called <strong>motion</strong>, does the physics for React. Plain CSS transitions do most of the rest. A motion spec of six durations and one curve covers a whole site.</p>
-          <p>Code does not make motion easier to write, but it does make it <strong>reviewable</strong>. A transition can be opened in Storybook, played, interrupted, played again at a reduced-motion setting, and commented on by line.</p>
-          <p>A spring that overshoots by a hair is a number a colleague can change, and the change is a diff. That is what &ldquo;design owns quality end to end&rdquo; means in the one part of the interface where quality used to be unownable. Nobody could point at it.</p>
-          <p class="writing-eyebrow">Key idea 7 of 8</p>
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
           <h2 id="the-checks-are-part-of-the-design-system">The checks are part of the design system</h2>
-          <p>A design rule that is not a script is a wish. Contrast floors, type scales, token coverage and whether a toolbar fits its box at tablet width can all be measured on the rendered page. A design engineer makes sure they are.</p>
-          <p>Agent Review has three instruments for it, and each caught a different part of the branch I seeded with drift.</p>
-          <ul>
-            <li>A token lint fails when a component writes a value where a token exists.</li>
-            <li>Vitest runs every story in Chromium with axe set to fail on violations.</li>
-            <li>Playwright holds the screens to their visual baselines and every toolbar to its own box at 768.</li>
-          </ul>
+          <p>A design rule that isn&rsquo;t a script is a wish. Contrast floors, type scales, token coverage and whether a toolbar fits its box at tablet width can all be measured on the rendered page.</p>
+          <p>Agent Review has three instruments, a token lint, axe in Vitest and Playwright&rsquo;s visual baselines, and each caught a different part of a branch I seeded with drift:</p>
           <figure class="writing-figure">
             <figcaption>What Agent Review&rsquo;s checks reported on the seeded branch</figcaption>
             <dl class="build-facts writing-facts">
@@ -383,13 +357,12 @@
               <div><dt>792 vs 734</dt><dd>pixels: the selection bar&rsquo;s width against its box at 768, found by the toolbar check</dd></div>
             </dl>
           </figure>
-          <p>The seeded branch also found a check that could not fail. The first version of the 768 test measured the frame&rsquo;s scroll width. The bar&rsquo;s parent clips its overflow, so a bar 58 pixels too wide passed. Checks are code, and code has defects. A branch built to fail is how you find which of yours cannot.</p>
-          <p>This site holds itself to the older, larger version of the same instinct. It runs ten checks, and five of them render every page in a real browser. I wrote them because the rules were written down and nothing held the pages to them. A design engineer is the person on the team who thinks a design rule is a test, and writes it as one.</p>
-          <p>The first pass found failures no eye had caught, a caption on the hero among them, which <a href="what-makes-an-interface-feel-finished.html">the craft article</a> tells.</p>
-          <p class="writing-eyebrow">Key idea 8 of 8</p>
+          <p>The seeded branch also found a check that couldn&rsquo;t fail: the first 768 test measured the frame&rsquo;s scroll width, and the parent clipped the overflow. Checks are code, and code has defects.</p>
+          <p>This site runs ten checks, and five of them render every page in a real browser. I think a design engineer is the person who reads a design rule as a test, and writes it as one.</p>
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
           <h2 id="a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</h2>
-          <p>A green check means the tree passed. It does not mean the site changed. The merge and the deploy are two separate machines that fail independently. I learned that from a merge that ran every check, went green, and never deployed at all. The site did not look broken. It looked unchanged, which is indistinguishable from a change nobody made.</p>
-          <p>Another deploy failed fourteen seconds in, on a green tree, because it carried one file the deploy machine could not follow. And a page fetched straight after a successful deploy can still show the old bytes, because the host caches for ten minutes.</p>
+          <p>A green check means the tree passed. It doesn&rsquo;t mean the site changed. I learned that from a merge that ran every check, went green, and never deployed.</p>
+          <p>The site didn&rsquo;t look broken. It looked unchanged, which is indistinguishable from a change nobody made.</p>
           <figure class="writing-figure">
             <figcaption>What a green check says, and what it does not</figcaption>
             <div class="writing-split">
@@ -413,21 +386,19 @@
               </div>
             </div>
           </figure>
-          <p>Agent Review had the same lesson in miniature. Its first visual pass found a dev server from a different checkout already on the port. It measured that tree and passed, including a comparison it could not have passed.</p>
-          <p>The fix was for the tests to start their own server and never reuse one. A check can be green and still have measured the wrong thing.</p>
-          <p>So the last step of every change is to look at the page a stranger would get, with a cache-buster on the address. When the page says nothing, read the log. The interface goes quiet exactly when the record gets interesting. <mark>Once you have been caught by the gap between &ldquo;it passed&rdquo; and &ldquo;it is live,&rdquo; you stop confusing the two.</mark></p>
-          <p>The honest map of the job, for me, has three regions.</p>
+          <p>So the last step of every change is to look at the page a stranger would get, with a cache-buster on the address.</p>
+          <p>The honest map of the job, for me, has three regions:</p>
           <ul>
-            <li>Tokens, systems, accessibility and the checks around them. I have done this work longest, in enterprise programs and on this site. I would run it on day one.</li>
-            <li>React, TypeScript, Storybook, branches, pull requests and tests. I do this work now, on Agent Review and on this site. I would expect to be fluent in a team&rsquo;s own conventions within a quarter.</li>
-            <li>A production React codebase with a team shipping to customers on a release train. I have not run one, and one project with one author is not a substitute.</li>
+            <li>Tokens, systems, accessibility and the checks around them: I&rsquo;ve done this longest, and would run it on day one</li>
+            <li>React, TypeScript, Storybook, branches and tests: I do this now, and would expect to be fluent in a team&rsquo;s conventions within a quarter</li>
+            <li>A production React codebase shipping to customers on a release train: I haven&rsquo;t run one, and one project with one author is no substitute</li>
           </ul>
-          <p>I would rather write that last line here than have someone else write it about me.</p>
+          <p>I&rsquo;d rather write that last line here than have someone else write it about me.</p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">A design engineer is a designer whose deliverable lives in the codebase. The component replaces the spec. The token file replaces the parity meeting. The pull request replaces the handoff. The branch replaces the demo. The checks replace the hope that everyone remembered the rules. The judgment is the same, now with evidence attached. The last piece of evidence is the live page, not the green check.</p>
+            <p class="writing-recap-sum">A design engineer is a designer whose deliverable lives in the codebase: the same judgment, now with evidence attached, and the live page as the last piece of it.</p>
             <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> open your team&rsquo;s repository, find one component you designed, and read its file. Everything you cannot follow is the next thing to learn, and everything you can is already yours.</p>
           </aside>
         </div>
