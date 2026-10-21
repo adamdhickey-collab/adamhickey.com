@@ -37,11 +37,8 @@
       it is one drawing over six equal columns; under that the line runs
       down the left beside each step.
 
-   3. THE PHONE'S VERSION OF THE TOUR. Under 40rem the capture is the phone's
-      and carries no pins, so the seven numbered notes under it pointed at
-      nothing and ran on for a screen and a half. The phone gets a lead and
-      five labeled lines (.wt-brief in the page) instead; walkthrough.css is
-      unchanged and from 40rem the brief is not displayed.
+   3. THE PHONE'S VERSION OF THE TOUR. Gone since 2026-10-21, with the
+      tour: the walkthrough came off the page.
 
    4. NO SCREEN OPENS FULL SIZE, since 2026-10-09. From #408 until then
       the captures beside the words and the tour's screen were links that
@@ -50,9 +47,7 @@
    5. THE INTRO VIDEO'S PLACE. Beside the opening, where the facts card sat
       from #405 until 2026-10-06; a labeled frame until the video exists.
 
-   6. THE TOUR'S PANEL. While the tour runs, the screen and the notes sit
-      on a tea-light panel, the site's pale sage feature ground. Desktop
-      only, because the tour is.
+   6. THE TOUR'S PANEL. Gone since 2026-10-21, with the tour.
 
    7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
       the question the checks left open and the three it comes down to, sit
@@ -79,9 +74,8 @@
 /* ---- 10. the first minute (since 2026-10-12) ----
    The opening is four labelled lines and the status under the way in; the
    three moments are an ordered list of splits, each a kicker, a heading,
-   two short paragraphs and one picture; the seven-step walkthrough is a
-   disclosure after them. The phone rule that moved the facts strip under
-   the walkthrough went with the strip, which is "Build and evidence" now. */
+   two short paragraphs and one picture. The seven-step walkthrough that
+   was a disclosure after them came off the page on 2026-10-21. */
 .ar-opening { margin-bottom: var(--space-xl); }
 .ar-status {
   margin: var(--space-lg) 0 0;
@@ -415,16 +409,6 @@
   .ar-split-text > .ar-shot--narrow { width: calc(100% * 7 / 5 * 449 / 949); }
 }
 
-/* The walkthrough's disclosure: the site's disclosure row (style.css,
-   .disclosure-row) at the body size, between two hairlines, closed by
-   default. The tour inside is unchanged. */
-.ar-tour {
-  margin-top: var(--space-block);
-  border-top: 1px solid var(--rule-card);
-  border-bottom: 1px solid var(--rule-card);
-}
-.ar-tour-summary { font-size: var(--text-base); }
-
 /* The earlier approach over the current one: two first screens at an
    1100px window, each the column's full width so its type prints at about
    its own size; side by side they printed at half. */
@@ -635,58 +619,9 @@
 }
 
 /* ---- 6. the tour's panel ---- */
-/* Only while the tour runs, which walkthrough.js starts from 64rem for a
-   reader who has not asked for stillness: the phone and the static layout
-   keep the page's ground. The panel is a pseudo-element inset from the
-   sticky box's top and bottom, so its rounded corners clear the nav and the
-   foot of the window; the box's padding grows by that inset, and
-   walkthrough.js fits the screen to the room left inside it. The edge is
-   --rule-card, the line COLOR.md asks of a tea-light zone on warm.
-
-   PLAIN, since 2026-10-06. The same day it was a drawn desk (#408), a
-   cutting mat with a ruler, chips and cut pieces on it (#412), and the
-   mat's grid alone (#413); Adam found the grid distracting, and the
-   ground is the tea-light the hero card and the pull-outs use.
-
-   IT HUGS WHAT IS ON IT. The panel is the rows the title, the stage and
-   the side sit in (walkthrough.css: a spring, the title, the stage, a
-   spring the side reaches into where it is the taller), placed there as
-   an absolutely positioned grid item, so its containing block is those
-   rows across both columns. It
-   reaches --space-2xl and --space-sm, 44px, above the title's capitals,
-   and the same below the stage or the side, since 2026-10-08: the row of progress
-   bars it used to close on (48px of room either side of them, Adam's
-   figure of the evening of 2026-10-06) went with the move to a list
-   beside the screen. The sticky box hugs too (walkthrough.js centres it
-   in the window), so the springs are nothing, the panel is the box less
-   --space-md top and bottom, and there is no empty ground between the
-   page above and the panel on the way in. */
-.wt.is-tour .wt-sticky {
-  isolation: isolate;
-  padding:
-    calc(var(--space-md) + var(--space-2xl) + var(--space-sm))
-    var(--space-3xl);
-}
-.wt.is-tour .wt-sticky::before {
-  content: "";
-  position: absolute;
-  grid-row: 2 / 5;
-  grid-column: 1 / -1;
-  inset:
-    calc((var(--space-2xl) + var(--space-sm)) * -1)
-    calc(var(--space-3xl) * -1);
-  z-index: -1;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  background: var(--color-tea-light);
-}
-/* Under 47.5rem of window the panel's room round its contents is a step
-   tighter, --space-xl for 44px, so the tour still fits a short laptop
-   window (walkthrough.css, SHORT WINDOWS). */
-@media (max-height: 47.5rem) {
-  .wt.is-tour .wt-sticky { padding: calc(var(--space-md) + var(--space-xl)) var(--space-3xl); }
-  .wt.is-tour .wt-sticky::before { inset: calc(var(--space-xl) * -1) calc(var(--space-3xl) * -1); }
-}
+/* Nothing, since 2026-10-21: the walkthrough came off the page, with
+   walkthrough.css and walkthrough.js. The tea-light panel it ran on is in
+   the diff that took it out. */
 
 /* ---- 5. the hero's picture ---- */
 /* The hero's right half is the prototype's trade-off since later still on
@@ -706,16 +641,7 @@
    them out. */
 
 /* ---- 3. the tour, on a phone ---- */
-.wt-brief { display: none; }
-@media (max-width: 40rem) {
-  .wt-notes { gap: var(--space-sm); }
-  .wt-steps,
-  .wt-note--intro .wt-body { display: none; }
-  .wt-note--intro h3 { margin-bottom: 0; text-wrap: balance; }
-  .wt-brief { display: block; }
-  .wt-brief .wt-body { margin-bottom: var(--space-md); }
-  .wt-brief .build-list { margin-bottom: 0; }
-}
+/* Nothing, since 2026-10-21, with the tour. */
 
 /* ---- 2. the loop, as one line ---- */
 /* The two artwork colours, and the steps the drawing mixes from them and
