@@ -86,7 +86,7 @@ The voice gets more personal; the facts do not get looser.
   spoken essay put "ninety-seven percent" on a dispatcher's screen; the
   article says "high confidence," and that is what the page says.
 - **Simulated stays simulated.** Agent Review plays simulated runs and has
-  not been tested with anyone. Second Look and Rollcall run on synthetic
+  not been tested with anyone. Dispatch Cockpit and Rollcall run on synthetic
   data. A story about them says so in the sentence that tells it.
 - **Current examples only.** Agent Review's first decision is the quiet
   cancel link (#522, #523), not the two reds.
@@ -104,7 +104,7 @@ sentences anywhere else, with a link.
 | Lucy hears every command as meant for her | Lucy Learns | The prototype articles |
 | The map the dispatchers didn't need | Dispatch case study | Product clarity, the embedded page |
 | The quiet cancel link | Agent Review | The design system articles |
-| Second Look declines a close call | Second Look, the cockpit prototype | The decision-support articles |
+| Dispatch Cockpit declines a close call | Dispatch Cockpit, the dispatch prototype | The decision-support articles |
 | Forty-plus SAP apps, one standard | SAP case study | Design system pages |
 | My sister keeps the guide current | Door County Found | Articles on what can't be generated |
 
