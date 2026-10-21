@@ -6102,8 +6102,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .writing-keys-label,
 .case-section .writing-eyebrow,
-.case-section .writing-recap-label,
-.case-section .writing-figure figcaption {
+.case-section .writing-recap-label {
   font-family: var(--font-sans);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
@@ -6113,6 +6112,36 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin: 0 0 var(--space-sm);
   max-width: none;
+}
+/* The title over a flow, a split, a number row or a rail is the figure's
+   heading, not a kicker: a sentence of sixty or seventy characters saying
+   what the figure argues. It took the eyebrow's 11px tracked capitals until
+   2026-10-21, and a whole sentence in those was the hardest line on the page
+   to read. Now it speaks in the headings' voice: serif, regular, in the
+   heading ink. --text-2xl from 640px, the pull's size, because the serif's
+   small x-height puts --text-xl under the 18px sans beside it and the line
+   stops reading as a title. Below 640 it is --text-xl, a key idea's size,
+   because the section's h2 is 24 to 27px there and a 24px title would tie
+   it; from 640 the h2 is past 26px and still climbing. A scene's caption
+   sits under its drawing and reads after it, so it keeps its own rule
+   below. */
+.case-section .writing-figure:not(.writing-scene) figcaption {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  margin: 0 0 var(--space-md);
+  max-width: none;
+}
+@media (min-width: 640px) {
+  .case-section .writing-figure:not(.writing-scene) figcaption {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-heading);
+    margin-bottom: var(--space-lg);
+  }
 }
 .writing-keys ol {
   list-style: none;
@@ -6522,8 +6551,8 @@ html.ah-lightbox-open body { overflow: hidden; }
 
 /* The second drawing, in the body, at the column's width: the argument's
    second half, drawn, where the feature under the dek drew the first. Same
-   frame as the feature; the caption is the figure label in the muted ink,
-   under the picture rather than over it, because a caption reads after. */
+   frame as the feature; the caption is small sans in the muted ink, under
+   the picture rather than over it, because a caption reads after. */
 .writing-scene { margin: var(--space-2xl) 0; }
 .writing-scene img {
   display: block; width: 100%; height: auto;
@@ -6542,8 +6571,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   /* The same token, and the same reason, the build write-ups' captions carry:
      a caption at --text-xs filling the 620px essay column is 78ch, which is
      105 characters. Only one of the eighteen was long enough to show it. The
-     label above a .writing-figure keeps max-width: none, because that one is
-     a short uppercase label rather than a sentence. */
+     title above a .writing-figure keeps max-width: none, because it is a
+     heading of one line across the figure, not a sentence to read along. */
   max-width: var(--measure);
 }
 
