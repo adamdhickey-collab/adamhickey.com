@@ -28,12 +28,24 @@
    THE TAGLINE, since 2026-10-21: the shop's own line under the wordmark,
    "Seven Minnesota animals, each at its own hour of the day." It is the one
    set of words left over the skies, and it is set at --text-2xl so that it
-   is large text, held to 3:1 rather than 4.5: --ink-on-dark measures about
-   3.1:1 on the palest skies it crosses (sunrise and morning mist) and 5:1
-   at noon. Smaller, it would fail; it stays one or two lines inside
+   is large text, held to 3:1 rather than 4.5. In --color-white it measures
+   3.3:1 on the palest skies it crosses (sunrise and morning mist) and 5.3:1
+   at noon; --ink-on-dark, the warm white, measured 2.75:1 there and fails,
+   and so would anything smaller. It stays one or two lines inside
    --ffd-tagline-cols columns, clear of the arc where it falls through the
    sky at either end of the day. Four over three it is on the page under
-   the wordmark, in the page's ink.
+   the wordmark, in the page's ink. Like the wordmark it is two elements,
+   one per layout, each display: none in the other: resting.mjs keeps the
+   color it read at its own width when it measures a probe at 390, 768 and
+   1440, so one element that turns from white in the sky to charcoal on the
+   page is held as white on the page at 390, and fails at 1.09:1.
+
+   The lockup paints a gradient from transparent to transparent, and it is
+   there for the check, as .eng3-hero-scrim's is: resting.mjs measures text
+   by the pixel only when an ANCESTOR paints a gradient or an image, and the
+   skies are painted by the tiles beside the lockup, not under it in the
+   tree, so without it the check reads the page's ground behind the figure
+   and reports the tagline at 1:1. Do not remove it as dead.
 
    ARTWORK, NOT INTERFACE (COLOR.md section 6). The colours below are each
    print's inks and the shop's paper, sampled from the shop's rendered hero
@@ -361,7 +373,8 @@
   text-align: center;
 }
 .ffd__mark { max-width: none; height: auto; }
-.ffd__mark--sky { display: none; }
+.ffd__mark--sky,
+.ffd__tagline--sky { display: none; }
 .ffd__mark--page { width: calc(var(--ffd-lockup-cols) * 25cqi); }
 .ffd__tagline {
   margin: 0;
@@ -462,18 +475,21 @@
     align-items: center;
     justify-content: center;
     gap: calc(var(--ffd-lockup-cols) * var(--ffd-col) * var(--ffd-lockup-gap));
+    background: linear-gradient(transparent, transparent);
     pointer-events: none;
   }
-  .ffd__mark--page { display: none; }
+  .ffd__mark--page,
+  .ffd__tagline--page { display: none; }
   .ffd__mark--sky {
     display: block;
     width: calc(var(--ffd-lockup-cols) * var(--ffd-col));
   }
-  .ffd__tagline {
+  .ffd__tagline--sky {
+    display: block;
     max-width: calc(var(--ffd-tagline-cols) * var(--ffd-col));
     font-size: var(--text-2xl);
     line-height: var(--leading-heading);
-    color: var(--ink-on-dark);
+    color: var(--color-white);
   }
   .ffd__pause {
     position: absolute;
