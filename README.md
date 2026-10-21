@@ -336,14 +336,19 @@ build step stay out of a tree whose checks walk every file and whose
 write-up says it has neither. The two prototypes keep their addresses
 under `prototype/` and are listed on the lab index as well; the index
 wears the writing index's shell, and the case study wears the build
-write-ups'. Since 2026-10-12 the homepage's Agent Review card leads
-Selected work, above the three accounts, and its picture is no longer a
-capture: it is "Same red. Different meaning.", the prototype's first problem
-drawn in code (style.css; the connector is `same-red.js`), which the case
-study opens on too. Before that the lab was one card under the three accounts
-in Selected work, where the two prototype cards sat until 2026-10-01, and
-since #343 it is about Agent Review rather than the lab as a family: the
-product's own screen (`img/lab/agent-review-card.webp`, from
+write-ups'. Since 2026-10-20 the homepage's featured card leads Selected
+work, above the three accounts: "How product design works now", which
+introduces the lab through the position article rather than through one
+product. Its figure is that article's loop drawn in code (style.css, "The
+loop", and `loop.js`) and a link to the article; the card's first link is
+the article too, and its second the lab index. A line under the card naming
+the lab's pieces came out on 2026-10-21, leaving the navigation's Lab link
+and the lab index to carry them. From 2026-10-12 to 2026-10-20 the card was
+Agent Review alone, and its picture was the figure the case study opened on
+(below). Before that the lab was one card
+under the three accounts in Selected work, where the two prototype cards sat
+until 2026-10-01, and since #343 it was about Agent Review rather than the
+lab as a family: the product's own screen (`img/lab/agent-review-card.webp`, from
 `scripts/lab-cards.mjs`, the capture the lab index uses too: since
 2026-10-03 the delegated work, the product's front door, at its tablet
 layout (784px, and 832px since 2026-10-05, where the app's top bar holds on
@@ -352,25 +357,33 @@ one line), one column of type that can be read at card size; before that run
 which could not be read at that size) in a tablet, one bezel all round
 (the case studies' laptop until 2026-10-05), beside the question the lab
 asks, the project, its result and two links, with the two prototypes and
-the lab index as one line under it until 2026-10-21, when that line came
-out and the navigation's Lab link and the lab index were left to carry them. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
+the lab index as one line under it. The write-up's four figures are `scripts/lab-shots.mjs`, not hand
 captures: each is taken from the deployed product and Storybook at two
 sizes, a desktop one at 1100px (1440 for the hero, which prints wider) and a
 phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
-at a phone's width was a quarter of the screen. The write-up's hero is a
-guided tour of that first capture (`walkthrough.css`, `walkthrough.js`):
-seven steps listed beside the product in a tablet, in the order their parts
-sit on the screen, each opening as the reader scrolls to it, with up and
-down buttons and a way past over the list (since 2026-10-08; until then
-seven notes, one at a time, with a previous and a next button at the two
-ends of a row of progress bars). Each note carried a small
-drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came off
-the page and out of the tree so the product could take the room; the
-prompts that drew them are still `scripts/tour-scenes.mjs`, behind
-`scripts/draw.mjs --set tour`, as the record of the set and the way back to
-it. The drawing the card carried before
-that, and the script that drew it, are gone. The lab band that briefly sat
+at a phone's width was a quarter of the screen.
+
+The write-up opens on "Every action is a button. Except cancel.", run 1's
+question drawn in code at the page's own sizes (`lab/agent-review.css`; the
+connector is `quiet-cancel.js`), since 2026-10-21, when run 1's example
+became the hand-built "Cancel subscription" link. It replaced the figure of
+the earlier run 1's color example, which opened the page from 2026-10-12 and
+was the homepage card's picture until 2026-10-20; its connector,
+`same-red.js`, and its rules in `style.css` went with it. The same day, at
+Adam's request, the guided tour under the hero came out entirely: the
+`<details>` tour, `walkthrough.css`, `walkthrough.js` and the
+`img/lab/agent-review-tour-*.webp` captures it stepped through. From
+2026-10-08 it listed seven steps beside the product in a tablet, in the
+order their parts sit on the screen, each opening as the reader scrolled to
+it; before that it was seven notes, one at a time, with a previous and a
+next button at the two ends of a row of progress bars. Each note carried a
+small drawing, `img/lab/tour-<part>.webp`, until 2026-10-05, when they came
+off the page and out of the tree so the product could take the room; the
+prompts that drew them are `scripts/tour-scenes.mjs`, behind
+`scripts/draw.mjs --set tour`, as the record of the set. The drawing the
+homepage card carried before its first capture, and the script that drew
+it, are gone. The lab band that briefly sat
 between Built and About went with the pair, and Lab joined the navigation
 on every page.
 
