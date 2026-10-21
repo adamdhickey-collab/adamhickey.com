@@ -181,28 +181,13 @@ They are exempt because their timing carries meaning that a shared scale
 would flatten. They are still bound by §5: all three stop for reduced
 motion.
 
-**One more thing moves with scroll and is not on that list, because it is
-not a drawing, and since 2026-10-08 it is on the scale.** The guided tour on
-the Agent Review write-up (`walkthrough.js`) pins a tablet beside a list of
-seven steps. Where the reader has scrolled to says which step is open, and
-opening one is a timed move: the camera travels to that step's part of the
-screen and, where the story changes state, the next capture dissolves in, in
-`--motion-enter` plus `--motion-state`, 700ms, on `--ease`, both read from the
-root. The step's words open at `--motion-enter`, a disc takes its colour at
-`--motion-state`, and the line down the list, which creeps toward the next
-step as the reader scrolls between two, is the scroll-progress job:
-`--motion-response`, linear, or the step's own time when a press moved it.
-Until then the camera was scrubbed against scroll, with no duration and no
-easing, and from 2026-10-07 the page glided onto the nearer part whenever a
-scroll ended between two, which a reader with a wheel met as the page moving
-400px on its own. The transitions stop under §5's blanket; the camera is drawn
-by script, so the script stops with the same `prefers-reduced-motion` query,
-and what is left is the static layout: the tablet with the first state and
-its five pins on it, and the seven steps in a list. It runs from 64rem up,
-where its tallest step fits the window, and the content is whole without it.
-Its two buttons and the steps in the list move the page's scroll position to
-a step and nothing else, so pressing and scrolling are one state and can be
-mixed freely.
+**One more thing moved with scroll, from 2026-10-08 on the scale, and is
+gone since 2026-10-21.** The guided tour on the Agent Review write-up
+(`walkthrough.js`) pinned a tablet beside a list of seven steps, and opening
+a step was a timed move in `--motion-enter` plus `--motion-state`, on
+`--ease`. It came off the page, with `walkthrough.css` and its captures, when
+the write-up's three moments took over its story; nothing on the site moves
+with scroll now but the drawings above.
 
 ---
 

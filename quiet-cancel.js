@@ -1,49 +1,56 @@
-/* same-red.js -- the connector in "Same red. Different meaning."
+/* quiet-cancel.js -- the connector in "Every action is a button. Except
+ * cancel."
  *
- * The figure (style.css, "Same red, different meaning") is complete without
- * this file: the label, the two reds in their capsules, what each means and
- * the takeaway are all text. This draws the one line that ties them: a stem
- * from under the word "red" that divides into two branches, one to each
- * capsule.
+ * The figure (lab/agent-review.css, "Every action is a button. Except
+ * cancel.") is complete without this file: the label, the two actions in
+ * their own looks, what each is and the takeaway are all text. This draws
+ * the one line that ties them: a stem from under the word "action" that
+ * divides into two branches, one to each action.
+ *
+ * It is same-red.js, which drew the red figure that opened the case study
+ * until 2026-10-21, with two changes: the names, and the level bar, which is
+ * halfway between the label's bottom and the actions rather than the word's,
+ * because the label has a second line ("Except cancel.") in its third
+ * column, and a bar halfway from the word would run through it.
  *
  * WHY A SCRIPT. The stem starts under a word of live type and the branches
- * end on capsules whose places depend on the figure's width, the type step
+ * end on actions whose places depend on the figure's width, the type step
  * its container query chose and the fonts that loaded. So each figure is
  * measured in its own layout and its path written into its own SVG, again
  * when the fonts arrive and whenever the figure's box changes size.
  *
  * Two layouts, read from the layout itself rather than from a breakpoint
- * kept in step with the stylesheet: if the second capsule's top is below
- * the first one's bottom, the cases are stacked.
+ * kept in step with the stylesheet: if the second action's top is below the
+ * first one's bottom, the cases are stacked.
  *
  * - Side by side: the stem drops from the underline to a level bar halfway
- *   to the capsules, and the bar's two ends turn down, each to the top of
- *   its capsule. The word is centred in the figure and the capsules in their
- *   columns, so the two branches are mirror images.
- * - Stacked: the stem drops straight to the first capsule. The second
- *   branch leaves it just under the label, turns left to the figure's
- *   gutter, runs down beside the first case and turns in to the second
- *   capsule's side at its middle.
+ *   from the label to the actions, and the bar's two ends turn down, each to
+ *   the top of its action.
+ * - Stacked: the stem drops straight to the first action. The second branch
+ *   leaves it just under the word, turns left to the figure's gutter, runs
+ *   down beside the first case and turns in to the second action's side at
+ *   its middle. The label's second line is in its third column, right of
+ *   the stem, so neither branch crosses it.
  *
  * Every bend is a quarter circle of R, and every coordinate is rounded to a
  * half pixel so a 1.5px stroke sits on the pixel grid. Places are taken as
  * differences of bounding rects against the SVG's own rect, so a transform
- * on an ancestor (the page's reveal, a card's lift) moves everything
- * together and changes nothing.
+ * on an ancestor (the page's reveal) moves everything together and changes
+ * nothing.
  */
 (function () {
   'use strict';
   var R = 8;
-  var figures = [].slice.call(document.querySelectorAll('[data-same-red]'));
+  var figures = [].slice.call(document.querySelectorAll('[data-quiet-cancel]'));
   if (!figures.length) return;
 
   function half(n) { return Math.round(n * 2) / 2; }
 
   function draw(fig) {
-    var svg = fig.querySelector('.same-red-leads');
+    var svg = fig.querySelector('.quiet-cancel-leads');
     var path = svg && svg.querySelector('path');
-    var word = fig.querySelector('.same-red-word');
-    var rings = fig.querySelectorAll('.same-red-ui');
+    var word = fig.querySelector('.quiet-cancel-word');
+    var rings = fig.querySelectorAll('.quiet-cancel-ui');
     if (!path || !word || rings.length < 2) return;
     var box = svg.getBoundingClientRect();
     if (!box.width) return;
@@ -65,7 +72,8 @@
           'V' + (by - R) + 'Q' + gx + ' ' + by + ' ' + (gx + R) + ' ' + by + 'H' + half(b.l);
     } else {
       var lx = half((a.l + a.r) / 2), rx = half((b.l + b.r) / 2);
-      var top = Math.min(a.t, b.t), bar = half(oy + (top - oy) / 2);
+      var lb = at(fig.querySelector('.quiet-cancel-label') || word).b;
+      var top = Math.min(a.t, b.t), bar = half(lb + (top - lb) / 2);
       var r = Math.min(R, (top - bar) / 2, (bar - oy) / 2);
       d = 'M' + ox + ' ' + oy + 'V' + bar +
           'M' + (lx + r) + ' ' + bar + 'H' + (rx - r) +
