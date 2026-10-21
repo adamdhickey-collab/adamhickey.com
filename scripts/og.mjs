@@ -63,6 +63,7 @@ const CARDS = {
      app itself, a square of the run's main column (lab-cards.mjs
      agent-review-og), so the lab and the case study unfurl alike. It was
      the phone-layout square, agent-review-share, before. */
+  'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
   'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-og.webp' },
   /* The case study's picture is the product itself since later on
      2026-10-09 (lab-cards.mjs agent-review-og): a square of the run's main

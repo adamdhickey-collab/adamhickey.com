@@ -63,6 +63,21 @@ const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== fr
 
 const CARDS = {
   'deploy-console': { image: 'img/console/slide-failing.webp' },
+  /* The lab's exploration, since 2026-10-21: the scroll story the homepage
+     carried until #539, on its last step, the pruned tree in fruit beside
+     "The judgment didn't go away." Reduced motion, as every page card here,
+     which the story answers by holding each step's finished state, so the
+     card is a held frame rather than a moment in a scrub. 1280x800 and
+     clipped under the 80px header to 720. */
+  'designing-motion': {
+    page: 'lab/designing-motion.html', width: 1280, viewportHeight: 800,
+    before: (page) => page.evaluate(() => {
+      const s = document.getElementById('how-i-think');
+      const runway = s.querySelector('.story-steps');
+      window.scrollTo(0, s.getBoundingClientRect().top + window.scrollY + runway.offsetHeight * 0.6);
+    }),
+    region: () => ({ x: 0, y: 80, width: 1280, height: 720 }),
+  },
   'dispatch-cockpit': { image: 'img/cockpit/slide-close-call.webp' },
   /* A url card is captured at its own CSS size and scaled by the device
      pixel ratio to exactly 1280x720, so there is no resample step: 720 x
@@ -306,14 +321,22 @@ try {
     let buf;
     if (card.page) {
       site ??= await serve(ROOT);
-      await page.setViewportSize({ width: card.width, height: 1000 });
+      await page.setViewportSize({ width: card.width, height: card.viewportHeight ?? 1000 });
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto(`${site.origin}/${card.page}`, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
-      const el = page.locator(card.element);
-      await el.scrollIntoViewIfNeeded();
-      await page.waitForTimeout(400);
-      buf = await el.screenshot({ type: 'webp', quality: 86 });
+      /* A card can scroll somewhere first and clip a region of the window,
+         rather than shoot one element (designing-motion, above). */
+      if (card.before) {
+        await card.before(page);
+        await page.waitForTimeout(1200);
+        buf = await page.screenshot({ type: 'webp', quality: 86, clip: card.region() });
+      } else {
+        const el = page.locator(card.element);
+        await el.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(400);
+        buf = await el.screenshot({ type: 'webp', quality: 86 });
+      }
     } else if (card.image) {
       /* Crop from the top: a 1360x1020 capture at 1280 wide is 960 tall,
          and the first 720 of it is the part with the card in it. */
