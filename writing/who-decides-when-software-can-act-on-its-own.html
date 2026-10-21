@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey</title>
-  <meta name="description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with research from Microsoft, the FTC and NIST and the work of Zakiya Pope, Tushar Roy and Patricia Yu." />
+  <meta name="description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Second Look." />
 
   <link rel="canonical" href="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
   <meta property="og:title" content="Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey" />
-  <meta property="og:description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with research from Microsoft, the FTC and NIST and the work of Zakiya Pope, Tushar Roy and Patricia Yu." />
+  <meta property="og:description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Second Look." />
   <meta property="og:image" content="https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -39,12 +39,12 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html#article",
           "headline": "Who decides when software can act on its own?",
-          "description": "Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with research from Microsoft, the FTC and NIST and the work of Zakiya Pope, Tushar Roy and Patricia Yu.",
+          "description": "Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Second Look.",
           "url": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
           "mainEntityOfPage": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
           "image": "https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg",
           "datePublished": "2026-10-20",
-          "dateModified": "2026-10-20",
+          "dateModified": "2026-10-21",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -267,6 +267,15 @@
          retirement assistant and the dispatch agent are illustrations, and
          say so.
 
+         ONE OUTSIDE VOICE since the voice pass of 2026-10-21 (VOICE.md):
+         Microsoft Research, for its three papers on confidence,
+         explanations and appropriate reliance. Zakiya Pope, the FTC's dark
+         patterns report, Tushar Roy's case study, NIST's framework and
+         Patricia Yu's podcast came out; this file's history before that
+         pass has them with their links. The dispatcher who approves all day
+         is part of the illustration and carries no figure. Sections 3 and 4
+         became one the same day, under 4's heading.
+
          WHAT IT MAY NOT CLAIM about Adam's own work: Second Look runs on
          synthetic data, ranks with a transparent weighted rule rather than
          a model, and has not been in front of a working dispatcher.
@@ -277,10 +286,10 @@
          word as text. A comparison stays a split, which is code. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">Who decides when software can act on its own?</h1>
         <!-- The answer, whole, before the argument, as on every article. -->
-        <p class="build-dek">The person accountable for the outcome, and the design work is making sure they really can. As AI moves from answering to recommending to acting, an interface becomes the terms of a delegation: what the system may assume, when it acts, when it asks, and when it has to leave the choice alone. The goal isn&rsquo;t trust. It&rsquo;s reliance that matches how good the system really is.</p>
+        <p class="build-dek">The person accountable for the outcome, and the design work is making sure they really can. As AI moves from answering to acting, the interface sets when the system acts, when it asks, and when it leaves the choice alone.</p>
         <!-- keys:start -->
         <!-- The key ideas, one per section, written by scripts/keys.mjs from the
              h2s below. Edit the heading, not this list; `node scripts/keys.mjs
@@ -290,7 +299,6 @@
           <ol>
             <li><a href="#designing-an-interface-now-means-designing-a-decision">Designing an interface now means designing a decision</a></li>
             <li><a href="#a-nudge-and-a-push-look-the-same-in-the-metrics">A nudge and a push look the same in the metrics</a></li>
-            <li><a href="#confidence-in-ai-can-quietly-replace-checking-it">Confidence in AI can quietly replace checking it</a></li>
             <li><a href="#aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</a></li>
             <li><a href="#an-approve-button-isnt-oversight">An approve button isn&rsquo;t oversight</a></li>
             <li><a href="#what-the-system-says-when-it-doesnt-know-belongs-in-the-design-system">What the system says when it doesn&rsquo;t know belongs in the design system</a></li>
@@ -310,10 +318,12 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <p class="writing-eyebrow">Key idea 1 of 6</p>
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
           <h2 id="designing-an-interface-now-means-designing-a-decision">Designing an interface now means designing a decision</h2>
-          <p>An illustration: your retirement account&rsquo;s assistant has worked out that raising your contribution by 3% would improve your outlook. Under that is a big button, Optimize my future. One tap, and your finances change. Did you make an informed decision, or did someone make one decision feel inevitable? And if it was wrong, who answers for it?</p>
-          <p><a href="https://womenwhocode.com/agenda/" target="_blank" rel="noopener noreferrer">Zakiya Pope<span class="visually-hidden"> (opens in a new tab)</span></a>, a behavioral design leader at TIAA, describes what makes people say yes: it feels clear, easy, normal, safe and worth it. A good default can get someone saving who never would have started. The same levers can push a choice they wouldn&rsquo;t make with the facts in front of them. AI can tune those levers for each person, and it can move from suggesting to doing:</p>
+          <p>Here&rsquo;s an illustration. Your retirement account&rsquo;s assistant has worked out that raising your contribution by 3% would improve your outlook. Under that is a big button: Optimize my future.</p>
+          <p>One tap, and your next paycheck is smaller. Did you make an informed decision, or did someone make one decision feel inevitable? If it was wrong, who answers for it?</p>
+          <p>A good default can get someone saving who never would have started. The same levers can push a choice they wouldn&rsquo;t make with the facts in front of them.</p>
+          <p>AI can tune those levers for each person, and it can move from suggesting to doing:</p>
           <figure class="writing-figure writing-rail">
             <figcaption>From answering to acting, and who decides at each step</figcaption>
             <ol class="writing-rail-steps">
@@ -326,10 +336,10 @@
           </figure>
           <p>Each step down that list is a delegation, and the interface sets its terms. <mark>Every default, every framing and every button is part of the decision now.</mark></p>
 
-          <p class="writing-eyebrow">Key idea 2 of 6</p>
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
           <h2 id="a-nudge-and-a-push-look-the-same-in-the-metrics">A nudge and a push look the same in the metrics</h2>
-          <p>One version of that suggestion shows its assumptions and what it does to take-home pay, and leaves the choice to the person. Another shows a large, reassuring button and puts the downsides in small print. Both raise contributions. On a dashboard they&rsquo;re the same number.</p>
-          <p>The second has a name. The FTC&rsquo;s report <a href="https://www.ftc.gov/reports/bringing-dark-patterns-light" target="_blank" rel="noopener noreferrer">Bringing Dark Patterns to Light<span class="visually-hidden"> (opens in a new tab)</span></a> documents design meant to trick and trap people: disguised ads, buried fees, subscriptions made hard to cancel. A system that knows your habits can also know when you&rsquo;re most likely to say yes.</p>
+          <p>One version of that suggestion shows its assumptions and what it does to take-home pay, and leaves the choice to you. Another shows a large, reassuring button and puts the downsides in small print.</p>
+          <p>Both raise contributions. On a dashboard, they&rsquo;re the same number.</p>
           <figure class="writing-figure">
             <figcaption>What a conversion metric sees, and what it misses</figcaption>
             <div class="writing-split">
@@ -351,18 +361,30 @@
               </div>
             </div>
           </figure>
+          <p>We&rsquo;ve gotten very good at measuring what people do. We&rsquo;re much less practiced at asking whether they should have done it. And a system that knows your habits can also know when you&rsquo;re most likely to say yes.</p>
           <p><mark>If a metric can&rsquo;t tell a nudge from a push, it isn&rsquo;t measuring the design.</mark></p>
 
-          <p class="writing-eyebrow">Key idea 3 of 6</p>
-          <h2 id="confidence-in-ai-can-quietly-replace-checking-it">Confidence in AI can quietly replace checking it</h2>
-          <p>The risk is also in what the person stops doing. In a <a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/" target="_blank" rel="noopener noreferrer">2025 survey<span class="visually-hidden"> (opens in a new tab)</span></a> of 319 knowledge workers, Microsoft researchers found that the more confident people were in the AI, the less critical thinking they reported. It&rsquo;s self-reported, so it shows a pattern, not a cause, but it&rsquo;s the one to worry about.</p>
-          <p>Explanations don&rsquo;t fix it. <a href="https://www.microsoft.com/en-us/research/publication/does-the-whole-exceed-its-parts-the-effect-of-ai-explanations-on-complementary-team-performance/" target="_blank" rel="noopener noreferrer">An earlier study<span class="visually-hidden"> (opens in a new tab)</span></a> found they made people more likely to go along with the AI, right or wrong. A fluent reason reads as a good one.</p>
-          <p>So the interface has to keep the checking alive. <a href="../prototype/dispatch-cockpit.html">Second Look</a>, my dispatch prototype on synthetic data, tries three ways:</p>
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
+          <h2 id="aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</h2>
+          <p>The risk is also in what the person stops doing. <a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/" target="_blank" rel="noopener noreferrer">Microsoft researchers found<span class="visually-hidden"> (opens in a new tab)</span></a> that the more confident knowledge workers were in the AI, the less critical thinking they reported. It&rsquo;s self-reported, so it shows a pattern, not a cause.</p>
+          <p>Explanations don&rsquo;t fix it. In <a href="https://www.microsoft.com/en-us/research/publication/does-the-whole-exceed-its-parts-the-effect-of-ai-explanations-on-complementary-team-performance/" target="_blank" rel="noopener noreferrer">an earlier study<span class="visually-hidden"> (opens in a new tab)</span></a>, they made people more likely to go along with the AI, right or wrong. A fluent reason reads as a good one.</p>
+          <p>So I&rsquo;d aim for what Microsoft&rsquo;s researchers call <a href="https://www.microsoft.com/en-us/research/publication/overreliance-on-ai-literature-review/" target="_blank" rel="noopener noreferrer">appropriate reliance<span class="visually-hidden"> (opens in a new tab)</span></a>: people take the advice when it&rsquo;s good and catch it when it isn&rsquo;t.</p>
+          <figure class="writing-figure writing-rail">
+            <figcaption>Three ways people rely on a system</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Too little</strong><span>people redo what the system got right</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Appropriate</strong><span>they accept it when it&rsquo;s right and catch it when it isn&rsquo;t</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Too much</strong><span>they accept what the system got wrong</span></li>
+            </ol>
+          </figure>
+          <p><a href="../prototype/dispatch-cockpit.html">Second Look</a>, my dispatch prototype on synthetic data, tries to keep the checking alive:</p>
           <ul>
-            <li>Five figures from the records under its recommendation, not a score, because figures can be argued with</li>
+            <li>Five figures from the records under each recommendation, not a score, because figures can be argued with</li>
             <li>How old a stale figure is, and what to check before assigning</li>
             <li>When two trucks are level, it says so and declines to pick</li>
+            <li>Skip weighs the same as Save, so disagreeing is cheap</li>
           </ul>
+          <p>Then measure the decision, not the acceptance. A high acceptance rate can mean the suggestions are good, or that people stopped reading them. More in <a href="enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>.</p>
           <p><mark>An explanation that sounds right is not evidence that it is right.</mark></p>
           <aside class="writing-pull" aria-hidden="true">
             <p>If saying no is harder than saying yes, the approval is a formality.</p>
@@ -374,30 +396,10 @@
             <figcaption>Reliance that matches the evidence: the decision tips by what has been put on it to check, not by how sure the system sounds.</figcaption>
           </figure>
 
-          <p class="writing-eyebrow">Key idea 4 of 6</p>
-          <h2 id="aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</h2>
-          <p>A system people trust completely is a system nobody checks, and every system is sometimes wrong. Microsoft researchers use a better target, <a href="https://www.microsoft.com/en-us/research/publication/overreliance-on-ai-literature-review/" target="_blank" rel="noopener noreferrer">appropriate reliance<span class="visually-hidden"> (opens in a new tab)</span></a>: people take the advice when it&rsquo;s good and catch it when it&rsquo;s not.</p>
-          <figure class="writing-figure writing-rail">
-            <figcaption>Three ways people rely on a system</figcaption>
-            <ol class="writing-rail-steps">
-              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Too little</strong><span>people redo what the system got right</span></li>
-              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Appropriate</strong><span>they accept it when it&rsquo;s right and catch it when it isn&rsquo;t</span></li>
-              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Too much</strong><span>they accept what the system got wrong</span></li>
-            </ol>
-          </figure>
-          <p>What moves people toward the middle:</p>
-          <ul>
-            <li>Show what a recommendation rests on, drawn from the records</li>
-            <li>Say how old the evidence is</li>
-            <li>Call a close call a close call</li>
-            <li>Make disagreeing cheap: in Second Look, Assign sits on every row the rules allow, and Skip weighs the same as Save</li>
-          </ul>
-          <p>Then measure the decision, not the acceptance. A high acceptance rate can mean the suggestions are good, or that people stopped reading them. More in <a href="enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>.</p>
-          <p><mark>The goal isn&rsquo;t more trust. It&rsquo;s trust that matches how good the system really is.</mark></p>
-
-          <p class="writing-eyebrow">Key idea 5 of 6</p>
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
           <h2 id="an-approve-button-isnt-oversight">An approve button isn&rsquo;t oversight</h2>
-          <p>An approval is only oversight if the person can actually say no. An illustration: a dispatch agent recommends moving a truck, with high confidence, and the dispatcher approves. But the driver has a limitation that isn&rsquo;t in the data. The math wasn&rsquo;t wrong. Nothing on the screen said what was missing, so the approval couldn&rsquo;t catch it.</p>
+          <p>An approval is only oversight if the person can actually say no.</p>
+          <p>Imagine a dispatch agent recommends moving a truck, with high confidence, and the dispatcher approves. The driver has a limitation that isn&rsquo;t in the data. The math wasn&rsquo;t wrong, but nothing on the screen said what was missing.</p>
           <figure class="writing-figure">
             <figcaption>An approval that&rsquo;s a formality, and one that&rsquo;s oversight</figcaption>
             <div class="writing-split">
@@ -419,14 +421,15 @@
               </div>
             </div>
           </figure>
-          <p>The decision belongs to whoever is accountable for the outcome. In <a href="https://tusharroy.com/case-study/vanguard" target="_blank" rel="noopener noreferrer">Tushar Roy&rsquo;s case study<span class="visually-hidden"> (opens in a new tab)</span></a>, the person who owns a metric signs off on the agent&rsquo;s analysis before it&rsquo;s published. In Second Look, the federal hours-of-service limit is checked before anything is ranked, and the close calls stay with the dispatcher.</p>
-          <p><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer">NIST&rsquo;s AI Risk Management Framework<span class="visually-hidden"> (opens in a new tab)</span></a> asks organizations to define and document how human oversight works, not just to have some. For a designer that&rsquo;s a test: give people a bad recommendation and count how many catch it. More in <a href="what-does-a-person-need-to-supervise-an-ai-agent.html">What does a person need to supervise an AI agent?</a></p>
+          <p>Now picture that all day. Accepting takes one click, and disagreeing takes several screens and a written reason. A person approved every action. Did they decide any of them?</p>
+          <p>The decision belongs to whoever is accountable for the outcome. In Second Look, the federal hours-of-service limit is checked before anything is ranked, and the close calls stay with the dispatcher.</p>
+          <p>The test is simple: give people a bad recommendation and count how many catch it. More in <a href="what-does-a-person-need-to-supervise-an-ai-agent.html">What does a person need to supervise an AI agent?</a></p>
           <p><mark>If saying no is harder than saying yes, the approval is a formality.</mark></p>
 
-          <p class="writing-eyebrow">Key idea 6 of 6</p>
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
           <h2 id="what-the-system-says-when-it-doesnt-know-belongs-in-the-design-system">What the system says when it doesn&rsquo;t know belongs in the design system</h2>
-          <p>A design system defines what an error looks like. An AI product also needs to decide what the assistant says when it doesn&rsquo;t know: say how unsure it is, ask, wait for a person, or refuse. Those decisions should be made once, in the system, not by each team on each screen.</p>
-          <p>Patricia Yu, a senior designer at Adobe, talked <a href="https://podcasts.apple.com/se/podcast/design-systems-have-a-conversational-layer-now/id1888223200?i=1000763311863" target="_blank" rel="noopener noreferrer">on a podcast<span class="visually-hidden"> (opens in a new tab)</span></a> about design systems gaining a conversational layer beside the tokens and components. That&rsquo;s where the words for uncertainty belong.</p>
+          <p>A design system defines what an error looks like. An AI product also needs to decide what it says when it doesn&rsquo;t know.</p>
+          <p>Ask, wait for a person, say how unsure it is, or refuse: those choices should be made once, in the system, not by each team on each screen.</p>
           <figure class="writing-figure writing-rail">
             <figcaption>What a system should be able to say when it doesn&rsquo;t know</figcaption>
             <ol class="writing-rail-steps">
@@ -436,13 +439,14 @@
               <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-unknown-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>No</strong><span>past a limit no score can argue with</span></li>
             </ol>
           </figure>
-          <p>Measure whether people understood, how often they corrected the system, and whether they still feel in control. The rest is in <a href="what-does-a-design-system-need-once-ai-is-in-the-product.html">What does a design system need once AI is in the product?</a></p>
+          <p>A system that can say these four things is one I&rsquo;d rely on. One that always has an answer is one I&rsquo;d check every time.</p>
+          <p>Then measure whether people understood, how often they corrected the system, and whether they still feel in control. The rest is in <a href="what-does-a-design-system-need-once-ai-is-in-the-product.html">What does a design system need once AI is in the product?</a></p>
           <p><mark>What a system says when it doesn&rsquo;t know is a pattern, and patterns belong in the design system.</mark></p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
             <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">As software moves from answering to acting, the interface sets the terms of a delegation. The person accountable for the outcome decides, and the design work is making sure they really can: evidence they can check, a no as cheap as a yes, and words for uncertainty written once, in the system. Aim for reliance that matches how good the system is, not for trust.</p>
+            <p class="writing-recap-sum">As software moves from answering to acting, the interface sets the terms of a delegation. The person accountable for the outcome decides, and the design work is making sure they really can.</p>
             <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find the one default in your product that decides for people. Test whether someone who disagreed would notice it, understand it and undo it in one step.</p>
           </aside>
         </div>
