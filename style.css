@@ -716,17 +716,21 @@ a.case-thumb { display: block; }
 /* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
    From 1024 up it is two columns, the question, the project, the result and
    the links on the left and the picture on the right; under 1024 it stacks,
-   the words first and the picture under them, with the stacked card's own
+   the picture first and the words under it, with the stacked card's own
    margin between. It was side by side from 768, where the words column is 260px wide and 470
    tall against a picture 210 tall, and a card that lopsided is not two
    columns so much as a caption lost beside a long list.
 
    THE WORDS COME FIRST IN THE MARKUP, so a keyboard reader at a desktop
-   width reaches the left-hand column before the right, and since 2026-10-21
-   they come first on a phone too: the picture had been moved above them
-   with `order` while the card stacked, and a phone opened the card on the
-   figure before it had said what the figure was (Adam: "after the headline
-   and other copy"). A Lab card with a .case-thumb still takes the `order`.
+   width reaches the left-hand column before the right, and a screen reader
+   meets the card's heading before its picture. While the card stacks the
+   picture is moved above them with `order`, since 2026-10-22, so a phone
+   opens the card on its one moving part (Adam: "on mobile, let's have the
+   animated image go first"). From 2026-10-21 to
+   then the stacked card kept the markup's order (Adam, that day: "after
+   the headline and other copy"). The figure's link and the card's first
+   link go to the same case study, so a keyboard reaching the figure third
+   lands nowhere the card has not already offered.
 
    A screen with a column of UI text in it needs more than half the card to
    stay legible, so the picture takes the larger share, 1.3 to 1. The
@@ -754,8 +758,9 @@ a.case-thumb { display: block; }
    picture's height before, which is where this rule stopped being
    comfortable. */
 .case-card--lab { display: grid; grid-template-columns: minmax(0, 1fr); }
-.case-card--lab .case-thumb { order: -1; }
-.case-card--lab .loop-link { margin-top: var(--space-xl); }
+.case-card--lab .case-thumb,
+.case-card--lab .loop-link { order: -1; }
+.case-card--lab .loop-link { margin-bottom: var(--space-xl); }
 /* The figure is the card's picture and a link to the position article, so
    the link is the grid item and the figure fills it. Hovering it does what
    hovering a work card does: the picture tilts and lifts (the tilt rule
@@ -778,8 +783,9 @@ a.case-thumb { display: block; }
     gap: var(--space-2xl);
     align-items: center;
   }
-  .case-card--lab .case-thumb { order: 0; }
-  .case-card--lab .loop-link { margin-top: 0; }
+  .case-card--lab .case-thumb,
+  .case-card--lab .loop-link { order: 0; }
+  .case-card--lab .loop-link { margin-bottom: 0; }
 }
 /* THE PANEL IS 16:9 WHERE IT STANDS FOR A PICTURE, since 2026-10-21: in
    the homepage's lab card, over the work cards' 16:9 pictures (Adam: "the
