@@ -6348,7 +6348,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    figure keeps the text's left edge and runs to the column's right one.
    Below the measure the two widths are the same, so a phone sees nothing
    move. A drawing in the body (.writing-scene) stays at the measure: it
-   is one picture, not columns. */
+   is one picture, not columns. From 1024px a rail goes further, to the
+   page's width; THE RAIL, below, says why. */
 .case-narrow:has(> .writing-measure) { container: essay-column / inline-size; }
 .writing-measure > .writing-rail,
 .writing-measure > .writing-figure:has(> .writing-flow, > .writing-split, > .writing-facts) {
@@ -6511,7 +6512,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    Across, the width is the column's, capped: a rail of five fills the
    article's column at 9rem a tile, and a rail of three would otherwise
    print its drawings at the same small size in a column twice as wide.
-   11.25rem is the ceiling, because the tiles are 360px and that is half.
+   11.25rem is the ceiling, because the tiles are 360px and that is half;
+   out of the column, from 1024px, it is 15rem, set out further down.
    The cqi is the figure's own width (it is the container). */
 .writing-rail { container: writing-rail / inline-size; }
 .writing-rail-steps {
@@ -6598,6 +6600,43 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-rail-num { grid-column: 1; grid-row: auto; padding-top: 0; }
   .writing-measure .writing-rail-steps strong { grid-column: 1; grid-row: auto; }
   .writing-rail-steps li > span:last-child { grid-column: 1; grid-row: auto; }
+}
+/* An article's rail takes the page's width from 1024px, since 2026-10-22:
+   the width the nav spans, --container-max less its two gutters or the
+   viewport less them, whichever is smaller, centered on the column it
+   breaks out of. In the column a rail of four was 196px a step at 1440. A
+   step's name broke onto two lines and its line onto three, and one
+   step's words ran up against the next across a 16px gap, so the figure
+   read as a crowd of small things rather than one sequence. Out of it the
+   same four are 280px a step with --space-2xl between them, and the type
+   steps up one each: the line to the body size, the name to --text-lg,
+   the number to --text-xs.
+
+   The tile's ceiling is 15rem here rather than 11.25. The tiles are 360px,
+   so at 240 a 2x screen draws each at 1.33 of its pixels; rendered at 2x
+   beside the old ceiling, the drawings, soft-edged to begin with, carry
+   it. A sharper tile is a fresh cut from the figure's sheet (draw.mjs
+   slice at 480x320), not a change here. Under the ceiling the tile is the
+   step's whole column, as above, and the line keeps the gap.
+
+   1024px is the site's wide breakpoint, where four-across grids begin;
+   below it the rail stays in the column as it was. The scenes rail is
+   excepted: it takes the 990px frame of its own page's phone rows. */
+@media (min-width: 1024px) {
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) {
+    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
+    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
+  }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps {
+    --rail-tile: min(15rem, (100cqi - 4 * var(--space-2xl)) / 5);
+    gap: var(--space-2xl);
+  }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(15rem, (100cqi - 3 * var(--space-2xl)) / 4); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(15rem, (100cqi - 2 * var(--space-2xl)) / 3); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li { font-size: var(--text-base); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl)); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps strong { font-size: var(--text-lg); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-num { font-size: var(--text-xs); }
 }
 /* A rail of scenes, since 2026-10-22: Lucy Learns's three tries, drawn in
    the app's own art rather than the rails' line hand -- the entry hall,
