@@ -660,7 +660,7 @@
   function factorKey() {
     const ROWS = [
       ['level', '', '--band-l:30%;--band-w:40%', false,
-        'Every bar starts at the middle of the trucks that can take this load; inside the block it is level, and grey.'],
+        'Every bar starts at the middle of the trucks that can take this load; inside the block it is level, and gray.'],
       ['ahead', 'helps', '--band-l:30%;--band-w:40%;--lead-l:50%;--lead-w:32%', true,
         'Sage, out to the right: this truck is on the better side.'],
       ['behind', 'hurts', '--band-l:30%;--band-w:40%;--lead-l:18%;--lead-w:32%', true,
