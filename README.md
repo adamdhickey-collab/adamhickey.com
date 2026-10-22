@@ -552,6 +552,14 @@ the two Tailwind steps this repository had first, ten steps in all:
 - **No partial border on a curved surface** -- `curves.mjs`.
 - **Every type size is on the scale** -- `typescale.mjs`.
 
+One more is run by hand and is not in `checks.yml` yet: **every read time
+says what its page takes** -- `readtime.mjs`. The words a reader meets in
+`<main>` at 238 a minute, plus 12 seconds for the first picture with alt
+text, a second less for each after and 3 from the tenth, rounded to the
+nearest minute; the script's header has the whole rule. After a change to a
+page's words or pictures, `node scripts/readtime.mjs --write`, then
+`keys.mjs --write` for the writing index.
+
 "Every reachable state" was an overclaim for one page until the four browser
 checks learned to press things. They load a page, wait for it to settle and
 measure what is there, which is the whole of twenty-eight of the thirty
