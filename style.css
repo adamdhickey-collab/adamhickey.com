@@ -6599,6 +6599,43 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-measure .writing-rail-steps strong { grid-column: 1; grid-row: auto; }
   .writing-rail-steps li > span:last-child { grid-column: 1; grid-row: auto; }
 }
+/* A rail of scenes, since 2026-10-22: Lucy Learns's three tries, drawn in
+   the app's own art rather than the rails' line hand -- the entry hall,
+   the handler and Lucy, flat fills in the app's palette -- so each step is
+   a whole picture with a room in it, not a glyph on white. Three things
+   follow from that.
+
+   On a desktop the figure takes the page's wide frame: the 990px of its
+   phone rows (.build-flow--wide), centered on the column it breaks out
+   of, so the pictures print at about 308px instead of a glyph's 180. It
+   sits in .writing-measure, so it centers by the essay column's cqi; a
+   percentage there would be the 52ch measure's.
+
+   Across, the tile is the step's whole column. A scene is not a drawing
+   floating on white, and a band of white either side of it would only
+   shorten the line. The line keeps its place in the gap between pictures,
+   which is --space-2xl here so that it still reads as a line.
+
+   The corners are the app's, whose pictures sit in rounded frames; this
+   page's other two from that set (.build-mode-shot) take 10px. Stacked,
+   on a phone, the tile is 10rem rather than 8, because a room at 128px is
+   a smudge. Two classes on the rail, because the three-step tile above is
+   (0,2,1). */
+.writing-rail--scenes .writing-rail-steps img { border-radius: 10px; }
+.writing-rail.writing-rail--scenes .writing-rail-steps { --rail-tile: 10rem; }
+@container writing-rail (min-width: 34rem) {
+  .writing-rail.writing-rail--scenes .writing-rail-steps {
+    --rail-tile: calc((100cqi - 2 * var(--space-2xl)) / 3);
+    gap: var(--space-2xl);
+  }
+  .writing-measure .writing-rail--scenes .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl)); }
+}
+@media (min-width: 56rem) {
+  .writing-measure > .writing-rail--scenes {
+    width: min(990px, 100vw - 2 * var(--gutter));
+    margin-inline-start: calc(50cqi - min(495px, 50vw - var(--gutter)));
+  }
+}
 
 /* A number row is .build-facts with the number first: the figure in serif
    at --text-4xl over its label, so the numbers the prose used to carry in a
