@@ -255,7 +255,7 @@ entirely on height.
 **A fill that already clears 3:1 against its ground draws no edge.** A
 charcoal device mockup on warm is 12.24:1; the sage panel on warm is 4.12; a
 warm figure on the charcoal band is 14.02. The fill is the boundary there, and
-a grey hairline on the side of a drawn phone is a line on a photograph of an
+a gray hairline on the side of a drawn phone is a line on a photograph of an
 object, not a card edge. The design system page's ground swatches are out for
 the same reason in reverse: their job is to show a ground's own value, and an
 edge would be the page reporting a color it does not have.
@@ -468,7 +468,7 @@ twice in two days:
 
 | | The boundary | What went wrong |
 |---|---|---|
-| An opaque keyline in the shadow's first layer | `--color-rule`, 1.42:1 on warm | It read. But it is a grey-tan at full strength drawn all the way round, the same weight down a card's side as across its top: it says "bounded" where the thing worth saying is "on top of" |
+| An opaque keyline in the shadow's first layer | `--color-rule`, 1.42:1 on warm | It read. But it is a gray-tan at full strength drawn all the way round, the same weight down a card's side as across its top: it says "bounded" where the thing worth saying is "on top of" |
 | No line, an **ambient** shadow layer at offset 0 | 1.26:1 at a card's side, measured | Also read — an edge made of blur is still an edge. But it *fades*, and at a 3px blur it took **3.5 CSS pixels** to do it, which is haze rather than a boundary. Tightening it to 1px got the fade to 1.0px at 34% alpha, by which point it is a line drawn the least direct way available |
 
 So the two jobs take two properties, and every rung is a **tucked drop** — a
@@ -775,13 +775,13 @@ holds one meaning: rose where a person has to read what the checks could
 not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
 
-**The prototype's hand-built grey, in "Every action is a button. Except
+**The prototype's hand-built gray, in "Every action is a button. Except
 cancel."** Since 2026-10-21 the top of the Agent Review case study draws the
 prototype's first problem in code: two actions from its billing settings,
 "Change plan" as a button and "Cancel subscription" as the link the old
-billing app built by hand, small and grey. That grey is the product's,
+billing app built by hand, small and gray. That gray is the product's,
 `#6a6a76`, the hand-typed value and the value of the prototype's own muted
-token, so the picture shows exactly the grey the product does. It is
+token, so the picture shows exactly the gray the product does. It is
 `--quiet-cancel-ink`, declared on `.quiet-cancel` in `lab/agent-review.css`
 and used nowhere else: a picture of a product's colour, by this section's
 rule, not an interface colour of this site. It carries text, "Cancel
