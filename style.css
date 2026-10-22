@@ -677,6 +677,31 @@ a.case-thumb { display: block; }
   padding: var(--space-xl);
 }
 .case-card--lab .case-desc { margin-top: var(--space-md); }
+/* THE TITLE BREAKS AFTER ITS SUBJECT ON A PHONE, since 2026-10-22. At the
+   homepage's 28px floor "How product design works now" is 344 wide, wider
+   than the card's words on any phone (279 at 375, 334 at 430), so it always
+   breaks, and left to break where it fell it put "now" alone on the second
+   line (Adam: "weird wrapping"). Balance alone made it "How product /
+   design works now", splitting the noun, so "How product design" is an
+   inline-block span as well: balanced, the break it picks is after the
+   span, "How product design / works now"; where the whole title fits, it
+   stays on one line. The dek's two sentences hold together the same way
+   (.case-lab-lead below).
+   The description takes `pretty` and the points `balance`, so no line
+   under the dek ends on one word: at 390 the last point read "A clear line
+   where a person / decides", and is "A clear line where / a person
+   decides". A point that fits on one line is left alone by either. */
+.case-card--lab h3 { text-wrap: balance; }
+.case-card--lab h3 span { display: inline-block; }
+.case-card--lab .case-desc { text-wrap: pretty; }
+.case-card--lab .build-list li { text-wrap: balance; }
+/* The points are the last thing above the links since 2026-10-22, when the
+   sentence naming Agent Review moved up into the description. The list's
+   own --space-xl stacked on the links' --space-lg in the body's flex column,
+   where margins do not collapse, and put them 44 under it; at the
+   description's --space-xs they sit 28 under the points, as they sat under
+   the sentence. */
+.case-card--lab .build-list { margin-bottom: var(--space-xs); }
 /* THE PICTURE BESIDE THE WORDS. One card the width of the three above it.
    From 1024 up it is two columns, the question, the project, the result and
    the links on the left and the picture on the right; under 1024 it stacks,
@@ -751,8 +776,11 @@ a.case-thumb { display: block; }
    over its pieces' 16:9 screenshots (Adam: "on the lab page landing page
    as well"). Its two rows alone made it a band: 623 by 283 beside the
    card's words from 1280 up, 2.2:1, and 681 by 283 on the lab index, 2.4:1.
-   At 16:9 those are 350 and 383 tall; the card's words are 351, so the
-   panel and the words now start and end together.
+   At 16:9 those are 350 and 383 tall; the card's words are 360, so the
+   panel and the words start and end within a few pixels of each other.
+   (They were 351 when this was written, then 507 from the day the card
+   gave Agent Review a paragraph of its own until 2026-10-22, when that
+   paragraph folded into the description.)
 
    The height it gains goes to the room between the two processes, 20 to 71
    on the homepage and to 104 on the lab index, and to the panel's top and
@@ -809,7 +837,15 @@ a.case-thumb { display: block; }
    tried and ran it to three lines at 375 and up against the 28px name.
    max() rather than a query, as the homepage's h2 and h3 floors are: the
    ramp is unchanged from about 693px, where it passes 20 on its own, so
-   the dek beside the picture is exactly what it was. */
+   the dek beside the picture is exactly what it was.
+   EACH SENTENCE HOLDS TOGETHER, since 2026-10-22. The dek is two short
+   sentences, 378 wide on one line at 20px, so a phone breaks it, and
+   balance broke it inside the first one: "Building got easy. Knowing /
+   what to build didn't." Each sentence is an inline-block span, so the
+   line can only break between them, "Building got easy." over "Knowing
+   what to build didn't.", which at 236 fits every phone from 375 up. Where
+   both fit on one line they still share it; under 375 the second sentence
+   wraps inside its own span, still balanced, since text-wrap inherits. */
 .case-lab-lead {
   margin: 0;
   max-width: 32rem;
@@ -819,6 +855,7 @@ a.case-thumb { display: block; }
   text-wrap: balance;
   color: var(--color-charcoal);
 }
+.case-lab-lead span { display: inline-block; }
 /* The card's eyebrow is the section eyebrow's type at the card's own
    margin: the lab is the one thing in this section that is a family rather
    than an account, and the word is the label the lab index and the nav
