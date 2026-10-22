@@ -15,9 +15,14 @@
  * system's button in sage, the branch to the hand-built link in caution,
  * each a single run with pathLength="1", so the build can draw it.
  *
- * It also arms the build (lab/agent-review.css, "The build"), as loop.js
- * does for the loop: only when the reader has not asked for stillness and
- * the browser can say when the figure is in view, and then once.
+ * It also starts the build (lab/agent-review.css, "The build"), once, the
+ * first time the figure is in view. The page's head arms it, before first
+ * paint, only when the reader has not asked for stillness and the browser
+ * can say when the figure is in view; this file used to, and being
+ * deferred it could run after the finished figure had already painted.
+ * It sets window.quietCancelBuild once it is watching, and the head takes
+ * the arming back at DOMContentLoaded if it is not, so a script that never
+ * loads leaves the figure simply there rather than empty.
  *
  * WHY A SCRIPT. The stem starts under a word of live type and the branches
  * end on actions whose places depend on the figure's width, the type step
@@ -123,18 +128,21 @@
   }
 
   function all() { figures.forEach(draw); }
+  /* The figure's own box is what the paths depend on, so a window resize
+     that changes it is already seen here; listening to both drew twice. */
   if ('ResizeObserver' in window) {
     var ro = new ResizeObserver(all);
     figures.forEach(function (f) { ro.observe(f); });
+  } else {
+    window.addEventListener('resize', all);
   }
-  window.addEventListener('resize', all);
   window.addEventListener('load', all);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
   all();
 
-  /* The build, once, the first time a fifth of the figure is on screen. */
-  if (!('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* The build, once, the first time a fifth of the figure is on screen,
+     on a page whose head armed it. */
+  if (!document.documentElement.classList.contains('quiet-cancel-armed')) return;
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
@@ -143,8 +151,6 @@
       }
     });
   }, { threshold: 0.2 });
-  figures.forEach(function (f) {
-    f.classList.add('quiet-cancel--armed');
-    io.observe(f);
-  });
+  figures.forEach(function (f) { io.observe(f); });
+  window.quietCancelBuild = true;
 })();

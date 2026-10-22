@@ -133,9 +133,10 @@
 
    THE BUILD, once, the first time the figure is in view, as the loop's:
    the rule, then the exception, the stem drawing down and dividing, each
-   screen landing as its branch arrives, and last the takeaway. Without
-   script, or under reduced motion, nothing is armed and the figure is
-   simply there, which is what the checks measure.
+   screen landing as its branch arrives, and last the takeaway, whose last
+   line is the designer's call, on a line of its own. Without script, or
+   under reduced motion, nothing is armed and the figure is simply there,
+   which is what the checks measure.
 
    Two columns from 30rem of figure, stacked under it. */
 .quiet-cancel {
@@ -284,6 +285,7 @@
   text-wrap: balance;
 }
 .quiet-cancel-pass { color: var(--qc-system); }
+.quiet-cancel-call { display: block; margin-top: var(--space-xs); }
 .quiet-cancel-leads {
   position: absolute;
   inset: 0;
@@ -313,46 +315,60 @@
 }
 
 /* The build. Keyed off --qc-beat, the loop's own beat, so the two figures
-   move at one pace: about two and a half seconds end to end. */
+   move at one pace: about two and a half seconds end to end.
+
+   ARMED ON THE ROOT, before first paint, by the page's head (lab/agent-
+   review.html), not by quiet-cancel.js: that file is deferred, and on a
+   slow load the finished figure painted, vanished and then built. The
+   head takes the arming back if the file never ran.
+
+   A LINE WAITING TO DRAW IS HIDDEN, not only dashed out of sight. Its
+   pathLength is 1 and its offset 1, so an empty dash sat exactly on one
+   end of the path, and Chrome drew that empty dash's round cap: a dot at
+   the foot of each branch on a desktop and under the label on a phone,
+   on screen before anything else was. Which end it lands on is rounding,
+   so the line stays hidden until its own draw starts (qc-draw), and the
+   gap of 2 keeps the far end clear in that first frame. */
 .quiet-cancel {
   --qc-beat: calc(var(--motion-move) + var(--motion-stagger) * 2);
 }
-.quiet-cancel--armed .quiet-cancel-rule,
-.quiet-cancel--armed .quiet-cancel-except,
-.quiet-cancel--armed .quiet-cancel-case,
-.quiet-cancel--armed .quiet-cancel-means,
-.quiet-cancel--armed .quiet-cancel-take { opacity: 0; }
-.quiet-cancel--armed .quiet-cancel-leads path,
-.quiet-cancel--armed .quiet-cancel-mark path { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.quiet-cancel--armed[data-play] .quiet-cancel-rule {
+.quiet-cancel-armed .quiet-cancel-rule,
+.quiet-cancel-armed .quiet-cancel-except,
+.quiet-cancel-armed .quiet-cancel-case,
+.quiet-cancel-armed .quiet-cancel-means,
+.quiet-cancel-armed .quiet-cancel-take { opacity: 0; }
+.quiet-cancel-armed .quiet-cancel-leads path,
+.quiet-cancel-armed .quiet-cancel-mark path { visibility: hidden; stroke-dasharray: 1 2; stroke-dashoffset: 1; }
+@keyframes qc-draw { from { visibility: visible; } to { visibility: visible; stroke-dashoffset: 0; } }
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-rule {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-except {
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-except {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
   animation-delay: var(--qc-beat);
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-lead--stem {
-  animation: eng3-draw var(--motion-move) var(--ease) forwards;
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--stem {
+  animation: qc-draw var(--motion-move) var(--ease) forwards;
   animation-delay: calc(var(--qc-beat) * 2);
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-lead--system,
-.quiet-cancel--armed[data-play] .quiet-cancel-lead--hand {
-  animation: eng3-draw var(--motion-enter) var(--ease) forwards;
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--system,
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--hand {
+  animation: qc-draw var(--motion-enter) var(--ease) forwards;
   animation-delay: calc(var(--qc-beat) * 2 + var(--motion-move));
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-case {
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-case {
   animation: loop-land var(--motion-move) var(--ease-enter) both;
   animation-delay: calc(var(--qc-beat) * 3 + var(--motion-move) + var(--i) * var(--motion-stagger));
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-mark path {
-  animation: eng3-draw var(--motion-enter) var(--ease) forwards;
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-mark path {
+  animation: qc-draw var(--motion-enter) var(--ease) forwards;
   animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-means {
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-means {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
   animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
 }
-.quiet-cancel--armed[data-play] .quiet-cancel-take {
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-take {
   animation: loop-in var(--motion-enter) var(--ease-enter) both;
   animation-delay: calc(var(--qc-beat) * 5 + var(--motion-move));
 }
