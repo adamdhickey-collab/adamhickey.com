@@ -252,7 +252,7 @@ jobs:
           node /tmp/tw-report.mjs
           exit 1
 
-  # The four that render. One leg each, in parallel, because they are the whole
+  # The six that render. One leg each, in parallel, because they are the whole
   # bill and they share nothing.
   #
   # resting.mjs and states.mjs ask different questions and neither covers the
@@ -280,6 +280,17 @@ jobs:
   # surfaces the day it arrived and a workflow with a known-red leg tells you
   # nothing about the commit that turned it red. Its own header said to wire
   # it in the day it passes. It passes.
+  #
+  # readtime.mjs: does every read time say what its page takes? The words a
+  # reader meets in <main> at 238 a minute, plus a few seconds for each
+  # picture, rounded to the minute; the script's header is the whole rule.
+  # Rendered rather than counted from the file, because the words a reader
+  # meets are not the words in the markup. It ran by hand from #568, which
+  # found 18 of 27 labels short, and nothing stopped them drifting again: a
+  # page whose words or pictures change without its label is red here now.
+  # It is the shortest leg, one load at one width for each page that states
+  # a read time, and the only one that measures fewer pages than the tree
+  # holds, on purpose.
   browser:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
@@ -302,6 +313,9 @@ jobs:
           - check: cards
             flags: ''
             label: Every card on a ground has an edge that reads
+          - check: readtime
+            flags: ''
+            label: Every read time says what its page takes
     steps:
       - uses: actions/checkout@v7
 
