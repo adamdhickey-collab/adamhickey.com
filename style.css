@@ -6713,7 +6713,19 @@ html.ah-lightbox-open body { overflow: hidden; }
    page's other two from that set (.build-mode-shot) take 10px. Stacked,
    on a phone, the tile is 10rem rather than 8, because a room at 128px is
    a smudge. Two classes on the rail, because the three-step tile above is
-   (0,2,1). */
+   (0,2,1).
+
+   A rail of four scenes, since 2026-10-22, when the tries took a fourth
+   step that is not a try. Four across the 990px frame would print each
+   room at about 200px, smaller than the three it joined were before they
+   left the column. So from 1024px four take the page's width, as an
+   article's rail does, and print at about 260px at 1440.
+
+   In the column, four across would be 113px a room at 640 and 141 at
+   768, under the 160 they are stacked on a phone. So until the card is
+   46rem inside, wide enough for four at 160, they sit two and two at
+   about 250, and the line runs within each row: 02 has nothing to its
+   right to join. */
 .writing-rail--scenes .writing-rail-steps img { border-radius: 10px; }
 .writing-rail.writing-rail--scenes .writing-rail-steps { --rail-tile: 10rem; }
 @container writing-rail (min-width: 34rem) {
@@ -6721,12 +6733,28 @@ html.ah-lightbox-open body { overflow: hidden; }
     --rail-tile: calc((100cqi - 2 * var(--space-2xl)) / 3);
     gap: var(--space-2xl);
   }
+  .writing-rail.writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) { --rail-tile: calc((100cqi - 3 * var(--space-2xl)) / 4); }
   .writing-measure .writing-rail--scenes .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
+}
+@container writing-rail (min-width: 34rem) and (max-width: 45.99rem) {
+  .writing-rail.writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) {
+    --rail-tile: calc((100cqi - var(--space-2xl)) / 2);
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-xl);
+  }
+  .writing-measure .writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) > li:nth-child(2)::before { content: none; }
 }
 @media (min-width: 56rem) {
   .writing-measure > .writing-rail--scenes {
     width: min(990px, 100vw - 2 * var(--gutter));
     margin-inline-start: calc(50cqi - min(495px, 50vw - var(--gutter)));
+  }
+}
+@media (min-width: 1024px) {
+  .writing-measure > .writing-rail--scenes:has(> .writing-rail-steps > li:nth-child(4)) {
+    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
+    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
   }
 }
 
