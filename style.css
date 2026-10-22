@@ -674,19 +674,30 @@ a.case-thumb { display: block; }
      the panel that is meant to hold the odd one out. --shadow-zone puts it
      in front without giving a region the drop of an object. */
   box-shadow: var(--shadow-zone);
-  padding: var(--space-xl);
+  padding: var(--space-md);
+}
+@media (min-width: 640px) {
+  .case-card--lab { padding: var(--space-xl); }
 }
 .case-card--lab .case-desc { margin-top: var(--space-md); }
 /* THE TITLE BREAKS AFTER ITS SUBJECT ON A PHONE, since 2026-10-22. At the
-   homepage's 28px floor "How product design works now" is 344 wide, wider
-   than the card's words on any phone (279 at 375, 334 at 430), so it always
-   breaks, and left to break where it fell it put "now" alone on the second
-   line (Adam: "weird wrapping"). Balance alone made it "How product /
-   design works now", splitting the noun, so "How product design" is an
-   inline-block span as well: balanced, the break it picks is after the
-   span, "How product design / works now"; where the whole title fits, it
-   stays on one line. The dek's two sentences hold together the same way
+   homepage's 28px floor "How product design works now" is 344 wide. Left
+   to break where it fell it put "now" alone on the second line (Adam:
+   "weird wrapping"), and balance alone made it "How product / design works
+   now", splitting the noun, so "How product design" is an inline-block
+   span as well: balanced, the break it picks is after the span, "How
+   product design / works now"; where the whole title fits, it stays on
+   one line. The dek's two sentences hold together the same way
    (.case-lab-lead below).
+   THE CARD'S INSET IS ITS PANEL'S UNDER 640, --space-md where it was
+   --space-xl, since the same day. At --space-xl the words were 331 wide on
+   a 430 phone, 13 short of the title, so the big phones took the break
+   too, with room left on the first line for "works" (Adam, on a 430
+   iPhone: "wrapping in an unnatural way"). At --space-md they are 347 at
+   430 and 357 at 440, and the title is one line there; from 402 down
+   (320, 311, 293) it still breaks after its subject. The loop panel under
+   the words is already --space-md under 640, so the card and the panel
+   inside it now share an inset on a phone.
    The description takes `pretty` and the points `balance`, so no line
    under the dek ends on one word: at 390 the last point read "A clear line
    where a person / decides", and is "A clear line where / a person
