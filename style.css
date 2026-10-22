@@ -6506,9 +6506,11 @@ html.ah-lightbox-open body { overflow: hidden; }
    the line down the drawings' centres. From 34rem of figure the steps go
    across in equal columns, each drawing over its words and the line
    through the drawings' middles. Either way the line is each step's
-   ::before, reaching to the next step's drawing, so it meets the next one
-   whatever height or width the words take; the drawing is an opaque white
-   tile and sits over it, so the line shows only between drawings.
+   ::before, running from the edge of its drawing's tile to the edge of the
+   next one, so it meets the next one whatever height or width the words
+   take, and shows only between drawings. (It ran from tile centre to tile
+   centre under an opaque white tile until the zone below, which the tile
+   now lets through.)
 
    THE TILE IS 3:2 AND ITS WIDTH IS A LENGTH, never a percentage: the
    line's top is half the tile's height, a third of its width, and a
@@ -6522,6 +6524,41 @@ html.ah-lightbox-open body { overflow: hidden; }
    out of the column, from 1024px, it is 15rem, set out further down.
    The cqi is the figure's own width (it is the container). */
 .writing-rail { container: writing-rail / inline-size; }
+/* THE RAIL SITS IN A ZONE, since 2026-10-22 (Adam: "these need some kind
+   of background or frame around them ... to add a little structure of the
+   page when these graphics are introduced"). On the article's white it was
+   a title and a row of drawings floating between paragraphs, with nothing
+   to say where the figure began or ended. Now it is the rung COLOR.md
+   calls a zone, the homepage lab card's: tea-light, the --rule-card edge
+   at 1.64:1 on white, --radius-xl and --shadow-zone, with the title inside
+   it, so a figure arrives as one object with its name on it. Tea-light is
+   the feature ground, the one pull-outs take, and its ink table is
+   white's: the number in accent-text is 4.90, the line under each name in
+   muted-gray 5.44, the name in charcoal 12.90.
+
+   The drawings are white tiles, and on tea-light a white tile is a box.
+   Each is multiplied into the zone instead, which takes the white to the
+   ground and darkens the ink under it by the ground's own 8%, so the
+   drawing sits on the panel the way it sat on the page. The scenes are
+   whole pictures in their own frames and keep their pixels.
+
+   The inset follows the lab card's: --space-md on a phone, so the stacked
+   words keep their width; --space-xl from 640; and from 1024, where the
+   rail is the page's width, --space-3xl on the sides. */
+.writing-rail {
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-zone);
+  padding: var(--space-lg) var(--space-md);
+}
+@media (min-width: 640px) {
+  .writing-rail { padding: var(--space-xl); }
+}
+@media (min-width: 1024px) {
+  .writing-rail { padding: var(--space-2xl) var(--space-3xl); }
+}
+.writing-rail:not(.writing-rail--scenes) .writing-rail-steps img { mix-blend-mode: multiply; }
 .writing-rail-steps {
   --rail-tile: 8rem;
   list-style: none;
@@ -6548,9 +6585,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   content: "";
   position: absolute;
   left: calc(var(--rail-tile) / 2);
-  top: calc(var(--rail-tile) / 3);
+  top: calc(var(--rail-tile) * 2 / 3);
   width: 1.5px;
-  height: calc(100% + var(--space-xl));
+  height: calc(100% + var(--space-xl) - var(--rail-tile) * 2 / 3);
   border-radius: 0;
   background: var(--color-accent-text);
 }
@@ -6597,9 +6634,9 @@ html.ah-lightbox-open body { overflow: hidden; }
     grid-template-rows: auto;
   }
   .writing-measure .writing-rail-steps li:not(:last-child)::before {
-    left: calc(var(--rail-tile) / 2);
+    left: var(--rail-tile);
     top: calc(var(--rail-tile) / 3);
-    width: calc(100% + var(--space-md));
+    width: calc(100% + var(--space-md) - var(--rail-tile));
     height: 1.5px;
   }
   .writing-rail-steps img { grid-row: auto; width: var(--rail-tile); margin-bottom: var(--space-sm); }
@@ -6640,7 +6677,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(15rem, (100cqi - 3 * var(--space-2xl)) / 4); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(15rem, (100cqi - 2 * var(--space-2xl)) / 3); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li { font-size: var(--text-base); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl)); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps strong { font-size: var(--text-lg); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-num { font-size: var(--text-xs); }
 }
@@ -6673,7 +6710,7 @@ html.ah-lightbox-open body { overflow: hidden; }
     --rail-tile: calc((100cqi - 2 * var(--space-2xl)) / 3);
     gap: var(--space-2xl);
   }
-  .writing-measure .writing-rail--scenes .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl)); }
+  .writing-measure .writing-rail--scenes .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
 }
 @media (min-width: 56rem) {
   .writing-measure > .writing-rail--scenes {
