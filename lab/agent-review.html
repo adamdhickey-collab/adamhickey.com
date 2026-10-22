@@ -101,10 +101,29 @@
   <link rel="stylesheet" href="../related.css?v=1" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=31" />
+  <link rel="stylesheet" href="agent-review.css?v=32" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="../quiet-cancel.js?v=4" defer></script>
+  <script src="../quiet-cancel.js?v=5" defer></script>
+  <!-- "Every action is a button. Except cancel." builds itself the first
+       time it is in view (agent-review.css, "The build"). It is armed here,
+       before first paint, because quiet-cancel.js is deferred: armed there,
+       a slow load painted the finished figure, emptied it and then built
+       it. If that file never runs, the arming comes off at
+       DOMContentLoaded and the figure is simply there. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      } catch (e) { return; }
+      el.classList.add('quiet-cancel-armed');
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
+      });
+    })();
+  </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -307,7 +326,7 @@
             </li>
           </ul>
           <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
-          <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass.</span> To keep cancel looking like this, the agent would add a quiet button that anyone could use to hide an action.</figcaption>
+          <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass.</span> To keep cancel like this, the agent would add a quiet button anyone could use to hide an action. <span class="quiet-cancel-call">Whether cancel stays hidden is a product designer&rsquo;s call.</span></figcaption>
         </figure>
         </div>
       </div>
