@@ -44,7 +44,7 @@ so starting in the cloud does not commit anyone to finishing there.
 
 Work happens on a `claude/<task-name>` branch and lands through a pull
 request. **A merge never waits on a check.** The fast five run locally before
-the push, because they cost a second; the five browser checks run scoped to
+the push, because they cost a second; the six browser checks run scoped to
 the page when the change is one page, and otherwise ride the post-merge run
 (below). The one change worth holding a merge for is a stylesheet more than
 one page loads -- `gh workflow run checks.yml --ref <branch>` and read it
@@ -126,7 +126,7 @@ yes. Never force without it.
 ## A green `checks` does not mean the site updated
 
 Those are two workflows and they fail independently. `checks.yml` reports on
-the tree; `pages.yml` ships it. A commit can pass all ten checks and never
+the tree; `pages.yml` ships it. A commit can pass all eleven checks and never
 reach the URL, and when that happens the site does not look broken. It looks
 unchanged, which is indistinguishable from a change nobody made.
 
@@ -281,6 +281,7 @@ node scripts/states.mjs --strict          # hover, focus and script-applied stat
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
 node scripts/curves.mjs                   # no partial border on a rounded surface
 node scripts/cards.mjs                    # every card on a ground has an edge that reads
+node scripts/readtime.mjs                 # every read time against its page's words and pictures
 node scripts/states.mjs <page> --strict   # just the page you touched
 ```
 
@@ -293,25 +294,27 @@ finish in about a second between them, so run those every time.
 
 ### How much of that to run, and when
 
-The cost is not spread evenly across the ten. `deployable.mjs`,
+The cost is not spread evenly across the eleven. `deployable.mjs`,
 `tokens.mjs`, `counts.mjs`, `seo.mjs` and `keys.mjs` finish in about a second together and
-need nothing installed. The five browser checks are the entire bill: each
-renders every page in the tree, and `typescale.mjs` renders each of them at
-four widths. Unscoped, that is minutes locally and was 9m11s in CI on #78.
+need nothing installed. The six browser checks are the entire bill: five of
+them render every page in the tree, `typescale.mjs` renders each of them at
+four widths, and `readtime.mjs` renders only the 27 pages that state a read
+time, once each, in about five seconds. Unscoped, that is minutes locally and
+was 9m11s in CI on #78.
 
 **The post-merge run is the full sweep, so a local run is about catching a
 failure before it is live rather than about coverage.** That makes it a
 question of aim rather than volume: scope it to what changed, and never hold
 a merge for it. The row below says which changes are worth the wait. Scoped to
-the page you touched, all five browser checks together take about forty
+the page you touched, all six browser checks together take about forty
 seconds, most of it `typescale.mjs` visiting its four widths; `resting.mjs`
 alone on one page is a second. That is the difference between a check you run
 and a check you skip because you are in a hurry.
 
 | What the change touches | Run locally |
 | --- | --- |
-| Copy, markup, SEO, images | The fast five |
-| Color, type, spacing or motion **on one page** | The fast five, plus the five browser checks scoped to that page |
+| Copy, markup, SEO, images | The fast five, plus `readtime.mjs`: a page's words and pictures are what its read time counts, and all 27 take about five seconds |
+| Color, type, spacing or motion **on one page** | The fast five, plus the six browser checks scoped to that page |
 | A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite. This is the one worth waiting for: `gh workflow run checks.yml --ref <branch>` on the branch, rather than minutes of local browser time |
 | Anything else | Merge; the push-to-`main` run is the full sweep, and a failure opens an issue |
 
@@ -323,7 +326,12 @@ node scripts/states.mjs    prototype/dispatch-cockpit.html --strict
 node scripts/typescale.mjs prototype/dispatch-cockpit.html
 node scripts/curves.mjs    prototype/dispatch-cockpit.html
 node scripts/cards.mjs     prototype/dispatch-cockpit.html
+node scripts/readtime.mjs  case-study/this-site.html
 ```
+
+`readtime.mjs` takes the same argument, but the cockpit states no read time,
+so scoped to it the script exits 2 and says so. That is nothing to hold, not
+a pass, which is why its line above names a page that has one.
 
 The shared-stylesheet row is the one that genuinely needs the unscoped run,
 and it is the reason this is a table rather than a rule saying "scope it."
@@ -333,7 +341,7 @@ notices. The tripwire counts below are the only instrument that catches a
 whole page falling out of measurement, and they only read true when every page
 was measured.
 
-The five browser checks take `--root <path>` and otherwise measure the current
+The six browser checks take `--root <path>` and otherwise measure the current
 directory, and **every one of them prints the path, page count and commit it
 measured before it does anything else.** That printing is not decoration. Two
 of them used to resolve the root from their own file location and two from
@@ -351,8 +359,8 @@ own header said to wire it in the day the site passed. Two changes did that
 — `--rule-card` and the depth ladder on the cockpit, then the sweep onto the
 other fourteen — and it is a fifth leg of the browser matrix now.
 
-**So the browser bill is five, not four**, and the shape of the advice does
-not change: `cards.mjs` renders every page once, like `resting.mjs` and
+**So the browser bill went to five from four**, and the shape of the advice
+did not change: `cards.mjs` renders every page once, like `resting.mjs` and
 `curves.mjs`, so it is nowhere near `typescale.mjs`'s four widths. Scope it
 to the page you touched the same way.
 
@@ -362,6 +370,21 @@ surfaces**, 276 across 29 pages, and a run that comes back green with
 materially fewer of them has stopped looking at something rather than
 started passing it.
 
+**`readtime.mjs` IS THE SIXTH LEG SINCE 2026-10-22.** It asks whether every
+read time says what its page takes: the words a reader meets in `<main>` at
+238 a minute, plus a few seconds for each picture with alt text, rounded to
+the nearest minute, with the whole rule in the script's header. #568 wrote it,
+found 18 of 27 labels short, and left it out of the workflow, so for a few
+hours it ran by hand and nothing stopped the labels drifting again. It went
+straight into the matrix because it passed the day it arrived, the condition
+`cards.mjs` waited a month for. **The browser bill is six now, and the sixth
+is the cheapest**: one load at 1440 for each page that states a read time,
+about five seconds for all 27. It is also the one browser check a copy change
+moves, which is why the table above puts it beside the fast five for copy and
+images. Adding a sentence to a page can move its label a minute, and the fix
+is `node scripts/readtime.mjs --write`, then `keys.mjs --write` for the
+writing index and `seo.mjs --write` for the dates.
+
 **Four kinds of question.** `resting.mjs`, `states.mjs`, `typescale.mjs`,
 `curves.mjs` and `cards.mjs` read the specs as **rules** and the rendered page
 as evidence: does this color clear its floor, is this size on the scale, does
@@ -369,7 +392,10 @@ this border follow the whole curve, does this card's edge separate it from the
 ground behind it. `cards.mjs` is the one whose defect is invisible in the
 stylesheet: a charcoal tint composites over the card's own fill when it is a
 border and over the ground when it is a shadow's ring, so the declaration that
-draws nothing looks exactly like the one that draws a hairline. `tokens.mjs` reads the specs as **claims**: every
+draws nothing looks exactly like the one that draws a hairline.
+`readtime.mjs` asks the same kind of question of a rule kept in its own
+header rather than in a spec: does the label over this page say what reading
+the page takes. `tokens.mjs` reads the specs as **claims**: every
 `--token` the four specs or the design system page names either exists in the
 CSS or is declared retired in the script's own registry -- **except where the
 design system page resolves a name rather than discussing one.** Its swatches
@@ -393,7 +419,7 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
-**All four now press things, and only on two pages.** They load a page, wait for
+**Five of the six now press things, and only on two pages.** They load a page, wait for
 it to settle and measure what is there, which is the whole of thirty of the
 thirty-two. From #401 the lab index was a third, while `lab/index.html` kept
 its three pieces in hidden articles and opened one at a press; it went back
@@ -412,7 +438,9 @@ landed, four beats after it. Each names a `holds` selector and is measured
 on a page whose clock the registry stops (#407, #411); the registry's
 header has how. `scripts/lib/reachable.mjs` is the registry -- per page, named
 states and the selectors to click to reach each from a fresh load -- and
-every browser check imports it, `targets.mjs` too. It is curated by hand and lives outside the page deliberately,
+every browser check but `readtime.mjs` imports it, `targets.mjs` too; a
+read time is a claim about the page at rest, and neither cockpit nor console
+states one. It is curated by hand and lives outside the page deliberately,
 like the registries in `counts.mjs` and `tokens.mjs`: a `window.__states` the
 page exported would ship test scaffolding to readers and let a change to the
 page quietly edit the list of what gets measured. `reach()` throws on a
@@ -446,11 +474,22 @@ selector read as a declaration; the drift paragraph below has it), 6
 retired by name, 59 of them resolved by the design system page rather than
 described, and 26 counted claims across 6 documents.
 
-**There are five browser numbers now, not four.** `cards.mjs` went into
+**There are six browser numbers now, not four.** `cards.mjs` went into
 `checks.yml` on 2026-09-21 and its raised-surface count joins the sentence
 above, where it belongs: it is the leg whose count is the most worth reading,
 because its floor is 1.2:1 and a card that quietly stops being raised stops
 being asked the question rather than failing it.
+
+**`readtime.mjs` went in on 2026-10-22, and its number is read times: 27 at
+01b31c9**, every page that states one except the design system page, whose
+label is a specimen of the component rather than a claim about that page. It
+is not in the dated sentence above because it did not exist on 2026-10-13. A
+green run with fewer means a page's label stopped matching the pattern the
+script reads, and that page has stopped being asked rather than started
+passing. The same change took `counts.mjs` from 26 claims across 6 documents
+to 33 across 7: seven entries for the six places that counted the checks
+with nothing holding them, the number row in "What makes a good product
+designer now?" taking two, one for each figure.
 
 Three of the first four jumped when the checks learned to press things, and
 all of the jump is one page: resting 4024 -> 5784, type sizes 16886 ->
@@ -462,7 +501,7 @@ one, and it has moved since. **The state rule count did not move, on
 purpose** -- rules come out of the stylesheet and are the same in every
 state, so `states.mjs` counts them once per page. A reachable state that
 inflated this number would be corrupting the one instrument the section below
-asks you to trust. **The five browser numbers are maintained by hand and
+asks you to trust. **The six browser numbers are maintained by hand and
 nothing verifies them** -- nor the token total printed beside them, which
 the paragraph on declarations below sets out. They will drift. Treat them as a tripwire rather than a
 record: a run that comes back materially smaller means something stopped

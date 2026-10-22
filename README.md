@@ -514,9 +514,10 @@ every merge. #148 took that away and left nothing checking a merge at all,
 which was worse; #151 settled on checking after the merge, where the runner
 waits instead of a person, and opening an issue when a leg goes red. It
 reports and deploys nothing; the two workflows are separate on purpose so a failing check
-reads as a failing check rather than as a failed deploy. Since #23 it is
-the seven scripts that came across from staging, `keys.mjs` written here, and
-the two Tailwind steps this repository had first, ten steps in all:
+reads as a failing check rather than as a failed deploy. It is the eight
+scripts that came across from staging with #20, three written here
+(`keys.mjs`, `cards.mjs` and `readtime.mjs`), and the two Tailwind steps this
+repository had first, thirteen steps in all:
 
 - **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
   nothing tracked that `.gitignore` matches, because the Pages artifact is a
@@ -551,14 +552,16 @@ the two Tailwind steps this repository had first, ten steps in all:
   amount of state-forcing notices.
 - **No partial border on a curved surface** -- `curves.mjs`.
 - **Every type size is on the scale** -- `typescale.mjs`.
-
-One more is run by hand and is not in `checks.yml` yet: **every read time
-says what its page takes** -- `readtime.mjs`. The words a reader meets in
-`<main>` at 238 a minute, plus 12 seconds for the first picture with alt
-text, a second less for each after and 3 from the tenth, rounded to the
-nearest minute; the script's header has the whole rule. After a change to a
-page's words or pictures, `node scripts/readtime.mjs --write`, then
-`keys.mjs --write` for the writing index.
+- **Every card on a ground has an edge that reads** -- `cards.mjs`, at 1.2:1
+  or better.
+- **Every read time says what its page takes** -- `readtime.mjs`. The words a
+  reader meets in `<main>` at 238 a minute, plus 12 seconds for the first
+  picture with alt text, a second less for each after and 3 from the tenth,
+  rounded to the nearest minute; the script's header has the whole rule. It
+  ran by hand from #568 until it joined the sweep, and it is the one browser
+  check that measures only some pages: the 27 that state a read time. After
+  a change to a page's words or pictures, `node scripts/readtime.mjs
+  --write`, then `keys.mjs --write` for the writing index.
 
 "Every reachable state" was an overclaim for one page until the four browser
 checks learned to press things. They load a page, wait for it to settle and
@@ -572,7 +575,8 @@ check said "✓" in good conscience.
 
 `scripts/lib/reachable.mjs` is the registry that fixes it: per page, a list of
 named states and the selectors to click, in order, to get to each from a fresh
-load. All four checks import it and measure each state on its own reload. It is
+load. Every browser check but `readtime.mjs` imports it and measures each
+state on its own reload; a read time is a claim about the page at rest. It is
 curated by hand and lives outside the page on purpose -- a `window.__states` the
 page exported would ship test scaffolding to readers and let a change to the
 page quietly edit the list of what gets measured. `reach()` throws on a selector
@@ -600,9 +604,9 @@ comparison is a `<table>` -- hovering its Assign button kept the near-white ink
 and swapped the accent green for a pale wash. Measured on a real pointer:
 5.32:1 at rest, 1.29:1 under the cursor.
 
-The three static checks need nothing installed and report before anything
+The five static checks need nothing installed and report before anything
 is; the browser checks use the runner image's Chrome and fall back to
-fetching Chromium. Locally, the same nine:
+fetching Chromium. Locally, the same eleven scripts:
 
 ```
 npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
@@ -611,10 +615,13 @@ node scripts/deployable.mjs               # the tree can be tarred into an artif
 node scripts/tokens.mjs                   # every token the docs name actually exists
 node scripts/counts.mjs                   # every number the docs assert, recounted
 node scripts/seo.mjs                      # what the site tells a machine, vs the site
+node scripts/keys.mjs                     # every key idea on an article is still its h2
 node scripts/resting.mjs --strict         # every color a reader can see, untouched
 node scripts/states.mjs --strict          # hover, focus and script-applied state
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
 node scripts/curves.mjs                   # no partial border on a rounded surface
+node scripts/cards.mjs                    # every card on a ground has an edge that reads
+node scripts/readtime.mjs                 # every read time against its page's words and pictures
 ```
 
 `CHROME` has to name a browser that exists, and the scripts check. Each
