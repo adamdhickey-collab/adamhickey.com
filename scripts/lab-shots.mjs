@@ -355,7 +355,7 @@ async function mainColumn(page) {
    (agent-review src/data/billing.ts), and claims no real retention test.
    Until 2026-10-21 the reason was for keeping the red. */
 const REASON =
-  'The grey link is from a retention test last year that ended without a decision, and nobody turned it off. How easy it is to cancel is a product decision, so it gets its own change. A quiet Button would let any agent make any action this hard to find.';
+  'The gray link is from a retention test last year that ended without a decision, and nobody turned it off. How easy it is to cancel is a product decision, so it gets its own change. A quiet Button would let any agent make any action this hard to find.';
 async function decideOwnChange(page) {
   await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
   await page.getByRole('textbox', { name: 'Your reason' }).fill(REASON);
