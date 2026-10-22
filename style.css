@@ -6509,8 +6509,9 @@ html.ah-lightbox-open body { overflow: hidden; }
    ::before, running from the edge of its drawing's tile to the edge of the
    next one, so it meets the next one whatever height or width the words
    take, and shows only between drawings. (It ran from tile centre to tile
-   centre under an opaque white tile until the zone below, which the tile
-   now lets through.)
+   centre under an opaque white tile until #566 put the rail on a tinted
+   zone the tile had to let through; on the white card below, edge to edge
+   draws the same line.)
 
    THE TILE IS 3:2 AND ITS WIDTH IS A LENGTH, never a percentage: the
    line's top is half the tile's height, a third of its width, and a
@@ -6524,32 +6525,30 @@ html.ah-lightbox-open body { overflow: hidden; }
    out of the column, from 1024px, it is 15rem, set out further down.
    The cqi is the figure's own width (it is the container). */
 .writing-rail { container: writing-rail / inline-size; }
-/* THE RAIL SITS IN A ZONE, since 2026-10-22 (Adam: "these need some kind
-   of background or frame around them ... to add a little structure of the
+/* THE RAIL IS A CARD, since 2026-10-22 (Adam: "these need some kind of
+   background or frame around them ... to add a little structure of the
    page when these graphics are introduced"). On the article's white it was
    a title and a row of drawings floating between paragraphs, with nothing
-   to say where the figure began or ended. Now it is the rung COLOR.md
-   calls a zone, the homepage lab card's: tea-light, the --rule-card edge
-   at 1.64:1 on white, --radius-xl and --shadow-zone, with the title inside
-   it, so a figure arrives as one object with its name on it. Tea-light is
-   the feature ground, the one pull-outs take, and its ink table is
-   white's: the number in accent-text is 4.90, the line under each name in
-   muted-gray 5.44, the name in charcoal 12.90.
+   to say where the figure began or ended. Now it is a white card with the
+   title inside it, so a figure arrives as one object with its name on it:
+   the --rule-card edge at 1.64:1 on white, --radius-xl, and --shadow-card,
+   the ladder's rung for a card at rest on the page. It was a tea-light
+   zone for its first afternoon (#566), and the green stood out more than
+   a figure in the middle of an essay should (Adam: "The green stands out
+   too much"); white keeps the frame and gives back the page's own ground,
+   so its inks are the article's.
 
-   The drawings are white tiles, and on tea-light a white tile is a box.
-   Each is multiplied into the zone instead, which takes the white to the
-   ground and darkens the ink under it by the ground's own 8%, so the
-   drawing sits on the panel the way it sat on the page. The scenes are
-   whole pictures in their own frames and keep their pixels.
+   The drawings are white tiles, and on white they sit on the card the way
+   they sat on the page. The scenes are whole pictures in their own frames.
 
    The inset follows the lab card's: --space-md on a phone, so the stacked
    words keep their width; --space-xl from 640; and from 1024, where the
    rail is the page's width, --space-3xl on the sides. */
 .writing-rail {
-  background: var(--color-tea-light);
+  background: var(--color-white);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-zone);
+  box-shadow: var(--shadow-card);
   padding: var(--space-lg) var(--space-md);
 }
 @media (min-width: 640px) {
@@ -6558,7 +6557,6 @@ html.ah-lightbox-open body { overflow: hidden; }
 @media (min-width: 1024px) {
   .writing-rail { padding: var(--space-2xl) var(--space-3xl); }
 }
-.writing-rail:not(.writing-rail--scenes) .writing-rail-steps img { mix-blend-mode: multiply; }
 .writing-rail-steps {
   --rail-tile: 8rem;
   list-style: none;
