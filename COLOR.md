@@ -482,7 +482,7 @@ line.
 
 | Rung | Token | For |
 |---|---|---|
-| 1 | `--shadow-zone` | A tinted region lifted off the page: the cockpit's recommendation panel and status line, the homepage's prototype card |
+| 1 | `--shadow-zone` | A tinted region lifted off the page: the cockpit's recommendation panel and status line, the homepage's prototype card, an article's rail |
 | 2 | `--shadow-card` | A card at rest, on the page or on a zone |
 | 3 | `--shadow-card-raised` | The one card on a screen that is asking to be acted on |
 | 4 | `--shadow-popover` | Floating UI on a light page |
