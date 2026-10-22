@@ -9,7 +9,8 @@
  * on a ground:
  *
  *   lucy-learns   the splash, today's session and the end of a session,
- *                 the three screens the old homepage card showed, in order
+ *                 the three screens the old homepage card showed, in order,
+ *                 each in the phone the write-up frames its screens in
  *   faunaform     the wordmark over the seven prints, four over three, in
  *                 the day's order
  *
@@ -18,7 +19,8 @@
  * faunaform-wordmark.svg) with its viewBox trimmed to the letters, as the
  * shop's header trims it, so this runs without the sibling. The
  * grounds, corners and shadows are the site's tokens, read from color.css and
- * shell.css in the page, so a token change is a re-run rather than a redraw.
+ * shell.css in the page, and the phone is style.css's own .build-phone, so a
+ * token change is a re-run rather than a redraw.
  *
  *   CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
  *     node scripts/built-cards.mjs            # writes both
@@ -40,11 +42,22 @@ const W = 1672, H = 941;
 const CARDS = {
   'lucy-learns': {
     ground: '--color-muted-light',
+    /* Each screen in the write-up's own phone since 2026-10-22: the
+       .build-phone rule from style.css, at the 314px its hero row prints it,
+       then zoomed until the phone stands 0.82 of the picture's height.
+       Zooming the whole object rather than sizing the screen keeps the
+       bezel as thin against the screen as it is on the write-up; the same
+       8px round a phone this tall would read as a thicker frame. */
+    sheets: ['style.css'],
     body: `<div class="row">${['lucy-learns-splash', 'lucy-learns', 'lucy-learns-3']
-      .map((f) => `<img class="phone" src="/img/products/${f}.webp" alt="">`).join('')}</div>`,
-    css: `.row { display: flex; gap: var(--space-3xl); }
-          .phone { height: ${Math.round(H * 0.82)}px; width: auto; border-radius: var(--radius-xl);
-                   box-shadow: var(--shadow-card-raised); background: var(--color-white); }`,
+      .map((f) => `<div class="build-phone"><img src="/img/products/${f}.webp" alt=""></div>`).join('')}</div>`,
+    css: `.row { display: flex; align-items: flex-start; gap: var(--space-3xl); }
+          .build-phone { width: 314px; }`,
+    fit: (h) => {
+      const phones = document.querySelectorAll('.build-phone');
+      const zoom = (h * 0.82) / phones[0].offsetHeight;
+      phones.forEach((p) => { p.style.zoom = zoom; });
+    },
   },
   faunaform: {
     ground: '--color-warm',
@@ -72,11 +85,13 @@ try {
     await page.goto(`${origin}/404.html`);
     await page.setContent(`<!doctype html><html><head>
       <link rel="stylesheet" href="${origin}/color.css"><link rel="stylesheet" href="${origin}/shell.css">
+      ${(card.sheets || []).map((s) => `<link rel="stylesheet" href="${origin}/${s}">`).join('')}
       <style>html, body { margin: 0; width: ${W}px; height: ${H}px; }
         body { display: flex; align-items: center; justify-content: center; background: var(${card.ground}); }
         ${card.css}</style></head><body>${card.body.replaceAll('src="/', `src="${origin}/`)}</body></html>`);
     await page.waitForLoadState('networkidle');
     await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
+    if (card.fit) await page.evaluate(card.fit, H);
     const out = path.join(ROOT, 'img/products', `${slug}-card.webp`);
     fs.writeFileSync(out, await page.screenshot({ type: 'webp', quality: 86 }));
     console.log(`  wrote ${path.relative(ROOT, out)}  (${W}x${H})`);
