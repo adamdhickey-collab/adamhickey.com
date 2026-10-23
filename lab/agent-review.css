@@ -10,20 +10,16 @@
       left half its width empty beside a 52ch lede. The chapters are in
       .case-wide now, the --container-max frame the nav, the hero and the
       engagement pages use, and each one splits into the words and the
-      thing they are about: a figure, a list, the findings, the questions.
+      thing they are about: a figure, or the three kinds of work.
       The words keep --measure, so no line reads longer; what got bigger is
       the room beside them.
 
       One split, 5 to 7, the words on the left and the evidence on the
       right, so a reader's eye finds the same two columns all the way down.
-      Two places flip it to 7 to 5, because what comes first there is the
-      wider thing: the hero, where the title and the lede are the page's
-      opening and the intro video is a sidebar to them, and the dark band,
-      where the four findings are the content and the paragraphs under
-      them are what they mean. The dark band waits for 80rem, for the
-      reason at the foot of this file. Under 64rem nothing is a grid and the
-      markup reads in the order it always did, so the phone and the tablet
-      see the page they saw before.
+      The hero is laid out on its own, the title and the lede beside the
+      problem drawn in code. The dark band that flipped the split to 7 to
+      5 came off the page on 2026-10-23. Under 64rem nothing is a grid and
+      the markup reads in its own order.
 
    2. THE LOOP AS ONE LINE, where six drawings sat on six steps. A rail
       runs through the six: the change leaves the main line on a branch,
@@ -63,20 +59,24 @@
    the h3's ramp, --type-subsection, 24 -> 34, where every other dek on the
    site is on --type-lede, 18 -> 24. The next ramp up rather than a size
    between the two, so it is on a step at every width the type check
-   visits. At 34 it sets in four lines in the hero's half column at 1440,
-   with "knowing when they should stop and ask." whole on the last; at 28
-   the fourth line was "ask." alone. Leading stays .build-dek's
+   visits. Since 2026-10-23 it is two plain sentences ("Coding agents can
+   do a designer's routine work now. This prototype is about what they
+   shouldn't decide alone.") and sets in three lines in the hero's half
+   column at 1440, four on a phone. Leading stays .build-dek's
    --leading-tight, the prose rule above 18px, and --measure is in ch, so
    it grows with the size and a stacked line is still about 70 characters.
    TYPOGRAPHY.md section 3 records it as the one dek off --type-lede. */
 .ar-hero .build-dek { font-size: var(--type-subsection); }
 
 /* ---- 10. the first minute (since 2026-10-12) ----
-   The opening is four labelled lines and the status under the way in; the
-   three moments are an ordered list of splits, each a kicker, a heading,
-   two short paragraphs and one picture. The seven-step walkthrough that
-   was a disclosure after them came off the page on 2026-10-21. */
-.ar-opening { margin-bottom: var(--space-xl); }
+   The opening is the dek, the way in and the status under it; the four
+   labelled lines that were between the dek and the way in came off on
+   2026-10-23, when the page was rewritten for a reader new to the topic.
+   The decision's two moments are an ordered list of splits, each a
+   kicker, short paragraphs and one picture. The paragraph after them
+   leads into the loop, so it stands a moment's distance off the last
+   one rather than reading as its fourth paragraph. */
+.ar-moments + p { margin-top: var(--space-block); }
 .ar-status {
   margin: var(--space-lg) 0 0;
   max-width: var(--measure);
@@ -86,12 +86,6 @@
 }
 .ar-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
 .ar-hero-feature.quiet-cancel { margin-top: var(--space-2xl); }
-/* Two buttons fill the row in the hero's half column, so the Listen
-   control takes the row under them rather than a third place beside. */
-@media (min-width: 40rem) {
-  .ar-hero .ar-hero-main > .build-hero-act { grid-column: 1 / -1; }
-  .ar-hero .ar-hero-main > .ra-bar { grid-column: 1 / -1; justify-self: start; margin-top: var(--space-md); }
-}
 @media (min-width: 64rem) { .ar-hero > .ar-hero-feature.quiet-cancel { margin: 0; align-self: center; } }
 
 /* ---------- Every action is a button. Except cancel. ----------
@@ -380,7 +374,6 @@
   display: grid;
   gap: var(--space-block);
 }
-.ar-moment h3 { margin: 0 0 var(--space-md); }
 /* Two classes deep, because .case-section p is class-and-element and beats a
    bare class on specificity: the kicker shipped at 18px charcoal with reading
    leading, as loud as the paragraph under its h3. Same fix as
@@ -401,36 +394,17 @@
    screens tall. */
 .ar-shot--narrow { max-width: 28rem; }
 .ar-split > .ar-shot--narrow { justify-self: center; width: 100%; }
-/* The decision's inspector prints at the problem picture's scale, so the
-   same text in the two reads the same size: both are 2x captures at the
-   app's 1.25 zoom, and the inspector is 449 of the problem picture's 941
-   CSS pixels, so it takes that share of the same column at every width.
-   From 40rem, where both are the desktop captures; on a phone each crop
-   fills the column. It starts at the column's left edge, where the problem
-   picture above it starts, rather than floating in the middle of it. */
+/* The decision's inspector prints at the scale the problem picture beside
+   it set until 2026-10-23: both were 2x captures at the app's 1.25 zoom,
+   and the inspector is 449 of that picture's 941 CSS pixels, so it takes
+   that share of the column at every width. The problem picture came off
+   with the rewrite; the share holds until the captures are retaken after
+   the prototype's first-minute redesign. From 40rem, where it is the
+   desktop capture; on a phone it fills the column. It starts at the
+   column's left edge rather than floating in the middle of it. */
 @media (min-width: 40rem) {
   .ar-moment .ar-split > .ar-shot--narrow { width: calc(100% * 449 / 941); justify-self: start; }
 }
-/* The rule's scope, under the list in the text column, prints at the scale
-   of the preview beside it for the same reason: both are 2x captures at the
-   app's 1.25 zoom, and the crop is 449 of the preview's 949 CSS pixels. The
-   preview fills the media column, so the crop takes 449/949 of that, which
-   from 64rem is seven fifths of its own column (the split's 5fr and 7fr),
-   and below 64rem, where the two stack, the column itself. It keeps the
-   column's left edge, the line the list's markers stand on. */
-@media (min-width: 40rem) {
-  .ar-split-text > .ar-shot--narrow { width: calc(100% * 449 / 949); }
-}
-@media (min-width: 64rem) {
-  .ar-split-text > .ar-shot--narrow { width: calc(100% * 7 / 5 * 449 / 949); }
-}
-
-/* The earlier approach over the current one: two first screens at an
-   1100px window, each the column's full width so its type prints at about
-   its own size; side by side they printed at half. */
-.ar-pair { display: grid; gap: var(--space-2xl); margin: var(--space-lg) 0 var(--space-2xl); }
-.ar-pair > .build-shot { margin: 0; }
-.ar-measure { max-width: var(--measure); margin-bottom: var(--space-2xl); }
 
 /* The way out to the enterprise evidence: a sentence-length link, larger
    than a prose link, under the second run's button. */
@@ -445,6 +419,21 @@
 @media (hover: hover) and (pointer: fine) { .ar-sap-link a:hover { color: var(--color-charcoal); } }
 .ar-sap-link a:focus-visible { color: var(--color-charcoal); }
 
+/* A link inside a sentence, as the site's prose links are drawn
+   (style.css, .writing-measure p a): the global reset leaves an inline
+   link the paragraph's own ink with no underline, and "The research plan"
+   shipped that way, a link nobody could see. Plain paragraphs only; every
+   paragraph here that carries a class draws its own links. */
+.case-overview p:not([class]) a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) { .case-overview p:not([class]) a:hover { color: var(--color-charcoal); } }
+.case-overview p:not([class]) a:focus-visible { color: var(--color-charcoal); }
+
 .ar-evidence-links {
   display: flex;
   flex-wrap: wrap;
@@ -455,9 +444,10 @@
 .ar-evidence-links .btn { gap: var(--space-xs); }
 
 /* ---- 9. the three kinds of work ---- */
-/* "The two reds are just one example" (#one-example): the kinds of work
-   the walkthrough's one example belongs to, stacked in the words' column
-   beside the second run's card.
+/* The idea the product is made of, first since 2026-10-23 (#three-kinds):
+   the three kinds, stacked in the split's right column beside the words
+   that set up the job. Until then they sat in the second run's words
+   column, beside its card.
 
    EACH KIND IS A CARD, since 2026-10-07 (Adam: "a little more formatting
    ... a white background ... so it doesn't feel so text heavy"). It was
@@ -473,10 +463,7 @@
      - the situation it covers, under a hairline, under a field label
        saying where that situation is: in the prototype, or proposed.
    They stay a column, not a row of three, so they are three compact cards
-   beside the picture rather than three feature tiles across the page. The
-   column runs past the picture, so the picture holds still beside it as it
-   scrolls (.ar-split-media--held, the Storybook figure's rule in section
-   1). */
+   beside the words rather than three feature tiles across the page. */
 .ar-kinds {
   display: grid;
   gap: var(--space-md);
@@ -590,49 +577,10 @@
 }
 
 /* ---- 7. the sage panel in the dark band ---- */
-/* The sage is --color-accent-text, the one sage on light, as a fill: the
-   ground the site's primary button already is, carrying the band's own
-   warm ink at 5.32:1 (COLOR.md, the fill/text line), so every word in it
-   keeps the colour the band gave it. The list's dashes are the one thing
-   that would vanish, being the band's on-dark sage, so on the panel they
-   take the warm ink too. Against the charcoal round it the fill alone is
-   2.63:1, under the 3:1 a fill needs to be its own edge (cards.mjs), so it
-   carries the band's divider, --rule-on-dark, as a keyline: a hairline of
-   the warm ink at 14%, drawn over the sage. The inset is --space-2xl, and
-   from 48rem --space-3xl, the step SPACING.md gives a generous panel. */
-.ar-panel {
-  padding: var(--space-2xl);
-  border: 1px solid var(--rule-on-dark);
-  border-radius: var(--radius-xl);
-  background: var(--color-accent-text);
-}
-.ar-panel > :first-child { margin-top: 0; }
-.ar-panel > :last-child { margin-bottom: 0; }
-.build-chapter.ground-charcoal .ar-panel .build-list li::before { background: var(--ink-on-dark); }
-@media (min-width: 48rem) {
-  .ar-panel { padding: var(--space-3xl); }
-}
-
-/* ROOM BETWEEN THE FINDINGS' TWO ROWS. From 640 the four findings are two
-   rows of two, each finding two tracks of the strip's own grid (style.css,
-   .build-facts--aligned). A fifth track between the rows is the space
-   between them: --space-3xl, where the strip's gap gave --space-xl, and
-   from 80rem, where the panel stands beside them, --space-4xl and
-   --space-md, 64px. From #413 until 2026-10-06 the findings stretched there
-   to end on the panel's bottom edge, which put 85px between the rows;
-   Adam had the second row up by about 20 and let the two blocks end where
-   they end. */
-@media (min-width: 640px) {
-  .ar-findings {
-    grid-template-rows: auto auto var(--space-3xl) auto auto;
-    row-gap: 0;
-  }
-  .ar-findings > div:nth-child(-n+2) { grid-row: 1 / span 2; }
-  .ar-findings > div:nth-child(n+3) { grid-row: 4 / span 2; }
-}
-@media (min-width: 80rem) {
-  .ar-findings { grid-template-rows: auto auto calc(var(--space-4xl) + var(--space-md)) auto auto; }
-}
+/* Nothing, since 2026-10-23: the dark band of what the experiment's two
+   runs showed came off the page, its findings one paragraph of the
+   experiment's now. The panel's rules and the findings' rows are in the
+   diff that took them out. */
 
 /* ---- 6. the tour's panel ---- */
 /* Nothing, since 2026-10-21: the walkthrough came off the page, with
@@ -826,7 +774,8 @@
      the element's: a figure's --space-2xl over it would put the screen a
      step lower than the heading beside it. */
   .ar-split:not(.ar-split--wide-first) > .build-shot,
-  .ar-split:not(.ar-split--wide-first) > .build-list { margin-top: 0; margin-bottom: 0; }
+  .ar-split:not(.ar-split--wide-first) > .build-list,
+  .ar-split:not(.ar-split--wide-first) > .ar-kinds { margin-top: 0; margin-bottom: 0; }
   .ar-split:not(.ar-split--wide-first) .ar-split-text > :first-child,
   .ar-split:not(.ar-split--wide-first) .ar-split-media > :first-child { margin-top: 0; }
   .ar-split:not(.ar-split--wide-first) .ar-split-text > :last-child,
@@ -844,36 +793,27 @@
      did and four did not). Both columns are sticky, and only the shorter
      can move: the taller one is its row's whole height, so the grid gives
      it no room. So a picture beside a longer column of words holds still
-     beside them (the design choices, the shared table, the experiment), and
-     the words of a first-minute moment, shorter than their picture, stay
-     beside it as it goes by. A split with two text blocks keeps its text
-     scrolling, since a held first block would have the second slide up
-     under it. */
+     beside them (the shared table), and the words of a moment of the
+     decision, shorter than their picture, stay beside it as it goes by.
+     A split with two text blocks keeps its text scrolling, since a held
+     first block would have the second slide up under it. */
   .ar-split:not(.ar-split--wide-first) > .ar-split-media,
   .ar-split:not(.ar-split--wide-first):not(:has(> .ar-split-text ~ .ar-split-text)) > .ar-split-text {
     position: sticky;
     top: calc(var(--nav-height) + var(--space-2xl));
   }
-  /* The Storybook beside the experiment spans both of its column's rows, the
-     words and the note under them, and stops at the bottom of the section's
-     grid. */
+  /* The three kinds span both of their column's rows, the words that
+     introduce them and the two paragraphs after, which a phone reads
+     under the cards; so on two columns the second block of words follows
+     the first rather than waiting for the cards to end. The row gap is a
+     paragraph's own margin, which the blocks' first and last children
+     give up to the grid (above), so the two blocks read as one column. */
   .ar-split-media--held { grid-row: 1 / span 2; }
+  .ar-split:has(> .ar-split-media--held) { row-gap: var(--space-md); }
 }
 
-/* THE DARK BAND SPLITS AT 80rem, not 64. Its four findings are set to
-   break each head into two even lines (style.css, .build-facts--two
-   .build-facts--icons), which a cell needs about 320px for, and in seven
-   twelfths of a 1024 frame a cell is about 250: every head went to three
-   lines. From 1280 the cell is about 320 again. Between the two it is the
-   band it was, the findings across the frame and the words under them. */
-@media (min-width: 80rem) {
-  .ar-split--wide-first {
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    column-gap: var(--space-4xl);
-    align-items: start;
-  }
-  .ar-split--wide-first > .ar-split-media { grid-column: 1; }
-  .ar-split--wide-first > .ar-split-text { grid-column: 2; }
-  .ar-split--wide-first > .build-facts { margin-top: 0; margin-bottom: 0; }
-}
+/* THE DARK BAND SPLIT AT 80rem, not 64, until it came off the page on
+   2026-10-23; its rules are in the diff that took it out. The splits
+   above still name it in :not(.ar-split--wide-first), which now matches
+   every split. */
+
