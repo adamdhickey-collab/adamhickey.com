@@ -179,7 +179,7 @@ const SHOTS = {
     desktop: { size: { width: 1440, height: 760 }, zoom: 1.125, clip: recordClip },
     open: async (page) => {
       await decideOwnChange(page);
-      await page.getByRole('button', { name: 'Apply' }).click();
+      await page.getByRole('button', { name: 'Apply', exact: true }).click();
       const record = page.locator('.decided').first();
       await record.waitFor();
       const phone = (page.viewportSize()?.width ?? 0) < 500;
@@ -424,7 +424,7 @@ async function partClip(page, from, to, col, pad = 12) {
 /* Every decision made, the first with a rule that the third widens: the
    quiet screen. */
 async function answerAll(page) {
-  const apply = () => page.getByRole('button', { name: 'Apply' }).click();
+  const apply = () => page.getByRole('button', { name: 'Apply', exact: true }).click();
   await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
   await page.getByText('Use this decision for similar cases').click();
   await apply();
