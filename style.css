@@ -2180,45 +2180,6 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 .problems .section-head h2 { color: var(--ink-on-dark); }
 .problems .section-head p { color: var(--ink-on-dark-secondary); }
 
-/* Since 2026-10-23 the homepage's How I work is four links rather than
-   four cards (index.html, "Four links, not four cards"). Each is the card's
-   own title in the card's own serif and size, on a hairline, with the
-   case-go arrow in accent-on-dark; the whole row is the link, so the
-   target is the row's full height. Two columns from 768, the grid's own
-   seam. Hover and focus take the title to accent-on-dark, 7.47:1 on
-   charcoal, where ink-on-dark rests at 14.02. */
-.engagement-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: var(--space-2xl);
-}
-@media (min-width: 768px) { .engagement-links { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.engagement-links a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  min-height: 44px;
-  padding: var(--space-lg) 0;
-  border-top: 1px solid var(--rule-on-dark);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: var(--text-2xl);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
-  color: var(--ink-on-dark);
-  text-decoration: none;
-  transition: color var(--motion-state) var(--ease);
-}
-.engagement-links svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--color-accent-on-dark); }
-.engagement-links a:focus-visible { color: var(--color-accent-on-dark); }
-@media (hover: hover) and (pointer: fine) {
-  .engagement-links a:hover { color: var(--color-accent-on-dark); }
-}
-
 /* ---------- Selected clients strip ----------
    .logo-label went with the visible label: the strip carries its name in an
    aria-label now, and a rule nothing selects is the kind of dead code the
@@ -3851,6 +3812,55 @@ figure.hero-photo-frame { margin: 0; }
   .engagement-card:focus-visible { transform: none; }
   @media (hover: hover) and (pointer: fine) {
     .engagement-card:hover { transform: none; }
+  }
+}
+/* The homepage's form of the card, since 2026-10-23: the picture and the
+   name, nothing else (index.html, "Pictures and names"). The points
+   repeated the case studies above the band and the page each card opens
+   explains itself, so the go-label's arrow follows the name's last word,
+   held to it by .engagement-tail so it never wraps onto a line alone. It
+   follows the word rather than taking a column of its own because a
+   column cost each title 33px, and at 1024 that put "Build to find out"
+   on two lines and two of the others on four. Under 768 the picture sits
+   beside the name, two parts to three, so the four are about one phone
+   screen rather than three; from 768 it is the card above, picture over
+   name. */
+.engagement-grid--titles .engagement-card h3 { margin: 0; text-wrap: balance; }
+.engagement-tail { white-space: nowrap; }
+.engagement-tail svg {
+  /* Inline again: the reset makes every svg a block. */
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-left: var(--space-xs);
+  vertical-align: middle;
+  color: var(--color-accent-on-dark);
+  transition: transform var(--motion-move) var(--ease);
+}
+.engagement-grid--titles .engagement-card:focus-visible .engagement-tail svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+@media (hover: hover) and (pointer: fine) {
+  .engagement-grid--titles .engagement-card:hover .engagement-tail svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+}
+@media (max-width: 767.98px) {
+  .engagement-grid--titles { gap: var(--space-md); }
+  .engagement-grid--titles .engagement-card {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+  .engagement-grid--titles .engagement-figure { margin: 0; }
+  .home .engagement-grid--titles .engagement-card h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .engagement-tail svg { transition: none; }
+  .engagement-grid--titles .engagement-card:focus-visible .engagement-tail svg { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .engagement-grid--titles .engagement-card:hover .engagement-tail svg { transform: none; }
   }
 }
 
