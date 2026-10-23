@@ -593,11 +593,17 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
    The steps render as bars at their own token, so the scale is shown at size
    rather than described. Each row reports the value the browser actually
    computed, which is what makes a drifted step visible here first -- the same
-   arrangement the type scale and the contrast matrix use. */
+   arrangement the type scale and the contrast matrix use.
+
+   Under 768 the bar takes a row of its own, under its name. Sharing the
+   name's row, it had what 8.5rem, two labels and three gaps left of a phone,
+   0px at 320 and 41px at 393: at 320 every bar ran past its track, five
+   painted over their own px label and the row ran 8px past the screen, and
+   at 393 the widest step still ran past its track. */
 .ds-spaces { list-style: none; margin: 0 0 var(--space-3xl); padding: 0; }
 .ds-space {
   display: grid;
-  grid-template-columns: 8.5rem minmax(0, 1fr) 4rem 3.5rem;
+  grid-template-columns: minmax(0, 1fr) 4rem 3.5rem;
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-xs) 0;
@@ -605,7 +611,7 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
 }
 .ds-space:last-child { border-bottom: 0; }
 .ds-space code { font-size: var(--text-2xs); }
-.ds-space-bar { display: block; height: 14px; background: var(--color-muted-light); border-radius: var(--radius-pill); }
+.ds-space-bar { display: block; height: 14px; background: var(--color-muted-light); border-radius: var(--radius-pill); grid-column: 1 / -1; grid-row: 2; }
 .ds-space-bar i { display: block; height: 100%; background: var(--color-accent-text); border-radius: var(--radius-pill); }
 .ds-space-px, .ds-space-tw {
   font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
@@ -615,6 +621,7 @@ sup { font-size: var(--text-xs); vertical-align: super; line-height: 0; }
 .ds-space-job { grid-column: 1 / -1; font-size: var(--text-xs); color: var(--color-muted-gray); margin: 0; }
 @media (min-width: 768px) {
   .ds-space { grid-template-columns: 8.5rem 12rem 4rem 3.5rem minmax(0, 1fr); }
+  .ds-space-bar { grid-column: auto; grid-row: auto; }
   .ds-space-job { grid-column: auto; }
 }
 
