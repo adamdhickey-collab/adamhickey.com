@@ -83,8 +83,9 @@ const BASE = {
      It carries the <strong> the page does: written without it, --status
      read main as "NOT the base ordering" from the day the bold went in,
      and --revert would have taken the bold out. Moved again on 2026-10-23,
-     when the dek started saying he builds what he designs. */
-  dek: 'I&rsquo;ve spent twenty years designing software that got complicated, and I started out <strong>building it too</strong>. I still build what I design, now with coding agents, so a team can judge an idea on something that works.',
+     when the dek started saying he builds what he designs, and back the
+     same evening to the dek before it. */
+  dek: 'Twenty years in enterprise software taught me where judgment matters. Now I design the infrastructure behind great design: what <strong>people and coding agents</strong> build from, and where a person decides.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
