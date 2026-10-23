@@ -82,8 +82,9 @@ const BASE = {
      --revert would have put back a dek the site retired; keep it in step.
      It carries the <strong> the page does: written without it, --status
      read main as "NOT the base ordering" from the day the bold went in,
-     and --revert would have taken the bold out. */
-  dek: 'Twenty years in enterprise software taught me where judgment matters. Now I design the infrastructure behind great design: what <strong>people and coding agents</strong> build from, and where a person decides.',
+     and --revert would have taken the bold out. Moved again on 2026-10-23,
+     when the dek started saying he builds what he designs. */
+  dek: 'I&rsquo;ve spent twenty years designing software that got complicated, and I started out <strong>building it too</strong>. I still build what I design, now with coding agents, so a team can judge an idea on something that works.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
@@ -119,11 +120,13 @@ function list(src, open, itemRe, close, key, expect, what) {
   return { start: start + open.length, end, items, key };
 }
 
+/* The four "How I work" pages are four links since 2026-10-23, not four
+   cards; a variant still orders them, by the page each one opens. */
 const cards = (src) => list(src,
-  '<div class="engagement-grid stagger">',
-  /\n          <a class="engagement-card reveal" href="[^"]+">[\s\S]*?\n          <\/a>/g,
-  '\n        </div>',
-  (b) => b.match(/href="([^"]+)"/)[1], 4, 'the four cards');
+  '<ul class="engagement-links stagger">',
+  /\n          <li class="reveal"><a href="[^"]+">[\s\S]*?<\/a><\/li>/g,
+  '\n        </ul>',
+  (b) => b.match(/href="([^"]+)"/)[1], 4, 'the four links');
 
 const facts = (src) => list(src,
   '<ul class="hero-proof reveal" aria-label="At a glance">',

@@ -433,10 +433,10 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    it is the same judgment carried into code, set apart under the accounts.
    The space above it is --space-block, the ramp SPACING.md gives to major
    blocks inside a section, since 2026-09-30. */
-/* Since 2026-10-12 the lab card leads the section rather than closing it
-   (index.html, "Agent Review leads the section"), so the block's space is
-   under it, before the label over the enterprise accounts. */
-.case-grid--lab { margin-bottom: var(--space-block); }
+/* From 2026-10-12 the lab card led the section, so the block's space was
+   under it. Since 2026-10-23 the enterprise accounts lead again and the
+   lab card follows them, so the space is above it, after the three. */
+.case-grid--lab { margin-top: var(--space-block); }
 .case-group-label {
   margin: 0 0 var(--space-xl);
   font-family: var(--font-sans);
@@ -2179,6 +2179,45 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 .problems .section-head { margin-bottom: var(--space-3xl); }
 .problems .section-head h2 { color: var(--ink-on-dark); }
 .problems .section-head p { color: var(--ink-on-dark-secondary); }
+
+/* Since 2026-10-23 the homepage's How I work is four links rather than
+   four cards (index.html, "Four links, not four cards"). Each is the card's
+   own title in the card's own serif and size, on a hairline, with the
+   case-go arrow in accent-on-dark; the whole row is the link, so the
+   target is the row's full height. Two columns from 768, the grid's own
+   seam. Hover and focus take the title to accent-on-dark, 7.47:1 on
+   charcoal, where ink-on-dark rests at 14.02. */
+.engagement-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: var(--space-2xl);
+}
+@media (min-width: 768px) { .engagement-links { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.engagement-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 44px;
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--rule-on-dark);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--ink-on-dark);
+  text-decoration: none;
+  transition: color var(--motion-state) var(--ease);
+}
+.engagement-links svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--color-accent-on-dark); }
+.engagement-links a:focus-visible { color: var(--color-accent-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .engagement-links a:hover { color: var(--color-accent-on-dark); }
+}
 
 /* ---------- Selected clients strip ----------
    .logo-label went with the visible label: the strip carries its name in an
