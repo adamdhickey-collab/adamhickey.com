@@ -47,7 +47,7 @@ const CARDS = {
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
   'innovators-studio-visual-identity': { kicker: 'Case study · Innovators Studio',       title: 'A global innovation network on one brand and platform',         image: 'img/site/group-100008-1.webp' },
-  'enterprise-consulting':             { kicker: 'Career · 2013 to 2026',                title: '13 years as an enterprise design consultant',                   image: 'img/site/rba-hero.webp' },
+  'enterprise-consulting':             { kicker: 'Career · 2013 to 2026',                title: '13 years designing enterprise software',                   image: 'img/site/rba-hero.webp' },
   'hybrid-designer':                   { kicker: 'Career · 2005 to 2013',                title: '8 years as a hybrid designer / developer',                      image: 'img/site/pixel-farm-building.webp' },
   'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
   'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
