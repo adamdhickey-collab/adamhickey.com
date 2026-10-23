@@ -120,13 +120,13 @@ function list(src, open, itemRe, close, key, expect, what) {
   return { start: start + open.length, end, items, key };
 }
 
-/* The four "How I work" pages are four links since 2026-10-23, not four
-   cards; a variant still orders them, by the page each one opens. */
+/* The four "How I work" cards are a picture and a name since 2026-10-23;
+   a variant still orders them, by the page each one opens. */
 const cards = (src) => list(src,
-  '<ul class="engagement-links stagger">',
-  /\n          <li class="reveal"><a href="[^"]+">[\s\S]*?<\/a><\/li>/g,
-  '\n        </ul>',
-  (b) => b.match(/href="([^"]+)"/)[1], 4, 'the four links');
+  '<div class="engagement-grid engagement-grid--titles stagger">',
+  /\n          <a class="engagement-card reveal" href="[^"]+">[\s\S]*?\n          <\/a>/g,
+  '\n        </div>',
+  (b) => b.match(/href="([^"]+)"/)[1], 4, 'the four cards');
 
 const facts = (src) => list(src,
   '<ul class="hero-proof reveal" aria-label="At a glance">',
