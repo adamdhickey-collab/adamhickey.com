@@ -104,7 +104,7 @@ collection. The terracotta collection needs no new token: it is
 | `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, or a verdict it will not change. |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
 | `--color-slate` | `#56718c` | The Craft collection's line. **A line, never text.** |
-| `--color-slate-light` | `#e8edf1` | Slate's ground: the writing rail's card, since 2026-10-23. Tea-light's lightness with slate's hue, 1.01 against tea, so the light grounds' inks keep tea's numbers. |
+| `--color-slate-light` | `#f3f6f8` | Slate's ground: the writing rail's card, since 2026-10-23. Warm's lightness with slate's hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
@@ -116,10 +116,12 @@ ink: the one place it is spent sits on the nav's white edge and the warm
 page, and a line answers to 3:1.
 
 Its ground is the other way round: a fill under ink, never a line. On
-`--color-slate-light` charcoal reads 13.00, muted-gray 5.49, accent-text
-4.94 and caution-text 5.47, and the card stands 1.18 off a white page. It
+`--color-slate-light` charcoal reads 14.12, muted-gray 5.96, accent-text
+5.36 and caution-text 5.94, and the card stands 1.09 off a white page. It
 went on the rail's card when warm read as tan behind the drawings (Adam: "a
 very light blue almost like earthy blue ... just a little bit of a tint").
+It was `#e8edf1` for its first hour, tea-light's lightness, and that read
+as too heavy (Adam: "much lighter"); at warm's lightness it is a tint.
 
 The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
 37 Tailwind utilities across six minified case-study pages write it, and
