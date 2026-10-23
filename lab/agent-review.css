@@ -16,8 +16,9 @@
 
       One split, 5 to 7, the words on the left and the evidence on the
       right, so a reader's eye finds the same two columns all the way down.
-      The hero is laid out on its own, the title and the lede beside the
-      problem drawn in code. The dark band that flipped the split to 7 to
+      The hero takes it too since 2026-10-23: the title, the dek and the
+      way in on the left, the problem drawn in code on the right, centred
+      on each other. Nothing on the page is sticky. The dark band that flipped the split to 7 to
       5 came off the page on 2026-10-23. Under 64rem nothing is a grid and
       the markup reads in its own order.
 
@@ -61,12 +62,13 @@
    between the two, so it is on a step at every width the type check
    visits. Since 2026-10-23 it is two plain sentences ("Coding agents can
    do a designer's routine work now. This prototype is about what they
-   shouldn't decide alone.") and sets in three lines in the hero's half
-   column at 1440, four on a phone. Leading stays .build-dek's
-   --leading-tight, the prose rule above 18px, and --measure is in ch, so
+   shouldn't decide alone."), four lines on a phone. Leading stays
+   .build-dek's --leading-tight, the prose rule above 18px, and --measure is in ch, so
    it grows with the size and a stacked line is still about 70 characters.
-   TYPOGRAPHY.md section 3 records it as the one dek off --type-lede. */
-.ar-hero .build-dek { font-size: var(--type-subsection); }
+   TYPOGRAPHY.md section 3 records it as the one dek off --type-lede.
+   Since the hero went to 5 of 12 (2026-10-23) it sets in four lines at
+   1024 and at 1440, balanced so the last is not one word. */
+.ar-hero .build-dek { font-size: var(--type-subsection); text-wrap: balance; }
 
 /* ---- 10. the first minute (since 2026-10-12) ----
    The opening is the dek, the way in and the status under it; the four
@@ -83,10 +85,10 @@
   font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
+  text-wrap: pretty;
 }
 .ar-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
 .ar-hero-feature.quiet-cancel { margin-top: var(--space-2xl); }
-@media (min-width: 64rem) { .ar-hero > .ar-hero-feature.quiet-cancel { margin: 0; align-self: center; } }
 
 /* ---------- Every action is a button. Except cancel. ----------
    Since 2026-10-21, in place of "Same red. Different meaning." (style.css
@@ -262,6 +264,7 @@
 }
 .quiet-cancel .quiet-cancel-means strong {
   display: block;
+  text-wrap: balance;
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
@@ -544,13 +547,15 @@
 /* read-aloud.js puts its bar straight after the element marked
    data-read-aloud="after", which on this page is the row holding "Try the
    prototype", so the two stacked, a --space-xl apart, and the listen pill
-   stood 38px beside a 50px button. From 40rem, where a column holds both,
-   the opening is a grid of two columns: everything spans both, but the
-   button's row takes the first and the bar the second, so they share a
-   line a --space-md apart: at 64rem the half column is 458px and the two
-   with their labels at one size take 455 of it. Grid items keep their
-   margins, so the dek and the list sit where they did. Under 40rem they
-   stack as before.
+   stood 38px beside a 50px button. Where the opening's column holds both,
+   it is a grid of two columns: everything spans both, but the button's
+   row takes the first and the bar the second, so they share a line a
+   --space-md apart. The two with their labels at one size take 455px, so
+   the question is the column's width, not the screen's: a container
+   query on .ar-hero-text asks it, since 2026-10-23, when the hero's
+   column went to 5 of 12 and is 382px at 1024 and 487 at 1440. Grid
+   items keep their margins, so the dek and the status sit where they
+   did. In a narrower column they stack as before.
 
    ONE HEIGHT AT EVERY WIDTH: the pill's least height is the button's own,
    written from the same tokens the button is built from (.btn: a
@@ -564,7 +569,8 @@
   font-size: var(--text-base);
   white-space: nowrap;
 }
-@media (min-width: 40rem) {
+.ar-hero-text { container: ar-hero-text / inline-size; }
+@container ar-hero-text (min-width: 29rem) {
   .ar-hero-main {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
@@ -734,30 +740,25 @@
 
 /* ---- 1. the two columns ---- */
 @media (min-width: 64rem) {
-  /* The hero: the kicker and the title across the top, then the opening
-     on the left and the first decision beside it, in halves. The picture
-     fills its half and starts on the dek's row, so its top edge is the
-     dek's first line at every width; the video was 5 of 12, centred on the
-     opening's height, until 2026-10-06. The facts card is under both, as
-     the row of four it was before the page split. */
+  /* The hero, on the chapters' own split since 2026-10-23: the kicker,
+     the title, the dek and the way in are one column on the left, the
+     problem drawn in code is the right, and the two are centred on each
+     other. Until then the title ran across the top and the opening and
+     the picture split in halves under it, which suited an opening with
+     four labelled lines in it; with those gone the opening ended halfway
+     down the picture and left a quarter of the screen empty under it, and
+     at 1024 a half was too narrow for the picture's two screens to stand
+     side by side, so it stacked them and stood twice the opening's
+     height. On 5 to 7 the picture's left edge is the three kinds' left
+     edge under it, and its column clears 30rem from 64rem up. */
   .ar-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     column-gap: var(--space-4xl);
-    align-items: start;
+    align-items: center;
   }
-  .ar-hero > .ar-hero-head { grid-column: 1 / -1; }
-  .ar-hero > .ar-hero-main { grid-column: 1; grid-row: 2; }
-  .ar-hero > .ar-hero-feature { grid-column: 2; grid-row: 2; margin: 0; }
-  /* The frame's top meets the TOP OF THE LETTERS, not the top of the
-     line: the dek's line box starts a half-leading and the face's ascent
-     above its capitals (7 to 8px at its sizes), so the dek is trimmed to
-     its cap height and the row is where the capitals start. The row gap
-     gives the title back the half-leading the trim took, to the nearest
-     step. A browser without text-box keeps the line box and lands the
-     frame those few pixels high. */
-  .ar-hero { row-gap: var(--space-xs); }
-  .ar-hero > .ar-hero-main > .build-dek:first-child { text-box: trim-start cap alphabetic; }
+  .ar-hero > .ar-hero-text { grid-column: 1; }
+  .ar-hero > .ar-hero-feature { grid-column: 2; margin: 0; }
 
   /* Every split but the dark band's, which waits for 80rem (below). */
   .ar-split:not(.ar-split--wide-first) {
@@ -787,21 +788,11 @@
   .ar-split + .ar-split { margin-top: var(--space-block); }
   p + .ar-split { margin-top: var(--space-2xl); }
 
-  /* EVERY SPLIT HOLDS ITS SHORTER COLUMN while the taller one scrolls past,
-     since 2026-10-12 (Adam: the pictures that follow the text, as in the
-     experiment, should do it "throughout the whole page"; until then two
-     did and four did not). Both columns are sticky, and only the shorter
-     can move: the taller one is its row's whole height, so the grid gives
-     it no room. So a picture beside a longer column of words holds still
-     beside them (the shared table), and the words of a moment of the
-     decision, shorter than their picture, stay beside it as it goes by.
-     A split with two text blocks keeps its text scrolling, since a held
-     first block would have the second slide up under it. */
-  .ar-split:not(.ar-split--wide-first) > .ar-split-media,
-  .ar-split:not(.ar-split--wide-first):not(:has(> .ar-split-text ~ .ar-split-text)) > .ar-split-text {
-    position: sticky;
-    top: calc(var(--nav-height) + var(--space-2xl));
-  }
+  /* NOTHING IS STICKY, since 2026-10-23. From 2026-10-12 every split held
+     its shorter column still while the taller one scrolled past, which
+     suited long runs of words beside small pictures. The words are short
+     now and the pictures are as tall as they are, so both columns scroll
+     with the page; the rules are in the diff that took them out. */
   /* The three kinds span both of their column's rows, the words that
      introduce them and the two paragraphs after, which a phone reads
      under the cards; so on two columns the second block of words follows
