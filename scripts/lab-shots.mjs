@@ -163,7 +163,7 @@ const SHOTS = {
      hero. */
   tradeoff: {
     file: 'agent-review-tradeoff',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: tradeoffClip },
     phone: { size: { width: 375, height: 720 }, clip: tradeoffClip },
     open: async (page) => {
@@ -175,7 +175,7 @@ const SHOTS = {
      column. On a phone, the record from its top. */
   decision: {
     file: 'agent-review-decision',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1440, height: 760 }, zoom: 1.125, clip: recordClip },
     open: async (page) => {
       await decideOwnChange(page);
@@ -194,7 +194,7 @@ const SHOTS = {
      could, its history and the revert. */
   record: {
     file: 'agent-review-delegation-record',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { clip: mainColumn },
     open: async (page) => {
       const record = page.locator('.record', { hasText: 'The failed-payment red' });
@@ -207,7 +207,7 @@ const SHOTS = {
   },
   rule: {
     file: 'agent-review-delegation-rule',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { clip: mainColumn },
     open: async (page) => {
       await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
@@ -228,7 +228,7 @@ const SHOTS = {
   },
   quiet: {
     file: 'agent-review-delegation-quiet',
-    app: '#/',
+    app: '#/runs/billing',
     open: async (page) => {
       await answerAll(page);
       await page.mouse.move(0, 0); /* off the record the last press left it over */
@@ -265,7 +265,7 @@ const SHOTS = {
      view, and the two buttons. */
   directions: {
     file: 'agent-review-directions',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector') },
     phone: { clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector', 8) },
     open: async (page) => {
@@ -280,7 +280,7 @@ const SHOTS = {
      caption. (Until 2026-10-21, "Keep the red for now".) */
   proposed: {
     file: 'agent-review-proposed',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio-preview', '.studio-preview', '.studio-preview') },
     phone: { clip: (page) => partClip(page, '.studio-preview', '.studio-preview .sketch__caption', '.studio-preview', 8) },
     open: async (page) => {
@@ -296,7 +296,7 @@ const SHOTS = {
      doesn't undo what it did; then Cancel and Apply. */
   'rule-scope': {
     file: 'agent-review-rule-scope',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector') },
     phone: { clip: (page) => partClip(page, '.studio__inspector .ask__rule', '.studio__inspector .ask__bar', '.studio__inspector', 8) },
     open: async (page) => {
@@ -322,7 +322,7 @@ const SHOTS = {
   },
   'after-account': {
     file: 'agent-review-after-account',
-    app: '#/',
+    app: '#/runs/billing',
     desktop: { size: { width: 1100, height: 640 }, zoom: 1 },
     open: async (page) => {
       await page.mouse.move(0, 0);

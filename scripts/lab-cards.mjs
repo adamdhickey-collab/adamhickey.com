@@ -130,7 +130,7 @@ const CARDS = {
      saying what each red means. At 864 the two screens sit side by side
      and, from 2px inside the preview's canvas to the foot of its key, are
      the card's 486 exactly. */
-  'agent-review': { url: `${from}#/`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.studio-preview__canvas', offset: -2 },
+  'agent-review': { url: `${from}#/runs/billing`, width: 864, height: 486, viewportHeight: 530, scrollTo: '.studio-preview__canvas', offset: -2 },
   /* The same card for a phone, since 2026-10-06 (Adam: "retake the homepage
      card at phone width too"). Under 40rem the homepage prints its picture
      206 to 300px wide, and the 864 layout at that size set the card's text
@@ -149,7 +149,7 @@ const CARDS = {
      618px; the card is that, from 2px inside the canvas's top to its foot,
      so the marked plan and "Payment failed" are both in it. At 3x it is
      1125 x 1854. */
-  'agent-review-phone': { url: `${from}#/`, width: 375, height: 618, viewportHeight: 812, dpr: 3, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-phone.webp' },
+  'agent-review-phone': { url: `${from}#/runs/billing`, width: 375, height: 618, viewportHeight: 812, dpr: 3, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-phone.webp' },
   /* THE HOMEPAGE'S CARD, since 2026-10-12 (Adam: the picture should say at a
      glance what the project is about, and the line to say it with is the
      decision's own question, "Separate the two meanings of red, or keep the
@@ -167,8 +167,8 @@ const CARDS = {
      four places whenever the app's sketch moves (scratchpad tools, or any
      getBoundingClientRect of .activity__old and .sketch__status--failed
      against the clip). */
-  'agent-review-ask': { url: `${from}#/`, width: 864, height: 676, viewportHeight: 720, strip: 190, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask.webp' },
-  'agent-review-ask-phone': { url: `${from}#/`, width: 375, height: 788, viewportHeight: 812, dpr: 3, strip: 170, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
+  'agent-review-ask': { url: `${from}#/runs/billing`, width: 864, height: 676, viewportHeight: 720, strip: 190, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask.webp' },
+  'agent-review-ask-phone': { url: `${from}#/runs/billing`, width: 375, height: 788, viewportHeight: 812, dpr: 3, strip: 170, scrollTo: '.studio-preview__canvas', offset: -2, out: 'agent-review-card-ask-phone.webp' },
   /* No share card uses this since later on 2026-10-09, when og.mjs lab
      took agent-review-og as the case study's had. It was the lab index's
      share card picture (og.mjs, lab; the case study's too
@@ -199,7 +199,7 @@ const CARDS = {
      automated checks passed, with either token.", ending in the 12px
      under that line. The Simulated strip is above it now; the case
      study says the run is simulated where the picture is used. */
-  'agent-review-share': { url: `${from}#/`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: 'h1', offset: 8, out: 'agent-review-share.webp' },
+  'agent-review-share': { url: `${from}#/runs/billing`, width: 620, height: 620, viewportHeight: 700, dpr: 2, scrollTo: 'h1', offset: 8, out: 'agent-review-share.webp' },
   /* The write-up's hero, since 2026-10-07 (Adam: "an extended view of what
      we're showing on the homepage card"): the homepage card's frame, at its
      864 and from the same edge 6px above the first decision, carried down
@@ -213,7 +213,7 @@ const CARDS = {
      badges to one line and ends at 686 now; the next card starts at 698, so
      692 lands in the 12px between them, where 714 showed the next card's top
      edge. At 2x it is 1728 x 1384. */
-  'agent-review-hero': { url: `${from}#/`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
+  'agent-review-hero': { url: `${from}#/runs/billing`, width: 864, height: 692, viewportHeight: 900, dpr: 2, scrollTo: '.ask', offset: 6, out: 'agent-review-hero.webp' },
   /* agent-review-feature, the homepage's drawn composition (index.html
      figure.lab-feature, lab-feature.css), was a recipe here from 2026-10-09
      to 2026-10-11, when the homepage went back to the product's own capture
@@ -235,7 +235,7 @@ const CARDS = {
      from 8px over the preview, the two reds in place over the agent's read,
      at the column's edges plus 8px. */
   'agent-review-og': {
-    url: `${from}#/`, width: 1200, viewportHeight: 1300, dpr: 2, out: 'agent-review-og.webp',
+    url: `${from}#/runs/billing`, width: 1200, viewportHeight: 1300, dpr: 2, out: 'agent-review-og.webp',
     region: async (page) => {
       const col = await page.locator('.studio__stage').first().boundingBox();
       const preview = await page.locator('.studio-preview').first().boundingBox();
@@ -276,7 +276,7 @@ async function themes(browser) {
       }, t);
       const page = await ctx.newPage();
       if (size.phone) await page.goto('about:blank'); /* a touch context applies to the next navigation */
-      await page.goto(`${from}#/`, { waitUntil: 'networkidle' });
+      await page.goto(`${from}#/runs/billing`, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(400);
