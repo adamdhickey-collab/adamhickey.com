@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 39 pages in ten families |
+| **What this is** | The site: 38 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -120,7 +120,7 @@ the archive so that it holds everything staging ever had.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the sixteen writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-nine pages. Color, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-eight pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
@@ -131,7 +131,6 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
-| `prototype/deploy-console.html`, `prototype/deploy-console.{css,js}` | The deploy console prototype, the second page under `prototype/` since 2026-09-28: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the project -- six services with their deploy histories -- as one object at the top of the script. `scripts/console.mjs` captures the reading for the share card, and `scripts/console-shots.mjs` the four stills: the hero's reading, the refusal and the reading decision 02 sits beside, and the 4:3 window the homepage card prints. It carries the cockpit's `?embed` flag for the same reason, and its stylesheet copies the cockpit's shell -- the frame, the sticky strip, the answer zone, the dark table head, the density switch, the row that opens in place, the motion section -- under a second prefix rather than sharing it; the shell is a candidate for a shared prototype stylesheet the day a third prototype needs one |
 | `writing/*.html` | The index, the ten articles it lists and the four it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
@@ -179,7 +178,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-nine pages in ten families, all hand-written HTML with no include step
+Thirty-eight pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -188,11 +187,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-nine pages, so a
+email icon and the skip link are hand-written into all thirty-eight pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-nine pages
+base ladder, and both regimes read it from `type.css`, which all thirty-eight pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -205,8 +204,8 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 16 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
-| Prototypes | 2 | A | Two self-directed, interactive prototypes on synthetic data, framed as design work: the dispatch cockpit and the deploy console. |
-| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The two prototypes are listed there too, at their own addresses. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
+| Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work: the dispatch cockpit. The deploy console was a second until 2026-10-23. |
+| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The cockpit is listed there too, at its own address. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
@@ -298,8 +297,8 @@ against its primary source the same day: what changes when AI agents join
 the product team, what a product designer is for when anyone can build, and
 who decides when software can act on its own. Three went off the index and
 kept their addresses, like the design-engineer article: the developer's bad
-day and the workflow that breaks, whose case the dispatch case study and the
-Deploy Console now make, and the SAP article, whose case study stays on the
+day and the workflow that breaks, whose case the dispatch case study now
+makes, and the SAP article, whose case study stays on the
 homepage. So the family is fifteen pages and the index still shows nine,
 plus the one to start with. The three new ones have no drawings yet; their
 rows on the index drop the card column the way Start here does
@@ -430,25 +429,12 @@ Prototype page link to it as well. Until that card it was reachable only by
 reading one of those two pages to the end, while its own breadcrumb told a
 search engine it sat under Work.
 
-`prototype/deploy-console.html` is the second prototype, since 2026-09-28,
-and it is the cockpit's arrangement applied to a developer's bad day: the
-problem, the live console, five decisions, what would be tested next. One
-project of six services, five situations on tabs -- all live, a first deploy,
-a build failed, live but failing, rolled back -- a map of how the services
-connect, a feed of what happened across the project, filterable by
-environment and resource, and a screen laid out in the order the five
-questions come: what is live, what failed, what changed, what depends on it,
-can I put it back. Live is kept apart from newest on every row; a failed
-build is a refusal, on the caution ground, with the live deploy untouched
-under it; a deploy that succeeded and is erroring is a reading, on white,
-its figures beside their befores; a rollback is previewed as a coordinated
-act, every service a row whether it changes or not, and recorded with who
-decided and on what. It is informed by shipping this site through its own
-checks and names no platform, because it was built for none. It is reached
-from the bad-day article's close, the Working Product Prototype page's FAQ,
-and the cockpit's Next link, and since #301 the homepage's Selected work
-section closes on the two prototypes as a pair under the three accounts,
-the console leading, each with its picture over its text.
+`prototype/deploy-console.html` was the second prototype, from 2026-09-28
+until 2026-10-23: the cockpit's arrangement applied to a developer's bad
+day, a deploy console named Rollcall, on synthetic data. It came off the
+site on 2026-10-23, with its stylesheet, its script, `img/console/`, its
+share card and its two capture scripts, and the pages that linked to it
+were rewritten to stand without it. Git history has all of it.
 
 ### Images
 
@@ -462,7 +448,6 @@ the console leading, each with its picture over its text.
 | `img/og/` | The share cards, one per page, rendered by `scripts/og.mjs` from the page's title and its own picture. The homepage's is `index.jpg`, and the design system page, which has no card of its own, points at that one. Until 2026-09-17 the homepage kept a hand-drawn `img/og-card.jpg`; it named the independent practice a week after the site stopped, and went the day the eyebrow moved to Senior |
 | `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
 | `img/cockpit/` | The dispatch cockpit prototype page's pictures: six crops of the running prototype, captured by `scripts/cockpit-shots.mjs` so a restyle of the cockpit is one run rather than an afternoon of screenshots, and two drawings of the room it is used in, cut to the writing features' 16:9 through `scripts/illustrate.mjs feature` |
-| `img/console/` | The deploy console prototype page's pictures, on the same arrangement: four crops of the running prototype from `scripts/console-shots.mjs` (the hero's reading, the refusal and the reading under decision 02, and the 4:3 window the homepage card prints), and two drawings of the room it is used in, through `scripts/illustrate.mjs feature` |
 | `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
 | `img/casework/` | One image, on the Hybrid Designer page |
 | `img/hero-portrait.mp4` | The hero clip |
@@ -598,7 +583,9 @@ whether the moment is still there and still the same element, failing the
 run as unmeasurable when it is not. The first deploy's far side, which
 lands four beats after the press and which only `resting.mjs` had ever
 measured, by accident, is a state of its own reached the same way: the
-stopped clock is run forward until the landed screen is there.
+stopped clock is run forward until the landed screen is there. Since
+2026-10-23, when the console left the site, no state holds a moment and the
+cockpit is the only page in the registry; the machinery stays for the next.
 
 It found a real one on its first pass. `table` is a type selector, so
 `.ck table .ck-btn:hover` outranks `.ck .ck-btn-primary:hover`, and the

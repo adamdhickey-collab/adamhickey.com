@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-/* The lab index's three cards, at 1280x720 (the 640x360 card the writing
+/* The lab index's cards, at 1280x720 (the 640x360 card the writing
    index uses, at 2x), written as WebP through Chrome, which is the only
    WebP encoder this tree uses (README, "Images").
 
-   Two are recomposed from captures that already exist under img/console/
-   and img/cockpit/, cropped to 16:9 from the top of the frame, where each
-   prototype's card and table sit. The third is a fresh capture of Agent
+   The cockpit's is recomposed from a capture that already exists under
+   img/cockpit/, cropped to 16:9 from the top of the frame, where the
+   prototype's card and table sit (the deploy console's was too, until it
+   left the site on 2026-10-23). Agent Review's is a fresh capture of Agent
    Review's front door, the delegated work, at 720px wide, the product's own
    tablet layout: the simulated label, the title, and the account the screen
    opens on ("7 changes made and checked. 2 decisions need you."); since
@@ -62,7 +63,6 @@ if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== from && a !== theme);
 
 const CARDS = {
-  'deploy-console': { image: 'img/console/slide-failing.webp' },
   /* The lab's exploration, since 2026-10-21: the scroll story the homepage
      carried until #539, on its last step, the pruned tree in fruit beside
      "The judgment didn't go away." Reduced motion, as every page card here,

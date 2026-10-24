@@ -2,13 +2,14 @@
  *
  * WHAT THIS IS FOR. Every browser check in scripts/ loads a page, waits for it
  * to settle, and measures what is there. That is the whole of what they see,
- * and for thirty of the thirty-two pages it is the whole of what the page
- * is. The two prototypes are the exception: `prototype/dispatch-cockpit.html`
- * and `prototype/deploy-console.html` render their entire interesting surface
- * from JavaScript in response to a press, so the checks would measure an
- * opening screen and call that the page. From #401 the lab index was a third,
- * a smaller one, while it kept its three pieces hidden until pressed; it is a
- * plain list again, and measured on one load.
+ * and for every page but one it is the whole of what the page is. The
+ * exception is `prototype/dispatch-cockpit.html`, which renders its entire
+ * interesting surface from JavaScript in response to a press, so the checks
+ * would measure an opening screen and call that the page. Until 2026-10-23
+ * `prototype/deploy-console.html` was a second, of the same shape, with
+ * fourteen states here; it left the site, and its states with it. From #401
+ * the lab index was another, a smaller one, while it kept its three pieces
+ * hidden until pressed; it is a plain list again, and measured on one load.
  *
  * Twelve things were never measured once. `.ck-why-form` and its radios, the
  * stored-reason note, the "assigned" tag, the moved-rank arrows, an open row
@@ -42,9 +43,11 @@
  * throws on a selector it cannot find rather than pressing on, and the check
  * that called it reports the page as unmeasurable rather than as passing.
  *
- * A STATE THAT IS A MOMENT SAYS SO. Two of the console's states are a press
- * in flight, a first deploy and a rollback, and the page ends each of them
- * itself a couple of seconds later, whatever is measuring. Reaching one is
+ * A STATE THAT IS A MOMENT SAYS SO. No page registers one now: the three
+ * there were belonged to the deploy console, and the machinery below stays
+ * for the next. Two of the console's states were a press in flight, a first
+ * deploy and a rollback, and the page ended each of them itself a couple
+ * of seconds later, whatever was measuring. Reaching one is
  * not the same as measuring it: states.mjs walks every rule the state gained
  * at 60ms or more an element, and by the time it got to the in-flight
  * button's hover rule the button had been replaced by the finished state's,
@@ -130,106 +133,6 @@ export const REACHABLE = {
        the rank cell and the row's own terse Undo, which this reaches too. */
     { name: 'the recommendation assigned, and the card offering Undo',
       press: ['.ck-card-act [data-assign]'] },
-  ],
-
-  /* THE SECOND PROTOTYPE, THE SAME SHAPE. prototype/deploy-console.html
-     renders its answer zone, its plan and its table from a press, exactly as
-     the cockpit does, so the same seven-state discipline applies: the three
-     situations the opening screen is not, the two things inside them a
-     press reveals, the far side of the primary action, and the dense end
-     of the table. */
-  'prototype/deploy-console.html': [
-    /* The empty state that leads somewhere: the first-deploy card with its
-       four facts, the map with the never-deployed node, the primary Deploy. */
-    { name: 'the first deploy, before pressing',
-      press: ['[data-scenario="first"]'] },
-
-    /* And in flight: the steps list with the first step under way and
-       three next, and the in-flight button, "Deploying...". The page takes
-       four 500ms beats to land it, so this is a moment, and it is held:
-       the clock stops before the Deploy press, and no beat ever comes. */
-    { name: 'the first deploy in flight',
-      press: ['[data-scenario="first"]', '[data-deploy]'],
-      holds: '.dc-btn[aria-disabled="true"][data-focus="deploy"]' },
-
-    /* THE FAR SIDE OF THE FIRST DEPLOY. The same press, four beats on: the
-       card says the job is live at its first deploy, with its two figures,
-       the four steps all done, and "Run it now" where Deploy was; the row
-       reads live, and nothing to roll back to. Until #407 no state showed
-       this on purpose -- resting.mjs measured it by accident, under the
-       in-flight name, because reduced motion lands the press at once.
-       Held where the Run button first appears: the clock is run forward
-       to the landing and stopped there. Nothing on this screen ends by
-       itself, so the hold is for the guard: held() still checks that what
-       was measured is the screen that landed. */
-    { name: 'the first deploy landed, offering a first run',
-      press: ['[data-scenario="first"]', '[data-deploy]'],
-      holds: '[data-run]' },
-
-    /* The refusal: the failed build on the caution ground, the failed tag in
-       the newest-deploy cell, and the caution-grounded status line. */
-    { name: 'a build failed, the refusal',
-      press: ['[data-scenario="failed"]'] },
-
-    /* The log under it, opened: the mono list with its marked line. */
-    { name: 'the build log opened',
-      press: ['[data-scenario="failed"]', '.dc-log-fold summary'] },
-
-    /* The reading: the white card with the dark edge on the alternate
-       ground, the figures beside their befores in the caution ink, the
-       dependency strip with a failing chip, and the failing health cells. */
-    { name: 'live, but failing: the reading',
-      press: ['[data-scenario="degraded"]'] },
-
-    /* The plan, open: every service a row, two changing and four staying. */
-    { name: 'the rollback previewed',
-      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]'] },
-
-    /* THE OTHER ENVIRONMENT. Staging on the failing situation: the same
-       commit serving at the figures production had before, and the aside
-       naming what differs. The switch is a pressed state of its own. */
-    { name: 'staging, where the same commit is fine',
-      press: ['[data-scenario="degraded"]', '[data-envmenu]', '[data-env="staging"]'] },
-
-    /* THE MENU ITSELF, OPEN. The environment crumb in the header opens a
-       menu with the current environment checked; the menu is in no DOM a
-       fresh load has, so it is a state of its own. */
-    { name: 'the environment menu open',
-      press: ['[data-envmenu]'] },
-
-    /* The table and the feed filtered to one kind of resource. */
-    { name: 'the services alone, in the table and the feed',
-      press: ['[data-kind="service"]'] },
-
-    /* THE PRESS ITSELF, IN FLIGHT. Pressing the plan's button starts a
-       sequence: api takes a building deploy and reads "redeploying", lands
-       about a second later, then worker does the same, and the in-flight
-       buttons become Undo. What is measured is api building and worker
-       waiting: the building tag, the redeploying word, the in-flight
-       button with aria-disabled and the "Rolling back" zone. This comment
-       used to say the moment was long enough to be the same one every run.
-       It was long enough to reach and not to measure: states.mjs finished
-       measuring this state about six seconds after the press, and in 7
-       runs of 7 it had measured "Undo: redeploy a3f9c1e" where the
-       in-flight button had been. Held now, like the first deploy above. */
-    { name: 'a rollback in flight, the first service redeploying',
-      press: ['[data-scenario="degraded"]', '.dc-read [data-plan]', '.dc-plan-form [type="submit"]'],
-      holds: '.dc-btn[aria-disabled="true"][data-focus^="roll:"]' },
-
-    /* THE FAR SIDE OF THE PRIMARY ACTION. The rolled-back card with the
-       record on it, the recovered note under it (a staged rollback lands
-       on the watched state), Undo where Roll back was, the rolled ground
-       and tag on two rows, and the health cells read from the figures. */
-    { name: 'rolled back, and the card offering Undo',
-      press: ['[data-scenario="rolled"]'] },
-
-    /* A row opened to its deploy history, with a failed deploy in it. */
-    { name: 'a service opened to its history',
-      press: ['.dc-table [data-more="api"]'] },
-
-    /* The dense end, which is the one a team would actually run. */
-    { name: 'the services at compact density',
-      press: ['[data-density="compact"]'] },
   ],
 };
 
