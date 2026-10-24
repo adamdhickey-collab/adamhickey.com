@@ -93,10 +93,11 @@ Three sages. One for light grounds, its pressed step, and one for charcoal.
 ### Status and collection
 
 Two families that are not the sage, each entered with its measured row.
-**Caution** is the status pair the dispatch cockpit and the deploy console
-spend on a refusal and a reading; **slate** is the writing index's "Craft and
-code" colour, entered 2026-09-28 so an article's progress line can wear its
-collection. The terracotta collection needs no new token: it is
+**Caution** is the status pair the dispatch cockpit spends on a refusal and
+a figure it will not vouch for (the deploy console spent it on a reading too,
+until it left the site on 2026-10-23); **slate** is the writing index's
+"Craft and code" colour, entered 2026-09-28 so an article's progress line can
+wear its collection. The terracotta collection needs no new token: it is
 `--color-caution-text`, the ink the site already draws its terracotta in.
 
 | Token | Value | Notes |
@@ -752,24 +753,13 @@ degrees cooler than the charcoal is what lets a phone shell read as a molded
 object next to charcoal type on the same page, and `--color-charcoal` goes
 back to meaning ink.
 
-**The deploy console's own system.** Since 2026-09-28 the screen inside
-`prototype/deploy-console.html`'s device frame follows the direction of a
-refreshed platform dashboard rather than this palette: a near-black canvas
-`#0d0d0d`, a panel `#161616` and a raised surface `#1f1f1f` on it, hairlines
-`#333333` and `#454545` where this site would use a shadow, three inks
-`#f5f5f5` / `#b8b8b8` / `#8f8f8f`, one violet `#8a05ff` spent on the primary
-fill and, as the ground `#33106e` and the ink `#c9a2ff`, on the selected row
-and nowhere else, a green `#57d38c` for what is live and a red `#ff6b6b` for
-what is not. They are declared once, as `--rd-*` on `.dc` in
-`deploy-console.css`, with every ratio measured in the comment above them,
-and none of them styles anything outside the console, except the one
-edge the write-up's figures draw around a capture of it. The site's inks stop at the bezel,
-which is the rule above applied to a product that happens to be pressable:
-a screenshot of a client's app is artwork to the page around it, and so is
-a working one. The size scale is the one thing the two systems share, on
-purpose, so `typescale.mjs` holds the screen to the fourteen steps like any
-page, and `resting.mjs` and `states.mjs` measure its inks on its own
-grounds like any other.
+**The deploy console's own system** was a set here from 2026-09-28 until
+2026-10-23: the screen inside `prototype/deploy-console.html`'s device frame
+followed a refreshed platform dashboard rather than this palette, declared
+once as `--rd-*` on `.dc` and styling nothing outside the console. It went
+with the console, and the rule it illustrated stands: the site's inks stop
+at the bezel, so a working product on the page is artwork to the page
+around it, as a screenshot of one is.
 
 **The Agent Review loop's rail.** Since 2026-10-06 the six steps of the
 loop on `lab/agent-review.html` sit under one drawing in code, a line the
@@ -1075,8 +1065,8 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by thirty-three pages; the
-token files are loaded by all thirty-nine, so anything defined in `style.css` is
+`style.css` holds no shared token at all. It is loaded by thirty-two pages; the
+token files are loaded by all thirty-eight, so anything defined in `style.css` is
 invisible to the six Tailwind case studies. That single fact caused three
 separate bugs across this work and the type work before it: a regression that
 shipped for two commits, an undefined `--color-accent` that had never

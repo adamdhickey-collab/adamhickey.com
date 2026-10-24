@@ -419,33 +419,35 @@ tokens and record historical measurements on purpose.
 at rest and fail on hover, and it can fail sitting still, which no amount of
 state-forcing notices; the resting color is the one state that is never forced.
 
-**Five of the six now press things, and only on two pages.** They load a page, wait for
-it to settle and measure what is there, which is the whole of thirty of the
-thirty-two. From #401 the lab index was a third, while `lab/index.html` kept
-its three pieces in hidden articles and opened one at a press; it went back
-to a plain list the same day, and its three states left the registry with
-the workspace. The two pages under `prototype/` are the two:
-`prototype/dispatch-cockpit.html` renders its comparison, its override
-question, its refused button and its opened rows from JavaScript in response
-to a press, so twelve of its states were in no DOM any check ever saw and
-every one of them said "✓" about a page it had measured a sixth of; since
-2026-09-28 `prototype/deploy-console.html` does the same with its failed
-build, its reading, its rollback plan and its rolled-back rows, and carries
-its own states in the same registry, fourteen since #411. Three of the
-console's are timed: a first deploy and a rollback in flight, which the page
-ends by itself about two seconds after the press, and the first deploy
-landed, four beats after it. Each names a `holds` selector and is measured
-on a page whose clock the registry stops (#407, #411); the registry's
-header has how. `scripts/lib/reachable.mjs` is the registry -- per page, named
-states and the selectors to click to reach each from a fresh load -- and
-every browser check but `readtime.mjs` imports it, `targets.mjs` too; a
-read time is a claim about the page at rest, and neither cockpit nor console
-states one. It is curated by hand and lives outside the page deliberately,
-like the registries in `counts.mjs` and `tokens.mjs`: a `window.__states` the
-page exported would ship test scaffolding to readers and let a change to the
-page quietly edit the list of what gets measured. `reach()` throws on a
-selector that matches nothing, so a stale state fails the run rather than
-silently covering less. It found a live 1.29:1 hover on its first pass.
+**Five of the six now press things, and only on one page.** They load a
+page, wait for it to settle and measure what is there, which is the whole of
+every page but one. From #401 the lab index was another, while
+`lab/index.html` kept its three pieces in hidden articles and opened one at
+a press; it went back to a plain list the same day, and its three states
+left the registry with the workspace. `prototype/dispatch-cockpit.html` is
+the one: it renders its comparison, its override question, its refused
+button and its opened rows from JavaScript in response to a press, so twelve
+of its states were in no DOM any check ever saw and every one of them said
+"✓" about a page it had measured a sixth of. From 2026-09-28 until
+2026-10-23 `prototype/deploy-console.html` was a second, with its failed
+build, its reading, its rollback plan and its rolled-back rows, fourteen
+states from #411; it left the site on 2026-10-23, and its states left the
+registry with it. Three of those were timed: a first deploy and a rollback
+in flight, which the page ended by itself about two seconds after the
+press, and the first deploy landed, four beats after it. Each named a
+`holds` selector and was measured on a page whose clock the registry stops
+(#407, #411); no state holds a moment now, and the registry's header keeps
+how for the next one. `scripts/lib/reachable.mjs` is the registry -- per
+page, named states and the selectors to click to reach each from a fresh
+load -- and every browser check but `readtime.mjs` imports it,
+`targets.mjs` too; a read time is a claim about the page at rest, and the
+cockpit states none. It is curated by hand and lives outside the page
+deliberately, like the registries in `counts.mjs` and `tokens.mjs`: a
+`window.__states` the page exported would ship test scaffolding to readers
+and let a change to the page quietly edit the list of what gets measured.
+`reach()` throws on a selector that matches nothing, so a stale state fails
+the run rather than silently covering less. It found a live 1.29:1 hover on
+its first pass.
 
 A state pass in `states.mjs` measures only the rules that GAINED elements.
 Forcing all of them again per state was still running after eleven minutes on
@@ -490,6 +492,20 @@ passing. The same change took `counts.mjs` from 26 claims across 6 documents
 to 33 across 7: seven entries for the six places that counted the checks
 with nothing holding them, the number row in "What makes a good product
 designer now?" taking two, one for each figure.
+
+**The deploy console left the site on 2026-10-23, and it was fifteen
+loads.** Its page, stylesheet, script, pictures, capture scripts and
+fourteen reachable states went in one change, so the sweep after that merge
+comes back far smaller, and nothing stopped being measured. Measured scoped
+on `main` at 947c1d9 the day it left, the console alone was 5433 resting
+colors, 131 state rules, 23134 type sizes, 14846 curve elements and 105
+raised surfaces; the six other pages the change touched move by the few
+elements its pull request itemizes. Reachable states go 21 -> 7, all the
+cockpit's. The browser checks measure 39 pages, not 40: the thirty-eight of
+the site and `404.html`. `tokens.mjs` prints 327 declarations in 19
+stylesheets where it printed 349 in 20, the 22 only `deploy-console.css`
+declared, its `--rd-*` set among them, and the names hold at 133. Read the
+next sweep against those, not against the dated set above.
 
 Three of the first four jumped when the checks learned to press things, and
 all of the jump is one page: resting 4024 -> 5784, type sizes 16886 ->
