@@ -52,13 +52,13 @@ const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'img/lab');
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const from = (() => { const i = process.argv.indexOf('--from'); return i > -1 ? process.argv[i + 1] : 'http://localhost:5173/agent-review/'; })();
-/* The app's theme: dark by default, the app's own default since
-   agent-review#32 (2026-10-11, later still; light for a few hours that day,
-   under agent-review#29); --theme light writes the same app cards with
-   -light at the end of the name. Chosen the way the app's control chooses,
+/* The app's theme: light by default since 2026-10-24, when the app began
+   following the system and the site's pictures went light (dark from
+   agent-review#32 on 2026-10-11 until then); --theme dark writes the same
+   app cards with -dark at the end of the name. Chosen the way the app's control chooses,
    in localStorage before the page loads, so a card never depends on the
    app's default. The page and image cards have one version. */
-const theme = (() => { const i = process.argv.indexOf('--theme'); return i > -1 ? process.argv[i + 1] : 'dark'; })();
+const theme = (() => { const i = process.argv.indexOf('--theme'); return i > -1 ? process.argv[i + 1] : 'light'; })();
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--') && a !== from && a !== theme);
 
@@ -301,10 +301,10 @@ const browser = await chromium.launch({ executablePath: CHROME });
    is asked for. */
 let site;
 try {
-  if (theme === 'dark' && only.includes('agent-review-themes')) await themes(browser);
+  if (theme === 'light' && only.includes('agent-review-themes')) await themes(browser);
   for (const [slug, card] of Object.entries(CARDS)) {
     if (only.length && !only.includes(slug)) continue;
-    if (theme === 'light' && !card.url) continue;
+    if (theme === 'dark' && !card.url) continue;
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: card.dpr ?? (card.width ? 1280 / card.width : 1) });
     /* The app draws itself larger from a 1296px window (agent-review#27,
        app/scale.css). Every card here is narrower than that today, and
@@ -366,7 +366,7 @@ try {
       if (drawn !== theme) throw new Error(`${slug}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
     }
     const name = card.out ?? `${slug}-card.webp`;
-    const file = path.join(OUT, theme === 'light' ? name.replace(/\.webp$/, '-light.webp') : name);
+    const file = path.join(OUT, theme === 'dark' ? name.replace(/\.webp$/, '-dark.webp') : name);
     buf ??= await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: card.width ?? 1280, height: card.height ?? 720 } });
     fs.writeFileSync(file, buf);
     console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);

@@ -40,10 +40,12 @@
    and the cuts that were the decision card's are the workspace's own parts.
 
    EVERY APP CAPTURE CAN BE TAKEN IN EITHER THEME, since agent-review#29
-   (2026-10-11). --theme dark (the default, since agent-review#32 made dark
-   the review's default later that day) writes the files the page shows;
-   --theme light writes the same shots with -light at the end of the name,
-   which nothing on the page uses.
+   (2026-10-11). --theme light (the default, since 2026-10-24: Adam finds
+   the light theme easier to understand, and the app follows the system, so
+   light is what most first visits see) writes the files the page shows;
+   --theme dark writes the same shots with -dark at the end of the name,
+   which nothing on the page uses. From 2026-10-11 to 2026-10-24 it was the
+   other way round, dark plain and light as -light.
 
    DRAWN LARGER, since the same day (Adam: the screenshots are hard to read;
    bump the text up without changing the layout). A shot can hold the app at
@@ -59,7 +61,8 @@
    the product inside the preview frame, is light in both, as it always is.
    The Storybook figure has no dark version: its story is Relay's own, in
    Storybook's own chrome. From 2026-10-05 to 2026-10-11 every capture was
-   the dark theme, the app's default then.
+   the dark theme, the app's default then, and again from later that day
+   until 2026-10-24.
    Take them from a PRODUCTION build (the deployed address, or `npm run build`
    served under /agent-review/), not the dev server: until #15 the built
    stylesheet rewrote every light-dark() token on the root and Relay came out
@@ -77,7 +80,7 @@
      node scripts/lab-shots.mjs tradeoff directions decision   # the three moments
      node scripts/lab-shots.mjs return               # the return dialog, both sizes
      node scripts/lab-shots.mjs --from http://localhost:5173/agent-review/ change drift return
-     node scripts/lab-shots.mjs --theme light tradeoff  # the same, in the light theme, as *-light.webp
+     node scripts/lab-shots.mjs --theme dark tradeoff   # the same, in the dark theme, as *-dark.webp
 
    Slugs: change (the accepted run, with the new-pattern finding open), drift
    (the seeded branch, the overflow finding, the preview at 768 with the bar
@@ -113,7 +116,7 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback;
 };
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
-const theme = arg('--theme', 'dark');
+const theme = arg('--theme', 'light');
 if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
 /* The desktop captures are 2x; the figures print well under half their file
    at that. (A --scale 3 set was the tour's alone, and went with it.) */
@@ -473,13 +476,13 @@ async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
   const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
   if (zoom !== String(expected)) throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not ${expected} (${page.url()})`);
   /* A capture in the wrong theme is refused, as one at the wrong size is.
-     The scheme is read, not the attribute: dark is the root's own and puts
-     nothing on it. */
+     The scheme is read, not the attribute, and a chosen theme is the one
+     the root's color-scheme names. */
   if (!oneTheme) {
     const drawn = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
     if (drawn !== theme) throw new Error(`${name}${suffix}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
   }
-  if (theme === 'light' && !oneTheme) suffix += '-light';
+  if (theme === 'dark' && !oneTheme) suffix += '-dark';
   const file = path.join(OUT, `${name}${suffix}.webp`);
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
@@ -488,7 +491,7 @@ async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
 try {
   for (const [slug, shot] of Object.entries(SHOTS)) {
     if (only.length && !only.includes(slug)) continue;
-    if (theme !== 'dark' && shot.light) continue; /* one theme: written under the plain name by the default run only */
+    if (theme !== 'light' && shot.light) continue; /* one theme: written under the plain name by the default run only */
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];
