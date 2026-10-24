@@ -16,7 +16,9 @@
  * screenshotted by the same Chrome the checks use. A case study's card frames
  * the page's first screen on the right; an engagement's card sits on the
  * engagement's own hero illustration, which is drawn with an empty wall on
- * the left for exactly this reason. Re-run it when a title or a hero changes,
+ * the left for exactly this reason. A card with `full` is that drawing alone,
+ * edge to edge, with no type: for a picture that already asks its question.
+ * Re-run it when a title or a hero changes,
  * and bump the og:image path's ?v= if the bytes change, because a scraper
  * caches the old card by URL.
  *
@@ -65,12 +67,14 @@ const CARDS = {
      the phone-layout square, agent-review-share, before. */
   'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
   'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-og.webp' },
-  /* The case study's picture is the product itself since later on
-     2026-10-09 (lab-cards.mjs agent-review-og): a square of the run's main
-     column, desktop layout, dark. It was the homepage's composition for a
-     few hours that day (agent-review-feature), and the phone-layout square
-     before that. */
-  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', image: 'img/lab/agent-review-og.webp' },
+  /* The case study's card is a drawing since 2026-10-24, the first `full`
+     card: a robot hand stopping at the one underlined gray link among bold
+     buttons, drawn in ChatGPT in the engagement set's hand. The titled card
+     repeated what a link preview already prints under it; this one asks the
+     question the page answers. It was a square of the run's main column
+     (lab-cards.mjs agent-review-og) from 2026-10-09, which the lab's card
+     still carries. The kicker and title stay for the record. */
+  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-share-card.webp' },
   'product-clarity': { kicker: 'How I work', title: 'Turn ambiguity into a decision', sub: 'The product has become complicated', hero: 'img/engagement/clarity-hero.webp' },  'design-system-foundation': { kicker: 'How I work', title: 'Build the system everyone builds from', sub: 'The products need a system', hero: 'img/engagement/system-hero.webp' },  'embedded-senior-product-design': { kicker: 'How I work', title: 'Own the design inside the team, not beside it', sub: 'An initiative with no senior owner', hero: 'img/engagement/embedded-hero.webp' },  'working-product-prototype': { kicker: 'How I work', title: 'Build to find out', sub: 'Ideas everywhere, nothing you can use yet', hero: 'img/engagement/ai-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
@@ -112,6 +116,10 @@ const { server, origin } = await serve(root);
 const file = (p) => `${origin}/${p}`;
 
 function html(card) {
+  if (card.full) return `<!doctype html><html><head><meta charset="utf-8"><style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: ${C['--color-warm']}; }
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+</style></head><body><img src="${file(card.full)}"></body></html>`;
   const onHero = Boolean(card.hero);
   return `<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
@@ -152,7 +160,7 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, dev
 let n = 0;
 for (const [slug, card] of Object.entries(CARDS)) {
   if (only.length && !only.some((o) => slug.includes(o))) continue;
-  const src = card.hero || card.image;
+  const src = card.full || card.hero || card.image;
   if (src && !fs.existsSync(path.join(root, src))) { console.error(`  ✗ ${slug}: ${src} is not in the tree`); process.exitCode = 1; continue; }
   await page.setContent(html(card), { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
