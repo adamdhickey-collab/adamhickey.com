@@ -86,8 +86,8 @@ The voice gets more personal; the facts do not get looser.
   spoken essay put "ninety-seven percent" on a dispatcher's screen; the
   article says "high confidence," and that is what the page says.
 - **Simulated stays simulated.** Agent Review plays simulated runs and has
-  not been tested with anyone. Dispatch Cockpit and Rollcall run on synthetic
-  data. A story about them says so in the sentence that tells it.
+  not been tested with anyone. Dispatch Cockpit runs on synthetic data. A
+  story about them says so in the sentence that tells it.
 - **Current examples only.** Agent Review's first decision is the quiet
   cancel link (#522, #523), not the two reds.
 - **Someone else's work is cited, not told as yours.** Ryan Brownlow's Korl
