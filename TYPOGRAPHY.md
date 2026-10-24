@@ -444,7 +444,7 @@ What counts as one, so the next one is easy to place:
 
 | Class | Where | Size |
 |---|---|---|
-| `.hero-eyebrow`, `.section-eyebrow`, `.case-card-eyebrow`, `.product-eyebrow` | Homepage | 11 – 12px |
+| `.hero-eyebrow`, `.section-eyebrow`, `.product-eyebrow` | Homepage | 11 – 12px |
 | `.case-kicker` | The top of every detail page: case studies, build write-ups, writing, lab, prototypes | 12px |
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" pages | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
