@@ -246,13 +246,20 @@ const SHOTS = {
      has a visual baseline, and beside it the inspector, the question, that it
      is a permission decision and whose component it is, and the three
      answers, cut 12px under the inspector. On a phone, the inspector from
-     its top. */
+     its top.
+     THE DESK, since agent-review#42 (2026-10-24): a laptop's workspace is a
+     desk the height of the window, so the figure is the desk whole at 1440,
+     held at 1.125 (1280px of layout, wider than the desk's 76rem), in a
+     window 1150 tall, on its Choose page: the queue, the customer list
+     marked with the forty screens under it, and the decision's band over
+     its three answers. Cut 12px round the desk. */
   scope: {
     file: 'agent-review-scope',
     app: '#/runs/shared-table',
-    desktop: { size: { width: 1300, height: 1000 }, zoom: 1.125, clip: studioClip },
+    desktop: { size: { width: 1440, height: 1150 }, zoom: 1.125, clip: deskClip },
     open: async (page) => {
       const phone = (page.viewportSize()?.width ?? 0) < 500;
+      await toChoose(page);
       if (phone) await page.locator('.studio__inspector').first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
@@ -265,13 +272,19 @@ const SHOTS = {
 
      directions: the decision in the inspector, from the panel's head to the
      second direction's button: the question, each direction's main risk in
-     view, and the two buttons. */
+     view, and the two buttons. Since the desk (agent-review#42), on a
+     desktop that is the decision panel whole on its Choose page: the band
+     (which decision, its kind, the question and the four steps, Choose
+     current), both directions, and the foot with Back and Next, at 1.125
+     so the window is a desk;
+     a phone's layout has no desk and is as it was. */
   directions: {
     file: 'agent-review-directions',
     app: '#/runs/billing',
-    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector') },
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.125, clip: panelClip },
     phone: { clip: (page) => partClip(page, '.studio__inspector', '.studio__inspector .ask__choice:last-of-type', '.studio__inspector', 8) },
     open: async (page) => {
+      await toChoose(page);
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
     },
@@ -360,9 +373,49 @@ async function mainColumn(page) {
 const REASON =
   'The gray link is from a retention test last year that ended without a decision, and nobody turned it off. How easy it is to cancel is a product decision, so it gets its own change. A quiet Button would let any agent make any action this hard to find.';
 async function decideOwnChange(page) {
+  await toChoose(page);
   await page.getByRole('button', { name: /^Select and preview\s+Make it a Button in its own change$/ }).click();
+  /* On the desk, choosing turns the panel to Preview; the reason is Apply's. */
+  const next = page.getByRole('button', { name: 'Next: apply' });
+  if (await next.isVisible()) await next.click();
   await page.getByRole('textbox', { name: 'Your reason' }).fill(REASON);
   await page.getByText('Use this decision for similar cases').click();
+}
+/* On the desk (agent-review#42, a laptop window) the directions and answers
+   are the decision panel's Choose page; anywhere else they are already in
+   view, and this does nothing. */
+async function toChoose(page) {
+  const next = page.getByRole('button', { name: 'Next: choose' });
+  if (await next.isVisible()) await next.click();
+  await page.waitForTimeout(200);
+}
+/* The desk's decision panel whole, 12px round it, in a window grown until
+   its page needs no scroll of its own: the desk is the window's height, so
+   a part of it cannot be cut out of a window resized round the part, the
+   way partClip does, without the desk shrinking under the cut. */
+async function panelClip(page) {
+  for (let i = 0; i < 4; i++) {
+    const over = await page.evaluate(() => {
+      const body = document.querySelector('.desk__body');
+      const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+      return Math.ceil((body.scrollHeight - body.clientHeight) * zoom);
+    });
+    if (over <= 0) break;
+    await page.setViewportSize({ width: page.viewportSize().width, height: page.viewportSize().height + over + 2 });
+    await page.waitForTimeout(300);
+  }
+  const box = await page.locator('.desk__panel').first().boundingBox();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  return { x: Math.round(box.x - 12), y: Math.round(box.y - 12), width: Math.round(box.width + 24), height: Math.round(box.height + 24) };
+}
+/* The desk whole, 12px round it: it is the window's height already, so
+   nothing is resized. */
+async function deskClip(page) {
+  const box = await page.locator('.desk').first().boundingBox();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  return { x: Math.round(box.x - 12), y: Math.round(box.y - 12), width: Math.round(box.width + 24), height: Math.round(box.height + 24) };
 }
 /* The decision record's cut: the main column, from 12px above the record
    to 12px under it. */
