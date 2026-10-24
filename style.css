@@ -684,32 +684,24 @@ a.case-thumb { display: block; }
   .case-card--lab { padding: var(--space-xl); }
 }
 .case-card--lab .case-desc { margin-top: var(--space-md); }
-/* THE TITLE BREAKS AFTER ITS SUBJECT ON A PHONE, since 2026-10-22. At the
-   homepage's 28px floor "How product design works now" is 344 wide. Left
-   to break where it fell it put "now" alone on the second line (Adam:
-   "weird wrapping"), and balance alone made it "How product / design works
-   now", splitting the noun, so "How product design" is an inline-block
-   span as well: balanced, the break it picks is after the span, "How
-   product design / works now"; where the whole title fits, it stays on
-   one line. The dek's two sentences hold together the same way
-   (.case-lab-lead below).
+/* EVERY LINE IN THE CARD BREAKS WHERE IT FALLS, since 2026-10-24. From
+   2026-10-22 the title and the dek were each held in inline-block spans
+   under `balance`, so "How product design" and each of the dek's two
+   sentences could only break as a unit. On a 430 iPhone that put
+   "Building got easy." alone on a line with room beside it for the next
+   words (Adam: "forced to its own line even though there's room"), and the
+   points' `balance` did the same on a smaller scale. The spans are gone.
+   The title, description and points take `pretty`, which keeps "now" from
+   ending the title alone at 375; the dek takes plain `wrap` (below).
    THE CARD'S INSET IS ITS PANEL'S UNDER 640, --space-md where it was
-   --space-xl, since the same day. At --space-xl the words were 331 wide on
-   a 430 phone, 13 short of the title, so the big phones took the break
-   too, with room left on the first line for "works" (Adam, on a 430
-   iPhone: "wrapping in an unnatural way"). At --space-md they are 347 at
-   430 and 357 at 440, and the title is one line there; from 402 down
-   (320, 311, 293) it still breaks after its subject. The loop panel under
-   the words is already --space-md under 640, so the card and the panel
-   inside it now share an inset on a phone.
-   The description takes `pretty` and the points `balance`, so no line
-   under the dek ends on one word: at 390 the last point read "A clear line
-   where a person / decides", and is "A clear line where / a person
-   decides". A point that fits on one line is left alone by either. */
-.case-card--lab h3 { text-wrap: balance; }
-.case-card--lab h3 span { display: inline-block; }
-.case-card--lab .case-desc { text-wrap: pretty; }
-.case-card--lab .build-list li { text-wrap: balance; }
+   --space-xl, since 2026-10-22. At --space-xl the words were 331 wide on a
+   430 phone; at --space-md they are 347 at 430 and 357 at 440, and the
+   title is one line there. The loop panel under the words is already
+   --space-md under 640, so the card and the panel inside it share an inset
+   on a phone. */
+.case-card--lab h3,
+.case-card--lab .case-desc,
+.case-card--lab .build-list li { text-wrap: pretty; }
 /* The points are the last thing above the links since 2026-10-22, when the
    sentence naming Agent Review moved up into the description. The list's
    own --space-xl stacked on the links' --space-lg in the body's flex column,
@@ -849,34 +841,35 @@ a.case-thumb { display: block; }
    "almost looks like the same style as the paragraph below, but it's just a
    little different"). It is a dek by TYPOGRAPHY.md's definition, the short
    line between the hed and the body, so it takes .build-dek's treatment: the
-   serif on --type-lede at --leading-tight. Name, dek and description now
+   serif at --leading-tight, on --type-lede until 2026-10-24 (below). Name, dek and description now
    differ by family or by size, never by ink alone, and the description
    stands a paragraph's step below it.
-   ON A PHONE THE FLOOR IS 20, since 2026-10-12. At the ramp's 18 the
-   serif's small x-height set it no larger to the eye than the 16px sans
-   description under it, the complaint above one breakpoint down; 24 was
-   tried and ran it to three lines at 375 and up against the 28px name.
-   max() rather than a query, as the homepage's h2 and h3 floors are: the
-   ramp is unchanged from about 693px, where it passes 20 on its own, so
-   the dek beside the picture is exactly what it was.
-   EACH SENTENCE HOLDS TOGETHER, since 2026-10-22. The dek is two short
-   sentences, 378 wide on one line at 20px, so a phone breaks it, and
-   balance broke it inside the first one: "Building got easy. Knowing /
-   what to build didn't." Each sentence is an inline-block span, so the
-   line can only break between them, "Building got easy." over "Knowing
-   what to build didn't.", which at 236 fits every phone from 375 up. Where
-   both fit on one line they still share it; under 375 the second sentence
-   wraps inside its own span, still balanced, since text-wrap inherits. */
+   ON A PHONE THE FLOOR IS 24, since 2026-10-24, where it was 20 from
+   2026-10-12 and the ramp's 18 before that. At 18 the serif's small
+   x-height set it no larger to the eye than the 16px sans description
+   under it; at 20 it still read small for a dek on a phone (Adam: "the
+   text looks unusually small for this style"). 24 was tried on 10-12 and
+   ran to three lines at 375, but that was with each sentence held in its
+   own span; left to wrap where it falls it is two lines on every phone.
+   --type-lede tops out at 24, so the dek is 24 at every width now, the
+   size it already was from 1280 up.
+   IT FILLS ITS FIRST LINE, since the same day: plain `wrap`, no spans, no
+   `balance`. The sentences used to be inline-block spans so the line could
+   only break between them, and on a 430 iPhone that left "Building got
+   easy." alone with room beside it (see the title's block above). Not
+   `pretty` either: WebKit's evens the two lines out much as `balance`
+   does, "Building got easy. Knowing / what to build didn't." at 430, where
+   plain wrap gives "Knowing what to / build didn't." The second line is
+   two words or more at every width from 375. */
 .case-lab-lead {
   margin: 0;
   max-width: 32rem;
   font-family: var(--font-serif);
-  font-size: max(var(--type-lede), var(--text-xl));
+  font-size: var(--text-2xl);
   line-height: var(--leading-tight);
-  text-wrap: balance;
+  text-wrap: wrap;
   color: var(--color-charcoal);
 }
-.case-lab-lead span { display: inline-block; }
 /* ---------- The card's picture is a tablet ----------
    The picture was a drawing from #340 to #343, in the --shadow-media ring
    every drawing wears; see the git history of this block for that argument.
