@@ -151,10 +151,12 @@ the archive so that it holds everything staging ever had.
 
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
-the six-item proof strip and the client logos) → Selected work (Agent
-Review first since 2026-10-12, as the featured self-directed prototype, with
-a line to the rest of the lab, then the three client case studies -- SAP,
-dispatch, USDA since 2026-10-06 -- under "Established enterprise work") →
+an eyebrow naming the role, Minneapolis / Remote and the full-time search
+since 2026-10-23, two buttons and a résumé link, the six-item proof strip
+and the client logos) → Selected work (the three client case studies first
+since 2026-10-23 -- SAP, USDA, dispatch -- under "Shipped enterprise work",
+then Agent Review as the featured self-directed prototype, with a line to
+the rest of the lab) →
 How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own

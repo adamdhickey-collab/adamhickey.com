@@ -288,6 +288,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 @media (min-width: 768px) {
   .hero-eyebrow { margin-top: 0; margin-bottom: var(--space-sm); font-size: var(--text-xs); }
 }
+/* THREE FACTS SINCE 2026-10-23: the role, where, and the search. Each
+   phrase holds together, and the separator's no-break space ties the dot to
+   the phrase before it, so a line that has to wrap ends on a dot rather than
+   starting on one. On a phone the line would wrap twice either way, so the
+   three stack as three short lines and the dots go. */
+.hero-eyebrow > span:not(.hero-eyebrow-sep) { white-space: nowrap; }
+@media (max-width: 640px) {
+  .hero-eyebrow > span { display: block; }
+  .hero-eyebrow > .hero-eyebrow-sep { display: none; }
+}
 .hero-eyebrow + .hero-title { margin-top: 0; }
 .hero-title { margin-top: var(--space-4xl); margin-bottom: var(--space-md); word-break: break-word; }
 @media (min-width: 768px) { .hero-title { margin-top: var(--space-4xl); margin-bottom: 0; } }
@@ -2150,6 +2160,21 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
 .hero-cta.reveal { transition-delay: 0.35s; }
 @media (max-width: 767.98px) { .hero-cta.reveal { transition-delay: 0.1s; } }
 @media (min-width: 768px) { .hero-cta { margin-top: var(--space-2xl); } }
+/* The résumé, last in the row since 2026-10-23: a text link on the buttons'
+   line rather than a third button, so the row keeps one filled ask. Its box
+   is the 44px touch floor, centred on the buttons; the prose-link group
+   further down is what makes it read as a link. Under 640, where the
+   buttons stack full width, it starts the line under them. */
+.hero-resume {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: var(--space-2xs);
+  min-height: 44px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+}
+@media (max-width: 640px) { .hero-resume { align-self: flex-start; } }
 
 /* Ghost button for light surfaces — the base .btn-ghost is tuned for
    the charcoal section and its warm border disappears on white. */
@@ -4370,12 +4395,16 @@ html.ah-lightbox-open body { overflow: hidden; }
    buttons), the Design psychology note's source line sits in its aside, and
    Faunaform's .ff-credits is a figcaption that already underlines in the
    caption's ink. No charcoal chapter carries a link yet; one would read
-   accent-text on charcoal, which resting.mjs fails, so it would be asked. */
+   accent-text on charcoal, which resting.mjs fails, so it would be asked.
+   The hero's résumé link joined on 2026-10-23: not in a sentence, but a
+   text link on the white hero beside two buttons, and this is what a text
+   link on a light ground looks like here. */
 .writing-measure p:not(.dp-note-source) a,
 .writing-measure li a,
 .section-head p a,
 .case-card--lab .case-desc a,
-.build-chapter .container > p:not([class]) a {
+.build-chapter .container > p:not([class]) a,
+.hero-cta .hero-resume {
   color: var(--color-accent-text);
   font-weight: 600;
   text-decoration: underline;
@@ -4386,13 +4415,15 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-measure li a:focus-visible,
 .section-head p a:focus-visible,
 .case-card--lab .case-desc a:focus-visible,
-.build-chapter .container > p:not([class]) a:focus-visible { color: var(--color-charcoal); }
+.build-chapter .container > p:not([class]) a:focus-visible,
+.hero-cta .hero-resume:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
   .writing-measure p:not(.dp-note-source) a:hover,
   .writing-measure li a:hover,
   .section-head p a:hover,
   .case-card--lab .case-desc a:hover,
-  .build-chapter .container > p:not([class]) a:hover { color: var(--color-charcoal); }
+  .build-chapter .container > p:not([class]) a:hover,
+  .hero-cta .hero-resume:hover { color: var(--color-charcoal); }
 }
 /* The essays' lists take .build-list's sage dash rather than a disc, so the
    three page families mark an item the same way. The size is the essays'

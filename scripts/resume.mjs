@@ -174,7 +174,7 @@ const html = String.raw`<!doctype html>
 <header>
   <h1>Adam Hickey</h1>
   <p class="tagline">Senior Product Designer · Complex Workflows · Design Systems · Prototyping in Code · AI and Agentic Products</p>
-  <p class="contact"><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
+  <p class="contact"><span>Minneapolis, MN</span><span>Remote</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
@@ -209,7 +209,7 @@ const html = String.raw`<!doctype html>
   <ul>
     <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal (research, workflows, accessibility).</li>
-    <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher who is short on attention rather than short on data.</li>
+    <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher short on attention rather than data. Board-clearing time fell roughly 30% per cycle.</li>
   </ul>
 </section>
 
@@ -400,7 +400,7 @@ const reading = String.raw`<!doctype html>
     <ul>
       <li><b>40+ SAP applications</b> on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
       <li><b>A USDA grant-management portal</b> that took data-analysis requests from 45–55 hours to just over 10.</li>
-      <li><b>Real-time logistics for a 450+ truck fleet:</b> the decision surface for a dispatcher short on attention rather than data.</li>
+      <li><b>Real-time logistics for a 450+ truck fleet:</b> dense cards in place of a map, and board-clearing time down roughly 30%.</li>
     </ul>
   </section>
 
@@ -417,6 +417,7 @@ const reading = String.raw`<!doctype html>
 <aside>
   <section>
     <h2>Contact</h2>
+    <p>Minneapolis, MN &middot; Remote</p>
     <p><a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
     <p><a href="https://adamhickey.com">adamhickey.com</a></p>
     <p><a href="https://www.linkedin.com/in/adamdhickey">linkedin.com/in/adamdhickey</a></p>
