@@ -174,7 +174,7 @@ const html = String.raw`<!doctype html>
 <header>
   <h1>Adam Hickey</h1>
   <p class="tagline">Senior Product Designer · Complex Workflows · Design Systems · Prototyping in Code · AI and Agentic Products</p>
-  <p class="contact"><span>Minneapolis, MN</span><span>Remote</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
+  <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
@@ -417,7 +417,8 @@ const reading = String.raw`<!doctype html>
 <aside>
   <section>
     <h2>Contact</h2>
-    <p>Minneapolis, MN &middot; Remote</p>
+    <p>Minneapolis, MN</p>
+    <p>Remote or hybrid</p>
     <p><a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
     <p><a href="https://adamhickey.com">adamhickey.com</a></p>
     <p><a href="https://www.linkedin.com/in/adamdhickey">linkedin.com/in/adamdhickey</a></p>
