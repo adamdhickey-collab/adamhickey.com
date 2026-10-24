@@ -474,7 +474,7 @@ size, never a literal.
 | `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, and the verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
 | `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
-| `.ar-sort-label`, `.ar-sort-lane`, `.ar-sort-why dt` | The Agent Review write-up's three kinds of work: For example and Who acts inside each card, the two lanes over the cards (Goes through, Stops for a person), and the two answers under them; `.ar-sort-label` was `.ar-kind-where` (In the prototype, Proposed) until 2026-10-24 | `.ar-sort-label` 11px, `--tracking-caps`, muted: the glance row's label, because the card's own name is the heading. The lanes and answers 12px, `--tracking-caps`: the lanes in charcoal, "Goes through" and the answers in the sage |
+| `.ar-sort-label`, `.ar-sort-why dt` | The Agent Review write-up's three kinds of work: For example and Who acts inside each card, and the two answers under the cards; `.ar-sort-label` was `.ar-kind-where` (In the prototype, Proposed) until 2026-10-24. The two lanes over the cards (`.ar-sort-lane`, Goes through, Stops for a person) were here until 2026-10-24 and are headings now (below) | `.ar-sort-label` 11px, `--tracking-caps`, muted: the glance row's label, because the card's own name is the heading. The answers 12px, `--tracking-caps`, in the sage |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
 | `.related-kind` | The kind of page each row of a Related list goes to (Article, Case study, Build write-up, Prototype, How I work), beside its title (`related.css`) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 
@@ -512,6 +512,26 @@ now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
   below 640px, where the section's `h2` is 24 to 27px and a 24px title
   would tie it, and `--text-2xl` from 640, the pull's size, since the
   serif's x-height puts 20px under the 18px sans prose beside it.
+
+### Tracked capitals never name a group
+
+**A label that names a group of things on the page, a lane over cards, a
+column, a band, is a heading, and it is never the tracked capitals.** Since
+2026-10-24 (Adam, of "Goes through" and "Stops for a person" over the Agent
+Review cards: "I really don't like the use of this text ... I never want it
+used at the size"). Twelve-pixel tracked capitals are the right voice for a
+kicker over a title and a field label over a value, because those are small
+by design. Over a group they are the smallest type on the page naming the
+largest idea on it, and the tracking stretches two or three words into a
+line that reads as decoration.
+
+So a group's name is set in the serif at 400, like an article figure's
+title (the last case above): `--text-xl` below 640px, `--text-2xl` from
+640, and one step more where it spans a row of cards and nothing in the
+section's `h2` is close to it. It may carry a color that says what the
+group means. The first is `.ar-sort-lane` on `lab/agent-review.html`: the
+sage over the kind that goes through, the caution ink over the two that
+stop, `--text-3xl` from 64rem, where it brackets the row.
 
 ### Superscripts, and two things the scale does not govern
 
@@ -900,5 +920,7 @@ they really render.
 8. Headings come from the document outline. Never pick a level to get a size.
 9. Stay inside the loaded weights. Adding one means editing the font `<link>`
    on every page first.
-10. Update this file in the same commit as the code. A specimen that ships
+10. Tracked capitals are for a kicker or a field label. A name over a group
+    of things is a heading, in the serif.
+11. Update this file in the same commit as the code. A specimen that ships
     later is fiction.
