@@ -100,7 +100,7 @@
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=37" />
+  <link rel="stylesheet" href="agent-review.css?v=38" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../quiet-cancel.js?v=5" defer></script>
@@ -329,7 +329,7 @@
          sets up the job, and the one idea the product is made of, before
          any example of it. The design choices section's argument (from a
          review queue to an account of the work, and what that costs) is
-         its last two paragraphs. On the tea ground, so the three white
+         the pair of labeled answers under the cards. On the tea ground, so the three white
          cards stand off it (on white they would be white on white, and
          cards.mjs would stop asking whether their edges read), and so the
          hero's warm ends where the chapters begin: on the warm it had
@@ -339,31 +339,39 @@
     <section class="case-section case-overview build-chapter ground-tea" id="three-kinds">
       <div class="container case-wide">
         <h2>Most of an agent&rsquo;s work should need nobody</h2>
-        <div class="ar-split">
-        <div class="ar-split-text">
-        <p>In the prototype&rsquo;s first scenario, Dana, a product designer, hands a coding agent a chore: move the billing screens onto the design system, the shared set of buttons, colors and rules the product is built from.</p>
-        <p>Nothing should look different. Most of the job is routine: the agent swaps colors and sizes typed in by hand for the system&rsquo;s named ones, and automated checks confirm nothing moved.</p>
-        <p>Nobody needs to look at that. So Agent Review sorts what the agent did into three kinds, and only two of them stop for a person.</p>
+        <p class="ar-sort-lead">In the prototype, Dana, a product designer, asks a coding agent to move the billing screens onto the design system. Nothing should look different. Agent Review sorts every change the agent makes into three kinds.</p>
+        <div class="ar-sort">
+          <p class="ar-sort-lane ar-sort-lane--through">Goes through</p>
+          <div class="ar-sort-kind ar-sort-kind--through">
+            <h3><svg class="ar-sort-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.3 2.4 2.4 4.6-5.2"/></svg>Proceeds on its own</h3>
+            <p>Clear instructions, allowed, and the checks pass.</p>
+            <p class="ar-sort-case"><span class="ar-sort-label">For example</span> Colors and sizes typed in by hand become the system&rsquo;s named ones. The checks confirm nothing moved.</p>
+            <p class="ar-sort-who"><span class="ar-sort-label">Who acts</span> Nobody. The agent keeps a record.</p>
+          </div>
+          <p class="ar-sort-lane ar-sort-lane--stops">Stops for a person</p>
+          <div class="ar-sort-kind">
+            <h3><svg class="ar-sort-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4a8.5 8.5 0 1 1 15.6-4.6Z"/><path d="M9.7 9.3a2.4 2.4 0 0 1 4.6 1c0 1.6-2.3 2.2-2.3 2.2"/><path d="M12 15.6h.01"/></svg>Needs judgment</h3>
+            <p>Two answers are both reasonable, or only a person knows the fact.</p>
+            <p class="ar-sort-case"><span class="ar-sort-label">For example</span> &ldquo;Cancel subscription&rdquo; is gray text, not a button. The checks pass both. Is it on purpose?</p>
+            <p class="ar-sort-who"><span class="ar-sort-label">Who acts</span> Dana decides.</p>
+          </div>
+          <div class="ar-sort-kind">
+            <h3><svg class="ar-sort-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/><path d="M12 14.5v2"/></svg>Needs approval</h3>
+            <p>The change reaches past what the agent was given.</p>
+            <p class="ar-sort-case"><span class="ar-sort-label">For example</span> Fixing one screen would change a shared table on 40 others.</p>
+            <p class="ar-sort-who"><span class="ar-sort-label">Who acts</span> Priya, the table&rsquo;s owner, approves.</p>
+          </div>
         </div>
-        <dl class="ar-kinds ar-split-media ar-split-media--held">
-          <div class="ar-kind">
-            <dt><svg class="ar-kind-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.3 2.4 2.4 4.6-5.2"/></svg>Proceeds on its own</dt>
-            <dd>The instructions are clear, it&rsquo;s allowed, and the checks pass. The agent does it and keeps a record.</dd>
+        <dl class="ar-sort-why">
+          <div>
+            <dt>Why only two stop</dt>
+            <dd>The first version asked a person about every change. As agents get better, that queue is the bottleneck, and it teaches people to approve without reading.</dd>
           </div>
-          <div class="ar-kind">
-            <dt><svg class="ar-kind-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4a8.5 8.5 0 1 1 15.6-4.6Z"/><path d="M9.7 9.3a2.4 2.4 0 0 1 4.6 1c0 1.6-2.3 2.2-2.3 2.2"/><path d="M12 15.6h.01"/></svg>Needs judgment</dt>
-            <dd>Something only a person knows is missing, or two answers are both reasonable. A person decides.</dd>
-          </div>
-          <div class="ar-kind">
-            <dt><svg class="ar-kind-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/><path d="M12 14.5v2"/></svg>Needs approval</dt>
-            <dd>The change reaches past what the agent was given. Whoever owns that part approves it.</dd>
+          <div>
+            <dt>What it costs</dt>
+            <dd>Nobody watches routine work change by change, so the record of it has to be right.</dd>
           </div>
         </dl>
-        <div class="ar-split-text">
-        <p>The first version asked a person about every change. As agents get better, that queue is the bottleneck, and it teaches people to approve without reading.</p>
-        <p>The cost: nobody watches routine work change by change, so the account of it has to be right.</p>
-        </div>
-        </div>
       </div>
     </section>
 
