@@ -193,14 +193,15 @@ introduction to it. It moves to an existing ramp rather than a size between
 the two, so it sits on a step at every width, and it keeps the dek's
 `--leading-tight`. Every other dek stays on `--type-lede`.
 
-**One dek has a lifted floor.** Since 2026-10-12 the homepage lab card's
-dek (`.case-lab-lead`) takes `max(--type-lede, --text-xl)`, 20 on a phone
-instead of 18. In Crimson Text at 18 it read no larger than the 16px
-Montserrat description under it, because the serif's x-height is so much
-smaller; 24 ran it to three lines at 375 and crowded the 28px card title
-above it. The ramp is unchanged from about 693px, where it passes 20 on
-its own, and `max()` rather than a media query for the reason the
-homepage's lifted heading floors give below: no seam.
+**One dek is fixed at 24.** Since 2026-10-24 the homepage lab card's dek
+(`.case-lab-lead`) takes `--text-2xl` at every width, the size
+`--type-lede` reaches at 1280. In Crimson Text at the ramp's 18 it read no
+larger than the 16px Montserrat description under it, because the serif's
+x-height is so much smaller, and the 20 floor it carried from 2026-10-12
+still read small for a dek on a phone. 24 was refused on 10-12 for running
+to three lines at 375, but that was with each sentence held in an
+inline-block span; wrapping where it falls, under plain `text-wrap: wrap`,
+it is two lines on every phone. Every other dek stays on `--type-lede`.
 
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
