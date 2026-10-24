@@ -102,7 +102,7 @@ wear its collection. The terracotta collection needs no new token: it is
 
 | Token | Value | Notes |
 |---|---|---|
-| `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, or a verdict it will not change. |
+| `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, a verdict it will not change, or, since 2026-10-24, work that stops for a person (below). |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
 | `--color-slate` | `#56718c` | The Craft collection's line. **A line, never text.** |
 | `--color-slate-light` | `#f3f6f8` | Slate's ground: the writing rail's card, since 2026-10-23. Warm's lightness with slate's hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
@@ -111,6 +111,14 @@ wear its collection. The terracotta collection needs no new token: it is
 |---|---|---|---|---|---|
 | `--color-caution-text` `#96482a` | 6.45 | 5.90 | 5.43 | 5.09 | 2.38 — never |
 | `--color-slate` `#56718c` | 5.08 | 4.64 | 4.27 | 4.01 | 3.02 — never |
+
+**A stop for a person is the caution ink's third use**, and only the ink:
+the Agent Review write-up's "Stops for a person" lane, its bracket, and the
+mark and "Who acts" answer on the two cards under it, against the sage of
+"Goes through" (Adam chose it, 2026-10-24, over charcoal). It is the same
+meaning narrowed rather than a new one: the agent will not go on alone.
+The caution ground stays a refusal and nothing else. On tea, where the lane
+sits, it reads 5.43; on the white cards 6.45.
 
 Slate clears 4.5 only on white and warm, which is why it is a line and not
 ink: the one place it is spent sits on the nav's white edge and the warm
