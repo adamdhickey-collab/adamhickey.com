@@ -90,18 +90,11 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 
 export const REACHABLE = {
-  /* The Agent Review write-up's pinned Explore (since 2026-10-25): on a
-     wide screen with motion allowed the stage shows one direction's screen
-     at a time, and the link under it to each direction is aria-current.
-     The page loads on the first; these are the other two. Under reduced
-     motion nothing is pinned, the presses change nothing that is drawn,
-     and the state measures as the rest does. */
-  'lab/agent-review.html': [
-    { name: 'the pinned Explore on its second direction, confirm first',
-      press: ['[data-pin-go][href="#explore-confirm"]'] },
-    { name: 'the pinned Explore on its third direction, review the batch',
-      press: ['[data-pin-go][href="#explore-review"]'] },
-  ],
+  /* The Agent Review write-up has no state a press reaches since its
+     Direction C rewrite (2026-10-25): its scenes move with scroll, and
+     still or unscrolled every part of every stage is drawn at once, which
+     is what the checks measure. The two pinned-Explore states it had here
+     went with the links that reached them. */
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying
        which trucks changed rank, which only appear across a genuine switch. */
