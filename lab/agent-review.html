@@ -100,11 +100,11 @@
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=47" />
+  <link rel="stylesheet" href="agent-review.css?v=48" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../quiet-cancel.js?v=5" defer></script>
-  <script src="agent-review-story.js?v=2" defer></script>
+  <script src="agent-review-story.js?v=3" defer></script>
   <!-- "Every action is a button. Except cancel." builds itself the first
        time it is in view (agent-review.css, "The build"). It is armed here,
        before first paint, because quiet-cancel.js is deferred: armed there,
@@ -121,6 +121,29 @@
       el.classList.add('quiet-cancel-armed');
       document.addEventListener('DOMContentLoaded', function () {
         if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
+      });
+    })();
+  </script>
+  <!-- The story goes live (agent-review.css, "LIVE AND STILL") here, before
+       first paint, on a wide screen with motion allowed: thrown by the
+       deferred agent-review-story.js, the opener painted still and then
+       grew by a screen and a half under the reader. If that file never
+       runs, the switch comes off at DOMContentLoaded and every stage is
+       simply there. It also says, as early, whether read-aloud.js will add
+       its Listen button to the opener, so the row it wraps onto is held
+       rather than opened under the reader. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.speechSynthesis) el.classList.add('arc-can-listen');
+        if (!('IntersectionObserver' in window)) return;
+        if (!window.matchMedia('(min-width: 64rem)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      } catch (e) { return; }
+      el.classList.add('arc-live');
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.arcStory) el.classList.remove('arc-live');
       });
     })();
   </script>
@@ -310,7 +333,7 @@
          words have to change), and three short steps. On a wide screen with
          motion allowed the stage is held still beside the steps, and each
          step brings on its part of the screen as it reaches the middle of
-         the window (agent-review-story.js, [data-live]). Narrow, still or
+         the window (agent-review-story.js, .arc-live). Narrow, still or
          without script, the stage shows everything at once with the steps
          under it. The stage nav on the left marks the chapter in view. -->
     <div class="arc-story">

@@ -18,13 +18,21 @@
      - the quiet cancel, the loop's rail, the experiment, what to test, and
        the build.
 
-   LIVE AND STILL. A scene is "live" ([data-live], set by
-   agent-review-story.js) only on a screen 64rem wide or more, with motion
-   allowed: its stage is held still beside the steps, and each step brings
-   on its part of the stage as it reaches the middle of the window. Every
-   other case, narrow, still or without script, is the default: the stage
-   shows everything at once and the steps follow it. Nothing is lost either
-   way, and nothing takes the scroll over.
+   LIVE AND STILL. The page is "live" (.arc-live on the root) only on a
+   screen 64rem wide or more, with motion allowed: each stage is held still
+   beside its steps, and each step brings on its part of the stage as it
+   reaches the middle of the window. Every other case, narrow, still or
+   without script, is the default: the stage shows everything at once and
+   the steps follow it. Nothing is lost either way, and nothing takes the
+   scroll over.
+
+   THE SWITCH IS THROWN BEFORE FIRST PAINT, by the page's head, not by
+   agent-review-story.js: that file is deferred, and thrown there the
+   opener painted at its still height and then grew by a screen and a half
+   under the reader, a layout shift of 0.26 at 1440 by 900. The script
+   keeps the switch in step with the window afterwards, and the head takes
+   it back if the script never ran (the quiet cancel's arming, below, is
+   the same move).
 
    NO CAPITALS ARE FORCED anywhere on the page: eyebrows and labels are set
    in sentence case at their own size, and the shared glance labels are put
@@ -53,6 +61,13 @@
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
 .arc-open-act .ra-bar { margin: 0; }
+/* From 64rem the opener's text column is too narrow for the button and the
+   Listen button side by side, so Listen wraps onto a row of its own. That
+   row is held from first paint (the head marks .arc-can-listen where
+   read-aloud.js will add the button), so its arrival moves nothing. */
+@media (min-width: 64rem) {
+  .arc-can-listen .arc-open-act { align-content: flex-start; min-height: calc((var(--space-sm) * 2 + var(--text-base) * var(--leading-body)) * 2 + var(--space-md)); }
+}
 .arc-open-act .ra-listen {
   min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
   font-size: var(--text-base);
@@ -107,8 +122,12 @@
 /* ---- the zoom, in the opener ----
    Nine screens on a grid three times the frame's width, each tile exactly
    the frame's size, so the one that matters, the middle, fills the frame at
-   scale 1 and prints crisp. Zoomed out it is all nine at 0.3. Only the
-   middle tile is drawn unless the opener is live and on its second beat. */
+   scale 1 and prints crisp. Zoomed out it is all nine at 0.3. Still, the
+   other eight are not drawn at all, so their pictures, a megabyte between
+   them, are never fetched for a reader who will never see them; live, they
+   are drawn at once and transparent, so they have loaded long before the
+   second beat shows them. The middle keeps its cell either way, and the
+   grid stays centered on it. */
 .arc-zoom { aspect-ratio: 1820 / 920; overflow: hidden; background: var(--color-warm); }
 .arc-zoom-grid {
   position: absolute;
@@ -131,10 +150,11 @@
   transition: opacity var(--motion-enter) var(--ease);
 }
 .arc-tile img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
-.arc-tile--main { opacity: 1; border-radius: 0; }
-.arc-open[data-live][data-at="2"] .arc-zoom-grid { transform: translate(-50%, -50%) scale(0.3); }
-.arc-open[data-live][data-at="2"] .arc-tile { opacity: 1; border-radius: var(--radius-xl); }
-.arc-open[data-live][data-at="2"] .arc-tile--main { box-shadow: 0 0 0 var(--space-xs) var(--color-accent-text); }
+.arc-tile:not(.arc-tile--main) { display: none; }
+.arc-tile--main { grid-area: 2 / 2; opacity: 1; border-radius: 0; }
+.arc-live .arc-open[data-at="2"] .arc-zoom-grid { transform: translate(-50%, -50%) scale(0.3); }
+.arc-live .arc-open[data-at="2"] .arc-tile { opacity: 1; border-radius: var(--radius-xl); }
+.arc-live .arc-open[data-at="2"] .arc-tile--main { box-shadow: 0 0 0 var(--space-xs) var(--color-accent-text); }
 
 /* ---- what a stage brings on ----
    A chip is a short label of the page's own, on charcoal, over a screen. */
@@ -153,18 +173,18 @@
 .arc-open-chip { margin: var(--space-md); }
 @media (min-width: 64rem) {
   .arc-device { position: relative; }
-  [data-live] .arc-open-chip { position: absolute; left: var(--space-md); bottom: var(--space-md); margin: 0; }
+  .arc-live .arc-open-chip { position: absolute; left: var(--space-md); bottom: var(--space-md); margin: 0; }
 }
 
 /* In a live scene, a part with data-from waits for its step, and one with
    data-only is drawn on its step alone. Each rises a short way as it
    arrives, which is the edge the eye follows (MOTION.md, section 10). */
-[data-live] [data-from],
-[data-live] [data-only] {
+.arc-live [data-scene] [data-from],
+.arc-live [data-scene] [data-only] {
   transition: opacity var(--motion-enter) var(--ease-enter), translate var(--motion-enter) var(--ease-enter);
 }
-[data-live] [data-from]:not([data-on]),
-[data-live] [data-only]:not([data-on]) { opacity: 0; translate: 0 var(--motion-rise); pointer-events: none; }
+.arc-live [data-scene] [data-from]:not([data-on]),
+.arc-live [data-scene] [data-only]:not([data-on]) { opacity: 0; translate: 0 var(--motion-rise); pointer-events: none; }
 
 /* ---- the furlough ---- */
 .arc-measure > p,
@@ -279,15 +299,15 @@
 .arc-note-n { background: var(--color-accent-on-dark); color: var(--color-charcoal); }
 .arc-sweep { display: none; }
 @media (min-width: 64rem) {
-  [data-live] .arc-notes { display: contents; }
-  [data-live] .arc-note { position: absolute; box-shadow: var(--shadow-popover); }
-  [data-live] .arc-note--claim { left: 56%; top: 63.5%; }
-  [data-live] .arc-note--source { left: 50%; top: 36%; }
-  [data-live] .arc-note--call { left: 60%; top: 49%; }
-  [data-live] .arc-note--build { left: 40%; top: 35%; }
-  [data-live] .arc-note--stop { left: 82%; top: 43.5%; }
-  [data-live] .arc-note--verified { left: 20%; top: 81%; }
-  [data-live] .arc-note--unknown { left: 30%; top: 90%; }
+  .arc-live .arc-notes { display: contents; }
+  .arc-live .arc-note { position: absolute; box-shadow: var(--shadow-popover); }
+  .arc-live .arc-note--claim { left: 56%; top: 63.5%; }
+  .arc-live .arc-note--source { left: 50%; top: 36%; }
+  .arc-live .arc-note--call { left: 60%; top: 49%; }
+  .arc-live .arc-note--build { left: 40%; top: 35%; }
+  .arc-live .arc-note--stop { left: 82%; top: 43.5%; }
+  .arc-live .arc-note--verified { left: 20%; top: 81%; }
+  .arc-live .arc-note--unknown { left: 30%; top: 90%; }
   /* The highlight that sweeps the agent's wrong line, left to right; still,
      it is simply there. */
   .arc-sweep {
@@ -301,7 +321,7 @@
     box-shadow: 0 0 0 3px var(--color-caution);
     clip-path: inset(-6px -6px -6px -6px);
   }
-  [data-live] .arc-sweep:not([data-on]) { clip-path: inset(-6px 100% -6px -6px); opacity: 1; translate: none; }
+  .arc-live .arc-sweep:not([data-on]) { clip-path: inset(-6px 100% -6px -6px); opacity: 1; translate: none; }
 }
 
 /* ---- Define, in Relay's look ---- */
@@ -347,7 +367,7 @@
   pointer-events: none;
   transition: clip-path var(--motion-draw) var(--ease);
 }
-[data-live] .arc-ring:not([data-on]) { clip-path: inset(-4px 100% -4px -4px); opacity: 1; translate: none; }
+.arc-live .arc-ring:not([data-on]) { clip-path: inset(-4px 100% -4px -4px); opacity: 1; translate: none; }
 .case-section .arc-ui .arc-ui-confirm {
   margin-top: var(--space-lg);
   padding: var(--space-md) var(--space-lg);
@@ -366,7 +386,7 @@
 .arc-scene--swap > .arc-stage { display: none; }
 .arc-swap { display: grid; }
 .arc-swap img { grid-area: 1 / 1; }
-[data-live] .arc-swap img[data-only] { translate: none; }
+.arc-live .arc-swap img[data-only] { translate: none; }
 
 /* ---- Evaluate: the wipe ---- */
 @property --wipe { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
@@ -374,14 +394,15 @@
 .arc-wipe-frame { --wipe: 50%; display: grid; overflow: hidden; }
 .arc-wipe-frame img { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
 .arc-wipe-b { clip-path: inset(0 0 0 var(--wipe)); }
+/* The line is the frame's width and moved by transform, its 2px drawn at
+   its own left edge: placed by `left`, it laid out on every frame of the
+   scrub and logged a layout shift each time it moved. */
 .arc-wipe-line {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--wipe);
-  width: 2px;
-  margin-left: -1px;
-  background: var(--color-charcoal);
+  inset: 0 0 0 -1px;
+  background: linear-gradient(var(--color-charcoal), var(--color-charcoal)) 0 0 / 2px 100% no-repeat;
+  transform: translateX(var(--wipe));
+  pointer-events: none;
 }
 .arc-wipe-control {
   display: flex;
@@ -435,24 +456,24 @@
 .arc-run-open .arc-tick path { stroke: var(--color-muted-gray); stroke-width: 1.5; }
 /* Live, the rows land one beat apart once the card is on, and each tick
    draws itself as its row lands: a narrative sequence, a move apart. */
-[data-live] .arc-run li { transition: opacity var(--motion-enter) var(--ease-enter); }
-[data-live] .arc-run li path { transition: stroke-dashoffset var(--motion-enter) var(--ease); }
-[data-live] .arc-run:not([data-on]) li { opacity: 0; }
-[data-live] .arc-run:not([data-on]) li path { stroke-dashoffset: 1; }
-[data-live] .arc-run li:nth-child(2), [data-live] .arc-run li:nth-child(2) path { transition-delay: var(--motion-move); }
-[data-live] .arc-run li:nth-child(3), [data-live] .arc-run li:nth-child(3) path { transition-delay: calc(var(--motion-move) * 2); }
-[data-live] .arc-run li:nth-child(4), [data-live] .arc-run li:nth-child(4) path { transition-delay: calc(var(--motion-move) * 3); }
-[data-live] .arc-run li:nth-child(5), [data-live] .arc-run li:nth-child(5) path { transition-delay: calc(var(--motion-move) * 4); }
-[data-live] .arc-run li:first-child path { transition-delay: 0ms; }
+.arc-live .arc-run li { transition: opacity var(--motion-enter) var(--ease-enter); }
+.arc-live .arc-run li path { transition: stroke-dashoffset var(--motion-enter) var(--ease); }
+.arc-live .arc-run:not([data-on]) li { opacity: 0; }
+.arc-live .arc-run:not([data-on]) li path { stroke-dashoffset: 1; }
+.arc-live .arc-run li:nth-child(2), .arc-live .arc-run li:nth-child(2) path { transition-delay: var(--motion-move); }
+.arc-live .arc-run li:nth-child(3), .arc-live .arc-run li:nth-child(3) path { transition-delay: calc(var(--motion-move) * 2); }
+.arc-live .arc-run li:nth-child(4), .arc-live .arc-run li:nth-child(4) path { transition-delay: calc(var(--motion-move) * 3); }
+.arc-live .arc-run li:nth-child(5), .arc-live .arc-run li:nth-child(5) path { transition-delay: calc(var(--motion-move) * 4); }
+.arc-live .arc-run li:first-child path { transition-delay: 0ms; }
 @media (min-width: 64rem) {
-  [data-live] .arc-run { position: absolute; left: var(--space-md); bottom: var(--space-md); width: 26rem; margin: 0; }
+  .arc-live .arc-run { position: absolute; left: var(--space-md); bottom: var(--space-md); width: 26rem; margin: 0; }
 }
 
 /* ---- Learn: the zoom and the targets ---- */
 .arc-learn { overflow: hidden; }
 .arc-learn-zoom { transform-origin: 0 100%; transition: transform var(--motion-ambient) var(--ease); }
-[data-live][data-at="2"] .arc-learn-zoom { transform: scale(2); }
-[data-live][data-at="2"] .arc-note--unknown { left: 40%; top: 84%; }
+.arc-live [data-at="2"] .arc-learn-zoom { transform: scale(2); }
+.arc-live [data-at="2"] .arc-note--unknown { left: 40%; top: 84%; }
 .arc-targets {
   margin: 0 var(--space-md) var(--space-md);
   padding: var(--space-md) var(--space-lg);
@@ -486,7 +507,7 @@
 .arc-targets-list dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
 .case-section .arc-targets-foot { margin: var(--space-sm) 0 0; font-size: var(--text-xs); line-height: var(--leading-body); color: var(--color-muted-gray); }
 @media (min-width: 64rem) {
-  [data-live] .arc-targets { position: absolute; right: var(--space-md); bottom: var(--space-md); width: 26rem; margin: 0; }
+  .arc-live .arc-targets { position: absolute; right: var(--space-md); bottom: var(--space-md); width: 26rem; margin: 0; }
 }
 
 /* ---- the stage nav, down the left ----
@@ -576,10 +597,16 @@
 /* ---- live ----
    From 64rem with motion allowed and the script running. */
 @media (min-width: 64rem) {
-  /* The opener, held for three beats of about four fifths of a window
-     each; the beats are empty markers the script watches. */
-  .arc-open[data-live] { position: relative; height: 260svh; padding: 0; }
-  .arc-open[data-live] .arc-open-pin {
+  /* The opener, held for three beats; the beats are empty markers the
+     script watches, and a beat turns when its marker's top crosses the
+     middle of the window. The rows put those turns at 45 and 95 of the 140
+     window-heights of pin, so each beat holds for about half a window and
+     the last zoom has landed, with half a window to spare, before the pin
+     lets go. Evenly thirds, the last beat turned with a third of a window
+     left and the zoom back was still moving as the opener scrolled off. */
+  .arc-live .arc-open { position: relative; height: 240svh; padding: 0; }
+  .arc-live .arc-open .arc-tile { display: block; }
+  .arc-live .arc-open .arc-open-pin {
     position: sticky;
     top: 0;
     display: flex;
@@ -587,11 +614,11 @@
     min-height: 100svh;
     padding-top: var(--nav-height);
   }
-  .arc-open[data-live] .arc-beats {
+  .arc-live .arc-open .arc-beats {
     position: absolute;
     inset: 0;
     display: grid;
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-rows: 95svh 50svh minmax(0, 1fr);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -605,27 +632,39 @@
   }
   .arc-open-stage { margin-top: 0; }
 
-  /* A chapter's scene: the steps on the left, each about two thirds of a
-     window tall so one is in the middle at a time; the stage on the right,
-     held under the site nav. */
-  .arc-scene[data-live] {
+  /* A chapter's scene: the steps on the left, each six tenths of a window
+     tall so one is in the middle at a time; the stage on the right, held
+     under the site nav. A step turns when its top crosses the middle of the
+     window.
+
+     THE LAST STEP IS AS TALL AS ITS STAGE NEEDS. The pin lets go when the
+     steps run out beside the stage, so a tall stage let go sooner: at 1024
+     by 768, Define's third step turned 30px before its stage scrolled away,
+     and the change landed on a moving screen. The script writes each
+     stage's height to --arc-stage-h (a ResizeObserver, never a read on
+     scroll), and the last step is tall enough that its beat holds for four
+     tenths of a window whatever the stage: its height plus the stage's top,
+     less a tenth of the window, and never under half of one. */
+  .arc-live .arc-scene {
     grid-template-columns: minmax(0, 2fr) minmax(0, 5fr);
     column-gap: var(--space-3xl);
     align-items: start;
   }
-  .arc-scene[data-live] > .arc-stage {
+  .arc-live .arc-scene > .arc-stage {
     display: block;
     grid-column: 2;
     grid-row: 1;
     position: sticky;
     top: calc(var(--arc-head) + var(--space-md));
   }
-  .arc-scene[data-live] > .arc-steps { grid-column: 1; grid-row: 1; gap: 0; }
-  .arc-scene[data-live] .arc-step { min-height: 66svh; align-content: center; }
-  .arc-scene[data-live] .arc-step:last-child { min-height: 50svh; }
+  .arc-live .arc-scene > .arc-steps { grid-column: 1; grid-row: 1; gap: 0; }
+  .arc-live .arc-scene .arc-step { min-height: 60svh; align-content: center; }
+  .arc-live .arc-scene .arc-step:last-child {
+    min-height: max(50svh, calc(var(--arc-stage-h, 0px) + var(--arc-head) + var(--space-md) - 10svh));
+  }
   /* Explore, live: the steps' own pictures are kept for a screen reader
      and not drawn, because the stage shows them. */
-  .arc-scene--swap[data-live] .arc-step-shot {
+  .arc-live .arc-scene--swap .arc-step-shot {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -634,7 +673,7 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
-  .arc-scene--swap[data-live] { position: relative; }
+  .arc-live .arc-scene--swap { position: relative; }
 
   /* Evaluate: a scrub, where the browser has scroll-driven animations. The
      frame is held while its track scrolls past, and the line runs from all
@@ -655,9 +694,9 @@
 
 /* The sweeps draw rather than rise, and the three screens cross-fade with
    nothing travelling, so on --ease (MOTION.md, section 10). */
-[data-live] .arc-sweep,
-[data-live] .arc-ring { transition: clip-path var(--motion-draw) var(--ease); }
-[data-live] .arc-swap img { transition: opacity var(--motion-enter) var(--ease); }
+.arc-live .arc-sweep,
+.arc-live .arc-ring { transition: clip-path var(--motion-draw) var(--ease); }
+.arc-live .arc-swap img { transition: opacity var(--motion-enter) var(--ease); }
 
 /* ---- the rest of the page ---- */
 .ar-checkpoint-figure { margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); }
