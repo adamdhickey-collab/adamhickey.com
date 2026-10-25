@@ -100,7 +100,18 @@
     const frame = fig.querySelector('.arc-wipe-frame');
     if (!range || !frame) return;
     const track = fig.closest('.arc-scrub');
-    const set = () => frame.style.setProperty('--wipe', `${range.value}%`);
+    const say = () => range.setAttribute('aria-valuetext', `Undo ${range.value}%, review ${100 - range.value}%`);
+    const set = () => { frame.style.setProperty('--wipe', `${range.value}%`); say(); };
+    /* While scroll scrubs the line, the thumb is still where it was left,
+       so a key would jump the line back there. Focus and the first key
+       pick the thumb up where the line is, and the key moves it on. */
+    const follow = () => {
+      if (!track || track.hasAttribute('data-held')) return;
+      const at = parseFloat(getComputedStyle(frame).getPropertyValue('--wipe'));
+      if (Number.isFinite(at)) { range.value = String(Math.round(at)); say(); }
+    };
+    range.addEventListener('focus', follow);
+    range.addEventListener('keydown', follow);
     range.addEventListener('input', () => {
       if (track) track.setAttribute('data-held', '');
       set();
