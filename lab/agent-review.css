@@ -241,6 +241,12 @@
    checks' marks) and never counts anything. A step not yet reached is the
    same mark drawn in outline. */
 .arc-step-n { border: 1.5px solid var(--color-charcoal); color: var(--color-charcoal); }
+/* A step's number is centered on the first line of its text, worked out
+   from that line's box rather than nudged by eye: the step's paragraph is
+   --text-lg at --leading-reading, and a step with a title starts on the
+   title's line, --text-lg at --leading-tight. */
+.arc-step-n { margin-top: calc((var(--text-lg) * var(--leading-reading) - var(--space-xl)) / 2); }
+.arc-step:has(.arc-step-title) .arc-step-n { margin-top: calc((var(--text-lg) * var(--leading-tight) - var(--space-xl)) / 2); }
 .arc-step[data-current] .arc-step-n { background: var(--color-charcoal); border-color: var(--color-charcoal); color: var(--ink-on-dark); }
 .case-section .arc-step p { margin: 0; max-width: 40ch; }
 .case-section .arc-step-title {
