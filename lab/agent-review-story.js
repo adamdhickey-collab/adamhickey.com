@@ -5,9 +5,12 @@
  *
  * 1. THE SCENES. Every [data-scene] (the opener and the six chapters) is a
  *    stage and a few steps. On a screen 64rem wide or more, with motion
- *    allowed, a scene goes live ([data-live]): the stage is held still
- *    beside the steps, and the step in the middle of the window sets the
- *    stage's data-at. A part marked data-from="n" is on from step n, and
+ *    allowed, the page is live (.arc-live on the root): each stage is held
+ *    still beside its steps, and the step in the middle of the window sets
+ *    the stage's data-at. The page's head throws that switch before first
+ *    paint, so the opener never grows under the reader; this file keeps it
+ *    in step with the window, and marks itself run (window.arcStory) so the
+ *    head can take the switch back if it never does. A part marked data-from="n" is on from step n, and
  *    one marked data-only="n" on step n alone (data-on). Narrow, still or
  *    without this file, nothing is live and the stage shows every part at
  *    once, which is also what the checks measure.
@@ -24,6 +27,8 @@
  * scroll over.
  */
 (function () {
+  window.arcStory = true;
+  const root = document.documentElement;
   const canWatch = 'IntersectionObserver' in window;
   const middle = { rootMargin: '-45% 0px -50% 0px' };
   const wide = window.matchMedia('(min-width: 64rem)');
@@ -46,20 +51,36 @@
     };
     if (canWatch) {
       const io = new IntersectionObserver((entries) => {
-        if (!scene.hasAttribute('data-live')) return;
+        if (!root.classList.contains('arc-live')) return;
         entries.forEach((e) => {
           if (e.isIntersecting) set(steps.indexOf(e.target) + 1);
         });
       }, middle);
       steps.forEach((s) => io.observe(s));
     }
-    return { scene, set };
+    return { scene, stage, set };
   });
+
+  // Each stage's height, for its last step's (agent-review.css, "THE LAST
+  // STEP IS AS TALL AS ITS STAGE NEEDS"). Read when the stage resizes, never
+  // on scroll.
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver((entries) => {
+      entries.forEach((e) => {
+        const box = e.borderBoxSize && e.borderBoxSize[0];
+        const h = box ? box.blockSize : e.target.getBoundingClientRect().height;
+        e.target.closest('[data-scene]').style.setProperty('--arc-stage-h', `${Math.round(h)}px`);
+      });
+    });
+    scenes.forEach(({ scene, stage }) => {
+      if (stage && scene.classList.contains('arc-scene')) ro.observe(stage);
+    });
+  }
 
   const fit = () => {
     const on = live();
+    root.classList.toggle('arc-live', on);
     scenes.forEach(({ scene, set }) => {
-      scene.toggleAttribute('data-live', on);
       if (on) { if (!scene.dataset.at) set(1); }
       else {
         delete scene.dataset.at;
