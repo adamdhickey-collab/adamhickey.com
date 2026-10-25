@@ -522,11 +522,13 @@ a.case-thumb { display: block; }
    is opened up so the img's shadow isn't clipped by the frame. */
 @media (hover: hover) and (pointer: fine) {
   .case-grid .case-thumb,
-  .case-grid .loop-link .loop {
+  .case-grid .loop-link .loop,
+  .case-grid .loop-link .lab-picture {
     transition: transform var(--motion-enter) var(--ease),  box-shadow var(--motion-enter) var(--ease);
   }
   .case-grid .case-thumb.is-tilting,
-  .case-grid .loop-link .loop.is-tilting {
+  .case-grid .loop-link .loop.is-tilting,
+  .case-grid .loop-link .lab-picture.is-tilting {
     transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--motion-lift));
     transition: transform var(--motion-move) var(--ease-enter),  box-shadow var(--motion-enter) var(--ease);
     box-shadow: var(--shadow-lift);
@@ -773,6 +775,11 @@ a.case-thumb { display: block; }
    Agent Review case study until 2026-10-21 (lab/agent-review.css has its
    successor). */
 .loop-link { display: block; color: inherit; border-radius: var(--radius-xl); }
+/* The lab card's picture since 2026-10-25, a drawing where the loop
+   figure was: at 16:9, the work cards' proportion, with their corner and
+   shadow. */
+.lab-picture { margin: 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-xl); box-shadow: var(--shadow-card); }
+.lab-picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (hover: hover) and (pointer: fine) {
   .case-card--lab:has(.loop-link:hover) h3,
   .case-card--lab:has(.loop-link:hover) .product-link:not(.product-link-quiet) { color: var(--color-accent-text); }
