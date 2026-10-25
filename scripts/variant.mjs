@@ -85,7 +85,7 @@ const BASE = {
      and --revert would have taken the bold out. Moved again on 2026-10-23,
      when the dek started saying he builds what he designs, and back the
      same evening to the dek before it. */
-  dek: 'Twenty years of studio design and development, then enterprise consulting, taught me where judgment matters. Now I design the infrastructure behind great design: what <strong>people and coding agents</strong> build from, and where a person decides.',
+  dek: 'I’ve designed and built software for twenty years, first at a studio, then as an enterprise consultant. Now I design what <strong>people and coding agents</strong> build from, and where a person decides.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
