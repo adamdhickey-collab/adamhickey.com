@@ -171,22 +171,39 @@
 .arc-measure > ul { max-width: var(--measure); }
 
 /* ---- a chapter's head ----
-   The art slot is the chapter's marker: a small 3:2 frame where its
-   illustration will go (img/lab/story/ch-<name>.webp), a token ground with
-   the card's edge until then. Beside the eyebrow, the heading and one line
-   from 40rem; over them on a phone. */
-.arc-head { display: grid; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
+   Each chapter opens on its illustration, large: the art the reader
+   remembers the chapter by, drawn for this page in the homepage portrait's
+   palette (img/lab/story/ch-<name>.webp). Over the eyebrow, the heading and
+   one line on a phone and a tablet; beside them, and larger than them, from
+   64rem. Where the browser can tie an animation to scroll, the picture
+   settles from a slight zoom as it comes into view; elsewhere, and for a
+   reader who asks for stillness, it is simply there. */
+.arc-head { display: grid; gap: var(--space-xl); margin-bottom: var(--space-3xl); align-items: center; }
 .story-art {
   margin: 0;
-  width: calc(var(--space-4xl) * 3);
-  aspect-ratio: 3 / 2;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
 .ground-white .story-art { background: var(--color-tea-light); }
 .ground-tea .story-art { background: var(--color-white); }
-.story-art img, .story-art-slot { display: block; width: 100%; height: 100%; object-fit: cover; }
+.story-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .story-art img {
+      animation: arc-art-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    @keyframes arc-art-settle {
+      from { transform: scale(1.12); }
+      to { transform: scale(1); }
+    }
+  }
+}
 .arc-head-text > :last-child { margin-bottom: 0; }
 .case-section .arc-eyebrow {
   margin: 0 0 var(--space-xs);
@@ -199,8 +216,8 @@
 .case-section .arc-lead,
 .case-section .arc-after { max-width: var(--measure); text-wrap: pretty; }
 .arc-after { margin-top: var(--space-2xl); }
-@media (min-width: 40rem) {
-  .arc-head { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-2xl); align-items: start; }
+@media (min-width: 64rem) {
+  .arc-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--space-3xl); }
 }
 
 /* ---- a scene, still (the default) ----
@@ -474,7 +491,7 @@
 
 /* ---- the stage nav, down the left ----
    Height 0 in the flow, so it adds no space; it sticks under the site nav
-   from Discover to the end of Learn. The current stage is charcoal and
+   from Discover to the end of Learn, centered in the window (below). The current stage is charcoal and
    semibold beside a filled dot; the line beside the six fills to it. Drawn
    from 64rem, where the chapters leave it a column; not on a phone. */
 .arc-story { position: relative; }
@@ -489,17 +506,22 @@
     height: 0;
     pointer-events: none;
   }
+  /* No card behind it: it sits on whichever ground the chapter is, the
+     same quiet ink as the page's own labels, so it reads as part of the
+     page rather than a panel floating over it. Its middle is held at the
+     middle of the window under the site nav, level with the content
+     beside it, and its six stages spread down a good part of the height. */
+  .arc-stages {
+    top: calc(var(--arc-head) + (100svh - var(--arc-head)) / 2);
+  }
   .arc-stages-box {
     position: relative;
     width: 9.5rem;
-    padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-xl);
-    background: var(--color-white);
-    border: 1px solid var(--rule-card);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-card);
+    padding: 0 0 0 var(--space-xl);
+    transform: translateY(-50%);
     pointer-events: auto;
   }
-  .arc-stages ol { display: grid; gap: var(--space-2xs); margin: 0; padding: 0; list-style: none; }
+  .arc-stages ol { display: grid; gap: var(--space-3xl); margin: 0; padding: 0; list-style: none; }
   .arc-stages a {
     position: relative;
     display: block;
@@ -528,8 +550,8 @@
   .arc-stages-line {
     position: absolute;
     left: calc(var(--space-xl) - var(--space-sm) - 1px);
-    top: var(--space-lg);
-    bottom: var(--space-lg);
+    top: calc(var(--space-2xs) + var(--text-sm) * var(--leading-ui) / 2);
+    bottom: calc(var(--space-2xs) + var(--text-sm) * var(--leading-ui) / 2);
     width: 2px;
     background: var(--color-rule);
   }
