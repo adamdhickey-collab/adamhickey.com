@@ -60,12 +60,17 @@
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
 .arc-open-act .ra-bar { margin: 0; }
-/* From 64rem the opener's text column is too narrow for the button and the
-   Listen button side by side, so Listen wraps onto a row of its own. That
+/* From 64rem to 80rem the opener's text column is too narrow for the button
+   and the Listen button side by side, so Listen takes a row of its own. That
    row is held from first paint (the head marks .arc-can-listen where
    read-aloud.js will add the button), so its arrival moves nothing. */
-@media (min-width: 64rem) {
+@media (min-width: 64rem) and (max-width: 79.99rem) {
   .arc-can-listen .arc-open-act { align-content: flex-start; min-height: calc((var(--space-sm) * 2 + var(--text-base) * var(--leading-body)) * 2 + var(--space-md)); }
+  .arc-open-act .ra-bar { flex-basis: 100%; }
+}
+/* From 80rem the column fits both buttons on one row, so one row is held. */
+@media (min-width: 80rem) {
+  .arc-can-listen .arc-open-act { min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body)); }
 }
 .arc-open-act .ra-listen {
   min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
@@ -80,6 +85,13 @@
 }
 .arc-open-stage { margin-top: var(--space-2xl); }
 .arc-beats { display: none; }
+.arc-cue { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .arc-cue { animation: arc-cue-in var(--motion-enter) var(--ease-enter) var(--motion-ambient) both; }
+  @keyframes arc-cue-in {
+    from { opacity: 0; translate: -50% calc(var(--motion-rise) * -1); }
+  }
+}
 
 /* ---- the device frame ----
    A plain window: a bar with three dots and the screen's name, over the
@@ -630,11 +642,45 @@
   }
   .arc-open-grid {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     column-gap: var(--space-4xl);
     align-items: center;
   }
   .arc-open-stage { margin-top: 0; }
+  /* Beside the screen the title is a step of the display tier rather than
+     --type-title, which is sized for a title that spans the page: at its
+     68px it put "When" on a line of its own and outweighed the screen. At
+     48px it is two lines, "When agents build, / designers lead", and the
+     dek steps down with it. */
+  .arc-open .arc-title { font-size: var(--text-6xl); }
+
+  /* The cue to scroll: the opener is pinned and moves only when the reader
+     scrolls, and nothing in the first screen says so. A label over a
+     chevron at the foot of the pin. It rises in once, after the page has
+     settled, and leaves when the first beat turns. No loop: a bounce that
+     never stops asks for attention the whole time it is on screen.
+     Decorative (aria-hidden); a keyboard or screen reader moves on anyway. */
+  .arc-live .arc-cue {
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-xl);
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    margin: 0;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-ui);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-muted-gray);
+    translate: -50% 0;
+    transition: opacity var(--motion-state) var(--ease);
+    pointer-events: none;
+  }
+  .arc-cue svg { width: var(--space-md); height: var(--space-md); }
+  .arc-live .arc-open:not([data-at="1"]) .arc-cue { opacity: 0; }
+  .arc-open .arc-dek { font-size: var(--text-xl); line-height: var(--leading-tight); }
 
   /* A chapter's scene: the steps on the left, each six tenths of a window
      tall so one is in the middle at a time; the stage on the right, held
