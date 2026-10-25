@@ -392,7 +392,16 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.arc-wipe-control input { flex: 1; min-width: 0; accent-color: var(--color-accent-text); }
+/* The range is the one control on the page that is not a link or a
+   button, so the site's focus ring (style.css) never reached it and Chrome
+   drew its own thin black one. It gets the site's ring, and a 24px box, so
+   the target clears WCAG 2.5.8 whatever the browser draws for the thumb. */
+.arc-wipe-control input { flex: 1; min-width: 0; min-height: var(--space-xl); margin: 0; accent-color: var(--color-accent-text); }
+.arc-wipe-control input:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 .arc-wipe-end { display: grid; }
 .arc-wipe-end:last-child { text-align: right; }
 .arc-wipe-who { color: var(--color-muted-gray); }
@@ -498,27 +507,32 @@
 .arc-story [id] { scroll-margin-top: var(--arc-head); }
 .arc-stages { display: none; }
 @media (min-width: 64rem) {
+  /* A rail as tall as the story, out of the flow, and the box sticks
+     inside it, so the box can never leave the story. Until 2026-10-25 the
+     nav was a 0-high sticky line with the box pulled up half its height by
+     a transform, which sticky does not see: at the end of Learn the lower
+     half of the six ran over "One link the checks can't judge", and at the
+     start the upper half over the furlough. */
   .arc-stages {
     display: block;
-    position: sticky;
-    top: var(--arc-head);
+    position: absolute;
+    inset: 0;
     z-index: 20;
-    height: 0;
     pointer-events: none;
   }
+  .arc-stages .container { height: 100%; }
   /* No card behind it: it sits on whichever ground the chapter is, the
      same quiet ink as the page's own labels, so it reads as part of the
      page rather than a panel floating over it. Its middle is held at the
      middle of the window under the site nav, level with the content
-     beside it, and its six stages spread down a good part of the height. */
-  .arc-stages {
-    top: calc(var(--arc-head) + (100svh - var(--arc-head)) / 2);
-  }
+     beside it, and its six stages spread down a good part of the height.
+     The box's height is its six links and five gaps, from the same tokens
+     that draw them, so the top that centers it needs no script. */
   .arc-stages-box {
-    position: relative;
+    position: sticky;
+    top: calc(var(--arc-head) + (100svh - var(--arc-head) - (6 * (var(--space-2xs) * 2 + var(--text-sm) * var(--leading-ui)) + 5 * var(--space-3xl))) / 2);
     width: 9.5rem;
     padding: 0 0 0 var(--space-xl);
-    transform: translateY(-50%);
     pointer-events: auto;
   }
   .arc-stages ol { display: grid; gap: var(--space-3xl); margin: 0; padding: 0; list-style: none; }
