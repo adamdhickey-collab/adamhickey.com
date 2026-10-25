@@ -73,6 +73,8 @@ const RETIRED = new Map([
   ['--color-black',       'COLOR.md §7 step 6: no consumers; the shadows carry literal rgba(0,0,0,...)'],
   ['--shadow-sm',         'COLOR.md §7 step 5: no consumers at all, deleted'],
   ['--type-display',      'TYPOGRAPHY.md §3: a first-draft ramp whose premises were all false'],
+  ['--rl-butter',         'COLOR.md §6: the Agent Review rail\'s yellow, declared on .ar-rail; the rail left the page on 2026-10-25'],
+  ['--rl-rose',           'COLOR.md §6: the Agent Review rail\'s rose, declared on .ar-rail; the rail left the page on 2026-10-25'],
 ]);
 
 /* A token name, not a fragment of one. The specs write bare prefixes --

@@ -781,6 +781,9 @@ drawing's other fills mixed from them and from the sage there, and each
 holds one meaning: rose where a person has to read what the checks could
 not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
+Since 2026-10-25 the rail is off the page, which tells the loop as a run
+of stages instead, and the two names are retired with it; `tokens.mjs`
+records where they went.
 
 **The prototype's hand-built gray, in "Every action is a button. Except
 cancel."** Since 2026-10-21 the top of the Agent Review case study draws the

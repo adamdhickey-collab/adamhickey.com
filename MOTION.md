@@ -189,16 +189,24 @@ a step was a timed move in `--motion-enter` plus `--motion-state`, on
 the write-up's three moments took over its story; nothing on the site moves
 with scroll now but the drawings above.
 
-**Since 2026-10-25 the same write-up has a shorter pin, and it is
-interface, on the scale.** In Explore the three directions' screens are
-held still beside three steps while they scroll past (`agent-review-story.js`,
-`agent-review.css` "The story"), the screen shown is the step in the middle
-of the window, and a link under the stage goes to each step. It is a third
-of the old tour's length, nothing in it is timed against scroll, the swap is
-a cross-fade in `--motion-enter`, and it is only pinned on a wide screen
-with motion allowed: narrow or still, each step keeps its own picture,
-stacked. A rail of the six stages sticks under the nav with the current one
-marked, which is position, not motion.
+**Since 2026-10-25 the same write-up is a run of pinned stages, and it is
+interface, on the scale.** The opening and each of the six chapters hold
+one picture still under the site nav while cards of one to three
+sentences scroll over it (`agent-review-story.js`, `agent-review.css` "The
+stage"), and the card crossing the middle of the window changes what the
+picture shows: a mark arrives, a line is struck through, one screen grows
+to fill the stage, a review wipes away to the undo. Every one of those is
+a transition in `--motion-enter`, on `--ease-enter` where it travels and
+`--ease` where it fades, started by a step and not scrubbed against
+scroll; the wall of screens in the opening builds on `--motion-stagger`
+divided by three, a sibling at a time. The one thing timed by scroll is
+the enhancement inside `@supports (animation-timeline: view())`, a
+20px rise on each card and art slot as it enters, which is `linear`
+because its clock is the reader's scroll position, as the scrubbed scene
+above. It is pinned only from 48rem with motion allowed and an
+IntersectionObserver to drive it: narrow or still, every stage is
+stacked and static and nothing is lost. A stage nav on the left marks the
+chapter in the middle of the window, which is position, not motion.
 
 ---
 
