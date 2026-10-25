@@ -1079,3 +1079,106 @@
   .ar-rail.is-drawn .rl-tip,
   .ar-rail.is-drawn .rl-late { animation: none; }
 }
+
+/* ---------- Phones and tablets: under 64rem ----------
+   Nothing here is live (agent-review-story.js goes live only from 64rem),
+   so every scene is the still one: stage, then steps. These rules make that
+   read as designed for the screen it is on rather than the desktop stacked.
+
+   THE CAPTURES PRINT AT A READABLE SIZE. The desktop captures are 2880 and
+   1820 wide, and at 720px their text is six pixels. So the three scenes
+   that hold a capture (.arc-scene--shot) use the -phone capture up to 64rem
+   (the <source> in each), and on a tablet put it in a column of its own
+   beside the steps, which follow it down. Where one capture has to stay the
+   desktop's, it is cropped and enlarged to the part that matters: the
+   opener's table and the wipe.
+
+   WHERE YOU ARE. The stage nav is a desktop thing. Here each chapter's
+   eyebrow ("Stage 3 of 6 · Explore") carries a six-segment mark under it,
+   filled to the chapter, and it takes the place of the sage rule over the
+   heading, so the head reads eyebrow, mark, heading. Nothing is fixed. */
+.arc-chapter#discover { --arc-at: 1; }
+.arc-chapter#define { --arc-at: 2; }
+.arc-chapter#explore { --arc-at: 3; }
+.arc-chapter#evaluate { --arc-at: 4; }
+.arc-chapter#delegate { --arc-at: 5; }
+.arc-chapter#learn { --arc-at: 6; }
+@media (max-width: 63.99rem) {
+  /* More room between chapters than inside one, so a chapter starts with
+     its picture and ends with its last step. */
+  .arc-chapter { padding-block: var(--space-section-lg); }
+  .arc-head { gap: var(--space-lg); margin-bottom: var(--space-2xl); }
+
+  .arc-head .arc-eyebrow + h2::before { content: none; }
+  .case-section .arc-head .arc-eyebrow { margin-bottom: var(--space-md); }
+  .arc-head .arc-eyebrow::after {
+    content: "";
+    display: block;
+    width: 9rem;
+    height: var(--space-2xs);
+    margin-top: var(--space-xs);
+    border-radius: var(--radius-pill);
+    background: linear-gradient(to right, var(--color-accent-text) calc(var(--arc-at, 0) / 6 * 100%), var(--color-rule) 0);
+    -webkit-mask: repeating-linear-gradient(to right, black 0 calc(100% / 6 - var(--space-2xs)), transparent 0 calc(100% / 6));
+    mask: repeating-linear-gradient(to right, black 0 calc(100% / 6 - var(--space-2xs)), transparent 0 calc(100% / 6));
+  }
+
+  /* The opener: the main screen alone, no zoom grid, its own height. */
+  .arc-zoom { aspect-ratio: auto; }
+  .arc-zoom-grid { position: static; display: block; width: auto; transform: none; }
+  .arc-tile:not(.arc-tile--main) { display: none; }
+  .arc-tile--main { aspect-ratio: auto; border: 0; }
+  .arc-tile--main img { height: auto; }
+
+  /* Learn: the capture's top half repeats what the reader has just
+     scrolled through, chapter by chapter; the steps are about the bottom
+     half, what's verified and what isn't known, so that is what shows. */
+  .arc-learn-zoom { overflow: hidden; }
+  .arc-learn-zoom img { aspect-ratio: 1077 / 1480; object-fit: cover; object-position: center bottom; }
+
+  /* The wipe: a 44px track where the pointer is a finger. */
+  .arc-wipe-control { gap: var(--space-sm); }
+}
+@media (max-width: 63.99rem) and (pointer: coarse) {
+  .arc-wipe-control input { height: 44px; margin: 0; }
+}
+
+/* Phones. */
+@media (max-width: 40rem) {
+  /* The table to its last useful row: the bar, Undo and four customers. */
+  .arc-tile--main img { aspect-ratio: 1029 / 1290; object-fit: cover; object-position: left top; }
+  .arc-open-chip { margin: var(--space-sm); }
+
+  /* Explore: each direction's screen spans the column, not the column
+     less the step number. */
+  .arc-step-shot { margin-inline-start: calc((var(--space-xl) + var(--space-md)) * -1); }
+
+  /* The wipe, enlarged twice over its left half: the undo bar and the
+     review panel both start there, and that is the comparison. The line
+     is placed by the frame, the cut by the picture, which is twice as
+     wide, so the cut is halved to stay under the line. */
+  .arc-wipe-frame img { width: 200%; max-width: none; }
+  .arc-wipe-b { clip-path: inset(0 0 0 calc(var(--wipe) / 2)); }
+  .arc-wipe-end { font-size: var(--text-sm); }
+
+  .arc-targets-list div { grid-template-columns: 5rem minmax(0, 1fr); }
+  /* The checks: each result under its line, so the line keeps the width. */
+  .arc-run { padding: var(--space-md); }
+  .arc-run-list { gap: var(--space-sm); }
+  .arc-run-list li { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+  .arc-run-status { grid-column: 2; }
+}
+
+/* Tablets: the phone capture in a column beside the steps. */
+@media (min-width: 40.01rem) and (max-width: 63.99rem) {
+  .arc-scene--shot {
+    grid-template-columns: minmax(0, 23rem) minmax(0, 1fr);
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+  .arc-scene--shot > .arc-steps {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-xl));
+  }
+  .arc-open-stage { max-width: 44rem; }
+}
