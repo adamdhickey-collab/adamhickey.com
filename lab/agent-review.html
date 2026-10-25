@@ -100,11 +100,11 @@
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=44" />
+  <link rel="stylesheet" href="agent-review.css?v=45" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../quiet-cancel.js?v=5" defer></script>
-  <script src="agent-review-story.js?v=1" defer></script>
+  <script src="agent-review-story.js?v=2" defer></script>
   <!-- "Every action is a button. Except cancel." builds itself the first
        time it is in view (agent-review.css, "The build"). It is armed here,
        before first paint, because quiet-cancel.js is deferred: armed there,
@@ -247,299 +247,390 @@
     </div>
   </nav>
 
-  <div class="writing-progress" aria-hidden="true"></div>
-  <main id="main">
-    <header class="case-hero">
-      <div class="container">
-        <div class="ar-hero">
-        <div class="ar-hero-text">
-        <div class="ar-hero-head">
-        <p class="case-kicker">Lab &middot; Agent Review &middot; 8 min read</p>
-        <h1 class="case-title">Twenty years in, the job got bigger</h1>
-        </div>
-        <div class="ar-hero-main">
-        <p class="build-dek">Coding agents now do much of the building I spent two decades doing by hand. That frees a designer to lead the whole product. This prototype shows what that looks like.</p>
-        <p class="build-hero-act" data-read-aloud="skip after">
-          <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
-        </p>
-        <p class="ar-status"><strong>Status:</strong> an interactive prototype of one simulated design cycle and two simulated agent runs. It hasn&rsquo;t been tested with users yet.</p>
-        </div>
-        </div>
-        <!-- THE CYCLE, since 2026-10-25, in the place the quiet cancel's
-             figure held from 2026-10-21: the six stages of the prototype's
-             design cycle as a list, each with what I do and what the
-             agent does, on the loop's dark panel (agent-review.css, "The
-             cycle"). The quiet cancel's figure moved to its own chapter,
-             where it is one checkpoint in the larger story. -->
-        <figure class="ar-cycle ar-hero-feature">
-          <div class="ar-cycle-head">
-            <img class="ar-cycle-face" src="../img/portrait-illus.webp?v=6" width="900" height="900" decoding="async"
-                 alt="Adam Hickey, illustrated." />
-            <p class="ar-cycle-label">One feature, six stages</p>
+  <main id="main" class="arc">
+    <!-- THE OPENER, Direction C (since 2026-10-25): the product is the star.
+         The title, one line and the way in, beside one Relay customer table
+         in a device frame. On a wide screen with motion allowed the opener
+         is held still while the reader scrolls three beats past it
+         (agent-review-story.js): the table, then the frame zooms out to show
+         it as one screen of many, then it zooms back in on the table, and
+         a label says it is simulated. Narrow or still, it is the table and
+         its label, and nothing else. -->
+    <header class="case-hero arc-open" data-scene>
+      <div class="arc-open-pin">
+        <div class="container case-wide arc-open-grid">
+          <div class="arc-open-text">
+            <p class="arc-kicker">Lab &middot; Agent Review &middot; <span class="case-readtime">6 min read</span></p>
+            <h1 class="case-title arc-title">Twenty years in, the job got bigger</h1>
+            <p class="arc-dek">Coding agents now do much of the building. This prototype shows what a designer leads instead.</p>
+            <div class="arc-open-act">
+              <p class="build-hero-act" data-read-aloud="skip after">
+                <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+              </p>
+            </div>
+            <p class="arc-status">A simulated scenario, not yet tested with users.</p>
           </div>
-          <ol class="ar-cycle-stages">
-            <li><span class="ar-cycle-num" aria-hidden="true">1</span><strong class="ar-cycle-name">Discover</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> decide which of the agent&rsquo;s readings hold up</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> gathers the evidence</span></li>
-            <li><span class="ar-cycle-num" aria-hidden="true">2</span><strong class="ar-cycle-name">Define</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> set what wins when goals conflict</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> drafts the brief</span></li>
-            <li><span class="ar-cycle-num" aria-hidden="true">3</span><strong class="ar-cycle-name">Explore</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> use each direction, looking for where it breaks</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> builds three working screens</span></li>
-            <li><span class="ar-cycle-num" aria-hidden="true">4</span><strong class="ar-cycle-name">Evaluate</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> choose, and turn findings into requirements</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> runs the checks</span></li>
-            <li><span class="ar-cycle-num" aria-hidden="true">5</span><strong class="ar-cycle-name">Delegate</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> answer the one thing it can&rsquo;t decide</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> builds inside its boundaries</span></li>
-            <li><span class="ar-cycle-num" aria-hidden="true">6</span><strong class="ar-cycle-name">Learn</strong><span class="ar-cycle-dana"><span class="ar-cycle-who">I</span> decide what to measure and keep</span><span class="ar-cycle-agent"><span class="ar-cycle-who">Agent</span> reports what&rsquo;s verified</span></li>
-          </ol>
-          <figcaption class="ar-cycle-take">The agent builds. The designer decides what&rsquo;s worth building, and whether it works.</figcaption>
-        </figure>
+          <div class="arc-stage arc-open-stage" data-stage>
+            <div class="arc-device">
+              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+              <div class="arc-screen arc-zoom">
+                <div class="arc-zoom-grid">
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-discover.webp?v=2" width="2880" height="1684" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-delegate.webp?v=2" width="2880" height="1448" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-storybook.webp" width="2200" height="1440" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile arc-tile--main"><img src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" fetchpriority="high" decoding="async"
+                       alt="Relay&rsquo;s customer table in the prototype, eight customers, just after archiving a batch: a bar reads 4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice, with Undo beside it." /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-learn.webp?v=2" width="2880" height="1838" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-decision.webp?v=9" width="2106" height="1480" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" /></div>
+                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-themes.webp" width="2880" height="1800" alt="" loading="lazy" decoding="async" /></div>
+                </div>
+              </div>
+              <p class="arc-chip arc-open-chip" data-from="3">One feature: archiving customers. Relay is made up.</p>
+            </div>
+          </div>
         </div>
       </div>
+      <ol class="arc-beats" aria-hidden="true"><li data-step></li><li data-step></li><li data-step></li></ol>
     </header>
 
-    <!-- THE STORY, since 2026-10-25: the six stages as a rail that sticks
-         under the site nav from the first chapter to the end of Learn, the
-         current one marked (agent-review-story.js). It is height 0 in the
-         flow, so it adds no space; under 48rem it is not drawn, and the
-         chapters read in order. -->
-    <div class="ar-story">
-    <nav class="ar-stages" aria-label="Stages of the story">
-      <ol>
-        <li><a href="#discover">Discover</a></li>
-        <li><a href="#define">Define</a></li>
-        <li><a href="#explore">Explore</a></li>
-        <li><a href="#evaluate">Evaluate</a></li>
-        <li><a href="#delegate">Delegate</a></li>
-        <li><a href="#learn">Learn</a></li>
-      </ol>
-    </nav>
     <section class="case-section case-overview build-chapter ground-tea" id="question">
-      <div class="container case-wide">
+      <div class="container case-wide arc-measure">
         <h2>The building got fast, and the design work got bigger</h2>
         <p>For twenty years I designed software, thirteen of them at one IT consultancy. Then I was furloughed.</p>
-        <p>In the months that followed, I watched coding agents build in an afternoon what used to take a sprint. My first feeling was loss. Making a screen by hand had been mine for a long time.</p>
-        <p>Then I saw what it frees up. When building is cheap, a designer can try three directions instead of defending one, test with working software, and spend the day on the decisions that shape a product.</p>
-        <p>Those decisions are what I&rsquo;ve been best at for two decades: framing the problem, setting the standard, knowing when something isn&rsquo;t right. I think agents make that work count for more.</p>
-        <p>Agent Review is that bet, made concrete: one feature, led from the first support ticket to what ships. The product, the tickets and the research are made up. The prototype is real, and in it you play the designer, Alex.</p>
+        <p>In the months after, I watched coding agents build in an afternoon what used to take a sprint. My first feeling was loss.</p>
+        <p>Then I saw what it frees: three directions instead of one, and the day for the decisions that shape a product.</p>
+        <p>Agent Review is that bet. Relay and its evidence are made up; the prototype is real, and you play the designer, Alex.</p>
       </div>
     </section>
-    <section class="case-section case-overview build-chapter ground-white" id="discover">
-      <div class="container case-wide">
-        <h2>The agent&rsquo;s summary was wrong, and the evidence said so</h2>
-        <p class="ar-sort-lead">The feature is archiving customers in Relay, the prototype&rsquo;s made-up product. People archive the wrong account and can&rsquo;t get it back. It&rsquo;s the question my original experiment left open.</p>
-        <div class="ar-split">
-        <div class="ar-split-text">
-        <dl class="ar-answers">
-          <div>
-            <dt>What the agent did</dt>
-            <dd>Gathered six pieces of evidence and summed them up, marking each line an observation, an interpretation or an assumption.</dd>
+
+    <!-- THE SIX CHAPTERS. Each is one product moment: a stage that holds the
+         real screen (or a small piece of Relay rebuilt in live HTML where its
+         words have to change), and three short steps. On a wide screen with
+         motion allowed the stage is held still beside the steps, and each
+         step brings on its part of the screen as it reaches the middle of
+         the window (agent-review-story.js, [data-live]). Narrow, still or
+         without script, the stage shows everything at once with the steps
+         under it. The stage nav on the left marks the chapter in view. -->
+    <div class="arc-story">
+      <nav class="arc-stages" aria-label="Stages of the story">
+        <div class="container case-wide">
+          <div class="arc-stages-box">
+            <span class="arc-stages-line" aria-hidden="true"><span class="arc-stages-fill"></span></span>
+            <ol>
+              <li><a href="#discover">Discover</a></li>
+              <li><a href="#define">Define</a></li>
+              <li><a href="#explore">Explore</a></li>
+              <li><a href="#evaluate">Evaluate</a></li>
+              <li><a href="#delegate">Delegate</a></li>
+              <li><a href="#learn">Learn</a></li>
+            </ol>
           </div>
-          <div>
-            <dt>What it got wrong</dt>
-            <dd>It said archiving deletes data. An engineering note says archived customers are kept for 90 days. The real problem is that nobody can see them or put them back.</dd>
-          </div>
-          <div>
-            <dt>Why it matters</dt>
-            <dd>Keep the claim and the brief sets out to stop data loss that isn&rsquo;t happening. The prototype carries that choice to the last stage.</dd>
-          </div>
-        </dl>
         </div>
-        <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-discover-phone.webp?v=2" width="1077" height="1929" />
-            <img src="../img/lab/agent-review-cycle-discover.webp?v=2" width="2880" height="1684" loading="lazy" decoding="async"
-                 alt="The Discover stage in the prototype. The question: Something is wrong with archiving. What, exactly? Two lines say what Alex, the designer a visitor plays, does (reads the evidence and decides which of the agent&rsquo;s readings hold up) and what the agent does (gathers the tickets, signals and notes, and drafts a summary). Below, the agent&rsquo;s summary in four lines, two marked Observation, one Interpretation, and one Assumption, highlighted: Archiving deletes customer data, so a mistake is permanent. Beside it, Your move: The summary says archiving deletes data. Does that hold up? Correct it is chosen, and under the answers, The brief will say: People can&rsquo;t see or undo an archive." />
-          </picture>
-          <figcaption><strong>Discover,</strong> with the summary corrected.</figcaption>
-        </figure>
+      </nav>
+
+      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="discover">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-discover.webp, as
+                 <img src="../img/lab/story/ch-discover.webp" alt="" width="" height="" />
+                 in place of the slot. -->
+            <figure class="story-art" data-art="discover"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 1 of 6 &middot; Discover</p>
+              <h2>The agent&rsquo;s summary was wrong, and the evidence said so</h2>
+              <p class="arc-lead">Archiving customers in Relay: people archive the wrong account and can&rsquo;t get it back.</p>
+            </div>
+          </header>
+          <div class="arc-scene" data-scene>
+            <div class="arc-stage" data-stage>
+              <figure class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Discover</span></div>
+                <div class="arc-screen">
+                  <picture>
+                    <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-discover-phone.webp?v=2" width="1077" height="1929" />
+                    <img src="../img/lab/agent-review-cycle-discover.webp?v=2" width="2880" height="1684" loading="lazy" decoding="async"
+                         alt="The Discover stage in the prototype. The agent&rsquo;s summary in four lines, two marked Observation, one Interpretation, and one Assumption, highlighted: Archiving deletes customer data, so a mistake is permanent. Beside it, Your move: The summary says archiving deletes data. Does that hold up? It rests on one ticket; read the engineering note. Correct it is chosen: archived records are kept for 90 days, and the problem is that nobody can see them or put them back." />
+                  </picture>
+                  <span class="arc-sweep arc-sweep--claim" data-from="1" aria-hidden="true"></span>
+                  <ol class="arc-notes">
+                    <li class="arc-note arc-note--claim" data-from="1"><span class="arc-note-n" aria-hidden="true">1</span>The agent&rsquo;s claim</li>
+                    <li class="arc-note arc-note--source" data-from="2"><span class="arc-note-n" aria-hidden="true">2</span>Kept for 90 days</li>
+                    <li class="arc-note arc-note--call" data-from="3"><span class="arc-note-n" aria-hidden="true">3</span>My call</li>
+                  </ol>
+                </div>
+              </figure>
+            </div>
+            <ol class="arc-steps">
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>The agent summed up six pieces of evidence. One line says archiving deletes data.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>An engineering note: archived customers are kept 90 days. Nobody can see them or put them back.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>I corrected it. Kept, the brief would set out to stop a loss that isn&rsquo;t happening.</p></li>
+            </ol>
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-tea" id="define">
-      <div class="container case-wide">
-        <h2>I decided what wins when speed and safety pull apart</h2>
-        <p class="ar-sort-lead">The operations lead wants fewer steps. The account manager wants a guard. Both are in the evidence, so the brief had to choose.</p>
-        <figure class="ar-define">
-          <div class="writing-split">
-            <div>
-              <p class="writing-split-head">Routine cleanup stays fast</p>
-              <ul>
-                <li>Fewer presses for people who archive in bulk</li>
-                <li>A mistake is fixed after, not prevented</li>
-              </ul>
+      </section>
+
+      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="define">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-define.webp -->
+            <figure class="story-art" data-art="define"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 2 of 6 &middot; Define</p>
+              <h2>I decided what wins when speed and safety pull apart</h2>
+              <p class="arc-lead">The operations lead wants fewer steps. The account manager wants a guard.</p>
             </div>
-            <div class="ar-define-chosen">
-              <p class="writing-split-head">Nothing leaves without a way back <span class="ar-define-mine">My call</span></p>
-              <ul>
-                <li>An active customer is named before it&rsquo;s archived</li>
-                <li>Recovery without a support ticket</li>
-              </ul>
+          </header>
+          <div class="arc-scene" data-scene>
+            <div class="arc-stage" data-stage>
+              <!-- Relay's brief, rebuilt in live HTML in the prototype's look,
+                   because its words change as the steps go by. -->
+              <figure class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Define</span></div>
+                <div class="arc-screen arc-ui">
+                  <p class="arc-ui-kicker">Stage 2 of 6 &middot; Define</p>
+                  <p class="arc-ui-title">Speed and safety pull apart. Which wins?</p>
+                  <div class="arc-ui-options">
+                    <div class="arc-ui-option">
+                      <p class="arc-ui-option-title">Routine cleanup stays fast</p>
+                      <p class="arc-ui-option-body">Fewer presses for people who archive in bulk. A mistake is fixed after, not prevented.</p>
+                      <p class="arc-ui-who">Asked for by the operations lead</p>
+                    </div>
+                    <div class="arc-ui-option arc-ui-option--mine">
+                      <span class="arc-ring" data-from="2" aria-hidden="true"></span>
+                      <p class="arc-ui-option-title">Nothing leaves without a way back <span class="arc-ui-tag" data-from="2">My call</span></p>
+                      <p class="arc-ui-option-body">An active customer is named before it&rsquo;s archived. Recovery without a support ticket.</p>
+                      <p class="arc-ui-who">Asked for by the account manager</p>
+                    </div>
+                  </div>
+                  <p class="arc-ui-confirm" data-from="3"><span aria-hidden="true">&rarr;</span> The brief will say: nothing leaves without a way back.</p>
+                </div>
+              </figure>
             </div>
+            <ol class="arc-steps">
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>Both are in the evidence, and both are fair.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>I chose a way back over speed.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>That sets the success criteria, and what the agent will recommend.</p></li>
+            </ol>
           </div>
-          <figcaption>The priority sets the success criteria, and the direction the agent will recommend.</figcaption>
-        </figure>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-white" id="explore">
-      <div class="container case-wide">
-        <h2>Three working screens, and none of them free</h2>
-        <p class="ar-sort-lead">The agent built three ways to archive, each a working screen from the design system. You try all three on one batch, which holds three active customers and one that can&rsquo;t be archived.</p>
-        <div class="ar-pin" data-pin>
-        <ol class="ar-moments ar-pin-steps">
-          <li class="ar-moment" id="explore-undo" data-pin-step>
-            <div class="ar-split">
-            <div class="ar-split-text">
-            <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">1</span>Archive now, undo after</h3>
-            <p>The fastest: two presses for a page of churned accounts. A mistake gets caught only if someone notices the bar.</p>
-            </div>
-            <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-undo-phone.webp?v=2" width="1029" height="1593" />
-            <img src="../img/lab/agent-review-cycle-undo.webp?v=2" width="1820" height="748" loading="lazy" decoding="async"
-                 alt="Relay&rsquo;s customer table in the first direction, just after archiving a batch of five: a bar reads 4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice, with an Undo button beside it. Monarch Dental Group is still the first row of the table." />
-          </picture>
-          <figcaption><strong>Archive now, undo after.</strong> It says what failed only after the press.</figcaption>
-        </figure>
-            </div>
-          </li>
-          <li class="ar-moment" id="explore-confirm" data-pin-step>
-            <div class="ar-split">
-            <div class="ar-split-text">
-            <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">2</span>Confirm first, naming who</h3>
-            <p>Names the active customers before anything happens. In the simulated sessions, people stopped reading the question by the third batch.</p>
-            </div>
-            <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-confirm-phone.webp?v=2" width="1029" height="1491" />
-            <img src="../img/lab/agent-review-cycle-confirm.webp?v=2" width="1820" height="742" loading="lazy" decoding="async"
-                 alt="The same table in the second direction, after pressing Archive with the same five selected: the bar asks Archive 5 customers? Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio are active, with Cancel and Archive 5 customers. The five rows are still selected below." />
-          </picture>
-          <figcaption><strong>Confirm first.</strong> The question names the active customers.</figcaption>
-        </figure>
-            </div>
-          </li>
-          <li class="ar-moment" id="explore-review" data-pin-step>
-            <div class="ar-split">
-            <div class="ar-split-text">
-            <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">3</span>Review the batch, then archive</h3>
-            <p>Catches the blocked customer and the active ones before the press. It doubled the quarterly cleanup, and it&rsquo;s a new pattern the system would have to own.</p>
-            </div>
-            <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-review-phone.webp?v=2" width="1029" height="2043" />
-            <img src="../img/lab/agent-review-cycle-review.webp?v=2" width="1820" height="1128" loading="lazy" decoding="async"
-                 alt="The same table in the third direction: a review panel under the toolbar headed Review 5 customers before archiving. Can&rsquo;t archive: Monarch Dental Group, it has an open invoice, it stays in the table. Active, check these, clear a box to keep the customer: Halvorsen Freight at $3,840 a month, Brightwater Clinics at $1,320 and Saltmarsh Studio at $87, each checked. One customer churned, past due or on trial. Cancel, and Archive 4 customers." />
-          </picture>
-          <figcaption><strong>Review the batch.</strong> Everything is sorted before the press.</figcaption>
-        </figure>
-            </div>
-          </li>
-        </ol>
-        <!-- THE STAGE: the three screens, one at a time, held still beside the
-             steps while they scroll past, on a wide screen with motion
-             allowed (.ar-pin.is-pinned). It repeats the steps' own pictures,
-             so it is hidden from a screen reader, which reads them where
-             they are; the links under it go to each step. -->
-        <div class="ar-pin-stage">
-          <div class="ar-pin-frame" aria-hidden="true">
-            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-          </div>
-          <ol class="ar-pin-go" aria-label="The three directions">
-            <li><a href="#explore-undo" data-pin-go>1 Undo after</a></li>
-            <li><a href="#explore-confirm" data-pin-go>2 Confirm first</a></li>
-            <li><a href="#explore-review" data-pin-go>3 Review the batch</a></li>
-          </ol>
         </div>
+      </section>
+
+      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="explore">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-explore.webp -->
+            <figure class="story-art" data-art="explore"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 3 of 6 &middot; Explore</p>
+              <h2>Three working screens, and none of them free</h2>
+              <p class="arc-lead">Three ways to archive, tried on one batch: three active customers, one that can&rsquo;t be archived.</p>
+            </div>
+          </header>
+          <!-- The three directions swap in one frame. The stage repeats the
+               steps' own pictures, so it is hidden from a screen reader,
+               which reads them in the steps; it is drawn only when live. -->
+          <div class="arc-scene arc-scene--swap" data-scene>
+            <div class="arc-stage" data-stage aria-hidden="true">
+              <div class="arc-device">
+                <div class="arc-device-bar"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="arc-screen arc-swap">
+                  <img data-only="1" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+                  <img data-only="2" src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+                  <img data-only="3" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+                </div>
+              </div>
+            </div>
+            <ol class="arc-steps">
+              <li class="arc-step" data-step>
+                <span class="arc-step-n" aria-hidden="true">1</span>
+                <div class="arc-step-body">
+                  <h3 class="arc-step-title">Archive now, undo after</h3>
+                  <p>Two presses. A mistake is caught only if someone notices the bar.</p>
+                  <figure class="arc-step-shot">
+                    <picture>
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-undo-phone.webp?v=2" width="1029" height="1593" />
+                      <img src="../img/lab/agent-review-cycle-undo.webp?v=2" width="1820" height="748" loading="lazy" decoding="async"
+                           alt="Relay&rsquo;s customer table in the first direction, just after archiving a batch of five: a bar reads 4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice, with an Undo button beside it." />
+                    </picture>
+                  </figure>
+                </div>
+              </li>
+              <li class="arc-step" data-step>
+                <span class="arc-step-n" aria-hidden="true">2</span>
+                <div class="arc-step-body">
+                  <h3 class="arc-step-title">Confirm first, naming who</h3>
+                  <p>Names the active customers. In the simulated sessions, people stopped reading it by the third batch.</p>
+                  <figure class="arc-step-shot">
+                    <picture>
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-confirm-phone.webp?v=2" width="1029" height="1491" />
+                      <img src="../img/lab/agent-review-cycle-confirm.webp?v=2" width="1820" height="742" loading="lazy" decoding="async"
+                           alt="The same table in the second direction, after pressing Archive with the same five selected: the bar asks Archive 5 customers? Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio are active, with Cancel and Archive 5 customers." />
+                    </picture>
+                  </figure>
+                </div>
+              </li>
+              <li class="arc-step" data-step>
+                <span class="arc-step-n" aria-hidden="true">3</span>
+                <div class="arc-step-body">
+                  <h3 class="arc-step-title">Review the batch, then archive</h3>
+                  <p>Catches everything before the press, and doubles the quarterly cleanup.</p>
+                  <figure class="arc-step-shot">
+                    <picture>
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-review-phone.webp?v=2" width="1029" height="2043" />
+                      <img src="../img/lab/agent-review-cycle-review.webp?v=2" width="1820" height="1128" loading="lazy" decoding="async"
+                           alt="The same table in the third direction: a review panel headed Review 5 customers before archiving. Can&rsquo;t archive: Monarch Dental Group, it has an open invoice. Active, check these: Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio, each checked. Cancel, and Archive 4 customers." />
+                    </picture>
+                  </figure>
+                </div>
+              </li>
+            </ol>
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-tea" id="evaluate">
-      <div class="container case-wide">
-        <h2>I turned down the safest-looking screen</h2>
-        <p class="ar-sort-lead">My brief put recovery first, so the agent recommended the review. I chose undo, and required it to name active customers before the press.</p>
-        <figure class="ar-wipe" data-wipe>
-          <div class="ar-wipe-frame">
-            <img class="ar-wipe-a" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
-                 alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
-            <img class="ar-wipe-b" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
-                 alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers." />
+      </section>
+
+      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="evaluate">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-evaluate.webp -->
+            <figure class="story-art" data-art="evaluate"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 4 of 6 &middot; Evaluate</p>
+              <h2>I turned down the safest-looking screen</h2>
+              <p class="arc-lead">The agent recommended the review, since my brief put recovery first. I chose undo, and required it to name active customers before the press.</p>
+            </div>
+          </header>
+          <!-- THE WIPE. The range moves the line between the two screens. On
+               a wide screen with motion allowed, where the browser has
+               scroll-driven animations, the line is also scrubbed by scroll
+               while the frame is held; the first touch of the range hands it
+               back to the reader. -->
+          <div class="arc-scrub">
+            <figure class="arc-wipe" data-wipe>
+              <div class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+                <div class="arc-screen arc-wipe-frame">
+                  <img class="arc-wipe-a" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
+                       alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
+                  <img class="arc-wipe-b" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
+                       alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers." />
+                  <span class="arc-wipe-line" aria-hidden="true"></span>
+                </div>
+              </div>
+              <label class="arc-wipe-control">
+                <span class="arc-wipe-end"><strong>Undo</strong> <span class="arc-wipe-who">my call</span></span>
+                <input type="range" min="0" max="100" value="50" aria-label="Slide between the undo screen, which I chose, and the review screen the agent recommended" />
+                <span class="arc-wipe-end"><strong>Review</strong> <span class="arc-wipe-who">agent&rsquo;s pick</span></span>
+              </label>
+            </figure>
           </div>
-          <label class="ar-wipe-control">
-            <span aria-hidden="true">Undo</span>
-            <input type="range" min="0" max="100" value="50" aria-label="Slide between the undo screen and the review screen" />
-            <span aria-hidden="true">Review</span>
-          </label>
-          <figcaption><strong>Drag to compare.</strong> Undo, which I chose, and the review the agent recommended.</figcaption>
-        </figure>
-        <p>The operations lead archives hundreds a quarter, and the review would cost them every time. That&rsquo;s a reason to turn down the safest-looking screen. The session notes behind it are simulated.</p>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-white" id="delegate">
-      <div class="container case-wide">
-        <h2>The agent builds it, and still stops once</h2>
-        <p class="ar-sort-lead">The brief the agent gets is written from those choices: the problem, the direction, my reason, the requirement, and the boundaries it works inside.</p>
-        <div class="ar-split">
-        <div class="ar-split-text">
-        <dl class="ar-answers">
-          <div>
-            <dt>What it does alone</dt>
-            <dd>Changes the customer table, writes a story for each new state, and says what each check established.</dd>
-          </div>
-          <div>
-            <dt>Where it stops</dt>
-            <dd>The undo bar is a new pattern, and adding one to the system isn&rsquo;t the agent&rsquo;s call. Choose confirm instead and the stop changes: it asks what counts as an active customer.</dd>
-          </div>
-          <div>
-            <dt>What no check can say</dt>
-            <dd>Whether people notice the bar. The prototype marks that inconclusive, never passed.</dd>
-          </div>
-        </dl>
+          <p class="arc-after">The operations lead archives hundreds a quarter, and the review would cost them every time. Those session notes are simulated.</p>
         </div>
-        <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-delegate-phone.webp?v=2" width="1077" height="1695" />
-            <img src="../img/lab/agent-review-cycle-delegate.webp?v=2" width="2880" height="1448" loading="lazy" decoding="async"
-                 alt="The Delegate stage. On the left, the brief as sent to the agent: Archiving customers without losing control; the problem, People can&rsquo;t see or undo an archive; Build, Archive now, undo after; Why, Because nothing leaves without a way back, the cost accepted, a mistake is only caught if someone notices the bar; one requirement, Name any active customer before it&rsquo;s archived; and the boundaries, what it may change on its own and what asks first. On the right, Your move, marked Needs approval: The undo bar is a new pattern. Keep it on this screen, or propose it to the system? Rule 12 says a new interaction pattern isn&rsquo;t the agent&rsquo;s to add, and the system is Priya&rsquo;s. Two answers: Keep it on this screen, which the agent recommends, and Propose it to the system." />
-          </picture>
-          <figcaption><strong>Delegate:</strong> the brief, and the one stop.</figcaption>
-        </figure>
-        </div>
-      </div>
-    </section>
-    <section class="case-section case-overview build-chapter ground-warm" id="learn">
-      <div class="container case-wide">
-        <h2>Built isn&rsquo;t the same as done</h2>
-        <p class="ar-sort-lead">The last stage is the one a demo usually skips: what was verified, what nobody knows yet, and what to measure once it ships.</p>
-        <div class="ar-split">
-        <div class="ar-split-text">
-        <dl class="ar-answers">
-          <div>
-            <dt>Still unknown</dt>
-            <dd>Restoring is still a support ticket, because nothing required an Archived view. Nor whether any of it holds with real people.</dd>
+      </section>
+
+      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="delegate">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-delegate.webp -->
+            <figure class="story-art" data-art="delegate"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 5 of 6 &middot; Delegate</p>
+              <h2>The agent builds it, and still stops once</h2>
+              <p class="arc-lead">The agent gets a brief written from my choices, and the boundaries it works inside.</p>
+            </div>
+          </header>
+          <div class="arc-scene" data-scene>
+            <div class="arc-stage" data-stage>
+              <figure class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Delegate</span></div>
+                <div class="arc-screen">
+                  <picture>
+                    <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-delegate-phone.webp?v=2" width="1077" height="1695" />
+                    <img src="../img/lab/agent-review-cycle-delegate.webp?v=2" width="2880" height="1448" loading="lazy" decoding="async"
+                         alt="The Delegate stage. On the left, the brief as sent to the agent: the problem, the direction to build, Archive now, undo after, why, one requirement, and the boundaries, what it may change on its own and what asks first. On the right, Your move, marked Needs approval: The undo bar is a new pattern. Keep it on this screen, or propose it to the system? Rule 12 says a new interaction pattern isn&rsquo;t the agent&rsquo;s to add." />
+                  </picture>
+                  <ol class="arc-notes">
+                    <li class="arc-note arc-note--build" data-from="1"><span class="arc-note-n" aria-hidden="true">1</span>What it builds, and why</li>
+                    <li class="arc-note arc-note--stop" data-from="3"><span class="arc-note-n" aria-hidden="true">3</span>Its one stop</li>
+                  </ol>
+                  <!-- The checks, in live HTML in Relay's look, so each one
+                       ticks as it lands. -->
+                  <div class="arc-run" data-from="2">
+                    <p class="arc-run-head"><span class="arc-note-n" aria-hidden="true">2</span>What the checks established</p>
+                    <ul class="arc-run-list">
+                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Every story renders, and axe finds nothing</span><span class="arc-run-status">Passed</span></li>
+                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Every value is a token</span><span class="arc-run-status">Passed</span></li>
+                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>No toolbar overflows at 768px</span><span class="arc-run-status">Passed</span></li>
+                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Names any active customer first</span><span class="arc-run-status">Passed</span></li>
+                      <li class="arc-run-open"><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M7.75 7.75a2.25 2.25 0 1 1 3 2.1c-.5.2-.75.6-.75 1.15v.5M10 14.25v.01"/></svg><span>Whether people notice the bar</span><span class="arc-run-status">Inconclusive</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <ol class="arc-steps">
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>It changes the customer table and writes a story for each new state.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>It runs the checks. None can say whether people notice the bar.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>It stops once: the undo bar is a new pattern, and adding one isn&rsquo;t its call.</p></li>
+            </ol>
           </div>
-          <div>
-            <dt>What to measure</dt>
-            <dd>Tickets asking for a record back, against 6 of 9 last quarter. Active customers archived, against 1 in 14. Both baselines are the scenario&rsquo;s.</dd>
-          </div>
-          <div>
-            <dt>What carries forward</dt>
-            <dd>A rule for the next agent: a bulk action that removes records names what&rsquo;s at risk before the press. It exists only if I keep it.</dd>
-          </div>
-        </dl>
         </div>
-        <figure class="build-shot ar-split-media">
-          <picture>
-            <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-learn-phone.webp?v=2" width="1077" height="2952" />
-            <img src="../img/lab/agent-review-cycle-learn.webp?v=2" width="2880" height="1838" loading="lazy" decoding="async"
-                 alt="The Learn stage: It&rsquo;s built. What do you know, and what don&rsquo;t you? On the left, What you decided: the summary corrected in Discover, Nothing leaves without a way back in Define, Archive now, undo after in Evaluate with its reason, the one requirement, and the agent&rsquo;s question answered Keep it on this screen. Then What&rsquo;s verified: the story tests, the token lint and the 768 check passed, the customers screen changed as intended, the requirement passed, and whether people notice what changed, inconclusive. Then What isn&rsquo;t known: restoring is still a support ticket, and nothing here was tested with anyone. On the right, Your move: Keep this for the next agent?, the rule, and its box checked." />
-          </picture>
-          <figcaption><strong>Learn:</strong> what&rsquo;s known, and what isn&rsquo;t.</figcaption>
-        </figure>
+      </section>
+
+      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="learn">
+        <div class="container case-wide">
+          <header class="arc-head">
+            <!-- ART: img/lab/story/ch-learn.webp -->
+            <figure class="story-art" data-art="learn"><span class="story-art-slot"></span></figure>
+            <div class="arc-head-text">
+              <p class="arc-eyebrow">Stage 6 of 6 &middot; Learn</p>
+              <h2>Built isn&rsquo;t the same as done</h2>
+              <p class="arc-lead">What was verified, what nobody knows yet, and what to measure once it ships.</p>
+            </div>
+          </header>
+          <div class="arc-scene" data-scene>
+            <div class="arc-stage" data-stage>
+              <figure class="arc-device">
+                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Learn</span></div>
+                <div class="arc-screen arc-learn">
+                  <div class="arc-learn-zoom">
+                    <picture>
+                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-learn-phone.webp?v=2" width="1077" height="2952" />
+                      <img src="../img/lab/agent-review-cycle-learn.webp?v=2" width="2880" height="1838" loading="lazy" decoding="async"
+                           alt="The Learn stage: It&rsquo;s built. What do you know, and what don&rsquo;t you? What you decided, stage by stage. What&rsquo;s verified: the story tests, the token lint and the 768 check passed, the requirement passed, and whether people notice what changed, inconclusive. What isn&rsquo;t known: restoring is still a support ticket, and nothing here was tested with anyone. On the right, Your move: Keep this for the next agent? A bulk action that removes records names what&rsquo;s at risk before the press, and its box checked." />
+                    </picture>
+                  </div>
+                  <ol class="arc-notes">
+                    <li class="arc-note arc-note--verified" data-only="1"><span class="arc-note-n" aria-hidden="true">1</span>Inconclusive, never passed</li>
+                    <li class="arc-note arc-note--unknown" data-only="2"><span class="arc-note-n" aria-hidden="true">2</span>Still a support ticket</li>
+                  </ol>
+                  <div class="arc-targets" data-from="3">
+                    <p class="arc-targets-head"><span class="arc-note-n" aria-hidden="true">3</span>What to measure <span class="arc-targets-tag">Targets, not results</span></p>
+                    <dl class="arc-targets-list">
+                      <div><dt>6 of 9</dt><dd>tickets last quarter asked for a record back. Aim for fewer.</dd></div>
+                      <div><dt>1 in 14</dt><dd>archives took an active customer. Aim for fewer.</dd></div>
+                    </dl>
+                    <p class="arc-targets-foot">Both baselines are the simulated scenario&rsquo;s.</p>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <ol class="arc-steps">
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>The checks passed. Whether people notice the bar is inconclusive, never passed.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>Restoring is still a support ticket, because nothing required an Archived view.</p></li>
+              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>I decide what to measure, and keep one rule for the next agent.</p></li>
+            </ol>
+          </div>
+          <p class="arc-after">I think the cycle is the more honest picture of the job. It&rsquo;s also a script: real discovery is messier.</p>
         </div>
-        <p>I think the cycle is the more honest picture of the job. It&rsquo;s also a script. Real discovery is slower and messier, and an agent&rsquo;s summary won&rsquo;t always be wrong in a way one note can catch.</p>
-      </div>
-    </section>
+      </section>
     </div>
+
     <section class="case-section case-overview build-chapter ground-white" id="first-minute">
       <div class="container case-wide">
         <h2>One link the checks can&rsquo;t judge</h2>
-        <p class="ar-sort-lead">The first stop is in a run that moves Relay&rsquo;s billing screens onto the design system, changing nothing visible.</p>
+        <p class="arc-lead">A second run moves Relay&rsquo;s billing screens onto the design system. Cancel is gray text built by hand, and the checks pass either way, so the agent asks.</p>
         <figure class="quiet-cancel ar-checkpoint-figure" data-quiet-cancel aria-describedby="quiet-cancel-desc">
           <p class="visually-hidden" id="quiet-cancel-desc">On Relay&rsquo;s billing settings, every action is a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand.</p>
           <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
@@ -562,59 +653,7 @@
           <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
           <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass both.</span> <span class="quiet-cancel-call">Only a designer can say if that&rsquo;s on purpose.</span></figcaption>
         </figure>
-        <ol class="ar-moments">
-          <li class="ar-moment">
-            <div class="ar-split">
-            <div class="ar-split-text">
-            <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">1</span>The agent stops</h3>
-            <dl class="ar-answers">
-              <div>
-                <dt>Why the checks can&rsquo;t settle it</dt>
-                <dd>A button makes cancelling easier to find, in a job meant to change nothing visible. A quiet button style would let any later agent play down any action. The checks pass either way.</dd>
-              </div>
-              <div>
-                <dt>What it asks</dt>
-                <dd>It recommends the quiet button, and says it can&rsquo;t know whether cancel is quiet on purpose.</dd>
-              </div>
-            </dl>
-            </div>
-            <figure class="build-shot ar-split-media ar-shot--narrow">
-              <picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-directions-phone.webp?v=5" width="375" height="902" />
-                <img src="../img/lab/agent-review-directions.webp?v=6" width="474" height="1065" loading="lazy" decoding="async"
-                     alt="The decision panel in the prototype, on a deep-teal band: decision 1 of 2, Needs judgment, three changes wait on this, the question, Keep &ldquo;Cancel subscription&rdquo; looking as it does, or make it a Button on purpose?, and four steps, Compare done and Choose current, then Preview and Apply. Under &ldquo;Which trade-off is acceptable?&rdquo;, two cards. Add a quiet variant, recommended: the Button gains a quiet variant that matches the gray text; main risk, any later agent can make any action this quiet. Make it a Button in its own change: cancel stays as built under an exception that ends on Oct 15, and a separate change owned by product design makes it a Button; main risk, it stays hard to find until then. Each folds its three benefits and three risks, and each has a Select and preview button. At the panel&rsquo;s foot, Back, and Next: preview, waiting for a direction." />
-              </picture>
-              <figcaption><strong>The decision,</strong> with each direction&rsquo;s main risk in view.</figcaption>
-            </figure>
-            </div>
-          </li>
-          <li class="ar-moment">
-            <div class="ar-split">
-            <div class="ar-split-text">
-            <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">2</span>I decide</h3>
-            <dl class="ar-answers">
-              <div>
-                <dt>What I chose</dt>
-                <dd>The other direction, against the recommendation: an exception until Oct 15, and a change of its own, owned by product design, that makes it a button.</dd>
-              </div>
-              <div>
-                <dt>Why</dt>
-                <dd>The gray link is left over from a retention test last year that nobody turned off. My reason is kept with the decision.</dd>
-              </div>
-            </dl>
-            </div>
-            <figure class="build-shot ar-split-media">
-              <picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-decision-phone.webp?v=9" width="375" height="720" />
-                <img src="../img/lab/agent-review-decision.webp?v=9" width="1053" height="740" loading="lazy" decoding="async"
-                     alt="A decision record in the prototype: make it a Button in its own change, decided at 14:26 on billing settings. What the agent did: moved the link&rsquo;s values onto tokens and left it as built, wrote the exception down ending Oct 15, opened a follow-up to make it a Button owned by product design, asked growth to count cancellations before and after while it ships either way, recorded the decision, and applied it to the two changes the rule covers. Then the reason in the person&rsquo;s words, the trade-off accepted, the risk that remains, the open follow-up, and the rule it became." />
-              </picture>
-              <figcaption><strong>What&rsquo;s kept:</strong> the decision, my reason and the risk that remains.</figcaption>
-            </figure>
-            </div>
-          </li>
-        </ol>
-                <p>The second stop is a fix that fits in one line of a table forty screens share. Fixing one screen is the agent&rsquo;s job. Changing all forty is the table owner&rsquo;s call, so it stops for approval.</p>
+        <p class="arc-after">I made it a button, in a change of its own: the link was left over from a retention test nobody turned off.</p>
         <p class="build-hero-act"><a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/#/runs/shared-table" target="_blank" rel="noopener noreferrer">Try the second scenario<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
         <p class="ar-sap-link"><a href="../case-study/sap-product-maturity.html">See how I established shared standards across 40+ enterprise apps <span aria-hidden="true">&rarr;</span></a></p>
         <figure class="ar-rail">
@@ -737,43 +776,30 @@
       </div>
     </section>
 
-    <!-- WHERE THE IDEA CAME FROM: the experiment, in four paragraphs since
-         2026-10-23, where it was a section, a Storybook figure, a Human
-         judgment note and a dark band of four findings. What it showed is
-         the second and third paragraphs, in the record's own terms
-         (docs/experiment/README.md, "The seeded drift"): the checks found
-         the planted defects once the 768 check measured each toolbar's own
-         box (its first version let a bar 58px too wide through), none in
-         either agent's version, and the questions that mattered were left
-         to a person. The rest is one link away. -->
     <section class="case-section case-overview build-chapter ground-warm" id="the-experiment">
-      <div class="container case-wide">
+      <div class="container case-wide arc-measure">
         <h2>Where the idea came from</h2>
-        <p>Agent Review grew out of a small experiment. I asked Claude Code for one feature twice, with twelve design rules and without, and planted mistakes in a third version to test the checks.</p>
-        <p>The checks caught what I planted. The agents couldn&rsquo;t decide whether the product wanted a step before archiving customers, and that question became the cycle. Each version ran once, so it&rsquo;s an experiment, not a study.</p>
-        <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full experiment record<span class="visually-hidden"> (opens in a new tab)</span></a> has all three versions and my review of each.</p>
+        <p>I asked Claude Code for one feature twice, with twelve design rules and without, and planted mistakes in a third version. The checks caught them.</p>
+        <p>The agents couldn&rsquo;t decide whether archiving needed a step first; that question became the cycle. Each version ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
       </div>
     </section>
+
     <section class="case-section case-overview build-chapter ground-white" id="validate-next">
-      <div class="container case-wide">
+      <div class="container case-wide arc-measure">
         <h2>What I&rsquo;d test next</h2>
-        <p>I haven&rsquo;t put Agent Review in front of anyone yet. Next, I&rsquo;d watch four or five designers and product managers try it. Can they:</p>
+        <p>Nobody has used it yet. I&rsquo;d watch four or five designers and product managers try it. Can they:</p>
         <ul class="build-list">
           <li><strong>Say</strong> what the designer did at each stage, and what the agent did?</li>
           <li><strong>Tell</strong> the simulated evidence from the working software?</li>
           <li><strong>Weigh</strong> the three directions, instead of taking &ldquo;Agent recommends&rdquo;?</li>
         </ul>
-        <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/validation/README.md" target="_blank" rel="noopener noreferrer">The research plan<span class="visually-hidden"> (opens in a new tab)</span></a> sets out the tasks for the agent runs, and what result would change the design.</p>
+        <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/validation/README.md" target="_blank" rel="noopener noreferrer">The research plan<span class="visually-hidden"> (opens in a new tab)</span></a> says what result would change the design.</p>
       </div>
     </section>
 
-
-    <!-- BUILD AND EVIDENCE, at the foot since 2026-10-23, for the reader
-         who wants the tools: the one place on the page that names them.
-         Every count is the repository's: 14 components in src/components,
-         284 stories (the Storybook's index, after agent-review#34), 12
-         rules in skills/ui-quality/SKILL.md, 3 versions of the experiment's
-         feature. The Storybook link opens the decision record's own story. -->
+    <!-- BUILD AND EVIDENCE: every count is the repository's: 14 components
+         in src/components, 318 stories, 12 rules in skills/ui-quality/
+         SKILL.md, 3 working directions. -->
     <section class="case-section case-overview build-chapter ground-tea" id="build">
       <div class="container case-wide">
         <h2>Build and evidence</h2>
@@ -790,13 +816,10 @@
           <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">The whole Storybook<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
           <a class="product-link product-link-quiet" href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">Source and experiment record<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
         </p>
-        <!-- Who made it, when, and who wrote the code, in one line: every
-             clause is something the public repository shows. -->
         <p class="build-service">A solo project, begun October 1, 2026: every commit in the public repository is from my account, co-authored by Claude Code.</p>
       </div>
     </section>
-
-    </main>
+  </main>
   <footer class="case-footer">
       <div class="container case-wide">
         <div class="case-ask">
@@ -823,45 +846,5 @@
         </a>
       </div>
     </footer>
-  <!-- The progress line, as on an article: the 4px sage rule under the nav
-       (.writing-progress, style.css), scaled from the left from the top of
-       the first section to the bottom of the last, so the footer does not
-       count. The width is a transform, so there is no state to force and
-       the shell's reduced-motion blanket already zeroes its transition. -->
-  <script>
-    (function () {
-      var bar = document.querySelector('.writing-progress');
-      var sections = document.querySelectorAll('.case-overview');
-      if (!bar || !sections.length) return;
-      var first = sections[0], last = sections[sections.length - 1];
-      var ticking = false;
-      var paint = function () {
-        ticking = false;
-        var y = window.scrollY || window.pageYOffset;
-        var nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 0;
-        var start = first.getBoundingClientRect().top + y - nav;
-        var stop = last.getBoundingClientRect().bottom + y - window.innerHeight;
-        var t = stop > start ? (y - start) / (stop - start) : 1;
-        bar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, t)) + ')';
-      };
-      var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
-      paint();
-      /* The loop's rail draws itself once, as it scrolls in. */
-      var strips = document.querySelectorAll('.ar-rail');
-      if (strips.length && 'IntersectionObserver' in window) {
-        var drawn = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) { e.target.classList.add('is-drawn'); drawn.unobserve(e.target); }
-          });
-        }, { threshold: 0.3 });
-        Array.prototype.forEach.call(strips, function (strip) {
-          strip.classList.add('is-armed');
-          drawn.observe(strip);
-        });
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-    })();
-  </script>
 </body>
 </html>
