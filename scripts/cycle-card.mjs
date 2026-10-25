@@ -3,7 +3,7 @@
    cycle: the three working archive screens from Explore, side by side on
    the loop's dark panel, each cut to the top of its screen, where the line
    that makes it different sits (the undo bar, the question, the review),
-   the one Dana chose marked, under one
+   the one Alex chose marked, under one
    line that says what the page is about. Real captures, not a drawing: the
    point of the card is that the directions are working software and a
    person chose between them.

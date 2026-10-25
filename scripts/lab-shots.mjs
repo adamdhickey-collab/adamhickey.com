@@ -174,7 +174,7 @@ const SHOTS = {
       await page.waitForTimeout(300);
     },
   },
-  /* The decision record, as a figure: Dana's decision, whole, in the main
+  /* The decision record, as a figure: Alex's decision, whole, in the main
      column. On a phone, the record from its top. */
   decision: {
     file: 'agent-review-decision',
@@ -429,7 +429,7 @@ async function mainColumn(page) {
   return { x: 0, y: 0, width: Math.round(box.x * 2 + box.width), height: page.viewportSize().height };
 }
 
-/* The reason Dana gives for her decision, in her own words: the one thing
+/* The reason Alex gives for her decision, in her own words: the one thing
    no file in the repository holds, why cancel is quiet, which is the
    agent's "What I can't determine", in front of the agent's draft. It is
    the simulated person's, as the prototype's DANAS_REASON has it
