@@ -100,10 +100,11 @@
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=43" />
+  <link rel="stylesheet" href="agent-review.css?v=44" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="../quiet-cancel.js?v=5" defer></script>
+  <script src="agent-review-story.js?v=1" defer></script>
   <!-- "Every action is a button. Except cancel." builds itself the first
        time it is in view (agent-review.css, "The build"). It is armed here,
        before first paint, because quiet-cancel.js is deferred: armed there,
@@ -290,6 +291,22 @@
       </div>
     </header>
 
+    <!-- THE STORY, since 2026-10-25: the six stages as a rail that sticks
+         under the site nav from the first chapter to the end of Learn, the
+         current one marked (agent-review-story.js). It is height 0 in the
+         flow, so it adds no space; under 48rem it is not drawn, and the
+         chapters read in order. -->
+    <div class="ar-story">
+    <nav class="ar-stages" aria-label="Stages of the story">
+      <ol>
+        <li><a href="#discover">Discover</a></li>
+        <li><a href="#define">Define</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <li><a href="#evaluate">Evaluate</a></li>
+        <li><a href="#delegate">Delegate</a></li>
+        <li><a href="#learn">Learn</a></li>
+      </ol>
+    </nav>
     <section class="case-section case-overview build-chapter ground-tea" id="question">
       <div class="container case-wide">
         <h2>The building got fast, and the design work got bigger</h2>
@@ -332,12 +349,38 @@
         </div>
       </div>
     </section>
-    <section class="case-section case-overview build-chapter ground-tea" id="explore">
+    <section class="case-section case-overview build-chapter ground-tea" id="define">
+      <div class="container case-wide">
+        <h2>I decided what wins when speed and safety pull apart</h2>
+        <p class="ar-sort-lead">The operations lead wants fewer steps. The account manager wants a guard. Both are in the evidence, so the brief had to choose.</p>
+        <figure class="ar-define">
+          <div class="writing-split">
+            <div>
+              <p class="writing-split-head">Routine cleanup stays fast</p>
+              <ul>
+                <li>Fewer presses for people who archive in bulk</li>
+                <li>A mistake is fixed after, not prevented</li>
+              </ul>
+            </div>
+            <div class="ar-define-chosen">
+              <p class="writing-split-head">Nothing leaves without a way back <span class="ar-define-mine">My call</span></p>
+              <ul>
+                <li>An active customer is named before it&rsquo;s archived</li>
+                <li>Recovery without a support ticket</li>
+              </ul>
+            </div>
+          </div>
+          <figcaption>The priority sets the success criteria, and the direction the agent will recommend.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-white" id="explore">
       <div class="container case-wide">
         <h2>Three working screens, and none of them free</h2>
         <p class="ar-sort-lead">The agent built three ways to archive, each a working screen from the design system. You try all three on one batch, which holds three active customers and one that can&rsquo;t be archived.</p>
-        <ol class="ar-moments">
-          <li class="ar-moment">
+        <div class="ar-pin" data-pin>
+        <ol class="ar-moments ar-pin-steps">
+          <li class="ar-moment" id="explore-undo" data-pin-step>
             <div class="ar-split">
             <div class="ar-split-text">
             <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">1</span>Archive now, undo after</h3>
@@ -353,7 +396,7 @@
         </figure>
             </div>
           </li>
-          <li class="ar-moment">
+          <li class="ar-moment" id="explore-confirm" data-pin-step>
             <div class="ar-split">
             <div class="ar-split-text">
             <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">2</span>Confirm first, naming who</h3>
@@ -369,7 +412,7 @@
         </figure>
             </div>
           </li>
-          <li class="ar-moment">
+          <li class="ar-moment" id="explore-review" data-pin-step>
             <div class="ar-split">
             <div class="ar-split-text">
             <h3 class="ar-moment-title"><span class="ar-moment-step" aria-hidden="true">3</span>Review the batch, then archive</h3>
@@ -386,8 +429,45 @@
             </div>
           </li>
         </ol>
-        <p>My brief put recovery first, so the agent recommended the review. I chose undo instead, and required it to name active customers before the press. The operations lead archives hundreds a quarter, and the review would cost them every time.</p>
-        <p>That&rsquo;s the decision I most wanted to show: a reason to turn down the safest-looking screen. The session notes behind it are simulated.</p>
+        <!-- THE STAGE: the three screens, one at a time, held still beside the
+             steps while they scroll past, on a wide screen with motion
+             allowed (.ar-pin.is-pinned). It repeats the steps' own pictures,
+             so it is hidden from a screen reader, which reads them where
+             they are; the links under it go to each step. -->
+        <div class="ar-pin-stage">
+          <div class="ar-pin-frame" aria-hidden="true">
+            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+            <img data-pin-shot src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
+          </div>
+          <ol class="ar-pin-go" aria-label="The three directions">
+            <li><a href="#explore-undo" data-pin-go>1 Undo after</a></li>
+            <li><a href="#explore-confirm" data-pin-go>2 Confirm first</a></li>
+            <li><a href="#explore-review" data-pin-go>3 Review the batch</a></li>
+          </ol>
+        </div>
+        </div>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-tea" id="evaluate">
+      <div class="container case-wide">
+        <h2>I turned down the safest-looking screen</h2>
+        <p class="ar-sort-lead">My brief put recovery first, so the agent recommended the review. I chose undo, and required it to name active customers before the press.</p>
+        <figure class="ar-wipe" data-wipe>
+          <div class="ar-wipe-frame">
+            <img class="ar-wipe-a" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
+                 alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
+            <img class="ar-wipe-b" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
+                 alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers." />
+          </div>
+          <label class="ar-wipe-control">
+            <span aria-hidden="true">Undo</span>
+            <input type="range" min="0" max="100" value="50" aria-label="Slide between the undo screen and the review screen" />
+            <span aria-hidden="true">Review</span>
+          </label>
+          <figcaption><strong>Drag to compare.</strong> Undo, which I chose, and the review the agent recommended.</figcaption>
+        </figure>
+        <p>The operations lead archives hundreds a quarter, and the review would cost them every time. That&rsquo;s a reason to turn down the safest-looking screen. The session notes behind it are simulated.</p>
       </div>
     </section>
     <section class="case-section case-overview build-chapter ground-white" id="delegate">
@@ -455,6 +535,7 @@
         <p>I think the cycle is the more honest picture of the job. It&rsquo;s also a script. Real discovery is slower and messier, and an agent&rsquo;s summary won&rsquo;t always be wrong in a way one note can catch.</p>
       </div>
     </section>
+    </div>
     <section class="case-section case-overview build-chapter ground-white" id="first-minute">
       <div class="container case-wide">
         <h2>One link the checks can&rsquo;t judge</h2>

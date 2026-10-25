@@ -388,6 +388,32 @@ const SHOTS = {
       },
     ]),
   ),
+  /* The three directions cut to one size, for the two places the case study
+     lays one over another: the pinned Explore's stage, which shows one at a
+     time, and the decision's wipe, which slides review over undo. The product frame from its top, 640px of window tall, at the
+     directions' own 1.25. Desktop only: a phone shows the two stacked. */
+  ...Object.fromEntries(
+    [
+      ['undo', 'Archive now, undo after'],
+      ['confirm', 'Confirm first, naming who'],
+      ['review', 'Review the batch, then archive'],
+    ].map(([id, name]) => [
+      `cycle-wipe-${id}`,
+      {
+        file: `agent-review-cycle-wipe-${id}`,
+        app: '#/cycle/explore',
+        desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => fixedClip(page, '.cycle__product-frame', 460) },
+        phone: false,
+        open: async (page) => {
+          await page.getByRole('tab', { name: new RegExp(name) }).click();
+          await page.getByRole('button', { name: 'Select a batch for me' }).click();
+          await page.getByRole('button', { name: 'Archive', exact: true }).click();
+          await page.mouse.move(0, 0);
+          await page.waitForTimeout(300);
+        },
+      },
+    ]),
+  ),
   'cycle-delegate': {
     file: 'agent-review-cycle-delegate',
     app: '#/cycle/discover',
@@ -522,6 +548,17 @@ async function studioClip(page) {
 /* A part of the page, cut at its own edges: from the top of `from` to the
    foot of `to`, as wide as `col`, with `pad` of ground round it. The window
    is made tall enough to hold it, so nothing scrolls inside the cut. */
+/* A part cut to a fixed height from its top, so two captures of it come
+   out the same size. */
+async function fixedClip(page, sel, height) {
+  await page.setViewportSize({ width: page.viewportSize().width, height: 4000 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  const box = await page.locator(sel).first().boundingBox();
+  /* Shorter than the part, or the cut runs on into whatever is under it. */
+  if (box.height < height) throw new Error(`${sel} is ${Math.round(box.height)}px tall, under the ${height}px cut`);
+  return { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height };
+}
 async function partClip(page, from, to, col, pad = 12) {
   /* Measured in a window taller than the page, so a sticky part (the
      confirmation's Cancel and Apply bar) sits where it is in the flow and

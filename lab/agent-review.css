@@ -990,3 +990,202 @@
    above still name it in :not(.ar-split--wide-first), which now matches
    every split. */
 
+
+/* ---------- The story (since 2026-10-25) ----------
+   The write-up as a story you scroll, after the research behind it: one
+   short pinned section, every step also a link, no scroll taken over, and
+   all of it stacked where the screen is narrow or the reader asks for
+   stillness (agent-review-story.js has the behavior). */
+
+/* THE STAGE RAIL. Height 0 in the flow, so it adds no space; it sticks a
+   step under the fixed site nav from the first chapter to the end of
+   Learn. The current stage is the charcoal pill, the only filled one. */
+.ar-story [id] { scroll-margin-top: var(--space-4xl); }
+.ar-stages {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-sm));
+  z-index: 20;
+  height: 0;
+  display: none;
+  pointer-events: none;
+}
+@media (min-width: 48rem) {
+  .ar-stages { display: block; }
+}
+.ar-stages ol {
+  display: flex;
+  gap: var(--space-2xs);
+  width: max-content;
+  margin: 0 auto;
+  padding: var(--space-2xs);
+  list-style: none;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+  pointer-events: auto;
+}
+.ar-stages a {
+  display: block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--color-muted-gray);
+  text-decoration: none;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ar-stages a:not([aria-current]):hover { color: var(--color-charcoal); }
+}
+.ar-stages a[aria-current] { background: var(--color-charcoal); color: var(--ink-on-dark); }
+
+/* DEFINE. The split the articles use, with my call marked on the side I
+   chose, in the accent's ink. */
+.ar-define { margin: var(--space-2xl) 0 0; }
+.ar-define-mine {
+  display: inline-block;
+  margin-left: var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+/* THE PINNED EXPLORE. Pinned, the steps are the left column, each tall
+   enough to be read alone in the middle of the window, their own pictures
+   kept for a screen reader but not drawn; the stage is the right column,
+   held under the rail, one screen at a time with a cross-fade. */
+.ar-pin-stage { display: none; }
+.ar-pin.is-pinned {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+.ar-pin.is-pinned .ar-pin-steps { margin: 0; }
+/* A step is two thirds of the window tall, so one step is in the middle of
+   it at a time: a proportion of the viewport, not a size on the scale. */
+.ar-pin.is-pinned .ar-moment { min-height: 66svh; display: flex; align-items: center; }
+.ar-pin.is-pinned .ar-moment .ar-split { display: block; }
+.ar-pin.is-pinned .ar-moment .ar-split-media {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ar-pin.is-pinned .ar-pin-stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-4xl) + var(--space-md));
+}
+.ar-pin-frame {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.ar-pin-frame img {
+  grid-area: 1 / 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity var(--motion-enter) var(--ease);
+}
+.ar-pin-frame img[data-on] { opacity: 1; }
+.ar-pin-go {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-pin-go a {
+  display: block;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--color-muted-gray);
+  text-decoration: none;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ar-pin-go a:not([aria-current]):hover { color: var(--color-charcoal); }
+}
+.ar-pin-go a[aria-current] { background: var(--color-charcoal); border-color: var(--color-charcoal); color: var(--ink-on-dark); }
+
+/* THE WIPE. Two screens of one size, the second clipped from the left to
+   wherever the range says; without script the range sits at half, and so
+   does the clip. */
+.ar-wipe { margin: var(--space-2xl) 0 0; }
+.ar-wipe-frame {
+  --wipe: 50%;
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.ar-wipe-frame img { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
+.ar-wipe-b { clip-path: inset(0 0 0 var(--wipe)); }
+.ar-wipe-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--wipe);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-charcoal);
+}
+.ar-wipe-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
+}
+.ar-wipe-control input { flex: 1; min-width: 0; accent-color: var(--color-accent-text); }
+.ar-wipe figcaption { margin-top: var(--space-sm); }
+
+/* Define's split, set for a case-study chapter rather than an article's
+   column: no bullets, the caption under it in the figure's quiet ink. */
+.ar-define .writing-split ul {
+  margin: var(--space-sm) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-xs);
+}
+.ar-define .writing-split li { font-size: var(--text-base); line-height: var(--leading-body); }
+.case-section .ar-define figcaption {
+  margin-top: var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+/* The wipe at the reading column's width, not the page's: Relay's type
+   prints near its own size there. Under 40rem it is not drawn; the same
+   screens stack in Explore just above, and the words carry the decision. */
+.ar-wipe { max-width: 48rem; }
+.ar-wipe + p { margin-top: var(--space-block); }
+@media (max-width: 40rem) {
+  .ar-wipe { display: none; }
+}
