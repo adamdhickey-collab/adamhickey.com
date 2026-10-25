@@ -74,7 +74,12 @@ const CARDS = {
      question the page answers. It was a square of the run's main column
      (lab-cards.mjs agent-review-og) from 2026-10-09, which the lab's card
      still carries. The kicker and title stay for the record. */
-  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-share-card.webp' },
+  /* Since 2026-10-25 the drawing gave way to the cycle's own card
+     (scripts/cycle-card.mjs): three working archive screens, one marked
+     chosen, under "Three working screens. One designer's call." The page
+     stopped being about the quiet cancel alone, and the card now shows the
+     work it is about. */
+  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-cycle-share.webp' },
   'product-clarity': { kicker: 'How I work', title: 'Turn ambiguity into a decision', sub: 'The product has become complicated', hero: 'img/engagement/clarity-hero.webp' },  'design-system-foundation': { kicker: 'How I work', title: 'Build the system everyone builds from', sub: 'The products need a system', hero: 'img/engagement/system-hero.webp' },  'embedded-senior-product-design': { kicker: 'How I work', title: 'Own the design inside the team, not beside it', sub: 'An initiative with no senior owner', hero: 'img/engagement/embedded-hero.webp' },  'working-product-prototype': { kicker: 'How I work', title: 'Build to find out', sub: 'Ideas everywhere, nothing you can use yet', hero: 'img/engagement/ai-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a

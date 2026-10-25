@@ -78,7 +78,8 @@
    kicker, short paragraphs and one picture. The paragraph after them
    leads into the loop, so it stands a moment's distance off the last
    one rather than reading as its fourth paragraph. */
-.ar-moments + p { margin-top: var(--space-block); }
+.ar-moments + p,
+.ar-split + p { margin-top: var(--space-block); }
 .ar-status {
   margin: var(--space-lg) 0 0;
   max-width: var(--measure);
@@ -88,7 +89,100 @@
   text-wrap: pretty;
 }
 .ar-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
-.ar-hero-feature.quiet-cancel { margin-top: var(--space-2xl); }
+.ar-hero-feature.ar-cycle { margin-top: var(--space-2xl); }
+/* The quiet cancel's figure in its own chapter since 2026-10-25, between
+   the lead and the two moments. */
+.ar-checkpoint-figure { margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); }
+
+/* ---------- The cycle ----------
+   Since 2026-10-25, the hero's figure: the prototype's six stages as a
+   list, each its name and two lines, what Dana does and what the agent
+   does. On the loop's dark panel, as the quiet cancel's figure is, so the
+   two read as one family. THE COLOR SAYS WHOSE LINE IT IS: Dana's in
+   --color-accent-on-dark, the side the page is about, the agent's in the
+   secondary ink on dark. The names are live text, so the checks read them,
+   and the list reads in order without the panel. One column on a phone;
+   from 36rem of figure each stage is a row, its name beside its two lines. */
+.ar-cycle {
+  container: ar-cycle / inline-size;
+  margin: 0;
+  padding: var(--space-xl) var(--space-md);
+  background: var(--color-charcoal);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-on-dark);
+}
+@media (min-width: 640px) {
+  .ar-cycle { padding: var(--space-2xl) var(--space-xl); }
+}
+.ar-cycle .ar-cycle-label {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--ink-on-dark);
+  text-align: center;
+  text-wrap: balance;
+}
+.ar-cycle-stages {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ar-cycle-stages li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-sm);
+  row-gap: var(--space-2xs);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule-on-dark);
+}
+.ar-cycle-stages li:first-child { padding-top: 0; border-top: 0; }
+.ar-cycle-num {
+  grid-row: 1 / span 3;
+  display: inline-grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: 1px solid var(--rule-on-dark-strong);
+  border-radius: 50%;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  color: var(--ink-on-dark);
+}
+.ar-cycle .ar-cycle-name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--ink-on-dark);
+}
+.ar-cycle-dana,
+.ar-cycle-agent {
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+.ar-cycle-dana { color: var(--ink-on-dark); }
+.ar-cycle-agent { color: var(--ink-on-dark-secondary); }
+.ar-cycle-who { font-weight: var(--weight-semibold); }
+.ar-cycle-dana .ar-cycle-who { color: var(--color-accent-on-dark); }
+.ar-cycle .ar-cycle-take {
+  margin: var(--space-xl) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-heading);
+  color: var(--ink-on-dark);
+  text-align: center;
+  text-wrap: balance;
+}
+@container ar-cycle (min-width: 36rem) {
+  .ar-cycle-stages li { grid-template-columns: auto 7rem minmax(0, 1fr); }
+  .ar-cycle-num { grid-row: 1 / span 2; align-self: center; }
+  .ar-cycle .ar-cycle-name { grid-row: 1 / span 2; align-self: center; }
+}
 
 /* ---------- Every action is a button. Except cancel. ----------
    Since 2026-10-21, in place of "Same red. Different meaning." (style.css
