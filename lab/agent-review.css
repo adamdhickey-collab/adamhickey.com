@@ -1,205 +1,755 @@
-/* ---------- The Agent Review write-up's own layout ----------
-   lab/agent-review.html is the one page that loads this file. It holds
-   three things the shared case-study shell does not have, and none of them
-   declares a custom property: every size is a token from shell.css or
-   type.css.
+/* ---------- Agent Review, as a magazine feature ----------
+   lab/agent-review.html is the one page that loads this file. Since
+   2026-10-25 (direction B, "Editorial magazine") the case study reads as a
+   feature in six spreads: an opener, a drop-cap opening, one spread per
+   stage of the prototype's cycle, and four short sections after. Every
+   colour, size, space and duration is a token from color.css, type.css or
+   shell.css; the few custom properties it declares are named where they
+   are, and say what they hold.
 
-   1. THE FULL FRAME, IN TWO COLUMNS, FROM 64rem. Until 2026-10-06 every
-      chapter sat in .case-narrow, 56rem, a blog's single column down the
-      middle of a 1440 screen with 272px of ground either side, and the hero
-      left half its width empty beside a 52ch lede. The chapters are in
-      .case-wide now, the --container-max frame the nav, the hero and the
-      engagement pages use, and each one splits into the words and the
-      thing they are about: a figure, or the three kinds of work.
-      The words keep --measure, so no line reads longer; what got bigger is
-      the room beside them.
+   No uppercase anywhere on the page, the footer's shared labels included
+   (the last block below): a kicker here is sentence case at semibold.
 
-      One split, 5 to 7, the words on the left and the evidence on the
-      right, so a reader's eye finds the same two columns all the way down.
-      The hero takes it too since 2026-10-23: the title, the dek and the
-      way in on the left, the problem drawn in code on the right, centred
-      on each other. Nothing on the page is sticky. The dark band that flipped the split to 7 to
-      5 came off the page on 2026-10-23. Under 64rem nothing is a grid and
-      the markup reads in its own order.
+   THE LAYOUT, from the outside in.
+   1. The opener on warm: the title on --type-title across the container,
+      the standfirst and the way in on one row from 64rem, and the wall.
+   2. The opening on white, one column at --measure, a drop cap and one
+      pull quote that repeats a line (so it is aria-hidden).
+   3. The story: from 64rem a two-column grid, the stage rail in a 13rem
+      column on the left and the spreads in the rest. Each spread's art
+      runs the full width of its column, so it bleeds to the window's
+      right edge and stops at the rail. Under 64rem the rail is not drawn
+      and the art runs the full window.
+   4. The four sections after, one column each, on alternating grounds;
+      the last is white, because the footer is warm.
 
-   2. THE LOOP AS ONE LINE, where six drawings sat on six steps. A rail
-      runs through the six: the change leaves the main line on a branch,
-      is checked and read there, and comes back to a system with one more
-      part. It is artwork drawn in code, so its colours are the
-      palette's sage and inks plus the two the drawings' style spec
-      allows as an accent and nothing else (README, img/writing/), each
-      held to one meaning: rose where a person has to read, yellow where
-      what they read became part of the system. COLOR.md section 6 has
-      them as artwork, declared on .ar-rail and nowhere else. From 64rem
-      it is one drawing over six equal columns; under that the line runs
-      down the left beside each step.
+   MOTION is the last part of the file, and all of it is enhancement. */
 
-   3. THE PHONE'S VERSION OF THE TOUR. Gone since 2026-10-21, with the
-      tour: the walkthrough came off the page.
-
-   4. NO SCREEN OPENS FULL SIZE, since 2026-10-09. From #408 until then
-      the captures beside the words and the tour's screen were links that
-      lightbox.js opened over the page, with a badge in the corner.
-
-   5. THE INTRO VIDEO'S PLACE. Beside the opening, where the facts card sat
-      from #405 until 2026-10-06; a labeled frame until the video exists.
-
-   6. THE TOUR'S PANEL. Gone since 2026-10-21, with the tour.
-
-   7. THE SAGE PANEL IN THE DARK BAND. The words beside the four findings,
-      the question the checks left open and the three it comes down to, sit
-      on a sage rectangle, so the band is two surfaces and not one charcoal
-      field, with room between the findings' two rows.
-
-   8. THE TWO WAYS IN, ON ONE LINE. "Try the prototype" and "Listen to
-      this page" sit side by side under the opening, at one height. */
-
-/* ---- 11. the dek, a ramp up ---- */
-/* The question and the thesis under the title are the page's claim, and
-   since 2026-10-09 (Adam: "make this paragraph larger") they are set on
-   the h3's ramp, --type-subsection, 24 -> 34, where every other dek on the
-   site is on --type-lede, 18 -> 24. The next ramp up rather than a size
-   between the two, so it is on a step at every width the type check
-   visits. Since 2026-10-23 it is two plain sentences ("Coding agents can
-   do a designer's routine work now. This prototype is about what they
-   shouldn't decide alone."), four lines on a phone. Leading stays
-   .build-dek's --leading-tight, the prose rule above 18px, and --measure is in ch, so
-   it grows with the size and a stacked line is still about 70 characters.
-   TYPOGRAPHY.md section 3 records it as the one dek off --type-lede.
-   Since the hero went to 5 of 12 (2026-10-23) it sets in four lines at
-   1024 and at 1440, balanced so the last is not one word. */
-.ar-hero .build-dek { font-size: var(--type-subsection); text-wrap: balance; }
-
-/* ---- 10. the first minute (since 2026-10-12) ----
-   The opening is the dek, the way in and the status under it; the four
-   labelled lines that were between the dek and the way in came off on
-   2026-10-23, when the page was rewritten for a reader new to the topic.
-   The decision's two moments are an ordered list of splits, each a
-   kicker, short paragraphs and one picture. The paragraph after them
-   leads into the loop, so it stands a moment's distance off the last
-   one rather than reading as its fourth paragraph. */
-.ar-moments + p,
-.ar-split + p { margin-top: var(--space-block); }
-.ar-status {
+/* ---- 1. The opener ---- */
+.mag-open {
+  background: var(--color-warm);
+  padding-top: calc(var(--nav-height) + var(--space-4xl));
+  padding-bottom: var(--space-section);
+  /* clip, not hidden: hidden would make the opener a scroll container,
+     and the wall's view timeline would follow it instead of the page. */
+  overflow: clip;
+}
+.mag-kicker {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+.mag-title {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  font-size: var(--type-title);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+.mag-open-row { margin-top: var(--space-2xl); }
+.mag-open-row .mag-act { margin-top: var(--space-xl); }
+.mag-standfirst {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--type-lede);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  text-wrap: pretty;
+}
+.mag-act { margin: 0; }
+.mag-act .btn { gap: var(--space-xs); }
+.mag-status {
   margin: var(--space-lg) 0 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
-  text-wrap: pretty;
 }
-.ar-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
-.ar-hero-feature.ar-cycle { margin-top: var(--space-2xl); }
-/* The quiet cancel's figure in its own chapter since 2026-10-25, between
-   the lead and the two moments. */
-.ar-checkpoint-figure { margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); }
+.mag-status strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+@media (min-width: 64rem) {
+  .mag-title { max-width: none; }
+}
 
-/* ---------- The cycle ----------
-   Since 2026-10-25, the hero's figure: the prototype's six stages as a
-   list, each its name and two lines, what I do and what the agent
-   does. On the loop's dark panel, as the quiet cancel's figure is, so the
-   two read as one family. THE COLOR SAYS WHOSE LINE IT IS: mine in
-   --color-accent-on-dark, the side the page is about, the agent's in the
-   secondary ink on dark. The names are live text, so the checks read them,
-   and the list reads in order without the panel. One column on a phone;
-   from 36rem of figure each stage is a row, its name beside its two lines. */
-.ar-cycle {
-  container: ar-cycle / inline-size;
-  margin: 0;
-  padding: var(--space-xl) var(--space-md);
-  background: var(--color-charcoal);
-  border-radius: var(--radius-xl);
+/* THE WALL. Fifteen screens, five by three, of one shape: the middle one
+   is Relay's own table, the real capture; the fourteen round it are drawn
+   here in the palette's lines and grounds, a table, a set of cards and a
+   form, so they read as more screens of a product and not as artwork.
+   They hold no text and the whole wall is aria-hidden; its caption is the
+   figure's one line. On a phone only the middle screen is drawn. */
+.mag-wall-figure { margin: var(--space-block) 0 0; }
+.mag-wall {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+}
+.mag-tile {
+  position: relative;
+  aspect-ratio: 91 / 46;
+  overflow: hidden;
+  border: 1px solid var(--rule-card);
+  border-radius: 8px;
+  background-color: var(--color-white);
   box-shadow: var(--shadow-card);
-  color: var(--ink-on-dark);
 }
-@media (min-width: 640px) {
-  .ar-cycle { padding: var(--space-2xl) var(--space-xl); }
+.mag-tile:not(.mag-tile--hero) { display: none; }
+.mag-tile--hero { z-index: 1; box-shadow: var(--shadow-device); }
+.mag-tile--hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* The drawn screens: a header band, then their own body. Gradients, not
+   elements, so fourteen screens cost fourteen boxes. */
+.mag-tile--table {
+  background-image:
+    linear-gradient(var(--color-muted-light), var(--color-muted-light)),
+    repeating-linear-gradient(to bottom, var(--color-tea-light) 0 7%, transparent 7% 14%),
+    repeating-linear-gradient(to bottom, transparent 0 calc(14% - 1px), var(--color-rule) calc(14% - 1px) 14%),
+    linear-gradient(var(--color-rule), var(--color-rule));
+  background-size: 100% 16%, 12% 72%, 92% 80%, 30% 4%;
+  background-position: 0 0, 38% 82%, 50% 100%, 8% 7%;
+  background-repeat: no-repeat;
 }
-/* My portrait at the head of the stages since 2026-10-25: the case study
-   is told in the first person, so the figure carries the homepage's
-   portrait, in a circle as it is there. */
-.ar-cycle-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
+.mag-tile--cards {
+  background-image:
+    linear-gradient(var(--color-muted-light), var(--color-muted-light)),
+    linear-gradient(var(--color-tea-light), var(--color-tea-light)),
+    linear-gradient(var(--color-muted-light), var(--color-muted-light)),
+    linear-gradient(var(--color-muted-light), var(--color-muted-light)),
+    linear-gradient(var(--color-tea-light), var(--color-tea-light));
+  background-size: 100% 16%, 43% 32%, 43% 32%, 43% 32%, 43% 32%;
+  background-position: 0 0, 5% 30%, 95% 30%, 5% 88%, 95% 88%;
+  background-repeat: no-repeat;
 }
-.ar-cycle-face {
-  display: block;
-  width: calc(var(--space-4xl) * 1.5);
-  height: calc(var(--space-4xl) * 1.5);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--color-accent-on-dark);
+.mag-tile--form {
+  background-image:
+    linear-gradient(var(--color-muted-light), var(--color-muted-light)),
+    linear-gradient(var(--color-rule), var(--color-rule)),
+    linear-gradient(var(--color-tea-light), var(--color-tea-light)),
+    linear-gradient(var(--color-rule), var(--color-rule)),
+    linear-gradient(var(--color-tea-light), var(--color-tea-light)),
+    linear-gradient(var(--color-accent-text), var(--color-accent-text));
+  background-size: 100% 16%, 24% 5%, 60% 14%, 24% 5%, 60% 14%, 20% 12%;
+  background-position: 0 0, 8% 28%, 8% 42%, 8% 62%, 8% 76%, 8% 94%;
+  background-repeat: no-repeat;
 }
-.ar-cycle .ar-cycle-label {
-  margin: 0;
+.mag-wall-cap {
+  margin: var(--space-xl) 0 0;
   font-family: var(--font-serif);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
-  color: var(--ink-on-dark);
+  font-size: var(--type-lede);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
   text-align: center;
   text-wrap: balance;
 }
-.ar-cycle-stages {
+@media (min-width: 48rem) {
+  .mag-wall { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .mag-tile:not(.mag-tile--hero) { display: block; }
+}
+
+/* ---- 2. The opening ---- */
+.mag-lede {
+  background: var(--color-white);
+  padding: var(--space-section) var(--gutter);
+}
+.mag-lede-col { max-width: var(--measure); margin: 0 auto; }
+.mag-lede p {
+  margin: 0 0 var(--space-lg);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+/* The drop cap: the first letter at --text-9xl in the serif, three lines
+   deep, in the sage ink, which is 5.82:1 on white. */
+.mag-drop::first-letter {
+  float: left;
+  margin: var(--space-2xs) var(--space-sm) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-9xl);
+  line-height: var(--leading-display);
+  color: var(--color-accent-text);
+}
+/* The pull quote: one line of the opening again, larger, between two
+   rules, and wider than the column from 64rem. */
+.mag .mag-pull {
+  margin: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
+  border-top: 2px solid var(--color-accent-text);
+  border-bottom: 1px solid var(--color-rule);
+}
+.mag .mag-pull p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--type-section);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-accent-text);
+  text-wrap: balance;
+}
+@media (min-width: 64rem) {
+  .mag .mag-pull { margin-inline: calc(var(--space-4xl) * -2); }
+}
+
+/* ---- 3. The story ---- */
+.mag-story { background: var(--color-white); }
+.mag-nav { display: none; }
+@media (min-width: 64rem) {
+  .mag-story { display: grid; grid-template-columns: 13rem minmax(0, 1fr); }
+  .mag-nav { display: block; }
+}
+/* THE STAGE RAIL. Sticky inside its column, so it travels with the six
+   spreads and stops at the end of Learn. Six numbers and names; the one in
+   the middle of the window is aria-current and charcoal, the rest muted;
+   the line beside them fills from the top as the story is read. */
+.mag-nav-inner {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-3xl));
   display: grid;
+  grid-template-columns: 2px minmax(0, 1fr);
   gap: var(--space-md);
-  margin: var(--space-xl) 0 0;
+  padding: var(--space-block) var(--space-xl) var(--space-block) var(--gutter);
+}
+.mag-nav-line {
+  position: relative;
+  background: var(--color-rule);
+}
+.mag-nav-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent-text);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.mag-nav-list {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.ar-cycle-stages li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--space-sm);
-  row-gap: var(--space-2xs);
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--rule-on-dark);
-}
-.ar-cycle-stages li:first-child { padding-top: 0; border-top: 0; }
-.ar-cycle-num {
-  grid-row: 1 / span 3;
-  display: inline-grid;
-  place-items: center;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  border: 1px solid var(--rule-on-dark-strong);
-  border-radius: 50%;
+.mag-nav-list a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: 1;
-  color: var(--ink-on-dark);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-decoration: none;
+  transition: color var(--motion-state) var(--ease);
 }
-.ar-cycle .ar-cycle-name {
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
-  color: var(--ink-on-dark);
-}
-.ar-cycle-dana,
-.ar-cycle-agent {
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-}
-.ar-cycle-dana { color: var(--ink-on-dark); }
-.ar-cycle-agent { color: var(--ink-on-dark-secondary); }
-.ar-cycle-who { font-weight: var(--weight-semibold); }
-.ar-cycle-dana .ar-cycle-who { color: var(--color-accent-on-dark); }
-.ar-cycle .ar-cycle-take {
-  margin: var(--space-xl) 0 0;
+.mag-nav-n {
   font-family: var(--font-serif);
   font-size: var(--text-xl);
-  line-height: var(--leading-heading);
-  color: var(--ink-on-dark);
-  text-align: center;
-  text-wrap: balance;
+  line-height: var(--leading-tight);
 }
-@container ar-cycle (min-width: 36rem) {
-  .ar-cycle-stages li { grid-template-columns: auto 7rem minmax(0, 1fr); }
-  .ar-cycle-num { grid-row: 1 / span 2; align-self: center; }
-  .ar-cycle .ar-cycle-name { grid-row: 1 / span 2; align-self: center; }
+.mag-nav-list a[aria-current] { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+.mag-nav-list a[aria-current] .mag-nav-n { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .mag-nav-list a:hover { color: var(--color-charcoal); }
+}
+.mag-nav-list a:focus-visible { color: var(--color-charcoal); }
+
+/* A SPREAD: the art across the column, then the head, then one key
+   visual, centred in the column. */
+.mag-spread { padding-bottom: var(--space-section-lg); scroll-margin-top: var(--nav-height); }
+.mag-spread-body {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
 
+/* THE ART SLOT, 16:9 across the column. Until a drawing is dropped in it
+   is a tea-light field that names its file; the placeholder and the name
+   go the moment the figure holds an img. */
+.story-art {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-tea-light);
+}
+.story-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 40%, var(--color-white), transparent 55%),
+    var(--color-tea-light);
+}
+.story-art:not(:has(img))::after {
+  content: "Chapter art \00b7  img/lab/story/ch-" attr(data-art) ".webp";
+  position: absolute;
+  left: var(--gutter);
+  bottom: var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.story-art img { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; }
+.story-art:has(img)::before { content: none; }
+
+.mag-head { max-width: 52rem; margin: var(--space-3xl) auto var(--space-3xl) 0; }
+.mag-num {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  margin: 0 0 var(--space-md);
+}
+.mag-num-n {
+  font-family: var(--font-serif);
+  font-size: var(--text-6xl);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-accent-text);
+}
+.mag-num-name {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.mag .mag-hed {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  font-size: var(--type-section);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+.mag .mag-text {
+  margin: var(--space-xl) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+  text-wrap: pretty;
+}
+/* Not the quiet cancel's takeaway, which is the figure's own closing line
+   on charcoal and keeps its size and ink. */
+.mag figcaption:not(.quiet-cancel-take) {
+  margin-top: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+.mag figcaption:not(.quiet-cancel-take) strong { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+
+/* THE FRAME: a capture in a window, lifted off the page, with a bar of
+   three dots over it. The screen keeps the capture's own proportions, so
+   an outline set in percentages stays on the line it marks. */
+.mag-shot { margin: 0; }
+.mag-frame {
+  overflow: hidden;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-device);
+}
+.mag-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--space-2xl);
+  padding: 0 var(--space-md);
+  background: var(--color-muted-light);
+}
+.mag-frame-bar span {
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-rule);
+}
+.mag-frame-title {
+  margin-left: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.mag-frame-screen { position: relative; }
+.mag-frame-screen img { display: block; width: 100%; height: auto; }
+/* The outline on the one line that matters, in the caution ink, with a
+   ring of its light ground round it so it reads over any capture. */
+.mag-mark {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid var(--color-caution-text);
+  border-radius: 8px;
+  box-shadow: 0 0 0 4px var(--color-caution-light);
+  pointer-events: none;
+}
+@media (max-width: 40rem) {
+  /* The phone captures are other crops; the caption names the line. */
+  .mag-mark { display: none; }
+}
+
+/* DEFINE: the two priorities as two columns behind two rules, the one I
+   chose on the sage side and set larger. */
+.mag-define {
+  display: grid;
+  gap: var(--space-2xl);
+  margin: 0;
+}
+.mag-define-side {
+  padding: var(--space-xl) 0 0;
+  border-top: 1px solid var(--color-rule);
+}
+.mag-define-side--mine { border-top: 4px solid var(--color-accent-text); }
+.mag-define-mine {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.mag-define-head {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--type-subsection);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.mag-define ul {
+  display: grid;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mag-define li { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-charcoal); }
+.mag-define-side:not(.mag-define-side--mine) li,
+.mag-define-side:not(.mag-define-side--mine) .mag-define-head { color: var(--color-muted-gray); }
+.mag-define figcaption { grid-column: 1 / -1; margin-top: 0; }
+@media (min-width: 48rem) {
+  .mag-define { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl) var(--space-4xl); }
+}
+
+/* EXPLORE: the three directions as a deck, each a frame of one size, set
+   down a step to the right and a step lower than the one before, so each
+   one's bar, where the three differ, stays in view. Stacked under 64rem. */
+.mag-deck { margin: 0; }
+.mag-deck-shots {
+  display: grid;
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mag-deck-key {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mag-deck-key li {
+  display: grid;
+  grid-template-columns: var(--space-2xl) minmax(0, 1fr);
+  column-gap: var(--space-sm);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.mag-deck-key strong { font-weight: var(--weight-semibold); }
+.mag-deck-n {
+  grid-row: span 2;
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-heading);
+  color: var(--color-accent-text);
+}
+@media (min-width: 64rem) {
+  .mag-deck-shots { position: relative; display: block; aspect-ratio: 36 / 27; }
+  .mag-deck-shot { position: absolute; width: 70%; }
+  .mag-deck-shot:nth-child(1) { top: 0; left: 0; }
+  .mag-deck-shot:nth-child(2) { top: 24.5%; left: 15%; }
+  .mag-deck-shot:nth-child(3) { top: 49%; left: 30%; }
+  .mag-deck-key { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); }
+}
+
+/* EVALUATE: the wipe. Two screens of one size, the second clipped from
+   the left to wherever the range says; without script the range sits at
+   half, and so does the clip. Under 40rem the two simply stack, each
+   whole, and the range is not drawn. */
+.ar-wipe { margin: 0; }
+.ar-wipe-frame {
+  --wipe: 50%;
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-device);
+}
+.ar-wipe-frame img { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
+.ar-wipe-b { clip-path: inset(0 0 0 var(--wipe)); }
+.ar-wipe-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--wipe);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-charcoal);
+}
+.ar-wipe-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
+}
+.ar-wipe-control input { flex: 1; min-width: 0; min-height: var(--space-3xl); accent-color: var(--color-accent-text); }
+@media (max-width: 40rem) {
+  .ar-wipe-frame { gap: var(--space-xs); border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .ar-wipe-frame img { grid-area: auto; border: 1px solid var(--rule-card); border-radius: 8px; }
+  .ar-wipe-b { clip-path: none; }
+  .ar-wipe-frame::after, .ar-wipe-control { display: none; }
+}
+
+/* ---- 4. The sections after ---- */
+.mag-section {
+  background: var(--color-white);
+  padding: var(--space-section) var(--gutter);
+}
+.mag-section--warm { background: var(--color-warm); }
+.mag-section--tea { background: var(--color-tea-light); }
+.mag-section-col { max-width: var(--measure); margin: 0 auto; }
+.mag-section-col--wide { max-width: 56rem; }
+.mag .mag-section-hed {
+  margin: 0 0 var(--space-xl);
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  font-size: var(--type-section);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+.mag-section-col > p {
+  margin: 0 0 var(--space-lg);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+.mag-section-col > p a:not(.btn) {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .mag-section-col > p a:not(.btn):hover { color: var(--color-charcoal); }
+}
+.mag-section-col > p a:not(.btn):focus-visible { color: var(--color-charcoal); }
+/* The figure is wider than the column, as a magazine's would be, and the
+   selector outranks the figure's own margin: 0 below. */
+.mag .quiet-cancel.ar-checkpoint-figure { max-width: 56rem; margin: var(--space-block) auto; }
+.mag-links { margin-top: 0; }
+.mag-links .btn { gap: var(--space-xs); }
+.ar-sap-link a { text-decoration: underline; }
+
+.mag-facts {
+  display: grid;
+  gap: var(--space-lg);
+  margin: 0 0 var(--space-xl);
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+}
+.mag-facts div { display: grid; gap: var(--space-2xs); }
+.mag-facts dt {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.mag-facts dd { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
+@media (min-width: 48rem) {
+  .mag-facts div { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-xl); }
+}
+.ar-evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: var(--space-xl) 0;
+}
+.ar-evidence-links .btn { gap: var(--space-xs); }
+
+/* The footer is shared, and its three labels are uppercase on every other
+   page. Not on this one. */
+.case-footer .build-next-eyebrow,
+.case-footer .related-label,
+.case-footer .related-kind { text-transform: none; letter-spacing: var(--tracking-normal); }
+
+/* The way out to the enterprise evidence: a sentence-length link. */
+.ar-sap-link { margin: var(--space-lg) 0 0; font-size: var(--text-lg); line-height: var(--leading-tight); }
+.ar-sap-link a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) { .ar-sap-link a:hover { color: var(--color-charcoal); } }
+.ar-sap-link a:focus-visible { color: var(--color-charcoal); }
+
+
+/* ---- The loop, as one line ---- */
+/* The two artwork colours, and the steps the drawing mixes from them and
+   from the sage, so every fill below is a name rather than a number. */
+.ar-rail {
+  --rl-rose: #d9a3b4;
+  --rl-butter: #f0df7c;
+  --rl-rose-ink: color-mix(in srgb, var(--rl-rose) 70%, var(--color-charcoal));
+  --rl-rose-ground: color-mix(in srgb, var(--rl-rose) 18%, var(--color-white));
+  --rl-butter-ink: color-mix(in srgb, var(--rl-butter) 70%, var(--color-charcoal));
+  --rl-sage-fill: color-mix(in srgb, var(--color-accent-text) 40%, var(--color-tea-light));
+  --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
+  position: relative;
+  margin: var(--space-2xl) 0 0;
+}
+.rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Every stroke is the same 1.25, so the line, the brackets and the arrows
+   read as one pen; the parts are a step lighter so the line leads. */
+.rl-line, .rl-quiet, .rl-text, .rl-ink {
+  fill: none;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rl-line { stroke: var(--color-accent-text); }
+.rl-quiet { stroke: var(--rule-card); }
+.rl-dashed { stroke-dasharray: 2 4; }
+.rl-text { stroke: var(--color-muted-gray); stroke-width: 1; }
+.rl-ink { stroke: var(--color-charcoal); stroke-width: 1.5; }
+.rl-box { fill: var(--color-warm); stroke: var(--color-muted-gray); stroke-width: 1; }
+.rl-box--change { stroke: var(--color-accent-text); }
+.rl-mark--sage { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-mark--grey { fill: var(--color-rule); }
+.rl-mark--new { fill: var(--rl-butter); stroke: var(--rl-butter-ink); stroke-width: 1; }
+.rl-area { fill: none; stroke: var(--rule-card); stroke-width: 1; stroke-dasharray: 2 4; }
+.rl-area--agent { fill: var(--color-tea-light); }
+.rl-agent { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-pass { fill: var(--rl-sage-pale); stroke: var(--color-accent-text); stroke-width: 1; }
+.rl-flag { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
+.rl-review { fill: var(--rl-rose-ground); stroke: var(--rl-rose); stroke-width: 1; }
+.rl-note, .rl-cursor { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; stroke-linejoin: round; }
+.rl-node { fill: var(--color-accent-text); }
+.rl-node--decision { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
+
+/* The steps: no hairline over each, because the line is the rule now, and
+   the description a step quieter than the name over it. */
+.build-loop--rail { margin-bottom: 0; }
+.build-loop--rail li { border-top: 0; padding-top: 0; }
+.build-loop--rail li > span { color: var(--color-muted-gray); }
+
+/* UNDER 64rem, ONE COLUMN, the line down the left. Each step is a row:
+   its stretch of the line, then its words. A row is as tall as the taller
+   of the two, and the stretch's lines are drawn far past its own foot
+   (overflow visible) and cut at the row's (.rl-step), so one row's line
+   meets the next one's at any height the words take. The rows touch;
+   the room between them is padding inside each, which the line crosses.
+
+   THE WORDS SET EVERY ROW, so the gap after each step's words is the
+   same --space-4xl whatever its drawing is. That holds because every
+   drawing but the last is at most 100 units tall (6.25rem), under the
+   shortest step's words, number, name and one line, plus that gap. A
+   drawing taller than that sets its own row, and the gap after the words
+   beside it grows by the difference: at 112 and 124 units the gaps ran
+   28 to 81px down one phone screen. Keep a new drawing under 100. */
+.rl-wide { display: none; }
+.build-loop--rail {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  max-width: 32rem;
+}
+.build-loop--rail li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  column-gap: var(--space-md);
+}
+.build-loop--rail li::before { grid-column: 2; grid-row: 1; }
+.build-loop--rail strong { grid-column: 2; grid-row: 2; }
+.build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-4xl); }
+.rl-step {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  overflow: hidden;
+}
+.rl-step svg { width: 100%; height: auto; overflow: visible; }
+
+/* FROM 64rem, SIX ACROSS UNDER ONE DRAWING. The columns have no gap, so
+   each is exactly a sixth of the frame and lines up with its 200 units of
+   the drawing's 1200; the room between captions is each one's own right
+   padding instead. */
+@media (min-width: 64rem) {
+  .rl-wide { display: block; width: 100%; height: auto; overflow: visible; }
+  .build-loop--rail {
+    max-width: none;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: 0;
+    margin-top: var(--space-2xl);
+  }
+  .build-loop--rail li { display: block; padding-right: var(--space-xl); }
+  .build-loop--rail li > span { padding-bottom: 0; }
+  .rl-step { display: none; }
+}
+
+/* The line draws itself once, left to right, as the drawing scrolls in:
+   the page's script arms it and marks it drawn, as it does the findings'
+   icons. Without the script, or with reduced motion, it is simply there.
+   The arrowhead waits for the line to arrive and then appears: drawn
+   with a dash, its round cap would sit there as a dot while it waited. */
+.rl-draw { stroke-dasharray: 1; }
+.ar-rail.is-armed .rl-draw { stroke-dashoffset: 1; }
+.ar-rail.is-armed .rl-tip,
+.ar-rail.is-armed .rl-late { opacity: 0; }
+.ar-rail.is-drawn .rl-draw { animation: glance-draw var(--motion-draw) var(--ease) forwards; }
+.ar-rail.is-drawn .rl-tip,
+.ar-rail.is-drawn .rl-late { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
+@keyframes rl-tip { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ar-rail.is-armed .rl-draw { stroke-dashoffset: 0; }
+  .ar-rail.is-armed .rl-tip,
+  .ar-rail.is-armed .rl-late { opacity: 1; }
+  .ar-rail.is-drawn .rl-draw,
+  .ar-rail.is-drawn .rl-tip,
+  .ar-rail.is-drawn .rl-late { animation: none; }
+}
+
+.mag-rail { max-width: var(--container-max); margin: var(--space-block) auto 0; }
+.mag-rail-lead {
+  margin: var(--space-block) 0 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+
+/* ---- The quiet cancel ---- */
 /* ---------- Every action is a button. Except cancel. ----------
    Since 2026-10-21, in place of "Same red. Different meaning." (style.css
    until then, when the prototype's first decision changed): the problem
@@ -467,725 +1017,94 @@
   animation-delay: calc(var(--qc-beat) * 5 + var(--motion-move));
 }
 
-.ar-moments {
-  list-style: none;
-  margin: var(--space-2xl) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-block);
-}
-/* Each moment is headed the way the three kinds' cards are (.ar-sort-kind
-   h3): sans, --text-lg, with its step's number in a ring of the icon's size
-   and stroke where a card has its icon. Two classes deep, because
-   .case-section h3 is class-and-element and sets a subsection's margin. */
-.ar-moment .ar-moment-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0 0 var(--space-lg);
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
-}
-.ar-moment-step {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: var(--space-lg);
-  height: var(--space-lg);
-  border: 1.5px solid var(--color-accent-text);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-2xs);
-  line-height: 1;
-  color: var(--color-accent-text);
-}
-/* Under each heading, what happened as labeled answers rather than a run
-   of paragraphs: the same label and answer as the argument under the
-   three kinds (.ar-sort-why), stacked in the text column. */
-.ar-answers {
-  display: grid;
-  gap: var(--space-lg);
-  margin: 0;
-}
-/* Where the answers close on an action (the second scenario's button), the
-   step to it is the one a hero's dek takes to its button: a dl carries no
-   paragraph margin to hand on. */
-.ar-answers + .build-hero-act { margin-top: var(--space-xl); }
-/* From the lead line to the split under it, the step the moments take
-   from theirs (.ar-moments), at every width: p + .ar-split only holds
-   it where the split is two columns. */
-.ar-sort-lead + .ar-split { margin-top: var(--space-2xl); }
+/* ---------- Motion ----------
+   Every move here is an arrival, on the scale (MOTION.md): --motion-enter
+   on --ease-enter, --motion-rise for a rise, --motion-lift for the art's
+   settle, --motion-stagger between siblings. None of it is timed against
+   the scroll except where a browser has scroll-driven animations, and
+   there only as an enhancement inside @supports. Nothing scrolls the page.
 
-/* A crop taller than it is wide (the inspector, the rule) prints at its own
-   width at most, so it is not blown up to the column's 700px and three
-   screens tall. */
-.ar-shot--narrow { max-width: 28rem; }
-.ar-split > .ar-shot--narrow { justify-self: center; width: 100%; }
-/* The decision's inspector prints at the scale the problem picture beside
-   it set until 2026-10-23: both were 2x captures at the app's 1.25 zoom,
-   and the inspector is 449 of that picture's 941 CSS pixels, so it takes
-   that share of the column at every width. The problem picture came off
-   with the rewrite; the share holds until the captures are retaken after
-   the prototype's first-minute redesign. From 40rem, where it is the
-   desktop capture; on a phone it fills the column. It starts at the
-   column's left edge rather than floating in the middle of it. */
-@media (min-width: 40rem) {
-  .ar-moment .ar-split > .ar-shot--narrow { width: calc(100% * 449 / 941); justify-self: start; }
-}
+   ARMED ON THE ROOT, before first paint, by the page's head, and only when
+   the reader has not asked for stillness and the browser can say when a
+   thing is in view; the head takes the arming back if agent-review-story.js
+   never ran. And only from 48rem: narrower, nothing is hidden or moved.
 
-/* The way out to the enterprise evidence: a sentence-length link, larger
-   than a prose link, under the second run's button. */
-.ar-sap-link { margin: var(--space-lg) 0 0; font-size: var(--text-lg); line-height: var(--leading-tight); }
-.ar-sap-link a {
-  color: var(--color-accent-text);
-  font-weight: var(--weight-semibold);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  transition: color var(--motion-state) var(--ease);
-}
-@media (hover: hover) and (pointer: fine) { .ar-sap-link a:hover { color: var(--color-charcoal); } }
-.ar-sap-link a:focus-visible { color: var(--color-charcoal); }
-
-.ar-evidence-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-lg) var(--space-xl);
-  margin: var(--space-xl) 0;
-}
-.ar-evidence-links .btn { gap: var(--space-xs); }
-
-/* ---- 9. the three kinds of work ---- */
-/* The idea the product is made of, first since 2026-10-23 (#three-kinds).
-
-   A ROW OF THREE, READ AT A GLANCE, since 2026-10-24 (Adam: "hard to
-   follow with all the text on the left ... missing heading on the
-   right"). Until then the kinds were a column of cards beside five
-   paragraphs, and the point, that only two of the three stop for a
-   person, was in the third paragraph. Now the page says it in the
-   layout before a word is read:
-     - one lead line sets the scene;
-     - over the cards, two lanes: "Goes through" over the first kind,
-       in the sage, and "Stops for a person" bracketing the other two,
-       in the caution ink (the lanes, below);
-     - each kind is a card with its mark and its name as an h3, one line
-       on what it is, then two labeled rows: an example from the
-       prototype and who acts;
-     - under the cards, the argument as two labeled answers rather than
-       two more paragraphs.
-   The card is the ladder's rung 2, as the site draws it everywhere
-   (shell.css): white, the --rule-card edge, the --shadow-card drop and
-   --radius-xl, on the tea ground so its edge reads. On a phone the
-   lanes are headings over their cards, in reading order. */
-.ar-sort-lead { max-width: var(--measure); }
-.ar-sort {
-  display: grid;
-  gap: var(--space-md);
-  margin: var(--space-2xl) 0;
-}
-/* THE LANES ARE HEADINGS, IN THE SERIF AND IN COLOR, since 2026-10-24
-   (Adam: "I really don't like the use of this text ... never want it
-   used at the size"). They were the field label's 12px tracked capitals,
-   which named the page's whole point in its smallest voice. Now each is
-   the serif at 400, set like an article figure's title (TYPOGRAPHY.md,
-   Field labels, the last case) and one step larger from 64rem, where it
-   brackets a row of cards; and each says go or stop in its color: the
-   sage for "Goes through", the caution ink for "Stops for a person"
-   (COLOR.md, Status and collection: a stop for a person is the caution
-   ink's third use). The same two colors run down into the cards, on each
-   card's mark and on its "Who acts" answer, so the color says which lane
-   a card is in before its heading is read.
-   Two classes deep, because .case-section p is one class and a tag, and
-   at one class the lanes lost their size and color to it: the capitals
-   this replaces were drawn at 18px in charcoal, never the 12px sage asked
-   for here. */
-.ar-sort .ar-sort-lane {
-  --lane: var(--color-accent-text);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin: var(--space-lg) 0 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-heading);
-  color: var(--lane);
-}
-.ar-sort-lane:first-child { margin-top: 0; }
-.ar-sort .ar-sort-lane--stops { --lane: var(--color-caution-text); }
-/* 2px, not the 1px of a divider: the bracket is what groups the cards. */
-.ar-sort-lane::after {
-  content: "";
-  flex: 1;
-  border-top: 2px solid currentColor;
-}
-@media (min-width: 640px) {
-  .ar-sort .ar-sort-lane { font-size: var(--text-2xl); line-height: var(--leading-heading); }
-}
-.ar-sort-kind {
-  --lane: var(--color-accent-text);
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-lg) var(--space-xl);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-}
-.ar-sort-kind h3 {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
-}
-.ar-sort-icon {
-  flex: none;
-  width: var(--space-lg);
-  height: var(--space-lg);
-  fill: none;
-  stroke: var(--lane);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.ar-sort-kind p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
-.ar-sort-kind .ar-sort-case,
-.ar-sort-kind .ar-sort-who {
-  margin-top: var(--space-md);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--color-tag-border);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-}
-/* Who acts sits on the card's foot, so the three answers line up across
-   the row however long the example above them runs. */
-.ar-sort-kind .ar-sort-case { margin-bottom: var(--space-md); }
-.ar-sort-kind--stops { --lane: var(--color-caution-text); }
-.ar-sort-kind .ar-sort-who { margin-top: auto; font-weight: var(--weight-semibold); color: var(--lane); }
-/* The field label the case studies' glance row uses (TYPOGRAPHY.md,
-   Field labels), on a line of its own over what it labels. */
-.ar-sort-label {
-  display: block;
-  margin-bottom: var(--space-2xs);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-muted-gray);
-}
-.ar-sort-why {
-  display: grid;
-  gap: var(--space-lg);
-  margin: 0;
-}
-.ar-sort-why dt,
-.ar-answers dt {
-  margin-bottom: var(--space-2xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-caps);
-  line-height: var(--leading-ui);
-  text-transform: uppercase;
-  color: var(--color-accent-text);
-}
-.ar-sort-why dd,
-.ar-answers dd { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
-@media (max-width: 40rem) {
-  .ar-sort-kind { padding: var(--space-md) var(--space-lg); }
-}
-/* Three across from 64rem, the split's own breakpoint. The lanes take
-   the first row: "Goes through" over the first card, and "Stops for a
-   person" as a bracket over the other two, its line turning down at
-   both ends toward them. */
-@media (min-width: 64rem) {
-  .ar-sort {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--space-lg);
-    row-gap: var(--space-sm);
-  }
-  .ar-sort .ar-sort-lane { margin: 0; grid-row: 1; font-size: var(--text-3xl); }
-  .ar-sort-lane--through { grid-column: 1; }
-  .ar-sort-lane--stops { grid-column: 2 / 4; }
-  .ar-sort-kind { grid-row: 2; }
-  .ar-sort-lane::before { content: ""; flex: 1; }
-  .ar-sort-lane::before,
-  .ar-sort-lane::after {
-    align-self: stretch;
-    margin-top: calc(var(--leading-heading) * 0.5em);
-    border-top: 2px solid currentColor;
-  }
-  .ar-sort-lane::before { border-left: 2px solid currentColor; }
-  .ar-sort-lane::after { border-right: 2px solid currentColor; }
-  .ar-sort-why {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--space-lg);
-  }
-  .ar-sort-why > div:last-child { grid-column: 2 / 4; max-width: var(--measure); }
-}
-
-/* ---- 8. the two ways in, on one line ---- */
-/* read-aloud.js puts its bar straight after the element marked
-   data-read-aloud="after", which on this page is the row holding "Try the
-   prototype", so the two stacked, a --space-xl apart, and the listen pill
-   stood 38px beside a 50px button. Where the opening's column holds both,
-   it is a grid of two columns: everything spans both, but the button's
-   row takes the first and the bar the second, so they share a line a
-   --space-md apart. The two with their labels at one size take 455px, so
-   the question is the column's width, not the screen's: a container
-   query on .ar-hero-text asks it, since 2026-10-23, when the hero's
-   column went to 5 of 12 and is 382px at 1024 and 487 at 1440. Grid
-   items keep their margins, so the dek and the status sit where they
-   did. In a narrower column they stack as before.
-
-   ONE HEIGHT AT EVERY WIDTH: the pill's least height is the button's own,
-   written from the same tokens the button is built from (.btn: a
-   --space-sm above and below a --text-base line at the body's leading), so
-   the two match whether they share a line or not. It is taller than the
-   44px floor a coarse pointer gets (read-aloud.css), so that holds too.
-   And one size on the line: the pill's label is the button's --text-base
-   here, where read-aloud.css sets it at --text-sm under a dek. */
-.ar-hero-main .ra-listen {
-  min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
-  font-size: var(--text-base);
-  white-space: nowrap;
-}
-.ar-hero-text { container: ar-hero-text / inline-size; }
-@container ar-hero-text (min-width: 29rem) {
-  .ar-hero-main {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: var(--space-md);
-    align-items: center;
-  }
-  .ar-hero-main > * { grid-column: 1 / -1; }
-  .ar-hero-main > .build-hero-act { grid-column: 1; }
-  .ar-hero-main > .ra-bar { grid-column: 2; grid-row: auto; margin: 0; }
-}
-
-/* ---- 7. the sage panel in the dark band ---- */
-/* Nothing, since 2026-10-23: the dark band of what the experiment's two
-   runs showed came off the page, its findings one paragraph of the
-   experiment's now. The panel's rules and the findings' rows are in the
-   diff that took them out. */
-
-/* ---- 6. the tour's panel ---- */
-/* Nothing, since 2026-10-21: the walkthrough came off the page, with
-   walkthrough.css and walkthrough.js. The tea-light panel it ran on is in
-   the diff that took it out. */
-
-/* ---- 5. the hero's picture ---- */
-/* The hero's right half is the prototype's trade-off since later still on
-   2026-10-09 (agent-review#28): a .build-shot like the page's other
-   screens, which gives it its step under the way in on one column, and
-   section 1 below puts it in the grid. From earlier that day it was the
-   homepage card's composition (lab-feature.css, which this page no longer
-   loads); before that the first decision in the homepage card's tablet,
-   with a caption (the rules are in #461's diff), and until later on
-   2026-10-07 the Loom's frame (#442's diff). */
-
-/* ---- 4. the screens open full size ---- */
-/* Nothing, since 2026-10-09 (Adam: the pictures should not open larger).
-   From #408 until then each screen was a link lightbox.js opened over the
-   page, with the About section's badge in its corner and the picture
-   lifting inside its frame on hover; the rules are in the diff that took
-   them out. */
-
-/* ---- 3. the tour, on a phone ---- */
-/* Nothing, since 2026-10-21, with the tour. */
-
-/* ---- 2. the loop, as one line ---- */
-/* The two artwork colours, and the steps the drawing mixes from them and
-   from the sage, so every fill below is a name rather than a number. */
-.ar-rail {
-  --rl-rose: #d9a3b4;
-  --rl-butter: #f0df7c;
-  --rl-rose-ink: color-mix(in srgb, var(--rl-rose) 70%, var(--color-charcoal));
-  --rl-rose-ground: color-mix(in srgb, var(--rl-rose) 18%, var(--color-white));
-  --rl-butter-ink: color-mix(in srgb, var(--rl-butter) 70%, var(--color-charcoal));
-  --rl-sage-fill: color-mix(in srgb, var(--color-accent-text) 40%, var(--color-tea-light));
-  --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
-  position: relative;
-  margin: var(--space-2xl) 0 0;
-}
-.rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-
-/* Every stroke is the same 1.25, so the line, the brackets and the arrows
-   read as one pen; the parts are a step lighter so the line leads. */
-.rl-line, .rl-quiet, .rl-text, .rl-ink {
-  fill: none;
-  stroke-width: 1.25;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.rl-line { stroke: var(--color-accent-text); }
-.rl-quiet { stroke: var(--rule-card); }
-.rl-dashed { stroke-dasharray: 2 4; }
-.rl-text { stroke: var(--color-muted-gray); stroke-width: 1; }
-.rl-ink { stroke: var(--color-charcoal); stroke-width: 1.5; }
-.rl-box { fill: var(--color-warm); stroke: var(--color-muted-gray); stroke-width: 1; }
-.rl-box--change { stroke: var(--color-accent-text); }
-.rl-mark--sage { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
-.rl-mark--grey { fill: var(--color-rule); }
-.rl-mark--new { fill: var(--rl-butter); stroke: var(--rl-butter-ink); stroke-width: 1; }
-.rl-area { fill: none; stroke: var(--rule-card); stroke-width: 1; stroke-dasharray: 2 4; }
-.rl-area--agent { fill: var(--color-tea-light); }
-.rl-agent { fill: var(--rl-sage-fill); stroke: var(--color-accent-text); stroke-width: 1; }
-.rl-pass { fill: var(--rl-sage-pale); stroke: var(--color-accent-text); stroke-width: 1; }
-.rl-flag { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
-.rl-review { fill: var(--rl-rose-ground); stroke: var(--rl-rose); stroke-width: 1; }
-.rl-note, .rl-cursor { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; stroke-linejoin: round; }
-.rl-node { fill: var(--color-accent-text); }
-.rl-node--decision { fill: var(--rl-rose); stroke: var(--rl-rose-ink); stroke-width: 1; }
-
-/* The steps: no hairline over each, because the line is the rule now, and
-   the description a step quieter than the name over it. */
-.build-loop--rail { margin-bottom: 0; }
-.build-loop--rail li { border-top: 0; padding-top: 0; }
-.build-loop--rail li > span { color: var(--color-muted-gray); }
-
-/* UNDER 64rem, ONE COLUMN, the line down the left. Each step is a row:
-   its stretch of the line, then its words. A row is as tall as the taller
-   of the two, and the stretch's lines are drawn far past its own foot
-   (overflow visible) and cut at the row's (.rl-step), so one row's line
-   meets the next one's at any height the words take. The rows touch;
-   the room between them is padding inside each, which the line crosses.
-
-   THE WORDS SET EVERY ROW, so the gap after each step's words is the
-   same --space-4xl whatever its drawing is. That holds because every
-   drawing but the last is at most 100 units tall (6.25rem), under the
-   shortest step's words, number, name and one line, plus that gap. A
-   drawing taller than that sets its own row, and the gap after the words
-   beside it grows by the difference: at 112 and 124 units the gaps ran
-   28 to 81px down one phone screen. Keep a new drawing under 100. */
-.rl-wide { display: none; }
-.build-loop--rail {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-  max-width: 32rem;
-}
-.build-loop--rail li {
-  display: grid;
-  grid-template-columns: 8.5rem minmax(0, 1fr);
-  grid-template-rows: auto auto 1fr;
-  column-gap: var(--space-md);
-}
-.build-loop--rail li::before { grid-column: 2; grid-row: 1; }
-.build-loop--rail strong { grid-column: 2; grid-row: 2; }
-.build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-4xl); }
-.rl-step {
-  grid-column: 1;
-  grid-row: 1 / -1;
-  overflow: hidden;
-}
-.rl-step svg { width: 100%; height: auto; overflow: visible; }
-
-/* FROM 64rem, SIX ACROSS UNDER ONE DRAWING. The columns have no gap, so
-   each is exactly a sixth of the frame and lines up with its 200 units of
-   the drawing's 1200; the room between captions is each one's own right
-   padding instead. */
-@media (min-width: 64rem) {
-  .rl-wide { display: block; width: 100%; height: auto; overflow: visible; }
-  .build-loop--rail {
-    max-width: none;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    column-gap: 0;
-    margin-top: var(--space-2xl);
-  }
-  .build-loop--rail li { display: block; padding-right: var(--space-xl); }
-  .build-loop--rail li > span { padding-bottom: 0; }
-  .rl-step { display: none; }
-}
-
-/* The line draws itself once, left to right, as the drawing scrolls in:
-   the page's script arms it and marks it drawn, as it does the findings'
-   icons. Without the script, or with reduced motion, it is simply there.
-   The arrowhead waits for the line to arrive and then appears: drawn
-   with a dash, its round cap would sit there as a dot while it waited. */
-.rl-draw { stroke-dasharray: 1; }
-.ar-rail.is-armed .rl-draw { stroke-dashoffset: 1; }
-.ar-rail.is-armed .rl-tip,
-.ar-rail.is-armed .rl-late { opacity: 0; }
-.ar-rail.is-drawn .rl-draw { animation: glance-draw var(--motion-draw) var(--ease) forwards; }
-.ar-rail.is-drawn .rl-tip,
-.ar-rail.is-drawn .rl-late { animation: rl-tip var(--motion-state) var(--ease) var(--motion-draw) forwards; }
-@keyframes rl-tip { to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .ar-rail.is-armed .rl-draw { stroke-dashoffset: 0; }
-  .ar-rail.is-armed .rl-tip,
-  .ar-rail.is-armed .rl-late { opacity: 1; }
-  .ar-rail.is-drawn .rl-draw,
-  .ar-rail.is-drawn .rl-tip,
-  .ar-rail.is-drawn .rl-late { animation: none; }
-}
-
-/* ---- 1. the two columns ---- */
-@media (min-width: 64rem) {
-  /* The hero, on the chapters' own split since 2026-10-23: the kicker,
-     the title, the dek and the way in are one column on the left, the
-     problem drawn in code is the right, and the two are centred on each
-     other. Until then the title ran across the top and the opening and
-     the picture split in halves under it, which suited an opening with
-     four labelled lines in it; with those gone the opening ended halfway
-     down the picture and left a quarter of the screen empty under it, and
-     at 1024 a half was too narrow for the picture's two screens to stand
-     side by side, so it stacked them and stood twice the opening's
-     height. On 5 to 7 the picture's left edge is the three kinds' left
-     edge under it, and its column clears 30rem from 64rem up. */
-  .ar-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    column-gap: var(--space-4xl);
-    align-items: center;
-  }
-  .ar-hero > .ar-hero-text { grid-column: 1; }
-  .ar-hero > .ar-hero-feature { grid-column: 2; margin: 0; }
-
-  /* Every split but the dark band's, which waits for 80rem (below). */
-  .ar-split:not(.ar-split--wide-first) {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    column-gap: var(--space-4xl);
-    align-items: start;
-    grid-auto-flow: row dense;
-  }
-  .ar-split > .ar-split-text { grid-column: 1; }
-  .ar-split > .ar-split-media { grid-column: 2; }
-
-  /* A column's own first and last margins are the grid's to give, not
-     the element's: a figure's --space-2xl over it would put the screen a
-     step lower than the heading beside it. */
-  .ar-split:not(.ar-split--wide-first) > .build-shot,
-  .ar-split:not(.ar-split--wide-first) > .build-list { margin-top: 0; margin-bottom: 0; }
-  .ar-split:not(.ar-split--wide-first) .ar-split-text > :first-child,
-  .ar-split:not(.ar-split--wide-first) .ar-split-media > :first-child { margin-top: 0; }
-  .ar-split:not(.ar-split--wide-first) .ar-split-text > :last-child,
-  .ar-split:not(.ar-split--wide-first) .ar-split-media > :last-child { margin-bottom: 0; }
-  .ar-split > .dp-note { margin-bottom: 0; }
-
-  /* One part of a chapter to the next, and a paragraph to the split under
-     it: the gap between major blocks inside a band. */
-  .ar-split + .ar-split { margin-top: var(--space-block); }
-  p + .ar-split { margin-top: var(--space-2xl); }
-
-  /* NOTHING IS STICKY, since 2026-10-23. From 2026-10-12 every split held
-     its shorter column still while the taller one scrolled past, which
-     suited long runs of words beside small pictures. The words are short
-     now and the pictures are as tall as they are, so both columns scroll
-     with the page; the rules are in the diff that took them out. */
-}
-
-/* THE DARK BAND SPLIT AT 80rem, not 64, until it came off the page on
-   2026-10-23; its rules are in the diff that took it out. The splits
-   above still name it in :not(.ar-split--wide-first), which now matches
-   every split. */
-
-
-/* ---------- The story (since 2026-10-25) ----------
-   The write-up as a story you scroll, after the research behind it: one
-   short pinned section, every step also a link, no scroll taken over, and
-   all of it stacked where the screen is narrow or the reader asks for
-   stillness (agent-review-story.js has the behavior). */
-
-/* THE STAGE RAIL. Height 0 in the flow, so it adds no space; it sticks a
-   step under the fixed site nav from the first chapter to the end of
-   Learn. The current stage is the charcoal pill, the only filled one. */
-.ar-story [id] { scroll-margin-top: var(--space-4xl); }
-.ar-stages {
-  position: sticky;
-  top: calc(var(--nav-height) + var(--space-sm));
-  z-index: 20;
-  height: 0;
-  display: none;
-  pointer-events: none;
-}
+   What moves, where:
+   - The wall, in the opener: the one screen, large, settles to its place
+     while the fourteen arrive round it, nearest first.
+   - The art, at the head of each spread: it settles from --motion-lift.
+   - The head of each spread rises in; the key visual slides in from the
+     right, and in Explore the three frames follow each other.
+   - The pull quote reveals a word at a time.
+   - In Evaluate, the wipe sweeps once to the middle (the script).
+   The quiet cancel's figure builds itself, as before ("The build"). */
 @media (min-width: 48rem) {
-  .ar-stages { display: block; }
-}
-.ar-stages ol {
-  display: flex;
-  gap: var(--space-2xs);
-  width: max-content;
-  margin: 0 auto;
-  padding: var(--space-2xs);
-  list-style: none;
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-card);
-  pointer-events: auto;
-}
-.ar-stages a {
-  display: block;
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
-  color: var(--color-muted-gray);
-  text-decoration: none;
-  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
-}
-@media (hover: hover) and (pointer: fine) {
-  .ar-stages a:not([aria-current]):hover { color: var(--color-charcoal); }
-}
-.ar-stages a[aria-current] { background: var(--color-charcoal); color: var(--ink-on-dark); }
+  .mag-armed .mag-tile,
 
-/* DEFINE. The split the articles use, with my call marked on the side I
-   chose, in the accent's ink. */
-.ar-define { margin: var(--space-2xl) 0 0; }
-.ar-define-mine {
-  display: inline-block;
-  margin-left: var(--space-xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-accent-text);
+  .mag-armed .mag-rise,
+  .mag-armed .mag-slide,
+  .mag-armed .mag-word {
+    transition:
+      opacity var(--motion-enter) var(--ease-enter),
+      transform var(--motion-enter) var(--ease-enter),
+      translate var(--motion-enter) var(--ease-enter);
+  }
+
+  /* The wall before it is in view: the middle screen at three times its
+     size, which is the wall's full height, and the others not yet there. */
+  .mag-armed .mag-wall:not(.is-in) .mag-tile:not(.mag-tile--hero) { opacity: 0; transform: scale(var(--motion-press)); }
+  .mag-armed .mag-wall:not(.is-in) .mag-tile--hero { transform: scale(3); }
+  .mag-armed .mag-wall .mag-tile--hero { transition-duration: var(--motion-ambient); }
+  .mag-armed .mag-wall.is-in .mag-tile--near { transition-delay: calc(var(--motion-stagger) * 4); }
+  .mag-armed .mag-wall.is-in .mag-tile--far { transition-delay: calc(var(--motion-stagger) * 8); }
+
+  /* The art settles. */
+  .mag-armed .story-art::before,
+  .mag-armed .story-art img { transition: transform var(--motion-ambient) var(--ease-enter); }
+  .mag-armed .story-art:not(.is-in)::before,
+  .mag-armed .story-art:not(.is-in) img { transform: scale(var(--motion-lift)); }
+
+  .mag-armed .mag-rise:not(.is-in) { opacity: 0; translate: 0 var(--motion-rise); }
+  .mag-armed .mag-slide:not(.is-in) { opacity: 0; translate: var(--space-4xl) 0; }
+  .mag-armed [data-reveal]:not(.is-in) > .mag-slide { opacity: 0; translate: var(--space-4xl) 0; }
+  .mag-armed [data-reveal].is-in > .mag-slide { opacity: 1; translate: none; }
+  .mag-armed [data-reveal].is-in > .mag-slide:nth-child(2) { transition-delay: calc(var(--motion-stagger) * 3); }
+  .mag-armed [data-reveal].is-in > .mag-slide:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 6); }
+
+  .mag-armed .mag-pull:not(.is-in) .mag-word { opacity: 0; translate: 0 calc(var(--motion-rise) / 2); }
+  .mag-word { display: inline-block; }
 }
 
-/* THE PINNED EXPLORE. Pinned, the steps are the left column, each tall
-   enough to be read alone in the middle of the window, their own pictures
-   kept for a screen reader but not drawn; the stage is the right column,
-   held under the rail, one screen at a time with a cross-fade. */
-.ar-pin-stage { display: none; }
-.ar-pin.is-pinned {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: var(--space-2xl);
-  align-items: start;
+/* WHERE THE BROWSER CAN TIE AN ANIMATION TO THE SCROLL, the wall and the
+   art follow the reader's scroll rather than playing once: the wall is the
+   one screen while it enters and the full wall by the time it is well up
+   the window, and each drawing settles as it comes in. The same states,
+   the same tokens; only the clock is the scroll. The class the script adds
+   has no say here, because an animation outranks it. */
+@supports (animation-timeline: view()) {
+  @media (min-width: 48rem) and (prefers-reduced-motion: no-preference) {
+    .mag-armed .mag-wall { view-timeline: --mag-wall block; }
+    .mag-armed .mag-wall .mag-tile {
+      transition: none;
+      animation: mag-tile-in linear both;
+      animation-timeline: --mag-wall;
+      animation-range: cover 30% cover 50%;
+    }
+    .mag-armed .mag-wall .mag-tile--far { animation-range: cover 36% cover 56%; }
+    .mag-armed .mag-wall .mag-tile--hero {
+      animation-name: mag-hero-settle;
+      animation-range: cover 22% cover 52%;
+    }
+    .mag-armed .story-art { view-timeline: --mag-art block; }
+    .mag-armed .story-art::before,
+    .mag-armed .story-art img {
+      transition: none;
+      animation: mag-art-settle linear both;
+      animation-timeline: --mag-art;
+      animation-range: entry 0% cover 50%;
+    }
+  }
 }
-.ar-pin.is-pinned .ar-pin-steps { margin: 0; }
-/* A step is two thirds of the window tall, so one step is in the middle of
-   it at a time: a proportion of the viewport, not a size on the scale. */
-.ar-pin.is-pinned .ar-moment { min-height: 66svh; display: flex; align-items: center; }
-.ar-pin.is-pinned .ar-moment .ar-split { display: block; }
-.ar-pin.is-pinned .ar-moment .ar-split-media {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.ar-pin.is-pinned .ar-pin-stage {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  position: sticky;
-  top: calc(var(--nav-height) + var(--space-4xl) + var(--space-md));
-}
-.ar-pin-frame {
-  display: grid;
-  overflow: hidden;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
-}
-.ar-pin-frame img {
-  grid-area: 1 / 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  opacity: 0;
-  transition: opacity var(--motion-enter) var(--ease);
-}
-.ar-pin-frame img[data-on] { opacity: 1; }
-.ar-pin-go {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.ar-pin-go a {
-  display: block;
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-heading);
-  color: var(--color-muted-gray);
-  text-decoration: none;
-  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
-}
-@media (hover: hover) and (pointer: fine) {
-  .ar-pin-go a:not([aria-current]):hover { color: var(--color-charcoal); }
-}
-.ar-pin-go a[aria-current] { background: var(--color-charcoal); border-color: var(--color-charcoal); color: var(--ink-on-dark); }
-
-/* THE WIPE. Two screens of one size, the second clipped from the left to
-   wherever the range says; without script the range sits at half, and so
-   does the clip. */
-.ar-wipe { margin: var(--space-2xl) 0 0; }
-.ar-wipe-frame {
-  --wipe: 50%;
-  position: relative;
-  display: grid;
-  overflow: hidden;
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
-}
-.ar-wipe-frame img { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
-.ar-wipe-b { clip-path: inset(0 0 0 var(--wipe)); }
-.ar-wipe-frame::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--wipe);
-  width: 2px;
-  margin-left: -1px;
-  background: var(--color-charcoal);
-}
-.ar-wipe-control {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-charcoal);
-}
-.ar-wipe-control input { flex: 1; min-width: 0; accent-color: var(--color-accent-text); }
-.ar-wipe figcaption { margin-top: var(--space-sm); }
-
-/* Define's split, set for a case-study chapter rather than an article's
-   column: no bullets, the caption under it in the figure's quiet ink. */
-.ar-define .writing-split ul {
-  margin: var(--space-sm) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--space-xs);
-}
-.ar-define .writing-split li { font-size: var(--text-base); line-height: var(--leading-body); }
-.case-section .ar-define figcaption {
-  margin-top: var(--space-lg);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--color-muted-gray);
-}
-/* The wipe at the reading column's width, not the page's: Relay's type
-   prints near its own size there. Under 40rem it is not drawn; the same
-   screens stack in Explore just above, and the words carry the decision. */
-.ar-wipe { max-width: 48rem; }
-.ar-wipe + p { margin-top: var(--space-block); }
-@media (max-width: 40rem) {
-  .ar-wipe { display: none; }
-}
+@keyframes mag-tile-in { from { opacity: 0; transform: scale(var(--motion-press)); } to { opacity: 1; transform: none; } }
+@keyframes mag-hero-settle { from { transform: scale(3); } to { transform: none; } }
+@keyframes mag-art-settle { from { transform: scale(var(--motion-lift)); } to { transform: none; } }
