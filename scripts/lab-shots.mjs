@@ -345,6 +345,71 @@ const SHOTS = {
       await page.waitForTimeout(300);
     },
   },
+  /* THE DESIGN CYCLE, since agent-review's third iteration (2026-10-25):
+     the prototype opens on one feature, archiving customers, followed
+     through six stages. Five figures, each a stage in the state the case
+     study tells, reached by pressing what a visitor presses (cycleTo):
+     Discover with the agent's summary corrected; the three directions as
+     working screens, each a batch in mid-archive; Delegate with the brief
+     sent and the agent's one stop up; Learn with the guidance kept. At 1440
+     held at 1.125, as the desk's figures are; the three directions at 1.25,
+     because they print in a half column and Relay's 13px type has to read
+     there at about 11px. */
+  'cycle-discover': {
+    file: 'agent-review-cycle-discover',
+    app: '#/cycle/discover',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.125, clip: (page) => partClip(page, '.cycle__intro', '.cycle__move', '.cycle') },
+    phone: { clip: (page) => partClip(page, '.cycle__move', '.cycle__move', '.cycle__move', 8) },
+    open: async (page) => {
+      await choose(page, 'Correct it');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  ...Object.fromEntries(
+    [
+      ['undo', 'Archive now, undo after', 6],
+      ['confirm', 'Confirm first, naming who', 5],
+      ['review', 'Review the batch, then archive', 3],
+    ].map(([id, name, rows]) => [
+      `cycle-${id}`,
+      {
+        file: `agent-review-cycle-${id}`,
+        app: '#/cycle/explore',
+        desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
+        phone: { clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
+        open: async (page) => {
+          await page.getByRole('tab', { name: new RegExp(name) }).click();
+          await page.getByRole('button', { name: 'Select a batch for me' }).click();
+          await page.getByRole('button', { name: 'Archive', exact: true }).click();
+          await page.mouse.move(0, 0);
+          await page.waitForTimeout(300);
+        },
+      },
+    ]),
+  ),
+  'cycle-delegate': {
+    file: 'agent-review-cycle-delegate',
+    app: '#/cycle/discover',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.125, clip: (page) => partClip(page, '.cycle__intro', '.cycle__move', '.cycle') },
+    phone: { clip: (page) => partClip(page, '.cycle__move', '.cycle__move', '.cycle__move', 8) },
+    open: async (page) => {
+      await cycleTo(page, 'delegate');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
+  'cycle-learn': {
+    file: 'agent-review-cycle-learn',
+    app: '#/cycle/discover',
+    desktop: { size: { width: 1440, height: 1000 }, zoom: 1.125, clip: (page) => partClip(page, '.cycle__intro', '.cycle__list--open', '.cycle') },
+    phone: { clip: (page) => partClip(page, '.cycle__facts--record', '.cycle__list--open', '.cycle__main', 8) },
+    open: async (page) => {
+      await cycleTo(page, 'learn');
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+    },
+  },
   storybook: {
     file: 'agent-review-storybook',
     light: true, /* Relay's own story in Storybook's chrome: one theme */
@@ -496,6 +561,34 @@ fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME });
 const { defaultBrowserType: _ignored, ...phoneDevice } = devices['iPhone 13'];
 
+/* The design cycle's stages are addresses and its choices persist in the
+   session, so a recipe moves between stages by the hash and presses what a
+   visitor would. The path the case study tells: the summary corrected, the
+   priority "nothing leaves without a way back", the agent's recommendation
+   declined for Archive now with active customers named, the brief sent, the
+   undo bar kept on its screen, and the guidance kept. */
+async function stage(page, id) {
+  await page.evaluate((id) => (location.hash = `#/cycle/${id}`), id);
+  await page.waitForFunction((id) => document.title.toLowerCase().startsWith(`design cycle: ${id}`), id);
+  await page.waitForTimeout(500);
+}
+async function choose(page, name) {
+  await page.getByRole('button', { name: new RegExp(`^Choose\\s+${name}$`) }).click();
+}
+async function cycleTo(page, last) {
+  await choose(page, 'Correct it');
+  await stage(page, 'define');
+  await choose(page, 'Nothing leaves without a way back');
+  await stage(page, 'evaluate');
+  await choose(page, 'Archive now, undo after');
+  await page.getByRole('checkbox', { name: /Require: Name any active customer/ }).check({ force: true });
+  await stage(page, 'delegate');
+  await page.getByRole('button', { name: 'Send the brief' }).click();
+  if (last === 'delegate') return;
+  await choose(page, 'Keep it on this screen');
+  await stage(page, 'learn');
+  await page.getByRole('checkbox', { name: /Keep it as guidance/ }).check({ force: true });
+}
 async function settle(page) {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(500);
