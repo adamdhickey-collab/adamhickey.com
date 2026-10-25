@@ -189,6 +189,17 @@ a step was a timed move in `--motion-enter` plus `--motion-state`, on
 the write-up's three moments took over its story; nothing on the site moves
 with scroll now but the drawings above.
 
+**Since 2026-10-25 the same write-up has a shorter pin, and it is
+interface, on the scale.** In Explore the three directions' screens are
+held still beside three steps while they scroll past (`agent-review-story.js`,
+`agent-review.css` "The story"), the screen shown is the step in the middle
+of the window, and a link under the stage goes to each step. It is a third
+of the old tour's length, nothing in it is timed against scroll, the swap is
+a cross-fade in `--motion-enter`, and it is only pinned on a wide screen
+with motion allowed: narrow or still, each step keeps its own picture,
+stacked. A rail of the six stages sticks under the nav with the current one
+marked, which is position, not motion.
+
 ---
 
 ## 7. What the code does today
