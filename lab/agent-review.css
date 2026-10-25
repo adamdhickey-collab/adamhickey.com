@@ -185,6 +185,10 @@
 .arc-live [data-scene] [data-from]:not([data-on]),
 .arc-live [data-scene] [data-only]:not([data-on]) { opacity: 0; translate: 0 var(--motion-rise); pointer-events: none; }
 
+/* ---- a reading measure ---- */
+.arc-measure > p,
+.arc-measure > ul { max-width: var(--measure); }
+
 /* ---- a chapter's head ----
    The eyebrow, the heading and one line, at the reading measure. The
    chapters had a drawing each beside this until 2026-10-25; the stage under
@@ -366,6 +370,23 @@
   background: linear-gradient(var(--color-charcoal), var(--color-charcoal)) 0 0 / 2px 100% no-repeat;
   transform: translateX(var(--wipe));
   pointer-events: none;
+}
+/* Each screen carries its own name, clipped with it, so wherever the line
+   stands the reader can tell which side is which; the middle of a wipe
+   between two layouts read as one broken screen without them. They sit at
+   the foot, clear of the table's title. */
+.arc-wipe-side {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-sm);
+  pointer-events: none;
+}
+.arc-wipe-side--a { clip-path: inset(0 calc(100% - var(--wipe)) 0 0); }
+.arc-wipe-side--b { justify-content: flex-end; clip-path: inset(0 0 0 var(--wipe)); }
+@media (max-width: 63.99rem) {
+  .case-section .arc-wipe-side .arc-chip { padding: var(--space-2xs) var(--space-sm); font-size: var(--text-xs); }
 }
 .arc-wipe-control {
   display: flex;
@@ -677,8 +698,8 @@
 
 /* ---- the rest of the page ---- */
 .ar-checkpoint-figure { margin-top: var(--space-2xl); margin-bottom: var(--space-2xl); }
-.arc .build-hero-act + .ar-sap-link { margin-top: var(--space-lg); }
 #first-minute .build-hero-act { margin-top: var(--space-xl); }
+#the-experiment .writing-facts { margin: var(--space-xl) 0; }
 /* The shared glance labels, in sentence case on this page. */
 .arc .glance-facts dt { text-transform: none; letter-spacing: var(--tracking-normal); font-size: var(--text-xs); }
 
@@ -950,7 +971,7 @@
 }
 
 /* The way out to the enterprise evidence: a sentence-length link, larger
-   than a prose link, under the second run's button. */
+   than a prose link, under the loop it is the system half of. */
 .ar-sap-link { margin: var(--space-lg) 0 0; font-size: var(--text-lg); line-height: var(--leading-tight); }
 .ar-sap-link a {
   color: var(--color-accent-text);
@@ -986,6 +1007,17 @@
   margin: var(--space-2xl) 0 0;
 }
 .rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* What the drawing is, said once over it, so it reads as the page's summary
+   rather than a picture arriving after the button. */
+.case-section .ar-rail-caption {
+  max-width: var(--measure);
+  margin: 0 0 var(--space-xl);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  text-wrap: pretty;
+}
 
 /* Every stroke is the same 1.25, so the line, the brackets and the arrows
    read as one pen; the parts are a step lighter so the line leads. */
