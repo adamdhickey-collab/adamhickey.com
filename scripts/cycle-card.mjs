@@ -55,26 +55,28 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
 <style>
   html, body { margin: 0; }
   body { width: ${w}px; height: ${h}px; overflow: hidden; background: var(--color-charcoal); color: var(--ink-on-dark);
-    font-family: var(--font-sans); display: grid; grid-template-rows: auto 1fr; box-sizing: border-box; padding: var(--space-2xl) var(--space-3xl); }
+    font-family: var(--font-sans); display: grid; align-content: center; box-sizing: border-box; padding: var(--space-3xl); }
   .head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xl); }
   h1 { margin: 0; font-family: var(--font-serif); font-weight: var(--weight-regular); font-size: var(--text-5xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
   .kicker { margin: 0; font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--ink-on-dark-secondary); white-space: nowrap; }
-  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); margin-top: var(--space-xl); min-height: 0; }
-  figure { margin: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--space-lg); min-height: 0; }
-  figcaption { display: grid; gap: var(--space-xs); }
-  figcaption strong { display: flex; align-items: center; gap: var(--space-sm); font-size: var(--text-xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--ink-on-dark); }
-  figcaption p { margin: 0; font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark-secondary); }
+  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); margin-top: var(--space-2xl); }
+  figure { margin: 0; display: grid; align-content: start; gap: var(--space-lg); }
+  figcaption { display: grid; gap: var(--space-sm); }
+  figcaption strong { display: flex; align-items: center; gap: var(--space-sm); font-size: var(--text-2xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--ink-on-dark); }
+  figcaption ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); }
+  figcaption li { position: relative; padding-left: var(--space-lg); font-size: var(--text-xl); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
+  figcaption li::before { content: ''; position: absolute; left: 0; top: calc((1lh - var(--space-xs)) / 2); width: var(--space-xs); height: var(--space-xs); border-radius: var(--radius-pill); background: var(--color-accent-on-dark); }
   .tag { font-size: var(--text-sm); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-pill); background: var(--color-accent-on-dark); color: var(--color-charcoal); }
 
-  .shot { position: relative; min-height: 0; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
+  .shot { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
   .chosen .shot { outline: 4px solid var(--color-accent-on-dark); outline-offset: 4px; }
   .top { display: flex; align-items: center; justify-content: space-between; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule-card); font-size: var(--text-base); font-weight: var(--weight-semibold); }
   .btn { font-size: var(--text-sm); font-weight: var(--weight-semibold); padding: var(--space-2xs) var(--space-sm); border-radius: var(--space-xs); border: 1px solid var(--rule-strong); background: var(--color-white); color: var(--color-charcoal); }
   .btn.go { background: var(--color-charcoal); border-color: var(--color-charcoal); color: var(--ink-on-dark); }
   .btn.ghost { border-color: transparent; color: var(--color-muted-gray); }
   .list { padding: var(--space-2xs) var(--space-md); }
-  .r { display: flex; align-items: center; gap: var(--space-sm); height: var(--space-2xl); border-bottom: 1px solid var(--rule-hairline); }
+  .r { display: flex; align-items: center; gap: var(--space-sm); height: var(--space-xl); border-bottom: 1px solid var(--rule-hairline); }
   .r i { flex: none; width: var(--space-md); height: var(--space-md); border-radius: var(--space-2xs); border: 1.5px solid var(--rule-strong); }
   .r.on i { background: var(--color-charcoal); border-color: var(--color-charcoal); }
   .r b { height: var(--space-sm); border-radius: var(--radius-pill); background: var(--color-muted-light); }
@@ -86,25 +88,25 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
     padding: var(--space-sm) var(--space-md); border-radius: var(--space-sm); background: var(--color-charcoal); color: var(--ink-on-dark); font-size: var(--text-sm); font-weight: var(--weight-semibold); box-shadow: var(--shadow-popover); }
   .toast .btn { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); color: var(--color-charcoal); }
   .scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--color-charcoal) 35%, transparent); display: grid; place-items: center; padding: var(--space-md); }
-  .dialog { width: 100%; box-sizing: border-box; padding: var(--space-md); border-radius: var(--space-sm); background: var(--color-white); box-shadow: var(--shadow-popover); display: grid; gap: var(--space-xs); }
+  .dialog { width: 85%; box-sizing: border-box; padding: var(--space-sm) var(--space-md); border-radius: var(--space-sm); background: var(--color-white); box-shadow: var(--shadow-popover); display: grid; gap: var(--space-xs); }
   .dialog p { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); }
   .dialog p:first-child { font-size: var(--text-base); font-weight: var(--weight-semibold); }
-  .dialog .acts { display: flex; justify-content: flex-end; gap: var(--space-xs); margin-top: var(--space-xs); }
+  .dialog .acts { display: flex; justify-content: flex-end; gap: var(--space-xs); }
   .sub { font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-muted-gray); padding-top: var(--space-xs); }
 </style></head><body>
   <div class="head"><h1>Three ways to archive. <em>One designer&rsquo;s call.</em></h1><p class="kicker">Agent Review</p></div>
   <div class="row">
     <figure class="chosen">
-      ${screen(rows(['', 'gone', 'gone', 'gone', 'gone', '', '']) + '<div class="toast"><span>4 customers archived</span><span class="btn">Undo</span></div>')}
-      <figcaption><strong>Archive, then undo <span class="tag">Chosen</span></strong><p>Cleanup stays one press, even at hundreds a quarter. A slip costs one more.</p></figcaption>
+      ${screen(rows(['', 'gone', 'gone', 'gone', 'gone']) + '<div class="toast"><span>4 customers archived</span><span class="btn">Undo</span></div>')}
+      <figcaption><strong>Archive, then undo <span class="tag">Chosen</span></strong><ul><li>One press, even at hundreds a quarter</li><li>A slip takes one more to undo</li></ul></figcaption>
     </figure>
     <figure>
-      ${screen(rows(['on', 'on', 'on', 'on', 'on', '', '']) + '<div class="scrim"><div class="dialog"><p>Archive 5 customers?</p><p>3 of them are active.</p><div class="acts"><span class="btn ghost">Cancel</span><span class="btn go">Archive 5</span></div></div></div>')}
-      <figcaption><strong>Confirm first</strong><p>Nothing moves until someone reads who&rsquo;s at risk. The question everyone already knows.</p></figcaption>
+      ${screen(rows(['on', 'on', 'on', 'on', 'on']) + '<div class="scrim"><div class="dialog"><p>Archive 5 customers?</p><p>3 of them are active.</p><div class="acts"><span class="btn ghost">Cancel</span><span class="btn go">Archive 5</span></div></div></div>')}
+      <figcaption><strong>Confirm first</strong><ul><li>Names who&rsquo;s at risk before anything moves</li><li>The question everyone already knows</li></ul></figcaption>
     </figure>
     <figure>
-      ${screen('<div class="sub">Review 5 before archiving</div>' + rows(['risk', 'on', 'risk', 'risk', 'on']), '<span class="btn go">Archive 2</span>')}
-      <figcaption><strong>Review the batch</strong><p>Catches the most before the press. Every active customer is a box you choose to keep out.</p></figcaption>
+      ${screen('<div class="sub">Review 5 before archiving</div>' + rows(['on', 'risk', 'risk', 'risk', 'on']), '<span class="btn go">Archive 2</span>')}
+      <figcaption><strong>Review the batch</strong><ul><li>Catches the most before the press</li><li>Every active customer is yours to keep out</li></ul></figcaption>
     </figure>
   </div>
 </body></html>`;
