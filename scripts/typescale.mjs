@@ -27,9 +27,8 @@ const only = pageFilters();
 const STEPS = [11, 12, 14, 16, 18, 20, 24, 28, 34, 40, 48, 56, 68, 80];
 
 /* One ramp is deliberately off the scale, and the design system page argues for
-   it at length: --type-title-inset runs 36 -> 64 because a title beside a
-   picture (the cockpit's; the homepage hero's until it took --type-title-hero,
-   which is pinned on steps) is sized against its column, not against the
+   it at length: --type-title-inset runs 36 -> 64 because the homepage hero is
+   sized against the 47% column it shares with the portrait, not against the
    page. It is a declared token, not a hand-written size, so it is allowed here
    by name. Anything else off the scale is the thing this script looks for. */
 const RAMP_EXCEPTIONS = new Map([[36, '--type-title-inset floor'], [64, '--type-title-inset ceiling']]);
