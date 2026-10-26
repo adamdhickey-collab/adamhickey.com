@@ -1,0 +1,72 @@
+/* say-when.css (the case study's own rules) -- what case-study/say-when.html
+ * adds to work.css: the project's colours on the things that carry no text,
+ * and three figures the shared vocabulary does not have.
+ *
+ * The brand's palette is artwork here (COLOR.md section 6): its paper, ink,
+ * butter, clay, plum and red are declared on .work for the swatches, the
+ * bands and the annotation discs, and never on a word. Every word on this
+ * page is in the site's inks on the site's grounds. The annotation disc is
+ * the one place a project colour meets text, and it is the plum (#3b2d3e),
+ * which carries the dark ink's warm (--ink-on-dark) at 10.97:1.
+ */
+.work[data-project="say-when"] {
+  --work-accent: #3b2d3e;   /* the plum: the disc and the pull's rule */
+  --work-band: #f4ecdd;     /* the paper: a ground for artwork */
+  --sw-paper: #f4ecdd; --sw-cream: #fbf7ef; --sw-ink: #2b2420; --sw-butter: #f0c45b;
+  --sw-clay: #d4784f; --sw-plum: #3b2d3e; --sw-red: #b4382e; --sw-brown: #6b4a3a;
+}
+/* The cover sits on the paper, which the family drawing already carries, so
+   the frame is the paper's own edge rather than a shadow. */
+.work[data-project="say-when"] .work-cover img { border: 1px solid var(--rule-card); }
+
+/* The names considered: a list with a verdict beside each, the way a
+   creative director reads a naming round. */
+.sw-names { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+.sw-names li { display: grid; gap: var(--space-2xs) var(--space-xl); padding: var(--space-md) 0; border-top: 1px solid var(--rule-strong); }
+@media (min-width: 768px) { .sw-names li { grid-template-columns: 11rem 1fr; } }
+.sw-names strong { font-family: var(--font-serif); font-weight: var(--weight-regular); font-size: var(--text-2xl); line-height: var(--leading-heading); color: var(--color-charcoal); }
+.sw-names span { font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
+.sw-names li[data-pick] strong::after { content: " \2713"; color: var(--color-accent-text); }
+
+/* The three territories, as three cards: a premise, who it is for, and the
+   reason it lost or won. */
+.sw-territories { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .sw-territories { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sw-territories li { padding: var(--space-xl); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); background: var(--color-white); display: grid; gap: var(--space-sm); align-content: start; }
+.sw-territories h3 { font-size: var(--text-2xl); }
+.sw-territories p { font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); }
+.sw-territories .sw-territory-verdict { font-weight: 600; color: var(--color-accent-text); }
+
+/* The email, composed on the page: a narrow paper card at an inbox's width,
+   the words in the site's inks. It is the one campaign piece that is live
+   text rather than a drawing, so the site's checks measure it. */
+.sw-email { width: min(100%, 560px); margin-inline: auto; background: var(--color-white); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); overflow: hidden; }
+.sw-email-head { padding: var(--space-md) var(--space-xl); border-bottom: 1px solid var(--rule-strong); font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.sw-email-head strong { color: var(--color-charcoal); font-weight: 600; }
+.sw-email-body { padding: var(--space-2xl) var(--space-xl); display: grid; gap: var(--space-lg); background: var(--sw-paper); }
+.sw-email-body img { width: 180px; height: auto; }
+.sw-email-body h3 { font-size: var(--text-3xl); line-height: var(--leading-heading); max-width: 16ch; }
+.sw-email-body p { font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); max-width: 40ch; }
+.sw-email-level { width: 140px; height: 6px; border-radius: var(--radius-pill); background: var(--sw-red); position: relative; }
+.sw-email-level::after { content: ""; position: absolute; right: 0; bottom: 0; width: 6px; height: 16px; border-radius: var(--radius-pill); background: var(--sw-red); }
+.sw-email-cta { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; padding: var(--space-xs) var(--space-xl); border-radius: var(--radius-pill); background: var(--sw-ink); color: var(--color-warm); font-family: var(--font-sans); font-weight: 600; font-size: var(--text-base); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .sw-email-cta:hover { background: var(--color-charcoal); } }
+
+/* The tone examples: a was/now pair, three times. */
+.sw-tone { display: grid; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .sw-tone { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); } }
+.sw-tone li { display: grid; gap: var(--space-xs); padding: var(--space-lg); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); background: var(--color-white); }
+.sw-tone-was { font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); text-decoration: line-through; text-decoration-color: var(--sw-red); text-decoration-thickness: 2px; }
+.sw-tone-now { font-family: var(--font-serif); font-size: var(--text-xl); line-height: var(--leading-tight); color: var(--color-charcoal); }
+
+/* The motion principles, as a short list with the token beside each. */
+.sw-motion { display: grid; gap: var(--space-sm); margin: 0; padding: 0; }
+.sw-motion div { display: grid; grid-template-columns: 1fr; gap: var(--space-2xs); padding: var(--space-sm) 0; border-top: 1px solid var(--rule-strong); }
+@media (min-width: 640px) { .sw-motion div { grid-template-columns: 1fr 12rem; } }
+.sw-motion dt { font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
+.sw-motion dd { margin: 0; font-family: var(--font-mono); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
+
+/* The storefront, live, in the laptop frame the build write-ups use. */
+.sw-live { margin: 0; }
+.sw-live .build-laptop-lid { aspect-ratio: 16 / 10; }
+.sw-live iframe { display: block; width: 100%; height: 100%; aspect-ratio: 16 / 10; border: 0; border-radius: calc(var(--shell-radius) - var(--bezel)); background: #fbf7ef; }
