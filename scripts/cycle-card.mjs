@@ -40,7 +40,7 @@ const SIZES = [
    them are the prototype's (agent-review src/data/cycle.ts); under each
    is its name and nothing else (Adam, 2026-10-26: the gain and cost lines
    made the card busy; the case study carries them). The title is centered
-   in the sans, and the space around the whole is the same on all four sides. */
+   in the sans, and the screens take the width (Adam: much larger). */
 // One row per customer: a box and a grey bar for the name. Each string in
 // `kinds` is that row's state: '' plain, 'on' ticked, 'gone' archived,
 // 'risk' an active customer, left unticked and named.
@@ -56,17 +56,16 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
 <style>
   html, body { margin: 0; }
   body { width: ${w}px; height: ${h}px; overflow: hidden; background: var(--color-charcoal); color: var(--ink-on-dark);
-    font-family: var(--font-sans); display: grid; align-content: center; box-sizing: border-box; padding: var(--space-3xl); }
+    font-family: var(--font-sans); display: grid; align-content: center; box-sizing: border-box; padding: var(--space-3xl) var(--space-4xl); }
   /* The title is the sans, so it reads apart from the serif headline the
      card sets beside it; the second sentence carries the sage. */
-  h1 { margin: 0; font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-5xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); text-align: center; white-space: nowrap; }
+  h1 { margin: 0; font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-6xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); text-align: center; white-space: nowrap; }
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
-  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4xl); margin-top: var(--space-3xl); }
+  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3xl); margin-top: var(--space-3xl); }
   figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-xl); }
-  figcaption { justify-self: center; white-space: nowrap; font-size: var(--text-3xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
+  figcaption { justify-self: center; white-space: nowrap; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
 
   .shot { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
-  /* Each screen is drawn at 362px wide and scaled to the width it gets. */
   .shot > * { zoom: var(--k, 1); }
   .chosen .shot { outline: 4px solid var(--color-accent-on-dark); outline-offset: 4px; }
   .top { display: flex; align-items: center; justify-content: space-between; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule-card); font-size: var(--text-base); font-weight: var(--weight-semibold); }
@@ -116,15 +115,8 @@ try {
     const p = await ctx.newPage();
     await p.setContent(page(s.width, s.height), { waitUntil: 'networkidle' });
     await p.evaluate(() => document.fonts.ready);
-    // The same space on all four sides. The screens are 16:9 and take their
-    // width from what the sides leave, so the content's height depends on
-    // the side padding: settle the two to one number.
+    // Each screen is drawn at 362px wide and scaled to the width it gets.
     await p.evaluate(() => {
-      const b = document.body, H = innerHeight;
-      const inner = () => { let t = 0; for (const el of b.children) t += el.getBoundingClientRect().height; return t + parseFloat(getComputedStyle(document.querySelector('.row')).marginTop); };
-      let pad = 64;
-      for (let k = 0; k < 40; k++) { b.style.padding = `0 ${pad}px`; pad = (pad + (H - inner()) / 2) / 2; }
-      b.style.padding = `${pad}px`;
       for (const s of document.querySelectorAll('.shot')) s.style.setProperty('--k', s.getBoundingClientRect().width / 362);
     });
     await p.waitForTimeout(300);
