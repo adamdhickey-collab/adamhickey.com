@@ -100,10 +100,10 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=63" />
+  <link rel="stylesheet" href="agent-review.css?v=64" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="agent-review-story.js?v=5" defer></script>
+  <script src="agent-review-story.js?v=6" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -252,9 +252,10 @@
     <!-- THE OPENER, since 2026-10-26: a question before any answer. The
          title, one line and the way in, beside Relay's billing settings and
          the question the agent stopped on, put to the reader: "Would you
-         ship this?" Three answers, each showing what it leads to once
-         pressed, then what happened (agent-review.css, "Would you ship
-         this?"; the press is agent-review-story.js's). The screen's rows
+         ship this?" Three answers; a press shows on the screen what the
+         answer does, says what it leads to, then what happened
+         (agent-review.css, "Would you ship this?"; the press is
+         agent-review-story.js's). The screen's rows
          and the two directions are the prototype's own (agent-review
          src/data/billing.ts): the checks pass either fix, and neither
          moves a pixel. What happened is the decision record's. -->
@@ -272,7 +273,7 @@
           <p class="arc-status">I designed and built it in React and Storybook. The scenario is simulated, not yet tested with users.</p>
         </div>
         <div class="ship" data-ship>
-          <p class="ship-ask">Would you ship this?</p>
+          <p class="ship-ask" id="ship-ask">Would you ship this?</p>
           <p class="ship-setup">An agent is moving these billing settings onto the design system. Nothing should look different. Every action is a button, except one.</p>
           <figure class="arc-device" aria-label="Relay&rsquo;s billing settings: Change plan, Update card and Download invoices are buttons; Cancel subscription is small gray text">
             <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Billing settings</span></div>
@@ -280,26 +281,22 @@
               <div class="ship-row"><dt>Plan<span>Growth &middot; 45 seats, renews Nov 1</span></dt><dd><span class="ship-btn">Change plan</span></dd></div>
               <div class="ship-row"><dt>Payment method<span>Visa ending 4242</span></dt><dd><span class="ship-btn">Update card</span></dd></div>
               <div class="ship-row"><dt>Invoices<span>Sent to the billing address</span></dt><dd><span class="ship-btn">Download invoices</span></dd></div>
-              <div class="ship-row"><dt>Subscription<span>Cancelling ends it on Nov 1</span></dt><dd><span class="ship-link">Cancel subscription</span></dd></div>
+              <div class="ship-row ship-row-odd"><dt>Subscription<span>Cancelling ends it on Nov 1</span></dt><dd><span class="ship-link">Cancel subscription</span><span class="ship-flag" aria-hidden="true">Agent stopped here</span></dd></div>
             </dl>
           </figure>
-          <ul class="ship-picks" aria-label="Your answer">
-            <li class="ship-pick" data-pick="match">
-              <button type="button" aria-pressed="false">Ship it as it looks<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">The agent adds a quiet button style so cancel looks exactly as it does. The checks pass. Now any later agent can make any action this hard to find.</p>
-            </li>
-            <li class="ship-pick" data-pick="button">
-              <button type="button" aria-pressed="false">Make cancel a real button<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">Cancelling gets as easy to find as changing the plan. But this job promised nothing would look different, and how easy it is to cancel is a product decision.</p>
-            </li>
-            <li class="ship-pick" data-pick="ask">
-              <button type="button" aria-pressed="false">Stop and ask someone<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">That&rsquo;s what the agent did. The checks pass with either fix, and neither moves a pixel. No check can say whether cancel is quiet on purpose.</p>
-            </li>
-          </ul>
-          <div class="ship-after" role="status">
-            <p class="ship-verdict"><strong>It wasn&rsquo;t on purpose.</strong> The gray link was left over from a retention test nobody turned off.</p>
-            <p>I made it a button, in its own change, and a rule for the next agent: on billing screens, nothing that ends a subscription gets the quiet style.</p>
+          <div class="ship-picks" role="group" aria-labelledby="ship-ask">
+            <button type="button" class="ship-pick" data-pick="match" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ship it as it looks</button>
+            <button type="button" class="ship-pick" data-pick="button" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Make cancel a real button</button>
+            <button type="button" class="ship-pick" data-pick="ask" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Stop and ask someone</button>
+          </div>
+          <div class="ship-result" id="ship-result" role="status">
+            <p class="ship-then" data-then="match"><strong>If you ship it,</strong> the agent adds a quiet button style so cancel looks exactly as it does. The checks pass, and now any later agent can make any action this hard to find.</p>
+            <p class="ship-then" data-then="button"><strong>If you make it a button,</strong> cancelling gets as easy to find as changing the plan. But this job promised nothing would look different, and how easy it is to cancel is a product decision.</p>
+            <p class="ship-then" data-then="ask"><strong>That&rsquo;s what the agent did.</strong> The checks pass with either fix, and neither moves a pixel. No check can say whether cancel is quiet on purpose.</p>
+            <div class="ship-after">
+              <p class="ship-verdict"><strong>It wasn&rsquo;t on purpose.</strong> The gray link was left over from a retention test nobody turned off.</p>
+              <p>I made it a button, in its own change, and a rule for the next agent: on billing screens, nothing that ends a subscription gets the quiet style.</p>
+            </div>
           </div>
         </div>
       </div>

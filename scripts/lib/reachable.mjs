@@ -94,12 +94,12 @@ export const REACHABLE = {
      you ship this?", three answers, and what each leads to. At rest the
      consequences and what happened are hidden until a press, so a check
      that only loads the page measures the question and never the answer.
-     One state: any answer shows all three consequences and the payoff,
-     and the pressed one carries the "Your pick" mark and the sage fill,
-     which no other state has. */
+     One state: a press shows that answer's consequence and the payoff,
+     marks the pressed tile in the sage, and for this answer puts the
+     agent's stop on the screen's cancel row, which no other state has. */
   'lab/agent-review.html': [
     { name: 'the opener’s question, answered',
-      press: ['[data-pick="ask"] button'] },
+      press: ['[data-pick="ask"]'] },
   ],
 
   'prototype/dispatch-cockpit.html': [
