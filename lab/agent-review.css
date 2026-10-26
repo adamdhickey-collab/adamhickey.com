@@ -553,8 +553,10 @@
   line-height: var(--leading-body);
   color: var(--color-caution-text);
 }
-.arc-targets-list { display: grid; gap: var(--space-sm); margin: var(--space-md) 0 0; }
-.arc-targets-list div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: var(--space-md); align-items: baseline; }
+/* One grid for both rows, so the figure column is as wide as the widest
+   figure and each line sits centered on the figure beside it. */
+.arc-targets-list { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--space-sm) var(--space-md); align-items: center; margin: var(--space-md) 0 0; }
+.arc-targets-list div { display: contents; }
 .arc-targets-list dt { font-family: var(--font-serif); font-size: var(--text-3xl); line-height: var(--leading-heading); color: var(--color-charcoal); }
 .arc-targets-list dd { margin: 0; font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
 .case-section .arc-targets-foot { margin: var(--space-sm) 0 0; font-size: var(--text-xs); line-height: var(--leading-body); color: var(--color-muted-gray); }
@@ -1303,7 +1305,6 @@
   .arc-wipe-b { clip-path: inset(0 0 0 calc(var(--wipe) / 2)); }
   .arc-wipe-end { font-size: var(--text-sm); }
 
-  .arc-targets-list div { grid-template-columns: 5rem minmax(0, 1fr); }
   /* The checks: each result under its line, so the line keeps the width. */
   .arc-run { padding: var(--space-md); }
   .arc-run-list { gap: var(--space-sm); }
