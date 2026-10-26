@@ -67,7 +67,6 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
   figcaption ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); }
   figcaption li { position: relative; padding-left: var(--space-lg); font-size: var(--text-xl); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
   figcaption li::before { content: ''; position: absolute; left: 0; top: calc((1lh - var(--space-xs)) / 2); width: var(--space-xs); height: var(--space-xs); border-radius: var(--radius-pill); background: var(--color-accent-on-dark); }
-  .tag { font-size: var(--text-sm); padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-pill); background: var(--color-accent-on-dark); color: var(--color-charcoal); }
 
   .shot { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
   .chosen .shot { outline: 4px solid var(--color-accent-on-dark); outline-offset: 4px; }
@@ -98,7 +97,7 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
   <div class="row">
     <figure class="chosen">
       ${screen(rows(['', 'gone', 'gone', 'gone', 'gone']) + '<div class="toast"><span>4 customers archived</span><span class="btn">Undo</span></div>')}
-      <figcaption><strong>Archive, then undo <span class="tag">Chosen</span></strong><ul><li>One press, even at hundreds a quarter</li><li>A slip takes one more to undo</li></ul></figcaption>
+      <figcaption><strong>Archive, then undo</strong><ul><li>One press, even at hundreds a quarter</li><li>A slip takes one more to undo</li></ul></figcaption>
     </figure>
     <figure>
       ${screen(rows(['on', 'on', 'on', 'on', 'on']) + '<div class="scrim"><div class="dialog"><p>Archive 5 customers?</p><p>3 of them are active.</p><div class="acts"><span class="btn ghost">Cancel</span><span class="btn go">Archive 5</span></div></div></div>')}
