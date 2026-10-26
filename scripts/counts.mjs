@@ -153,7 +153,8 @@ const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 20: 'twenty', 21: 'twenty-one', 22: 'twenty-two',
                 23: 'twenty-three', 24: 'twenty-four', 25: 'twenty-five',
                 26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight', 29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one', 32: 'thirty-two', 33: 'thirty-three', 34: 'thirty-four', 35: 'thirty-five', 36: 'thirty-six', 37: 'thirty-seven', 38: 'thirty-eight', 39: 'thirty-nine',
-                63: 'sixty-three', 67: 'sixty-seven', 69: 'sixty-nine', 71: 'seventy-one', 73: 'seventy-three', 79: 'seventy-nine', 81: 'eighty-one', 83: 'eighty-three' };
+                63: 'sixty-three', 67: 'sixty-seven', 69: 'sixty-nine', 71: 'seventy-one', 73: 'seventy-three', 79: 'seventy-nine', 81: 'eighty-one', 83: 'eighty-three',
+                42: 'forty-two', 84: 'eighty-four' };
 
 /* ---------------------------------------------------------------------------
  * The claims. `says` is the sentence as written and has to still be findable;
@@ -168,28 +169,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Thirty-eight pages in ten families',
-    n: 38, what: 'pages', of: () => PAGES.length },
+    says: 'Forty-two pages in twelve families',
+    n: 42, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 38 pages in ten families',
-    n: 38, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 42 pages in twelve families',
+    n: 42, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Thirty-eight pages in ten families',
-    n: 10, what: 'families in the README table', of: familyTableRows },
+    says: 'Forty-two pages in twelve families',
+    n: 12, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Thirty-eight pages in ten families',
-    n: 38, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Forty-two pages in twelve families',
+    n: 42, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all thirty-eight pages',
-    n: 38, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all forty-two pages',
+    n: 42, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all thirty-eight pages',
-    n: 38, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all thirty-five pages',
+    n: 35, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -199,20 +200,20 @@ const CLAIMS = [
      2026-10-13; the page count moved to How it's enforced, which names
      this check as the thing that holds it. */
   { doc: 'design-system/index.html',
-    says: 'across all thirty-eight pages',
-    n: 38, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
+    says: 'across all forty-two pages',
+    n: 42, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Eighteen of them',
     n: 18, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by thirty-two pages',
-    n: 32, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by thirty-one pages',
+    n: 31, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all thirty-eight',
-    n: 38, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all thirty-five',
+    n: 35, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 
   /* The build write-up about this site, which is the one page whose whole
      argument is that its numbers are checked, and which carried twenty-eight
@@ -221,23 +222,23 @@ const CLAIMS = [
      browser counts in the same section are dated in the prose instead,
      because no check without a browser can recount them. */
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-eight pages of plain HTML, no framework and no build step',
-    n: 38, what: 'pages, as the dek states them', of: () => PAGES.length },
+    says: 'Forty-two pages of plain HTML, no framework and no build step',
+    n: 42, what: 'pages, as the dek states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'thirty-eight pages of plain HTML with no framework and no build step',
-    n: 38, what: 'pages, as the description states them', of: () => PAGES.length },
+    says: 'forty-two pages of plain HTML with no framework and no build step',
+    n: 42, what: 'pages, as the description states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '38 pages, 3 token files, 4 specs, 33 scripts',
-    n: 38, what: 'pages, as the size row states them', of: () => PAGES.length },
+    says: '42 pages, 3 token files, 4 specs, 34 scripts',
+    n: 42, what: 'pages, as the size row states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '38 pages, 3 token files, 4 specs, 33 scripts',
+    says: '42 pages, 3 token files, 4 specs, 34 scripts',
     n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
   { doc: 'case-study/this-site.html',
-    says: '38 pages, 3 token files, 4 specs, 33 scripts',
+    says: '42 pages, 3 token files, 4 specs, 34 scripts',
     n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
   { doc: 'case-study/this-site.html',
-    says: '38 pages, 3 token files, 4 specs, 33 scripts',
-    n: 33, what: 'scripts in scripts/', of: scriptsInTree },
+    says: '42 pages, 3 token files, 4 specs, 34 scripts',
+    n: 34, what: 'scripts in scripts/', of: scriptsInTree },
   { doc: 'case-study/this-site.html',
     says: 'Eleven checks; six of them render pages in a real browser',
     n: 11, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
@@ -257,11 +258,11 @@ const CLAIMS = [
     says: 'eleven checks that measure the rendered page before anything ships',
     n: 11, what: 'checks in checks.yml, as the description states them', of: () => staticChecks() + browserChecks() },
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-eight pages, each a plain HTML file',
-    n: 38, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
+    says: 'Forty-two pages, each a plain HTML file',
+    n: 42, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'a change to the shell is a change to thirty-eight files',
-    n: 38, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
+    says: 'a change to the shell is a change to thirty-five files',
+    n: 35, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
   { doc: 'case-study/this-site.html',
     says: 'Eleven checks run on every merge. Five read the tree',
     n: 11, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
@@ -272,8 +273,8 @@ const CLAIMS = [
     says: 'The other six open the pages in Chrome',
     n: 6, what: 'browser checks in the matrix', of: browserChecks },
   { doc: 'case-study/this-site.html',
-    says: 'eighty-one nodes across the site',
-    n: 81, what: 'schema.org graph nodes across the pages', of: schemaNodes },
+    says: 'eighty-four nodes across the site',
+    n: 84, what: 'schema.org graph nodes across the pages', of: schemaNodes },
 
   { doc: 'llms.txt',
     says: 'eleven checks that measure the rendered page',
