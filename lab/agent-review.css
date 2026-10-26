@@ -128,7 +128,7 @@
 .arc-screen { position: relative; }
 .arc-screen > picture img,
 .arc-screen > img,
-.arc-learn-zoom img { display: block; width: 100%; height: auto; }
+.arc-zoom-layer > picture img { display: block; width: 100%; height: auto; }
 
 /* ---- the zoom, in the opener ----
    Nine screens on a grid three times the frame's width, each tile exactly
@@ -291,13 +291,6 @@
 @media (min-width: 64rem) {
   .arc-live .arc-notes { display: contents; }
   .arc-live .arc-note { position: absolute; box-shadow: var(--shadow-popover); }
-  .arc-live .arc-note--claim { left: 56%; top: 63.5%; }
-  .arc-live .arc-note--source { left: 50%; top: 36%; }
-  .arc-live .arc-note--call { left: 60%; top: 49%; }
-  .arc-live .arc-note--build { left: 40%; top: 35%; }
-  .arc-live .arc-note--stop { left: 82%; top: 43.5%; }
-  .arc-live .arc-note--verified { left: 20%; top: 81%; }
-  .arc-live .arc-note--unknown { left: 30%; top: 90%; }
   /* The highlight that sweeps the agent's wrong line, left to right; still,
      it is simply there. */
   .arc-sweep {
@@ -487,11 +480,51 @@
   .arc-live .arc-run { position: absolute; left: var(--space-md); bottom: var(--space-md); width: 26rem; margin: 0; }
 }
 
-/* ---- Learn: the zoom and the targets ---- */
-.arc-learn { overflow: hidden; }
-.arc-learn-zoom { transform-origin: 0 100%; transition: transform var(--motion-ambient) var(--ease); }
-.arc-live [data-at="2"] .arc-learn-zoom { transform: scale(2); }
-.arc-live [data-at="2"] .arc-note--unknown { left: 40%; top: 84%; }
+/* ---- the zoom, in a chapter ----
+   A whole screen of the prototype printed in a column is about half its
+   size, and its text about 7px: the pins said what a step was about over
+   words nobody could read. So a live stage frames the part each step talks
+   about, at a size that reads, and moves to the next part as the step
+   turns. Three numbers per step, set on the screen: the region's top-left
+   corner (--zx, --zy, as a share of the capture) and the scale (--zs). The
+   layer is moved by them, and every pin is placed by them from its own
+   spot on the capture (--px, --py), outside the layer, so a pin rides with
+   the part it points at and stays its own size. Still, narrow, or before
+   the first step, the scale is 1 and the screen is whole. */
+.arc-screen--zoom { --zx: 0%; --zy: 0%; --zs: 1; overflow: hidden; }
+.arc-zoom-layer {
+  transform-origin: 0 0;
+  transform: translate(calc(var(--zx) * var(--zs) * -1), calc(var(--zy) * var(--zs) * -1)) scale(var(--zs));
+  transition: transform var(--motion-ambient) var(--ease);
+}
+@media (min-width: 64rem) {
+  .arc-live .arc-screen--zoom .arc-note {
+    left: calc((var(--px) - var(--zx)) * var(--zs));
+    top: calc((var(--py) - var(--zy)) * var(--zs));
+    transition: opacity var(--motion-enter) var(--ease-enter), translate var(--motion-enter) var(--ease-enter), left var(--motion-ambient) var(--ease), top var(--motion-ambient) var(--ease);
+  }
+  /* Discover: the agent's wrong line, then Alex's move beside it. */
+  .arc-live #discover [data-at="1"] .arc-screen--zoom { --zx: 1.5%; --zy: 30%; --zs: 1.8; }
+  .arc-live #discover [data-at="2"] .arc-screen--zoom,
+  .arc-live #discover [data-at="3"] .arc-screen--zoom { --zx: 44.4%; --zy: 20%; --zs: 1.8; }
+  .arc-note--claim { --px: 15%; --py: 71.5%; }
+  .arc-note--source { --px: 60%; --py: 47%; }
+  .arc-note--call { --px: 60%; --py: 58.5%; }
+  /* Delegate: the brief, while the checks run over it, then the one stop. */
+  .arc-live #delegate [data-at="1"] .arc-screen--zoom,
+  .arc-live #delegate [data-at="2"] .arc-screen--zoom { --zx: 2.5%; --zy: 27%; --zs: 1.55; }
+  .arc-live #delegate [data-at="3"] .arc-screen--zoom { --zx: 44.4%; --zy: 25%; --zs: 1.8; }
+  .arc-note--build { --px: 21%; --py: 58.5%; }
+  .arc-note--stop { --px: 82%; --py: 41.5%; }
+  /* Learn: what passed, then what nobody knows yet, the bottom corner. */
+  .arc-live #learn [data-at="1"] .arc-screen--zoom { --zx: 1%; --zy: 40%; --zs: 1.8; }
+  .arc-live #learn [data-at="2"] .arc-screen--zoom,
+  .arc-live #learn [data-at="3"] .arc-screen--zoom { --zx: 0%; --zy: 50%; --zs: 2; }
+  .arc-note--verified { --px: 33%; --py: 83.5%; }
+  .arc-note--unknown { --px: 21%; --py: 92%; }
+}
+
+/* ---- Learn: the targets ---- */
 .arc-targets {
   margin: 0 var(--space-md) var(--space-md);
   padding: var(--space-md) var(--space-lg);
@@ -1239,8 +1272,8 @@
   /* Learn: the capture's top half repeats what the reader has just
      scrolled through, chapter by chapter; the steps are about the bottom
      half, what's verified and what isn't known, so that is what shows. */
-  .arc-learn-zoom { overflow: hidden; }
-  .arc-learn-zoom img { aspect-ratio: 1077 / 1480; object-fit: cover; object-position: center bottom; }
+  .arc-learn .arc-zoom-layer { overflow: hidden; }
+  .arc-learn .arc-zoom-layer img { aspect-ratio: 1077 / 1480; object-fit: cover; object-position: center bottom; }
 
   /* The wipe: a 44px track where the pointer is a finger. */
   .arc-wipe-control { gap: var(--space-sm); }
