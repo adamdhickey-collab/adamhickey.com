@@ -375,12 +375,12 @@ const SHOTS = {
       `cycle-${id}`,
       {
         file: `agent-review-cycle-${id}`,
-        app: '#/cycle/explore',
+        app: '#/cycle/discover',
         desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
         phone: { clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
         open: async (page) => {
+          await exploreOpen(page);
           await page.getByRole('tab', { name: new RegExp(name) }).click();
-          await page.getByRole('button', { name: 'Select a batch for me' }).click();
           await page.getByRole('button', { name: 'Archive', exact: true }).click();
           await page.mouse.move(0, 0);
           await page.waitForTimeout(300);
@@ -401,12 +401,12 @@ const SHOTS = {
       `cycle-wipe-${id}`,
       {
         file: `agent-review-cycle-wipe-${id}`,
-        app: '#/cycle/explore',
+        app: '#/cycle/discover',
         desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => fixedClip(page, '.cycle__product-frame', 460) },
         phone: false,
         open: async (page) => {
+          await exploreOpen(page);
           await page.getByRole('tab', { name: new RegExp(name) }).click();
-          await page.getByRole('button', { name: 'Select a batch for me' }).click();
           await page.getByRole('button', { name: 'Archive', exact: true }).click();
           await page.mouse.move(0, 0);
           await page.waitForTimeout(300);
@@ -612,10 +612,25 @@ async function stage(page, id) {
 async function choose(page, name) {
   await page.getByRole('button', { name: new RegExp(`^Choose\\s+${name}$`) }).click();
 }
-async function cycleTo(page, last) {
+/* Since agent-review#50 (2026-10-26) a stage opens only once every stage
+   before it is decided, so Explore is reached through Discover and Define,
+   each direction opens with the batch already selected, and Evaluate opens
+   once all three have been tried. */
+async function exploreOpen(page) {
   await choose(page, 'Correct it');
   await stage(page, 'define');
   await choose(page, 'Nothing leaves without a way back');
+  await stage(page, 'explore');
+}
+async function cycleTo(page, last) {
+  await exploreOpen(page);
+  await page.getByRole('button', { name: 'Archive', exact: true }).click();
+  await page.getByRole('button', { name: 'Try confirm first, naming who' }).click();
+  await page.getByRole('button', { name: 'Archive', exact: true }).click();
+  await page.getByRole('button', { name: 'Archive 5 customers' }).click();
+  await page.getByRole('button', { name: 'Try review the batch, then archive' }).click();
+  await page.getByRole('button', { name: 'Archive', exact: true }).click();
+  await page.getByRole('button', { name: 'Archive 4 customers' }).click();
   await stage(page, 'evaluate');
   await choose(page, 'Archive now, undo after');
   await page.getByRole('checkbox', { name: /Require: Name any active customer/ }).check({ force: true });
