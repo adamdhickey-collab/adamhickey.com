@@ -386,9 +386,9 @@ homepage card follow one feature. Since the same night those pictures are
 the prototype's own: agent-review draws each stage, the opener's batch and
 the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
 `scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
-The homepage card, the lab index's and the share card are still the cycle
-card (`scripts/cycle-card.mjs`), a drawing; `scenes.mjs` also takes the three
-directions side by side (`three`), which the case study's Explore row uses. From 2026-10-21 it opened on "Every action is a button. Except
+The three directions side by side (`three`) are the homepage card, the lab
+index's and the case study's Explore row. The cycle card
+(`scripts/cycle-card.mjs`) still draws the case study's share card. From 2026-10-21 it opened on "Every action is a button. Except
 cancel.", the billing run's hand-built "Cancel subscription" link drawn in
 code (`quiet-cancel.css` and `quiet-cancel.js`, which were the homepage
 card's picture for one day and left with it); that run is the case study's
