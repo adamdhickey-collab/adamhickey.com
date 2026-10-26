@@ -417,18 +417,50 @@
   color: var(--ink-on-dark);
 }
 .case-section .ar-cycle p:not(.ar-cycle-stage) {
+  position: relative;
   margin: var(--space-sm) 0 0;
+  padding-left: calc(var(--space-lg) + var(--space-sm));
   font-size: var(--text-base);
   line-height: var(--leading-body);
 }
-.ar-cycle-who {
-  display: block;
+/* Who did it is a mark, not a label: the loop's own two icons (lab/index.html),
+   code brackets for the agent in the muted ink and a person with a check for
+   the designer in the sage, at the head of each line and centered on its first
+   line box, worked out from 1lh. The key over the grid names the two once, for
+   a reader; each line keeps its name in a visually hidden span, for a screen
+   reader, since an icon never carries the meaning alone. The marks are 20px
+   over 16px text, set from the stroke the design system's icons share. */
+.ar-cycle-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ar-cycle-mark {
+  flex: none;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--color-muted-gray);
+}
+.ar-cycle-me .ar-cycle-mark,
+.ar-cycle-key-me .ar-cycle-mark { color: var(--color-accent-text); }
+.ar-cycle li .ar-cycle-mark {
+  position: absolute;
+  left: 0;
+  top: calc((1lh - var(--space-lg)) / 2);
+}
+.case-section .ar-cycle-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  margin: 0 0 var(--space-xl);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-.ar-cycle-me .ar-cycle-who { color: var(--color-accent-text); }
+.ar-cycle-key span { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.ar-cycle-key-me { color: var(--color-accent-text); }
 /* The one stage told in full is marked, and links to its section. */
 .ar-cycle-full a {
   font-weight: var(--weight-semibold);
