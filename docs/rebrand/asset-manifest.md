@@ -66,3 +66,33 @@ None of this is done, and the site never says it is.
   shape of the screens.
 - **Film.** The thirty-second outdoor piece described on the case study
   (the three moves of the pour with a hand in them) is unshot.
+
+## The site's existing assets
+
+Reused, reframed or left alone, by folder. Nothing in these folders was
+regenerated for the repositioning; what changed is which pictures lead and
+how they are cropped and sequenced.
+
+| Asset | Decision |
+| --- | --- |
+| `img/site/` Innovators Studio set (`group-100008-1`, `branding3`, `illustrations2`, `badges2`, `presentations3`, `newsletters2`, `podcast-promos2`, `campaigns7`, `one-pagers2`, `business-models2`, `community-hub2`, `find-an-innovator2`, `innovation-academy2`) | **Reframed.** The real work, re-sequenced on the storytelling system: the identity as an annotated detail, the communications as a strip, the digital ecosystem as a grid. No new identity laid over it. |
+| `img/site/` studio-years set (`lund-boats-website`, `fulton-beer-website`, `hazelden-campaign-and-website`, `northern-spark-ios-app`, `feed-friendsy-ios-app`, `dorsey-and-whitney-100-year-anniversary-app`, `pixel-farm-family-of-websites`, `pixel-farm-building`) and `img/casework/learn-to-live` | **Reframed.** Shown large on the studio page and on the homepage wall and cards. |
+| `img/dcf/` | **Reused**, plus three crops cut from the brand board (`identity-mark`, `identity-ephemera`, `identity-swatches`) so the identity can be shown before the product. Venue photography stays real; brand imagery stays illustrative. |
+| `img/lucy/`, `img/products/lucy-learns*` | **Reused**, re-sequenced around the illustration language and the two postures; the before/after pair and the four eras carry the iteration story. |
+| `img/engagement/01-clarity`, `02-system`, `03-embedded`, `04-ai` | **Reused** as the four pictures under What I bring, with new captions. The rest of the folder (the engagement heroes and step drawings) is unused and kept. |
+| `img/about/` | **Reused** as they were. |
+| `img/products/`, `img/faunaform/`, `img/wwh/` | **Reused** on the homepage and their pages. |
+| `img/og/` | **Regenerated** by `scripts/og.mjs` for every retitled page. |
+| `img/hero-portrait.mp4`, `img/portrait-illus.webp` | **Reused** in About, in the same frame and caption. |
+| `img/site/adam-logo.svg`, `img/site/logo-reveal.mp4` | **Left alone**, at Adam's request. |
+| `img/writing/`, `img/lab/`, `img/cockpit/`, `img/shelf/` | **Left alone.** |
+
+## What is still owed
+
+- Photography for Say When (real pours, real people at their own "when"),
+  a print proof of a bag and a dieline check: the brief is in the section
+  above. Until then every packaging image is a render and the pages say so.
+- A set of still captures of the Say When storefront at more states, if the
+  case study is to show the cart drawer and the checkout in more detail.
+- A refreshed share card for the homepage once the brand has a photograph
+  worth leading with; today it carries the Door County Found board.
