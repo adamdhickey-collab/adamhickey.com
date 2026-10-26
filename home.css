@@ -164,7 +164,11 @@
 .ha { background: var(--color-white); padding: var(--space-section) 0; }
 .ha h2 { margin-bottom: var(--space-2xl); }
 .ha-top { display: grid; gap: var(--space-2xl); margin-bottom: var(--space-block); }
-@media (min-width: 768px) { .ha-top { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-4xl); align-items: center; } }
+/* Side by side from 1024, not 768: in a 4-of-12 column at 768 the circle is
+   235px, and the caption's second line reached into the scrim's fade and
+   measured 2.57:1 on the clip's brightest frame. Stacked, the circle is its
+   full 360px there, as it is on a phone, and the scrim holds. */
+@media (min-width: 1024px) { .ha-top { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-4xl); align-items: center; } }
 /* No ground on the frame: the poster fills it, and a solid colour here would
    give resting.mjs a surface to composite the caption against instead of the
    measured scrim (COLOR.md section 5). */
