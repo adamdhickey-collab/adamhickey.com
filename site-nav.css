@@ -118,13 +118,14 @@
    pages; this is what makes that true.
 
    site-nav.css lays .nav-inner out with space-between, so as a flex child
-   this block floated wherever the leftover space put it: close to the
-   hero copy's left edge below, but never on it. Above 900px the bar becomes
-   a grid using the home hero's own column geometry (.hero-photo is 33% with
-   a 3rem gap), so column two starts exactly where the hero eyebrow and
-   headline start, and the links sit on that line -- on every page, not only
-   the one with the hero, because the point is that nothing in the header
-   moves between pages. Below 900px the inline list is hidden and the flex
+   this block floated wherever the leftover space put it. Above 900px the
+   bar becomes a grid of three tracks, the outer two equal, so the links sit
+   on the page's own center line -- on every page, because the point is
+   that nothing in the header moves between pages. Until 2026-10-26 the
+   first track was the hero's 33% photo column, to start the links on the
+   headline's left edge; the hero's geometry moved and the line did not
+   (links at 561px, headline at 647px, at 1440), which left the row neither
+   centered nor aligned, and Adam asked for centered. Below 900px the inline list is hidden and the flex
    space-between above still applies, which is correct for logo + icons;
    the .nav-toggle button in .nav-actions opens the same list as a panel
    under the bar, see the menu rules below. SPACING.md has the reason 900
@@ -136,31 +137,25 @@
   padding: 0;
 }
 @media (min-width: 900px) {
-  /* The first track is the hero's 33% column, and it is allowed to give
-     that up rather than push the icons off the page. With four links the
-     row fit at 900 with the bar's right edge at 871; the fifth link,
-     Writing, made it 929, so from 900 to about 985 the LinkedIn icon sat
-     past the viewport or in the gutter. minmax lets the logo's track
-     shrink toward the logo itself only while the links and icons need the
-     room, and it is exactly 33% again the moment they do not, which is
-     every width above about 985. The links' left edge moves off the hero
-     line only in that band, and only by what the overflow needed. */
+  /* 1fr auto 1fr: the outer tracks split what the links leave, so they are
+     equal and the links' center is the bar's center. minmax(auto, 1fr) is
+     what keeps that from pushing the logo or the icons out: a track never
+     drops below its content, so if the room ever ran out the row would
+     give up exact centering rather than overflow. The gap is only a floor
+     now, since the 1fr tracks hold the real space, and at 2xl rather than
+     4xl the logo keeps its full width from about 985 up, as it did under
+     the 33% track; at 4xl it gave up 24px at 960. */
   .site-nav .nav-inner {
     display: grid;
-    grid-template-columns: minmax(auto, 33%) 1fr auto;
-    gap: var(--space-4xl);
+    grid-template-columns: minmax(auto, 1fr) auto minmax(auto, 1fr);
+    gap: var(--space-2xl);
     align-items: center;
   }
   .site-nav .logo-btn { justify-self: start; }
-  /* nowrap is what makes the minmax above do its job. Grid sizes the
-     middle track from the links' min-content width, and with wrapping
-     allowed that width is one word: the track took the narrow reading,
-     "How I Work" went to three lines from 900 to about 1020, and the logo's
-     track never got asked to give anything up. Held to one line, the
-     links' min-content is the whole row, the logo track is the one that
-     shrinks, and it shrinks by two pixels at 900 and by nothing from 920
-     up. The icons' right edge does not move at any width; measured 900 to
-     1300 in twenty-pixel steps before and after. */
+  .site-nav .nav-actions { justify-self: end; }
+  /* nowrap holds the links to one line, so the middle track is sized to
+     the whole row rather than to its longest word, which once sent "How I
+     Work" to three lines between 900 and about 1020. */
   .nav-links { display: flex; align-items: center; gap: var(--space-2xl); white-space: nowrap; }
   /* LinkedIn is an icon in the bar up here; the drawer row is its phone
      form and only that. */
