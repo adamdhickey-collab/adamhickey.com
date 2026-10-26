@@ -388,10 +388,10 @@ const SHOTS = {
       },
     ]),
   ),
-  /* The three directions cut to one size, for the two places the case study
-     lays one over another: the pinned Explore's stage, which shows one at a
-     time, and the decision's wipe, which slides review over undo. The product frame from its top, 640px of window tall, at the
-     directions' own 1.25. Desktop only: a phone shows the two stacked. */
+  /* The three directions cut to one size, so the case study can set two of
+     them side by side in Evaluate, undo and review, in the same crop. The
+     product frame from its top, 640px of window tall, at the directions'
+     own 1.25. Desktop only: a phone shows each direction's own capture. */
   ...Object.fromEntries(
     [
       ['undo', 'Archive now, undo after'],
