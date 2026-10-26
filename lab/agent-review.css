@@ -183,93 +183,10 @@
   text-wrap: pretty;
 }
 
-/* Relay's screen: the selection bar, its count and the one action, over
-   the selected rows, each a checked box and a company with its status
-   under it, a hairline between. The box is the site's charcoal with a
-   warm check, a picture of a checked box rather than a control. */
-.ship-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xs) var(--space-md);
-  padding: var(--space-sm) var(--space-lg);
-  background: var(--color-tea-light);
-  border-bottom: 1px solid var(--rule-hairline);
-}
-.ship-count,
-.ship-confirm {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.ship-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
-.ship-rows { margin: 0; padding: var(--space-xs) var(--space-lg); }
-.ship-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-sm) 0;
-  border-top: 1px solid var(--rule-hairline);
-}
-.ship-row:first-child { border-top: 0; }
-.ship-row dt {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.ship-row dt span {
-  display: block;
-  font-weight: var(--weight-regular);
-  color: var(--color-muted-gray);
-}
-.ship-row dd { order: -1; margin: 0; }
-.ship-check {
-  position: relative;
-  display: block;
-  width: var(--space-md);
-  height: var(--space-md);
-  background: var(--color-charcoal);
-}
-.ship-check::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--color-warm);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 100% no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 100% no-repeat;
-}
-/* The one action that takes all five, ringed: the caution ink is the
-   site's mark for work that stops for a person (COLOR.md, section 2). The
-   ring is an outline, so it takes no room and moves nothing. */
-.ship-btn {
-  display: inline-block;
-  padding: var(--space-2xs) var(--space-md);
-  border: 1px solid var(--color-muted-gray);
-  background: var(--color-white);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-  white-space: nowrap;
-  outline: 2px solid var(--color-caution-text);
-  outline-offset: var(--space-2xs);
-}
-/* The agent's stop, beside the button, for "Stop and ask someone" only. */
-.ship-flag {
-  display: none;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-caution-text);
-}
-.ship[data-picked="ask"] .ship-flag { display: inline; }
-/* "Ask 'Are you sure?' first": the bar becomes the question. */
-.ship-confirm { display: none; }
-.ship[data-picked="confirm"] .ship-count { display: none; }
-.ship[data-picked="confirm"] .ship-confirm { display: inline; }
+/* Relay's screen: the prototype's own picture of it (agent-review
+   #/scenes/batch, captured by scripts/scenes.mjs), styled with the stage
+   scenes below. Until 2026-10-26 it was drawn here in the site's type, and a
+   press changed the bar; the answers' text now says what each one does. */
 
 /* The answers: three tiles in a row, one choice. Each is white on the
    page's ground with the card's edge and a radio mark, the label at the
@@ -602,108 +519,24 @@
 #the-cycle .build-hero-act { margin-top: var(--space-block); }
 
 /* ---- The stage scenes ----
-   A picture beside each of the six stages, since 2026-10-26: the stage's
-   moment as a simplified screen of the prototype, in the device frame the
-   Evaluate pair uses. Built here rather than drawn, because it carries the
-   product's own words (agent-review src/data/cycle.ts), and a label in a
-   bitmap is one no check can read. Conceptual, not a capture: a few cards
-   in the strip's key. What the agent made is white with the card's edge;
-   what the designer did is the sage edge on the tea-light ground; a claim
-   that was wrong is the caution ground, and the agent's stop the caution
-   ink, its third use (COLOR.md). Each scene is one picture role with a
-   label that says what it shows, so a screen reader hears the moment once
-   rather than every card. */
-.ar-scene-body {
-  display: grid;
-  gap: var(--space-sm);
-  align-content: start;
-  padding: var(--space-md);
-  background: var(--color-warm);
-}
-.ar-scene-split,
-.ar-scene-pair { display: grid; gap: var(--space-sm); }
-.ar-scene-group { display: grid; gap: var(--space-xs); align-content: start; }
-@container ar-scene (min-width: 34rem) {
-  .ar-scene-split { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
-  .ar-scene-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@container ar-scene (min-width: 40rem) {
-  .ar-scene-three { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
-  .ar-scene-body { padding: var(--space-lg); }
-}
-.ar-scene { container: ar-scene / inline-size; }
-.ar-scene-card {
-  padding: var(--space-sm);
-  background: var(--color-white);
+   A picture beside each of the six stages, and the opener's screen: since
+   2026-10-26 each is drawn by the prototype itself, at its own address
+   (agent-review #/scenes/<id>), from its own components and tokens, and
+   captured at 16:9 by scripts/scenes.mjs. Until then they were simplified
+   screens built here in the site's type and colors, which a reader then
+   met in a prototype that looked nothing like them. The words the pictures
+   carry are in each one's alt text. The picture holds the app's own
+   ground, so the frame is the card's edge, corner and drop, as the device
+   frame's is. */
+.ar-scene { margin: 0; }
+.ar-scene img {
+  display: block;
+  width: 100%;
+  height: auto;
   border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
-.case-section .ar-scene p {
-  margin: 0;
-  padding: 0;
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.case-section .ar-scene-card p + p { margin-top: var(--space-xs); }
-.ar-scene strong { font-weight: var(--weight-semibold); }
-.case-section .ar-scene .ar-scene-head {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-.case-section .ar-scene .ar-scene-kind {
-  margin-bottom: var(--space-2xs);
-  font-weight: var(--weight-semibold);
-}
-.case-section .ar-scene .ar-scene-quiet,
-.case-section .ar-scene .ar-scene-note { color: var(--color-muted-gray); }
-/* The designer's hand. */
-.ar-scene-me {
-  background: var(--color-tea-light);
-  border: 2px solid var(--color-accent-text);
-}
-.case-section .ar-scene .ar-scene-note,
-.case-section .ar-scene .ar-scene-fix,
-.case-section .ar-scene-me .ar-scene-kind { font-weight: var(--weight-semibold); color: var(--color-accent-text); }
-.ar-scene-pill {
-  display: inline-block;
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
-  background: var(--color-accent-text);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-warm);
-  vertical-align: 1px;
-}
-.ar-scene-pill--agent { background: var(--color-charcoal); }
-/* A claim the evidence contradicts, and the agent's stop. */
-.case-section .ar-scene .ar-scene-wrong {
-  padding: var(--space-2xs) var(--space-xs);
-  background: var(--color-caution-light);
-  color: var(--color-caution-text);
-}
-.ar-scene-wrong s { text-decoration-thickness: 1px; }
-.case-section .ar-scene .ar-scene-stop { color: var(--color-caution-text); }
-/* A product button, drawn as the prototype's: an edge and a white fill. */
-.ar-scene-btn {
-  display: inline-block;
-  padding: 0 var(--space-xs);
-  border: 1px solid var(--color-muted-gray);
-  font-weight: var(--weight-medium);
-}
-/* A check that passed: the agent's, so a tick in the muted ink. */
-.ar-scene-checks p { display: flex; gap: var(--space-xs); }
-.ar-scene-ok {
-  flex: none;
-  width: var(--space-sm);
-  height: 1lh;
-  background: var(--color-muted-gray);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.25 2.25L9.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.25 2.25L9.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
-}
-/* What to measure: the measure, and its target under it. */
-.ar-scene-rows p { display: grid; }
-.case-section .ar-scene-rows p + p { margin-top: var(--space-xs); padding-top: var(--space-xs); border-top: 1px solid var(--rule-hairline); }
 
 /* ---- Evaluate: the two directions, side by side ----
    The designer's pick on the left, the agent's on the right, in the same
@@ -904,8 +737,6 @@
 /* Phones. */
 @media (max-width: 40rem) {
   .case-hero .ship-ask { font-size: var(--text-2xl); }
-  .ship-rows,
-  .ship-bar { padding-inline: var(--space-md); }
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }

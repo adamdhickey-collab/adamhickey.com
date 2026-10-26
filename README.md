@@ -382,8 +382,12 @@ at a phone's width was a quarter of the screen.
 The write-up opens on "Would you ship this?" over Relay's customer list,
 a batch selected for archiving, since the evening of 2026-10-26, so the
 opener, the pictures under it, the prototype's first screen and the
-homepage card (the cycle card, `scripts/cycle-card.mjs`) follow one
-feature. From 2026-10-21 it opened on "Every action is a button. Except
+homepage card follow one feature. Since the same night those pictures are
+the prototype's own: agent-review draws each stage, the opener's batch and
+the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
+`scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
+The three directions are the homepage card and the lab index's. The cycle
+card (`scripts/cycle-card.mjs`) still draws the case study's share card. From 2026-10-21 it opened on "Every action is a button. Except
 cancel.", the billing run's hand-built "Cancel subscription" link drawn in
 code (`quiet-cancel.css` and `quiet-cancel.js`, which were the homepage
 card's picture for one day and left with it); that run is the case study's
