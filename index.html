@@ -125,9 +125,30 @@
   <link rel="stylesheet" href="style.css?v=20261025a" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
+  <link rel="stylesheet" href="quiet-cancel.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
-  <script src="loop.js?v=1" defer></script>
+  <script src="quiet-cancel.js?v=6" defer></script>
+  <!-- The lab card's picture, "Every action is a button. Except cancel.",
+       builds itself the first time it is in view (quiet-cancel.css, "The
+       build"). It is armed here, before first paint, because
+       quiet-cancel.js is deferred: armed there, a slow load painted the
+       finished figure, emptied it and then built it. If that file never
+       runs, the arming comes off at DOMContentLoaded and the figure is
+       simply there. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      } catch (e) { return; }
+      el.classList.add('quiet-cancel-armed');
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
+      });
+    })();
+  </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -827,40 +848,49 @@
 
              NO SPANS IN THE TITLE OR THE LEAD, since the same evening: they
              forced the breaks (style.css, "THE WORDS WRAP WHERE THEY
-             FALL"). The words wrap at the measure now. -->
+             FALL"). The words wrap at the measure now.
+
+             THE PICTURE IS ONE CALL, NOT A PROCESS, since 2026-10-26: the
+             quiet cancel figure (quiet-cancel.css) in place of the loop's
+             two rows. "Used to take months, now it takes days" is the speed
+             story every tool's homepage tells, and "A person decides" as
+             its last box read as a sign-off at the end. The figure is one
+             decision an agent could not make, and the title says the same
+             thing in words: "Agents build the screens. I decide what
+             ships." The lead names the moment the case study opens on as a
+             question. The loop stays on the lab index. -->
         <div class="case-grid case-grid--lab stagger">
           <div class="case-card case-card--lab reveal">
             <div class="case-card-body">
-              <h3>When agents build, designers lead</h3>
-              <p class="case-lab-lead">Agents can build the screens now. Designers decide what&rsquo;s worth building and whether it works.</p>
+              <h3>Agents build the screens. I decide what ships.</h3>
+              <p class="case-lab-lead">An agent moved a billing screen onto the design system and stopped at one link. Should cancelling be this hard to find?</p>
               <p class="case-desc"><strong>Agent&nbsp;Review</strong>, my working prototype, follows one feature from a support ticket to what ships.</p>
               <p class="product-actions">
                 <a class="product-link" href="lab/agent-review.html">Read the Agent Review case study</a>
               </p>
             </div>
-            <a class="loop-link" href="lab/agent-review.html" aria-label="Read the Agent Review case study" aria-describedby="loop-home-desc">
-            <figure class="loop">
-              <p class="visually-hidden" id="loop-home-desc">Before, the design process ran as a relay over months: research, design, a specification, the build and QA, each leg waiting on the last. Now it runs as a loop in days: the system, agents building from it, checks on every change, and a person deciding what the checks can&rsquo;t, with each answer going back into the system.</p>
-              <div class="loop-before">
-                <p class="loop-tag">Design used to take months</p>
-                <ol class="loop-relay">
-                  <li style="--i:0">Research</li>
-                  <li style="--i:1">Design</li>
-                  <li style="--i:2">Spec</li>
-                  <li style="--i:3">Build</li>
-                  <li style="--i:4">QA</li>
-                </ol>
-              </div>
-              <div class="loop-now">
-                <p class="loop-tag loop-tag--now">Now it takes days</p>
-                <ol class="loop-steps">
-                  <li class="loop-step loop-step--system" style="--i:0"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg><b>The system</b></li>
-                  <li class="loop-step loop-step--build" style="--i:1"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg><b>Agents build</b></li>
-                  <li class="loop-step loop-step--checks" style="--i:2"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.5,0)"><circle pathLength="1" cx="11.5" cy="12" r="8.5"/><path pathLength="1" d="M7.8 12.3l2.5 2.5 4.9-5.2"/></g></svg><b>Checks</b></li>
-                  <li class="loop-step loop-step--person" style="--i:3"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.8" cy="7.8" r="3.3"/><path pathLength="1" d="M3.6 20.2c0-3.7 2.8-6.2 6.2-6.2s6.2 2.5 6.2 6.2"/><path pathLength="1" d="m15.4 8.8 1.9 1.9 3.5-3.5"/></svg><b>A person decides</b></li>
-                </ol>
-                <p class="loop-back">Each answer goes back into the system</p>
-              </div>
+            <a class="loop-link" href="lab/agent-review.html" aria-label="Read the Agent Review case study" aria-describedby="quiet-cancel-desc">
+            <figure class="quiet-cancel" data-quiet-cancel>
+              <p class="visually-hidden" id="quiet-cancel-desc">On a billing settings screen, every action is a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand. The checks pass both; only a designer can say if that&rsquo;s on purpose.</p>
+              <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
+              <ul class="quiet-cancel-cases">
+                <li class="quiet-cancel-case quiet-cancel-case--system" style="--i:0">
+                  <div class="quiet-cancel-screen">
+                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
+                    <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
+                  </div>
+                  <p class="quiet-cancel-means">A design-system button</p>
+                </li>
+                <li class="quiet-cancel-case quiet-cancel-case--hand" style="--i:1">
+                  <div class="quiet-cancel-screen">
+                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 6.5v7.5"/><path pathLength="1" d="M12 18v.01"/></svg>
+                    <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
+                  </div>
+                  <p class="quiet-cancel-means">Gray text, built by hand</p>
+                </li>
+              </ul>
+              <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
+              <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass both.</span> <span class="quiet-cancel-call">Only a designer can say if that&rsquo;s on purpose.</span></figcaption>
             </figure>
             </a>
           </div>
@@ -1419,7 +1449,7 @@
       const MAX_RX = 6, MAX_RY = 8; // degrees
       /* The lab card's figure tilts as a thumbnail does: it is that card's
          picture, and a link to its case study like theirs. */
-      document.querySelectorAll('.case-grid .case-thumb, .case-grid .loop-link .loop').forEach(thumb => {
+      document.querySelectorAll('.case-grid .case-thumb, .case-grid .loop-link .loop, .case-grid .loop-link .quiet-cancel').forEach(thumb => {
         thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
           const r = thumb.getBoundingClientRect();

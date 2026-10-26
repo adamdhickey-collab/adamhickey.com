@@ -1,0 +1,298 @@
+/* quiet-cancel.css -- "Every action is a button. Except cancel."
+
+   The homepage's Agent Review card has used this figure as its picture
+   since 2026-10-26, in place of the loop's two processes. Option A of that
+   day's review: the speed story ("used to take months, now it takes days")
+   is the one every tool's homepage tells, and its last box made the person
+   a sign-off at the end. This is one concrete call an agent could not make,
+   which is the card's title said as a picture. Until then the figure
+   opened the case study and was styled in lab/agent-review.css; the case
+   study now opens on the same screen as a question (agent-review.css,
+   "Would you ship this?"), so the figure moved here, with quiet-cancel.js
+   beside it, and the homepage is the one page that loads either.
+
+   It keeps the keyframes it borrows from style.css ("The loop"): loop-in
+   and loop-land. */
+
+/* ---------- Every action is a button. Except cancel. ----------
+   Since 2026-10-21, in place of "Same red. Different meaning." (style.css
+   until then, when the prototype's first decision changed): the problem
+   drawn in code at the top of the case study. Two actions from Relay's
+   billing settings, each in the look it has there, what each is under it,
+   one label over them and one takeaway under them. Live text at the page's
+   own sizes, so it is read, measured and translated like the rest.
+
+   ON THE LOOP'S DARK PANEL since the same day (Adam: "higher visual impact,
+   more color", "similar to the one on the homepage"): style.css, "The
+   loop", is the model, and the two figures now read as one family. The
+   white card it was had its label set off-centre by a three-column grid
+   and its two cases at different heights, so nothing lined up; now the
+   label is two centred lines and the cases are two screens of one height.
+
+   THE COLOR SAYS WHICH SIDE A THING IS ON, and there are two:
+     the system    --color-accent-on-dark: "action", the stem, the branch
+                   to "Change plan", its check disc and "The checks pass."
+     the exception --color-caution: "Except cancel." and the branch to
+                   "Cancel subscription"; its disc is the caution ground
+                   with the caution ink, as the loop's person step is.
+   --color-caution is 4.17:1 on charcoal, so it is only ever a line or
+   type at --text-2xl, where the floor is 3:1, never small text.
+
+   THE CONNECTOR (quiet-cancel.js): one stem from under the label divides
+   into a branch down to each screen, landing on the disc that sits on the
+   screen's top edge. Three paths, one per stroke color, each a single run
+   so it can draw itself.
+
+   THE TWO LOOKS are the product's, on a white screen each, which is the
+   product's own ground. "Change plan" is drawn as a button, an edge and a
+   white fill; "Cancel subscription" as the link the old billing app built
+   by hand, small, underlined and in its grey, #6a6a76, the value of the
+   prototype's own muted token. That grey is a picture of a product's
+   colour, declared on the figure and used nowhere else (COLOR.md, section
+   6), and on white it measures 5.33:1, so it is text that clears 4.5.
+
+   THE BUILD, once, the first time the figure is in view, as the loop's:
+   the rule, then the exception, the stem drawing down and dividing, each
+   screen landing as its branch arrives, and last the takeaway, whose last
+   line is the designer's call, on a line of its own. Without script, or
+   under reduced motion, nothing is armed and the figure is simply there,
+   which is what the checks measure.
+
+   Two columns from 30rem of figure, stacked under it. */
+.quiet-cancel {
+  --quiet-cancel-ink: #6a6a76;
+  --qc-system: var(--color-accent-on-dark);
+  --qc-except: var(--color-caution);
+  --qc-disc: calc(var(--space-xl) + var(--space-xs));
+  position: relative;
+  container: quiet-cancel / inline-size;
+  margin: 0;
+  padding: var(--space-xl) var(--space-md);
+  background: var(--color-charcoal);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-on-dark);
+}
+@media (min-width: 640px) {
+  .quiet-cancel { padding: var(--space-2xl) var(--space-xl); }
+}
+.quiet-cancel .quiet-cancel-label {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--ink-on-dark);
+  text-align: center;
+  text-wrap: balance;
+}
+.quiet-cancel-rule,
+.quiet-cancel-except { display: block; }
+.quiet-cancel-word { color: var(--qc-system); }
+.quiet-cancel-except { color: var(--qc-except); }
+.quiet-cancel-cases {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  margin: var(--space-4xl) 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.quiet-cancel-case {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 0;
+}
+/* The product's screen: its own white ground and the action on it,
+   centred, so the button and the link sit on one line although the button
+   is the taller. The disc sits on its top edge, where the branch lands.
+   Since 2026-10-24 there is no page name at its head: it said "Billing
+   settings" twice, and the two actions say where they are. */
+.quiet-cancel-screen {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 18rem;
+  min-height: calc(var(--space-4xl) * 2);
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 2px var(--qc-tone);
+}
+.quiet-cancel-case--system { --qc-tone: var(--qc-system); }
+.quiet-cancel-case--hand { --qc-tone: var(--qc-except); }
+.quiet-cancel-mark {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  box-sizing: border-box;
+  width: var(--qc-disc);
+  height: var(--qc-disc);
+  padding: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  transform: translate(-50%, -50%);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quiet-cancel-case--system .quiet-cancel-mark { background: var(--qc-system); color: var(--color-charcoal); }
+.quiet-cancel-case--hand .quiet-cancel-mark { background: var(--color-caution-light); color: var(--color-caution-text); box-shadow: 0 0 0 2px var(--qc-except); }
+.quiet-cancel-ui {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: var(--leading-ui);
+  white-space: nowrap;
+}
+.quiet-cancel-button {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-muted-gray);
+  background: var(--color-white);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-charcoal);
+}
+.quiet-cancel-hand {
+  font-size: var(--text-sm);
+  color: var(--quiet-cancel-ink);
+  text-decoration: underline;
+}
+/* What each is, in one line: the takeaway under them says the rest. */
+.quiet-cancel .quiet-cancel-means {
+  margin: 0;
+  max-width: 18rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--ink-on-dark);
+  text-wrap: balance;
+}
+.quiet-cancel-take {
+  margin: var(--space-2xl) 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-on-dark);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--ink-on-dark);
+  text-align: center;
+  text-wrap: balance;
+}
+.quiet-cancel-pass { color: var(--qc-system); }
+.quiet-cancel-call { display: block; margin-top: var(--space-xs); }
+.quiet-cancel-leads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.quiet-cancel-leads path {
+  fill: none;
+  stroke: var(--qc-system);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quiet-cancel-leads .quiet-cancel-lead--hand { stroke: var(--qc-except); }
+/* Stacked, the second branch runs down the left gutter, so the cases keep
+   clear of it. */
+@container quiet-cancel (max-width: 29.99rem) {
+  .quiet-cancel-cases { padding-inline: var(--space-xl); }
+}
+@container quiet-cancel (min-width: 30rem) {
+  .quiet-cancel-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl); }
+}
+@container quiet-cancel (min-width: 36rem) {
+  .quiet-cancel .quiet-cancel-label { font-size: var(--text-3xl); }
+  /* The takeaway is what the figure is for, so it closes at the label's size. */
+  .quiet-cancel-take { font-size: var(--text-3xl); }
+}
+
+/* The build. Keyed off --qc-beat, the loop's own beat, so the two figures
+   move at one pace: about two and a half seconds end to end.
+
+   ARMED ON THE ROOT, before first paint, by the page's head (index.html
+   since 2026-10-26), not by quiet-cancel.js: that file is deferred, and on a
+   slow load the finished figure painted, vanished and then built. The
+   head takes the arming back if the file never ran.
+
+   A LINE WAITING TO DRAW IS HIDDEN, not only dashed out of sight. Its
+   pathLength is 1 and its offset 1, so an empty dash sat exactly on one
+   end of the path, and Chrome drew that empty dash's round cap: a dot at
+   the foot of each branch on a desktop and under the label on a phone,
+   on screen before anything else was. Which end it lands on is rounding,
+   so the line stays hidden until its own draw starts (qc-draw), and the
+   gap of 2 keeps the far end clear in that first frame. */
+.quiet-cancel {
+  --qc-beat: calc(var(--motion-move) + var(--motion-stagger) * 2);
+}
+.quiet-cancel-armed .quiet-cancel-rule,
+.quiet-cancel-armed .quiet-cancel-except,
+.quiet-cancel-armed .quiet-cancel-case,
+.quiet-cancel-armed .quiet-cancel-means,
+.quiet-cancel-armed .quiet-cancel-take { opacity: 0; }
+.quiet-cancel-armed .quiet-cancel-leads path,
+.quiet-cancel-armed .quiet-cancel-mark path { visibility: hidden; stroke-dasharray: 1 2; stroke-dashoffset: 1; }
+@keyframes qc-draw { from { visibility: visible; } to { visibility: visible; stroke-dashoffset: 0; } }
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-rule {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-except {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: var(--qc-beat);
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--stem {
+  animation: qc-draw var(--motion-move) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 2);
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--system,
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-lead--hand {
+  animation: qc-draw var(--motion-enter) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 2 + var(--motion-move));
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-case {
+  animation: loop-land var(--motion-move) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 3 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-mark path {
+  animation: qc-draw var(--motion-enter) var(--ease) forwards;
+  animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-means {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 4 + var(--motion-move) + var(--i) * var(--motion-stagger));
+}
+.quiet-cancel-armed .quiet-cancel[data-play] .quiet-cancel-take {
+  animation: loop-in var(--motion-enter) var(--ease-enter) both;
+  animation-delay: calc(var(--qc-beat) * 5 + var(--motion-move));
+}
+
+/* ON THE HOMEPAGE CARD. The figure is the card's picture and a link to
+   the case study, so hovering it tilts and lifts it exactly as a work
+   card's picture does (style.css, the tilt rule, which names .loop and
+   .case-thumb; index.html's tilt script names this figure too). Its own
+   --shadow-card is its resting edge; the lift replaces it while tilting. */
+@media (hover: hover) and (pointer: fine) {
+  .case-grid .loop-link .quiet-cancel {
+    transition: transform var(--motion-enter) var(--ease), box-shadow var(--motion-enter) var(--ease);
+  }
+  .case-grid .loop-link .quiet-cancel.is-tilting {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--motion-lift));
+    transition: transform var(--motion-move) var(--ease-enter), box-shadow var(--motion-enter) var(--ease);
+    box-shadow: var(--shadow-lift);
+  }
+}

@@ -1,8 +1,9 @@
 /* quiet-cancel.js -- the connector in "Every action is a button. Except
  * cancel."
  *
- * The figure (lab/agent-review.css, "Every action is a button. Except
- * cancel.") is complete without this file: the label, the two actions in
+ * The figure (quiet-cancel.css; the homepage's lab card since 2026-10-26,
+ * the Agent Review case study's opener before that) is complete without
+ * this file: the label, the two actions in
  * their own looks, what each is and the takeaway are all text. This draws
  * the one line that ties them: a stem from under the word "action" that
  * divides into two branches, one to each action.

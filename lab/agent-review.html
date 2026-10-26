@@ -39,7 +39,7 @@
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
           "image": "https://adamhickey.com/img/og/agent-review.jpg?v=21",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-10-25",
+          "dateModified": "2026-10-26",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -100,41 +100,28 @@
   <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=60" />
+  <link rel="stylesheet" href="agent-review.css?v=61" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="../quiet-cancel.js?v=5" defer></script>
-  <script src="agent-review-story.js?v=3" defer></script>
-  <!-- "Every action is a button. Except cancel." builds itself the first
-       time it is in view (agent-review.css, "The build"). It is armed here,
-       before first paint, because quiet-cancel.js is deferred: armed there,
-       a slow load painted the finished figure, emptied it and then built
-       it. If that file never runs, the arming comes off at
-       DOMContentLoaded and the figure is simply there. -->
+  <script src="agent-review-story.js?v=4" defer></script>
+  <!-- Two switches, thrown here before first paint because
+       agent-review-story.js is deferred, and taken back at DOMContentLoaded
+       if that file never ran.
+       - .ship-live: the opener's question waits for an answer, so its
+         consequences are hidden until a press (agent-review.css, "Would you
+         ship this?"). Thrown late, the answers painted and then vanished.
+       - .arc-live: on a wide screen with motion allowed, the wipe in
+         Evaluate is scrubbed by scroll.
+       It also says, as early, whether read-aloud.js will add its Listen
+       button to the opener, so the row it wraps onto is held rather than
+       opened under the reader. -->
   <script>
     (function () {
       var el = document.documentElement;
-      try {
-        if (!('IntersectionObserver' in window)) return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      } catch (e) { return; }
-      el.classList.add('quiet-cancel-armed');
+      el.classList.add('ship-live');
       document.addEventListener('DOMContentLoaded', function () {
-        if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
+        if (!window.arcStory) el.classList.remove('ship-live', 'arc-live');
       });
-    })();
-  </script>
-  <!-- The story goes live (agent-review.css, "LIVE AND STILL") here, before
-       first paint, on a wide screen with motion allowed: thrown by the
-       deferred agent-review-story.js, the opener painted still and then
-       grew by a screen and a half under the reader. If that file never
-       runs, the switch comes off at DOMContentLoaded and every stage is
-       simply there. It also says, as early, whether read-aloud.js will add
-       its Listen button to the opener, so the row it wraps onto is held
-       rather than opened under the reader. -->
-  <script>
-    (function () {
-      var el = document.documentElement;
       try {
         if (window.speechSynthesis) el.classList.add('arc-can-listen');
         if (!('IntersectionObserver' in window)) return;
@@ -142,9 +129,6 @@
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       } catch (e) { return; }
       el.classList.add('arc-live');
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!window.arcStory) el.classList.remove('arc-live');
-      });
     })();
   </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -271,589 +255,352 @@
   </nav>
 
   <main id="main" class="arc">
-    <!-- THE OPENER, Direction C (since 2026-10-25): the product is the star.
-         The title, one line and the way in, beside one Relay customer table
-         in a device frame. On a wide screen with motion allowed the opener
-         is held still while the reader scrolls three beats past it
-         (agent-review-story.js): the table, then the frame zooms out to show
-         it as one screen of many, then it zooms back in on the table, and
-         a label says it is simulated. Narrow or still, it is the table and
-         its label, and nothing else. -->
-    <header class="case-hero arc-open" data-scene>
-      <div class="arc-open-pin">
-        <p class="arc-cue" aria-hidden="true">Scroll<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6l4.5 4.5L12.5 6"/></svg></p>
-        <div class="container case-wide arc-open-grid">
-          <div class="arc-open-text">
-            <p class="arc-kicker">Lab &middot; Agent Review &middot; <span class="case-readtime">6 min read</span></p>
-            <h1 class="case-title arc-title">When agents build, designers lead</h1>
-            <p class="arc-dek">Coding agents now do much of the building. This prototype shows the design job that grows around them.</p>
-            <div class="arc-open-act">
-              <p class="build-hero-act" data-read-aloud="skip after">
-                <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
-              </p>
-            </div>
-            <p class="arc-status">I designed and built it in React and Storybook. The scenario is simulated, not yet tested with users. In the prototype you play the designer, Alex.</p>
+    <!-- THE OPENER, since 2026-10-26: a question before any answer. The
+         title, one line and the way in, beside Relay's billing settings and
+         the question the agent stopped on, put to the reader: "Would you
+         ship this?" Three answers, each showing what it leads to once
+         pressed, then what happened (agent-review.css, "Would you ship
+         this?"; the press is agent-review-story.js's). The screen's rows
+         and the two directions are the prototype's own (agent-review
+         src/data/billing.ts): the checks pass either fix, and neither
+         moves a pixel. What happened is the decision record's. -->
+    <header class="case-hero arc-open">
+      <div class="container case-wide arc-open-grid">
+        <div class="arc-open-text">
+          <p class="arc-kicker">Lab &middot; Agent Review &middot; <span class="case-readtime">4 min read</span></p>
+          <h1 class="case-title arc-title">When agents build, designers lead</h1>
+          <p class="arc-dek">Coding agents now do much of the building. This prototype shows the design job that grows around them.</p>
+          <div class="arc-open-act">
+            <p class="build-hero-act" data-read-aloud="skip after">
+              <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Try the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+            </p>
           </div>
-          <div class="arc-stage arc-open-stage" data-stage>
-            <div class="arc-device">
-              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-              <div class="arc-screen arc-zoom">
-                <div class="arc-zoom-grid">
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-discover.webp?v=2" width="2880" height="1684" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-delegate.webp?v=2" width="2880" height="1448" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-storybook.webp" width="2200" height="1440" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile arc-tile--main"><picture>
-                    <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-undo-phone.webp?v=3" width="1029" height="1593" />
-                    <img src="../img/lab/agent-review-cycle-wipe-undo.webp?v=3" width="1820" height="920" fetchpriority="high" decoding="async"
-                       alt="Relay&rsquo;s customer table in the prototype, eight customers, just after archiving a batch: a bar reads 4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice, with Undo beside it." />
-                  </picture></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-learn.webp?v=2" width="2880" height="1838" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-decision.webp?v=9" width="2106" height="1480" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" /></div>
-                  <div class="arc-tile" aria-hidden="true"><img src="../img/lab/agent-review-themes.webp" width="2880" height="1800" alt="" loading="lazy" decoding="async" /></div>
-                </div>
-              </div>
-              <p class="arc-chip arc-open-chip" data-from="3">This is Relay, a made-up app for managing customers. The case study follows one change to it, archiving a customer, through all six stages.</p>
-            </div>
+          <p class="arc-status">I designed and built it in React and Storybook. The scenario is simulated, not yet tested with users.</p>
+        </div>
+        <div class="ship" data-ship>
+          <p class="ship-ask">Would you ship this?</p>
+          <p class="ship-setup">An agent is moving these billing settings onto the design system. Nothing should look different. Every action is a button, except one.</p>
+          <figure class="arc-device" aria-label="Relay&rsquo;s billing settings: Change plan, Update card and Download invoices are buttons; Cancel subscription is small gray text">
+            <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Billing settings</span></div>
+            <dl class="ship-rows">
+              <div class="ship-row"><dt>Plan<span>Growth &middot; 45 seats, renews Nov 1</span></dt><dd><span class="ship-btn">Change plan</span></dd></div>
+              <div class="ship-row"><dt>Payment method<span>Visa ending 4242</span></dt><dd><span class="ship-btn">Update card</span></dd></div>
+              <div class="ship-row"><dt>Invoices<span>Sent to the billing address</span></dt><dd><span class="ship-btn">Download invoices</span></dd></div>
+              <div class="ship-row"><dt>Subscription<span>Cancelling ends it on Nov 1</span></dt><dd><span class="ship-link">Cancel subscription</span></dd></div>
+            </dl>
+          </figure>
+          <ul class="ship-picks" aria-label="Your answer">
+            <li class="ship-pick" data-pick="match">
+              <button type="button" aria-pressed="false">Ship it as it looks<span class="ship-mine" aria-hidden="true">Your pick</span></button>
+              <p class="ship-then">The agent adds a quiet button style so cancel looks exactly as it does. The checks pass. Now any later agent can make any action this hard to find.</p>
+            </li>
+            <li class="ship-pick" data-pick="button">
+              <button type="button" aria-pressed="false">Make cancel a real button<span class="ship-mine" aria-hidden="true">Your pick</span></button>
+              <p class="ship-then">Cancelling gets as easy to find as changing the plan. But this job promised nothing would look different, and how easy it is to cancel is a product decision.</p>
+            </li>
+            <li class="ship-pick" data-pick="ask">
+              <button type="button" aria-pressed="false">Stop and ask someone<span class="ship-mine" aria-hidden="true">Your pick</span></button>
+              <p class="ship-then">That&rsquo;s what the agent did. The checks pass with either fix, and neither moves a pixel. No check can say whether cancel is quiet on purpose.</p>
+            </li>
+          </ul>
+          <div class="ship-after" role="status">
+            <p class="ship-verdict"><strong>It wasn&rsquo;t on purpose.</strong> The gray link was left over from a retention test nobody turned off.</p>
+            <p>I made it a button, in its own change, and a rule for the next agent: on billing screens, nothing that ends a subscription gets the quiet style.</p>
           </div>
         </div>
       </div>
-      <ol class="arc-beats" aria-hidden="true"><li data-step></li><li data-step></li><li data-step></li></ol>
     </header>
 
-    <!-- THE SIX CHAPTERS. Each is one product moment: a stage that holds the
-         real screen (or a small piece of Relay rebuilt in live HTML where its
-         words have to change), and three short steps. On a wide screen with
-         motion allowed the stage is held still beside the steps, and each
-         step brings on its part of the screen as it reaches the middle of
-         the window (agent-review-story.js, .arc-live). Narrow, still or
-         without script, the stage shows everything at once with the steps
-         under it. The stage nav on the left marks the chapter in view. -->
-    <div class="arc-story">
-      <nav class="arc-stages" aria-label="Stages of the story">
-        <div class="container case-wide">
-          <div class="arc-stages-box">
-            <span class="arc-stages-line" aria-hidden="true"><span class="arc-stages-fill"></span></span>
-            <ol>
-              <li><a href="#discover">Discover</a></li>
-              <li><a href="#define">Define</a></li>
-              <li><a href="#explore">Explore</a></li>
-              <li><a href="#evaluate">Evaluate</a></li>
-              <li><a href="#delegate">Delegate</a></li>
-              <li><a href="#learn">Learn</a></li>
-            </ol>
+    <!-- THE RULE the reader just used: three kinds of change, one that goes
+         through and two that stop for a person, each with an example from
+         the prototype (agent-review src/data: billing.ts for the routine
+         token move and the cancel link, cycle.ts for the undo bar, whose
+         system is Priya's). The loop's rail is its picture. -->
+    <section class="case-section case-overview build-chapter ground-tea" id="the-rule">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <h2>Most of an agent&rsquo;s work should need nobody</h2>
+            <p class="arc-lead">You just made the call the checks couldn&rsquo;t. Agent Review sorts every change an agent makes into three kinds, and only two stop for a person.</p>
           </div>
-        </div>
-      </nav>
+        </header>
+        <ul class="ar-kinds">
+          <li class="ar-kind ar-kind--through">
+            <p class="ar-kind-lane">Goes through</p>
+            <h3>Proceeds on its own</h3>
+            <p>Clear instructions, allowed, and the checks pass. Colors typed in by hand become the system&rsquo;s named ones.</p>
+          </li>
+          <li class="ar-kind ar-kind--stops">
+            <p class="ar-kind-lane">Stops for a person</p>
+            <h3>Needs judgment</h3>
+            <p>Two answers are both fair, or only a person knows the fact. Is the quiet cancel on purpose?</p>
+          </li>
+          <li class="ar-kind ar-kind--stops">
+            <p class="ar-kind-lane">Stops for a person</p>
+            <h3>Needs approval</h3>
+            <p>The fix reaches past what the agent was given. A new pattern in the design system is its owner&rsquo;s call.</p>
+          </li>
+        </ul>
+        <figure class="ar-rail">
+          <figcaption class="ar-rail-caption">Where a person comes in: the agent builds, the checks settle routine work, and someone decides what they can&rsquo;t.</figcaption>
+          <svg class="rl-defs" aria-hidden="true" focusable="false">
+            <symbol id="rl-mod-sage" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--sage" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
+            <symbol id="rl-mod-grey" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--grey" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
+            <symbol id="rl-mod-dot" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><circle class="rl-mark rl-mark--grey" cx="16" cy="14" r="6"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
+            <symbol id="rl-mod-new" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--new" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
+            <symbol id="rl-change" viewBox="0 0 64 28"><rect class="rl-box rl-box--change" x=".5" y=".5" width="63" height="27" rx="4"/><rect class="rl-mark rl-mark--sage" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M30 11h22M30 17h14"/></symbol>
+            <symbol id="rl-pass" viewBox="-10 -10 20 20"><circle class="rl-pass" r="9.5"/><path class="rl-ink" d="M-4 0l2.75 2.75L4-2.75"/></symbol>
+            <symbol id="rl-flag" viewBox="-10 -10 20 20"><circle class="rl-flag" r="9.5"/><path class="rl-ink" d="M0-4.5V.5M0 3.75v.01"/></symbol>
+            <symbol id="rl-cursor" viewBox="-1 -1 14 19"><path class="rl-cursor" d="M0 0v16l4.5-4.5H11z"/></symbol>
+          </svg>
 
-      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="discover">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 1 of 6 &middot; Discover</p>
-              <h2>I caught the one line the agent got wrong</h2>
-              <p class="arc-lead">The feature: archiving customers in Relay. People archive the wrong one and can&rsquo;t get it back.</p>
-            </div>
-          </header>
-          <div class="arc-scene arc-scene--shot" data-scene>
-            <div class="arc-stage" data-stage>
-              <figure class="arc-device" aria-label="The prototype, Discover stage">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Discover</span></div>
-                <div class="arc-screen arc-screen--zoom">
-                  <div class="arc-zoom-layer">
-                    <picture>
-                      <source media="(max-width: 63.99rem)" srcset="../img/lab/agent-review-cycle-discover-phone.webp?v=2" width="1077" height="1929" />
-                      <img src="../img/lab/agent-review-cycle-discover.webp?v=2" width="2880" height="1684" loading="lazy" decoding="async"
-                           alt="The Discover stage in the prototype. The agent&rsquo;s summary in four lines, two marked Observation, one Interpretation, and one Assumption, highlighted: Archiving deletes customer data, so a mistake is permanent. Beside it, Your move: The summary says archiving deletes data. Does that hold up? It rests on one ticket; read the engineering note. Correct it is chosen: archived records are kept for 90 days, and the problem is that nobody can see them or put them back." />
-                    </picture>
-                    <span class="arc-sweep arc-sweep--claim" data-from="1" aria-hidden="true"></span>
-                  </div>
-                  <ol class="arc-notes">
-                    <li class="arc-note arc-note--claim" data-from="1"><span class="arc-note-n" aria-hidden="true">1</span>The agent&rsquo;s claim</li>
-                    <li class="arc-note arc-note--source" data-from="2"><span class="arc-note-n" aria-hidden="true">2</span>Kept for 90 days</li>
-                    <li class="arc-note arc-note--call" data-from="3"><span class="arc-note-n" aria-hidden="true">3</span>My call</li>
-                  </ol>
-                </div>
-              </figure>
-            </div>
-            <ol class="arc-steps">
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>The agent summed up six pieces of evidence. One line said archiving deletes data.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>An engineering note: archived customers are kept 90 days. Nobody can see them or put them back.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>I corrected it, or the brief would have chased a loss that isn&rsquo;t happening.</p></li>
-            </ol>
+          <svg class="rl-wide" viewBox="0 20 1200 180" role="img" focusable="false" aria-label="One line through the six steps. It leaves a system of three parts, passes through the agent, and branches off with the change while the main line waits. On the branch three checks pass and the fourth needs reading. Routine work, which its checks settle, drops back to the main line there, under the review; this change stops for a person's review, and both rejoin at a system of four parts, one of them new.">
+            <rect class="rl-area rl-area--agent" x="220.5" y="112.5" width="87" height="55" rx="10"/>
+            <rect class="rl-area" x="608.5" y="38.5" width="179" height="51" rx="12"/>
+            <path class="rl-quiet" d="M404 140H830"/>
+            <path class="rl-line" d="M32 104h-6a6 6 0 0 0-6 6v60a6 6 0 0 0 6 6h6M136 104h6a6 6 0 0 1 6 6v60a6 6 0 0 1-6 6h-6"/>
+            <path class="rl-line" d="M1028 68h-6a6 6 0 0 0-6 6v96a6 6 0 0 0 6 6h6M1016 104h12M1132 68h6a6 6 0 0 1 6 6v96a6 6 0 0 1-6 6h-6M1132 104h12"/>
+            <path class="rl-line rl-dashed" d="M264 69v47"/>
+            <path class="rl-line" d="M260 113.5l4 4.5 4-4.5"/>
+            <path class="rl-line rl-draw" pathLength="1" d="M4 140H404C440 140 432 64 468 64H940C976 64 964 140 1000 140H1195"/>
+            <path class="rl-line rl-tip" d="M1189 134.5l6.5 5.5-6.5 5.5"/>
+            <path class="rl-line rl-dashed rl-late" d="M790 64C806 64 800 140 830 140H1000"/>
+
+            <use href="#rl-mod-sage" x="32" y="90" width="104" height="28"/>
+            <use href="#rl-mod-grey" x="32" y="126" width="104" height="28"/>
+            <use href="#rl-mod-dot" x="32" y="162" width="104" height="28"/>
+
+            <use href="#rl-mod-grey" x="212" y="41" width="104" height="28"/>
+            <rect class="rl-agent" x="246.5" y="122.5" width="35" height="35" rx="6"/>
+            <path class="rl-ink" d="M264 132v16M256 140h16"/>
+
+            <use href="#rl-change" x="488" y="50" width="64" height="28"/>
+
+            <use href="#rl-pass" x="622" y="54" width="20" height="20"/>
+            <use href="#rl-pass" x="666" y="54" width="20" height="20"/>
+            <use href="#rl-pass" x="710" y="54" width="20" height="20"/>
+            <use href="#rl-flag" x="754" y="54" width="20" height="20"/>
+
+            <rect class="rl-review" x="812.5" y="28.5" width="127" height="71" rx="10"/>
+            <use href="#rl-change" x="826" y="38" width="64" height="28"/>
+            <rect class="rl-note" x="886.5" y="34.5" width="7" height="7" rx="1.5"/>
+            <path class="rl-ink" d="M829 77v12"/>
+            <path class="rl-text" d="M835 83h40"/>
+            <use href="#rl-cursor" x="893" y="74" width="14" height="19"/>
+
+            <use href="#rl-mod-new" x="1028" y="54" width="104" height="28"/>
+            <use href="#rl-mod-sage" x="1028" y="90" width="104" height="28"/>
+            <use href="#rl-mod-grey" x="1028" y="126" width="104" height="28"/>
+            <use href="#rl-mod-dot" x="1028" y="162" width="104" height="28"/>
+
+            <circle class="rl-node" cx="4" cy="140" r="3.5"/>
+            <circle class="rl-node" cx="148" cy="140" r="3.5"/>
+            <circle class="rl-node" cx="404" cy="140" r="3.5"/>
+            <circle class="rl-node rl-late" cx="790" cy="64" r="3"/>
+            <circle class="rl-node rl-node--decision" cx="940" cy="64" r="4"/>
+            <circle class="rl-node" cx="1000" cy="140" r="3.5"/>
+            <circle class="rl-node" cx="1144" cy="140" r="3.5"/>
+          </svg>
+
+          <ol class="build-loop build-loop--rail">
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
+              <path class="rl-line" d="M20 6V4000M20 28h24M20 56h24M20 84h24"/>
+              <use href="#rl-mod-sage" x="44" y="16.7" width="84" height="22.6"/>
+              <use href="#rl-mod-grey" x="44" y="44.7" width="84" height="22.6"/>
+              <use href="#rl-mod-dot" x="44" y="72.7" width="84" height="22.6"/>
+              <circle class="rl-node" cx="20" cy="6" r="3.5"/>
+            </svg></div><strong>System</strong><span>The parts and rules a product is built from</span></li>
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 96" focusable="false">
+              <rect class="rl-area rl-area--agent" x="4.5" y="28.5" width="31" height="47" rx="8"/>
+              <path class="rl-line" d="M20 0V4000"/>
+              <path class="rl-line rl-dashed" d="M51 52H37"/>
+              <path class="rl-line" d="M38.5 48l-4 4 4 4"/>
+              <use href="#rl-mod-grey" x="52" y="40.7" width="84" height="22.6"/>
+              <rect class="rl-agent" x="8.5" y="40.5" width="23" height="23" rx="5"/>
+              <path class="rl-ink" d="M20 46.5v11M14.5 52h11"/>
+            </svg></div><strong>Agent</strong><span>Builds the change</span></li>
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 96" focusable="false">
+              <path class="rl-quiet" d="M20 12V4000"/>
+              <path class="rl-line" d="M20 0V12C20 32 80 22 80 42V4000"/>
+              <use href="#rl-change" x="52" y="60" width="56" height="24.5"/>
+              <circle class="rl-node" cx="20" cy="12" r="3.5"/>
+            </svg></div><strong>Change</strong><span>Kept apart until it&rsquo;s checked</span></li>
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
+              <rect class="rl-area" x="63.5" y="4.5" width="33" height="91" rx="12"/>
+              <path class="rl-quiet" d="M20 0V4000"/>
+              <path class="rl-line" d="M80 0V4000"/>
+              <use href="#rl-pass" x="71" y="8" width="18" height="18"/>
+              <use href="#rl-pass" x="71" y="30" width="18" height="18"/>
+              <use href="#rl-pass" x="71" y="52" width="18" height="18"/>
+              <use href="#rl-flag" x="71" y="74" width="18" height="18"/>
+            </svg></div><strong>Automated checks</strong><span>Accessibility, layout and appearance. Routine work goes through here</span></li>
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
+              <path class="rl-quiet" d="M20 0V20"/>
+              <path class="rl-line rl-dashed" d="M80 2C80 14 20 6 20 20V4000"/>
+              <path class="rl-line" d="M80 0V4000"/>
+              <rect class="rl-review" x="36.5" y="24.5" width="95" height="71" rx="10"/>
+              <use href="#rl-change" x="48" y="33" width="56" height="24.5"/>
+              <rect class="rl-note" x="100.5" y="29.5" width="7" height="7" rx="1.5"/>
+              <path class="rl-ink" d="M51 66v12"/>
+              <path class="rl-text" d="M57 72h34"/>
+              <use href="#rl-cursor" x="96" y="64" width="14" height="19"/>
+              <circle class="rl-node" cx="80" cy="3" r="3"/>
+              <circle class="rl-node rl-node--decision" cx="80" cy="95.5" r="4"/>
+            </svg></div><strong>Human judgment</strong><span>Only what the checks can&rsquo;t settle, decided or approved by whoever owns it</span></li>
+            <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 172" focusable="false">
+              <path class="rl-line rl-dashed" d="M20 0V30"/>
+              <path class="rl-line" d="M80 0C80 20 20 10 20 30V161M20 52h24M20 82h24M20 112h24M20 142h24"/>
+              <path class="rl-line" d="M15 155.5l5 6 5-6"/>
+              <use href="#rl-mod-new" x="44" y="40.7" width="84" height="22.6"/>
+              <use href="#rl-mod-sage" x="44" y="70.7" width="84" height="22.6"/>
+              <use href="#rl-mod-grey" x="44" y="100.7" width="84" height="22.6"/>
+              <use href="#rl-mod-dot" x="44" y="130.7" width="84" height="22.6"/>
+              <circle class="rl-node" cx="20" cy="30" r="3.5"/>
+            </svg></div><strong>Stronger system</strong><span>The next agent inherits it</span></li>
+          </ol>
+        </figure>
+        <p class="ar-sap-link"><a href="../case-study/sap-product-maturity.html">See how I established shared standards across 40+ enterprise apps <span aria-hidden="true">&rarr;</span></a></p>
+      </div>
+    </section>
+
+    <!-- ONE TICKET, SIX STAGES: the prototype's design cycle as one strip,
+         what the agent did and what the designer did at each stage, where
+         Direction C gave each stage a pinned chapter. The ticket is the
+         cycle's first piece of evidence (agent-review src/data/cycle.ts);
+         every line traces to the stage it names. Evaluate is told in full
+         after it. -->
+    <section class="case-section case-overview build-chapter ground-white" id="the-cycle">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <h2>One support ticket, six stages</h2>
+            <p class="arc-lead">In the prototype you play the designer, Alex, and take one feature, archiving customers in Relay, from a ticket to what ships.</p>
           </div>
-        </div>
-      </section>
+        </header>
+        <blockquote class="ar-ticket">
+          <p>&ldquo;I archived Okafor Logistics by accident while clearing out old trials. It&rsquo;s one of our biggest accounts. How do I get it back?&rdquo;</p>
+          <footer>A support ticket, from an account manager. Relay is a made-up app.</footer>
+        </blockquote>
+        <ol class="ar-cycle">
+          <li>
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">1</span>Discover</p>
+            <p><span class="ar-cycle-who">The agent</span>Sums up six pieces of evidence. One line says archiving deletes data.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Checks it against an engineering note: archived customers are kept 90 days. Corrects the claim.</p>
+          </li>
+          <li>
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">2</span>Define</p>
+            <p><span class="ar-cycle-who">The agent</span>Lays out two fair asks: keep bulk cleanup fast, or make sure nothing is lost.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Chooses: nothing leaves without a way back.</p>
+          </li>
+          <li>
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">3</span>Explore</p>
+            <p><span class="ar-cycle-who">The agent</span>Builds three working screens: undo after, confirm first, or review the batch.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Weighs what each one costs the people who use it.</p>
+          </li>
+          <li class="ar-cycle-full">
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">4</span>Evaluate</p>
+            <p><span class="ar-cycle-who">The agent</span>Recommends the review, because the brief put recovery first.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Turns it down for undo. <a href="#evaluate">Why, below</a></p>
+          </li>
+          <li>
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">5</span>Delegate</p>
+            <p><span class="ar-cycle-who">The agent</span>Builds it and runs the checks. Stops once: the undo bar is a new pattern.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Answers the one stop. Everything else went through.</p>
+          </li>
+          <li>
+            <p class="ar-cycle-stage"><span class="ar-cycle-n" aria-hidden="true">6</span>Learn</p>
+            <p><span class="ar-cycle-who">The agent</span>Reports what passed, and what no check could say: whether people notice the undo bar.</p>
+            <p class="ar-cycle-me"><span class="ar-cycle-who">The designer</span>Sets what to measure, and keeps one rule for the next agent.</p>
+          </li>
+        </ol>
+        <p class="build-hero-act"><a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/" target="_blank" rel="noopener noreferrer">Play Alex in the prototype<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+        <p class="arc-after">I think the cycle is the more honest picture of the job. It&rsquo;s also a script: real discovery is messier.</p>
+      </div>
+    </section>
 
-      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="define">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 2 of 6 &middot; Define</p>
-              <h2>When speed and safety pulled apart, I chose safety</h2>
-              <p class="arc-lead">The operations lead wants fewer steps. The account manager wants a guard.</p>
-            </div>
-          </header>
-          <div class="arc-scene" data-scene>
-            <div class="arc-stage" data-stage>
-              <!-- Relay's brief, rebuilt in live HTML in the prototype's look,
-                   because its words change as the steps go by. -->
-              <figure class="arc-device" aria-label="The prototype, Define stage">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Define</span></div>
-                <div class="arc-screen arc-ui">
-                  <p class="arc-ui-kicker" aria-hidden="true">Stage 2 of 6 &middot; Define</p>
-                  <p class="arc-ui-title">Speed and safety pull apart. Which wins?</p>
-                  <div class="arc-ui-options">
-                    <div class="arc-ui-option">
-                      <p class="arc-ui-option-title">Routine cleanup stays fast</p>
-                      <p class="arc-ui-option-body">Fewer presses for people who archive in bulk. A mistake is fixed after, not prevented.</p>
-                      <p class="arc-ui-who">Asked for by the operations lead</p>
-                    </div>
-                    <div class="arc-ui-option arc-ui-option--mine">
-                      <span class="arc-ring" data-from="2" aria-hidden="true"></span>
-                      <span class="arc-ui-tag" data-from="2">My call</span>
-                      <p class="arc-ui-option-title">Nothing leaves without a way back</p>
-                      <p class="arc-ui-option-body">An active customer is named before it&rsquo;s archived. Recovery without a support ticket.</p>
-                      <p class="arc-ui-who">Asked for by the account manager</p>
-                    </div>
-                  </div>
-                  <p class="arc-ui-confirm" data-from="3"><span aria-hidden="true">&rarr;</span> The brief will say: nothing leaves without a way back.</p>
-                </div>
-              </figure>
-            </div>
-            <ol class="arc-steps">
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>Both are in the evidence, and both are fair.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>I chose recovery: nothing leaves without a way back.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>That call sets the success criteria, and what the agent will recommend.</p></li>
-            </ol>
+    <!-- EVALUATE, IN FULL: the one stage the strip points at. -->
+    <section class="case-section case-overview build-chapter ground-tea" id="evaluate">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <p class="arc-eyebrow">Stage 4 of 6 &middot; Evaluate</p>
+            <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
+            <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo, with active customers named before the press.</p>
           </div>
-        </div>
-      </section>
-
-      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="explore">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 3 of 6 &middot; Explore</p>
-              <h2>Three working screens, and each one costs something</h2>
-              <p class="arc-lead">Three ways to archive one batch: three active customers, and one that can&rsquo;t go.</p>
-            </div>
-          </header>
-          <!-- The three directions swap in one frame. The stage repeats the
-               steps' own pictures, so it is hidden from a screen reader,
-               which reads them in the steps; it is drawn only when live. -->
-          <div class="arc-scene arc-scene--swap" data-scene>
-            <div class="arc-stage" data-stage aria-hidden="true">
-              <div class="arc-device">
-                <div class="arc-device-bar"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-                <div class="arc-screen arc-swap">
-                  <img data-only="1" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=3" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-                  <img data-only="2" src="../img/lab/agent-review-cycle-wipe-confirm.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-                  <img data-only="3" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" alt="" loading="lazy" decoding="async" />
-                </div>
+        </header>
+        <div class="arc-scrub">
+          <figure class="arc-wipe" data-wipe aria-label="Relay&rsquo;s customer table, the undo screen and the review screen either side of a line you can move">
+            <div class="arc-device">
+              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+              <div class="arc-screen arc-wipe-frame">
+                <img class="arc-wipe-a" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=3" width="1820" height="920" loading="lazy" decoding="async"
+                     alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
+                <img class="arc-wipe-b" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
+                     alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers." />
+                <span class="arc-wipe-side arc-wipe-side--a" aria-hidden="true"><span class="arc-chip">Undo &middot; my call</span></span>
+                <span class="arc-wipe-side arc-wipe-side--b" aria-hidden="true"><span class="arc-chip">Review &middot; agent&rsquo;s pick</span></span>
+                <span class="arc-wipe-line" aria-hidden="true"></span>
               </div>
             </div>
-            <ol class="arc-steps">
-              <li class="arc-step" data-step>
-                <span class="arc-step-n" aria-hidden="true">1</span>
-                <div class="arc-step-body">
-                  <h3 class="arc-step-title">Archive now, undo after</h3>
-                  <p>Two presses. A mistake is caught only if someone notices the bar.</p>
-                  <figure class="arc-step-shot">
-                    <picture>
-                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-undo-phone.webp?v=3" width="1029" height="1593" />
-                      <img src="../img/lab/agent-review-cycle-undo.webp?v=3" width="1820" height="748" loading="lazy" decoding="async"
-                           alt="Relay&rsquo;s customer table in the first direction, just after archiving a batch of five: a bar reads 4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice, with an Undo button beside it." />
-                    </picture>
-                  </figure>
-                </div>
-              </li>
-              <li class="arc-step" data-step>
-                <span class="arc-step-n" aria-hidden="true">2</span>
-                <div class="arc-step-body">
-                  <h3 class="arc-step-title">Confirm first, naming who</h3>
-                  <p>Names the active customers. In simulated sessions, people stopped reading it by the third batch.</p>
-                  <figure class="arc-step-shot">
-                    <picture>
-                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-confirm-phone.webp?v=2" width="1029" height="1491" />
-                      <img src="../img/lab/agent-review-cycle-confirm.webp?v=2" width="1820" height="742" loading="lazy" decoding="async"
-                           alt="The same table in the second direction, after pressing Archive with the same five selected: the bar asks Archive 5 customers? Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio are active, with Cancel and Archive 5 customers." />
-                    </picture>
-                  </figure>
-                </div>
-              </li>
-              <li class="arc-step" data-step>
-                <span class="arc-step-n" aria-hidden="true">3</span>
-                <div class="arc-step-body">
-                  <h3 class="arc-step-title">Review the batch, then archive</h3>
-                  <p>Catches everything before the press, and doubles the quarterly cleanup.</p>
-                  <figure class="arc-step-shot">
-                    <picture>
-                      <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-review-phone.webp?v=2" width="1029" height="2043" />
-                      <img src="../img/lab/agent-review-cycle-review.webp?v=2" width="1820" height="1128" loading="lazy" decoding="async"
-                           alt="The same table in the third direction: a review panel headed Review 5 customers before archiving. Can&rsquo;t archive: Monarch Dental Group, it has an open invoice. Active, check these: Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio, each checked. Cancel, and Archive 4 customers." />
-                    </picture>
-                  </figure>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="evaluate">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 4 of 6 &middot; Evaluate</p>
-              <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
-              <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo, with active customers named before the press.</p>
-            </div>
-          </header>
-          <!-- THE WIPE. The range moves the line between the two screens. On
-               a wide screen with motion allowed, where the browser has
-               scroll-driven animations, the line is also scrubbed by scroll
-               while the frame is held; the first touch of the range hands it
-               back to the reader. -->
-          <div class="arc-scrub">
-            <figure class="arc-wipe" data-wipe aria-label="Relay&rsquo;s customer table, the undo screen and the review screen either side of a line you can move">
-              <div class="arc-device">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-                <div class="arc-screen arc-wipe-frame">
-                  <img class="arc-wipe-a" src="../img/lab/agent-review-cycle-wipe-undo.webp?v=3" width="1820" height="920" loading="lazy" decoding="async"
-                       alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
-                  <img class="arc-wipe-b" src="../img/lab/agent-review-cycle-wipe-review.webp?v=2" width="1820" height="920" loading="lazy" decoding="async"
-                       alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers." />
-                  <span class="arc-wipe-side arc-wipe-side--a" aria-hidden="true"><span class="arc-chip">Undo &middot; my call</span></span>
-                  <span class="arc-wipe-side arc-wipe-side--b" aria-hidden="true"><span class="arc-chip">Review &middot; agent&rsquo;s pick</span></span>
-                  <span class="arc-wipe-line" aria-hidden="true"></span>
-                </div>
-              </div>
-              <label class="arc-wipe-control">
-                <span class="arc-wipe-end"><strong>Undo</strong> <span class="arc-wipe-who">my call</span></span>
-                <input type="range" min="0" max="100" value="50" aria-label="Undo, my call, or Review, agent&rsquo;s pick: slide the line between the two screens" aria-valuetext="Undo 50%, review 50%" />
-                <span class="arc-wipe-end"><strong>Review</strong> <span class="arc-wipe-who">agent&rsquo;s pick</span></span>
-              </label>
-            </figure>
-          </div>
-          <p class="arc-after">In the simulated sessions, the operations lead archives hundreds a quarter, and the review would slow every one.</p>
-        </div>
-      </section>
-
-      <section class="case-section case-overview build-chapter ground-white arc-chapter" id="delegate">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 5 of 6 &middot; Delegate</p>
-              <h2>The agent built it, and stopped once to ask me</h2>
-              <p class="arc-lead">It gets a brief written from my choices, with boundaries.</p>
-            </div>
-          </header>
-          <div class="arc-scene arc-scene--shot" data-scene>
-            <div class="arc-stage" data-stage>
-              <figure class="arc-device" aria-label="The prototype, Delegate stage">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Delegate</span></div>
-                <div class="arc-screen arc-screen--zoom">
-                  <div class="arc-zoom-layer">
-                    <picture>
-                      <source media="(max-width: 63.99rem)" srcset="../img/lab/agent-review-cycle-delegate-phone.webp?v=2" width="1077" height="1695" />
-                      <img src="../img/lab/agent-review-cycle-delegate.webp?v=2" width="2880" height="1448" loading="lazy" decoding="async"
-                           alt="The Delegate stage. On the left, the brief as sent to the agent: the problem, the direction to build, Archive now, undo after, why, one requirement, and the boundaries, what it may change on its own and what asks first. On the right, Your move, marked Needs approval: The undo bar is a new pattern. Keep it on this screen, or propose it to the system? Rule 12 says a new interaction pattern isn&rsquo;t the agent&rsquo;s to add." />
-                    </picture>
-                  </div>
-                  <ol class="arc-notes">
-                    <li class="arc-note arc-note--build" data-only="1"><span class="arc-note-n" aria-hidden="true">1</span>What it builds, and why</li>
-                    <li class="arc-note arc-note--stop" data-from="3" value="3"><span class="arc-note-n" aria-hidden="true">3</span>Its one stop</li>
-                  </ol>
-                  <!-- The checks, in live HTML in Relay's look, so each one
-                       ticks as it lands. -->
-                  <div class="arc-run" data-only="2">
-                    <p class="arc-run-head"><span class="arc-note-n" aria-hidden="true">2</span>What the checks established</p>
-                    <ul class="arc-run-list">
-                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Every story renders, and axe finds nothing</span><span class="arc-run-status">Passed</span></li>
-                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Every value is a token</span><span class="arc-run-status">Passed</span></li>
-                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>No toolbar overflows at 768px</span><span class="arc-run-status">Passed</span></li>
-                      <li><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M6 10.5l2.75 2.75L14 7.75"/></svg><span>Names any active customer first</span><span class="arc-run-status">Passed</span></li>
-                      <li class="arc-run-open"><svg class="arc-tick" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path pathLength="1" d="M7.75 7.75a2.25 2.25 0 1 1 3 2.1c-.5.2-.75.6-.75 1.15v.5M10 14.25v.01"/></svg><span>Whether people notice the bar</span><span class="arc-run-status">Inconclusive</span></li>
-                    </ul>
-                  </div>
-                </div>
-              </figure>
-            </div>
-            <ol class="arc-steps">
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>It changes the customer table and writes a story for each new state.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>It runs the checks. None can say whether people notice the bar.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>It stops once: the undo bar is a new pattern, and adding one isn&rsquo;t its call.</p></li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section class="case-section case-overview build-chapter ground-tea arc-chapter" id="learn">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">Stage 6 of 6 &middot; Learn</p>
-              <h2>Built isn&rsquo;t the same as done</h2>
-              <p class="arc-lead">What&rsquo;s verified, what nobody knows yet, and what to measure.</p>
-            </div>
-          </header>
-          <div class="arc-scene arc-scene--shot" data-scene>
-            <div class="arc-stage" data-stage>
-              <figure class="arc-device" aria-label="The prototype, Learn stage">
-                <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Agent Review &middot; Learn</span></div>
-                <div class="arc-screen arc-screen--zoom arc-learn">
-                  <div class="arc-zoom-layer">
-                    <picture>
-                      <source media="(max-width: 63.99rem)" srcset="../img/lab/agent-review-cycle-learn-phone.webp?v=2" width="1077" height="2952" />
-                      <img src="../img/lab/agent-review-cycle-learn.webp?v=2" width="2880" height="1838" loading="lazy" decoding="async"
-                           alt="The Learn stage: It&rsquo;s built. What do you know, and what don&rsquo;t you? What you decided, stage by stage. What&rsquo;s verified: the story tests, the token lint and the 768 check passed, the requirement passed, and whether people notice what changed, inconclusive. What isn&rsquo;t known: restoring is still a support ticket, and nothing here was tested with anyone. On the right, Your move: Keep this for the next agent? A bulk action that removes records names what&rsquo;s at risk before the press, and its box checked." />
-                    </picture>
-                  </div>
-                  <ol class="arc-notes">
-                    <li class="arc-note arc-note--verified" data-only="1"><span class="arc-note-n" aria-hidden="true">1</span>Inconclusive, never passed</li>
-                    <li class="arc-note arc-note--unknown" data-only="2"><span class="arc-note-n" aria-hidden="true">2</span>Still a support ticket</li>
-                  </ol>
-                  <div class="arc-targets" data-from="3">
-                    <p class="arc-targets-head"><span class="arc-note-n" aria-hidden="true">3</span>What to measure <span class="arc-targets-tag">Targets, not results</span></p>
-                    <dl class="arc-targets-list">
-                      <div><dt>6 of 9</dt><dd>tickets last quarter asked for a record back. Aim for fewer.</dd></div>
-                      <div><dt>1 in 14</dt><dd>archives took an active customer. Aim for fewer.</dd></div>
-                    </dl>
-                    <p class="arc-targets-foot">Both baselines are the simulated scenario&rsquo;s.</p>
-                  </div>
-                </div>
-              </figure>
-            </div>
-            <ol class="arc-steps">
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">1</span><p>The checks passed. Whether people notice the bar stays inconclusive.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">2</span><p>Restoring is still a support ticket, because nothing required an Archived view.</p></li>
-              <li class="arc-step" data-step><span class="arc-step-n" aria-hidden="true">3</span><p>I set what to measure, and keep one rule for the next agent.</p></li>
-            </ol>
-          </div>
-          <p class="arc-after">I think the cycle is the more honest picture of the job. It&rsquo;s also a script: real discovery is messier.</p>
-        </div>
-      </section>
-    </div>
-
-    <!-- AFTER THE CYCLE: the close reads as the story's last part rather
-         than another page. Each section opens like a chapter, its label
-         "After the cycle", and the column keeps the chapters' left edge. -->
-    <div class="arc-close">
-      <section class="case-section case-overview build-chapter ground-white" id="another-run">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">After the cycle &middot; Another run</p>
-              <h2>The checks passed a quiet cancel link, so the agent asked me</h2>
-              <p class="arc-lead">In Delegate, the agent stopped once to ask me. A second run, moving Relay&rsquo;s billing screens onto the design system, stopped on cancel: gray text, built by hand.</p>
-            </div>
-          </header>
-          <figure class="quiet-cancel ar-checkpoint-figure" data-quiet-cancel aria-describedby="quiet-cancel-desc">
-            <p class="visually-hidden" id="quiet-cancel-desc">On Relay&rsquo;s billing settings, every action is a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand.</p>
-            <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
-            <ul class="quiet-cancel-cases">
-              <li class="quiet-cancel-case quiet-cancel-case--system" style="--i:0">
-                <div class="quiet-cancel-screen">
-                  <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
-                  <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
-                </div>
-                <p class="quiet-cancel-means">A design-system button</p>
-              </li>
-              <li class="quiet-cancel-case quiet-cancel-case--hand" style="--i:1">
-                <div class="quiet-cancel-screen">
-                  <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 6.5v7.5"/><path pathLength="1" d="M12 18v.01"/></svg>
-                  <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
-                </div>
-                <p class="quiet-cancel-means">Gray text, built by hand</p>
-              </li>
-            </ul>
-            <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
-            <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass both.</span> <span class="quiet-cancel-call">Only a designer can say if that&rsquo;s on purpose.</span></figcaption>
+            <label class="arc-wipe-control">
+              <span class="arc-wipe-end"><strong>Undo</strong> <span class="arc-wipe-who">my call</span></span>
+              <input type="range" min="0" max="100" value="50" aria-label="Undo, my call, or Review, agent&rsquo;s pick: slide the line between the two screens" aria-valuetext="Undo 50%, review 50%" />
+              <span class="arc-wipe-end"><strong>Review</strong> <span class="arc-wipe-who">agent&rsquo;s pick</span></span>
+            </label>
           </figure>
-          <p class="arc-after">I made it a button, in its own change. It was left over from a retention test nobody turned off.</p>
-          <p class="build-hero-act"><a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/#/runs/shared-table" target="_blank" rel="noopener noreferrer">Try the second scenario<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a></p>
-          <figure class="ar-rail">
-            <figcaption class="ar-rail-caption">Where a person comes in: the agent builds, the checks settle routine work, and someone decides what they can&rsquo;t.</figcaption>
-            <svg class="rl-defs" aria-hidden="true" focusable="false">
-              <symbol id="rl-mod-sage" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--sage" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
-              <symbol id="rl-mod-grey" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--grey" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
-              <symbol id="rl-mod-dot" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><circle class="rl-mark rl-mark--grey" cx="16" cy="14" r="6"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
-              <symbol id="rl-mod-new" viewBox="0 0 104 28"><rect class="rl-box" x=".5" y=".5" width="103" height="27" rx="4"/><rect class="rl-mark rl-mark--new" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M32 11h40M32 17h26"/></symbol>
-              <symbol id="rl-change" viewBox="0 0 64 28"><rect class="rl-box rl-box--change" x=".5" y=".5" width="63" height="27" rx="4"/><rect class="rl-mark rl-mark--sage" x="10.5" y="8.5" width="11" height="11" rx="2"/><path class="rl-text" d="M30 11h22M30 17h14"/></symbol>
-              <symbol id="rl-pass" viewBox="-10 -10 20 20"><circle class="rl-pass" r="9.5"/><path class="rl-ink" d="M-4 0l2.75 2.75L4-2.75"/></symbol>
-              <symbol id="rl-flag" viewBox="-10 -10 20 20"><circle class="rl-flag" r="9.5"/><path class="rl-ink" d="M0-4.5V.5M0 3.75v.01"/></symbol>
-              <symbol id="rl-cursor" viewBox="-1 -1 14 19"><path class="rl-cursor" d="M0 0v16l4.5-4.5H11z"/></symbol>
-            </svg>
-
-            <svg class="rl-wide" viewBox="0 20 1200 180" role="img" focusable="false" aria-label="One line through the six steps. It leaves a system of three parts, passes through the agent, and branches off with the change while the main line waits. On the branch three checks pass and the fourth needs reading. Routine work, which its checks settle, drops back to the main line there, under the review; this change stops for a person's review, and both rejoin at a system of four parts, one of them new.">
-              <rect class="rl-area rl-area--agent" x="220.5" y="112.5" width="87" height="55" rx="10"/>
-              <rect class="rl-area" x="608.5" y="38.5" width="179" height="51" rx="12"/>
-              <path class="rl-quiet" d="M404 140H830"/>
-              <path class="rl-line" d="M32 104h-6a6 6 0 0 0-6 6v60a6 6 0 0 0 6 6h6M136 104h6a6 6 0 0 1 6 6v60a6 6 0 0 1-6 6h-6"/>
-              <path class="rl-line" d="M1028 68h-6a6 6 0 0 0-6 6v96a6 6 0 0 0 6 6h6M1016 104h12M1132 68h6a6 6 0 0 1 6 6v96a6 6 0 0 1-6 6h-6M1132 104h12"/>
-              <path class="rl-line rl-dashed" d="M264 69v47"/>
-              <path class="rl-line" d="M260 113.5l4 4.5 4-4.5"/>
-              <path class="rl-line rl-draw" pathLength="1" d="M4 140H404C440 140 432 64 468 64H940C976 64 964 140 1000 140H1195"/>
-              <path class="rl-line rl-tip" d="M1189 134.5l6.5 5.5-6.5 5.5"/>
-              <path class="rl-line rl-dashed rl-late" d="M790 64C806 64 800 140 830 140H1000"/>
-
-              <use href="#rl-mod-sage" x="32" y="90" width="104" height="28"/>
-              <use href="#rl-mod-grey" x="32" y="126" width="104" height="28"/>
-              <use href="#rl-mod-dot" x="32" y="162" width="104" height="28"/>
-
-              <use href="#rl-mod-grey" x="212" y="41" width="104" height="28"/>
-              <rect class="rl-agent" x="246.5" y="122.5" width="35" height="35" rx="6"/>
-              <path class="rl-ink" d="M264 132v16M256 140h16"/>
-
-              <use href="#rl-change" x="488" y="50" width="64" height="28"/>
-
-              <use href="#rl-pass" x="622" y="54" width="20" height="20"/>
-              <use href="#rl-pass" x="666" y="54" width="20" height="20"/>
-              <use href="#rl-pass" x="710" y="54" width="20" height="20"/>
-              <use href="#rl-flag" x="754" y="54" width="20" height="20"/>
-
-              <rect class="rl-review" x="812.5" y="28.5" width="127" height="71" rx="10"/>
-              <use href="#rl-change" x="826" y="38" width="64" height="28"/>
-              <rect class="rl-note" x="886.5" y="34.5" width="7" height="7" rx="1.5"/>
-              <path class="rl-ink" d="M829 77v12"/>
-              <path class="rl-text" d="M835 83h40"/>
-              <use href="#rl-cursor" x="893" y="74" width="14" height="19"/>
-
-              <use href="#rl-mod-new" x="1028" y="54" width="104" height="28"/>
-              <use href="#rl-mod-sage" x="1028" y="90" width="104" height="28"/>
-              <use href="#rl-mod-grey" x="1028" y="126" width="104" height="28"/>
-              <use href="#rl-mod-dot" x="1028" y="162" width="104" height="28"/>
-
-              <circle class="rl-node" cx="4" cy="140" r="3.5"/>
-              <circle class="rl-node" cx="148" cy="140" r="3.5"/>
-              <circle class="rl-node" cx="404" cy="140" r="3.5"/>
-              <circle class="rl-node rl-late" cx="790" cy="64" r="3"/>
-              <circle class="rl-node rl-node--decision" cx="940" cy="64" r="4"/>
-              <circle class="rl-node" cx="1000" cy="140" r="3.5"/>
-              <circle class="rl-node" cx="1144" cy="140" r="3.5"/>
-            </svg>
-
-            <ol class="build-loop build-loop--rail">
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
-                <path class="rl-line" d="M20 6V4000M20 28h24M20 56h24M20 84h24"/>
-                <use href="#rl-mod-sage" x="44" y="16.7" width="84" height="22.6"/>
-                <use href="#rl-mod-grey" x="44" y="44.7" width="84" height="22.6"/>
-                <use href="#rl-mod-dot" x="44" y="72.7" width="84" height="22.6"/>
-                <circle class="rl-node" cx="20" cy="6" r="3.5"/>
-              </svg></div><strong>System</strong><span>The parts and rules a product is built from</span></li>
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 96" focusable="false">
-                <rect class="rl-area rl-area--agent" x="4.5" y="28.5" width="31" height="47" rx="8"/>
-                <path class="rl-line" d="M20 0V4000"/>
-                <path class="rl-line rl-dashed" d="M51 52H37"/>
-                <path class="rl-line" d="M38.5 48l-4 4 4 4"/>
-                <use href="#rl-mod-grey" x="52" y="40.7" width="84" height="22.6"/>
-                <rect class="rl-agent" x="8.5" y="40.5" width="23" height="23" rx="5"/>
-                <path class="rl-ink" d="M20 46.5v11M14.5 52h11"/>
-              </svg></div><strong>Agent</strong><span>Builds the change</span></li>
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 96" focusable="false">
-                <path class="rl-quiet" d="M20 12V4000"/>
-                <path class="rl-line" d="M20 0V12C20 32 80 22 80 42V4000"/>
-                <use href="#rl-change" x="52" y="60" width="56" height="24.5"/>
-                <circle class="rl-node" cx="20" cy="12" r="3.5"/>
-              </svg></div><strong>Change</strong><span>Kept apart until it&rsquo;s checked</span></li>
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
-                <rect class="rl-area" x="63.5" y="4.5" width="33" height="91" rx="12"/>
-                <path class="rl-quiet" d="M20 0V4000"/>
-                <path class="rl-line" d="M80 0V4000"/>
-                <use href="#rl-pass" x="71" y="8" width="18" height="18"/>
-                <use href="#rl-pass" x="71" y="30" width="18" height="18"/>
-                <use href="#rl-pass" x="71" y="52" width="18" height="18"/>
-                <use href="#rl-flag" x="71" y="74" width="18" height="18"/>
-              </svg></div><strong>Automated checks</strong><span>Accessibility, layout and appearance. Routine work goes through here</span></li>
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 100" focusable="false">
-                <path class="rl-quiet" d="M20 0V20"/>
-                <path class="rl-line rl-dashed" d="M80 2C80 14 20 6 20 20V4000"/>
-                <path class="rl-line" d="M80 0V4000"/>
-                <rect class="rl-review" x="36.5" y="24.5" width="95" height="71" rx="10"/>
-                <use href="#rl-change" x="48" y="33" width="56" height="24.5"/>
-                <rect class="rl-note" x="100.5" y="29.5" width="7" height="7" rx="1.5"/>
-                <path class="rl-ink" d="M51 66v12"/>
-                <path class="rl-text" d="M57 72h34"/>
-                <use href="#rl-cursor" x="96" y="64" width="14" height="19"/>
-                <circle class="rl-node" cx="80" cy="3" r="3"/>
-                <circle class="rl-node rl-node--decision" cx="80" cy="95.5" r="4"/>
-              </svg></div><strong>Human judgment</strong><span>Only what the checks can&rsquo;t settle, decided or approved by whoever owns it</span></li>
-              <li><div class="rl-step" aria-hidden="true"><svg viewBox="0 0 136 172" focusable="false">
-                <path class="rl-line rl-dashed" d="M20 0V30"/>
-                <path class="rl-line" d="M80 0C80 20 20 10 20 30V161M20 52h24M20 82h24M20 112h24M20 142h24"/>
-                <path class="rl-line" d="M15 155.5l5 6 5-6"/>
-                <use href="#rl-mod-new" x="44" y="40.7" width="84" height="22.6"/>
-                <use href="#rl-mod-sage" x="44" y="70.7" width="84" height="22.6"/>
-                <use href="#rl-mod-grey" x="44" y="100.7" width="84" height="22.6"/>
-                <use href="#rl-mod-dot" x="44" y="130.7" width="84" height="22.6"/>
-                <circle class="rl-node" cx="20" cy="30" r="3.5"/>
-              </svg></div><strong>Stronger system</strong><span>The next agent inherits it</span></li>
-            </ol>
-          </figure>
-          <p class="ar-sap-link"><a href="../case-study/sap-product-maturity.html">See how I established shared standards across 40+ enterprise apps <span aria-hidden="true">&rarr;</span></a></p>
         </div>
-      </section>
+        <p class="arc-after">In the simulated sessions, the operations lead archives hundreds a quarter, and the review would slow every one.</p>
+      </div>
+    </section>
 
-      <section class="case-section case-overview build-chapter ground-tea" id="how-it-was-made">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">After the cycle &middot; How it was made</p>
-              <h2>It grew out of a real Claude Code experiment</h2>
-              <p class="arc-lead">I asked Claude Code for one feature twice, with twelve design rules and without, then planted mistakes in a third. The checks caught them.</p>
-            </div>
-          </header>
-          <div class="arc-measure">
-            <dl class="build-facts writing-facts">
-              <div><dt>3</dt><dd>Claude Code runs of one feature</dd></div>
-              <div><dt>12</dt><dd>design rules, given to one run and not the other</dd></div>
-              <div><dt>1</dt><dd>question neither agent could settle</dd></div>
-            </dl>
-            <p>Neither agent could decide if archiving needed a step first, and that question became the cycle. Each ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+    <!-- HOW IT WAS MADE, WHAT'S NEXT AND THE BUILD, at the foot, in one
+         section where they were three. -->
+    <section class="case-section case-overview build-chapter ground-white" id="how-it-was-made">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <h2>It grew out of a real Claude Code experiment</h2>
+            <p class="arc-lead">I asked Claude Code for one feature twice, with twelve design rules and without, then planted mistakes in a third. The checks caught them.</p>
           </div>
-          <!-- BUILD AND EVIDENCE: every count is the repository's: 14 components
-               in src/components, 318 stories, 12 rules in skills/ui-quality/
-               SKILL.md, 3 working directions. -->
-          <div class="glance">
-            <dl class="glance-facts">
-              <div><dt>Role</dt><dd>Product and interaction design, design-system architecture, accessibility, and the build</dd></div>
-              <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
-              <div><dt>Size</dt><dd>14 components &middot; 318 stories, each a tested state &middot; 12 design rules for the agent &middot; 3 working directions for one feature</dd></div>
-              <div><dt>Tests</dt><dd>Every story rendered and checked with axe; visual baselines; a token lint that fails any value typed in place of a token</dd></div>
-            </dl>
-          </div>
-          <p class="ar-evidence-links">
-            <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/storybook/?path=/story/review-decisionrecord--its-own-change-in-your-words" target="_blank" rel="noopener noreferrer">See the decision record in Storybook<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
-            <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">The whole Storybook<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
-            <a class="product-link product-link-quiet" href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">Source and experiment record<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
-          </p>
-          <p class="build-service">A solo project, begun October 1, 2026. Every commit is mine, co-authored by Claude Code.</p>
+        </header>
+        <div class="arc-measure">
+          <dl class="build-facts writing-facts">
+            <div><dt>3</dt><dd>Claude Code runs of one feature</dd></div>
+            <div><dt>12</dt><dd>design rules, given to one run and not the other</dd></div>
+            <div><dt>1</dt><dd>question neither agent could settle</dd></div>
+          </dl>
+          <p>Neither agent could decide if archiving needed a step first, and that question became the cycle. Each ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
         </div>
-      </section>
-
-      <section class="case-section case-overview build-chapter ground-white" id="whats-next">
-        <div class="container case-wide">
-          <header class="arc-head">
-            <div class="arc-head-text">
-              <p class="arc-eyebrow">After the cycle &middot; What&rsquo;s next</p>
-              <h2>Next, I&rsquo;d put it in front of people</h2>
-              <p class="arc-lead">Nobody has used it yet.</p>
-            </div>
-          </header>
-          <div class="arc-measure">
-            <p>I&rsquo;d watch four or five designers and product managers try it. Can they:</p>
-            <ul class="build-list">
-              <li><strong>Say</strong> what the designer did at each stage, and what the agent did?</li>
-              <li><strong>Tell</strong> the simulated evidence from the working software?</li>
-              <li><strong>Weigh</strong> the three directions, instead of taking &ldquo;Agent recommends&rdquo;?</li>
-            </ul>
-            <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/validation/README.md" target="_blank" rel="noopener noreferrer">The research plan<span class="visually-hidden"> (opens in a new tab)</span></a> says what result would change the design.</p>
-          </div>
+        <div class="arc-measure ar-next">
+          <h3>Next, I&rsquo;d put it in front of people</h3>
+          <p>Nobody has used it yet. I&rsquo;d watch four or five designers and product managers try it. Can they:</p>
+          <ul class="build-list">
+            <li><strong>Say</strong> what the designer did at each stage, and what the agent did?</li>
+            <li><strong>Tell</strong> the simulated evidence from the working software?</li>
+            <li><strong>Weigh</strong> the three directions, instead of taking &ldquo;Agent recommends&rdquo;?</li>
+          </ul>
+          <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/validation/README.md" target="_blank" rel="noopener noreferrer">The research plan<span class="visually-hidden"> (opens in a new tab)</span></a> says what result would change the design.</p>
         </div>
-      </section>
-    </div>
+        <!-- BUILD AND EVIDENCE: every count is the repository's: 14 components
+             in src/components, 318 stories, 12 rules in skills/ui-quality/
+             SKILL.md, 3 working directions. -->
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Product and interaction design, design-system architecture, accessibility, and the build</dd></div>
+            <div><dt>Built with</dt><dd>React, TypeScript, Storybook, Vitest with axe, Playwright, Claude Code</dd></div>
+            <div><dt>Size</dt><dd>14 components &middot; 318 stories, each a tested state &middot; 12 design rules for the agent &middot; 3 working directions for one feature</dd></div>
+            <div><dt>Tests</dt><dd>Every story rendered and checked with axe; visual baselines; a token lint that fails any value typed in place of a token</dd></div>
+          </dl>
+        </div>
+        <p class="ar-evidence-links">
+          <a class="btn btn-primary" href="https://adamdhickey-collab.github.io/agent-review/storybook/?path=/story/review-decisionrecord--its-own-change-in-your-words" target="_blank" rel="noopener noreferrer">See the decision record in Storybook<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/#/runs/shared-table" target="_blank" rel="noopener noreferrer">The shared-table scenario<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a class="product-link product-link-quiet" href="https://adamdhickey-collab.github.io/agent-review/storybook/" target="_blank" rel="noopener noreferrer">The whole Storybook<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a class="product-link product-link-quiet" href="https://github.com/adamdhickey-collab/agent-review" target="_blank" rel="noopener noreferrer">Source and experiment record<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </p>
+        <p class="build-service">A solo project, begun October 1, 2026. Every commit is mine, co-authored by Claude Code.</p>
+      </div>
+    </section>
   </main>
   <footer class="case-footer">
       <div class="container case-wide">
