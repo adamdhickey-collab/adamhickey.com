@@ -97,13 +97,18 @@ const ORIGIN = 'https://adamhickey.com';
 /* Same walk as counts.mjs, and deliberately the same exclusions. 404.html is
    what Pages serves for a miss, not a page of the site: it has no canonical
    address, must not be in the sitemap, and is checked separately below. */
+/* And a redirect stub is not one either: a retired address whose head is a
+   <meta http-equiv="refresh"> to where its content went has no canonical of
+   its own and belongs in no sitemap. The same test lives in
+   scripts/lib/harness.mjs for the browser checks. */
+const isRedirect = (f) => /<meta http-equiv="refresh"/i.test(fs.readFileSync(f, 'utf8').slice(0, 4096));
 function htmlPages(dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
     if (dir === root && e.name === '404.html') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) htmlPages(p, out);
-    else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
+    else if (e.name.endsWith('.html') && !isRedirect(p)) out.push(path.relative(root, p));
   }
   return out.sort();
 }

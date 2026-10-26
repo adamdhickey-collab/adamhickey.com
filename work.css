@@ -1,0 +1,271 @@
+/* work.css -- the storytelling system for the case studies, since 2026-10-26.
+ *
+ * WHAT IT IS FOR. The repositioning (docs/rebrand/site-architecture.md) turned
+ * the case studies from build logs into creative case studies: the idea first,
+ * the visual decisions shown large, the experience demonstrated, the impact
+ * last. The build write-ups' chapter template (style.css, ".build-chapter")
+ * was written for prose with a figure every few paragraphs; this is the
+ * vocabulary for pages where the pictures carry the argument and the prose
+ * annotates them. A page loads it after style.css and keeps everything
+ * style.css already gives it: the heading ladder, .container, .case-hero,
+ * .case-kicker, .build-dek, the device frames (.build-phone, .build-laptop),
+ * the chapter grounds (.build-chapter.ground-*) and the foot (.case-footer,
+ * .case-ask, .build-next, .btn-back).
+ *
+ * EVERY PROJECT WEARS ITS OWN COLOUR, AND ONLY WHERE NO TEXT SITS. A page
+ * sets --work-accent and --work-band on its <main class="work">, in its own
+ * stylesheet, from the project's palette: a hero band, a rule, a swatch, the
+ * ring of an annotation number. That is artwork by COLOR.md section 6, and
+ * text never sits on it: every word on these pages is in the site's inks on
+ * the site's grounds, which is what keeps resting.mjs honest. The one place
+ * a project colour meets text, the annotation disc, carries --ink-on-dark
+ * and the page's stylesheet is responsible for a band dark enough to clear
+ * 4.5:1 (the defaults below are charcoal, which does).
+ *
+ * THE RULES IT KEEPS. Every size is a step or a ramp (TYPOGRAPHY.md), every
+ * space a step or a ramp (SPACING.md), every duration a token (MOTION.md),
+ * and there is no .is-* class here, because states.mjs reads one as a state.
+ * Chapters arrive through reveal.js by carrying .build-chapter beside
+ * .work-chapter; a page that does not want the arrival leaves that class off.
+ */
+
+.work {
+  --work-accent: var(--color-charcoal);   /* the project's own colour, for lines and discs */
+  --work-band: var(--color-charcoal);     /* the project's ground, for a band no text sits on */
+}
+
+/* ---------- The hero -------------------------------------------------------
+   The case-hero's warm ground, the kicker and the title from style.css, then
+   the dek and the facts side by side from 1024, and the cover under them.
+   The facts are the four things a creative director asks first (what, for
+   whom, my part, when), as a dl the way .build-facts is, in the kicker's
+   treatment, rather than a glance strip of process steps. */
+.work-hero .container { display: grid; gap: var(--space-xl); }
+@media (min-width: 1024px) {
+  .work-hero .container { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-4xl); align-items: end; }
+  .work-hero .case-kicker, .work-hero .case-title { grid-column: 1 / -1; }
+}
+.work-hero .build-dek { margin-bottom: 0; }
+.work-facts {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-xl);
+  margin: 0; padding: 0;
+}
+@media (min-width: 640px) { .work-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .work-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.work-facts div { border-top: 1px solid var(--rule-strong); padding-top: var(--space-sm); }
+.work-facts dt {
+  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-muted-gray); margin-bottom: var(--space-2xs);
+}
+.work-facts dd { margin: 0; font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
+
+/* The cover: the one picture that says what the project is, under the hero.
+   Full container width by default; --bleed takes the viewport. On a project
+   band (--band) the picture is artwork on its own ground and keeps its
+   proportions rather than cropping to fill. */
+.work-cover { margin: 0; }
+.work-hero .work-cover { grid-column: 1 / -1; margin-top: var(--space-xl); }
+.work-cover img, .work-cover video { display: block; width: 100%; height: auto; border-radius: var(--radius-xl); }
+.work-cover--band { background: var(--work-band); padding: var(--space-3xl) var(--gutter); border-radius: var(--radius-xl); }
+.work-cover--band img { border-radius: 0; }
+.work-bleed { width: 100vw; margin-inline: calc(50% - 50vw); }
+.work-bleed img { border-radius: 0; }
+.work-cover figcaption { margin-top: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: var(--measure); }
+
+/* ---------- Chapters -------------------------------------------------------
+   A chapter is one idea: an eyebrow that counts it, an h2 that states it, a
+   short run of prose on the measure, and the pictures that show it. The prose
+   is the essay column's size and leading; the figures take the whole
+   container, which is the difference from the build write-ups' narrow column. */
+.work-chapter .container > * + * { margin-top: var(--space-xl); }
+.work-eyebrow {
+  display: block; margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.work-eyebrow + h2 { margin-top: 0; }
+.work-chapter h2 { max-width: 24ch; }
+.work-prose { max-width: var(--measure); font-size: var(--text-lg); line-height: var(--leading-reading); }
+.work-prose > * + * { margin-top: var(--space-md); }
+.work-prose p { font-size: inherit; line-height: inherit; }
+.work-prose ul { padding-left: 1.25em; }
+.work-prose li { margin-top: var(--space-xs); }
+.work-prose strong { font-weight: var(--weight-semibold); }
+.work-prose a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .work-prose a:hover { color: var(--color-charcoal); } }
+/* Prose and a figure side by side from 1024: the words stay in view while the
+   picture scrolls, for a chapter whose figure is taller than its paragraphs. */
+@media (min-width: 1024px) {
+  .work-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-4xl); align-items: start; }
+  .work-split > .work-prose { position: sticky; top: calc(var(--nav-height) + var(--space-xl)); }
+  .work-split > * { margin-top: 0; }
+}
+
+/* ---------- Figures --------------------------------------------------------
+   One figure, with a caption that is a sentence rather than a label. --framed
+   lifts a capture off the page the way the build write-ups do; --plain is for
+   artwork that carries its own edge (a logo on paper, a drawing on cream);
+   --ground sits artwork on the project's band. */
+.work-figure { margin: 0; }
+.work-figure img, .work-figure video, .work-figure svg { display: block; width: 100%; height: auto; }
+.work-figure--framed img, .work-figure--framed video { border-radius: var(--radius-xl); box-shadow: var(--shadow-media); }
+.work-figure--ground { background: var(--work-band); border-radius: var(--radius-xl); padding: var(--space-xl); }
+.work-figure--ground img, .work-figure--ground svg { border-radius: 0; }
+.work-figure--paper { background: var(--color-warm); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); padding: var(--space-xl); }
+.work-figure figcaption, .work-grid figcaption, .work-pair figcaption, .work-annot figcaption, .work-strip figcaption {
+  margin-top: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-xs);
+  line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: var(--measure);
+}
+.work-figure figcaption strong, .work-grid figcaption strong { color: var(--color-charcoal); font-weight: 600; }
+
+/* A grid of figures: two, three or four across from 768, one on a phone.
+   The gap is the card grid's, so a case study and the homepage agree. */
+.work-grid { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) {
+  .work-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .work-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) { .work-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.work-grid > figure, .work-grid > li { margin: 0; }
+/* A wide cell in a three-grid: the one picture that earns two columns. */
+@media (min-width: 768px) { .work-grid .work-grid-wide { grid-column: span 2; } }
+
+/* A strip: a row that scrolls sideways on a phone and is a grid from 768, for
+   a packaging family, a campaign set or a run of screens that are one set. */
+.work-strip { margin: 0; }
+.work-strip-row {
+  display: flex; gap: var(--space-md); margin: 0; padding: 0 0 var(--space-sm); list-style: none;
+  overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.work-strip-row > li { flex: 0 0 72%; scroll-snap-align: start; margin: 0; }
+@media (min-width: 640px) { .work-strip-row > li { flex-basis: 44%; } }
+@media (min-width: 768px) {
+  .work-strip-row { display: grid; grid-template-columns: repeat(var(--work-strip-n, 3), minmax(0, 1fr)); gap: var(--space-xl); overflow: visible; padding-bottom: 0; }
+  .work-strip-row > li { flex: none; }
+}
+.work-strip-row img { display: block; width: 100%; height: auto; border-radius: var(--radius-xl); }
+
+/* Before and after: two figures under two labels, the after marked in the
+   accent. The labels are kickers, because they name a column. */
+.work-pair { margin: 0; }
+.work-pair-row { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .work-pair-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.work-pair-row > li { margin: 0; }
+.work-pair-row img { display: block; width: 100%; height: auto; border-radius: var(--radius-xl); border: 1px solid var(--rule-card); }
+.work-pair-label {
+  display: block; margin: var(--space-sm) 0 0;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-muted-gray);
+}
+.work-pair-row .work-pair-after .work-pair-label { color: var(--color-accent-text); }
+
+/* An annotated detail: a picture with numbered marks on it, and the notes
+   under it carrying the same numbers. The marks are positioned by the page
+   in percent of the picture (left and top on each .work-annot-mark, through
+   style), which is the one inline style this system allows, because a
+   position on a picture is a fact about the picture rather than a design
+   decision. The disc is the project's colour with the dark ink on it. */
+.work-annot { margin: 0; }
+.work-annot-media { position: relative; }
+.work-annot-media img { display: block; width: 100%; height: auto; border-radius: var(--radius-xl); border: 1px solid var(--rule-card); }
+.work-annot-mark {
+  position: absolute; width: 28px; height: 28px; margin: -14px 0 0 -14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--work-accent); color: var(--ink-on-dark);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 700;
+  box-shadow: 0 0 0 3px var(--color-white);
+}
+.work-annot-notes { margin: var(--space-md) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-sm) var(--space-xl); counter-reset: annot; }
+@media (min-width: 768px) { .work-annot-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.work-annot-notes li { counter-increment: annot; display: grid; grid-template-columns: 28px 1fr; gap: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
+.work-annot-notes li::before {
+  content: counter(annot); width: 24px; height: 24px; margin-top: calc((1lh - 24px) / 2);
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--work-accent); color: var(--ink-on-dark);
+  font-size: var(--text-2xs); font-weight: 700;
+}
+
+/* ---------- Specimens ------------------------------------------------------
+   A palette row and a type row, for the chapter that sets out the visual
+   language. A swatch is the project's colour, named under it in the site's
+   ink; the swatch itself carries no text, so it answers to no floor. The
+   value is set per swatch through --swatch, which is a fact about the
+   project and not a token of this site. */
+.work-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
+.work-swatches li { margin: 0; }
+.work-swatch { display: block; aspect-ratio: 4 / 3; border-radius: var(--radius-xl); background: var(--swatch); border: 1px solid var(--rule-card); }
+.work-swatch-name { display: block; margin-top: var(--space-xs); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; color: var(--color-charcoal); }
+.work-swatch-note { display: block; font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+/* A type specimen: the face at three sizes on the scale, named beside it. */
+.work-type { display: grid; gap: var(--space-md); margin: 0; padding: var(--space-xl); list-style: none; background: var(--color-warm); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); }
+.work-type li { margin: 0; display: grid; gap: var(--space-2xs); }
+.work-type-sample { color: var(--color-charcoal); line-height: var(--leading-heading); }
+.work-type-name { font-family: var(--font-sans); font-size: var(--text-xs); color: var(--color-muted-gray); }
+
+/* ---------- Asides and pulls -----------------------------------------------
+   A rationale aside: a tea-light zone with the edge every zone takes, a label
+   and a short answer to "why this and not that". One a chapter at most. */
+.work-aside {
+  background: var(--color-tea-light); border: 1px solid var(--rule-card); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-zone); padding: var(--space-xl); max-width: 40rem;
+}
+.work-aside-label { margin: 0 0 var(--space-xs); font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-accent-text); }
+.work-aside h3 { font-size: var(--text-2xl); margin-bottom: var(--space-sm); }
+.work-aside p { font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); }
+.work-aside p + p { margin-top: var(--space-sm); }
+/* A pull: one line worth quoting, in the serif at the subsection ramp, off
+   the project's colour. */
+.work-pull { margin: 0; padding-left: var(--space-xl); border-left: 4px solid var(--work-accent); max-width: 40rem; }
+.work-pull p { font-family: var(--font-serif); font-size: var(--type-subsection); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); color: var(--color-charcoal); }
+.work-pull cite { display: block; margin-top: var(--space-sm); font-family: var(--font-sans); font-style: normal; font-size: var(--text-sm); color: var(--color-muted-gray); }
+
+/* A number row: the few figures a project can honestly state, each with how
+   it was counted in the sentence beside it. */
+.work-stats { display: grid; gap: var(--space-xl); margin: 0; padding: 0; }
+@media (min-width: 640px) { .work-stats { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); } }
+.work-stats div { border-top: 1px solid var(--rule-strong); padding-top: var(--space-md); }
+.work-stats dt { font-family: var(--font-serif); font-size: var(--text-5xl); line-height: var(--leading-display); letter-spacing: var(--tracking-title); color: var(--color-charcoal); }
+.work-stats dd { margin: var(--space-xs) 0 0; font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
+
+/* ---------- The contribution and the honest line --------------------------
+   Every case study ends on what I did and what the page does not claim. Two
+   short lists on one row, so a reader who skims lands on them. */
+.work-close { display: grid; gap: var(--space-xl); }
+@media (min-width: 768px) { .work-close { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4xl); } }
+.work-close h3 { font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; margin-bottom: var(--space-sm); }
+.work-close ul { margin: 0; padding-left: 1.25em; font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); }
+.work-close li + li { margin-top: var(--space-xs); }
+
+/* ---------- The dark chapter -----------------------------------------------
+   style.css flips the build-chapter's ink on .ground-charcoal for the
+   components it names (h2, h3, p, li, figcaption and the rest). The classes
+   here that write their own colour follow it. */
+.build-chapter.ground-charcoal .work-eyebrow,
+.build-chapter.ground-charcoal .work-aside-label { color: var(--color-accent-on-dark); }
+.build-chapter.ground-charcoal .work-prose a { color: var(--color-accent-on-dark); }
+.build-chapter.ground-charcoal .work-figure figcaption,
+.build-chapter.ground-charcoal .work-grid figcaption,
+.build-chapter.ground-charcoal .work-facts dt,
+.build-chapter.ground-charcoal .work-pair-label,
+.build-chapter.ground-charcoal .work-swatch-note,
+.build-chapter.ground-charcoal .work-type-name,
+.build-chapter.ground-charcoal .work-pull cite { color: var(--ink-on-dark-secondary); }
+.build-chapter.ground-charcoal .work-facts dd,
+.build-chapter.ground-charcoal .work-stats dt,
+.build-chapter.ground-charcoal .work-stats dd,
+.build-chapter.ground-charcoal .work-swatch-name,
+.build-chapter.ground-charcoal .work-pull p,
+.build-chapter.ground-charcoal .work-close ul,
+.build-chapter.ground-charcoal .work-close h3,
+.build-chapter.ground-charcoal .work-annot-notes li { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .work-facts div,
+.build-chapter.ground-charcoal .work-stats div { border-top-color: var(--rule-on-dark-strong); }
+.build-chapter.ground-charcoal .work-pair-row .work-pair-after .work-pair-label { color: var(--color-accent-on-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  .work-strip-row { scroll-behavior: auto; }
+}
