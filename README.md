@@ -153,7 +153,8 @@ lead with a different proof, and `--status` says which is live: the hero (the po
 an eyebrow naming the role, the search ("Open to remote or hybrid roles" since
 2026-10-24), two buttons and a résumé link, the six-item proof strip
 and the client logos) → Selected work (the three client case studies first
-since 2026-10-23 -- SAP, USDA, dispatch -- with no label over them since
+since 2026-10-23 -- SAP, USDA, and since 2026-10-26 the Innovators Studio
+identity where dispatch was -- with no label over them since
 2026-10-24, then the lab card for Agent Review, the self-directed
 prototype) →
 How I work inside a
@@ -206,7 +207,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work: the dispatch cockpit. The deploy console was a second until 2026-10-23. |
 | Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The cockpit is listed there too, at its own address. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
-| Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
+| Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
 
 **Homepage** -- `index.html`
 
