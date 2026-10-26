@@ -44,29 +44,30 @@ const CARDS = {
      this one too. It replaced img/og-card.jpg on 2026-09-17, a card drawn by
      hand for the independent practice that had outlived the practice by a
      week and the level by a day. */
-  'index':                             { kicker: 'Senior Product Designer',                title: 'Product design for software that got complicated.',            image: 'img/site/this-site.webp' },
-  'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
-  'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
-  'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
-  'innovators-studio-visual-identity': { kicker: 'Case study · Innovators Studio',       title: 'A global innovation network on one brand and platform',         image: 'img/site/group-100008-1.webp' },
-  'enterprise-consulting':             { kicker: 'Career · 2013 to 2026',                title: '13 years designing enterprise software',                   image: 'img/site/rba-hero.webp' },
-  'hybrid-designer':                   { kicker: 'Career · 2005 to 2013',                title: '8 years as a hybrid designer / developer',                      image: 'img/site/pixel-farm-building.webp' },
-  'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
-  'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
+  'index':                             { kicker: 'Senior Digital Designer · Minneapolis',  title: 'Visual ideas, beautifully brought to life.',                    image: 'img/dcf/campaign.webp', position: '36% center' },
+  'dispatch-complexity':               { kicker: 'Enterprise case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
+  'sap-product-maturity':              { kicker: 'Enterprise case study · SAP',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
+  'usda-operational-overhead':         { kicker: 'Enterprise case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
+  'innovators-studio-visual-identity': { kicker: 'Case study · Internal brand and platform', title: 'An identity that made a global innovation network feel like one place', image: 'img/site/branding3.webp' },
+  'enterprise-consulting':             { kicker: 'Enterprise years · 2013 to 2026',       title: '13 years designing enterprise software',                   image: 'img/site/rba-hero.webp' },
+  'hybrid-designer':                   { kicker: 'Studio years · 2005 to 2013',          title: 'Eight years of brand-led sites, campaigns and apps at three Minneapolis studios', image: 'img/site/pixel-farm-building.webp' },
+  'door-county-found':                 { kicker: 'Independent project · Travel brand and guide', title: 'A travel guide that feels like advice from someone who knows the place', image: 'img/dcf/campaign.webp', position: '8% center' },
+  'lucy-learns':                       { kicker: 'Personal product · Illustration and interface', title: 'Dog training doesn’t happen at a desk.',              image: 'img/products/lucy-learns-card.webp', position: 'center' },
   /* Faunaform, 2026-10-20: the bear, square like the frame; since
      2026-10-21 the final drawing, on four legs. The homepage card's wide
      day picture lost its wordmark to the crop. */
-  'faunaform':                         { kicker: 'Built end to end',                          title: 'How I’m building Faunaform',                                    image: 'img/faunaform/bear-approved.webp' },
-  'while-were-here':                   { kicker: 'Built end to end',                          title: 'How I built While We’re Here',                             image: 'img/products/while-were-here.webp' },
-  'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
-  'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
-  'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
+  'faunaform':                         { kicker: 'Art direction · in progress',             title: 'Faunaform: seven animals, one day of light',                   image: 'img/faunaform/bear-approved.webp' },
+  'while-were-here':                   { kicker: 'Editorial design',                         title: 'While We’re Here: a book of essays, designed and produced end to end', image: 'img/products/while-were-here.webp' },
+  'say-when':                          { kicker: 'Self-initiated brand concept',           title: 'Say When: a coffee brand built on the pour',                   image: 'img/say-when/og-source.webp' },
+  'this-site':                         { kicker: 'Build write-up',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
+  'other':                             { kicker: 'All the work',                             title: 'Everything I’ve made',                                         image: 'img/products/while-were-here.webp' },
+  'dispatch-cockpit':                  { kicker: 'Experiment · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
   /* The lab's picture is the case study's since later on 2026-10-09: the
      app itself, a square of the run's main column (lab-cards.mjs
      agent-review-og), so the lab and the case study unfurl alike. It was
      the phone-layout square, agent-review-share, before. */
-  'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
-  'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-og.webp' },
+  'designing-motion':                  { kicker: 'Experiment · motion',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
+  'lab':                               { kicker: 'Experiments',                              title: 'Where I try things',                                            sub: 'Prototypes and technical explorations, AI included', image: 'img/lab/agent-review-og.webp' },
   /* The case study's card is a drawing since 2026-10-24, the first `full`
      card: a robot hand stopping at the one underlined gray link among bold
      buttons, drawn in ChatGPT in the engagement set's hand. The titled card
@@ -79,14 +80,15 @@ const CARDS = {
      chosen, under "Three working screens. One designer's call." The page
      stopped being about the quiet cancel alone, and the card now shows the
      work it is about. */
-  'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-cycle-share.webp' },
-  'product-clarity': { kicker: 'How I work', title: 'Turn ambiguity into a decision', sub: 'The product has become complicated', hero: 'img/engagement/clarity-hero.webp' },  'design-system-foundation': { kicker: 'How I work', title: 'Build the system everyone builds from', sub: 'The products need a system', hero: 'img/engagement/system-hero.webp' },  'embedded-senior-product-design': { kicker: 'How I work', title: 'Own the design inside the team, not beside it', sub: 'An initiative with no senior owner', hero: 'img/engagement/embedded-hero.webp' },  'working-product-prototype': { kicker: 'How I work', title: 'Build to find out', sub: 'Ideas everywhere, nothing you can use yet', hero: 'img/engagement/ai-hero.webp' },
+  'agent-review':                      { kicker: 'Experiment · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-cycle-share.webp' },
+  /* The four How I work cards left with their pages on 2026-10-26; the
+     addresses redirect to index.html#approach. */
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
      feed already looks like the page it leads to. The index takes the
      plane and its one curl, the first article's drawing since the 2026-09-17
      regrouping. */
-  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
+  'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'On design, creativity and technology', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
   'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'what-a-design-system-needs-to-explain-to-an-agent':     { kicker: 'Writing', title: 'What a design system needs to explain to an agent', image: 'img/writing/what-a-design-system-needs-to-explain-to-an-agent.webp', position: '70% center' },
   'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
