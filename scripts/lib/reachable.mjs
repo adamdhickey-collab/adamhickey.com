@@ -95,8 +95,8 @@ export const REACHABLE = {
      consequences and what happened are hidden until a press, so a check
      that only loads the page measures the question and never the answer.
      One state: any answer shows all three consequences and the payoff,
-     and the pressed one carries the "Your pick" mark and the pressed
-     ring, which no other state has. */
+     and the pressed one carries the "Your pick" mark and the sage fill,
+     which no other state has. */
   'lab/agent-review.html': [
     { name: 'the opener’s question, answered',
       press: ['[data-pick="ask"] button'] },
