@@ -58,13 +58,17 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 /* Every page of the site: the unit almost every claim below counts in.
    404.html is what Pages serves for a miss, not a page of the site, and is
    not one of the twenty-two; seo.mjs skips it the same way. */
+/* A redirect stub (a retired address whose head is a <meta http-equiv=
+   "refresh"> to where its content went) is not a page either; seo.mjs and
+   scripts/lib/harness.mjs apply the same test. */
+const isRedirect = (f) => /<meta http-equiv="refresh"/i.test(fs.readFileSync(f, 'utf8').slice(0, 4096));
 function htmlPages(dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
     if (dir === root && e.name === '404.html') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) htmlPages(p, out);
-    else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
+    else if (e.name.endsWith('.html') && !isRedirect(p)) out.push(path.relative(root, p));
   }
   return out.sort();
 }
