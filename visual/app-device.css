@@ -1,0 +1,134 @@
+/* ---------- The live thing, in its device, over the page ----------
+   "Open the app" on the homepage and "Open Lucy Learns" on the write-up used
+   to send a reader to the app's own address in a new tab, where a layout
+   built for a hand sat in a desktop window at full width. Since 2026-09-18
+   the click opens the app here, in the phone frame the write-up's screens
+   already sit in (.build-phone, from style.css), as tall as the viewport
+   leaves it with a step of padding above and below, so a reader runs it at
+   the size it was designed for.
+
+   THE SECOND DEVICE, the same afternoon. The homepage's prototype card now
+   offers the dispatch cockpit the same way, and a cockpit is not a phone: it
+   is a monitor-width interface, and the card already draws it inside a
+   tablet. So the tablet stands here too, and it is the phone object with one
+   value changed, exactly as .case-card--prototype .case-thumb says it is --
+   the same --bezel, the same --device-chrome, the same DERIVED inner radius,
+   and --shell-radius at --radius-xl. Nothing here is a new number.
+
+   Same construction as the homepage lightbox: a fixed scrim, .is-open, the
+   lightbox's own close button (.ah-lightbox-close, the site's one close
+   control), scroll locked behind it. Under 768px the script does not
+   intercept and the link goes where it points, because a device drawn inside
+   a device is no better than the thing at full size. Two pages load this
+   file, so style.css and its site-wide buster are untouched.
+
+   It was app-phone.css until the tablet arrived. */
+.app-device {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  /* The step above and below is the "little padding" the frame asked for;
+     the sides matter whenever the viewport is narrower than the device. */
+  padding: var(--space-2xl) var(--space-md);
+  background: color-mix(in srgb, var(--color-scrim) 90.0%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  /* Visibility switched, not interpolated: instant on open so the close
+     button can take focus in the same frame, delayed by the fade on close.
+     The lightbox's note explains why. */
+  transition: opacity var(--motion-state) var(--ease),  visibility 0s linear var(--motion-state);
+}
+.app-device.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--motion-state) var(--ease),  visibility 0s linear 0s;
+}
+/* The frame shrink-wraps the screen: the screen's size is set on the iframe
+   and the frame follows, so the bezel is --bezel on every side whatever the
+   viewport is doing. */
+.app-device-frame {
+  width: fit-content;
+  max-width: 100%;
+  transform: scale(var(--motion-press));
+  transition: transform var(--motion-move) var(--ease);
+}
+.app-device.is-open .app-device-frame { transform: scale(1); }
+
+/* The tablet. .build-phone draws the phone from style.css; this is the same
+   object at the tile radius the prototype card's thumb already uses. */
+.app-device-frame--tablet {
+  --shell-radius: var(--radius-xl);
+  border-radius: var(--shell-radius);
+  padding: var(--bezel);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+
+/* THE SCREEN, AND THE TWO THINGS THAT BOUND IT. A device whose screen is
+   sized by height alone fits until the viewport is tall and narrow, and then
+   it runs off both sides -- 4/3 at 1084 of height wants 1445 of width, which
+   an 800px window does not have. So the width is the smaller of what the
+   viewport leaves across and what the height allows at the device's own
+   proportion, and the height falls out of aspect-ratio rather than being
+   asserted. Both bounds are the overlay's own padding subtracted from the
+   viewport, so the frame and its bezel can never touch an edge.
+
+   dvh where the browser has it, so a shrinking toolbar does not leave the
+   device poking under the fold. Declared twice: the vh line is the fallback
+   for a browser that drops the dvh one. */
+.app-device-frame iframe {
+  display: block;
+  --screen-max-h: calc(100vh - 2 * var(--space-2xl) - 2 * var(--bezel));
+  --screen-max-h: calc(100dvh - 2 * var(--space-2xl) - 2 * var(--bezel));
+  --screen-max-w: calc(100vw - 2 * var(--space-md) - 2 * var(--bezel));
+  height: auto;
+  border: 0;
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+}
+/* 390 x 844 is a phone's CSS viewport, the device the write-up's inline
+   frame uses. */
+.app-device[data-device="phone"] .app-device-frame iframe {
+  aspect-ratio: 390 / 844;
+  width: min(var(--screen-max-w), calc(var(--screen-max-h) * 390 / 844));
+  background: var(--color-white);
+}
+/* A tablet in landscape IS 4/3, which is why the card's thumb is captured at
+   it. The screen is painted the cockpit's own warm ground rather than white,
+   so the first frame of the load is the colour the prototype arrives in. */
+.app-device[data-device="tablet"] .app-device-frame iframe {
+  aspect-ratio: 4 / 3;
+  width: min(var(--screen-max-w), calc(var(--screen-max-h) * 4 / 3));
+  background: var(--color-warm);
+}
+
+/* The sentinel that turns Shift+Tab out of the frame back onto the close
+   button. It is a focus target and nothing else. */
+.app-device-sentinel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+html.app-device-open body { overflow: hidden; }
+/* The site's custom cursor (cursor.js, on the homepage) is a dot and a ring
+   that follow mousemove. Inside the iframe this document hears no mouse
+   events at all, so the pair froze on the bezel while the app showed its own
+   native hand -- two cursors, one of them stuck. The overlay is the other
+   thing's world, not the site's: while it is up the pair is hidden and the
+   scrim, the close button and the device all use the native cursor, so the
+   hand a reader sees over it is the same one they see beside it. */
+html.app-device-open .cursor-dot,
+html.app-device-open .cursor-ring { opacity: 0; }
+html.has-custom-cursor .app-device,
+html.has-custom-cursor .app-device * { cursor: auto; }
+html.has-custom-cursor .app-device button { cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-device { transition: opacity var(--motion-state) linear,  visibility 0s linear var(--motion-state); }
+  .app-device.is-open { transition: opacity var(--motion-state) linear,  visibility 0s linear 0s; }
+  .app-device-frame,
+  .app-device.is-open .app-device-frame { transform: none; transition: none; }
+}

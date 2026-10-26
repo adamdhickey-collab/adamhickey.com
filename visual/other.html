@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Everything I&rsquo;ve made | Adam Hickey</title>
+  <meta name="description" content="Every piece of work on adamhickey.com in one list: the case studies, the studio years, the products built end to end, the fictional coffee brand, the experiments and the writing." />
+
+  <link rel="canonical" href="https://adamhickey.com/other.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adamhickey.com/other.html" />
+  <meta property="og:title" content="Everything I&rsquo;ve made | Adam Hickey" />
+  <meta property="og:description" content="Every piece of work on adamhickey.com in one list: the case studies, the studio years, the products built end to end, the fictional coffee brand, the experiments and the writing." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/other.jpg?v=2" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://adamhickey.com/other.html#page",
+          "name": "Everything I’ve made",
+          "description": "Every piece of work on adamhickey.com in one list: the case studies, the studio years, the products built end to end, the fictional coffee brand, the experiments and the writing.",
+          "url": "https://adamhickey.com/other.html",
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/other.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Everything I’ve made",
+              "item": "https://adamhickey.com/other.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="color.css?v=10" />
+  <link rel="stylesheet" href="shell.css?v=6" />
+  <link rel="stylesheet" href="type.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=20261025a" />
+  <link rel="stylesheet" href="site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="work.css?v=1" />
+  <link rel="stylesheet" href="other.css?v=1" />
+  <script src="site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#approach">Approach</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="writing/index.html">Writing</a></li>
+        <li><a href="lab/index.html">Experiments</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- THE FULL WORK INDEX, since the repositioning of 2026-10-26. Until then
+       this address held "Other things I make": the book and a shelf of
+       identity pieces, off the homepage. The homepage now shows the work a
+       creative director should see first; this page lists everything, one
+       row each, so nothing on the site is reachable only by knowing it is
+       there. The address is kept because it was linked. -->
+  <main id="main" class="work">
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">All the work</p>
+        <h1 class="case-title">Everything I&rsquo;ve made</h1>
+        <p class="build-dek">Every piece on this site in one list: the case studies, the studio years, the products I built end to end, a fictional coffee brand made from strategy to storefront, the experiments, and the writing.</p>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container">
+        <div class="all-group">
+          <h2>Case studies</h2>
+          <ol class="all-list">
+            <li><a class="all-link" href="case-study/say-when.html"><span class="all-kind">Fictional brand concept</span><span class="all-title">Say When, a coffee brand from the idea to the storefront</span><span class="all-line">A self-initiated concept: strategy, naming, identity, packaging, a campaign and a working storefront prototype. Nothing is for sale.</span></a></li>
+            <li><a class="all-link" href="case-study/innovators-studio-visual-identity.html"><span class="all-kind">Case study</span><span class="all-title">Innovators Studio: an identity for a global innovation community</span><span class="all-line">Identity, illustration, badges, campaigns and a community portal for an internal network, made with a marketing manager and a production designer.</span></a></li>
+            <li><a class="all-link" href="case-study/door-county-found.html"><span class="all-kind">Case study</span><span class="all-title">Door County Found: a travel guide that feels like advice from someone who knows the place</span><span class="all-line">An independent travel brand: a vintage-inspired editorial identity, a curated selection, and a site my sister keeps current.</span></a></li>
+            <li><a class="all-link" href="case-study/lucy-learns.html"><span class="all-kind">Case study</span><span class="all-title">Lucy Learns: dog training made friendly and clear</span><span class="all-line">Illustration, visual storytelling and one instruction a screen, for a routine that happens with a leash in one hand.</span></a></li>
+            <li><a class="all-link" href="case-study/hybrid-designer.html"><span class="all-kind">Studio years</span><span class="all-title">Eight years of brand-led sites, campaigns and apps at three Minneapolis studios</span><span class="all-line">Lund Boats, Fulton Beer, Hazelden, Northern Spark, Learn to Live and more, designed and built at ByDesign, LEVEL and Pixel Farm.</span></a></li>
+            <li><a class="all-link" href="case-study/sap-product-maturity.html"><span class="all-kind">Enterprise</span><span class="all-title">Making 40+ enterprise apps feel like one product</span><span class="all-line">One visual language, one hierarchy and one accessibility standard across a suite built by many teams.</span></a></li>
+            <li><a class="all-link" href="case-study/usda-operational-overhead.html"><span class="all-kind">Enterprise</span><span class="all-title">Grant tools unified into one trusted platform</span><span class="all-line">Complex grant information laid out so people could read it and trust it, for a USDA-backed coalition.</span></a></li>
+            <li><a class="all-link" href="case-study/dispatch-complexity.html"><span class="all-kind">Enterprise</span><span class="all-title">One real-time view of a 450+ truck fleet</span><span class="all-line">A cockpit dense enough for expert dispatchers and clear enough to read at their speed.</span></a></li>
+            <li><a class="all-link" href="case-study/enterprise-consulting.html"><span class="all-kind">Enterprise</span><span class="all-title">13 years designing enterprise software</span><span class="all-line">The RBA years, 2013 to 2026: CBRE, Toro, Banner Bank, International Trucks and the two accounts above.</span></a></li>
+          </ol>
+        </div>
+
+        <div class="all-group">
+          <h2>Made end to end</h2>
+          <ol class="all-list">
+            <li><a class="all-link" href="case-study/faunaform.html"><span class="all-kind">Art direction</span><span class="all-title">Faunaform: seven animals, one day of light</span><span class="all-line">A screen-print studio for Minnesota wildlife art, in progress: one idea held across seven compositions, each made to print. Nothing is printed yet.</span></a></li>
+            <li><a class="all-link" href="case-study/while-were-here.html"><span class="all-kind">Editorial design</span><span class="all-title">While We&rsquo;re Here: a book of essays, designed and produced end to end</span><span class="all-line">A 300 mm square hardcover: the pacing, the type, 95 of my own photographs and the words, from HTML and CSS to a press-ready PDF.</span></a></li>
+            <li><a class="all-link" href="case-study/this-site.html"><span class="all-kind">Build write-up</span><span class="all-title">How I built this site</span><span class="all-line">Plain HTML with no framework, three token files under four specs, and checks that measure every rendered page.</span></a></li>
+          </ol>
+        </div>
+
+        <div class="all-group">
+          <h2>Experiments</h2>
+          <ol class="all-list">
+            <li><a class="all-link" href="lab/agent-review.html"><span class="all-kind">Experiment</span><span class="all-title">Agent Review: when agents build, designers lead</span><span class="all-line">A working prototype and case study of designing beside a coding agent, from an earlier focus on AI in the product team. Its scenarios are simulated.</span></a></li>
+            <li><a class="all-link" href="prototype/dispatch-cockpit.html"><span class="all-kind">Experiment</span><span class="all-title">Dispatch Cockpit: an AI recommendation the dispatcher can check and overrule</span><span class="all-line">A working decision tool on synthetic data, informed by the Midwest Couriers work.</span></a></li>
+            <li><a class="all-link" href="lab/designing-motion.html"><span class="all-kind">Experiment</span><span class="all-title">Designing motion with Claude Code</span><span class="all-line">A three-step scroll story drawn in code, with one animation timeline driven by scroll.</span></a></li>
+          </ol>
+        </div>
+
+        <div class="all-group">
+          <h2>Smaller pieces</h2>
+          <ol class="all-list">
+            <li><a class="all-link" href="case-study/hybrid-designer.html#campaigns-and-identity"><span class="all-kind">Identity</span><span class="all-title">Learn to Live identity</span><span class="all-line">A complete brand identity, character illustration and a marketing site for an online mental health platform.</span></a></li>
+            <li><a class="all-link" href="case-study/enterprise-consulting.html#dr-pepper"><span class="all-kind">App design</span><span class="all-title">Dr Pepper Snapple fundraising app</span><span class="all-line">A United Way campaign app that made giving feel like a game: live progress, team leaderboards and a countdown.</span></a></li>
+            <li><div class="all-row"><span class="all-kind">Design system</span><span class="all-title">Connect design system</span><span class="all-line">The brand foundation behind RBA Consulting&rsquo;s site: colors, type and logos with the rules attached, and component specs with the numbers underneath. Shown on request.</span></div></li>
+          </ol>
+        </div>
+
+        <div class="all-group">
+          <h2>Writing</h2>
+          <ol class="all-list">
+            <li><a class="all-link" href="writing/index.html"><span class="all-kind">Articles</span><span class="all-title">Twelve articles on craft, judgment and working in software</span><span class="all-line">What finished looks like, what a designer is for when anyone can build, and the earlier writing on design systems and agents.</span></a></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="case-footer">
+    <div class="container">
+      <a class="btn-back" href="index.html#work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        Back to the work
+      </a>
+    </div>
+  </footer>
+  <script src="cursor.js?v=20260918b" defer></script>
+</body>
+</html>

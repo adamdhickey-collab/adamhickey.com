@@ -74,12 +74,11 @@ const slug = (html) => inner(html).replace(/&[a-z]+;|&#\d+;/g, '').toLowerCase()
 
 /* Kept at their address, off the index (see the header). */
 const UNLISTED = new Set([
-  /* Three since 2026-10-26, when the index regrouped around craft, working
-     software and the earlier focus on agents: the design-engineer article
-     and the interface-feel-finished article came back onto it. */
+  'what-does-a-product-design-engineer-actually-do',
   'what-does-a-developer-need-from-an-interface-on-a-bad-day',
   'designing-for-the-moment-the-workflow-breaks',
   'standardizing-ux-across-40-sap-fiori-apps',
+  'what-makes-an-interface-feel-finished',
 ]);
 
 const faults = [];

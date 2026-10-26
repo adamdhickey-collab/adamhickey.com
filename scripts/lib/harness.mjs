@@ -163,28 +163,12 @@ export function revision(root) {
   }
 }
 
-/* A REDIRECT IS NOT A PAGE. Since 2026-10-26 a retired address keeps a stub
- * whose whole job is a <meta http-equiv="refresh"> to where its content went
- * (the four engagement pages, folded into the homepage's Approach section).
- * A stub has no words a reader meets, no card and no canonical of its own,
- * so it is left out here the way 404.html is left out of counts.mjs and
- * seo.mjs, and those two apply the same test. The test reads the head only. */
-export function isRedirect(file) {
-  try {
-    const fd = fs.openSync(file, 'r');
-    const buf = Buffer.alloc(4096);
-    const n = fs.readSync(fd, buf, 0, 4096, 0);
-    fs.closeSync(fd);
-    return /<meta http-equiv="refresh"/i.test(buf.toString('utf8', 0, n));
-  } catch { return false; }
-}
-
 export function pages(root, dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) pages(root, p, out);
-    else if (e.name.endsWith('.html') && !isRedirect(p)) out.push(path.relative(root, p));
+    else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
   }
   return out.sort();
 }

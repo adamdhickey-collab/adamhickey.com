@@ -1,26 +1,588 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- A redirect, not a page. This address held one of the four "How I work"
-       pages from 2026-09-17 until the repositioning of 2026-10-26 folded the
-       four into the homepage's Approach section (What I bring). The address
-       is kept because it was linked and shared; the stub sends a reader on
-       and tells a crawler not to index it. The checks treat a head with a
-       meta refresh as a redirect, so this is not one of the site's pages:
-       no canonical, no card, no graph, no sitemap entry. -->
-  <meta http-equiv="refresh" content="0; url=../index.html#approach" />
-  <meta name="robots" content="noindex" />
-  <title>Build the system everyone builds from has moved | Adam Hickey</title>
-  <link rel="stylesheet" href="../color.css?v=10" />
-  <link rel="stylesheet" href="../type.css?v=6" />
-  <style>
-    body { margin: 0; padding: 4rem 1.5rem; font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); background: var(--color-white); }
-    a { color: var(--color-accent-text); }
-  </style>
+  <title>Enterprise Design Systems for Product Teams | Adam Hickey</title>
+  <meta name="description" content="How I turn several versions of the same component into one shared foundation the teams actually use, with the operating rules that keep it adopted: the steps, and the numbers." />
+
+  <link rel="canonical" href="https://adamhickey.com/engagement/design-system-foundation.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adamhickey.com/engagement/design-system-foundation.html" />
+  <meta property="og:title" content="Enterprise Design Systems for Product Teams | Adam Hickey" />
+  <meta property="og:description" content="How I turn several versions of the same component into one shared foundation the teams actually use, with the operating rules that keep it adopted: the steps, and the numbers." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/design-system-foundation.jpg?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "FAQPage",
+          "@id": "https://adamhickey.com/engagement/design-system-foundation.html#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How long does it take?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Weeks to see what exists and draw the shared line, months to build the foundation. Keeping it adopted never ends, which is what the operating rules are for."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this something you do alone?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. A lead from each product team runs the inventory with me and builds the parts they’ll own. A foundation handed over finished is a folder nobody opens."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does the team need to give?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Someone who can settle what’s shared when two teams disagree, a lead from each team, the code and design files as they are, and one working session."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does the team leave with?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The shared components in use, the tokens underneath them in design and code, and the operating rules written for people and AI tools alike."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where has it worked?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Across 40+ SAP apps, where one style guide, one component library and checks in the release process cut design-to-development time by about a third and production UI defects roughly in half."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this a role or an engagement?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A role, first: a senior product design role where this is the work, in-house, remote or hybrid in the Twin Cities, with a team that can hire in Minnesota. I also take select independent engagements."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://adamhickey.com/engagement/design-system-foundation.html#page",
+          "url": "https://adamhickey.com/engagement/design-system-foundation.html",
+          "name": "Build the system everyone builds from",
+          "description": "Turn four versions of the same data table into one shared foundation the teams actually use, with the operating rules that keep it that way.",
+          "about": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/engagement/design-system-foundation.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "How I Work",
+              "item": "https://adamhickey.com/#problems"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Build the system everyone builds from",
+              "item": "https://adamhickey.com/engagement/design-system-foundation.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- Site stylesheet, same chrome as the build write-ups. -->
+  <link rel="stylesheet" href="../color.css?v=9" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=5" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+  <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): the same sections and questions in about half the words. The situation and every step are short paragraphs, the questions answer in a sentence or two (the FAQPage carries the same answers), and the "What it asks of the team" panel is gone, because the facts strip and the question about it already said so. -->
 </head>
 <body>
-  <p>&ldquo;Build the system everyone builds from&rdquo; is now part of <a href="../index.html#approach">What I bring, on the homepage</a>. If this page does not move on by itself, follow that link.</p>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Lab</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- Until 2026-09-17 this was an engagement page: the same situation,
+         proof and four steps, sold as a fixed piece of work with a length
+         and a fee model. The homepage's "How I work" cards open here now,
+         so the page describes the same work as a thing I do on a team. The
+         invitation band, the fee questions and the Service node went; the
+         facts strip, the FAQ and the close were rewritten for a hiring
+         manager. The engagement is still on offer, in one sentence at the
+         close, without the numbers. -->
+    <!-- The hero carries the picture, as Product Clarity's does: the scene
+         runs the full width, and the text sits on the left in charcoal over
+         the picture and nothing else. No scrim: the picture is drawn with
+         its left half empty so the text has room, and charcoal clears its
+         floor on the wall. The wrapper around the container paints an
+         invisible gradient so resting.mjs probes the type by the pixel
+         (style.css says why). The picture drifts as the reader scrolls
+         past, at a fraction of their speed, by the script at the foot of
+         the page; nothing moves under reduced motion.
+
+         The picture is this engagement's own, 2:1 with the subject
+         center-right and the left half an unbroken wall, which is what lets
+         the text sit on it with nothing in between. -->
+    <header class="eng3-hero eng3-hero-art">
+      <div class="eng3-hero-scrim">
+        <div class="container case-wide">
+          <div class="eng3-hero-inner">
+            <p class="eng3-kicker">How I work &middot; The products need a system</p>
+            <h1>Build the system everyone builds from</h1>
+            <p class="eng3-dek">Turn four versions of the same data table into one shared foundation the teams actually use, with its rules written down so people and coding agents can build from it without asking.</p>
+          </div>
+        </div>
+      </div>
+      <img class="eng3-hero-bg" src="../img/engagement/system-hero.webp?v=6" width="1774" height="887" fetchpriority="high" decoding="async" alt="" />
+    </header>
+
+    <!-- The facts a buyer needs before the story: how long, who it needs
+         from their side, and what it costs to have around. The strip used
+         to say "a diagnostic first, then a bounded build" and "you and me",
+         which named the shape without a single number a reader could take
+         to their boss. The two-part length is the practice's own terms for
+         a system engagement: a fixed diagnostic, then a build priced from
+         it as a whole. -->
+    <section class="case-section case-overview eng3-facts">
+      <div class="container case-wide">
+        <dl class="build-facts">
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8"/><circle pathLength="1" cx="12" cy="12" r="3.4"/><circle pathLength="1" cx="12" cy="12" r="0.7"/></svg></span>When this is the job</dt><dd>Several teams building the same components differently, and a product suite that shows it</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:1" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="M12 7.1v5l3.3 2"/></svg></span>How long it takes</dt><dd>Weeks to see what has been built twice, months to a foundation the teams use, and rules that keep it for years</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:2" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.2" cy="8.4" r="3.1"/><path pathLength="1" d="M3.6 19.4c0-3.3 2.5-5.4 5.6-5.4s5.6 2.1 5.6 5.4"/><circle pathLength="1" cx="17.6" cy="9.6" r="2.2"/><path pathLength="1" d="M17.2 14.3c2 .3 3.2 2.1 3.2 5.1"/></svg></span>What it asks of the team</dt><dd>One person who can settle what is shared when two teams disagree, a lead from each product team, and the codebases as they are, forks included</dd></div>
+          <div><dt><span class="fact-node"><svg class="fact-icon" style="--i:3" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6.2 3.4h7.4l4.2 4.2v13H6.2z"/><path pathLength="1" d="M13.4 3.4v4.4h4.4"/><path pathLength="1" d="m9.4 14.6 2.1 2.1 4-4"/></svg></span>What it leaves behind</dt><dd>The shared components in use, the tokens underneath them in design and code, and the operating rules written for people and AI tools alike</dd></div>
+        </dl>
+
+      </div>
+    </section>
+
+
+    <section class="case-section case-overview">
+      <div class="container case-wide">
+        <h2>The situation</h2>
+        <!-- The prose keeps the measure on the left; the sentence the
+             engagement turns on is pulled out on a plate to the right, so the
+             column reads as a spread. The pull-out is the paragraph's own
+             claim in fewer words, not a new one. -->
+        <div class="eng3-situation">
+          <div class="eng3-situation-prose">
+            <p>The suite grew a product at a time, and it shows. Four teams have built the same data table four ways, and nobody is sure which one is correct.</p>
+            <p>The folder of patterns exists, and nobody opens it, because it was never built against what the teams actually ship.</p>
+            <p>And there&rsquo;s a new reader that can&rsquo;t ask which data table is right. The AI tools the teams build with now see four, and generate a fifth.</p>
+          </div>
+          <aside class="eng3-pull" aria-label="The moment this is for">
+            <p class="eng3-pull-quote">Four teams have built the same data table four ways, and nobody is sure which one is correct.</p>
+          </aside>
+        </div>
+
+        <!-- The proof is the real one, told at the length of the engagement it
+             proves. The page pointed at the SAP practice with one line; a
+             reader could not see which part of two years across forty apps
+             was this. The first two moves are: the review of every app, the
+             one style guide and library built from it, and the checkpoints
+             that kept it alive after the engagement ended. Every figure here
+             is from the case study, none from memory. -->
+        <h2>Where it has worked</h2>
+        <p>One practice where the shared foundation was the turn. Every figure is from the case study it sits beside.</p>
+
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">SAP practice &middot; 40+ enterprise apps</p>
+            <h3>Nobody could say whether any of it was working, because nobody was measuring it.</h3>
+            <p>Someone in the field might open four apps before lunch and relearn the layout each time. So we built one style guide and component library, with checks in the release process, and it kept working after I left.</p>
+            <ul class="eng3-proof-stats">
+              <li><b>About a third</b><span>less time from design to development</span></li>
+              <li><b>About half</b><span>fewer UI defects in production, quarter over quarter</span></li>
+            </ul>
+            <p class="eng3-proof-more">That practice was built over two years, and the steps below are its moves in order.</p>
+            <p class="eng3-proof-more">More recently, Sprout, a design system for Cargill: its tokens live in the code, and the Figma variables mirror them under a written sync contract.</p>
+            <p class="eng3-proof-more">The whole system is also a Claude Code skill, so the team&rsquo;s AI tools build from the same source the people do.</p>
+          </div>
+          <div class="eng3-proof-media">
+            <figure class="eng3-proof-shot is-single">
+              <a href="../case-study/sap-product-maturity.html" class="eng3-proof-link">
+                <img src="../img/site/sap-hero-02.webp" width="1672" height="941" loading="lazy" decoding="async" alt="The SAP enterprise platform: one style guide and one component library across a suite of apps." />
+              </a>
+            </figure>
+            <a class="eng3-proof-cta" href="../case-study/sap-product-maturity.html">The full account, with the screens&nbsp;&rarr;</a>
+            <a class="eng3-proof-cta" href="../design-system/index.html">The design system behind this site&nbsp;&rarr;</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="case-section eng3-how">
+      <div class="container case-wide">
+        <h2>How it goes, step by step</h2>
+        <p>Four steps, each with something to show for it. The examples follow one example company: a manufacturer whose six operations apps, built by three teams over a decade, carry four versions of the same data table.</p>
+        <ol class="eng3-steps">
+          <li class="eng3-step has-fig">
+            <div class="eng3-step-main">
+              <span class="eng3-num" aria-hidden="true"></span>
+              <div>
+              <h3>Inventory what already exists</h3>
+              <p>Every component in every product, including the four versions of the same one, and the tokens and docs behind them. You can&rsquo;t decide what should be shared until you can see what&rsquo;s been built twice.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Nine date pickers, side by side for the first time.</b> Four of them behave differently on the same keyboard.</p>
+              </div>
+            </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-system-01.webp?v=11" width="1080" height="720" loading="lazy" decoding="async" alt="One of their designers at her desk on a one-to-one call with Adam, pointing a pen at a screen crowded with near-duplicate widgets." />
+            </figure>
+          </li>
+          <li class="eng3-step has-fig">
+            <div class="eng3-step-main">
+              <span class="eng3-num" aria-hidden="true"></span>
+              <div>
+              <h3>Decide what is shared and what stays local</h3>
+              <p>Not everything belongs in a system. Over-sharing produces a foundation every team resists, and the components teams resist are the ones they fork.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>The data table goes shared. The scheduling board stays local.</b> The teams that argued for the board had good reasons.</p>
+              </div>
+            </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-system-02.webp?v=9" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop showing a shared screen on a call: two columns of component blocks, shared and local, with a strip of five call tiles along the bottom, Adam at the end." />
+            </figure>
+          </li>
+          <li class="eng3-step has-fig">
+            <div class="eng3-step-main">
+              <span class="eng3-num" aria-hidden="true"></span>
+              <div>
+              <h3>Build the foundation</h3>
+              <p>The shared components, their patterns and the tokens underneath, mapped one to one between the design file and the code so neither drifts quietly. Documented so a person and an AI assistant read the same rules.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>Twelve components on one set of tokens.</b> Built against the two apps most likely to reject them.</p>
+              </div>
+            </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-system-03.webp?v=10" width="1080" height="720" loading="lazy" decoding="async" alt="A laptop screen showing the component library: rows of buttons, inputs and cards, a row of color swatches with one terracotta, and a type scale, with a printed spec sheet beside it." />
+            </figure>
+          </li>
+          <li class="eng3-step has-fig">
+            <div class="eng3-step-main">
+              <span class="eng3-num" aria-hidden="true"></span>
+              <div>
+              <h3>Set the operating rules</h3>
+              <p>Who can change what, how a team proposes an addition, and which numbers say whether it&rsquo;s working. A system without governance is a folder of components that slowly drifts apart again.</p>
+              <p class="eng3-step-out"><span class="eng3-step-out-mark">e.g.</span><b>A standing half-hour for what the system is missing.</b> Governance nobody can reach is how the forking restarts.</p>
+              </div>
+            </div>
+            <figure class="eng3-step-fig is-art">
+              <img src="../img/engagement/step-system-04.webp?v=13" width="1080" height="720" loading="lazy" decoding="async" alt="Adam sitting beside one of their designers at a table, a single printed page of rules between them, his finger resting on one line and her pen on another." />
+            </figure>
+          </li>
+        </ol>
+
+        <!-- The facts strip's third station in full: what the weeks take from the
+             client's side, and the situations this engagement is not for,
+             each pointed at the one that is. There is no matching "What you
+             leave with" panel: the facts strip's fourth station says it, in the
+             same words, and the step captions show it. -->
+
+        <!-- Three situations where a different engagement is the right one,
+             each in its own column with the engagement named under it. It
+             was one sentence beginning "Not the one when", which asked a
+             reader to hold three conditions and three links in one clause. -->
+        <div class="eng3-leave eng3-fit">
+          <h2 class="eng3-panel-title">When it is one of the other three</h2>
+          <ul class="eng3-fit-grid">
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="12" r="8.4"/><path pathLength="1" d="m15.4 8.6-2.2 4.6-4.6 2.2 2.2-4.6z"/></svg></span>
+              <p>Nobody can say what the product is for.</p>
+              <a href="product-clarity.html">Turn ambiguity into a decision&nbsp;&rarr;</a>
+            </li>
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:1" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.8" cy="7.8" r="3.3"/><path pathLength="1" d="M3.6 20.2c0-3.7 2.8-6.2 6.2-6.2s6.2 2.5 6.2 6.2"/><path pathLength="1" d="m15.4 8.8 1.9 1.9 3.5-3.5"/></svg></span>
+              <p>One initiative needs a senior owner to ship it.</p>
+              <a href="embedded-senior-product-design.html">Own the design inside the team, not beside it&nbsp;&rarr;</a>
+            </li>
+            <li>
+              <span class="fact-node"><svg class="fact-icon" style="--i:2" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3.4 11 20.6 3.8 17 20.2l-5.3-6.3z"/><path pathLength="1" d="M20.6 3.8 11.7 13.9"/></svg></span>
+              <p>There is an idea, and nothing exists yet to judge it by.</p>
+              <a href="working-product-prototype.html">Build to find out&nbsp;&rarr;</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The questions a reader arrives with, answered in the page's own
+             words: the length, the fee model, who it is for, what the team
+             gives and what it leaves with. Everything here is said elsewhere
+             on the page; this is where the direct question gets a direct
+             answer, for a reader skimming for one fact and for an assistant
+             asked one. The same pairs are in the page's JSON-LD as a FAQPage,
+             and seo.mjs holds each question there to the page. -->
+        <div class="eng3-leave eng3-faq">
+          <h2 class="eng3-panel-title">Questions people ask</h2>
+          <dl>
+            <div><dt>How long does it take?</dt><dd>Weeks to see what exists and draw the shared line, months to build the foundation. Keeping it adopted never ends, which is what the operating rules are for.</dd></div>
+            <div><dt>Is this something you do alone?</dt><dd>No. A lead from each product team runs the inventory with me and builds the parts they&rsquo;ll own. A foundation handed over finished is a folder nobody opens.</dd></div>
+            <div><dt>What does the team need to give?</dt><dd>Someone who can settle what&rsquo;s shared when two teams disagree, a lead from each team, the code and design files as they are, and one working session.</dd></div>
+            <div><dt>What does the team leave with?</dt><dd>The shared components in use, the tokens underneath them in design and code, and the operating rules written for people and AI tools alike.</dd></div>
+            <div><dt>Where has it worked?</dt><dd>Across 40+ SAP apps, where one style guide, one component library and checks in the release process cut design-to-development time by about a third and production UI defects roughly in half.</dd></div>
+            <div><dt>Is this a role or an engagement?</dt><dd>A role, first: a senior product design role where this is the work, in-house, remote or hybrid in the Twin Cities, with a team that can hire in Minnesota. I also take select independent engagements.</dd></div>
+          </dl>
+        </div>
+
+        </div>
+    </section>
+
+    <!-- One compact statement, and this page's own: what the facts strip
+         cannot say, which is who you talk to and what the weeks feel like.
+         The length, the fee model and the participants are the strip's and
+         are not repeated here. -->
+    <!-- "How I work" and the closing ask share one band, side by side: the
+         shape of the work on the left, the thing to do about it on the right.
+         The page ends the way the case studies do, on the next engagement. -->
+    <section class="eng3-one eng3-one-compact eng3-one-split" aria-label="On a team">
+      <div class="container case-wide">
+        <div class="eng3-split">
+          <div class="eng3-split-how">
+            <!-- The capability claim, which the page used to leave to the
+                 artifacts. Every "you leave with" on this site named a thing:
+                 the reasoning in writing, the tokens, the components, the
+                 editing workflow. None of them said the people would be
+                 better at this, which is the actual measure. Embedded already
+                 carried it ("the measure of the work is what your team can do
+                 without me"); this is the same argument in each page's own
+                 terms. Source: Essay 25, "Leave the Client Better Than You
+                 Found Them" -- a clean handoff cannot be created on the last
+                 Friday, and a system nobody else understands was rented
+                 rather than built. -->
+            <h2>On a team</h2>
+            <p>Whoever runs the inventory builds what it recommends, with the team&rsquo;s engineers, and the leads build the parts they&rsquo;ll own. A foundation the team can&rsquo;t extend without me is rented, not built.</p>
+          </div>
+          <div class="eng3-split-cta">
+            <h2 class="eng3-cta-title">If this is the job</h2>
+            <p>I&rsquo;m looking for a senior product design role where this is the work: in-house, remote or hybrid in the Twin Cities, with a team that can hire in Minnesota. A few sentences about your team and what it&rsquo;s building are enough to start.</p>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation&amp;body=How%20many%20versions%20of%20the%20same%20table%20there%20are%3A%0D%0A%0D%0AWho%20owns%20which%3A%0D%0A%0D%0AWhere%20the%20last%20conversation%20about%20it%20stalled%3A%0D%0A" class="btn btn-primary">Start a conversation</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="eng3-closing" aria-label="Continue reading">
+      <div class="container case-wide">
+        <a href="embedded-senior-product-design.html" class="eng3-closing-next">
+          <span class="eng3-closing-next-eyebrow">Next &middot; How I work</span>
+          <span class="eng3-closing-next-title">Own the design inside the team, not beside it &rarr;</span>
+          <span class="eng3-closing-next-dek">An initiative with no senior owner</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+  <script>
+    /* The hero picture drifts as the reader scrolls past it, at 15% of their
+       speed: the picture is 130% of the hero tall and starts 5% above it, so
+       the drift never shows an edge -- the strip it opens at the hero's top
+       is above the fold before it exists; style.css has the arithmetic.
+       --motion-response is the budget for
+       the interface tracking the reader, and this tracks them directly, one
+       transform per frame with nothing to ease. Off under reduced motion and
+       below 1280, where the picture is a static band under the text. */
+    addEventListener('DOMContentLoaded', function () {
+      var img = document.querySelector('.eng3-hero-bg');
+      var hero = img && img.closest('.eng3-hero-art');
+      if (!img || !hero) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var wide = window.matchMedia('(min-width: 1280px)');
+      var ticking = false;
+      var place = function () {
+        ticking = false;
+        if (still.matches || !wide.matches) { img.style.transform = ''; return; }
+        var rect = hero.getBoundingClientRect();
+        var passed = Math.min(Math.max(-rect.top, 0), rect.height);
+        img.style.transform = 'translate3d(0, ' + (passed * 0.15).toFixed(1) + 'px, 0)';
+      };
+      var ask = function () { if (!ticking) { ticking = true; requestAnimationFrame(place); } };
+      addEventListener('scroll', ask, { passive: true });
+      addEventListener('resize', ask);
+      still.addEventListener('change', ask);
+      wide.addEventListener('change', ask);
+      place();
+    });
+    /* Draw-on for the facts strip's icons (and the one-person icons, whose
+       section this page no longer renders): each gets .is-inview as it enters
+       the viewport. The eng3-js class gates the hidden initial state, so
+       without JavaScript the icons render finished rather than blank. */
+    document.documentElement.classList.add('eng3-js');
+    addEventListener('DOMContentLoaded', function () {
+      var items = document.querySelectorAll('.eng3-one-item, .eng3-facts, .eng3-fit');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('is-inview'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-inview'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.25 });
+      items.forEach(function (el) { io.observe(el); });
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Experiments in prototyping, motion and AI | Adam Hickey</title>
+  <meta name="description" content="What design has to supply once coding agents build, tested in working software: a system that explains itself, checks that hold, and a clear line where a person decides. Agent Review, a prototype for knowing when a coding agent should proceed, ask a person or wait for approval, and a working prototype of operational software on synthetic data, introduced by the article What makes a good product designer now?" />
+
+  <link rel="canonical" href="https://adamhickey.com/lab/index.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adamhickey.com/lab/index.html" />
+  <meta property="og:title" content="Experiments in prototyping, motion and AI | Adam Hickey" />
+  <meta property="og:description" content="What design has to supply once coding agents build, tested in working software: a system that explains itself, checks that hold, and a clear line where a person decides. Agent Review, a prototype for knowing when a coding agent should proceed, ask a person or wait for approval, and a working prototype of operational software on synthetic data, introduced by the article What makes a good product designer now?" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/lab.jpg?v=19" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: this is the
+       list, and each entry it names is an Article defined on its own page,
+       by @id, so seo.mjs resolves every one of them across the site. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": "https://adamhickey.com/lab/index.html#page",
+          "name": "Design systems for humans and agents",
+          "description": "What design has to supply once coding agents build, tested in working software: a system that explains itself, checks that hold, and a clear line where a person decides. Agent Review, a prototype for knowing when a coding agent should proceed, ask a person or wait for approval, and a working prototype of operational software on synthetic data, introduced by the article What makes a good product designer now?",
+          "url": "https://adamhickey.com/lab/index.html",
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "hasPart": [
+            {
+              "@id": "https://adamhickey.com/lab/agent-review.html#article"
+            },
+            {
+              "@id": "https://adamhickey.com/prototype/dispatch-cockpit.html#article"
+            },
+            {
+              "@id": "https://adamhickey.com/lab/designing-motion.html#article"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/lab/index.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Lab",
+              "item": "https://adamhickey.com/lab/index.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=10" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=6" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="index.css?v=3" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../loop.js?v=1" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#approach">Approach</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Experiments</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container case-wide">
+        <!-- The lab is the fourth family that is self-directed rather than
+             client work, and the first that is about how the work is made
+             rather than what was made: a component system an agent can work
+             inside, the tool a person reviews its output with, and the
+             prototype that came before it. Two entries, newest first, since
+             the deploy console left the site on 2026-10-23.
+             The index wears the writing index's shell on purpose: a card
+             beside its words, a hairline between entries, nothing to learn.
+             Since 2026-10-06 it wears it in the wide frame, with the cards
+             large enough to read the product in them and each entry a
+             sentence and three lines rather than a paragraph (index.css).
+             For most of 2026-10-06, from #401, it was a three-pane
+             workspace instead (files, a preview, a scripted assistant), and
+             it came back to this: three pieces do not need a tool to be
+             found in.
+             The cockpit keeps its address under /prototype/, where
+             articles already link it; this page is the door, not a move. -->
+        <p class="case-kicker">Experiments &middot; three pieces</p>
+        <h1 class="case-title">Where I try things</h1>
+        <p class="build-dek">Prototypes and technical explorations, built to find out rather than to ship: a working decision tool on synthetic data, a case study of designing beside a coding agent, and a scroll story drawn in code. They come from an earlier focus on AI in the product team and they stay here as experiments.</p>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-wide">
+        <ol class="writing-list writing-list--wide">
+          <!-- THE INTRODUCTION, since 2026-10-20: the position article the
+               two pieces test, first. It is not a third piece, so the
+               kicker still counts two. Its picture is the homepage lab
+               card's figure, the relay then the loop (style.css, "The
+               loop"), building itself once in view (../loop.js). Inside the
+               link it is aria-hidden: the title and dek name the link, and
+               the figure is the article's argument drawn, which the article
+               says in words. -->
+          <li class="writing-item writing-item--lead">
+            <a class="writing-link" href="../writing/what-makes-a-good-product-designer-now.html">
+              <figure class="loop" aria-hidden="true">
+                <div class="loop-before">
+                  <p class="loop-tag">Design used to take months</p>
+                  <ol class="loop-relay">
+                    <li style="--i:0">Research</li>
+                    <li style="--i:1">Design</li>
+                    <li style="--i:2">Spec</li>
+                    <li style="--i:3">Build</li>
+                    <li style="--i:4">QA</li>
+                  </ol>
+                </div>
+                <div class="loop-now">
+                  <p class="loop-tag loop-tag--now">Now it takes days</p>
+                  <ol class="loop-steps">
+                    <li class="loop-step loop-step--system" style="--i:0"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg><b>The system</b></li>
+                    <li class="loop-step loop-step--build" style="--i:1"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg><b>Agents build</b></li>
+                    <li class="loop-step loop-step--checks" style="--i:2"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.5,0)"><circle pathLength="1" cx="11.5" cy="12" r="8.5"/><path pathLength="1" d="M7.8 12.3l2.5 2.5 4.9-5.2"/></g></svg><b>Checks</b></li>
+                    <li class="loop-step loop-step--person" style="--i:3"><svg class="loop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="9.8" cy="7.8" r="3.3"/><path pathLength="1" d="M3.6 20.2c0-3.7 2.8-6.2 6.2-6.2s6.2 2.5 6.2 6.2"/><path pathLength="1" d="m15.4 8.8 1.9 1.9 3.5-3.5"/></svg><b>A person decides</b></li>
+                  </ol>
+                  <p class="loop-back">Each answer goes back into the system</p>
+                </div>
+              </figure>
+              <div class="writing-text">
+                <h3 class="writing-title">Start here: what makes a good product designer now?</h3>
+                <p class="writing-dek">The argument these experiments test: design the system people and agents build from, build to find out, and draw the line where a person decides.</p>
+                <div class="tag-row">
+                  <span class="tag">Introduction</span>
+                  <span class="tag">Article</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="writing-item">
+            <a class="writing-link" href="agent-review.html">
+              <img class="writing-card" src="../img/lab/agent-review-cycle-card.webp?v=2" width="1280" height="720" alt="" decoding="async" />
+              <div class="writing-text">
+                <h3 class="writing-title">Agent Review: design judgment when agents join the team</h3>
+                <p class="writing-dek">A prototype that follows one feature from a support ticket to what ships, with a coding agent doing the building. Its scenarios are simulated.</p>
+                <ul class="build-list writing-points">
+                  <li>Six stages, each saying what the designer and the agent do</li>
+                  <li>Three working designs, and a reason to choose one</li>
+                  <li>Where the agent stops, and what to measure after</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag">Case study</span>
+                  <span class="tag">Working prototype</span>
+                  <span class="tag">React</span>
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">Storybook</span>
+                  <span class="tag">Claude Code</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="writing-item">
+            <a class="writing-link" href="../prototype/dispatch-cockpit.html">
+              <img class="writing-card" src="../img/lab/dispatch-cockpit-card.webp?v=1" width="1280" height="720" alt="" loading="lazy" decoding="async" />
+              <div class="writing-text">
+                <h3 class="writing-title">Dispatch Cockpit: an AI recommendation the dispatcher can check and overrule</h3>
+                <p class="writing-dek">Decision support for freight dispatch, built on one bet: a dispatcher checks a pick faster when the screen shows what needs checking.</p>
+                <ul class="build-list writing-points">
+                  <li>Every factor shown with its value and its age</li>
+                  <li>A close call that names its tradeoff</li>
+                  <li>Legal limits enforced before anything is scored</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag">Working prototype</span>
+                  <span class="tag">Plain HTML, CSS and JavaScript</span>
+                  <span class="tag">Synthetic data</span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <!-- THE EXPLORATION, last on purpose, since 2026-10-21: the homepage's
+               scroll story, kept when #539 took it off the homepage. It is not
+               a third test of the argument above, so it closes the list and
+               the kicker still counts two pieces. -->
+          <li class="writing-item">
+            <a class="writing-link" href="designing-motion.html">
+              <img class="writing-card" src="../img/lab/designing-motion-card.webp?v=1" width="1280" height="720" alt="" loading="lazy" decoding="async" />
+              <div class="writing-text">
+                <h3 class="writing-title">Designing motion with Claude Code</h3>
+                <p class="writing-dek">An exploration of motion and interaction: a three-step scroll story where a blueprint is handed off, a tree grows every branch at once, then it&rsquo;s pruned and bears fruit.</p>
+                <ul class="build-list writing-points">
+                  <li>Scroll position drives one animation timeline</li>
+                  <li>Every step holds on a finished state</li>
+                  <li>Reduced motion and no JavaScript both get the whole picture</li>
+                </ul>
+                <div class="tag-row">
+                  <span class="tag">Exploration</span>
+                  <span class="tag">Motion</span>
+                  <span class="tag">anime.js</span>
+                  <span class="tag">Claude Code</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-wide">
+        <a class="btn-back" href="../index.html#work">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the homepage
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,253 @@
+/* color.css -- the palette, and nothing else. True again as of step 8:
+ * elevation lived here for a while because it needed the reach, and now it
+ * lives in shell.css with the rest of the frame.
+ *
+ * Same reason type.css exists: the six Tailwind case studies never load
+ * style.css, so anything they need has to live somewhere they can reach. This
+ * file comes first on all fifteen pages.
+ *
+ * It is deliberately step 1 of COLOR.md section 8 rather than step 6. The type
+ * sequence tokenized site-nav.css -- a stylesheet both regimes load -- while
+ * only one regime could resolve the tokens, and shipped a live regression for
+ * two commits. A token is only safe to use in a stylesheet if every page that
+ * loads that stylesheet also loads the tokens. So the tokens go everywhere
+ * first, and nothing consumes them until they have.
+ *
+ * COLOR.md is normative. Every ratio in the comments below is measured, not
+ * estimated, and the reference recomputes the whole matrix in the browser.
+ */
+:root {
+  /* ---------------------------------------------------------------------
+     GROUNDS -- the five surfaces anything sits on.
+     The four light ones share one ink system, which is the whole reason four
+     are allowed to exist. Charcoal flips completely; see INK.
+     --------------------------------------------------------------------- */
+  --color-white:       #ffffff;   /* page ground: case studies, build write-ups */
+  --color-warm:        #f5f5f0;   /* warm ground -- and the primary ink ON charcoal */
+  --color-tea-light:   #e8ede5;   /* feature ground: hero card, pull-outs */
+  --color-muted-light: #e5e5dd;   /* alternate ground, same temperature as warm */
+  --color-charcoal:    #252525;   /* the dark band -- and primary ink on all four light grounds */
+
+  /* ---------------------------------------------------------------------
+     INK -- contrast against white / warm / tea / muted / charcoal.
+     4.5:1 is the floor for text under 24px, which is nearly all of it.
+     --------------------------------------------------------------------- */
+  /* --color-charcoal    15.33  14.02  12.90  12.10   1.00  (primary ink) */
+  --color-muted-gray:  #5c5f5c;  /*  6.47   5.91   5.44   5.11   2.37  never on charcoal */
+  --color-accent-text: #276468;  /*  6.75   6.18   5.69   5.33   2.27  never on charcoal */
+  --color-accent-on-dark: #8fc9c6; /* 1.85  1.69   1.56   1.46   8.28  ONLY on charcoal */
+  /* THE ACCENT IS A PETROL TEAL SINCE 2026-10-26, where it was the sage
+     #556b51 (5.82 / 5.32 / 4.90 / 4.60 / 2.63) with #9dbe95 on charcoal
+     (7.47). The repositioning (docs/rebrand/visual-system.md) keeps the warm
+     paper and the charcoal ink and moves the one hue: a cool accent lets the
+     work's own colours, which run warm on every case study, lead the page,
+     and it clears every floor with more room than the sage did, 5.33 on
+     muted-light where the sage sat at 4.60. The names did not move, so the
+     84 rules and 37 Tailwind utilities that write accent-text are unchanged
+     and the arithmetic below reads the same way; only the values and the
+     measured rows are new. */
+  /* --color-accent-deep, #657d60, is gone; see the note below. */
+
+  /* The two "never on charcoal" rows are the most plausible mistake in the
+     system, because both are the right answer on every other ground. And note
+     accent-text on muted-light: 4.60 against a 4.5 floor. If either value ever
+     moves, that is the pair to re-measure first.
+
+     THE SAGE IS ONE COLOR ON LIGHT AND ONE ON DARK, and it used to be two
+     on light. #556b51 for text and #657d60 for fills, with a comment here
+     arguing the split was load-bearing: a color dark enough to carry 12px
+     text on the muted ground was said to be darker than a fill wants, and a
+     color light enough to read as sage in a filled button fails 4.5:1 as
+     text on three of the four light grounds.
+
+     THE SECOND HALF OF THAT IS TRUE AND THE FIRST HALF WAS NEVER TESTED.
+     The site's most prominent sage fill is .btn-primary, and it has taken
+     --color-accent-text since the day the button had to carry warm type on
+     it -- warm on accent-deep is 4.12:1, under the text floor. So the
+     brightest, largest, most-looked-at fill on the site was already the
+     "text" sage, and had been for as long as the comment claiming fills
+     needed their own step. Nothing was darker than a fill wanted. Nobody
+     had checked.
+
+     WHAT THE MERGE IS WORTH, rather than only what it costs. Every one of
+     accent-deep's sixty-four uses sat on a light ground but two, and on a
+     light ground the darker sage is strictly further from its ground:
+     white-on-sage in a filled block goes 4.51 -> 5.82, a sage rule on warm
+     4.12 -> 5.32, on muted-light 3.56 -> 4.60. The one row that was tight
+     enough to be worth naming -- accent-text on muted-light at 4.60 against
+     a 4.5 floor -- is unchanged, because it was already this color.
+
+     THE TWO THAT WERE NOT ON A LIGHT GROUND ARE THE REASON THIS TOOK MORE
+     THAN A FIND AND REPLACE. The global focus ring and one image border
+     resolved to accent-deep on the charcoal band, at 3.40:1 -- legal
+     against the 3:1 a focus indicator owes and, as the reference has said
+     since it was written, unreadable as a 2px mark on a dark ground.
+     accent-text there is 2.63 and would have been a real 1.4.11 failure, so
+     the ring became a token a ground can set, and every charcoal surface
+     sets it to accent-on-dark. 3.40 -> 7.47. The consolidation is what
+     forced that to be looked at; the fix is worth more than the token saved.
+
+       --color-accent-text (#556b51)     SAGE ON LIGHT. Text and fill both:
+                                         small type, links, eyebrows,
+                                         kickers, button grounds, borders,
+                                         icons, rules.
+       --color-accent-hover (#445a41)    Its pressed step. Darker, not
+                                         lighter, so a press reads as one.
+       --color-accent-on-dark (#9dbe95)  SAGE ON CHARCOAL, where accent-text
+                                         is 2.63:1 and must never go.
+
+     And the fill/text line, where one still has to be drawn, is drawn by
+     what sits ON the fill rather than by the fill itself: a sage ground
+     carrying text has to clear the TEXT floor against that text. Warm on
+     accent-text is 5.32 and white on it 5.82, so both are legal; that is
+     what makes one sage enough. */
+
+  /* Sage, other steps. */
+  --color-accent-hover: #1f4f52;  /* the pressed/hover step under accent-text: darker, not lighter. 9.14 on white */
+
+  /* The soft ring behind a focused input and under the hovering cursor.
+     color-mix, not an rgba literal, because the whole reason this token needed
+     fixing is that a derived color was written out by hand and then drifted
+     from what it was derived from: it held the RAW sage, rgb(109,135,104), a
+     color the reference has claimed was retired since two colors left this
+     palette. Written this way it cannot drift again -- move accent-text and
+     the ring moves with it. It mixed from accent-deep until that step was
+     retired; at 18% the two are within a value of each other, and deriving
+     it from a token that still exists is the whole point of writing it this
+     way. */
+  --color-accent-ring: color-mix(in srgb, var(--color-accent-text) 18%, transparent);
+
+  /* THE FOCUS RING IS A TOKEN A GROUND SETS, and that is new. It was a
+     literal --color-accent-deep in one global rule, which is why a focus
+     indicator on the charcoal band came out at 3.40:1 -- the rule knew
+     nothing about what it was drawn on. Light grounds inherit the sage from
+     :root here; every charcoal surface re-declares this one property beside
+     the `color: var(--ink-on-dark)` it already declares, and the ring comes
+     out at 7.47. Same shape as the ink rule in section 3: decide from the
+     ground. */
+  --color-focus-ring: var(--color-accent-text);
+
+  /* --color-accent-soft is gone. It was the last formal trace of the raw sage
+     -- and nothing consumed it, so it was a dead token holding a retired
+     color. Deleted rather than redefined; a wash token can come back when
+     something actually needs one. */
+
+  /* ---------------------------------------------------------------------
+     LINES. Neither may be the only thing separating a control from its
+     ground -- a boundary that carries meaning needs 3:1, see RULES ON DARK.
+     --------------------------------------------------------------------- */
+  --color-tag-border: #e5e5e0;   /* quiet hairline: tag outlines, card edges. 1.22:1 */
+  --color-rule:       #d0d0c8;   /* visible rule: fact-block columns, row dividers. 1.55:1 */
+  --rule-hairline: rgba(37, 37, 37, 0.10);  /* charcoal tint, on light. 1.21:1 */
+  --rule-strong:   rgba(37, 37, 37, 0.16);  /* a divider that must read as one. 1.37:1 */
+  /* THE THIRD STEP, AND THE ONLY ONE FOR AN OUTER EDGE. The two above are
+     INTERNAL lines -- a divider between rows, a rule inside a card -- and
+     they are quoted against the surface they are drawn on. An outer edge is
+     a different sum: a border composites over the CARD'S OWN FILL first,
+     because background-clip is border-box, and then has to read against the
+     GROUND OUTSIDE. Charcoal at 10% over a white card is #e9e9e9 whatever
+     the card sits on, which is 1.11:1 on warm and 1.04 on muted-light --
+     the defect cards.mjs was written for, and the reason --rule-hairline
+     must never be spent on a card's outside.
+
+     0.24 is the step that clears the 1.2 floor on every ground a card sits
+     on here, with headroom rather than on the nose. Painted over white it is
+     rgb(203,203,203): 1.48:1 on warm, 1.37 on tea-light, 1.28 on muted-
+     light. 0.22 lands on 1.42 / 1.31 / 1.23, which is the opaque
+     --color-rule's own row to within a hundredth -- the same line by the
+     numbers -- and 0.24 is a shade over it.
+
+     WHY A TINT AND NOT THE OPAQUE TOKEN, given they measure alike. An
+     opaque #d0d0c8 is a grey-tan the palette keeps for one job and it is
+     the same value on every ground, so it sits ON the scheme. A tint of the
+     ink is the ink, thinned: it takes the ground's own colour through it,
+     so a card on warm and a zone on tea are edged by the same relationship
+     rather than the same swatch, and the line goes darker exactly where the
+     surface under it is darker (a tea-light zone's own edge paints
+     rgb(185,189,183), 1.74:1 on warm, without a second token). Same family
+     as the two above, one step along, which is also why it is here and not
+     a new colour. */
+  --rule-card:     rgba(37, 37, 37, 0.24);  /* a card's outer edge, on any ground. 1.48 / 1.37 / 1.28 */
+
+  /* ---------------------------------------------------------------------
+     INK AND RULES ON DARK. Alpha is not a free parameter: each step exists
+     because it clears a stated threshold. Below 0.55 is not text.
+
+     These five replace the fourteen distinct alphas the stylesheet currently
+     writes on --color-warm, six of which are under 2:1 doing the same
+     decorative job as each other.
+     --------------------------------------------------------------------- */
+  --ink-on-dark:           var(--color-warm);          /* 14.02:1  body and headings */
+  --ink-on-dark-secondary: rgba(245, 245, 240, 0.75);  /*  8.49:1  supporting copy, captions */
+  --ink-on-dark-muted:     rgba(245, 245, 240, 0.55);  /*  5.26:1  the quietest text allowed */
+  --rule-on-dark:          rgba(245, 245, 240, 0.14);  /*  1.53:1  dividers. Decorative only. */
+  /* 0.40, not the 0.35 that clears 3:1 on charcoal alone: the one control this
+     is for -- the lightbox close button -- carries its own 6% fill, so the
+     border is adjacent to two grounds and has to clear 3:1 against both.
+     0.38 is the minimum that does; 0.40 leaves headroom (3.79 outside the
+     button, 3.18 inside). */
+  --rule-on-dark-strong:   rgba(245, 245, 240, 0.40);  /*  3.47:1 on charcoal; control boundaries */
+
+  /* Washes -- a surface tint, which is neither ink nor a rule and had no token
+     until step 4 tried to collapse the alphas and found three background
+     values (0.045, 0.06, 0.075) with nowhere to go. Two steps: resting, and
+     the hover that has to be visibly different from it. */
+  --wash-on-dark:       rgba(245, 245, 240, 0.06);  /* card and control fill on a dark band */
+  --wash-on-dark-hover: rgba(245, 245, 240, 0.12);  /* its hover */
+  --wash-on-light-hover: rgba(37, 37, 37, 0.06);    /* the same idea on a light ground */
+
+  /* The ring's counterpart on charcoal, where accent-deep is invisible.
+     22% rather than the 18% its light twin uses: different base color,
+     different ground, and the pair is tuned to look equal rather than to
+     share a number. */
+  --color-accent-ring-on-dark: color-mix(in srgb, var(--color-accent-on-dark) 22%, transparent);
+
+  /* ---------------------------------------------------------------------
+     SEMANTIC. Interface, not artwork. --color-caution is icon-only line
+     art at 1.2px on charcoal, held to 3:1; it is 2.62:1 on white and cannot
+     carry a status on a light ground. The two below can: the text is an
+     ink that clears 4.5 on all four light grounds and carries warm on
+     itself at 5.90, so it is a banner as well as an ink; the light is a
+     ground that carries charcoal at 12.44 and the caution ink at 5.23.
+     Entered for the dispatch cockpit, whose close call, hurting factor and
+     hours rule needed a state that is neither sage nor charcoal. Measured
+     rows are in COLOR.md section 2, Status.
+     --------------------------------------------------------------------- */
+  --color-caution: #d98e6a;       /* 4.17:1 on charcoal */
+  --color-caution-text: #96482a;  /* white 6.45, warm 5.90, tea 5.43, muted 5.09; warm on it 5.90 */
+  --color-caution-light: #f6e4dc; /* a ground: charcoal 12.44, caution-text 5.23, muted-gray 5.25, accent-text 4.73 */
+  /* The writing index's "Craft and code" colour, entered as an interface
+     token so the article's progress line can wear it: a line, never text.
+     White 5.08, warm 4.64, tea 4.27, muted 4.01; COLOR.md section 2, Status
+     and collection, has the row. */
+  --color-slate: #56718c;
+  /* Slate's ground: warm's lightness with the hue moved to slate, so it
+     carries the light grounds' inks at warm's numbers. Entered 2026-10-23
+     for the writing rail's card. Charcoal 14.12, muted-gray 5.96,
+     accent-text 5.36, caution-text 5.94; 1.09 against white, as warm is. */
+  --color-slate-light: #f3f6f8;
+
+  /* ---------------------------------------------------------------------
+     SCRIM -- the veil over a photograph: the lightbox backdrop, the hero
+     caption gradient, the zoom button. Near-black with a warm-green cast, so
+     it sits at the palette's temperature rather than going neutral.
+
+     Not pure black, and not snapped to it: no single black alpha reproduces
+     it, because the match depends on what is behind the scrim (0.84 over
+     white, 0.79 over a mid-tone photo). It replaces two near-blacks that were
+     5.8 apart -- #141412 and #10110f -- which is inside the distance at which
+     a color is a duplicate rather than a decision.
+     --------------------------------------------------------------------- */
+  --color-scrim: #141412;
+
+  /* --color-black is gone. It had no consumers: the shadow tokens are written
+     with a literal rgba(0,0,0,...), and the scrims are the color above.
+     Black is not a palette decision -- it is the absence of one -- and a token
+     implies somebody could usefully change it centrally. Nobody can. */
+
+
+  /* Artwork -- the flight-story scene, the illustrations, the screenshots --
+     keeps its own palette and is NOT tokenized here. See COLOR.md section 6:
+     an artwork color never styles an interface element, and an interface
+     color is never sampled out of an artwork. */
+}

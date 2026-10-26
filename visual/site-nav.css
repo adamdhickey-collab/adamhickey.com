@@ -1,0 +1,440 @@
+/* ==========================================================================
+   site-nav.css — the single site header, shared by every page.
+
+   The home page and the case study pages are built on different foundations
+   (hand-written CSS vs. captured Tailwind markup), so the header used to be
+   implemented twice and drifted: the case study nav sat on 16px mobile
+   gutters against the home page's 24px, which shifted the logo and the three
+   icon links by 8px on every navigation.
+
+   This file is the one source of truth. It is deliberately self-contained —
+   every token has a literal fallback and every property the two resets
+   disagree on (img height, svg display, button chrome) is stated outright —
+   so it renders identically whether or not style.css or Tailwind preflight
+   is also on the page. Both sides use the same markup; see index.html.
+   ========================================================================== */
+
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  background: var(--color-white);
+  z-index: 50;
+  transition: box-shadow var(--motion-state) var(--ease), 
+              background var(--motion-state) var(--ease);
+}
+.site-nav.is-scrolled { box-shadow: var(--shadow-resting); }
+
+/* Gutters are baked in rather than borrowed from .container so the case
+   study pages, which have no .container, land on the same ramp. */
+.nav-inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+/* Rendered as a <button> on the home page (scrolls to top) and an <a> on the
+   case study pages (back to the case study list). Reset both to the same box. */
+.logo-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-charcoal);
+  display: inline-flex;
+  align-items: center;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .logo-btn:hover { color: var(--color-accent-text); }
+}
+.logo-btn:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+/* Explicit height beats Tailwind preflight's `img { height: auto }`. */
+.logo-img { display: block; height: 48px; width: auto; max-width: 100%; }
+@media (min-width: 768px) { .logo-img { height: 64px; } }
+
+/* The logo plays a one-shot reveal clip on load and fades out over the
+   static mark as it finishes. The <img> stays in flow and sets the box, so
+   the header never shifts and the wordmark is still there for anyone the
+   clip does not reach: no JavaScript, no video support, reduced motion, a
+   blocked autoplay or a slow fetch all leave the static mark standing.
+
+   Three classes on <html> run the sequence. .logo-reveal mounts the clip
+   over the mark, and is set before first paint so the static mark never
+   flashes ahead of the animation. .logo-playing arrives with the clip's
+   first frame and puts the mark back under it: the clip is opaque, on the
+   header's own white, and fills the same box, so the change is invisible,
+   and from then on a dropped frame shows the mark rather than a hole.
+   .logo-settled fades the clip out over the mark it has just drawn,
+   starting on the clip's last frames, once it has stopped moving.
+
+   It used to be a hard swap, and on a phone the swap had a hole in it. The
+   SVG had sat unpainted for two seconds, so it took a frame to rasterize
+   after the clip went, and then landed a shade off the clip's last frame.
+   Painted beneath from the start there is nothing to rasterize, and the
+   fade blends the clip's last frame into the mark instead of cutting
+   between them. */
+.logo-mark { position: relative; display: block; }
+.logo-video {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* contain, matching what the <img> already does: the SVG honors its own
+     aspect ratio inside the box, so in the narrow header, where the flex row
+     squeezes the box, the mark letterboxes rather than stretching. The clip
+     has to letterbox with it or the two states drift apart. */
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.logo-reveal .logo-video { display: block; }
+.logo-reveal .logo-img { opacity: 0; }
+/* Same specificity as the rule above; order is what lets it win. */
+.logo-playing .logo-img { opacity: 1; }
+.logo-settled .logo-video { opacity: 0; }
+
+/* Primary section links: Work, How I Work, Writing, About, Contact. These lived in
+   style.css, which regime B does not load, so the six Tailwind case studies
+   rendered the header without them -- logo and icons on the same pixels,
+   and an empty middle. Arriving on RBA or Pixel Farm from About, the four
+   links simply vanished, and the header read as having shifted. README has
+   said all along that the nav links are hand-written into all fifteen
+   pages; this is what makes that true.
+
+   site-nav.css lays .nav-inner out with space-between, so as a flex child
+   this block floated wherever the leftover space put it: close to the
+   hero copy's left edge below, but never on it. Above 900px the bar becomes
+   a grid using the home hero's own column geometry (.hero-photo is 33% with
+   a 3rem gap), so column two starts exactly where the hero eyebrow and
+   headline start, and the links sit on that line -- on every page, not only
+   the one with the hero, because the point is that nothing in the header
+   moves between pages. Below 900px the inline list is hidden and the flex
+   space-between above still applies, which is correct for logo + icons;
+   the .nav-toggle button in .nav-actions opens the same list as a panel
+   under the bar, see the menu rules below. SPACING.md has the reason 900
+   is the number. */
+.nav-links {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 900px) {
+  /* The first track is the hero's 33% column, and it is allowed to give
+     that up rather than push the icons off the page. With four links the
+     row fit at 900 with the bar's right edge at 871; the fifth link,
+     Writing, made it 929, so from 900 to about 985 the LinkedIn icon sat
+     past the viewport or in the gutter. minmax lets the logo's track
+     shrink toward the logo itself only while the links and icons need the
+     room, and it is exactly 33% again the moment they do not, which is
+     every width above about 985. The links' left edge moves off the hero
+     line only in that band, and only by what the overflow needed. */
+  .site-nav .nav-inner {
+    display: grid;
+    grid-template-columns: minmax(auto, 33%) 1fr auto;
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+  .site-nav .logo-btn { justify-self: start; }
+  /* nowrap is what makes the minmax above do its job. Grid sizes the
+     middle track from the links' min-content width, and with wrapping
+     allowed that width is one word: the track took the narrow reading,
+     "How I Work" went to three lines from 900 to about 1020, and the logo's
+     track never got asked to give anything up. Held to one line, the
+     links' min-content is the whole row, the logo track is the one that
+     shrinks, and it shrinks by two pixels at 900 and by nothing from 920
+     up. The icons' right edge does not move at any width; measured 900 to
+     1300 in twenty-pixel steps before and after. */
+  .nav-links { display: flex; align-items: center; gap: var(--space-2xl); white-space: nowrap; }
+  /* LinkedIn is an icon in the bar up here; the drawer row is its phone
+     form and only that. */
+  .nav-links .nav-links-social { display: none; }
+}
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+  text-decoration: none;
+  padding: var(--space-2xs) 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--motion-state) var(--ease),  border-color var(--motion-state) var(--ease);
+  position: relative;
+}
+/* The row is 28px tall and the underline has to stay on the word, so the
+   target grows behind it rather than around it -- the same trick as
+   .icon-link's padding beside it, which already clears 44px. */
+.nav-links a::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
+}
+.nav-links a:focus-visible { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:hover { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
+}
+/* The same ring style.css gives every link on regime A, stated here so the
+   six pages that cannot see style.css get it too. */
+.nav-links a:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.nav-actions { display: flex; align-items: stretch; gap: var(--space-2xs); }
+
+/* The section menu below 900px. The button is an .icon-link like its two
+   neighbours -- same box, same 44px hit zone, same hover -- reset from
+   button chrome the way .logo-btn is. site-nav.js toggles .is-menu-open on
+   .site-nav and keeps aria-expanded true to it; the class is a state and
+   states.mjs forces it, so the panel's link colours are measured on every
+   page that draws the header. The panel hangs from the bar's bottom edge
+   at the bar's own width, on the header's white with its resting shadow, so
+   it reads as the bar unfolding rather than a second surface. Each link is
+   a full-width row at the body size with a 44px minimum, since these are
+   thumb targets now rather than a desktop word-row. The two icons swap with
+   the state; the label stays "Menu" and the accessible name says which way
+   the button will go. The open state and the panel exist only under 900px:
+   above it the button is gone and .nav-links is the inline row, and
+   site-nav.js clears the class on the way across. */
+.nav-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+/* Doubled selectors here and below: .icon-link svg sets display: block
+   at (0,1,1) further down this file, and one class alone would lose to it. */
+.icon-link .nav-toggle-close { display: none; }
+.site-nav.is-menu-open .icon-link .nav-toggle-open { display: none; }
+.site-nav.is-menu-open .icon-link .nav-toggle-close { display: block; }
+@media (max-width: 899px) {
+  .site-nav.is-menu-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-resting);
+    padding: var(--space-xs) var(--gutter) var(--space-md);
+  }
+  .site-nav.is-menu-open .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--text-base);
+    padding: var(--space-xs) 0;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-rule);
+  }
+  .site-nav.is-menu-open .nav-links li:last-child a { border-bottom-color: transparent; }
+  .site-nav.is-menu-open .nav-links a:focus-visible { border-bottom-color: var(--color-accent-text); }
+  @media (hover: hover) and (pointer: fine) {
+    .site-nav.is-menu-open .nav-links a:hover { border-bottom-color: var(--color-accent-text); }
+  }
+}
+/* Doubled selector: .icon-link sets display further down this file at the
+   same specificity, and would win on order alone. */
+@media (min-width: 900px) { .icon-link.nav-toggle { display: none; } }
+/* Below 900px LinkedIn leaves the bar for the drawer, where it is the fifth
+   row under Contact, and the Menu button takes the place it held at the
+   right edge. The bar is then the logo, Email and Menu: three targets on a
+   375px phone rather than four, and the one that opens everything else is
+   the thumb-side one. Email stays out because it is the page's one
+   conversion path and a drawer is a step in front of it. The link is
+   written twice in the markup, as an .icon-link with .nav-social and as
+   .nav-links-social in the list; the two rules here and above make sure
+   exactly one of them shows at any width. Same doubled-selector reason as
+   the toggle rule above. */
+@media (max-width: 899px) { .icon-link.nav-social { display: none; } }
+@media (min-width: 768px) { .nav-actions { gap: var(--space-xs); } }
+
+/* Nav links show the icon with a visible text label stacked beneath it, so
+   the meaning is always readable, including on touch devices and for
+   screen-magnifier users. The padding is an invisible hit zone (kept past the
+   44px touch minimum); on hover the icon and label simply animate between
+   charcoal and the sage accent, with no background pill.
+
+   The 8px is a rounded-up tie. It was 6px, exactly halfway between two steps
+   on the 4px grid, and SPACING.md breaks ties downward -- which here would
+   have taken the target from 49px to 45px and left this declaration one pixel
+   above the floor it exists to clear. min-height would still have caught it,
+   but only by clipping. A hit zone is the one place where the tie goes the
+   other way.
+
+   Sideways the padding is 4px below 768, and min-width is what holds the
+   floor there. Since the Menu button the bar carries three of these on a
+   phone, and at 8px a side the three took 174px of a 375px screen and
+   squeezed the wordmark to 137px, letterboxed, 122px at 360; at 4px it
+   stands at its 149px from 375 up, and 141px at 360, which is as close as
+   the bar can come to a header that does not move. Menu and Email land on
+   the 44px minimum exactly, LinkedIn on its label. */
+.icon-link {
+  position: relative;
+  color: var(--color-charcoal);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-xs) var(--space-2xs);
+  text-decoration: none;
+  transition: color var(--motion-state) var(--ease);
+}
+.icon-link svg { display: block; width: 22px; height: 22px; flex-shrink: 0; }
+.icon-link-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: inherit;
+}
+/* The TEXT step, not the fill one. This colors .icon-link-label, which is
+   11px, and accent-deep reads 4.51:1 on white -- over the 4.5 floor by a
+   hundredth, and under it on every other ground the nav could ever sit on.
+   accent-text is 5.82:1 here. The outline below keeps accent-deep, because a
+   control boundary answers to the 3:1 floor and the fill sage is what that
+   floor is for. */
+.icon-link:focus-visible { color: var(--color-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .icon-link:hover { color: var(--color-accent-text); }
+}
+/* Keyboard focus keeps a visible ring for accessibility; pointer hover
+   does not (that's the :focus-visible contract). */
+.icon-link:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .icon-link { padding: var(--space-xs) var(--space-sm); gap: var(--space-2xs); }
+  .icon-link svg { width: 24px; height: 24px; }
+  .icon-link-label { font-size: 0.75rem; }
+}
+
+/* ==========================================================================
+   Custom cursor — shared by every page.
+
+   Two parts: a dot that tracks the pointer exactly, and a ring that lerps
+   after it, so the pointer reads as instrumented rather than glued on. It
+   replaces the reticle that used to live in the flight section alone, which
+   meant the cursor changed character halfway down the home page.
+
+   Lives here rather than in style.css because this is the only stylesheet
+   every page loads. Same rule as the rest of this file: every token carries
+   a literal fallback, since the case study pages do not load style.css and
+   would otherwise resolve these to nothing.
+
+   Fine pointers only, and the script does not run under reduced motion, so
+   the native cursor stays for anyone who asked for less movement.
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor summary,
+  html.has-custom-cursor input,
+  html.has-custom-cursor select,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor [role="button"] { cursor: none; }
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  /* Each box sits with its center on the viewport origin (top and left are
+     minus half its size, below), and cursor.js moves that center onto the
+     pointer through the `translate` property. Not `transform:
+     translate(-50%, -50%)`: transform-origin wraps the whole chain, so the
+     ring's `scale` on hover multiplied that centering offset too and the
+     ring sat 13px off the pointer at 60px. With no transform, the only
+     thing scale acts on is the box, about its own center. */
+  /* Hidden until the first mousemove, otherwise both park at 0,0 and a stray
+     ring sits in the top-left corner until the pointer is used. */
+  opacity: 0;
+}
+html.cursor-ready .cursor-dot,
+html.cursor-ready .cursor-ring { opacity: 1; }
+html.cursor-out .cursor-dot,
+html.cursor-out .cursor-ring { opacity: 0; }
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  top: -3px; left: -3px;
+  background: var(--color-charcoal);
+  transition: background-color var(--motion-state) var(--ease), 
+              opacity var(--motion-state) var(--ease);
+}
+.cursor-ring {
+  width: 34px; height: 34px;
+  top: -17px; left: -17px;
+  border: 1px solid var(--color-charcoal);
+  /* The swell is `scale`, not width and height: those two are layout
+     properties, so every frame of the hover ran a layout pass, and the ring
+     is the one element on the site that animates on every mouse move.
+     `scale` is its own property, and cursor.js places the ring through
+     `translate`, another one; the individual properties apply in the order
+     translate, rotate, scale, so the position is set before the swell and
+     the two compose. Placing the ring through `transform` put the position
+     after the scale, and the hover multiplied it by 60/34: the ring landed
+     well below and to the right of the pointer.
+     60 over 34 is the size the hover state always had. The 1px border scales
+     with it, to 1.76px at rest-of-hover, which is the one thing that differs
+     from the old box and is invisible at 60px. */
+  transition: scale var(--motion-move) var(--ease), 
+              border-color var(--motion-state) var(--ease), 
+              background-color var(--motion-state) var(--ease), 
+              opacity var(--motion-state) var(--ease);
+}
+/* Over anything clickable the ring swells and fills sage. The fill is
+   translucent but the border stays solid — dropping the whole ring to 10%
+   opacity, as the reference does, loses the edge exactly when the ring is
+   largest and needs it most. rgba literal rather than color-mix so this
+   the value is --color-accent-text, which absorbed the fill step it used to
+   name. */
+.cursor-ring.is-hovering {
+  scale: calc(60 / 34);
+  background-color: var(--color-accent-ring);
+  border-color: var(--color-accent-text);
+}
+
+/* Charcoal sections would swallow a charcoal cursor whole, so over anything
+   marked data-cursor="light" both parts flip to the warm white the type on
+   those surfaces already uses, and the hover state moves to the lifted sage
+   that the icons there use (--color-accent-on-dark). */
+html.cursor-on-dark .cursor-dot { background: var(--color-warm); }
+html.cursor-on-dark .cursor-ring { border-color: var(--color-warm); }
+html.cursor-on-dark .cursor-ring.is-hovering {
+  background-color: var(--color-accent-ring-on-dark);
+  border-color: var(--color-accent-on-dark);
+}

@@ -1,0 +1,591 @@
+/* ---------- Faunaform: one day of light ----------
+   The animated hero of the Faunaform shop (faunaform-shop, sections/
+   day-hero.liquid and the .day rules in assets/base.css), ported as a figure
+   for the build write-up: shown as design work, linked to nothing. A page
+   loads this file and faunaform-day.js; the markup is one <figure
+   class="ffd" data-ffd>, and everything here is scoped under .ffd.
+
+   WHAT IT IS. Seven skies side by side, one per print, from before dawn to
+   dusk, each its print's own sky ink. The scenes stand on one horizon at one
+   height, bowed a little like the edge of the Earth; the sun or moon of each
+   hour sits on one arc across the day, the dotted path running through every
+   disc; a band of small clouds rests along the horizon in two depths, each
+   column showing its own stretch of one continuous band. Where the figure is
+   40rem wide or more the seven hang in one row with the wordmark in the open
+   sky under the noon sun; narrower, they hang four over three like the set
+   on a wall, each tile carrying its own stretch of the arc, the wordmark on
+   the page above them. The layout follows the figure's own width (a
+   container query), not the window's, because the figure sits in a column.
+
+   WHAT CHANGED FROM THE SHOP. Nothing is a link and nothing answers a
+   pointer but the pause button. The shop's hour names and label were small
+   paper words on mid-tone skies, which resting.mjs would hold to 4.5:1
+   pixel by pixel and which several skies miss, so the hours and the animals
+   are a caption row under the skies instead, on the page's own ground, in
+   the site's type and inks. The wordmark is a picture
+   (img/faunaform/day/wordmark.svg, its paper baked in), not text.
+
+   THE TAGLINE, since 2026-10-21: the shop's own line under the wordmark,
+   "Seven Minnesota animals, each at its own hour of the day." It is the one
+   set of words left over the skies, and it is set at --text-2xl so that it
+   is large text, held to 3:1 rather than 4.5. In --color-white it measures
+   3.3:1 on the palest skies it crosses (sunrise and morning mist) and 5.3:1
+   at noon; --ink-on-dark, the warm white, measured 2.75:1 there and fails,
+   and so would anything smaller. It stays one or two lines inside
+   --ffd-tagline-cols columns, clear of the arc where it falls through the
+   sky at either end of the day. Four over three it is on the page under
+   the wordmark, in the page's ink. Like the wordmark it is two elements,
+   one per layout, each display: none in the other: resting.mjs keeps the
+   color it read at its own width when it measures a probe at 390, 768 and
+   1440, so one element that turns from white in the sky to charcoal on the
+   page is held as white on the page at 390, and fails at 1.09:1.
+
+   The lockup paints a gradient from transparent to transparent, and it is
+   there for the check, as .eng3-hero-scrim's is: resting.mjs measures text
+   by the pixel only when an ANCESTOR paints a gradient or an image, and the
+   skies are painted by the tiles beside the lockup, not under it in the
+   tree, so without it the check reads the page's ground behind the figure
+   and reports the tagline at 1:1. Do not remove it as dead.
+
+   ARTWORK, NOT INTERFACE (COLOR.md section 6). The colours below are each
+   print's inks and the shop's paper, sampled from the shop's rendered hero
+   (snippets/hour-vars.liquid, from the products' metafields). They paint the
+   drawing and nothing else, and are declared on .ffd and nowhere else, never
+   on :root:
+     --ffd-paper          #fbfaf7  the shop's paper: the sun's dotted path,
+                                    and the noon sky's clouds
+     before dawn (owl)     sky #475687  sun #ecd49c  clouds #d6a6b2
+     sunrise (crane)       sky #828abd  sun #ec5b2c  clouds #f5bf86
+     morning mist (moose)  sky #6591b3  sun #f2b23e  clouds #f1d9a6
+     noon (loon)           sky #436ab0  sun #f5d980  clouds (paper)
+     golden hour (bear)    sky #6f82b8  sun #f0812c  clouds #f4bd72
+     sunset (fox)          sky #6d6eae  sun #e2452b  clouds #f3a457
+     dusk (rabbit)         sky #455284  sun #f2c27a  clouds #b98aad
+   as --ffd-<animal>-sky, -sun and -light (each print's light ink, which its
+   clouds take). Two more live in the art files rather than here: the
+   wordmark's paper (#fbfaf7, wordmark.svg) and the shop's ink (#1e1a16,
+   wordmark-ink.svg, the narrow layout's wordmark on the page). The interface
+   parts use the site's tokens: the captions in --color-muted-gray and
+   --color-charcoal, the pause button's disc in --color-scrim and its icon in
+   --ink-on-dark, its focus ring in --color-focus-ring.
+
+   ARTWORK KEEPS ITS OWN TIME (MOTION.md section 6), and its own geometry:
+   the arc, the curve of the Earth, the clouds' strips and the timings of the
+   opening and the breath are the shop's, as custom properties below. Spacing
+   and type are the site's tokens. All of the motion is inside
+   prefers-reduced-motion: no-preference; with reduce the day is drawn and
+   still, and the pause button is not shown.
+
+   IN MOTION. When the figure first comes into view (faunaform-day.js arms
+   it on load and draws it once it is a third in sight) the day draws itself: each
+   hour's sun glides up the arc from the left edge of its own sky to its
+   place, one after another from dawn to dusk, the dotted path drawn along
+   with them, each scene rising as its sun arrives, then the clouds; about
+   three and a half seconds. Then it breathes, one slow breath for
+   everything: the suns swell, the scenes swell a little, the glints on the
+   water sparkle in turn, the plants sway as a breeze crosses the day, the
+   path's dots creep on and the clouds drift, the near ones faster than the
+   far. Off screen it holds its breath; the button stops it all, and the
+   choice is remembered on the device. */
+
+/* The sky's height, worked out on each hour against the whole figure, so it
+   is a length by the time the hour's own parts read it. */
+@property --ffd-sky-h { syntax: '<length>'; inherits: true; initial-value: 0px; }
+/* How far a sun is along its stretch of the arc, from the left edge of its
+   sky (0) to its place (1). At rest 1; the opening glides it up from 0. */
+@property --ffd-sun-t { syntax: '<number>'; inherits: false; initial-value: 1; }
+/* When the opening is done; faunaform-day.js reads it. */
+@property --ffd-intro-end { syntax: '<time>'; inherits: true; initial-value: 0s; }
+
+.ffd {
+  /* The artwork's palette (see the header). */
+  --ffd-paper: #fbfaf7;
+  --ffd-owl-sky: #475687;    --ffd-owl-sun: #ecd49c;    --ffd-owl-light: #d6a6b2;
+  --ffd-crane-sky: #828abd;  --ffd-crane-sun: #ec5b2c;  --ffd-crane-light: #f5bf86;
+  --ffd-moose-sky: #6591b3;  --ffd-moose-sun: #f2b23e;  --ffd-moose-light: #f1d9a6;
+  --ffd-loon-sky: #436ab0;   --ffd-loon-sun: #f5d980;
+  --ffd-bear-sky: #6f82b8;   --ffd-bear-sun: #f0812c;   --ffd-bear-light: #f4bd72;
+  --ffd-fox-sky: #6d6eae;    --ffd-fox-sun: #e2452b;    --ffd-fox-light: #f3a457;
+  --ffd-rabbit-sky: #455284; --ffd-rabbit-sun: #f2c27a; --ffd-rabbit-light: #b98aad;
+
+  /* The artwork's geometry, the shop's numbers. --ffd-sky is the sky's
+     height in one row, in columns (the shop's ran 1.36 to 1.59 of a column
+     with its words over it); --ffd-grid-sky is a tile's sky over its width
+     when they hang four over three. The arc: a sun sits --ffd-arc-low of the
+     sky down at the ends of the day, --ffd-arc-span higher at noon. The
+     Earth: the horizon at the ends of the day sits --ffd-earth of a column
+     lower than at noon, --ffd-land of a column above the pictures' foot; the
+     clouds rest --ffd-cloud-floor of a column above it, their strips as tall
+     as the studio's art over its width, the near laid --ffd-cloud-gap over
+     the far, their windows reaching --ffd-cloud-reach above the sky. The
+     lockup: the wordmark spans --ffd-lockup-cols columns, the tagline sits
+     --ffd-lockup-gap of the wordmark's width under it (the shop's 0.048)
+     and wraps inside --ffd-tagline-cols, and the two are one group centred
+     in the open sky, as the shop centres its words: from the noon sun's
+     lower edge (its radius is --ffd-noon-r of a column, 17cqi over two) down
+     to --ffd-land-top, the top of the loon's pines, the highest land under
+     the group, measured in columns from the top of the sky on the rendered
+     figure (1.67; the moose's and the bear's begin at 1.85). */
+  --ffd-count: 7;
+  --ffd-sky: 1.5;
+  --ffd-grid-sky: 0.62;
+  --ffd-arc-low: 0.8;
+  --ffd-arc-span: 0.66;
+  --ffd-earth: 0.14;
+  --ffd-land: 0.56;
+  --ffd-cloud-floor: 0.58;
+  --ffd-cloud-ratio-far: calc(18 / 1536);
+  --ffd-cloud-ratio-near: calc(38 / 1536);
+  --ffd-cloud-gap: 2cqi;
+  --ffd-cloud-reach: 30cqi;
+  --ffd-lockup-cols: 2.6;
+  --ffd-lockup-gap: 0.048;
+  --ffd-tagline-cols: 4;
+  --ffd-noon-r: 0.085;
+  --ffd-land-top: 1.67;
+
+  /* The artwork's time, the shop's: each sun sets off --ffd-sun-step after
+     the one before and glides for --ffd-sun-travel; each scene rises over
+     --ffd-rise; the clouds come in last. Then one breath for everything. */
+  --ffd-lead: var(--motion-state);
+  --ffd-sun-step: 260ms;
+  --ffd-sun-travel: 620ms;
+  --ffd-rise: 800ms;
+  --ffd-words: 700ms;
+  --ffd-clouds-in: 1200ms;
+  --ffd-breath: 10000ms;
+  --ffd-sun-swell: 1.1;
+  --ffd-swell: 1.02;
+  --ffd-glint-drift: 1.2%;
+  --ffd-sway: 4deg;
+  --ffd-sway-time: calc(var(--ffd-breath) / 2);
+  --ffd-breeze-step: 300ms;
+  --ffd-drift-far: 420000ms;
+  --ffd-drift-near: 260000ms;
+  /* The opening's beats: the path is drawn one hour a step, its tip meeting
+     each sun as it settles; it is over when the last caption is in. */
+  --ffd-intro-sweep: calc(var(--ffd-count) * var(--ffd-sun-step));
+  --ffd-path-at: calc(var(--ffd-lead) + (var(--ffd-sun-travel) - var(--ffd-sun-step)) / 2);
+  --ffd-intro-end: calc(var(--ffd-lead) + (var(--ffd-count) - 1) * var(--ffd-sun-step) + var(--ffd-sun-travel) + var(--ffd-rise));
+
+  container: ffd / inline-size;
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
+/* ---- the hours, four over three (the narrow layout, and the base) ---- */
+/* A grid of eight half tiles, each hour two wide, the three centred under
+   the four; the wordmark above them and the pause button in the eighth the
+   three leave free, beside the hare. */
+.ffd__day {
+  --ffd-disc: 20cqi;
+  --ffd-arc-top: calc(var(--ffd-disc) / 2 + var(--space-xs));
+  --ffd-cloud-span: calc(3 * 100cqi);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  row-gap: var(--space-md);
+}
+.ffd__hour {
+  --ffd-x: calc((var(--ffd-i) + 0.5) / var(--ffd-count));
+  --ffd-u: calc(2 * var(--ffd-x) - 1);
+  --ffd-sun-at: calc(var(--ffd-lead) + var(--ffd-i) * var(--ffd-sun-step));
+  --ffd-sky-h: calc(var(--ffd-grid-sky) * 25cqi);
+  grid-column: span 2;
+  min-width: 0;
+  container-type: inline-size;
+}
+.ffd__hour--owl    { --ffd-i: 0; --ffd-ratio: calc(1254 / 1218); --ffd-hour-sky: var(--ffd-owl-sky);    --ffd-hour-sun: var(--ffd-owl-sun);    --ffd-hour-cloud: var(--ffd-owl-light); }
+.ffd__hour--crane  { --ffd-i: 1; --ffd-ratio: calc(1254 / 1371); --ffd-hour-sky: var(--ffd-crane-sky);  --ffd-hour-sun: var(--ffd-crane-sun);  --ffd-hour-cloud: var(--ffd-crane-light); }
+.ffd__hour--moose  { --ffd-i: 2; --ffd-ratio: calc(1254 / 1142); --ffd-hour-sky: var(--ffd-moose-sky);  --ffd-hour-sun: var(--ffd-moose-sun);  --ffd-hour-cloud: var(--ffd-moose-light); }
+.ffd__hour--loon   { --ffd-i: 3; --ffd-ratio: calc(1254 / 1229); --ffd-hour-sky: var(--ffd-loon-sky);   --ffd-hour-sun: var(--ffd-loon-sun);   --ffd-hour-cloud: var(--ffd-paper); }
+.ffd__hour--bear   { --ffd-i: 4; --ffd-ratio: calc(1254 / 1135); --ffd-hour-sky: var(--ffd-bear-sky);   --ffd-hour-sun: var(--ffd-bear-sun);   --ffd-hour-cloud: var(--ffd-bear-light); grid-column: 2 / span 2; }
+.ffd__hour--fox    { --ffd-i: 5; --ffd-ratio: calc(1254 / 1080); --ffd-hour-sky: var(--ffd-fox-sky);    --ffd-hour-sun: var(--ffd-fox-sun);    --ffd-hour-cloud: var(--ffd-fox-light); }
+.ffd__hour--rabbit { --ffd-i: 6; --ffd-ratio: calc(1254 / 1194); --ffd-hour-sky: var(--ffd-rabbit-sky); --ffd-hour-sun: var(--ffd-rabbit-sun); --ffd-hour-cloud: var(--ffd-rabbit-light); }
+
+/* Each hour's picture: its sky, then the scene edge to edge at the foot,
+   every scene ending on one line, a column below the sky. The picture's own
+   sky runs on up into the column's with no edge to see. */
+.ffd__tile {
+  --ffd-art-foot: calc(var(--ffd-sky-h) + 100cqi);
+  position: relative;
+  overflow: clip;
+  padding-top: calc(var(--ffd-art-foot) - 100cqi / var(--ffd-ratio));
+  background: var(--ffd-hour-sky);
+}
+
+/* The sun or moon, on the arc: where it is across the whole day says how
+   high it stands. */
+.ffd__disc {
+  --ffd-sun-x: calc((var(--ffd-i) + var(--ffd-sun-t) / 2) / var(--ffd-count));
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--ffd-sun-t) * 50%);
+  top: calc(var(--ffd-arc-top) + (var(--ffd-sky-h) - var(--ffd-arc-top)) * (var(--ffd-arc-low) - var(--ffd-arc-span) * 4 * var(--ffd-sun-x) * (1 - var(--ffd-sun-x))));
+  width: var(--ffd-disc);
+  height: var(--ffd-disc);
+  border-radius: 50%;
+  background: var(--ffd-hour-sun);
+  transform: translate(-50%, -50%);
+}
+
+/* The sun's path: each hour shows its own stretch of the one arc (the whole
+   day's path, as wide as all seven, slid along by the hour's place), so it
+   runs on unbroken from column to column. y = arc-low - arc-span x 4x(1-x),
+   so the quadratic passes through every disc. The suns lie over it. */
+.ffd__path {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: var(--ffd-arc-top);
+  height: calc(var(--ffd-sky-h) - var(--ffd-arc-top));
+  overflow: hidden;
+}
+.ffd__path svg {
+  position: absolute;
+  top: 0;
+  left: calc(-100% * var(--ffd-i));
+  width: calc(100% * var(--ffd-count));
+  max-width: none;
+  height: 100%;
+  overflow: visible;
+  color: var(--ffd-paper);
+  opacity: 0.55;
+}
+.ffd__path path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0 9;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The scene, and its layers, which rise together as the day is drawn. The
+   Earth's curve: each picture is sheared, not turned, so its trees and
+   animals stay upright while its horizon lies along the tangent of one
+   parabola at the column's middle, dropped by the curve there; the seven
+   straight horizons join into one bow at the columns' edges. */
+.ffd__art {
+  position: relative;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+}
+.ffd__scene { position: relative; display: block; }
+.ffd__art img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  transform-origin: 50% calc(100% - var(--ffd-land) * 100cqi);
+  transform:
+    translateY(calc(var(--ffd-earth) * 100cqi * var(--ffd-u) * var(--ffd-u) + var(--space-2xs)))
+    skewY(calc(4 * var(--ffd-earth) / var(--ffd-count) * var(--ffd-u) * 1rad));
+}
+/* The glints on the water: two layers over the scene, every other glint on
+   each, the picture as drawn when they are still. */
+.ffd__art .ffd__glints { position: absolute; top: 0; left: 0; }
+/* The plants at a scene's foot: a layer over it, leaning from the foot. */
+.ffd__plants { position: absolute; inset: 0; transform-origin: 50% 100%; }
+
+/* The clouds: a band of small flat clouds resting along the horizon across
+   all seven skies, each column showing its own stretch of one continuous
+   band, its window carrying the Earth's curve. Far: a chain of tiny streaks
+   right on the horizon, slowest; near: small banks just above, quicker. Each
+   is solid, in its hour's light ink, the cloud art only its stencil; each
+   strip tiles with every join in clear sky, so it can drift forever. */
+.ffd__clouds {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  top: calc(-1 * var(--ffd-cloud-reach));
+  height: calc(var(--ffd-art-foot) - var(--ffd-cloud-floor) * 100cqi + var(--ffd-cloud-reach));
+  overflow: hidden;
+  transform-origin: 50% 100%;
+  transform:
+    translateY(calc(var(--ffd-earth) * 100cqi * var(--ffd-u) * var(--ffd-u) + var(--space-2xs)))
+    skewY(calc(4 * var(--ffd-earth) / var(--ffd-count) * var(--ffd-u) * 1rad));
+}
+.ffd__cloud {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100cqi + var(--ffd-cloud-span));
+  background-color: var(--ffd-hour-cloud);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: var(--ffd-cloud-span) auto;
+  mask-size: var(--ffd-cloud-span) auto;
+  -webkit-mask-position: left calc(-1 * var(--ffd-i) * 100cqi) bottom var(--ffd-cloud-lift);
+  mask-position: left calc(-1 * var(--ffd-i) * 100cqi) bottom var(--ffd-cloud-lift);
+}
+.ffd__cloud--far {
+  --ffd-cloud-lift: 0px;
+  --ffd-cloud-drift: var(--ffd-drift-far);
+  -webkit-mask-image: url('../img/faunaform/day/clouds-far.svg');
+  mask-image: url('../img/faunaform/day/clouds-far.svg');
+}
+.ffd__cloud--near {
+  --ffd-cloud-lift: calc(var(--ffd-cloud-span) * var(--ffd-cloud-ratio-far) + var(--ffd-cloud-gap));
+  --ffd-cloud-drift: var(--ffd-drift-near);
+  -webkit-mask-image: url('../img/faunaform/day/clouds-near.svg');
+  mask-image: url('../img/faunaform/day/clouds-near.svg');
+}
+
+/* Under each picture, on the page's ground: its hour in the site's caption
+   caps, its animal under it at the site's figcaption size. */
+.ffd__caption {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--space-xs);
+  padding-inline: var(--space-2xs);
+  text-align: center;
+  line-height: var(--leading-ui);
+}
+.ffd__when {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-muted-gray);
+}
+.ffd__name {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-wrap: balance;
+  color: var(--color-charcoal);
+}
+
+/* The wordmark and its tagline. In one row they are paper in the open sky
+   under the noon sun, as the shop's lockup is; four over three there is no
+   open sky, so they are the shop's ink on the page above the tiles, as the
+   shop's wordmark is on a phone. */
+.ffd__lockup {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+}
+.ffd__mark { max-width: none; height: auto; }
+.ffd__mark--sky,
+.ffd__tagline--sky { display: none; }
+.ffd__mark--page { width: calc(var(--ffd-lockup-cols) * 25cqi); }
+.ffd__tagline {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-body);
+  text-wrap: balance;
+  color: var(--color-charcoal);
+}
+
+/* The pause button. The motion never stops on its own, so it can be paused
+   (WCAG 2.2.2); faunaform-day.js shows it and remembers the choice. A 48px
+   target round a 32px disc of scrim, a touch translucent so the sky shows
+   through it, its icon in the dark band's ink (13:1 on the dusk sky, 6:1 on
+   white). Four over three it stands in the paper beside the hare, its foot
+   on the scenes' foot, as the shop's does on a phone. */
+.ffd__pause {
+  position: relative;
+  z-index: 4;
+  grid-column: 8;
+  grid-row: 3;
+  justify-self: center;
+  align-self: start;
+  margin-top: calc((1 + var(--ffd-grid-sky)) * 25cqi - var(--space-4xl));
+  display: grid;
+  place-items: center;
+  width: var(--space-4xl);
+  height: var(--space-4xl);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-on-dark);
+  cursor: pointer;
+}
+.ffd__pause[hidden] { display: none; }
+.ffd__pause::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-xs);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-scrim) 70%, transparent);
+  transition: background-color var(--motion-state) var(--ease);
+}
+.ffd__pause svg { position: relative; width: var(--space-md); height: var(--space-md); }
+.ffd__pause .ffd__icon--play,
+.ffd__pause[aria-pressed='true'] .ffd__icon--pause { display: none; }
+.ffd__pause[aria-pressed='true'] .ffd__icon--play { display: block; }
+/* The ring: the site's sage, round the target, with a band of white inside
+   it that carries the contrast on the darker skies, where sage alone would
+   not show. */
+.ffd__pause:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--color-white);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ffd__pause:hover::before { background-color: var(--color-scrim); }
+}
+/* Named, because the button's resting state is wrong here: with reduced
+   motion nothing moves, so there is nothing to pause. */
+@media (prefers-reduced-motion: reduce) {
+  .ffd__pause { display: none; }
+}
+
+/* ---- the hours in one row, from 40rem of figure ---- */
+@container ffd (min-width: 40rem) {
+  .ffd__day {
+    --ffd-disc: 17cqi;
+    --ffd-arc-top: 0px;
+    --ffd-cloud-span: calc(var(--ffd-count) * 100cqi);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    row-gap: 0;
+    overflow: clip;
+  }
+  .ffd__hour,
+  .ffd__hour--bear {
+    --ffd-sky-h: calc(var(--ffd-sky) * 100cqi / var(--ffd-count));
+    grid-column: auto;
+  }
+  /* The suns set off from their columns' edges, so a column lets its sun
+     out over its neighbour; the figure's edge cuts the first. */
+  .ffd__tile { overflow: visible; }
+  /* The group in the open sky, centred between the noon sun's lower edge
+     and the top of the land under it (see the geometry above). */
+  .ffd__lockup {
+    --ffd-col: calc(100cqi / var(--ffd-count));
+    --ffd-open-top: calc(var(--ffd-col) * (var(--ffd-sky) * (var(--ffd-arc-low) - var(--ffd-arc-span)) + var(--ffd-noon-r)));
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: var(--ffd-open-top);
+    height: calc(var(--ffd-col) * var(--ffd-land-top) - var(--ffd-open-top));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--ffd-lockup-cols) * var(--ffd-col) * var(--ffd-lockup-gap));
+    background: linear-gradient(transparent, transparent);
+    pointer-events: none;
+  }
+  .ffd__mark--page,
+  .ffd__tagline--page { display: none; }
+  .ffd__mark--sky {
+    display: block;
+    width: calc(var(--ffd-lockup-cols) * var(--ffd-col));
+  }
+  .ffd__tagline--sky {
+    display: block;
+    max-width: calc(var(--ffd-tagline-cols) * var(--ffd-col));
+    font-size: var(--text-2xl);
+    line-height: var(--leading-heading);
+    color: var(--color-white);
+  }
+  .ffd__pause {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    margin: 0;
+  }
+}
+
+/* ---- in motion ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The breath: the suns swell and settle, the scenes swell about their
+     horizons, the glints sparkle (one set brightening as the other dims),
+     the plants sway as a breeze crosses the day from dawn to dusk, the
+     path's dots creep toward dusk, and the clouds drift. */
+  .ffd__disc { animation: ffd-breathe var(--ffd-breath) ease-in-out infinite; }
+  .ffd__art img { animation: ffd-swell var(--ffd-breath) ease-in-out infinite; }
+  .ffd__art .ffd__glints { animation: ffd-glint var(--ffd-breath) ease-in-out infinite, ffd-swell var(--ffd-breath) ease-in-out infinite; }
+  .ffd__art .ffd__glints--b { animation-delay: calc(var(--ffd-breath) / -2), 0ms; }
+  .ffd__plants { animation: ffd-sway var(--ffd-sway-time) ease-in-out calc(var(--ffd-i) * var(--ffd-breeze-step) - var(--ffd-sway-time)) infinite; }
+  .ffd__path path { animation: ffd-flow var(--ffd-breath) linear infinite; }
+  .ffd__cloud { animation: ffd-cloud var(--ffd-cloud-drift) linear infinite; }
+
+  /* The opening, once (faunaform-day.js adds .is-drawing, and takes it away
+     at --ffd-intro-end). Each of these only adds to what breathes, on its
+     own property or its own wrapper, and ends where it began, so when the
+     class goes nothing is swapped and nothing jumps. */
+  .ffd.is-drawing :is(.ffd__mark, .ffd__tagline) { animation: ffd-words var(--ffd-words) var(--ease-enter) both; }
+  .ffd.is-drawing .ffd__path svg { animation: ffd-sweep-part var(--ffd-sun-step) linear calc(var(--ffd-path-at) + var(--ffd-i) * var(--ffd-sun-step)) both; }
+  .ffd.is-drawing .ffd__disc { animation: ffd-travel var(--ffd-sun-travel) var(--ease) var(--ffd-sun-at) both, ffd-breathe var(--ffd-breath) ease-in-out infinite; }
+  .ffd.is-drawing .ffd__art { animation: ffd-fade var(--ffd-rise) var(--ease-enter) calc(var(--ffd-sun-at) + var(--ffd-sun-travel) / 2) both; }
+  .ffd.is-drawing .ffd__scene { animation: ffd-rise var(--ffd-rise) var(--ease-enter) calc(var(--ffd-sun-at) + var(--ffd-sun-travel) / 2) both; }
+  .ffd.is-drawing .ffd__caption { animation: ffd-fade var(--ffd-rise) var(--ease) calc(var(--ffd-sun-at) + var(--ffd-sun-travel)) both; }
+  .ffd.is-drawing .ffd__clouds { animation: ffd-fade var(--ffd-clouds-in) var(--ease) var(--ffd-intro-sweep) both; }
+
+  /* Armed, the day waits undrawn until it is in view. Out of sight it
+     holds its breath, but the opening runs on to its end. Paused by the
+     reader, everything stops. Important, because each layer's own
+     animation shorthand above is more specific and would set it running. */
+  .ffd.is-armed *, .ffd.is-armed *::before, .ffd.is-armed *::after,
+  .ffd.is-still:not(.is-drawing) *, .ffd.is-still:not(.is-drawing) *::before, .ffd.is-still:not(.is-drawing) *::after,
+  .ffd.is-paused *, .ffd.is-paused *::before, .ffd.is-paused *::after { animation-play-state: paused !important; }
+}
+@keyframes ffd-words { from { opacity: 0; transform: translateY(var(--space-xs)); } }
+/* On each column its stretch of the path is drawn in its turn: the whole
+   day's path, seen through the column, its edge sweeping across it. */
+@keyframes ffd-sweep-part {
+  from { clip-path: inset(0 calc(100% - 100% * var(--ffd-i) / var(--ffd-count)) 0 0); }
+  to { clip-path: inset(0 calc(100% - 100% * (var(--ffd-i) + 1) / var(--ffd-count)) 0 0); }
+}
+/* A sun glides up its stretch of the arc, showing as it leaves the edge. */
+@keyframes ffd-travel { from { --ffd-sun-t: 0; opacity: 0; } 35% { opacity: 1; } }
+@keyframes ffd-fade { from { opacity: 0; } }
+@keyframes ffd-rise { from { translate: 0 8cqi; } }
+@keyframes ffd-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(var(--ffd-sun-swell)); }
+}
+@keyframes ffd-swell { 0%, 100% { scale: 1; } 40% { scale: var(--ffd-swell); } }
+/* A gust leans the plants away from dawn, then they settle back and forth. */
+@keyframes ffd-sway {
+  0%, 100% { transform: skewX(0deg); }
+  25% { transform: skewX(calc(-1 * var(--ffd-sway))); }
+  50% { transform: skewX(calc(0.3 * var(--ffd-sway))); }
+  70% { transform: skewX(calc(-0.55 * var(--ffd-sway))); }
+  85% { transform: skewX(calc(0.1 * var(--ffd-sway))); }
+}
+@keyframes ffd-glint {
+  0%, 100% { opacity: 1; translate: 0 0; }
+  50% { opacity: 0.1; translate: var(--ffd-glint-drift) 0; }
+}
+@keyframes ffd-flow { to { stroke-dashoffset: -9; } }
+@keyframes ffd-cloud { to { transform: translateX(calc(-1 * var(--ffd-cloud-span))); } }
+
+/* IN A WRITE-UP'S HERO, since 2026-10-20: the figure takes the space
+   .build-flow takes around the hero's own figures, --space-2xl above and
+   --space-3xl below.
+
+   Since 2026-10-22 it sits between the two strips, as the other build
+   write-ups' pictures do (Adam: "Switch the order of these two
+   components"): the facts under the dek, then the day, then the approach.
+   Until then the figure came first and the two strips were a pair, which
+   .glance + .glance spaced. Apart, the approach strip takes the margins
+   style.css gives it after a .build-flow or a .build-shot: none above, so
+   the figure's --space-3xl is the gap, and --space-3xl below, closing the
+   hero. */
+.case-hero .ffd { margin: var(--space-2xl) 0 var(--space-3xl); }
+.case-hero .ffd + .glance { margin-top: 0; margin-bottom: var(--space-3xl); }
+
+/* ON THE HOMEPAGE, since 2026-10-21: the Faunaform card's picture. The day
+   hangs in one row only from 40rem of figure, and the card's picture column
+   is narrower than that, so this card stacks: the figure across the row and
+   the card's words under it. The words keep the measure the other cards'
+   words have beside their pictures. .ffd__go makes the whole figure a way
+   into the write-up, as every other product picture is; the pause button
+   stands above it. */
+.product.product--day { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+.product--day .product-body { max-width: var(--measure); }
+.ffd__go { position: absolute; inset: 0; z-index: 3; }

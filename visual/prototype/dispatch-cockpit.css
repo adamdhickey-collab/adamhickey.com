@@ -1,0 +1,3675 @@
+/* dispatch-cockpit.css -- the cockpit prototype's own components, and nothing
+ * else. Loaded by one page, prototype/dispatch-cockpit.html, after style.css.
+ *
+ * WHY ITS OWN FILE. The same reason design-psychology.css gives: reach, not
+ * taxonomy. Nothing on any other page is a recommendation panel, a factor
+ * list or a sortable fleet data table, and style.css is loaded by twenty
+ * pages that would download all of this and render none of it.
+ *
+ * WHAT IT INHERITS. The page is a style.css page, so the hero, the prose
+ * column, the chapter grounds, the footer blocks, the global focus ring on
+ * links and buttons, and the reduced-motion blanket all come from there.
+ * This file adds the cockpit and extends the focus ring to the controls
+ * style.css does not cover: inputs, textareas and disclosure summaries.
+ *
+ * ONE UPPERCASE LABEL, AND IT IS THE KICKER. Every kicker and eyebrow on the
+ * site is tracked capitals (TYPOGRAPHY.md, "Kickers and eyebrows"), and that
+ * includes the hero's .case-kicker and the answer zone's .ck-lead-kicker. The
+ * rest of this page's labels are lowercase sentence fragments at the same
+ * size and weight, which is what keeps the one kicker legible as the kicker.
+ * The glance block and the design psychology note are not used here because
+ * they are labels in capitals of a kind this screen does not otherwise have.
+ *
+ * NO MEANING IN COLOR ALONE. Every state a row or a card can be in is also a
+ * word: "recommended", "assigned", "over hours", "helps", "hurts". The grounds
+ * and glyphs are a second channel, never the only one.
+ *
+ * TWO STATUS COLORS, BOTH TOKENS. Until 2026-09-11 this file said "no new
+ * color" and made the hours rule the darkest thing on the screen because the
+ * palette had nothing warm that cleared a floor on a light ground. COLOR.md
+ * section 2 now has a Status family, entered with measured rows for exactly
+ * this page: --color-caution-text (6.45 on white, 5.09 on muted-light, and
+ * 5.90 under warm) and --color-caution-light (charcoal on it 12.44). Sage is
+ * still "fine": the recommendation, a factor that helps, the status line's
+ * icon. Caution is "not fine": a close call the system will not pick, a
+ * factor that hurts, a driver the rule removes. Every ratio below is from
+ * COLOR.md section 2, on the ground it sits on:
+ *
+ *   charcoal      on white 15.33, warm 14.02, tea-light 12.90, muted-light 12.10
+ *   muted-gray    on white  6.47, warm  5.91, tea-light  5.44, muted-light  5.11
+ *   accent-text   on white  5.82, warm  5.32, tea-light  4.90, muted-light  4.60
+ *   warm          on accent-text 5.32 (the primary button), on accent-hover 6.90
+ *   accent-deep   as a ring or border: white 4.51, warm 4.12, tea-light 3.80
+ *   muted-gray    as a border on white 6.47
+ *   caution-text  on white 6.45, warm 5.90, tea-light 5.43, caution-light 5.23
+ *   charcoal      on caution-light 12.44 (the close-call status line, the rule)
+ *   charcoal      on caution-light 12.44
+ *   on charcoal, the table head only: warm 14.02, ink-on-dark-secondary 8.49,
+ *                 ink-on-dark-muted 5.26, accent-on-dark 7.47
+ *
+ * EVERY SIZE IS A STEP, every space a --space-*, every duration a --motion-*.
+ * Two classes deep where the rule has to beat .case-section p, which is
+ * class-and-element and would otherwise size the cockpit's paragraphs at
+ * --text-lg on reading leading. style.css says this in its own margins; this
+ * is the same lesson, applied.
+ *
+ * HIERARCHY FROM GROUNDS, NOT FROM NEW COLOR. Until #67 every zone was the
+ * same white card on the same warm ground with the same 1px rule, so nothing
+ * said which of them was the answer. Now the recommendation sits on
+ * tea-light -- COLOR.md's own feature ground, "hero card, pull-outs" -- with
+ * the load above it and the fleet below it still white on warm: context,
+ * answer, reference, told apart by ground alone. The status line moved to
+ * muted-light for the same reason, so it stops being the color of the zone
+ * it sits under. The two rules above still hold: every ground is also a
+ * word, and no token was added.
+ *
+ * ICONS, NOT GLYPHS. The polish pass took them further: one per situation on the tabs,
+ * one per fact on the load, a leading icon on each card heading, an info
+ * mark on the status line and a pointer on the rail's Try, and the
+ * recommended and assigned chips filled -- sage under warm at 5.32, charcoal
+ * under warm at 14.02 -- with a check in each. The one color the palette has
+ * that is not sage or charcoal, --color-caution, is about 2.4:1 on white,
+ * under even the 3:1 an icon or a border answers to, which is why COLOR.md
+ * keeps it on charcoal and why there is no terracotta here; status color on
+ * these white cards would need a token entered in COLOR.md section 2 with a
+ * measured row. Direction and state were text glyphs -- a triangle, a
+ * tick, a dash -- in muted-gray at the smallest size, which made the most
+ * useful signal on the card the quietest thing on it. They are inline SVG
+ * now, in the idiom the site header already uses, with the word still beside
+ * every one. Helps is sage; hurts is the caution ink; neutral is muted-gray.
+ * The factor bar keeps the same three, since 2026-09-20: it was coloured by
+ * which side of the fleet's middle it ran to, which is a question with no
+ * deadband and so not the question the word answers.
+ * Icons are on the controls and the states -- the tabs, the directions, the
+ * chips, the rule, the status line -- and not on labels or headings, where
+ * a pass on 2026-09-10 put them and they read as clutter.
+ *
+ * THE RAIL. A column beside the cockpit that says, for the situation on
+ * screen, what the point is, three things to look at, and one thing to try.
+ * Numbered badges on the cockpit match the numbers in the rail, and change
+ * with the situation. It is a rail and not a run of popovers because a
+ * reader skimming a portfolio will not click Next seven times, a sequence
+ * loses the thread the moment one is missed, and popovers are script-applied
+ * state for states.mjs to measure; a column is prose. It is also the page's
+ * own argument applied to itself: evidence beside the answer.
+ */
+
+/* ---------- The hero's disclosure ----------
+   The one thing the credibility of the page depends on, so it is a box, not
+   a sentence in the dek. On the warm hero, with the fill sage as its edge:
+   accent-deep is 4.12:1 on warm, over the 3:1 a boundary answers to. Full
+   border and the site's card radius, because curves.mjs is right. */
+.ck-disclosure {
+  max-width: var(--measure);
+  margin: calc(-1 * var(--space-md)) 0 0;
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-accent-text);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+}
+.ck-disclosure p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck-disclosure p + p { margin-top: var(--space-xs); }
+.ck-disclosure strong { font-weight: var(--weight-semibold); }
+
+/* ---------- The four decisions, each beside its evidence ----------
+   Until #78 this was a numbered list of four paragraphs, each ending with a
+   line naming where on the screen to go and look. That asked a reader to hold
+   a position in their head and scroll three sections up to check it, which is
+   the same thing the cockpit itself refuses to ask of a dispatcher: the page
+   was arguing for evidence beside the answer while keeping its own evidence a
+   screen away. Each decision now carries a capture of the thing it decided.
+
+   Two columns from 64rem: the argument on the left at a readable measure, the
+   picture on the right. The numbered disc stays where it was, in the margin of
+   the copy column, because the number orders the arguments and not the
+   pictures. */
+.ck-decisions {
+  list-style: none;
+  /* the paragraph that introduces the list ends flush against it otherwise;
+     space above the first item matches the gap between the items */
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  counter-reset: decision;
+  display: grid;
+  gap: var(--space-block);
+  /* The disc, and the one number this block authors. It is the case
+     studies' step marker -- w-10 h-10 on a bg-accent circle with the
+     numeral reversed out, in sap-product-maturity, dispatch-complexity and
+     innovators-studio -- which is 40px, and 40px is --space-3xl but it is
+     not a space: it sizes a mark. Named once here so the disc, the indent
+     the prose hangs on and the title's minimum height cannot drift apart. */
+  --ck-num: 40px;
+}
+.ckw-decision {
+  counter-increment: decision;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+/* ONE COLUMN, BECAUSE ONLY ONE DECISION STILL CARRIES EVIDENCE. This was a
+   fixed 28rem of copy beside a 1fr of picture above 72rem, which was the
+   right answer while all five items had a capture to put in that second
+   column. Four of the five lost theirs on 2026-09-20 -- they were
+   photographs of the live panel a screen above -- and a two-column grid with
+   nothing in the right-hand column for four items out of five is 720px of
+   void repeated four times.
+
+   So every item runs at the measure, and decision 02's pair sits under its
+   paragraph, which is the arrangement the two screen-width decisions already
+   used and the better of the two at any width: the argument is read, then
+   the thing it is about is shown at the size it was drawn. The per-capture
+   ceilings below do the sizing now; nothing here is a fraction of the
+   container. */
+.ckw-decision-copy {
+  position: relative;
+  /* the disc plus the case studies' own gap-3 between it and the title */
+  padding-left: calc(var(--ck-num) + var(--space-sm));
+}
+/* Reversed out rather than set in sage: accent-deep is the FILL step of the
+   sage and white on it is 4.51:1, where the same sage as small TEXT on a
+   light ground is not (color.css says so at the token). A numeral inside the
+   disc is also unambiguously a marker and not the start of the sentence
+   beside it, which is what the hanging serif figure kept looking like. */
+.ckw-decision-copy::before {
+  content: counter(decision, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--ck-num);
+  height: var(--ck-num);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+.ck .ckw-decision h3,
+.ckw-decision h3 {
+  /* The disc is taller than this title's line, so the title takes the
+     disc's height and centres in it -- the case studies' items-center,
+     reached without a wrapper. Top-aligning instead would drop the disc
+     halfway into the paragraph below. */
+  min-height: var(--ck-num);
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-decision .ckw-lead {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+
+/* A capture, framed the way style.css frames a wide product screenshot, so a
+   picture of an interface reads the same here as on the three build
+   write-ups. The captures carry their own ground out to the edge, so the
+   ring inside --shadow-media is what tells a reader where the screen stops;
+   a border of its own beside that ring drew a 2px line. */
+.ckw-shot { margin: 0; min-width: 0; }
+.ckw-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+/* NOTHING IS PRINTED ABOVE THE SIZE IT WAS DRAWN, and the size a capture was
+   drawn at is half its file, because these are taken at two device pixels to
+   one. The ceiling is per capture and not per column: a column can only say
+   how much room there is, and four of these had been taking all of it, which
+   is how a 651px card came to be printed at 1216 next to a 1288px table
+   printed at the same 1216 -- two pictures at wildly different scales,
+   presented as though they were at one. Upscaling a screenshot softens every
+   edge the interface drew crisply, and it makes the frame argue louder than
+   the paragraph it is evidence for.
+
+   A floor still beats this ceiling at narrow widths, on purpose: min-width
+   wins over max-width in CSS, so .ckw-scroll below keeps its horizontal
+   scroll rather than shrinking a table into illegibility. */
+.ckw-shot img,
+.ckw-frames img { max-width: var(--shot-w, 100%); }
+.ckw-frame--rule { --shot-w: 651px; }
+.ckw-frame--stale { --shot-w: 888px; }
+.case-section .ckw-shot figcaption,
+.case-section .ckw-frame-cap {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+/* THE PICTURE LINES UP WITH THE PARAGRAPH, NOT WITH THE NUMBER. The figure
+   takes the same indent the copy takes, so the disc is the only thing left
+   hanging in the margin and the block has one left edge instead of two. Not
+   below 64rem, where .ckw-scroll bleeds the picture out through the gutter
+   to the viewport and an indent would be taking back the width that bleed
+   exists to give. */
+@media (min-width: 64rem) {
+  .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
+}
+.ckw-frames {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+.ckw-frames > li { min-width: 0; }
+.ckw-frames img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+/* "First" and "Then" in the sage, so the two frames read as a sequence
+   without a drawn arrow between them. The same shape .build-flow-cap uses on
+   the Lucy Learns flow, for the same job. */
+.case-section .ckw-frame-cap span {
+  margin-right: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+.ck-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+
+/* ---------- The hero: the argument beside the interface ----------
+   The page used to open with a kicker, a title and a 90-word dek, and the
+   first thing a reader saw of the product was a device frame a screen and a
+   half down. A hiring reader gets three questions answered in the first
+   screen instead: what the problem is, what was designed, and how much of it
+   is real. The picture answers the middle one, and it is a capture of the
+   close call rather than a drawing, because a drawing of an interface is a
+   claim about an interface.
+
+   One column until 64rem, which is where the copy column would otherwise
+   drop under the measure and the capture would be too small to read. */
+.ckw-hero { padding-bottom: var(--space-block); }
+/* minmax(0, 1fr) and not the implicit auto, in one column as well as two:
+   the capture below sits in a box that scrolls, and a grid track sized to its
+   content would grow to the capture's floor and carry the whole page sideways.
+   .ck-stage says the same thing about the fleet data table. */
+.ckw-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+/* Not 1:1. The capture is a 1736px screenshot of an interface whose whole
+   point is five factors a reader can actually read, and an even split at 1440
+   rendered it into 584px, which is about 9px of option-card body text. 1.18
+   moves 48px across: the capture takes 632 and the copy 536.
+
+   What that costs the copy is less than it looks. The measure is not the
+   binding constraint on either side of this ratio -- 52ch at the dek's size
+   is 826px, so the column was already the narrower of the two at 1:1 and
+   still is. The trade is line length against legibility, and 536px of lede
+   is a comfortable line where 584px of screenshot is not a readable table. */
+@media (min-width: 64rem) {
+  .ckw-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr);
+    gap: var(--space-4xl);
+  }
+}
+/* --type-title is sized for a title that spans the page; this one shares the
+   row with a picture, which is exactly what --type-title-inset exists for --
+   type.css authors it for the homepage hero beside the portrait.
+
+   FROM 768 UP, though, and not below, which is where .hero-title on the
+   homepage has always put it and where this rule did not. The inset ramp's
+   window opens at 48rem because that is where the title stops spanning the
+   container, and under that it does nothing but hold its own 36px floor.
+   That was invisible while every other h1 sat at 34 on a phone: this one
+   was two pixels larger and nobody could see the seam. With the phone floor
+   at 40 it is the one title on the site that got smaller than its
+   neighbours, which is the same bug the whole time, finally visible. Below
+   768 it takes --type-title from style.css, like every other h1. */
+.ckw-hero-title { margin-bottom: var(--space-lg); }
+@media (min-width: 768px) {
+  .ckw-hero-title { font-size: var(--type-title-inset); }
+}
+.case-hero .ckw-hero-dek {
+  max-width: var(--measure);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-lede);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+/* The four things the prototype does, under the dek, each led by the
+   cockpit's own check in sage: accent-text is 4.12:1 on the warm hero, over
+   the 3:1 an icon answers to (the disclosure's border above measures the
+   same pair). The items are a step under the dek, at --text-base and
+   semibold: at the dek's own size and weight they read as three more
+   sentences of it, and four lines set smaller and heavier read as the four
+   things, which is what a list is for. Each row is
+   a flex box aligned to the top with the glyph at 1em wide and 1lh tall, so
+   the check is centred on the first line by construction and stays there
+   when the sentence wraps -- the rule .ck-icon sets out further down, and
+   no margin to keep in step. The list's own bottom margin is nothing,
+   because .ckw-hero-act carries the gap to the actions. */
+.case-hero .ckw-hero-list {
+  list-style: none;
+  max-width: var(--measure);
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.case-hero .ckw-hero-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ckw-hero-check {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1lh;
+  color: var(--color-accent-text);
+}
+/* The copy column now ends on the actions, so the bottom margin that used to
+   hold the disclosure off comes back to nothing. */
+.ckw-hero-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg) var(--space-xl);
+  margin: var(--space-2xl) 0 0;
+}
+.ckw-hero-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ckw-hero-link:hover { color: var(--color-accent-hover); }
+}
+.ckw-hero-figure { margin: 0; min-width: 0; }
+.ckw-hero-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+.case-hero .ckw-hero-figure figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.case-hero .ckw-hero-figure figcaption strong {
+  font-weight: var(--weight-semibold);
+  color: var(--color-charcoal);
+}
+/* ---------- The project, in six facts ----------
+   Until 2026-09-19 this was a two-paragraph disclosure in a box, and it
+   arrived before a reader had any reason to care what was being disclosed:
+   the page led with its limits. The same facts are still here and still in
+   the open -- self-directed, synthetic, not tested, not a model, informed by
+   real dispatch work and not a copy of it -- but as the answers to the six
+   questions a hiring reader asks of any case study, in the case studies'
+   own metadata treatment (.build-facts in style.css). Six cells in three
+   columns rather than four, so the two rows are even; the one sentence
+   under them is the part of the disclosure that is a caveat and not a fact.
+   Below 64rem the grid is style.css's own two, then one. */
+.ckw-facts {
+  margin: var(--space-4xl) 0 0;
+  max-width: none;
+}
+@media (min-width: 1024px) {
+  .ckw-facts { grid-template-columns: repeat(3, 1fr); }
+}
+.case-hero .ckw-facts dd { max-width: var(--measure); }
+/* The one link in the strip: Context names the real engagement this was
+   informed by, and the case study for it is on the site, so the phrase is
+   the way to it. Scoped here rather than onto .build-facts in style.css
+   because this is the only facts strip on the site with a link in it, and a
+   rule there would land on every build write-up to no effect. The treatment
+   is the prose link's (.writing-measure p a, style.css), which is what a
+   link inside body copy on a light
+   ground looks like here: accent-text, 600, underlined at the 0.2em offset,
+   charcoal on hover and focus so the pointer moves it toward the page.
+   accent-text on warm is 5.32:1. */
+.case-hero .ckw-facts dd a {
+  color: var(--color-accent-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-hero .ckw-facts dd a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .case-hero .ckw-facts dd a:hover { color: var(--color-charcoal); }
+}
+.case-hero .ckw-facts-note {
+  margin: var(--space-xl) 0 0;
+  /* The measure, not none. Under a three-column grid the one sentence used
+     to run the grid's full width, 163 characters at 14px on a laptop against
+     the 70 SPACING.md sets; the cells above it are each capped, and a
+     caveat is prose, not a rule across the page. */
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- What to try, and what this is ----------
+   Two dash lists over the prototype, in the write-ups' .build-list, side by
+   side from 48rem. The first is orientation and the second is the colophon:
+   that the thing under them was designed and built by the same hands, in
+   plain HTML, CSS and JavaScript, on invented data. The cockpit's own
+   checklist under each tab is the detailed version of the first list and
+   ticks itself off; this one names the four scenarios' worth of things to
+   do in three lines and gets out of the way. */
+.ckw-try-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl) var(--space-3xl);
+  margin: var(--space-xl) 0 0;
+}
+@media (min-width: 48rem) {
+  .ckw-try-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.ckw-try-grid .ck-label { display: block; margin: 0 0 var(--space-xs); }
+.case-section .ckw-try-grid .build-list { margin: 0; }
+.case-section .ckw-try-grid .build-list li { font-size: var(--text-sm); line-height: var(--leading-body); }
+.ckw-try-grid .build-list a { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+@media (hover: hover) and (pointer: fine) {
+  .ckw-try-grid .build-list a:hover { color: var(--color-accent-hover); }
+}
+
+/* ---------- The close ----------
+   The page's last paragraph, in the serif at the key-ideas size the writing
+   recap uses, and without the recap's box because it stands on the tea
+   ground already. The sage rule over it is the mark the case studies set
+   above a body heading, doing the same job for a paragraph that has none. */
+.ckw-close { margin: var(--space-3xl) 0 0; }
+/* The close sits in a .writing-measure, which caps at 52ch of its own 18px:
+   about 620px, and at the heading's size that is five words a line. The
+   statement takes the narrow column's width instead -- .case-narrow's 56rem
+   -- which at 34px is about fifty-five characters a line. */
+.writing-measure.ckw-close { max-width: none; }
+.ckw-close::before {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-bottom: var(--space-lg);
+  background: var(--color-accent-text);
+}
+/* THE PAGE'S LAST WORD, A STEP UNDER ITS HEADINGS. It was set at 20px, a
+   step over body copy, and read as one more paragraph; then at the section
+   heading's ramp, 28 to 48, where six lines of it outweighed every heading
+   on the page. It takes the subsection ramp, 24 to 34: larger than anything
+   around it in the section, smaller than the h2 that opened it. The
+   leading is a step looser than a heading's, --leading-tight rather than
+   --leading-heading: four lines of a sentence want air a one-line title
+   does not. */
+.case-section .ckw-close p {
+  text-wrap: pretty;
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--type-subsection);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+
+/* ---------- A capture takes the column it is in ----------
+   This carried a floor and a sideways scroll under it, for the captures of a
+   whole screen: a data table shrunk to a phone's width loses the thing it is
+   evidence for, which is that seven trucks and five factors are in reach at
+   once, so the box scrolled and the picture kept 62rem -- the table's own
+   minimum plus its two insets.
+
+   Every capture that earned it went on 2026-09-20 with the four decisions
+   that carried them. What is left on the page is three cards -- the hero's
+   comparison and decision 02's pair -- and the rule this block already
+   stated is that A CARD DOES NOT EARN THE FLOOR. A card is one surface with
+   one column of text on it, and shrinking it to a phone's width costs
+   nothing but size; the way back to it whole is the "Full size" link below,
+   not a sideways scroll. So the floor is gone rather than rescoped, and
+   .ckw-scroll is the hook the link's rule and the shadow hang on. */
+.ckw-scroll { display: block; }
+
+/* THE WAY BACK TO FULL SIZE. A card capture that takes the column is printed
+   under the size it was drawn -- the stale note is 888px of interface and
+   renders about 500 in a phone column, a little over half -- so the page owes
+   the reader a way to see it whole. That way is the file itself: these are
+   taken at two device pixels to one, so the file is twice the size the page
+   prints, and a browser's own image viewer pinches, pans and zooms it better
+   than anything built here -- with no script and no state for states.mjs to
+   reach.
+
+   The link rides at the end of the caption rather than on the picture. On the
+   picture it would have no name to read, and it would wrap a focus ring
+   around a 12px curve that curves.mjs is right to ask questions about. It is
+   gone above 64rem, where every card capture in the decisions is already at
+   its drawn size and the file is not a larger picture but the same one.
+   Accent-text is the inline link ink this page already uses, in
+   .ckw-try-grid, and accent-hover is what .ckw-hero-link does with it.
+
+   THE HERO CAPTURE IS THE EXCEPTION, and its link never hides. That picture
+   never reaches its drawn size anywhere on this page: one column below 64rem,
+   and above it the two-column ratio hands the figure 1.18fr of the container,
+   which is 537px at 1100 and about 632 at 1440 against 868 drawn. The ratio
+   is a deliberate trade of copy width against legibility -- the comment on
+   .ckw-hero-grid argues it out -- and a way back to the whole picture is the
+   other half of that trade rather than a concession at narrow widths. */
+.ckw-full {
+  white-space: nowrap;
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ckw-full:hover { color: var(--color-accent-hover); }
+}
+@media (min-width: 64rem) {
+  .ckw-decision .ckw-full { display: none; }
+}
+
+/* ---------- The one drawing, and the one that closes ----------
+   Everything else on this page is a capture. These two are the room the
+   interface is used in and the thesis it is built on, neither of which the
+   interface can show. Sixteen by nine at container width, in the style the
+   writing features are cut to and through the same script. */
+.ckw-scene { margin: var(--space-2xl) 0 0; }
+.ckw-scene img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.case-section .ckw-scene figcaption,
+.case-footer .ckw-scene figcaption {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ckw-scene--close { margin: 0 0 var(--space-3xl); }
+
+/* ---------- The design question ----------
+   One sentence, on the feature ground, because it is the thing the four
+   decisions are all answers to and it was previously the fourth sentence of
+   the third paragraph. */
+.case-section .ckw-question {
+  max-width: var(--measure);
+  margin: var(--space-2xl) 0 0;
+  padding: var(--space-lg) var(--space-xl);
+  border-left: 2px solid var(--color-accent-text);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ckw-question-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* ---------- The deeper argument, folded ----------
+   What a reader is OWED stays in the open: what the factor comparison is not,
+   that the outcome history is invented, that Assign here stages a choice Undo
+   reverses. What is folded is the reasoning behind a decision already stated
+   in full. The summary says which of the two it is rather than "read more",
+   so a reader can tell from the label that nothing load-bearing is hidden.
+
+   THE ROW ITSELF IS `.disclosure-row`, IN `style.css`. It used to be here,
+   grouped across `.ckw-more`, `.ck-note` and `.ck-misses` when those three
+   were merged into one control. They were still only this page's three, and
+   the design system's fifteen `.ds-usage` summaries -- the same control,
+   folding a component's markup -- could not reach a rule in a stylesheet
+   that page does not load. So it moved to the one sheet both load, and what
+   is left here is where each of the three sits. */
+.ckw-more {
+  margin: var(--space-md) 0 var(--space-xl);
+  max-width: var(--measure);
+  border-top: 1px solid var(--rule-hairline);
+}
+.ckw-more-body { padding-top: var(--space-xs); }
+/* THE ARGUMENT IS A LIST, NOT TWO PARAGRAPHS. A reader who opens something
+   labelled "Why I designed it this way" is looking for the reasons and how
+   many there are, and a paragraph makes them read the whole thing to find
+   out. Each item now leads on the claim and follows with the sentence that
+   earns it, so the eye can run the claims down the left and stop at the one
+   it wants argued.
+
+   .build-list is the site's dash list, from style.css, for exactly this --
+   "facts that scan better as a list than as a sentence with nine commas",
+   as its own note puts it -- so the dash, the size and the measure are
+   already right and only the margins need resetting under a disclosure.
+   The lead-in is .ckw-frame-cap span's treatment, a beat up the page: the
+   claim in sage semibold, the sentence under it in charcoal. accent-text on
+   warm is 5.32:1. The lead-in is the item's first element and only that: a
+   word stressed inside the sentence after it is bold in the sentence's own
+   charcoal, not a second claim. */
+.case-section .ckw-more-body .build-list { margin: var(--space-sm) 0 0; }
+.ckw-more-body .build-list li > strong:first-child {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+.case-section .ckw-more-body p {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The study, as a shape ----------
+   Two conditions and what is between them. The second side takes the feature
+   ground and the sage edge, because it is the one with the recommendation on
+   it and the comparison is otherwise two identical cards. */
+.ckw-compare {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-2xl) 0 var(--space-lg);
+  align-items: stretch;
+}
+@media (min-width: 48rem) {
+  .ckw-compare { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-xl); }
+}
+.ckw-compare-side {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+/* The B side's edge is an ARGUMENT -- it is the side being recommended -- so
+   it keeps its sage, and it now keeps it in the BORDER, which is where every
+   card's edge lives since the elevation stopped carrying a keyline. It used
+   to swap the shadow's first layer, which was the right move while the ring
+   was the edge and is the wrong one now: a sage ring outside a tinted border
+   would be two lines. One declaration, and B sits at exactly A's height and
+   differs only in the colour of its edge, which is the one thing it is
+   trying to say. accent-deep is 4.12:1 on warm, past the 3:1 a boundary
+   carrying meaning owes. */
+.ckw-compare-side--b { border-color: var(--color-accent-text); }
+.case-section .ckw-compare-side p {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-compare-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-compare-vs {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-align: center;
+}
+.case-section .ckw-compare-note {
+  margin: 0;
+  /* On the note itself, at its own 16px. The wrapper it sits in is capped
+     at 18px, which SPACING.md warns about: a cap resolved at the wrong size
+     is the wrong cap, and this one came out at 77 characters. */
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Three questions, and what each would change ----------
+   A card each, rather than three bullets, so the section reads as a plan and
+   not as a list of things that might go wrong. It ends on the same space-lg
+   as .ckw-compare, and for the same reason: a note follows it, and the note
+   carries no margin of its own, so the gap has to come from the cards. */
+.ckw-questions {
+  list-style: none;
+  margin: var(--space-2xl) 0 var(--space-lg);
+  padding: 0;
+  display: grid;
+  gap: var(--space-xl);
+}
+@media (min-width: 60rem) {
+  .ckw-questions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.ckw-questions > li {
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+.case-section .ckw-questions h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-questions p {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The assumption most likely to be wrong ----------
+   On the caution ground, which COLOR.md's Status family entered for this page
+   and which charcoal reads 12.44:1 on. It is the one thing in the section
+   that is not a plan: it is a prediction that the plan will find the card
+   structured wrongly.
+
+   The caution ground is 1.04:1 against ground-tea, which is a tint and not
+   an edge: the card reads as a smudge on the section rather than as a card
+   beside the three above it. Nothing measured it before, because both
+   resting.mjs and states.mjs read ink and not the boundary between two
+   grounds. The edge is the caution ink at the 1px the question cards use, so
+   the two weights match and only the color differs; the ink is 5.43:1 on tea
+   and 5.23:1 on the fill, both well past the 3:1 a boundary owes. */
+.ckw-callout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xl);
+  margin: var(--space-2xl) 0 var(--space-2xl);
+  padding: var(--space-lg) var(--space-xl);
+  border: 1px solid var(--color-caution-text);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+}
+/* The mark: a drawing of the assumption, in the hand the case studies'
+   impact bands took in #208 -- the clipboard with its five lines, and the
+   tag it has no row for, standing clear of it. A PNG whose only ink is the
+   line, filed at 320x180 for a 160px slot; the height follows the file's
+   16:9, so the width is the one number here. The line is painted in the
+   caution ink, because this mark sits on the caution ground and not on the
+   deep accent band the impact marks' white line was drawn for: 5.23:1 on
+   the fill, past the 3:1 a non-text mark owes. `flex: none` so the measure
+   is what gives. It used to be a hairline SVG in a 100-unit box that drew
+   itself, stroke by stroke, as the callout entered the viewport; the draw
+   rules, the keyframes, the reduced-motion override and the script that
+   set .is-inview went with it, because a picture has no path to draw. */
+.ckw-callout-mark {
+  flex: none;
+  width: 160px;
+  height: auto;
+  display: block;
+}
+.ckw-callout-body { min-width: 0; }
+@media (max-width: 640px) {
+  .ckw-callout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+}
+/* Three classes, because `.case-section .ckw-callout p` is two classes and an
+   element and therefore outranked the two-class selector this used to be. It
+   won everything: the heading rendered at 16px charcoal on leading-body with
+   no margin under it, so the label sat welded to its paragraph while the
+   three cards above kept their 8px. What is written here now is what the
+   page actually shows -- the question cards' h3 treatment exactly, which is
+   the spacing the card was asked to match. */
+.case-section .ckw-callout .ckw-callout-h {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .ckw-callout p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The hero, into the cockpit ----------
+   120px of nothing sat between the disclosure card and "The cockpit" at
+   1440, and 96 at 390: the hero's own bottom padding plus the chapter's
+   top. On a build write-up that gap is a section change and earns its
+   keep, because the chapter under the hero is a different ground. Here it
+   is not -- the hero is warm and this chapter is ground-warm -- so the two
+   paddings stack across a boundary nobody can see, and the page opens with
+   a hole. The chapter keeps a break; it just stops paying for one twice.
+   Scoped to this page, because the other three build write-ups do change
+   ground there and their spacing is right. */
+#the-cockpit { padding-top: var(--space-2xl); }
+
+/* ---------- The cockpit frame ----------
+   The prototype is framed rather than set loose on the ground, for the
+   reason style.css gives for .build-phone and .build-laptop: a page that
+   frames its captures in a bezel and shows the live thing as a bare column
+   is showing two ideas of what a screen is. So this is the same object --
+   one --bezel of --device-chrome, --shadow-device under it, and the inner
+   radius DERIVED from the outer rather than authored a second time.
+
+   Two values are authored, both by precedent. --shell-radius is the laptop
+   lid's 14 and not the phone's 26, because 26 on a box this wide reads as a
+   lozenge, which is the argument style.css already makes at .build-laptop.
+   ON THE CONTENT'S WIDTH, NOT THE MONITOR'S. Until 2026-09-11 the screen was
+   1920 and the frame left the container to hold it, on the argument that a
+   dispatch cockpit is a monitor-width interface and the 1280px container
+   puts the fleet data table and the recommendation into a column. That was
+   true, and it cost more than it bought. It made the demo the one element on
+   the page that started on its own line: the hero's assumption card, the five
+   slides above and every heading down the page range to the container's left
+   edge, and the frame ranged to the viewport's middle, 100px outboard of all
+   of them at 1440. A page whose subject is an interface that fits cannot
+   itself look unaligned.
+
+   So the frame is the container's content box: --container-max less its two
+   gutters, capped by the viewport less the same, centred. Centring and
+   ranging are the same thing at this width -- a box the width of the content
+   column, centred in the viewport, has its left edge exactly where .container
+   puts the text -- which is why there is no margin-inline-start here.
+
+   What it costs is real and is the reason the 1920 existed: the cockpit's
+   two-column stage at 1216 is narrower than at 1920, so the fleet data table
+   reaches its own min-width sooner and scrolls inside its wrap on viewports
+   where it used to sit whole. The wrap is built for that and says so; the
+   whole-table view now wants a wider monitor than it did. */
+.ck-frame {
+  --shell-radius: 14px;
+  width: min(100% - var(--gutter) * 2, calc(var(--container-max) - var(--gutter) * 2));
+  margin: var(--space-3xl) auto 0;
+  padding: var(--bezel);
+  border-radius: var(--shell-radius);
+  background: var(--device-chrome);
+  box-shadow: var(--shadow-device);
+}
+
+/* The screen. It keeps the section's warm ground, so the cockpit is lit the
+   way it was designed and nothing inside it changes contrast by being
+   framed; what the bezel adds is an edge, not a new surface to measure. */
+.ck {
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  background: var(--color-warm);
+  padding: var(--space-xl);
+}
+@media (min-width: 48rem) {
+  .ck { padding: var(--space-3xl); }
+}
+
+/* ---------- The cockpit on its own: ?embed, and nothing else ------------
+   The homepage's prototype card opens this page inside the tablet that
+   app-device.js stands over the page, and a tablet with a site nav in it is
+   a tablet showing a website. So the flag in the head of the page hands the
+   document data-embed and these rules take everything off it but the
+   cockpit: the skip link, the nav, the hero, the two chapters of write-up
+   either side of it and the footer. What is left is the one thing the card
+   promised.
+
+   THE FRAME COMES OFF WITH THEM, and that is the point of the block rather
+   than an afterthought in it. .ck-frame is the site's device chrome -- a
+   bezel of --device-chrome with --shadow-device under it -- and inside the
+   tablet it would be a bezel inside a bezel, the same doubling the prototype
+   card's own note talks itself out of. The tablet is the frame here; the
+   cockpit is the screen.
+
+   Nothing is deleted from the DOM and no rule here is reachable without the
+   flag, so the four browser checks measure this page exactly as they did:
+   they load it at its own address, where data-embed is not set. */
+html[data-embed],
+html[data-embed] body { background: var(--color-warm); }
+/* THE NAV IS 80px TALL AND IS NOT HERE, so the one number that describes it
+   is zero. Three things read it and all three were wrong by 80px with the
+   nav hidden: the tab strip is sticky at top: var(--nav-height), and sticky
+   pushes an element DOWN when its natural position is above that offset, so
+   the strip landed 12px over the first line of the scenario's sentence;
+   style.css scroll-padding-top parks every anchor 80px low; and the
+   scroll-margin under #ck-panel adds the same 80 to every control it keeps
+   out from under the strip. One declaration, because one fact changed. */
+html[data-embed] { --nav-height: 0px; }
+html[data-embed] .skip-link,
+html[data-embed] .site-nav,
+html[data-embed] .case-footer,
+html[data-embed] main > :not(#try-it),
+html[data-embed] #try-it > .container { display: none; }
+html[data-embed] #try-it { padding: 0; }
+html[data-embed] .ck-frame {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+html[data-embed] .ck { border-radius: 0; }
+/* ====================== THE PAGE RANGES LEFT ==============================
+   .case-narrow is 56rem with margin: 0 auto, so on every other page of the
+   site a heading and its paragraph sit in the middle of the 1280 container
+   with the ground either side of them. That is right for an essay, where the
+   column IS the page. It is wrong here, because this page's subject is three
+   pieces of interface -- the hero's assumption card, the four slides and the
+   cockpit itself -- and all three range to the container's left edge. A
+   centred 56rem column started 192px inboard of them at 1440, so the reader
+   got a left edge for the pictures and a different one for the words about
+   them.
+
+   Ranging rather than widening: the measure is untouched. .writing-measure
+   and --measure still hold a line to about 70 characters, and 56rem still
+   caps what sits inside .case-narrow. The only thing that changes is which
+   end of the container the leftover ground is on.
+
+   Scoped to this page by a class on <body> rather than edited in style.css,
+   because .case-narrow is the shared helper twenty-odd other pages lay their
+   text out with and none of them has this problem.
+
+   The child combinator is load-bearing. Three blocks on this page carried
+   .container and .case-narrow on the SAME div, where margin-inline: 0 ranges
+   the CONTAINER left and drops the page's own 1280 centring with it -- the
+   heading landed on the viewport's gutter, 80px outboard of everything it was
+   supposed to line up with. Those three are now a .case-narrow inside a
+   .container, like every other block here, and this rule only reaches a
+   .case-narrow that has a .container above it. */
+.ckw-page .container .case-narrow { margin-inline: 0; }
+
+/* ---------- The stage: the situation over the cockpit ----------
+   One column, always. Until 2026-09-11 this was a two-column grid: a 19rem
+   rail on the left carrying the situation, three numbered callouts and a
+   nudge, with a matching badge hung on each element the callouts named, and
+   the cockpit in the track beside it. Two things were wrong with that and
+   only one of them was the clutter. The other was arithmetic: the frame runs
+   to 1920 BECAUSE a dispatch cockpit is a monitor-width interface, and then
+   spent a fifth of it on an aside, which put the fleet data table back into a
+   scrolling wrapper on the one screen wide enough to hold it whole.
+
+   The four screens above this section do the explaining now, from outside the
+   interface, where nothing has to be drawn on top of it. What is left here is
+   the sentence saying what the situation is and the one thing to try, over
+   the screen rather than beside it, which is the arrangement a slide uses. */
+.ck-stage {
+  display: grid;
+  /* minmax(0, 1fr) and not the implicit auto: the fleet's data table has a
+     min-width of its own, and an auto column would grow to it and carry the
+     whole cockpit past the frame. The wrap scrolls; the column does not. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+/* The situation's two lines keep the prose measure even though the screen
+   under them does not. A sentence set to 1840px is not a sentence anyone
+   reads; it is the reason .writing-measure exists on the page around it.
+
+   The gap closed from --space-sm to --space-2xs when the checklist left: two
+   things spaced for three. The head and its sentence are one block naming one
+   scenario, and a gap that says so is what makes the head read as the
+   sentence's own rather than as a third thing in the column. */
+.ck-situation {
+  display: grid;
+  gap: var(--space-2xs);
+  justify-items: start;
+  max-width: var(--measure);
+}
+.ck .ck-rail-h {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-accent-text);
+}
+/* ---------- Now, on the load ----------
+   The clock the derived "at pickup" column is figured from, stated where the
+   load is rather than in a footnote: a derived figure whose inputs are
+   hidden is a figure nobody can argue with, which is the failure this whole
+   prototype is about. */
+.ck .ck-load-now {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-load-now .ck-icon { flex-shrink: 0; color: var(--color-muted-gray); }
+
+/* ---------- The window reading ----------
+   Three states, each a word first. Clear takes no ground at all -- most
+   trucks make most windows, and a badge on the ordinary case is a badge on
+   nothing. Tight and misses take the caution ground, because both are a
+   reading the dispatcher may want to act on; neither blocks, which is what
+   keeps them different from the rule. */
+.ck .ck-window {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-window .ck-icon { flex-shrink: 0; color: var(--color-muted-gray); }
+.ck .ck-window[data-window="tight"],
+.ck .ck-window[data-window="misses"] {
+  align-items: center;
+  margin-top: var(--space-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+}
+.ck .ck-window[data-window="tight"] .ck-icon,
+.ck .ck-window[data-window="misses"] .ck-icon { color: var(--color-caution-text); }
+
+/* Inline icons: the header's idiom, sized to the text they sit in. */
+.ck-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+/* AN ICON AT THE HEAD OF A LINE IS AS TALL AS THE LINE. Every row that puts
+   a glyph before running text is a flex box aligned to the top, so the glyph
+   stays on the first line when the text wraps; and each used to nudge its
+   1em glyph down by a hand-picked margin, 0.15em here and 0.25em there,
+   which is close and never right -- at 14px on --leading-ui the clock sat
+   1.4px above the words it opens. The box is the line's own height instead,
+   and the viewBox centres itself in it (preserveAspectRatio's default), so
+   the glyph is centred on the first line by construction, in whichever
+   leading the row sets, and there is no margin to keep in step. The rows
+   that centre a single line (the tight and missed windows) get
+   the same box and the same answer. */
+.ck .ck-load-now .ck-icon,
+.ck .ck-window .ck-icon,
+.ck .ck-status .ck-icon,
+.ck .ck-fresh .ck-icon,
+.ck .ck-sort-icon { height: 1lh; }
+
+.ck-visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The four situations, as tabs. A selected tab is heavier and carries a
+   charcoal rule under it; the ring on focus is the site's. */
+/* The four situations, as a segmented control. They are the demo's primary
+   control and were its lightest element. Selected is charcoal with warm
+   text, 14.02:1; the site's actions are sage, so navigating and acting are
+   two colors. The hover wash is the one .ck-btn-quiet already uses, and it
+   is scoped to the tabs that are not selected: the selected one is charcoal
+   under warm text, and a wash forced onto it composites to 1.12:1, which
+   states.mjs is right to refuse even though the cascade never shows it. */
+.ck .ck-tabs-label {
+  /* Inline flow rather than a flex row, and the difference shows up on a
+     phone. As flex items the name and the hint are two boxes, so the hint
+     wraps whole and lands on its own line with the em dash leading it, which
+     is a dash at the start of a sentence. Inline, the line breaks between
+     words like the sentence it is, and the nbsp after the dash keeps it with
+     the word it introduces.
+
+     THE GAP IS PAID TWICE BECAUSE THE STRIP BELOW SPENDS IT. .ck-tabs is
+     sticky and bleeds: it takes --space-sm of padding and gives the same
+     back as a negative margin, so its opaque warm band starts 12px ABOVE
+     where the layout puts it. An 8px bottom margin here is 4px short of
+     that, so the strip has always sat 4px over this line's box -- invisible
+     while the label was three words on one line and all leading, and a
+     sentence with its descenders shaved the moment the hint made it wrap on
+     a phone. The margin is what the reader should see PLUS what the strip
+     takes back, so the gap under the label is --space-xs at every width. */
+  margin: 0 0 calc(var(--space-xs) + var(--space-sm));
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+/* WHAT THE CONTROL DOES, BESIDE THE CONTROL. "Pick a scenario" names the
+   thing and stops there, which leaves the reader to discover by pressing
+   that the screen under it is what changes. The hint says so in the label,
+   in the regular weight so the two are a name and a note rather than two
+   headings, and it is the quiet end of a line that is already quiet. */
+.ck .ck-tabs-hint {
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+/* A no-break space on BOTH sides of the dash. The one after keeps the dash
+   with the word it introduces; the one before keeps it with the name, so the
+   line can never break to leave a dash hanging at either end. */
+.ck .ck-tabs-hint::before { content: "\00a0\2014\00a0"; }
+/* Sticky, because the cockpit is 1521px tall on a desktop and 3220px on a
+   phone: scroll to the fleet and the only way back to another situation was
+   to scroll all the way up. It parks under the site header, carries the
+   screen's own ground so cards do not show through, and sits above them.
+   The label above it is allowed to scroll away -- four named situations say
+   what they are once you have read it once. */
+.ck-tabs {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  padding-block: var(--space-sm);
+  margin-block: calc(-1 * var(--space-sm));
+  background: var(--color-warm);
+  /* THE LINE IS WHAT MAKES THIS A BAR OVER SOMETHING. Four pills floating
+     above a screen, with nothing between them and it, are four buttons on a
+     page; the claim that they change the interface below is one the reader
+     has to take on faith until they press one. A rule under the whole strip
+     puts the screen INSIDE what the strip controls, which is the same thing
+     a tab bar has always said. --color-rule, 1.42:1 on the warm ground it
+     is drawn over, and no radius here, so curves.mjs has nothing to object
+     to and cards.mjs is not looking at a card. */
+  border-bottom: 1px solid var(--color-rule);
+}
+/* Below the width where the row fits, the four pills scroll sideways in one
+   row rather than wrapping. Two by two was 101px of sticky bar on a phone,
+   which is too much of a 844px viewport to spend on a switcher; one row is
+   62px. The fourth pill is deliberately cut off at the right edge, which is
+   what tells you the strip scrolls. Snap so a flick lands on a whole pill.
+   The negative margin lets the strip bleed to the screen's edge while its
+   padding keeps the first pill on the content line. */
+@media (max-width: 63.98rem) {
+  .ck-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--space-md));
+    padding-inline: var(--space-md);
+    scroll-padding-inline: var(--space-md);
+  }
+  .ck-tabs::-webkit-scrollbar { display: none; }
+  .ck .ck-tab { flex: 0 0 auto; scroll-snap-align: start; }
+}
+
+/* WHAT THE STICKY STRIP COSTS EVERY CONTROL UNDER IT.
+
+   Two things sit over this page while the cockpit is being read: the site nav,
+   fixed at 0 and 80px tall, and the strip above, stuck to the bottom of it and
+   62px tall -- a height the block above fixes deliberately, one row at every
+   width. So the top 142px of the viewport belongs to furniture.
+
+   style.css sets `scroll-padding-top: var(--nav-height)` on `html`, which
+   clears the nav and knows nothing about the strip. Anything the browser
+   scrolls to a top edge therefore lands at y=80, 62px inside something opaque.
+   Shift-Tab upward through the data table did exactly that: T-142's row button
+   took focus at y=89 and could not be seen at all, which is 2.4.11 Focus Not
+   Obscured, and not a thing any check in scripts/ can measure -- they read
+   colour, and this is geometry.
+
+   scroll-margin rather than a bigger scroll-padding on `html`: the fault is
+   these controls passing under this strip, and the page's own anchors
+   (#the-cockpit, #the-decisions) have no such problem and should keep landing
+   where they always have.
+
+   #ck-panel and not .ck, because the strip cannot obscure itself. A tab is
+   sticky at the very offset this margin is made of, so handing it one asks
+   the browser to scroll 154px to reveal something already in plain sight --
+   which is the bug this changeset removes, reintroduced one element along. */
+#ck-panel :is(a, button, input, textarea, select, summary, [tabindex]) {
+  scroll-margin-top: calc(var(--nav-height) + 3.875rem + var(--space-sm));
+}
+
+.ck .ck-tab {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-tab:not([aria-selected="true"]):hover { background: var(--wash-on-light-hover); }
+}
+/* NO --color-focus-ring ON THESE, though the selected one is charcoal. An
+   outline sits outside the box at --outline-offset, so a pressed tab's ring
+   lands on the light panel around it, not on the tab's own fill. The dark
+   ring was tried here and measured 2.05:1 against that panel. The ground a
+   ring answers to is the one BEHIND the element. */
+.ck .ck-tab[aria-selected="true"] {
+  font-weight: var(--weight-semibold);
+  background: var(--color-charcoal);
+  border-color: var(--color-charcoal);
+  color: var(--color-warm);
+}
+/* AND THE POINT WHERE THE ONE PRESSED MEETS THE ONE THING BELOW. The rule
+   says the strip governs the screen; this says WHICH of the four is on it.
+   A caret in the pill's own charcoal, growing out of its bottom edge, on
+   the selected tab and nowhere else.
+
+   It is a pseudo-element, and that is not only for tidiness: curves.mjs
+   counts elements and cards.mjs measures surfaces, and a fifth mark on a row
+   that renders in seven reachable states would move both counts for a shape
+   that carries no text and no border of its own.
+
+   IT POINTS FROM INSIDE THE STRIP RATHER THAN THROUGH IT. Under 1024px the
+   strip is an overflow-x scroller so the four pills run in one row, and an
+   overflow that scrolls on one axis clips the other: a caret hung below the
+   border would be cut off at exactly the width where the reader most needs
+   to know which tab they are on. So it sits inside the strip's own bottom
+   padding, tail and all -- same drawing, and nothing to clip. */
+.ck .ck-tab { position: relative; }
+.ck .ck-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  /* IT IS A TAIL ON THE PILL, NOT A MARK UNDER IT. It hung 6px clear of the
+     pill so its tip could land on the rule, and a charcoal triangle floating
+     in the gap reads as a fifth thing in the strip -- a separate arrow that
+     happens to be under a button -- rather than as the pill's own point.
+     Joined to the bottom edge it is one shape: the selected pill, with a
+     point on it, aimed at the screen. The -1px is the seam: at a fractional
+     zoom the pill's border and the triangle's flat top can round apart and
+     show a hairline of warm between them, so they overlap by one.
+
+     12 by 6 to 16 by 8, which is the size at which the point reads as part
+     of the pill's silhouette from the reading distance the strip is used at
+     rather than as a detail on it. It still fits: .ck-tabs spends
+     --space-sm, 12px, below the pills, so 8 of that is the tail and 4 is
+     the clearance to the rule. The tip no longer touches that line, and the
+     strip does not need it to -- the rule already puts the screen inside
+     what the strip controls, and this says which of the four is on it. */
+  margin-top: -1px;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-charcoal);
+}
+.ck .ck-blurb {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* The panel under the tabs: load, recommendation, status, the optional
+   question, then the whole fleet. One column, always; the pair inside the
+   recommendation is the only thing that goes side by side. */
+.ck-panel {
+  display: grid;
+  /* The same lesson as .ck-stage, one level down: without an explicit
+     column the implicit auto track grows to the fleet table's natural
+     width, 1184px, and every card in the panel stretches with it. On the
+     page the stage's minmax(0, 1fr) track happened to hold it; in the
+     capture, where the stage is a block, nothing did, and the thumbnail
+     came back cropped flush on its right. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  min-width: 0;
+}
+
+/* A white card is the cockpit's surface on the section's warm ground.
+
+   AN ELEVATION, NOT A LINE. These carried 1px of --color-rule, which on the
+   warm ground is a 1.42:1 grey drawn all the way round -- the same weight on
+   the side of a card as on its top, saying "bounded" where the thing worth
+   saying is "on top of".
+
+   THE LINE IS BACK, AND IT IS NOT THAT GREY. --color-rule is an opaque
+   grey-tan: the same value on every ground, sitting on the scheme rather
+   than in it. The edge here is --rule-card, the ink at 24% -- the third
+   step of the same charcoal-tint family --rule-hairline and --rule-strong
+   belong to, and the only one of the three allowed on an OUTER edge,
+   because those two composite over the card's own fill and come out
+   #e9e9e9 whatever they are sitting on. At 24% it measures 1.48:1 on warm,
+   1.37 on tea-light and 1.28 on muted-light, which is a shade over the
+   opaque line it replaces on all three. A tint takes the ground through
+   it, so a white card and a tinted zone are edged by one relationship
+   instead of by one swatch.
+
+   AND THE SHADOW STOPS TRYING TO BE THE EDGE. Between #255 and now the
+   boundary was spent first as the elevation's ring and then, for one pass,
+   as an ambient shadow layer at offset 0 -- which measures fine, 1.26:1 at
+   a card's side, and looks like haze, because an edge made of blur is an
+   edge that fades. Every rung of the ladder is a TUCKED drop now: a
+   negative spread against its blur, so nothing soft crosses the line the
+   border draws. The border is the boundary, the drop is the height, and
+   neither is doing the other's job.
+
+   THREE HEIGHTS, BECAUSE THE SCREEN HAS THREE KINDS OF SURFACE. The
+   recommendation panel and the status line are ZONES -- tinted regions to
+   read something inside, at --shadow-zone. The load, the fleet table, the
+   override reason and the stale-hours note are CARDS to be consulted, at
+   --shadow-card. The truck card is the one being acted on and the only one
+   with a button, at --shadow-card-raised. This file has asserted that order
+   in words since the tinted ground arrived -- "one raised white surface, the
+   card with the Assign button on it" -- and drew the first of the three flat
+   on the page until now. */
+.ck-load,
+.ck-why,
+.ck-table-wrap {
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.ck-card {
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card-raised);
+}
+
+/* ---------- The load ---------- */
+.ck-load { padding: var(--space-lg) var(--space-xl); }
+.ck .ck-load-id {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-load-id .ck-label { margin-right: var(--space-2xs); }
+.ck-sep { color: var(--color-muted-gray); }
+/* ONE SIZE TO A LINE. A label set inline in a sentence -- "Load" beside the
+   load's id, "Now" beside the clock, "At pickup by" at the head of the
+   window line, "What happens with this:" -- was the 12px label size inside
+   a line of 14 or 18, and the line read as two sizes. It takes the line's
+   size now; weight and the sage still mark it as a label. A label on its
+   own line keeps the label size. */
+.ck p .ck-label { font-size: inherit; }
+.ck-load-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm) var(--space-xl);
+  margin: 0;
+}
+.ck-load-facts dt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck-load-facts dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+@media (min-width: 800px) {
+  .ck-load-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- The hard rule ----------
+   A rule is a rule: the one caution-colored card on the page, with a 2px
+   edge in the caution ink, above the recommendation rather than inside it,
+   because it is not a low score and must not read as one. Charcoal on
+   caution-light is 12.44; the ink as a border on white is 6.45. */
+.ck-rule {
+  /* Hugs what it holds, like .ck-fresh and .ck-status: the text inside is
+     held to the measure, and a box that ran the panel's width past it was
+     two-thirds empty caution ground on a monitor. */
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--space-lg) var(--space-xl);
+  border: 2px solid var(--color-caution-text);
+  border-radius: var(--radius-xl);
+  background: var(--color-caution-light);
+}
+.ck .ck-rule-glyph { color: var(--color-caution-text); }
+.ck .ck-rule-head {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck-rule-glyph { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.25em; margin-right: var(--space-2xs); }
+.ck .ck-rule-text {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* ---------- The recommendation ----------
+   The answer zone: tea-light, the feature ground, with the white cards on
+   it. Its inks are warm's -- charcoal 12.90, muted-gray 5.44, accent-text
+   4.90 -- so nothing inside changes color to sit here. A kicker names what
+   the zone is before the headline says what it says. */
+.ck-reco { display: grid; gap: var(--space-lg); }
+/* THE ZONE LIFTS NOW, which is rung 1 and not a card's rung. It was flat on
+   the warm ground and separated from it by 1.09:1 of fill, which is the
+   whole of what a reader had: cards.mjs has named it as a surface with
+   nothing drawing its outline since that check was merged. --shadow-zone
+   does not fix that number and is not offered as fixing it -- no shadow
+   tasteful enough to sit under a panel this size closes a 1.09 gap, and
+   reaching for --shadow-card here would be a zone borrowing a card's height
+   to buy an edge. What it does is put the panel above the page, so the
+   answer zone reads as the thing in front and the white cards on it read as
+   objects on a tray rather than holes cut in one. */
+.ck-lead {
+  padding: var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-tea-light);
+  box-shadow: var(--shadow-zone);
+}
+/* A CLOSE CALL IS NOT A CAUTION, AND USED TO BE PAINTED LIKE ONE.
+   --color-caution-light was carrying two unrelated meanings on this screen:
+   the hard rule and the blocked row, where it says "you cannot do this", and
+   the close-call zone and its status line, where it says "the system looked
+   and the two are level". The second is not a warning at all -- it is the
+   system being honest about its own resolution, which this page argues is a
+   good outcome -- and painting it in the refusal colour taught the reader
+   that pink meant nothing in particular.
+
+   The close call takes --color-muted-light, the alternate ground, so it reads
+   as a different KIND of answer rather than as a problem. Caution is now spent
+   on exactly one thing: a rule refusing a truck. Every ink inside clears on
+   muted-light -- charcoal 12.10, muted-gray 5.11, accent-text 4.60 -- and the
+   kicker goes charcoal, because sage there would read as a recommendation and
+   caution would put the warning back. */
+.ck-lead[data-tone="close"] { background: var(--color-muted-light); }
+/* Two classes deep, and for the reason this file's header gives: .ck-label is
+   one class (0-1-0) and .case-section p is class-and-element (0-1-1), so a
+   label on a <p> loses both its size and its colour. Every other .ck-label on
+   the page sits on a <span>, where nothing competes, which is why this was
+   the only one rendering at 18px charcoal instead of 12px sage -- close
+   enough to the 24px headline under it to read as a second title, which is
+   the stacking this kicker was introduced to remove. */
+.ck .ck-lead-kicker {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ck-lead[data-tone="close"] .ck-lead-kicker { color: var(--color-charcoal); }
+/* The dek under this is capped to the measure and this was not, so the close
+   call's 78-character headline set itself on one 1072px line at 1440 -- the
+   one sentence on the screen nobody could read without moving their head. */
+.ck .ck-reco-h {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.ck .ck-reco-dek {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck-pair {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+@media (min-width: 800px) {
+  .ck-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.ck-pair > div { min-width: 0; }
+
+.ck-card { padding: var(--space-lg) var(--space-xl); }
+.ck-card + .ck-confidence,
+.ck-pair + .ck-confidence,
+.ck-confidence + .ck-also { margin-top: var(--space-lg); }
+.ck .ck-card-head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ck .ck-card-truck {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-card-driver {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-card-note {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.ck .ck-card-act { margin: var(--space-lg) 0 0; }
+
+/* The factors: name, value, direction, one row each, with the direction as
+   a glyph and a word. The value is tabular so the column reads. */
+.ck-factors {
+  list-style: none;
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.ck-factor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-md);
+  align-items: baseline;
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+/* THE NAME IS READ, NOT SCANNED, AND IT IS READ IN A CAB. The census below
+   fixed the card's scan layer by raising the five figures, which was the
+   right half of the problem: the figures now carry the card. What it left
+   at --text-sm is the line that says WHICH figure this is, and a dispatcher
+   who does not already know the five factors by heart has to read that line
+   before the number under it means anything.
+
+   14px regular beside an 18px semibold number reads as faint even at
+   15.33:1, which is what this is -- the highest-contrast text on the card,
+   charcoal on white. Nothing here is dim; the label was simply set two rungs
+   under the thing it names. --text-base puts it at reading size.
+
+   THE RUNGS STILL SEPARATE, BECAUSE WEIGHT IS DOING THE WORK. 16 for the
+   name, 18 for the value, 14 for helps or hurts -- and the value is 600
+   against the name's 400, which is the same way the row already tells the
+   verdict word apart from the name at a shared 14. A fourth rung bought by
+   keeping the name small is a hierarchy that costs the reader the label. */
+.ck .ck-factor-name {
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* THE VALUE IS THE THING BEING CHECKED, AND IT USED TO BE LABEL-SIZED.
+   38 mi, 8.4 h, dry van, 11 of 12, 12 mi are the five readings a dispatcher
+   came to this card for, and at --text-sm they sat at the same size as the
+   words naming them, the word judging them and the footnote underneath. A
+   census of the screen found 143 of its 156 text elements at 12 or 14px and
+   exactly one above 18, which is a card with no scan layer at all: nothing
+   is bigger than anything else, so the eye reads the whole panel as texture.
+
+   --text-lg gives the row three rungs -- 14 for the name, 18 for the value,
+   12 for helps or meets -- so the five figures carry the card and the words
+   around them explain it. It is a step the scale already has; nothing new is
+   invented, and the baseline alignment on .ck-factor is what keeps the taller
+   value sitting on the same line as its name. */
+.ck .ck-factor-value {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+  text-align: right;
+}
+/* HELPS, HURTS, MEETS, NEUTRAL -- THE VERDICT, WHICH WAS THE SMALLEST TYPE
+   ON THE CARD. A census of the cockpit found 148 of its 163 visible text
+   nodes at 12 or 14px, and the word saying which way a factor CUT was in the
+   12px tier, level with the footnote under the list and a step below the
+   name of the thing being judged. A dispatcher scanning five rows for
+   trouble is scanning for exactly one of these words.
+
+   14px, which is the name's size, so a row reads name / value / verdict at
+   14 / 18 / 14 rather than 14 / 18 / 12. And "hurts" takes a chip: the one
+   verdict worth interrupting for gets a ground of its own, caution-light,
+   carrying caution ink at 5.23. The other three stay flat, because a chip on
+   all four is a chip on none. */
+.ck .ck-factor-dir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  min-width: 4.5rem;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  text-align: right;
+}
+.ck .ck-factor-dir[data-dir="helps"],
+.ck .ck-factor-dir[data-dir="meets"] { color: var(--color-accent-text); }
+.ck .ck-factor-dir[data-dir="hurts"] {
+  color: var(--color-caution-text);
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+}
+/* ---------- When the figure was last true ----------
+   A second line under the factor's name, at the footnote size, saying where
+   the figure came from and how long ago: GPS for the miles, the ELD for the
+   hours, the span for the record. Muted while it is fresh. Stale takes the
+   caution ink and the clock glyph, and stays a line under a name rather
+   than a chip on the value: the value is still the value, and what has
+   changed is how far it can be trusted. Caution-text on white is 6.45, on
+   muted-light 5.09; the name cell is 1fr and the age wraps inside it. */
+/* --text-sm, not --text-xs. The whole argument of this screen is that a
+   figure comes with how old it is, and the stale case is the one decision
+   the prototype most wants a dispatcher to catch -- so the line carrying it
+   was the smallest thing on the card. 12px at 6.47:1 is fine on a laptop
+   and thin through glare at arm's length, which is where this interface is
+   pretending to be used. It is still the quiet line: a rung under the name,
+   muted rather than charcoal, and second on its own row. */
+.ck .ck-factor-age {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-factor-age[data-age="stale"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-caution-text);
+}
+.ck .ck-vs-cell .ck-factor-age { margin-top: var(--space-2xs); }
+/* The same reading in the fleet, as the cell's own note. */
+.ck-table .ck-cell-note[data-age="stale"] { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+/* A READING IS NOT A REFUSAL, AND USED TO BE PAINTED LIKE ONE. This note
+   took the caution ground and a caution edge, which is what the rule card
+   above takes to say "you cannot do this". The two then differed by the
+   weight of a border -- 2px against 1px -- and a border weight is not a
+   difference a reader can name. A hard requirement and a suggestion read
+   as the same kind of thing, which is the failure the close-call zone was
+   already fixed for a few hundred lines up: caution is spent on exactly
+   one thing, a rule refusing a truck, and this note is not one. The row
+   keeps its Assign and what the sentence asks for is a check.
+
+   So it takes the ground the decisive rows in the comparison below it
+   take: white, raised on the close call's muted-light, which is this
+   card's own idiom for lifting something out of the page rather than
+   flagging it. The hairline is the same one every raised surface here
+   carries.
+
+   THE CAUTION INK STAYS, on the clock and on the phrase that names the
+   age. That is not a leftover: staleness is written in caution ink
+   everywhere else on the screen -- the age line under a factor's name, the
+   fleet cell's note -- and the ink is the reading of the figure while the
+   ground is the system's verdict on the action. Ink says "this number is
+   old"; ground says "you cannot do this". Only one of those is true here.
+   Caution-text on white is 6.45, charcoal on it 15.32. */
+.ck .ck-fresh {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  /* THE DARK LINE, WHERE EVERY OTHER CARD TAKES THE TINT. Cards here are
+     edged in --rule-card, the ink at 24%, which paints rgb(203,203,203)
+     over a white card. This one is edged in the ink itself. A note that
+     asks the dispatcher to go and check a logbook before pressing Assign
+     is the only surface on the screen that wants to be interrupted at, and
+     the gap between the two lines is what says so: 6.47:1 against 1.48
+     on the same ground, which is not a border weight or a border style
+     but a border a reader can see is different without being told.
+
+     --color-muted-gray, which COLOR.md already measures as a border on
+     white at 6.47:1 and which this file's header already lists in that
+     role. Dark, because the edge has to be legible as a deliberate mark
+     against both what it encloses and what it sits on: 6.47 against the
+     note's own white, 5.11 against the close call's muted-light outside it.
+     Both are far over the 3:1 a meaningful boundary answers to, which is
+     the floor a decorative hairline was never asked to clear.
+
+     1px AND NOT 2px, and the reason is three hundred lines up in this same
+     comment: .ck-rule takes a 2px caution edge to refuse a truck, and the
+     note used to differ from it by border weight alone, which is not a
+     difference a reader can name. It differs by hue and by ground now --
+     neutral on white against caution on caution-light -- so the weights are
+     free to stay apart rather than carry the distinction. Three kinds of
+     edge, three things said: a tint for a card, the ink for a note worth
+     stopping at, the caution for a refusal.
+
+     THE ELEVATION STAYS UNDER IT. The border is what kind of thing this
+     is; --shadow-card is how far off the page it sits, and it sits at the
+     same height as the load and the fleet, which is the height of a card
+     you read. The two do not double: every rung of the ladder is a tucked
+     drop, so nothing the shadow draws reaches past the line. */
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+/* THE MEASURE, ON THE PROSE. Every block of running text in the cockpit
+   is held to --measure the way the page's own paragraphs are: the note,
+   the status line, the key under the factor bars, the outcomes card and
+   the stored reason. On a monitor the note ran 148 characters to the line
+   and the status line 150, which is a bar, not a sentence. Where the block
+   is a flex box with an icon in front, the cap goes on the text span --
+   the element the prose's own size resolves on, which is the rule SPACING.md
+   gives -- and a box with a ground hugs what it holds, so the note's
+   surface does not run on past its last word as a band of empty white. */
+.ck .ck-fresh { width: fit-content; max-width: 100%; }
+.ck .ck-fresh > span { max-width: var(--measure); }
+.ck .ck-fresh .ck-icon { flex-shrink: 0; color: var(--color-caution-text); }
+.ck .ck-fresh strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+
+/* The key sits with the bars; the disclaimer stays under it. Each of its
+   rows is one part of the drawing beside the line of text that names it, and
+   the samples are real .ck-factor-bars with fixed custom properties, so the
+   key cannot drift from the thing it explains -- only their width and their
+   placement in the row are overridden here.
+
+   A LIST, AND FLEX ROWS RATHER THAN A GRID. Label-and-picture pairs are
+   a list and are marked up as one. The row is a flex box on purpose: a sample
+   is a .ck-factor-bar, which carries grid-column and, under the narrow
+   breakpoint, grid-row for the place it takes in a factor row -- and a flex
+   parent ignores both, so the key needs no counter-declaration that would
+   have to be kept in step with the factor list's own. */
+/* --text-sm with the rest of the supporting run: the key is the only thing
+   on the card that explains what the bars MEAN, so a reader who needs it is
+   by definition the one who cannot yet read the picture without it. */
+.ck .ck-factor-key {
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-factor-key li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+.ck .ck-factor-key li + li { margin-top: var(--space-2xs); }
+.ck .ck-key-sample {
+  grid-column: auto;
+  flex: 0 0 auto;
+  /* 6rem, up from the 4.5 one sample took and the 3.5 before that. A sample
+     is a quarter of the width the real bar is drawn at, and the zone is the
+     piece that cannot survive the reduction: its tint is faint on purpose --
+     1.23:1, with its two edges doing the work -- so at 72px the block the
+     first row points at read as a pair of ticks rather than as a region.
+     The sample's zone is also drawn wider than a real row's, which is the
+     one place the key is a diagram rather than a specimen: the numbers are
+     the sample's own, and what they are chosen for is that each piece is
+     still itself at a quarter size. */
+  width: 6rem;
+  /* Centred on the first line of the sentence it explains. The bar is ink
+     rather than a glyph in a box, so it cannot take the 1lh box the icons
+     above use; half the difference between the line and the bar is the same
+     arithmetic by hand. 0.45em was 1.1px high, and wrong again whenever the
+     bar's height or this row's leading moves -- which the height just did,
+     from 4px to 10px, and this arithmetic followed it without an edit. */
+  margin-top: calc((1lh - 10px) / 2);
+}
+/* --text-sm, with the key above it -- one sentence qualifying the whole
+   picture, and the last place to set it at the floor. */
+.ck .ck-factor-note {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- Where the truck stands, as a bar ----------
+   Three surfaces, and the same three this has always had: the track and its
+   two pseudo-elements, with the one real child drawing the reading. Nothing
+   new is added, on purpose -- curves.mjs counts ELEMENTS, and a fourth mark a
+   row across four bars, two cards and seven reachable states would move that
+   count for drawing that carries no text and no border of its own.
+
+   THIS USED TO BE A FILL FROM THE LEFT EDGE, WHICH IS THE WRONG ENCODING.
+   The quantity is where a truck sits between the worst and the best of the
+   eligible fleet -- a POSITION on a scale, not an amount of anything -- and
+   the drawing spent the length channel on it and started the length at the
+   track's edge. Two things followed. The first is that a fill from the left
+   is the progress-bar idiom, which carries "more filled is further along" so
+   firmly that five of them in a column read as five progress bars and then,
+   because they are all much the same, as texture. The second was structural:
+   a truck AHEAD of the fleet covers the very band it is being compared to,
+   so the band and the middle had to be painted over the top of the fill, and
+   the fill was the heaviest ink on a row whose subject is the figure beside
+   it.
+
+   So the length now runs from the fleet's MIDDLE out to the truck. The origin
+   is fixed and shared, the length is the one thing the row is arguing, and
+   the band is no longer something the reading can hide -- a lead that ends
+   inside it is exactly the case the word "neutral" is for, and it now draws
+   itself.
+
+   10px, not 4. 4px was chosen when the bar was a fill, where thin was the
+   only way to keep five of them from shouting over the figures; a mark that
+   starts at the middle spends a fraction of that ink, so the track can carry
+   a band the eye reads as a region rather than two hairline calipers it has
+   to decode. */
+.ck-factor-bar {
+  grid-column: 1 / -1;
+  /* Block, not the span's default inline: in the factor list it is a grid
+     item and gets this for free, and in a comparison cell and in the key it
+     is neither, where an inline box would drop the height on the floor. */
+  display: block;
+  position: relative;
+  height: 10px;
+  margin-top: var(--space-2xs);
+  margin-bottom: 2px;
+  border-radius: 5px;
+  /* The track, and the level zone's TINT, in one paint. The tint is on the
+     track rather than on a layer of its own so that the reading can sit above
+     it and the zone's two edges can sit above the reading -- which is the
+     order the drawing needs and cannot get from three stacked boxes. Drawn as
+     a box, the zone's right-hand edge was covered by the very lead it exists
+     to bound, on every factor where the truck is ahead of the fleet: three of
+     the four on the opening card. */
+  background-color: var(--color-tag-border);
+  background-image: linear-gradient(90deg,
+    transparent var(--band-l),
+    var(--color-rule) var(--band-l),
+    var(--color-rule) calc(var(--band-l) + var(--band-w)),
+    transparent calc(var(--band-l) + var(--band-w)));
+  /* THE CAPSULE'S EDGE. The fill above is the track's BODY and it cannot also
+     be the track's BOUNDARY, because this bar is drawn on two grounds and the
+     fill only clears one of them. --color-tag-border is a line token spent as
+     a ground here, and COLOR.md section 7 already names the collision that
+     walks into: #e5e5e0 and --color-muted-light #e5e5dd are 1.01:1 apart. On
+     the white card the fill reads at 1.26 and the capsule is there; on the
+     close call, where .ck-lead is muted-light, it reads at 1.00 and the
+     capsule is not -- the level block and the sage or grey lead float on the
+     ground with nothing around them, in every row of the comparison below the
+     white band and in every sample of the key under it. So the boundary comes
+     off the fill and onto a line of its own, and the fill goes back to being
+     the one thing a fill can be on an unknown ground: a body, not an edge.
+
+     --rule-strong, which is charcoal at 16% and the step COLOR.md gives for
+     "a divider that has to read as a divider". Note where it lands: an inset
+     ring paints over the element's own background, so it composites against
+     the track's fill rather than against the page, and it is one colour on
+     every ground -- what changes underneath it is the ground, and the edge
+     reads 1.71 on white, 1.44 on tea-light and 1.35 on muted-light. The
+     opaque line token is worse at every one of those: --color-rule is 1.55,
+     1.31 and 1.23, and 1.23 is the number the block below this already calls
+     too faint to carry a graphic. 1.35 is the floor here, and it is above the
+     1.26 the white card has shipped with all along.
+
+     A RING RATHER THAN A BORDER. A border answers to box-sizing and takes its
+     pixel out of a 10px track, which is the reading's own height twice over.
+     The ring is drawn on the same box, so every number around it -- the 2px
+     inset on the reading, the band's two edges at top 0 and bottom 0, the
+     middle's -3px overhang -- is untouched, and it adds no element, which is
+     the rule the head of this block states. */
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+/* WHERE THE ZONE STOPS, AS TWO EDGES OVER EVERYTHING ELSE. The tint above is
+   what makes the zone a place rather than a pair of ticks, and the tint alone
+   cannot carry it: --color-rule on --color-tag-border is 1.23:1, which reads
+   as a block at this width and is nowhere near the 3:1 a graphic carrying
+   meaning answers to. These two edges are what clear it -- muted-gray is 5.12
+   on the track and 4.17 on the tint -- and they sit ABOVE the reading,
+   because the one question this zone is drawn to answer is whether a lead
+   ends inside it, and an edge the lead covers cannot answer it.
+
+   muted-gray rather than the charcoal these used to be: the middle is the
+   charcoal in this drawing now, and two charcoals separated only by weight
+   was an arrangement a reader had to be told about in order to see. */
+.ck-factor-bar::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: var(--band-l);
+  width: var(--band-w);
+  border-left: 1px solid var(--color-muted-gray);
+  border-right: 1px solid var(--color-muted-gray);
+}
+/* THE READING: from the fleet's middle out to this truck. Inset two pixels
+   top and bottom so it sits INSIDE the track rather than replacing it, which
+   is the arrangement a bullet graph uses for the same reason -- the measure
+   is the featured thing and the range it is measured against stays visible
+   underneath it.
+
+   accent-deep, not accent-text. color.css draws that line by what sits ON the
+   fill rather than by the fill itself: a sage fill carrying no text -- a rule,
+   a bar, an icon -- takes accent-deep. 3.57 against the track, over the 3:1 a
+   non-text mark answers to.
+
+   THE WHITE RING IS LOAD-BEARING. accent-deep on the level band is 2.91,
+   under that floor, and inside the band is precisely where a lead lands when
+   the factor is the neutral one -- the single case this band was drawn for.
+   One pixel of the card's own white between the two puts the sage against
+   white at 4.51 wherever it crosses. */
+.ck-factor-mark {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  bottom: 2px;
+  left: var(--lead-l);
+  width: var(--lead-w);
+  border-radius: 3px;
+  background: var(--color-accent-text);
+  box-shadow: 0 0 0 1px var(--color-white);
+}
+/* THE OTHER TWO VERDICTS. The mark was keyed to which side of the middle it
+   ran to, and everything on the worse side was grey: grey for a factor the
+   card calls "hurts", the same grey for one it calls level, and sage for a
+   level factor that happened to land a hair to the right. Three verdicts in
+   two colours, and the split between them decided by a pixel rather than by
+   the deadband the word uses. The attribute is the verdict now.
+
+   HURTS TAKES THE CAUTION INK. It is the rule this file's header has stated
+   from the beginning -- helps is sage, hurts is the caution ink, neutral is
+   muted-gray -- and the bar was the one place on the page not keeping it,
+   which put a grey bar directly under a caution-ink "hurts" chip saying the
+   same thing. 5.10 on the track, over the 3:1 a non-text mark answers to,
+   and 6.45 against the white ring where it crosses the level block.
+
+   It is INK, not a ground, and that is the line #241 drew: the caution
+   GROUND is the refusal -- one card on the page, the rule that removes a
+   truck -- and the caution INK is a figure the system will not vouch for or
+   is arguing against. The stale-hours note and this bar are the same kind of
+   thing, and a factor that hurts is a suggestion, not a requirement.
+
+   WHAT THIS DOES NOT FIX. Against the sage the caution ink is 1.43:1, which
+   is what the grey was: the two marks are the same lightness and separate on
+   hue alone. The channel a reader actually reads them by is the direction
+   they run from the charcoal middle, and after that the word beside them.
+   The colour is the third, which is why it is worth having it agree with the
+   word rather than run an axis of its own. */
+.ck-factor-bar[data-dir="hurts"] .ck-factor-mark { background: var(--color-caution-text); }
+/* Level: neither side, whichever side it ends on. 5.12 on the track. */
+.ck-factor-bar[data-dir="neutral"] .ck-factor-mark { background: var(--color-muted-gray); }
+/* The fleet's middle, and now the one fixed thing on the card: every row is
+   recentred so this lands at 50%, so the left edge of every lead is the same
+   x and the five rows have a reference to be read against. Charcoal and a
+   single pixel, taller than the track at both ends: the reading is what
+   carries weight, and this is what it is measured from. */
+.ck-factor-bar::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -3px;
+  bottom: -3px;
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
+  background: var(--color-charcoal);
+}
+
+/* The rest of what the note used to say, folded. The summary borrows the
+   disclosure the misses list already uses rather than inventing a second
+   one; grouping the selectors keeps it one rule, so the state count does not
+   move for a pattern the page already had. The hairline above it came with
+   that borrowing, and it is part of the control rather than decoration on
+   the other one: it is what makes a 44px row read as a row instead of a
+   line of sage text floating under the paragraph before it. */
+.ck-note { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
+.ck-note-body { padding-bottom: var(--space-xs); }
+.ck .ck-note-body p {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* The three card heads carried a 20px glyph each for one release, as the
+   audit's answer to a screen with twenty-two annotating icons and no
+   landmarks. The diagnosis was right and this was the wrong fix: a glyph that
+   size beside a four-word heading competes with the heading instead of
+   locating it, and the heading was already the landmark. The audit's other
+   four findings -- the value sizes, the one raised surface, the folded note,
+   the fleet bars -- are what actually gave the card places to land.
+
+   Sub-heads inside the panel: a rung under the recommendation's h3. */
+.ck .ck-h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+
+/* The record. A count, what "like this one" means, and the misses behind a
+   disclosure, because the pattern in the misses is the part a dispatcher
+   can act on. */
+/* NOT A CARD ANY MORE, ON PURPOSE. Until now this and .ck-also were white
+   cards with a --color-rule edge, exactly like .ck-card beside them: three
+   identical objects, one of which is the recommendation and two of which are
+   the history behind it, with nothing on the screen saying which was which.
+   Border, fill and radius each say "separate object", and spending them on
+   all three flattened the hierarchy they were supposed to build.
+
+   The ground was already here. .ck-lead is --color-tea-light and both
+   columns sit on it, so the way to put the evidence on the tint is to stop
+   painting white over it -- no new colour enters the palette and the one
+   already there starts carrying rank. What is left is one raised white
+   surface, the card with the Assign button on it, and one tinted region
+   beside it to consult. The inset stays so nothing shifts; only the fill and
+   the edge go. Every ink here clears its floor on tea-light: charcoal at
+   12.90, accent-text at 4.90, and accent-hover is darker than accent-text. */
+.ck-confidence {
+  padding: var(--space-lg) var(--space-xl);
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+/* THE COUNT, AS A FIGURE. The number and its unit share a baseline so the
+   pair reads as one object and spends the panel's width rather than its
+   height; --text-xl puts the number one rung under .ck-reco-h, which is the
+   thing this panel is evidence FOR, and one over the factor values at
+   --text-lg. Tabular figures because the count changes with the scenario and
+   a figure that reflows as you switch tabs is a figure that twitches.
+
+   Charcoal, not the accent. Accent ink at this size would make the count the
+   loudest thing in the column, and the loudest thing in the column is the
+   button on the card beside it. */
+.ck .ck-conf-figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-xs);
+  margin: 0;
+  max-width: var(--measure);
+}
+.ck .ck-conf-count {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+.ck .ck-conf-unit {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* The close call's reading, at the weight the figure it corrects is set in.
+   Everything else under the figure is fine print; this is not. */
+.ck .ck-conf-read {
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* Fine print: what "like this one" means, and how to read the count. Both
+   qualify the figure rather than saying anything a dispatcher acts on, so
+   they take the caption treatment the folded note already uses -- --text-xs
+   on muted-gray, which is 5.44 on tea-light against a 4.5 floor. */
+.ck .ck-conf-fine {
+  margin: var(--space-2xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-conf-figure + .ck-conf-fine,
+.ck .ck-conf-read + .ck-conf-fine { margin-top: var(--space-xs); }
+/* What to watch for on this load: the one line per miss that changes what
+   the dispatcher checks, on the card rather than behind the disclosure
+   under it. It keeps --text-sm on charcoal while the two lines above it
+   dropped to fine print, which is the point -- these are the lines a
+   dispatcher acts on and those qualify a figure. The label is the card's
+   own small-caps label, and the list is numbered because the disclosure
+   below lists the loads they came from in the same order. */
+.ck-conf-watch { margin-top: var(--space-md); }
+/* The label's own size, said again here, because the page's paragraph rule
+   outranks .ck-label on a <p> and would set this at body size. */
+.ck .ck-conf-watch-h { margin: 0; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-accent-text); }
+.ck-conf-watch-list {
+  margin: var(--space-2xs) 0 0;
+  padding: 0 0 0 var(--space-lg);
+  display: grid;
+  gap: var(--space-2xs);
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* A disclosure that looks like one. It was sage underlined text, which is
+   this site's link, so the one control on the card that expands in place
+   read as a control that navigates away -- and its hit area was the 20px
+   of the words themselves. It is a full-width row now: label left, chevron
+   right, a rule above it, and the whole row clickable at 44px. That row is
+   declared once, under "The deeper argument, folded", because the
+   walkthrough's disclosures are the same control and used to be drawn a
+   second way; what is left here is where this one sits and what is in it. */
+.ck .ck-miss-fine { margin-bottom: var(--space-sm); }
+.ck-misses { margin-top: var(--space-md); border-top: 1px solid var(--rule-hairline); }
+.ck-miss-list {
+  margin: 0 0 var(--space-sm);
+  padding: 0 0 0 var(--space-lg);
+  display: grid;
+  gap: var(--space-sm);
+}
+.ck .ck-miss-what,
+.ck .ck-miss-tell {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-miss-tell { margin-top: var(--space-2xs); }
+.ck .ck-miss-load { font-weight: var(--weight-semibold); }
+
+/* Also considered: rank, then the one line. */
+/* The second half of the same region, so it loses its card for the same
+   reason. The hairline is what still divides the two, and the radius has to
+   go with the fill rather than merely being unused: a top border on a
+   surface that kept its corner is a partial border on a curve, which is the
+   one thing curves.mjs exists to refuse. */
+.ck-also {
+  padding: var(--space-lg) var(--space-xl);
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--rule-hairline);
+  border-radius: 0;
+}
+.ck-also-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.ck-also-list li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-also-rank { font-weight: var(--weight-semibold); }
+.ck .ck-also-body strong { font-weight: var(--weight-semibold); }
+
+/* ---------- The status line ----------
+   A live region, always in the document, on the feature ground so an update
+   is somewhere the eye already goes. */
+.ck .ck-status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-sm) var(--space-xl);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  background: var(--color-muted-light);
+  /* The same rung as .ck-lead and for the same reason: a tinted region, not
+     a card. 1.16:1 of fill against the warm ground was the whole of what
+     separated it, and the lift is what puts it in front of the page without
+     borrowing the height of something you act on. The edge is the same
+     --rule-card, composited over this line's own muted-light rather than
+     over white, so it lands at 1.84:1 on warm -- darker than a white card's
+     edge, which is the tint doing what an opaque token could not. */
+  box-shadow: var(--shadow-zone);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+/* Tinted, not filled: a filled sage line was tried on 2026-09-11 and read
+   as a second button. The line keeps the muted ground for everything the
+   cockpit can do and takes the caution ground for the one thing it cannot --
+   a truck a rule refuses. A close call used to be painted here too, which
+   put "the two are level" in the same colour as "this is not allowed".
+   Charcoal on muted-light 12.10, on caution-light 12.44. */
+.ck .ck-status[data-tone="refused"] { background: var(--color-caution-light); }
+.ck .ck-status:empty { display: none; }
+/* Hugs its text, held to the measure, like .ck-fresh above: a pill that
+   runs the width of the panel with thirty words at its left end is a bar. */
+.ck .ck-status { width: fit-content; max-width: 100%; }
+.ck .ck-status > span { max-width: var(--measure); }
+.ck .ck-status .ck-icon { flex-shrink: 0; color: var(--color-accent-text); }
+.ck .ck-status[data-tone="refused"] .ck-icon { color: var(--color-caution-text); }
+.ck .ck-status[data-tone="close"] .ck-icon { color: var(--color-charcoal); }
+.ck .ck-status[data-tone="note"] .ck-icon { color: var(--color-muted-gray); }
+
+/* ---------- The optional question ----------
+   Cheap by construction: it appears after the assignment, not before it;
+   nothing in it is required; Skip is a button of the same weight as Save. */
+.ck-why { padding: var(--space-lg) var(--space-xl); }
+.ck .ck-why-head {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-opt { font-weight: var(--weight-regular); color: var(--color-muted-gray); }
+.ck-why-set {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.ck-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+.ck-radio input {
+  accent-color: var(--color-accent-text);
+  width: 1rem; height: 1rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+.ck-why-text { display: block; margin-top: var(--space-2xs); }
+.ck-why-text textarea {
+  display: block;
+  width: 100%;
+  max-width: var(--measure);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: 4px;
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  resize: vertical;
+}
+.ck-why-text textarea::placeholder { color: var(--color-muted-gray); opacity: 1; }
+.ck .ck-why-what {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-act {
+  margin: var(--space-md) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.ck .ck-why-done {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+
+/* ---------- Buttons ----------
+   The site's two shapes: a filled sage and a quiet outline, both pills.
+   The fill is accent-text, not accent-deep, for the reason color.css gives:
+   warm on accent-text is 5.32:1 and on accent-deep 4.12:1, and a ground
+   carrying text answers to the text floor. */
+.ck .ck-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+.ck .ck-btn-primary {
+  background: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-btn-primary:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+}
+.ck .ck-btn-quiet {
+  border-color: var(--color-muted-gray);
+  color: var(--color-charcoal);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-btn-quiet:hover { background: var(--wash-on-light-hover); }
+}
+/* Not disabled in the DOM, so it stays in the tab order and can be read;
+   aria-disabled says what it is, the copy says why. Muted-gray on white is
+   6.47:1 as text and as the border. */
+.ck .ck-btn[aria-disabled="true"] {
+  color: var(--color-muted-gray);
+  border-color: var(--color-muted-gray);
+  cursor: not-allowed;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-btn[aria-disabled="true"]:hover { background: none; }
+}
+.ck table .ck-btn { padding: var(--space-2xs) var(--space-sm); border-color: var(--color-muted-gray); }
+/* THE WASH IS FOR THE QUIET BUTTONS, AND IT USED TO ERASE THE LOUD ONE.
+   `table` is a type selector, so `.ck table .ck-btn:hover` scores (0,3,1)
+   against `.ck .ck-btn-primary:hover`'s (0,3,0) and wins. The comparison is a
+   <table class="ck-vs">, and the button it offers for each option is a primary
+   -- near-white ink on the accent green. Hovering it therefore kept the ink
+   and swapped the green for a 6%-opacity wash over a light ground: measured on
+   a real pointer, 5.32:1 at rest and 1.29:1 under the cursor. The label
+   vanished at the moment it was being pressed.
+   :not() rather than raising the primary's specificity, because the intent is
+   what wants saying -- this wash belongs to the plain row buttons. */
+@media (hover: hover) and (pointer: fine) {
+  .ck table .ck-btn:not(.ck-btn-primary):hover { background: var(--wash-on-light-hover); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck table .ck-btn[aria-disabled="true"]:hover { background: none; }
+}
+
+/* ---------- The fleet ----------
+   Every truck and every column the recommendation weighed, sortable, never
+   collapsed. The wrapper scrolls sideways on its own; the page does not.
+
+   THE HEAD IS THE DARK BAND. Until #69 the head was muted-gray text on the
+   same white as the rows, with a wrapped label wherever the browser chose
+   and a text glyph on every column, so the row that names the columns was
+   the quietest thing on the table. It sits on charcoal now, COLOR.md's own
+   dark band, in the tokens that band already uses: warm for the sorted
+   column (14.02), ink-on-dark-secondary for the rest (8.49), ink-on-dark-
+   muted for a unit line (5.26), accent-on-dark for the sort chevron (7.47).
+   Muted-gray never appears on it. Every head is a label on one line and,
+   where a number needs one, a unit on the line under it, so nothing wraps
+   where it was not told to.
+
+   A SORT INDICATOR IS EARNED. The sorted column shows one chevron, in sage,
+   the direction it is sorted. The others show nothing at rest and a
+   two-way chevron under the pointer or the focus ring, so the eye finds the
+   one column that is ordered instead of ten that could be. On a right-
+   aligned column the chevron sits before the label, so the label's right
+   edge lines up with the numbers under it.
+
+   The action column is right-aligned, head and buttons together, so the
+   buttons' edge is the table's edge and the head sits over the buttons
+   rather than a padding's width to the left of them. The buttons carry the
+   quiet outline in the table, not only when disabled; a bold word with no
+   edge read as a caption. */
+.ck-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ck-table {
+  width: 100%;
+  min-width: 60rem;
+  border-collapse: collapse;
+}
+/* 12 down, 8 across. The vertical inset is the row's rhythm and does not
+   move; the horizontal one is column width, ten columns of it, and 4px a
+   side is 80px of table -- which is what the fleet was overflowing its wrap
+   by once the frame came in to the content's width. A data table is allowed
+   to be denser across than a card is; what it is not allowed to be is
+   cut off. The outer inset at the two ends stays --space-md, so the table
+   still starts and ends on the screen's own margin. */
+.ck-table th,
+.ck-table td {
+  padding: var(--space-sm) var(--space-xs);
+  text-align: left;
+  vertical-align: middle;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ck-table tbody th:first-child,
+.ck-table tbody td:first-child { padding-left: var(--space-md); }
+.ck-table tbody th:last-child,
+.ck-table tbody td:last-child { padding-right: var(--space-md); }
+.ck-table tbody tr:last-child th,
+.ck-table tbody tr:last-child td { border-bottom: 0; }
+.ck-table .ck-num { text-align: right; font-variant-numeric: tabular-nums; }
+.ck-table tbody th { font-weight: var(--weight-regular); white-space: nowrap; }
+.ck-table td:nth-child(2) { font-weight: var(--weight-semibold); }
+.ck-table .ck-cell-text { white-space: nowrap; }
+.ck-table .ck-cell-act { text-align: right; white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) {
+  .ck-table tbody tr:not(.is-lead):not(.is-assigned):hover th,
+  .ck-table tbody tr:not(.is-lead):not(.is-assigned):hover td { background: var(--color-warm); }
+}
+
+/* The head. The cell carries no padding of its own; the button or the span
+   inside it does, so the whole cell is the sort target. */
+.ck-table thead th {
+  /* The head is the charcoal band of this table, and the sort buttons sit
+     inside it, so the ring is set here and inherited by them. */
+  --color-focus-ring: var(--color-accent-on-dark);
+  padding: 0;
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  border-bottom: 0;
+  vertical-align: top;
+}
+.ck-table th[aria-sort="ascending"],
+.ck-table th[aria-sort="descending"] { color: var(--ink-on-dark); }
+/* The head cell carries padding: 0 and this is what insets it, so it takes
+   the same 12-and-8 as a body cell or the head sits proud of its column. */
+.ck .ck-th {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-xs);
+  text-align: inherit;
+}
+.ck-table thead th:first-child .ck-th { padding-left: var(--space-md); }
+.ck-table thead th:last-child .ck-th { padding-right: var(--space-md); }
+.ck-table thead th.ck-num .ck-th,
+.ck-table thead th.ck-cell-act .ck-th { justify-content: flex-end; }
+.ck .ck-th-text { display: block; min-width: 0; }
+.ck .ck-th-label { display: block; white-space: nowrap; }
+.ck .ck-th-unit {
+  display: block;
+  font-weight: var(--weight-regular);
+  color: var(--ink-on-dark-muted);
+  white-space: nowrap;
+}
+.ck .ck-sort {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-sort:hover { color: var(--ink-on-dark); }
+}
+/* Sized by the group above, not nudged: the column head is a top-aligned
+   flex row so the arrow stays on the first line when "At pickup by" wraps to
+   two, and 0.125em put it 1.2px above that line's centre. */
+.ck .ck-sort-icon {
+  color: var(--color-accent-on-dark);
+  opacity: 0;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.ck-table thead th.ck-num .ck-sort-icon { order: -1; }
+.ck-table th[aria-sort="ascending"] .ck-sort-icon,
+.ck-table th[aria-sort="descending"] .ck-sort-icon,
+.ck .ck-sort:focus-visible .ck-sort-icon { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-sort:hover .ck-sort-icon { opacity: 1; }
+}
+
+/* THE DIRECTION IS A HALF TURN, NOT A SECOND GLYPH. The registry used to
+   hold `sortUp` and `sortDown`, and the second was the first rotated 180
+   degrees about the centre of the box -- so the only thing the mark could do
+   when a reader reversed a column was cut from one shape to an identical
+   shape pointing the other way. One glyph, rested at 180 by the aria-sort
+   the head already carries, is the same picture and can turn.
+
+   Rested here, ANIMATED on a press, and both are needed for the reason the
+   chevron's block above sets out: the th is rewritten by renderTable, so the
+   angle alone would only ever be arrived at, never travelled to. data-turn
+   names the direction being turned TO, so the two keyframes are inverses and
+   reversing a column twice winds and unwinds rather than spinning on. */
+.ck-table th[aria-sort="descending"] .ck-sort-icon { rotate: 180deg; }
+@keyframes ck-sort-to-desc { from { rotate: 0deg; } }
+@keyframes ck-sort-to-asc  { from { rotate: 180deg; } }
+.ck .ck-sort-icon[data-turn="desc"] { animation: ck-sort-to-desc var(--motion-state) var(--ease); }
+.ck .ck-sort-icon[data-turn="asc"]  { animation: ck-sort-to-asc  var(--motion-state) var(--ease); }
+
+/* Row states. Each is a ground AND a word in the rank cell.
+   Lead: the feature ground, tea-light; charcoal 12.90, muted-gray 5.44.
+   Assigned: the alternate ground, muted-light; charcoal 12.10.
+   Blocked: caution-light, charcoal 12.44, the rank in the caution ink at
+   5.23 with a stop glyph.
+   Hover, on a row that is neither: warm; charcoal 14.02, muted-gray 5.91. */
+.ck-table .ck-row.is-lead th,
+.ck-table .ck-row.is-lead td { background: var(--color-tea-light); }
+.ck-table .ck-row.is-assigned th,
+.ck-table .ck-row.is-assigned td { background: var(--color-muted-light); font-weight: var(--weight-semibold); }
+.ck-table .ck-row.is-blocked th,
+.ck-table .ck-row.is-blocked td { background: var(--color-caution-light); }
+.ck-table .ck-row.is-blocked td:nth-child(2) { font-weight: var(--weight-regular); }
+/* style.css makes every svg a block, which put the stop glyph on its own
+   line above the words; inline-flex keeps them on one. */
+/* "Over hours" is allowed to take two lines, and the column is given a
+   width narrow enough that it does. Held on one line it was the widest thing
+   in the rank column in the blocked situation and pushed the fleet past its
+   wrapper -- on the one screen whose whole argument is that it fits. The
+   words are their own span so the text has something to wrap inside; a bare
+   text node next to the glyph is one anonymous flex item and wraps nowhere.
+
+   The width is a preference, not a cap: auto table layout will still take
+   more if a row genuinely needs it, which is what keeps "Over hours" from
+   being clipped if the copy ever grows. */
+.ck-table thead th:first-child { width: 4.5rem; }
+.ck .ck-rank-rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-caution-text);
+}
+.ck .ck-rank-rule .ck-icon { margin-top: 0.15em; }
+/* The rank cell, stacked: ordinal over marks.
+
+   NOT WITH display:flex ON THE CELL. A th given a flex display stops being a
+   table-cell, and a box that is not a table-cell does not stretch to its
+   row: this one sized to its own content and sat at the top of the row,
+   carrying its border-bottom up there with it. Every row whose other cells
+   wrapped to two lines therefore drew the rank column's hairline 10px or
+   17px above the one running across the rest of the row, and the ordinal sat
+   a line higher than the truck id beside it. Two visible faults from one
+   declaration, and neither is anything the four checks can see -- they read
+   colour, type and borders-on-curves, and this is a box model.
+
+   The stack is a block one instead. The cell stays a table-cell, so it
+   stretches, its border meets its neighbours' and vertical-align:middle puts
+   the ordinal on the same line as everything else in the row. */
+.ck-table .ck-cell-rank { white-space: normal; }
+.ck .ck-rank-n { display: block; }
+/* The marks stack too, rather than running along one line. A row can carry
+   two of them -- "assigned" and a moved marker, or "Option A" and a moved
+   marker -- and side by side those two set the whole column to 106px in the
+   override situation, which was the last thing standing between the fleet
+   and its wrapper. */
+.ck .ck-rank-marks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-top: 2px;   /* was the cell flex's gap, before the cell stopped being one */
+}
+/* A TAG IS ONE LINE. "Option A" broke after "Option" and set the label as
+   two, which reads as two marks rather than one and pushes the row's
+   ordinal off the line its truck id sits on. The column's 4.5rem is a
+   preference and not a cap, so nowrap is simply the tag telling auto layout
+   its real minimum: at 1440 the rank column takes 93px in the close call
+   instead of 81px, and the twelve come off the two widest text columns --
+   Driver 129 and Now at 123 -- neither of which was near wrapping. The
+   table stays at its wrapper's width with nothing to scroll, and 93px is
+   the width the column already took in the override situation, where the
+   "assigned" tag is the widest thing in it. The table's own widest demand
+   is therefore unchanged: 1107px in both situations, which is what a
+   viewport under about 1150 scrolls to either way.
+
+   "Over hours" is the one mark still allowed to wrap, and it is not a tag:
+   it is .ck-rank-rule, which keeps its own flex-wrap and the narrow column
+   that makes it take two lines. */
+.ck .ck-rank-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  white-space: nowrap;
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-accent-text);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  vertical-align: 0.1em;
+}
+/* The assigned row's state word, out of the button and in with the row's
+   other tags. White ground, accent-text on it 5.82. */
+.ck .ck-tag-lead {
+  background: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+  color: var(--color-warm);
+}
+.ck .ck-cell-note {
+  display: block;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+
+.ck .ck-why-done:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---------- Focus ----------
+   style.css rings links and buttons. These are the controls it does not
+   name. The ring is the fill sage: 4.51 on white, 4.12 on warm, 3.80 on
+   tea-light, all over the 3:1 a focus indicator answers to. The sort
+   buttons fill their cell in the charcoal head, so they ring inward, 3.40
+   on charcoal, where the wrapper's rounded overflow cannot clip it. */
+/* No summary here any more: `style.css` names one, since it now carries the
+   disclosure row for this page and the design system's both. */
+.ck input:focus-visible,
+.ck textarea:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.ck .ck-sort:focus-visible { outline-offset: -3px; }
+
+/* ======================= THE CLOSE CALL, COMPARED =========================
+   Two recommendation cards side by side were two READINGS, not a comparison.
+   The same five factors in the same order in two boxes means the reader does
+   the comparing: find the fourth row on the left, hold 5.8, find the fourth
+   row on the right, subtract. Five times. And on a phone the cards stack, so
+   the two halves of each comparison ended up about nine hundred pixels apart,
+   which is not a comparison at all -- it is a memory test.
+
+   It is a <table> now, and the markup is most of the fix: <th scope="col"> on
+   each option and <th scope="row"> on each factor is what lets a screen
+   reader say "Hours of service left, Option B, 8.4 h" from a single cell.
+   The pair of cards could not produce that sentence in any order.
+
+   THE TWO DECISIVE ROWS SORT TO THE TOP and take the white raised surface,
+   which is this cockpit's existing grammar for "the thing to act on". The
+   rest keep the zone's muted ground. Row order is the argument.
+
+   FIXED LAYOUT, so the two option columns are exactly equal: a comparison
+   whose columns are different widths is one the eye reads as weighted. ==== */
+.ck .ck-vs {
+  width: 100%;
+  margin: var(--space-lg) 0 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.ck .ck-vs th,
+.ck .ck-vs td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ck .ck-vs thead th,
+.ck .ck-vs thead td { border-bottom: 1px solid var(--color-rule); }
+.ck .ck-vs tfoot td { border-bottom: 0; }
+.ck .ck-vs-corner { width: 30%; border-bottom-color: transparent; }
+
+/* The option head: what it is, which truck, and who is driving it. */
+.ck .ck-vs-opt { width: 35%; }
+.ck .ck-vs-opt-label { display: block; color: var(--color-accent-text); font-size: var(--text-xs); line-height: var(--leading-ui); }
+.ck .ck-vs-opt-id {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-opt-who {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .ck-vs-opt.is-assigned .ck-vs-opt-label { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+
+/* The factor, as the row's head. */
+.ck .ck-vs-factor { font-weight: var(--weight-regular); }
+/* --text-base, with .ck-factor-name and for its reason: this is the same
+   label on the other surface, and the comparison is the one a close call is
+   actually decided on. Two sizes for one job would be the worse answer. */
+.ck .ck-vs-factor-name {
+  display: block;
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-tag {
+  display: inline-block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+/* --text-sm. "derived, not ranked" is the disclaimer on a row a dispatcher
+   may otherwise read as a factor, which makes it the wrong line to shrink. */
+.ck .ck-vs-note {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* A cell: the figure, the verdict under it, the fleet bar under that. The
+   two bars for one factor now sit on one line, which is the arrangement that
+   makes them worth drawing at all. */
+.ck .ck-vs-value {
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+.ck .ck-vs-dir {
+  justify-content: flex-start;
+  min-width: 0;
+  margin-top: var(--space-2xs);
+  text-align: left;
+}
+.ck .ck-vs-cell .ck-factor-bar { margin-top: var(--space-xs); }
+
+/* The two rows that separate them, raised onto white. Forced by states.mjs
+   onto every row, which is harmless: all four inks clear on white. */
+.ck .ck-vs-row.is-decisive th,
+.ck .ck-vs-row.is-decisive td { background: var(--color-white); }
+
+/* The derived reading, last and marked as derived. It is figured from the
+   miles the ranking weighed; it is not a sixth factor and must not read as
+   one, so it sits below the five with the words saying so. */
+.ck .ck-vs-derived .ck-vs-value { font-size: var(--text-base); }
+.ck .ck-vs-win .ck-vs-dir { color: var(--color-muted-gray); }
+.ck .ck-vs-win[data-window="tight"] .ck-vs-dir,
+.ck .ck-vs-win[data-window="misses"] .ck-vs-dir { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.ck .ck-vs-act { padding-top: var(--space-lg); }
+
+/* ===================== THE FLEET'S HEAD, AND ITS DENSITY ==================
+   The fleet was the one region of the cockpit with no visible heading at all
+   -- a hidden <caption> and nothing else -- so a reader scrolling past a
+   thousand pixels of interface arrived at the data table with nothing saying
+   what it was. The heading is the landmark; the switch beside it is the
+   other half of the argument the table makes.
+
+   WHY A DENSITY SWITCH IS NOT A GIMMICK HERE. A dispatch floor runs denser
+   than a portfolio page. A prototype that only ever shows the comfortable end
+   is quietly proposing a screen nobody would ship, and the page's fourth
+   decision -- keep the whole fleet in reach -- is exactly the claim that gets
+   harder as rows get shorter. Both ends are on screen, and the reader can
+   see the tradeoff rather than take my word for it. ======================== */
+.ck .ck-fleet-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.ck .ck-fleet-h { margin: 0; }
+.ck .ck-density {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+}
+.ck .ck-density-btn {
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: var(--space-2xs) var(--space-sm);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-density-btn[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
+}
+/* The selected end takes the tabs' own idiom: charcoal under warm, 14.02. */
+.ck .ck-density-btn[aria-pressed="true"] {
+  background: var(--color-charcoal);
+  color: var(--color-warm);
+  font-weight: var(--weight-semibold);
+}
+
+/* ======================= A ROW THAT OPENS IN PLACE ========================
+   "Also considered" explained why second and third lost and stopped there;
+   the other four kept their figures and never got a reason. This is the same
+   open-in-place disclosure the misses list and the comparisons note already
+   use -- one idiom for "there is more here", not a third invention.
+
+   It is also what answers the phone. Under 48rem the stylesheet drops six of
+   the eleven columns and this row is where they go, so nothing is lost and
+   what is left fits in 292px instead of scrolling 1104px of table behind an
+   invisible scrollbar. ==================================================== */
+/* "Can't assign" takes two lines in the fleet. It is the widest control in
+   the table and one blocked row sets the whole action column: 138px against
+   the 74 an enabled row needs. The reason it can afford to wrap here and
+   nowhere else is that the blocked row already says "Over hours" where its
+   rank would be, so the button is the second telling, not the first. */
+.ck-table .ck-btn[aria-disabled="true"] { white-space: normal; }
+
+/* "Assign" alone in the fleet, "Assign T-118" still in its accessible name:
+   the id is the row's own second cell, and spelling it out again cost the
+   action column 141px of a table with 1118 to spend. */
+.ck .ck-table .ck-cell-act .ck-btn-id {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.ck-table .ck-cell-truck { padding: 0; }
+.ck .ck-row-more {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-2xs) var(--space-xs) var(--space-xs);
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  text-align: left;
+  /* The id is the label and must not break: the button is narrower than the
+     cell was, and "T-118" came back as "T-" over "118" on every row. */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-row-more:hover { color: var(--color-accent-hover); }
+}
+/* THE QUARTER TURN, WHICH UNTIL NOW WAS A CUT WEARING A TRANSITION.
+   The transition below is not new and has never run once: renderTable
+   rewrites the whole table on every press, so the node that would have
+   transitioned is gone by the time the class changes and its replacement is
+   BORN at the new angle. It is kept because it is right for the day this
+   button stops being replaced, and the animation under it is what actually
+   turns the mark today -- the same "tell the replacement what it replaced"
+   move the assigned ground makes.
+
+   `rotate` rather than `transform: rotate()`, so the resting angle and the
+   animation are the same property and an animation of it does not have to
+   restate an angle it is not responsible for. */
+.ck .ck-row-chev {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--color-muted-gray);
+  rotate: -90deg;
+  transition: rotate var(--motion-state) var(--ease);
+}
+.ck .ck-row-more[aria-expanded="true"] .ck-row-chev { rotate: 0deg; }
+@keyframes ck-chev-open  { from { rotate: -90deg; } }
+@keyframes ck-chev-close { from { rotate: 0deg; } }
+.ck .ck-row-chev[data-turn="open"]  { animation: ck-chev-open  var(--motion-state) var(--ease); }
+.ck .ck-row-chev[data-turn="close"] { animation: ck-chev-close var(--motion-state) var(--ease); }
+.ck .ck-row-more:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: -3px; border-radius: 4px; }
+
+/* The detail row takes the warm ground, so an opened row is visibly a note
+   about the row above rather than another truck. Charcoal 14.02 on it. */
+.ck-table .ck-row-detail > td { padding: 0; background: var(--color-warm); }
+.ck .ck-detail {
+  display: grid;
+  gap: 0;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  max-width: 34rem;
+}
+.ck .ck-detail-who {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-detail-why {
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ck .ck-why-rank-rule { display: inline-flex; align-items: baseline; gap: var(--space-2xs); color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+.ck .ck-detail-act { margin: var(--space-md) 0 0; }
+/* The detail is a panel, not a dense row, so its button takes the site's
+   full 44 rather than the 30 a fleet row can afford. */
+.ck .ck-detail-act .ck-btn { min-height: 2.75rem; padding-inline: var(--space-md); }
+.ck .ck-detail .ck-factors { margin-top: var(--space-md); }
+
+/* ---------- Where a row came from ----------
+   Switching situations re-ranks seven rows silently, and which ones moved is
+   the first thing anyone flicking between four situations wants to know. A
+   direction, a number of places, and the words in the row for a reader who
+   cannot see the glyph. Cleared by the reader's next action rather than by a
+   timer: a mark that leaves on its own leaves while it is being read.
+   muted-gray clears on all four row grounds -- 6.47 white, 5.44 tea-light,
+   5.11 muted-light, 5.25 caution-light. */
+.ck .ck-rank-moved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ck .ck-rank-moved .ck-icon { width: 0.75em; height: 0.75em; }
+
+/* ---------- The window, in the data table ---------- */
+.ck-table .ck-cell-win { white-space: nowrap; }
+.ck-table .ck-cell-win .ck-cell-note { color: var(--color-muted-gray); }
+.ck-table .ck-cell-win[data-window="tight"] .ck-cell-note,
+.ck-table .ck-cell-win[data-window="misses"] .ck-cell-note { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+
+/* ---------- Assign, as a target ----------
+   30px in a 55px row cleared the 24px the success criterion asks for and
+   missed the 44px every other round control on this site holds itself to.
+   The button keeps its size and the TARGET grows to 44 through a pseudo-
+   element, so the row's rhythm does not change and curves.mjs counts no new
+   element. In compact the extender comes off, because a 44px target in a
+   38px row is a target that overlaps the row above. */
+.ck table .ck-btn { position: relative; }
+.ck .ck-fleet:not(.is-compact) table .ck-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2.75rem;
+  transform: translateY(-50%);
+}
+
+/* ---------- Compact ----------
+
+   PADDING-BLOCK, NOT THE SHORTHAND, AND NOT ON thead.
+
+   This was `padding: var(--space-2xs) var(--space-xs)` on every th and td in
+   the fleet, and it did three things where it meant to do one. The horizontal
+   half was already what the base rule sets -- both are --space-xs -- so the
+   only real change was ever the vertical; the rest was collateral.
+
+   It reset `thead th { padding: 0 }`. The head cell is deliberately empty of
+   padding so the .ck-th inside can carry the same 12-and-8 a body cell has,
+   which is the comment at that rule. Adding 8px to the cell put it on top of
+   the 8px already on the button, so in compact every header label sat 8px
+   further into its column than the values under it -- right on the left-hand
+   columns, left on the right-aligned ones, and 16px on Rank, which has the
+   first-child inset too. It also made the head TALLER in compact than in
+   comfortable, 4+12 a side against 12.
+
+   And it flattened the first and last columns' outer inset, because
+   `.ck .ck-fleet.is-compact .ck-table th` outranks `.ck-table tbody
+   th:first-child`, so the table stopped starting on the screen's own margin.
+
+   padding-block changes the one thing compact is about and leaves the
+   horizontal rhythm, the head's zero and the outer insets alone. */
+.ck .ck-fleet.is-compact .ck-table tbody th,
+.ck .ck-fleet.is-compact .ck-table tbody td { padding-block: var(--space-2xs); }
+.ck .ck-fleet.is-compact .ck-table thead .ck-th { padding-block: var(--space-2xs); }
+/* The truck id is a button filling a cell with no padding of its own, so this
+   padding IS the column's left inset and has to stay on --space-xs like every
+   other cell's. At --space-2xs the id sat 4px left of the word "Truck" above
+   it -- the one column in compact still out of line once the head stopped
+   being padded twice. Only the vertical compresses. */
+.ck .ck-fleet.is-compact .ck-row-more { min-height: 0; padding: var(--space-2xs) var(--space-md) var(--space-2xs) var(--space-xs); }
+.ck .ck-fleet.is-compact .ck-table .ck-cell-note { display: none; }
+.ck .ck-fleet.is-compact .ck-table .ck-rank-tag { font-size: var(--text-2xs); }
+
+/* ---------- Narrow ----------
+   The four ramps bottom out at 400px, which is the width this is built to.
+   Cards give back the inset a panel takes; the table keeps its width and
+   scrolls in its wrapper. */
+/* ============== THE FLEET, UNDER 48rem: FEWER COLUMNS, NOT LESS DATA ======
+   At 390px the wrapper is 292px and the table authors 960, so a phone reader
+   got Rank, Truck and Driver and a silent 812px of horizontal scroll holding
+   every figure and every Assign button. The blocked situation's own nudge
+   asks the reader to assign T-114 from the data table, which on a phone was
+   an instruction to find a control that nothing said was there.
+
+   Seven columns come off and the row disclosure carries them, so the fleet
+   is still whole -- one tap per truck instead of a scroll with no bar on it.
+   What stays is the smallest set a phone reader can triage from: the rank,
+   the truck, when it would reach the pickup, and the button. That is the
+   page's "keep the whole fleet in reach" honoured rather than repeated,
+   because a column nobody can find is not in reach.
+
+   HOURS LEFT IS THE ONE THAT HURT TO CUT, and it is cut on arithmetic
+   rather than taste. Five columns wanted 325px of a 292px wrapper even after
+   every tag, inset and gutter had been squeezed; four want 264. The hours
+   are not gone from the phone -- the blocked row still says "Over hours"
+   where its rank would be, the rule card above still spells out the figure
+   and the limit, and the row disclosure carries the factor with its bar. */
+@media (max-width: 47.99rem) {
+  .ck-table { min-width: 0; }
+  .ck-table th:nth-child(3),  .ck-table td:nth-child(3),
+  .ck-table th:nth-child(4),  .ck-table td:nth-child(4),
+  .ck-table th:nth-child(5),  .ck-table td:nth-child(5),
+  .ck-table th:nth-child(7),  .ck-table td:nth-child(7),
+  .ck-table th:nth-child(8),  .ck-table td:nth-child(8),
+  .ck-table th:nth-child(9),  .ck-table td:nth-child(9),
+  .ck-table th:nth-child(10), .ck-table td:nth-child(10) { display: none; }
+  .ck-table th, .ck-table td { padding-inline: var(--space-2xs); }
+  .ck-table tbody th:first-child, .ck-table tbody td:first-child { padding-left: var(--space-xs); }
+  .ck-table tbody th:last-child, .ck-table tbody td:last-child { padding-right: var(--space-xs); }
+  .ck-table thead th:first-child .ck-th { padding-left: var(--space-xs); }
+  .ck-table thead th:last-child .ck-th { padding-right: var(--space-xs); }
+  /* The pick and option tags go under the ordinal rather than beside it:
+     beside it, the rank column alone wanted 67px of a 292px table. display
+     is flex and not inline-flex on purpose -- an inline box sits back on the
+     same line and saves nothing. */
+  /* A head is allowed two lines here. The rule that keeps every label on one
+     line is what stops the browser wrapping them where IT chooses on a wide
+     table; at 292px the choice is a two-line head or a column that does not
+     fit at all, and five columns of "Hours left" over one line is 391px of
+     table in a 292px wrapper. */
+  .ck .ck-th-label { white-space: normal; }
+  .ck .ck-th { align-items: flex-start; }
+  /* The last sixty pixels, taken off the furniture rather than off a column.
+     Every number below is the width of something that is not data: a tag's
+     padding, a button's inset, the gap beside a chevron, the gutter between
+     cells. Five columns of truck, clock, hours and a button fit 292px once
+     the furniture stops asking for 352. */
+  .ck-table th, .ck-table td { padding-inline: 2px; }
+  .ck-table tbody th:first-child, .ck-table tbody td:first-child { padding-left: var(--space-2xs); }
+  .ck-table tbody th:last-child, .ck-table tbody td:last-child { padding-right: var(--space-2xs); }
+  .ck-table thead th:first-child .ck-th { padding-left: var(--space-2xs); }
+  .ck-table thead th:last-child .ck-th { padding-right: var(--space-2xs); }
+  .ck .ck-rank-tag { font-size: var(--text-2xs); padding: 0 var(--space-2xs); }
+  .ck-table .ck-btn { padding-inline: var(--space-xs); }
+  .ck .ck-row-more { gap: 2px; padding-left: var(--space-2xs); }
+  .ck .ck-row-chev { width: 0.75rem; height: 0.75rem; }
+  /* The head's unit line is a second line in a 60px column here, and every
+     unit it carries is in the row disclosure underneath. */
+  .ck .ck-th-unit { display: none; }
+  .ck .ck-th { padding-inline: var(--space-2xs); }
+  .ck .ck-detail { padding-inline: var(--space-sm); }
+}
+
+@media (max-width: 599px) {
+  /* Frame, screen, zone, card: four insets stack on a phone, and at 390px
+     they left a card 238px wide. The screen and the zone give back most of
+     theirs; the cards keep a readable inset. */
+  .ck { padding: var(--space-md); }
+  .ck-lead { padding: var(--space-sm); }
+  .ck-card, .ck-load, .ck-why, .ck-rule, .ck-confidence, .ck-also { padding: var(--space-md); }
+  .ck .ck-status { padding: var(--space-sm) var(--space-md); }
+  .ck .ck-reco-h { font-size: var(--text-xl); }
+  .ck-load-facts { grid-template-columns: minmax(0, 1fr); }
+  /* THE FACTOR ROW, IN THREE LINES RATHER THAN FOUR. The verdict used to
+     take the full width on its own line UNDER the bar's row, so every factor
+     was name / value / verdict / bar and a five-factor card was twenty lines
+     of phone. The verdict belongs under the NAME -- it is judging the thing
+     the name names -- and the value spans both rows beside them, which puts
+     the figure and the word about it on the same block of the card. */
+  .ck-factor { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0; column-gap: var(--space-sm); }
+  .ck .ck-factor-name { grid-column: 1; grid-row: 1; }
+  .ck .ck-factor-value { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .ck .ck-factor-dir { grid-column: 1; grid-row: 2; justify-content: flex-start; text-align: left; min-width: 0; }
+  .ck-factor-bar { grid-row: 3; }
+  /* THE KEY, STACKED. A 96px sample beside its sentence leaves the text
+     about 120px of a phone column, where all four lines wrap to four and
+     five and the key runs taller than the card it explains. Stacked, the
+     sample takes the whole column -- which is nearer the width the real bar
+     is drawn at anyway, so the pieces read better rather than worse -- and
+     the sentence gets the full measure under it. The hand-centring goes with
+     the row: there is no first line beside it any more. */
+  .ck .ck-factor-key li { display: block; }
+  .ck .ck-factor-key li + li { margin-top: var(--space-xs); }
+  .ck .ck-key-sample { width: 100%; margin-top: 0; margin-bottom: var(--space-2xs); }
+  /* The comparison keeps three columns on a phone -- stacking it would put
+     it back where the two cards were -- and buys the room from the padding
+     and one step of the value. */
+  .ck .ck-vs th, .ck .ck-vs td { padding: var(--space-sm) var(--space-2xs); }
+  .ck .ck-vs-corner { width: 32%; }
+  .ck .ck-vs-opt { width: 34%; }
+  .ck .ck-vs-value { font-size: var(--text-base); }
+  .ck .ck-vs-opt-id { font-size: var(--text-base); }
+  .ck .ck-vs-dir { font-size: var(--text-xs); }
+  /* The two Assign buttons sit in columns about 99px wide and "Assign T-131"
+     needs 111, so the pair collided and the first one clipped. The id goes
+     quiet here for the same reason it is quiet in the fleet -- the column it
+     sits under is headed with the truck it assigns -- and each button fills
+     its own column, which is what makes that association unmistakable. The
+     accessible name still reads "Assign T-131". */
+  .ck .ck-vs-act .ck-btn-id {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .ck .ck-vs-act .ck-btn { width: 100%; justify-content: center; }
+  /* The disc does not shrink -- it is the case studies' mark at every width
+     there too -- so what a phone buys back is the gap beside it, not the
+     column. */
+  .ckw-decision-copy { padding-left: calc(var(--ck-num) + var(--space-xs)); }
+  /* Four cards inside a card: the compare sides, the question cards and the
+     callout keep a readable inset at the width the rest of the page gives
+     back. */
+  .ckw-compare-side, .ckw-questions > li, .ckw-callout { padding: var(--space-md); }
+  .case-section .ckw-question { padding: var(--space-md) var(--space-lg); }
+}
+
+/* ============================== MOTION ==================================
+ *
+ * WHY THIS SECTION IS MOSTLY KEYFRAMES AND NOT MOSTLY TRANSITIONS.
+ *
+ * Every action here runs through render(), which rebuilds four sections with
+ * innerHTML. The button the reader pressed Assign on is not the button they
+ * are looking at afterwards -- it was destroyed and a replacement put in its
+ * place. A transition needs ONE node holding two states over time, so nothing
+ * on the assign/undo path could transition however this stylesheet was
+ * written: the button, the row's ground and the rank tag all teleported, and
+ * the page scrolling underneath them at the same moment is what made a press
+ * read as a jump-cut rather than as a result.
+ *
+ * Three mechanisms, and which one applies is decided by one question: does
+ * the node survive the render?
+ *
+ *   SURVIVES -> a real transition, both directions. `.ck-status` and
+ *   `.ck-why` are written once in the HTML and only ever have their innerHTML
+ *   replaced, so the elements themselves persist and can be transitioned like
+ *   anything else on the site.
+ *
+ *   REPLACED -> a keyframe that STARTS AT THE OLD APPEARANCE. The new node
+ *   cannot transition from a state it never held, but the script knows what
+ *   was there a moment ago and can tell the replacement to animate out of it.
+ *   That is what data-ground does on the fleet rows: assign fills from the
+ *   bare ground, undo drains from the assigned one. The reader sees a state
+ *   change in both directions; the DOM only ever had a substitution. This is
+ *   the whole trick that makes undo feel like the inverse of assign without
+ *   refactoring render() to preserve nodes.
+ *
+ *   RENDERED MANY TIMES, ANIMATED ONCE -> an arrival. The factor bars draw
+ *   themselves the first time the cockpit comes into view and never again;
+ *   the attribute that starts them is put on by JavaScript exactly once, so a
+ *   later re-render builds the same markup without it and nothing replays.
+ *
+ * NOTHING HERE INVENTS A VALUE. MOTION.md is the vocabulary: the six
+ * durations, --ease and --ease-enter, one press at 0.985, one stagger at
+ * 60ms. Where a choice looked like it wanted a seventh number, the job named
+ * in that document decided it instead -- a ground changing colour is a
+ * property changing, so it is --motion-state, however large the surface.
+ *
+ * AND NO NAMED REDUCED-MOTION RULE, per the same document. The blanket in
+ * style.css zeroes every duration below, and every keyframe's end state is
+ * the element's own resting state, so a reader who asks for no motion sees
+ * the finished page and loses nothing. The one thing the blanket does not
+ * reach is animation-DELAY, which the bars' stagger uses -- so that sequence
+ * is gated in JavaScript on the media query instead, the way cursor.js and
+ * case-motion.js already gate theirs, and the bars simply start drawn.
+ */
+
+/* THE PRESS. --motion-press is 0.985 and --motion-response is 80ms, which is
+   the step MOTION.md gives to "the interface tracking the reader in real
+   time" -- a press is not a thing that travels, it is the control admitting
+   it was touched, and anything slower reads as lag. The transform was added
+   to each control's OWN transition declaration above rather than restated
+   here, because a second `transition` at this specificity replaces the colour
+   fade rather than adding to it. */
+/* ----- THE OPERATED-SURFACE CARVE-OUT --------------------------------------
+ *
+ * MOTION.md section 10 is the argument; this is where it is spent. The short
+ * of it: every other page on this site is READ, and its motion is tuned so a
+ * reader who missed it lost nothing. This page is OPERATED, and a control
+ * that gives no feedback you can feel is a control you press twice.
+ *
+ * ONE TOKEN, and it is a press. --motion-press is 0.985, which on the 119px
+ * Assign button is 1.79px over 80ms -- below the threshold of noticing, which
+ * is the correct answer for a case-study card and the wrong one for a button
+ * a dispatcher is meant to commit a truck with. 0.96 is 4.8px on the same
+ * button: a press you feel without it becoming a bounce. MOTION.md's warning
+ * that 0.97 "reads as a flinch" was written about a LARGE surface, and holds
+ * there; a pill button is not one.
+ *
+ * NO NEW CURVE, though the exception was scoped to allow one. The fault that
+ * made the first pass at this invisible was reaching for --ease-enter on
+ * changes that do not travel: cubic-bezier(0.22, 1, 0.36, 1) puts about 75%
+ * of its change in the first 20% of the duration, so a 500ms fade of a 4%
+ * lightness step is perceptually over in 100ms. The rule that replaces it
+ * needs no token at all:
+ *
+ *   TRAVELS a real distance (the tag's 20px rise, the card's arrival)
+ *     -> --ease-enter. The hard decel is what makes it read as caught.
+ *   DOES NOT TRAVEL (a ground, a tone, a cross-fade)
+ *     -> --ease, which spreads the change instead of front-loading it.
+ *
+ * And the honest limit, recorded here because the next person will otherwise
+ * spend an afternoon on it: assigning a truck changes almost nothing on
+ * screen. The card's primary button is the same sage fill before and after,
+ * the row button's computed colours are identical, and the row's ground moves
+ * 4% in lightness. The only real visual events are the button's WORDS and the
+ * "assigned" tag arriving. Motion cannot amplify a state change that does not
+ * happen; if assign should read louder than this, that is a change to what
+ * the assigned state LOOKS like, and it belongs in COLOR.md, not here. */
+.ck {
+  --motion-press-firm: 0.96;
+  /* THE SECOND LOCAL VALUE, AND IT IS A DIVISION RATHER THAN A REPLACEMENT.
+     --motion-rise is 20px and it is how far an ELEMENT travels when it
+     arrives. The words inside a 30px button are not an element arriving; a
+     fifth of that button's height of travel would throw them out of it. A
+     quarter of the site's one rise is 5px, which is enough of an edge for the
+     eye to catch and small enough that the button does not appear to twitch.
+     Divided, not picked -- the same move --sweep makes on --motion-stagger
+     further down, and the reason both are still on this page's scale. */
+  --motion-rise-tight: calc(var(--motion-rise) / 4);
+}
+
+/* THE LIFT, WHICH NOTHING IN THE COCKPIT WAS SPENDING. --motion-lift is
+   1.03, which on a 119px button is 3.6px -- twice the press, and the only
+   one of the two a reader notices without being told to look. MOTION.md
+   gives the lift to "how much a hoverable thing grows", and every control
+   here was hoverable and none of them grew. */
+@media (hover: hover) and (pointer: fine) {
+  .ck .ck-btn:hover { transform: scale(var(--motion-lift)); }
+}
+/* The press wins over the lift: pressing is the later fact. */
+.ck .ck-row-more { transition: transform var(--motion-response) var(--ease); }
+.ck .ck-btn:active,
+.ck .ck-tab:active,
+.ck .ck-density-btn:active,
+.ck .ck-row-more:active { transform: scale(var(--motion-press-firm)); }
+/* THE ONE CONTROL THAT DOES NOT FLINCH. "Can't assign" is the single press on
+   this page that is going to refuse, and a button that gives under the finger
+   is a button promising it did something. The refusal is the status line's to
+   deliver, and it should arrive against a control that did not move. */
+.ck .ck-btn[aria-disabled="true"]:active { transform: none; }
+
+/* THE ASSIGNED GROUND, BOTH WAYS, AND NOW WITH A DIRECTION.
+ *
+ * Only a `from` frame: the end of each of these is whatever the row's own
+ * rules say it is, which is exactly the value the animation should land on
+ * and the one that survives if these rules are ever changed. --motion-state
+ * because MOTION.md puts a background under "a property changing", not under
+ * "something that moves".
+ *
+ * WHAT THE DIRECTION BUYS, given that the block at the top of this section is
+ * right that assigning a truck barely changes the picture. A 4% step in
+ * lightness fading up under eleven cells at once is a row that is slightly
+ * different now. The same 4% arriving as a wipe is an EVENT, because the eye
+ * reads travel where it will not read a shade, and the wipe costs the state
+ * nothing: every cell lands on the same colour it would have landed on.
+ *
+ * IT RUNS RIGHT TO LEFT ON THE WAY IN, which is the way the sentence goes.
+ * Assign sits at the end of the row, so the wipe starts under the finger that
+ * pressed it and travels to the rank cell, where the "Assigned" tag then
+ * lands as the last thing to happen. Undo is the inverse in both senses: it
+ * leaves from the rank and exits past the button, which by then says Assign
+ * again. That is the pair the old version could not make -- two fades of the
+ * same 4%, in opposite directions, look identical.
+ *
+ * --sweep IS THE TOKEN DIVIDED, NOT A NEW NUMBER. --motion-stagger is 60ms
+ * and it is the gap between siblings in a sequence; eleven of them at that
+ * gap is 660ms of wipe across a single row, which is a wave. A third of it
+ * puts the head of the wipe across the row in 220ms under a 300ms fill, and
+ * the whole event, tag included, finishes inside 720. There is one stagger
+ * on this site; this is it, divided by the thing that makes a row of cells
+ * different from a column of cards.
+ *
+ * `backwards` IS LOAD-BEARING HERE. A delayed animation shows the element's
+ * natural state until it starts -- so without it, every cell would sit on the
+ * assigned ground, then jump back to transparent when its turn came and fill
+ * from there. Eleven of those is a row that flickers apart before it wipes. */
+.ck-table { --cols: 11; }
+.ck-table tbody tr[data-ground] > th,
+.ck-table tbody tr[data-ground] > td {
+  --sweep: calc(var(--motion-stagger) / 3);
+  animation-duration: var(--motion-move);
+  animation-timing-function: var(--ease);
+  animation-fill-mode: backwards;
+}
+@keyframes ck-ground-fill { from { background-color: transparent; } }
+@keyframes ck-ground-drain { from { background-color: var(--color-muted-light); } }
+.ck-table tbody tr[data-ground="fill"] > th,
+.ck-table tbody tr[data-ground="fill"] > td {
+  animation-name: ck-ground-fill;
+  animation-delay: calc((var(--cols) - 1 - var(--n, 0)) * var(--sweep));
+}
+.ck-table tbody tr[data-ground="drain"] > th,
+.ck-table tbody tr[data-ground="drain"] > td {
+  animation-name: ck-ground-drain;
+  animation-delay: calc(var(--n, 0) * var(--sweep));
+}
+/* Which cell this is, counted once. The alternative was a --c on every cell
+   in renderTable, which is eleven inline styles a row and seventy-seven a
+   render to say a thing the position already knows. */
+.ck-table tbody tr[data-ground] > :nth-child(1)  { --n: 0; }
+.ck-table tbody tr[data-ground] > :nth-child(2)  { --n: 1; }
+.ck-table tbody tr[data-ground] > :nth-child(3)  { --n: 2; }
+.ck-table tbody tr[data-ground] > :nth-child(4)  { --n: 3; }
+.ck-table tbody tr[data-ground] > :nth-child(5)  { --n: 4; }
+.ck-table tbody tr[data-ground] > :nth-child(6)  { --n: 5; }
+.ck-table tbody tr[data-ground] > :nth-child(7)  { --n: 6; }
+.ck-table tbody tr[data-ground] > :nth-child(8)  { --n: 7; }
+.ck-table tbody tr[data-ground] > :nth-child(9)  { --n: 8; }
+.ck-table tbody tr[data-ground] > :nth-child(10) { --n: 9; }
+.ck-table tbody tr[data-ground] > :nth-child(11) { --n: 10; }
+
+/* THE TAG IS THE OTHER HALF, AND THE MORE LEGIBLE ONE. An element appearing
+   out of nothing is motion a reader can actually see; a ground settling a
+   shade is not, which is what the first pass at this got wrong. It now waits
+   for the wipe to reach it, so the two are one event with a conclusion
+   rather than two things starting together. */
+@keyframes ck-tag-in {
+  from { opacity: 0; transform: translateY(var(--motion-rise)); }
+}
+.ck-table tbody tr[data-ground="fill"] .ck-tag-assigned {
+  display: inline-block;
+  animation: ck-tag-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc((var(--cols) - 1) * var(--motion-stagger) / 3);
+  animation-fill-mode: backwards;
+}
+
+/* THE CONTROL THAT CHANGED ITS MIND, AND THE ONE CHANGE ON THIS PAGE THAT
+ * WAS BELOW THE THRESHOLD OF BEING SEEN AT ALL.
+ *
+ * "Assign T-118" and "Assigned / Undo" are different words in a different
+ * treatment, and swapping them under the pointer with no cross-fade is the
+ * most substituted-looking moment on the page. The fade that replaced the cut
+ * was right about that and wrong about how much it bought: 200ms of opacity,
+ * with nothing travelling, on words replaced by words of about the same
+ * length and weight in about the same place.
+ *
+ * THE NUMBER THAT SETTLES IT. The Model Human Processor puts average visual
+ * perception at around 230ms, and Nielsen Norman's usable band for interface
+ * animation starts at 100 and treats 200-350 as the range for a small
+ * transition. A 200ms cross-fade is not subtle. It is under the figure at
+ * which an average person registers that anything happened -- and a fade has
+ * no edge for the eye to track, which is the half the duration cannot fix.
+ *
+ * SO IT GETS A DIMENSION, NOT A LONGER FADE. The words rise the tight rise
+ * above, 5px, which gives the eye something to follow; and once they travel,
+ * MOTION.md's own table reclassifies the animation without anybody having to
+ * argue for an exception -- --motion-state is 200ms for "a property changing:
+ * color, opacity, background" and --motion-move is 300ms for "something
+ * shifting a short distance". This now shifts a short distance. 300ms sits
+ * inside the 200-350 band and above the 230 floor, and it is a duration
+ * already on the scale rather than a new one.
+ *
+ * AND THE CURVE FOLLOWS THE SAME TABLE. `linear` was correct while this was a
+ * cross-fade -- section 3 reserves it for progress and cross-fades and wants
+ * reaching for it to be a decision -- and is wrong the moment something
+ * travels, because a thing that moves at a constant speed reads as a thing
+ * being dragged. --ease, per section 10's own rule: travels a real distance
+ * is --ease-enter's, and 5px is not a real distance; this is the middle case
+ * the table's two rows were written from, and --ease is the default for
+ * everything that is not entering.
+ *
+ * `translate` AND NOT `transform`, WHICH IS THE WHOLE REASON THIS IS SAFE.
+ * data-swap goes on the BUTTON, and the button already carries
+ * transform: scale() on :hover and again on :active. An animation of
+ * `transform` outranks both for as long as it runs, so the lift would drop
+ * out from under a pointer that is by definition still sitting on the control
+ * it just pressed, and snap back 300ms later. The independent translate
+ * property composes with transform instead of replacing it, so the press, the
+ * lift and the swap are three things happening to one button rather than
+ * three things taking turns. */
+@keyframes ck-swap { from { opacity: 0; translate: 0 var(--motion-rise-tight); } }
+.ck [data-swap] { animation: ck-swap var(--motion-move) var(--ease); }
+
+/* THE STATUS LINE SURVIVES EVERY RENDER, so its ground and its ink are a
+   genuine transition. Its CONTENTS are replaced, so they take the swap. */
+.ck .ck-status {
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.ck .ck-status > * { animation: ck-swap var(--motion-move) var(--ease); }
+
+/* A REFUSAL DOES NOT ARRIVE LIKE A CONFIRMATION, AND THAT IS A RULE ON THIS
+ * PAGE ALREADY -- it is the one the caution GROUND follows. Caution ink marks
+ * a figure that is stale or unfavourable; the caution ground is spent on the
+ * single thing the cockpit will not do. A hard refusal and a suggestion must
+ * not share a style, and having settled that in colour it would be strange to
+ * hand them the same motion.
+ *
+ * So the refusal SNAPS and everything else arrives. --motion-response is
+ * 80ms, "the interface tracking the reader in real time", and an answer of
+ * "no" is the most immediate thing this page ever says: there is nothing to
+ * compose, nothing on its way, and a pleasant 300ms rise under the words
+ * "can't be assigned" is the interface being gracious about a wall. The
+ * ground is the event here -- a whole pill changing colour is a large area
+ * and needs no help -- and the words simply appear on it.
+ *
+ * The travel is what goes, deliberately, and not only the duration. A
+ * confirmation rises because something was made; nothing was made here. */
+.ck .ck-status[data-tone="refused"] {
+  transition: background-color var(--motion-response) var(--ease), color var(--motion-response) var(--ease);
+}
+@keyframes ck-refuse { from { opacity: 0; } }
+.ck .ck-status[data-tone="refused"] > * { animation: ck-refuse var(--motion-response) linear; }
+
+/* THE OVERRIDE QUESTION, IN AND OUT. `.ck-why` is in the HTML and persists,
+   so undo can fade it rather than cutting it -- which is the half of the
+   pair that no amount of entrance animation could have covered.
+ *
+ * NO RISE ON THE WAY IN, DELIBERATELY, and it is the one place this file
+ * turns MOTION.md's reveal vocabulary down. Opening this panel already moves
+ * the page: keep() scrolls it into view, and `html` carries scroll-behavior:
+ * smooth, so the reader is watching a travel of up to 605px. A 20px rise
+ * underneath that is a second motion for one event, which §1 of that document
+ * calls decoration. It would also make the panel a moving scroll target --
+ * scrollIntoView measures the TRANSFORMED box, so a rise would land the
+ * carefully-measured 54px hop up to 20px short of where it was tuned to land.
+ * The scroll is the arrival. The fade is only there so the panel does not
+ * blink into being when no scroll was needed. */
+.ck-why { transition: opacity var(--motion-state) var(--ease); }
+.ck-why[data-leaving] { opacity: 0; }
+@keyframes ck-why-in { from { opacity: 0; } }
+/* The form is excluded because its CHILDREN carry the arrival instead, a few
+   rules down; left in, the panel would fade as a block at the same time as
+   the four things inside it faded in sequence, and two opacities multiplied
+   is a stagger nobody can see through the thing staggering it. */
+.ck-why:not([hidden]):not([data-leaving]) > *:not(.ck-why-form) { animation: ck-why-in var(--motion-enter) var(--ease-enter); }
+
+/* THE QUESTION OPENS RATHER THAN BEING THERE. The panel fades as one block
+   above, which is the whole of what the paragraph before this could afford:
+   it argues, correctly, that the panel must not RISE, because keep() has
+   already scrolled the page up to 605px to bring it in and a second travel
+   for one event is the decoration section 1 warns off.
+ *
+ * A stagger is not a second travel. Nothing moves -- these are four opacities
+ * on the site's own 60ms, 180ms of sequence end to end -- so the argument
+ * against the rise is untouched and the panel still reads as opening instead
+ * of being switched on. The order is the order a reader needs it in: the
+ * question, then what may be answered, then what happens with the answer,
+ * then the way out.
+ *
+ * nth-child rather than an --i per child, for the reason the row sweep gives:
+ * the form has four children and their order is the markup's, not data's. */
+.ck-why-form > * {
+  animation: ck-why-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+.ck-why-form > :nth-child(2) { --i: 1; }
+.ck-why-form > :nth-child(3) { --i: 2; }
+.ck-why-form > :nth-child(4) { --i: 3; }
+
+/* AND THE ANSWER RESOLVES, rather than appearing where the form was. "Noted"
+   is a confirmation -- the same class of event as a truck being assigned --
+   so it takes the confirmation's own motion and not the panel's arrival: the
+   swap, with the tight rise, exactly as the status line and the buttons do.
+   What makes a reason saved feel saved is that it moves like everything else
+   on this page that worked. */
+/* Matched at (0,5,0) on purpose: the panel rule above is (0,4,0), and this
+   has to outrank it rather than merely follow it. */
+.ck .ck-why:not([hidden]):not([data-leaving]) > .ck-why-done { animation: ck-swap var(--motion-move) var(--ease); }
+
+/* THE BARS DRAW THEMSELVES, ONCE, WHEN THE COCKPIT FIRST COMES INTO VIEW.
+ *
+ * The reading runs from the fleet's middle out to where this truck stands,
+ * and that is the sentence the graphic is making -- so it is drawn in that
+ * direction, out of the middle, rather than fading in as a finished object.
+ * --draw-l and --draw-r are set per bar by the script from which side of the
+ * 50% middle the lead runs; one is 100% and the other 0, and which is which
+ * is the difference between a bar growing right and one growing left.
+ *
+ * CLIP-PATH RATHER THAN scaleX, and the white ring is the reason. The mark
+ * carries `box-shadow: 0 0 0 1px var(--color-white)`, which the block above
+ * calls load-bearing: it is what puts a pixel of white between the sage and
+ * the level band it crosses. A horizontal scale squashes that ring as it
+ * grows; a clip reveals the mark and its ring together at their true size,
+ * which is the only version where the graphic is honest at every frame.
+ *
+ * `round 3px` matches the mark's own border-radius, a few rules above. An
+ * inset() with no round squares the corners for the length of the animation,
+ * which on a 10px track is the whole shape of the thing. */
+@keyframes ck-draw-lead {
+  from { clip-path: inset(0 var(--draw-r, 100%) 0 var(--draw-l, 0%) round 3px); }
+  to { clip-path: inset(0 0 0 0 round 3px); }
+}
+.ck-factors[data-shown] .ck-factor-mark,
+.ck-vs tbody[data-shown] .ck-factor-mark {
+  animation: ck-draw-lead var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+
+/* ---------- WHAT ARRIVES, AND WHEN ----------
+ *
+ * The script's `watchEnter` sets data-shown on a surface when THAT surface is
+ * on screen, which is the whole of the change: the rules below used to hang
+ * off two attributes set together the moment a corner of a 2090px cockpit
+ * came into view, several hundred pixels of scroll before either element they
+ * decorated was visible. The argument and the measurements are in the script.
+ *
+ * EVERY KEYFRAME HERE HAS A `from` AND NO `to`, WHICH IS THE CONTRACT. An
+ * element without data-shown is at its finished state, not waiting to be
+ * animated into one. That is what makes this safe without JavaScript, without
+ * an IntersectionObserver, and under prefers-reduced-motion -- where the
+ * attribute is never set at all and §5's blanket rule would have covered it
+ * anyway. It is also what keeps resting.mjs honest: there is no frame in
+ * which a surface of this page is measurable at opacity 0 by a check that
+ * would then skip it and still say green. */
+
+/* THE CARD. One rise, the site's own 20px, on the one surface the whole page
+   is about -- not on the shell, which at this height would be a lift nobody
+   can see the top and bottom of at once. */
+@keyframes ck-card-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.ck-card[data-shown] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* THE PANELS BESIDE IT, AND THE RULE ABOVE IT. Same rise, and each on its
+   own arrival rather than the card's: the confidence figure and what was
+   also considered sit in the second column and come into view a beat after
+   the card on a narrow screen and with it on a wide one, which is a
+   difference the reader should see and a single shared trigger cannot make. */
+.ck-confidence[data-shown],
+.ck-also[data-shown],
+.ck-rule[data-shown] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* THE FLEET, A ROW AT A TIME. Seven rows at the site's own 60ms is 360ms of
+   sequence, which is long enough to read as a table being dealt out and short
+   enough that the last row is there before anyone has finished the first.
+   --i is the row's place in the sort order, set in renderTable.
+
+   The transform is on the tr. Tables were not always willing to take one, and
+   where it is refused the row fades without travelling -- which is a smaller
+   version of this rule and not a broken one. */
+@keyframes ck-row-in { from { opacity: 0; transform: translateY(var(--motion-rise)); } }
+.ck-table tbody[data-shown] > tr[data-truck] {
+  animation: ck-row-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger));
+  animation-fill-mode: backwards;
+}
+
+/* THE COMPARISON'S BARS DREW NOTHING AT ALL until this rule. `.ck-vs` is the
+   close call's five factors as a table rather than a list, which is the one
+   place the same graphic was making the same sentence and appearing already
+   finished, because the selector that drew it named `.ck-reco .ck-factors`
+   and this is neither. --i is on the row, so the five draw down the column in
+   the order the tradeoff put them in: the two that separate the trucks
+   first. The rule itself is the one above, beside the card's; this note is
+   here because the selector it was missing from is over there. */
+
+/* THE DISCLOSURE'S PANEL ARRIVES INTO THE ROOM THE FLIP MAKES. Opening a
+   fleet row pushes everything under it down; the script animates that, and
+   this is the other half -- the panel itself, which until now appeared
+   whole in a gap that had just been cut. data-opened rather than data-shown
+   because this is an action and not a reveal: it is set by the press, for
+   exactly as long as the animation, and the detail is rebuilt on every
+   later render without it. */
+.ck-row-detail .ck-detail[data-opened] { animation: ck-card-in var(--motion-enter) var(--ease-enter); }
+
+/* WHERE A ROW CAME FROM, SAID RATHER THAN LEFT LYING. The moved markers are
+   the only thing on screen that reports what a scenario change did to the
+   ranking, and they were rendered in place like any other cell. They take the
+   tag's own arrival, staggered down the table with the rows they belong to,
+   so the answer to "what moved" is delivered by the movement. */
+/* display is already inline-flex a few rules up; only the arrival is new. */
+.ck-table tbody[data-shown] .ck-rank-moved {
+  animation: ck-tag-in var(--motion-enter) var(--ease-enter);
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) + var(--motion-state));
+  animation-fill-mode: backwards;
+}

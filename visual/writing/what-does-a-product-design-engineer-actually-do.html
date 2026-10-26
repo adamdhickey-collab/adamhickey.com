@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Design Engineer: Tools, Workflow and Where Design Meets Code | Adam Hickey</title>
+  <meta name="description" content="What a product design engineer actually does: the component as the deliverable, tokens that flow one way, pull requests as design reviews, prototypes on a branch, motion you can review, and checks that hold the system, with Agent Review, a React and Storybook system built to test the idea, as the worked example." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html" />
+  <meta property="og:title" content="Product Design Engineer: Tools, Workflow and Where Design Meets Code | Adam Hickey" />
+  <meta property="og:description" content="What a product design engineer actually does: the component as the deliverable, tokens that flow one way, pull requests as design reviews, prototypes on a branch, motion you can review, and checks that hold the system, with Agent Review, a React and Storybook system built to test the idea, as the worked example." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/what-does-a-product-design-engineer-actually-do.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the nine articles and the case
+       studies name one person rather than twenty with the same name.
+       The dek under the h1 is the article's answer in three or four
+       sentences, on purpose: it is the passage a search engine or an
+       assistant can quote whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html#article",
+          "headline": "What does a product design engineer actually do?",
+          "description": "What a product design engineer actually does: the component as the deliverable, tokens that flow one way, pull requests as design reviews, prototypes on a branch, motion you can review, and checks that hold the system, with Agent Review, a React and Storybook system built to test the idea, as the worked example.",
+          "url": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html",
+          "image": "https://adamhickey.com/img/og/what-does-a-product-design-engineer-actually-do.jpg",
+          "datePublished": "2026-09-17",
+          "dateModified": "2026-10-26",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Design engineering"
+            },
+            {
+              "@type": "Thing",
+              "name": "Design systems"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "What does a product design engineer actually do?",
+              "item": "https://adamhickey.com/writing/what-does-a-product-design-engineer-actually-do.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=10" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=6" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <link rel="stylesheet" href="../related.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#approach">Approach</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Experiments</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. data-lead
+       is the article's collection on the index, and the line takes that
+       collection's colour. -->
+  <div class="writing-progress" data-lead="craft" aria-hidden="true"></div>
+
+  <main id="main">
+    <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): eight ideas to five. Tokens
+         and motion folded into the component, as the values under it and the
+         part a diff now reviews; the branch folded into the pull request, as
+         the change it carries. Every figure is the one the page already had,
+         and the sentence counts.mjs registers ("six of them render its
+         pages in a real browser") is kept word for word, its numbers
+         moving with checks.yml since. Out: the two-tool
+         token pipeline, the postings' vocabulary, the review tool's three
+         widths, the lint's seventeen in the prose (the number row keeps it),
+         and the cache and port stories behind the green check.
+         ONE OUTSIDE VOICE since the voice pass of 2026-10-21 (VOICE.md):
+         none. The page cited no outside source before it, and cites none. -->
+    <!-- THE TENTH ARTICLE, and the sequel to "Where does design end and
+         development begin, now?". That one drew the line; this one is what
+         happens on the far side of it, Tuesday to Tuesday. Written 2026-09-17
+         as step 7 of the search plan, because thirteen of the twenty roles on
+         the board ask for prototyping in code and several of them -- the
+         design-engineer seats -- ask in the vocabulary this article uses on
+         purpose: component, token, pull request, story, branch. It is also the
+         one article on the site that says plainly which parts of that stack
+         are run today and which are not, because a posting finds that out
+         either way and the candour reads better in the author's words than
+         in an interviewer's.
+
+         Revised 2026-10-01. It said React, TypeScript and Storybook were
+         being grown into; Agent Review (lab/agent-review.html, and the
+         repository it links) has since put all three to work, so the
+         article now draws its examples from that project and says what one
+         project with one author does and does not show. It still does not
+         claim years of production React: the last section draws that line
+         on purpose. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <h1 class="case-title">What does a product design engineer actually do?</h1>
+        <!-- The answer, whole, before the argument. A reader who came in from
+             a search wants the question answered in the first screen, and a
+             machine asked the question can quote this paragraph on its own.
+             The essay below is why it is the answer. -->
+        <p class="build-dek">The same thing a product designer does, carried into the codebase. The component is the deliverable, and the judgment doesn&rsquo;t move: it gets attached to evidence. The worked example is Agent Review, a React and Storybook system I built.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#the-handoff-did-not-move-it-dissolved">The handoff did not move; it dissolved</a></li>
+            <li><a href="#the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</a></li>
+            <li><a href="#a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</a></li>
+            <li><a href="#the-checks-are-part-of-the-design-system">The checks are part of the design system</a></li>
+            <li><a href="#a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, an isometric
+             diagram of the argument rather than the topic. Under the dek so
+             the answer is read before the picture is, and inside the hero
+             so it sits on the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/what-does-a-product-design-engineer-actually-do.webp?v=1" width="1600" height="900" alt="A dusty slate rubber stamp pressed down on cream ground, cropped by the top of the frame, and to its right the solid black impression it has just left." />
+        </figure>
+      </div>
+    </header>
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
+          <h2 id="the-handoff-did-not-move-it-dissolved">The handoff did not move; it dissolved</h2>
+          <p>For years a design job was a document that went somewhere else. You made the file, somebody built from it, and quality leaked out in the gap between the two.</p>
+          <p>AI coding tools moved that line. I came to this from product design, enterprise design systems and UX architecture, not engineering, and I now use React, TypeScript and Storybook to carry that work into code.</p>
+          <p><mark>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</mark> The evidence here is one project built that way, <a href="../lab/agent-review.html">Agent Review</a>, and this site.</p>
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
+          <h2 id="the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</h2>
+          <p>In a product codebase the unit of design is a component: a button, a data table, a status line. In TypeScript its properties are typed, so the contract between design and engineering is a list the compiler reads.</p>
+          <p>Agent Review has fourteen components and 284 stories in Storybook, and every story is also a test: Vitest renders it in Chromium and runs axe on it. A state with no story is a state nothing checks.</p>
+          <figure class="writing-figure">
+            <figcaption>What the component replaces, and what it keeps</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">It replaces</p>
+                <ul>
+                  <li>The spec that described the states in words</li>
+                  <li>The redline that measured the padding by hand</li>
+                  <li>The second copy of the button, drawn again in another file</li>
+                  <li>The question &ldquo;is this the current version?&rdquo;</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">It keeps</p>
+                <ul>
+                  <li>The judgment about what a button is for</li>
+                  <li>The eye for a corner that reads as a lozenge at that size</li>
+                  <li>The argument for why the disabled state is quieter, not lighter</li>
+                  <li>The person who says no to a fifth variant</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>Under the components is one file of tokens. Semantic tokens point at primitives, components point at semantic tokens, and nothing points at a hex code, so changing the green moves every button in one pull request.</p>
+          <p>Motion lives there too: a duration, a curve, a spring&rsquo;s stiffness. A transition in Storybook can be played, interrupted and commented on by line, so a spring that overshoots by a hair is a diff.</p>
+          <p><mark>Code doesn&rsquo;t make motion easier to write. It makes it reviewable.</mark></p>
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
+          <h2 id="a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</h2>
+          <p>A pull request is a proposed change with its reasoning above it and its difference below it. A design engineer spends more of the day there than in any tool with a canvas.</p>
+          <p>At nine in the morning that means: read the change, open the story, press the states, and leave a comment on the line rather than in a channel.</p>
+          <figure class="writing-figure">
+            <figcaption>One change, brief to shipped</figcaption>
+            <ol class="writing-flow">
+              <li>Brief<small>the problem in one sentence everyone recognizes</small></li>
+              <li>Story<small>the component and its states, in Storybook, before the product</small></li>
+              <li>Branch<small>the prototype, working, on real inputs</small></li>
+              <li>Review<small>an engineer reads the diff; the design gets its second pair of eyes</small></li>
+              <li class="writing-flow-mark">Ship<small>the merge is the handover, and there is no other</small></li>
+            </ol>
+          </figure>
+          <p>A working prototype on a branch used to cost a week of an engineer&rsquo;s time. With Claude Code in a terminal the mechanical part is a session, and the time goes to the decisions.</p>
+          <p>In Agent Review&rsquo;s experiment, two agent runs read the same rule about shared components and did opposite things. One changed the shared data table&rsquo;s stylesheet; the other flagged the same defect. Both were defensible.</p>
+          <p>It took a person reading the measurement to say which was right. <mark>The prototype is real because I can read what it does.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</p>
+          </aside>
+          <!-- The second drawing: the argument's second half, in the set's style,
+               from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/what-does-a-product-design-engineer-actually-do-2.webp?v=1" width="1600" height="900" loading="lazy" decoding="async" alt="The slate stamp lifted clear at the top of the frame, and below it a row of four identical black impressions on cream, the third filled dusty rose." />
+            <figcaption>Instances: one stamp, the same mark every time, and the one that is different is different on purpose.</figcaption>
+          </figure>
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
+          <h2 id="the-checks-are-part-of-the-design-system">The checks are part of the design system</h2>
+          <p>A design rule that isn&rsquo;t a script is a wish. Contrast floors, type scales, token coverage and whether a toolbar fits its box at tablet width can all be measured on the rendered page.</p>
+          <p>Agent Review has three instruments, a token lint, axe in Vitest and Playwright&rsquo;s visual baselines, and each caught a different part of a branch I seeded with drift:</p>
+          <figure class="writing-figure">
+            <figcaption>What Agent Review&rsquo;s checks reported on the seeded branch</figcaption>
+            <dl class="build-facts writing-facts">
+              <div><dt>17</dt><dd>values written where a token existed, from the token lint, each with its file and line</dd></div>
+              <div><dt>2.87:1</dt><dd>the contrast of the selection count, found by axe on the Selected story, against a 4.5:1 floor</dd></div>
+              <div><dt>792 vs 734</dt><dd>pixels: the selection bar&rsquo;s width against its box at 768, found by the toolbar check</dd></div>
+            </dl>
+          </figure>
+          <p>The seeded branch also found a check that couldn&rsquo;t fail: the first 768 test measured the frame&rsquo;s scroll width, and the parent clipped the overflow. Checks are code, and code has defects.</p>
+          <p>This site runs eleven checks, and six of them render its pages in a real browser. I think a design engineer is the person who reads a design rule as a test, and writes it as one.</p>
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
+          <h2 id="a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</h2>
+          <p>A green check means the tree passed. It doesn&rsquo;t mean the site changed. I learned that from a merge that ran every check, went green, and never deployed.</p>
+          <p>The site didn&rsquo;t look broken. It looked unchanged, which is indistinguishable from a change nobody made.</p>
+          <figure class="writing-figure">
+            <figcaption>What a green check says, and what it does not</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">It says</p>
+                <ul>
+                  <li>The tree can be packaged for the host at all</li>
+                  <li>Every token the specs name exists</li>
+                  <li>Every color clears its floor, at rest and under a press</li>
+                  <li>Every rendered size is a step on the scale</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">It does not say</p>
+                <ul>
+                  <li>The deploy ran</li>
+                  <li>The deploy finished</li>
+                  <li>The cache has let go of the old page</li>
+                  <li>A reader can see the change</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>So the last step of every change is to look at the page a stranger would get, with a cache-buster on the address.</p>
+          <p>The honest map of the job, for me, has three regions:</p>
+          <ul>
+            <li>Tokens, systems, accessibility and the checks around them: I&rsquo;ve done this longest, and would run it on day one</li>
+            <li>React, TypeScript, Storybook, branches and tests: I do this now, and would expect to be fluent in a team&rsquo;s conventions within a quarter</li>
+            <li>A production React codebase shipping to customers on a release train: I haven&rsquo;t run one, and one project with one author is no substitute</li>
+          </ul>
+          <p>I&rsquo;d rather write that last line here than have someone else write it about me.</p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">A design engineer is a designer whose deliverable lives in the codebase: the same judgment, now with evidence attached, and the live page as the last piece of it.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> open your team&rsquo;s repository, find one component you designed, and read its file. Everything you cannot follow is the next thing to learn, and everything you can is already yours.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site, said once and softly: the
+             engagement it describes and the account it draws on. A short list
+             rather than a pitch (related.css), for the same reason the case
+             studies end on one. -->
+        <nav class="related" aria-labelledby="related-label">
+          <p class="related-label" id="related-label">Related</p>
+          <ul class="related-list">
+            <li><a class="related-link" href="../case-study/lucy-learns.html"><span class="related-kind">Case study</span><span class="related-title">Lucy Learns</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../lab/agent-review.html"><span class="related-kind">Case study</span><span class="related-title">Agent Review</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../case-study/this-site.html"><span class="related-kind">Build write-up</span><span class="related-title">How I built this site</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </nav>
+        <a class="build-next" href="what-does-a-developer-need-from-an-interface-on-a-bad-day.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">What does a developer need from an interface on a bad day? &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

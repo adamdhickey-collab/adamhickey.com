@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey</title>
+  <meta name="description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit." />
+
+  <link rel="canonical" href="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
+  <meta property="og:title" content="Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey" />
+  <meta property="og:description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: what this page
+       is, who wrote it, and where it sits. The author and publisher point at
+       the homepage's Person by @id, so the articles and the case studies
+       name one person rather than many with the same name. The dek under
+       the h1 is the article's answer in three or four sentences, on
+       purpose: it is the passage a search engine or an assistant can quote
+       whole, and the essay under it is the argument. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html#article",
+          "headline": "Who decides when software can act on its own?",
+          "description": "Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit.",
+          "url": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
+          "mainEntityOfPage": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
+          "image": "https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg",
+          "datePublished": "2026-10-20",
+          "dateModified": "2026-10-26",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "Human oversight of AI"
+            },
+            {
+              "@type": "Thing",
+              "name": "Behavioral design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Trust in AI"
+            },
+            {
+              "@type": "Thing",
+              "name": "Product design"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Writing",
+              "item": "https://adamhickey.com/writing/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Who decides when software can act on its own?",
+              "item": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=10" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=6" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <link rel="stylesheet" href="../related.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../writing.js?v=20260912a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#approach">Approach</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Experiments</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- The progress line: writing.js scales it as the reader moves through
+       the essay. Fixed under the nav, no text, nothing to force. data-lead
+       is the collection it leads on the index, The judgment, which keeps the
+       AI articles' sage. -->
+  <div class="writing-progress" data-lead="ai" aria-hidden="true"></div>
+
+    <main id="main">
+    <!-- THE JUDGMENT's new lead, written 2026-10-20 with the two beside it
+         (the system, the build). It took the place on the index of "What I
+         learned standardizing UX across 40+ SAP Fiori apps", which keeps
+         its address (keys.mjs UNLISTED); the SAP case study stays on the
+         homepage and makes that one's case.
+
+         WHERE THE OUTSIDE CLAIMS COME FROM. Every sentence about another
+         designer, team or study was checked against its primary source on
+         2026-10-20 and links to it. Zakiya Pope's is the published session
+         description, quoted to the word ("worth it"); a story about her
+         earlier work that no source confirmed is left out. Patricia Yu's is
+         the podcast's own description; the claim that a third diamond
+         covers the time after launch was not confirmed and is not made. The
+         critical-thinking study is self-reported and the page says so. The
+         FTC report's four kinds are the ones its press release names. The
+         retirement assistant and the dispatch agent are illustrations, and
+         say so.
+
+         ONE OUTSIDE VOICE since the voice pass of 2026-10-21 (VOICE.md):
+         Microsoft Research, for its three papers on confidence,
+         explanations and appropriate reliance. Zakiya Pope, the FTC's dark
+         patterns report, Tushar Roy's case study, NIST's framework and
+         Patricia Yu's podcast came out; this file's history before that
+         pass has them with their links. The dispatcher who approves all day
+         is part of the illustration and carries no figure. Sections 3 and 4
+         became one the same day, under 4's heading.
+
+         WHAT IT MAY NOT CLAIM about Adam's own work: Dispatch Cockpit runs on
+         synthetic data, ranks with a transparent weighted rule rather than
+         a model, and has not been in front of a working dispatcher.
+
+         THE FIGURES are two splits and three rails since the art pass of 2026-10-20. A
+         sequence is a rail (style.css, "THE RAIL"): ChatGPT's wordless
+         drawings, one sheet per figure, cut by draw.mjs slice, with every
+         word as text. A comparison stays a split, which is code. -->
+    <header class="case-hero">
+      <div class="container case-narrow">
+        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <h1 class="case-title">Who decides when software can act on its own?</h1>
+        <!-- The answer, whole, before the argument, as on every article. -->
+        <p class="build-dek">The person accountable for the outcome, and the design work is making sure they really can. As AI moves from answering to acting, the interface sets when the system acts, when it asks, and when it leaves the choice alone.</p>
+        <!-- keys:start -->
+        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
+             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
+             --write` regenerates it and the eyebrows. -->
+        <nav class="writing-keys" aria-labelledby="writing-keys-label">
+          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
+          <ol>
+            <li><a href="#designing-an-interface-now-means-designing-a-decision">Designing an interface now means designing a decision</a></li>
+            <li><a href="#a-nudge-and-a-push-look-the-same-in-the-metrics">A nudge and a push look the same in the metrics</a></li>
+            <li><a href="#aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</a></li>
+            <li><a href="#an-approve-button-isnt-oversight">An approve button isn&rsquo;t oversight</a></li>
+            <li><a href="#what-the-system-says-when-it-doesnt-know-belongs-in-the-design-system">What the system says when it doesn&rsquo;t know belongs in the design system</a></li>
+          </ol>
+        </nav>
+        <!-- keys:end -->
+        <!-- The feature: one drawing per article, the essay's most literal
+             noun with its verb performed on it once (writing-features.mjs).
+             Under the dek so the answer is read before the picture is, and
+             inside the hero so it sits on the warm ground with the title. -->
+        <figure class="writing-feature">
+          <img src="../img/writing/who-decides-when-software-can-act-on-its-own.webp?v=1" width="1600" height="900" alt="A cream seesaw on a terracotta field, drawn flat from the side, its plank perfectly level on a solid black triangular pivot, cropped by the left and right edges." fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <p class="writing-eyebrow">Key idea 1 of 5</p>
+          <h2 id="designing-an-interface-now-means-designing-a-decision">Designing an interface now means designing a decision</h2>
+          <p>Here&rsquo;s an illustration. Your retirement account&rsquo;s assistant has worked out that raising your contribution by 3% would improve your outlook. Under that is a big button: Optimize my future.</p>
+          <p>One tap, and your next paycheck is smaller. Did you make an informed decision, or did someone make one decision feel inevitable? If it was wrong, who answers for it?</p>
+          <p>A good default can get someone saving who never would have started. The same levers can push a choice they wouldn&rsquo;t make with the facts in front of them.</p>
+          <p>AI can tune those levers for each person, and it can move from suggesting to doing:</p>
+          <figure class="writing-figure writing-rail">
+            <figcaption>From answering to acting, and who decides at each step</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-acting-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Answers</strong><span>a person asks, reads and decides</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-acting-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Recommends</strong><span>the system proposes, and a person judges</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-acting-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Acts on approval</strong><span>a person says yes before anything happens</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-acting-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Acts, then reports</strong><span>a person reviews it afterward</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-acting-5.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">05</span><strong>Acts alone</strong><span>nobody looks unless something breaks</span></li>
+            </ol>
+          </figure>
+          <p>Each step down that list is a delegation, and the interface sets its terms. <mark>Every default, every framing and every button is part of the decision now.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 2 of 5</p>
+          <h2 id="a-nudge-and-a-push-look-the-same-in-the-metrics">A nudge and a push look the same in the metrics</h2>
+          <p>One version of that suggestion shows its assumptions and what it does to take-home pay, and leaves the choice to you. Another shows a large, reassuring button and puts the downsides in small print.</p>
+          <p>Both raise contributions. On a dashboard, they&rsquo;re the same number.</p>
+          <figure class="writing-figure">
+            <figcaption>What a conversion metric sees, and what it misses</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">It sees</p>
+                <ul>
+                  <li>The yes</li>
+                  <li>How fast the yes came</li>
+                  <li>How many people said it</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">It misses</p>
+                <ul>
+                  <li>Whether they understood what they agreed to</li>
+                  <li>Whether they&rsquo;d choose it again</li>
+                  <li>Who quietly reversed it a month later</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>We&rsquo;ve gotten very good at measuring what people do. We&rsquo;re much less practiced at asking whether they should have done it. And a system that knows your habits can also know when you&rsquo;re most likely to say yes.</p>
+          <p><mark>If a metric can&rsquo;t tell a nudge from a push, it isn&rsquo;t measuring the design.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 3 of 5</p>
+          <h2 id="aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</h2>
+          <p>The risk is also in what the person stops doing. <a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/" target="_blank" rel="noopener noreferrer">Microsoft researchers found<span class="visually-hidden"> (opens in a new tab)</span></a> that the more confident knowledge workers were in the AI, the less critical thinking they reported. It&rsquo;s self-reported, so it shows a pattern, not a cause.</p>
+          <p>Explanations don&rsquo;t fix it. In <a href="https://www.microsoft.com/en-us/research/publication/does-the-whole-exceed-its-parts-the-effect-of-ai-explanations-on-complementary-team-performance/" target="_blank" rel="noopener noreferrer">an earlier study<span class="visually-hidden"> (opens in a new tab)</span></a>, they made people more likely to go along with the AI, right or wrong. A fluent reason reads as a good one.</p>
+          <p>So I&rsquo;d aim for what Microsoft&rsquo;s researchers call <a href="https://www.microsoft.com/en-us/research/publication/overreliance-on-ai-literature-review/" target="_blank" rel="noopener noreferrer">appropriate reliance<span class="visually-hidden"> (opens in a new tab)</span></a>: people take the advice when it&rsquo;s good and catch it when it isn&rsquo;t.</p>
+          <figure class="writing-figure writing-rail">
+            <figcaption>Three ways people rely on a system</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Too little</strong><span>people redo what the system got right</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Appropriate</strong><span>they accept it when it&rsquo;s right and catch it when it isn&rsquo;t</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-reliance-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Too much</strong><span>they accept what the system got wrong</span></li>
+            </ol>
+          </figure>
+          <p><a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, my prototype on synthetic data, tries to keep the checking alive:</p>
+          <ul>
+            <li>Five figures from the records under each recommendation, not a score, because figures can be argued with</li>
+            <li>How old a stale figure is, and what to check before assigning</li>
+            <li>When two trucks are level, it says so and declines to pick</li>
+            <li>Skip weighs the same as Save, so disagreeing is cheap</li>
+          </ul>
+          <p>Then measure the decision, not the acceptance. A high acceptance rate can mean the suggestions are good, or that people stopped reading them. More in <a href="enterprise-ai-should-help-people-decide-not-just-answer.html">Enterprise AI should help people decide, not just answer</a>.</p>
+          <p><mark>An explanation that sounds right is not evidence that it is right.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>If saying no is harder than saying yes, the approval is a formality.</p>
+          </aside>
+          <!-- The second drawing: the same object again, carrying the argument's
+               second half, from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
+          <figure class="writing-figure writing-scene">
+            <img src="../img/writing/who-decides-when-software-can-act-on-its-own-2.webp?v=1" width="1600" height="900" alt="The cream seesaw on its terracotta field again, its plank now tipped down to the left on the black pivot, a small stack of three cream cards at the low end, and one card in the middle of the stack dusty rose." loading="lazy" decoding="async" />
+            <figcaption>Reliance that matches the evidence: the decision tips by what has been put on it to check, not by how sure the system sounds.</figcaption>
+          </figure>
+
+          <p class="writing-eyebrow">Key idea 4 of 5</p>
+          <h2 id="an-approve-button-isnt-oversight">An approve button isn&rsquo;t oversight</h2>
+          <p>An approval is only oversight if the person can actually say no.</p>
+          <p>Imagine a dispatch agent recommends moving a truck, with high confidence, and the dispatcher approves. The driver has a limitation that isn&rsquo;t in the data. The math wasn&rsquo;t wrong, but nothing on the screen said what was missing.</p>
+          <figure class="writing-figure">
+            <figcaption>An approval that&rsquo;s a formality, and one that&rsquo;s oversight</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">A formality</p>
+                <ul>
+                  <li>A yes or no with nothing to judge</li>
+                  <li>No word on what&rsquo;s missing or how old it is</li>
+                  <li>Saying no takes longer than saying yes</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">Oversight</p>
+                <ul>
+                  <li>The evidence, and what it doesn&rsquo;t cover</li>
+                  <li>The consequence, and whether it can be undone</li>
+                  <li>A no that costs no more than a yes</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>Now picture that all day. Accepting takes one click, and disagreeing takes several screens and a written reason. A person approved every action. Did they decide any of them?</p>
+          <p>The decision belongs to whoever is accountable for the outcome. In Dispatch Cockpit, the federal hours-of-service limit is checked before anything is ranked, and the close calls stay with the dispatcher.</p>
+          <p>The test is simple: give people a bad recommendation and count how many catch it. More in <a href="what-does-a-person-need-to-supervise-an-ai-agent.html">What does a person need to supervise an AI agent?</a></p>
+          <p><mark>If saying no is harder than saying yes, the approval is a formality.</mark></p>
+
+          <p class="writing-eyebrow">Key idea 5 of 5</p>
+          <h2 id="what-the-system-says-when-it-doesnt-know-belongs-in-the-design-system">What the system says when it doesn&rsquo;t know belongs in the design system</h2>
+          <p>A design system defines what an error looks like. An AI product also needs to decide what it says when it doesn&rsquo;t know.</p>
+          <p>Ask, wait for a person, say how unsure it is, or refuse: those choices should be made once, in the system, not by each team on each screen.</p>
+          <figure class="writing-figure writing-rail">
+            <figcaption>What a system should be able to say when it doesn&rsquo;t know</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-unknown-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>What&rsquo;s missing</strong><span>the figure it doesn&rsquo;t have</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-unknown-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>How old it is</strong><span>the reading is 45 minutes old</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-unknown-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>It&rsquo;s a close call</strong><span>two answers are defensible, so it doesn&rsquo;t pick</span></li>
+              <li><img src="../img/writing/who-decides-when-software-can-act-on-its-own-unknown-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>No</strong><span>past a limit no score can argue with</span></li>
+            </ol>
+          </figure>
+          <p>A system that can say these four things is one I&rsquo;d rely on. One that always has an answer is one I&rsquo;d check every time.</p>
+          <p>Then measure whether people understood, how often they corrected the system, and whether they still feel in control. The rest is in <a href="what-does-a-design-system-need-once-ai-is-in-the-product.html">What does a design system need once AI is in the product?</a></p>
+          <p><mark>What a system says when it doesn&rsquo;t know is a pattern, and patterns belong in the design system.</mark></p>
+          <!-- The Blink's final summary and its actionable advice: the argument in
+               one breath for a reader who skipped to the end, then one thing to do. -->
+          <aside class="writing-recap" aria-labelledby="writing-recap-label">
+            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
+            <p class="writing-recap-sum">As software moves from answering to acting, the interface sets the terms of a delegation. The person accountable for the outcome decides, and the design work is making sure they really can.</p>
+            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> find the one default in your product that decides for people. Test whether someone who disagreed would notice it, understand it and undo it in one step.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- Where the argument leads on this site: the prototype it is
+             worked through, the case study about where judgment goes, and the
+             engagement it describes. -->
+        <nav class="related" aria-labelledby="related-label">
+          <p class="related-label" id="related-label">Related</p>
+          <ul class="related-list">
+            <li><a class="related-link" href="../prototype/dispatch-cockpit.html"><span class="related-kind">Prototype</span><span class="related-title">An AI recommendation the dispatcher can check and overrule</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../lab/agent-review.html"><span class="related-kind">Case study</span><span class="related-title">Agent Review</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../case-study/dispatch-complexity.html"><span class="related-kind">Case study</span><span class="related-title">One real-time view of a 450+ truck fleet</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </nav>
+        <a class="build-next" href="enterprise-ai-should-help-people-decide-not-just-answer.html">
+          <span class="build-next-eyebrow">Next</span>
+          <span class="build-next-title">Enterprise AI should help people decide, not just answer &rarr;</span>
+        </a>
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to writing
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

@@ -85,7 +85,7 @@ const html = String.raw`<!doctype html>
 <title>Adam Hickey Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* No custom properties on purpose: tokens.mjs reads a "--name:" in any
      stylesheet as a declaration, and this document is not part of the site.
@@ -105,7 +105,7 @@ const html = String.raw`<!doctype html>
     width: 8.5in;
     min-height: 11in;
     padding: 0.5in 0.7in 0.35in;
-    font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
     font-size: 8.0pt;
     line-height: 1.32;
     color: #252525;
@@ -116,7 +116,7 @@ const html = String.raw`<!doctype html>
     /* Crimson Text is loaded at 400 only and is never bolded -- TYPOGRAPHY.md,
        "hierarchy comes from size." Lora carried this line at 600; the size
        goes up rather than the weight. */
-    font-family: Fraunces, Georgia, serif;
+    font-family: "Crimson Text", Georgia, serif;
     font-weight: 400;
     font-size: 27pt;
     line-height: 1.1;
@@ -173,57 +173,56 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Digital Designer · Brand Identity · Visual Systems · Interactive and Interface Design · Front-End Prototyping</p>
+  <p class="tagline">Senior Product Designer · Complex Workflows · Design Systems · Prototyping in Code · AI and Agentic Products</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior digital designer with 20 years of brand-led sites, identities, illustration and interfaces, for organizations including Cargill, Intel, CBRE, Toro, Lund Boats and Fulton Beer. I began as a graphic designer and front-end developer at three Minneapolis studios, making visually rich sites, campaigns and apps; spent thirteen years bringing visual coherence, hierarchy and a shared design language to large enterprise products and design systems; and now design and build independent products and brand work end to end. I bring visual judgment, typographic craft and the technical fluency (HTML, CSS, JavaScript, prototyping, AI-assisted development) to carry an idea through to a finished digital experience.</p>
+  <p>Senior product designer with 20 years on complicated software, for organizations including Cargill, Intel, CBRE and Toro. I began as a designer-developer, building front ends in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design and build working products with coding agents. I bring enterprise workflow experience, interaction design and hands-on prototyping in code to teams working out what software should do on its own and where a person still decides.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
-  <div class="job"><span><b>Selected Independent Work</b> — Brand, digital and interactive design</span><span class="dates">2026 – Present</span></div>
+  <div class="job"><span><b>Selected Independent Work</b> — Product design, systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Say When</b> — A self-initiated, fictional coffee brand made to show the whole arc: strategy, naming, logo and identity, three-product packaging system, a campaign, and a working storefront prototype with a plain-language coffee finder, all designed and built in HTML, CSS, SVG and JavaScript.</li>
-    <li><b>Door County Found</b> and <b>Lucy Learns</b> — Two products in use, designed, illustrated and built end to end: an editorial travel brand and guide (identity, art direction, voice, site), and an illustrated dog-training app readable one-handed from across a room.</li>
-    <li><b>Faunaform</b> (in progress) and <b>While We&rsquo;re Here</b> — Art direction and production tooling for a screen-print studio; a 300mm square hardcover of essays, designed and produced from HTML and CSS to press-ready files.</li>
-    <li><b>Agent Review</b> and <b>Dispatch Cockpit</b> — Interactive prototypes exploring AI-assisted work, built with coding agents.</li>
+    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype for delegating UI work to coding agents. Defined the agent&rsquo;s boundaries, twelve written design rules, and automated visual and accessibility checks; ran the same feature with and without the rules to find where automation ends and human judgment begins.</li>
+    <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
+    <li><b>Lucy Learns</b> and <b>Door County Found</b> — two products in use, defined, designed and built end to end: an offline-first training app and a regional travel guide built on structured data.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
-    <li>Led UX and visual design for large enterprise digital experiences, application suites and operational software for clients in logistics, manufacturing, healthcare, financial services and the public sector: hierarchy, layout and polish that made complicated interfaces feel coherent and finished.</li>
-    <li>Led the Innovators Studio identity and ecosystem for a global corporation&rsquo;s internal innovation network: identity, illustration and badges, presentation and newsletter systems, campaigns, and a community portal, over four fiscal years.</li>
-    <li>Built and governed design systems across SAP, Microsoft, Umbraco and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s brand foundation and design-system site. Led accessibility, DesignOps and governance practices.</li>
-    <li>Tied design decisions to the numbers product, engineering and business teams track, and used AI tools to scale documentation and audits with human judgment on every decision.</li>
+    <li>Led enterprise product design and UX strategy for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
+    <li>Tied design decisions to the numbers product, engineering and business teams already track: efficiency, adoption, quality, ROI.</li>
+    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s own design-system site. Led accessibility, DesignOps and governance practices.</li>
+    <li>Used AI to scale the design system: drafting documentation, auditing for drift, checking design against code, and pulling research together. Human judgment on every decision.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
-  <p>Designed and built brand-led websites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden, Learn to Live (identity, character illustration and site) and others: two native iOS apps, an iPad app, Lund&rsquo;s boat configurator and Fulton&rsquo;s store locator, in HTML, CSS and jQuery across Joomla! and WordPress. Led rebrands and visual identity systems.</p>
+  <p>Shipped two native iOS apps and an iPad app, plus configurator and store-locator builds for Lund Boats and Fulton Beer. Built front-end experiences in HTML, CSS and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
-  <p>Designed and built websites and interactive pieces in HTML, CSS and Flash with project managers, creative leads, writers and developers.</p>
+  <p>Designed and built front-end websites in HTML, CSS, and Flash with project managers, creative leads, writers, and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
 </section>
 
 <section>
   <h2>Selected projects</h2>
   <ul>
-    <li>Innovators Studio: a reusable identity, illustration and template library that roughly halved the marketing team&rsquo;s campaign production time (a small sample of timesheets; a direction rather than a precise figure).</li>
-    <li>40+ SAP applications on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
-    <li>A USDA grant-management portal that took data-analysis requests from 45–55 hours to just over 10, and a dispatch cockpit for a 450+ truck fleet whose board-clearing time fell roughly 30% per cycle.</li>
+    <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+    <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal (research, workflows, accessibility).</li>
+    <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher short on attention rather than data. Board-clearing time fell roughly 30% per cycle.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>Visual Design</span><span>Brand Identity</span><span>Art Direction</span><span>Typography &amp; Layout</span><span>Illustration</span><span>Interface &amp; Interaction Design</span><span>Digital Campaigns</span><span>Design Systems</span><span>Accessibility</span><span>Prototyping in Code</span><span>Motion</span><span>AI-Assisted Production</span></p>
+  <p class="inline"><span>Product Strategy</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Complex Workflows</span><span>Design Systems &amp; Governance</span><span>Accessibility</span><span>Decision-Support Interfaces</span><span>Human&ndash;AI Interaction</span><span>Agentic Workflows</span><span>AI Autonomy &amp; Escalation</span><span>Design-to-Code Systems</span></p>
 </section>
 
 <section>
   <h2>Tools &amp; platforms</h2>
-  <p class="inline"><b>Design:</b> <span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>SVG and CSS illustration</span><span>Image models for illustration pipelines</span><span>CSS custom properties (tokens)</span><span>WCAG 2.1 AA</span></p>
-  <p class="inline"><b>Front end, by hand (2005–2013) and now:</b> <span>HTML</span><span>CSS</span><span>JavaScript/jQuery</span><span>Flash</span><span>WordPress</span><span>Joomla!</span></p>
-  <p class="inline"><b>Build with coding agents:</b> <span>React</span><span>TypeScript</span><span>Storybook</span><span>Playwright</span><span>Git/GitHub</span><span>Claude Code</span><span>SAP Fiori, Sitecore, Umbraco platforms</span></p>
+  <p class="inline"><b>Used professionally, by hand (2005–2013):</b> <span>HTML</span><span>CSS</span><span>JavaScript/jQuery</span><span>Flash</span><span>WordPress</span><span>Joomla!</span></p>
+  <p class="inline"><b>Build with now, through coding agents:</b> <span>React</span><span>TypeScript</span><span>Storybook</span><span>Playwright</span><span>Vitest &amp; axe</span><span>Git/GitHub</span><span>Claude Code (skills, plugins, MCP)</span></p>
+  <p class="inline"><b>Design &amp; platforms:</b> <span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>CSS custom properties (tokens)</span><span>ChatGPT &amp; Gemini</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
 </section>
 
 <section>
@@ -251,7 +250,7 @@ const html = String.raw`<!doctype html>
 
    Same rules as above: the site's two families, Crimson Text at 400 only,
    no italic in the sans, and the ink ladder written out as values. Sage
-   (#276468, COLOR.md's --color-accent-text, 6.75:1 on white) carries the
+   (#556b51, COLOR.md's --color-accent-text, 5.82:1 on white) carries the
    role titles and nothing else, the one place a reader's eye should land
    after the name. */
 /* The wordmark is read from the site's own file at render time rather than
@@ -268,7 +267,7 @@ const reading = String.raw`<!doctype html>
 <title>Adam Hickey Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   @page { size: Letter; margin: 0; }
   * { box-sizing: border-box; }
@@ -277,7 +276,7 @@ const reading = String.raw`<!doctype html>
     width: 8.5in;
     height: 11in;
     padding: 0.62in 0.7in 0.5in;
-    font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
     font-size: 9.5pt;
     line-height: 1.5;
     color: #252525;
@@ -308,13 +307,13 @@ const reading = String.raw`<!doctype html>
   .title {
     font-size: 12pt;
     font-weight: 600;
-    color: #276468;
+    color: #556b51;
     margin: 5pt 0 0;
   }
   .intro {
     font-size: 10.5pt;
     line-height: 1.5;
-    margin: 14pt 0 0;
+    margin: 18pt 0 0;
   }
   h2 {
     font-size: 11pt;
@@ -322,7 +321,7 @@ const reading = String.raw`<!doctype html>
     line-height: 1.3;
     margin: 0 0 5pt;
   }
-  main section { margin-top: 22pt; }
+  main section { margin-top: 24pt; }
   aside section + section { margin-top: 22pt; }
   /* The reference this was drawn from hangs each role on a dot, with a
      hairline running down beside what was done there. It is the one
@@ -355,7 +354,7 @@ const reading = String.raw`<!doctype html>
   .role h3 {
     font-size: 10pt;
     font-weight: 600;
-    color: #276468;
+    color: #556b51;
     margin: 0;
   }
   .dates { color: #5c5f5c; }
@@ -365,7 +364,7 @@ const reading = String.raw`<!doctype html>
   aside { padding-top: 4pt; }
   aside p + p { margin-top: 0; }
   aside .dates { margin: 1pt 0 2pt; }
-  .as { color: #276468; font-weight: 500; }
+  .as { color: #556b51; font-weight: 500; }
   .earlier .dates + p { margin-top: 6pt; }
 </style>
 </head>
@@ -374,16 +373,16 @@ const reading = String.raw`<!doctype html>
 <main>
   <header>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
-    <p class="title">Senior Digital Designer</p>
+    <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years of visual ideas brought to life: identities, illustration, sites and interfaces. I started as a graphic designer and front-end developer, spent thirteen years making large enterprise products coherent, and now design and build brand and digital work end to end.</p>
+  <p class="intro">Twenty years designing complicated software, and building it. I started as a designer-developer, spent thirteen years on enterprise products and design systems at scale, and now design and build working products with coding agents.</p>
 
   <section>
     <h2>Independent</h2>
     <div class="role">
-      <h3>Brand, digital and interactive design</h3>
+      <h3>Product design and prototyping</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Say When, a self-initiated coffee brand concept from strategy and logo through packaging, a campaign and a working storefront. Door County Found, an editorial travel brand and guide, and Lucy Learns, an illustrated training app, both in use and built end to end. Faunaform, a screen-print studio in progress.</p>
+      <p class="did">Designed and built Agent Review with Claude Code: a React and TypeScript prototype for handing UI work to coding agents, with written design rules and automated checks marking where a person decides. Also Dispatch Cockpit, a decision-support prototype for dispatchers, and two products in use, Lucy Learns and Door County Found.</p>
     </div>
   </section>
 
@@ -392,16 +391,16 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Lead UX Product Designer</h3>
       <p class="dates">2013 – 2026</p>
-      <p class="did">Led UX and visual design for large enterprise products and design systems in logistics, manufacturing, healthcare, finance and the public sector, and the Innovators Studio identity for a global innovation network. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, and designed and built Connect, the firm&rsquo;s brand foundation and design-system site.</p>
+      <p class="did">Led enterprise product design and UX strategy for clients in logistics, manufacturing, healthcare, financial services and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, led the accessibility, DesignOps and governance practices, and designed and built Connect, the firm&rsquo;s own design-system site.</p>
     </div>
   </section>
 
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>Innovators Studio:</b> identity, illustration, badges, templates and a community portal over four fiscal years.</li>
-      <li><b>40+ SAP applications</b> on one design system and accessibility standard: a third less time from design to development, production UI defects roughly halved.</li>
-      <li><b>A USDA grant portal</b> and <b>a 450+ truck dispatch cockpit:</b> complicated information made clear.</li>
+      <li><b>40+ SAP applications</b> on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+      <li><b>A USDA grant-management portal</b> that took data-analysis requests from 45–55 hours to just over 10.</li>
+      <li><b>Real-time logistics for a 450+ truck fleet:</b> dense cards in place of a map, and board-clearing time down roughly 30%.</li>
     </ul>
   </section>
 
@@ -410,7 +409,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Interactive Designer / Developer</h3>
       <p class="dates">2008 – 2013</p>
-      <p class="did">Designed and built brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and Learn to Live, in HTML, CSS and jQuery.</p>
+      <p class="did">Designed and built websites for Lund Boats, Fulton Beer and others in HTML, CSS and jQuery, including Lund&rsquo;s boat configurator and Fulton&rsquo;s store locator.</p>
     </div>
   </section>
 </main>
@@ -428,26 +427,26 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Expertise</h2>
     <ul>
-      <li>Visual design and art direction</li>
-      <li>Brand identity</li>
-      <li>Typography and layout</li>
-      <li>Illustration</li>
-      <li>Interface and interaction design</li>
-      <li>Design systems</li>
+      <li>Product strategy</li>
+      <li>Interaction design</li>
+      <li>Complex workflows</li>
+      <li>Design systems and governance</li>
+      <li>Accessibility</li>
+      <li>Human–AI interaction</li>
       <li>Prototyping in code</li>
     </ul>
   </section>
 
   <section>
     <h2>Tools</h2>
-    <p><b>Design:</b> Figma, SVG and CSS illustration, image models</p>
-    <p><b>Front end:</b> HTML, CSS, JavaScript, jQuery, WordPress</p>
-    <p><b>With coding agents:</b> React, TypeScript, Storybook, Playwright, Claude Code, Git</p>
+    <p><b>Design:</b> Figma</p>
+    <p><b>Built by hand, 2005–2013:</b> HTML, CSS, jQuery, Flash, WordPress</p>
+    <p><b>Build with coding agents now:</b> React, TypeScript, Storybook, Playwright, Claude Code, Git</p>
   </section>
 
   <section>
     <h2>Clients</h2>
-    <p>Cargill, Intel, CBRE, Toro, Lund Boats, Fulton Beer, Hazelden</p>
+    <p>Cargill, Intel, CBRE, Toro, Banner Bank, International Trucks</p>
   </section>
 
   <section class="earlier">

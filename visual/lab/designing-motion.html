@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <!-- The story hides its inactive steps under .js, so a reader without
+       JavaScript gets all three in a column; set before first paint, as the
+       homepage did while the story lived there. -->
+  <script>document.documentElement.className += " js";</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing Motion with Claude Code | Adam Hickey</title>
+  <meta name="description" content="A scroll-driven story built with Claude Code and anime.js: a blueprint is handed off, a tree grows every branch at once, then it is pruned and bears fruit. Kept from the homepage as an exploration of motion and interaction." />
+
+  <link rel="canonical" href="https://adamhickey.com/lab/designing-motion.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/lab/designing-motion.html" />
+  <meta property="og:title" content="Designing Motion with Claude Code | Adam Hickey" />
+  <meta property="og:description" content="A scroll-driven story built with Claude Code and anime.js: a blueprint is handed off, a tree grows every branch at once, then it is pruned and bears fruit. Kept from the homepage as an exploration of motion and interaction." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/designing-motion.jpg?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://adamhickey.com/lab/designing-motion.html#article",
+      "headline": "Designing motion with Claude Code",
+      "description": "A scroll-driven story built with Claude Code and anime.js: a blueprint is handed off, a tree grows every branch at once, then it is pruned and bears fruit. Kept from the homepage as an exploration of motion and interaction.",
+      "url": "https://adamhickey.com/lab/designing-motion.html",
+      "mainEntityOfPage": "https://adamhickey.com/lab/designing-motion.html",
+      "image": "https://adamhickey.com/img/og/designing-motion.jpg?v=1",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-26",
+      "author": {
+        "@id": "https://adamhickey.com/#adam"
+      },
+      "publisher": {
+        "@id": "https://adamhickey.com/#adam"
+      },
+      "isPartOf": {
+        "@id": "https://adamhickey.com/#website"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Motion design"
+        },
+        {
+          "@type": "Thing",
+          "name": "Interaction design"
+        },
+        {
+          "@type": "Thing",
+          "name": "Claude Code"
+        }
+      ],
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://adamhickey.com/lab/designing-motion.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://adamhickey.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Lab",
+          "item": "https://adamhickey.com/lab/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Designing motion with Claude Code",
+          "item": "https://adamhickey.com/lab/designing-motion.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=10" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=6" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#approach">Approach</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Experiments</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- AN EXPLORATION, since 2026-10-21. This scroll story was the
+         homepage's "What changes when agents can build" from the hire-me
+         pass until the portfolio review that day cut it to shorten the page
+         (#539). Adam wanted to keep it, as the lab's last entry: a piece about
+         designing motion and interaction with Claude Code, not an argument.
+         The section, its four scripts and the anime.js scene are moved here
+         as they were; the .story rules stayed in style.css throughout. -->
+    <header class="case-hero">
+      <div class="container case-wide">
+        <p class="case-kicker">Experiment &middot; motion</p>
+        <h1 class="case-title">Designing motion with Claude Code</h1>
+        <p class="build-dek">A three-step scroll story from the homepage, kept as an exploration of motion built with Claude Code. As you scroll, a blueprint is handed off, a tree grows every branch at once, then it&rsquo;s pruned and bears fruit.</p>
+        <ul class="build-list">
+          <li>Scroll position sets the playhead of one anime.js timeline, with a little lag so it carries weight</li>
+          <li>Each step holds at its center, so stopping always lands on a finished state</li>
+          <li>With reduced motion it jumps between those held states; without JavaScript the finished drawing stays</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ============================== WHY I DESIGN (sticky scroll story) ============================== -->
+    <section id="how-i-think" class="story" aria-label="My approach to design">
+<!-- Ambient dot grid: a quiet field of dots on a viewport-height
+           sticky frame behind the content, crossfading its tint with each
+           step's theme. Deliberately not pointer-reactive: the tree is the
+           star of this section, so the field only sets the mood. -->
+      <div class="story-dots" aria-hidden="true">
+        <div class="story-dots-frame"><canvas id="storyDots"></canvas></div>
+      </div>
+      <div class="container">
+        <header class="story-head">
+          <!-- "The design-to-build shift" until 2026-10-06. That named what
+               happened to one designer's job; this names the question the
+               three steps answer for anyone's, and the third step's last
+               sentence is its answer. The three step titles did not move. -->
+          <h2 class="story-lead story-anim">What changes when agents can build</h2>
+        </header>
+
+        <div class="story-track">
+          <!-- Left: scrolling text steps -->
+          <div class="story-steps">
+            <!-- The three steps stack in one grid cell inside a stage that is
+                 pinned to exactly the scene's box, so the active step's text is
+                 centered against the circle by construction rather than by a
+                 tuned offset. The runway that drives them is .story-steps'
+                 own height; see the CSS. -->
+            <div class="story-text-stage">
+            <article class="story-step" data-step="0">
+              <span class="story-num">01</span>
+              <!-- THE COPY FOLLOWS THE SCENE, since 2026-10-06: each step names
+                   what the drawing beside it does. Here that is the dashed
+                   blueprint, the arrow and the bare stem, so the lead-in says
+                   "blueprint" and the heading says "handoff". "For thirteen
+                   years" came out: thirteen is RBA alone, and the hero says
+                   twenty, so the number read as a contradiction two screens
+                   apart. -->
+              <h3>For most of my career, design ended at the handoff.</h3>
+              <p><span class="story-lead-in">I drew the blueprint. Someone else built it.</span> Months later, we found out what survived the translation.</p>
+              <!-- Mobile-only static render of the scene at this step's held
+                   state: the grid, the blueprint and the bare stem. Desktop scrubs the live scene. -->
+              <div class="story-step-media reveal" aria-hidden="true"><div class="ssm-back-wrap"><svg class="ssm-scene" viewBox="28.3 281.6 364.5 364.5" focusable="false" aria-hidden="true"><g opacity="0.5"><path pathLength="1" style="--i:0" class="sd" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /><path pathLength="1" style="--i:1" class="sd" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /></g><path style="--i:2" class="sp" d="M152.2,413 L243.1,465.5 L152.2,518 L61.2,465.5 Z" fill="none" stroke="#252525" stroke-width="2" stroke-dasharray="7 7" /><polygon style="--i:3" class="sp sc-chip" points="152.2,425 163.9,431.8 152.2,438.5 140.5,431.8" fill="#657D60" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:4" class="sp sc-chip" points="175.5,438.5 187.2,445.3 175.5,452 163.9,445.3" fill="#C0714E" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon style="--i:5" class="sp sc-chip" points="198.9,452 210.6,458.8 198.9,465.5 187.2,458.8" fill="#56718C" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><line style="--i:6" class="sp sc-specline" x1="126.2" y1="440" x2="193.7" y2="479" stroke="#252525" stroke-width="2.5" stroke-opacity="0.7" /><line style="--i:7" class="sp sc-specline" x1="110.6" y1="449" x2="160" y2="477.5" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><line style="--i:8" class="sp sc-specline" x1="97.6" y1="456.5" x2="131.4" y2="476" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><path pathLength="1" style="--i:9" class="sd" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 M79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" /><path style="--i:10" class="sp" d="M206.7,495.5 Q276.4,478.3 346,489" fill="none" stroke="#252525" stroke-width="2.25" stroke-dasharray="6 7" stroke-linecap="round" /><polygon style="--i:11" class="sp" points="355.9,490.5 343.3,493.6 344.8,483.8" fill="#252525" /><path pathLength="1" style="--i:12" class="sd" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="2.2" stroke-linecap="round" /><circle style="--i:13" class="sp" cx="360" cy="409.8" r="5" fill="#252525" /></svg></div></div>
+            </article>
+            <article class="story-step" data-step="1">
+              <span class="story-num">02</span>
+              <h3>Now the building is the fast part.</h3>
+              <!-- The scene: the blueprint goes and the tree branches out
+                   fast, the two widest arms step 03 cuts among them. So the
+                   paragraph is speed, and then the overgrowth: an agent
+                   builds what it is asked and some of what it is not, which
+                   is what makes pruning a job. "Days, not months" answers
+                   step 01's "months later" and claims no more than that.
+                   Until 2026-10-06 this step carried the site's own branch,
+                   pull request and checks, and the Lucy Learns voice
+                   commands as the case for step 03; the Built section below
+                   shows the products, and the shift keeps to its one
+                   argument and its one link out. -->
+              <p><span class="story-lead-in">I build what I design, with coding agents.</span> Working software in days, not months. And an agent grows every branch it&rsquo;s asked for, plus a few it wasn&rsquo;t.</p>
+              <!-- Static held state two: the tree branched out in wireframe. -->
+              <div class="story-step-media reveal" aria-hidden="true"><div class="ssm-back-wrap"><svg class="ssm-scene" viewBox="31.2 3.7 653.7 653.7" focusable="false" aria-hidden="true"><g opacity="0.5"><path pathLength="1" style="--i:0" class="sd" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /><path pathLength="1" style="--i:1" class="sd" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /></g><path pathLength="1" style="--i:2" class="sd" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="2.2" stroke-linecap="round" /><path pathLength="1" style="--i:3" class="sd" d="M360,409.8 Q376.7,376.7 379.9,339.7" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:4" class="sd" d="M360,409.8 Q314,394.6 274.3,366.8" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:5" class="sd" d="M360,409.8 Q404.5,399.3 443.8,375.8" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:6" class="sd" d="M379.9,339.7 Q405.2,338.8 426.2,324.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:7" class="sd" d="M379.9,339.7 Q390.2,308.8 386.5,276.4" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:8" class="sd" d="M379.9,339.7 Q350.6,310.1 313.2,291.8" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:9" class="sd" d="M274.3,366.8 Q242.8,346.7 206.1,339.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:10" class="sd" d="M274.3,366.8 Q274.3,333.6 287.9,303.4" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:11" class="sd" d="M274.3,366.8 Q275.7,353.5 264.5,346.2" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:12" class="sd" d="M443.8,375.8 Q478.1,359.9 515.9,357.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:13" class="sd" d="M443.8,375.8 Q457.4,347.5 457.4,316" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:14" class="sd" d="M386.5,276.4 Q380.6,224.6 388.7,173.1" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:15" class="sd" d="M386.5,276.4 Q357,245.5 319.1,225.9" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:16" class="sd" d="M426.2,324.6 Q448.6,303.5 459.4,274.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:17" class="sd" d="M426.2,324.6 Q413.5,297 414.6,266.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:18" class="sd" d="M206.1,339.6 Q168.2,323.4 137.9,295.4" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:19" class="sd" d="M206.1,339.6 Q204.1,297.4 188.5,258.1" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:20" class="sd" d="M287.9,303.4 Q276.8,278.2 254.8,261.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:21" class="sd" d="M264.5,346.2 Q250.6,341.3 247,327" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:22" class="sd" d="M515.9,357.6 Q547.4,342.1 570.4,315.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:23" class="sd" d="M515.9,357.6 Q514.9,326.7 527.6,298.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:24" class="sd" d="M457.4,316 Q482.1,299.2 496.4,273" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:25" class="sd" d="M319.1,225.9 Q313.7,208.4 297.6,199.9" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:26" class="sd" d="M459.4,274.6 Q466.3,261.9 480.8,261" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:27" class="sd" d="M137.9,295.4 Q134.8,278.9 120.3,270.5" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:28" class="sd" d="M188.5,258.1 Q171.1,245.7 165.2,225.2" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:29" class="sd" d="M254.8,261.6 Q253.8,247.5 241.1,241.2" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:30" class="sd" d="M570.4,315.6 Q578.6,299.5 595.8,294.1" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:31" class="sd" d="M527.6,298.6 Q542.5,285.4 545.1,265.7" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:32" class="sd" d="M496.4,273 Q504.7,257.4 521.7,252.6" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:33" class="sd" d="M414.6,266.6 Q421.6,257.5 414.6,248.3" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:34" class="sd" d="M247,327 Q231.2,324.2 223.6,310" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:35" class="sd" d="M313.2,291.8 Q306.8,262.7 287.9,239.7" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><circle style="--i:36" class="sp" cx="360" cy="409.8" r="5" fill="#252525" /><circle style="--i:37" class="sp" cx="379.9" cy="339.7" r="4" fill="#252525" /><circle style="--i:38" class="sp" cx="274.3" cy="366.8" r="4" fill="#252525" /><circle style="--i:39" class="sp" cx="443.8" cy="375.8" r="4" fill="#252525" /><circle style="--i:40" class="sp" cx="426.2" cy="324.6" r="4" fill="#252525" /><circle style="--i:41" class="sp" cx="386.5" cy="276.4" r="4" fill="#252525" /><circle style="--i:42" class="sp" cx="313.2" cy="291.8" r="4" fill="#252525" /><circle style="--i:43" class="sp" cx="206.1" cy="339.6" r="4" fill="#252525" /><circle style="--i:44" class="sp" cx="287.9" cy="303.4" r="4" fill="#252525" /><circle style="--i:45" class="sp" cx="264.5" cy="346.2" r="4" fill="#252525" /><circle style="--i:46" class="sp" cx="515.9" cy="357.6" r="4" fill="#252525" /><circle style="--i:47" class="sp" cx="457.4" cy="316" r="4" fill="#252525" /><circle style="--i:48" class="sp" cx="388.7" cy="173.1" r="4" fill="#252525" /><circle style="--i:49" class="sp" cx="319.1" cy="225.9" r="4" fill="#252525" /><circle style="--i:50" class="sp" cx="459.4" cy="274.6" r="4" fill="#252525" /><circle style="--i:51" class="sp" cx="414.6" cy="266.6" r="4" fill="#252525" /><circle style="--i:52" class="sp" cx="137.9" cy="295.4" r="4" fill="#252525" /><circle style="--i:53" class="sp" cx="188.5" cy="258.1" r="4" fill="#252525" /><circle style="--i:54" class="sp" cx="254.8" cy="261.6" r="4" fill="#252525" /><circle style="--i:55" class="sp" cx="247" cy="327" r="4" fill="#252525" /><circle style="--i:56" class="sp" cx="570.4" cy="315.6" r="4" fill="#252525" /><circle style="--i:57" class="sp" cx="527.6" cy="298.6" r="4" fill="#252525" /><circle style="--i:58" class="sp" cx="496.4" cy="273" r="4" fill="#252525" /><circle style="--i:59" class="sp" cx="297.6" cy="199.9" r="3" fill="#252525" /><circle style="--i:60" class="sp" cx="480.8" cy="261" r="3" fill="#252525" /><circle style="--i:61" class="sp" cx="120.3" cy="270.5" r="3" fill="#252525" /><circle style="--i:62" class="sp" cx="165.2" cy="225.2" r="3" fill="#252525" /><circle style="--i:63" class="sp" cx="241.1" cy="241.2" r="3" fill="#252525" /><circle style="--i:64" class="sp" cx="595.8" cy="294.1" r="3" fill="#252525" /><circle style="--i:65" class="sp" cx="545.1" cy="265.7" r="3" fill="#252525" /><circle style="--i:66" class="sp" cx="521.7" cy="252.6" r="3" fill="#252525" /><circle style="--i:67" class="sp" cx="414.6" cy="248.3" r="3" fill="#252525" /><circle style="--i:68" class="sp" cx="223.6" cy="310" r="3" fill="#252525" /><circle style="--i:69" class="sp" cx="287.9" cy="239.7" r="3" fill="#252525" /></svg></div></div>
+            </article>
+            <article class="story-step" data-step="2">
+              <span class="story-num">03</span>
+              <!-- AGENT REVIEW'S ARGUMENT, AND THE WAY OUT TO IT. The scene is
+                   the pruning: scissors take the two widest arms and the kept
+                   tree fruits. The pruning lead-in stays for that reason, and
+                   the paragraph says what pruning is in this work, as the
+                   three places a decision is kept: the rules an agent reads
+                   first, the checks every change must pass, and the calls
+                   left to a person. Those are the same three the hero's "how
+                   people and coding agents build together" means, said
+                   without repeating the lab card's own wording above. Since
+                   2026-10-06 the link names the project in its visible words,
+                   so the accessible name needs no hidden half; until then it
+                   read "See this in practice" over a paragraph that did not
+                   name it. "See it in the Agent Review case study" was tried
+                   and wrapped to two lines at 375.
+                   SINCE THE VOICE PILOT (2026-10-21) the paragraph says what
+                   pruning is as work rather than listing the four places a
+                   decision is kept: the lab card under Selected work lists
+                   them, so here they were the homepage's second copy of one
+                   list, two screens apart. -->
+              <h3>The judgment didn&rsquo;t go away. It&nbsp;moved.</h3>
+              <p><span class="story-lead-in">Growing is easy. Pruning is the craft.</span> More of the job now is deciding what to cut back, and which calls an agent should never make on its own.</p>
+              <p class="story-more"><a class="story-link" href="../writing/what-makes-a-good-product-designer-now.html">Read the whole argument <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: what makes a good product designer now</span></a></p>
+              <!-- Static held state three: the pruned tree, flourishing. -->
+              <div class="story-step-media reveal" aria-hidden="true"><div class="ssm-back-wrap"><svg class="ssm-scene" viewBox="14.0 6.0 688.0 688.0" focusable="false" aria-hidden="true"><ellipse style="--i:0" class="sp" cx="368" cy="497" rx="158" ry="30" fill="#657D60" opacity="0.16" /><g opacity="0.32"><path pathLength="1" style="--i:1" class="sd" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /><path pathLength="1" style="--i:2" class="sd" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" /></g><g opacity="0.15"><path pathLength="1" style="--i:3" class="sd" d="M254.9,355.9 Q231.8,344.6 206.1,339.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:4" class="sd" d="M464.7,367.5 Q489.4,359.2 515.9,357.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:5" class="sd" d="M206.1,339.6 Q168.2,323.4 137.9,295.4" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:6" class="sd" d="M206.1,339.6 Q204.1,297.4 188.5,258.1" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:7" class="sd" d="M515.9,357.6 Q547.4,342.1 570.4,315.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:8" class="sd" d="M515.9,357.6 Q514.9,326.7 527.6,298.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:9" class="sd" d="M137.9,295.4 Q134.8,278.9 120.3,270.5" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:10" class="sd" d="M188.5,258.1 Q171.1,245.7 165.2,225.2" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:11" class="sd" d="M570.4,315.6 Q578.6,299.5 595.8,294.1" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><path pathLength="1" style="--i:12" class="sd" d="M527.6,298.6 Q542.5,285.4 545.1,265.7" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" /><circle style="--i:13" class="sp" cx="206.1" cy="339.6" r="4" fill="#252525" /><circle style="--i:14" class="sp" cx="137.9" cy="295.4" r="4" fill="#252525" /><circle style="--i:15" class="sp" cx="188.5" cy="258.1" r="4" fill="#252525" /><circle style="--i:16" class="sp" cx="120.3" cy="270.5" r="3" fill="#252525" /><circle style="--i:17" class="sp" cx="165.2" cy="225.2" r="3" fill="#252525" /><circle style="--i:18" class="sp" cx="515.9" cy="357.6" r="4" fill="#252525" /><circle style="--i:19" class="sp" cx="570.4" cy="315.6" r="4" fill="#252525" /><circle style="--i:20" class="sp" cx="527.6" cy="298.6" r="4" fill="#252525" /><circle style="--i:21" class="sp" cx="595.8" cy="294.1" r="3" fill="#252525" /><circle style="--i:22" class="sp" cx="545.1" cy="265.7" r="3" fill="#252525" /></g><path pathLength="1" style="--i:23" class="sd" d="M274.3,366.8 Q264.9,360.8 254.9,355.9" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:24" class="sd" d="M443.8,375.8 Q454.1,371 464.7,367.5" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path pathLength="1" style="--i:25" class="sd" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="3.2" stroke-linecap="round" /><path pathLength="1" style="--i:26" class="sd" d="M360,409.8 Q376.7,376.7 379.9,339.7" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:27" class="sd" d="M360,409.8 Q314,394.6 274.3,366.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:28" class="sd" d="M360,409.8 Q404.5,399.3 443.8,375.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:29" class="sd" d="M379.9,339.7 Q405.2,338.8 426.2,324.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:30" class="sd" d="M379.9,339.7 Q390.2,308.8 386.5,276.4" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:31" class="sd" d="M379.9,339.7 Q350.6,310.1 313.2,291.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:32" class="sd" d="M274.3,366.8 Q274.3,333.6 287.9,303.4" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:33" class="sd" d="M274.3,366.8 Q275.7,353.5 264.5,346.2" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:34" class="sd" d="M443.8,375.8 Q457.4,347.5 457.4,316" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:35" class="sd" d="M386.5,276.4 Q380.6,224.6 388.7,173.1" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:36" class="sd" d="M386.5,276.4 Q357,245.5 319.1,225.9" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:37" class="sd" d="M426.2,324.6 Q448.6,303.5 459.4,274.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:38" class="sd" d="M426.2,324.6 Q413.5,297 414.6,266.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:39" class="sd" d="M287.9,303.4 Q276.8,278.2 254.8,261.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:40" class="sd" d="M264.5,346.2 Q250.6,341.3 247,327" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:41" class="sd" d="M457.4,316 Q482.1,299.2 496.4,273" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" /><path pathLength="1" style="--i:42" class="sd" d="M319.1,225.9 Q313.7,208.4 297.6,199.9" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:43" class="sd" d="M459.4,274.6 Q466.3,261.9 480.8,261" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:44" class="sd" d="M254.8,261.6 Q253.8,247.5 241.1,241.2" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:45" class="sd" d="M496.4,273 Q504.7,257.4 521.7,252.6" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:46" class="sd" d="M414.6,266.6 Q421.6,257.5 414.6,248.3" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:47" class="sd" d="M247,327 Q231.2,324.2 223.6,310" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><path pathLength="1" style="--i:48" class="sd" d="M313.2,291.8 Q306.8,262.7 287.9,239.7" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" /><circle style="--i:49" class="sp" cx="360" cy="409.8" r="5" fill="#657D60" /><circle style="--i:50" class="sp" cx="379.9" cy="339.7" r="4" fill="#657D60" /><circle style="--i:51" class="sp" cx="274.3" cy="366.8" r="4" fill="#657D60" /><circle style="--i:52" class="sp" cx="443.8" cy="375.8" r="4" fill="#657D60" /><circle style="--i:53" class="sp" cx="426.2" cy="324.6" r="4" fill="#657D60" /><circle style="--i:54" class="sp" cx="386.5" cy="276.4" r="4" fill="#657D60" /><circle style="--i:55" class="sp" cx="313.2" cy="291.8" r="4" fill="#657D60" /><circle style="--i:56" class="sp" cx="287.9" cy="303.4" r="4" fill="#657D60" /><circle style="--i:57" class="sp" cx="264.5" cy="346.2" r="4" fill="#657D60" /><circle style="--i:58" class="sp" cx="457.4" cy="316" r="4" fill="#657D60" /><circle style="--i:59" class="sp" cx="388.7" cy="173.1" r="4" fill="#657D60" /><circle style="--i:60" class="sp" cx="319.1" cy="225.9" r="4" fill="#657D60" /><circle style="--i:61" class="sp" cx="459.4" cy="274.6" r="4" fill="#657D60" /><circle style="--i:62" class="sp" cx="414.6" cy="266.6" r="4" fill="#657D60" /><circle style="--i:63" class="sp" cx="254.8" cy="261.6" r="4" fill="#657D60" /><circle style="--i:64" class="sp" cx="247" cy="327" r="4" fill="#657D60" /><circle style="--i:65" class="sp" cx="496.4" cy="273" r="4" fill="#657D60" /><circle style="--i:66" class="sp" cx="297.6" cy="199.9" r="3" fill="#657D60" /><circle style="--i:67" class="sp" cx="480.8" cy="261" r="3" fill="#657D60" /><circle style="--i:68" class="sp" cx="241.1" cy="241.2" r="3" fill="#657D60" /><circle style="--i:69" class="sp" cx="521.7" cy="252.6" r="3" fill="#657D60" /><circle style="--i:70" class="sp" cx="414.6" cy="248.3" r="3" fill="#657D60" /><circle style="--i:71" class="sp" cx="223.6" cy="310" r="3" fill="#657D60" /><circle style="--i:72" class="sp" cx="287.9" cy="239.7" r="3" fill="#657D60" /><g transform="translate(390.7 163.1) rotate(-38)"><g class="leaf-sway" style="--sd: 0s"><path style="--i:73" class="sp leaf sc-stem" d="M0,0 C11.899999999999999,-9.520000000000001 25.5,-9.520000000000001 34,0 C25.5,9.520000000000001 11.899999999999999,9.520000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(396.7 176.1) rotate(24)"><g class="leaf-sway" style="--sd: 0.9s"><path style="--i:74" class="sp leaf sc-stem" d="M0,0 C10.85,-8.680000000000001 23.25,-8.680000000000001 31,0 C23.25,8.680000000000001 10.85,8.680000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(381.7 168.1) rotate(-96)"><g class="leaf-sway" style="--sd: 1.8s"><path style="--i:75" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(376.245 217.51074999999997) rotate(-150)"><g class="leaf-sway" style="--sd: 2.7s"><path style="--i:76" class="sp leaf sc-stem" d="M0,0 C8.399999999999999,-6.720000000000001 18,-6.720000000000001 24,0 C18,6.720000000000001 8.399999999999999,6.720000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(394.5 280.4) rotate(30)"><g class="leaf-sway" style="--sd: 3.6s"><path style="--i:77" class="sp leaf sc-stem" d="M0,0 C8.399999999999999,-6.720000000000001 18,-6.720000000000001 24,0 C18,6.720000000000001 8.399999999999999,6.720000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(371.9 345.7) rotate(155)"><g class="leaf-sway" style="--sd: 4.5s"><path style="--i:78" class="sp leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g><g transform="translate(317.1 217.9) rotate(-60)"><g class="leaf-sway" style="--sd: 5.4s"><path style="--i:79" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(293.6 193.9) rotate(-110)"><g class="leaf-sway" style="--sd: 6.3s"><path style="--i:80" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(353.509 253.82825) rotate(130)"><g class="leaf-sway" style="--sd: 7.2s"><path style="--i:81" class="sp leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g><g transform="translate(420.6 250.3) rotate(20)"><g class="leaf-sway" style="--sd: 8.1s"><path style="--i:82" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(418.6 260.6) rotate(-30)"><g class="leaf-sway" style="--sd: 9s"><path style="--i:83" class="sp leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g><g transform="translate(465.4 280.6) rotate(45)"><g class="leaf-sway" style="--sd: 9.9s"><path style="--i:84" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(486.8 263) rotate(10)"><g class="leaf-sway" style="--sd: 10.8s"><path style="--i:85" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(447.331 307.0305) rotate(100)"><g class="leaf-sway" style="--sd: 11.700000000000001s"><path style="--i:86" class="sp leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g><g transform="translate(307.2 289.8) rotate(-130)"><g class="leaf-sway" style="--sd: 12.6s"><path style="--i:87" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(284.9 232.7) rotate(-75)"><g class="leaf-sway" style="--sd: 13.5s"><path style="--i:88" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(294.37874999999997 261.63525) rotate(-160)"><g class="leaf-sway" style="--sd: 14.4s"><path style="--i:89" class="sp leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g><g transform="translate(246.8 261.6) rotate(-160)"><g class="leaf-sway" style="--sd: 15.3s"><path style="--i:90" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(235.1 239.2) rotate(-140)"><g class="leaf-sway" style="--sd: 16.2s"><path style="--i:91" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(272.39275 286.2815) rotate(110)"><g class="leaf-sway" style="--sd: 17.1s"><path style="--i:92" class="sp leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g><g transform="translate(239 329) rotate(-170)"><g class="leaf-sway" style="--sd: 18s"><path style="--i:93" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(216.6 310) rotate(-155)"><g class="leaf-sway" style="--sd: 18.900000000000002s"><path style="--i:94" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(272.0285 361.985) rotate(140)"><g class="leaf-sway" style="--sd: 19.8s"><path style="--i:95" class="sp leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g><g transform="translate(502.4 277) rotate(35)"><g class="leaf-sway" style="--sd: 20.7s"><path style="--i:96" class="sp leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(525.7 258.6) rotate(55)"><g class="leaf-sway" style="--sd: 21.6s"><path style="--i:97" class="sp leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g><g transform="translate(458.64599999999996 351.702) rotate(60)"><g class="leaf-sway" style="--sd: 22.5s"><path style="--i:98" class="sp leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g><g transform="translate(279.9 305.4) rotate(-175)"><g class="leaf-sway" style="--sd: 23.400000000000002s"><path style="--i:99" class="sp leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g><circle style="--i:100" class="sp" cx="400.7" cy="191.1" r="9.5" fill="#C0714E" /><circle style="--i:101" class="sp" cx="374.5" cy="290.4" r="7" fill="#C0714E" /><circle style="--i:102" class="sp" cx="467.4" cy="286.6" r="7.5" fill="#C0714E" /><circle style="--i:103" class="sp" cx="235.1" cy="253.2" r="6.5" fill="#C0714E" /><circle style="--i:104" class="sp" cx="500.4" cy="289" r="7" fill="#C0714E" /><circle style="--i:105" class="sp" cx="243" cy="341" r="6.5" fill="#C0714E" /></svg></div></div>
+            </article>
+            </div>
+          </div>
+
+          <!-- Right: pinned stage carrying the scroll-driven scene, an
+               isometric wireframe tree. Step one: a ground grid and a dashed
+               blueprint apart from a bare stem (the handoff). Step two: the
+               blueprint leaves and the tree branches fast in wireframe (the
+               gap closing). Step three: scissors snip the two widest arms,
+               the cuttings fall away, and the kept tree flourishes with
+               thicker strokes, sage nodes, leaves and fruit (the pruning).
+               anime.js scrubs the timeline against the text steps; the
+               authored SVG below is the pruned, flourished state, so no-JS
+               visitors see the finished tree. Decorative: aria-hidden. -->
+          <div class="story-sticky">
+            <!-- The rail doubles as navigation: each number scrolls its step
+                 into the center band, which is what activates it. -->
+            <ol class="story-progress" aria-label="Jump to a step">
+              <li data-dot="0"><button type="button" class="story-progress-num" aria-label="Go to step 1">01</button><span class="story-progress-track" aria-hidden="true"></span></li>
+              <li data-dot="1"><button type="button" class="story-progress-num" aria-label="Go to step 2">02</button><span class="story-progress-track" aria-hidden="true"></span></li>
+              <li data-dot="2"><button type="button" class="story-progress-num" aria-label="Go to step 3">03</button><span class="story-progress-track" aria-hidden="true"></span></li>
+            </ol>
+
+            <div class="story-stage" aria-hidden="true">
+              <svg id="storyScene" class="story-scene" viewBox="0 0 720 720" focusable="false" aria-hidden="true">
+                <circle id="scPlate" cx="360" cy="360" r="332" fill="#FFFFFF" fill-opacity="0.78" />
+                <ellipse id="scShadow" cx="368" cy="497" rx="158" ry="30" fill="#657D60" opacity="0.16" />
+                <g id="scGrid" opacity="0.32">
+                  <path id="scGridX" d="M360,338 L100.2,488 M392.5,356.8 L132.7,506.8 M424.9,375.5 L165.2,525.5 M457.4,394.3 L197.6,544.3 M489.9,413 L230.1,563 M522.4,431.8 L262.6,581.8 M554.9,450.5 L295.1,600.5 M587.3,469.3 L327.5,619.3 M619.8,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" />
+                  <path id="scGridY" d="M360,338 L619.8,488 M327.5,356.8 L587.3,506.8 M295.1,375.5 L554.9,525.5 M262.6,394.3 L522.4,544.3 M230.1,413 L489.9,563 M197.6,431.8 L457.4,581.8 M165.2,450.5 L424.9,600.5 M132.7,469.3 L392.5,619.3 M100.2,488 L360,638" fill="none" stroke="#252525" stroke-width="1" stroke-opacity="0.45" />
+                </g>
+                <g id="scSpec" opacity="0">
+                  <path id="scSpecR" d="M152.2,413 L243.1,465.5 L152.2,518 L61.2,465.5 Z" fill="none" stroke="#252525" stroke-width="2" stroke-dasharray="7 7" />
+                  <polygon class="sc-chip" points="152.2,425 163.9,431.8 152.2,438.5 140.5,431.8" fill="#657D60" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon class="sc-chip" points="175.5,438.5 187.2,445.3 175.5,452 163.9,445.3" fill="#C0714E" stroke="#252525" stroke-width="1" stroke-opacity="0.5" /><polygon class="sc-chip" points="198.9,452 210.6,458.8 198.9,465.5 187.2,458.8" fill="#56718C" stroke="#252525" stroke-width="1" stroke-opacity="0.5" />
+                  <line class="sc-specline" x1="126.2" y1="440" x2="193.7" y2="479" stroke="#252525" stroke-width="2.5" stroke-opacity="0.7" /><line class="sc-specline" x1="110.6" y1="449" x2="160" y2="477.5" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" /><line class="sc-specline" x1="97.6" y1="456.5" x2="131.4" y2="476" stroke="#252525" stroke-width="1.5" stroke-opacity="0.7" />
+                  <path id="scSpecFork" d="M149.6,499.5 l0,-10 M149.6,489.5 l-7,-7 M149.6,489.5 l7,-6 M79.4,467 L123.6,492.5 M83.3,464.8 L75.5,469.3 M127.5,490.3 L119.7,494.8" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" />
+                </g>
+                <g id="scArrowG" opacity="0">
+                  <path id="scArrow" d="M206.7,495.5 Q276.4,478.3 346,489" fill="none" stroke="#252525" stroke-width="2.25" stroke-dasharray="6 7" stroke-linecap="round" />
+                  <polygon id="scArrowHead" points="355.9,490.5 343.3,493.6 344.8,483.8" fill="#252525" />
+                </g>
+                <g id="scTree">
+                  <g id="scCutL" class="sc-cutgroup" opacity="0.15">
+                  <path id="br-bb1" class="br-g2" d="M254.9,355.9 Q231.8,344.6 206.1,339.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bb1a" class="br-g3" d="M206.1,339.6 Q168.2,323.4 137.9,295.4" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bb1b" class="br-g3" d="M206.1,339.6 Q204.1,297.4 188.5,258.1" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bw3" class="br-g4" d="M137.9,295.4 Q134.8,278.9 120.3,270.5" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" />
+                  <path id="br-bw4" class="br-g4" d="M188.5,258.1 Q171.1,245.7 165.2,225.2" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" />
+                  <circle id="nd-b1" class="nd-g2 sc-center" cx="206.1" cy="339.6" r="4" fill="#252525" />
+                  <circle id="nd-b1a" class="nd-g3 sc-center" cx="137.9" cy="295.4" r="4" fill="#252525" />
+                  <circle id="nd-b1b" class="nd-g3 sc-center" cx="188.5" cy="258.1" r="4" fill="#252525" />
+                  <circle id="nd-w3" class="nd-g4 sc-center" cx="120.3" cy="270.5" r="3" fill="#252525" />
+                  <circle id="nd-w4" class="nd-g4 sc-center" cx="165.2" cy="225.2" r="3" fill="#252525" />
+                </g>
+                  <g id="scCutR" class="sc-cutgroup" opacity="0.15">
+                  <path id="br-bc1" class="br-g2" d="M464.7,367.5 Q489.4,359.2 515.9,357.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bc1a" class="br-g3" d="M515.9,357.6 Q547.4,342.1 570.4,315.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bc1b" class="br-g3" d="M515.9,357.6 Q514.9,326.7 527.6,298.6" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-bw6" class="br-g4" d="M570.4,315.6 Q578.6,299.5 595.8,294.1" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" />
+                  <path id="br-bw7" class="br-g4" d="M527.6,298.6 Q542.5,285.4 545.1,265.7" fill="none" stroke="#252525" stroke-width="1.3" stroke-linecap="round" />
+                  <circle id="nd-c1" class="nd-g2 sc-center" cx="515.9" cy="357.6" r="4" fill="#252525" />
+                  <circle id="nd-c1a" class="nd-g3 sc-center" cx="570.4" cy="315.6" r="4" fill="#252525" />
+                  <circle id="nd-c1b" class="nd-g3 sc-center" cx="527.6" cy="298.6" r="4" fill="#252525" />
+                  <circle id="nd-w6" class="nd-g4 sc-center" cx="595.8" cy="294.1" r="3" fill="#252525" />
+                  <circle id="nd-w7" class="nd-g4 sc-center" cx="545.1" cy="265.7" r="3" fill="#252525" />
+                </g>
+                  <path d="M274.3,366.8 Q264.9,360.8 254.9,355.9" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" /><path d="M443.8,375.8 Q454.1,371 464.7,367.5" fill="none" stroke="#252525" stroke-width="1.6" stroke-linecap="round" />
+                  <path id="br-t" class="sc-keep" d="M360,488 L360,409.8" fill="none" stroke="#252525" stroke-width="3.2" stroke-linecap="round" />
+                  <path id="br-ba" class="br-g1 sc-keep" d="M360,409.8 Q376.7,376.7 379.9,339.7" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bb" class="br-g1 sc-keep" d="M360,409.8 Q314,394.6 274.3,366.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bc" class="br-g1 sc-keep" d="M360,409.8 Q404.5,399.3 443.8,375.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba1" class="br-g2 sc-keep" d="M379.9,339.7 Q405.2,338.8 426.2,324.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba2" class="br-g2 sc-keep" d="M379.9,339.7 Q390.2,308.8 386.5,276.4" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba3" class="br-g2 sc-keep" d="M379.9,339.7 Q350.6,310.1 313.2,291.8" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bb2" class="br-g2 sc-keep" d="M274.3,366.8 Q274.3,333.6 287.9,303.4" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bb3" class="br-g2 sc-keep" d="M274.3,366.8 Q275.7,353.5 264.5,346.2" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bc2" class="br-g2 sc-keep" d="M443.8,375.8 Q457.4,347.5 457.4,316" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba2a" class="br-g3 sc-keep" d="M386.5,276.4 Q380.6,224.6 388.7,173.1" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba2b" class="br-g3 sc-keep" d="M386.5,276.4 Q357,245.5 319.1,225.9" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba1a" class="br-g3 sc-keep" d="M426.2,324.6 Q448.6,303.5 459.4,274.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-ba1b" class="br-g3 sc-keep" d="M426.2,324.6 Q413.5,297 414.6,266.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bb2a" class="br-g3 sc-keep" d="M287.9,303.4 Q276.8,278.2 254.8,261.6" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bb3a" class="br-g3 sc-keep" d="M264.5,346.2 Q250.6,341.3 247,327" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bc2a" class="br-g3 sc-keep" d="M457.4,316 Q482.1,299.2 496.4,273" fill="none" stroke="#252525" stroke-width="2.4" stroke-linecap="round" />
+                  <path id="br-bw1" class="br-g4 sc-keep" d="M319.1,225.9 Q313.7,208.4 297.6,199.9" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw2" class="br-g4 sc-keep" d="M459.4,274.6 Q466.3,261.9 480.8,261" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw5" class="br-g4 sc-keep" d="M254.8,261.6 Q253.8,247.5 241.1,241.2" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw8" class="br-g4 sc-keep" d="M496.4,273 Q504.7,257.4 521.7,252.6" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw9" class="br-g4 sc-keep" d="M414.6,266.6 Q421.6,257.5 414.6,248.3" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw10" class="br-g4 sc-keep" d="M247,327 Q231.2,324.2 223.6,310" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <path id="br-bw11" class="br-g4 sc-keep" d="M313.2,291.8 Q306.8,262.7 287.9,239.7" fill="none" stroke="#252525" stroke-width="1.9" stroke-linecap="round" />
+                  <circle id="nd-n1" class="nd-g0 sc-center nd-keep" cx="360" cy="409.8" r="5" fill="#657D60" />
+                  <circle id="nd-a" class="nd-g1 sc-center nd-keep" cx="379.9" cy="339.7" r="4" fill="#657D60" />
+                  <circle id="nd-b" class="nd-g1 sc-center nd-keep" cx="274.3" cy="366.8" r="4" fill="#657D60" />
+                  <circle id="nd-c" class="nd-g1 sc-center nd-keep" cx="443.8" cy="375.8" r="4" fill="#657D60" />
+                  <circle id="nd-a1" class="nd-g2 sc-center nd-keep" cx="426.2" cy="324.6" r="4" fill="#657D60" />
+                  <circle id="nd-a2" class="nd-g2 sc-center nd-keep" cx="386.5" cy="276.4" r="4" fill="#657D60" />
+                  <circle id="nd-a3" class="nd-g2 sc-center nd-keep" cx="313.2" cy="291.8" r="4" fill="#657D60" />
+                  <circle id="nd-b2" class="nd-g2 sc-center nd-keep" cx="287.9" cy="303.4" r="4" fill="#657D60" />
+                  <circle id="nd-b3" class="nd-g2 sc-center nd-keep" cx="264.5" cy="346.2" r="4" fill="#657D60" />
+                  <circle id="nd-c2" class="nd-g2 sc-center nd-keep" cx="457.4" cy="316" r="4" fill="#657D60" />
+                  <circle id="nd-a2a" class="nd-g3 sc-center nd-keep" cx="388.7" cy="173.1" r="4" fill="#657D60" />
+                  <circle id="nd-a2b" class="nd-g3 sc-center nd-keep" cx="319.1" cy="225.9" r="4" fill="#657D60" />
+                  <circle id="nd-a1a" class="nd-g3 sc-center nd-keep" cx="459.4" cy="274.6" r="4" fill="#657D60" />
+                  <circle id="nd-a1b" class="nd-g3 sc-center nd-keep" cx="414.6" cy="266.6" r="4" fill="#657D60" />
+                  <circle id="nd-b2a" class="nd-g3 sc-center nd-keep" cx="254.8" cy="261.6" r="4" fill="#657D60" />
+                  <circle id="nd-b3a" class="nd-g3 sc-center nd-keep" cx="247" cy="327" r="4" fill="#657D60" />
+                  <circle id="nd-c2a" class="nd-g3 sc-center nd-keep" cx="496.4" cy="273" r="4" fill="#657D60" />
+                  <circle id="nd-w1" class="nd-g4 sc-center nd-keep" cx="297.6" cy="199.9" r="3" fill="#657D60" />
+                  <circle id="nd-w2" class="nd-g4 sc-center nd-keep" cx="480.8" cy="261" r="3" fill="#657D60" />
+                  <circle id="nd-w5" class="nd-g4 sc-center nd-keep" cx="241.1" cy="241.2" r="3" fill="#657D60" />
+                  <circle id="nd-w8" class="nd-g4 sc-center nd-keep" cx="521.7" cy="252.6" r="3" fill="#657D60" />
+                  <circle id="nd-w9" class="nd-g4 sc-center nd-keep" cx="414.6" cy="248.3" r="3" fill="#657D60" />
+                  <circle id="nd-w10" class="nd-g4 sc-center nd-keep" cx="223.6" cy="310" r="3" fill="#657D60" />
+                  <circle id="nd-w11" class="nd-g4 sc-center nd-keep" cx="287.9" cy="239.7" r="3" fill="#657D60" />
+                </g>
+                <!-- Anchored 36.4 below the limb it cuts, not above it: the blades run
+                     from this point up, so mirroring them meant mirroring where the
+                     shears sit. The limb now crosses the blades at the same spot
+                     along their length as before the flip. -->
+                <g transform="translate(254.9 374.1) rotate(90)">
+                  <g id="scScissors" class="sc-center" opacity="0" data-dx="11.6" data-dy="-209.8" data-drot="0">
+                  <!-- Negative x scale mirrors the shears about the rivet. The wrapper
+                       above is rotated 90deg, so that reads on screen as a
+                       vertical flip: blades up, handles down. -->
+                  <g transform="scale(-1.3 1.3)">
+                    <g class="sc-blade-a" style="transform-box: fill-box; transform-origin: 14px 7px;"><path d="M2,-1 C8,-6 16,-7 22,-4 C16,-1 8,1 2,1 Z" fill="#252525" /><line x1="0" y1="0" x2="-14" y2="-5" stroke="#252525" stroke-width="3.5" stroke-linecap="round" /></g>
+                    <g class="sc-blade-b" style="transform-box: fill-box; transform-origin: 14px 0px;"><path d="M2,1 C7,5 13,6 18,4 C13,8 6,7 2,3 Z" fill="#252525" /><line x1="0" y1="0" x2="-14" y2="5" stroke="#252525" stroke-width="3.5" stroke-linecap="round" /></g>
+                    <circle cx="0" cy="0" r="2.4" fill="#252525" />
+                    <path d="M-12,-4.5 Q-6,0 -12,4.5" fill="none" stroke="#252525" stroke-width="1.8" stroke-linecap="round" />
+                  </g>
+                  </g>
+                </g>
+                <g id="scLeaves">
+                  <g transform="translate(390.7 163.1) rotate(-38)"><g class="leaf-sway" style="--sd: 0s"><path class="leaf sc-stem" d="M0,0 C11.899999999999999,-9.520000000000001 25.5,-9.520000000000001 34,0 C25.5,9.520000000000001 11.899999999999999,9.520000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(396.7 176.1) rotate(24)"><g class="leaf-sway" style="--sd: 0.9s"><path class="leaf sc-stem" d="M0,0 C10.85,-8.680000000000001 23.25,-8.680000000000001 31,0 C23.25,8.680000000000001 10.85,8.680000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(381.7 168.1) rotate(-96)"><g class="leaf-sway" style="--sd: 1.8s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(376.245 217.51074999999997) rotate(-150)"><g class="leaf-sway" style="--sd: 2.7s"><path class="leaf sc-stem" d="M0,0 C8.399999999999999,-6.720000000000001 18,-6.720000000000001 24,0 C18,6.720000000000001 8.399999999999999,6.720000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(394.5 280.4) rotate(30)"><g class="leaf-sway" style="--sd: 3.6s"><path class="leaf sc-stem" d="M0,0 C8.399999999999999,-6.720000000000001 18,-6.720000000000001 24,0 C18,6.720000000000001 8.399999999999999,6.720000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(371.9 345.7) rotate(155)"><g class="leaf-sway" style="--sd: 4.5s"><path class="leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(317.1 217.9) rotate(-60)"><g class="leaf-sway" style="--sd: 5.4s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(293.6 193.9) rotate(-110)"><g class="leaf-sway" style="--sd: 6.3s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(353.509 253.82825) rotate(130)"><g class="leaf-sway" style="--sd: 7.2s"><path class="leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(420.6 250.3) rotate(20)"><g class="leaf-sway" style="--sd: 8.1s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(418.6 260.6) rotate(-30)"><g class="leaf-sway" style="--sd: 9s"><path class="leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(465.4 280.6) rotate(45)"><g class="leaf-sway" style="--sd: 9.9s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(486.8 263) rotate(10)"><g class="leaf-sway" style="--sd: 10.8s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(447.331 307.0305) rotate(100)"><g class="leaf-sway" style="--sd: 11.700000000000001s"><path class="leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(307.2 289.8) rotate(-130)"><g class="leaf-sway" style="--sd: 12.6s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(284.9 232.7) rotate(-75)"><g class="leaf-sway" style="--sd: 13.5s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(294.37874999999997 261.63525) rotate(-160)"><g class="leaf-sway" style="--sd: 14.4s"><path class="leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(246.8 261.6) rotate(-160)"><g class="leaf-sway" style="--sd: 15.3s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(235.1 239.2) rotate(-140)"><g class="leaf-sway" style="--sd: 16.2s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(272.39275 286.2815) rotate(110)"><g class="leaf-sway" style="--sd: 17.1s"><path class="leaf sc-stem" d="M0,0 C7,-5.6000000000000005 15,-5.6000000000000005 20,0 C15,5.6000000000000005 7,5.6000000000000005 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(239 329) rotate(-170)"><g class="leaf-sway" style="--sd: 18s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(216.6 310) rotate(-155)"><g class="leaf-sway" style="--sd: 18.900000000000002s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(272.0285 361.985) rotate(140)"><g class="leaf-sway" style="--sd: 19.8s"><path class="leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(502.4 277) rotate(35)"><g class="leaf-sway" style="--sd: 20.7s"><path class="leaf sc-stem" d="M0,0 C9.799999999999999,-7.840000000000001 21,-7.840000000000001 28,0 C21,7.840000000000001 9.799999999999999,7.840000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(525.7 258.6) rotate(55)"><g class="leaf-sway" style="--sd: 21.6s"><path class="leaf sc-stem" d="M0,0 C9.1,-7.280000000000001 19.5,-7.280000000000001 26,0 C19.5,7.280000000000001 9.1,7.280000000000001 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(458.64599999999996 351.702) rotate(60)"><g class="leaf-sway" style="--sd: 22.5s"><path class="leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g>
+                  <g transform="translate(279.9 305.4) rotate(-175)"><g class="leaf-sway" style="--sd: 23.400000000000002s"><path class="leaf sc-stem" d="M0,0 C7.699999999999999,-6.16 16.5,-6.16 22,0 C16.5,6.16 7.699999999999999,6.16 0,0 Z" fill="#657D60" /></g></g>
+                </g>
+                <circle class="sc-fruit sc-center" cx="400.7" cy="191.1" r="9.5" fill="#C0714E" />
+                <circle class="sc-fruit sc-center" cx="374.5" cy="290.4" r="7" fill="#C0714E" />
+                <circle class="sc-fruit sc-center" cx="467.4" cy="286.6" r="7.5" fill="#C0714E" />
+                <circle class="sc-fruit sc-center" cx="235.1" cy="253.2" r="6.5" fill="#C0714E" />
+                <circle class="sc-fruit sc-center" cx="500.4" cy="289" r="7" fill="#C0714E" />
+                <circle class="sc-fruit sc-center" cx="243" cy="341" r="6.5" fill="#C0714E" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="case-footer">
+      <div class="container case-wide">
+        <a class="btn-back" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the lab
+        </a>
+      </div>
+    </footer>
+  <script>
+    /* ---------- 2. Reveal-on-scroll via IntersectionObserver -------------------
+       Any element with .reveal lifts into view when it enters the viewport.
+       Elements that are already in (or partially in) the initial viewport
+       reveal immediately so the IO's -8% bottom margin can't strand items
+       like the logo strip that sit just barely above the fold.               */
+    (function setupReveals() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      const vh = window.innerHeight;
+      els.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) {
+          el.classList.add('is-visible');
+        } else {
+          io.observe(el);
+        }
+      });
+    })();
+
+    /* ---------- 2a-bis. Kinetic lead-in quotes ---------------------------------
+       Each belief's bolded lead-in line splits into masked words that rise
+       into place with a small stagger the first time the line scrolls into
+       view. Pure enhancement: without JS or with reduced motion the text
+       simply renders normally.                                                 */
+    (function setupKineticLeadIns() {
+      const leads = document.querySelectorAll('#how-i-think .story-lead-in');
+      if (!leads.length) return;
+      leads.forEach(el => {
+        const words = el.textContent.trim().split(/\s+/);
+        el.textContent = '';
+        words.forEach((w, i) => {
+          const mask = document.createElement('span');
+          mask.className = 'ktw';
+          const inner = document.createElement('span');
+          inner.className = 'kti';
+          inner.style.setProperty('--w', i);
+          inner.textContent = w;
+          mask.appendChild(inner);
+          el.appendChild(mask);
+          if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+        });
+      });
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        leads.forEach(el => el.classList.add('kt-in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('kt-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.6 });
+      leads.forEach(el => io.observe(el));
+    })();
+
+    /* ---------- 2b. "Why I design" sticky scroll story ------------------------
+       The media column is pinned while the text steps scroll past it. An
+       IntersectionObserver tracks which step sits in the middle of the
+       viewport and syncs the active frame (cross-fade) and the progress rail
+       (current dot lit, past dots marked done). A separate observer reveals
+       the section head.                                                        */
+    (function setupStory() {
+      const section = document.getElementById('how-i-think');
+      if (!section) return;
+
+      const head      = section.querySelector('.story-head');
+      const steps     = Array.from(section.querySelectorAll('.story-step'));
+      const dots      = Array.from(section.querySelectorAll('.story-progress li'));
+      const jumpBtns  = dots.map((d) => d.querySelector('.story-progress-num'));
+
+      // The rail numbers jump to their step: centering it in the viewport
+      // puts it in the observer's band, so activation follows naturally.
+      jumpBtns.forEach((b, i) => {
+        if (!b || !steps[i]) return;
+        b.addEventListener('click', () => {
+          const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          /* On desktop the steps are stacked in a pinned stage, so there is
+             no per-step position to scroll to: aim at the point in the
+             runway that maps to this step instead. Mobile still scrolls. */
+          if (window.matchMedia('(max-width: 899px)').matches) {
+            steps[i].scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'center' });
+            return;
+          }
+          const runwayEl = section.querySelector('.story-steps');
+          const stageEl  = section.querySelector('.story-text-stage');
+          if (!runwayEl) return;
+          const r = runwayEl.getBoundingClientRect();
+          const travel = r.height - (stageEl ? stageEl.getBoundingClientRect().height : 0);
+          const pinTop = stageEl ? parseFloat(getComputedStyle(stageEl).top) || 0 : 0;
+          /* Position the runway so pinned progress lands mid-step: p is
+             measured from the pin point, so the pin offset comes off. */
+          const top = window.scrollY + r.top - pinTop + travel * ((i + 0.5) / steps.length);
+          window.scrollTo({ top, behavior: rm ? 'auto' : 'smooth' });
+        });
+      });
+
+      // Reveal the section head once it scrolls into view.
+      if (head && 'IntersectionObserver' in window) {
+        const headIO = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { head.classList.add('is-in'); headIO.unobserve(head); } });
+        }, { threshold: 0.4 });
+        headIO.observe(head);
+      } else if (head) {
+        head.classList.add('is-in');
+      }
+
+      // Highlight a belief (step text, progress dot). The scene module listens
+      // for the same change through the storystep event: it is the
+      // reduced-motion path's cue to jump the timeline between held states.
+      const setStep = (idx) => {
+        steps.forEach((s, i)  => s.classList.toggle('is-active', i === idx));
+        dots.forEach((d, i)   => {
+          d.classList.toggle('is-active', i === idx);
+          d.classList.toggle('is-done',  i <  idx);
+          const b = jumpBtns[i];
+          if (b) {
+            if (i === idx) b.setAttribute('aria-current', 'true');
+            else b.removeAttribute('aria-current');
+          }
+        });
+        section.dispatchEvent(new CustomEvent('storystep', { detail: { idx } }));
+      };
+      // Drive the background theme (see .story[data-active] in CSS). Kept
+      // separate from the active belief so the "intro" entry tone can show
+      // while frame 01 stays visible.
+      let theme = null;
+      const setTheme = (key) => { if (key !== theme) { theme = key; section.dataset.active = key; } };
+
+      if (steps.length && 'IntersectionObserver' in window) {
+        // A step counts as "current" while its midpoint sits in a trigger band.
+        // On desktop the media sits beside the text, so the band is centered
+        // (50%). On mobile the media is pinned across the top, so the band is
+        // pushed lower (~70%) into the visible text zone beneath it — otherwise
+        // the active step's heading would hide behind the pinned image.
+        const mq = window.matchMedia('(max-width: 899px)');
+        let active = 0, stepIO = null;
+        const visible = new Set();
+        const bandFrac = () => (mq.matches ? 0.70 : 0.5);
+
+        const pick = () => {
+          const mid = window.innerHeight * bandFrac();
+          if (!visible.size) {
+            // No belief centered. If the first belief is still below the band,
+            // we're entering the section -> show the intro tone. Otherwise keep
+            // the current theme (we're between or past beliefs).
+            if (steps[0].getBoundingClientRect().top > mid) setTheme('intro');
+            return;
+          }
+          let best = active, bestDist = Infinity;
+          visible.forEach(i => {
+            const r = steps[i].getBoundingClientRect();
+            const dist = Math.abs((r.top + r.bottom) / 2 - mid);
+            if (dist < bestDist) { bestDist = dist; best = i; }
+          });
+          if (best !== active) { active = best; setStep(active); }
+          setTheme(String(active));
+        };
+
+        const runway = section.querySelector('.story-steps');
+        const stage  = section.querySelector('.story-text-stage');
+        let onScroll = null, scrollRaf = 0;
+
+        /* Desktop reads scroll progress through the runway rather than where
+           each step sits. Stacked in a pinned stage the three steps occupy
+           the same place, so there is nothing left for a band to tell apart.
+           Mobile keeps the band, where the steps still scroll past. */
+        const pickByProgress = () => {
+          scrollRaf = 0;
+          if (!runway) return;
+          const r = runway.getBoundingClientRect();
+          const travel = r.height - (stage ? stage.getBoundingClientRect().height : 0);
+          if (travel <= 0) return;
+          /* Progress through the PINNED span, not through the raw runway.
+             The stage pins when the runway's top reaches the sticky offset
+             (its computed `top`, which resolves the calc to pixels), so a
+             plain -top/travel runs about a tenth early: the stage would
+             detach at p = 0.9 and the finale would play while the section
+             was already scrolling away. */
+          const pinTop = stage ? parseFloat(getComputedStyle(stage).top) || 0 : 0;
+          const p = (pinTop - r.top) / travel;
+          /* Past the end of the runway the pinned pair starts scrolling away
+             (travel is runway minus stage, so that is exactly p = 1). The
+             title is sticky with a longer range than the stage, so without
+             this it would hang under the nav while the departing step text
+             slid beneath it. */
+          section.classList.toggle('story-leaving', p >= 1);
+          if (p < 0) {
+            if (active !== 0) { active = 0; setStep(0); }
+            setTheme('intro');
+            return;
+          }
+          const idx = Math.max(0, Math.min(steps.length - 1, Math.floor(p * steps.length)));
+          if (idx !== active) { active = idx; setStep(active); }
+          setTheme(String(active));
+        };
+
+        const build = () => {
+          if (stepIO) { stepIO.disconnect(); stepIO = null; }
+          if (onScroll) {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            onScroll = null;
+          }
+          visible.clear();
+          if (!mq.matches) {
+            onScroll = () => { if (!scrollRaf) scrollRaf = requestAnimationFrame(pickByProgress); };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            pickByProgress();
+            return;
+          }
+          stepIO = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+              const i = steps.indexOf(e.target);
+              if (e.isIntersecting) visible.add(i); else visible.delete(i);
+            });
+            pick();
+          }, { rootMargin: '-64% 0px -24% 0px', threshold: 0 });
+          steps.forEach(s => stepIO.observe(s));
+        };
+
+        build();
+        setStep(0);
+        setTheme('intro');
+        // Rebuild the band when crossing the mobile/desktop breakpoint.
+        if (mq.addEventListener) mq.addEventListener('change', build);
+        else if (mq.addListener) mq.addListener(build);
+      } else {
+        // No IntersectionObserver: rest on the final state. Only the last
+        // step keeps is-active -- on desktop the three now share one grid
+        // cell, so lighting them all would print them on top of each other.
+        // On mobile the media-query CSS keeps every step readable anyway.
+        setStep(steps.length - 1);
+        setTheme(String(steps.length - 1));
+      }
+    })();
+
+    /* ---------- 5c2. Mobile story scene draw-in ---------------------------------
+       On small screens the story shows three baked SVGs instead of the
+       scrubbed timeline. This arms a one-shot draw-in per scene: strokes
+       sweep in, fills follow (see .ssm-anim/.ssm-live in CSS). Armed only
+       when JS runs and motion is allowed, so no-JS and reduced-motion
+       readers get the plain statics.                                     */
+    (function setupMobileSceneDraw() {
+      if (!window.matchMedia('(max-width: 899px)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      const wraps = document.querySelectorAll('.ssm-back-wrap');
+      if (!wraps.length) return;
+      wraps.forEach(w => w.classList.add('ssm-anim'));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('ssm-live');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      wraps.forEach(w => io.observe(w));
+    })();
+  </script>
+  <!-- Design-to-build scene: a single product card drawn, assembled and
+       chosen, scrubbed against the three story steps. anime.js builds the
+       timeline; scroll position sets the playhead, with a light lerp so the
+       motion carries a little inertia instead of tracking the wheel 1:1.
+       Holds sit at each step's center so arriving at a step always lands on
+       a resolved state. Reduced motion trades the scrub for instant jumps
+       between the held states; no JS leaves the authored finished object. -->
+  <script type="module">
+    import { createTimeline, svg, stagger } from '../js/vendor/anime.esm.min.js';
+
+    (function setupStoryScene() {
+      const section = document.getElementById('how-i-think');
+      const scene = document.getElementById('storyScene');
+      if (!section || !scene) return;
+
+      const steps = Array.from(section.querySelectorAll('.story-step'));
+      if (steps.length !== 3) return;
+
+      const gridX  = svg.createDrawable('#scGridX');
+      const gridY  = svg.createDrawable('#scGridY');
+      const trunk  = svg.createDrawable('#br-t');
+      const gen1   = svg.createDrawable('.br-g1');
+      const gen2   = svg.createDrawable('.br-g2');
+      const gen3   = svg.createDrawable('.br-g3');
+      const gen4   = svg.createDrawable('.br-g4');
+      const specR  = svg.createDrawable('#scSpecR');
+      const specLn = svg.createDrawable('.sc-specline');
+      const specFk = svg.createDrawable('#scSpecFork');
+      const arrow  = svg.createDrawable('#scArrow');
+
+      const tl = createTimeline({ autoplay: false, defaults: { ease: 'inOutQuad' } });
+
+      /* State one's starting point. The authored SVG is the finished tree;
+         these sets rewind everything so the scene can grow forward. */
+      tl.set(gridX,  { draw: '0 0' }, 0);
+      tl.set(gridY,  { draw: '0 0' }, 0);
+      tl.set(trunk,  { draw: '0 0' }, 0);
+      tl.set(gen1,   { draw: '0 0' }, 0);
+      tl.set(gen2,   { draw: '0 0' }, 0);
+      tl.set(gen3,   { draw: '0 0' }, 0);
+      tl.set(gen4,   { draw: '0 0' }, 0);
+      tl.set('#storyScene .sc-chip', { opacity: 0 }, 0);
+      tl.set(specR,  { draw: '0 0' }, 0);
+      tl.set(specLn, { draw: '0 0' }, 0);
+      tl.set(specFk, { draw: '0 0' }, 0);
+      tl.set(arrow,  { draw: '0 0' }, 0);
+      tl.set('#scTree circle', { opacity: 0, scale: 0 }, 0);
+      tl.set('#scGrid', { opacity: 0.5 }, 0);
+      tl.set('#br-t', { strokeWidth: 2.2 }, 0);
+      tl.set('#storyScene .sc-keep:not(.br-g4)', { strokeWidth: 1.6 }, 0);
+      tl.set('#storyScene .sc-keep.br-g4', { strokeWidth: 1.3 }, 0);
+      tl.set('#storyScene .nd-keep', { fill: '#252525' }, 0);
+      tl.set('#scCutL, #scCutR', { opacity: 1, translateX: 0, translateY: 0, rotate: 0 }, 0);
+      tl.set('#scScissors', { opacity: 0, scale: 0.6, translateX: 0, translateY: 0, rotate: 0 }, 0);
+      tl.set('#storyScene .sc-blade-a, #storyScene .sc-blade-b', { rotate: 0 }, 0);
+      tl.set('#scSpec', { opacity: 0, translateX: 0 }, 0);
+      tl.set('#scArrowG', { opacity: 0 }, 0);
+      tl.set('#scArrowHead', { opacity: 0 }, 0);
+      tl.set('#storyScene .leaf', { opacity: 0, scale: 0 }, 0);
+      tl.set('#storyScene .sc-fruit', { opacity: 0, scale: 0 }, 0);
+      tl.set('#scShadow', { opacity: 0 }, 0);
+
+      /* Chapter one, 0 to 650: the handoff. The ground grid and the dashed
+         blueprint draw themselves; the tree is only a bare stem, and an
+         arrow carries the plan across the gap to it. */
+      tl.add(gridX, { draw: '0 1', duration: 300 }, 60);
+      tl.add(gridY, { draw: '0 1', duration: 300 }, 140);
+      tl.add('#scSpec', { opacity: 1, duration: 120 }, 200);
+      tl.add(specR, { draw: '0 1', duration: 260 }, 200);
+      tl.add(specLn, { draw: '0 1', duration: 160, delay: stagger(60) }, 360);
+      tl.add('#storyScene .sc-chip', { opacity: 1, duration: 120, delay: stagger(60) }, 430);
+      tl.add(specFk, { draw: '0 1', duration: 140 }, 460);
+      tl.add('#scArrowG', { opacity: 1, duration: 100 }, 380);
+      tl.add(arrow, { draw: '0 1', duration: 220 }, 380);
+      /* The head lands only once the line has reached it. */
+      tl.add('#scArrowHead', { opacity: 1, duration: 90 }, 570);
+      tl.add(trunk, { draw: '0 1', duration: 220 }, 300);
+      tl.add('#storyScene .nd-g0', { opacity: 1, scale: 1, duration: 130, ease: 'outBack' }, 520);
+
+      /* Chapter two, 1000 to 1650: the gap closes. The blueprint leaves and
+         the tree branches fast, a generation at a time, every direction
+         tried in wireframe. */
+      tl.add('#scSpec', { opacity: 0, translateX: -24, duration: 240 }, 1000);
+      tl.add('#scArrowG', { opacity: 0, duration: 130 }, 1000);
+      tl.add(gen1, { draw: '0 1', duration: 220, delay: stagger(60) }, 1020);
+      tl.add('#storyScene .nd-g1', { opacity: 1, scale: 1, duration: 130, ease: 'outBack', delay: stagger(60) }, 1140);
+      tl.add(gen2, { draw: '0 1', duration: 200, delay: stagger(48) }, 1180);
+      tl.add('#storyScene .nd-g2', { opacity: 1, scale: 1, duration: 120, ease: 'outBack', delay: stagger(45) }, 1300);
+      tl.add(gen3, { draw: '0 1', duration: 170, delay: stagger(30) }, 1300);
+      tl.add('#storyScene .nd-g3', { opacity: 1, scale: 1, duration: 110, ease: 'outBack', delay: stagger(28) }, 1400);
+      tl.add(gen4, { draw: '0 1', duration: 150, delay: stagger(24) }, 1440);
+      tl.add('#storyScene .nd-g4', { opacity: 1, scale: 1, duration: 100, ease: 'outBack', delay: stagger(22) }, 1520);
+
+      /* Chapter three, 2000 to 3000: the pruning. Scissors arrive at the
+         left arm's base, snip, and the arm falls; they travel to the right
+         arm and take it too; then the kept tree flourishes: strokes
+         thicken, every kept node turns sage, leaves open along the whole
+         canopy and three fruits arrive. The scissors' first snip point and
+         aim live in its wrapper's attribute transform; the data- deltas
+         carry the move to the second, expressed in that rotated frame. */
+      const sciss = document.getElementById('scScissors');
+      const sd = sciss ? sciss.dataset : { dx: 0, dy: 0, drot: 0 };
+      tl.add('#scGrid', { opacity: 0.32, duration: 300 }, 2020);
+      tl.add('#scScissors', { opacity: 1, duration: 100 }, 2000);
+      tl.add('#scScissors', { scale: 1, duration: 160, ease: 'outBack' }, 2000);
+      tl.add('#storyScene .sc-blade-a', { rotate: 10, duration: 70, ease: 'inQuad' }, 2090);
+      tl.add('#storyScene .sc-blade-b', { rotate: -10, duration: 70, ease: 'inQuad' }, 2090);
+      tl.add('#storyScene .sc-blade-a', { rotate: 0, duration: 70 }, 2170);
+      tl.add('#storyScene .sc-blade-b', { rotate: 0, duration: 70 }, 2170);
+      tl.add('#scCutL', { translateY: 190, translateX: -14, rotate: -12, duration: 360, ease: 'inQuad' }, 2130);
+      tl.add('#scCutL', { opacity: 0.15, duration: 360 }, 2130);
+      tl.add('#scScissors', { translateX: +sd.dx, translateY: +sd.dy, rotate: +sd.drot, duration: 170, ease: 'inOutQuad' }, 2170);
+      tl.add('#storyScene .sc-blade-a', { rotate: 10, duration: 70, ease: 'inQuad' }, 2390);
+      tl.add('#storyScene .sc-blade-b', { rotate: -10, duration: 70, ease: 'inQuad' }, 2390);
+      tl.add('#storyScene .sc-blade-a', { rotate: 0, duration: 70 }, 2470);
+      tl.add('#storyScene .sc-blade-b', { rotate: 0, duration: 70 }, 2470);
+      tl.add('#scCutR', { translateY: 175, translateX: 12, rotate: 10, duration: 350, ease: 'inQuad' }, 2430);
+      tl.add('#scCutR', { opacity: 0.15, duration: 350 }, 2430);
+      tl.add('#scScissors', { opacity: 0, duration: 120 }, 2540);
+      /* The flourish overlaps the second cut: what is kept gets stronger
+         while the last of what is not falls away. */
+      tl.add('#br-t', { strokeWidth: 3.2, duration: 240 }, 2350);
+      tl.add('#storyScene .sc-keep:not(.br-g4)', { strokeWidth: 2.4, duration: 260 }, 2390);
+      tl.add('#storyScene .sc-keep.br-g4', { strokeWidth: 1.9, duration: 260 }, 2410);
+      tl.add('#scShadow', { opacity: 0.16, duration: 240 }, 2420);
+      tl.add('#storyScene .nd-keep', { fill: '#657D60', duration: 220 }, 2430);
+      tl.add('#storyScene .leaf', { opacity: 1, duration: 70, delay: stagger(6) }, 2440);
+      tl.add('#storyScene .leaf', { scale: 1, duration: 140, ease: 'outBack', delay: stagger(6) }, 2440);
+      tl.add('#storyScene .sc-fruit', { opacity: 1, duration: 80, delay: stagger(25) }, 2500);
+      tl.add('#storyScene .sc-fruit', { scale: 1, duration: 170, ease: 'outBack', delay: stagger(25) }, 2500);
+      /* No-op filler pins the duration at 3150 so the last hold has width. */
+      tl.add('#scPlate', { fillOpacity: 0.78, duration: 150 }, 3000);
+
+      const TIMES = [825, 1825, 3000];
+      tl.seek(0);
+
+      const mqRM = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      /* Pointer parallax for the scene: normalized pointer position becomes
+         two CSS custom properties on the section and the stylesheet leans
+         the scene through an eased translate. Skipped under reduced motion. */
+      if (!mqRM.matches) {
+        let pRaf = null;
+        const setPointer = (mx, my) => {
+          section.style.setProperty('--mx', mx.toFixed(3));
+          section.style.setProperty('--my', my.toFixed(3));
+        };
+        section.addEventListener('pointermove', (e) => {
+          if (pRaf) return;
+          pRaf = requestAnimationFrame(() => {
+            pRaf = null;
+            const r = section.getBoundingClientRect();
+            setPointer(((e.clientX - r.left) / r.width - 0.5) * 2, ((e.clientY - r.top) / r.height - 0.5) * 2);
+          });
+        });
+        section.addEventListener('pointerleave', () => setPointer(0, 0));
+      }
+
+      /* The interactive dot grid. The resting field is prerendered once per
+         resize; each frame blits it and repaints only the dots inside the
+         cursor's influence radius, grown, brightened and tinted toward
+         sage with a smoothstep falloff. The pointer is lerped, so the halo
+         glides after the cursor and relaxes away when it leaves; the loop
+         runs only until that settle finishes. Reduced motion keeps the
+         resting field and skips the response. */
+      (function dotGrid() {
+        const canvas = document.getElementById('storyDots');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const SPACING = 32, BASE_R = 1.5;
+        /* Resting dots are a saturated darker voice of each step tint (the
+           themes mirror the .story[data-active] rules in the stylesheet):
+           olive-sage on the pale green and sage steps, teal on the
+           blue-green, caramel on the warm clay. Hand-picked rather than
+           mixed toward charcoal, which was muddying the hues toward gray.
+           One base canvas is prerendered per theme and theme changes
+           crossfade between them. */
+        const DOT = {
+          intro: [133, 145, 92],
+          0: [111, 132, 85],
+          1: [78, 125, 116],
+          2: [161, 127, 82],
+        };
+        let W = 0, H = 0, dpr = 1;
+        const bases = {};
+        const paintBases = () => {
+          dpr = Math.min(2, window.devicePixelRatio || 1);
+          W = canvas.clientWidth; H = canvas.clientHeight;
+          if (!W || !H) return;
+          canvas.width = W * dpr; canvas.height = H * dpr;
+          for (const k in DOT) {
+            const c = document.createElement('canvas');
+            c.width = canvas.width; c.height = canvas.height;
+            const b = c.getContext('2d');
+            b.scale(dpr, dpr);
+            b.fillStyle = 'rgba(' + DOT[k].join(',') + ',0.62)';
+            for (let y = SPACING / 2; y < H; y += SPACING) {
+              for (let x = SPACING / 2; x < W; x += SPACING) {
+                b.beginPath(); b.arc(x, y, BASE_R, 0, 6.2832); b.fill();
+              }
+            }
+            bases[k] = c;
+          }
+        };
+        const theme = () => (section.dataset.active in bases ? section.dataset.active : 'intro');
+        let themeA = 'intro', themeB = 'intro', blend = 1;
+        let raf = null, last = 0;
+        const draw = () => {
+          /* The frame is display:none on small screens, so the bases were
+             never painted; a theme change still lands here. */
+          if (!bases[themeB]) return;
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (blend < 1) {
+            ctx.drawImage(bases[themeA], 0, 0);
+            ctx.globalAlpha = blend;
+          }
+          ctx.drawImage(bases[themeB], 0, 0);
+          ctx.globalAlpha = 1;
+        };
+        paintBases();
+        themeA = themeB = theme();
+        draw();
+        window.addEventListener('resize', () => { paintBases(); draw(); });
+        const themeWatch = new MutationObserver(() => {
+          const next = theme();
+          if (next === themeB) return;
+          if (mqRM.matches) { themeA = themeB = next; draw(); return; }
+          themeA = themeB; themeB = next; blend = 0;
+          kick();
+        });
+        themeWatch.observe(section, { attributes: true, attributeFilter: ['data-active'] });
+        if (mqRM.matches) return;
+
+        const tick = (now) => {
+          const dt = Math.min(64, now - last);
+          last = now;
+          blend += (1 - blend) * (1 - Math.exp(-dt / 260));
+          const settled = blend > 0.995;
+          if (settled) blend = 1;
+          draw();
+          raf = settled ? null : requestAnimationFrame(tick);
+        };
+        const kick = () => { if (raf === null) { last = performance.now(); raf = requestAnimationFrame(tick); } };
+      })();
+      if (mqRM.matches) {
+        /* Reduced motion: no scrub. Land on each step's held state directly;
+           seek is instant, so the change is a cut, not a tween. */
+        tl.seek(TIMES[0]);
+        section.addEventListener('storystep', (e) => tl.seek(TIMES[e.detail.idx]));
+        return;
+      }
+
+      /* The scrub. The same viewport band the step observer uses maps onto
+         the timeline piecewise: each step's center pins its hold, with a ramp
+         in from below the first step and a ramp out past the last. */
+      const mqDesk = window.matchMedia('(min-width: 900px)');
+      const mapRange = (v, a, b, ta, tb) => {
+        if (b === a) return ta;
+        const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
+        return ta + t * (tb - ta);
+      };
+      /* The steps used to scroll past a band, and this read each step's rect
+         center against it. Pinned in the stage they no longer move, so the
+         playhead is driven by progress through the .story-steps runway
+         instead: the same piecewise map, with each step's hold pinned to the
+         center of its third of the runway, the same 0.55-viewport ramp in
+         before the first hold, and a half-step ramp out to the finale. */
+      const runwayEl = section.querySelector('.story-steps');
+      const stageEl  = section.querySelector('.story-text-stage');
+      const targetTime = () => {
+        const r = runwayEl.getBoundingClientRect();
+        const travel = r.height - (stageEl ? stageEl.getBoundingClientRect().height : 0);
+        if (travel <= 0) return TIMES[0];
+        /* Measured from the pin point, like the step driver: the stage pins
+           when the runway top reaches its computed sticky `top`, and the
+           scrub should spend its whole range inside that pinned span. */
+        const pinTop = stageEl ? parseFloat(getComputedStyle(stageEl).top) || 0 : 0;
+        const p = (pinTop - r.top) / travel;
+        const cs = [1 / 6, 3 / 6, 5 / 6];
+        const ramp = (window.innerHeight * 0.55) / travel;
+        if (p <= cs[0]) return mapRange(p, cs[0] - ramp, cs[0], 0, TIMES[0]);
+        if (p <= cs[1]) return mapRange(p, cs[0], cs[1], TIMES[0], TIMES[1]);
+        if (p <= cs[2]) return mapRange(p, cs[1], cs[2], TIMES[1], TIMES[2]);
+        return mapRange(p, cs[2], cs[2] + 1 / 6, TIMES[2], tl.duration);
+      };
+
+      /* Inertia via time-based exponential damping: tau is the feel, and a
+         110ms time constant lands the playhead in about a third of a second.
+         Using dt keeps the drag identical on 60Hz and 120Hz displays, where
+         a fixed per-frame factor would halve or double the inertia. primed
+         starts each activation at the correct playhead, so entering the
+         section from below or mid anchor-jump begins in the right state
+         instead of racing the whole timeline from zero. */
+      let cur = 0, active = false, rafId = null, primed = false, last = 0;
+      const tick = (now) => {
+        const tgt = targetTime();
+        if (!primed) { primed = true; cur = tgt; last = now; }
+        const dt = Math.min(64, now - last);
+        last = now;
+        cur += (tgt - cur) * (1 - Math.exp(-dt / 110));
+        if (Math.abs(tgt - cur) < 0.4) cur = tgt;
+        tl.seek(cur);
+        rafId = active ? requestAnimationFrame(tick) : null;
+      };
+      const setActive = (on) => {
+        const next = on && mqDesk.matches;
+        if (next === active) return;
+        active = next;
+        if (active && rafId === null) { primed = false; rafId = requestAnimationFrame(tick); }
+      };
+
+      let inView = false;
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { inView = e.isIntersecting; setActive(inView); });
+        }, { rootMargin: '20% 0px 20% 0px' });
+        io.observe(section);
+      } else {
+        inView = true;
+        setActive(true);
+      }
+      const onDesk = () => setActive(inView);
+      if (mqDesk.addEventListener) mqDesk.addEventListener('change', onDesk);
+      else if (mqDesk.addListener) mqDesk.addListener(onDesk);
+    })();
+  </script>
+</body>
+</html>

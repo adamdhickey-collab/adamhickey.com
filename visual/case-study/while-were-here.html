@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>While We&rsquo;re Here: a book of essays, designed and produced end to end | Adam Hickey</title>
+  <meta name="description" content="How I built While We&rsquo;re Here: a 300mm square hardcover of essays, produced from HTML and CSS through a paged-media engine, with a press-ready PDF." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/while-were-here.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/while-were-here.html" />
+  <meta property="og:title" content="While We&rsquo;re Here: a book of essays, designed and produced end to end | Adam Hickey" />
+  <meta property="og:description" content="How I built While We&rsquo;re Here: a 300mm square hardcover of essays, produced from HTML and CSS through a paged-media engine, with a press-ready PDF." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/while-were-here.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/while-were-here.html#article",
+          "headline": "How I built While We’re Here",
+          "description": "A build write-up for While We’re Here: a 300mm square hardcover of essays, produced from HTML and CSS through a paged-media engine, with a press-ready PDF as the deliverable.",
+          "url": "https://adamhickey.com/case-study/while-were-here.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/while-were-here.html",
+          "image": "https://adamhickey.com/img/og/while-were-here.jpg",
+          "datePublished": "2026-09-05",
+          "dateModified": "2026-10-26",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/while-were-here.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Built end to end",
+              "item": "https://adamhickey.com/#built"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How I built While We’re Here",
+              "item": "https://adamhickey.com/case-study/while-were-here.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <!-- Site stylesheet rather than the Tailwind CDN the older captured case
+       studies load: one request, no framework. -->
+  <link rel="stylesheet" href="../color.css?v=10" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=6" />
+  <link rel="stylesheet" href="../style.css?v=20261025a" />
+  <link rel="stylesheet" href="../site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../read-aloud.js?v=3" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#approach">Approach</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Experiments</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): already under its budget and
+         already in the voice, so the pass was length. Three paragraphs over
+         40 words are split, two guard items lost their second sentence,
+         "the part I would show a client" is the lesson it states, and the
+         page now ends on the walk that answered back rather than on the
+         printer list. -->
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Editorial design &middot; 7 min read</p>
+        <h1 class="case-title">While We&rsquo;re Here: a book of essays, designed and produced end to end</h1>
+        <p class="build-dek">A 300 mm square hardcover of essays on attention, designed page by page: the pacing of each spread, the type, 95 of my own photographs, and the words themselves. It started as talk on lake walks and ends as a press-ready PDF, made the way I make software.</p>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Role</dt><dd>Everything: writing, design, production</dd></div>
+            <div><dt>Built with</dt><dd>Markdown, HTML and CSS, paginated by Vivliostyle; Node and Python tooling</dd></div>
+            <div><dt>Trim</dt><dd>300 &times; 300 mm hardcover</dd></div>
+            <div><dt>Status</dt><dd>Complete draft, not press-final</dd></div>
+          </dl>
+        </div>
+
+        <!-- The book between the two strips, the same move Door County Found
+             made on 2026-09-16 and Lucy Learns before it. This page is the
+             one where the position argues hardest: everything in the write-up
+             is tooling -- markdown, a paginator, a preflight -- and the
+             mockup is the only picture of the thing all of it is for. Behind
+             the approach strip, a reader met the build before the object.
+
+             The caption came off with the move. It named the trim and the
+             cover art, and the facts strip directly above it already says
+             300 x 300 mm hardcover. The alt text is untouched. -->
+        <figure class="build-shot">
+          <img src="../img/wwh/cover-scene.webp?v=1" width="1254" height="1254" fetchpriority="high" decoding="async"
+               alt="A mockup of the finished book: the square hardcover lying on a travertine coffee table in warm afternoon light, the title WHILE WE&rsquo;RE HERE in tall black Didone capitals over the watercolor-and-drafting cover art, with a stoneware mug of tea, dried grasses and an olive tree nearby." />
+        </figure>
+
+        <div class="glance">
+          <p class="glance-kicker">My approach</p>
+          <ol class="glance-row">
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.5,-1.5)"><path pathLength="1" d="M3 21l1.2-4.2L15 6l3 3L7.2 19.8 3 21z"/><path pathLength="1" d="M13.2 7.8l3 3"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>01</span>Write</p>
+                <ul class="glance-points">
+                  <li>Talk on lake walks, with an AI asking questions back</li>
+                  <li>Markdown with front matter, one file per essay</li>
+                  <li>A facts file the build checks quotations and numbers against</li>
+                </ul>
+                <a class="glance-more" href="#what-ai-did">What AI actually did</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(3,-0.25)"><circle pathLength="1" cx="9" cy="5.8" r="1.8"/><path pathLength="1" d="M8.2 7.4 3 20.5"/><path pathLength="1" d="M9.8 7.4 15 20.5"/><path pathLength="1" d="M3.9 15.6a10.5 10.5 0 0 0 10.2 0"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>02</span>Design</p>
+                <ul class="glance-points">
+                  <li>300 mm square, laid out in points against real press geometry</li>
+                  <li>Trim, bleed, gutter and baseline grid in one config file</li>
+                  <li>Of 174 pictures, 95 are my photographs. Every design call is mine</li>
+                </ul>
+                <a class="glance-more" href="#what-comes-out">What comes out of it</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>03</span>Build</p>
+                <ul class="glance-points">
+                  <li>A Node script composes markdown into one HTML document</li>
+                  <li>Vivliostyle paginates it with CSS paged media, straight to PDF</li>
+                  <li>Press masters in Git LFS; Python for derivatives, fonts and PDF reads</li>
+                  <li>AI wrote the build code to rules I set</li>
+                </ul>
+                <a class="glance-more" href="#production-system">The production system</a>
+              </div>
+            </li>
+            <li class="glance-step">
+              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(-0.75,-0.75)"><path pathLength="1" d="M7.5 4v11.5a2 2 0 0 0 2 2h12.5"/><path pathLength="1" d="M3.5 8h11.5a2 2 0 0 1 2 2v11.5"/></g></svg></span>
+              <div class="glance-body">
+                <p class="glance-title"><span>04</span>Proof</p>
+                <ul class="glance-points">
+                  <li>Scripts walk in from every trim edge to prove the bleed</li>
+                  <li>Image DPI, overflow, page breaks and contrast all checked</li>
+                  <li>A Ghostscript preflight for PDF/X. AI runs the checks, I decide what ships</li>
+                </ul>
+                <a class="glance-more" href="#guards">Guards</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2>The problem</h2>
+        <p>I wanted to write essays about paying attention, and a website is a bad place for that. A page you scroll is a page you skim, one tab away from whatever is competing for that attention.</p>
+        <p>A book can&rsquo;t be tabbed away from. It also can&rsquo;t be edited after it prints, which changes how carefully you write.</p>
+        <p>So the output had to be a physical object, a square one, big enough for a photograph to breathe. How could I design and make one myself, and keep what software does well? Version control, a build step, and a clear view of what changed.</p>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="what-comes-out">What comes out of it</h2>
+        <p>Finished spreads from the current press build, as the PDF paginates them. The design is in the pacing: a photograph given a whole spread, then two pages of text with room around them, then a pair of small pictures set to the baseline grid.</p>
+        <div class="build-spreads">
+          <figure class="build-shot build-shot--wide">
+            <img src="../img/wwh/spread-tuesday.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="An open spread: a dog asleep in a rectangle of afternoon light on a bare floor, overprinted with faint survey linework, facing a cream title page reading Most of Life Is a Tuesday." />
+            <figcaption>The first essay opens on the quietest possible image, surveyed: a dog asleep in afternoon light, overprinted with the solar geometry that produced it.</figcaption>
+          </figure>
+          <figure class="build-shot">
+            <img src="../img/wwh/spread-bees.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="An open spread: a close photograph of honeybees working a comb behind glass, facing a title page reading The Beauty of Systems Nobody Designed." />
+            <figcaption>The Beauty of Systems Nobody Designed. A colony working behind glass.</figcaption>
+          </figure>
+          <figure class="build-shot">
+            <img src="../img/wwh/spread-extraordinary.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="An open spread with a sentence set at poster scale in heavy Didone type: the extraordinary becomes ordinary not because it stopped being extraordinary, but because we stopped noticing it." />
+            <figcaption>Pull-quote spreads set one sentence at poster scale in the cover face.</figcaption>
+          </figure>
+          <figure class="build-shot">
+            <img src="../img/wwh/spread-changing.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="An open spread on near-black pages: a photograph of a vaulted stone cistern, facing the part title The World Is Changing in cream serif type." />
+            <figcaption>Part III runs on dark pages. The palette flips for the section set inside the change.</figcaption>
+          </figure>
+          <figure class="build-shot">
+            <img src="../img/wwh/spread-absence.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="A dark spread carrying a single long sentence in cream Didone type: absence was not a setting selected from a menu, it was what happened when a body moved beyond the length of a wire." />
+            <figcaption>The dark pages let a single sentence carry a whole spread.</figcaption>
+          </figure>
+          <figure class="build-shot build-shot--wide">
+            <img src="../img/wwh/spread-hill.webp?v=1" width="1600" height="800" loading="lazy" decoding="async"
+                 alt="An open spread: a photograph of a long boardwalk stair with the photographer&rsquo;s silhouette cast up it, facing a title page reading The Body Cannot Skip the Hill." />
+            <figcaption>The Body Cannot Skip the Hill, from the part on pilgrimage. My silhouette, my staircase.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2>A $500 quote, and four arguments made twice</h2>
+        <p>A single copy came back quoted at $500. That number did what deadlines and taste had not: it forced a real edit.</p>
+        <p>The book was eight essays in four parts. Looking at it properly with the money in mind, I saw that the pairs were not eight ideas. They were four ideas approached twice:</p>
+        <ul class="build-list">
+          <li>What you notice is what your life is made of</li>
+          <li>Mind and order are distributed rather than located in you</li>
+          <li>We are inside a change we can only partly see</li>
+          <li>Presence is earned and temporary</li>
+        </ul>
+        <p>So there are two real editions now: the eight-essay book, and a four-essay reading cut at roughly ninety pages. Neither replaces the other until a printer decides it, and the site publishes both.</p>
+        <p>Each build states which edition it is. It used to infer that from the page count, until the shorter book landed on exactly the threshold that test was using.</p>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-warm">
+      <div class="container case-narrow">
+        <h2 id="production-system">HTML and CSS as the production system</h2>
+        <p>The book is written in markdown, composed by a build script, and paginated by a browser engine that implements the paged-media parts of CSS.</p>
+        <p>Print geometry lives in one config file: trim, bleed, safe area, the gutter the binding swallows, margins, the baseline grid. Nothing printer-specific is hard-coded anywhere else.</p>
+        <p>A spread is a diff. A typographic change is one line, not an afternoon of manual reflow. When a printer sends a production template, the numbers change in one place.</p>
+        <ul class="build-list">
+          <li>Every page knows which side it is on, so facing spreads are paired rather than assumed</li>
+          <li>Screen-resolution derivatives build the web preview; the press masters never go near it</li>
+          <li>The press PDF carries bleed and crop marks; the reading PDF does not, and they are different scripts on purpose</li>
+        </ul>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2>Building to a number that stopped being true</h2>
+        <p>Every pacing decision was made against a 130-page ceiling, one printer&rsquo;s hard maximum. Adding a spread meant removing one.</p>
+        <p>Then that printer was ruled out on price, and the ceiling went with it. The 130 pages stayed. The book was composed to them, and they are the only measured numbers the project has.</p>
+        <p>The config file says so. These numbers came from a printer who is no longer the printer, so every one is now a question. A brief is ready to ask four printers the same things.</p>
+        <p>That&rsquo;s the lesson I&rsquo;d keep. A constraint you can&rsquo;t verify is a guess wearing a number, so label it rather than quietly keep trusting it.</p>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="guards">Guards, because print fails silently</h2>
+        <p>Software tells you when it breaks. A press file doesn&rsquo;t. It looks fine on screen and goes wrong on a machine you aren&rsquo;t standing next to, after you&rsquo;ve paid. So the build refuses more than it reports.</p>
+        <ul class="build-list">
+          <li>The press script once ran the trimmed proof build behind a press-ready preflight and produced a file with no bleed at all. The build line now names what it is doing, and that is checked</li>
+          <li>Cutting the interior out of the press PDF refuses unless the first page carries the title and the last the back-cover line, read from the content rather than the position</li>
+          <li>A separate check asks whether the published reading PDF is the current book, since a stale one would ship on the next push</li>
+          <li>The preflight tool is checked for before a long build starts, since press-ready hangs rather than fails when it is missing</li>
+        </ul>
+      </div>
+    </section>
+    <section class="case-section case-overview build-chapter ground-charcoal">
+      <div class="container case-narrow">
+        <h2 id="what-ai-did">What AI actually did</h2>
+        <p>The essays started as talk, on walks around the lakes, thinking out loud with an AI that asked questions back. Those conversations came home as raw material: too long, too loose, and not yet about anything.</p>
+        <p>After that, I decided which threads were worth pursuing, cut the rest, and shaped what survived into essays that argue something.</p>
+        <p>The honest line is not that I wrote it and AI helped. The thinking happened out loud, and the judgment about what was true and what stayed was mine at every step.</p>
+        <p>The pictures are more clear-cut. Of the 174 images, 95 are photographs I took and seventeen more are archive or original artwork.</p>
+        <p>Fourteen are generated, and the manifest that builds the credits page says so for each one.</p>
+        <p>The rest of what AI earned was the production system: the build scripts, the pagination edge cases, the guards above. What changed there is how quickly a bad idea can be shown to be bad.</p>
+        <p>The remaining work isn&rsquo;t code. These four jobs are written down as open questions, which is the only honest place for them:</p>
+        <ul class="build-list">
+          <li>Choose a printer</li>
+          <li>Get their paper caliper</li>
+          <li>Find out whether they want a specific PDF standard</li>
+          <li>Get consent from anyone identifiable if the book is ever sold</li>
+        </ul>
+        <p>I wouldn&rsquo;t call any of this a new way of writing. People have composed on walks for as long as they&rsquo;ve walked. This time the walk answered back, and came home as a draft.</p>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container case-narrow">
+        <!-- The ask, on every case study, because a reader who arrived here from
+             a search or a shared link has just seen the strongest evidence the site
+             has and may never see the homepage. Same destination as the hero's
+             "Start a conversation": the contact section, which carries the ask in
+             full, the plain address and the LinkedIn route. Text link, not a
+             button, so it reads as the next step rather than a pitch. -->
+        <div class="case-ask">
+          <h2 class="case-ask-title">Want to talk about this?</h2>
+          <p>Write to me about this work, something you&rsquo;re building, or a role on your team. A few sentences are plenty.</p>
+          <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
+        </div>
+        <a class="build-next" href="this-site.html">
+          <span class="build-next-eyebrow">Next build write-up</span>
+          <span class="build-next-title">How I built this site &rarr;</span>
+        </a>
+        <a class="btn-back" href="../index.html#built">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+      </div>
+    </footer>
+</body>
+</html>

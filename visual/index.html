@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <!-- Marks the document as script-capable before first paint, so the
+       .reveal hidden state applies only when the observer that clears it
+       can actually run. No JS means everything renders plainly visible. -->
+  <script>document.documentElement.className += " js";</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam Hickey | Senior Digital Designer, Minneapolis</title>
+  <meta name="description" content="Visual ideas, beautifully brought to life. Adam Hickey is a Minneapolis senior digital designer with twenty years of brand identity, illustration, brand-led sites and thoughtfully crafted interfaces." />
+
+  <meta name="color-scheme" content="light" />
+  <meta property="og:title" content="Adam Hickey | Senior Digital Designer, Minneapolis" />
+  <meta property="og:description" content="Visual ideas, beautifully brought to life. Twenty years of distinctive visual systems and thoughtfully crafted digital experiences: identities, illustration, brand-led sites and interfaces." />
+  <meta property="og:type" content="website" />
+  <!-- Absolute because scrapers do not resolve a relative og:image, and the
+       canonical origin is the production one whichever host is serving this. -->
+  <link rel="canonical" href="https://adamhickey.com/" />
+  <meta property="og:url" content="https://adamhickey.com/" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/index.jpg?v=5" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. The ProfessionalService node the
+       practice's site carried came out with the repositioning (2026-10-26):
+       nothing else referenced it, and the page no longer sells engagements. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://adamhickey.com/#adam",
+          "name": "Adam Hickey",
+          "jobTitle": "Senior Digital Designer",
+          "description": "Senior digital designer in Minneapolis with twenty years of brand identity, illustration, visual systems and thoughtfully crafted digital experiences, who designs and often builds the work himself.",
+          "url": "https://adamhickey.com/",
+          "image": "https://adamhickey.com/img/og/index.jpg?v=5",
+          "email": "mailto:adam@adamhickey.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Minneapolis",
+            "addressRegion": "MN",
+            "addressCountry": "US"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/in/adamdhickey/"
+          ],
+          "knowsAbout": [
+            "Visual design",
+            "Brand identity",
+            "Art direction",
+            "Typography",
+            "Illustration",
+            "Digital design",
+            "Interaction design",
+            "Interface design",
+            "Design systems",
+            "Front-end prototyping",
+            "Accessibility"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://adamhickey.com/#website",
+          "name": "Adam Hickey",
+          "url": "https://adamhickey.com/",
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "inLanguage": "en"
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="color.css?v=10" />
+  <link rel="stylesheet" href="shell.css?v=6" />
+  <link rel="stylesheet" href="type.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=20261025a" />
+  <link rel="stylesheet" href="site-nav.css?v=20260926a" />
+  <link rel="stylesheet" href="home.css?v=1" />
+  <script src="site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+  <!-- Preload the client-logo strip: small SVGs sitting below the fold. -->
+  <link rel="preload" as="image" href="img/CBRE.svg?v=2" />
+  <link rel="preload" as="image" href="img/site/dr-pepper.svg?v=2" />
+  <link rel="preload" as="image" href="img/site/intel.svg?v=2" />
+  <link rel="preload" as="image" href="img/site/lund.svg?v=2" />
+  <link rel="preload" as="image" href="img/site/toro-wordmark.svg?v=3" />
+</head>
+<body class="home">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ============================== NAVIGATION ============================== -->
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <button class="logo-btn" aria-label="Adam Hickey home" onclick="if(location.hash)history.pushState(null,'',location.pathname+location.search);window.scrollTo({top:0,behavior:'smooth'})">
+        <span class="logo-mark">
+          <img decoding="async" src="img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="metadata" aria-hidden="true"></video>
+        </span>
+      </button>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="writing/index.html">Writing</a></li>
+        <li><a href="lab/index.html">Experiments</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" data-email-popover="adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- ============================== THE HEADLINE ==============================
+         The repositioning's homepage (docs/rebrand/site-architecture.md),
+         2026-10-26. The page used to open on a portrait beside a product
+         design headline, six proof facts and three enterprise accounts; it
+         opens now on the positioning in one sentence and then on the work
+         itself, before a word about it. The portrait moved to About. -->
+    <section id="hero" class="hh">
+      <div class="container">
+        <p class="hh-eyebrow reveal">Senior digital designer &middot; Minneapolis</p>
+        <h1 class="hh-title reveal">Visual ideas, beautifully brought to life.</h1>
+        <p class="hh-line reveal">I&rsquo;m a Minneapolis-based senior digital designer with twenty years of experience creating distinctive visual systems and thoughtfully crafted digital experiences: identities, illustration, brand-led sites and interfaces, designed and often built by the same hands.</p>
+        <div class="cta-row hh-cta reveal">
+          <a href="#work" class="btn btn-primary">See the work</a>
+          <a href="#approach" class="btn btn-ghost btn-ghost-light">What I bring</a>
+          <a class="hh-resume" href="Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute; (PDF)<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </div>
+
+        <!-- The wall: six projects as one shelf, each cropped to the same
+             4:5 and named under its tile, so the pictures carry no text.
+             The order is the order of weight in docs/rebrand/positioning.md
+             with the concept first, because it is the one made to show the
+             whole arc. --tile-focus is where the crop looks on a picture
+             wider than the tile: a fact about the picture, not a design
+             decision, so it sits on the tile. -->
+        <div class="hh-wall reveal">
+          <ul class="hh-wall-row" aria-label="Selected projects">
+            <li><a class="hh-tile" href="case-study/say-when.html"><span class="hh-tile-media"><img src="img/say-when/tile.webp?v=1" width="800" height="1000" alt="Three Say When coffee bags in a row, each a different colour with a fill line at a different height." loading="eager" decoding="async" /></span><span class="hh-tile-name">Say When</span><span class="hh-tile-kind">Self-initiated coffee brand</span></a></li>
+            <li><a class="hh-tile" href="case-study/innovators-studio-visual-identity.html"><span class="hh-tile-media"><img src="img/site/branding3.webp" width="328" height="774" alt="The Innovators Studio identity: the Studio wordmark with its fingerprint mark over the brand's greens and an illustrated invitation card." loading="eager" decoding="async" /></span><span class="hh-tile-name">Innovators Studio</span><span class="hh-tile-kind">Identity and community</span></a></li>
+            <li><a class="hh-tile" href="case-study/door-county-found.html" style="--tile-focus: 36% 50%"><span class="hh-tile-media"><img src="img/dcf/campaign.webp?v=5" width="2172" height="724" alt="The Door County Found identity laid out on cream paper: a lighthouse mark, the line Found slowly, shared honestly, and a laptop open on the guide." loading="eager" decoding="async" /></span><span class="hh-tile-name">Door County Found</span><span class="hh-tile-kind">Editorial travel brand</span></a></li>
+            <li><a class="hh-tile" href="case-study/lucy-learns.html"><span class="hh-tile-media"><img src="img/lucy/welcome.webp?v=3" width="620" height="1342" alt="Lucy Learns' welcome screen: an illustrated handler and a black dog on her bed as a guest waits at the door." loading="eager" decoding="async" /></span><span class="hh-tile-name">Lucy Learns</span><span class="hh-tile-kind">Illustrated training app</span></a></li>
+            <li><a class="hh-tile" href="case-study/hybrid-designer.html" style="--tile-focus: 30% 50%"><span class="hh-tile-media"><img src="img/site/fulton-beer-website.webp" width="1802" height="1012" alt="The Fulton Beer website on kraft paper with hand-drawn navigation, a photograph of the brewers and two billboard campaign pages." loading="eager" decoding="async" /></span><span class="hh-tile-name">Fulton Beer</span><span class="hh-tile-kind">The studio years</span></a></li>
+            <li><a class="hh-tile" href="case-study/faunaform.html" style="--tile-focus: 50% 50%"><span class="hh-tile-media"><img src="img/faunaform/bear-approved.webp" width="1200" height="1200" alt="A black bear drawn in four flat inks for a screen print." loading="eager" decoding="async" /></span><span class="hh-tile-name">Faunaform</span><span class="hh-tile-kind">Screen-print studio, in progress</span></a></li>
+          </ul>
+        </div>
+
+        <div class="logo-block reveal">
+          <div class="logo-strip" role="list" aria-label="Selected clients">
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/cargill.svg?v=2" alt="Cargill" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/CBRE.svg?v=2" alt="CBRE" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/dr-pepper.svg?v=2" alt="Dr Pepper" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/intel.svg?v=2" alt="Intel" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/lund.svg?v=2" alt="Lund" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/toro-wordmark.svg?v=3" alt="Toro" width="200" height="98" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== SELECTED WORK ==============================
+         Innovators Studio first, as the professional proof; the concept in
+         its own band under it, labeled a self-initiated fictional brand in
+         its first line; then the four creative projects; then the
+         enterprise work and the work in progress as depth. #case-studies
+         keeps every old link and breadcrumb landing here. -->
+    <section id="work" class="hw">
+      <span id="case-studies" class="hw-anchor" aria-hidden="true"></span>
+      <div class="container">
+        <header class="section-head reveal">
+          <h2>Selected work</h2>
+          <p>Identity, illustration, brand-led sites and interfaces, each with the idea it started from.</p>
+        </header>
+
+        <div class="hw-flag reveal">
+          <figure class="hw-flag-media">
+            <img src="img/say-when/card-home.webp?v=1" width="1672" height="941" alt="Say When's three coffee bags, First Pour, Second Pour and Last Pour, on the brand's ground, each with its fill line at a different height." loading="lazy" decoding="async" />
+          </figure>
+          <div class="hw-flag-body">
+            <span class="hw-kicker">Self-initiated brand concept</span>
+            <h3>Say When: a coffee brand built on the pour</h3>
+            <p>Specialty coffee without the specialist vocabulary. A strategy, a name, a mark, three bags that are a family without being recolors, a campaign about everyone&rsquo;s own &ldquo;when,&rdquo; and a working storefront with a finder that asks how you take your coffee rather than what altitude it grew at. Made to show the whole arc, from an idea to an interactive experience.</p>
+            <div class="cta-row">
+              <a href="case-study/say-when.html" class="btn btn-primary">Read the case study</a>
+              <a href="say-when/index.html" class="btn btn-ghost btn-ghost-light">Open the storefront</a>
+            </div>
+            <p class="hw-note">A fictional brand with no client. Nothing is for sale, and the storefront&rsquo;s checkout is simulated.</p>
+          </div>
+        </div>
+
+        <a class="case-card hw-feature reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="Read the case study: Innovators Studio">
+          <div class="case-thumb">
+            <img decoding="async" src="img/site/group-100008-1.webp?v=2" alt="The Innovators Studio platform: people working together under the line Together we're changing the way we innovate, with the Studio mark in the corner." width="2432" height="1007" />
+          </div>
+          <div class="case-card-body">
+            <span class="hw-kicker">Identity, communications and a digital home</span>
+            <h3>Innovators Studio</h3>
+            <p class="case-desc">A visual identity, illustration and badges, a library of templates for presentations, newsletters and campaigns, and a community portal, together turning a scattered internal innovation effort at a global corporation into a place people felt invited to join. Four fiscal years, with a marketing manager and a production designer.</p>
+            <div class="tag-row">
+              <span class="tag">Identity</span>
+              <span class="tag">Illustration</span>
+              <span class="tag">Campaigns</span>
+              <span class="tag">Digital platform</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <div class="case-grid case-grid--four stagger">
+          <a class="case-card reveal" href="case-study/door-county-found.html" aria-label="Read the case study: Door County Found">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/door-county-found-card.webp" alt="Door County Found's homepage: the lighthouse mark over the menu and a vintage travel-poster layout with the line Door County, the way we know it, over a drawn map." width="1672" height="941"/>
+            </div>
+            <h3>Door County Found</h3>
+            <p class="case-desc">A travel guide built to feel like advice from someone who knows the place: a vintage-inspired editorial identity in cream, harbor navy and beacon gold, a smaller trusted selection, and a map that stays in the background.</p>
+            <div class="tag-row">
+              <span class="tag">Brand identity</span>
+              <span class="tag">Editorial</span>
+              <span class="tag">Web</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/lucy-learns.html" aria-label="Read the case study: Lucy Learns">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/lucy-learns-card.webp?v=2" alt="Three Lucy Learns screens: the splash with a black Labrador and her person, today's session, and a cleared level." width="1672" height="941"/>
+            </div>
+            <h3>Lucy Learns</h3>
+            <p class="case-desc">Dog training with a leash in one hand: an illustrated, glance-readable app for my own household, one task a screen, in type you can read from across the room, with the same dog in the same home on every picture.</p>
+            <div class="tag-row">
+              <span class="tag">Illustration</span>
+              <span class="tag">Interface design</span>
+              <span class="tag">Mobile</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/hybrid-designer.html" aria-label="Read about the studio years">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/site/lund-boats-website.webp" alt="The Lund Boats website: a fisherman on a northern lake under the Lund wordmark, with the boat builder and the owners' club on two tablets beside it." width="1802" height="1012"/>
+            </div>
+            <h3>The studio years</h3>
+            <p class="case-desc">Eight years at Pixel Farm, LEVEL and ByDesign: brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and Learn to Live, designed and built with some warmth to them.</p>
+            <div class="tag-row">
+              <span class="tag">Brand-led web</span>
+              <span class="tag">Campaigns</span>
+              <span class="tag">Front-end</span>
+            </div>
+            <span class="case-go" aria-hidden="true">See the work<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/while-were-here.html" aria-label="Read the case study: While We're Here">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/while-were-here.webp" alt="While We're Here as a square hardcover, the title set in tall black capitals over a watercolor bloom crossed by fine drafting lines, with two open spreads behind it." width="1400" height="897"/>
+            </div>
+            <h3>While We&rsquo;re Here</h3>
+            <p class="case-desc">A 300mm square hardcover of small essays: pacing, type, imagery and composition on paper, every spread designed as a spread and produced from HTML and CSS to a press-ready file.</p>
+            <div class="tag-row">
+              <span class="tag">Editorial design</span>
+              <span class="tag">Book</span>
+              <span class="tag">Print</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+        </div>
+
+        <div class="hw-depth reveal">
+          <h3>Depth: enterprise work, and work in progress</h3>
+          <p>Thirteen years inside large products taught me how to make complicated interfaces feel coherent and finished. These are the deeper reads.</p>
+          <ul class="hw-minis">
+            <li><a class="hw-mini" href="case-study/sap-product-maturity.html"><span class="hw-mini-media"><img src="img/site/sap-hero-02.webp" width="1672" height="941" alt="A row of SAP applications sharing one visual language." loading="lazy" decoding="async" /></span><h4>40+ SAP apps as one product</h4><p>Visual coherence, hierarchy and a shared design language across a global suite.</p></a></li>
+            <li><a class="hw-mini" href="case-study/usda-operational-overhead.html"><span class="hw-mini-media"><img src="img/site/nutrition-incentive-hub-12.webp" width="1812" height="1020" alt="The Nutrition Incentive Hub's grant portal on a laptop." loading="lazy" decoding="async" /></span><h4>Grant tools, unified</h4><p>Clarity and trust in a public-sector platform that replaced spreadsheets.</p></a></li>
+            <li><a class="hw-mini" href="case-study/dispatch-complexity.html"><span class="hw-mini-media"><img src="img/site/dispatch-hero-01.webp?v=5" width="1672" height="941" alt="The dispatch cockpit: a dense board of loads and trucks on one screen." loading="lazy" decoding="async" /></span><h4>A 450+ truck fleet on one screen</h4><p>Dense, fast-changing information made readable for dispatchers.</p></a></li>
+            <li><a class="hw-mini" href="case-study/faunaform.html"><span class="hw-mini-media"><img src="img/products/faunaform-card.webp?v=2" width="1672" height="941" alt="The Faunaform wordmark over seven screen prints of Minnesota animals." loading="lazy" decoding="async" /></span><h4>Faunaform, in progress</h4><p>Art direction, composition and physical craft for a screen-print studio.</p></a></li>
+          </ul>
+          <p class="hw-all"><a href="other.html">Everything I&rsquo;ve made, in one list &rarr;</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== WHAT I BRING ==============================
+         The four abilities (docs/rebrand/positioning.md), each tied to the
+         evidence, in place of the four "How I work" engagement pages, whose
+         addresses redirect here. #problems keeps the old header link
+         landing on this section. -->
+    <section id="approach" class="hb">
+      <span id="problems" class="hw-anchor" aria-hidden="true"></span>
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">Approach</p>
+          <h2>What I bring to a creative team</h2>
+          <p>Four things, in combination. I&rsquo;m one designer on a team of writers, strategists, marketers, developers and other designers, and this is my part.</p>
+        </header>
+        <ol class="hb-grid stagger">
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/01-clarity.webp?v=13" width="1080" height="720" alt="Tangled cords on the left, three straight parallel lines on the right." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Find the creative idea</h3>
+              <p>Who it&rsquo;s for, what&rsquo;s in tension, and the direction worth committing to. The idea has to be sayable in a sentence before it&rsquo;s drawable, and it has to decide things.</p>
+              <p class="hb-seen">Seen in <a href="case-study/say-when.html">Say When</a> and <a href="case-study/door-county-found.html">Door County Found</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/02-system.webp?v=9" width="1080" height="720" alt="A loose pile of hand-sketched index cards beside a tidy grid of identical stamped ones." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Build the visual language</h3>
+              <p>Identity, type, color, illustration and art direction, as a flexible system rather than one composition, so other people can make things with it and it still looks like itself.</p>
+              <p class="hb-seen">Seen in <a href="case-study/innovators-studio-visual-identity.html">Innovators Studio</a>, <a href="case-study/say-when.html">Say When</a> and <a href="case-study/faunaform.html">Faunaform</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/04-ai.webp?v=11" width="1080" height="720" alt="Dozens of sketched sticky notes thinning out toward one paper airplane on a drawn runway." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Bring the brand into digital</h3>
+              <p>Sites, interfaces, campaigns and interactive pieces that keep the idea intact on a phone, in a feed and inside a product, with the behavior designed as carefully as the picture.</p>
+              <p class="hb-seen">Seen in <a href="case-study/hybrid-designer.html">the studio years</a>, <a href="case-study/lucy-learns.html">Lucy Learns</a> and <a href="say-when/index.html">the Say When storefront</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/03-embedded.webp?v=13" width="1080" height="720" alt="Loose, unclaimed pages beside the same pages squared into one stack under a paperweight." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Refine until it feels finished</h3>
+              <p>Visual judgment, prototyping and code, with contemporary tools, until the hierarchy, spacing, motion and every state hold together and nothing looks left over.</p>
+              <p class="hb-seen">Seen in <a href="case-study/sap-product-maturity.html">40+ SAP apps</a> and <a href="case-study/this-site.html">this site</a>.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="hb-close reveal">Twenty years, three kinds of place: studios where designing and building were one job, enterprise teams where coherence at scale was the job, and independent projects where I&rsquo;ve done both. The constant is the craft.</p>
+      </div>
+    </section>
+
+    <!-- ============================== ABOUT ==============================
+         The career told once and honestly, starting with graphic design and
+         interactive work. The first sentence is the one a machine can quote. -->
+    <section id="about" class="ha">
+      <div class="container">
+        <h2 class="reveal">About</h2>
+        <div class="ha-top reveal">
+          <figure class="hero-photo-frame">
+            <video class="hero-portrait-video" tabindex="-1" src="img/hero-portrait.mp4?v=2"
+                   poster="img/portrait-illus.webp?v=6" width="720" height="720"
+                   loop muted playsinline preload="metadata"
+                   aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
+            </video>
+            <!-- WCAG 2.2.2: the clip runs longer than five seconds and loops,
+                 so a way to stop it has to exist for everyone. -->
+            <button type="button" class="hero-portrait-toggle" aria-label="Pause the portrait">
+              <svg class="hero-portrait-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
+              <svg class="hero-portrait-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
+            </button>
+            <figcaption class="hero-caption">
+              <span class="hero-caption-name">Adam Hickey</span>
+              <span class="hero-caption-where">Minneapolis, most days.</span>
+            </figcaption>
+          </figure>
+          <div>
+            <p class="ha-entity">Adam Hickey is a senior digital designer in Minneapolis, Minnesota: twenty years of brand identity, illustration, visual systems and thoughtfully crafted digital experiences, from three design studios through thirteen years of enterprise product work to independent projects he designs and builds himself.</p>
+            <p class="ha-lede">I started in graphic design, and the thing I still enjoy most is watching an idea turn into a finished visual thing that people use.</p>
+          </div>
+        </div>
+        <div class="ha-beats about-beats">
+          <div class="about-beat-row reveal">
+            <a class="about-media" href="img/about/craft-team.webp?v=4" data-zoom
+               data-zoom-caption="The Pixel Farm studio, 2008"
+               data-zoom-alt="The Pixel Farm studio gathered around the courtyard fountain, looking up at the camera from the balcony above."
+               aria-label="Open the full photograph: the Pixel Farm studio gathered around the courtyard fountain, looking up at the camera from the balcony above.">
+              <img src="img/about/craft-team-thumb.webp?v=5" width="900" height="675" alt="" loading="lazy" decoding="async" />
+              <span class="about-media-zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+              </span>
+            </a>
+            <div class="about-beat-text">
+              <p><strong class="about-beat">Studios &middot; 2005&ndash;2013</strong>I began as a hybrid graphic designer and front-end developer at ByDesign, LEVEL and Pixel Farm: visually rich sites, interactive experiences, digital campaigns and interfaces for clients like Lund Boats, Fulton Beer and Hazelden. Designing and building were one job, and whoever shipped it sat close enough to argue with. <a href="case-study/hybrid-designer.html">The studio years</a>.</p>
+            </div>
+          </div>
+          <div class="about-beat-row reveal">
+            <a class="about-media" href="img/about/systems-talk.webp?v=4" data-zoom
+               data-zoom-caption="MN365 user group, April 2025"
+               data-zoom-alt="An event card: RBA sponsors the MN365 user group, April 14 2025, on modernizing your intranet and Power Apps solutions. Speakers Maria Hall and Adam Hickey, senior user experience designer."
+               aria-label="Open the full event card: RBA sponsors the MN365 user group, April 2025, with Adam Hickey as one of two speakers.">
+              <img src="img/about/systems-talk-thumb.webp?v=4" width="600" height="450" alt="" loading="lazy" decoding="async" />
+              <span class="about-media-zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+              </span>
+            </a>
+            <div class="about-beat-text">
+              <p><strong class="about-beat">Enterprise &middot; 2013&ndash;2026</strong>Then <a href="case-study/enterprise-consulting.html">thirteen years at RBA</a> on large digital experiences, application suites, operational software and design systems for CBRE, Toro, Banner Bank and International Trucks. The work was clarity, hierarchy and coherence across products that had grown complicated, and it taught me how far a visual system can carry. Some of it I explained in public.</p>
+            </div>
+          </div>
+          <div class="about-beat-row reveal">
+            <a class="about-media" href="img/about/independent.webp?v=4" data-zoom
+               data-zoom-caption="Fabiola, Kylie and me"
+               data-zoom-alt="Adam Hickey on the grass with his wife Fabiola and their dog Kylie, a flower garden in bloom behind them."
+               aria-label="Open the full photograph: Adam Hickey on the grass with his wife Fabiola and their dog Kylie, a flower garden behind them.">
+              <img src="img/about/independent-thumb.webp?v=5" width="900" height="675" alt="" loading="lazy" decoding="async" />
+              <span class="about-media-zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+              </span>
+            </a>
+            <div class="about-beat-text">
+              <p><strong class="about-beat">Independent &middot; 2026&ndash;now</strong>Since RBA I&rsquo;ve made things end to end: a travel brand for my sister, a training app for our dog, a screen-print studio, a book, and a fictional coffee brand to show the whole arc. I use coding agents and image models the way I used to use jQuery, as tools that make the visual work real faster. The judgment is mine.</p>
+              <p>What I want next is a senior craft role on a team where visual excellence matters.</p>
+            </div>
+          </div>
+          <p class="ha-close reveal">The test I still use is one question: when the work ships, does it look like someone cared about every part of it?</p>
+        </div>
+        <p class="lucy reveal"><img decoding="async" loading="lazy" src="img/site/lucy.webp" alt="Lucy" width="370" height="370"/>(Lucy approves of this message from her curled-up spot nearby)</p>
+      </div>
+    </section>
+
+    <!-- The two sections the header names that the page does not otherwise
+         show, in one slim band. -->
+    <section class="hm" aria-label="Writing and experiments">
+      <div class="container">
+        <ul class="hm-row">
+          <li><a class="hm-link reveal" href="writing/index.html"><h3>Writing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h3><p>On design, creativity and technology: craft and judgment, designing in working software, and essays from an earlier focus on AI agents.</p></a></li>
+          <li><a class="hm-link reveal" href="lab/index.html"><h3>Experiments<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h3><p>Prototypes and technical explorations, AI included: Agent Review, the dispatch cockpit and a motion study.</p></a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================== CONTACT ============================== -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="section-eyebrow">Contact</p>
+        <h2>Let&rsquo;s make something good</h2>
+        <p>If you run a creative team, an agency, a studio or an in-house group where visual craft matters, I&rsquo;d like to hear from you: senior digital, visual or interactive design, in Minneapolis, hybrid or remote. Anyone else is welcome too. A few sentences are plenty.</p>
+      </header>
+      <div class="cta-row reveal">
+        <a href="mailto:adam@adamhickey.com?subject=Hello%20from%20your%20site" class="btn btn-primary">Start a conversation</a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-ghost-light">Connect on LinkedIn</a>
+      </div>
+      <p class="contact-plain reveal">Or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a> directly. The <a href="Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer">r&eacute;sum&eacute;<span class="visually-hidden"> (PDF, opens in a new tab)</span></a> is one page.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-name">Adam Hickey &middot; Senior Digital Designer &middot; Brand, digital and interactive &middot; Minneapolis / Remote or hybrid</p>
+      <ul class="footer-links">
+        <li><a href="mailto:adam@adamhickey.com">Email</a></li>
+        <li><a href="writing/index.html">Writing</a></li>
+        <li><a href="Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute;<span class="visually-hidden"> (PDF, opens in a new tab)</span></a></li>
+        <li><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <p class="footer-note">Designed and built by me, end to end.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ---------- Reveal-on-scroll via IntersectionObserver -------------------
+       Any element with .reveal lifts into view when it enters the viewport.
+       Elements already in the initial viewport reveal immediately so the
+       IO's -8% bottom margin can't strand items sitting just above the fold. */
+    (function setupReveals() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      const vh = window.innerHeight;
+      els.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) {
+          el.classList.add('is-visible');
+        } else {
+          io.observe(el);
+        }
+      });
+    })();
+
+    /* ---------- Smooth-scroll for in-page anchors --------------------------- */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.pushState(null, '', '#' + id); }
+      });
+    });
+
+    /* ---------- Smooth-scroll to #hash on initial load ----------------------- */
+    (function landingHashScroll() {
+      if (!window.location.hash) return;
+      requestAnimationFrame(() => {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+          window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+          setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+        }
+      });
+    })();
+
+    /* ---------- Case-study magnetic tilt -----------------------------------
+       Pointer position maps to --rx/--ry so a card's thumbnail tilts toward
+       the cursor, and .is-tilting applies the lift and shadow. Skipped for
+       touch, coarse pointers, and reduced motion. */
+    (function setupCaseTilt() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const MAX_RX = 6, MAX_RY = 8;
+      document.querySelectorAll('.case-grid .case-thumb, .hw-feature .case-thumb').forEach(thumb => {
+        thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
+        thumb.addEventListener('pointermove', (e) => {
+          const r = thumb.getBoundingClientRect();
+          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+          thumb.style.setProperty('--ry', (-nx * MAX_RY).toFixed(2) + 'deg');
+          thumb.style.setProperty('--rx', (ny * MAX_RX).toFixed(2) + 'deg');
+        });
+        thumb.addEventListener('pointerleave', () => {
+          thumb.classList.remove('is-tilting');
+          thumb.style.setProperty('--rx', '0deg');
+          thumb.style.setProperty('--ry', '0deg');
+        });
+      });
+    })();
+
+    /* ---------- Case-study hero morph ---------------------------------------
+       Cross-document view transitions: the clicked card's thumbnail is named
+       case-hero just before navigation, and each case study page's hero image
+       carries the same name, so supporting browsers morph one into the other. */
+    (function setupCaseMorph() {
+      if (!('CSS' in window) || !CSS.supports('view-transition-name: none')) return;
+      const cards = Array.from(document.querySelectorAll('.case-card'));
+      const clearNames = () => cards.forEach(c => {
+        const img = c.querySelector('.case-thumb img');
+        if (img) img.style.viewTransitionName = '';
+      });
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          clearNames();
+          const img = card.querySelector('.case-thumb img');
+          if (img) img.style.viewTransitionName = 'case-hero';
+        });
+      });
+      let activeTransition = null;
+      window.addEventListener('pagereveal', (e) => {
+        if (!e.viewTransition) return;
+        const from = window.navigation && navigation.activation && navigation.activation.from;
+        if (!from) return;
+        clearNames();
+        const card = cards.find(a => from.url && from.url.indexOf(a.getAttribute('href')) !== -1);
+        if (!card) return;
+        const img = card.querySelector('.case-thumb img');
+        if (!img) return;
+        img.style.viewTransitionName = 'case-hero';
+        activeTransition = e.viewTransition;
+        e.viewTransition.finished.finally(() => {
+          img.style.viewTransitionName = '';
+          activeTransition = null;
+        });
+      });
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted && !activeTransition) clearNames();
+      });
+    })();
+
+    /* ---------- Nav background + shadow on scroll --------------------------- */
+    const nav = document.querySelector('.site-nav');
+    const updateNav = () => nav.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+  <!-- Email copy popover: the email nav link opens a small card with a
+       selectable address, a Copy button, and a Close button instead of
+       launching the mail client. Self-contained; falls back to mailto:. -->
+  <script>
+  (function () {
+    var trigger = document.querySelector('[data-email-popover]');
+    if (!trigger) return;
+    var email = trigger.getAttribute('data-email-popover');
+
+    var style = document.createElement('style');
+    style.textContent =
+      '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
+      'background:var(--color-white);border:1px solid var(--rule-hairline);border-radius:12px;' +
+      'box-shadow:var(--shadow-popover);padding:13px 14px 14px;' +
+      "font-family:var(--font-sans);" +
+      'opacity:0;visibility:hidden;transform:translateY(-4px);' +
+      'transition:opacity var(--motion-move) var(--ease), transform var(--motion-move) var(--ease), visibility var(--motion-move) var(--ease);}' +
+      '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
+      '.ah-emailpop-arrow{position:absolute;top:-6px;width:12px;height:12px;background:var(--color-white);' +
+      'border-left:1px solid var(--rule-hairline);border-top:1px solid var(--rule-hairline);' +
+      'transform:translateX(-50%) rotate(45deg);}' +
+      '.ah-emailpop-head{display:flex;align-items:center;justify-content:space-between;' +
+      'margin:0 0 8px;}' +
+      '.ah-emailpop-title{font-size:var(--text-2xs);font-weight:700;letter-spacing:var(--tracking-caps);' +
+      'text-transform:uppercase;color:var(--color-muted-gray);}' +
+      '.ah-emailpop-close{display:inline-flex;align-items:center;justify-content:center;' +
+      'width:26px;height:26px;margin:-4px -4px -4px 0;border:0;background:transparent;' +
+      'color:var(--color-muted-gray);border-radius:7px;cursor:pointer;transition:color var(--motion-state) var(--ease), background var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-close:focus-visible{color:var(--color-charcoal);background:var(--wash-on-light-hover);}' +
+      '@media (hover:hover) and (pointer:fine){.ah-emailpop-close:hover{color:var(--color-charcoal);background:var(--wash-on-light-hover);}}' +
+      '.ah-emailpop-close:focus-visible{outline:2px solid var(--color-focus-ring);outline-offset:2px;}' +
+      '.ah-emailpop-row{display:flex;align-items:stretch;gap:8px;}' +
+      '.ah-emailpop-input{flex:1 1 auto;min-width:0;font:inherit;font-size:var(--text-sm);' +
+      'color:var(--color-charcoal);padding:8px 10px;border:1px solid var(--rule-strong);border-radius:8px;' +
+      'background:var(--color-white);transition:border-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);}' +
+      '.ah-emailpop-input:focus{outline:none;border-color:var(--color-accent-text);box-shadow:0 0 0 3px var(--color-accent-ring);}' +
+      '.ah-emailpop-copy{flex:0 0 auto;font:inherit;font-size:var(--text-xs);font-weight:600;' +
+      'color:var(--color-white);background:var(--color-accent-text);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;' +
+      'transition:background var(--motion-state) var(--ease), transform var(--motion-response) var(--ease);}' +
+      '@media (hover:hover) and (pointer:fine){.ah-emailpop-copy:hover{background:var(--color-accent-hover);}}' +
+      '.ah-emailpop-copy:active{transform:translateY(1px);}' +
+      '.ah-emailpop-copy:focus-visible{outline:2px solid var(--color-focus-ring);outline-offset:2px;}' +
+      '.ah-emailpop-copy.is-copied{background:var(--color-charcoal);}' +
+      '@media (prefers-reduced-motion: reduce){.ah-emailpop{transition:opacity var(--motion-state) linear, visibility var(--motion-state) linear;transform:none;}.ah-emailpop.ah-open{transform:none;}}';
+    document.head.appendChild(style);
+
+    var pop = document.createElement('div');
+    pop.className = 'ah-emailpop';
+    pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-label', 'Email address');
+    pop.innerHTML =
+      '<span class="ah-emailpop-arrow" aria-hidden="true"></span>' +
+      '<div class="ah-emailpop-head">' +
+        '<span class="ah-emailpop-title">Email</span>' +
+        '<button type="button" class="ah-emailpop-close" aria-label="Close">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="ah-emailpop-row">' +
+        '<input class="ah-emailpop-input" type="text" spellcheck="false" autocomplete="off" aria-label="Email address" />' +
+        '<button type="button" class="ah-emailpop-copy">Copy</button>' +
+      '</div>';
+    document.body.appendChild(pop);
+
+    var input = pop.querySelector('.ah-emailpop-input');
+    var copyBtn = pop.querySelector('.ah-emailpop-copy');
+    var closeBtn = pop.querySelector('.ah-emailpop-close');
+    var arrow = pop.querySelector('.ah-emailpop-arrow');
+    input.value = email;
+    var isOpen = false, copyTimer;
+
+    function position() {
+      var r = trigger.getBoundingClientRect();
+      var pw = pop.offsetWidth;
+      var margin = 8;
+      var left = r.left + r.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      pop.style.left = left + 'px';
+      pop.style.top = (r.bottom + 10) + 'px';
+      var ax = (r.left + r.width / 2) - left;
+      arrow.style.left = Math.max(16, Math.min(ax, pw - 16)) + 'px';
+    }
+
+    function open() {
+      isOpen = true;
+      pop.classList.add('ah-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      copyBtn.textContent = 'Copy';
+      copyBtn.classList.remove('is-copied');
+      position();
+      setTimeout(function () { input.focus(); input.select(); }, 0);
+      document.addEventListener('keydown', onKey);
+      document.addEventListener('pointerdown', onOutside, true);
+      pop.addEventListener('focusout', onFocusOut);
+      window.addEventListener('resize', position);
+      window.addEventListener('scroll', position, true);
+    }
+
+    function close(returnFocus) {
+      if (!isOpen) return;
+      isOpen = false;
+      pop.classList.remove('ah-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onOutside, true);
+      pop.removeEventListener('focusout', onFocusOut);
+      window.removeEventListener('resize', position);
+      window.removeEventListener('scroll', position, true);
+      if (returnFocus === true) trigger.focus();
+    }
+
+    function onKey(e) { if (e.key === 'Escape') { e.preventDefault(); close(true); } }
+    function onOutside(e) {
+      if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
+    }
+    function onFocusOut(e) {
+      var to = e.relatedTarget;
+      if (!to || (!pop.contains(to) && !trigger.contains(to))) close(false);
+    }
+
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      isOpen ? close(true) : open();
+    });
+
+    copyBtn.addEventListener('click', function () {
+      var mark = function () {
+        copyBtn.textContent = 'Copied';
+        copyBtn.classList.add('is-copied');
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(function () {
+          copyBtn.textContent = 'Copy';
+          copyBtn.classList.remove('is-copied');
+        }, 1800);
+      };
+      var fallback = function () {
+        input.focus(); input.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        mark();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(input.value).then(mark, fallback);
+      } else { fallback(); }
+    });
+
+    closeBtn.addEventListener('click', function () { close(true); });
+  })();
+  </script>
+  <!-- Photo lightbox: a [data-zoom] link opens its target image in an
+       overlay rather than navigating away. -->
+  <script src="lightbox.js?v=2"></script>
+
+  <script>
+    /* Honor prefers-reduced-motion for the portrait clip, and the manual
+       pause control, which reads the video's own state. */
+    (function () {
+      var v = document.querySelector('.hero-portrait-video');
+      if (!v) return;
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var apply = function () {
+        if (mq.matches) { v.pause(); v.removeAttribute('autoplay'); }
+        else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      };
+      apply();
+      if (mq.addEventListener) mq.addEventListener('change', apply);
+      var btn = document.querySelector('.hero-portrait-toggle');
+      if (!btn) return;
+      var pauseIcon = btn.querySelector('.hero-portrait-toggle-pause');
+      var playIcon  = btn.querySelector('.hero-portrait-toggle-play');
+      var show = function (el, on) {
+        if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+      };
+      var sync = function () {
+        var playing = !v.paused;
+        show(pauseIcon, playing);
+        show(playIcon, !playing);
+        btn.setAttribute('aria-label', playing ? 'Pause the portrait' : 'Play the portrait');
+      };
+      btn.addEventListener('click', function () {
+        if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+      v.addEventListener('play', sync);
+      v.addEventListener('pause', sync);
+      sync();
+    })();
+  </script>
+  <script src="cursor.js?v=20260918b" defer></script>
+</body>
+</html>

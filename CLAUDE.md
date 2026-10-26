@@ -3,11 +3,9 @@
 ## What this repository is
 
 `adamhickey.com` is the **live public site** and, since 2026-09-08, the
-working repository. `.github/workflows/pages.yml` uploads a `git archive`
-of the commit, less `docs/`, on every push to `main`, and `CNAME` puts that
-upload at https://adamhickey.com about a minute later. (The root itself
-deployed until 2026-10-26; `docs/rebrand/` is written to be read on GitHub,
-not served.) There is no build step and no gate in between: a merge
+working repository. `.github/workflows/pages.yml` uploads the repository root
+on every push to `main`, and `CNAME` puts that upload at https://adamhickey.com
+about a minute later. There is no build step and no gate in between: a merge
 is public.
 
 Until 2026-09-08 the work happened in `adamdhickey-collab/adamhickey-next`, a

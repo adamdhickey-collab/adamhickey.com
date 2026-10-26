@@ -1,0 +1,82 @@
+/* ==========================================================================
+   reveal.css — the four build write-ups arrive as they are read.
+
+   WHY THIS IS NOT `.reveal`. style.css already carries a reveal system, and
+   index.html is the one page that uses it: `.js .reveal` sets opacity 0 and a
+   20px offset as a RESTING state, and a script adds .is-visible when the
+   element scrolls in. It produces the better effect and it costs something
+   real. The five browser checks do not scroll — every one of them loads a
+   page, settles it and measures what is there — and resting.mjs skips any
+   element at opacity 0. Measured at the 1440x1000 the checks use: 28 of
+   index.html's 34 reveal blocks are still at opacity 0 when it is measured,
+   and 111 text nodes on the homepage are never contrast-checked at all.
+
+   Extending that pattern to four more pages would have multiplied a defect
+   the tripwire counts in CLAUDE.md exist to catch, and would have done it in
+   the direction that hides rather than announces: the numbers would simply
+   come back smaller.
+
+   So these pages use the contract the cockpit's own arrivals use instead.
+   The keyframe has a `from` and no `to`, and nothing is styled until the
+   script says the element is on screen — so an element that is never
+   triggered, on a page whose JavaScript did not run, or under a reader who
+   asked for no motion, sits at its finished state rather than waiting to be
+   animated into one. Nothing on these pages is ever measurable at opacity 0,
+   and the counts do not move by a single measurement.
+
+   WHAT IT COSTS, SAID PLAINLY. A resting state that is already finished can
+   be SEEN before the arrival starts, and then the arrival blinks it away and
+   fades it back. That is worse than no animation, and it was real: with the
+   observer firing 8% of a viewport late, the cockpit's card painted fully
+   opaque on screen for thirty-six frames, up to 70px of it, before its own
+   animation caught up. The answer is the sign of the margin. reveal.js fires
+   while the block is still below the fold, so there is no frame in which it
+   is both visible and untouched. Scrolled slowly enough the arrival finishes
+   before the block appears and the reader sees a settled page, which is what
+   this site does below the fold today and is the right way for this to fail.
+
+   TWO ATTRIBUTES, NOT ONE, AND THE PROTOTYPE PAGE IS WHY. The cockpit sets
+   data-shown on its own surfaces, and prototype/dispatch-cockpit.html loads
+   both files. A rule on [data-shown] alone would reach inside the cockpit and
+   put a 20px page rise on a factor list that has its own bars to draw.
+   ========================================================================== */
+
+/* IT TRAVELS AND IT DOES NOT FADE, WHICH IS THE ONE PLACE THIS PARTS COMPANY
+   WITH THE SITE'S REVEAL VOCABULARY, AND IT IS NOT A TASTE DECISION.
+ *
+ * The first version of this file did both, the site's own 20px rise under an
+ * opacity, and it cost exactly one measurement on the prototype page. The
+ * mechanism is worth writing down because it will outlive this file and it
+ * catches anything observer-driven:
+ *
+ *   reachable.mjs presses a control, the press scrolls the page, and the
+ *   scroll brings a block into the observation area. settle() waits on
+ *   document.getAnimations() -- but an IntersectionObserver callback has not
+ *   run yet, so there IS no animation to wait on, and settle returns. The
+ *   callback fires afterwards, the arrival starts, and the check measures the
+ *   first frame. In "the close call, compared" two blocks sat at opacity 0
+ *   with data-shown already set: triggered, and one frame old.
+ *
+ * No amount of waiting fixes that from inside the page, and starting the fade
+ * at 0.01 instead of 0 would be worse than the problem -- the check would
+ * then measure a real contrast ratio against a colour nobody can see and
+ * could fail the page for it.
+ *
+ * An opacity is the only property in this animation that can hide anything.
+ * Without it the contract is not merely careful, it is airtight: there is no
+ * frame, in any state, in any check, in which one of these blocks cannot be
+ * measured. A 20px settle with the text legible throughout is also the
+ * quieter reading of section 1 -- motion confirms, directs or sets a place,
+ * and a paragraph that fades up is doing none of the three more than a
+ * paragraph that settles does.
+ *
+ * `translate` rather than `transform`, for the reason MOTION.md section 10
+ * now gives: several of these blocks are device frames that carry a transform
+ * of their own, and an animation of that property would take it away for as
+ * long as it ran. The independent property composes. */
+@keyframes page-rise {
+  from { translate: 0 var(--motion-rise); }
+}
+[data-rise][data-shown] {
+  animation: page-rise var(--motion-enter) var(--ease-enter);
+}

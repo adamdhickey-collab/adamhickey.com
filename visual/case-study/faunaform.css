@@ -1,0 +1,126 @@
+/* ---------- Faunaform: the write-up's own figures ----------
+   Since 2026-10-21, when the page was found too heavy with words for a piece
+   of work that is pictures. Two figures of its own, on top of the build
+   write-ups' .build-pair, which they extend rather than replace:
+
+   THE SET (.ff-set). The seven prints, simulated on paper by the studio
+   (../faunaform output/six/stills/<animal>-paper.jpg, encoded at 800px),
+   each with its hour and its animal under it and then its four inks, in
+   the order they are pulled: light, sun, sky, deep. It breaks out of the
+   896px column to the hero's width, four over three like the set on a
+   wall, two by two on a phone. The prints are paper with their own margin,
+   so the figure sits on a ground that is not white (the section's tea) and
+   each print carries the card shadow that says it is an object on it.
+
+   THREE ACROSS (.build-pair-row--three). One print on the first run's three
+   grounds, the same row as .build-pair's at the column's width.
+
+   ARTWORK, NOT INTERFACE (COLOR.md section 6). The ink chips paint each
+   print's inks and nothing else. They are the studio's inks as written in
+   ../faunaform designs/light3.json, declared on .ff-set and nowhere else,
+   never on :root, the way faunaform-day.css declares the day's on .ffd:
+     before dawn (owl)     light #d6a6b2  sun #ecd49c  sky #475687  deep #161b33
+     sunrise (crane)       light #f5bf86  sun #ec5b2c  sky #828abd  deep #2d2a4c
+     morning mist (moose)  light #f1d9a6  sun #f2b23e  sky #6591b3  deep #31272b
+     noon (loon)           light #a8c76a  sun #f5d980  sky #436ab0  deep #151b2c
+     golden hour (bear)    light #f4bd72  sun #f0812c  sky #6f82b8  deep #3a2536
+     sunset (fox)          light #f3a457  sun #e2452b  sky #6d6eae  deep #2b2142
+     dusk (rabbit)         light #b98aad  sun #f2c27a  sky #455284  deep #12172e
+   A chip is a disc under 8px of radius, so cards.mjs does not ask it for
+   an edge: it is a swatch, not a surface. The words around it use the
+   site's tokens. */
+
+.ff-set {
+  --ff-owl-light: #d6a6b2;    --ff-owl-sun: #ecd49c;    --ff-owl-sky: #475687;    --ff-owl-deep: #161b33;
+  --ff-crane-light: #f5bf86;  --ff-crane-sun: #ec5b2c;  --ff-crane-sky: #828abd;  --ff-crane-deep: #2d2a4c;
+  --ff-moose-light: #f1d9a6;  --ff-moose-sun: #f2b23e;  --ff-moose-sky: #6591b3;  --ff-moose-deep: #31272b;
+  --ff-loon-light: #a8c76a;   --ff-loon-sun: #f5d980;   --ff-loon-sky: #436ab0;   --ff-loon-deep: #151b2c;
+  --ff-bear-light: #f4bd72;   --ff-bear-sun: #f0812c;   --ff-bear-sky: #6f82b8;   --ff-bear-deep: #3a2536;
+  --ff-fox-light: #f3a457;    --ff-fox-sun: #e2452b;    --ff-fox-sky: #6d6eae;    --ff-fox-deep: #2b2142;
+  --ff-rabbit-light: #b98aad; --ff-rabbit-sun: #f2c27a; --ff-rabbit-sky: #455284; --ff-rabbit-deep: #12172e;
+  /* The hero's width: the container's, or the viewport less its gutters. */
+  --ff-set-w: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
+  width: var(--ff-set-w);
+  margin-inline: calc((100% - var(--ff-set-w)) / 2);
+}
+/* Eight half columns, each print two wide, the three centred under the
+   four; a phone's is four, two prints a row, the hare centred alone. */
+.ff-set-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ff-set-print { grid-column: span 2; min-width: 0; text-align: center; }
+.ff-set-print:last-child { grid-column: 2 / span 2; }
+@media (min-width: 40rem) {
+  .ff-set-row { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: var(--space-2xl) var(--space-lg); }
+  .ff-set-print:last-child { grid-column: auto / span 2; }
+  .ff-set-print:nth-child(5) { grid-column: 2 / span 2; }
+}
+.ff-set-print img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: var(--shadow-card);
+}
+.ff-set-when,
+.ff-set-name { display: block; line-height: var(--leading-ui); }
+.ff-set-when {
+  margin-top: var(--space-md);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+.ff-set-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-charcoal);
+}
+/* The four inks, pulled left to right. */
+.ff-set-inks {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xs);
+}
+.ff-set-inks i {
+  width: var(--space-sm);
+  height: var(--space-sm);
+  border-radius: 50%;
+}
+.ff-set-print--owl    i:nth-child(1) { background: var(--ff-owl-light); }    .ff-set-print--owl    i:nth-child(2) { background: var(--ff-owl-sun); }    .ff-set-print--owl    i:nth-child(3) { background: var(--ff-owl-sky); }    .ff-set-print--owl    i:nth-child(4) { background: var(--ff-owl-deep); }
+.ff-set-print--crane  i:nth-child(1) { background: var(--ff-crane-light); }  .ff-set-print--crane  i:nth-child(2) { background: var(--ff-crane-sun); }  .ff-set-print--crane  i:nth-child(3) { background: var(--ff-crane-sky); }  .ff-set-print--crane  i:nth-child(4) { background: var(--ff-crane-deep); }
+.ff-set-print--moose  i:nth-child(1) { background: var(--ff-moose-light); }  .ff-set-print--moose  i:nth-child(2) { background: var(--ff-moose-sun); }  .ff-set-print--moose  i:nth-child(3) { background: var(--ff-moose-sky); }  .ff-set-print--moose  i:nth-child(4) { background: var(--ff-moose-deep); }
+.ff-set-print--loon   i:nth-child(1) { background: var(--ff-loon-light); }   .ff-set-print--loon   i:nth-child(2) { background: var(--ff-loon-sun); }   .ff-set-print--loon   i:nth-child(3) { background: var(--ff-loon-sky); }   .ff-set-print--loon   i:nth-child(4) { background: var(--ff-loon-deep); }
+.ff-set-print--bear   i:nth-child(1) { background: var(--ff-bear-light); }   .ff-set-print--bear   i:nth-child(2) { background: var(--ff-bear-sun); }   .ff-set-print--bear   i:nth-child(3) { background: var(--ff-bear-sky); }   .ff-set-print--bear   i:nth-child(4) { background: var(--ff-bear-deep); }
+.ff-set-print--fox    i:nth-child(1) { background: var(--ff-fox-light); }    .ff-set-print--fox    i:nth-child(2) { background: var(--ff-fox-sun); }    .ff-set-print--fox    i:nth-child(3) { background: var(--ff-fox-sky); }    .ff-set-print--fox    i:nth-child(4) { background: var(--ff-fox-deep); }
+.ff-set-print--rabbit i:nth-child(1) { background: var(--ff-rabbit-light); } .ff-set-print--rabbit i:nth-child(2) { background: var(--ff-rabbit-sun); } .ff-set-print--rabbit i:nth-child(3) { background: var(--ff-rabbit-sky); } .ff-set-print--rabbit i:nth-child(4) { background: var(--ff-rabbit-deep); }
+.ff-set figcaption { text-align: center; margin: var(--space-2xl) auto 0; }
+
+/* Three across at the column's width, one under another on a phone, as
+   .build-pair-row is two. */
+@media (min-width: 641px) {
+  .build-pair-row--three { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
+}
+
+/* The Cosmos picks: references, so one row of four at the column's width
+   (two by two on a phone) rather than pictures the size of the work. They
+   come at four sizes, all upright; one 7:10 frame makes them a row,
+   trimming no more than a sliver of ground from any of them. */
+.build-pair-row--cosmos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 641px) {
+  .build-pair-row--cosmos { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: none; }
+}
+.build-pair-row--cosmos img { aspect-ratio: 7 / 10; object-fit: cover; }
+
+/* The Cosmos credits: each name links to its pick on Cosmos, underlined in
+   the caption's own ink, since a bare link on this site is plain text. */
+.ff-credits a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+@media (hover: hover) and (pointer: fine) {
+  .ff-credits a:hover { text-decoration-thickness: 2px; }
+}
