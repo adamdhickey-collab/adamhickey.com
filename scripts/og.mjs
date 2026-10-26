@@ -127,19 +127,19 @@ function html(card) {
 </style></head><body><img src="${file(card.full)}"></body></html>`;
   const onHero = Boolean(card.hero);
   return `<!doctype html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Instrument+Sans:wght@500;600&display=swap" rel="stylesheet">
 <style>
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
-  body { background: ${C['--color-warm']}; color: ${C['--color-charcoal']}; font-family: "Crimson Text", Georgia, serif; position: relative; }
+  body { background: ${C['--color-warm']}; color: ${C['--color-charcoal']}; font-family: Fraunces, Georgia, serif; position: relative; }
   .hero { position: absolute; inset: 0; background: url("${onHero ? file(card.hero) : ''}") center / cover no-repeat; }
   .card { position: absolute; inset: 0; display: grid; grid-template-columns: ${onHero || !card.image ? '1fr' : '1fr 420px'}; gap: 56px; padding: 72px 84px 64px; box-sizing: border-box; }
   .text { display: flex; flex-direction: column; min-width: 0; ${onHero ? 'max-width: 560px;' : ''} }
-  .kicker { font-family: Montserrat, system-ui, sans-serif; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: ${C['--color-accent-text']}; margin: 0 0 28px; }
+  .kicker { font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 600; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: ${C['--color-accent-text']}; margin: 0 0 28px; }
   h1 { font-weight: 400; font-size: ${card.title.length > 56 ? 48 : card.title.length > 40 ? 58 : 66}px; line-height: 1.08; margin: 0; letter-spacing: -0.01em; }
   .sub { font-size: 28px; line-height: 1.3; color: ${C['--color-accent-text']}; margin: 22px 0 0; }
   .foot { margin-top: auto; padding-top: 24px; border-top: 1px solid ${C['--color-rule']}; display: flex; justify-content: space-between; align-items: baseline; }
   .name { font-size: 28px; }
-  .where { font-family: Montserrat, system-ui, sans-serif; font-weight: 500; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: ${C['--color-muted-gray']}; }
+  .where { font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 500; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: ${C['--color-muted-gray']}; }
   .frame { align-self: center; width: 420px; height: 420px; border-radius: 18px; overflow: hidden; background: ${C['--color-white']}; box-shadow: 0 1px 0 ${C['--color-rule']}, 0 24px 48px -24px rgba(37,37,37,.35); }
   /* A card may name where its square sits on the picture (\`position\`),
      for a drawing whose point is off-centre; the agent article's ochre

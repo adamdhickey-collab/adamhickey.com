@@ -37,7 +37,7 @@ const SIZES = [
 
 const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="${from}color.css"><link rel="stylesheet" href="${from}type.css"><link rel="stylesheet" href="${from}shell.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Montserrat:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Instrument+Sans:wght@500;600&display=swap">
 <style>
   html, body { margin: 0; }
   body { width: ${w}px; height: ${h}px; overflow: hidden; background: var(--color-charcoal); color: var(--ink-on-dark);

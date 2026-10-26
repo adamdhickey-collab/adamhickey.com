@@ -64,31 +64,43 @@ the alpha steps in §4.
 |---|---|---|---|---|---|
 | `--color-charcoal` | `#252525` | 15.33 | 14.02 | 12.90 | 12.10 |
 | `--color-muted-gray` | `#5c5f5c` | 6.47 | 5.91 | 5.44 | 5.11 |
-| `--color-accent-text` | `#556b51` | 5.82 | 5.32 | 4.90 | **4.60** |
+| `--color-accent-text` | `#276468` | 6.75 | 6.18 | 5.69 | **5.33** |
 
 All measured, all above 4.5:1, so any of the three is legal as body text on
-any of the four light grounds. Note how little headroom `--color-accent-text`
-has on `--color-muted-light` — 4.60:1 against a 4.5 floor. That pair is the
-first thing to re-measure if either value ever moves.
+any of the four light grounds. The tightest pair is still
+`--color-accent-text` on `--color-muted-light`, 5.33:1 against a 4.5 floor;
+it was 4.60 while the accent was the sage, and that is the pair to re-measure
+first if either value ever moves.
 
-**Every sage on a light ground is on this list, because there is only one.**
+**Every accent on a light ground is on this list, because there is only one.**
 There were two until 2026-09-21 — a text step and a fill step — and the
 Accent section below is the record of why that was wrong.
 
 ### Accent
 
-Three sages. One for light grounds, its pressed step, and one for charcoal.
+**A petrol teal since 2026-10-26.** The repositioning (docs/rebrand/
+visual-system.md) kept the warm paper and the charcoal ink and moved the one
+hue. The sage, `#556b51`, had been the accent since the site was the
+independent practice; it read as calm and as enterprise, and it sat in the
+same green-gold family as half the work on the site, so a sage eyebrow over a
+Door County Found capture or the Innovators Studio identity was fighting the
+picture. A cool accent gets out of the work's way, and this one clears every
+floor with more room than the sage did. **The token names did not move**: 84
+rules and 37 Tailwind utilities write `accent-text`, and the whole account
+below of why one accent is enough reads the same with the new values in it.
+
+Three steps. One for light grounds, its pressed step, and one for charcoal.
 
 | Token | Value | Notes |
 |---|---|---|
-| `--color-accent-text` | `#556b51` | **Sage on light.** Text *and* fill: small type, links, eyebrows, kickers, button grounds, borders, icons, rules. Clears 4.5:1 on all four light grounds — 4.60 at worst. |
-| `--color-accent-hover` | `#445a41` | Its pressed/hover step. Darker than its resting fill by ΔE 7.0 — it was `#5d7559`, which was *lighter* by ΔE 4.0 and read as no change at all. |
-| `--color-accent-on-dark` | `#9dbe95` | The counterpart on charcoal: 7.47:1, where `accent-text` manages only 2.63:1. Same hue, lightened. |
+| `--color-accent-text` | `#276468` | **The accent on light.** Text *and* fill: small type, links, eyebrows, kickers, button grounds, borders, icons, rules. Clears 4.5:1 on all four light grounds — 5.33 at worst. Was the sage `#556b51` (5.82 / 5.32 / 4.90 / 4.60) until 2026-10-26. |
+| `--color-accent-hover` | `#1f4f52` | Its pressed/hover step. Darker, not lighter: the sage's first hover step was *lighter* by ΔE 4.0 and read as no change at all, which is the rule this step keeps. |
+| `--color-accent-on-dark` | `#8fc9c6` | The counterpart on charcoal: 8.28:1, where `accent-text` manages only 2.27:1. Same hue, lightened. Was `#9dbe95` at 7.47. |
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
-| `--color-accent-text` `#556b51` | 5.82 | 5.32 | 4.90 | **4.60** | 2.63 — never |
-| `--color-accent-on-dark` `#9dbe95` | 2.05 | 1.88 | 1.73 | 1.62 | 7.47 — only |
+| `--color-accent-text` `#276468` | 6.75 | 6.18 | 5.69 | **5.33** | 2.27 — never |
+| `--color-accent-on-dark` `#8fc9c6` | 1.85 | 1.69 | 1.56 | 1.46 | 8.28 — only |
 
 ### Status and collection
 
@@ -323,7 +335,7 @@ The rule is one line: **decide the ink from the ground, and check the number.**
 
 The light grounds all take the same three inks, which is the whole reason they
 are allowed to exist: four grounds, one ink system, nothing to remember. Only
-charcoal flips, and it flips completely — the deep sage manages 2.63:1 there
+charcoal flips, and it flips completely — the accent manages 2.27:1 there
 and must never be used on it.
 
 **Never put `--color-muted-gray` on charcoal.** 2.37:1. It is the most
@@ -1094,7 +1106,7 @@ undone rather than left standing.
    color that is.
 3. Never hand-write `rgba()`. Use an alpha step from §4.
 4. `--color-muted-gray` is never used on charcoal. 2.37:1.
-5. `--color-accent-text` is never used on charcoal. 2.63:1. And
+5. `--color-accent-text` is never used on charcoal. 2.27:1. And
    `--color-accent-deep` carries small text nowhere: it clears 4.5:1 only on
    white, by a hundredth. Large text is fine — 3:1 is the floor there.
 6. A control's boundary needs 3:1, not "looks fine".

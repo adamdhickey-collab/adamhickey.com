@@ -85,7 +85,7 @@ const html = String.raw`<!doctype html>
 <title>Adam Hickey Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* No custom properties on purpose: tokens.mjs reads a "--name:" in any
      stylesheet as a declaration, and this document is not part of the site.
@@ -105,7 +105,7 @@ const html = String.raw`<!doctype html>
     width: 8.5in;
     min-height: 11in;
     padding: 0.5in 0.7in 0.35in;
-    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+    font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 8.0pt;
     line-height: 1.32;
     color: #252525;
@@ -116,7 +116,7 @@ const html = String.raw`<!doctype html>
     /* Crimson Text is loaded at 400 only and is never bolded -- TYPOGRAPHY.md,
        "hierarchy comes from size." Lora carried this line at 600; the size
        goes up rather than the weight. */
-    font-family: "Crimson Text", Georgia, serif;
+    font-family: Fraunces, Georgia, serif;
     font-weight: 400;
     font-size: 27pt;
     line-height: 1.1;
@@ -250,7 +250,7 @@ const html = String.raw`<!doctype html>
 
    Same rules as above: the site's two families, Crimson Text at 400 only,
    no italic in the sans, and the ink ladder written out as values. Sage
-   (#556b51, COLOR.md's --color-accent-text, 5.82:1 on white) carries the
+   (#276468, COLOR.md's --color-accent-text, 6.75:1 on white) carries the
    role titles and nothing else, the one place a reader's eye should land
    after the name. */
 /* The wordmark is read from the site's own file at render time rather than
@@ -267,7 +267,7 @@ const reading = String.raw`<!doctype html>
 <title>Adam Hickey Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   @page { size: Letter; margin: 0; }
   * { box-sizing: border-box; }
@@ -276,7 +276,7 @@ const reading = String.raw`<!doctype html>
     width: 8.5in;
     height: 11in;
     padding: 0.62in 0.7in 0.5in;
-    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+    font-family: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 9.5pt;
     line-height: 1.5;
     color: #252525;
@@ -307,7 +307,7 @@ const reading = String.raw`<!doctype html>
   .title {
     font-size: 12pt;
     font-weight: 600;
-    color: #556b51;
+    color: #276468;
     margin: 5pt 0 0;
   }
   .intro {
@@ -354,7 +354,7 @@ const reading = String.raw`<!doctype html>
   .role h3 {
     font-size: 10pt;
     font-weight: 600;
-    color: #556b51;
+    color: #276468;
     margin: 0;
   }
   .dates { color: #5c5f5c; }
@@ -364,7 +364,7 @@ const reading = String.raw`<!doctype html>
   aside { padding-top: 4pt; }
   aside p + p { margin-top: 0; }
   aside .dates { margin: 1pt 0 2pt; }
-  .as { color: #556b51; font-weight: 500; }
+  .as { color: #276468; font-weight: 500; }
   .earlier .dates + p { margin-top: 6pt; }
 </style>
 </head>

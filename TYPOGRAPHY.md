@@ -19,18 +19,32 @@ decide by what the text is doing, not what tag it happens to use.
 
 | Token | Family | Voice |
 |-------|--------|-------|
-| `--font-serif` | **Crimson Text** | "The voice." Anything a reader reads as prose or as a headline. |
-| `--font-sans` | **Montserrat** | "The interface." Anything that labels, organizes, or sits inside a component. |
+| `--font-serif` | **Fraunces** | "The voice." Anything a reader reads as prose or as a headline. |
+| `--font-sans` | **Instrument Sans** | "The interface." Anything that labels, organizes, or sits inside a component. |
+
+**The pair changed on 2026-10-26**, with the repositioning
+(docs/rebrand/visual-system.md). It was Crimson Text and Montserrat from the
+day this document was written. Crimson's x-height is so small that a 20px
+title lost to its own 16px sans body (§3 and §4 record two floors lifted to
+compensate), and Montserrat's geometry reads as a software product rather
+than a designer. Fraunces is a soft old-style serif with an optical-size
+axis, so one 400 cut is a text face at 18 and a display face at 68, and its
+x-height sits close to the sans's; Instrument Sans is a plain grotesk that
+stays quiet beside it. Every rule below that names a size, a ramp, a leading
+or a tracking is unchanged, because the scale is the scale whatever is set in
+it; the two lifted floors are kept and re-read in a browser rather than
+assumed to still be needed. Where this document names the old faces in a
+measurement, the measurement is historical and says so.
 
 Both are referenced everywhere through these variables and, in the six
 Tailwind case studies, through the `font-serif` / `font-sans` utilities,
 which map to the same variables. Never hardcode a family name or a bracketed
 Tailwind font (`font-['Montserrat']`).
 
-**Serif (Crimson Text)** — hero titles, page titles, section and subsection
+**Serif (Fraunces)** — hero titles, page titles, section and subsection
 headings, deks and ledes, pull quotes, figure titles, display numerals.
 
-**Sans (Montserrat)** — body copy, block and card titles, eyebrows, kickers,
+**Sans (Instrument Sans)** — body copy, block and card titles, eyebrows, kickers,
 tags, metadata, captions, table headers and cells, buttons, navigation, and
 every form of label.
 
@@ -67,8 +81,8 @@ one.
 
 | Family | Weights | Notes |
 |--------|---------|-------|
-| Crimson Text | **400** only, upright and italic | Never bold. All serif headings sit at 400; hierarchy comes from size. |
-| Montserrat | **400 / 500 / 600 / 700** | 400 body, 500 nav and quiet labels, 600 titles and most labels, 700 strong emphasis. No 300. |
+| Fraunces | **400** only, upright and italic, with the optical-size axis (9 to 144) left to the browser | Never bold. All serif headings sit at 400; hierarchy comes from size, and the opsz axis does the rest. |
+| Instrument Sans | **400 / 500 / 600 / 700** | 400 body, 500 nav and quiet labels, 600 titles and most labels, 700 strong emphasis. No 300. Never italic: emphasis in the sans is bold (VOICE.md). |
 
 **The italic is a cut, and it has to be in the `<link>` too.** Until
 2026-09-06 only the design system page asked Google Fonts for
