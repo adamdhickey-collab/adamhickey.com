@@ -111,11 +111,33 @@ in). Scripts 33 to 34 (`say-when.mjs`). Schema nodes 81 to 85. Stylesheets
 19 to 27 by `tokens.mjs`: `work.css`, the five per-project stylesheets and
 the storefront's.
 
-The browser counts are in the pull request, read against the last set on
-`main` (12828 resting colors, 2452 state rules, 53312 type sizes, 32739
-curve elements, 402 raised surfaces across 33 pages at 394f29f, and the
-deploy console's departure since). Two pages left Tailwind and ten arrived,
-so every one of the five moves; the reach column holds.
+The six browser checks, unscoped, on this branch and on `origin/main` at
+8e15228 (extracted with `git archive` and measured with the branch's
+scripts; the registry did not change, so one set of scripts measures both):
+
+| | main (39 pages) | branch (43 pages) | delta |
+| --- | --- | --- | --- |
+| resting colors | 8176 | 8313 | +137 |
+| state rules | 3174 | 3295 | +121 |
+| type sizes | 32988 | 33768 | +780 |
+| curve elements | 19934 | 20303 | +369 |
+| raised surfaces | 327 | 300 | -27 |
+| read times | 27 | 28 | +1 |
+
+Reachable states hold at 8. Four pages left and eight arrived, the eight
+small, so the text counts move less than the page count suggests. **The
+raised-surface count came back smaller, and was chased before it was
+accepted.** Measured scoped, page by page, on both trees: the four
+engagement pages carried 8 raised surfaces each, 32 out; Innovators Studio
+went 19 to 5 and the studio years 8 to 2 as they left the Tailwind cards
+for `work.css` figures, Lucy Learns 20 to 11 and Door County Found 7 to 6
+for the same reason; the homepage went 44 to 47; the Say When case study
+is 10 and its seven storefront pages 26 between them. That sums to -23
+against the sweep's -27; `cards.mjs` keys its findings and counts a kind
+once, so per-page sums and the sweep differ by the surfaces two pages
+share. Every page that was not touched measures the same on both trees
+(SAP 16, USDA 13, dispatch 9, the enterprise years 7, the design system
+page 28, Agent Review 11).
 
 ## What needs a local pass
 
