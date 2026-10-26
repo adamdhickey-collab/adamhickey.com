@@ -98,7 +98,8 @@ place that needed it is exactly the drift the tokens exist to stop.
 Fourteen steps, base 16px, spanning 11px to 80px. Every type size on the site
 is one of these, with one declared exception: `--type-title-inset` runs between
 36 and 64, neither of them a step, for the reason given in §3. It is a token,
-not a hand-written size, and it is the only one.
+not a hand-written size, and it is the only one. (`--type-title-hero`, the
+homepage's, ramps too, but it is pinned on steps at both ends.)
 
 `scripts/typescale.mjs` holds this section to its word. It renders every page
 at the widths where the ramps are pinned, reads the computed size off every
@@ -169,7 +170,7 @@ those rules and is described under the table.
 
 | Token | Steps | min → max | Use |
 |---|---|---|---|
-| `--type-title` | `4xl` → `8xl` | 34 → 68 | `h1`, every page title, the homepage hero included. |
+| `--type-title` | `4xl` → `8xl` | 34 → 68 | `h1`, every page title but the homepage hero. |
 | `--type-section` | `3xl` → `6xl` | 28 → 48 | `h2`, a section heading. |
 | `--type-subsection` | `2xl` → `4xl` | 24 → 34 | `h3`, a subsection heading. |
 | `--type-lede` | `lg` → `2xl` | 18 → 24 | Deks, ledes, pull quotes. |
@@ -184,6 +185,21 @@ stacks and the title takes `--type-title` like every other `h1`, so the seam is
 the layout's own breakpoint rather than an unreconciled second curve. A ramp is
 sized against the column it lands in. That is the argument, and it is the only
 place it applies.
+
+It was the homepage hero's until 2026-10-26, and it is the cockpit's now.
+
+**The homepage hero has a ramp of its own.** Since 2026-10-26 `.hero-title`
+takes `--type-title-hero`, **48 → 80**, `6xl` → `9xl`, at every width. The
+headline went from nine words to four, "Making complex products clear.", and
+its longer line is 6.29em wide, so it can be the largest type on the site and
+still set in two lines everywhere: 48 on a phone, held flat through 768,
+where the portrait moves beside it and the column is 388px (room for 61),
+then up to 80 at 1280, where the column is 681px (room for 108). It is one
+curve from phone to desktop, so the breakpoint has no seam, and it is pinned
+on steps at both ends. Below 360 it gives way to `13vw`, because 48 would put
+"complex" on a third line at 320; that floor is off the scale where no check
+measures, and back on 48 by 375. A headline longer than about 8.5em on its
+longer line is the change that has to revisit this ramp.
 
 **One dek takes the next ramp up.** Since 2026-10-09 the Agent Review
 write-up's dek (`.ar-hero .build-dek`, `lab/agent-review.css`) is on
