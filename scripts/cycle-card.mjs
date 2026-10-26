@@ -38,8 +38,8 @@ const SIZES = [
    one thing that differs reads first: the Undo after the press, the
    question before it, the batch laid out to choose from. The words on
    them are the prototype's (agent-review src/data/cycle.ts); under each
-   is its name and nothing else (Adam, 2026-10-26: the gain and cost lines
-   made the card busy; the case study carries them). The title is centered
+   is its name and one line on its main advantage (Adam, 2026-10-26: a gain
+   and a cost under each made the card busy; the case study carries both). The title is centered
    in the sans, and the screens take the width (Adam: much larger). */
 // One row per customer: a box and a grey bar for the name. Each string in
 // `kinds` is that row's state: '' plain, 'on' ticked, 'gone' archived,
@@ -63,7 +63,9 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
   .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3xl); margin-top: var(--space-3xl); }
   figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-xl); }
-  figcaption { justify-self: center; white-space: nowrap; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
+  figcaption { justify-self: stretch; display: grid; gap: var(--space-xs); text-align: center; }
+  figcaption strong { justify-self: center; white-space: nowrap; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
+  figcaption span { font-size: var(--text-2xl); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
 
   .shot { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
   .shot > * { zoom: var(--k, 1); }
@@ -95,15 +97,15 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
   <div class="row">
     <figure class="chosen">
       ${screen(rows(['', 'gone', 'gone', 'gone', 'gone']) + '<div class="toast"><span>4 customers archived</span><span class="btn">Undo</span></div>')}
-      <figcaption>Archive, then undo</figcaption>
+      <figcaption><strong>Archive, then undo</strong><span>One press, even in bulk</span></figcaption>
     </figure>
     <figure>
       ${screen(rows(['on', 'on', 'on', 'on', 'on']) + '<div class="scrim"><div class="dialog"><p>Archive 5 customers?</p><p>3 of them are active.</p><div class="acts"><span class="btn ghost">Cancel</span><span class="btn go">Archive 5</span></div></div></div>')}
-      <figcaption>Confirm first</figcaption>
+      <figcaption><strong>Confirm first</strong><span>Names who&rsquo;s at risk first</span></figcaption>
     </figure>
     <figure>
       ${screen('<div class="sub">Review 5 before archiving</div>' + rows(['on', 'risk', 'risk', 'risk', 'on']), '<span class="btn go">Archive 2</span>')}
-      <figcaption>Review the batch</figcaption>
+      <figcaption><strong>Review the batch</strong><span>Catches the most mistakes</span></figcaption>
     </figure>
   </div>
 </body></html>`;
