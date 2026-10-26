@@ -1,8 +1,8 @@
 # adamhickey.com
 
-The live public site of Adam Hickey's independent product design practice: a
-single-page portfolio, nine case studies, four "How I work" pages, six
-articles and a design system reference. Static HTML, CSS and JavaScript, no build step and no
+The live public site of Adam Hickey, senior product designer: a single-page
+portfolio, the case studies, a self-initiated brand concept with its storefront,
+the writing, the experiments and a design system reference. Static HTML, CSS and JavaScript, no build step and no
 `package.json`. The one built file is the case studies' Tailwind stylesheet,
 built once from `tailwind.config.js` into `case-study/case-tailwind.css` and
 committed (#14); the header of that config says how to rebuild it. The check
@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 38 pages in ten families |
+| **What this is** | The site: 42 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -119,17 +119,19 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the sixteen writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-eight pages. Color, type scale, and the page shell |
+| `style.css` | The stylesheet; the homepage, the build write-ups, the four case studies on the storytelling system (`work.css`), the writing pages, the design system page, the lab and the prototype load it |
+| `work.css` | The storytelling system the Innovators Studio, Door County Found, Lucy Learns, studio-years and Say When case studies load after `style.css`: a hero with four facts, a cover, counted chapters, figures on the whole container, grids, strips, a before-and-after pair, an annotated detail, specimens, an aside, a pull, a number row and a closing pair. Each page sets its project's own color in a stylesheet of its own (`innovators.css`, `dcf.css`, `lucy.css`, `studio.css`, `say-when.css`), off text |
+| `color.css`, `type.css`, `shell.css` | The token files. The type scale is loaded by all forty-two pages; color and the shell by the thirty-five that wear the site's own chrome (the Say When storefront carries its brand's palette) |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
 | `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-three pages with prose worth hearing -- the fifteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
-| `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages and five build write-ups |
+| `case-study/*.html` | Twelve case studies: four client engagements, two career-arc pages, five build write-ups and the Say When concept |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
-| `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
+| `engagement/*.html` | Four redirect stubs, since 2026-10-26: the "How I work" pages that stood here from 2026-09-17 were folded into the homepage's What I bring band, and each address now carries a meta refresh to it. The checks treat a head with a meta refresh as a redirect rather than a page (`scripts/lib/harness.mjs`, `isRedirect`), so they have no canonical, no card and no sitemap entry |
+| `say-when/*.html`, `say-when/say-when.{css,js}` | The Say When storefront: seven pages of a self-initiated, fictional coffee brand's shop, on the brand's own chrome and palette, with a cart in localStorage, a three-question finder and a checkout that says it is pretend on every line. Nothing is for sale, and every page says so first. `scripts/say-when.mjs` draws the artwork in `img/say-when/` |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
 | `writing/*.html` | The index, the ten articles it lists and the four it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
@@ -148,37 +150,35 @@ the archive so that it holds everything staging ever had.
 
 ### The homepage
 
-Sections in file order, in the base ordering -- `scripts/variant.mjs` can
-lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
-an eyebrow naming the role, the search ("Open to remote or hybrid roles" since
-2026-10-24), two buttons and a résumé link, the six-item proof strip
-and the client logos) → Selected work (the three client case studies first
-since 2026-10-23 -- SAP, USDA, dispatch -- with no label over them since
-2026-10-24, then the lab card for Agent Review, the self-directed
-prototype) →
-How I work inside a
-product organization (the four cards that were the engagement grid, now
-answering each situation with how I operate on a team and opening its own
-page under `engagement/`) → What changes when agents can build (the scroll
-story, "The design-to-build shift" until 2026-10-06) → Built end to end (the
-two products, ending on the line to `other.html`, where the book and the
-"Identity and illustration" shelf now live) → About, which links the two career case studies → the
-contact section, headed "Describe what is happening". Since #24 there is no
-Earlier experience section and no four-step panel under the products;
-staging's #142 cut the second half of the page by about a third, and #143
-gave the two career case studies their route in from About. The hire-me pass
-put the work ahead of the method, reframed the engagement grid for a hiring
-manager, brought the proof strip back as a résumé-level line, and moved the
-book and the shelf out of the proof; the page argues for one thing first,
-hiring Adam onto a team. Since 2026-09-17 the four cards open the pages
-under `engagement/` again, reworked from the engagement pages into one page
-per card; from #129 to then they linked straight to the accounts. The header carries Work, How I
-Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
-page loads it from `site-nav.css`.
+Sections in file order, since 2026-10-26, when the site became one body of
+work rather than a product-design site with the creative work held back
+(`docs/unified/design-note.md` has the positioning and the directions
+weighed): the hero (the portrait clip with its pause control, an eyebrow
+naming the role, "Senior Product Designer · Open to remote or hybrid roles",
+the headline "Making digital experiences clear, distinctive, and beautifully
+designed.", a dek on the twenty years across visual design, interactive
+experiences and enterprise software, two buttons and a résumé link, the
+six-item proof strip and the client logos) → Selected work (six cards in
+one grid, two rows of three: SAP, Innovators Studio, Lucy Learns, Door
+County Found, the studio years and the Say When concept, labeled
+self-initiated) → What I bring (the band that was "How I work": four
+strengths on the band's still lifes, each a name, one line and the projects
+that show it; the four `engagement/` pages are redirect stubs to it) →
+Experiments and independent work (the section that was "Built end to end":
+Agent Review, the Say When storefront, Faunaform and the dispatch cockpit,
+with the book, the motion study and the write-up of this site in one line)
+→ About, the career told as one story with the three photographs (studios,
+enterprise, both at once) → the contact section, headed "Let's talk". The
+scroll story left the page on 2026-10-21 for the lab, and the lab card that
+led Selected work from 2026-10-12 to 2026-10-26 is the Agent Review card
+under Experiments now. `scripts/variant.mjs` was written for the previous
+ordering and no longer applies. The header carries Work, What I bring,
+Writing, Experiments, About and Contact, an email icon and a LinkedIn icon,
+and every page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-eight pages in ten families, all hand-written HTML with no include step
+Forty-two pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -187,25 +187,28 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-eight pages, so a
-change to the shell is a change to thirty-seven files.
+email icon and the skip link are hand-written into thirty-five pages, so a
+change to the shell is a change to thirty-five files; the Say When storefront's
+seven pages wear that brand's own chrome.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-eight pages
-load. Regime A loads `style.css`; regime B is the six older pages on the built
-Tailwind stylesheet, which cannot see anything `style.css` declares.
+base ladder, and both regimes read it from `type.css`, which all forty-two pages
+load. Regime A loads `style.css`; regime B is the four older pages on the built
+Tailwind stylesheet, which cannot see anything `style.css` declares. The Say
+When storefront is neither: seven pages on the brand's own stylesheet, which
+reads the type scale and nothing else of the site's.
 
 | Family | Pages | Regime | What it is |
 |---|---|---|---|
 | Homepage | 1 | A | The page every other page hangs off. |
-| Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
-| Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
-| Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
-| How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
+| Client case studies | 4 | B | Client work under NDA-safe framing. Three on the oldest template; Innovators Studio, since 2026-10-26, on the storytelling system (`work.css`) and so on regime A. |
+| Career-arc pages | 2 | B | A span of years each. The enterprise years as a shelf of engagements on the oldest template; the studio years, since 2026-10-26, on the storytelling system (regime A), the work shown large. |
+| Build write-ups | 5 | A | Products built end to end, alone, and this site. Door County Found and Lucy Learns are on the storytelling system since 2026-10-26. Faunaform, since 2026-10-20, is the first still in progress. |
+| Say When | 8 | A | A self-initiated, fictional coffee brand concept, labeled so wherever it appears: the case study on the storytelling system, and the seven pages of its storefront prototype, which wear the brand's own chrome and read only the type scale from the site. |
 | Writing | 16 | A | An index, the position article it opens with under "Start here" (2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work: the dispatch cockpit. The deploy console was a second until 2026-10-23. |
-| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The cockpit is listed there too, at its own address. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
+| Experiments | 3 | A | The lab, under `lab/`: the index of the self-directed work (Agent Review, the cockpit, the Say When storefront and the motion study, with the position article as the argument behind the first two), the Agent Review case study, and since 2026-10-21 an exploration of motion. "Lab" in the navigation until 2026-10-26. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass. |
 
 **Homepage** -- `index.html`
@@ -225,10 +228,17 @@ family: these load `style.css` and carry no Tailwind. The fourth, since
 2026-09-17, is about the site itself: the only page whose subject is the
 tree it sits in, so every number in it is one a check here prints.
 
-**How I work** -- `engagement/working-product-prototype.html`,
-`engagement/design-system-foundation.html`,
-`engagement/embedded-senior-product-design.html`,
-`engagement/product-clarity.html`. The first was
+**Say When** -- `case-study/say-when.html` and `say-when/index.html`,
+`shop.html`, `first-pour.html`, `second-pour.html`, `last-pour.html`,
+`finder.html`, `checkout.html`. A self-initiated concept with no client,
+no research study and nothing for sale, carried from a name to a bag to a
+shop you can try; `docs/rebrand/coffee-creative-brief.md` and
+`coffee-identity-rationale.md` are its record.
+
+**How I work**, the four pages under `engagement/` from 2026-09-17 to
+2026-10-26, are redirect stubs now: their content became the homepage's
+What I bring band (four strengths, each tied to the work), and each
+address carries a meta refresh to it. The first was
 `engagement/ai-product-prototype.html` until #24; see "Two live URLs now
 404".
 

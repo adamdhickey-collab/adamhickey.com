@@ -52,7 +52,13 @@
  *
  * The fonts are Google Fonts and load over the network at render time: the
  * site's own pair, Crimson Text for the name and Montserrat for everything
- * else. It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * else. Rewritten on 2026-10-26 for senior product design roles with a
+ * visual-craft focus (Senior Product Designer, Senior UX Visual Designer,
+ * Senior UI Designer, Senior Digital Experience Designer): the title stays
+ * Senior Product Designer, and the summary, capabilities and selected
+ * projects carry the visual design, interface systems, accessibility,
+ * interaction design and implementation awareness. Employers, titles, dates
+ * and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -173,56 +179,57 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Complex Workflows · Design Systems · Prototyping in Code · AI and Agentic Products</p>
+  <p class="tagline">Senior Product Designer · UX and Interface Design · Visual Systems · Digital Experiences · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years on complicated software, for organizations including Cargill, Intel, CBRE and Toro. I began as a designer-developer, building front ends in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design and build working products with coding agents. I bring enterprise workflow experience, interaction design and hands-on prototyping in code to teams working out what software should do on its own and where a person still decides.</p>
+  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I began as a graphic designer and a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years designing enterprise applications and design systems at scale; and now design and build working products end to end. I bring visual intelligence to digital products and know what it takes to make them work: complicated interfaces made clear, hierarchy that holds across hundreds of screens, and the details finished.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
-  <div class="job"><span><b>Selected Independent Work</b> — Product design, systems, prototyping</span><span class="dates">2026 – Present</span></div>
+  <div class="job"><span><b>Selected Independent Work</b> — Visual design, interface design, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype for delegating UI work to coding agents. Defined the agent&rsquo;s boundaries, twelve written design rules, and automated visual and accessibility checks; ran the same feature with and without the rules to find where automation ends and human judgment begins.</li>
-    <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
-    <li><b>Lucy Learns</b> and <b>Door County Found</b> — two products in use, defined, designed and built end to end: an offline-first training app and a regional travel guide built on structured data.</li>
+    <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel brand (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
+    <li><b>Say When</b> — a self-initiated, fictional coffee brand concept: strategy, naming, identity, packaging, a campaign and a working storefront prototype, labeled fictional wherever it appears.</li>
+    <li><b>Agent Review</b> and <b>Dispatch Cockpit</b> — working prototypes built with coding agents: a React component system with written design rules and automated checks, and a decision-support interface for dispatchers on synthetic data.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
-    <li>Led enterprise product design and UX strategy for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
-    <li>Tied design decisions to the numbers product, engineering and business teams already track: efficiency, adoption, quality, ROI.</li>
-    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s own design-system site. Led accessibility, DesignOps and governance practices.</li>
-    <li>Used AI to scale the design system: drafting documentation, auditing for drift, checking design against code, and pulling research together. Human judgment on every decision.</li>
+    <li>Led UX and visual design for complex digital products, enterprise applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
+    <li>Made complicated interfaces clear and consistent across large sets of screens: information architecture, visual hierarchy, interaction design and the details that make software feel finished, with developers in the room from the first sketch.</li>
+    <li>Built and governed design systems across SAP, Microsoft, Umbraco and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
+    <li>Tied design decisions to the numbers teams already track: efficiency, adoption, quality, ROI.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
-  <p>Shipped two native iOS apps and an iPad app, plus configurator and store-locator builds for Lund Boats and Fulton Beer. Built front-end experiences in HTML, CSS and jQuery across Joomla! and WordPress; led rebrands and visual identity systems.</p>
+  <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems, among them Learn to Live. Front ends in HTML, CSS and jQuery on Joomla! and WordPress.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
-  <p>Designed and built front-end websites in HTML, CSS, and Flash with project managers, creative leads, writers, and developers.</p>
+  <p>Designed and built visually rich websites and interactive pieces in HTML, CSS and Flash, beside writers, creative leads and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
 </section>
 
 <section>
   <h2>Selected projects</h2>
   <ul>
-    <li>Scaling enterprise product design across 40+ SAP applications: one design system and accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
-    <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal (research, workflows, accessibility).</li>
-    <li>Orchestrating real-time logistics for a 450+ truck fleet: cockpit UI, fleet visibility and the decision surface itself, for a dispatcher short on attention rather than data. Board-clearing time fell roughly 30% per cycle.</li>
+    <li>Making 40+ SAP applications read as one product: one visual language, one design system and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+    <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
+    <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal.</li>
+    <li>A real-time cockpit for a 450+ truck fleet, built for the speed of expert dispatchers; board-clearing time down roughly 30%.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>Product Strategy</span><span>UX &amp; Interaction Design</span><span>Information Architecture</span><span>Research &amp; Usability</span><span>Complex Workflows</span><span>Design Systems &amp; Governance</span><span>Accessibility</span><span>Decision-Support Interfaces</span><span>Human&ndash;AI Interaction</span><span>Agentic Workflows</span><span>AI Autonomy &amp; Escalation</span><span>Design-to-Code Systems</span></p>
+  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Information Architecture</span><span>Complex Workflows</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Responsive Web &amp; Mobile</span><span>Research &amp; Usability</span><span>Developer Collaboration</span></p>
 </section>
 
 <section>
   <h2>Tools &amp; platforms</h2>
-  <p class="inline"><b>Used professionally, by hand (2005–2013):</b> <span>HTML</span><span>CSS</span><span>JavaScript/jQuery</span><span>Flash</span><span>WordPress</span><span>Joomla!</span></p>
-  <p class="inline"><b>Build with now, through coding agents:</b> <span>React</span><span>TypeScript</span><span>Storybook</span><span>Playwright</span><span>Vitest &amp; axe</span><span>Git/GitHub</span><span>Claude Code (skills, plugins, MCP)</span></p>
-  <p class="inline"><b>Design &amp; platforms:</b> <span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>CSS custom properties (tokens)</span><span>ChatGPT &amp; Gemini</span><span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WCAG 2.1 AA</span></p>
+  <p class="inline"><b>Design:</b> <span>Figma/FigJam (variables, Dev Mode, component libraries)</span><span>Adobe Creative Cloud (Illustrator, Photoshop, InDesign)</span><span>CSS custom properties (tokens)</span><span>ChatGPT &amp; Gemini for image direction</span></p>
+  <p class="inline"><b>Front end, by hand (2005–2013) and with coding agents now:</b> <span>HTML</span><span>CSS</span><span>JavaScript/jQuery</span><span>React</span><span>TypeScript</span><span>Storybook</span><span>Playwright</span><span>Git/GitHub</span><span>Claude Code</span></p>
+  <p class="inline"><b>Platforms:</b> <span>SAP Fiori</span><span>Sitecore</span><span>Umbraco</span><span>WordPress</span><span>Joomla!</span><span>WCAG 2.1 AA</span></p>
 </section>
 
 <section>
@@ -375,14 +382,14 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years designing complicated software, and building it. I started as a designer-developer, spent thirteen years on enterprise products and design systems at scale, and now design and build working products with coding agents.</p>
+  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software: studio design and build, then enterprise products and design systems at scale, now products of my own, end to end.</p>
 
   <section>
     <h2>Independent</h2>
     <div class="role">
-      <h3>Product design and prototyping</h3>
+      <h3>Visual design, interface design, prototyping</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Designed and built Agent Review with Claude Code: a React and TypeScript prototype for handing UI work to coding agents, with written design rules and automated checks marking where a person decides. Also Dispatch Cockpit, a decision-support prototype for dispatchers, and two products in use, Lucy Learns and Door County Found.</p>
+      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel brand and site, and Lucy Learns, an illustrated dog-training app. Also Say When, a self-initiated coffee brand concept, and two working prototypes built with coding agents.</p>
     </div>
   </section>
 
@@ -391,16 +398,16 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Lead UX Product Designer</h3>
       <p class="dates">2013 – 2026</p>
-      <p class="did">Led enterprise product design and UX strategy for clients in logistics, manufacturing, healthcare, financial services and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, led the accessibility, DesignOps and governance practices, and designed and built Connect, the firm&rsquo;s own design-system site.</p>
+      <p class="did">Led UX and visual design for complex digital products, enterprise applications and design systems across logistics, manufacturing, healthcare, finance and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, and led the accessibility practice.</p>
     </div>
   </section>
 
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>40+ SAP applications</b> on one design system and accessibility standard: about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+      <li><b>40+ SAP applications</b> reading as one product: one design system and accessibility standard; a third less design-to-development time, production UI defects roughly halved.</li>
+      <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates and a portal.</li>
       <li><b>A USDA grant-management portal</b> that took data-analysis requests from 45–55 hours to just over 10.</li>
-      <li><b>Real-time logistics for a 450+ truck fleet:</b> dense cards in place of a map, and board-clearing time down roughly 30%.</li>
     </ul>
   </section>
 
@@ -409,7 +416,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Interactive Designer / Developer</h3>
       <p class="dates">2008 – 2013</p>
-      <p class="did">Designed and built websites for Lund Boats, Fulton Beer and others in HTML, CSS and jQuery, including Lund&rsquo;s boat configurator and Fulton&rsquo;s store locator.</p>
+      <p class="did">Designed and built brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and others, in HTML, CSS and jQuery.</p>
     </div>
   </section>
 </main>
@@ -427,21 +434,21 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Expertise</h2>
     <ul>
-      <li>Product strategy</li>
+      <li>UX and interface design</li>
+      <li>Visual design and typography</li>
       <li>Interaction design</li>
-      <li>Complex workflows</li>
-      <li>Design systems and governance</li>
+      <li>Design systems</li>
       <li>Accessibility</li>
-      <li>Human–AI interaction</li>
+      <li>Brand identity and illustration</li>
       <li>Prototyping in code</li>
     </ul>
   </section>
 
   <section>
     <h2>Tools</h2>
-    <p><b>Design:</b> Figma</p>
-    <p><b>Built by hand, 2005–2013:</b> HTML, CSS, jQuery, Flash, WordPress</p>
-    <p><b>Build with coding agents now:</b> React, TypeScript, Storybook, Playwright, Claude Code, Git</p>
+    <p><b>Design:</b> Figma, Illustrator, Photoshop, InDesign</p>
+    <p><b>Front end:</b> HTML, CSS, JavaScript, React, TypeScript, Storybook</p>
+    <p><b>With coding agents:</b> Claude Code, Playwright, Git</p>
   </section>
 
   <section>

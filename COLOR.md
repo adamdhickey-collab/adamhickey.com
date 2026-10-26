@@ -1073,9 +1073,10 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by thirty-two pages; the
-token files are loaded by all thirty-eight, so anything defined in `style.css` is
-invisible to the six Tailwind case studies. That single fact caused three
+`style.css` holds no shared token at all. It is loaded by thirty-one pages; the
+type scale is loaded by all forty-two and `color.css` by thirty-five (the seven
+storefront pages of the Say When concept carry that brand's own palette), so
+anything defined in `style.css` is invisible to the four Tailwind case studies. That single fact caused three
 separate bugs across this work and the type work before it: a regression that
 shipped for two commits, an undefined `--color-accent` that had never
 resolved, and four fallbacks quietly holding the shared header together. It is
