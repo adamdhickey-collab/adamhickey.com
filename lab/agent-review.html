@@ -100,10 +100,10 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=64" />
+  <link rel="stylesheet" href="agent-review.css?v=65" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="agent-review-story.js?v=5" defer></script>
+  <script src="agent-review-story.js?v=6" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -252,9 +252,10 @@
     <!-- THE OPENER, since 2026-10-26: a question before any answer. The
          title, one line and the way in, beside Relay's customer list and
          the question the cycle below turns on, put to the reader: "Would
-         you ship this?" Three answers, each showing what it leads to once
-         pressed, then what happened (agent-review.css, "Would you ship
-         this?"; the press is agent-review-story.js's).
+         you ship this?" Three answers; a press shows on the screen what the
+         answer does, says what it leads to, then what happened
+         (agent-review.css, "Would you ship this?"; the press is
+         agent-review-story.js's).
 
          ARCHIVING, NOT CANCEL, since the evening of 2026-10-26. The opener
          was the billing run's quiet cancel link, and the page, its pictures
@@ -281,11 +282,11 @@
           <p class="arc-status">I designed and built it in React and Storybook. The scenario is simulated, not yet tested with users.</p>
         </div>
         <div class="ship" data-ship>
-          <p class="ship-ask">Would you ship this?</p>
+          <p class="ship-ask" id="ship-ask">Would you ship this?</p>
           <p class="ship-setup">An agent built bulk archive for Relay&rsquo;s customer list: select, press Archive, and they&rsquo;re gone. Someone is clearing out old trials, and three of these five are active customers.</p>
           <figure class="arc-device" aria-label="Relay&rsquo;s customer list with five customers selected and an Archive button: Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio are active, Alder &amp; Finch is a trial, Monarch Dental Group is past due">
             <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-            <div class="ship-bar"><span class="ship-count">5 selected</span><span class="ship-btn">Archive</span></div>
+            <div class="ship-bar"><span class="ship-count">5 selected</span><span class="ship-confirm" aria-hidden="true">Archive 5 customers? You can&rsquo;t undo this.</span><span class="ship-act"><span class="ship-flag" aria-hidden="true">Agent stopped here</span><span class="ship-btn">Archive</span></span></div>
             <dl class="ship-rows">
               <div class="ship-row"><dt>Halvorsen Freight<span>Active &middot; 48 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
               <div class="ship-row"><dt>Brightwater Clinics<span>Active &middot; 22 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
@@ -294,23 +295,19 @@
               <div class="ship-row"><dt>Saltmarsh Studio<span>Active &middot; 3 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
             </dl>
           </figure>
-          <ul class="ship-picks" aria-label="Your answer">
-            <li class="ship-pick" data-pick="ship">
-              <button type="button" aria-pressed="false">Ship it as it is<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">Cleanup takes one press. But nothing on the screen brings a customer back, and that&rsquo;s how Okafor Logistics, one of the biggest accounts, left with the trials.</p>
-            </li>
-            <li class="ship-pick" data-pick="confirm">
-              <button type="button" aria-pressed="false">Ask &ldquo;Are you sure?&rdquo; first<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">A question every time. Someone who archives hundreds a quarter learns to press through it.</p>
-            </li>
-            <li class="ship-pick" data-pick="ask">
-              <button type="button" aria-pressed="false">Stop and ask someone<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">That&rsquo;s what the agent does in the prototype: it lays out two fair asks, fast cleanup or nothing lost, and I choose. No check can say which comes first.</p>
-            </li>
-          </ul>
-          <div class="ship-after" role="status">
-            <p class="ship-verdict"><strong>It needed a way back, not a step first.</strong> I put recovery first, then turned down the agent&rsquo;s pick for undo.</p>
-            <p>Archive stays one press. Active customers are named before it, and Undo stays until the next action. The six stages below are how I got there.</p>
+          <div class="ship-picks" role="group" aria-labelledby="ship-ask">
+            <button type="button" class="ship-pick" data-pick="ship" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ship it as it is</button>
+            <button type="button" class="ship-pick" data-pick="confirm" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ask &ldquo;Are you sure?&rdquo; first</button>
+            <button type="button" class="ship-pick" data-pick="ask" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Stop and ask someone</button>
+          </div>
+          <div class="ship-result" id="ship-result" role="status">
+            <p class="ship-then" data-then="ship"><strong>If you ship it,</strong> cleanup takes one press. But nothing on the screen brings a customer back, and that&rsquo;s how Okafor Logistics, one of the biggest accounts, left with the trials.</p>
+            <p class="ship-then" data-then="confirm"><strong>If you ask first,</strong> every batch gets a question. Someone who archives hundreds a quarter learns to press through it.</p>
+            <p class="ship-then" data-then="ask"><strong>That&rsquo;s what the agent does in the prototype.</strong> It lays out two fair asks, fast cleanup or nothing lost, and I choose. No check can say which comes first.</p>
+            <div class="ship-after">
+              <p class="ship-verdict"><strong>It needed a way back, not a step first.</strong> I put recovery first, then turned down the agent&rsquo;s pick for undo.</p>
+              <p>Archive stays one press. Active customers are named before it, and Undo stays until the next action. The six stages below are how I got there.</p>
+            </div>
           </div>
         </div>
       </div>

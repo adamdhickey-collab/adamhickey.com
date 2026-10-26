@@ -6,9 +6,10 @@
  *
  * THE QUESTION in the opener, "Would you ship this?" A press marks the
  * answer pressed (aria-pressed) and the figure answered (data-picked), and
- * the stylesheet shows every answer's consequence and what happened
- * (agent-review.css, "Would you ship this?"). Another press moves the
- * mark. Still or without this file, everything is already there.
+ * the stylesheet changes the screen to match, then shows that answer's
+ * consequence and what happened (agent-review.css, "Would you ship
+ * this?"). Another press moves the mark and swaps the consequence. Still
+ * or without this file, everything is already there.
  *
  * Nothing here scrolls the page for the reader, and nothing takes the
  * scroll over.
@@ -17,11 +18,11 @@
   window.arcStory = true;
 
   document.querySelectorAll('[data-ship]').forEach((ship) => {
-    const buttons = [...ship.querySelectorAll('.ship-pick button')];
+    const buttons = [...ship.querySelectorAll('.ship-pick')];
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
         buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-        ship.dataset.picked = button.closest('[data-pick]').dataset.pick;
+        ship.dataset.picked = button.dataset.pick;
       });
     });
   });
