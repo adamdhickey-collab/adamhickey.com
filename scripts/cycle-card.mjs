@@ -61,9 +61,9 @@ const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
      card sets beside it; the second sentence carries the sage. */
   h1 { margin: 0; font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-6xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); text-align: center; white-space: nowrap; }
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
-  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3xl); margin-top: var(--space-3xl); }
-  figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-xl); }
-  figcaption { justify-self: stretch; display: grid; gap: var(--space-xs); text-align: center; }
+  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3xl); margin-top: var(--space-block); }
+  figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2xl); }
+  figcaption { justify-self: stretch; display: grid; gap: var(--space-sm); text-align: center; }
   figcaption strong { justify-self: center; white-space: nowrap; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
   figcaption span { font-size: var(--text-2xl); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
 
