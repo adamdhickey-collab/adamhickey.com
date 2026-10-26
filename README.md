@@ -635,17 +635,20 @@ many of its pages the live site carried, because here is the live site.
 
 ## Deployment
 
-**This repository is the live site.** `.github/workflows/pages.yml` uploads
-the repository root to GitHub Pages on every push to `main`, and `CNAME` plus
-the custom-domain setting on the Pages page put that upload at
-https://adamhickey.com. There is no build step and nothing in between: a merge
-is public about a minute after the workflow finishes. Pages built from the
-branch with the legacy builder until 4600455 moved it to the workflow.
+**This repository is the live site.** `.github/workflows/pages.yml` stages a
+`git archive` of the commit without `docs/` and `.github/` and uploads it to
+GitHub Pages on every push to `main`, and `CNAME` plus the custom-domain
+setting on the Pages page put that upload at https://adamhickey.com. There
+is no build step and nothing in between: a merge is public about a minute
+after the workflow finishes. Pages built from the branch with the legacy
+builder until 4600455 moved it to the workflow; the root itself was the
+artifact until 2026-10-26, when `docs/rebrand/` arrived and the staging
+step kept it off the site.
 
 | | |
 | --- | --- |
 | Live at | https://adamhickey.com |
-| Deploys from | `main`, repository root, via `pages.yml` |
+| Deploys from | `main`, the tracked tree less `docs/` and `.github/`, via `pages.yml` |
 | Staged first in | Nowhere, since 2026-09-08. The pull request's checks are the gate; see `CLAUDE.md` |
 
 This site carries no `noindex` anywhere but `404.html`, and the Google

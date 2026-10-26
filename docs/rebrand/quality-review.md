@@ -78,8 +78,8 @@ clip pauses with its control still present.
   the previous homepage and résumé and no longer apply.
 - The Say When share card and homepage tile are renders of the SVG
   artwork; real photography is briefed in `asset-manifest.md`.
-- The `docs/rebrand/` folder deploys with the site (Pages uploads the
-  repository root). The pull request proposes keeping `docs/` out of the
-  artifact.
+- `docs/` no longer deploys: `pages.yml` stages a `git archive` of the
+  commit without it and uploads that (2026-10-26). The folder is readable
+  on GitHub, which is where it is meant to be read.
 - The previous site's CLAUDE.md ledger of measured counts closes on the
   38-page tree; the next ladder starts from this merge's sweep.

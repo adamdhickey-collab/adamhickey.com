@@ -36,17 +36,38 @@ jobs:
       - name: The tree can be tarred
         run: node scripts/deployable.mjs
 
+      # THE SITE IS STAGED WITHOUT docs/, since 2026-10-26. The artifact
+      # used to be the repository root, which put everything under docs/
+      # (the repositioning's audit, positioning, briefs and screenshots) at
+      # adamhickey.com/docs/... the minute it merged. Those documents are
+      # written to be read on GitHub, where the repository is public anyway,
+      # and not to be served as pages of the site. `git archive` of the
+      # commit, not a copy of the checkout, so only tracked files can reach
+      # the artifact and a stray local file never deploys; dotfiles
+      # (.nojekyll, CNAME beside it) come through the tar as tracked files,
+      # and so does .github, which the upload action used to strip on its
+      # own; it goes with docs/. scripts/ stays in: nothing links it, and
+      # keeping the exclusion short keeps this step readable. Run locally,
+      # the staged tree is the tracked files less those two directories.
+      - name: Stage the site without docs/
+        run: |
+          rm -rf /tmp/site && mkdir -p /tmp/site
+          git archive HEAD | tar -x -C /tmp/site
+          rm -rf /tmp/site/docs /tmp/site/.github
+          test -f /tmp/site/.nojekyll && test -f /tmp/site/CNAME && test -f /tmp/site/index.html
+          test ! -e /tmp/site/docs && test ! -e /tmp/site/.github
+
       - uses: actions/configure-pages@v6
       # include-hidden-files is what keeps `.nojekyll` in the tar. This
       # action stopped shipping dotfiles by default at v4, and v5 is where
       # the input to get them back arrived, so a bump without it is a deploy
       # that goes green and serves a tree missing every dotfile -- the
       # quietest shape of the failure this file's other comments are about.
-      # With it set, the tar is the one v3 built, flag for flag: `.git` and
-      # `.github` are excluded either way, by the action, not by us.
+      # `.git` never reaches the staged tree (git archive does not write it)
+      # and `.github` is removed by the step above.
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: .
+          path: /tmp/site
           include-hidden-files: true
       - id: deployment
         uses: actions/deploy-pages@v5
