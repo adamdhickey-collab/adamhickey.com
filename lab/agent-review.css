@@ -16,15 +16,13 @@
        stop for a person, and the loop's rail as its picture;
      - the six stages as one strip, what the agent did and what the
        designer did, following one support ticket;
-     - Evaluate, told in full, with the wipe;
+     - Evaluate, told in full, its two directions side by side;
      - how it was made, what's next and the build, at the foot.
    The quiet cancel figure left with the opener's old job, and is the
    homepage card's picture now (quiet-cancel.css).
 
-   LIVE AND STILL, for the wipe only now. From 64rem with motion allowed
-   (.arc-live, thrown by the page's head before first paint) the wipe is
-   scrubbed by scroll while its frame is held; otherwise it is simply the
-   range. The opener's question works the same at every width.
+   NOTHING ON THE PAGE MOVES WITH SCROLL. The opener's question works the
+   same at every width, and Evaluate's two screens are two pictures.
 
    NO CAPITALS ARE FORCED anywhere on the page: eyebrows and labels are set
    in sentence case at their own size, and the shared glance labels are put
@@ -480,93 +478,27 @@
 }
 #the-cycle .build-hero-act { margin-top: var(--space-block); }
 
-/* ---- a chip: a short label of the page's own, on charcoal ---- */
-.arc-chip {
-  margin: 0;
-  padding: var(--space-xs) var(--space-md);
-  background: var(--color-charcoal);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-popover);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-}
-.case-section .arc-chip { display: inline-block; width: max-content; max-width: calc(100% - var(--space-md) * 2); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--ink-on-dark); }
-
-/* ---- Evaluate: the wipe ---- */
-@property --wipe { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
-.arc-wipe { margin: 0; }
-.arc-wipe-frame { --wipe: 50%; display: grid; overflow: hidden; }
-.arc-wipe-frame img { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
-.arc-wipe-b { clip-path: inset(0 0 0 var(--wipe)); }
-/* The line is the frame's width and moved by transform, its 2px drawn at
-   its own left edge: placed by `left`, it laid out on every frame of the
-   scrub and logged a layout shift each time it moved. */
-.arc-wipe-line {
-  position: absolute;
-  inset: 0 0 0 -1px;
-  background: linear-gradient(var(--color-charcoal), var(--color-charcoal)) 0 0 / 2px 100% no-repeat;
-  transform: translateX(var(--wipe));
-  pointer-events: none;
-}
-/* Each screen carries its own name, clipped with it, so wherever the line
-   stands the reader can tell which side is which; the middle of a wipe
-   between two layouts read as one broken screen without them. They sit at
-   the foot, clear of the table's title. */
-.arc-wipe-side {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding: var(--space-sm);
-  pointer-events: none;
-}
-.arc-wipe-side--a { clip-path: inset(0 calc(100% - var(--wipe)) 0 0); }
-.arc-wipe-side--b { justify-content: flex-end; clip-path: inset(0 0 0 var(--wipe)); }
-@media (max-width: 63.99rem) {
-  .case-section .arc-wipe-side .arc-chip { padding: var(--space-2xs) var(--space-sm); font-size: var(--text-xs); }
-}
-.arc-wipe-control {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
+/* ---- Evaluate: the two directions, side by side ----
+   The designer's pick on the left, the agent's on the right, in the same
+   crop of the prototype's window, each under its own name. Two columns
+   from 64rem, so each prints at half the frame; stacked under it, and on
+   a phone each is its phone capture. Until 2026-10-26 this was one frame
+   with a line between the two screens, scrubbed by scroll and moved by a
+   range: it read as confusing, and the one frame printed the prototype
+   too large (Adam). */
+.arc-pair { display: grid; gap: var(--space-xl); }
+.arc-pair figure { margin: 0; }
+.arc-pair .arc-screen img { display: block; width: 100%; height: auto; }
+.arc-pair figcaption {
+  margin-top: var(--space-sm);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-/* The range is the one control on the page that is not a link or a
-   button, so the site's focus ring (style.css) never reached it and Chrome
-   drew its own thin black one. It gets the site's ring, and a 24px box, so
-   the target clears WCAG 2.5.8 whatever the browser draws for the thumb. */
-.arc-wipe-control input { flex: 1; min-width: 0; min-height: var(--space-xl); margin: 0; accent-color: var(--color-accent-text); }
-.arc-wipe-control input:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-.arc-wipe-end { display: grid; }
-.arc-wipe-end:last-child { text-align: right; }
-.arc-wipe-who { color: var(--color-muted-gray); }
-
-/* Live: a scrub, where the browser has scroll-driven animations. The frame
-   is held while its track scrolls past, and the line runs from all undo to
-   all review and back to undo, the screen I chose. */
+.arc-pair-who { color: var(--color-muted-gray); }
 @media (min-width: 64rem) {
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .arc-live .arc-scrub { view-timeline: --arc-scrub block; height: 200svh; }
-      .arc-live .arc-scrub .arc-wipe { position: sticky; top: calc(var(--arc-head) + var(--space-md)); }
-      .arc-live .arc-scrub:not([data-held]) .arc-wipe-frame {
-        animation: arc-scrub linear both;
-        animation-timeline: --arc-scrub;
-        animation-range: contain 0% contain 100%;
-      }
-    }
-  }
+  .arc-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl); }
 }
-@keyframes arc-scrub { 0% { --wipe: 100%; } 50% { --wipe: 0%; } 100% { --wipe: 100%; } }
 
 /* ---- the rest of the page ---- */
 #how-it-was-made .writing-facts { margin: var(--space-xl) 0; }
@@ -736,12 +668,9 @@
 /* ---------- Phones and tablets: under 64rem ---------- */
 @media (max-width: 63.99rem) {
   .arc-head { margin-bottom: var(--space-2xl); }
-  /* The wipe: a 44px track where the pointer is a finger. */
-  .arc-wipe-control { gap: var(--space-sm); }
 }
 @media (max-width: 63.99rem) and (pointer: coarse) {
-  .arc-wipe-control input { height: 44px; margin: 0; }
-  /* The answers are a finger's target too. */
+  /* The answers are a finger's target. */
   .ship-pick button { min-height: 44px; }
 }
 
@@ -750,12 +679,4 @@
   .case-hero .ship-ask { font-size: var(--text-2xl); }
   .ship-rows { padding-inline: var(--space-md); }
   .ship-after { padding: var(--space-lg) var(--space-md); }
-
-  /* The wipe, enlarged twice over its left half: the undo bar and the
-     review panel both start there, and that is the comparison. The line
-     is placed by the frame, the cut by the picture, which is twice as
-     wide, so the cut is halved to stay under the line. */
-  .arc-wipe-frame img { width: 200%; max-width: none; }
-  .arc-wipe-b { clip-path: inset(0 0 0 calc(var(--wipe) / 2)); }
-  .arc-wipe-end { font-size: var(--text-sm); }
 }
