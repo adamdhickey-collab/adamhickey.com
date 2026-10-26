@@ -783,20 +783,20 @@ not, yellow where what they read became part of the system, spent once.
 Neither carries text, and neither styles anything outside the figure.
 
 **The prototype's hand-built gray, in "Every action is a button. Except
-cancel."** Since 2026-10-21 the top of the Agent Review case study draws the
-prototype's first problem in code: two actions from its billing settings,
-"Change plan" as a button and "Cancel subscription" as the link the old
-billing app built by hand, small and gray. That gray is the product's,
-`#6a6a76`, the hand-typed value and the value of the prototype's own muted
-token, so the picture shows exactly the gray the product does. It is
-`--quiet-cancel-ink`, declared on `.quiet-cancel` in `lab/agent-review.css`
-and used nowhere else: a picture of a product's colour, by this section's
-rule, not an interface colour of this site. It carries text, "Cancel
-subscription", and on the figure's white it measures 5.33:1, over the 4.5
-floor on its own. The figure's connector is `--color-accent-text`. Until
-that day the figure was "Same red. Different meaning.", the product's red,
-`#b42318`, declared on `.same-red` in `style.css`; both went with the
-prototype's change of decision.
+cancel."** From 2026-10-21 the top of the Agent Review case study, and from
+the morning of 2026-10-26 the homepage's lab card, drew the billing run's
+problem in code: two actions from its billing settings, "Change plan" as a
+button and "Cancel subscription" as the link the old billing app built by
+hand, small and gray. That gray was the product's, `#6a6a76`, declared as
+`--quiet-cancel-ink` on `.quiet-cancel` in `quiet-cancel.css` and used
+nowhere else: a picture of a product's colour, by this section's rule. **It
+left on the evening of 2026-10-26** with the figure and its stylesheet,
+when the card and the case study's opener moved to the archiving story the
+prototype and its pictures follow; the card's picture is the prototype's
+own capture now, so it carries no declared artwork colour. Before that
+figure was "Same red. Different meaning.", the product's red, `#b42318`,
+declared on `.same-red` in `style.css`; both went with the prototype's
+change of decision.
 
 **Faunaform's day, on its build write-up.** Since 2026-10-20
 `case-study/faunaform.html` opens on the studio's own hero, "One day of

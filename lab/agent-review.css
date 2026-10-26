@@ -9,17 +9,19 @@
    and "it feels long"). Direction C told the six stages as six pinned
    chapters of three steps each: eighteen beats at one pace, about 16,400px
    at 1440 for 1,216 words, and the reader decided nothing. Now:
-     - the opener asks the reader the question the agent asked: "Would you
-       ship this?", over Relay's billing settings, with three answers, each
-       of which shows what it leads to once pressed;
+     - the opener asks the reader the question the cycle turns on: "Would
+       you ship this?", over Relay's customer list with a batch selected
+       for archiving, with three answers, each of which shows what it leads
+       to once pressed;
      - the rule the reader just used: three kinds of change, two of which
        stop for a person, and the loop's rail as its picture;
      - the six stages as one strip, what the agent did and what the
        designer did, following one support ticket;
      - Evaluate, told in full, its two directions side by side;
-     - how it was made, what's next and the build, at the foot.
-   The quiet cancel figure left with the opener's old job, and is the
-   homepage card's picture now (quiet-cancel.css).
+     - how it was made, the billing run's cancel link after the cycle,
+       what's next and the build, at the foot.
+   The opener was the billing run's cancel link until the evening of
+   2026-10-26; it now follows the feature the stages and the pictures do.
 
    NOTHING ON THE PAGE MOVES WITH SCROLL. The opener's question works the
    same at every width, and Evaluate's two screens are two pictures.
@@ -129,10 +131,12 @@
 
 /* ---------- Would you ship this? ----------
    The reader takes the agent's seat before the page explains anything:
-   Relay's billing settings, rebuilt in live HTML from the prototype's own
-   rows (agent-review src/data/billing.ts, SKETCHES.settings), where every
-   action is a button but one, and that one is ringed in the caution ink,
-   so the eye lands on it before the question is read.
+   Relay's customer list with Explore's batch selected, rebuilt in live
+   HTML from the prototype's own rows (agent-review src/product/customers/
+   customers.ts), three of the five active, and the Archive button that
+   takes them all ringed in the caution ink, so the eye lands on it before
+   the question is read. Until the evening of 2026-10-26 the screen was
+   the billing run's settings and its quiet cancel link.
 
    SINCE 2026-10-26, A QUESTION WITH ONE ANSWER, set like one. Until then
    the answers were three outline pills, the site's own buttons, stacked
@@ -144,10 +148,10 @@
      - the answers are three options in a row under the screen, each a
        tile with a radio mark, so they say "pick one" before anything is
        read, and the pressed one is marked, not promoted;
-     - the screen answers first: "Make cancel a real button" turns the
-       link into a button, "Stop and ask someone" puts the agent's stop on
-       the row, and "Ship it as it looks" changes nothing, which is the
-       point of it;
+     - the screen answers first: "Ask 'Are you sure?' first" turns the
+       selection bar into the question, "Stop and ask someone" puts the
+       agent's stop beside the button, and "Ship it as it is" changes
+       nothing, which is the point of it;
      - one result under the answers says what YOUR answer leads to, then
        what happened, so a press is followed by one paragraph and the
        payoff, never three. Another press swaps the paragraph in place.
@@ -178,17 +182,34 @@
   text-wrap: pretty;
 }
 
-/* Relay's screen: label and detail on the left, the action on the right,
-   one row a setting, a hairline between. The cancel link is the product's
-   small grey text, underlined, in the site's muted ink. */
-.ship-rows { margin: 0; padding: var(--space-xs) var(--space-lg); }
-.ship-row {
+/* Relay's screen: the selection bar, its count and the one action, over
+   the selected rows, each a checked box and a company with its status
+   under it, a hairline between. The box is the site's charcoal with a
+   warm check, a picture of a checked box rather than a control. */
+.ship-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xs) var(--space-md);
-  padding: var(--space-md) 0;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-tea-light);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.ship-count,
+.ship-confirm {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ship-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
+.ship-rows { margin: 0; padding: var(--space-xs) var(--space-lg); }
+.ship-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
   border-top: 1px solid var(--rule-hairline);
 }
 .ship-row:first-child { border-top: 0; }
@@ -203,7 +224,25 @@
   font-weight: var(--weight-regular);
   color: var(--color-muted-gray);
 }
-.ship-row dd { margin: 0; }
+.ship-row dd { order: -1; margin: 0; }
+.ship-check {
+  position: relative;
+  display: block;
+  width: var(--space-md);
+  height: var(--space-md);
+  background: var(--color-charcoal);
+}
+.ship-check::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-warm);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+/* The one action that takes all five, ringed: the caution ink is the
+   site's mark for work that stops for a person (COLOR.md, section 2). The
+   ring is an outline, so it takes no room and moves nothing. */
 .ship-btn {
   display: inline-block;
   padding: var(--space-2xs) var(--space-md);
@@ -214,24 +253,10 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
   white-space: nowrap;
-}
-.ship-link {
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-  text-decoration: underline;
-}
-
-/* The one action that is not a button, ringed: the caution ink is the
-   site's mark for work that stops for a person (COLOR.md, section 2). The
-   ring is an outline, so it takes no room and moves nothing. */
-.ship-row-odd dd { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
-.ship-row-odd .ship-link {
   outline: 2px solid var(--color-caution-text);
-  outline-offset: var(--space-xs);
-  border-radius: var(--space-2xs);
+  outline-offset: var(--space-2xs);
 }
-/* The agent's stop, on the row, for "Stop and ask someone" only. */
+/* The agent's stop, beside the button, for "Stop and ask someone" only. */
 .ship-flag {
   display: none;
   font-size: var(--text-xs);
@@ -240,19 +265,10 @@
   color: var(--color-caution-text);
 }
 .ship[data-picked="ask"] .ship-flag { display: inline; }
-.ship[data-picked="ask"] .ship-row-odd .ship-link { outline-offset: var(--space-2xs); }
-/* "Make cancel a real button": the link takes the other actions' style. */
-.ship[data-picked="button"] .ship-row-odd .ship-link {
-  padding: var(--space-2xs) var(--space-md);
-  border: 1px solid var(--color-muted-gray);
-  border-radius: 0;
-  outline: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--color-charcoal);
-  text-decoration: none;
-  white-space: nowrap;
-}
+/* "Ask 'Are you sure?' first": the bar becomes the question. */
+.ship-confirm { display: none; }
+.ship[data-picked="confirm"] .ship-count { display: none; }
+.ship[data-picked="confirm"] .ship-confirm { display: inline; }
 
 /* The answers: three tiles in a row, one choice. Each is white on the
    page's ground with the card's edge and a radio mark, the label at the
@@ -354,8 +370,8 @@
    section 10: an arrival rises a short way); a second press swaps the
    paragraph in place and moves nothing else. */
 .ship-live .ship:not([data-picked]) .ship-result { display: none; }
-.ship-live .ship[data-picked="match"] .ship-then:not([data-then="match"]),
-.ship-live .ship[data-picked="button"] .ship-then:not([data-then="button"]),
+.ship-live .ship[data-picked="ship"] .ship-then:not([data-then="ship"]),
+.ship-live .ship[data-picked="confirm"] .ship-then:not([data-then="confirm"]),
 .ship-live .ship[data-picked="ask"] .ship-then:not([data-then="ask"]) { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .ship-live .ship[data-picked] .ship-result { animation: ship-in var(--motion-enter) var(--ease-enter) both; }
@@ -747,7 +763,8 @@
 /* Phones. */
 @media (max-width: 40rem) {
   .case-hero .ship-ask { font-size: var(--text-2xl); }
-  .ship-rows { padding-inline: var(--space-md); }
+  .ship-rows,
+  .ship-bar { padding-inline: var(--space-md); }
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }

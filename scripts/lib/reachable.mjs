@@ -96,7 +96,7 @@ export const REACHABLE = {
      that only loads the page measures the question and never the answer.
      One state: a press shows that answer's consequence and the payoff,
      marks the pressed tile in the sage, and for this answer puts the
-     agent's stop on the screen's cancel row, which no other state has. */
+     agent's stop beside the screen's Archive button, which no other state has. */
   'lab/agent-review.html': [
     { name: 'the opener’s question, answered',
       press: ['[data-pick="ask"]'] },
