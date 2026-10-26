@@ -83,8 +83,11 @@
 
      The thing actually worth wanting here -- a bigger page title on a phone
      -- needs either a shorter hero line or a step the scale does not have.
-     Both are real options; neither is a floor change. */
-  --type-title:      clamp(2.125rem, calc(2.125rem + 2.125 * (100vw - 25rem) / 55), 4.25rem); /* 34 -> 68  h1; the homepage hero only while stacked */
+     Both are real options; neither is a floor change. The first is what
+     happened, on 2026-10-26: the hero line went to four words and took a
+     ramp of its own, --type-title-hero below, and every other h1 kept these
+     floors. */
+  --type-title:      clamp(2.125rem, calc(2.125rem + 2.125 * (100vw - 25rem) / 55), 4.25rem); /* 34 -> 68  h1, every page title but the homepage hero */
   --type-section:    clamp(1.75rem,  calc(1.75rem  + 1.25  * (100vw - 25rem) / 55), 3rem);    /* 28 -> 48  h2 */
   --type-subsection: clamp(1.5rem,   calc(1.5rem   + 0.625 * (100vw - 25rem) / 55), 2.125rem);/* 24 -> 34  h3 */
   --type-lede:       clamp(1.125rem, calc(1.125rem + 0.375 * (100vw - 25rem) / 55), 1.5rem);  /* 18 -> 24  deks, ledes */
@@ -101,7 +104,18 @@
      stacks, the title spans the container again, and it takes --type-title
      like every other h1. The seam is the layout's own breakpoint rather
      than an unreconciled second curve. */
-  --type-title-inset: clamp(2.25rem, calc(2.25rem + 1.75 * (100vw - 48rem) / 32), 4rem); /* 36 -> 64  the hero title, beside the portrait */
+  --type-title-inset: clamp(2.25rem, calc(2.25rem + 1.75 * (100vw - 48rem) / 32), 4rem); /* 36 -> 64  a title beside a picture: the cockpit's */
+
+  /* THE HOMEPAGE HERO HAS ITS OWN RAMP SINCE 2026-10-26. "Making complex
+     products clear." is four words where the old headline was nine, and its
+     longer line, "products clear.", is 6.29em wide, so the title can grow
+     a long way and still set in two lines: 48 on a phone, held through 768
+     where the portrait moves beside it (388px of column, room for 61), then
+     up to 80 at 1280 (681px, room for 108). One curve from phone to
+     desktop, so there is no seam at the breakpoint, and both pins are
+     steps, 6xl and 9xl. 13vw is the one floor below 360, where 48 would
+     run "complex" onto a third line: 41.6 at 320, out of the way by 375. */
+  --type-title-hero: min(13vw, clamp(3rem, calc(3rem + 2 * (100vw - 48rem) / 32), 5rem)); /* 48 -> 80  the homepage hero */
 
   /* Line height -- a function of size, not of component. Bigger type needs
      less leading; at 80px, 1.05 already opens more space than 1.6 at 16px. */
