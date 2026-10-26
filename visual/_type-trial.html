@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Type trial</title>
+<style>
+  :root { --ink: #252525; --muted: #5c5f5c; --ground: #f5f5f0; --line: rgba(37,37,37,.16); --on: #252525; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #e5e5dd; color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body { display: flex; flex-direction: column; }
+  header { background: var(--ground); border-bottom: 1px solid var(--line); padding: 12px 16px; display: grid; gap: 10px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .label { font-weight: 600; margin-right: 4px; }
+  button, select { font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  button[aria-pressed="true"] { background: var(--on); color: #fff; border-color: var(--on); }
+  button:focus-visible, select:focus-visible { outline: 2px solid #276468; outline-offset: 2px; }
+  #note { color: var(--muted); max-width: 90ch; margin: 0; }
+  main { flex: 1; display: flex; justify-content: center; min-height: 0; padding: 0; }
+  iframe { border: 0; width: 100%; height: 100%; background: #fff; }
+  main.narrow iframe { max-width: 390px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  main.tablet iframe { max-width: 820px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <div class="row" role="group" aria-label="Type pairing" id="opts"></div>
+  <div class="row">
+    <span class="label">Page</span>
+    <select id="page" aria-label="Page">
+      <option value="index.html">Homepage</option>
+      <option value="case-study/innovators-studio-visual-identity.html">Innovators Studio</option>
+      <option value="case-study/say-when.html">Say When (case study)</option>
+      <option value="case-study/door-county-found.html">Door County Found</option>
+      <option value="case-study/lucy-learns.html">Lucy Learns</option>
+      <option value="case-study/hybrid-designer.html">Studio years</option>
+      <option value="writing/index.html">Writing</option>
+    </select>
+    <span class="label" style="margin-left:12px">Width</span>
+    <div class="row" role="group" aria-label="Width" id="widths">
+      <button data-w="wide" aria-pressed="true">Desktop</button>
+      <button data-w="tablet" aria-pressed="false">Tablet</button>
+      <button data-w="narrow" aria-pressed="false">Phone</button>
+    </div>
+  </div>
+  <p id="note"></p>
+</header>
+<main id="stage"><iframe id="view" title="Site preview"></iframe></main>
+<script>
+const OPTIONS = [
+  { id: 'current', short: 'Current', name: 'Current: Fraunces + Instrument Sans',
+    note: 'What the redesign uses now: a soft, slightly wonky old-style serif for headlines beside a plain grotesk.' },
+  { id: 'editorial', short: '1 Editorial', name: 'Editorial: Newsreader + Hanken Grotesk',
+    note: 'A magazine text serif with optical sizes, crisp at headline size and sturdy at reading size, beside a calm, slightly warm grotesk. Reads like a well-set feature story.',
+    gf: 'family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Hanken+Grotesk:wght@400;500;600;700',
+    serif: '"Newsreader", Georgia, serif', sans: '"Hanken Grotesk", system-ui, sans-serif' },
+  { id: 'art', short: '2 Art direction', name: 'Art direction: Bodoni Moda + Jost',
+    note: 'High-contrast Didone headlines with a Futura-like geometric sans, the classic fashion-magazine pairing. The most art-directed of the five.',
+    gf: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:wght@400;500;600;700',
+    serif: '"Bodoni Moda", Didot, serif', sans: '"Jost", system-ui, sans-serif' },
+  { id: 'american', short: '3 American classic', name: 'American classic: Libre Caslon Display + Libre Franklin',
+    note: 'Revivals of Caslon and Franklin Gothic, two staples of American printing. Familiar, trustworthy, quietly confident.',
+    gf: 'family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600;700',
+    serif: '"Libre Caslon Display", Georgia, serif', sans: '"Libre Franklin", system-ui, sans-serif' },
+  { id: 'newsroom', short: '4 Newsroom', name: 'Newsroom: Schibsted Grotesk only',
+    note: 'One grotesk family with no serif at all. Hierarchy comes from weight and size alone: modern, direct, a little Scandinavian. Headlines set semibold.',
+    gf: 'family=Schibsted+Grotesk:wght@400;500;600;700',
+    serif: '"Schibsted Grotesk", system-ui, sans-serif', sans: '"Schibsted Grotesk", system-ui, sans-serif', headWeight: 600 },
+  { id: 'studio', short: '5 Studio', name: 'Studio: Bricolage Grotesque only',
+    note: 'One grotesque with an optical-size axis: characterful at headline sizes, calm at reading sizes. The most personality of the five. Headlines set semibold.',
+    gf: 'family=Bricolage+Grotesque:opsz,wght@12..96,200..800',
+    serif: '"Bricolage Grotesque", system-ui, sans-serif', sans: '"Bricolage Grotesque", system-ui, sans-serif', headWeight: 600 },
+];
+
+const state = { opt: 'current', page: 'index.html', w: 'wide' };
+const view = document.getElementById('view');
+const stage = document.getElementById('stage');
+const note = document.getElementById('note');
+
+function readHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  if (OPTIONS.some(o => o.id === p.get('opt'))) state.opt = p.get('opt');
+  if (p.get('page')) state.page = p.get('page');
+  if (['wide', 'tablet', 'narrow'].includes(p.get('w'))) state.w = p.get('w');
+}
+function writeHash() { history.replaceState(null, '', '#' + new URLSearchParams(state)); }
+
+function apply(doc) {
+  if (!doc || !doc.head) return;
+  doc.getElementById('trial-gf')?.remove();
+  doc.getElementById('trial-css')?.remove();
+  const o = OPTIONS.find(x => x.id === state.opt);
+  if (!o.gf) return;
+  const l = doc.createElement('link');
+  l.id = 'trial-gf'; l.rel = 'stylesheet';
+  l.href = 'https://fonts.googleapis.com/css2?' + o.gf + '&display=swap';
+  doc.head.appendChild(l);
+  const s = doc.createElement('style');
+  s.id = 'trial-css';
+  s.textContent = `:root{--font-serif:${o.serif};--font-sans:${o.sans};}` +
+    (o.headWeight ? `h1,h2,h3,.case-title{font-weight:${o.headWeight};}` : '');
+  doc.head.appendChild(s);
+}
+
+function render() {
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '<span class="label">Type</span>';
+  for (const o of OPTIONS) {
+    const b = document.createElement('button');
+    b.textContent = o.short;
+    b.setAttribute('aria-pressed', String(o.id === state.opt));
+    b.addEventListener('click', () => { state.opt = o.id; writeHash(); render(); apply(view.contentDocument); });
+    opts.appendChild(b);
+  }
+  const o = OPTIONS.find(x => x.id === state.opt);
+  note.innerHTML = '<strong>' + o.name + '.</strong> ' + o.note;
+  document.getElementById('page').value = state.page;
+  stage.className = state.w === 'wide' ? '' : state.w;
+  for (const b of document.querySelectorAll('#widths button')) b.setAttribute('aria-pressed', String(b.dataset.w === state.w));
+}
+
+view.addEventListener('load', () => apply(view.contentDocument));
+document.getElementById('page').addEventListener('change', e => { state.page = e.target.value; writeHash(); view.src = state.page; });
+for (const b of document.querySelectorAll('#widths button')) b.addEventListener('click', () => { state.w = b.dataset.w; writeHash(); render(); });
+
+readHash();
+render();
+view.src = state.page;
+</script>
+</body>
+</html>
