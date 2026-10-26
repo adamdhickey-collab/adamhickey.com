@@ -1,0 +1,27 @@
+/* dcf.css -- Door County Found's own colours on its case study, and the few
+ * rules its pictures need beyond work.css.
+ *
+ * The navy and the paper are the brand's, sampled off its own brand board
+ * (img/dcf/campaign.webp), so they are artwork by COLOR.md section 6 and sit
+ * only where no text sits: the hero cover's band, the annotation discs
+ * (which carry --ink-on-dark at 14:1 on this navy) and the swatches, which
+ * are named in the site's ink under them. */
+.work[data-project="dcf"] {
+  --work-accent: #1c2023;
+  --work-band: #ebddc6;
+}
+/* The cover is the brand board on its own paper: the band is the paper's
+   colour, so the picture's edges disappear into it and the board reads as
+   laid on the page rather than framed. */
+.dcf-board { background: var(--work-band); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); overflow: hidden; }
+.dcf-board img { border-radius: 0; }
+/* Two phones side by side at every width: the captures are 810x1753, so a
+   pair fits a 375 screen with the gutter and reads as a pair. */
+.dcf-phones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); margin: 0; padding: 0; list-style: none; max-width: 40rem; }
+@media (min-width: 768px) { .dcf-phones { gap: var(--space-xl); } }
+.dcf-phones li { margin: 0; }
+.dcf-phones .build-flow-cap { margin-top: var(--space-sm); }
+/* The laptop captures carry the site's laptop chrome from style.css; on the
+   warm chapter the lid needs the edge the charcoal chapter gives it, since
+   the chrome and the foot are the same dark on any light ground. */
+.dcf-laptop { max-width: 56rem; }

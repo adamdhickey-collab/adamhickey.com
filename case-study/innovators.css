@@ -1,0 +1,34 @@
+/* innovators.css -- the Innovators Studio case study's own colour, and the
+ * few rules its pictures need that work.css does not carry.
+ *
+ * The project's green is the identity's, not the site's: it is artwork by
+ * COLOR.md section 6 and sits only where no text sits -- the hero cover's
+ * band and the annotation discs, which carry --ink-on-dark. The band is dark
+ * enough that warm ink on it clears 4.5:1 (measured 7.9 on #1b5e3b). */
+.work[data-project="innovators"] {
+  --work-accent: #1b5e3b;
+  --work-band: #1b5e3b;
+}
+/* The communication set's three pieces are tall captures (presentations,
+   newsletters, promos at 328x774 and 384x260): they sit on the warm ground
+   in a frame each, so a 3:1 and a 3:2 picture read as one set. */
+.inv-set img { background: var(--color-white); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); padding: var(--space-md); }
+/* The four parts of the system as a row of counted names over the grid. */
+.inv-parts { display: grid; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .inv-parts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.inv-parts li { margin: 0; border-top: 2px solid var(--work-accent); padding-top: var(--space-sm); }
+.inv-parts strong { display: block; font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; color: var(--color-charcoal); }
+.inv-parts span { display: block; font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); margin-top: var(--space-2xs); }
+.build-chapter.ground-charcoal .inv-parts strong { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .inv-parts span { color: var(--ink-on-dark-secondary); }
+/* The measurement disclosure, kept from the Tailwind page, sits on the
+   closing chapter's charcoal: its row and body take the dark inks. */
+.build-chapter.ground-charcoal .case-method-row,
+.build-chapter.ground-charcoal .case-method-intro,
+.build-chapter.ground-charcoal .case-method-list dt,
+.build-chapter.ground-charcoal .case-method-list dd { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .case-method-row:focus-visible { outline-color: var(--color-accent-on-dark); }
+/* The campaign capture is a tall column (328x774): at the container's full
+   width it printed three screens tall, so it keeps to a column's width and
+   its caption sits beside the band's own measure. */
+.inv-campaign { max-width: 28rem; }
