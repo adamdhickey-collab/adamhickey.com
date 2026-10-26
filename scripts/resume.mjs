@@ -314,7 +314,7 @@ const reading = String.raw`<!doctype html>
   .intro {
     font-size: 10.5pt;
     line-height: 1.5;
-    margin: 18pt 0 0;
+    margin: 14pt 0 0;
   }
   h2 {
     font-size: 11pt;
@@ -322,7 +322,7 @@ const reading = String.raw`<!doctype html>
     line-height: 1.3;
     margin: 0 0 5pt;
   }
-  main section { margin-top: 24pt; }
+  main section { margin-top: 22pt; }
   aside section + section { margin-top: 22pt; }
   /* The reference this was drawn from hangs each role on a dot, with a
      hairline running down beside what was done there. It is the one
@@ -410,7 +410,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Interactive Designer / Developer</h3>
       <p class="dates">2008 – 2013</p>
-      <p class="did">Designed and built brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and Learn to Live in HTML, CSS and jQuery, and two native apps.</p>
+      <p class="did">Designed and built brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and Learn to Live, in HTML, CSS and jQuery.</p>
     </div>
   </section>
 </main>

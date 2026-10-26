@@ -165,7 +165,10 @@
 .ha h2 { margin-bottom: var(--space-2xl); }
 .ha-top { display: grid; gap: var(--space-2xl); margin-bottom: var(--space-block); }
 @media (min-width: 768px) { .ha-top { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-4xl); align-items: center; } }
-.ha-top .hero-photo-frame { position: relative; width: 100%; max-width: 360px; aspect-ratio: 1; margin: 0; border-radius: 50%; overflow: hidden; background: var(--color-muted-light); }
+/* No ground on the frame: the poster fills it, and a solid colour here would
+   give resting.mjs a surface to composite the caption against instead of the
+   measured scrim (COLOR.md section 5). */
+.ha-top .hero-photo-frame { position: relative; width: 100%; max-width: 360px; aspect-ratio: 1; margin: 0; border-radius: 50%; overflow: hidden; }
 .ha-top .hero-photo-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ha-entity { font-family: var(--font-sans); font-size: var(--text-lg); line-height: var(--leading-body); max-width: 60ch; }
 .ha-lede { margin-top: var(--space-lg); font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); max-width: var(--measure); }
@@ -175,6 +178,9 @@
 .ha-beats .about-beat-text p { font-size: var(--text-base); max-width: var(--measure); }
 .ha-beats .about-beat-text p + p { margin-top: var(--space-sm); }
 .ha-beats .about-beat-text a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+/* style.css wrote the beats for the charcoal band and sends a hovered or
+   focused link to the warm ink; on this white ground that is 1.09:1. */
+.ha-beats .about-beat-text a:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) { .ha-beats .about-beat-text a:hover { color: var(--color-charcoal); } }
 .ha-beats a.about-media:focus-visible { outline-color: var(--color-focus-ring); }
 .ha-close { margin-top: var(--space-2xl); max-width: var(--measure); font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); }

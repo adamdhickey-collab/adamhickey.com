@@ -44,6 +44,10 @@
 @media (min-width: 1024px) {
   .work-hero .container { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-4xl); align-items: end; }
   .work-hero .case-kicker, .work-hero .case-title { grid-column: 1 / -1; }
+  /* Placed, not auto-placed: read-aloud.js inserts its Listen control after
+     the dek, and auto-placement put the facts in the control's column. */
+  .work-hero .build-dek { grid-column: 1; }
+  .work-hero .work-facts { grid-column: 2; }
 }
 .work-hero .build-dek { margin-bottom: 0; }
 .work-facts {
@@ -68,7 +72,7 @@
 .work-cover { margin: 0; }
 .work-hero .work-cover { grid-column: 1 / -1; margin-top: var(--space-xl); }
 .work-cover img, .work-cover video { display: block; width: 100%; height: auto; border-radius: var(--radius-xl); }
-.work-cover--band { background: var(--work-band); padding: var(--space-3xl) var(--gutter); border-radius: var(--radius-xl); }
+.work-cover--band { background: var(--work-band); padding: var(--space-3xl) var(--gutter); border-radius: var(--radius-xl); border: 1px solid var(--rule-card); }
 .work-cover--band img { border-radius: 0; }
 .work-bleed { width: 100vw; margin-inline: calc(50% - 50vw); }
 .work-bleed img { border-radius: 0; }
@@ -112,9 +116,19 @@
 .work-figure { margin: 0; }
 .work-figure img, .work-figure video, .work-figure svg { display: block; width: 100%; height: auto; }
 .work-figure--framed img, .work-figure--framed video { border-radius: var(--radius-xl); box-shadow: var(--shadow-media); }
-.work-figure--ground { background: var(--work-band); border-radius: var(--radius-xl); padding: var(--space-xl); }
-.work-figure--ground img, .work-figure--ground svg { border-radius: 0; }
-.work-figure--paper { background: var(--color-warm); border: 1px solid var(--rule-card); border-radius: var(--radius-xl); padding: var(--space-xl); }
+/* The band and the paper are drawn on the picture itself (its padding, its
+   ground, its edge), so the caption stays on the page's own ground in the
+   page's own ink: a caption inside a project's band would have to clear
+   4.5:1 against a colour this file does not know. Both carry the card
+   edge, because a band 1.7:1 off the page is a surface cards.mjs asks the
+   question of, and a fill alone under 3:1 does not answer it. */
+.work-figure--ground img, .work-figure--ground svg, .work-figure--ground video,
+.work-figure--paper img, .work-figure--paper svg, .work-figure--paper video {
+  box-sizing: border-box; padding: var(--space-xl);
+  border-radius: var(--radius-xl); border: 1px solid var(--rule-card);
+}
+.work-figure--ground img, .work-figure--ground svg, .work-figure--ground video { background: var(--work-band); }
+.work-figure--paper img, .work-figure--paper svg, .work-figure--paper video { background: var(--color-warm); }
 .work-figure figcaption, .work-grid figcaption, .work-pair figcaption, .work-annot figcaption, .work-strip figcaption {
   margin-top: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-xs);
   line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: var(--measure);
