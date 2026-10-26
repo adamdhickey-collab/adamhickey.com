@@ -15,8 +15,9 @@
        to once pressed;
      - the rule the reader just used: three kinds of change, two of which
        stop for a person, and the loop's rail as its picture;
-     - the six stages as one strip, what the agent did and what the
-       designer did, following one support ticket;
+     - the six stages as six rows, what the agent did and what the
+       designer did beside a simplified screen of that moment, following
+       one support ticket;
      - Evaluate, told in full, its two directions side by side;
      - how it was made, the billing run's cancel link after the cycle,
        what's next and the build, at the foot.
@@ -477,7 +478,7 @@
   padding: 0;
   list-style: none;
 }
-.ar-cycle li { padding-top: var(--space-lg); border-top: 2px solid var(--color-accent-text); }
+.ar-cycle li { display: grid; gap: var(--space-xl); padding-top: var(--space-lg); border-top: 2px solid var(--color-accent-text); }
 .case-section .ar-cycle-stage {
   display: flex;
   align-items: center;
@@ -500,7 +501,7 @@
   line-height: 1;
   color: var(--ink-on-dark);
 }
-.case-section .ar-cycle p:not(.ar-cycle-stage) {
+.case-section .ar-cycle-text p:not(.ar-cycle-stage) {
   position: relative;
   margin: var(--space-sm) 0 0;
   padding-left: calc(var(--space-lg) + var(--space-sm));
@@ -557,12 +558,123 @@
 .ar-cycle-full a:focus-visible { color: var(--color-charcoal); }
 @media (min-width: 40rem) {
   .case-section .ar-ticket { padding: var(--space-xl) var(--space-2xl); }
-  .ar-cycle { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* SIX ROWS, since 2026-10-26, where the stages were a grid of three: each
+   stage's two lines on the left and its scene on the right, so the scene
+   is wide enough to carry the product's words. In three columns a scene
+   was 379px at 1440, and two short cards would not fit in it. */
 @media (min-width: 64rem) {
-  .ar-cycle { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-3xl); }
+  .ar-cycle li {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--space-3xl);
+    align-items: start;
+  }
 }
 #the-cycle .build-hero-act { margin-top: var(--space-block); }
+
+/* ---- The stage scenes ----
+   A picture beside each of the six stages, since 2026-10-26: the stage's
+   moment as a simplified screen of the prototype, in the device frame the
+   Evaluate pair uses. Built here rather than drawn, because it carries the
+   product's own words (agent-review src/data/cycle.ts), and a label in a
+   bitmap is one no check can read. Conceptual, not a capture: a few cards
+   in the strip's key. What the agent made is white with the card's edge;
+   what the designer did is the sage edge on the tea-light ground; a claim
+   that was wrong is the caution ground, and the agent's stop the caution
+   ink, its third use (COLOR.md). Each scene is one picture role with a
+   label that says what it shows, so a screen reader hears the moment once
+   rather than every card. */
+.ar-scene-body {
+  display: grid;
+  gap: var(--space-sm);
+  align-content: start;
+  padding: var(--space-md);
+  background: var(--color-warm);
+}
+.ar-scene-split,
+.ar-scene-pair { display: grid; gap: var(--space-sm); }
+.ar-scene-group { display: grid; gap: var(--space-xs); align-content: start; }
+@container ar-scene (min-width: 34rem) {
+  .ar-scene-split { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .ar-scene-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container ar-scene (min-width: 40rem) {
+  .ar-scene-three { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+  .ar-scene-body { padding: var(--space-lg); }
+}
+.ar-scene { container: ar-scene / inline-size; }
+.ar-scene-card {
+  padding: var(--space-sm);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+}
+.case-section .ar-scene p {
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.case-section .ar-scene-card p + p { margin-top: var(--space-xs); }
+.ar-scene strong { font-weight: var(--weight-semibold); }
+.case-section .ar-scene .ar-scene-head {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.case-section .ar-scene .ar-scene-kind {
+  margin-bottom: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+}
+.case-section .ar-scene .ar-scene-quiet,
+.case-section .ar-scene .ar-scene-note { color: var(--color-muted-gray); }
+/* The designer's hand. */
+.ar-scene-me {
+  background: var(--color-tea-light);
+  border: 2px solid var(--color-accent-text);
+}
+.case-section .ar-scene .ar-scene-note,
+.case-section .ar-scene .ar-scene-fix,
+.case-section .ar-scene-me .ar-scene-kind { font-weight: var(--weight-semibold); color: var(--color-accent-text); }
+.ar-scene-pill {
+  display: inline-block;
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-text);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-warm);
+  vertical-align: 1px;
+}
+.ar-scene-pill--agent { background: var(--color-charcoal); }
+/* A claim the evidence contradicts, and the agent's stop. */
+.case-section .ar-scene .ar-scene-wrong {
+  padding: var(--space-2xs) var(--space-xs);
+  background: var(--color-caution-light);
+  color: var(--color-caution-text);
+}
+.ar-scene-wrong s { text-decoration-thickness: 1px; }
+.case-section .ar-scene .ar-scene-stop { color: var(--color-caution-text); }
+/* A product button, drawn as the prototype's: an edge and a white fill. */
+.ar-scene-btn {
+  display: inline-block;
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--color-muted-gray);
+  font-weight: var(--weight-medium);
+}
+/* A check that passed: the agent's, so a tick in the muted ink. */
+.ar-scene-checks p { display: flex; gap: var(--space-xs); }
+.ar-scene-ok {
+  flex: none;
+  width: var(--space-sm);
+  height: 1lh;
+  background: var(--color-muted-gray);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.25 2.25L9.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.25 2.25L9.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+/* What to measure: the measure, and its target under it. */
+.ar-scene-rows p { display: grid; }
+.case-section .ar-scene-rows p + p { margin-top: var(--space-xs); padding-top: var(--space-xs); border-top: 1px solid var(--rule-hairline); }
 
 /* ---- Evaluate: the two directions, side by side ----
    The designer's pick on the left, the agent's on the right, in the same
