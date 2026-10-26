@@ -1,0 +1,37 @@
+/* studio.css -- the studio years' own colour and one arrangement, loaded by
+ * case-study/hybrid-designer.html after work.css. The page is on the
+ * storytelling system (work.css); this file holds what is this page's alone.
+ *
+ * The colour is Pixel Farm's: the rooster's yellow, taken from the studio's
+ * own site in the family-of-sites capture. It is artwork by COLOR.md section
+ * 6 and no text sits on it; it grounds the one figure that shows the
+ * studio's family of sites, and it is the band behind the chapter numbers'
+ * discs, which carry the dark ink and clear 4.5:1 on charcoal because the
+ * disc stays charcoal (work.css's default --work-accent). */
+.work[data-project="studio"] {
+  --work-band: #f2c230;
+}
+/* The one caption that sits inside the band takes the primary ink: the
+   secondary gray reads 3.86:1 on this yellow, charcoal 9.9. (work.css puts
+   a ground figure's caption inside the padded band; worth moving outside it
+   there, so no page has to know its band's number.) */
+.work[data-project="studio"] .work-figure--ground figcaption { color: var(--color-charcoal); }
+/* And the band is a card on the white page, so it takes the card edge every
+   zone takes (cards.mjs: 1.68:1 by fill alone, which is under its floor).
+   work.css's --ground figure draws none; worth adding there. */
+.work[data-project="studio"] .work-figure--ground { border: 1px solid var(--rule-card); }
+
+/* The studio photograph beside the overview: the picture is the point of the
+   chapter (whoever shipped it sat close enough to argue with), so it sits
+   beside the prose from 1024 rather than under it. */
+@media (min-width: 1024px) {
+  .studio-open { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-4xl); align-items: start; }
+  .studio-open > * { margin-top: 0; }
+}
+.studio-open .work-figure img { border-radius: var(--radius-xl); }
+
+/* Two screens of one app, side by side on a phone's proportions, so the
+   festival app and the anniversary app read at the size they were used at. */
+.studio-apps { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .studio-apps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.studio-apps > li { margin: 0; }
