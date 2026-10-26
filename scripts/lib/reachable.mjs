@@ -90,11 +90,18 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 
 export const REACHABLE = {
-  /* The Agent Review write-up has no state a press reaches since its
-     Direction C rewrite (2026-10-25): its scenes move with scroll, and
-     still or unscrolled every part of every stage is drawn at once, which
-     is what the checks measure. The two pinned-Explore states it had here
-     went with the links that reached them. */
+  /* The Agent Review write-up opens on a question since 2026-10-26: "Would
+     you ship this?", three answers, and what each leads to. At rest the
+     consequences and what happened are hidden until a press, so a check
+     that only loads the page measures the question and never the answer.
+     One state: any answer shows all three consequences and the payoff,
+     and the pressed one carries the "Your pick" mark and the pressed
+     ring, which no other state has. */
+  'lab/agent-review.html': [
+    { name: 'the opener’s question, answered',
+      press: ['[data-pick="ask"] button'] },
+  ],
+
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying
        which trucks changed rank, which only appear across a genuine switch. */
