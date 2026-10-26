@@ -85,8 +85,9 @@ const BASE = {
      and --revert would have taken the bold out. Moved again on 2026-10-23,
      when the dek started saying he builds what he designs, and back the
      same evening to the dek before it. Since 2026-10-26 it is the breadth
-     (visual, interactive, enterprise) with no <strong>. */
-  dek: 'Twenty years across visual design, interactive experiences, and enterprise software. I bring clarity to complex products and personality to digital experiences, from the first concept to the finished details.',
+     (visual, interactive, enterprise) with no <strong>, and since that
+     evening its second sentence is the agent work again, bold and all. */
+  dek: 'Twenty years across visual design, interactive experiences, and enterprise software. I design the system <strong>people and coding agents</strong> build from, and decide what ships.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {
