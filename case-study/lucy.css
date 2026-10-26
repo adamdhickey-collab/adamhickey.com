@@ -1,0 +1,31 @@
+/* lucy.css -- Lucy Learns's own colour on its case study, and the few rules
+ * its pictures need beyond work.css.
+ *
+ * The violet is the app's, read off its own chrome in the captures, so it
+ * is artwork by COLOR.md section 6 and sits only where no text sits: the
+ * annotation discs (which carry --ink-on-dark at 9:1 on this violet) and the
+ * pull's rule. */
+.work[data-project="lucy"] {
+  --work-accent: #4b3a8a;
+  --work-band: #efe9f6;
+}
+/* Three phones in a row from 640, as the build-flow row laid them; a
+   single column under it, the pair rule in work.css being for pictures
+   rather than for phones. */
+.lucy-phones { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .lucy-phones { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); } }
+.lucy-phones li { margin: 0; }
+.lucy-phones .build-flow-cap { margin-top: var(--space-sm); }
+/* The four tries: each tile names what became of it, and the status is a
+   field label under the title so a reader separates what shipped from what
+   is a concept at a glance. */
+.lucy-tries .work-status { display: block; margin-top: var(--space-2xs); font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-muted-gray); }
+.lucy-tries strong { display: block; margin-top: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-base); font-weight: 600; color: var(--color-charcoal); }
+.lucy-tries p { margin: var(--space-2xs) 0 0; font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-charcoal); }
+.lucy-tries img { border-radius: var(--radius-xl); border: 1px solid var(--rule-card); }
+/* The eras: four tiles in a row from 1024, two by two from 640. */
+.lucy-eras .work-figure img { border-radius: var(--radius-xl); border: 1px solid var(--rule-card); }
+@media (min-width: 1024px) { .lucy-eras.work-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.build-chapter.ground-charcoal .lucy-tries strong,
+.build-chapter.ground-charcoal .lucy-tries p { color: var(--ink-on-dark); }
+.build-chapter.ground-charcoal .lucy-tries .work-status { color: var(--ink-on-dark-secondary); }
