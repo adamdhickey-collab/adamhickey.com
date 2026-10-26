@@ -100,7 +100,7 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
-  <link rel="stylesheet" href="agent-review.css?v=63" />
+  <link rel="stylesheet" href="agent-review.css?v=64" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
   <script src="agent-review-story.js?v=5" defer></script>
@@ -250,14 +250,23 @@
 
   <main id="main" class="arc">
     <!-- THE OPENER, since 2026-10-26: a question before any answer. The
-         title, one line and the way in, beside Relay's billing settings and
-         the question the agent stopped on, put to the reader: "Would you
-         ship this?" Three answers, each showing what it leads to once
+         title, one line and the way in, beside Relay's customer list and
+         the question the cycle below turns on, put to the reader: "Would
+         you ship this?" Three answers, each showing what it leads to once
          pressed, then what happened (agent-review.css, "Would you ship
-         this?"; the press is agent-review-story.js's). The screen's rows
-         and the two directions are the prototype's own (agent-review
-         src/data/billing.ts): the checks pass either fix, and neither
-         moves a pixel. What happened is the decision record's. -->
+         this?"; the press is agent-review-story.js's).
+
+         ARCHIVING, NOT CANCEL, since the evening of 2026-10-26. The opener
+         was the billing run's quiet cancel link, and the page, its pictures
+         and the prototype's first screen then followed a different feature,
+         so a reader met two stories and the prototype showed the second.
+         Now the opener is the feature the six stages follow. The rows are
+         the batch Explore selects (agent-review src/review/CycleScreen/
+         stages.tsx, BATCH; src/product/customers/customers.ts), each
+         answer's cost is the prototype's own (src/data/cycle.ts,
+         DIRECTIONS), and what happened is Define's and Evaluate's. The
+         cancel link is a second example under "After the cycle", at the
+         foot. -->
     <header class="case-hero arc-open">
       <div class="container case-wide arc-open-grid">
         <div class="arc-open-text">
@@ -273,33 +282,35 @@
         </div>
         <div class="ship" data-ship>
           <p class="ship-ask">Would you ship this?</p>
-          <p class="ship-setup">An agent is moving these billing settings onto the design system. Nothing should look different. Every action is a button, except one.</p>
-          <figure class="arc-device" aria-label="Relay&rsquo;s billing settings: Change plan, Update card and Download invoices are buttons; Cancel subscription is small gray text">
-            <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Billing settings</span></div>
+          <p class="ship-setup">An agent built bulk archive for Relay&rsquo;s customer list: select, press Archive, and they&rsquo;re gone. Someone is clearing out old trials, and three of these five are active customers.</p>
+          <figure class="arc-device" aria-label="Relay&rsquo;s customer list with five customers selected and an Archive button: Halvorsen Freight, Brightwater Clinics and Saltmarsh Studio are active, Alder &amp; Finch is a trial, Monarch Dental Group is past due">
+            <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+            <div class="ship-bar"><span class="ship-count">5 selected</span><span class="ship-btn">Archive</span></div>
             <dl class="ship-rows">
-              <div class="ship-row"><dt>Plan<span>Growth &middot; 45 seats, renews Nov 1</span></dt><dd><span class="ship-btn">Change plan</span></dd></div>
-              <div class="ship-row"><dt>Payment method<span>Visa ending 4242</span></dt><dd><span class="ship-btn">Update card</span></dd></div>
-              <div class="ship-row"><dt>Invoices<span>Sent to the billing address</span></dt><dd><span class="ship-btn">Download invoices</span></dd></div>
-              <div class="ship-row"><dt>Subscription<span>Cancelling ends it on Nov 1</span></dt><dd><span class="ship-link">Cancel subscription</span></dd></div>
+              <div class="ship-row"><dt>Halvorsen Freight<span>Active &middot; 48 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
+              <div class="ship-row"><dt>Brightwater Clinics<span>Active &middot; 22 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
+              <div class="ship-row"><dt>Alder &amp; Finch<span>Trial &middot; 5 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
+              <div class="ship-row"><dt>Monarch Dental Group<span>Past due &middot; 17 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
+              <div class="ship-row"><dt>Saltmarsh Studio<span>Active &middot; 3 seats</span></dt><dd><span class="ship-check" aria-hidden="true"></span></dd></div>
             </dl>
           </figure>
           <ul class="ship-picks" aria-label="Your answer">
-            <li class="ship-pick" data-pick="match">
-              <button type="button" aria-pressed="false">Ship it as it looks<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">The agent adds a quiet button style so cancel looks exactly as it does. The checks pass. Now any later agent can make any action this hard to find.</p>
+            <li class="ship-pick" data-pick="ship">
+              <button type="button" aria-pressed="false">Ship it as it is<span class="ship-mine" aria-hidden="true">Your pick</span></button>
+              <p class="ship-then">Cleanup takes one press. But nothing on the screen brings a customer back, and that&rsquo;s how Okafor Logistics, one of the biggest accounts, left with the trials.</p>
             </li>
-            <li class="ship-pick" data-pick="button">
-              <button type="button" aria-pressed="false">Make cancel a real button<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">Cancelling gets as easy to find as changing the plan. But this job promised nothing would look different, and how easy it is to cancel is a product decision.</p>
+            <li class="ship-pick" data-pick="confirm">
+              <button type="button" aria-pressed="false">Ask &ldquo;Are you sure?&rdquo; first<span class="ship-mine" aria-hidden="true">Your pick</span></button>
+              <p class="ship-then">A question every time. Someone who archives hundreds a quarter learns to press through it.</p>
             </li>
             <li class="ship-pick" data-pick="ask">
               <button type="button" aria-pressed="false">Stop and ask someone<span class="ship-mine" aria-hidden="true">Your pick</span></button>
-              <p class="ship-then">That&rsquo;s what the agent did. The checks pass with either fix, and neither moves a pixel. No check can say whether cancel is quiet on purpose.</p>
+              <p class="ship-then">That&rsquo;s what the agent does in the prototype: it lays out two fair asks, fast cleanup or nothing lost, and I choose. No check can say which comes first.</p>
             </li>
           </ul>
           <div class="ship-after" role="status">
-            <p class="ship-verdict"><strong>It wasn&rsquo;t on purpose.</strong> The gray link was left over from a retention test nobody turned off.</p>
-            <p>I made it a button, in its own change, and a rule for the next agent: on billing screens, nothing that ends a subscription gets the quiet style.</p>
+            <p class="ship-verdict"><strong>It needed a way back, not a step first.</strong> I put recovery first, then turned down the agent&rsquo;s pick for undo.</p>
+            <p>Archive stays one press. Active customers are named before it, and Undo stays until the next action. The six stages below are how I got there.</p>
           </div>
         </div>
       </div>
@@ -327,7 +338,7 @@
           <li class="ar-kind ar-kind--stops">
             <p class="ar-kind-lane">Stops for a person</p>
             <h3>Needs judgment</h3>
-            <p>Two answers are both fair, or only a person knows the fact. Is the quiet cancel on purpose?</p>
+            <p>Two answers are both fair, or only a person knows the fact. Is a gray cancel link on a billing screen on purpose?</p>
           </li>
           <li class="ar-kind ar-kind--stops">
             <p class="ar-kind-lane">Stops for a person</p>
@@ -574,6 +585,16 @@
             <div><dt>1</dt><dd>question neither agent could settle</dd></div>
           </dl>
           <p>Neither agent could decide if archiving needed a step first, and that question became the cycle. Each ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+        </div>
+        <!-- AFTER THE CYCLE: the billing run's quiet cancel link, which
+             opened the page from the morning of 2026-10-26 until that
+             evening, when the opener became the cycle's own feature. The
+             story is the one the opener told (agent-review src/data/
+             billing.ts); the link opens that run. -->
+        <div class="arc-measure ar-next">
+          <h3>After the cycle, a second stop</h3>
+          <p>In another simulated run, an agent moving Relay&rsquo;s billing settings onto the design system stopped at one link. Every action was a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand. The checks pass with either fix, and neither moves a pixel.</p>
+          <p>It wasn&rsquo;t on purpose: the gray was left over from a retention test nobody turned off. I made it a button, in its own change, and a rule for the next agent. <a href="https://adamdhickey-collab.github.io/agent-review/#/runs/billing" target="_blank" rel="noopener noreferrer">Try the billing run<span class="visually-hidden"> (opens in a new tab)</span></a></p>
         </div>
         <div class="arc-measure ar-next">
           <h3>Next, I&rsquo;d put it in front of people</h3>

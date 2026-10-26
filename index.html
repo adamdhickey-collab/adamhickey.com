@@ -125,30 +125,8 @@
   <link rel="stylesheet" href="style.css?v=20261026b" />
   <link rel="stylesheet" href="site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="quiet-cancel.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
-  <script src="quiet-cancel.js?v=6" defer></script>
-  <!-- The lab card's picture, "Every action is a button. Except cancel.",
-       builds itself the first time it is in view (quiet-cancel.css, "The
-       build"). It is armed here, before first paint, because
-       quiet-cancel.js is deferred: armed there, a slow load painted the
-       finished figure, emptied it and then built it. If that file never
-       runs, the arming comes off at DOMContentLoaded and the figure is
-       simply there. -->
-  <script>
-    (function () {
-      var el = document.documentElement;
-      try {
-        if (!('IntersectionObserver' in window)) return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      } catch (e) { return; }
-      el.classList.add('quiet-cancel-armed');
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
-      });
-    })();
-  </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -895,40 +873,30 @@
              decision an agent could not make, and the title says the same
              thing in words: "Agents build the screens. I decide what
              ships." The lead names the moment the case study opens on as a
-             question. The loop stays on the lab index. -->
+             question. The loop stays on the lab index.
+
+             THE PICTURE IS THE PROTOTYPE'S OWN, since the evening of
+             2026-10-26: the cycle card (scripts/cycle-card.mjs, the lab
+             index's picture too), the three archive screens the agent built
+             with the designer's call marked, in place of the quiet cancel
+             figure. The card and the case study's opener told the billing
+             run's cancel story while the case study's pictures and the
+             prototype's first screen followed archiving, so a reader met
+             two features; now the card, the opener, the pictures and the
+             prototype are one. The cancel link is the case study's second
+             example, after the cycle. -->
         <div class="case-grid case-grid--lab stagger">
           <div class="case-card case-card--lab reveal">
             <div class="case-card-body">
               <h3>Agents build the screens. I decide what ships.</h3>
-              <p class="case-lab-lead">An agent moved a billing screen onto the design system and stopped at one link. Should cancelling be this hard to find?</p>
+              <p class="case-lab-lead">Someone archived one of their biggest customers by accident while clearing out old trials. Should archiving need a step first?</p>
               <p class="case-desc"><strong>Agent&nbsp;Review</strong>, my working prototype, follows one feature from a support ticket to what ships.</p>
               <p class="product-actions">
                 <a class="product-link" href="lab/agent-review.html">Read the Agent Review case study</a>
               </p>
             </div>
-            <a class="loop-link" href="lab/agent-review.html" aria-label="Read the Agent Review case study" aria-describedby="quiet-cancel-desc">
-            <figure class="quiet-cancel" data-quiet-cancel>
-              <p class="visually-hidden" id="quiet-cancel-desc">On a billing settings screen, every action is a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand. The checks pass both; only a designer can say if that&rsquo;s on purpose.</p>
-              <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
-              <ul class="quiet-cancel-cases">
-                <li class="quiet-cancel-case quiet-cancel-case--system" style="--i:0">
-                  <div class="quiet-cancel-screen">
-                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
-                    <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
-                  </div>
-                  <p class="quiet-cancel-means">A design-system button</p>
-                </li>
-                <li class="quiet-cancel-case quiet-cancel-case--hand" style="--i:1">
-                  <div class="quiet-cancel-screen">
-                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 6.5v7.5"/><path pathLength="1" d="M12 18v.01"/></svg>
-                    <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
-                  </div>
-                  <p class="quiet-cancel-means">Gray text, built by hand</p>
-                </li>
-              </ul>
-              <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
-              <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass both.</span> <span class="quiet-cancel-call">Only a designer can say if that&rsquo;s on purpose.</span></figcaption>
-            </figure>
+            <a class="case-thumb" href="lab/agent-review.html" aria-label="Read the Agent Review case study: three working archive screens, one designer&rsquo;s call">
+              <img src="img/lab/agent-review-cycle-card.webp?v=2" width="2560" height="1440" alt="" loading="lazy" decoding="async" />
             </a>
           </div>
         </div>
@@ -1486,7 +1454,7 @@
       const MAX_RX = 6, MAX_RY = 8; // degrees
       /* The lab card's figure tilts as a thumbnail does: it is that card's
          picture, and a link to its case study like theirs. */
-      document.querySelectorAll('.case-grid .case-thumb, .case-grid .loop-link .loop, .case-grid .loop-link .quiet-cancel').forEach(thumb => {
+      document.querySelectorAll('.case-grid .case-thumb, .case-grid .loop-link .loop').forEach(thumb => {
         thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
           const r = thumb.getBoundingClientRect();

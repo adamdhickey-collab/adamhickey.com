@@ -379,13 +379,18 @@ phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen.
 
-The write-up opens on "Every action is a button. Except cancel.", run 1's
-question drawn in code at the page's own sizes (`lab/agent-review.css`; the
-connector is `quiet-cancel.js`), since 2026-10-21, when run 1's example
-became the hand-built "Cancel subscription" link. It replaced the figure of
-the earlier run 1's color example, which opened the page from 2026-10-12 and
-was the homepage card's picture until 2026-10-20; its connector,
-`same-red.js`, and its rules in `style.css` went with it. The same day, at
+The write-up opens on "Would you ship this?" over Relay's customer list,
+a batch selected for archiving, since the evening of 2026-10-26, so the
+opener, the pictures under it, the prototype's first screen and the
+homepage card (the cycle card, `scripts/cycle-card.mjs`) follow one
+feature. From 2026-10-21 it opened on "Every action is a button. Except
+cancel.", the billing run's hand-built "Cancel subscription" link drawn in
+code (`quiet-cancel.css` and `quiet-cancel.js`, which were the homepage
+card's picture for one day and left with it); that run is the case study's
+second example now, after the cycle. That figure replaced the figure of
+the earlier run 1's color example, which opened the page from 2026-10-12
+and was the homepage card's picture until 2026-10-20; its connector,
+`same-red.js`, and its rules in `style.css` went with it. On 2026-10-21, at
 Adam's request, the guided tour under the hero came out entirely: the
 `<details>` tour, `walkthrough.css`, `walkthrough.js` and the
 `img/lab/agent-review-tour-*.webp` captures it stepped through. From
