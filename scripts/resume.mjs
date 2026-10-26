@@ -52,12 +52,13 @@
  *
  * The fonts are Google Fonts and load over the network at render time: the
  * site's own pair, Crimson Text for the name and Montserrat for everything
- * else. Rewritten on 2026-10-26 to the balanced positioning: the title stays
- * Senior Product Designer, and the summary, capabilities and projects say the
- * four strengths (complexity made clear, visual coherence, a brand carried
- * into an interface, the details finished) beside the enterprise substance
- * and the prototypes built with coding agents. Employers, titles, dates and
- * figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * else. Rewritten on 2026-10-26 to the balanced positioning, then the same
+ * evening to the homepage as it stands: "software that fits the job and the
+ * person doing it", the system people and coding agents build from, and the
+ * hero's facts (design systems, prototypes, usability testing, accessibility,
+ * complex workflows) in place of the four strengths, which read as a run of
+ * adjectives. The title stays Senior Product Designer; employers, titles,
+ * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -178,27 +179,27 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Complex Workflows · Visual Design · Design Systems · Prototyping in Code</p>
+  <p class="tagline">Senior Product Designer · Design Systems · Prototyping in Code · Usability Testing · Complex Workflows</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I began as a graphic designer and a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design and build working products with coding agents. Four things I bring: complicated workflows made clear, visual coherence across hundreds of screens, a brand&rsquo;s personality carried into a usable interface, and the details finished.</p>
+  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, visual systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype for delegating UI work to coding agents: a component system with written design rules and automated visual and accessibility checks, marking where a person decides.</li>
+    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: a component system with written design rules and automated visual and accessibility checks, following one feature from a support ticket to release.</li>
     <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
     <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel guide (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
     <li>Led UX and visual design for complex digital products, enterprise applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
-    <li>Made complicated interfaces clear and consistent across large sets of screens: information architecture, visual hierarchy, interaction design and the details that make software feel finished, with developers in the room from the first sketch.</li>
+    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
     <li>Tied design decisions to the numbers teams already track: efficiency, adoption, quality, ROI.</li>
   </ul>
@@ -212,16 +213,16 @@ const html = String.raw`<!doctype html>
 <section>
   <h2>Selected projects</h2>
   <ul>
-    <li>Making 40+ SAP applications read as one product: one visual language, one design system and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+    <li>Making 40+ SAP applications feel like one product: one visual language, one design system and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
-    <li>Cutting data-analysis requests from 45–55 hours to just over 10 with a USDA grant-management portal.</li>
+    <li>Replacing spreadsheets with one USDA grant-management portal, cutting data-analysis requests from 45–55 hours to just over 10.</li>
     <li>A real-time cockpit for a 450+ truck fleet, built for the speed of expert dispatchers; board-clearing time down roughly 30%.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Research &amp; Usability</span><span>Human&ndash;AI Interaction</span><span>Developer Collaboration</span></p>
+  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Human&ndash;AI Interaction</span><span>Developer Collaboration</span></p>
 </section>
 
 <section>
@@ -381,7 +382,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software, from studio sites to enterprise design systems to products of my own. I make complicated software clear, coherent and finished.</p>
+  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software. I design software that fits the job and the person doing it, and the system people and coding agents build from.</p>
 
   <section>
     <h2>Independent</h2>
@@ -404,9 +405,9 @@ const reading = String.raw`<!doctype html>
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>40+ SAP applications</b> reading as one product: one design system and accessibility standard; a third less design-to-development time, production UI defects roughly halved.</li>
+      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less design-to-development time, production UI defects roughly halved.</li>
       <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates and a portal.</li>
-      <li><b>A USDA grant-management portal</b> that took data-analysis requests from 45–55 hours to just over 10.</li>
+      <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
 
@@ -433,13 +434,13 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Expertise</h2>
     <ul>
-      <li>UX and interface design</li>
-      <li>Visual design and typography</li>
-      <li>Complex workflows</li>
       <li>Design systems</li>
-      <li>Accessibility</li>
-      <li>Brand identity and illustration</li>
       <li>Prototyping in code</li>
+      <li>Usability testing</li>
+      <li>Accessibility</li>
+      <li>Complex workflows</li>
+      <li>Visual design and typography</li>
+      <li>Brand identity and illustration</li>
     </ul>
   </section>
 
