@@ -15,22 +15,18 @@
   <script>document.documentElement.className += " js";</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adam Hickey | Senior Product Designer for Complex Software</title>
-  <meta name="description" content="Senior product designer for complex enterprise software: 40+ SAP apps on one design system, dispatch for a 450+ truck fleet, and working AI prototypes he builds. Adam Hickey, Minneapolis." />
-
+  <title>Adam Hickey | Senior Digital Designer, Minneapolis</title>
+  <meta name="description" content="Visual ideas, beautifully brought to life. Adam Hickey is a Minneapolis senior digital designer with twenty years of brand identity, illustration, brand-led sites and thoughtfully crafted interfaces." />
 
   <meta name="color-scheme" content="light" />
-  <meta property="og:title" content="Adam Hickey | Senior Product Designer for Complex Software" />
-  <meta property="og:description" content="Product design for software that got complicated. Twenty years inside enterprise platforms and design systems, and now the infrastructure behind great design: what people and coding agents build from, and where a person decides." />
+  <meta property="og:title" content="Adam Hickey | Senior Digital Designer, Minneapolis" />
+  <meta property="og:description" content="Visual ideas, beautifully brought to life. Twenty years of distinctive visual systems and thoughtfully crafted digital experiences: identities, illustration, brand-led sites and interfaces." />
   <meta property="og:type" content="website" />
   <!-- Absolute because scrapers do not resolve a relative og:image, and the
-       canonical origin is the production one whichever host is serving this:
-       that is what "canonical" means, and it is why carrying this tree to
-       the live repository needs no edit here. See README.md ->
-       "How a change reaches the live site". -->
+       canonical origin is the production one whichever host is serving this. -->
   <link rel="canonical" href="https://adamhickey.com/" />
   <meta property="og:url" content="https://adamhickey.com/" />
-  <meta property="og:image" content="https://adamhickey.com/img/og/index.jpg?v=4" />
+  <meta property="og:image" content="https://adamhickey.com/img/og/index.jpg?v=5" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -39,7 +35,9 @@
        where, and what this page is. The @id values are shared across the site,
        so a case study's author and the homepage's Person are one entity rather
        than two people with the same name. Nothing here asserts anything the
-       page does not already say in words. -->
+       page does not already say in words. The ProfessionalService node the
+       practice's site carried came out with the repositioning (2026-10-26):
+       nothing else referenced it, and the page no longer sells engagements. -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -48,10 +46,10 @@
           "@type": "Person",
           "@id": "https://adamhickey.com/#adam",
           "name": "Adam Hickey",
-          "jobTitle": "Senior Product Designer",
-          "description": "Senior product designer for complex enterprise software, design systems and agentic workflows, who builds what he designs, in Minneapolis.",
+          "jobTitle": "Senior Digital Designer",
+          "description": "Senior digital designer in Minneapolis with twenty years of brand identity, illustration, visual systems and thoughtfully crafted digital experiences, who designs and often builds the work himself.",
           "url": "https://adamhickey.com/",
-          "image": "https://adamhickey.com/img/og/index.jpg?v=4",
+          "image": "https://adamhickey.com/img/og/index.jpg?v=5",
           "email": "mailto:adam@adamhickey.com",
           "address": {
             "@type": "PostalAddress",
@@ -63,42 +61,18 @@
             "https://www.linkedin.com/in/adamdhickey/"
           ],
           "knowsAbout": [
-            "Product design",
-            "Enterprise software",
-            "Design systems",
-            "Design system governance",
-            "Design tokens",
-            "Legacy software modernization",
-            "AI product prototyping",
-            "Agentic workflows",
-            "Human-AI interaction",
-            "SAP Fiori",
-            "User research",
-            "Accessibility",
+            "Visual design",
             "Brand identity",
-            "Illustration"
+            "Art direction",
+            "Typography",
+            "Illustration",
+            "Digital design",
+            "Interaction design",
+            "Interface design",
+            "Design systems",
+            "Front-end prototyping",
+            "Accessibility"
           ]
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://adamhickey.com/#practice",
-          "name": "Adam Hickey — Product Design",
-          "description": "Adam Hickey's independent product design practice in Minneapolis, for complex enterprise software: design systems, modernizing legacy products, and AI product prototypes. Twenty years inside enterprise platforms, design systems, and products that outgrew their original shape.",
-          "url": "https://adamhickey.com/",
-          "image": "https://adamhickey.com/img/og/index.jpg?v=4",
-          "founder": {
-            "@id": "https://adamhickey.com/#adam"
-          },
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Minneapolis",
-            "addressRegion": "MN",
-            "addressCountry": "US"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "United States"
-          }
         },
         {
           "@type": "WebSite",
@@ -124,31 +98,8 @@
   <link rel="stylesheet" href="type.css?v=6" />
   <link rel="stylesheet" href="style.css?v=20261025a" />
   <link rel="stylesheet" href="site-nav.css?v=20260926a" />
-  <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="quiet-cancel.css?v=1" />
+  <link rel="stylesheet" href="home.css?v=1" />
   <script src="site-nav.js?v=20260906a" defer></script>
-  <script src="app-device.js?v=1" defer></script>
-  <script src="quiet-cancel.js?v=6" defer></script>
-  <!-- The lab card's picture, "Every action is a button. Except cancel.",
-       builds itself the first time it is in view (quiet-cancel.css, "The
-       build"). It is armed here, before first paint, because
-       quiet-cancel.js is deferred: armed there, a slow load painted the
-       finished figure, emptied it and then built it. If that file never
-       runs, the arming comes off at DOMContentLoaded and the figure is
-       simply there. -->
-  <script>
-    (function () {
-      var el = document.documentElement;
-      try {
-        if (!('IntersectionObserver' in window)) return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      } catch (e) { return; }
-      el.classList.add('quiet-cancel-armed');
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!window.quietCancelBuild) el.classList.remove('quiet-cancel-armed');
-      });
-    })();
-  </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -169,26 +120,12 @@
       document.addEventListener('DOMContentLoaded', function () {
         var v = document.querySelector('.logo-video');
         if (!v) { el.classList.remove('logo-reveal'); return; }
-        /* Hand the header back to the static mark, hard: the clip goes and
-           the mark is standing. This is the whole story for a clip that
-           never ran, and the last step of one that did. Removing the clip
-           rather than leaving it paused is what keeps the logo on screen: a
-           backgrounded page can have its paused video's decoded frame
-           dropped, and the element would come back empty. */
         var done = false;
         var finish = function () {
           done = true;
           el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
           try { v.pause(); } catch (e) {}
         };
-        /* The soft landing. The mark has been painted under the clip since
-           its first frame, so this fades the clip out over it, then removes
-           it. It begins a tenth of a second before the clip ends, on the
-           last frames, which is where the clip has finished moving: the
-           letters are still sliding into place at 1.6s, and a fade that
-           started there would ghost two positions. Beginning just ahead of
-           the end also gets in front of the blank some browsers paint at
-           end of stream; ended is the fallback trigger. */
         var LEAD = 0.1;
         var settle = function () {
           if (done || el.classList.contains('logo-settled')) return;
@@ -198,13 +135,6 @@
         };
         var armed = true;
         var giveUp = function () { if (armed) { armed = false; finish(); } };
-        /* Once a frame is actually on screen the animation is committed and
-           the start deadline stops applying. The mark goes on under the clip
-           at the same moment; the clip is opaque and fills the same box, so
-           nothing visible changes, and a dropped frame from here on shows
-           the mark rather than a hole. requestVideoFrameCallback fires when
-           a frame has been presented, which is the guarantee that matters;
-           without it, playing plus a paint is the closest approximation. */
         var onFrame = function (now, meta) {
           if (done) return;
           armed = false;
@@ -216,26 +146,17 @@
         else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
         v.addEventListener('error', giveUp);
         v.addEventListener('ended', settle);
-        /* Backgrounded mid-clip the animation is already missed, so finish
-           rather than leave a half-played video holding the header. */
         document.addEventListener('visibilitychange', function () {
           if (document.hidden) finish();
         });
         var p = v.play();
         if (p && p.catch) p.catch(giveUp);
         setTimeout(giveUp, 1200);
-        /* Backstop for a clip that starts and then stalls without ever
-           firing ended: the clip runs two seconds, so by three it is over
-           one way or another. */
         setTimeout(finish, 3000);
       });
     })();
   </script>
-  <!-- Preload the client-logo strip: small SVGs sitting below the fold.
-       Without this they don't start fetching until the browser's preload
-       scanner reaches the markup, so on slower connections there's a
-       visible blank gap when the user scrolls past the hero. Preloading
-       them here makes the strip render instantly once it's in view. -->
+  <!-- Preload the client-logo strip: small SVGs sitting below the fold. -->
   <link rel="preload" as="image" href="img/CBRE.svg?v=2" />
   <link rel="preload" as="image" href="img/site/dr-pepper.svg?v=2" />
   <link rel="preload" as="image" href="img/site/intel.svg?v=2" />
@@ -284,50 +205,241 @@
   </nav>
 
   <main id="main">
-    <!-- ============================== HERO ============================== -->
-    <section id="hero" class="hero">
-      <div class="container hero-grid">
-        <div class="hero-photo reveal">
-          <!-- The frame is the figure so the caption can be a figcaption and
-               still sit inside the circle's clip. It names the subject, which
-               an illustration cannot do for itself: without it a visitor has
-               no way to know the drawing is Adam rather than stock art. -->
+    <!-- ============================== THE HEADLINE ==============================
+         The repositioning's homepage (docs/rebrand/site-architecture.md),
+         2026-10-26. The page used to open on a portrait beside a product
+         design headline, six proof facts and three enterprise accounts; it
+         opens now on the positioning in one sentence and then on the work
+         itself, before a word about it. The portrait moved to About. -->
+    <section id="hero" class="hh">
+      <div class="container">
+        <p class="hh-eyebrow reveal">Senior digital designer &middot; Minneapolis</p>
+        <h1 class="hh-title reveal">Visual ideas, beautifully brought to life.</h1>
+        <p class="hh-line reveal">I&rsquo;m a Minneapolis-based senior digital designer with twenty years of experience creating distinctive visual systems and thoughtfully crafted digital experiences: identities, illustration, brand-led sites and interfaces, designed and often built by the same hands.</p>
+        <div class="cta-row hh-cta reveal">
+          <a href="#work" class="btn btn-primary">See the work</a>
+          <a href="#approach" class="btn btn-ghost btn-ghost-light">What I bring</a>
+          <a class="hh-resume" href="Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute; (PDF)<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+        </div>
+
+        <!-- The wall: six projects as one shelf, each cropped to the same
+             4:5 and named under its tile, so the pictures carry no text.
+             The order is the order of weight in docs/rebrand/positioning.md
+             with the concept first, because it is the one made to show the
+             whole arc. --tile-focus is where the crop looks on a picture
+             wider than the tile: a fact about the picture, not a design
+             decision, so it sits on the tile. -->
+        <div class="hh-wall reveal">
+          <ul class="hh-wall-row" aria-label="Selected projects">
+            <li><a class="hh-tile" href="case-study/say-when.html"><span class="hh-tile-media"><img src="img/say-when/tile.webp?v=1" width="800" height="1000" alt="Three Say When coffee bags in a row, each a different colour with a fill line at a different height." loading="eager" decoding="async" /></span><span class="hh-tile-name">Say When</span><span class="hh-tile-kind">Self-initiated coffee brand</span></a></li>
+            <li><a class="hh-tile" href="case-study/innovators-studio-visual-identity.html"><span class="hh-tile-media"><img src="img/site/branding3.webp" width="328" height="774" alt="The Innovators Studio identity: the Studio wordmark with its fingerprint mark over the brand's greens and an illustrated invitation card." loading="eager" decoding="async" /></span><span class="hh-tile-name">Innovators Studio</span><span class="hh-tile-kind">Identity and community</span></a></li>
+            <li><a class="hh-tile" href="case-study/door-county-found.html" style="--tile-focus: 36% 50%"><span class="hh-tile-media"><img src="img/dcf/campaign.webp?v=5" width="2172" height="724" alt="The Door County Found identity laid out on cream paper: a lighthouse mark, the line Found slowly, shared honestly, and a laptop open on the guide." loading="eager" decoding="async" /></span><span class="hh-tile-name">Door County Found</span><span class="hh-tile-kind">Editorial travel brand</span></a></li>
+            <li><a class="hh-tile" href="case-study/lucy-learns.html"><span class="hh-tile-media"><img src="img/lucy/welcome.webp?v=3" width="620" height="1342" alt="Lucy Learns' welcome screen: an illustrated handler and a black dog on her bed as a guest waits at the door." loading="eager" decoding="async" /></span><span class="hh-tile-name">Lucy Learns</span><span class="hh-tile-kind">Illustrated training app</span></a></li>
+            <li><a class="hh-tile" href="case-study/hybrid-designer.html" style="--tile-focus: 30% 50%"><span class="hh-tile-media"><img src="img/site/fulton-beer-website.webp" width="1802" height="1012" alt="The Fulton Beer website on kraft paper with hand-drawn navigation, a photograph of the brewers and two billboard campaign pages." loading="eager" decoding="async" /></span><span class="hh-tile-name">Fulton Beer</span><span class="hh-tile-kind">The studio years</span></a></li>
+            <li><a class="hh-tile" href="case-study/faunaform.html" style="--tile-focus: 50% 50%"><span class="hh-tile-media"><img src="img/faunaform/bear-approved.webp" width="1200" height="1200" alt="A black bear drawn in four flat inks for a screen print." loading="eager" decoding="async" /></span><span class="hh-tile-name">Faunaform</span><span class="hh-tile-kind">Screen-print studio, in progress</span></a></li>
+          </ul>
+        </div>
+
+        <div class="logo-block reveal">
+          <div class="logo-strip" role="list" aria-label="Selected clients">
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/cargill.svg?v=2" alt="Cargill" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/CBRE.svg?v=2" alt="CBRE" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/dr-pepper.svg?v=2" alt="Dr Pepper" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/intel.svg?v=2" alt="Intel" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/lund.svg?v=2" alt="Lund" width="200" height="98" /></div>
+            <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/toro-wordmark.svg?v=3" alt="Toro" width="200" height="98" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== SELECTED WORK ==============================
+         Innovators Studio first, as the professional proof; the concept in
+         its own band under it, labeled a self-initiated fictional brand in
+         its first line; then the four creative projects; then the
+         enterprise work and the work in progress as depth. #case-studies
+         keeps every old link and breadcrumb landing here. -->
+    <section id="work" class="hw">
+      <span id="case-studies" class="hw-anchor" aria-hidden="true"></span>
+      <div class="container">
+        <header class="section-head reveal">
+          <h2>Selected work</h2>
+          <p>Identity, illustration, brand-led sites and interfaces, each with the idea it started from.</p>
+        </header>
+
+        <a class="case-card hw-feature reveal" href="case-study/innovators-studio-visual-identity.html" aria-label="Read the case study: Innovators Studio">
+          <div class="case-thumb">
+            <img decoding="async" src="img/site/group-100008-1.webp?v=2" alt="The Innovators Studio platform: people working together under the line Together we're changing the way we innovate, with the Studio mark in the corner." width="2432" height="1007" />
+          </div>
+          <div class="case-card-body">
+            <span class="hw-kicker">Identity, communications and a digital home</span>
+            <h3>Innovators Studio</h3>
+            <p class="case-desc">A visual identity, illustration and badges, a library of templates for presentations, newsletters and campaigns, and a community portal, together turning a scattered internal innovation effort at a global corporation into a place people felt invited to join. Four fiscal years, with a marketing manager and a production designer.</p>
+            <div class="tag-row">
+              <span class="tag">Identity</span>
+              <span class="tag">Illustration</span>
+              <span class="tag">Campaigns</span>
+              <span class="tag">Digital platform</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <div class="hw-flag reveal">
+          <figure class="hw-flag-media">
+            <img src="img/say-when/card-home.webp?v=1" width="1672" height="941" alt="Say When's three coffee bags, First Pour, Second Pour and Last Pour, on the brand's ground, each with its fill line at a different height." loading="lazy" decoding="async" />
+          </figure>
+          <div class="hw-flag-body">
+            <span class="hw-kicker">Self-initiated brand concept</span>
+            <h3>Say When: a coffee brand built on the pour</h3>
+            <p>Specialty coffee without the specialist vocabulary. A strategy, a name, a mark, three bags that are a family without being recolors, a campaign about everyone&rsquo;s own &ldquo;when,&rdquo; and a working storefront with a finder that asks how you take your coffee rather than what altitude it grew at. Made to show the whole arc, from an idea to an interactive experience.</p>
+            <div class="cta-row">
+              <a href="case-study/say-when.html" class="btn btn-primary">Read the case study</a>
+              <a href="say-when/index.html" class="btn btn-ghost btn-ghost-light">Open the storefront</a>
+            </div>
+            <p class="hw-note">A fictional brand with no client. Nothing is for sale, and the storefront&rsquo;s checkout is simulated.</p>
+          </div>
+        </div>
+
+        <div class="case-grid case-grid--four stagger">
+          <a class="case-card reveal" href="case-study/door-county-found.html" aria-label="Read the case study: Door County Found">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/door-county-found-card.webp" alt="Door County Found's homepage: the lighthouse mark over the menu and a vintage travel-poster layout with the line Door County, the way we know it, over a drawn map." width="1672" height="941"/>
+            </div>
+            <h3>Door County Found</h3>
+            <p class="case-desc">A travel guide built to feel like advice from someone who knows the place: a vintage-inspired editorial identity in cream, harbor navy and beacon gold, a smaller trusted selection, and a map that stays in the background.</p>
+            <div class="tag-row">
+              <span class="tag">Brand identity</span>
+              <span class="tag">Editorial</span>
+              <span class="tag">Web</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/lucy-learns.html" aria-label="Read the case study: Lucy Learns">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/lucy-learns-card.webp?v=2" alt="Three Lucy Learns screens: the splash with a black Labrador and her person, today's session, and a cleared level." width="1672" height="941"/>
+            </div>
+            <h3>Lucy Learns</h3>
+            <p class="case-desc">Dog training with a leash in one hand: an illustrated, glance-readable app for my own household, one task a screen, in type you can read from across the room, with the same dog in the same home on every picture.</p>
+            <div class="tag-row">
+              <span class="tag">Illustration</span>
+              <span class="tag">Interface design</span>
+              <span class="tag">Mobile</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/hybrid-designer.html" aria-label="Read about the studio years">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/site/lund-boats-website.webp" alt="The Lund Boats website: a fisherman on a northern lake under the Lund wordmark, with the boat builder and the owners' club on two tablets beside it." width="1802" height="1012"/>
+            </div>
+            <h3>The studio years</h3>
+            <p class="case-desc">Eight years at Pixel Farm, LEVEL and ByDesign: brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and Learn to Live, designed and built with some warmth to them.</p>
+            <div class="tag-row">
+              <span class="tag">Brand-led web</span>
+              <span class="tag">Campaigns</span>
+              <span class="tag">Front-end</span>
+            </div>
+            <span class="case-go" aria-hidden="true">See the work<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+          <a class="case-card reveal" href="case-study/while-were-here.html" aria-label="Read the case study: While We're Here">
+            <div class="case-thumb">
+              <img decoding="async" loading="lazy" src="img/products/while-were-here.webp" alt="While We're Here as a square hardcover, the title set in tall black capitals over a watercolor bloom crossed by fine drafting lines, with two open spreads behind it." width="1400" height="897"/>
+            </div>
+            <h3>While We&rsquo;re Here</h3>
+            <p class="case-desc">A 300mm square hardcover of small essays: pacing, type, imagery and composition on paper, every spread designed as a spread and produced from HTML and CSS to a press-ready file.</p>
+            <div class="tag-row">
+              <span class="tag">Editorial design</span>
+              <span class="tag">Book</span>
+              <span class="tag">Print</span>
+            </div>
+            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </a>
+        </div>
+
+        <div class="hw-depth reveal">
+          <h3>Depth: enterprise work, and work in progress</h3>
+          <p>Thirteen years inside large products taught me how to make complicated interfaces feel coherent and finished. These are the deeper reads.</p>
+          <ul class="hw-minis">
+            <li><a class="hw-mini" href="case-study/sap-product-maturity.html"><span class="hw-mini-media"><img src="img/site/sap-hero-02.webp" width="1672" height="941" alt="A row of SAP applications sharing one visual language." loading="lazy" decoding="async" /></span><h4>40+ SAP apps as one product</h4><p>Visual coherence, hierarchy and a shared design language across a global suite.</p></a></li>
+            <li><a class="hw-mini" href="case-study/usda-operational-overhead.html"><span class="hw-mini-media"><img src="img/site/nutrition-incentive-hub-12.webp" width="1812" height="1020" alt="The Nutrition Incentive Hub's grant portal on a laptop." loading="lazy" decoding="async" /></span><h4>Grant tools, unified</h4><p>Clarity and trust in a public-sector platform that replaced spreadsheets.</p></a></li>
+            <li><a class="hw-mini" href="case-study/dispatch-complexity.html"><span class="hw-mini-media"><img src="img/site/dispatch-hero-01.webp?v=5" width="1672" height="941" alt="The dispatch cockpit: a dense board of loads and trucks on one screen." loading="lazy" decoding="async" /></span><h4>A 450+ truck fleet on one screen</h4><p>Dense, fast-changing information made readable for dispatchers.</p></a></li>
+            <li><a class="hw-mini" href="case-study/faunaform.html"><span class="hw-mini-media"><img src="img/products/faunaform-card.webp?v=2" width="1672" height="941" alt="The Faunaform wordmark over seven screen prints of Minnesota animals." loading="lazy" decoding="async" /></span><h4>Faunaform, in progress</h4><p>Art direction, composition and physical craft for a screen-print studio.</p></a></li>
+          </ul>
+          <p class="hw-all"><a href="other.html">Everything I&rsquo;ve made, in one list &rarr;</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== WHAT I BRING ==============================
+         The four abilities (docs/rebrand/positioning.md), each tied to the
+         evidence, in place of the four "How I work" engagement pages, whose
+         addresses redirect here. #problems keeps the old header link
+         landing on this section. -->
+    <section id="approach" class="hb">
+      <span id="problems" class="hw-anchor" aria-hidden="true"></span>
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">Approach</p>
+          <h2>What I bring to a creative team</h2>
+          <p>Four things, in combination. I&rsquo;m one designer on a team of writers, strategists, marketers, developers and other designers, and this is my part.</p>
+        </header>
+        <ol class="hb-grid stagger">
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/01-clarity.webp?v=13" width="1080" height="720" alt="Tangled cords on the left, three straight parallel lines on the right." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Find the creative idea</h3>
+              <p>Who it&rsquo;s for, what&rsquo;s in tension, and the direction worth committing to. The idea has to be sayable in a sentence before it&rsquo;s drawable, and it has to decide things.</p>
+              <p class="hb-seen">Seen in <a href="case-study/say-when.html">Say When</a> and <a href="case-study/door-county-found.html">Door County Found</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/02-system.webp?v=9" width="1080" height="720" alt="A loose pile of hand-sketched index cards beside a tidy grid of identical stamped ones." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Build the visual language</h3>
+              <p>Identity, type, color, illustration and art direction, as a flexible system rather than one composition, so other people can make things with it and it still looks like itself.</p>
+              <p class="hb-seen">Seen in <a href="case-study/innovators-studio-visual-identity.html">Innovators Studio</a>, <a href="case-study/say-when.html">Say When</a> and <a href="case-study/faunaform.html">Faunaform</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/04-ai.webp?v=11" width="1080" height="720" alt="Dozens of sketched sticky notes thinning out toward one paper airplane on a drawn runway." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Bring the brand into digital</h3>
+              <p>Sites, interfaces, campaigns and interactive pieces that keep the idea intact on a phone, in a feed and inside a product, with the behavior designed as carefully as the picture.</p>
+              <p class="hb-seen">Seen in <a href="case-study/hybrid-designer.html">the studio years</a>, <a href="case-study/lucy-learns.html">Lucy Learns</a> and <a href="say-when/index.html">the Say When storefront</a>.</p>
+            </div>
+          </li>
+          <li class="hb-item reveal">
+            <figure class="hb-figure"><img src="img/engagement/03-embedded.webp?v=13" width="1080" height="720" alt="Loose, unclaimed pages beside the same pages squared into one stack under a paperweight." loading="lazy" decoding="async" /></figure>
+            <div>
+              <span class="hb-num" aria-hidden="true"></span>
+              <h3>Refine until it feels finished</h3>
+              <p>Visual judgment, prototyping and code, with contemporary tools, until the hierarchy, spacing, motion and every state hold together and nothing looks left over.</p>
+              <p class="hb-seen">Seen in <a href="case-study/sap-product-maturity.html">40+ SAP apps</a> and <a href="case-study/this-site.html">this site</a>.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="hb-close reveal">Twenty years, three kinds of place: studios where designing and building were one job, enterprise teams where coherence at scale was the job, and independent projects where I&rsquo;ve done both. The constant is the craft.</p>
+      </div>
+    </section>
+
+    <!-- ============================== ABOUT ==============================
+         The career told once and honestly, starting with graphic design and
+         interactive work. The first sentence is the one a machine can quote. -->
+    <section id="about" class="ha">
+      <div class="container">
+        <h2 class="reveal">About</h2>
+        <div class="ha-top reveal">
           <figure class="hero-photo-frame">
-            <!-- The portrait is now a silent looping clip of the same studio
-                 scene. The still illustration stays on as the poster, so the
-                 circle is filled on first paint and whenever the clip is
-                 paused: no layout shift when the video takes over, and the
-                 same picture for anyone who prefers reduced motion.
-
-                 No autoplay attribute, deliberately. With it, preload is
-                 ignored and the browser fetches the whole clip before any code
-                 can ask whether it should -- so a reduced-motion reader paid
-                 for a clip that the script below pauses on arrival and that
-                 they never see. The script starts it instead, which is the
-                 same first frame either way because the poster is that frame.
-
-                 The file itself is 720x720 H.264 at about 1 Mbps, 1.17MB, with
-                 the moov atom FIRST. Until 2026-09-30 it was 960x960 at 2.4
-                 Mbps, 3.06MB, with the moov at the END, and that order is what
-                 made preload="metadata" cost the whole file: Chrome reads
-                 forward until it finds the index, which was the last 4KB, so
-                 the "metadata" request was 3MB, and play() then opened a
-                 second full-range request that could not reuse it. A cold
-                 load of this page moved 5.9MB of video for a clip drawn at
-                 470px. With the index at the front, the metadata request is
-                 the first few KB and playback is one request for the rest.
-                 The re-encode is WebCodecs in headless Chrome muxed with
-                 mp4-muxer (no ffmpeg on the Mac); every avconvert preset
-                 either keeps the bitrate or drops the size below the circle. -->
             <video class="hero-portrait-video" tabindex="-1" src="img/hero-portrait.mp4?v=2"
                    poster="img/portrait-illus.webp?v=6" width="720" height="720"
                    loop muted playsinline preload="metadata"
                    aria-label="Adam Hickey at his desk, smiling at a laptop, with a plant, books and a framed landscape print behind him.">
             </video>
             <!-- WCAG 2.2.2: the clip runs longer than five seconds and loops,
-                 so a way to stop it has to exist for everyone, not only for
-                 readers who have set prefers-reduced-motion. It is quiet until
-                 hovered or focused, but it is always in the tab order. -->
+                 so a way to stop it has to exist for everyone. -->
             <button type="button" class="hero-portrait-toggle" aria-label="Pause the portrait">
               <svg class="hero-portrait-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
               <svg class="hero-portrait-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
@@ -337,854 +449,13 @@
               <span class="hero-caption-where">Minneapolis, most days.</span>
             </figcaption>
           </figure>
-        </div>
-        <div class="hero-copy">
-          <p class="hero-eyebrow reveal"><span>Senior Product Designer</span><span class="hero-eyebrow-sep">&nbsp;&middot; </span><span>Open to remote or hybrid roles</span></p>
-          <!-- THE STATUS IS THE EYEBROW, since 2026-10-23 (a hiring-manager
-               brief). The role, where, and that the search is for a
-               full-time seat, in the one small-caps line the hero already
-               had, so a recruiter has all three before the headline and the
-               hero gains no element. The line under the dek that #493 took
-               out as clutter stays out; this is that line's job done by the
-               eyebrow, at Adam's choice. "Minneapolis / Remote" is the
-               footer's wording, so the two agree. Each phrase holds
-               together and a line breaks only after a dot; on a phone the
-               three stack and the dots drop (style.css, .hero-eyebrow).
-
-               TWO FACTS, since 2026-10-24, at Adam's word: three read long
-               on both widths, three lines on a phone. Minneapolis came out
-               because the portrait's caption says it a few inches away
-               ("Minneapolis, most days."), and Remote went into the search,
-               "Open to remote roles", which also stops ruling out the
-               contract seats that "full-time" did. The footer, About and
-               the metadata still say Minneapolis. The style.css rules are
-               written for three and hold for two: on a phone the two stack.
-
-               REMOTE OR HYBRID, since 2026-10-24, at Adam's word: hybrid
-               is in the Twin Cities, which the portrait caption makes plain,
-               and Contact, the four How I work pages, llms.txt and the
-               résumé say it in full.
-
-               Names the role, not the employment arrangement. It used to read
-               "Independent Product Designer", which made the working mode the
-               identity and left a hiring manager reading flight risk off the
-               first line. The seniority is the constant; independent is one
-               way it has been spent. "Software that got complicated" is also
-               the reader's own situation, and it answers the first item in
-               "When people bring me in" further down, so the page holds
-               together as one argument.
-
-               SENIOR, NOT LEAD, since 2026-09-17. It read "Lead Product
-               Designer" from the hire-me pass until the list was re-scoped on
-               the 16th to senior individual-contributor seats: all twenty
-               roles on the board are Senior, and this line's job in the first
-               second is to say "I am what you are hiring for". Lead made a
-               hiring manager do arithmetic on line one. Lead is still true and
-               stays where it is a fact -- the RBA title on the résumé and the
-               role on the USDA and embedded-design pages -- which is where it
-               does its real work: a Lead for thirteen years applying as a
-               Senior reads as a strong Senior. The same word moved in the
-               <title>, the description, the Person's jobTitle, About, the
-               footer, llms.txt, the résumé's tagline and summary, and every
-               résumé variant, in the same commit, because a site that says
-               Senior beside a résumé that says Lead reads as a mistake. -->
-          <h1 class="hero-title">Product design for software that got complicated.</h1>
-          <!-- ONE PARAGRAPH, since 2026-10-09. The thesis came out: "AI is
-               changing the shape of product design" is the one sentence on
-               the page every reader already believes, and "I'm exploring
-               what the job becomes next" is what the dek's second sentence
-               says with its subject named. The bold moved into the dek, on
-               "people and coding agents" and not on "build together": the
-               pair is the part a scanning eye should catch, and bolding the
-               verb as well would leave three plain words in a bold sentence,
-               which ranks nothing. The dek is back on --space-xl over the
-               buttons, as it was before the thesis.
-
-               THE THESIS STATED THE SHIFT, from 2026-10-07. It read "I'm
-               not learning AI to do the old UX job faster", which argued
-               against a position nobody had put to the reader; it now says
-               what is happening in bold and the response to it in plain.
-
-               CUT TO SCAN, later on 2026-10-06: 52 words under the headline
-               became 37, a line a sentence at 1440. "Complicated software"
-               repeated the headline, so the dek says enterprise; "interfaces,
-               systems and boundaries" are the six facts directly below
-               (Design systems, Agent boundaries), so the dek says the
-               direction and leaves the nouns to them; and the thesis keeps
-               its bold sentence and drops the second, which restated the
-               dek's.
-
-               THE YEARS ARE BACK IN THE DEK, since 2026-10-06, and they are
-               the argument rather than a count. The positioning pass that day
-               set the story as craft, then systems, then building with
-               agents, and the first sentence a hiring manager reads has to
-               say why the third follows from the first two: twenty years of
-               complicated software is where the judgment came from, and the
-               second sentence is where it goes now. "Interfaces, systems and
-               boundaries" are the three things Agent Review designs (the
-               screen, the design system an agent builds from, and the
-               sentences that say what it may do alone). Until then this
-               read "I design complex software and build it with coding
-               agents: the interface, the design system an agent builds
-               from, and a working prototype in days" -- true, and a
-               description of a method rather than of a direction. The
-               thesis under it is the direction said plainly, in the shift
-               section's bold-then-plain lead-in, at body size so it reads as
-               the dek's second paragraph and not as a pull quote.
-
-               THIS SENTENCE LEADS WITH MAKING, since 2026-09-17. It used to
-               read "I help product teams untangle complex software, decide
-               what's worth changing, and carry the clearest direction into a
-               working product" -- the practice's sentence, and the right one
-               while the page was selling engagements. It answers the question
-               a consulting buyer asks. The question a hiring manager asks is
-               what this person makes, and seventeen of the twenty roles on
-               the list ask for visual craft or for prototyping in their own
-               words, where ten ask for enterprise complexity. So the three
-               nouns come first and the judgment is carried by the four cards
-               under "How I work", which now end on it rather than open with
-               it. "Working prototypes in real code" is the exact claim and
-               not a larger one: the prototype is real, the production
-               software is a team's.
-
-               "REAL CODE" CAME OUT ON 2026-10-01, for saying how rather
-               than only that. Every designer's site says real code; this one
-               now names the method, coding agents, and the second noun is
-               the design system an agent builds from, which is what Agent
-               Review (lab/agent-review.html) tested and the lab card under
-               Selected work reports. The claim is still the exact one: the
-               prototype is built, the production software is a team's.
-
-               SINCE 2026-10-23 THE DEK SAYS HE BUILDS. "Twenty years in
-               enterprise software" was not quite true -- the first eight
-               were studio years, designing and building sites and apps --
-               and it hid the one fact that sets the rest apart. The
-               building is now in the first screen, told as a habit rather
-               than a new skill. "Where a person decides" stays on the lab
-               card, where Agent Review shows it.
-
-               BACK THE SAME EVENING, at Adam's word. "I started out building
-               it too. I still build what I design" read as defending that he
-               can build: four time words in two sentences, each one asking
-               whether he had stopped. The dek from before that morning is
-               back, bold and all. The building stays where #588 put it
-               lower down: About, the Built header and the résumés. -->
-          <p class="hero-invite reveal">I&rsquo;ve designed and built software for twenty years, first at a studio, then as an enterprise consultant. Now I design what <strong>people and coding agents</strong> build from, and where a person decides.</p>
-          <!-- THE WORK LEADS, since 2026-09-19. "Start a conversation" was
-               the filled button and "See selected work" the ghost beside it:
-               two primary asks in one row, and the first of them asking for
-               the thing a reader is not ready to give. A hiring manager wants
-               to see the work before wanting to talk, so the work is the
-               filled button and first in the row. The ask keeps its words and
-               takes the ghost; it is the filled button in Contact, where the
-               reader who wants it has arrived. -->
-          <!-- NO STATUS LINE, since 2026-10-13. From 2026-10-12 a line under
-               the dek said what was being looked for and where, with a ping
-               before it and the résumé as a link (#487 to #490). Adam took it
-               out as clutter: the dek and the two buttons are the hero. The
-               terms and the résumé are in Contact and the footer, and he
-               chose to leave them there rather than add the résumé to the
-               header or the case studies' closings. Since 2026-10-23 the
-               line's three facts are the eyebrow above the headline, and the
-               résumé is a text link at the end of the row below; there is
-               still no line under the dek.
-
-               THE FILLED BUTTON IS THE WORK AGAIN, since 2026-10-21: "See
-               Agent Review" opens the case study. From 2026-10-20 it was "How
-               design works now", the position article, and from 2026-10-12
-               "Explore Agent Review". A portfolio review that day found both
-               hero buttons and the lab card's first link led to the article,
-               and the case study was not linked from the homepage at all; a
-               reviewer with four minutes opens a project, not an essay. The
-               article was the lab card's second link until 2026-10-24; it is
-               where the lab index starts and first under Writing.
-
-               THE TWO WAYS IN name their destinations, since 2026-10-12:
-               the featured exploration, and the enterprise accounts under it.
-               "See selected work" took a reader to the same section without
-               saying what was there, and "Start a conversation" is the nav's
-               Contact and the filled button in Contact itself.
-
-               THEY SWAPPED ON 2026-10-23, with the order of Selected work:
-               the shipped work is the filled button and leads the section;
-               Agent Review is the second way in, as it is the second thing
-               there.
-
-               THE RÉSUMÉ IS A LINK AFTER THEM, since 2026-10-23, at Adam's
-               choice: a recruiter's first question is the résumé, and it
-               was two screens down. A text link rather than a third button,
-               so the row still has one filled ask and one ghost; it opens
-               the same reading copy Contact and the footer link. -->
-          <div class="cta-row hero-cta reveal">
-            <a href="#enterprise-work" class="btn btn-primary">See enterprise work</a>
-            <a href="lab/agent-review.html" class="btn btn-ghost btn-ghost-light">See Agent Review</a>
-            <a class="hero-resume" href="Adam%20Hickey%20Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute; (PDF)<span class="product-link-ext" aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          <div>
+            <p class="ha-entity">Adam Hickey is a senior digital designer in Minneapolis, Minnesota: twenty years of brand identity, illustration, visual systems and thoughtfully crafted digital experiences, from three design studios through thirteen years of enterprise product work to independent projects he designs and builds himself.</p>
+            <p class="ha-lede">I started in graphic design, and the thing I still enjoy most is watching an idea turn into a finished visual thing that people use.</p>
           </div>
         </div>
-      </div>
-
-      <!-- Proof inside the first screen, so a visitor knows within ten
-           seconds that this is not a freelance UI designer: six facts, each
-           a station mark with a serif headline and a one-line detail set
-           beside it, so a hiring manager can take the resume in before
-           scrolling.
-
-           "Twenty years" and "40+ apps" came out. Both are already carried
-           where the thing they count is standing next to them -- About says
-           the twenty years, once, and the SAP card says the forty apps in
-           the sentence that earns them -- and the two of them were the only
-           entries here that were a quantity rather than a capability, which
-           is what made the other six read as a list of measurements.
-
-           THE ORDER IS THE POSTINGS' ORDER, since 2026-09-17. It read
-           Research, Design systems, Accessibility, Prototypes, AI decisions,
-           Complex workflows -- roughly the order the career happened in.
-           Design systems and Prototypes now open the row, because those are
-           the two the roles on the board name most often, and Research closes
-           it, because every designer's site claims research and it separates
-           this one from nobody. The six are the same six; --i is renumbered
-           with them so the marks still draw left to right.
-
-           Each one now wears the engagement pages' station mark -- the same
-           tea disc, the same sage hairline, the same line icon sketching
-           itself on. Five of the six glyphs are lifted off pages that
-           already carry them rather than drawn again: the magnifier and the
-           chevrons and the figure off the case studies' At a glance rail,
-           the four squares off the engagement pages' fit panel, and the
-           branch off the one-person section. The sixth is drawn, and says
-           why on the line above it.
-
-           The marks were tried here once before and came off, with a note
-           saying plain was cleaner and half the height. What was wrong was
-           the stack, not the marks: a disc sitting ON a label is 44px of
-           hero a fact does not otherwise spend, and eight of those wanted
-           four columns to fit. Beside the label the disc is all but free --
-           the row is already 46px of type -- so this reads as a marked list
-           and is shorter than the plain eight was everywhere but the phone,
-           where one column costs it 46px. Every one of them is carried at
-           length further down. -->
-      <div class="container">
-        <ul class="hero-proof reveal" aria-label="At a glance">
-          <li>
-            <!-- One frame, divided, rather than the four loose squares this was.
-                 The four came off the engagement pages' fit panel, where they say
-                 "several teams need one shared foundation" and sit at the same
-                 22px -- and at 22px each square is 5.9 rendered pixels carrying
-                 a 1.4px stroke, which is four grey smudges rather than a grid.
-                 The same idea drawn as one 16.4-unit square with a cross
-                 through it is three strokes, none of them under 8 units, and
-                 it is the truer picture besides: a design system is the frame
-                 and the division, not four things that happen to be near each
-                 other. -->
-            <span class="fact-node"><svg class="fact-icon" style="--i:0" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Design systems</span>
-              <span class="hero-proof-detail">that people and agents build from</span>
-            </span>
-          </li>
-          <li>
-            <span class="fact-node"><svg class="fact-icon" style="--i:1" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(2,-4)"><path pathLength="1" d="M7 12l-4 4 4 4"/><path pathLength="1" d="M13 12l4 4-4 4"/></g></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Prototypes</span>
-              <span class="hero-proof-detail">working ones, built with coding agents</span>
-            </span>
-          </li>
-          <li>
-            <!-- The universal-access figure, redrawn. The shape here before was
-                 the same figure with its arms left off and a shallow arc across
-                 the legs, which at 22px inside a disc read as a capital A over a
-                 pair of dividers -- a drafting compass, not a person. This is
-                 the conventional glyph: head, one straight line of arms, torso
-                 and two legs. Five marks, all of them large, and the one symbol
-                 on the row a reader does not have to be told the meaning of. -->
-            <span class="fact-node"><svg class="fact-icon" style="--i:2" viewBox="0 0 24 24" aria-hidden="true"><circle pathLength="1" cx="12" cy="5.2" r="2.1"/><path pathLength="1" d="M4.4 10.2h15.2"/><path pathLength="1" d="M12 7.6v6"/><path pathLength="1" d="M12 13.6 8.2 20.2"/><path pathLength="1" d="M12 13.6l3.8 6.6"/></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Accessibility</span>
-              <span class="hero-proof-detail">built in, and checked on every change</span>
-            </span>
-          </li>
-          <li>
-            <!-- The one glyph not already on the site, drawn to the same
-                 grammar as the rest -- the 24-box, pathLength="1" on every
-                 subpath, no geometry past 20.4. It was a dense screen: a
-                 window, a header rule and two rows. That picture answered
-                 "operational software" and said nothing about "workflows",
-                 and it put a second large rectangle on a row that now opens
-                 with one. This is the route instead: one line that turns
-                 twice and ends on an arrowhead, so it is going somewhere. A
-                 fork is already spoken for in the cell before it, where AI
-                 decisions branch; this is the other thing a line can do,
-                 which is carry on through. -->
-            <span class="fact-node"><svg class="fact-icon" style="--i:3" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3.8 19.2h4.6a2.8 2.8 0 0 0 2.8-2.8V9.2a2.8 2.8 0 0 1 2.8-2.8h6"/><path pathLength="1" d="m17.4 3.6 2.8 2.8-2.8 2.8"/></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Complex workflows</span>
-              <span class="hero-proof-detail">operational software, up close</span>
-            </span>
-          </li>
-          <li>
-            <!-- The branch off the one-person section, brought inside the
-                 disc: its geometry runs to y=22 in the 24-box, which is the
-                 edge, so it takes a scale about its own centre the way the
-                 timeline's icons take a translate.
-                 "AGENT BOUNDARIES" SINCE 2026-10-06, where it was "AI
-                 decisions / the reasons beside the answer": the cockpit's
-                 question, which the positioning pass widened to Agent
-                 Review's -- what an agent may do alone and where it has to
-                 stop for a person. The branch still fits: one stem, two
-                 ways. The design-systems detail moved the same day, from
-                 "and the governance for them" to the system as the thing
-                 agents build from; governance is still the SAP card's word. -->
-            <span class="fact-node"><svg class="fact-icon" style="--i:4" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.7,0) scale(0.94)"><path pathLength="1" d="M12 22V11.5"/><path pathLength="1" d="M12 11.5 4.5 4"/><path pathLength="1" d="M12 11.5 19.5 4"/><path pathLength="1" d="M15.5 3.5h4.5v4.5"/><path pathLength="1" d="M8.5 3.5H4v4.5"/></g></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Agent boundaries</span>
-              <span class="hero-proof-detail">what it does alone, what a person decides</span>
-            </span>
-          </li>
-          <li>
-            <span class="fact-node"><svg class="fact-icon" style="--i:5" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
-            <span class="hero-proof-text">
-              <span class="hero-proof-label">Research</span>
-              <span class="hero-proof-detail">through to shipped product</span>
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="container logo-block reveal">
-        <!-- The label was a visible line reading "Selected clients" above
-             the row, from back when the logos sat there unexplained. Six
-             wordmarks directly under six facts about the work do not need
-             telling what they are -- the strip reads as the evidence for the
-             row above it -- and the line was the third small-caps row in one
-             screen. The name it carried is a real one, though, so it stays
-             on the list itself, where a screen reader still hears it and the
-             page does not have to show it. -->
-        <div class="logo-strip" role="list" aria-label="Selected clients">
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/cargill.svg?v=2" alt="Cargill" width="200" height="98" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/CBRE.svg?v=2" alt="CBRE" width="200" height="98" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/dr-pepper.svg?v=2" alt="Dr Pepper" width="200" height="98" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/intel.svg?v=2" alt="Intel" width="200" height="98" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/lund.svg?v=2" alt="Lund" width="200" height="98" /></div>
-        <div class="logo-cell" role="listitem"><img decoding="async" src="img/site/toro-wordmark.svg?v=3" alt="Toro" width="200" height="98" /></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================== SELECTED WORK ==============================
-         Second on the page since the hire-me pass, ahead of how I work: a
-         hiring manager wants the evidence before the method. Three accounts
-         rather than four, chosen because together they make one argument --
-         scale and governance, research and a measured operational change, a
-         complicated operation and the map I was wrong about -- and the
-         prototype closes the section as the same judgment carried into the
-         next era.
-
-         SINCE 2026-10-06 the three run SAP, dispatch, USDA -- systems at
-         scale, judgment inside a live operation, a change measured in hours --
-         and the lab card under them is the fourth beat, agents. For part of
-         that day Agent Review was the second of four equal cards in one
-         grid; Adam preferred it in its own place under the accounts, and it
-         went back. The Innovators Studio identity moved down to "Other things
-         I make", where the shelf already linked to it. Each card carries one
-         line saying what it proves, so the three read as a case rather than a
-         gallery. -->
-    <section id="case-studies" class="case-studies">
-      <div class="container">
-        <header class="section-head reveal" id="enterprise-work">
-          <h2>Selected work</h2>
-        </header>
-
-        <!-- The established enterprise work. Until 2026-10-24 it sat under
-             a label of its own, which the hero's "See enterprise work"
-             landed on (#enterprise-work), with a line under the h2 saying
-             "Shipped work first, then the experiments it led to." Adam took
-             both out as not needed: the three cards say what they are, and
-             the order says the rest. The anchor moved to the section head,
-             so the button and any old link to it land on "Selected work",
-             with the three directly under it.
-
-             IT LEADS THE SECTION AGAIN SINCE 2026-10-23, reversing
-             2026-10-12. Twenty of the thirty companies the search is
-             organized around want the shipped work first, and the homepage
-             is the default every application lands on. Dispatch led the
-             three for part of that day, as the product designer's story;
-             it runs third since later that day (Adam asked), so the three
-             read SAP, USDA, dispatch. The lab card follows.
-
-             The label read "Shipped enterprise work" for its last day
-             (2026-10-23), "Established enterprise work" before that. -->
-        <div class="case-grid case-grid--three stagger">
-          <a class="case-card reveal" href="case-study/sap-product-maturity.html" aria-label="View case study: Making 40+ enterprise apps feel like one product">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/sap-hero-02.webp" alt="Making 40+ enterprise apps feel like one product" width="1672" height="941"/>
-            </div>
-            <h3>Making 40+ enterprise apps feel like one product</h3>
-            <p class="case-desc">Systems, governance and scale: one design system and one accessibility standard across 40+ apps, with the numbers to show for it.</p>
-            <div class="tag-row">
-              <span class="tag">Enterprise software</span>
-              <span class="tag">Design systems</span>
-              <span class="tag">Governance</span>
-            </div>
-            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-          <a class="case-card reveal" href="case-study/usda-operational-overhead.html" aria-label="View case study: Grant tools unified into one trusted platform">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/nutrition-incentive-hub-12.webp" alt="Grant tools unified into one trusted platform" width="1812" height="1020"/>
-            </div>
-            <h3>Grant tools unified into one trusted platform</h3>
-            <p class="case-desc">Research, accessibility and a measured change: one portal replacing spreadsheets, and a 45-to-55-hour process down to just over ten.</p>
-            <div class="tag-row">
-              <span class="tag">Public sector</span>
-              <span class="tag">Accessibility</span>
-              <span class="tag">Platform consolidation</span>
-            </div>
-            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-          <a class="case-card reveal" href="case-study/dispatch-complexity.html" aria-label="View case study: One real-time view of a 450+ truck fleet">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/site/dispatch-hero-01.webp?v=5" alt="One real-time view of a 450+ truck fleet" width="1672" height="941"/>
-            </div>
-            <h3>One real-time view of a 450+ truck fleet</h3>
-            <p class="case-desc">A complicated operation learned from the floor: cards built for the speed of the dispatchers, and the map I was wrong about.</p>
-            <div class="tag-row">
-              <span class="tag">Logistics</span>
-              <span class="tag">Real-time data</span>
-              <span class="tag">Operations software</span>
-            </div>
-            <span class="case-go" aria-hidden="true">Read the case study<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-
-        </div>
-
-        <!-- THE LAB FOLLOWS THE ENTERPRISE WORK since 2026-10-23 (see the
-             note above it). It led the section, introduced by the position
-             article, from 2026-10-20 (Adam's content review that day). From
-             2026-10-12 the card was Agent Review alone, its picture "Same
-             red. Different meaning." drawn in code; that figure and its
-             connector now open the case study only. The card says what the
-             lab is for -- how product design works now -- and the article
-             it links is the argument. The line of the lab's three
-             pieces under it came out on 2026-10-21: the Lab link in the
-             navigation and the lab index carry them.
-
-             The picture is the article's first figure in small: the relay
-             the work used to run as, then the loop it runs as now, in code
-             at the page's own sizes (style.css, "The loop"). Two rows on one
-             dark panel since 2026-10-21, so the shapes are the argument: a
-             line of five that ends, over four steps that come back round.
-             Under 1024 it leads the words, since 2026-10-22; it followed
-             them from 2026-10-21 until then.
-
-             THE EYEBROW AND THE ARTICLE LINK CAME OUT on 2026-10-24 (Adam:
-             not needed). "Featured · the lab" labelled a card whose title
-             and picture already say what it is, and "Read the introduction"
-             was a second way to the position article, which the lab index
-             opens with and Writing lists first. The case study is the
-             card's one link now.
-
-             THE CARD NAMES ITS PROJECT, since 2026-10-21, and its first link
-             is the case study, with the article second. "Visit the lab" came
-             out; the navigation's Lab carries it. Until 2026-10-22 the name
-             was a second paragraph under the three points, saying who the
-             prototype is for, that its runs are simulated and that nobody
-             had tested it yet. Adam asked for half the words and one
-             paragraph, so the description now carries the stakes and the
-             project in two sentences, 26 words where the two paragraphs ran
-             to 61, and the points under it are what Agent Review tests.
-             "Simulated" stays in the sentence that names it (VOICE.md, "What
-             a page may claim"); who it is for and the untested line are the
-             case study's to say.
-
-             THE NAME IS A LINK TOO, since 2026-10-22 (Adam asked): a reader
-             who meets "Agent Review" in the sentence can go straight to it
-             rather than reading on to the button. It is the prose link
-             (style.css, the .writing-measure p a group), so the line still
-             reads as a sentence, and it goes where the button and the figure
-             go. "The card's first link" below still means the button: the
-             figure's hover lights it and leaves the name alone.
-
-             THE FIGURE IS A LINK TO THE CASE STUDY (the article until
-             2026-10-21), so it and the card's first link go to one place,
-             and it answers a pointer the
-             way the work cards' pictures do, as the red one did: the same
-             tilt and lift (setupCaseTilt below), the card's title and its
-             first link turning sage.
-
-             THE LEAD IS THE STAKES, since the voice pilot of 2026-10-21
-             (VOICE.md). It read "Design the infrastructure behind great
-             design", the hero dek's phrase said a second time; it now says
-             what got easy and what didn't, and the description says how far
-             a bad call travels before it says what the work became, so the
-             three points under it read as the answer to a problem rather
-             than a list of nouns. The phrase left the hero dek on 2026-10-23
-             and lives in the article it names.
-
-             THE LEAD READS THE FIGURE, since 2026-10-25 (Adam: the words
-             should relate to the picture). "Agents now do much of the
-             building. That frees a designer to lead the whole product."
-             was the case study's dek said again, beside a figure it never
-             mentioned. Each sentence is now one row of the panel: "Design
-             used to be" is the top tag's opening, and Design is the second
-             leg drawn there; "Now agents build" is the second step's label,
-             and "runs the loop" is the bigger job the title claims: the
-             system, the checks and the call, with only the building handed
-             off. "The whole loop" was measured and cut: at 24px in the
-             479px column at 1440 it put the sentence on two lines where
-             the old one took one; without it the sentence is 465px, one
-             line, and under 1024 it wraps where the old one did. Same two
-             spans, so the counts hold. The case study keeps its dek, which
-             sits beside the six stages, where it fits.
-
-             THE TITLE IS THE CLAIM, since later on 2026-10-25 (Adam did not
-             like "Twenty years in, the job got bigger"). "The designer runs
-             the whole loop now" says what got bigger, in the panel's own
-             word, and the case study keeps the twenty years in its title.
-             With "runs the loop" in the title, the lead's second sentence
-             would have said it twice, so it now names the panel's last
-             step instead: "I decide what ships" is "A person decides",
-             said by the person.
-
-             NO SPANS IN THE TITLE OR THE LEAD, since the same evening: they
-             forced the breaks (style.css, "THE WORDS WRAP WHERE THEY
-             FALL"). The words wrap at the measure now.
-
-             THE PICTURE IS ONE CALL, NOT A PROCESS, since 2026-10-26: the
-             quiet cancel figure (quiet-cancel.css) in place of the loop's
-             two rows. "Used to take months, now it takes days" is the speed
-             story every tool's homepage tells, and "A person decides" as
-             its last box read as a sign-off at the end. The figure is one
-             decision an agent could not make, and the title says the same
-             thing in words: "Agents build the screens. I decide what
-             ships." The lead names the moment the case study opens on as a
-             question. The loop stays on the lab index. -->
-        <div class="case-grid case-grid--lab stagger">
-          <div class="case-card case-card--lab reveal">
-            <div class="case-card-body">
-              <h3>Agents build the screens. I decide what ships.</h3>
-              <p class="case-lab-lead">An agent moved a billing screen onto the design system and stopped at one link. Should cancelling be this hard to find?</p>
-              <p class="case-desc"><strong>Agent&nbsp;Review</strong>, my working prototype, follows one feature from a support ticket to what ships.</p>
-              <p class="product-actions">
-                <a class="product-link" href="lab/agent-review.html">Read the Agent Review case study</a>
-              </p>
-            </div>
-            <a class="loop-link" href="lab/agent-review.html" aria-label="Read the Agent Review case study" aria-describedby="quiet-cancel-desc">
-            <figure class="quiet-cancel" data-quiet-cancel>
-              <p class="visually-hidden" id="quiet-cancel-desc">On a billing settings screen, every action is a button except &ldquo;Cancel subscription&rdquo;, small gray text built by hand. The checks pass both; only a designer can say if that&rsquo;s on purpose.</p>
-              <p class="quiet-cancel-label"><span class="quiet-cancel-rule">Every <span class="quiet-cancel-word">action</span> is a button.</span> <span class="quiet-cancel-except">Except cancel.</span></p>
-              <ul class="quiet-cancel-cases">
-                <li class="quiet-cancel-case quiet-cancel-case--system" style="--i:0">
-                  <div class="quiet-cancel-screen">
-                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.5 12.5l3.5 3.5 7.5-8"/></svg>
-                    <p class="quiet-cancel-ui"><span class="quiet-cancel-button">Change plan</span></p>
-                  </div>
-                  <p class="quiet-cancel-means">A design-system button</p>
-                </li>
-                <li class="quiet-cancel-case quiet-cancel-case--hand" style="--i:1">
-                  <div class="quiet-cancel-screen">
-                    <svg class="quiet-cancel-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M12 6.5v7.5"/><path pathLength="1" d="M12 18v.01"/></svg>
-                    <p class="quiet-cancel-ui"><span class="quiet-cancel-hand">Cancel subscription</span></p>
-                  </div>
-                  <p class="quiet-cancel-means">Gray text, built by hand</p>
-                </li>
-              </ul>
-              <svg class="quiet-cancel-leads" aria-hidden="true" focusable="false"><path class="quiet-cancel-lead--stem" pathLength="1" /><path class="quiet-cancel-lead--system" pathLength="1" /><path class="quiet-cancel-lead--hand" pathLength="1" /></svg>
-              <figcaption class="quiet-cancel-take"><span class="quiet-cancel-pass">The checks pass both.</span> <span class="quiet-cancel-call">Only a designer can say if that&rsquo;s on purpose.</span></figcaption>
-            </figure>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PICTURES AND NAMES, since the evening of 2026-10-23. For a few hours
-         that day the band was four links and no cards: the case studies
-         above already carry the evidence the cards' points repeated, and
-         VOICE.md's thousand words meant a section had to give. The points
-         stayed out; the pictures came back on Adam's call, because four
-         lines of serif on charcoal read as a sitemap, and the still lifes
-         were the most handmade thing on the page the day it started saying
-         he builds what he designs. Each card is its picture and its name,
-         with the arrow after the last word. Under 768 the picture sits
-         beside the name, so the band is about a phone screen where the full
-         cards were three. The band stays between Selected work and Built end
-         to end: moved below Built it would sit against About, and two
-         charcoal bands in a row read as one. The notes below are the
-         history of the full cards. -->
-    <!-- ============================== HOW I WORK ON A TEAM ==========================
-         This band was "When people bring me in": the four engagements, framed
-         as things to buy, and the first thing a hiring manager read after the
-         hero. It made the page answer "what does Adam sell" before "why hire
-         Adam", and the review that prompted the hire-me pass named that as
-         the site's one real problem. The four cards keep their pictures and
-         their situations -- the situations are real either way -- and now
-         answer each with how I operate inside a product organization.
-
-         SINCE 2026-09-17 EACH CARD OPENS ITS OWN PAGE under engagement/: the
-         four engagement pages, reworked into one page per card -- the
-         situation, how it goes step by step, and where it is shown. From
-         2026-09-15 to then the cards linked straight to the case study,
-         prototype or article that proved them, three of which sit in the
-         section directly above, so the card sent the reader back up the
-         page. The pages keep their addresses; every case study's close and
-         the sitemap still reach them.
-         The id stays so "How I Work" in every page's header and any old link
-         still land here.
-
-         THE ORDER CHANGED ON 2026-09-17, and the order is the argument. It
-         ran 01 ambiguity, 02 standards, 03 embedded, 04 carried-into-working
-         -- the order the work happens in, which is the right order for a
-         reader deciding whether to hire a practice. A hiring manager is not
-         reading a sequence; they are looking for the one thing they need, and
-         the twenty roles on the board say in their own words what that is.
-         Craft and prototyping are asked for strongly in thirteen rows each,
-         seventeen of twenty ask for at least one of them, and the six highest
-         bands on the list are prototype-first roles. Enterprise complexity is
-         asked for in ten.
-
-         So the card that ends in a working prototype leads, the design-system
-         card follows it, and the two that describe how the work is run come
-         after. Nothing was rewritten: the same four cards, the same pictures,
-         the same three points each. Only the order, and the numerals, which
-         are positions rather than names -- the picture filenames still carry
-         each card's own identity (04-ai.webp is the prototype card wherever
-         it sits), because the file is what the illustration scripts address         and the numeral is what a reader counts.
-
-         AND THE SAME DAY IT WENT BACK, on Adam's call: 01 ambiguity, 02
-         standards, 03 embedded, 04 carried-into-working, the order the work
-         happens in. The pictures went back with it: the four still lifes on
-         their own walls, real objects on an office theme rather than the
-         writing set's flat drawings (the archive's #74 and #77, here until
-         #135), at the 3:2 and 1080x720 they were made at, so the figure
-         slot in style.css is 3:2 again. -->
-    <!-- THE FOUR GO-LABELS ARE THE SAME SENTENCE, on purpose. They were four
-         different ones -- "step by step", "with the numbers", "inside a team",
-         "and a working one to try" -- each naming a different part of the page
-         it pointed at, which is how they got long and why no two were parallel.
-         The four pages are not different in that way: all four carry the same
-         four sections, The situation / Where it has worked / How it goes, step
-         by step / On a team. Four labels straining to be distinct were making
-         four unequal promises about pages of one shape, and a reader scanning
-         the row read the same three words before reaching the difference every
-         time.
-
-         So the card's h3 is the thing that differs and the label is the
-         affordance, which is what it is: the whole card is the link, and this
-         span is aria-hidden, so a screen reader's link list shows each card's
-         own name and never these three words. It read "How it goes" until
-         2026-09-19, the page's own h2 and the section header's own phrase.
-         "Walk through it" is what the page then does -- a numbered method,
-         one step at a time -- said as an invitation rather than a heading,
-         and it still reads as the same promise on all four. It left with
-         the points on 2026-10-23, and its arrow follows each card's name. -->
-    <section id="problems" class="problems" data-cursor="light">
-      <div class="container">
-        <header class="section-head reveal">
-          <p class="section-eyebrow">How I Work</p>
-          <h2>What I do inside a product organization</h2>
-          <p>Four things I&rsquo;ve done for twenty years, each with a page of its own.</p>
-        </header>
-        <div class="engagement-grid engagement-grid--titles stagger">
-          <a class="engagement-card reveal" href="engagement/product-clarity.html">
-            <div class="engagement-figure"><img src="img/engagement/01-clarity.webp?v=13" width="1080" height="720" alt="Tangled cords on the left, three straight parallel lines on the right: an ambiguous problem sorted into decisions taken one at a time." loading="lazy" decoding="async" /></div>
-            <h3>Turn ambiguity into a <span class="engagement-tail">decision<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></h3>
-          </a>
-          <a class="engagement-card reveal" href="engagement/design-system-foundation.html">
-            <div class="engagement-figure"><img src="img/engagement/02-system.webp?v=9" width="1080" height="720" alt="A loose pile of hand-sketched index cards beside a tidy grid of identical stamped ones: one design system every team builds from." loading="lazy" decoding="async" /></div>
-            <h3>Build the system everyone builds <span class="engagement-tail">from<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></h3>
-          </a>
-          <a class="engagement-card reveal" href="engagement/embedded-senior-product-design.html">
-            <div class="engagement-figure"><img src="img/engagement/03-embedded.webp?v=13" width="1080" height="720" alt="Loose, unclaimed pages beside the same pages squared into one stack under a paperweight: the design owned by one person inside the team." loading="lazy" decoding="async" /></div>
-            <h3>Own the design inside the team, not beside <span class="engagement-tail">it<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></h3>
-          </a>
-          <a class="engagement-card reveal" href="engagement/working-product-prototype.html">
-            <div class="engagement-figure"><img src="img/engagement/04-ai.webp?v=11" width="1080" height="720" alt="Dozens of sketched sticky notes thinning out toward one paper airplane on a drawn runway: many ideas narrowed to one working prototype." loading="lazy" decoding="async" /></div>
-            <h3>Build to find <span class="engagement-tail">out<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></h3>
-          </a>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ============================== BUILT INDEPENDENTLY ====================
-         Proof of the section above: products conceived, designed and built
-         end to end. Sits immediately after the shift so the claim and the
-         evidence read as one argument.
-
-         SINCE 2026-10-23 its header opens on the habit rather than the tool:
-         the dek says he builds what he designs, and these four are where a
-         reader can check it. How I work above it is four pictures and their
-         names now, so it sits one short band from Selected work.
-
-         Lucy Learns came back on 23 Aug 2026 at Adam's request, with its
-         build write-up and the .product-link / .build-* rules the distill
-         pass had removed as dead code, dead only because the card that used
-         them had been held back the day before. Its card now shows the app
-         as three screens rather than one product shot.
-
-         Each eyebrow names who the thing was made for rather than repeating
-         "Independent product" three times: that is the practice's own thesis
-         said three times, which is that the client is the person who cares.
-         Growing With Gritty had a card here for part of 2026-09-03 and is
-         held back until Kim's site goes live on its own address. Under the
-         products, the identity and illustration work, because it is the same
-         hands making things and does not need a section of its own.
-
-         Two things left this section on 2026-09-05. The four-step "How each
-         of these got made" panel: the write-ups each product links to show
-         the how at length, and the one idea the panel carried that nothing
-         else on the page did -- the handover, alive -- is a clause in the
-         header now. And the While We're Here card: the book is real work and
-         keeps its write-up, reachable from the other two, but it is not
-         evidence a product lead needs on the way to a conversation. The
-         section is proof of the shift above it, and two working products
-         make the case as well as three.
-
-         The hire-me pass took two more things out, to "Other things I make",
-         a page of its own since the same afternoon: the compact book row
-         and the identity shelf. And it rewrote the header, which said "all mine" and "what one experienced
-         person can ... stand behind" -- the right pitch for a practice and,
-         to a hiring manager, a small worry about whether this person wants
-         to be the whole product team.
-
-         ONE SENTENCE AND ONE LINK JOINED THE HEADER ON 2026-09-17, and not a
-         third card. The fourth build write-up is about this site, and it
-         belongs to this section by definition -- the shift above, in
-         practice, on the page a hiring manager is already reading. But a
-         card would have made the section three products, and the note above
-         says why it is two. A sentence at the end of the header is the
-         weight the claim deserves: the site is the evidence, and the
-         write-up is where the evidence is counted.
-
-         "The shift above, in practice" became "Both built with coding
-         agents" on 2026-10-06, when the section above stopped being called
-         "The design-to-build shift". It says the same thing in the words
-         that section now uses ("I build what I design, with coding
-         agents"), and both write-ups say it of their own build. -->
-    <section id="built" class="built">
-      <div class="container">
-        <header class="section-head reveal">
-          <h2>Built end to end</h2>
-          <p>I&rsquo;ve built what I design since my first job. These four I made end to end with AI: two products handed to the people they were made for, a print studio of my own, and a book. <a href="case-study/this-site.html">This site is built the same way.</a></p>
-        </header>
-
-        <!-- FOUR CARDS, two by two, since 2026-10-21, when the book came off
-             the Other things I make page to be the fourth: how it was made with
-             AI is the same story as the three products', so it is a peer here
-             rather than a footnote. Two by two rather than four across, so each
-             picture keeps the accounts' size; four in a row would halve them.
-             The line under the grid, "Working on something like this?" and
-             its link to other.html, left the same day.
-
-             THREE CARDS, from earlier on 2026-10-21, the same .case-card the enterprise
-             accounts use, so the two sections read as one kind of evidence.
-             Earlier the same day the three were rows of the Related list,
-             after the portfolio review cut the three full product blocks;
-             Adam wanted pictures back, in the accounts' shape. Lucy Learns
-             and Faunaform had no 16:9 picture, so scripts/built-cards.mjs lays
-             their screens and prints out at the accounts' 1672x941, Faunaform's
-             under its wordmark; Door County Found's is the site's header and
-             hero, from scripts/dcf.mjs, so its logo is in the frame. The live
-             links are on the write-ups, since a card is one link. -->
-        <div class="case-grid case-grid--four stagger">
-          <a class="case-card reveal" href="case-study/door-county-found.html" aria-label="Read how I built it: Door County Found">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/products/door-county-found-card.webp" alt="Door County Found homepage: its lighthouse logo over the menu, then a vintage travel-poster layout with the headline &ldquo;Door County, the way we know it&rdquo; over a topographic map." width="1672" height="941"/>
-            </div>
-            <h3>Door County Found</h3>
-            <p class="case-desc">A guide to the peninsula built for my sister: every place is data, so the filters are real, and she keeps it current.</p>
-            <div class="tag-row">
-              <span class="tag">Visual identity</span>
-              <span class="tag">Information architecture</span>
-              <span class="tag">Astro build</span>
-            </div>
-            <span class="case-go" aria-hidden="true">How I built it<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-          <a class="case-card reveal" href="case-study/lucy-learns.html" aria-label="Read how I built it: Lucy Learns">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/products/lucy-learns-card.webp?v=2" alt="Three Lucy Learns screens: the splash with a black Labrador and her person, today&rsquo;s session, and a cleared level." width="1672" height="941"/>
-            </div>
-            <h3>Lucy Learns</h3>
-            <p class="case-desc">A dog trainer&rsquo;s handouts turned into sessions you can run with a leash in one hand: one instruction a screen, offline.</p>
-            <div class="tag-row">
-              <span class="tag">Product design</span>
-              <span class="tag">Illustration</span>
-              <span class="tag">Mobile / PWA</span>
-            </div>
-            <span class="case-go" aria-hidden="true">How I built it<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-          <a class="case-card reveal" href="case-study/faunaform.html" aria-label="Read how I built it: Faunaform">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/products/faunaform-card.webp?v=2" alt="The Faunaform wordmark over seven screen prints of Minnesota animals: an owl, a crane, a moose, a loon, a black bear, a red fox and a snowshoe hare." width="1672" height="941"/>
-            </div>
-            <h3>Faunaform</h3>
-            <p class="case-desc">Seven Minnesota animals, one for each hour of a day. An image model draws, software I built makes each printable, and the art calls are mine.</p>
-            <div class="tag-row">
-              <span class="tag">Art direction</span>
-              <span class="tag">Production tooling</span>
-              <span class="tag">Brand</span>
-            </div>
-            <span class="case-go" aria-hidden="true">How I&rsquo;m building it<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-          <a class="case-card reveal" href="case-study/while-were-here.html" aria-label="Read how I built it: While We&rsquo;re Here">
-            <div class="case-thumb">
-              <img decoding="async" loading="lazy" src="img/products/while-were-here.webp" alt="While We&rsquo;re Here as a square hardcover, the title set in tall black Didone capitals over a watercolor bloom crossed by fine technical drafting, with two open spreads behind it." width="1400" height="897"/>
-            </div>
-            <h3>While We&rsquo;re Here</h3>
-            <p class="case-desc">A hardcover of small essays that began as talk with an AI on lake walks, and is built like software: HTML and CSS to a press-ready PDF.</p>
-            <div class="tag-row">
-              <span class="tag">Book design</span>
-              <span class="tag">Editorial</span>
-              <span class="tag">Print production</span>
-            </div>
-            <span class="case-go" aria-hidden="true">How I built it<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================== ABOUT ==============================
-         The career told once. Until 2026-09-05 the page told it three times
-         inside about 450 words: a three-station strip (Craft, Systems,
-         Independent) closing Built end to end, two compact cards under
-         "Earlier experience", and these three dated beats. The strip and the
-         cards are gone; the beats carry the same spans and dates, and the two
-         career case studies the cards were the only route to are linked from
-         the sentences that describe those years. "Experience is compressed
-         time" moved here from the cards' intro, because it sells the years
-         rather than restating them. -->
-    <section id="about" class="still-evolving" data-cursor="light">
-      <div class="container">
-        <h2 class="reveal">About</h2>
-        <!-- The old hero headline lives on here, where it can be a personal
-             aside rather than carrying the whole positioning. -->
-        <!-- The one plain sentence a machine can quote: who, what, where.
-             Everything else in this section is told as a story, which is
-             right for a reader and useless for an assistant asked who this
-             is; this is the answer, in the words the JSON-LD Person says. -->
-        <!-- Both opening paragraphs take one width, set on the wrapper in the
-             plain sentence's own size, so the serif lede below runs exactly
-             as wide as the sentence above it rather than stopping short of
-             it in its own, larger, ch. -->
-        <div class="about-intro">
-          <p class="about-entity reveal">Adam Hickey is a senior product designer in Minneapolis, Minnesota, who designs and builds software that has grown complicated: enterprise platforms, design systems, operational workflows, and how people and AI agents work together, after twenty years of studio design and development, then enterprise consulting.</p>
-          <p class="about-lede reveal">Complicated software is my favorite kind of problem. It took twenty years and two careers to be able to say that.</p>
-        </div>
-        <div class="still-copy about-beats">
+        <div class="ha-beats about-beats">
           <div class="about-beat-row reveal">
-            <!-- All three frames crop to 4:3 and none of these pictures
-                 survives that, so each is a link that opens the whole thing
-                 in the lightbox at the bottom of the page. Without JS the
-                 href still resolves to the image file.
-
-                 The three come from twenty years and three different kinds
-                 of camera, and all three keep their color at full
-                 strength. What makes them a set is not a shared tint but
-                 a shared exposure: one contrast curve and a per-image
-                 shift solved so each lands on the same mean luminance of
-                 122. That was doing the work the whole time; the
-                 desaturation experiments only hid it. -->
             <a class="about-media" href="img/about/craft-team.webp?v=4" data-zoom
                data-zoom-caption="The Pixel Farm studio, 2008"
                data-zoom-alt="The Pixel Farm studio gathered around the courtyard fountain, looking up at the camera from the balcony above."
@@ -1195,17 +466,13 @@
               </span>
             </a>
             <div class="about-beat-text">
-              <p><strong class="about-beat">Design and build &middot; 2005-2013</strong>I started as a <a href="case-study/hybrid-designer.html">hybrid designer and developer</a>, eight years across three studios, the last five at Pixel Farm. Designing and building weren&rsquo;t separate jobs yet. Whoever shipped it sat close enough to argue with.</p>
+              <p><strong class="about-beat">Studios &middot; 2005&ndash;2013</strong>I began as a hybrid graphic designer and front-end developer at ByDesign, LEVEL and Pixel Farm: visually rich sites, interactive experiences, digital campaigns and interfaces for clients like Lund Boats, Fulton Beer and Hazelden. Designing and building were one job, and whoever shipped it sat close enough to argue with. <a href="case-study/hybrid-designer.html">The studio years</a>.</p>
             </div>
           </div>
           <div class="about-beat-row reveal">
-            <!-- A 16:9 event card in a 4:3 frame: letterboxed on its own
-                 navy rather than cropped, since cutting the sides takes the
-                 title off it. Small type, so the lightbox is doing the real
-                 work here. -->
             <a class="about-media" href="img/about/systems-talk.webp?v=4" data-zoom
                data-zoom-caption="MN365 user group, April 2025"
-               data-zoom-alt="An event card: RBA sponsors the MN365 user group, April 14 2025, 12 to 3PM CDT, on modernizing your intranet and Power Apps solutions for today&rsquo;s workforce. Speakers Maria Hall, modern workplace consultant, and Adam Hickey, senior user experience designer."
+               data-zoom-alt="An event card: RBA sponsors the MN365 user group, April 14 2025, on modernizing your intranet and Power Apps solutions. Speakers Maria Hall and Adam Hickey, senior user experience designer."
                aria-label="Open the full event card: RBA sponsors the MN365 user group, April 2025, with Adam Hickey as one of two speakers.">
               <img src="img/about/systems-talk-thumb.webp?v=4" width="600" height="450" alt="" loading="lazy" decoding="async" />
               <span class="about-media-zoom" aria-hidden="true">
@@ -1213,8 +480,7 @@
               </span>
             </a>
             <div class="about-beat-text">
-              <p><strong class="about-beat">Systems &middot; 2013-2026</strong>Then the jobs split, and I spent <a href="case-study/enterprise-consulting.html">thirteen years at RBA</a> on large enterprise products for CBRE, Toro, Banner Bank and International Trucks. I learned that most design problems are communication problems, and that coherence at scale takes systems.</p>
-              <p>The longest engagement was building a UX practice inside a global enterprise. Some of it I explained in public, to a user group with the same problems.</p>
+              <p><strong class="about-beat">Enterprise &middot; 2013&ndash;2026</strong>Then <a href="case-study/enterprise-consulting.html">thirteen years at RBA</a> on large digital experiences, application suites, operational software and design systems for CBRE, Toro, Banner Bank and International Trucks. The work was clarity, hierarchy and coherence across products that had grown complicated, and it taught me how far a visual system can carry. Some of it I explained in public.</p>
             </div>
           </div>
           <div class="about-beat-row reveal">
@@ -1227,90 +493,37 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
               </span>
             </a>
-            <!-- The last sentence answers the question a hiring manager
-                 forms at the hero: is this a job search or a consultancy
-                 that will entertain one. It used to be answered sideways --
-                 "Independent is how I work, not a waiting room", then the
-                 opposite -- and the review that prompted the hire-me pass
-                 read the pair as defensive and then contradictory. Now it is
-                 the plain story: twenty years of complex product work,
-                 building independently because I can, and one team next if
-                 the problem is worth years. Contact says the same in its own
-                 words. The "experience is compressed time" paragraph that
-                 followed was the client-facing case for buying the years, and
-                 left with the pass.
-
-                 "BUILDING WITH AGENTS" SINCE 2026-10-06, where it was
-                 "Building": the third stage is not only that I build again,
-                 which the Craft years also were, but who else is building.
-                 The beat now says what the work is about -- AI as an actor
-                 inside the product and inside the team that makes it -- and
-                 names Agent Review's three questions in the case study's own
-                 terms: where an agent's autonomy stops (its boundaries),
-                 what a design system has to tell it (the components and the
-                 twelve rules), and how a person's decision becomes a rule.
-                 "Less a departure than the place those years were leading"
-                 is the craft-to-systems-to-agents story in one sentence, and
-                 the closing sentence about one team is unchanged. -->
             <div class="about-beat-text">
-              <p><strong class="about-beat">Design and build, with agents &middot; 2026&ndash;now</strong>Since RBA I&rsquo;ve been building independently with coding agents: two products in use, <a href="case-study/faunaform.html">a print studio&rsquo;s production line</a>, client work and <a href="lab/index.html">a lab of working prototypes</a>.</p>
-              <!-- RBA WAS A CHOICE, since 2026-10-24. "I never stopped
-                   building" (from 2026-10-23) read as an excuse for not
-                   coding there. The plain account: at RBA he chose to lead
-                   the UX practice and developers built from his direction;
-                   coding agents are what let one person do both now. -->
-              <p>At RBA I chose the practice over the code. I led the UX work, and developers built from my designs and direction. Coding agents changed that: now I can design and build, and judgment is the scarce part.</p>
-              <p>What I want next is one team, and a product complicated enough to be worth years.</p>
+              <p><strong class="about-beat">Independent &middot; 2026&ndash;now</strong>Since RBA I&rsquo;ve made things end to end: a travel brand for my sister, a training app for our dog, a screen-print studio, a book, and a fictional coffee brand to show the whole arc. I use coding agents and image models the way I used to use jQuery, as tools that make the visual work real faster. The judgment is mine.</p>
+              <p>What I want next is a senior craft role on a team where visual excellence matters.</p>
             </div>
           </div>
-          <!-- The test, said so a client can apply it rather than only admire
-               it. It named a property of the work; the second sentence names a
-               property of the people, which is what the engagement pages now
-               promise and this line was one clause short of.
-               Source: Essay 25, "Leave the Client Better Than You Found Them".
-               AS A QUESTION since the voice pilot (2026-10-21): the same test,
-               asked rather than stated, and without the "not whether X, but
-               whether Y" turn VOICE.md allows once a page. -->
-          <p class="about-close reveal">The test I still use is one question: when the project ends, is the team better at this than it was?</p>
+          <p class="ha-close reveal">The test I still use is one question: when the work ships, does it look like someone cared about every part of it?</p>
         </div>
         <p class="lucy reveal"><img decoding="async" loading="lazy" src="img/site/lucy.webp" alt="Lucy" width="370" height="370"/>(Lucy approves of this message from her curled-up spot nearby)</p>
       </div>
     </section>
 
+    <!-- The two sections the header names that the page does not otherwise
+         show, in one slim band. -->
+    <section class="hm" aria-label="Writing and experiments">
+      <div class="container">
+        <ul class="hm-row">
+          <li><a class="hm-link reveal" href="writing/index.html"><h3>Writing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h3><p>On design, creativity and technology: craft and judgment, designing in working software, and essays from an earlier focus on AI agents.</p></a></li>
+          <li><a class="hm-link reveal" href="lab/index.html"><h3>Experiments<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h3><p>Prototypes and technical explorations, AI included: Agent Review, the dispatch cockpit and a motion study.</p></a></li>
+        </ul>
+      </div>
+    </section>
+
   </main>
 
-  <!-- ============================== CONTACT ==============================
-       Deliberately plain: an email address and a LinkedIn link. No intake
-       form, no scheduling widget, no discovery-call funnel. SINCE
-       2026-10-21 the heading is an open door rather than a job ask: anyone
-       may write, about anything, and a role is one reason among several.
-       The paragraph's second sentence still carries the terms the four
-       engagement pages close on, so a reader sent here from one of them
-       finds the sentence they just read. The button carries the same words
-       as the hero's ask and the line under the shelf -- one verb for the
-       one thing the page asks -- and the note it opens has a subject line
-       and nothing else, because the paragraph no longer asks for anything
-       in particular. The plain address below it stays plain.            -->
+  <!-- ============================== CONTACT ============================== -->
   <section id="contact" class="contact">
     <div class="container">
       <header class="section-head reveal">
         <p class="section-eyebrow">Contact</p>
-        <h2>Let&rsquo;s talk</h2>
-        <!-- The flight-risk question a practice on the page invites used to
-             be answered here in a clause, "the kind worth staying in", and in
-             the hero before that. Both are gone: the phrase was the site
-             protesting a doubt no reader had put into words, which is the
-             thing About's own note warns against. What answers it now is
-             plainer and sits in About -- one team, a product worth years.
-             SINCE 2026-10-21 the paragraph opens on who may write, which is
-             anyone, and what about, which is anything; it used to open on
-             the role, under "Tell me about the role", and read as if a
-             reader without a job to offer had come to the wrong door. The
-             role keeps its terms in the second sentence, word for word what
-             the engagement pages and their FAQs say, and the engagement
-             keeps its clause, last. Forty-nine words since 2026-10-24, when hybrid in the Twin Cities joined remote; forty-four was the length VOICE.md's
-             pilot left this paragraph at. -->
-        <p>I&rsquo;m glad to hear from anyone, about a product you&rsquo;re building, how agents are changing design, or nothing in particular. If it&rsquo;s work: a senior product design role, in-house, remote or hybrid in the Twin Cities, with a team that can hire in Minnesota, or a select independent engagement.</p>
+        <h2>Let&rsquo;s make something good</h2>
+        <p>If you run a creative team, an agency, a studio or an in-house group where visual craft matters, I&rsquo;d like to hear from you: senior digital, visual or interactive design, in Minneapolis, hybrid or remote. Anyone else is welcome too. A few sentences are plenty.</p>
       </header>
       <div class="cta-row reveal">
         <a href="mailto:adam@adamhickey.com?subject=Hello%20from%20your%20site" class="btn btn-primary">Start a conversation</a>
@@ -1322,7 +535,7 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p class="footer-name">Adam Hickey &middot; Senior Product Designer &middot; Strategy, UX, Systems, Prototyping, Build &middot; Minneapolis / Remote or hybrid</p>
+      <p class="footer-name">Adam Hickey &middot; Senior Digital Designer &middot; Brand, digital and interactive &middot; Minneapolis / Remote or hybrid</p>
       <ul class="footer-links">
         <li><a href="mailto:adam@adamhickey.com">Email</a></li>
         <li><a href="writing/index.html">Writing</a></li>
@@ -1334,55 +547,10 @@
   </footer>
 
   <script>
-    /* ---------- 1. Hero title: per-letter reveal --------------------------------
-       Mirrors the live site's Framer Motion stagger. Walks text nodes inside
-       .hero-title, wraps each character in <span class="char"> with an
-       animation-delay derived from its index.                                     */
-    (function splitHeroTitle() {
-      const h1 = document.querySelector('.hero-title');
-      if (!h1) return;
-      let i = 0;
-      function walk(node) {
-        Array.from(node.childNodes).forEach(child => {
-          if (child.nodeType === Node.TEXT_NODE) {
-            const frag = document.createDocumentFragment();
-            // Split on whitespace but keep the separator tokens so spaces survive.
-            const tokens = child.textContent.split(/(\s+)/);
-            tokens.forEach(token => {
-              if (!token) return;
-              if (/^\s+$/.test(token)) {
-                frag.appendChild(document.createTextNode(token));
-                return;
-              }
-              const word = document.createElement('span');
-              word.className = 'word';
-              for (const ch of token) {
-                const span = document.createElement('span');
-                span.className = 'char';
-                span.style.setProperty('--char-i', i++);
-                span.textContent = ch;
-                word.appendChild(span);
-              }
-              frag.appendChild(word);
-            });
-            child.replaceWith(frag);
-          } else if (child.nodeType === Node.ELEMENT_NODE) {
-            walk(child);
-          }
-        });
-      }
-      walk(h1);
-      // Reveal the title now that the chars are in place. CSS keeps the h1
-      // visibility:hidden until this class is added so the user never sees
-      // the unsplit title flash by before the animation starts.
-      h1.classList.add('is-split');
-    })();
-
-    /* ---------- 2. Reveal-on-scroll via IntersectionObserver -------------------
+    /* ---------- Reveal-on-scroll via IntersectionObserver -------------------
        Any element with .reveal lifts into view when it enters the viewport.
-       Elements that are already in (or partially in) the initial viewport
-       reveal immediately so the IO's -8% bottom margin can't strand items
-       like the logo strip that sit just barely above the fold.               */
+       Elements already in the initial viewport reveal immediately so the
+       IO's -8% bottom margin can't strand items sitting just above the fold. */
     (function setupReveals() {
       const els = document.querySelectorAll('.reveal');
       if (!('IntersectionObserver' in window)) {
@@ -1408,9 +576,7 @@
       });
     })();
 
-
-
-    /* ---------- 3. Smooth-scroll for in-page anchors --------------------------- */
+    /* ---------- Smooth-scroll for in-page anchors --------------------------- */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const id = a.getAttribute('href').slice(1);
@@ -1420,41 +586,32 @@
       });
     });
 
-    /* ---------- 4. Smooth-scroll to #hash on initial load -----------------------
-       When you click the site logo from a case study (which links to
-       index.html#case-studies), this glides to the section instead of jumping.    */
+    /* ---------- Smooth-scroll to #hash on initial load ----------------------- */
     (function landingHashScroll() {
       if (!window.location.hash) return;
-      // Defer one tick so layout settles after reveal observer attaches.
       requestAnimationFrame(() => {
         const target = document.querySelector(window.location.hash);
         if (target) {
-          // Jump to top first to avoid Chrome's native anchor jump, then smooth-scroll.
           window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
           setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
         }
       });
     })();
 
-
-    /* ---------- 5d. Case-study magnetic tilt -----------------------------------
-       Feeds the CSS tilt (see .case-thumb under the hover/fine-pointer
-       media block): pointer position maps to --rx/--ry so the thumbnail
-       tilts toward the cursor, and .is-tilting applies the lift and
-       shadow. Max angles are set here. Skipped for touch, coarse
-       pointers, and reduced motion.                                      */
+    /* ---------- Case-study magnetic tilt -----------------------------------
+       Pointer position maps to --rx/--ry so a card's thumbnail tilts toward
+       the cursor, and .is-tilting applies the lift and shadow. Skipped for
+       touch, coarse pointers, and reduced motion. */
     (function setupCaseTilt() {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-      const MAX_RX = 6, MAX_RY = 8; // degrees
-      /* The lab card's figure tilts as a thumbnail does: it is that card's
-         picture, and a link to its case study like theirs. */
-      document.querySelectorAll('.case-grid .case-thumb, .case-grid .loop-link .loop, .case-grid .loop-link .quiet-cancel').forEach(thumb => {
+      const MAX_RX = 6, MAX_RY = 8;
+      document.querySelectorAll('.case-grid .case-thumb, .hw-feature .case-thumb').forEach(thumb => {
         thumb.addEventListener('pointerenter', () => thumb.classList.add('is-tilting'));
         thumb.addEventListener('pointermove', (e) => {
           const r = thumb.getBoundingClientRect();
-          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;  // -1 left .. 1 right
-          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;  // -1 top .. 1 bottom
+          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
           thumb.style.setProperty('--ry', (-nx * MAX_RY).toFixed(2) + 'deg');
           thumb.style.setProperty('--rx', (ny * MAX_RX).toFixed(2) + 'deg');
         });
@@ -1466,26 +623,20 @@
       });
     })();
 
-    /* ---------- 5e. Case-study hero morph ---------------------------------------
-       Cross-document view transitions: the clicked card's thumbnail is
-       given view-transition-name: case-hero just before navigation, and
-       each case study page's hero image carries the same name, so
-       supporting browsers morph one into the other. On the way back,
-       pagereveal names the matching card so the hero returns into it.
-       Unsupported browsers never enter any of these code paths' effects
-       and navigate normally.                                             */
+    /* ---------- Case-study hero morph ---------------------------------------
+       Cross-document view transitions: the clicked card's thumbnail is named
+       case-hero just before navigation, and each case study page's hero image
+       carries the same name, so supporting browsers morph one into the other. */
     (function setupCaseMorph() {
       if (!('CSS' in window) || !CSS.supports('view-transition-name: none')) return;
-      /* The lab card is left out: its page carries no case-hero, so naming
-         its thumb would animate the picture out into nothing. */
-      const cards = Array.from(document.querySelectorAll('.case-card:not(.case-card--lab)'));
+      const cards = Array.from(document.querySelectorAll('.case-card'));
       const clearNames = () => cards.forEach(c => {
         const img = c.querySelector('.case-thumb img');
         if (img) img.style.viewTransitionName = '';
       });
       cards.forEach(card => {
         card.addEventListener('click', () => {
-          clearNames(); // only one element may carry the name at snapshot
+          clearNames();
           const img = card.querySelector('.case-thumb img');
           if (img) img.style.viewTransitionName = 'case-hero';
         });
@@ -1507,24 +658,21 @@
           activeTransition = null;
         });
       });
-      // A bfcache restore can resurrect a stale name from the last click.
       window.addEventListener('pageshow', (e) => {
         if (e.persisted && !activeTransition) clearNames();
       });
     })();
 
-    /* ---------- 6. Nav background + shadow on scroll --------------------------- */
+    /* ---------- Nav background + shadow on scroll --------------------------- */
     const nav = document.querySelector('.site-nav');
     const updateNav = () => nav.classList.toggle('is-scrolled', window.scrollY > 8);
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
   </script>
 
-  
   <!-- Email copy popover: the email nav link opens a small card with a
-       selectable/editable address, a Copy button, and a Close button
-       instead of launching the mail client. Self-contained (injects its
-       own scoped styles); falls back to mailto: if JS is unavailable. -->
+       selectable address, a Copy button, and a Close button instead of
+       launching the mail client. Self-contained; falls back to mailto:. -->
   <script>
   (function () {
     var trigger = document.querySelector('[data-email-popover]');
@@ -1536,7 +684,7 @@
       '.ah-emailpop{position:fixed;z-index:200;min-width:312px;max-width:calc(100vw - 16px);' +
       'background:var(--color-white);border:1px solid var(--rule-hairline);border-radius:12px;' +
       'box-shadow:var(--shadow-popover);padding:13px 14px 14px;' +
-      "font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;" +
+      "font-family:var(--font-sans);" +
       'opacity:0;visibility:hidden;transform:translateY(-4px);' +
       'transition:opacity var(--motion-move) var(--ease), transform var(--motion-move) var(--ease), visibility var(--motion-move) var(--ease);}' +
       '.ah-emailpop.ah-open{opacity:1;visibility:visible;transform:translateY(0);}' +
@@ -1637,12 +785,6 @@
     function onOutside(e) {
       if (!pop.contains(e.target) && !trigger.contains(e.target)) close(false);
     }
-    /* A pointer leaving the popover closes it; a Tab key leaving it did not,
-       so a keyboard user could walk past the Copy button and leave an open
-       dialog floating over content they could no longer reach by Tab. This is
-       the same rule as onOutside, asked of focus instead of the pointer.
-       relatedTarget is where focus is going, and it is null when focus leaves
-       the document entirely -- which is a close, not an exception. */
     function onFocusOut(e) {
       var to = e.relatedTarget;
       if (!to || (!pop.contains(to) && !trigger.contains(to))) close(false);
@@ -1678,15 +820,13 @@
     closeBtn.addEventListener('click', function () { close(true); });
   })();
   </script>
-  <!-- Photo lightbox: an [data-zoom] link opens its target image in an
-       overlay rather than navigating away. lightbox.js, shared with the
-       Agent Review write-up's screens from 2026-10-06 to 2026-10-09. -->
+  <!-- Photo lightbox: a [data-zoom] link opens its target image in an
+       overlay rather than navigating away. -->
   <script src="lightbox.js?v=2"></script>
 
-
   <script>
-    /* Honor prefers-reduced-motion for the hero clip. CSS cannot stop
-       playback, so pause it and let the poster stand in. */
+    /* Honor prefers-reduced-motion for the portrait clip, and the manual
+       pause control, which reads the video's own state. */
     (function () {
       var v = document.querySelector('.hero-portrait-video');
       if (!v) return;
@@ -1697,20 +837,10 @@
       };
       apply();
       if (mq.addEventListener) mq.addEventListener('change', apply);
-
-      /* The manual control. It reads the video's own state rather than
-         keeping its own flag, so the reduced-motion pause above and a media
-         query changing mid-session both leave the button telling the truth. */
       var btn = document.querySelector('.hero-portrait-toggle');
       if (!btn) return;
       var pauseIcon = btn.querySelector('.hero-portrait-toggle-pause');
       var playIcon  = btn.querySelector('.hero-portrait-toggle-play');
-      /* setAttribute rather than el.hidden = : `hidden` is an HTMLElement IDL
-         attribute and SVGElement has no such reflection, so `svg.hidden = true`
-         sets a plain expando that never reaches the attribute and so never
-         reaches CSS. Worse for anyone testing it, the expando reads back as
-         whatever was assigned, so a check on el.hidden confirms its own
-         assignment rather than the DOM. */
       var show = function (el, on) {
         if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
       };

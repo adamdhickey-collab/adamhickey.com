@@ -1,0 +1,206 @@
+/* home.css -- the homepage since the repositioning (2026-10-26), loaded by
+ * index.html alone, after style.css.
+ *
+ * The page's flow (docs/rebrand/site-architecture.md): a headline and the
+ * positioning, a wall of the work, the flagship, Innovators Studio, the
+ * other projects, What I bring, a short career introduction, and contact.
+ * style.css still carries the previous homepage's hero, proof strip and
+ * engagement grid; those rules style nothing now and come out in a cleanup
+ * pass once the repositioning has landed (docs/rebrand/quality-review.md).
+ * What this file reuses from style.css: .container, the heading ladder and
+ * the lifted homepage floors (.home h2), .section-head, .btn, .case-card and
+ * .case-grid, .tag, .logo-block, the portrait frame and caption
+ * (.hero-photo-frame, .hero-caption, the pause control), .about-media and the
+ * lightbox, .contact and .site-footer.
+ *
+ * Every size is a step or a ramp, every space a step or a ramp, every
+ * duration a token, and no .is-* class is declared here.
+ */
+
+/* ---------- The headline ---------------------------------------------------
+   One column, off the container's left rail, under the fixed bar. The title
+   takes --type-title at the full measure, so it is a page title like every
+   other h1 and the largest type on the page. */
+.hh { background: var(--color-warm); padding: calc(var(--nav-height) + var(--space-section)) 0 var(--space-section); }
+.hh-eyebrow {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-accent-text);
+}
+.hh-title { max-width: 16ch; margin: 0 0 var(--space-xl); text-wrap: balance; }
+.hh-line {
+  max-width: var(--measure); font-family: var(--font-serif);
+  font-size: var(--type-lede); line-height: var(--leading-tight); color: var(--color-charcoal);
+}
+.hh-cta { margin-top: var(--space-2xl); margin-bottom: 0; align-items: center; }
+.hh-resume { display: inline-flex; align-items: center; gap: var(--space-2xs); min-height: 44px; font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .hh-resume:hover { color: var(--color-charcoal); } }
+@media (max-width: 640px) { .hh-resume { align-self: flex-start; } }
+
+/* The wall: the work itself, before a word about it. Six tall tiles that
+   scroll sideways on a phone and stand in a row from 768, each a link to its
+   project, each cropped to the same 4:5 so the row reads as one shelf of
+   different things. The names appear under the tiles, in the sans, so the
+   pictures carry no text and the wall needs no scrim. */
+.hh-wall { margin-top: var(--space-block); }
+.hh-wall-row {
+  display: flex; gap: var(--space-md); margin: 0; padding: 0 0 var(--space-sm); list-style: none;
+  overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.hh-wall-row > li { flex: 0 0 58%; scroll-snap-align: start; margin: 0; }
+@media (min-width: 640px) { .hh-wall-row > li { flex-basis: 36%; } }
+@media (min-width: 1024px) {
+  .hh-wall-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-md); overflow: visible; padding-bottom: 0; }
+  .hh-wall-row > li { flex: none; }
+}
+.hh-tile { display: block; color: var(--color-charcoal); text-decoration: none; }
+.hh-tile-media {
+  position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-xl);
+  background: var(--color-muted-light); border: 1px solid var(--rule-card);
+}
+.hh-tile-media img { width: 100%; height: 100%; object-fit: cover; object-position: var(--tile-focus, 50% 0); display: block; transition: transform var(--motion-enter) var(--ease); }
+.hh-tile-name { display: block; margin-top: var(--space-xs); font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; line-height: var(--leading-ui); }
+.hh-tile-kind { display: block; font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.hh-tile:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 4px; border-radius: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .hh-tile:hover .hh-tile-media img { transform: scale(var(--motion-lift)); }
+  .hh-tile:hover .hh-tile-name { color: var(--color-accent-text); }
+}
+.hh-tile:focus-visible .hh-tile-name { color: var(--color-accent-text); }
+/* The client wordmarks, under the wall, with the strip style.css already
+   draws; its own top margin is the gap, and the shelf rule above it says
+   the names belong to the wall rather than to the section after it. */
+.hh .logo-block { margin-top: var(--space-block); margin-bottom: 0; padding-top: var(--space-xl); border-top: 1px solid var(--rule-strong); }
+
+/* ---------- Selected work --------------------------------------------------
+   White, so the cards' pictures sit on the quietest ground the site has. */
+.hw { background: var(--color-white); padding: var(--space-section) 0; }
+.hw .section-head { margin-bottom: var(--space-2xl); }
+@media (min-width: 768px) { .hw .section-head { margin-bottom: var(--space-3xl); } }
+.hw-anchor { display: block; position: relative; top: calc(-1 * var(--nav-height) - var(--space-xl)); visibility: hidden; height: 0; }
+.hw-kicker {
+  display: block; margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-accent-text);
+}
+/* The featured card: Innovators Studio, the whole container wide, picture
+   beside words from 1024. It is a .case-card so the title, the description,
+   the tags and the go-line are the ones every other card has. */
+.hw-feature { margin-bottom: var(--space-block); }
+@media (min-width: 1024px) {
+  .hw-feature { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-4xl); align-items: center; }
+  .hw-feature .case-thumb { margin-bottom: 0; }
+}
+.hw-feature .case-thumb { aspect-ratio: 16 / 10; }
+/* The flagship: a band on the feature ground, the brand's own composition in
+   it, and two ways in. The band is a zone (rung 1) with the edge every zone
+   takes; the picture inside it keeps its own corners. */
+.hw-flag {
+  background: var(--color-tea-light); border: 1px solid var(--rule-card); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-zone); padding: var(--space-xl); margin-bottom: var(--space-block);
+  display: grid; gap: var(--space-xl);
+}
+@media (min-width: 768px) { .hw-flag { padding: var(--space-3xl); } }
+@media (min-width: 1024px) { .hw-flag { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-4xl); align-items: center; } }
+.hw-flag-media { margin: 0; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--rule-card); background: var(--color-white); }
+.hw-flag-media img { display: block; width: 100%; height: auto; }
+@media (min-width: 1024px) { .hw-flag-media { grid-column: 2; grid-row: 1; } .hw-flag-body { grid-column: 1; grid-row: 1; } }
+.hw-flag h3 { font-size: max(var(--type-subsection), var(--text-3xl)); margin-bottom: var(--space-sm); }
+.hw-flag p { max-width: 36rem; }
+.hw-flag .cta-row { margin: var(--space-xl) 0 0; }
+.hw-flag .hw-note { margin-top: var(--space-md); font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+/* The depth row: the enterprise work and the work in progress as four
+   compact cards with a line each, under their own heading. */
+.hw-depth { margin-top: var(--space-block); padding-top: var(--space-2xl); border-top: 1px solid var(--rule-strong); }
+.hw-depth h3 { font-size: var(--text-2xl); margin-bottom: var(--space-xs); }
+.hw-depth > p { max-width: var(--measure); margin-bottom: var(--space-xl); }
+.hw-minis { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .hw-minis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .hw-minis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.hw-mini { display: block; color: var(--color-charcoal); text-decoration: none; }
+.hw-mini-media { aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius-xl); border: 1px solid var(--rule-card); background: var(--color-muted-light); }
+.hw-mini-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--motion-enter) var(--ease); }
+.hw-mini h4 { margin: var(--space-sm) 0 var(--space-2xs); font-family: var(--font-serif); font-weight: var(--weight-regular); font-size: var(--text-xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-heading); transition: color var(--motion-state) var(--ease); }
+.hw-mini p { font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
+@media (hover: hover) and (pointer: fine) {
+  .hw-mini:hover .hw-mini-media img { transform: scale(var(--motion-lift)); }
+  .hw-mini:hover h4 { color: var(--color-accent-text); }
+}
+.hw-mini:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 4px; border-radius: 4px; }
+.hw-all { margin-top: var(--space-2xl); font-family: var(--font-sans); font-size: var(--text-base); }
+.hw-all a { color: var(--color-accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .hw-all a:hover { color: var(--color-charcoal); } }
+
+/* ---------- What I bring ---------------------------------------------------
+   Four abilities on the warm ground, each with one of the still lifes the
+   previous homepage's "How I work" grid carried (real objects on an office
+   theme, the most handmade pictures the site has), a serif name, three
+   lines and the projects that show it. Two by two from 768. */
+.hb { background: var(--color-warm); padding: var(--space-section) 0; }
+.hb .section-head { margin-bottom: var(--space-3xl); }
+.hb-grid { display: grid; gap: var(--space-2xl); margin: 0; padding: 0; list-style: none; counter-reset: bring; }
+@media (min-width: 768px) { .hb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4xl) var(--space-2xl); } }
+.hb-item { counter-increment: bring; display: grid; gap: var(--space-md); }
+@media (min-width: 640px) { .hb-item { grid-template-columns: 9rem minmax(0, 1fr); gap: var(--space-xl); align-items: start; } }
+.hb-figure { margin: 0; aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius-xl); border: 1px solid var(--rule-card); background: var(--color-muted-light); }
+.hb-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hb-num { display: block; font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--tracking-caps); color: var(--color-accent-text); margin-bottom: var(--space-2xs); }
+.hb-num::before { content: counter(bring, decimal-leading-zero); }
+.hb-item h3 { font-size: var(--text-2xl); line-height: var(--leading-heading); margin-bottom: var(--space-xs); }
+.hb-item p { font-size: var(--text-base); max-width: 32rem; }
+.hb-seen { margin-top: var(--space-sm); font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
+.hb-seen a { color: var(--color-accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .hb-seen a:hover { color: var(--color-charcoal); } }
+.hb-close { margin-top: var(--space-3xl); max-width: var(--measure); font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); color: var(--color-charcoal); }
+
+/* ---------- About ----------------------------------------------------------
+   White. The portrait that opened the previous homepage sits here now, in
+   the same frame, caption and pause control style.css draws for it (the
+   caption's scrim was measured against this clip; COLOR.md section 5), beside
+   the sentence a machine can quote and the lede. The beats under it are the
+   career told honestly, in three rows, each with its photograph in the
+   lightbox frame .about-media already draws; the row rules and the focus
+   ring are this ground's, not the charcoal band's the old rules assumed. */
+.ha { background: var(--color-white); padding: var(--space-section) 0; }
+.ha h2 { margin-bottom: var(--space-2xl); }
+.ha-top { display: grid; gap: var(--space-2xl); margin-bottom: var(--space-block); }
+@media (min-width: 768px) { .ha-top { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-4xl); align-items: center; } }
+.ha-top .hero-photo-frame { position: relative; width: 100%; max-width: 360px; aspect-ratio: 1; margin: 0; border-radius: 50%; overflow: hidden; background: var(--color-muted-light); }
+.ha-top .hero-photo-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ha-entity { font-family: var(--font-sans); font-size: var(--text-lg); line-height: var(--leading-body); max-width: 60ch; }
+.ha-lede { margin-top: var(--space-lg); font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); max-width: var(--measure); }
+.ha-beats .about-beat-row { border-top-color: var(--rule-strong); }
+.ha-beats .about-beat-row:first-child { border-top: 1px solid var(--rule-strong); padding-top: var(--space-2xl); }
+.ha-beats .about-beat { color: var(--color-accent-text); }
+.ha-beats .about-beat-text p { font-size: var(--text-base); max-width: var(--measure); }
+.ha-beats .about-beat-text p + p { margin-top: var(--space-sm); }
+.ha-beats .about-beat-text a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .ha-beats .about-beat-text a:hover { color: var(--color-charcoal); } }
+.ha-beats a.about-media:focus-visible { outline-color: var(--color-focus-ring); }
+.ha-close { margin-top: var(--space-2xl); max-width: var(--measure); font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); }
+.ha .lucy { margin-top: var(--space-2xl); color: var(--color-muted-gray); }
+
+/* ---------- Writing and experiments ----------------------------------------
+   One slim band on the alternate ground: the two sections the header names
+   that the page does not otherwise show, each a row with a line and an
+   arrow, so a reader finds them without the page growing a section. */
+.hm { background: var(--color-muted-light); padding: var(--space-block) 0; }
+.hm-row { display: grid; gap: var(--space-xl); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .hm-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4xl); } }
+.hm-link { display: block; padding: var(--space-lg) 0; border-top: 1px solid var(--rule-strong); color: var(--color-charcoal); text-decoration: none; }
+.hm-link h3 { font-size: var(--text-2xl); display: inline-flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-xs); transition: color var(--motion-state) var(--ease); }
+.hm-link h3 svg { width: 20px; height: 20px; transition: transform var(--motion-move) var(--ease); }
+.hm-link p { font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-charcoal); max-width: 36rem; }
+@media (hover: hover) and (pointer: fine) {
+  .hm-link:hover h3 { color: var(--color-accent-text); }
+  .hm-link:hover h3 svg { transform: translateX(var(--space-2xs)); }
+}
+.hm-link:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 4px; border-radius: 4px; }
+.hm-link:focus-visible h3 { color: var(--color-accent-text); }
+
+/* Contact keeps style.css's rules; the heading here is the invitation. */
+.contact .section-head p { font-size: var(--text-lg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hh-tile-media img, .hw-mini-media img, .hm-link h3 svg { transition: none; transform: none !important; }
+}
