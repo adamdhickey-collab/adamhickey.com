@@ -33,8 +33,8 @@ const OUT = 'img/lab/agent-review-cycle-card.webp';
 
 const WAYS = [
   { id: 'undo', label: 'Archive, with the option to undo', screen: '' },
-  { id: 'confirm', label: 'Confirm first, then archive', screen: '' },
-  { id: 'review', label: 'Review the list, then archive', screen: '' },
+  { id: 'confirm', label: 'Confirm once, then archive', screen: '' },
+  { id: 'review', label: 'Check each one, then archive', screen: '' },
 ];
 
 const html = `<!doctype html><html><head><meta charset="utf-8">
