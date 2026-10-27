@@ -126,7 +126,7 @@
   <link rel="stylesheet" href="style.css?v=20261026c" />
   <link rel="stylesheet" href="site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="thumb-loop.css?v=1" />
+  <link rel="stylesheet" href="thumb-loop.css?v=2" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -942,11 +942,14 @@
             <!-- THE PROTOTYPE'S OWN SCREEN, since 2026-10-27 (Adam: "literally
                  be the card"): the Explore scene as the app draws it, and since
                  the same day building itself one option at a time (Adam: "one
-                 step at a time or one option at a time"), a twelve-second loop
-                 made by scripts/explore-card.mjs from the app's own DOM. The
-                 poster is the loop's first frame, which is also its last, so the
-                 switch from poster to clip cannot be seen and a reduced-motion
-                 reader gets the finished screen. No autoplay and preload="none",
+                 step at a time or one option at a time"), a twelve-second clip
+                 made by scripts/explore-card.mjs from the app's own DOM. It
+                 plays ONCE, the first time the card is on screen, and stops on
+                 the finished screen (Adam: "not have it keep looping"); it
+                 looped for its first hour. The poster is the clip's first
+                 frame, which is also its last, so the switch from poster to
+                 clip cannot be seen, the clip ends where the poster began, and
+                 a reduced-motion reader gets the finished screen. No autoplay and preload="none",
                  as with the hero portrait: the script below starts the clip only
                  when the card is on screen and motion is allowed, so nobody pays
                  for bytes they will not see. thumb-loop.css has the pause
@@ -955,7 +958,7 @@
               <a class="case-thumb" href="lab/agent-review.html" aria-label="Read the Agent Review case study: three ways to archive, one designer&rsquo;s call">
                 <video class="case-thumb-video" tabindex="-1" src="img/lab/agent-review-explore-card.mp4?v=1"
                        poster="img/lab/agent-review-explore-card.webp?v=2" width="1600" height="900"
-                       loop muted playsinline preload="none" aria-hidden="true"></video>
+                       muted playsinline preload="none" aria-hidden="true"></video>
               </a>
               <button type="button" class="thumb-toggle" aria-label="Pause the animation">
                 <svg class="thumb-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
@@ -1799,9 +1802,11 @@
     })();
   </script>
   <script>
-    /* The Agent Review card's loop plays while the card is on screen, unless
-       the reader prefers reduced motion or has paused it; the poster stands
-       in otherwise. A press on the button is the reader's own choice, so it
+    /* The Agent Review card's clip plays once, the first time the card is on
+       screen, unless the reader prefers reduced motion; the poster stands in
+       otherwise. Scrolled away mid-clip, it waits and carries on when the
+       card comes back. Once it has ended it stays on the finished screen, and
+       the button becomes a replay. A press is the reader's own choice, so it
        plays even under reduced motion. */
     (function () {
       var v = document.querySelector('.case-thumb-video');
@@ -1810,9 +1815,10 @@
       var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       var seen = !('IntersectionObserver' in window);
       var choice = null; /* 'play' or 'pause' once the reader has pressed */
+      var done = false;  /* it has played through once */
       var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
       var apply = function () {
-        var want = seen && (choice ? choice === 'play' : !mq.matches);
+        var want = seen && (choice ? choice === 'play' : !mq.matches && !done);
         if (want) { if (v.paused) play(); } else if (!v.paused) v.pause();
       };
       if (!seen) {
@@ -1833,7 +1839,7 @@
         var playing = !v.paused;
         show(pauseIcon, playing);
         show(playIcon, !playing);
-        btn.setAttribute('aria-label', playing ? 'Pause the animation' : 'Play the animation');
+        btn.setAttribute('aria-label', playing ? 'Pause the animation' : v.ended ? 'Replay the animation' : 'Play the animation');
       };
       btn.addEventListener('click', function () {
         choice = v.paused ? 'play' : 'pause';
@@ -1841,6 +1847,7 @@
       });
       v.addEventListener('play', sync);
       v.addEventListener('pause', sync);
+      v.addEventListener('ended', function () { done = true; choice = null; sync(); });
       sync();
     })();
   </script>

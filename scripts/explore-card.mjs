@@ -12,7 +12,8 @@
    time and capturing each frame, so the clip is the same every run and no
    frame depends on how fast the machine is.
 
-   The loop, 12 seconds at 30fps:
+   The clip, 12 seconds at 30fps, played once on the page (it looped
+   for its first hour), so it ends on the frame it began with:
      0.0  the finished screen, which is also the poster (so the switch from
           poster to clip is invisible, and a reduced-motion reader sees the
           same picture the clip opens and closes on)
