@@ -74,38 +74,44 @@
   color: var(--color-muted-gray);
 }
 .arc-open-grid { display: grid; gap: var(--space-3xl); }
-/* SINCE 2026-10-26, TWO ROWS ON ONE GRID. The opener was two columns of
-   unequal weight: the title and its way in on the left, ending halfway
-   down, and on the right a second serif heading, the screen and three
-   answers in a row, set a column lower than the title's kicker. The left
-   ran out into blank paper, the two headings competed at different tops,
-   and the answers wrapped to one line and two. Now two equal columns
-   carry two rows, so every edge lines up and neither side outweighs the
-   other (since 2026-10-27; 5/7 until then, which still left the screen
-   the heavier half):
-     - the title on the left, and on the right what it means and the way
-       in, hung from the title's top line: the kicker's line and margin
-       drop the right column so the dek and the title start together;
-     - the question on the left, its one-line setup and three answers
-       stacked under it as one list, and Relay's list on the right, the
-       two sharing a top. The result opens under the answers and moves nothing else.
-   Under 64rem it is one column in reading order, as before, and the dek
-   keeps the title's own margin rather than the grid's gap. */
-@media (max-width: 63.99rem) {
-  .arc-open-text { margin-top: calc(-1 * var(--space-3xl)); }
+/* SINCE 2026-10-27, THE TITLE AND A DRAWING, and the question in a band of
+   its own under them. The hero had held the question too, on a 5/7 grid
+   and then two equal ones, with the dek and the way in hung from the
+   title's top line on the right: two blocks of text side by side and a
+   question row under them, all on one ground, read as one crowded panel.
+   Now the hero is what a hero is: on the left the kicker, the title, what
+   it means, the way in and the status, in that order; on the right one
+   drawing in the writing articles' hand (scripts/illustrate.mjs feature),
+   a crane hook lifting a panel and a tag line steering it -- the agent
+   builds, the designer leads. The two columns share a middle. The
+   question opens the next band, .arc-ship, on the tea ground.
+   Under 64rem it is one column: the text, then the drawing. */
+.arc-open-art { margin: 0; }
+/* Framed as the articles frame their feature (.writing-feature): the
+   drawing's cream is its own, so it is a tile with the card's corner and
+   the media drop rather than a picture bleeding into the warm. */
+.arc-open-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-media);
 }
 @media (min-width: 64rem) {
   .arc-open-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-4xl);
-    row-gap: var(--space-4xl);
-    align-items: start;
+    align-items: center;
   }
-  .arc-open-text { padding-top: calc(var(--text-sm) * var(--leading-ui) + var(--space-md)); }
-  .arc-open .arc-title { margin-bottom: 0; font-size: var(--text-6xl); }
+  .arc-open .arc-title { font-size: var(--text-6xl); }
   .arc-open .arc-dek { font-size: var(--text-xl); }
-  .arc-open .ship {
-    grid-column: 1 / -1;
+}
+
+/* The question's band: two equal columns, the question, its line and the
+   three answers on the left and Relay's list on the right, sharing a top.
+   The result opens under the answers and moves nothing else. */
+@media (min-width: 64rem) {
+  .arc-ship .ship {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       "ask    list"
@@ -119,7 +125,7 @@
   .ship-ask { grid-area: ask; }
   .ship-setup { grid-area: setup; }
   .ship-list { grid-area: list; }
-  .arc-open .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
+  .arc-ship .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
   .ship-result { grid-area: result; }
 }
 
@@ -194,7 +200,7 @@
    pressed state is one of scripts/lib/reachable.mjs's. Live (.ship-live,
    thrown by the head when script runs), the result waits for a press. */
 .ship { display: grid; gap: var(--space-lg); }
-.case-hero .ship-ask {
+.arc-ship .ship-ask {
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-3xl);
@@ -202,7 +208,7 @@
   letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-.case-hero .ship-setup {
+.arc-ship .ship-setup {
   margin: calc(var(--space-sm) - var(--space-lg)) 0 0;
   max-width: var(--measure);
   font-size: var(--text-base);
@@ -227,7 +233,7 @@
    archive" are. Active is the caution chip, the risk; Trial and Past due
    are quiet. Until then the checks were charcoal and a status was a word
    in a color. */
-.case-hero .ship-setup strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+.arc-ship .ship-setup strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 .ship-list {
   margin: 0;
   overflow: hidden;
@@ -236,7 +242,7 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
-.case-hero .ship-list-bar {
+.arc-ship .ship-list-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -370,7 +376,7 @@
   border-radius: var(--radius-xl);
   color: var(--ink-on-dark);
 }
-.case-hero .ship-result p {
+.arc-ship .ship-result p {
   margin: 0;
   max-width: var(--measure);
   font-size: var(--text-base);
@@ -385,7 +391,7 @@
   padding-top: var(--space-md);
   border-top: 1px solid var(--rule-on-dark);
 }
-.case-hero .ship-result .ship-verdict {
+.arc-ship .ship-result .ship-verdict {
   font-family: var(--font-serif);
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
@@ -797,7 +803,7 @@
 
 /* Phones. */
 @media (max-width: 40rem) {
-  .case-hero .ship-ask { font-size: var(--text-2xl); }
+  .arc-ship .ship-ask { font-size: var(--text-2xl); }
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }
