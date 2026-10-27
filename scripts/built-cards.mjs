@@ -14,7 +14,8 @@
  *   faunaform     the wordmark over the seven prints, four over three, in
  *                 the day's order
  *
- * Every picture in them is already on the site; nothing here is drawn. The
+ * Every picture in them is already on the site; nothing here is drawn but
+ * Lucy Learns's painted ground, kept beside the card it sits under. The
  * wordmark is a copy of the studio's (faunaform/output/brand/wordmark/
  * faunaform-wordmark.svg) with its viewBox trimmed to the letters, as the
  * shop's header trims it, so this runs without the sibling. The
@@ -42,6 +43,14 @@ const W = 1672, H = 941;
 const CARDS = {
   'lucy-learns': {
     ground: '--color-muted-light',
+    /* A painted entryway under the phones since 2026-10-27: the door the
+       app trains for at the left, the dog bed it sends her to at the right,
+       open wall between. Drawn in ChatGPT at the card's own 1672x941, so it
+       sits at 1:1 with nothing cropped; the token ground stays under it.
+       The committed card keeps the session and done screens as 57bbe9f had
+       them, which its alt text describes; a re-run takes today's captures,
+       so recheck that alt before committing one. */
+    image: 'img/products/lucy-learns-ground.webp',
     /* Each screen in the write-up's own phone since 2026-10-22: the
        .build-phone rule from style.css, at the 314px its hero row prints it,
        then zoomed until the phone stands 0.82 of the picture's height.
@@ -87,7 +96,7 @@ try {
       <link rel="stylesheet" href="${origin}/color.css"><link rel="stylesheet" href="${origin}/shell.css">
       ${(card.sheets || []).map((s) => `<link rel="stylesheet" href="${origin}/${s}">`).join('')}
       <style>html, body { margin: 0; width: ${W}px; height: ${H}px; }
-        body { display: flex; align-items: center; justify-content: center; background: var(${card.ground}); }
+        body { display: flex; align-items: center; justify-content: center; background: ${card.image ? `url("${origin}/${card.image}") center / cover, ` : ''}var(${card.ground}); }
         ${card.css}</style></head><body>${card.body.replaceAll('src="/', `src="${origin}/`)}</body></html>`);
     await page.waitForLoadState('networkidle');
     await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
