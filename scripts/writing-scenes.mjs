@@ -113,10 +113,10 @@ export const SCENES = [
   {
     id: 'my-next-design-challenge',
     group: 'release',
-    device: 'the same map, the route walking off its edge',
-    caption: 'The plan only reaches the edge of the map. The next stretch gets drawn by walking it.',
-    alt: 'The terracotta map again, fully open and cropped at the left, its black route crossing to the right edge of the paper and carrying on across the empty cream ground as a dashed line, to a small butter-yellow pin standing beyond the map.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta paper map as before, seen exactly from above, flat, now fully unfolded and lying in the left half of the frame, cropped by the top, bottom and left edges, its thin black fold lines dividing it into plain panels, with empty cream ground to its right. The same single solid black route winds across the map and does not stop at the paper's right edge: it carries on past the edge onto the empty cream ground as a black dashed line of a few short dashes, into the right-hand third. Where the dashes end, one small round map pin seen from above, the reveal, filled butter yellow with a black outline, sits on the cream ground beyond the map. No roads, no lettering, no grid, no hands, no table. Nothing else in the picture.`,
+    device: 'the same row of notes, the next ones not written yet',
+    caption: 'The wall only goes as far as what I’ve learned so far. The next note gets written after the next conversation.',
+    alt: 'The same row of terracotta sticky notes, cropped at the left, the butter-yellow note now carrying one short black line, and beyond it to the right three empty squares drawn only in black dashed outline on the cream wall where the next notes will go.',
+    prompt: `Same style, same hand as the reference. Cream ground, the same wall seen exactly straight on, flat, with no perspective. The same row of large square sticky notes as before across the middle third of the frame, now in the left half: three warm terracotta notes with thin black outlines and a few quick black marker scribbles, the first cropped by the left edge, then the same butter-yellow note, the reveal, which now carries one single short black marker line and nothing else. To its right, continuing the row into the right half, three empty squares of the same size drawn only as thin black dashed outlines on the cream wall, with nothing inside them: the places for notes not written yet. No pen, no hands, no people, no lettering anywhere. Nothing else in the picture.`,
   },
   {
     id: 'what-changes-when-ai-agents-join-the-product-team',
