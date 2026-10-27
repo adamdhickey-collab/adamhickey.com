@@ -73,6 +73,7 @@ const RETIRED = new Map([
   ['--color-black',       'COLOR.md §7 step 6: no consumers; the shadows carry literal rgba(0,0,0,...)'],
   ['--shadow-sm',         'COLOR.md §7 step 5: no consumers at all, deleted'],
   ['--type-display',      'TYPOGRAPHY.md §3: a first-draft ramp whose premises were all false'],
+  ['--color-slate-light', 'COLOR.md §2: the writing rail card\'s slate tint, replaced 2026-10-27 by the neutral --color-gray-light'],
   ['--quiet-cancel-ink',  'COLOR.md §6: artwork gray of the quiet cancel figure, which left the homepage card on 2026-10-26 with quiet-cancel.css'],
 ]);
 
