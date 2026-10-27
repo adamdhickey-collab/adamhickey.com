@@ -44,7 +44,7 @@ const CARDS = {
      this one too. It replaced img/og-card.jpg on 2026-09-17, a card drawn by
      hand for the independent practice that had outlived the practice by a
      week and the level by a day. */
-  'index':                             { kicker: 'Senior Product Designer',                title: 'Building is getting easier. Knowing what matters is still hard.', image: 'img/site/this-site.webp' },
+  'index':                             { kicker: 'Senior Product Designer',                title: 'Building is getting easier. Knowing what matters isn’t.', image: 'img/site/this-site.webp' },
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
