@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 39 pages in ten families |
+| **What this is** | The site: 40 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -120,7 +120,7 @@ the archive so that it holds everything staging ever had.
 | --- | --- |
 | `index.html` | The homepage |
 | `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the seventeen writing pages, the design system page and the two prototype pages load it |
-| `color.css`, `type.css`, `shell.css` | The token files, loaded by all thirty-nine pages. Color, type scale, and the page shell |
+| `color.css`, `type.css`, `shell.css` | The token files, loaded by all forty pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
 | `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
@@ -131,6 +131,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
+| `prototype/rebalance-cockpit.html`, `prototype/rebalance-cockpit.{css,js}`, `prototype/rebalance-snapshot.js` | The rebalancing cockpit: the dispatch cockpit's interface on Citi Bike's public GBFS feed, read in the reader's browser every minute, with no server and no key. It loads `dispatch-cockpit.css` whole and renders the same `.ck` markup; its own stylesheet holds only the feed line and a phone wrap. The page plays `rebalance-snapshot.js` instead of the feed when the feed does not answer, when the address carries `?snapshot`, and whenever `navigator.webdriver` is set, which is every check here, so the checks measure the same stations on every run. `scripts/rebalance-snapshot.mjs` retakes the snapshot and `scripts/rebalance-shots.mjs` the hero and the share card's picture from it |
 | `writing/*.html` | The index, the eleven articles it lists and the four it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
@@ -179,7 +180,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-nine pages in ten families, all hand-written HTML with no include step
+Forty pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -188,11 +189,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all thirty-nine pages, so a
+email icon and the skip link are hand-written into all forty pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-nine pages
+base ladder, and both regimes read it from `type.css`, which all forty pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -205,7 +206,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
-| Prototypes | 1 | A | A self-directed, interactive prototype on synthetic data, framed as design work: the dispatch cockpit. The deploy console was a second until 2026-10-23. |
+| Prototypes | 2 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, and since 2026-10-27 its interface on live Citi Bike data, the rebalancing cockpit. The deploy console was a second until 2026-10-23. |
 | Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The cockpit is listed there too, at its own address. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
 
@@ -334,9 +335,12 @@ trimmed off them, on the case-study shell at the root. The homepage's
 
 **Reference** -- `design-system/index.html`
 
-**Prototypes** -- `prototype/dispatch-cockpit.html`. A working demo rather
-than a write-up: the page wraps a vanilla HTML, CSS and JavaScript cockpit in
-the problem it answers, five design decisions, and what would be tested next.
+**Prototypes** -- `prototype/dispatch-cockpit.html` and, since 2026-10-27,
+`prototype/rebalance-cockpit.html`. Working demos rather than write-ups: the
+first wraps a vanilla HTML, CSS and JavaScript cockpit in the problem it
+answers, five design decisions, and what would be tested next; the second
+points the same interface at a public live feed, and says what changed when
+the data got real.
 
 **Lab** -- `lab/index.html`, `lab/agent-review.html` and, since 2026-10-21,
 `lab/designing-motion.html`, the homepage's former scroll story kept as the

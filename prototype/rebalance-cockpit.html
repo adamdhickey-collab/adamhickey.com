@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A rebalancing call on live bike-share data that a person can check and overrule | Adam Hickey</title>
+  <meta name="description" content="A working prototype of human-in-the-loop AI decision support on live Citi Bike data: an empty station, the eight stations nearest it ranked as places a van could fetch bikes from, the factors behind the pick with the age of every count, a close call that declines to pick, a rule that removes a station before scoring, and a one-press override. The dispatch cockpit's interface, pointed at a real public feed." />
+  <link rel="canonical" href="https://adamhickey.com/prototype/rebalance-cockpit.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/prototype/rebalance-cockpit.html" />
+  <meta property="og:title" content="A rebalancing call on live bike-share data that a person can check and overrule | Adam Hickey" />
+  <meta property="og:description" content="A working prototype of human-in-the-loop AI decision support on live Citi Bike data: an empty station, the eight stations nearest it ranked as places a van could fetch bikes from, the factors behind the pick with the age of every count, a close call that declines to pick, a rule that removes a station before scoring, and a one-press override. The dispatch cockpit's interface, pointed at a real public feed." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/rebalance-cockpit.jpg?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- The description says "live Citi Bike data" and the hero says which
+       parts are mine, for the reason the dispatch cockpit's says "synthetic":
+       nothing here may be read as an account of shipped work, and nothing
+       here may be read as Citi Bike's. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/prototype/rebalance-cockpit.html#article",
+          "headline": "A rebalancing call on live bike-share data that a person can check and overrule",
+          "description": "A working prototype of human-in-the-loop AI decision support on live Citi Bike data: an empty station, the eight stations nearest it ranked as places a van could fetch bikes from, the factors behind the pick with the age of every count, a close call that declines to pick, a rule that removes a station before scoring, and a one-press override. The dispatch cockpit's interface, pointed at a real public feed.",
+          "url": "https://adamhickey.com/prototype/rebalance-cockpit.html",
+          "mainEntityOfPage": "https://adamhickey.com/prototype/rebalance-cockpit.html",
+          "image": "https://adamhickey.com/img/og/rebalance-cockpit.jpg?v=1",
+          "datePublished": "2026-10-27",
+          "dateModified": "2026-10-27",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "about": [
+            {
+              "@type": "Thing",
+              "name": "AI product design"
+            },
+            {
+              "@type": "Thing",
+              "name": "Human-in-the-loop AI"
+            },
+            {
+              "@type": "Thing",
+              "name": "Bike-share rebalancing"
+            },
+            {
+              "@type": "Thing",
+              "name": "Live data prototyping"
+            }
+          ],
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/prototype/rebalance-cockpit.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "A rebalancing call on live bike-share data that a person can check and overrule",
+              "item": "https://adamhickey.com/prototype/rebalance-cockpit.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=9" />
+  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../type.css?v=7" />
+  <link rel="stylesheet" href="../style.css?v=20261026c" />
+  <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
+  <link rel="stylesheet" href="../reveal.css?v=2" />
+  <!-- The cockpit's own stylesheet, whole. This page renders the same .ck
+       markup, so it takes the same rules rather than a copy of them that
+       would drift; rebalance-cockpit.css carries only the line that says
+       where the figures came from, which the synthetic screen never needed. -->
+  <link rel="stylesheet" href="dispatch-cockpit.css?v=67" />
+  <link rel="stylesheet" href="rebalance-cockpit.css?v=1" />
+  <link rel="stylesheet" href="../related.css?v=2" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../reveal.js?v=1" defer></script>
+  <!-- The cockpit. Deferred, no dependencies, no build step. It reads the
+       live feed from the reader's browser and falls back to
+       rebalance-snapshot.js; the header of the script says when. -->
+  <!-- The saved reading the cockpit falls back to, first, so it has run by
+       the time the cockpit does. A script rather than a JSON file because
+       a deferred script runs before DOMContentLoaded; the header of
+       scripts/rebalance-snapshot.mjs says why that matters. -->
+  <script src="rebalance-snapshot.js?v=1" defer></script>
+  <script src="rebalance-cockpit.js?v=1" defer></script>
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body class="ckw-page">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies">Work</a></li>
+        <li><a href="../index.html#problems">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Lab</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero ckw-hero">
+      <div class="container">
+        <div class="ckw-hero-grid">
+          <div class="ckw-hero-copy">
+            <p class="case-kicker">Human&ndash;AI interaction &middot; working prototype &middot; live data</p>
+            <h1 class="case-title ckw-hero-title">A rebalancing call on live bike-share data that a person can check and overrule</h1>
+            <p class="ckw-hero-dek">A Citi Bike station has run out of bikes. The system picks where a van should fetch more from. The person decides whether it is right.</p>
+            <ul class="ckw-hero-list">
+              <li><svg class="ckw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Every station and count is real, read from the public feed.</span></li>
+              <li><svg class="ckw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Old counts are marked with their age.</span></li>
+              <li><svg class="ckw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Close calls are flagged, and a rule beats a score.</span></li>
+              <li><svg class="ckw-hero-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Sending the van somewhere else takes one press.</span></li>
+            </ul>
+            <p class="ckw-hero-act">
+              <a class="btn btn-primary ckw-hero-btn" href="#try-it">Try it on live data</a>
+              <a class="ckw-hero-link" href="#what-changed">What changed with real data &rarr;</a>
+            </p>
+          </div>
+          <figure class="ckw-hero-figure">
+            <div class="ckw-scroll">
+              <img src="../img/rebalance/hero.webp?v=1" width="1640" height="1640" alt="The cockpit on a saved reading of the Citi Bike feed. A card for the empty station W 43 St &amp; 6 Ave, 63 docks with none to rent. Under it a caution-outlined card: &ldquo;W 42 St &amp; 6 Ave can&rsquo;t give bikes. Has 11 bikes and keeps 11 for its own riders,&rdquo; though it is 0.08 miles away, closer than any station that can. Then a close call with no pick: &ldquo;E 40 St &amp; 5 Ave and W 44 St &amp; 5 Ave are level. The tradeoff is more bikes to spare against a shorter drive,&rdquo; over a comparison of the two, the rows that separate them first." />
+            </div>
+            <figcaption><strong>A rule and a close call, on figures nobody invented.</strong> A saved reading of the feed; the panel below reads it live. <a class="ckw-full" href="../img/rebalance/hero.webp?v=1">Full size &#8599;<span class="visually-hidden">, the saved reading</span></a></figcaption>
+          </figure>
+        </div>
+        <dl class="build-facts ckw-facts">
+          <div><dt>Problem</dt><dd>An empty station needs bikes, and eight stations nearby could give them. Which one, and how sure?</dd></div>
+          <div><dt>Data</dt><dd>Citi Bike&rsquo;s public station feed, read live in your browser every minute. No server, no key.</dd></div>
+          <div><dt>My role</dt><dd>Interaction design, visual design and the front-end build, on top of <a href="dispatch-cockpit.html">the dispatch cockpit</a>&rsquo;s interface.</dd></div>
+          <div><dt>Artifact</dt><dd>A working browser prototype. No model: the ranking is a weighted rule over three factors on screen.</dd></div>
+          <div><dt>Mine, not theirs</dt><dd>The floor each station keeps, the refill target, the van size and the weights. The operator&rsquo;s own are not public.</dd></div>
+          <div><dt>Next</dt><dd>Van positions and a demand forecast, which a real operator has and a public feed does not.</dd></div>
+        </dl>
+        <p class="ckw-facts-note">Not affiliated with Citi Bike or Lyft, and not tested with a rebalancing crew. Station data from Citi Bike&rsquo;s public feed, used under its <a href="https://ride.citibikenyc.com/data-sharing-policy">data license</a>.</p>
+      </div>
+    </header>
+
+    <section class="case-section build-chapter ground-white" id="try-it">
+      <div class="container">
+        <div class="case-narrow">
+        <div class="writing-measure">
+          <h2>Try it on live data</h2>
+          <p>The tabs are the four largest Citi Bike stations that are empty right now and have at least two neighbors that can help. Each one changes the screen to fit what the feed says about its neighbors: a clear pick, a close call, or a rule that beat the score. Which ones you get depends on the street.</p>
+        </div>
+        <div class="ckw-try-grid">
+          <div>
+            <p class="ck-label">Three things to try</p>
+            <ol class="build-list">
+              <li>Read why the pick leads, then open a station in the table that lost.</li>
+              <li>Find a count the screen marks as old, and what it asks you to check.</li>
+              <li>Send the van somewhere the system did not pick, then try a station a rule removed.</li>
+            </ol>
+          </div>
+          <div>
+            <p class="ck-label">What this is</p>
+            <ul class="build-list">
+              <li>Plain HTML, CSS and JavaScript reading a public feed, no framework, no build step.</li>
+              <li>A newer reading arrives every minute and waits for a press, so the ranking never moves while you read it.</li>
+              <li>If the feed does not answer, a saved reading stands in and says so. Source: <a href="rebalance-cockpit.js">rebalance-cockpit.js</a>, with every assumption at the top.</li>
+            </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="ck-frame" data-read-aloud="skip">
+        <div class="ck" id="cockpit">
+          <!-- Where the figures came from and how old they are, over
+               everything else, because on this screen that is the first
+               question. Written by the script; the button in it brings in a
+               newer reading only when pressed. -->
+          <p class="rb-feed" aria-live="polite"><span class="rb-feed-text">Reading the feed&hellip;</span></p>
+          <p class="ck-tabs-label"><span id="ck-tabs-label">Pick an empty station</span><span class="ck-tabs-hint">the screen below changes with it</span></p>
+          <div class="ck-tabs" role="tablist" aria-labelledby="ck-tabs-label"></div>
+          <div class="ck-stage" id="ck-panel" role="tabpanel">
+            <div class="ck-situation">
+              <h3 class="ck-rail-h" id="ck-rail-h"></h3>
+              <p class="ck-blurb"></p>
+            </div>
+            <div class="ck-panel">
+              <div class="ck-load"></div>
+              <div class="ck-reco"></div>
+              <p class="ck-status" role="status"></p>
+              <div class="ck-why" hidden></div>
+              <div class="ck-fleet">
+                <div class="ck-fleet-bar">
+                  <h4 class="ck-h ck-fleet-h">The stations considered</h4>
+                  <div class="ck-density" role="group" aria-label="Row height">
+                    <button type="button" class="ck-density-btn" data-density="comfortable" aria-pressed="true">Comfortable</button>
+                    <button type="button" class="ck-density-btn" data-density="compact" aria-pressed="false">Compact</button>
+                  </div>
+                </div>
+                <div class="ck-table-wrap">
+                  <table class="ck-table"></table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <noscript>
+            <p>The cockpit reads the feed in JavaScript, and it is switched off here, so the panel above is empty. The section below describes what it does, and the source is <a href="rebalance-cockpit.js">rebalance-cockpit.js</a>.</p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section build-chapter ground-warm" id="what-changed">
+      <div class="container">
+        <div class="case-narrow">
+          <div class="writing-measure">
+            <h2>What changed when the data got real</h2>
+            <p>The dispatch cockpit runs on a fleet I made up, and I wrote its hardest moments on purpose: a stale hours figure, a tie, a driver over the legal limit. I wanted to know which of those survive when nobody writes the data.</p>
+            <p>Most of the screen carried over untouched. Five things changed, and each one taught me something about the original.</p>
+          </div>
+        </div>
+        <ol class="ck-decisions">
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>The load became a station, and the fleet became its neighbors</h3>
+              <p class="ckw-lead">A truck taking a load and a van fetching bikes are the same decision. One place needs something, several could supply it, and each has reasons for and against.</p>
+              <p class="ckw-lead">The empty station sits where the load did. The stations nearest it sit where the trucks did, ranked on distance, bikes to spare and how full they are.</p>
+            </div>
+          </li>
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>The stale mark had less to do than I expected</h3>
+              <p class="ckw-lead">In the synthetic version I invented an old figure to show the mark. The feed says when every station last checked in, so I expected old counts everywhere.</p>
+              <p class="ckw-lead">On the reading saved with this page, 24 of about 2,500 stations had gone quiet for half an hour, and all 24 had stopped renting. The rule removes them before their age matters. The mark stays for the one that doesn&rsquo;t.</p>
+            </div>
+          </li>
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>There is no record, so the card says what the page has seen</h3>
+              <p class="ckw-lead">The originalThe original&rsquo;s strongest card was a record: 38 of 40 on time, and what went wrong on the other two. A public feed only knows the present.rsquo;s strongest card was a record, invented like the rest of its data: 38 of 40 on time, and what went wrong on the other two. A public feed only knows the present.</p>
+              <p class="ckw-lead">I could have invented a history to fill the card. Instead it counts the readings this page has seen since you opened it, and says what it can&rsquo;t know.</p>
+            </div>
+          </li>
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>A new reading waits for a press</h3>
+              <p class="ckw-lead">A new reading arrives every minute. Applied as it lands, it could reorder the ranking under someone halfway through checking it.</p>
+              <p class="ckw-lead">So it waits behind a button that says what time it is from. The only thing that ticks on its own is the age of the reading on screen.</p>
+            </div>
+          </li>
+          <li class="ckw-decision">
+            <div class="ckw-decision-copy">
+              <h3>My assumptions are labeled as mine</h3>
+              <p class="ckw-lead">The feed doesn&rsquo;t say how many bikes a station should keep for its own riders, how full an empty one should be refilled, or how many a van holds.</p>
+              <p class="ckw-lead">The rule rests on the first of those, so the screen calls it my assumption in the sentence that applies it. Nobody should mistake it for the operator&rsquo;s.</p>
+            </div>
+          </li>
+        </ol>
+        <div class="case-narrow"><div class="writing-measure ckw-close">
+          <p>What a real operator has and this page doesn&rsquo;t is where the vans are and where riders will be in an hour. With those, the screen would rank vans as well as stations. The parts that matter would stay: the reasons, the age of every figure, the rule that can&rsquo;t be argued with, and a person who can say no in one press.</p>
+        </div></div>
+      </div>
+    </section>
+
+    </main>
+  <footer class="case-footer">
+      <div class="container">
+        <div class="case-narrow">
+        <nav class="related" aria-labelledby="related-label">
+          <p class="related-label" id="related-label">Related</p>
+          <ul class="related-list">
+            <li><a class="related-link" href="dispatch-cockpit.html"><span class="related-kind">Prototype</span><span class="related-title">An AI recommendation the dispatcher can check and overrule</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../writing/enterprise-ai-should-help-people-decide-not-just-answer.html"><span class="related-kind">Article</span><span class="related-title">Enterprise AI should help people decide, not just answer</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../engagement/working-product-prototype.html"><span class="related-kind">How I work</span><span class="related-title">Build to find out</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </nav>
+        <a class="btn-back" href="../index.html#case-studies">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          Back to the work
+        </a>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* rebalance-cockpit.css -- what the live screen needs and the synthetic one
+   never did. Everything else on this page is dispatch-cockpit.css, loaded
+   whole, because the markup is the same markup.
+
+   ---------- Where the figures came from ----------
+   One line over the tabs: live or saved, which reading, how old. On the
+   synthetic screen there was nothing to say here, because every figure was
+   as old as the page. Here it is the first question a reader should ask, so
+   it is the first line, in the size and ink of the tab label under it.
+
+   "Live" and "Saved" are words in the sage and the muted gray, not a pulsing
+   dot: the age beside them is the signal, and a dot that pulses says "live"
+   just as loudly about a reading eleven minutes old. Saved takes gray because
+   it is the ordinary case for a check and a fallback for a reader, and
+   neither is a warning. */
+.ck .rb-feed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-sm);
+  margin: 0 0 var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--rule-hairline);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.ck .rb-feed-mode {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+.ck .rb-feed[data-mode="snapshot"] .rb-feed-mode,
+.ck .rb-feed[data-mode="fallback"] .rb-feed-mode { color: var(--color-charcoal); }
+/* The update is a quiet button, outlined: it is an offer, not the next step,
+   and a filled button over the tabs would outrank the screen's own Send. */
+.ck .rb-feed-update {
+  padding: var(--space-2xs) var(--space-sm);
+  border-color: var(--rule-hairline);
+  font-size: var(--text-xs);
+}
+.ck .rb-feed-update .ck-icon { width: 1lh; height: 1lh; }
+
+/* A count the load card marks as old takes the caution ink, as the factor
+   age lines do. */
+.ck .ck-load-facts dd[data-age="stale"] { color: var(--color-caution-text); }
+
+/* ---------- Station names on a phone ----------
+   The synthetic fleet's ids are five characters; a station is named for two
+   streets, and "Bialystoker Pl & Delancey St" held on one line pushed the
+   Send column 76px past the wrapper at 390. On a phone the name wraps
+   instead, which is what lets the four columns that stay -- rank, station,
+   what one stop moves, Send -- fit the 292px they were always given. */
+@media (max-width: 47.99rem) {
+  .ck .ck-table .ck-row-more { white-space: normal; text-align: start; }
+}
