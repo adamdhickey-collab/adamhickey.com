@@ -12,7 +12,8 @@
    has to exist for everyone, not only for readers who have set
    prefers-reduced-motion. The control is the hero portrait's, at the
    picture's empty corner: quiet until the picture is hovered or the button
-   focused, always in the tab order, and always shown on touch. */
+   focused, always in the tab order, and always shown on touch. A replay
+   sits beside it, since the clip plays once. */
 .case-thumb-play {
   position: relative;
   margin-bottom: var(--space-sm);
@@ -31,11 +32,18 @@
   object-fit: cover;
 }
 
-.thumb-toggle {
+/* The two controls, replay and pause, side by side in the corner. 16px
+   between them keeps their 44px targets from overlapping. */
+.thumb-controls {
   position: absolute;
   right: var(--space-sm);
   bottom: var(--space-sm);
   z-index: 2;
+  display: flex;
+  gap: var(--space-md);
+}
+.thumb-control {
+  position: relative;
   display: grid;
   place-items: center;
   width: 28px;
@@ -49,19 +57,19 @@
   opacity: 0.55;
   transition: opacity var(--motion-state) var(--ease);
 }
-.thumb-toggle::after {
+.thumb-control::after {
   content: "";
   position: absolute;
   top: 50%; left: 50%;
   width: 44px; height: 44px;
   transform: translate(-50%, -50%);
 }
-.thumb-toggle svg { width: 14px; height: 14px; }
-.thumb-toggle:focus-visible { opacity: 1; }
+.thumb-control svg { width: 14px; height: 14px; }
+.thumb-control:focus-visible { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .case-thumb-play:hover .thumb-toggle,
-  .thumb-toggle:hover { opacity: 1; }
+  .case-thumb-play:hover .thumb-control,
+  .thumb-control:hover { opacity: 1; }
 }
 @media (hover: none) {
-  .thumb-toggle { opacity: 1; }
+  .thumb-control { opacity: 1; }
 }

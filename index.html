@@ -126,7 +126,7 @@
   <link rel="stylesheet" href="style.css?v=20261026c" />
   <link rel="stylesheet" href="site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="thumb-loop.css?v=2" />
+  <link rel="stylesheet" href="thumb-loop.css?v=3" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -960,10 +960,15 @@
                        poster="img/lab/agent-review-explore-card.webp?v=2" width="1600" height="900"
                        muted playsinline preload="none" aria-hidden="true"></video>
               </a>
-              <button type="button" class="thumb-toggle" aria-label="Pause the animation">
-                <svg class="thumb-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
-                <svg class="thumb-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
-              </button>
+              <div class="thumb-controls">
+                <button type="button" class="thumb-control thumb-replay" aria-label="Replay the animation">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg>
+                </button>
+                <button type="button" class="thumb-control thumb-toggle" aria-label="Pause the animation">
+                  <svg class="thumb-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
+                  <svg class="thumb-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1805,9 +1810,10 @@
     /* The Agent Review card's clip plays once, the first time the card is on
        screen, unless the reader prefers reduced motion; the poster stands in
        otherwise. Scrolled away mid-clip, it waits and carries on when the
-       card comes back. Once it has ended it stays on the finished screen, and
-       the button becomes a replay. A press is the reader's own choice, so it
-       plays even under reduced motion. */
+       card comes back. Once it has ended it stays on the finished screen.
+       Beside the pause, a replay starts it from the top whenever it is
+       pressed (Adam: "a replay button next to the pause"). A press is the
+       reader's own choice, so it plays even under reduced motion. */
     (function () {
       var v = document.querySelector('.case-thumb-video');
       var btn = document.querySelector('.thumb-toggle');
@@ -1839,7 +1845,7 @@
         var playing = !v.paused;
         show(pauseIcon, playing);
         show(playIcon, !playing);
-        btn.setAttribute('aria-label', playing ? 'Pause the animation' : v.ended ? 'Replay the animation' : 'Play the animation');
+        btn.setAttribute('aria-label', playing ? 'Pause the animation' : 'Play the animation');
       };
       btn.addEventListener('click', function () {
         choice = v.paused ? 'play' : 'pause';
@@ -1848,6 +1854,12 @@
       v.addEventListener('play', sync);
       v.addEventListener('pause', sync);
       v.addEventListener('ended', function () { done = true; choice = null; sync(); });
+      var replay = document.querySelector('.thumb-replay');
+      if (replay) replay.addEventListener('click', function () {
+        choice = 'play';
+        v.currentTime = 0;
+        play();
+      });
       sync();
     })();
   </script>
