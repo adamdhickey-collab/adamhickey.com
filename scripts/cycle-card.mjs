@@ -1,22 +1,30 @@
 #!/usr/bin/env node
-/* Agent Review's card since 2026-10-25, when the prototype became a design
-   cycle: the three working archive screens from Explore, side by side on
-   the loop's dark panel, each cut to the top of its screen, where the line
-   that makes it different sits (the undo bar, the question, the review),
-   the one Alex chose marked, under one
-   line that says what the page is about. Until 2026-10-26 they were real
-   captures; they are drawn now (below).
+/* Agent Review's homepage card: the three ways to archive on the loop's
+   dark panel, under one line that says what the page is about, each with
+   its name and what it costs under it, the one Alex chose ringed in sage.
 
-   Two sizes from one composition, both at 2x:
-     img/lab/agent-review-cycle-card.webp    1280 x 720, the lab index's card
-     img/lab/agent-review-cycle-share.webp   1200 x 630, og.mjs's `full` for the case study
+   Since 2026-10-26 (evening) the screens are the prototype's own, whole:
+   each direction's Relay screen after its Archive press, taken from the
+   live app's Explore stage as a 16:9 window, so nothing is cut off the
+   foot of the table. Before that the card was a drawing (from #666) and
+   then the prototype's three-directions scene (#672), which cut each
+   screen to its top on a light ground; Adam asked for the dark panel and
+   headline back, the screens whole, and every screen 16:9.
 
-   The colours and type are the site's tokens, read from
-   color.css and type.css, so nothing here is a value of its own.
+   The window is WINDOW wide at the app's own size (zoom 1), which is the
+   narrowest at which the review screen, the tallest of the three, fits in
+   16:9 with its twelve rows; the other two sit at the top of the same
+   window, as they would on a screen. The script refuses a screen that runs
+   past its window rather than cutting it.
+
+     img/lab/agent-review-cycle-card.webp    2560 x 1440, the homepage card
+
+   Colours and type are the site's tokens, read from color.css, type.css
+   and shell.css.
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      python3 -m http.server 8000      # from the repository root, in another shell
-     node scripts/cycle-card.mjs      # or --from http://localhost:<port>/ */
+     node scripts/cycle-card.mjs      # --from http://localhost:<port>/, --app <prototype URL> */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,109 +32,113 @@ import { chromium } from 'playwright-core';
 
 const ROOT = process.cwd();
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const i = process.argv.indexOf('--from');
-const from = (i > -1 ? process.argv[i + 1] : 'http://localhost:8000/').replace(/\/?$/, '/');
+const arg = (name, fallback) => {
+  const i = process.argv.indexOf(name);
+  return (i > -1 ? process.argv[i + 1] : fallback).replace(/\/?$/, '/');
+};
+const from = arg('--from', 'http://localhost:8000/');
+const app = arg('--app', 'https://adamdhickey-collab.github.io/agent-review/');
+const OUT = 'img/lab/agent-review-cycle-card.webp';
+const WINDOW = 1312;
+const TALL = Math.round((WINDOW * 9) / 16);
 
-const SIZES = [
-  { out: 'img/lab/agent-review-cycle-card.webp', width: 1280, height: 720 },
-  { out: 'img/lab/agent-review-cycle-share.webp', width: 1200, height: 630 },
+/* The words under each are the case study's: its name in the prototype,
+   and what it costs, from the scene the app draws (#/scenes/three). */
+const WAYS = [
+  { id: 'undo', tab: 'Archive now, undo after', cost: 'A mistake is only caught if someone notices the bar.', chosen: true },
+  { id: 'confirm', tab: 'Confirm first, naming who', cost: 'A question every time. People learn to press through it.' },
+  { id: 'review', tab: 'Review the batch, then archive', cost: 'The most steps, and a new pattern for the system to own.' },
 ];
 
-/* The three screens are drawn, not captured, since 2026-10-26 (Adam: more
-   conceptual, simpler, each a screen of its own with the case for it
-   under it). Each is a customer list cut to five rows of grey bars, so the
-   one thing that differs reads first: the Undo after the press, the
-   question before it, the batch laid out to choose from. The words on
-   them are the prototype's (agent-review src/data/cycle.ts); under each
-   is its name and one line on its main advantage (Adam, 2026-10-26: a gain
-   and a cost under each made the card busy; the case study carries both). The title is centered
-   in the sans, and the screens take the width (Adam: much larger). */
-// One row per customer: a box and a grey bar for the name. Each string in
-// `kinds` is that row's state: '' plain, 'on' ticked, 'gone' archived,
-// 'risk' an active customer, left unticked and named.
-const rows = (kinds) => kinds.map((k, n) =>
-  `<div class="r ${k}"><i></i><b style="width:${[62, 48, 70, 54, 44, 58, 50][n]}%"></b>${k === 'risk' ? '<em>Active</em>' : ''}</div>`).join('');
+const browser = await chromium.launch({ executablePath: CHROME });
+try {
+  /* ---------- the screens, from the prototype ---------- */
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 2000 }, deviceScaleFactor: 2, reducedMotion: 'reduce', colorScheme: 'light' });
+  await ctx.addInitScript(() => {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(':root { --zoom: 1 !important; }');
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    try { localStorage.setItem('agent-review:theme', 'light'); } catch {}
+  });
+  const page = await ctx.newPage();
+  await page.goto(`${app}#/cycle/discover`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
+  const stage = async (id) => {
+    await page.evaluate((id) => (location.hash = `#/cycle/${id}`), id);
+    await page.waitForFunction((id) => document.title.toLowerCase().startsWith(`design cycle: ${id}`), id);
+    await page.waitForTimeout(500);
+  };
+  const choose = (name) => page.getByRole('button', { name: new RegExp(`^Choose\\s+${name}$`) }).click();
+  /* Explore opens once Discover and Define are decided (agent-review#50),
+     on the path the case study tells, as lab-shots.mjs reaches it. */
+  await choose('Correct it');
+  await stage('define');
+  await choose('Nothing leaves without a way back');
+  await stage('explore');
+  const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
+  if (zoom !== '1') throw new Error(`the app is drawn at ${zoom}, not 1`);
+  const shots = {};
+  for (const way of WAYS) {
+    await page.getByRole('tab', { name: new RegExp(way.tab) }).click();
+    await page.getByRole('button', { name: 'Archive', exact: true }).click();
+    await page.mouse.move(0, 0);
+    await page.waitForTimeout(400);
+    const frame = page.locator('.cycle__product-frame').first();
+    await frame.evaluate((el, [w, h]) => {
+      /* Lifted out of its column to the window's corner, over everything,
+         so the wider window neither overflows the column nor takes in the
+         panel beside it. */
+      Object.assign(el.style, { position: 'fixed', left: '0', top: '0', zIndex: '1000', margin: '0', maxWidth: 'none', width: `${w}px` });
+      el.style.minHeight = `${h}px`;
+      el.style.boxSizing = 'border-box';
+    }, [WINDOW, TALL]);
+    await page.waitForTimeout(300);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const box = await frame.boundingBox();
+    if (box.height > TALL + 0.5) throw new Error(`${way.id}: the screen is ${Math.round(box.height)}px tall, past its ${TALL}px window`);
+    shots[way.id] = (await page.screenshot({ type: 'png', clip: { x: box.x, y: box.y, width: WINDOW, height: TALL } })).toString('base64');
+    await frame.evaluate((el) => el.removeAttribute('style'));
+    console.log(`${way.id}: ${WINDOW} x ${TALL}, ${Math.round(box.height)}px of it the screen's own`);
+  }
+  await ctx.close();
 
-const screen = (body, bar = '<span class="btn">Archive</span>') =>
-  `<div class="shot"><div class="top"><span>Customers</span>${bar}</div><div class="list">${body}</div></div>`;
-
-const page = (w, h) => `<!doctype html><html><head><meta charset="utf-8">
+  /* ---------- the card ---------- */
+  const figure = (w) => `<figure${w.chosen ? ' class="chosen"' : ''}>
+      <img src="data:image/png;base64,${shots[w.id]}" alt="">
+      <figcaption><strong>${w.tab}</strong><span>${w.cost}</span></figcaption>
+    </figure>`;
+  const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="${from}color.css"><link rel="stylesheet" href="${from}type.css"><link rel="stylesheet" href="${from}shell.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Montserrat:wght@500;600&display=swap">
 <style>
   html, body { margin: 0; }
-  body { width: ${w}px; height: ${h}px; overflow: hidden; background: var(--color-charcoal); color: var(--ink-on-dark);
-    font-family: var(--font-sans); display: grid; align-content: center; box-sizing: border-box; padding: var(--space-3xl) var(--space-4xl); }
-  /* The title is the sans, so it reads apart from the serif headline the
-     card sets beside it; the second sentence carries the sage. */
-  h1 { margin: 0; font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-6xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); text-align: center; white-space: nowrap; }
+  body { width: 1280px; height: 720px; overflow: hidden; box-sizing: border-box; padding: var(--space-4xl);
+    background: var(--color-charcoal); color: var(--ink-on-dark); font-family: var(--font-sans);
+    display: grid; align-content: center; gap: var(--space-3xl); }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xl); }
+  h1 { margin: 0; font-family: var(--font-serif); font-weight: var(--weight-regular); font-size: var(--text-8xl); line-height: var(--leading-display); letter-spacing: var(--tracking-display); }
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
-  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3xl); margin-top: var(--space-block); }
-  figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2xl); }
-  figcaption { justify-self: stretch; display: grid; gap: var(--space-sm); text-align: center; }
-  figcaption strong { justify-self: center; white-space: nowrap; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); color: var(--ink-on-dark); }
+  .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl); }
+  figure { margin: 0; display: grid; grid-template-rows: subgrid; grid-row: span 2; gap: var(--space-xl); }
+  img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); box-shadow: var(--shadow-card); }
+  .chosen img { outline: 4px solid var(--color-accent-on-dark); outline-offset: 4px; }
+  figcaption { display: grid; align-content: start; gap: var(--space-xs); }
+  figcaption strong { font-size: var(--text-3xl); font-weight: var(--weight-semibold); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
   figcaption span { font-size: var(--text-2xl); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); }
-
-  .shot { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-xl); overflow: hidden; background: var(--color-white); color: var(--color-charcoal); box-shadow: var(--shadow-card); }
-  .shot > * { zoom: var(--k, 1); }
-  .chosen .shot { outline: 4px solid var(--color-accent-on-dark); outline-offset: 4px; }
-  .top { display: flex; align-items: center; justify-content: space-between; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule-card); font-size: var(--text-base); font-weight: var(--weight-semibold); }
-  .btn { font-size: var(--text-sm); font-weight: var(--weight-semibold); padding: var(--space-2xs) var(--space-sm); border-radius: var(--space-xs); border: 1px solid var(--rule-strong); background: var(--color-white); color: var(--color-charcoal); }
-  .btn.go { background: var(--color-charcoal); border-color: var(--color-charcoal); color: var(--ink-on-dark); }
-  .btn.ghost { border-color: transparent; color: var(--color-muted-gray); }
-  .list { padding: var(--space-2xs) var(--space-md); }
-  .r { display: flex; align-items: center; gap: var(--space-sm); height: var(--space-xl); border-bottom: 1px solid var(--rule-hairline); }
-  .r i { flex: none; width: var(--space-md); height: var(--space-md); border-radius: var(--space-2xs); border: 1.5px solid var(--rule-strong); }
-  .r.on i { background: var(--color-charcoal); border-color: var(--color-charcoal); }
-  .r b { height: var(--space-sm); border-radius: var(--radius-pill); background: var(--color-muted-light); }
-  .r.gone { opacity: .35; }
-  .r.risk b { background: var(--color-caution-light); }
-  .r em { margin-left: auto; font-style: normal; font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-caution-text); }
-
-  .toast { position: absolute; left: var(--space-md); right: var(--space-md); bottom: var(--space-md); display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md); border-radius: var(--space-sm); background: var(--color-charcoal); color: var(--ink-on-dark); font-size: var(--text-sm); font-weight: var(--weight-semibold); box-shadow: var(--shadow-popover); }
-  .toast .btn { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); color: var(--color-charcoal); }
-  .scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--color-charcoal) 35%, transparent); display: grid; place-items: center; padding: var(--space-md); }
-  .dialog { width: 85%; box-sizing: border-box; padding: var(--space-sm) var(--space-md); border-radius: var(--space-sm); background: var(--color-white); box-shadow: var(--shadow-popover); display: grid; gap: var(--space-xs); }
-  .dialog p { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); }
-  .dialog p:first-child { font-size: var(--text-base); font-weight: var(--weight-semibold); }
-  .dialog .acts { display: flex; justify-content: flex-end; gap: var(--space-xs); }
-  .sub { font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--color-muted-gray); padding-top: var(--space-xs); }
 </style></head><body>
-  <h1>Three ways to archive. <em>One designer&rsquo;s call.</em></h1>
-  <div class="row">
-    <figure class="chosen">
-      ${screen(rows(['', 'gone', 'gone', 'gone', 'gone']) + '<div class="toast"><span>4 customers archived</span><span class="btn">Undo</span></div>')}
-      <figcaption><strong>Archive, then undo</strong><span>One press, even in bulk</span></figcaption>
-    </figure>
-    <figure>
-      ${screen(rows(['on', 'on', 'on', 'on', 'on']) + '<div class="scrim"><div class="dialog"><p>Archive 5 customers?</p><p>3 of them are active.</p><div class="acts"><span class="btn ghost">Cancel</span><span class="btn go">Archive 5</span></div></div></div>')}
-      <figcaption><strong>Confirm first</strong><span>Names who&rsquo;s at risk first</span></figcaption>
-    </figure>
-    <figure>
-      ${screen('<div class="sub">Review 5 before archiving</div>' + rows(['on', 'risk', 'risk', 'risk', 'on']), '<span class="btn go">Archive 2</span>')}
-      <figcaption><strong>Review the batch</strong><span>Catches the most mistakes</span></figcaption>
-    </figure>
-  </div>
+  <header><h1>Three ways to archive. <em>One designer&rsquo;s call.</em></h1></header>
+  <div class="row">${WAYS.map(figure).join('')}</div>
 </body></html>`;
-
-const browser = await chromium.launch({ executablePath: CHROME });
-try {
-  for (const s of SIZES) {
-    const ctx = await browser.newContext({ viewport: { width: s.width, height: s.height }, deviceScaleFactor: 2 });
-    const p = await ctx.newPage();
-    await p.setContent(page(s.width, s.height), { waitUntil: 'networkidle' });
-    await p.evaluate(() => document.fonts.ready);
-    // Each screen is drawn at 362px wide and scaled to the width it gets.
-    await p.evaluate(() => {
-      for (const s of document.querySelectorAll('.shot')) s.style.setProperty('--k', s.getBoundingClientRect().width / 362);
-    });
-    await p.waitForTimeout(300);
-    const file = path.join(ROOT, s.out);
-    fs.writeFileSync(file, await p.screenshot({ type: 'webp', quality: 86 }));
-    console.log(`${s.out}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
-    await ctx.close();
-  }
+  const card = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 2 });
+  const p = await card.newPage();
+  await p.setContent(html, { waitUntil: 'networkidle' });
+  await p.evaluate(() => document.fonts.ready);
+  const over = await p.evaluate(() => document.body.scrollHeight > 720);
+  if (over) throw new Error('the card runs past 720px');
+  const file = path.join(ROOT, OUT);
+  fs.writeFileSync(file, await p.screenshot({ type: 'webp', quality: 86 }));
+  console.log(`${OUT}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
+  await card.close();
 } finally {
   await browser.close();
 }
