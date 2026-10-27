@@ -1,31 +1,29 @@
 #!/usr/bin/env node
 /* Agent Review's homepage card: the three ways to archive on the loop's
-   dark panel, under one centered line that says what the page is about,
-   each screen with a two-line label centered under it, none of them marked
-   as chosen.
+   dark panel, under one centered line that says what the page is about.
 
-   Since the afternoon of 2026-10-27 each screen is a simplified drawing of
-   the case study opener's five-customer list, the moment after Archive,
-   in that list's colors (agent-review.css, .ship-list), so the card and the
-   page it opens show one product. Since the evening of 2026-10-27 that is the
-   opener's own palette after #684: white rows under a slate-light bar, slate
-   checks, an active customer a sage chip, the trial a slate one, past due
-   quiet, and the caution red on the Archive button's outline only. The
-   active rows stopped sitting on the caution ground, and Monarch's refusal
-   is said by its row (the one left standing, the box it can't take) rather
-   than by a solid red chip. For a few hours before that
-   they were white placeholders (#680). Before those the card was a drawing
+   Since the evening of 2026-10-27 the three are the case study's step 3,
+   exactly: the prototype's Explore scene (agent-review src/review/
+   SceneScreen, #/scenes/explore) draws each direction as a tile, a small
+   screen of the batch over its name and its cost, and this script captures
+   those three tiles from the app and sets them on the card, so the card and
+   step 3 cannot drift apart. Dark, the app's Night sage, as step 3 is. Before
+   that the card drew its own screens in the opener's list colors (#685,
+   #689), and before those it was white placeholders (#680), a drawing
    (#666), the three-directions scene (#672), the app's screens whole (#677)
-   and each moment drawn in Relay's colors (#679).
+   and each moment in Relay's colors (#679).
 
      img/lab/agent-review-cycle-card.webp    2560 x 1440, the homepage card
 
-   Every screen is 16:9, every label two lines, and the script refuses a
-   label on one line or three, or a card that runs past its frame.
+   The site's own stylesheets are read from --from (a static server at the
+   repository root), and the prototype from --app, its deployed address by
+   default; pass a local build served under /agent-review/ to take the card
+   before the app's change has merged. The script refuses a card that runs
+   past its frame.
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      python3 -m http.server 8000      # from the repository root, in another shell
-     node scripts/cycle-card.mjs      # --from http://localhost:<port>/ */
+     node scripts/cycle-card.mjs      # --from http://localhost:<port>/ --app http://localhost:4173/agent-review/ */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,40 +31,32 @@ import { chromium } from 'playwright-core';
 
 const ROOT = process.cwd();
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const i = process.argv.indexOf('--from');
-const from = (i > -1 ? process.argv[i + 1] : 'http://localhost:8000/').replace(/\/?$/, '/');
+const arg = (flag, fallback) => {
+  const i = process.argv.indexOf(flag);
+  return (i > -1 ? process.argv[i + 1] : fallback).replace(/\/?$/, '/');
+};
+const from = arg('--from', 'http://localhost:8000/');
+const app = arg('--app', 'https://adamdhickey-collab.github.io/agent-review/');
 const OUT = 'img/lab/agent-review-cycle-card.webp';
 
-/* Each screen is the case study opener's list of five customers a moment
-   after Archive, drawn in that list's colors and shapes: the bar on
-   slate-light, white rows, slate checks, each status its opener chip. Names
-   are bars and statuses are wordless chips, so the only words are the bar's,
-   at a size the card can print. */
-const tick = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8.5l2.5 2.5L12 5.5"/></svg>';
-const undo = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3.5L2.5 6.5l3 3M2.5 6.5H10a3.5 3.5 0 010 7H7"/></svg>';
-/* The opener's five, in its order: Halvorsen and Brightwater active, Alder &
-   Finch on trial, Monarch past due (and blocked: an open invoice), Saltmarsh
-   active. */
-const CUSTOMERS = [['72%', 'active'], ['64%', 'active'], ['48%', 'trial'], ['80%', 'due', 'blocked'], ['56%', 'active']];
-const rows = (mark) => CUSTOMERS.map(([w, status, blocked], n) => {
-  const m = mark(n, status, blocked);
-  return `<div class="tr${m.gone ? ' gone' : ''}">${m.box ?? ''}<i class="name" style="width:${w}"></i><i class="chip ${status}"></i></div>`;
-}).join('');
-const box = (on) => `<i class="box${on ? ' on' : ''}">${on ? tick : ''}</i>`;
+const browser = await chromium.launch({ executablePath: CHROME });
+try {
+  /* Step 3's three tiles, from the app, at the scale the card prints them:
+     each is about 1.8 times its size in the 800px scene, on a 2x card. */
+  const scene = await browser.newContext({ viewport: { width: 800, height: 450 }, deviceScaleFactor: 4, reducedMotion: 'reduce', colorScheme: 'dark' });
+  const s = await scene.newPage();
+  await s.addInitScript(() => localStorage.setItem('agent-review:theme', 'dark'));
+  await s.goto(`${app}#/scenes/explore`, { waitUntil: 'networkidle' });
+  await s.evaluate(() => document.fonts.ready);
+  await s.waitForTimeout(400);
+  const ways = await s.$$('.stage-scene__way');
+  if (ways.length !== 3) throw new Error(`the Explore scene has ${ways.length} tiles, not 3`);
+  const tiles = [];
+  for (const w of ways) tiles.push(`data:image/png;base64,${(await w.screenshot({ type: 'png', omitBackground: true })).toString('base64')}`);
+  const box = await ways[0].boundingBox();
+  await scene.close();
 
-const WAYS = [
-  { id: 'undo', label: 'Archive, with the option to undo',
-    screen: `<div class="bar"><span>4 archived</span><b class="btn">${undo}Undo</b></div>
-      ${rows((n, status, blocked) => (blocked ? {} : { gone: true }))}` },
-  { id: 'confirm', label: 'Confirm once, then archive',
-    screen: `<div class="bar"><span>Archive all 5?</span><b class="btn go">Archive</b></div>
-      ${rows(() => ({ box: box(true) }))}` },
-  { id: 'review', label: 'Check each one, then archive',
-    screen: `<div class="bar"><span>Check each</span><b class="btn go">Archive 3</b></div>
-      ${rows((n, status, blocked) => (blocked ? { box: '<i class="box no"></i>' } : { box: box(n !== 1) }))}` },
-];
-
-const html = `<!doctype html><html><head><meta charset="utf-8">
+  const html = `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="${from}color.css"><link rel="stylesheet" href="${from}type.css"><link rel="stylesheet" href="${from}shell.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap">
 <style>
@@ -76,54 +66,21 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
     display: grid; align-content: center; justify-items: center; gap: var(--space-4xl); text-align: center; }
   h1 { margin: 0; font-weight: var(--weight-semibold); font-size: var(--text-6xl); line-height: var(--leading-display); letter-spacing: var(--tracking-title); }
   h1 em { font-style: normal; color: var(--color-accent-on-dark); }
-  .row { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4xl); }
-  figure { margin: 0; display: grid; align-content: start; gap: var(--space-xl); }
-  figcaption { justify-self: center; max-width: 8.5em; font-size: var(--text-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-display); letter-spacing: var(--tracking-title); }
-  .screen { aspect-ratio: 16 / 9; overflow: hidden; display: flex; flex-direction: column; text-align: left;
-    background: var(--color-white); border-radius: var(--radius-xl); color: var(--color-charcoal); }
-  .screen svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule-hairline); background: var(--color-slate-light);
-    font-size: var(--text-xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); }
-  .btn { display: inline-flex; align-items: center; gap: var(--space-2xs); padding: 0 var(--space-xs);
-    font-size: var(--text-lg); font-weight: var(--weight-semibold); border: 2px solid var(--color-charcoal); background: var(--color-white); }
-  .btn svg { width: 1em; height: 1em; }
-  .btn.go { border-color: var(--color-caution-text); color: var(--color-caution-text); }
-  .tr { flex: 1; display: flex; align-items: center; gap: var(--space-sm); padding: 0 var(--space-md); border-top: 1px solid var(--rule-hairline); }
-  .tr:first-of-type { border-top: 0; }
-  .tr.gone > * { visibility: hidden; }
-  .tr.gone { background: repeating-linear-gradient(-45deg, transparent 0 var(--space-xs), var(--rule-hairline) 0 calc(var(--space-xs) + 1px)); }
-  .box { flex: none; width: var(--space-lg); height: var(--space-lg); box-sizing: border-box; border: 2px solid var(--color-slate); color: var(--color-white); }
-  .box.on { background: var(--color-slate); }
-  .box.no { border-color: var(--color-rule); background: var(--color-warm); }
-  .name { flex: none; height: var(--space-xs); border-radius: var(--radius-pill); background: var(--color-rule); max-width: 50%; }
-  .chip { flex: none; margin-left: auto; width: var(--space-3xl); height: var(--space-lg); box-sizing: border-box; border-radius: var(--radius-pill);
-    border: 1px solid var(--color-rule); background: var(--color-muted-light); }
-  .chip.active { border: 2px solid var(--color-accent-text); background: var(--color-tea-light); }
-  .chip.trial { border: 2px solid var(--color-slate); background: var(--color-slate-light); }
+  .row { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); }
+  .row img { display: block; width: 100%; height: auto; aspect-ratio: ${box.width} / ${box.height}; }
 </style></head><body>
   <h1>Three ways to archive. <em>One designer&rsquo;s call.</em></h1>
-  <div class="row">${WAYS.map((w) => `<figure>
-      <div class="screen">${w.screen}</div>
-      <figcaption>${w.label}</figcaption>
-    </figure>`).join('')}</div>
+  <div class="row">${tiles.map((t) => `<img src="${t}" alt="">`).join('')}</div>
 </body></html>`;
 
-const browser = await chromium.launch({ executablePath: CHROME });
-try {
   const card = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 2 });
   const p = await card.newPage();
   await p.setContent(html, { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
-  const problems = await p.evaluate(() => [
-    ...[...document.querySelectorAll('.screen')].filter((s) => s.scrollHeight > s.clientHeight + 0.5).map((s, n) => `screen ${n + 1} runs past its 16:9 frame`),
-    ...[...document.querySelectorAll('figcaption')].filter((c) => Math.round(c.getBoundingClientRect().height / parseFloat(getComputedStyle(c).lineHeight)) !== 2).map((c) => `"${c.textContent}" is not two lines`),
-    ...(document.body.scrollHeight > 720 ? ['the card runs past 720px'] : []),
-  ]);
-  if (problems.length) throw new Error(problems.join('\n'));
+  if (await p.evaluate(() => document.body.scrollHeight > 720)) throw new Error('the card runs past 720px');
   const file = path.join(ROOT, OUT);
   fs.writeFileSync(file, await p.screenshot({ type: 'webp', quality: 90 }));
-  console.log(`${OUT}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
+  console.log(`${OUT}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB, tiles from ${app}`);
   await card.close();
 } finally {
   await browser.close();
