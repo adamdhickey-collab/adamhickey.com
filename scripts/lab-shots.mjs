@@ -370,7 +370,7 @@ const SHOTS = {
     [
       ['undo', 'Archive now, undo after', 6],
       ['confirm', 'Confirm first, naming who', 5],
-      ['review', 'Review the batch, then archive', 3],
+      ['review', 'Review batch, then archive', 3],
     ].map(([id, name, rows]) => [
       `cycle-${id}`,
       {
@@ -397,7 +397,7 @@ const SHOTS = {
     [
       ['undo', 'Archive now, undo after'],
       ['confirm', 'Confirm first, naming who'],
-      ['review', 'Review the batch, then archive'],
+      ['review', 'Review batch, then archive'],
     ].map(([id, name]) => [
       `cycle-wipe-${id}`,
       {
@@ -630,7 +630,7 @@ async function cycleTo(page, last) {
   await page.getByRole('button', { name: 'Try confirm first, naming who' }).click();
   await page.getByRole('button', { name: 'Archive', exact: true }).click();
   await page.getByRole('button', { name: 'Archive 5 customers' }).click();
-  await page.getByRole('button', { name: 'Try review the batch, then archive' }).click();
+  await page.getByRole('button', { name: 'Try review batch, then archive' }).click();
   await page.getByRole('button', { name: 'Archive', exact: true }).click();
   await page.getByRole('button', { name: 'Archive 4 customers' }).click();
   await stage(page, 'evaluate');
