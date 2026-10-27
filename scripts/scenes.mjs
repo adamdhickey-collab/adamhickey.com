@@ -12,8 +12,10 @@
    A scene is 800 by 450 and is captured at 3.2x, 2560 by 1440, the
    homepage card's size, so it stays sharp printed anywhere up to 1280px.
    800 is below the app's first zoom step (app/scale.css), so the root is
-   never scaled; the script refuses a capture whose root zoom isn't 1. Light,
-   chosen the way the app's toggle chooses it, as lab-shots.mjs does.
+   never scaled; the script refuses a capture whose root zoom isn't 1. Dark,
+   the app's Night sage and its default since 2026-10-27 (agent-review#58),
+   chosen the way the app's toggle chooses it; --theme light takes the light
+   palette instead. They were light from 2026-10-24.
 
    The prototype is read from its deployed address by default. Pass --from
    for a local build served under /agent-review/ (vite preview), which is how
@@ -23,6 +25,7 @@
      node scripts/scenes.mjs                         # every scene
      node scripts/scenes.mjs evaluate three          # only these
      node scripts/scenes.mjs --from http://localhost:4173/agent-review/
+     node scripts/scenes.mjs --theme light           # the light palette
 
    Writes img/lab/agent-review-scene-<id>.webp, quality 86 like the other lab
    captures. Chrome's WebP output is not byte-stable between runs, so scope a
@@ -38,7 +41,13 @@ const OUT = path.join(ROOT, 'img/lab');
 const args = process.argv.slice(2);
 const at = args.indexOf('--from');
 const from = (at >= 0 ? args[at + 1] : 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
-const asked = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--from');
+const th = args.indexOf('--theme');
+const theme = th >= 0 ? args[th + 1] : 'dark';
+if (theme !== 'dark' && theme !== 'light') {
+  console.error(`--theme is dark or light, not ${theme}`);
+  process.exit(2);
+}
+const asked = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--from' && args[i - 1] !== '--theme');
 const unknown = asked.filter((a) => !SCENES.includes(a));
 if (unknown.length) {
   console.error(`No scene named ${unknown.join(', ')}. Scenes: ${SCENES.join(', ')}`);
@@ -47,10 +56,10 @@ if (unknown.length) {
 const ids = asked.length ? asked : SCENES;
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME || undefined });
-console.log(`scenes: ${ids.length} from ${from}`);
+console.log(`scenes: ${ids.length} from ${from}, ${theme}`);
 for (const id of ids) {
-  const page = await browser.newPage({ viewport: { width: 800, height: 450 }, deviceScaleFactor: 3.2, reducedMotion: 'reduce', colorScheme: 'light' });
-  await page.addInitScript(() => localStorage.setItem('agent-review:theme', 'light'));
+  const page = await browser.newPage({ viewport: { width: 800, height: 450 }, deviceScaleFactor: 3.2, reducedMotion: 'reduce', colorScheme: theme });
+  await page.addInitScript((t) => localStorage.setItem('agent-review:theme', t), theme);
   await page.goto(`${from}#/scenes/${id}`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForSelector('.scene');
