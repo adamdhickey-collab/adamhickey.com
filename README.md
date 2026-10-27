@@ -386,8 +386,13 @@ homepage card follow one feature. Since the same night those pictures are
 the prototype's own: agent-review draws each stage, the opener's batch and
 the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
 `scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
-The three directions side by side (`three`) are the homepage card, the lab
-index's and the case study's Explore row. The cycle card
+The three directions side by side (`three`) are the lab index's card.
+Since 2026-10-27 (agent-review#58) the scenes are dark, in the prototype's
+Night sage, its default, and each stage scene is one decision: the cycle as
+six dots, the call as the title, the agent's position in slate and the
+person's in sage, and one fact set large. The case study's Explore row is
+the `explore` scene, the three directions drawn as shapes, where it was
+`three`. `scenes.mjs --theme light` takes the light palette. The cycle card
 (`scripts/cycle-card.mjs`) still draws the case study's share card. From 2026-10-21 it opened on "Every action is a button. Except
 cancel.", the billing run's hand-built "Cancel subscription" link drawn in
 code (`quiet-cancel.css` and `quiet-cancel.js`, which were the homepage
