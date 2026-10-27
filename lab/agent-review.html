@@ -101,10 +101,11 @@
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=6" />
   <link rel="stylesheet" href="../design-psychology.css?v=7" />
-  <link rel="stylesheet" href="agent-review.css?v=78" />
+  <link rel="stylesheet" href="../reveal.css?v=2" />
+  <link rel="stylesheet" href="agent-review.css?v=79" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=3" defer></script>
-  <script src="agent-review-story.js?v=6" defer></script>
+  <script src="agent-review-story.js?v=7" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -305,7 +306,7 @@
           <p class="ship-ask" id="ship-ask">Would you ship this?</p>
           <p class="ship-setup">One press archives all five. <strong>Three are active customers.</strong></p>
           <figure class="ship-list" aria-label="Relay&rsquo;s customer list with five customers selected for archiving">
-            <p class="ship-list-bar"><span>5 customers selected</span> <span class="ship-list-archive">Archive</span></p>
+            <p class="ship-list-bar"><span>5 customers selected</span> <span class="ship-list-stop" aria-hidden="true">Agent stopped: 3 are active</span> <span class="ship-list-archive">Archive</span></p>
             <ul>
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
@@ -313,6 +314,10 @@
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></li>
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
             </ul>
+            <div class="ship-list-confirm" aria-hidden="true">
+              <p><strong>Archive 5 customers?</strong></p>
+              <p class="ship-list-confirm-keys"><span>Cancel</span> <span class="ship-list-archive">Archive</span></p>
+            </div>
           </figure>
           <div class="ship-picks" role="group" aria-labelledby="ship-ask">
             <button type="button" class="ship-pick" data-pick="ship" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ship it as it is</button>
@@ -347,17 +352,17 @@
         </header>
         <ul class="ar-kinds">
           <li class="ar-kind ar-kind--through">
-            <p class="ar-kind-lane">Goes through</p>
+            <p class="ar-kind-lane"><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 8.5l3.5 3.5L13 4.5"/></svg>Goes through</p>
             <h3>Proceeds on its own</h3>
             <p>Clear instructions, allowed, and the checks pass. Colors typed in by hand become the system&rsquo;s named ones.</p>
           </li>
           <li class="ar-kind ar-kind--stops">
-            <p class="ar-kind-lane">Stops for a person</p>
+            <p class="ar-kind-lane"><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M5.5 3.5v9M10.5 3.5v9"/></svg>Stops for a person</p>
             <h3>Needs judgment</h3>
             <p>Two answers are both fair, or only a person knows the fact. Is a gray cancel link on a billing screen on purpose?</p>
           </li>
           <li class="ar-kind ar-kind--stops">
-            <p class="ar-kind-lane">Stops for a person</p>
+            <p class="ar-kind-lane"><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M5.5 3.5v9M10.5 3.5v9"/></svg>Stops for a person</p>
             <h3>Needs approval</h3>
             <p>The fix reaches past what the agent was given. A new pattern in the design system is its owner&rsquo;s call.</p>
           </li>

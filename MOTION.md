@@ -189,16 +189,18 @@ a step was a timed move in `--motion-enter` plus `--motion-state`, on
 the write-up's three moments took over its story; nothing on the site moves
 with scroll now but the drawings above.
 
-**Since 2026-10-25 the same write-up has a shorter pin, and it is
-interface, on the scale.** In Explore the three directions' screens are
-held still beside three steps while they scroll past (`agent-review-story.js`,
-`agent-review.css` "The story"), the screen shown is the step in the middle
-of the window, and a link under the stage goes to each step. It is a third
-of the old tour's length, nothing in it is timed against scroll, the swap is
-a cross-fade in `--motion-enter`, and it is only pinned on a wide screen
-with motion allowed: narrow or still, each step keeps its own picture,
-stacked. A rail of the six stages sticks under the nav with the current one
-marked, which is position, not motion.
+**From 2026-10-25 the same write-up had a shorter pin, and it is gone
+too.** Explore's three directions were held still beside three steps, with
+a rail of the six stages stuck under the nav; both came off when the page
+became one strip of six stages.
+
+**Since 2026-10-27 that write-up moves the way the build write-ups do, and
+it is interface, on the scale** (`agent-review-story.js`, `agent-review.css`
+"Motion"). Its blocks settle on `reveal.css`'s contract; the rule's rail
+and the three kinds' marks draw once, armed only below the fold; the stage
+crossing the middle of the window is marked current, which is position
+rather than motion; and the opener's list answers a pick with the stagger
+and the tight rise. Nothing in it is timed against scroll.
 
 ---
 

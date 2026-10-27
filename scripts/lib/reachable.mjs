@@ -100,6 +100,14 @@ export const REACHABLE = {
   'lab/agent-review.html': [
     { name: 'the opener’s question, answered',
       press: ['[data-pick="ask"]'] },
+    /* Since 2026-10-27 the list answers each pick in colors of its own,
+       so the other two answers are states too: the five rows archived as
+       ghosts with the active three keyed in caution, and the pop-up over
+       a list that has stepped back. */
+    { name: 'the opener’s question, shipped as it is',
+      press: ['[data-pick="ship"]'] },
+    { name: 'the opener’s question, asked first',
+      press: ['[data-pick="confirm"]'] },
   ],
 
   'prototype/dispatch-cockpit.html': [
