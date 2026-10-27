@@ -1,6 +1,6 @@
 /* ---------- A card picture that moves ----------
    The homepage's Agent Review card since 2026-10-27: the prototype's
-   Explore scene as a twelve-second loop (scripts/explore-card.mjs), each
+   Explore scene as a twelve-second clip (scripts/explore-card.mjs), each
    of the three ways to archive building in turn. One page loads this file,
    so style.css and its site-wide buster are untouched.
 
@@ -8,11 +8,12 @@
    the two share a wrapper: the wrapper is the card's grid item where the
    link was, and takes the link's place in the order and its margin.
 
-   WCAG 2.2.2: the loop runs longer than five seconds, so a way to stop it
+   WCAG 2.2.2: the clip runs longer than five seconds, so a way to stop it
    has to exist for everyone, not only for readers who have set
    prefers-reduced-motion. The control is the hero portrait's, at the
    picture's empty corner: quiet until the picture is hovered or the button
-   focused, always in the tab order, and always shown on touch. */
+   focused, always in the tab order, and always shown on touch. A replay
+   sits beside it, since the clip plays once. */
 .case-thumb-play {
   position: relative;
   margin-bottom: var(--space-sm);
@@ -31,11 +32,18 @@
   object-fit: cover;
 }
 
-.thumb-toggle {
+/* The two controls, replay and pause, side by side in the corner. 16px
+   between them keeps their 44px targets from overlapping. */
+.thumb-controls {
   position: absolute;
   right: var(--space-sm);
   bottom: var(--space-sm);
   z-index: 2;
+  display: flex;
+  gap: var(--space-md);
+}
+.thumb-control {
+  position: relative;
   display: grid;
   place-items: center;
   width: 28px;
@@ -49,19 +57,19 @@
   opacity: 0.55;
   transition: opacity var(--motion-state) var(--ease);
 }
-.thumb-toggle::after {
+.thumb-control::after {
   content: "";
   position: absolute;
   top: 50%; left: 50%;
   width: 44px; height: 44px;
   transform: translate(-50%, -50%);
 }
-.thumb-toggle svg { width: 14px; height: 14px; }
-.thumb-toggle:focus-visible { opacity: 1; }
+.thumb-control svg { width: 14px; height: 14px; }
+.thumb-control:focus-visible { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .case-thumb-play:hover .thumb-toggle,
-  .thumb-toggle:hover { opacity: 1; }
+  .case-thumb-play:hover .thumb-control,
+  .thumb-control:hover { opacity: 1; }
 }
 @media (hover: none) {
-  .thumb-toggle { opacity: 1; }
+  .thumb-control { opacity: 1; }
 }
