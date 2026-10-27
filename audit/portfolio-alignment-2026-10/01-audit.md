@@ -30,14 +30,14 @@ was done about it in this pass (`02-changes.md` has the edits in full;
 | 8 | `writing/what-makes-an-interface-feel-finished.html` | "6 durations and one curve"; "one easing curve and six durations" | `--ease-enter` and `--ease-linear` both exist; the this-site write-up and the design system page say two | Fixed: two |
 | 9 | `engagement/product-clarity.html` | "25% / roughly, off wrong-vehicle dispatches" | The dispatch case study says "roughly a quarter" and its disclosure says the counts are small; the large figure stated a precision the source disclaims | Fixed: "~25%", the form the USDA figures on the embedded page use |
 | 10 | `Adam Hickey Resume.pdf` (reading copy) | "a third less design-to-development time" | Every other copy of the figure says "about a third"; the reading copy is meant to be a cut of the detailed one, never sharper | Fixed |
-| 11 | `llms.txt` | "lists all thirty-four pages"; "thirty-four pages of plain HTML" | 38 pages since #456; `counts.mjs` holds only the "eleven checks" sentence in this file | Fixed. `README.md` lines 138 and 668 say thirty-four too; left, it is not public and the file is mostly history |
+| 11 | `llms.txt` | "lists all thirty-four pages"; "thirty-four pages of plain HTML" | 38 pages since #456; `counts.mjs` holds only the "eleven checks" sentence in this file | Fixed, and `README.md`'s two copies with it |
 | 12 | `llms.txt` | "Products designed, built and illustrated alone" | Door County Found's role row: "Identity and editorial with my sister Elizabeth, whose idea it was" | Fixed |
 | 13 | `index.html` About | "two products in use, a print studio's production line, client work and a lab" | No page on the site shows independent client work since RBA, and the résumé's independent entry lists none | "client work" removed; open question in `04-consistency.md` |
-| 14 | `case-study/while-were-here.html` | "Of the 174 images, 95 are photographs I took and seventeen more are archive or original artwork. Fourteen are generated" | 95 + 17 + 14 = 126; 48 of 174 unaccounted for on the page | Open; cannot be verified from this repository |
-| 15 | `case-study/enterprise-consulting.html` | "Unified intranet for 140,000+ global employees" (CBRE) | The one number on the page with no case study or disclosure behind it; a client-size figure rather than a result | Open; flagged |
-| 16 | `engagement/design-system-foundation.html` | "More recently, Sprout, a design system for Cargill: its tokens live in the code, and the Figma variables mirror them under a written sync contract" | No page on the site describes Sprout; the page's own framing line ("Every figure is from the case study it sits beside") does not cover it. See the Sprout section below | Open; flagged, kept |
-| 17 | `case-study/this-site.html` | "512 commits, 331 pull requests" | No commit named, unlike the sweep figures; the cloud clone is shallow, so it cannot be recounted here | Open |
-| 18 | `scripts/resume.mjs` | "Intel" among organizations and clients | Intel appears on the site only as a homepage logo; no page names Intel work | Open; the résumé's own comment allows only Banner Bank and International Trucks beyond the site |
+| 14 | `case-study/while-were-here.html` | "Of the 174 images, 95 are photographs I took and seventeen more are archive or original artwork. Fourteen are generated" | 95 + 17 + 14 = 126; 48 of 174 unaccounted for on the page | "Among the 174 images", so the sentence no longer promises a full accounting; what the other 48 are stays a question for Adam |
+| 15 | `case-study/enterprise-consulting.html` | "Unified intranet for 140,000+ global employees" (CBRE) | The one number on the page with no case study or disclosure behind it; a client-size figure rather than a result | Removed: "Unified intranet for a global workforce" |
+| 16 | `engagement/design-system-foundation.html` | "More recently, Sprout, a design system for Cargill: its tokens live in the code, and the Figma variables mirror them under a written sync contract" | No page on the site described Sprout, and the sentence had no provenance | Adam supplied it: the SAP style guide and pattern library informed Sprout. The proof panel and the SAP case study's close say so; see the Sprout section below |
+| 17 | `case-study/this-site.html` | "512 commits, 331 pull requests" | No commit named, unlike the sweep figures; the cloud clone is shallow, so it cannot be recounted here | Recounted from GitHub's search API and dated: 881 commits on main since 2026-06-01, 686 pull requests merged since then, as of 2026-10-27 |
+| 18 | `scripts/resume.mjs` | "Intel" among organizations and clients | Intel appears on the site only as a homepage logo; no page names Intel work | Kept: the logo strip is the site's own claim of the client, so the résumé agrees with the site; a line of what the work was is still owed |
 
 Project maturity, as rendered, was already plain in most places and is now
 plain everywhere a project is named:
@@ -66,7 +66,7 @@ plain everywhere a project is named:
 | 24 | `index.html` How I work | "Four things I've done for twenty years" | "Build to find out... with coding agents" is 2026 work | "Four things I do on a product team" |
 | 25 | `index.html` About | "after twenty years of studio design and development, then enterprise consulting" | The machine-quotable sentence named consulting as the second career | "then enterprise product design at RBA" |
 | 26 | `index.html` Selected work | SAP, USDA, Innovators Studio, then the lab card; dispatch filed on `other.html` since 2026-10-26 | The task asked for the established work to lead as a set: SAP, dispatch, USDA, Innovators Studio | Four cards two by two on the existing `.case-grid--four`, dispatch second; its row left `other.html`. **This reverses a call Adam made on 2026-10-26** (dispatch "reachable but not easy to reach"); one edit puts it back, see `04-consistency.md` |
-| 27 | `writing/what-does-a-product-design-engineer-actually-do.html` | "A design engineer is a designer whose deliverable is the thing itself, in the repository" (title, pull, recap) | A job-title argument in the first person, against the positioning. It is unlisted since 2026-10-08 and reachable only by Next and Related links | Left as it is; the simulated line and the story count were fixed. Recommended: keep unlisted, or retitle toward the product designer who works in the codebase |
+| 27 | `writing/what-does-a-product-design-engineer-actually-do.html` | "A design engineer is a designer whose deliverable is the thing itself, in the repository" (title, pull, recap) | A job-title argument in the first person, against the positioning. It is unlisted since 2026-10-08 and reachable only by Next and Related links | Kept unlisted, as recommended; the simulated line and the story count were fixed |
 | 28 | `writing/index.html` and eight article titles | "AI" or "agent" in eight of fifteen titles; "How I Run Usability Testing with AI" as the test article's `<title>` | The titles are search phrases by design (README, Deployment) and were not changed; worth knowing that the family reads AI-first from a search result | Left; flagged |
 | 29 | `index.html` Contact, four engagement closings, `llms.txt` | "remote or hybrid in the Twin Cities" | The target is remote in the US or hybrid in the Twin Cities; "remote" without a country reads as anywhere | "remote in the US or hybrid in the Twin Cities" |
 
@@ -78,8 +78,8 @@ sentences elsewhere. As rendered:
 
 | # | Story | Told in full on | Also told at length on | Done |
 | --- | --- | --- | --- | --- |
-| 30 | Lucy hears every command | Lucy Learns write-up | Position article, three paragraphs (not a prototype article); `what-should-a-working-prototype-actually-prove`, four paragraphs | Position article cut to two sentences and the link. The prototype article is within VOICE.md's allowance for prototype articles; left |
-| 31 | The quiet cancel link | Agent Review, after the cycle (two paragraphs) | `what-a-design-system-needs-to-explain-to-an-agent`, about twelve paragraphs across three key ideas; position article, four paragraphs; `what-changes-when-ai-agents-join-the-product-team`, two plus one | Every telling now says it is the second run. The explain-to-an-agent article is built on it and would need a rewrite to move it; left for the family's VOICE.md pass |
+| 30 | Lucy hears every command | Lucy Learns write-up | Position article, three paragraphs (not a prototype article); `what-should-a-working-prototype-actually-prove`, four paragraphs | Position article cut to two sentences and the link. The prototype article is within VOICE.md's allowance for prototype articles |
+| 31 | The quiet cancel link | Agent Review, after the cycle (two paragraphs) | `what-a-design-system-needs-to-explain-to-an-agent`, about twelve paragraphs across three key ideas; position article, four paragraphs; `what-changes-when-ai-agents-join-the-product-team`, two plus one | Every telling says it is the second run; the position article's passage is three paragraphs where it was four; VOICE.md's table now names the explain-to-an-agent article as where the cancel link is told in full, with the other three as callbacks |
 | 32 | Forty-plus SAP apps | SAP case study | `writing/standardizing-ux-across-40-sap-fiori-apps` is a second full telling, with four sentences verbatim from the case study | Unlisted since 2026-10-20; left |
 | 33 | The dispatchers' map | Dispatch case study | `designing-for-the-moment-the-workflow-breaks` (four dispatch callbacks) and the test article, both reusing "they knew every location code by heart" | Left; one is unlisted |
 | 34 | The two-runs experiment | Agent Review case study | Four articles draw three different conclusions from the same result | Left; flagged for the family pass |
@@ -93,7 +93,9 @@ Machine-written habits, per VOICE.md section 3, read across every article:
   more), `how-should-you-test-a-product-now-that-ai-can-help` (six or more),
   `what-is-a-product-designer-for-when-anyone-can-build` (four).
 - **Stage-setting lines** on eight articles ("Here's an illustration.", "The
-  lesson is the order.", "The exit is where the judgment shows.").
+  lesson is the order.", "The exit is where the judgment shows."). Seven
+  cut; the eighth, "The design work lives in that distance", is the page's
+  marked line and its pull, and stayed.
 - **"Imagine" and "Picture" openers**: three on `who-decides...`, two on
   `what-changes...`; the invented failed-order scenario opens three articles.
 - **Runs of one-line paragraphs**: four in a row on
@@ -102,7 +104,9 @@ Machine-written habits, per VOICE.md section 3, read across every article:
 - **British spelling reaching readers**: "centre" in alt text on two articles.
   Fixed.
 
-None of the rest was rewritten in this pass. The site is being rewritten to
+None of the rest was rewritten in this pass: the "It isn't X. It's Y." count
+sits in headings `keys.mjs` locks, and the one-line runs and the invented
+openers are each page's structure. The site is being rewritten to
 VOICE.md one family at a time, and the position article is the only writing
 page rewritten so far; the list above is the brief for the writing family's
 turn.
@@ -112,7 +116,7 @@ turn.
 | # | Page | As rendered | Note | Done |
 | --- | --- | --- | --- | --- |
 | 36 | `lab/agent-review.html` | Role, built-with, size and tests sit at the foot; the hero says only "I designed and built it" | Problem and evidence are up front; the role was not | The status line under the title now names the role |
-| 37 | `lab/index.html` | Kicker "Lab · two pieces" over four rows | The source comments say the exploration is deliberately not counted as a piece and the intro article is not one either; a reader sees four | Left, deliberate; worth a plainer kicker |
+| 37 | `lab/index.html` | Kicker "Lab · two pieces" over four rows | The source comments say the exploration is deliberately not counted as a piece and the intro article is not one either; a reader sees four | "Lab · two prototypes, one exploration" |
 | 38 | `index.html` lab card | The cycle-card picture is three solid white screens | The markup comment says these are placeholders until the app's new skin lands (agent-review#58 went dark on 2026-10-27) | Image brief, below; no capture from here |
 | 39 | `engagement/working-product-prototype.html` | `<title>` "AI Product Prototyping and Validation" | The search phrase, by design; AI-first in a result list | Left |
 | 40 | `case-study/hybrid-designer.html` vs résumé | Page: three studios, 2005-2013, "Interactive designer / developer"; résumé: ByDesign "Design Intern" 2004-2006 | The page counts ByDesign as a studio in a designer role from 2005; the résumé has an internship from 2004. Dates were not changed | Open question |
@@ -131,34 +135,36 @@ turn.
 
 ## Sprout: is there a case study in it?
 
-What the site holds about Sprout, in full: one sentence on the design
-system page under How I work ("More recently, Sprout, a design system for
-Cargill: its tokens live in the code, and the Figma variables mirror them
-under a written sync contract"), the line after it ("The whole system is also
-a Claude Code skill, so the team's AI tools build from the same source the
-people do"), a Cargill wordmark on the homepage strip, Cargill in the
-résumé's client list, and one comment in `design-system/ds.css` saying the
-site's reference page is organized the way Sprout is.
+What the site held about Sprout at the start of the pass, in full: one
+sentence on the design system page under How I work ("More recently,
+Sprout, a design system for Cargill: its tokens live in the code, and the
+Figma variables mirror them under a written sync contract"), the line after
+it about the Claude Code skill, a Cargill wordmark on the homepage strip,
+Cargill in the résumé's client list, and one comment in
+`design-system/ds.css` saying the site's reference page is organized the
+way Sprout is.
 
-That is not enough for a case study, and nothing was invented. What a Sprout
-case study would need before it could be written to the standard of the four
-client ones:
+Adam supplied the story during the pass: the SAP Fiori style guide and
+pattern library began as an independent effort at Cargill to write the
+design-system specifications the global brand and strategy guides were
+missing, and that work went on to inform Sprout, Cargill's latest corporate
+design system. So Sprout is the SAP case study's continuation rather than a
+separate engagement, and the site now says so in two places: the proof
+panel on the design system page, and one sentence at the SAP case study's
+close (which keeps that page's "global corporation" wording).
 
-1. **The client, the team and Adam's role**, in words the client has agreed
-   can be public: whether this was RBA work or independent, the dates, who
-   decided what.
-2. **The situation before**: how many products, how many versions of the same
-   component, who was building and with what.
-3. **The decisions**: what went shared and what stayed local, how the sync
-   contract between code and Figma variables is written, who owns a change.
-4. **Evidence**: adoption, time saved, defects, anything measured, with how it
-   was counted, or an explicit statement that nothing was measured yet.
-5. **Pictures the client allows**: components, the token sheet, the Figma
+That is still not a case study of its own, and nothing was invented. What a
+Sprout case study, or a closing chapter on the SAP one, would need:
+
+1. **Dates and role**: when the SAP guide handed over to the Sprout effort,
+   and what Adam did on Sprout itself beyond informing it.
+2. **The decisions**: what the SAP guide settled that Sprout kept, how the
+   sync contract between code tokens and Figma variables is written, who
+   owns a change.
+3. **Evidence**: adoption, time saved, defects, anything measured, with how
+   it was counted, or an explicit statement that nothing was measured yet.
+4. **Pictures the client allows**: components, the token sheet, the Figma
    variables, the skill file, at the sizes the case studies print.
-6. **Where it sits**: a fifth client case study, or the "Where it has worked"
-   proof on the design system page, which is where its one sentence is now.
-
-Until those exist, the one sentence should stay a sentence, and its page
-should stop saying every figure beside it comes from a case study; the
-sentence carries no figure, so the line is true as written but reads as a
-promise.
+5. **Where it sits**: a chapter at the foot of the SAP case study is the
+   natural place; a fifth client case study only if there is enough of
+   items 2 to 4.

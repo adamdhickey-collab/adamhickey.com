@@ -135,7 +135,7 @@ the archive so that it holds everything staging ever had.
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
-| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-four. `seo.mjs` holds it to all four |
+| `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-eight. `seo.mjs` holds it to all four |
 | `scripts/` | The eight check scripts and the capture and render scripts, copied from staging with #20 and authored here since #28. `checks.yml` runs the checks; see Checks. `og.mjs` renders the share cards; `keys.mjs` writes each article's key ideas from its headings; `draw.mjs` queues the drawings for a browser and files what it draws |
 | `js/vendor/anime.esm.min.js` | anime.js 4.5.0 (MIT), vendored; scrubs the design-to-build scene against scroll |
 | `img/` | See Images |
@@ -667,7 +667,7 @@ tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
 absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
-thirty-four live addresses, each dated. Every case study's and every article's
+thirty-eight live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
 address, and `dateModified`, which `seo.mjs --write` stamps from git; every engagement's
 graph carries the questions its page answers as a FAQPage; and every page

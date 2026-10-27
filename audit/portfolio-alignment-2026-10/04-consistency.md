@@ -42,27 +42,35 @@ names the check that fails if the fact drifts; "by hand" means nothing does.
    came off the four How I work FAQs, Contact and `llms.txt`, for one
    identity. You wrote "A role, first" deliberately. If you want the door
    kept open, the shortest honest line is one sentence in Contact only.
-3. **"Client work" since RBA.** Removed from About because no page shows it.
-   If Sprout for Cargill is independent work, that is the sentence to put
-   back, and the Sprout page in `01-audit.md` is what it would take.
-4. **Sprout and Cargill.** Was it RBA work or independent, and what may be
-   public? Until there is a page, the one sentence on the design system page
-   stays a sentence.
+3. **"Client work" since RBA.** Removed from About because no page shows
+   it. Sprout turned out to be the SAP work's continuation (below), not
+   independent work, so the About beat stands as edited.
+4. **Sprout and Cargill.** Settled in outline during the pass: the SAP
+   Fiori style guide and pattern library began as an effort to write the
+   design-system specifications Cargill's global brand and strategy guides
+   were missing, and went on to inform Sprout, Cargill's corporate design
+   system. Still open: the dates, Adam's role on Sprout itself, and what may
+   be shown. `01-audit.md` lists what a closing chapter on the SAP case
+   study would need.
 5. **ByDesign: 2004 intern, or 2005 studio?** The résumé has "Design Intern,
    2004 – 2006"; the hybrid-designer page counts "three Minneapolis studios"
    from 2005 under "Interactive designer / developer". Both left as they
    were. One of them should give.
-6. **Intel.** On the homepage strip and in the résumé's client list; no page
-   names the work. A line on the enterprise-consulting page, or off the list.
+6. **Intel.** On the homepage strip and in the résumé's client list; no
+   page names the work. The strip is the site's own claim, so the résumé
+   agrees with it; a line on the enterprise-consulting page saying what the
+   work was is still owed.
 7. **While We're Here's 174 pictures.** 95 photographs, 17 archive or original
-   artwork, 14 generated: 48 are not accounted for on the page. Diagrams?
-   Type-only spreads? The page should say.
-8. **CBRE's 140,000+ employees.** The one unsourced number on the
-   enterprise-consulting page. A public figure, probably; worth a word on
-   where it comes from, or cut.
-9. **"512 commits, 331 pull requests"** on the this-site write-up has no
-   commit named and cannot be recounted from a shallow clone. Date it the
-   way the sweep figures are dated, or register it in `counts.mjs`.
+   artwork, 14 generated: 48 are not accounted for on the page. The sentence
+   now says "Among the 174" rather than "Of the 174"; what the 48 are
+   (diagrams? type-only spreads?) is yours to say.
+8. **CBRE's workforce.** "140,000+ global employees" came off the
+   enterprise-consulting page as the one unsourced number there; put it back
+   with a source if you want the scale.
+9. **The this-site counts** are recounted and dated now (881 commits, 686
+   merged pull requests since June, as of 2026-10-27, from GitHub's search
+   API). They will drift like the browser counts; recount them the same way
+   or register them in `counts.mjs` once CI has the history.
 10. **The design-engineer article.** Unlisted, and the one page on the site
     that argues a job title against the positioning. Keep it unlisted, or
     retitle and reframe it as the product designer who works in the
@@ -70,8 +78,8 @@ names the check that fails if the fact drifts; "by hand" means nothing does.
 11. **Eight of fifteen article titles name AI or agents**, by design, as
     search phrases. The family reads AI-first from a result list. Worth a
     look at Search Console before changing any of them.
-12. **The lab kicker** says "two pieces" over four rows, deliberately. A
-    kicker that counts what the reader sees would be plainer.
+12. **The lab kicker** says "two prototypes, one exploration" now, counting
+    what the reader sees; the introduction above them is the article.
 13. **The writing family's VOICE.md pass** has a brief now (`01-audit.md`,
     P3): the repeated stories, the "It isn't X. It's Y." count per page, the
     stage-setting lines, the three "Imagine" openers on one page, the

@@ -107,6 +107,31 @@ closings were already written from inside a team and stayed as they were.
   render at 1056px of 1056, with Chromium from this container and the fonts
   from Google Fonts.
 
+## The second round, same day
+
+Adam asked to move forward with every recommendation, so the items the
+first round had left open took their safe form, none of them a new fact:
+
+- CBRE's "140,000+ global employees" came off the enterprise-consulting page
+  (#15); the this-site write-up's commit and pull-request counts were
+  recounted from GitHub and dated (#17); While We're Here says "Among the
+  174 images" rather than promising a full accounting (#14); `README.md`'s
+  two "thirty-four" became thirty-eight (#11).
+- The position article's cancel-link passage is three paragraphs where it
+  was four, and `VOICE.md`'s story table names the explain-to-an-agent
+  article as where that story is told in full (#31).
+- Seven stage-setting lines cut, on seven articles (P3): "Here's an
+  illustration.", "The lesson is the order.", "The exit is where the
+  judgment shows.", "This small site has taught me so three times.", "The
+  curve check surprises people.", "The last one is where most prototypes
+  stop short...", and "There's a bad reading of all this:" turned into the
+  question it was setting up.
+- The lab kicker counts what the reader sees: "Lab · two prototypes, one
+  exploration" (#37).
+- Intel stays on the résumé: the homepage strip is the site's own claim of
+  the client (#18). ByDesign's start year (#40), Sprout (#16) and the 48
+  pictures (#14) are still Adam's to answer.
+
 ## Records
 
 - `llms.txt`: the summary line, the How I work paragraph, the page count

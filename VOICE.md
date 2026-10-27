@@ -107,7 +107,7 @@ sentences anywhere else, with a link.
 | Lucy hears every command as meant for her | Lucy Learns | The prototype articles |
 | The map the dispatchers didn't need | Dispatch case study | Product clarity, the embedded page |
 | Archiving customers in Relay, and the undo bar | Agent Review | The homepage card, the lab index, the position article |
-| The quiet cancel link, Agent Review's second run | Agent Review, after the cycle | The design system articles, named as the second run |
+| The quiet cancel link, Agent Review's second run | What a design system needs to explain to an agent | Agent Review after the cycle, the position article, the agents-join article, each naming it as the second run |
 | Dispatch Cockpit declines a close call | Dispatch Cockpit, the dispatch prototype | The decision-support articles |
 | Forty-plus SAP apps, one standard | SAP case study | Design system pages |
 | My sister keeps the guide current | Door County Found | Articles on what can't be generated |
