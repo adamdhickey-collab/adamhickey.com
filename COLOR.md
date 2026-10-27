@@ -113,7 +113,7 @@ wear its collection. The terracotta collection needs no new token: it is
 | `--color-slate` `#56718c` | 5.08 | 4.64 | 4.27 | 4.01 | 3.02 — never |
 
 **A stop for a person is the caution ink's third use**, and only the ink:
-the Agent Review write-up's "Stops for a person" lane, its bracket, and the
+the Agent Review write-up's "Pauses for a person" lane (until 2026-10-27, "Stops for a person"), its bracket, and the
 mark and "Who acts" answer on the two cards under it, against the sage of
 "Goes through" (Adam chose it, 2026-10-24, over charcoal). It is the same
 meaning narrowed rather than a new one: the agent will not go on alone.
