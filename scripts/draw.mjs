@@ -239,6 +239,13 @@ if (cmd === 'queue') {
      at the tile's aspect, plus a margin -- centred on its own drawing, so
      a figure's drawings print at one scale. A crop wider than its cell
      sees only its own cell, on white: the neighbour does not bleed in.
+     That masking also blanks a drawing's OWN ink past the seam, which is
+     invisible in the tile -- the drawing just stops, with white beyond it,
+     and no edge check can see it. The dcf process sheet lost a browser
+     window's right border that way. So ink within 2px of a cell's edge
+     refuses the whole cut, naming the tile and the edge: redraw the sheet
+     with the drawing inside its cell, or cut that one tile by hand from
+     the full sheet when the neighbour cell is empty.
      Near-white goes to white, so the tile sits on the page's ground. */
   const [, name, namesArg, size = '360x240'] = argv;
   if (!name || !namesArg) { console.error('slice <name> <tile,tile,-,...> [WxH]'); process.exit(1); }
@@ -263,8 +270,11 @@ if (cmd === 'queue') {
         const i = (y * W + x) * 4;
         if (Math.min(px[i], px[i + 1], px[i + 2]) < 225) { minx = Math.min(minx, x); maxx = Math.max(maxx, x); miny = Math.min(miny, y); maxy = Math.max(maxy, y); }
       }
-      return { x0, y0, w: maxx - minx, h: maxy - miny, cx: (minx + maxx) / 2, cy: (miny + maxy) / 2 };
+      const touches = [minx <= x0 + 6 && 'left', maxx >= x0 + cw - 7 && 'right', miny <= y0 + 6 && 'top', maxy >= y0 + ch - 7 && 'bottom'].filter(Boolean);
+      return { x0, y0, w: maxx - minx, h: maxy - miny, cx: (minx + maxx) / 2, cy: (miny + maxy) / 2, touches };
     });
+    const crossed = boxes.flatMap((b, k) => (!skip[k] && b.touches.length ? [{ k, edges: b.touches.join(' and ') }] : []));
+    if (crossed.length) return { crossed };
     const ar = OW / OH;
     const side = Math.ceil(Math.max(...boxes.filter((_, k) => !skip[k]).map((b) => Math.max(b.w, b.h * ar))) * 1.16);
     const out = boxes.map((b, k) => {
@@ -284,6 +294,11 @@ if (cmd === 'queue') {
     return { side, out };
   }, { dataUrl, skip: names.map((x) => x === '-'), OW, OH });
   await browser.close();
+  if (res.crossed) {
+    for (const { k, edges } of res.crossed) console.error(`✗ ${names[k]}: ink within 2px of its cell's ${edges} edge -- the cut sees only the cell, so anything past the seam goes white`);
+    console.error('  nothing written. Redraw the sheet with the drawing inside its cell, or cut that tile by hand from the full sheet if the neighbour cell is empty (1b262784 is the worked example).');
+    process.exit(1);
+  }
   const dir = resolve(root, 'img/writing');
   res.out.forEach((u, k) => {
     if (!u) return;
