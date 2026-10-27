@@ -116,8 +116,8 @@ const arg = (name, fallback) => {
   return i > -1 ? process.argv[i + 1] : fallback;
 };
 const from = arg('--from', 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
-const theme = arg('--theme', 'light');
-if (theme !== 'light' && theme !== 'dark') throw new Error(`--theme is light or dark, not ${theme}`);
+const THEME = arg('--theme', 'light');
+if (THEME !== 'light' && THEME !== 'dark') throw new Error(`--theme is light or dark, not ${THEME}`);
 /* The desktop captures are 2x; the figures print well under half their file
    at that. (A --scale 3 set was the tour's alone, and went with it.) */
 const scale = 2;
@@ -375,6 +375,7 @@ const SHOTS = {
       `cycle-${id}`,
       {
         file: `agent-review-cycle-${id}`,
+        dark: true,
         app: '#/cycle/discover',
         desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
         phone: { clip: (page) => partClip(page, '.cycle__product-frame', `.cycle__product-frame tbody tr:nth-child(${rows})`, '.cycle__product-frame', 0) },
@@ -401,6 +402,7 @@ const SHOTS = {
       `cycle-wipe-${id}`,
       {
         file: `agent-review-cycle-wipe-${id}`,
+        dark: true,
         app: '#/cycle/discover',
         desktop: { size: { width: 1440, height: 1000 }, zoom: 1.25, clip: (page) => fixedClip(page, '.cycle__product-frame', 460) },
         phone: false,
@@ -657,20 +659,50 @@ async function settle(page) {
    takes from the window by the step. A capture that comes out drawn at
    anything else is refused rather than written, which is also what a
    renamed step would do. */
-async function hold(ctx, zoom = 1, pad = 0) {
-  await ctx.addInitScript(({ theme, zoom, pad }) => {
+/* RELAY IN NIGHT SAGE, for the shots marked `dark`. Relay has one palette,
+   light and frozen (tokens.css, "-product"), and its surface hands it back
+   inside the review, so the app's dark theme leaves the preview frame
+   white. The case study's Evaluate pair is dark since 2026-10-27 (Adam:
+   "use the dark theme for these screens as well"), to sit with the opener's
+   list, which the page draws in Night sage (#690). So for these captures
+   alone Relay is handed the review's own tokens instead: each is aliased on
+   the root, where it is the review's, and the product's surface reads the
+   alias back, in the dark scheme. Relay's accent takes the review's
+   primary, the sage, as the opener's checks do, but for the accent badge
+   (Trial), which keeps the review's slate so it is not read as Active; the
+   reds, greens and cautions are the review's dark ones. The app is
+   unchanged. */
+const RELAY_TOKENS = [
+  'canvas', 'surface', 'surface-sunken', 'surface-hover', 'surface-hover-strong', 'border', 'divider', 'border-control',
+  'text', 'text-secondary', 'text-muted', 'success', 'success-subtle', 'success-solid', 'success-border',
+  'warning', 'warning-subtle', 'warning-solid', 'warning-border', 'danger', 'danger-subtle', 'danger-solid', 'danger-border',
+  'neutral-solid', 'diff-add', 'diff-add-ink', 'diff-remove', 'diff-remove-ink',
+];
+const RELAY_AS = {
+  accent: 'primary', 'accent-hover': 'primary-hover', 'accent-subtle': 'success-subtle', 'accent-border': 'success-border',
+  primary: 'primary', 'primary-hover': 'primary-hover', 'primary-active': 'primary-active',
+  'text-on-accent': 'text-on-primary', 'text-on-primary': 'text-on-primary',
+};
+const RELAY_PAIRS = [...RELAY_TOKENS.map((t) => [t, t]), ...Object.entries(RELAY_AS)];
+const RELAY_DARK =
+  ` :root { ${[...RELAY_PAIRS.map(([, from]) => from), 'accent', 'accent-subtle', 'accent-border'].map((from) => `--rv-${from}: var(--color-${from});`).join(' ')} }` +
+  ` [data-surface='product'], .cycle__product-frame { color-scheme: dark !important; ${RELAY_PAIRS.map(([to, from]) => `--color-${to}: var(--rv-${from}) !important;`).join(' ')} --focus-ring-color: var(--rv-primary) !important; --shadow-raised: none !important; --shadow-control: none !important; }` +
+  ` [data-surface='product'] .badge--accent { --badge-edge: var(--rv-accent-border); --badge-ink: var(--rv-accent); --badge-ground: var(--rv-accent-subtle); }`;
+
+async function hold(ctx, theme, zoom = 1, pad = 0, relay = false) {
+  await ctx.addInitScript(({ theme, zoom, pad, relay, RELAY_DARK }) => {
     const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`:root { --zoom: ${zoom} !important; ${pad ? `padding-inline: ${pad}px;` : ''} }`);
+    sheet.replaceSync(`:root { --zoom: ${zoom} !important; ${pad ? `padding-inline: ${pad}px;` : ''} }${relay ? RELAY_DARK : ''}`);
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
     /* The theme, as the app's control remembers it (useTheme.ts). Storage can
        throw on a page that is not the app's; nothing here needs it there. */
     try {
       localStorage.setItem('agent-review:theme', theme);
     } catch {}
-  }, { theme, zoom, pad });
+  }, { theme, zoom, pad, relay, RELAY_DARK });
 }
 
-async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
+async function write(name, suffix, page, clip, expected = 1, oneTheme = false, theme = THEME) {
   const zoom = await page.evaluate(() => getComputedStyle(document.documentElement).zoom);
   if (zoom !== String(expected)) throw new Error(`${name}${suffix}: the page is drawn at ${zoom}, not ${expected} (${page.url()})`);
   /* A capture in the wrong theme is refused, as one at the wrong size is.
@@ -680,7 +712,7 @@ async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
     const drawn = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
     if (drawn !== theme) throw new Error(`${name}${suffix}: the app is drawn ${drawn}, not ${theme} (${page.url()})`);
   }
-  if (theme === 'dark' && !oneTheme) suffix += '-dark';
+  if (theme === 'dark' && !oneTheme && THEME === 'dark') suffix += '-dark';
   const file = path.join(OUT, `${name}${suffix}.webp`);
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip }));
   console.log(`${path.relative(ROOT, file)}  ${(fs.statSync(file).size / 1024).toFixed(0)} KB`);
@@ -689,7 +721,8 @@ async function write(name, suffix, page, clip, expected = 1, oneTheme = false) {
 try {
   for (const [slug, shot] of Object.entries(SHOTS)) {
     if (only.length && !only.includes(slug)) continue;
-    if (theme !== 'light' && shot.light) continue; /* one theme: written under the plain name by the default run only */
+    if (THEME !== 'light' && (shot.light || shot.dark)) continue; /* one theme: written under the plain name by the default run only */
+    const theme = shot.dark ? 'dark' : THEME;
     for (const kind of ['desktop', 'phone']) {
       if (shot[kind] === false) continue;
       const spec = shot[kind];
@@ -697,7 +730,7 @@ try {
       const ctx = await browser.newContext(
         kind === 'phone' ? { ...phoneDevice, viewport: size, deviceScaleFactor: 3 } : { viewport: size, deviceScaleFactor: scale },
       );
-      await hold(ctx, kind === 'phone' ? 1 : (spec?.zoom ?? 1), kind === 'phone' ? 0 : (spec?.pad ?? 0));
+      await hold(ctx, theme, kind === 'phone' ? 1 : (spec?.zoom ?? 1), kind === 'phone' ? 0 : (spec?.pad ?? 0), Boolean(shot.dark));
       const page = await ctx.newPage();
       /* A touch context applies its emulation to the next navigation, so the
          phone starts from a blank page; otherwise it is laid out as a mouse's. */
@@ -713,7 +746,7 @@ try {
         await page.locator(shot.phoneScroll).first().evaluate((el) => el.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(300);
       }
-      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light));
+      await write(shot.file, kind === 'phone' ? '-phone' : '', page, spec?.clip ? await spec.clip(page) : undefined, kind === 'phone' ? 1 : (spec?.zoom ?? 1), Boolean(shot.light), theme);
       await ctx.close();
     }
   }
