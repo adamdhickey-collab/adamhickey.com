@@ -87,7 +87,7 @@ const BASE = {
      same evening to the dek before it. Since 2026-10-26 it is the breadth
      (visual, interactive, enterprise) with no <strong>, and since that
      evening its second sentence is the agent work again, bold and all. */
-  dek: 'Twenty years across visual design, interactive experiences, and enterprise software. I design the system <strong>people and coding agents</strong> build from, and decide what ships.',
+  dek: 'Twenty years across visual design, interactive experiences, and enterprise software, making complicated products easier to use and to build. Coding agents build fast now. I decide <strong>which problem to solve, what good looks like, and what ships</strong>.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
   facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
   writing: {

@@ -55,7 +55,9 @@
  * else. Rewritten on 2026-10-26 to the balanced positioning, then the same
  * evening to the homepage as it stands: "software that fits the job and the
  * person doing it" (for part of 2026-10-27 "and earns the trust of the
- * person doing it", then the shorter line again), the system people and
+ * person doing it", then the shorter line again; from the evening of 2026-10-27 "Knowing what to
+ * build is still the hard part": which problem to solve, what good looks like
+ * and what ships), the system people and
  * coding agents build from, and the hero's facts (design systems, prototypes, usability testing, accessibility,
  * complex workflows) in place of the four strengths, which read as a run of
  * adjectives. The title stays Senior Product Designer; employers, titles,
@@ -186,7 +188,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
+  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I make complicated products easier to use and to build, deciding which problem to solve and what ships. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
 </section>
 
 <section>
@@ -201,7 +203,7 @@ const html = String.raw`<!doctype html>
   <ul>
     <li>Led UX and visual design for complex digital products, enterprise applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
     <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
-    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
+    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
     <li>Tied design decisions to the numbers teams already track: efficiency, adoption, quality, ROI.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
@@ -383,7 +385,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software. I design software that fits the job and the person doing it, and the system people and coding agents build from.</p>
+  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software, making complicated products easier to use and to build. Now I decide which problem to solve, what good looks like, and what ships.</p>
 
   <section>
     <h2>Independent</h2>
