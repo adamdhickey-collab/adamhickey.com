@@ -207,7 +207,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, and since 2026-10-27 its interface on live Citi Bike data, the rebalancing cockpit. The deploy console was a second until 2026-10-23. |
-| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The cockpit is listed there too, at its own address. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
+| Lab | 3 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The rebalancing cockpit is listed there too, at its own address, in the dispatch cockpit's place since 2026-10-27. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
 
 **Homepage** -- `index.html`
