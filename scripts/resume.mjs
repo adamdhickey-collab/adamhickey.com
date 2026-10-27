@@ -54,9 +54,9 @@
  * site's own pair, Crimson Text for the name and Montserrat for everything
  * else. Rewritten on 2026-10-26 to the balanced positioning, then the same
  * evening to the homepage as it stands: "software that fits the job and the
- * person doing it" (since 2026-10-27 "and earns the trust of the person
- * doing it"), the system people and coding agents build from, and the
- * hero's facts (design systems, prototypes, usability testing, accessibility,
+ * person doing it" (for part of 2026-10-27 "and earns the trust of the
+ * person doing it", then the shorter line again), the system people and
+ * coding agents build from, and the hero's facts (design systems, prototypes, usability testing, accessibility,
  * complex workflows) in place of the four strengths, which read as a run of
  * adjectives. The title stays Senior Product Designer; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
@@ -186,7 +186,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and earns the trust of the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
+  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
 </section>
 
 <section>
@@ -383,7 +383,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software. I design software that fits the job and earns the trust of the person doing it, and the system people and coding agents build from.</p>
+  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software. I design software that fits the job and the person doing it, and the system people and coding agents build from.</p>
 
   <section>
     <h2>Independent</h2>
