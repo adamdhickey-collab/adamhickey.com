@@ -88,8 +88,11 @@ The voice gets more personal; the facts do not get looser.
 - **Simulated stays simulated.** Agent Review plays simulated runs and has
   not been tested with anyone. Dispatch Cockpit runs on synthetic data. A
   story about them says so in the sentence that tells it.
-- **Current examples only.** Agent Review's first decision is the quiet
-  cancel link (#522, #523), not the two reds.
+- **Current examples only.** Agent Review's story is archiving customers
+  in Relay, the six stages its page and prototype open on (since
+  2026-10-26). The quiet cancel link on the billing screens is its second,
+  older simulated run, and a page that uses it says so in the sentence that
+  tells it; the two reds (before #522) are not used at all.
 - **Someone else's work is cited, not told as yours.** Ryan Brownlow's Korl
   is his story. One outside source a page, told in a sentence and linked,
   and the page's own example comes first.
@@ -103,7 +106,8 @@ sentences anywhere else, with a link.
 | --- | --- | --- |
 | Lucy hears every command as meant for her | Lucy Learns | The prototype articles |
 | The map the dispatchers didn't need | Dispatch case study | Product clarity, the embedded page |
-| The quiet cancel link | Agent Review | The design system articles |
+| Archiving customers in Relay, and the undo bar | Agent Review | The homepage card, the lab index, the position article |
+| The quiet cancel link, Agent Review's second run | Agent Review, after the cycle | The design system articles, named as the second run |
 | Dispatch Cockpit declines a close call | Dispatch Cockpit, the dispatch prototype | The decision-support articles |
 | Forty-plus SAP apps, one standard | SAP case study | Design system pages |
 | My sister keeps the guide current | Door County Found | Articles on what can't be generated |

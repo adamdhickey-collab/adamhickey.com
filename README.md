@@ -156,7 +156,9 @@ and the client logos) → Selected work (the three client case studies first
 since 2026-10-23 -- SAP, USDA, and since 2026-10-26 the Innovators Studio
 identity where dispatch was -- with no label over them since
 2026-10-24, then the lab card for Agent Review, the self-directed
-prototype) →
+prototype; **four since 2026-10-27**, SAP, dispatch, USDA, Innovators
+Studio, two by two on Built end to end's grid, with dispatch back from
+`other.html` for the portfolio alignment pass) →
 How I work inside a
 product organization (the four cards that were the engagement grid, now
 answering each situation with how I operate on a team and opening its own

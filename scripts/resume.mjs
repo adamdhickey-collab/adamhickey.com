@@ -58,7 +58,14 @@
  * person doing it", then the shorter line again), the system people and
  * coding agents build from, and the hero's facts (design systems, prototypes, usability testing, accessibility,
  * complex workflows) in place of the four strengths, which read as a run of
- * adjectives. The title stays Senior Product Designer; employers, titles,
+ * adjectives. Aligned again on 2026-10-27 (the portfolio alignment pass):
+ * the tagline and both summaries name the three eras in the order they
+ * happened (visual design, interactive development, enterprise product
+ * design), building with coding agents is the method and "decide what
+ * ships" the job, the two prototypes say they run on simulated scenarios
+ * and synthetic data, the reading copy keeps "about a third" like every
+ * other copy of that figure. The reading copy's Selected work stays at
+ * three: a fourth line put it 65px over the page. The title stays Senior Product Designer; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -180,21 +187,21 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Design Systems · Prototyping in Code · Usability Testing · Complex Workflows</p>
+  <p class="tagline">Senior Product Designer · Enterprise UX · Design Systems · Visual Design · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
+  <p>Senior product designer with 20 years across visual design, interactive development and enterprise product design, for organizations including Cargill, Intel, CBRE and Toro. I design software that fits the job and the person doing it. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the systems teams build from, build working versions with coding agents, and decide what ships.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, visual systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: a component system with written design rules and automated visual and accessibility checks, following one feature from a support ticket to release.</li>
-    <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
+    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: a component system with written design rules and automated visual and accessibility checks, following one simulated feature from a support ticket to what ships.</li>
+    <li><b>Dispatch Cockpit</b> — Designed and built a working decision-support prototype for AI-assisted load assignment, on synthetic data: the evidence behind a pick, close calls, overrides and the manual path, for expert dispatchers.</li>
     <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel guide (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
@@ -383,14 +390,14 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Twenty years across visual design, interactive experiences and enterprise software. I design software that fits the job and the person doing it, and the system people and coding agents build from.</p>
+  <p class="intro">Twenty years across visual design, interactive development and enterprise product design. I design software that fits the job and the person doing it, build working versions with coding agents, and decide what ships.</p>
 
   <section>
     <h2>Independent</h2>
     <div class="role">
       <h3>Product design, visual systems, prototyping</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel guide, and Lucy Learns, an illustrated dog-training app. Also Agent Review and Dispatch Cockpit, two working prototypes built with coding agents.</p>
+      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel guide, and Lucy Learns, an illustrated dog-training app. Also Agent Review and Dispatch Cockpit, two working prototypes on simulated scenarios, built with coding agents.</p>
     </div>
   </section>
 
@@ -406,10 +413,10 @@ const reading = String.raw`<!doctype html>
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less design-to-development time, production UI defects roughly halved.</li>
+      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; about a third less design-to-development time, production UI defects roughly halved.</li>
       <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates and a portal.</li>
       <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
-          </ul>
+    </ul>
   </section>
 
   <section>

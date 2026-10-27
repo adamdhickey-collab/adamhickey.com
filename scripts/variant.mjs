@@ -86,10 +86,15 @@ const BASE = {
      when the dek started saying he builds what he designs, and back the
      same evening to the dek before it. Since 2026-10-26 it is the breadth
      (visual, interactive, enterprise) with no <strong>, and since that
-     evening its second sentence is the agent work again, bold and all. */
-  dek: 'Twenty years across visual design, interactive experiences, and enterprise software. I design the system <strong>people and coding agents</strong> build from, and decide what ships.',
+     evening its second sentence is the agent work again, bold and all.
+     Since 2026-10-27 (the portfolio alignment pass) the three eras in the
+     order they happened and three verbs, with the bold on the judgment. */
+  dek: 'Twenty years across visual design, interactive development and enterprise product design. I design the systems teams build from, build working versions with coding agents, and <strong>decide what ships</strong>.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
-  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
+  /* The live order since 2026-10-27: Usability testing replaced Research
+     and moved third on 2026-10-26, and Visual craft replaced Agent
+     boundaries in the portfolio alignment pass. */
+  facts: ['Design systems', 'Prototypes', 'Usability testing', 'Accessibility', 'Complex workflows', 'Visual craft'],
   writing: {
     /* The position article's three words since 2026-10-20, a new article at
        the head of each. Until then "Designing with code" ("Craft and code"
