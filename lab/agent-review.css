@@ -54,16 +54,11 @@
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
 .arc-open-act .ra-bar { margin: 0; }
-/* From 64rem to 80rem the opener's text column is too narrow for the button
-   and the Listen button side by side, so Listen takes a row of its own. That
-   row is held from first paint (the head marks .arc-can-listen where
-   read-aloud.js will add the button), so its arrival moves nothing. */
-@media (min-width: 64rem) and (max-width: 79.99rem) {
-  .arc-can-listen .arc-open-act { align-content: flex-start; min-height: calc((var(--space-sm) * 2 + var(--text-base) * var(--leading-body)) * 2 + var(--space-md)); }
-  .arc-open-act .ra-bar { flex-basis: 100%; }
-}
-/* From 80rem the column fits both buttons on one row, so one row is held. */
-@media (min-width: 80rem) {
+/* From 64rem the way in sits in the opener's wider right column, which fits
+   the button and the Listen button side by side, so one row is held from
+   first paint (the head marks .arc-can-listen where read-aloud.js will add
+   the button), and its arrival moves nothing. */
+@media (min-width: 64rem) {
   .arc-can-listen .arc-open-act { min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body)); }
 }
 .arc-open-act .ra-listen {
@@ -79,20 +74,51 @@
   color: var(--color-muted-gray);
 }
 .arc-open-grid { display: grid; gap: var(--space-3xl); }
-/* Beside the question the title is a step of the display tier rather than
-   --type-title, which is sized for a title that spans the page: at its 68px
-   it put "When" on a line of its own and outweighed the question. The two
-   columns share a top, not a middle: centered, the title moved down the
-   screen when an answer opened the column beside it. */
+/* SINCE 2026-10-26, TWO ROWS ON ONE GRID. The opener was two columns of
+   unequal weight: the title and its way in on the left, ending halfway
+   down, and on the right a second serif heading, the screen and three
+   answers in a row, set a column lower than the title's kicker. The left
+   ran out into blank paper, the two headings competed at different tops,
+   and the answers wrapped to one line and two. Now the same 5/7 columns
+   carry two rows, so every edge lines up:
+     - the title on the left, and on the right what it means and the way
+       in, hung from the title's top line: the kicker's line and margin
+       drop the right column so the dek and the title start together;
+     - the question on the left, its setup and three answers stacked under
+       it as one list, and Relay's screen on the right, the two sharing a
+       top. The result opens under the answers and moves nothing else.
+   Under 64rem it is one column in reading order, as before, and the dek
+   keeps the title's own margin rather than the grid's gap. */
+@media (max-width: 63.99rem) {
+  .arc-open-text { margin-top: calc(-1 * var(--space-3xl)); }
+}
 @media (min-width: 64rem) {
   .arc-open-grid {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     column-gap: var(--space-4xl);
+    row-gap: var(--space-4xl);
     align-items: start;
   }
-  .arc-open-text { padding-top: var(--space-4xl); }
-  .arc-open .arc-title { font-size: var(--text-6xl); }
+  .arc-open-text { padding-top: calc(var(--text-sm) * var(--leading-ui) + var(--space-md)); }
+  .arc-open .arc-title { margin-bottom: 0; font-size: var(--text-6xl); }
   .arc-open .arc-dek { font-size: var(--text-xl); }
+  .arc-open .ship {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas:
+      "ask    screen"
+      "setup  screen"
+      "picks  screen"
+      "result screen";
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .ship-ask { grid-area: ask; }
+  .ship-setup { grid-area: setup; }
+  .ship-screen { grid-area: screen; }
+  .arc-open .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
+  .ship-result { grid-area: result; }
 }
 
 /* ---- the device frame ----
