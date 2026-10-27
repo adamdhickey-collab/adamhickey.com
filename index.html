@@ -952,10 +952,14 @@
                  made by scripts/explore-card.mjs from the app's own DOM. It
                  plays ONCE, the first time the card is on screen, and stops on
                  the finished screen (Adam: "not have it keep looping"); it
-                 looped for its first hour. The poster is the clip's first
-                 frame, which is also its last, so the switch from poster to
-                 clip cannot be seen, the clip ends where the poster began, and
-                 a reduced-motion reader gets the finished screen. No autoplay and preload="none",
+                 looped for its first hour. The poster in the markup is the
+                 finished screen, for a reduced-motion reader and a page
+                 without script. For everyone else the script below swaps in
+                 the cleared screen and starts the clip 1.5s in, past its
+                 opening, so the card builds once as it arrives and stays;
+                 until then the reader saw the finished screen, watched it
+                 clear, and watched it build again (Adam: "it disappears on
+                 you and rebuilds"). No autoplay and preload="none",
                  as with the hero portrait: the script below starts the clip only
                  when the card is on screen and motion is allowed, so nobody pays
                  for bytes they will not see. thumb-loop.css has the pause
@@ -1819,7 +1823,11 @@
        card comes back. Once it has ended it stays on the finished screen.
        Beside the pause, a replay starts it from the top whenever it is
        pressed (Adam: "a replay button next to the pause"). A press is the
-       reader's own choice, so it plays even under reduced motion. */
+       reader's own choice, so it plays even under reduced motion.
+       The clip opens on the finished screen and clears it by START, so the
+       page starts it there and, where motion is allowed, shows the cleared
+       screen as the poster: the card builds as it arrives, and never shows
+       its finished screen only to take it away. */
     (function () {
       var v = document.querySelector('.case-thumb-video');
       var btn = document.querySelector('.thumb-toggle');
@@ -1828,7 +1836,13 @@
       var seen = !('IntersectionObserver' in window);
       var choice = null; /* 'play' or 'pause' once the reader has pressed */
       var done = false;  /* it has played through once */
-      var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+      var START = 1.5;
+      var started = false;
+      var play = function () {
+        if (!started) { started = true; v.currentTime = START; }
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      };
+      if (!mq.matches) v.poster = 'img/lab/agent-review-explore-card-start.webp?v=1';
       var apply = function () {
         var want = seen && (choice ? choice === 'play' : !mq.matches && !done);
         if (want) { if (v.paused) play(); } else if (!v.paused) v.pause();
@@ -1863,7 +1877,8 @@
       var replay = document.querySelector('.thumb-replay');
       if (replay) replay.addEventListener('click', function () {
         choice = 'play';
-        v.currentTime = 0;
+        started = true;
+        v.currentTime = START;
         play();
       });
       sync();

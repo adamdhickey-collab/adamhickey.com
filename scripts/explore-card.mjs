@@ -27,12 +27,18 @@
           ticked, and the button counts with them
      9.2  "Tried all three", then the finished screen holds to the loop
 
+   The page starts the clip at 1.5s, not 0 (Adam: the card was there,
+   then disappeared and rebuilt): a reader who allows motion sees the
+   start poster, the cleared screen, until the card is on screen, then
+   the screen builds once and stays. The first 1.5s are only for a seek.
+
    The encode is WebCodecs in Chrome (no ffmpeg on the Mac), H.264 muxed
    with mp4-muxer, moov first, in a second tab on the app's own https
    origin, because VideoEncoder only exists in a secure context.
 
      img/lab/agent-review-explore-card.mp4    1600 x 900, the loop
      img/lab/agent-review-explore-card.webp   1600 x 900, its poster
+     img/lab/agent-review-explore-card-start.webp   1600 x 900, the cleared screen
 
      export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
      node scripts/explore-card.mjs              # --app http://localhost:4173/agent-review/ */
@@ -195,9 +201,12 @@ try {
     process.exit(0);
   }
 
-  /* The poster is the first frame, which is the last. */
+  /* The poster is the first frame, which is the last. The start poster is
+     the cleared screen at 1.5s, where the page starts the clip. */
   await frameAt(0);
   fs.writeFileSync(`${OUT}.webp`, await page.screenshot({ type: 'webp', quality: 88 }));
+  await frameAt(1500);
+  fs.writeFileSync(`${OUT}-start.webp`, await page.screenshot({ type: 'webp', quality: 88 }));
 
   const enc = await ctx.newPage();
   await enc.goto(`${app}#/scenes/explore`, { waitUntil: 'networkidle' });
@@ -235,7 +244,7 @@ try {
     return btoa(s);
   });
   fs.writeFileSync(`${OUT}.mp4`, Buffer.from(b64, 'base64'));
-  for (const ext of ['mp4', 'webp']) console.log(`${OUT}.${ext}  ${(fs.statSync(`${OUT}.${ext}`).size / 1024).toFixed(0)} KB`);
+  for (const f of [`${OUT}.mp4`, `${OUT}.webp`, `${OUT}-start.webp`]) console.log(`${f}  ${(fs.statSync(f).size / 1024).toFixed(0)} KB`);
 } finally {
   await browser.close();
 }
