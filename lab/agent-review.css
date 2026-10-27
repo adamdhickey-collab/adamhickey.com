@@ -79,14 +79,16 @@
    down, and on the right a second serif heading, the screen and three
    answers in a row, set a column lower than the title's kicker. The left
    ran out into blank paper, the two headings competed at different tops,
-   and the answers wrapped to one line and two. Now the same 5/7 columns
-   carry two rows, so every edge lines up:
+   and the answers wrapped to one line and two. Now two equal columns
+   carry two rows, so every edge lines up and neither side outweighs the
+   other (since 2026-10-27; 5/7 until then, which still left the screen
+   the heavier half):
      - the title on the left, and on the right what it means and the way
        in, hung from the title's top line: the kicker's line and margin
        drop the right column so the dek and the title start together;
-     - the question on the left, its setup and three answers stacked under
-       it as one list, and Relay's screen on the right, the two sharing a
-       top. The result opens under the answers and moves nothing else.
+     - the question on the left, its one-line setup and three answers
+       stacked under it as one list, and Relay's list on the right, the
+       two sharing a top. The result opens under the answers and moves nothing else.
    Under 64rem it is one column in reading order, as before, and the dek
    keeps the title's own margin rather than the grid's gap. */
 @media (max-width: 63.99rem) {
@@ -94,7 +96,7 @@
 }
 @media (min-width: 64rem) {
   .arc-open-grid {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-4xl);
     row-gap: var(--space-4xl);
     align-items: start;
@@ -104,20 +106,20 @@
   .arc-open .arc-dek { font-size: var(--text-xl); }
   .arc-open .ship {
     grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      "ask    screen"
-      "setup  screen"
-      "picks  screen"
-      "result screen";
+      "ask    list"
+      "setup  list"
+      "picks  list"
+      "result list";
     grid-template-rows: auto auto auto 1fr;
     column-gap: var(--space-4xl);
     align-items: start;
   }
   .ship-ask { grid-area: ask; }
   .ship-setup { grid-area: setup; }
-  .ship-screen { grid-area: screen; }
-  .arc-open .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
+  .ship-list { grid-area: list; }
+  .arc-open .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
   .ship-result { grid-area: result; }
 }
 
@@ -209,10 +211,69 @@
   text-wrap: pretty;
 }
 
-/* Relay's screen: the prototype's own picture of it (agent-review
-   #/scenes/batch, captured by scripts/scenes.mjs), styled with the stage
-   scenes below. Until 2026-10-26 it was drawn here in the site's type, and a
-   press changed the bar; the answers' text now says what each one does. */
+/* Relay's list, drawn in the site's type since 2026-10-27: the five
+   selected rows and the Archive button, and nothing else. The prototype's
+   own capture (agent-review-scene-batch.webp) printed the stage bar and
+   four columns the question does not need, at a size that made a reader
+   study it. The three active rows take the caution ground, so the risk
+   is seen before a word is read; the setup line's second sentence takes
+   the caution ink and says the same thing. White with the card's edge,
+   corner and drop, as the scenes below are. */
+.case-hero .ship-setup strong { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
+.ship-list {
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.case-hero .ship-list-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ship-list-archive {
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-caution-text);
+  color: var(--color-caution-text);
+}
+.ship-list ul { margin: 0; padding: 0; list-style: none; }
+.ship-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--rule-hairline);
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ship-list li:first-child { border-top: 0; }
+.ship-list li.is-active { background: var(--color-caution-light); }
+.ship-list-check {
+  flex: none;
+  width: 1lh;
+  height: 1lh;
+  background: var(--color-charcoal);
+  fill: none;
+  stroke: var(--color-white);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ship-list-name { flex: 1; min-width: 0; }
+.ship-list-tag { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-muted-gray); }
+.ship-list li.is-active .ship-list-tag { font-weight: var(--weight-semibold); color: var(--color-caution-text); }
 
 /* The answers: three tiles in a row, one choice. Each is white on the
    page's ground with the card's edge and a radio mark, the label at the
