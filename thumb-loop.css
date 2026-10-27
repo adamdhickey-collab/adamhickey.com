@@ -1,0 +1,67 @@
+/* ---------- A card picture that moves ----------
+   The homepage's Agent Review card since 2026-10-27: the prototype's
+   Explore scene as a twelve-second loop (scripts/explore-card.mjs), each
+   of the three ways to archive building in turn. One page loads this file,
+   so style.css and its site-wide buster are untouched.
+
+   The picture is still the card's link, and a link cannot hold a button, so
+   the two share a wrapper: the wrapper is the card's grid item where the
+   link was, and takes the link's place in the order and its margin.
+
+   WCAG 2.2.2: the loop runs longer than five seconds, so a way to stop it
+   has to exist for everyone, not only for readers who have set
+   prefers-reduced-motion. The control is the hero portrait's, at the
+   picture's empty corner: quiet until the picture is hovered or the button
+   focused, always in the tab order, and always shown on touch. */
+.case-thumb-play {
+  position: relative;
+  margin-bottom: var(--space-sm);
+}
+@media (min-width: 768px) { .case-thumb-play { margin-bottom: var(--space-md); } }
+.case-thumb-play > .case-thumb { margin-bottom: 0; }
+.case-card--lab .case-thumb-play { order: -1; }
+@media (min-width: 1024px) {
+  .case-card--lab .case-thumb-play { order: 0; margin-bottom: 0; }
+}
+
+.case-thumb video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-toggle {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-scrim);
+  color: var(--ink-on-dark);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity var(--motion-state) var(--ease);
+}
+.thumb-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
+}
+.thumb-toggle svg { width: 14px; height: 14px; }
+.thumb-toggle:focus-visible { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .case-thumb-play:hover .thumb-toggle,
+  .thumb-toggle:hover { opacity: 1; }
+}
+@media (hover: none) {
+  .thumb-toggle { opacity: 1; }
+}
