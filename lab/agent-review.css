@@ -795,6 +795,159 @@
   .ar-rail.is-drawn .rl-late { animation: none; }
 }
 
+/* ---------- Motion, since 2026-10-27 ----------
+   The page arrives as it is read, and the opener's list answers the
+   reader's pick. Every value is MOTION.md's: the rise, its quarter for
+   words moving a short way (section 10's --motion-rise-tight, divided
+   here as the cockpit divides it), the stagger, and the two curves by
+   whether the change travels. agent-review-story.js sets the attributes
+   and classes; without it, or still, the page is what it was. */
+.arc { --motion-rise-tight: calc(var(--motion-rise) / 4); }
+
+/* ARRIVALS. reveal.css's contract (a keyframe with a `from` and no `to`,
+   fired while the block is still below the fold), so nothing is ever at
+   rest anywhere but its finished place, and no check can catch a block
+   mid-arrival at a colour nobody sees. Siblings that arrive together are
+   staggered; a delayed one holds its `from` while it waits. */
+@media (prefers-reduced-motion: no-preference) {
+  .ar-kind[data-shown]:nth-child(2),
+  .arc-pair > figure[data-shown]:nth-child(2) { animation-delay: var(--motion-stagger); animation-fill-mode: backwards; }
+  .ar-kind[data-shown]:nth-child(3) { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
+  /* The ticket lands as a message does: the words, then who sent them. */
+  .ar-ticket footer[data-shown] { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
+  .ar-cycle-text + .ar-scene[data-shown] { animation-delay: var(--motion-stagger); animation-fill-mode: backwards; }
+}
+
+/* THE THREE KINDS SAY THEIR OUTCOME. A tick for the one that goes
+   through, a pause for the two that stop, in each lane's own ink, sized
+   to the lane's line. Armed below the fold, each draws as the cards come
+   into view, the tick first and the pauses after it, since stopping is
+   what happens when going through doesn't. */
+.case-section .ar-kind-lane { display: flex; align-items: center; gap: var(--space-xs); }
+.ar-kind-mark {
+  flex: none;
+  width: 1lh;
+  height: 1lh;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+}
+.ar-kinds.is-armed .ar-kind-mark { stroke-dashoffset: 1; }
+.ar-kinds.is-drawn .ar-kind-mark { animation: glance-draw var(--motion-enter) var(--ease) forwards; }
+.ar-kinds.is-drawn .ar-kind:nth-child(2) .ar-kind-mark { animation-delay: var(--motion-enter); }
+.ar-kinds.is-drawn .ar-kind:nth-child(3) .ar-kind-mark { animation-delay: calc(var(--motion-enter) + var(--motion-stagger)); }
+@media (prefers-reduced-motion: reduce) {
+  /* Armed is never set still; this is for a preference changed mid-read. */
+  .ar-kinds.is-armed .ar-kind-mark { stroke-dashoffset: 0; animation: none; }
+}
+
+/* WHERE YOU ARE IN THE CYCLE. The stage crossing the middle of the window
+   is the current one: its number takes the sage and a sage line grows
+   along its rule. Position, not decoration, so it holds still for a
+   reader who asked for no motion, it just doesn't grow. With no script no
+   stage is current, which is the page as it was. White on the sage is
+   5.82:1. */
+.ar-cycle li { position: relative; }
+.ar-cycle li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent-text);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale var(--motion-enter) var(--ease-enter);
+}
+.ar-cycle li.is-current::before { scale: 1 1; }
+.ar-cycle-n { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
+.ar-cycle li.is-current .ar-cycle-n { background: var(--color-accent-text); color: var(--color-white); }
+
+/* THE LIST ANSWERS THE PICK, so the consequence shows in the thing being
+   archived and not only in the sentence under it. Only live and only
+   once pressed; still or without script the list is the question's
+   picture and nothing more.
+   Ship it: the five rows go, one after another, and stay as ghosts, struck
+   through in the secondary ink, the three active ones keyed in the
+   caution light the Archive button uses (caution ink on it, 5.23:1).
+   Ask first: the pop-up every batch would get rises over the list.
+   Stop and ask: the agent's stop sits beside Archive, which goes quiet. */
+.ship-list { position: relative; }
+.ship-list li { transition: color var(--motion-state) var(--ease), translate var(--motion-move) var(--ease-enter); }
+.ship-list-check { transition: background-color var(--motion-state) var(--ease); }
+.ship-list-tag { transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
+.ship-list-archive { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease); }
+.ship-live .ship[data-picked="ship"] .ship-list li { color: var(--ink-on-dark-secondary); translate: var(--motion-rise-tight) 0; }
+.ship-live .ship[data-picked="ship"] .ship-list-name { text-decoration: line-through; }
+.ship-live .ship[data-picked="ship"] .ship-list-check { background: var(--rule-on-dark-strong); }
+.ship-live .ship[data-picked="ship"] .ship-list-tag--active {
+  background: var(--color-caution-light);
+  border-color: var(--color-caution-light);
+  color: var(--color-caution-text);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ship-list li:nth-child(2) { transition-delay: var(--motion-stagger); }
+  .ship-list li:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
+  .ship-list li:nth-child(4) { transition-delay: calc(var(--motion-stagger) * 3); }
+  .ship-list li:nth-child(5) { transition-delay: calc(var(--motion-stagger) * 4); }
+  .ship-list li:nth-child(2) .ship-list-tag { transition-delay: var(--motion-stagger); }
+  .ship-list li:nth-child(5) .ship-list-tag { transition-delay: calc(var(--motion-stagger) * 4); }
+}
+
+.arc-ship .ship-list-bar { flex-wrap: wrap; }
+.ship-list-stop {
+  display: none;
+  margin-left: auto;
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-caution-light);
+  color: var(--color-caution-text);
+}
+.ship-live .ship[data-picked="ask"] .ship-list-stop { display: inline; }
+.ship-live .ship[data-picked="ask"] .ship-list-bar .ship-list-archive {
+  background: transparent;
+  color: var(--ink-on-dark-secondary);
+  box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong);
+}
+
+.ship-list-confirm {
+  display: none;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  color: var(--color-charcoal);
+}
+.ship-live .ship[data-picked="confirm"] .ship-list-confirm { display: grid; gap: var(--space-sm); }
+/* The list behind the pop-up steps back, as a page behind a dialog does. */
+.ship-live .ship[data-picked="confirm"] .ship-list li { color: var(--ink-on-dark-secondary); }
+.ship-live .ship[data-picked="confirm"] .ship-list-check { background: var(--rule-on-dark-strong); }
+.ship-live .ship[data-picked="confirm"] .ship-list-tag--active { border-color: var(--rule-on-dark-strong); color: var(--ink-on-dark-secondary); }
+.arc-ship .ship-list-confirm p { margin: 0; font-size: var(--text-base); line-height: var(--leading-ui); }
+.ship-list-confirm strong { font-weight: var(--weight-semibold); }
+.arc-ship .ship-list-confirm-keys { display: flex; justify-content: flex-end; gap: var(--space-xs); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+.ship-list-confirm-keys > span:first-child { padding: var(--space-2xs) var(--space-sm); box-shadow: inset 0 0 0 1px var(--rule-card); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ship-live .ship[data-picked="ask"] .ship-list-stop,
+  .ship-live .ship[data-picked="confirm"] .ship-list-confirm { animation: ship-in var(--motion-move) var(--ease-enter) both; }
+  /* A second pick swaps the consequence, and the new words travel a
+     short way in rather than cutting (MOTION.md, section 10: a fade has no
+     edge to follow). The paragraph is display: none until picked, so its
+     animation starts over each time it is shown. */
+  .ship-live .ship[data-picked] .ship-then { animation: ship-swap var(--motion-move) var(--ease-enter); }
+  @keyframes ship-swap { from { translate: 0 var(--motion-rise-tight); } }
+}
+
 /* ---------- Phones and tablets: under 64rem ---------- */
 @media (max-width: 63.99rem) {
   .arc-head { margin-bottom: var(--space-2xl); }
@@ -810,4 +963,7 @@
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }
+  /* The agent's stop takes a line of its own under the bar's, so Archive
+     stays at the end of the first. */
+  .ship-list-stop { order: 1; margin-left: 0; }
 }
