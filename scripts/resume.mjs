@@ -58,7 +58,7 @@
  * person doing it", then the shorter line again; from the evening of 2026-10-27 "Knowing what to
  * build is still the hard part": which problem to solve, what good looks like
  * and what ships; from 2026-10-27 late, "Building is getting easier. Knowing what
- * matters is still hard.", opening both summaries), the system people and
+ * matters is still hard.", then "...matters isn’t.", opening both summaries), the system people and
  * coding agents build from, and the hero's facts (design systems, prototypes, usability testing, accessibility,
  * complex workflows) in place of the four strengths, which read as a run of
  * adjectives. The title stays Senior Product Designer; employers, titles,
@@ -189,7 +189,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Building is getting easier. Knowing what matters is still hard. Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I make complicated products easier to use and to build, deciding which problem to solve and what ships. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
+  <p>Building is getting easier. Knowing what matters isn&rsquo;t. Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I make complicated products easier to use and to build, deciding which problem to solve and what ships. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
 </section>
 
 <section>
@@ -386,7 +386,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Building is getting easier. Knowing what matters is still hard. Twenty years across visual design, interactive experiences and enterprise software, deciding which problem to solve and what ships.</p>
+  <p class="intro">Building is getting easier. Knowing what matters isn&rsquo;t. Twenty years across visual design, interactive experiences and enterprise software, deciding which problem to solve and what ships.</p>
 
   <section>
     <h2>Independent</h2>
