@@ -190,6 +190,16 @@ export const FEATURES = [
     alt: 'A large terracotta garden trellis cropped by the frame, one solid black vine climbing it along the lattice, and one small butter-yellow flower open at the top of the vine.',
     prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta garden trellis, a flat lattice of crossed slats in a diamond grid, seen exactly straight on, drawn so big it is cropped by the top and bottom edges of the frame and filling the middle third left to right, with cream ground either side. One vine, a single solid black winding shape with a few simple solid black leaves, climbs from the bottom edge up the lattice, following the slats, and stops just below the top edge. At the tip of the vine, one small open flower, the reveal, filled butter yellow with a black outline. No pot, no wall, no ground line. Nothing else in the picture.`,
   },
+  /* The personal essay, 2026-10-27, first under "Start here": the plan
+     for a career drawn as a map opened only as far as it has been walked.
+     Terracotta, the start's colour, like the position article beside it. */
+  {
+    id: 'my-next-design-challenge',
+    group: 'release',
+    device: 'the object half-done: a map unfolded only as far as the route',
+    alt: 'A large terracotta folding map seen from above, two panels open and the rest still folded in a thick stack, one solid black route crossing the open panels and stopping short of the folded stack, with a small butter-yellow pin at its end.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta folding paper map, seen exactly from above, flat, with no perspective, drawn so big it is cropped by the top and bottom edges of the frame. It is only partly unfolded: two panels lie open and flat across the middle third, divided by one thin black fold line, and the rest of the map is still folded into a thick stack against the right side of the open panels, its folded edges drawn as a few stacked black lines. Across the two open panels runs one route, a single solid black winding line, coming in from the left edge of the map and stopping just before the folded stack. At the end of the route, one small round map pin seen from above, the reveal, filled butter yellow with a black outline. The open panels are plain terracotta: no roads, no lettering, no grid, no compass rose. No hands, no table. Nothing else in the picture.`,
+  },
   {
     id: 'what-changes-when-ai-agents-join-the-product-team',
     group: 'systems',

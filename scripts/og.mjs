@@ -100,6 +100,8 @@ const CARDS = {
   /* The position article, 2026-10-20, above the three collections. Type
      alone until its drawing existed; it carries its feature like the rest
      since the drawings for the four that lead were made, the same day. */
+  /* The personal essay, 2026-10-27, first under "Start here". */
+  'my-next-design-challenge': { kicker: 'Writing · start here', title: 'The hardest thing I’ve had to design is what’s next', image: 'img/writing/my-next-design-challenge.webp' },
   'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', image: 'img/writing/what-makes-a-good-product-designer-now.webp' },
   /* The three that lead the collections since 2026-10-20, one per word of
      the position article. Type alone until their drawings exist, as above;

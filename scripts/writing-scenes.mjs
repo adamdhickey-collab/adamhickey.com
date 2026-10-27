@@ -111,6 +111,14 @@ export const SCENES = [
     prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta garden trellis as before, seen exactly straight on, now closer, so the diamond lattice is cropped by the top, left and bottom edges and ends a little right of the middle, with cream ground to its right. The same solid black vine with simple solid black leaves climbs along the slats. Halfway up, one shoot grew off the edge of the lattice into the empty cream to the right, and it has been cut: the stub ends cleanly at the trellis edge, and the cut piece, a short solid black length of shoot with two leaves, lies on the bottom edge of the frame below it. The reveal: the two cut ends are each a small oval filled dusty rose. No shears, no hands, no ground line. Nothing else in the picture.`,
   },
   {
+    id: 'my-next-design-challenge',
+    group: 'release',
+    device: 'the same map, the route walking off its edge',
+    caption: 'The plan only reaches the edge of the map. The next stretch gets drawn by walking it.',
+    alt: 'The terracotta map again, fully open and cropped at the left, its black route crossing to the right edge of the paper and carrying on across the empty cream ground as a dashed line, to a small butter-yellow pin standing beyond the map.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta paper map as before, seen exactly from above, flat, now fully unfolded and lying in the left half of the frame, cropped by the top, bottom and left edges, its thin black fold lines dividing it into plain panels, with empty cream ground to its right. The same single solid black route winds across the map and does not stop at the paper's right edge: it carries on past the edge onto the empty cream ground as a black dashed line of a few short dashes, into the right-hand third. Where the dashes end, one small round map pin seen from above, the reveal, filled butter yellow with a black outline, sits on the cream ground beyond the map. No roads, no lettering, no grid, no hands, no table. Nothing else in the picture.`,
+  },
+  {
     id: 'what-changes-when-ai-agents-join-the-product-team',
     group: 'systems',
     device: 'the same road, a draft stretch marked as one',
