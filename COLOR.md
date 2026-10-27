@@ -105,7 +105,7 @@ wear its collection. The terracotta collection needs no new token: it is
 | `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, a verdict it will not change, or, since 2026-10-24, work that stops for a person (below). |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
 | `--color-slate` | `#56718c` | The Craft collection's line. **A line, never text.** |
-| `--color-slate-light` | `#f3f6f8` | Slate's ground: the writing rail's card, since 2026-10-23. Warm's lightness with slate's hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
+| `--color-gray-light` | `#f5f5f5` | A neutral ground: the writing rail's card, since 2026-10-27, in place of slate-light's tint. Warm's lightness with no hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
@@ -124,13 +124,13 @@ Slate clears 4.5 only on white and warm, which is why it is a line and not
 ink: the one place it is spent sits on the nav's white edge and the warm
 page, and a line answers to 3:1.
 
-Its ground is the other way round: a fill under ink, never a line. On
-`--color-slate-light` charcoal reads 14.12, muted-gray 5.96, accent-text
-5.36 and caution-text 5.94, and the card stands 1.09 off a white page. It
-went on the rail's card when warm read as tan behind the drawings (Adam: "a
-very light blue almost like earthy blue ... just a little bit of a tint").
-It was `#e8edf1` for its first hour, tea-light's lightness, and that read
-as too heavy (Adam: "much lighter"); at warm's lightness it is a tint.
+The rail's card takes a ground that is not slate's: `--color-gray-light`,
+`#f5f5f5`, a fill under ink and never a line. On it charcoal reads 14.06,
+muted-gray 5.93, accent-text 5.34 and caution-text 5.91, and the card stands
+1.09 off a white page. The card went warm, then `--color-slate-light`
+(`#f3f6f8`, 2026-10-23, after warm read as tan behind the drawings), and on
+2026-10-27 this gray, when the slate tint read as blue (Adam: "can we make
+it completely gray"). Slate-light was retired with it; it had no other use.
 
 The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
 37 Tailwind utilities across six minified case-study pages write it, and
@@ -699,7 +699,8 @@ Two rules keep the boundary from blurring:
 1. **An artwork color never styles an interface element.** No terracotta
    buttons, no slate links. Slate crossed twice, on purpose and by the
    rule below: it is `--color-slate` in §2 with a measured row, spent on
-   one line, and `--color-slate-light`, spent on one card's ground.
+   one line, and once more on one card's ground as `--color-slate-light`,
+   retired 2026-10-27 for the neutral `--color-gray-light`.
 2. **An interface color never gets sampled out of an artwork.** If a new UI
    color is needed, it goes in §2 with a measured contrast row, or it does
    not exist.
