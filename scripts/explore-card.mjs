@@ -12,25 +12,29 @@
    time and capturing each frame, so the clip is the same every run and no
    frame depends on how fast the machine is.
 
-   The clip, 12 seconds at 30fps, played once on the page (it looped
-   for its first hour), so it ends on the frame it began with:
+   The clip, 6 seconds at 30fps, plays once on the page (it looped for
+   its first hour), so it ends on the frame it began with. It ran 12
+   seconds until 2026-10-27 (Adam: "takes too long ... a little more
+   zippy"); every beat is about half what it was, and the build a reader
+   sees went from 10.5s to 5.3s:
      0.0  the finished screen, which is also the poster (so the switch from
           poster to clip is invisible, and a reduced-motion reader sees the
           same picture the clip opens and closes on)
-     0.9  the screen clears under the bar
-     1.6  Explore's dot pulses, and the headline rises word by word
-     2.6  Archive now, undo after: the rows, the press, four rows go, the
+     0.3  the screen clears under the bar
+     0.75 Explore's dot pulses, and the headline rises word by word
+     1.3  Archive now, undo after: the rows, the press, four rows go, the
           bar slides up with Undo
-     4.9  Confirm first, naming who: the rows ticked, the question, its
+     2.5  Confirm first, naming who: the rows ticked, the question, its
           line, the Archive button pulses
-     7.2  Review batch, then archive: the panel slides in, each row is
+     3.7  Review batch, then archive: the panel slides in, each row is
           ticked, and the button counts with them
-     9.2  "Tried all three", then the finished screen holds to the loop
+     5.2  "Tried all three", then the finished screen holds to the end
 
-   The page starts the clip at 1.5s, not 0 (Adam: the card was there,
+   The page starts the clip at 0.7s, not 0 (Adam: the card was there,
    then disappeared and rebuilt): a reader who allows motion sees the
    start poster, the cleared screen, until the card is on screen, then
-   the screen builds once and stays. The first 1.5s are only for a seek.
+   the screen builds once and stays. The first 0.7s are only for a seek,
+   and START below is the page's START.
 
    The encode is WebCodecs in Chrome (no ffmpeg on the Mac), H.264 muxed
    with mp4-muxer, moov first, in a second tab on the app's own https
@@ -50,7 +54,7 @@ const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/M
 const i = process.argv.indexOf('--app');
 const app = (i > -1 ? process.argv[i + 1] : 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
 const OUT = 'img/lab/agent-review-explore-card';
-const W = 800, H = 450, SCALE = 2, FPS = 30, T = 12000;
+const W = 800, H = 450, SCALE = 2, FPS = 30, T = 6000, START = 700;
 const BITRATE = 1_500_000;
 
 const browser = await chromium.launch({ executablePath: CHROME });
@@ -70,7 +74,7 @@ try {
   await page.evaluate(({ T }) => {
     const $ = (s, r = document) => r.querySelector(s);
     const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-    const OUT_AT = 900, CLEAR = 1400, RESET = 1450, BACK = 1500;
+    const OUT_AT = 300, CLEAR = 600, RESET = 650, BACK = 700;
     const ease = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
     const spring = 'cubic-bezier(0.34, 1.45, 0.64, 1)';
     const o = (ms) => ms / T;
@@ -87,7 +91,7 @@ try {
       kf.push({ offset: 1, ...final });
       el.animate(kf, { duration: T, fill: 'both' }).pause();
     };
-    const rise = (el, at, { y = 10, blur = 0, scale = 1, dur = 600, e = ease } = {}) =>
+    const rise = (el, at, { y = 10, blur = 0, scale = 1, dur = 450, e = ease } = {}) =>
       track(el, { opacity: 0, transform: `translateY(${y}px) scale(${scale})`, filter: `blur(${blur}px)` },
         [[at, dur, { opacity: 1, transform: 'translateY(0px) scale(1)', filter: 'blur(0px)' }, e]]);
 
@@ -106,74 +110,74 @@ try {
     const ring = getComputedStyle(dot).boxShadow;
     const ringColor = ring.match(/rgba?\([^)]*\)/)[0];
     track(dot, { boxShadow: `${ringColor} 0px 0px 0px 0px` },
-      [[1600, 350, { boxShadow: `${ringColor} 0px 0px 0px 7px` }], [1950, 450, { boxShadow: ring }]], { boxShadow: ring });
+      [[750, 250, { boxShadow: `${ringColor} 0px 0px 0px 7px` }], [1000, 300, { boxShadow: ring }]], { boxShadow: ring });
 
     /* The headline, word by word. */
     const h1 = $('.stage-scene__title');
     h1.innerHTML = h1.textContent.split(' ').map((w) => `<span style="display:inline-block">${w}</span>`).join(' ');
-    $$('span', h1).forEach((w, n) => rise(w, 1700 + n * 70, { y: 14, blur: 6, dur: 700 }));
+    $$('span', h1).forEach((w, n) => rise(w, 800 + n * 45, { y: 14, blur: 6, dur: 500 }));
 
     const ways = $$('.stage-scene__way');
     const card = (li, c) => {
       rise(li, c, { y: 18, scale: 0.98 });
       $$('.mini__rows > .mini__row', li).forEach((r, n) =>
-        track(r, { opacity: 0, transform: 'translateX(-6px)' }, [[c + 200 + n * 50, 300, { opacity: 1, transform: 'translateX(0px)' }]]));
-      rise($('.stage-scene__way-name', li), c + 1300, { y: 8, blur: 4 });
-      rise($('.stage-scene__why', li), c + 1450, { y: 8, blur: 4 });
+        track(r, { opacity: 0, transform: 'translateX(-6px)' }, [[c + 120 + n * 35, 220, { opacity: 1, transform: 'translateX(0px)' }]]));
+      rise($('.stage-scene__way-name', li), c + 700, { y: 8, blur: 4 });
+      rise($('.stage-scene__why', li), c + 780, { y: 8, blur: 4 });
     };
 
     /* 1. Archive now, undo after: the press, then four rows go and the bar
        slides up. The rows' gone state is redrawn as a fade, so the finished
        frame is the app's own. */
     {
-      const li = ways[0], c = 2600;
+      const li = ways[0], c = 1300;
       card(li, c);
       $$('.mini__row[data-gone]', li).forEach((r, n) => {
         const gone = getComputedStyle(r).backgroundColor;
         r.removeAttribute('data-gone');
         r.style.backgroundColor = 'transparent';
-        track(r, { backgroundColor: 'rgba(0, 0, 0, 0)' }, [[c + 850 + n * 70, 300, { backgroundColor: gone }]]);
-        [...r.children].forEach((k) => track(k, { opacity: 1 }, [[c + 800 + n * 70, 250, { opacity: 0 }]]));
+        track(r, { backgroundColor: 'rgba(0, 0, 0, 0)' }, [[c + 450 + n * 50, 220, { backgroundColor: gone }]]);
+        [...r.children].forEach((k) => track(k, { opacity: 1 }, [[c + 420 + n * 50, 180, { opacity: 0 }]]));
       });
       track($('.mini__toast', li), { opacity: 0, transform: 'translateY(140%)' },
-        [[c + 1150, 520, { opacity: 1, transform: 'translateY(0%)' }, spring]]);
+        [[c + 650, 400, { opacity: 1, transform: 'translateY(0%)' }, spring]]);
     }
 
     /* 2. Confirm first, naming who: every row ticked, then the question. */
     {
-      const li = ways[1], c = 4900;
+      const li = ways[1], c = 2500;
       card(li, c);
       $$('.mini__rows .mini__box', li).forEach((b, n) =>
-        track(b, { transform: 'scale(0)' }, [[c + 500 + n * 60, 260, { transform: 'scale(1)' }, spring]]));
+        track(b, { transform: 'scale(0)' }, [[c + 280 + n * 40, 200, { transform: 'scale(1)' }, spring]]));
       track($('.mini__dialog', li), { opacity: 0, transform: 'translateY(8px) scale(0.92)' },
-        [[c + 950, 480, { opacity: 1, transform: 'translateY(0px) scale(1)' }, spring]]);
-      rise($('.mini__dialog-title', li), c + 1100, { y: 4, dur: 400 });
-      rise($('.mini__dialog-says', li), c + 1250, { y: 4, dur: 400 });
-      rise($('.mini__buttons', li), c + 1350, { y: 4, dur: 400 });
+        [[c + 520, 380, { opacity: 1, transform: 'translateY(0px) scale(1)' }, spring]]);
+      rise($('.mini__dialog-title', li), c + 620, { y: 4, dur: 300 });
+      rise($('.mini__dialog-says', li), c + 700, { y: 4, dur: 300 });
+      rise($('.mini__buttons', li), c + 760, { y: 4, dur: 300 });
       const act = $('.mini__btn[data-act]', li);
       const warn = getComputedStyle(act).borderColor;
       const glow = (px, a) => warn.replace(/rgba?\(([^,]+),([^,]+),([^,)]+).*\)/, `rgba($1,$2,$3, ${a}) 0px 0px 0px ${px}px`);
       track(act, { boxShadow: glow(0, 0.5) },
-        [[c + 1650, 300, { boxShadow: glow(5, 0.35) }], [c + 1950, 500, { boxShadow: glow(9, 0) }]], { boxShadow: glow(9, 0) });
+        [[c + 950, 250, { boxShadow: glow(5, 0.35) }], [c + 1200, 350, { boxShadow: glow(9, 0) }]], { boxShadow: glow(9, 0) });
     }
 
     /* 3. Review batch, then archive: the panel slides in, each row in it is
        ticked, and the button counts the ticks. */
     {
-      const li = ways[2], c = 7200;
+      const li = ways[2], c = 3700;
       card(li, c);
-      track($('.mini__panel', li), { transform: 'translateX(100%)' }, [[c + 700, 550, { transform: 'translateX(0%)' }]]);
-      rise($('.mini__panel-title', li), c + 950, { y: 4, dur: 400 });
+      track($('.mini__panel', li), { transform: 'translateX(100%)' }, [[c + 380, 400, { transform: 'translateX(0%)' }]]);
+      rise($('.mini__panel-title', li), c + 520, { y: 4, dur: 300 });
       const on = $$('.mini__panel-row .mini__box[data-on]', li);
       const ticks = on.map((b, n) => {
         const cs = getComputedStyle(b);
-        const at = c + 1150 + n * 160;
+        const at = c + 680 + n * 110;
         track(b, { backgroundColor: 'rgba(0, 0, 0, 0)', borderColor: getComputedStyle($('.mini__panel-row .mini__box:not([data-on])', li)).borderColor, transform: 'scale(1)' },
-          [[at, 120, { transform: 'scale(0.7)' }], [at + 120, 260, { backgroundColor: cs.backgroundColor, borderColor: cs.borderColor, transform: 'scale(1)' }, spring]]);
-        return at + 120;
+          [[at, 80, { transform: 'scale(0.7)' }], [at + 80, 220, { backgroundColor: cs.backgroundColor, borderColor: cs.borderColor, transform: 'scale(1)' }, spring]]);
+        return at + 80;
       });
       const btn = $('.mini__panel .mini__btn', li);
-      rise(btn, c + 1050, { y: 4, scale: 0.9, dur: 400, e: spring });
+      rise(btn, c + 560, { y: 4, scale: 0.9, dur: 300, e: spring });
       const word = btn.textContent.replace(/\d+/, '').trim();
       window.__tick = (t) => {
         const n = t < RESET ? on.length : ticks.filter((at) => t >= at).length;
@@ -181,7 +185,7 @@ try {
       };
     }
 
-    rise($('.stage-scene__note > *'), 9200, { y: 10, blur: 4 });
+    rise($('.stage-scene__note > *'), 5200, { y: 10, blur: 4 });
   }, { T });
 
   const frameAt = async (t) => {
@@ -202,10 +206,10 @@ try {
   }
 
   /* The poster is the first frame, which is the last. The start poster is
-     the cleared screen at 1.5s, where the page starts the clip. */
+     the cleared screen at START, where the page starts the clip. */
   await frameAt(0);
   fs.writeFileSync(`${OUT}.webp`, await page.screenshot({ type: 'webp', quality: 88 }));
-  await frameAt(1500);
+  await frameAt(START);
   fs.writeFileSync(`${OUT}-start.webp`, await page.screenshot({ type: 'webp', quality: 88 }));
 
   const enc = await ctx.newPage();
