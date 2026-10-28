@@ -22,7 +22,7 @@
  *     at a phone's own size and every line of it reads.
  *   aisle-card.webp
  *     The lab index's card, 1600x900: the trip's two ends side by side, the
- *     photo at Maya's and the two lamps in the aisle, each the app's own
+ *     photo at the friend's house and the two lamps in the aisle, each the app's own
  *     content from its title down, flat on white cards on the tea-light
  *     ground, no phone shells. At the card's 18rem a phone's screen is too
  *     small to read; two panels at 1.8x are not. It replaced a trio of
@@ -115,7 +115,7 @@ for (const name of wanted) {
   await context.close();
 }
 
-/* The card: the trip's two ends, the photo at Maya's and the lamps in the
+/* The card: the trip's two ends, the photo at the friend's house and the lamps in the
    aisle, each panel the app's own content from its title to the end of what
    it shows. Taken at 3x and printed at 1.8x, so the bitmap is always being
    reduced. The composition page loads the site's own stylesheets, so the
