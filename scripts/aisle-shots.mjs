@@ -149,8 +149,8 @@ async function panel(press, from, to) {
 }
 
 if (!only.length || only.some((o) => 'card'.includes(o))) {
-  const at = await panel([], '.ai-title', '.ai-photo-frame');
-  const aisle = await panel(SHOTS.arrive.press, '.ai-title', '.ai-saved-item:last-child .ai-saved-stock');
+  const at = await panel([], '.ai-head-row', '.ai-photo-frame');
+  const aisle = await panel(SHOTS.arrive.press, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
   const K = 1.8;
   const tall = Math.ceil(Math.max(at.height, aisle.height) * K);
   const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
