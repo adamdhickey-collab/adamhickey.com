@@ -458,7 +458,14 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    for stillness, resting on a frame that still reads: the office with some
    windows lit, the tubes full. Inks are the site's own. The icon is 2em
    square and centred on the name, which is one line from 400 up. */
-.case-group-head { margin: 0 0 var(--space-lg); }
+/* Redrawn larger the same day (Adam: double the icon, more detail, more
+   room under it, the name a step up): the drawings are on a 64 grid now,
+   an office with two wings, a cornice, a door under a canopy and two
+   shrubs, and three tubes with tick marks and a glint; the icon is 3.5em
+   from 768 (84px at --text-2xl, against 40 before) and 2.25em on a phone,
+   so the name keeps one line from 390 up; the head sits --space-2xl over
+   its cards. Strokes stay 1px at every size. */
+.case-group-head { margin: 0 0 var(--space-2xl); }
 .case-group-head--lab { margin-top: var(--space-block); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
 .case-group-title {
   display: flex; align-items: center; gap: var(--space-sm);
@@ -467,32 +474,47 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   line-height: var(--leading-tight); letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-.gi { flex: none; width: 2em; height: 2em; overflow: visible; }
+@media (min-width: 768px) { .case-group-title { font-size: var(--text-2xl); gap: var(--space-lg); } }
+.gi { flex: none; width: 2.25em; height: 2.25em; overflow: visible; }
+@media (min-width: 768px) { .gi { width: 3.5em; height: 3.5em; } }
 .gi * { vector-effect: non-scaling-stroke; }
-.gi-line, .gi-pole, .gi-door, .gi-tube { fill: none; stroke: var(--color-charcoal); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.gi-line, .gi-pole, .gi-door, .gi-tube, .gi-tick { fill: none; stroke: var(--color-charcoal); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
 .gi-body, .gi-rack { fill: var(--color-tea-light); stroke: var(--color-charcoal); stroke-width: 1; stroke-linejoin: round; }
+.gi-shrub { fill: var(--color-accent-on-dark); stroke: var(--color-charcoal); stroke-width: 1; stroke-linejoin: round; }
+.gi-shine { fill: none; stroke: var(--color-white); stroke-width: 1; stroke-linecap: round; opacity: 0.7; }
 .gi-flag { fill: var(--color-accent-text); transform-box: fill-box; transform-origin: left center; animation: gi-flag 1.6s ease-in-out infinite; }
 .gi-win { fill: var(--color-white); stroke: var(--color-charcoal); stroke-width: 1; animation: gi-light 4.8s steps(1, end) infinite; }
-.gi-win:nth-of-type(2) { animation-delay: -0.6s; }
-.gi-win:nth-of-type(3) { animation-delay: -3.0s; }
-.gi-win:nth-of-type(4) { animation-delay: -1.8s; }
-.gi-win:nth-of-type(5) { animation-delay: -4.2s; }
-.gi-win:nth-of-type(6) { animation-delay: -1.2s; }
-.gi-win:nth-of-type(7) { animation-delay: -3.6s; }
-.gi-win:nth-of-type(8) { animation-delay: -2.4s; }
+.gi-win:nth-of-type(2)  { animation-delay: -0.6s; }
+.gi-win:nth-of-type(3)  { animation-delay: -3.0s; }
+.gi-win:nth-of-type(4)  { animation-delay: -1.8s; }
+.gi-win:nth-of-type(5)  { animation-delay: -4.2s; }
+.gi-win:nth-of-type(6)  { animation-delay: -1.2s; }
+.gi-win:nth-of-type(7)  { animation-delay: -3.6s; }
+.gi-win:nth-of-type(8)  { animation-delay: -2.4s; }
+.gi-win:nth-of-type(9)  { animation-delay: -0.3s; }
+.gi-win:nth-of-type(10) { animation-delay: -2.7s; }
+.gi-win:nth-of-type(11) { animation-delay: -3.9s; }
+.gi-win:nth-of-type(12) { animation-delay: -1.5s; }
+.gi-win:nth-of-type(13) { animation-delay: -4.5s; }
 .gi-liquid--sage  { fill: var(--color-accent-text); }
 .gi-liquid--slate { fill: var(--color-slate); }
+.gi-liquid--pale  { fill: var(--color-accent-on-dark); }
 .gi-liquid { animation: gi-slosh 2.4s ease-in-out infinite alternate; }
 .gi-liquid--slate { animation-delay: -1.2s; }
+.gi-liquid--pale  { animation-delay: -0.6s; }
+.gi-fill--a { --gi-rise: -27px; }
+.gi-fill--b { --gi-rise: -34px; }
+.gi-fill--c { --gi-rise: -22px; }
 .gi-bubble { fill: var(--color-white); opacity: 0; animation: gi-rise 2.1s ease-in infinite; }
 .gi-bubble:nth-of-type(2) { animation-delay: -0.7s; }
 .gi-bubble:nth-of-type(3) { animation-delay: -1.4s; }
-.gi--tubes g:last-of-type > .gi-bubble { animation-duration: 1.7s; }
+.gi-fill--b > .gi-bubble { animation-duration: 1.7s; }
+.gi-fill--c > .gi-bubble { animation-duration: 2.6s; }
 .gi-pop { fill: none; stroke: var(--color-slate); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; animation: gi-pop 2.6s ease-out infinite; }
 @keyframes gi-flag  { 0%, 100% { transform: scaleX(1) skewY(0deg); } 50% { transform: scaleX(0.82) skewY(-8deg); } }
 @keyframes gi-light { 0%, 100% { fill: var(--color-white); } 50% { fill: var(--color-accent-on-dark); } }
 @keyframes gi-slosh { from { transform: translateY(0); } to { transform: translateY(1.5px); } }
-@keyframes gi-rise  { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-17px); } }
+@keyframes gi-rise  { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(var(--gi-rise)); } }
 @keyframes gi-pop   { 0%, 40% { opacity: 0; transform: translateY(3px) scale(0.6); } 60% { opacity: 1; } 100% { opacity: 0; transform: translateY(-5px) scale(1.2); } }
 @media (prefers-reduced-motion: reduce) {
   .gi * { animation: none !important; }
@@ -1941,7 +1963,7 @@ a.case-thumb { display: block; }
 }
 
 .lucy {
-  display: flex; align-items: center; gap: var(--space-md);
+  display: flex; align-items: center; gap: var(--space-sm);
   color: var(--ink-on-dark);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
