@@ -31,7 +31,7 @@
   /* ---------- the sample data ---------- */
 
   var PHOTO = {
-    where: 'Maya’s living room',
+    where: 'Your friend’s living room',
     when: 'Saturday, 7:12 pm',
     seen: 'A tall tripod lamp with a linen drum shade and wooden legs, standing by the sofa.'
   };
@@ -146,10 +146,10 @@
   var screens = {};
 
   screens.home = function () {
-    return '<header class="ai-head">' + '<h3 class="ai-title" tabindex="-1">At Maya’s</h3>' +
+    return '<header class="ai-head">' + '<h3 class="ai-title" tabindex="-1">At your friend’s house</h3>' +
       '<p class="ai-dek">You like her lamp. Take a picture before you forget it.</p></header>' +
       '<figure class="ai-photo">' +
-        '<div class="ai-photo-frame"><img class="ai-photo-img" src="../img/lab/aisle-maya-photo.webp?v=1" width="1200" height="900" decoding="async" alt="The lamp in Maya’s living room, lit, between a side table and the sofa."></div>' +
+        '<div class="ai-photo-frame"><img class="ai-photo-img" src="../img/lab/aisle-maya-photo.webp?v=1" width="1200" height="900" decoding="async" alt="The lamp in your friend’s living room, lit, between a side table and the sofa."></div>' +
         '<figcaption class="ai-photo-cap"><span class="ai-photo-when">' + PHOTO.when + ' · ' + PHOTO.where + '</span>' + PHOTO.seen + '</figcaption>' +
       '</figure>' +
       '<p class="ai-act"><button type="button" class="btn btn-primary ai-btn" data-go="results">Find lamps like this</button></p>' +
@@ -309,7 +309,7 @@
   var stage = root.querySelector('[data-aisle-stage]');
   var status = root.querySelector('[data-aisle-status]');
   var steps = root.querySelectorAll('[data-aisle-half]');
-  var TITLES = { home: 'At Maya’s', results: 'Lamps like this one', plan: 'Before you go', store: 'In the store', missing: 'A lamp not on the shelf', help: 'A person joins', done: 'The trip, done' };
+  var TITLES = { home: 'At your friend’s house', results: 'Lamps like this one', plan: 'Before you go', store: 'In the store', missing: 'A lamp not on the shelf', help: 'A person joins', done: 'The trip, done' };
 
   function render(opts) {
     opts = opts || {};
