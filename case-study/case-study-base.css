@@ -599,8 +599,14 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   color: var(--color-charcoal);
+  /* The number in its own column and the name in the next, so a name that
+     takes two lines wraps under its own first word, not under the disc. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-xs);
 }
-.svc-stage-name .svc-n { margin-right: var(--space-xs); color: var(--color-accent-text); font-variant-numeric: tabular-nums; }
+.svc-stage-name .svc-n { color: var(--color-accent-text); font-variant-numeric: tabular-nums; }
 .svc-lanes { margin: 0; }
 .svc-lane {
   display: grid;
@@ -696,7 +702,8 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   background: var(--color-tea-light);
   border: 1px solid var(--color-accent-ring);
   font-size: var(--text-xs);
-  vertical-align: 0.2em;
+  /* Centred on the name's first line, from that line's own box. */
+  margin-top: calc((var(--text-base) * var(--leading-tight) - 2 * var(--text-xs)) / 2);
 }
 .svc-map .svc-lane:nth-child(2) dd strong,
 .svc-map .svc-lane--after dd strong { font-weight: var(--weight-bold); color: var(--color-charcoal); }
