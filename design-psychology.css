@@ -89,12 +89,20 @@
      site's own answer to that question and says so: 70 characters, at any
      size, in either family. */
   max-width: calc(var(--measure) + 2 * var(--space-xl) + 2px);
-  margin: var(--space-2xl) 0;
+  /* --space-3xl above and below, on every page: the note is a pause in the
+     reading, a step more than one card off the next. Where a neighbor's own
+     margin is larger it collapses with this one and wins, so the block
+     before a note ends without a bottom margin of its own. */
+  margin: var(--space-3xl) 0;
   padding: var(--space-xl);
   background: var(--color-tea-light);
   border: 1px solid var(--color-accent-text);
   border-radius: var(--radius-xl);
 }
+
+/* Last in its container, the note gives the bottom margin back: what follows
+   is the band's own padding, and the two would add rather than collapse. */
+.dp-note:last-child { margin-bottom: 0; }
 
 /* The marker: the same eye and the same word every time, so the note is
    recognizable before it is read. The site's own eyebrow, to the letter --
