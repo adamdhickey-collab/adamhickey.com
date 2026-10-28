@@ -45,17 +45,30 @@
   margin: var(--space-xl) 0 0;
 }
 
+/* ONE HEIGHT WITH .btn, everywhere, since 2026-10-28. Beside "Try the
+   prototype" the pill was 38px against the button's 50 and set a step
+   smaller, two controls in one row at two sizes; alone under a dek it was
+   the same pill, so a reader met it at one size on one page and another on
+   the next. It takes .btn's size and its height now: .btn's vertical padding
+   around one line of --text-base at the --leading-body a .btn inherits from
+   the paragraph it sits in. A min-height rather than .btn's padding, because
+   the pill sets its own --leading-ui and would come out 5px short. Agent
+   Review held this rule on its own page from #620; it is the component's
+   now. The label never breaks: it is four words, and a two-line pill reads
+   as two controls. */
 .ra-listen {
   display: inline-flex; align-items: center; gap: var(--space-xs);
+  min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body));
   padding: var(--space-xs) var(--space-lg);
   border: 1px solid var(--color-muted-gray);
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-charcoal);
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 500;
   line-height: var(--leading-ui);
+  white-space: nowrap;
   cursor: pointer;
   transition: background-color var(--motion-state) var(--ease),
               color var(--motion-state) var(--ease),

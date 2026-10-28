@@ -37,3 +37,27 @@
    add to the space the tag row already puts above itself, so it is zeroed,
    and the top is the same --space-md the tag row takes. */
 .writing-text .writing-points { margin: var(--space-md) 0 0; }
+
+/* THE ENTRY THAT PLAYS, since 2026-10-28: Agent Review's picture is the
+   homepage's clip, with its replay and pause. A button cannot sit inside a
+   link, so this row is a <div class="writing-link"> rather than an <a>, and
+   the title's link stretches over the whole row with ::after, which keeps
+   the row one target as its neighbours are. The controls are positioned
+   after the link in the stacking order and z-index 2 in thumb-loop.css, so
+   they take their own presses. The focus ring moves from the title's words
+   to the row, where a reader of the other entries sees it. */
+.writing-link--play { position: relative; }
+.writing-card-play { position: relative; }
+.writing-stretch { color: inherit; text-decoration: none; }
+.writing-stretch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.writing-stretch:focus-visible { outline: none; }
+.writing-stretch:focus-visible::after {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.writing-link--play:has(.writing-stretch:focus-visible) .writing-title { color: var(--color-accent-text); }

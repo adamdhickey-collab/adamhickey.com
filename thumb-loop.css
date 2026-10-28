@@ -1,8 +1,10 @@
 /* ---------- A card picture that moves ----------
    The homepage's Agent Review card since 2026-10-27: the prototype's
    Explore scene as a six-second clip (scripts/explore-card.mjs), each
-   of the three ways to archive building in turn. One page loads this file,
-   so style.css and its site-wide buster are untouched.
+   of the three ways to archive building in turn, and the lab index's
+   Agent Review entry since 2026-10-28. Two pages load this file, so
+   style.css and its site-wide buster are untouched; the lab's layout for
+   the clip is in lab/index.css, and only the controls here apply to it.
 
    The picture is still the card's link, and a link cannot hold a button, so
    the two share a wrapper: the wrapper is the card's grid item where the
@@ -90,9 +92,16 @@
    Under 1024 the row is one column, as the three-grid is between 768 and
    1024: two panels at half a tablet's width would leave each picture too
    small to read. */
-.case-card--lab { grid-template-rows: auto 1fr; }
+/* The picture sits --space-xl over the name, and nothing else: the panel's
+   row gap from style.css (--space-2xl, for the picture beside the words)
+   stacked on top of it put 56px under every picture (Adam, 2026-10-28). */
+.case-card--lab { grid-template-rows: auto 1fr; row-gap: 0; }
 .case-card--lab > .case-thumb,
 .case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+/* The tags ride down with the link, so the two panels' tags line up as
+   their links do, whichever description runs longer. */
+.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-md); }
+.case-grid--lab .case-card--lab .tag-row + .product-actions { margin-top: 0; }
 .case-card--lab .product-actions { margin-top: auto; padding-top: var(--space-lg); }
 @media (min-width: 1024px) {
   .case-grid--lab { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -117,8 +126,24 @@
   .case-card--lab .case-thumb--ringed { box-shadow: var(--shadow-media) !important; }
 }
 
-/* The lab row LEADS the section since 2026-10-28, with the three accounts
-   under it, so --space-block, the ramp SPACING.md gives major blocks inside
-   a section, goes under the row rather than above it, where style.css puts
-   it for the order it was written for. */
-.case-grid--lab { margin-top: 0; margin-bottom: var(--space-block); }
+/* The lab row FOLLOWS the three accounts again since later on 2026-10-28
+   (Adam: the shipped work first), so style.css's --space-block above it is
+   the right space and nothing here overrides it. For the morning it led,
+   the space went under the row instead. */
+
+/* The three accounts line up across, since 2026-10-28 (Adam: make it line
+   up clearly). Each card is its picture, title, description, tags and link,
+   five rows on one shared grid from 1024, so a description that runs a line
+   longer moves all three cards' tags and links together rather than one.
+   The row has no gap of its own: the cards keep their margins, and the
+   grid's --space-2xl stays between the columns. */
+@media (min-width: 1024px) {
+  #case-studies .case-grid--three { row-gap: 0; }
+  #case-studies .case-grid--three > .case-card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+  #case-studies .case-grid--three > .case-card > .case-go { align-self: start; }
+}

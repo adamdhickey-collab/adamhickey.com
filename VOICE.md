@@ -2,8 +2,8 @@
 
 How the words on adamhickey.com sound, how long they run, and what they may
 claim. Read it before writing or rewriting copy on any page, the same way
-the four visual specs are read before a change to color, type, spacing or
-motion.
+the four visual specs are read before a change to color, type, spacing,
+or motion.
 
 This document is normative, and it came out of a comparison rather than a
 preference. On 2026-10-21 four of the articles were rewritten as spoken
@@ -74,6 +74,7 @@ the essays that prompted this page are full of them.
 | One-line paragraphs in a run | Two in a row at most. One is a beat; five is a drumroll. |
 | "Imagine..." as the opener | Once a page, and only for a scene that didn't happen to you. A real one is better. |
 | "prose," British spellings, sans italics | Never: plain American, and emphasis is bold. |
+| A list of three or more with no comma before the "and" or "or": "phone, store and person" | Never. Always the Oxford comma: "phone, store, and person." In titles, metadata, and share cards too. |
 
 ---
 
@@ -118,14 +119,14 @@ sentences anywhere else, with a link.
   sentences that stand alone (README, Deployment). The voice changes the
   body, not those.
 - **About's first sentence is the machine's.** "Adam Hickey is a senior
-  product designer in Minneapolis..." says who, what and where in the words
+  product designer in Minneapolis..." says who, what, and where in the words
   the JSON-LD Person says, so an assistant can quote it. It is the one
   paragraph the 40-word cap doesn't apply to.
 - **Each h2 is one key idea, as a sentence.** `node scripts/keys.mjs
   --write` writes the list and the eyebrows from them, so reword a heading
   and run it in the same commit.
-- **Lists are for real lists.** Steps, figures and options stay as lists and
-  rails. An argument goes in short paragraphs.
+- **Lists are for real lists.** Steps, figures, and options stay as lists
+  and rails. An argument goes in short paragraphs.
 
 ---
 
@@ -134,8 +135,8 @@ sentences anywhere else, with a link.
 The audit of 2026-10-21 measured every word a reader sees: 46,000 across the
 31 reading pages, with 329 of 1,060 paragraphs over 40 words and 81 over 60.
 The targets are set in **running text** instead, meaning the paragraphs and
-the list items between them. Figure labels, captions, the key-ideas list and
-the recap don't count, because they're what a skimming reader reads instead
+the list items between them. Figure labels, captions, the key-ideas list,
+and the recap don't count, because they're what a skimming reader reads instead
 of the paragraphs. An article with five drawn rails carries about 300 words
 of them, and cutting those would make the page longer to read.
 

@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>How I built this site | Adam Hickey</title>
-  <meta name="description" content="How adamhickey.com is built: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and eleven checks that measure the rendered page before anything ships." />
+  <meta name="description" content="How adamhickey.com is built: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
 
   <link rel="canonical" href="https://adamhickey.com/case-study/this-site.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/case-study/this-site.html" />
   <meta property="og:title" content="How I built this site | Adam Hickey" />
-  <meta property="og:description" content="How adamhickey.com is built: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and eleven checks that measure the rendered page before anything ships." />
+  <meta property="og:description" content="How adamhickey.com is built: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
   <meta property="og:image" content="https://adamhickey.com/img/og/this-site.jpg?v=12" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -37,7 +37,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/case-study/this-site.html#article",
           "headline": "How I built this site",
-          "description": "A build write-up for adamhickey.com: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and eleven checks that measure the rendered page before anything ships.",
+          "description": "A build write-up for adamhickey.com: forty-two pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships.",
           "url": "https://adamhickey.com/case-study/this-site.html",
           "mainEntityOfPage": "https://adamhickey.com/case-study/this-site.html",
           "image": "https://adamhickey.com/img/og/this-site.jpg?v=12",
@@ -94,15 +94,15 @@
   <link rel="stylesheet" href="../color.css?v=10" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=7" />
-  <link rel="stylesheet" href="../style.css?v=20261028a" />
+  <link rel="stylesheet" href="../style.css?v=20261028b" />
   <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="../read-aloud.css?v=6" />
+  <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../reveal.js?v=1" defer></script>
-  <script src="../read-aloud.js?v=3" defer></script>
+  <script src="../read-aloud.js?v=4" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -218,13 +218,13 @@
       <div class="container">
         <p class="case-kicker">Build write-up &middot; 6 min read</p>
         <h1 class="case-title">How I built this site</h1>
-        <p class="build-dek">Forty-two pages of plain HTML, no framework and no build step, held to four written specs by eleven checks that measure the rendered page. It&rsquo;s the closest thing to a production codebase I own.</p>
+        <p class="build-dek">Forty-two pages of plain HTML, no framework and no build step, held to four written specs by twelve checks that measure the rendered page. It&rsquo;s the closest thing to a production codebase I own.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
             <div><dt>Built with</dt><dd>HTML and CSS, Node scripts, and one Chrome that measures every page</dd></div>
-            <div><dt>Size</dt><dd>42 pages, 3 token files, 4 specs, 38 scripts</dd></div>
+            <div><dt>Size</dt><dd>42 pages, 3 token files, 4 specs, 40 scripts</dd></div>
             <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
           </dl>
         </div>
@@ -275,7 +275,7 @@
               <div class="glance-body">
                 <p class="glance-title"><span>03</span>Checks</p>
                 <ul class="glance-points">
-                  <li>Eleven checks; six of them render pages in a real browser</li>
+                  <li>Twelve checks; six of them render pages in a real browser</li>
                   <li>Contrast measured on the resting page and in every forced state</li>
                   <li>Every number the specs assert, recounted from the tree</li>
                 </ul>
@@ -302,7 +302,7 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2>The problem</h2>
-        <p>A portfolio that claims design systems, accessibility and real code, built on a template with a contrast failure in the hero, says the opposite. So the site had to be built to the standard it claims for the work.</p>
+        <p>A portfolio that claims design systems, accessibility, and real code, built on a template with a contrast failure in the hero, says the opposite. So the site had to be built to the standard it claims for the work.</p>
         <p>That standard is three things I ask of any production codebase:</p>
         <ul class="build-list">
           <li>The rules are written down</li>
@@ -316,7 +316,7 @@
       <div class="container case-narrow">
         <h2 id="tokens">Tokens first, and the specs are the rule</h2>
         <p>Three files hold every value the site may use: the colors, the type scale, and the spacing and radii of the page shell. A color that isn&rsquo;t in the palette isn&rsquo;t a color.</p>
-        <p>Four specs sit over those files: typography, color, spacing and motion. When a spec and the stylesheet disagree, one of them is a bug, and all four have been found stale at least once.</p>
+        <p>Four specs sit over those files: typography, color, spacing, and motion. When a spec and the stylesheet disagree, one of them is a bug, and all four have been found stale at least once.</p>
         <ul class="build-list">
           <li>The type scale is fourteen steps, and every rendered size, on every page at four widths, is one of them</li>
           <li>The color spec lists every ink on every ground with its measured ratio, and the accent splits by ground, never by job</li>
@@ -338,18 +338,19 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2 id="checks">What the checks measure</h2>
-        <p>Eleven checks run on every merge. Five read the tree and finish in about a second. Each confirms one thing:</p>
+        <p>Twelve checks run on every merge. Six read the tree and finish in about a second. Each confirms one thing:</p>
         <ul class="build-list">
           <li>It can be deployed at all</li>
           <li>Every token the specs name exists</li>
           <li>Every number the documentation asserts still counts</li>
           <li>What each page tells a machine matches the page</li>
           <li>Every article's key ideas are still its headings</li>
+          <li>Every list of three keeps its Oxford comma</li>
         </ul>
         <p>The other six open the pages in Chrome and measure what rendered. The first five figures are the sweep of 30 September 2026, at e10d336:</p>
         <ul class="build-list">
           <li>Every color a reader can see, at rest and in every reachable state: 11,530 measurements, with ink over artwork read by the pixel</li>
-          <li>Every hover, focus and script-applied state, forced: 2,005 state rules</li>
+          <li>Every hover, focus, and script-applied state, forced: 2,005 state rules</li>
           <li>Every rendered type size at four widths against the fourteen steps: 47,792</li>
           <li>Every curved corner, for a border that follows only part of the curve: 29,216 elements</li>
           <li>Every card on a ground, for an edge a reader can see: 374 raised surfaces</li>

@@ -88,7 +88,7 @@ permissions:
   issues: write
 
 jobs:
-  # The five that need nothing installed. No npm, no browser, about a second of
+  # The six that need nothing installed. No npm, no browser, about a second of
   # actual work between them, so they report while the browser legs are still
   # fetching Chromium.
   static:
@@ -166,6 +166,18 @@ jobs:
       # longer has, which a reader would notice and no browser check would.
       - name: Every key idea is still its heading
         run: node scripts/keys.mjs
+
+      # The fifth, and the first that reads the prose itself rather than a
+      # count, a name, or the metadata about it: every list of three or more
+      # carries the comma before its "and" or "or", which VOICE.md's habits
+      # table makes a rule with no exceptions. It reads what a reader or a
+      # machine meets -- visible text, alt text, titles, descriptions, the
+      # share cards, JSON-LD, llms.txt, and the specs -- and the phrases that
+      # only look like a list are allowed by name in the script, each with a
+      # reason. Pages written before the rule broke it on 48 files; nothing
+      # would have stopped the next one.
+      - name: Every list of three keeps its Oxford comma
+        run: node scripts/oxford.mjs
 
       # No page may go back to compiling its CSS in the browser. #14 removed the
       # cdn.tailwindcss.com script from all six case studies; this is one grep

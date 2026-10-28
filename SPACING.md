@@ -226,7 +226,7 @@ the 1280px container and renders at 926px, the widest body text on the site.
 The rule: **`--measure: 52ch`** — 70 characters.
 
 **In `ch`, not in `rem`.** A rem value cannot serve prose at more than one
-size, and this site sets prose at 12, 14, 16, 18 and 24px. The proof was
+size, and this site sets prose at 12, 14, 16, 18, and 24px. The proof was
 already in the stylesheet: figcaptions were capped at the same `40rem` as
 the 18px body copy, which is 70 characters at 18px and **115 at 12px**. One
 number, two very different lines. `ch` scales with the element's own font
@@ -255,7 +255,7 @@ The test is not whether the cap sits on a wrapper. It is whether the element
 holding the cap is set in the type the cap is meant to measure.
 
 **The measure caps prose, not the column that holds it.** `.case-narrow` is
-896px and stays there: the figures, fact lists and step cards inside it want
+896px and stays there: the figures, fact lists, and step cards inside it want
 the room, and capping the container would have shrunk every figure on the
 build write-ups by 23%. The paragraphs inside take the measure; the column
 does not.
@@ -336,7 +336,7 @@ Two things in that table are bugs rather than variety.
 identically and always will — which is exactly why nobody noticed that the site
 has two pill radii differing by a factor of ten.
 
-**Panels are rounded at 8, 10, 12, 16 and 20px** across five spellings, with one
+**Panels are rounded at 8, 10, 12, 16, and 20px** across five spellings, with one
 token covering only the 20. That is the shape of the problem COLOR.md §7
 describes for shadows: a token exists, most consumers bypass it, and each new
 panel picks a plausible neighbor. `10px` is how it ends — a value on no grid,
@@ -354,7 +354,7 @@ makes for the same artwork's color. Changing how much room a card gives its
 contents must never change how a phone looks.
 
 That exemption is from the *scale*, not from having one value. The three live
-mockups had frames of 5, 8 and 10px, one idea written three ways, and if
+mockups had frames of 5, 8, and 10px, one idea written three ways, and if
 anything inverted: the 190px-wide mockup carried the 10px frame while the
 218px one carried 5px. They now share one `--bezel`, defined in `style.css`
 rather than `shell.css` precisely because it is not a system token.
@@ -416,7 +416,7 @@ Two arrangements sit a mark beside a label and are correct as they are.
   already is the answer, and asking for the first line is asking for the only
   line.
 Until 2026-09-27 there was a third: `.disclosure-row` in `style.css` — the
-site's one disclosure, worn by the cockpit's `.ckw-more`, `.ck-note` and
+site's one disclosure, worn by the cockpit's `.ckw-more`, `.ck-note`, and
 `.ck-misses`, by the design system's `.ds-usage` and, as a copy, by the case
 studies' `.case-method-row` — trailed its chevron at the far edge of the row
 and centred it on the whole block. It leads now, one `--space-xs` off its
@@ -532,7 +532,7 @@ on the screen.
 
 ## 7. What the code does today
 
-Measured across `style.css`, `site-nav.css`, `design-system/ds.css` and the
+Measured across `style.css`, `site-nav.css`, `design-system/ds.css`, and the
 six Tailwind case studies' inline `<style>` blocks.
 
 ### Regime A — 9 pages loading `style.css`
@@ -549,7 +549,7 @@ six Tailwind case studies' inline `<style>` blocks.
 
 Zero. Not "few" — none. Color had thirteen tokens before it had a spec and
 type had its two families; spacing has never had a single one. Every margin,
-every padding and every gap on this site is a literal, and there are 536 of
+every padding, and every gap on this site is a literal, and there are 536 of
 them.
 
 Distinct `max-width` values for prose columns: **12** (30rem → 64rem).
@@ -576,7 +576,7 @@ Those nine are the whole of §2. Two more outrank `12` in the ranking and
 neither is a step: `20` (80px) ×33, which is section-scale and belongs to
 the ramps in §3, and `1.5` (6px) ×30, which is the one Tailwind default that
 is not a multiple of 4. Below them, 15 uses of `16` (64px) and smaller
-counts of `24`, `32` and `14` — all section-scale.
+counts of `24`, `32`, and `14` — all section-scale.
 
 Then **109 arbitrary bracket values**: `[40px]` ×67, `[60px]` ×23, `[30px]`
 ×5, `[70px]` ×5, `[80px]` ×4, `[-10px]` ×3, `[46px]` ×2. All but the last two
@@ -596,14 +596,14 @@ this is a much narrower seam than it was, and closing it is step 5.
 ## 8. Applying this
 
 **All eight steps are applied.** They ran in order, each one measured before
-and after across fifteen pages at 375, 768 and 1440.
+and after across fifteen pages at 375, 768, and 1440.
 
 | Step | What it did | Cost |
 |---|---|---|
 | 1 | Tokens into `shell.css`, no consumers | Provably inert |
 | 2 | 33 off-grid values snapped, 110 uses | No move over 2.4px |
 | 3a | 230 step literals tokenized in `style.css` | Zero computed change |
-| 3b | 28, 36 and 52px folded to their steps | 158 values, every one exactly 4px |
+| 3b | 28, 36, and 52px folded to their steps | 158 values, every one exactly 4px |
 | 4 | Ten section pairs became two ramps | Engagement pages +5.7% at 1440 |
 | 5 | One gutter across both regimes | Case studies +1.4–2.9% at 375 |
 | 6 | The measure, at 52ch | Build write-ups +4–10% at 1440 |

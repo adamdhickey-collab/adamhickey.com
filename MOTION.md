@@ -2,7 +2,7 @@
 
 The rules for movement on adamhickey.com: six durations, three curves, one
 rise, one lift, one stagger, and a reduced-motion contract that already
-holds. Nothing on the site should use a duration, an easing or a transform
+holds. Nothing on the site should use a duration, an easing, or a transform
 distance that is not on this page.
 
 This document is normative. Where it parts company with the stylesheet, either
@@ -15,7 +15,7 @@ place than the other three. Type had five ordering bugs, color had two
 contrast failures, spacing had no tokens at all. **Motion's hard part is
 already right**: nothing animates for a reader who asks it not to, on any of
 the fifteen pages, and both JavaScript motion files check before they run.
-What is wrong here is vocabulary — 26 durations, eight curves and 23 delays
+What is wrong here is vocabulary — 26 durations, eight curves, and 23 delays
 doing the work of a much smaller set.
 
 ---
@@ -96,7 +96,7 @@ distances are here, and they are the part with the most drift.
 **Rise — how far a revealing element travels.** One value: **20px**. It sits
 on the spacing grid, it is far enough to read as arrival, and it is close
 enough that a reader who scrolls fast does not see the element chasing them.
-Four different rises are in use today: 8, 14, 20 and 24px.
+Four different rises are in use today: 8, 14, 20, and 24px.
 
 A fifth value, 29.6px, was counted here in the first draft of this audit and
 should not have been: `.hero-copy` carries `translateY(1.85rem)`, but nothing
@@ -107,7 +107,7 @@ The lesson is worth keeping: a transform is not evidence of motion. Look for
 a transition or an animation before counting a distance as a rise.
 
 **Lift — how much a hoverable thing grows.** One value: **1.03**. Three are
-in use: 1.03, 1.04 and 1.045, which differ by half a percent and are not
+in use: 1.03, 1.04, and 1.045, which differ by half a percent and are not
 distinguishable on a 300px card.
 
 **Press — how much a pressed thing shrinks.** One value: **0.985**. The
@@ -140,7 +140,7 @@ before doing anything.
 It is held up by two mechanisms, and the split between them is the rule:
 
 **The blanket rule does the work.** One block in `style.css` sets
-`animation-duration`, `animation-iteration-count` and `transition-duration`
+`animation-duration`, `animation-iteration-count`, and `transition-duration`
 on `*`. Every CSS animation and transition on the site is neutered by it
 without being named.
 
@@ -291,7 +291,7 @@ sequence. Per-unit sequences are finer still and are artwork: 26ms a
 character in the hero title, 42ms a word, 12 and 30ms a stroke.
 
 **The audit missed three files.** It read `style.css`, `site-nav.css`,
-`ds.css` and the six case studies, leaving out `index.html`, the engagement
+`ds.css`, and the six case studies, leaving out `index.html`, the engagement
 pages, the reference page, and `case-study/case-motion.css` — a whole
 stylesheet with its own keyframe, its own copy of the entrance curve and
 three more durations. §7 now reports the true baseline.
@@ -299,11 +299,11 @@ three more durations. §7 now reports the true baseline.
 ## 10. An operated surface is not a read one
 
 The same shape of carve-out COLOR.md makes for illustration, SPACING.md for
-device frames and section 6 above for artwork -- and it is the first one this
+device frames, and section 6 above for artwork -- and it is the first one this
 document has needed for an *interface* rather than a picture.
 
 Every page here but one is read. A reader scrolls, and motion's job is to
-confirm, direct or set a place quietly enough that missing it costs nothing.
+confirm, direct, or set a place quietly enough that missing it costs nothing.
 The page under `prototype/` is the exception: it is **operated.** Somebody
 presses Assign to commit a truck. A control that returns no feedback you can
 feel is a control that gets pressed twice, and on this page the second press
@@ -336,9 +336,9 @@ That rule is not local to the prototype and is worth applying anywhere a fade
 has been reached for. It needs no token.
 
 **What the carve-out does not license.** It is a press and a curve rule, not
-permission to animate more. Section 1 still governs: motion confirms, directs
+permission to animate more. Section 1 still governs: motion confirms, directs,
 or sets a place, and the rest is decoration. Nothing in `prototype/` may take
-a duration, a rise or a lift that is not on this page's scale.
+a duration, a rise, or a lift that is not on this page's scale.
 
 **And a limit recorded so it is not rediscovered.** Assigning a truck changes
 very little on screen: the card's primary button is the same sage fill before
@@ -353,7 +353,7 @@ decision about what the assigned state looks like, and it belongs in COLOR.md.
 swapping inside a control. The paragraph above is still right that the
 button's words are one of only two real visual events when a truck is
 assigned -- and until this, that event was a 200ms fade of one set of words
-into another of about the same length, weight and position. The Model Human
+into another of about the same length, weight, and position. The Model Human
 Processor puts average visual perception at roughly **230ms**, and Nielsen
 Norman's band for a small interface transition is **200-350ms**. A 200ms
 cross-fade is not a subtle confirmation. It is under the figure at which an
@@ -385,7 +385,7 @@ independent `translate` rather than `transform`. An animation of the same
 property outranks the resting rule for as long as it runs, so a swap animated
 on `transform` drops the lift out from under a pointer that is by definition
 still sitting on the control it just pressed, then snaps it back. On
-`translate` the press, the lift and the swap compose. The same reasoning puts
+`translate` the press, the lift, and the swap compose. The same reasoning puts
 the data table's sort reorder on `translate`, so a row caught mid-arrival by a
 re-sort does both things rather than one of them.
 
@@ -419,6 +419,6 @@ re-sort does both things rather than one of them.
 - **An animation that reveals content must never be the only thing that
   reveals it.** Suppressed motion must leave the content visible, not
   hidden.
-- **Artwork keeps its own time.** A loop, a scrubbed scene and a logo clip
+- **Artwork keeps its own time.** A loop, a scrubbed scene, and a logo clip
   are drawings. They are exempt from the scale and bound by the
   reduced-motion contract like everything else.
