@@ -99,7 +99,15 @@
      Every drawing is aria-hidden; the name beside it is the text. */
   function lamp(art) {
     var s = '<svg class="ai-art ai-art--' + art.kind + '" viewBox="0 0 80 100" aria-hidden="true" focusable="false">';
-    if (art.kind === 'tripod') {
+    if (art.kind === 'tripod' && art.legs === 'black') {
+      /* Bexley: thin metal rods splayed narrower, held by a ring, under a
+         drum an inch smaller than Hollis's, so the two read apart at a
+         glance and not only by the color of the legs. */
+      s += '<path class="ai-leg ai-leg--' + art.legs + '" d="M40 34 L24 96 M40 34 L56 96 M40 34 L40 94"/>' +
+           '<path class="ai-leg ai-leg--' + art.legs + '" d="M32 66 H48"/>' +
+           '<rect class="ai-shade ai-shade--' + art.shade + '" x="18" y="10" width="44" height="26" rx="2"/>' +
+           '<path class="ai-shade-line" d="M18 36h44"/>';
+    } else if (art.kind === 'tripod') {
       s += '<path class="ai-leg ai-leg--' + art.legs + '" d="M40 30 L18 96 M40 30 L62 96 M40 30 L40 94"/>' +
            '<rect class="ai-shade ai-shade--' + art.shade + '" x="14" y="6" width="52" height="30" rx="3"/>' +
            '<path class="ai-shade-line" d="M14 36h52"/>';
@@ -141,7 +149,7 @@
     return '<header class="ai-head">' + '<h3 class="ai-title" tabindex="-1">At Maya’s</h3>' +
       '<p class="ai-dek">You like her lamp. Take a picture before you forget it.</p></header>' +
       '<figure class="ai-photo">' +
-        '<div class="ai-photo-frame">' + lamp({ kind: 'tripod', legs: 'walnut', shade: 'linen' }) + '</div>' +
+        '<div class="ai-photo-frame"><img class="ai-photo-img" src="../img/lab/aisle-maya-photo.webp?v=1" width="1200" height="900" decoding="async" alt="The lamp in Maya’s living room, lit, between a side table and the sofa."></div>' +
         '<figcaption class="ai-photo-cap"><span class="ai-photo-when">' + PHOTO.when + ' · ' + PHOTO.where + '</span>' + PHOTO.seen + '</figcaption>' +
       '</figure>' +
       '<p class="ai-act"><button type="button" class="btn btn-primary ai-btn" data-go="results">Find lamps like this</button></p>' +
