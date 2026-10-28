@@ -1,4 +1,4 @@
-/* aisle-shots.mjs -- the From Inspiration to Aisle prototype's pictures,
+/* aisle-shots.mjs -- The Shortlist prototype's pictures,
  * taken from the running prototype rather than captured by hand, so a
  * restyle of a screen is one run here and the picture and the thing a
  * reader can press cannot drift apart (the same arrangement the cockpit

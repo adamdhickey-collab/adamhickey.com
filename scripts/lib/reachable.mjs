@@ -157,7 +157,7 @@ export const REACHABLE = {
       press: ['.ck-card-act [data-assign]'] },
   ],
 
-  /* The From Inspiration to Aisle write-up's service map shows its Today
+  /* The Shortlist write-up's service map shows its Today
      lane at rest, once its script has run, so the Connected lane, the
      thread carried to the end and a moment's lit column are each in no DOM
      a plain load measures (lab/inspiration-to-aisle.js). */
@@ -168,7 +168,7 @@ export const REACHABLE = {
       press: ['.ia-moment-pick[data-moment="5"]'] },
   ],
 
-  /* The From Inspiration to Aisle prototype draws every screen after the
+  /* The Shortlist prototype draws every screen after the
      first from JavaScript in response to a press (prototype/aisle.js), so
      without these the checks would measure the photo and call that the
      app. One state per screen, plus the three things a screen can carry
