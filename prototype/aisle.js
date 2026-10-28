@@ -1,4 +1,4 @@
-/* aisle.js -- the From Inspiration to Aisle prototype: one shopping trip,
+/* aisle.js -- The Shortlist prototype: one shopping trip,
    from a photo at a friend's home to a store aisle, as seven screens at a
    phone's width. Loaded by prototype/aisle.html and nothing else.
 
