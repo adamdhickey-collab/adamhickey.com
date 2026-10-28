@@ -88,8 +88,9 @@ The voice gets more personal; the facts do not get looser.
 - **Simulated stays simulated.** Agent Review plays simulated runs and has
   not been tested with anyone. Dispatch Cockpit runs on synthetic data. A
   story about them says so in the sentence that tells it.
-- **Current examples only.** Agent Review's first decision is the quiet
-  cancel link (#522, #523), not the two reds.
+- **Current examples only.** Agent Review's main story is the six-stage
+  cycle on archiving customers in Relay, and the quiet cancel link (#522,
+  #523) is its second stop, in the billing run; not the two reds.
 - **Someone else's work is cited, not told as yours.** Ryan Brownlow's Korl
   is his story. One outside source a page, told in a sentence and linked,
   and the page's own example comes first.
