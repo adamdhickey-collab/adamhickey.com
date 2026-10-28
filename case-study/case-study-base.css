@@ -622,6 +622,21 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   color: var(--color-charcoal);
 }
 .svc-lane dd .svc-ill { font-weight: var(--weight-semibold); color: var(--color-muted-gray); }
+/* The key words in a cell, for a reader who scans before they read: the
+   pain in bold where it was, and the change marked where it went, so reading
+   along the Before row and then the After row tells the story in nine
+   phrases. The mark is style.css's marked sentence, repeated here because
+   the case studies do not load style.css and an unstyled <mark> is the UA's
+   #ff0. Same tea-light ground, same em padding, for the reason that rule's
+   comment gives; charcoal on tea-light is 12.90:1. */
+.svc-map mark {
+  background: var(--color-tea-light);
+  color: var(--color-charcoal);
+  padding: 0.08em 0.16em;
+  margin: 0 -0.16em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 @media (min-width: 64rem) {
   .svc-stages { gap: 0; column-gap: var(--space-md); grid-template-columns: 9rem repeat(var(--svc-stages), minmax(0, 1fr)); }
   .svc-stage, .svc-lanes, .svc-lane { display: contents; }
@@ -656,6 +671,49 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
     border-bottom: 1px solid var(--rule-hairline);
   }
 }
+/* ---------- Read at a glance ----------
+   The USDA map, made to be read in a few seconds.
+   The same three moves, in tokens, as the journey in lab/inspiration-to-aisle.css, so the
+   two read as one component:
+
+   - The stage number sits in the station mark: the tea disc with the
+     accent hairline, .fact-node's in style.css, sized to the line.
+   - The payoff row is a row of tea-light tiles, its name in sage, so the
+     eye lands on what changed before it reads anything else. Tea-light is
+     the palette's word for "featured" (COLOR.md); charcoal on it is 12.90.
+     The tile takes --rule-card, the edge every card on a ground takes,
+     because tea on white is 1.19:1 and the sage hairline did not read
+     (cards.mjs).
+   - One phrase a cell is bold in the pain row and the payoff row, so the
+     two rows read across as the story in a dozen words. Bold, never a
+     second color: emphasis on this site is weight. */
+.svc-stage-name .svc-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em; height: 2em;
+  border-radius: 50%;
+  background: var(--color-tea-light);
+  border: 1px solid var(--color-accent-ring);
+  font-size: var(--text-xs);
+  vertical-align: 0.2em;
+}
+.svc-map .svc-lane:nth-child(2) dd strong,
+.svc-map .svc-lane--after dd strong { font-weight: var(--weight-bold); color: var(--color-charcoal); }
+.svc-map .svc-lane--after dt { color: var(--color-accent-text); }
+.svc-map .svc-lane--after dd {
+  padding: var(--space-sm);
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+@media (min-width: 64rem) {
+  .svc-map .svc-lane--after dt,
+  .svc-map .svc-lane--after dd { margin-top: var(--space-sm); }
+  .svc-map .svc-lane--after dt { border-bottom: 0; }
+  .svc-map .svc-lane--after dd { margin-bottom: var(--space-sm); }
+}
+
 .svc-map .svc-after {
   margin: var(--space-lg) 0 0;
   max-width: var(--measure);

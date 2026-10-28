@@ -203,6 +203,55 @@
   .ia-lane--visible dt, .ia-lane--visible dd,
   .ia-lane--internal dt, .ia-lane--internal dd { border-bottom-color: var(--rule-strong); }
 }
+/* ---------- Read at a glance ----------
+   The journey, made to be read in a few seconds.
+   The same three moves, in tokens, as the service map in case-study/case-study-base.css, so the
+   two read as one component:
+
+   - The stage number sits in the station mark: the tea disc with the
+     accent hairline, .fact-node's in style.css, sized to the line.
+   - The payoff row is a row of tea-light tiles, its name in sage, so the
+     eye lands on what changed before it reads anything else. Tea-light is
+     the palette's word for "featured" (COLOR.md); charcoal on it is 12.90.
+     The tile takes --rule-card, the edge every card on a ground takes,
+     because tea on white is 1.19:1 and the sage hairline did not read
+     (cards.mjs).
+   - One phrase a cell is bold in the pain row and the payoff row, so the
+     two rows read across as the story in a dozen words. Bold, never a
+     second color: emphasis on this site is weight. */
+.ia-moment-name .ia-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em; height: 2em;
+  border-radius: 50%;
+  background: var(--color-tea-light);
+  border: 1px solid var(--color-accent-ring);
+  font-size: var(--text-xs);
+  vertical-align: 0.2em;
+}
+.ia-figure .ia-lane--friction dd strong,
+.ia-figure .ia-lane--gain dd strong { font-weight: var(--weight-bold); color: var(--color-charcoal); }
+.ia-figure .ia-lane--gain dt { color: var(--color-accent-text); }
+.ia-figure .ia-lane--gain dd {
+  padding: var(--space-sm);
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+@media (min-width: 64rem) {
+  .ia-figure .ia-lane--gain dt,
+  .ia-figure .ia-lane--gain dd { margin-top: var(--space-sm); }
+  .ia-figure .ia-lane--gain dt { border-bottom: 0; }
+}
+/* The question in their head is the shopper talking, so it is set in
+   their voice: the serif, a step up, at its one weight. */
+.ia-figure .ia-lane--voice dd {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+}
+
 .ia-line {
   display: block;
   margin-top: var(--space-2xs);
