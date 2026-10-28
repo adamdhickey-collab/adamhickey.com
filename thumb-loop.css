@@ -73,3 +73,52 @@
 @media (hover: none) {
   .thumb-control { opacity: 1; }
 }
+
+/* ---------- The lab row, two across ----------
+   Since 2026-10-28 (Adam: add the new case study, de-emphasize the agents
+   one, two columns). The row under the three accounts holds two pieces,
+   From Inspiration to Aisle and Agent Review, as a pair of tea-light panels
+   at one size, so neither reads as the lead. style.css still draws the lab
+   card as one panel the section's width with its picture beside the words
+   from 1024 ("THE PICTURE BESIDE THE WORDS"); the rules below override that
+   here, the one page that has the card, so the shared stylesheet and its
+   site-wide cache-buster stay as they were.
+
+   Each panel stacks at every width: the picture first, then the name, the
+   question, the project and the link. The panels stretch to the taller of
+   the two and the link sits at the foot of each, so the two links line up.
+   Under 1024 the row is one column, as the three-grid is between 768 and
+   1024: two panels at half a tablet's width would leave each picture too
+   small to read. */
+.case-card--lab { grid-template-rows: auto 1fr; }
+.case-card--lab > .case-thumb,
+.case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+.case-card--lab .product-actions { margin-top: auto; padding-top: var(--space-lg); }
+@media (min-width: 1024px) {
+  .case-grid--lab { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case-card--lab {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    padding: var(--space-2xl);
+  }
+  .case-card--lab .case-thumb,
+  .case-card--lab .case-thumb-play { order: -1; }
+  .case-card--lab > .case-thumb,
+  .case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+}
+
+/* A light picture on the light panel. Aisle's card is drawn on tea-light,
+   the panel's own ground, so without an edge its tile would not be a tile.
+   --shadow-media is the ring every drawing and still wears; it stays under
+   reduced motion, where style.css takes the tilt's shadows off every thumb,
+   because it is the picture's edge rather than a hover effect. */
+.case-thumb--ringed { box-shadow: var(--shadow-media); }
+@media (prefers-reduced-motion: reduce) {
+  .case-card--lab .case-thumb--ringed { box-shadow: var(--shadow-media) !important; }
+}
+
+/* The lab row LEADS the section since 2026-10-28, with the three accounts
+   under it, so --space-block, the ramp SPACING.md gives major blocks inside
+   a section, goes under the row rather than above it, where style.css puts
+   it for the order it was written for. */
+.case-grid--lab { margin-top: 0; margin-bottom: var(--space-block); }
