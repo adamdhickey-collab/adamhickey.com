@@ -101,6 +101,15 @@
     return '<img class="ai-art" src="../img/lab/' + art + '?v=1" width="240" height="300" decoding="async" alt="">';
   }
 
+  /* ---------- the title's badge ----------
+     A small drawing in a circle beside the title on the two screens that
+     are a place: the friend's house and the store. Drawn in ChatGPT as one
+     sheet and cut by scripts/aisle-badges.mjs; alt="", the title is the text. */
+  function titled(kind, title) {
+    return '<div class="ai-head-row"><img class="ai-badge" src="../img/lab/aisle-badge-' + kind + '.webp?v=1" width="192" height="192" decoding="async" alt="">' +
+      '<h3 class="ai-title" tabindex="-1">' + title + '</h3></div>';
+  }
+
   /* ---------- small helpers ---------- */
 
   function dollars(n) { return '$' + n; }
@@ -124,7 +133,7 @@
   var screens = {};
 
   screens.home = function () {
-    return '<header class="ai-head">' + '<h3 class="ai-title" tabindex="-1">At your friend’s house</h3>' +
+    return '<header class="ai-head">' + titled('house', 'At your friend’s house') +
       '<p class="ai-dek">You like her lamp. Take a picture before you forget it.</p></header>' +
       '<figure class="ai-photo">' +
         '<div class="ai-photo-frame"><img class="ai-photo-img" src="../img/lab/aisle-maya-photo.webp?v=1" width="1200" height="900" decoding="async" alt="The lamp in your friend’s living room, lit, between a side table and the sofa."></div>' +
@@ -193,7 +202,7 @@
   screens.store = function () {
     var saved = savedLamps();
     var s = back('plan', 'Before you go') +
-      '<header class="ai-head"><h3 class="ai-title" tabindex="-1">In the store</h3>' +
+      '<header class="ai-head">' + titled('store', 'In the store') +
       '<p class="ai-dek">Your photo and your list came in with you. The lamps are in Aisle 14, near the back wall.</p></header>' +
       '<ul class="ai-saved">';
     saved.forEach(function (l) {

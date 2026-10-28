@@ -119,7 +119,11 @@ for (const name of wanted) {
    aisle, each panel the app's own content from its title to the end of what
    it shows. Taken at 3x and printed at 1.8x, so the bitmap is always being
    reduced. The composition page loads the site's own stylesheets, so the
-   ground, the edge and the shadow are tokens rather than hex. */
+   edge and the shadow are tokens rather than hex. The ground is not the
+   site's: since 2026-10-28 it is Agent Review's scene ground, #2b3a2f
+   (agent-review src/review/SceneScreen, agent-review#78), so the two lab
+   cards that sit side by side under Experimental lab work share one dark
+   sage. It was --color-charcoal. */
 async function panel(press, from, to) {
   const context = await browser.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 3, reducedMotion: 'reduce' });
   const page = await context.newPage();
@@ -145,8 +149,8 @@ async function panel(press, from, to) {
 }
 
 if (!only.length || only.some((o) => 'card'.includes(o))) {
-  const at = await panel([], '.ai-title', '.ai-photo-frame');
-  const aisle = await panel(SHOTS.arrive.press, '.ai-title', '.ai-saved-item:last-child .ai-saved-stock');
+  const at = await panel([], '.ai-head-row', '.ai-photo-frame');
+  const aisle = await panel(SHOTS.arrive.press, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
   const K = 1.8;
   const tall = Math.ceil(Math.max(at.height, aisle.height) * K);
   const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
@@ -156,7 +160,7 @@ if (!only.length || only.some((o) => 'card'.includes(o))) {
     <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/style.css">
     <style>
       html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; }
-      body { background: var(--color-charcoal); display: flex; align-items: center; justify-content: center; gap: 56px; }
+      body { --scene-sage: #2b3a2f; background: var(--scene-sage); display: flex; align-items: center; justify-content: center; gap: 56px; }
       .pn { box-sizing: content-box; width: ${WIDTH * K}px; height: ${tall}px; padding: 36px 0; overflow: hidden;
             background: var(--color-white); border: 2px solid var(--rule-card); border-radius: 28px; box-shadow: var(--shadow-card); }
       .pn img { display: block; width: 100%; }
