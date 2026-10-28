@@ -483,17 +483,27 @@
      else the site puts its actions in a div.cta-row, which is not a block
      this file reads, so the prototype was the only page whose voice read its
      own navigation. It says "skip after" -- both words -- and that is the
-     whole fix. */
+     whole fix.
+
+     ON THAT ROW, NOT UNDER IT, since 2026-10-28. Placed after the row, the
+     button took a line of its own under "Try the prototype" with half the
+     column empty beside it. The row is a wrapping flex line, so the button
+     goes in as its last item and drops to a line of its own only where the
+     two do not fit side by side. The row is already "skip", so the wrapper
+     is not needed there; a button is phrasing content, so it is valid
+     inside the <p> the row is. */
   const h1 = main.querySelector('h1');
   if (!h1) return;
-  let anchor = main.querySelector('[data-read-aloud~="after"]');
-  if (!anchor) {
-    anchor = h1;
+  const row = main.querySelector('[data-read-aloud~="after"]');
+  if (row) {
+    row.appendChild(listen);
+  } else {
+    let anchor = h1;
     if (anchor.nextElementSibling && anchor.nextElementSibling.tagName === 'P') {
       anchor = anchor.nextElementSibling;
     }
+    anchor.insertAdjacentElement('afterend', bar);
   }
-  anchor.insertAdjacentElement('afterend', bar);
 
   const player = document.createElement('div');
   player.className = 'ra-player';
