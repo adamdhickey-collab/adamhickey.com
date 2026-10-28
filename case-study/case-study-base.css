@@ -555,17 +555,19 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
    names once in a first column (the other stages' copies visually hidden
    but present, so a screen reader hears every cell named).
 
-   Every value is a token. The figure is a warm card on the white page with
-   the --rule-card edge (1.48:1); the stage cards inside it are white on
-   warm with the same edge. A documented cell and an illustrative cell
-   differ in words first: an illustrative one carries "Illustrative" before
-   its text, in the muted gray (5.91 on warm, 6.47 on white). */
+   Every value is a token. Since 2026-10-28 the figure is the Aisle
+   journey's card: gray-light on the white page with the --rule-card edge
+   (1.48:1) and --shadow-card; the stage cards inside it are white with the
+   same edge. A documented cell and an illustrative cell differ in words
+   first: an illustrative one carries "Illustrative" before its text, in
+   the muted gray (5.93 on gray-light, 6.47 on white). */
 .svc-map {
   margin: 0 0 var(--space-section);
   padding: var(--space-lg) var(--space-md);
-  background: var(--color-warm);
+  background: var(--color-gray-light);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
 @media (min-width: 640px) { .svc-map { padding: var(--space-xl); } }
 @media (min-width: 1024px) { .svc-map { padding: var(--space-2xl) var(--space-3xl); } }
@@ -719,6 +721,114 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   .svc-map .svc-lane--after dd { margin-top: var(--space-sm); }
   .svc-map .svc-lane--after dt { border-bottom: 0; }
   .svc-map .svc-lane--after dd { margin-bottom: var(--space-sm); }
+}
+
+/* ---------- The journey's furniture ----------
+   Since 2026-10-28 the map takes the rest of the Aisle journey's style
+   (lab/inspiration-to-aisle.css), in the same tokens, so the two service
+   maps on the site read as one hand: two phase bands over the stages, the
+   discs over the names on one sage line, a line icon before each lane's
+   name, and a thread lane of small labels on one sage line, gathering
+   from stage to stage. It leaves out the Aisle's curve and its switch: a
+   feeling curve here would be a reading nobody measured, and four stages
+   read Before and After side by side without one. */
+
+/* Two bands over the stages, the way a journey map names its phases;
+   each ends where its stages do. Wide only; stacked, each card already
+   says where it is. */
+.svc-phases { display: none; }
+@media (min-width: 64rem) {
+  .svc-map .svc-phases {
+    display: grid;
+    grid-template-columns: 9rem repeat(var(--svc-stages), minmax(0, 1fr));
+    column-gap: var(--space-md);
+    margin: 0 0 var(--space-sm);
+  }
+  .svc-phase {
+    grid-column: calc(var(--svc-from) + 1) / calc(var(--svc-to) + 1);
+    padding: var(--space-2xs) var(--space-sm);
+    border-radius: var(--radius-pill);
+    background: var(--color-tea-light);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-ui);
+    color: var(--color-charcoal);
+  }
+  .svc-phase + .svc-phase { background: var(--color-muted-light); }
+}
+
+/* The stages as one rail: from 64rem the disc sits over the name, and one
+   sage line joins the discs across the head of the grid. */
+@media (min-width: 64rem) {
+  .svc-map .svc-stage-name {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-xs);
+  }
+  .svc-stage-name .svc-n { position: relative; z-index: 1; margin-top: 0; }
+  .svc-map .svc-stage-name::before {
+    content: "";
+    position: absolute;
+    left: var(--space-xs);
+    right: calc(-1 * var(--space-md));
+    top: var(--text-xs);
+    border-top: 2px solid var(--color-accent-text);
+  }
+  .svc-stage:last-child .svc-stage-name::before { display: none; }
+  .svc-map .svc-stage-name,
+  .svc-map .svc-lane:not(.svc-lane--after) dd { padding-inline: var(--space-xs); }
+}
+
+/* A mark for each lane: a line icon before its name, drawn as a mask so
+   it takes the name's own ink, centred on the name's first line. */
+.svc-lane dt { position: relative; padding-left: 1.75em; }
+.svc-lane dt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(var(--svc-dt-pad, 0px) + 0.5lh);
+  width: 1.25em;
+  height: 1.25em;
+  translate: 0 -50%;
+  background: currentColor;
+  -webkit-mask: var(--svc-icon) center / contain no-repeat;
+  mask: var(--svc-icon) center / contain no-repeat;
+}
+@media (min-width: 64rem) {
+  .svc-lane dt { --svc-dt-pad: var(--space-sm); }
+}
+.svc-lane--who { --svc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8' r='3.5'/%3E%3Cpath d='M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5'/%3E%3C/svg%3E"); }
+.svc-lane--before { --svc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M12 3.5l9.5 16.5h-19z'/%3E%3Cpath d='M12 10v4.5'/%3E%3Cpath d='M12 17.5v.01'/%3E%3C/svg%3E"); }
+.svc-lane--after { --svc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8 12.5l2.75 2.75L16 10'/%3E%3C/svg%3E"); }
+.svc-lane--thread { --svc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M6 3h8l4 4v14H6z'/%3E%3Cpath d='M14 3v4h4'/%3E%3Cpath d='M9 12h6M9 16h6'/%3E%3C/svg%3E"); }
+.svc-lane--behind { --svc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M3 8l9-4.5L21 8l-9 4.5z'/%3E%3Cpath d='M3 12.5l9 4.5 9-4.5'/%3E%3Cpath d='M3 17l9 4.5 9-4.5'/%3E%3C/svg%3E"); }
+
+/* What the record carries: small labels in the sage, gathering stage by
+   stage. Wide, one sage line runs behind them from stage to stage. Sage
+   on white is 5.82. */
+.svc-lane--thread dd { display: flex; flex-wrap: wrap; gap: var(--space-2xs); align-items: center; align-content: flex-start; position: relative; }
+.svc-carry {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--space-xs);
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-text);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+@media (min-width: 64rem) {
+  .svc-lane--thread dd::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: calc(-1 * var(--space-md));
+    top: calc(var(--space-sm) + 0.5lh);
+    border-top: 2px solid var(--color-accent-text);
+  }
+  .svc-stage:last-child .svc-lane--thread dd::before { right: 0; }
 }
 
 .svc-map .svc-after {
