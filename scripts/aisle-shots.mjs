@@ -15,9 +15,19 @@
  *     .build-phone draws the shell around each. Results is the four
  *     matches with the first one's reasons open; plan is the trip with the
  *     stale count; store is the aisle with the comparison open.
- *   aisle-trio.webp
- *     The three screens in phone shells on the warm ground at 1600x900,
- *     for the write-up's hero, the lab index's card and the share cards.
+ *   aisle-arrive.webp
+ *     The hero's picture: the In the store screen with the comparison
+ *     closed, the same 2x frame as the three above but cut under the
+ *     shelf counts and Compare side by side, so in the hero's .build-phone it prints
+ *     at a phone's own size and every line of it reads.
+ *   aisle-card.webp
+ *     The lab index's card, 1600x900: the trip's two ends side by side, the
+ *     photo at the friend's house and the two lamps in the aisle, each the app's own
+ *     content from its title down, flat on white cards on the charcoal
+ *     ground, no phone shells. At the card's 18rem a phone's screen is too
+ *     small to read; two panels at 1.8x are not. It replaced a trio of
+ *     staggered phones (2026-10-28) whose words could not be read at that
+ *     size.
  *
  * The screens are reached by the same presses scripts/lib/reachable.mjs
  * registers, so a hook that goes stale fails here as it would there.
@@ -45,6 +55,7 @@ const SHOTS = {
   results: { press: ['[data-go="results"]', '[data-why="hollis"]'] },
   plan:    { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
   store:   { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
+  arrive:  { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]'], cut: '.ai-saved + .ai-row' },
 };
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
@@ -72,47 +83,91 @@ async function screen(name) {
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
   /* The box in page coordinates, since the presses scroll the page and a
      clip on a full-page shot is measured from its top. */
-  const box = await page.$eval('.ai-app', (el) => {
+  const box = await page.$eval('.ai-app', (el, cut) => {
     const r = el.getBoundingClientRect();
-    return { x: r.left + scrollX, y: r.top + scrollY, height: r.height };
-  });
+    /* A cut ends the frame 12px under that element: the rows below it sit
+       16px down, so any more and the top of the next one shows. */
+    const end = cut ? el.querySelector(cut).getBoundingClientRect().bottom + 12 : r.bottom;
+    return { x: r.left + scrollX, y: r.top + scrollY, height: end - r.top };
+  }, SHOTS[name].cut || null);
   const buf = await page.screenshot({
     type: 'png',
     fullPage: true,
     clip: { x: box.x, y: box.y, width: WIDTH, height: Math.min(HEIGHT, box.height) },
   });
   await context.close();
-  return buf;
+  return { buf, height: Math.round(Math.min(HEIGHT, box.height)) };
 }
 
 const wanted = Object.keys(SHOTS).filter((n) => !only.length || only.some((o) => n.includes(o)));
 const pngs = {};
 for (const name of wanted) {
-  pngs[name] = await screen(name);
+  const shot = await screen(name);
+  pngs[name] = shot.buf;
+  const height = shot.height;
   /* The same frame, as the webp the page loads. */
-  const context = await browser.newContext({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: SCALE });
+  const context = await browser.newContext({ viewport: { width: WIDTH, height }, deviceScaleFactor: SCALE });
   const page = await context.newPage();
   await page.setContent(`<html><body style="margin:0;background:#fff"><img src="data:image/png;base64,${pngs[name].toString('base64')}" style="display:block;width:${WIDTH}px;height:auto"></body></html>`);
   const file = path.join(OUT, `aisle-${name}.webp`);
-  fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT } }));
-  console.log(`  ${path.relative(ROOT, file)}  ${WIDTH * SCALE}x${HEIGHT * SCALE}`);
+  fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86, clip: { x: 0, y: 0, width: WIDTH, height } }));
+  console.log(`  ${path.relative(ROOT, file)}  ${WIDTH * SCALE}x${height * SCALE}`);
   await context.close();
 }
 
-/* The trio: three shells on the warm ground, in the site's own device
-   chrome (style.css, "Device chrome"), at 16:9. Only when all three were
-   taken this run. */
-if (['results', 'plan', 'store'].every((n) => pngs[n])) {
+/* The card: the trip's two ends, the photo at the friend's house and the lamps in the
+   aisle, each panel the app's own content from its title to the end of what
+   it shows. Taken at 3x and printed at 1.8x, so the bitmap is always being
+   reduced. The composition page loads the site's own stylesheets, so the
+   edge and the shadow are tokens rather than hex. The ground is not the
+   site's: since 2026-10-28 it is Agent Review's scene ground, #2b3a2f
+   (agent-review src/review/SceneScreen, agent-review#78), so the two lab
+   cards that sit side by side under Experimental lab work share one dark
+   sage. It was --color-charcoal. */
+async function panel(press, from, to) {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 3, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.addStyleTag({ content: '.site-nav { display: none !important; }' });
+  for (const sel of press) {
+    const hit = await page.$(sel);
+    if (!hit) throw new Error(`card: nothing matches ${sel}`);
+    await hit.click();
+    await page.waitForTimeout(150);
+  }
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  const box = await page.$eval('.ai-app', (el, [f, t]) => {
+    const r = el.getBoundingClientRect();
+    const a = el.querySelector(f).getBoundingClientRect();
+    const z = el.querySelector(t).getBoundingClientRect();
+    return { x: r.left + scrollX, y: a.top + scrollY, width: r.width, height: z.bottom - a.top };
+  }, [from, to]);
+  const buf = await page.screenshot({ type: 'png', fullPage: true, clip: box });
+  await context.close();
+  return { src: `data:image/png;base64,${buf.toString('base64')}`, height: box.height };
+}
+
+if (!only.length || only.some((o) => 'card'.includes(o))) {
+  const at = await panel([], '.ai-head-row', '.ai-photo-frame');
+  const aisle = await panel(SHOTS.arrive.press, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
+  const K = 1.8;
+  const tall = Math.ceil(Math.max(at.height, aisle.height) * K);
   const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
   const page = await context.newPage();
-  const shell = (name, dy) => `<div style="position:absolute;left:0;top:${dy}px;width:${WIDTH + 16}px;padding:8px;background:#1b1d22;border-radius:26px;box-shadow:0 1px 2px rgba(0,0,0,0.06),0 12px 28px -12px rgba(0,0,0,0.28)"><img src="data:image/png;base64,${pngs[name].toString('base64')}" style="display:block;width:${WIDTH}px;height:${HEIGHT}px;border-radius:18px;object-fit:cover;object-position:top"></div>`;
-  await page.setContent(`<html><body style="margin:0;width:1600px;height:900px;background:#f5f5f0;overflow:hidden">
-    <div style="position:absolute;left:0;top:0;width:1600px;height:900px">
-      <div style="position:absolute;left:184px;top:120px">${shell('results', 0)}</div>
-      <div style="position:absolute;left:608px;top:60px">${shell('plan', 0)}</div>
-      <div style="position:absolute;left:1032px;top:120px">${shell('store', 0)}</div>
-    </div></body></html>`);
-  const file = path.join(OUT, 'aisle-trio.webp');
+  await page.goto(`${origin}/404.html`, { waitUntil: 'load' });
+  await page.setContent(`<!doctype html><html><head>
+    <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/style.css">
+    <style>
+      html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; }
+      body { --scene-sage: #2b3a2f; background: var(--scene-sage); display: flex; align-items: center; justify-content: center; gap: 56px; }
+      .pn { box-sizing: content-box; width: ${WIDTH * K}px; height: ${tall}px; padding: 36px 0; overflow: hidden;
+            background: var(--color-white); border: 2px solid var(--rule-card); border-radius: 28px; box-shadow: var(--shadow-card); }
+      .pn img { display: block; width: 100%; }
+    </style></head>
+    <body><div class="pn"><img src="${at.src}"></div><div class="pn"><img src="${aisle.src}"></div></body></html>`);
+  await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
+  const file = path.join(OUT, 'aisle-card.webp');
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
   console.log(`  ${path.relative(ROOT, file)}  1600x900`);
   await context.close();

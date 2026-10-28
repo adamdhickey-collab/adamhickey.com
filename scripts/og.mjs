@@ -69,10 +69,10 @@ const CARDS = {
   /* From Inspiration to Aisle, 2026-10-28: the write-up and its prototype
      share the prototype's own screen, the plan with its stale count
      (aisle-shots.mjs), squared from the top. */
-  'inspiration-to-aisle':              { kicker: 'Lab · service design',                     title: 'From Inspiration to Aisle',                                   sub: 'One shopping trip, carried across phone, store and person', image: 'img/lab/aisle-plan.webp' },
+  'inspiration-to-aisle':              { kicker: 'Lab · service design',                     title: 'From Inspiration to Aisle',                                   sub: 'One shopping trip, carried across phone, store, and person', image: 'img/lab/aisle-plan.webp' },
   'aisle':                             { kicker: 'Prototype · sample data',                  title: 'A shopping trip that keeps its context, from a photo to the aisle', image: 'img/lab/aisle-store.webp' },
   'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
-  'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping and component systems', image: 'img/lab/agent-review-og.webp' },
+  'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping, and component systems', image: 'img/lab/agent-review-og.webp' },
   /* The case study's card is a drawing since 2026-10-24, the first `full`
      card: a robot hand stopping at the one underlined gray link among bold
      buttons, drawn in ChatGPT in the engagement set's hand. The titled card

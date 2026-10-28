@@ -14,7 +14,7 @@
    SHAPE. A state object (which screen, what is saved, what is hidden), a
    render per screen built from the data at the top, and one place that
    swaps screens, moves focus and announces the change. The lamp pictures
-   are drawn in SVG from a few shapes so the prototype ships no images.
+   are product shots drawn in ChatGPT, one sheet cut into four.
 
    WHAT THE CHECKS SEE. The screens after the first exist only after a press,
    so scripts/lib/reachable.mjs registers each of them, with the presses that
@@ -31,7 +31,7 @@
   /* ---------- the sample data ---------- */
 
   var PHOTO = {
-    where: 'Maya’s living room',
+    where: 'Your friend’s living room',
     when: 'Saturday, 7:12 pm',
     seen: 'A tall tripod lamp with a linen drum shade and wooden legs, standing by the sofa.'
   };
@@ -54,28 +54,28 @@
       level: 'Close match', tone: 'close',
       line: 'Same shade shape and leg finish. About 2 inches shorter than the one in your photo looks.',
       why: ['The shade is a linen drum, like the one in the photo.', 'The legs are walnut, like the ones in the photo.', 'Height is a guess from one photo. The sofa beside it suggests about 64 inches; this one is 62.'],
-      art: { kind: 'tripod', legs: 'walnut', shade: 'linen' } },
+      art: 'aisle-lamp-hollis.webp' },
     { id: 'bexley', name: 'Bexley tripod floor lamp', price: 89, height: 60, shade: 'Linen drum, 17 in', legs: 'Black metal', dimmable: 'No', bulb: 'Not included',
       aisle: 'Aisle 14, bay 5',
       stock: { count: 1, counted: 'last counted 2 days ago', stale: true },
       level: 'Similar shape, different finish', tone: 'near',
       line: 'Same linen drum shade. The legs are black metal, not wood, and it costs $50 less.',
       why: ['The shade matches: a linen drum about the same width.', 'The legs are black metal. The photo shows wood, so this is a different look up close.', 'It does not dim, and the bulb is sold separately.'],
-      art: { kind: 'tripod', legs: 'black', shade: 'linen' } },
+      art: 'aisle-lamp-bexley.webp' },
     { id: 'rowan', name: 'Rowan arc floor lamp', price: 179, height: 72, shade: 'Cream dome, 14 in', legs: 'Brass arc', dimmable: 'Yes', bulb: 'Included',
       aisle: 'Aisle 15, bay 1',
       stock: { count: 6, counted: 'counted this morning at 9:40', stale: false },
       level: 'A stretch', tone: 'far',
       line: 'The same warm room feel, in a different shape: one brass arc instead of three legs.',
       why: ['The shade is warm and fabric, which is most of what reads from across a room.', 'The shape is different: an arc over a seat, not a tripod beside one.', 'A foot taller than the photo suggests.'],
-      art: { kind: 'arc', legs: 'brass', shade: 'cream' } },
+      art: 'aisle-lamp-rowan.webp' },
     { id: 'linden', name: 'Linden tripod table lamp', price: 59, height: 18, shade: 'Linen drum, 10 in', legs: 'Walnut', dimmable: 'No', bulb: 'Included',
       aisle: 'Aisle 12, bay 2',
       stock: { count: 8, counted: 'counted this morning at 9:40', stale: false },
       level: 'Same look, table size', tone: 'far',
       line: 'The same shade and legs at a third of the height. Probably not what you saw.',
       why: ['The shade and legs match the photo closely.', 'It is 18 inches tall. Your photo shows the lamp standing on the floor.', 'Listed because the look matches, in case the size was the point.'],
-      art: { kind: 'table', legs: 'walnut', shade: 'linen' } }
+      art: 'aisle-lamp-linden.webp' }
   ];
 
   var byId = {};
@@ -93,26 +93,21 @@
      them, and marks the one the reader is in. */
   var HALF = { home: 'home', results: 'home', plan: 'home', store: 'store', missing: 'store', help: 'store', done: 'store' };
 
-  /* ---------- drawing the lamps ----------
-     Artwork, not interface: the fills are the lamps' own materials, declared
-     in aisle.css as --lamp-* and never used for text (COLOR.md, section 6).
-     Every drawing is aria-hidden; the name beside it is the text. */
+  /* ---------- the lamps' pictures ----------
+     Product shots drawn in ChatGPT as one 2 x 2 sheet, so the four share a
+     light and a hand, and cut to 4:5 with each lamp at the same height in
+     its frame. Every picture is alt=""; the name beside it is the text. */
   function lamp(art) {
-    var s = '<svg class="ai-art ai-art--' + art.kind + '" viewBox="0 0 80 100" aria-hidden="true" focusable="false">';
-    if (art.kind === 'tripod') {
-      s += '<path class="ai-leg ai-leg--' + art.legs + '" d="M40 30 L18 96 M40 30 L62 96 M40 30 L40 94"/>' +
-           '<rect class="ai-shade ai-shade--' + art.shade + '" x="14" y="6" width="52" height="30" rx="3"/>' +
-           '<path class="ai-shade-line" d="M14 36h52"/>';
-    } else if (art.kind === 'arc') {
-      s += '<path class="ai-leg ai-leg--' + art.legs + '" d="M22 96 C22 40 40 18 56 24"/>' +
-           '<rect class="ai-base ai-base--' + art.legs + '" x="10" y="94" width="24" height="4" rx="2"/>' +
-           '<path class="ai-shade ai-shade--' + art.shade + '" d="M44 24 a14 14 0 0 1 28 0 v8 h-28z"/>';
-    } else {
-      s += '<path class="ai-leg ai-leg--' + art.legs + '" d="M40 60 L30 94 M40 60 L50 94 M40 60 L40 92"/>' +
-           '<rect class="ai-shade ai-shade--' + art.shade + '" x="20" y="38" width="40" height="24" rx="3"/>' +
-           '<path class="ai-shade-line" d="M20 62h40"/>';
-    }
-    return s + '</svg>';
+    return '<img class="ai-art" src="../img/lab/' + art + '?v=1" width="240" height="300" decoding="async" alt="">';
+  }
+
+  /* ---------- the title's badge ----------
+     A small drawing in a circle beside the title on the two screens that
+     are a place: the friend's house and the store. Drawn in ChatGPT as one
+     sheet and cut by scripts/aisle-badges.mjs; alt="", the title is the text. */
+  function titled(kind, title) {
+    return '<div class="ai-head-row"><img class="ai-badge" src="../img/lab/aisle-badge-' + kind + '.webp?v=1" width="192" height="192" decoding="async" alt="">' +
+      '<h3 class="ai-title" tabindex="-1">' + title + '</h3></div>';
   }
 
   /* ---------- small helpers ---------- */
@@ -138,10 +133,10 @@
   var screens = {};
 
   screens.home = function () {
-    return '<header class="ai-head">' + '<h3 class="ai-title" tabindex="-1">At Maya’s</h3>' +
+    return '<header class="ai-head">' + titled('house', 'At your friend’s house') +
       '<p class="ai-dek">You like her lamp. Take a picture before you forget it.</p></header>' +
       '<figure class="ai-photo">' +
-        '<div class="ai-photo-frame">' + lamp({ kind: 'tripod', legs: 'walnut', shade: 'linen' }) + '</div>' +
+        '<div class="ai-photo-frame"><img class="ai-photo-img" src="../img/lab/aisle-maya-photo.webp?v=1" width="1200" height="900" decoding="async" alt="The lamp in your friend’s living room, lit, between a side table and the sofa."></div>' +
         '<figcaption class="ai-photo-cap"><span class="ai-photo-when">' + PHOTO.when + ' · ' + PHOTO.where + '</span>' + PHOTO.seen + '</figcaption>' +
       '</figure>' +
       '<p class="ai-act"><button type="button" class="btn btn-primary ai-btn" data-go="results">Find lamps like this</button></p>' +
@@ -207,7 +202,7 @@
   screens.store = function () {
     var saved = savedLamps();
     var s = back('plan', 'Before you go') +
-      '<header class="ai-head"><h3 class="ai-title" tabindex="-1">In the store</h3>' +
+      '<header class="ai-head">' + titled('store', 'In the store') +
       '<p class="ai-dek">Your photo and your list came in with you. The lamps are in Aisle 14, near the back wall.</p></header>' +
       '<ul class="ai-saved">';
     saved.forEach(function (l) {
@@ -301,7 +296,7 @@
   var stage = root.querySelector('[data-aisle-stage]');
   var status = root.querySelector('[data-aisle-status]');
   var steps = root.querySelectorAll('[data-aisle-half]');
-  var TITLES = { home: 'At Maya’s', results: 'Lamps like this one', plan: 'Before you go', store: 'In the store', missing: 'A lamp not on the shelf', help: 'A person joins', done: 'The trip, done' };
+  var TITLES = { home: 'At your friend’s house', results: 'Lamps like this one', plan: 'Before you go', store: 'In the store', missing: 'A lamp not on the shelf', help: 'A person joins', done: 'The trip, done' };
 
   function render(opts) {
     opts = opts || {};

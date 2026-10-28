@@ -1,8 +1,10 @@
 /* ---------- A card picture that moves ----------
    The homepage's Agent Review card since 2026-10-27: the prototype's
    Explore scene as a six-second clip (scripts/explore-card.mjs), each
-   of the three ways to archive building in turn. One page loads this file,
-   so style.css and its site-wide buster are untouched.
+   of the three ways to archive building in turn, and the lab index's
+   Agent Review entry since 2026-10-28. Two pages load this file, so
+   style.css and its site-wide buster are untouched; the lab's layout for
+   the clip is in lab/index.css, and only the controls here apply to it.
 
    The picture is still the card's link, and a link cannot hold a button, so
    the two share a wrapper: the wrapper is the card's grid item where the
@@ -72,4 +74,76 @@
 }
 @media (hover: none) {
   .thumb-control { opacity: 1; }
+}
+
+/* ---------- The lab row, two across ----------
+   Since 2026-10-28 (Adam: add the new case study, de-emphasize the agents
+   one, two columns). The row under the three accounts holds two pieces,
+   From Inspiration to Aisle and Agent Review, as a pair of tea-light panels
+   at one size, so neither reads as the lead. style.css still draws the lab
+   card as one panel the section's width with its picture beside the words
+   from 1024 ("THE PICTURE BESIDE THE WORDS"); the rules below override that
+   here, the one page that has the card, so the shared stylesheet and its
+   site-wide cache-buster stay as they were.
+
+   Each panel stacks at every width: the picture first, then the name, the
+   question, the project and the link. The panels stretch to the taller of
+   the two and the link sits at the foot of each, so the two links line up.
+   Under 1024 the row is one column, as the three-grid is between 768 and
+   1024: two panels at half a tablet's width would leave each picture too
+   small to read. */
+/* The picture sits --space-xl over the name, and nothing else: the panel's
+   row gap from style.css (--space-2xl, for the picture beside the words)
+   stacked on top of it put 56px under every picture (Adam, 2026-10-28). */
+.case-card--lab { grid-template-rows: auto 1fr; row-gap: 0; }
+.case-card--lab > .case-thumb,
+.case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+/* The tags ride down with the link, so the two panels' tags line up as
+   their links do, whichever description runs longer. */
+.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-md); }
+.case-grid--lab .case-card--lab .tag-row + .product-actions { margin-top: 0; }
+.case-card--lab .product-actions { margin-top: auto; padding-top: var(--space-lg); }
+@media (min-width: 1024px) {
+  .case-grid--lab { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case-card--lab {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    padding: var(--space-2xl);
+  }
+  .case-card--lab .case-thumb,
+  .case-card--lab .case-thumb-play { order: -1; }
+  .case-card--lab > .case-thumb,
+  .case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+}
+
+/* A light picture on the light panel. Aisle's card is drawn on tea-light,
+   the panel's own ground, so without an edge its tile would not be a tile.
+   --shadow-media is the ring every drawing and still wears; it stays under
+   reduced motion, where style.css takes the tilt's shadows off every thumb,
+   because it is the picture's edge rather than a hover effect. */
+.case-thumb--ringed { box-shadow: var(--shadow-media); }
+@media (prefers-reduced-motion: reduce) {
+  .case-card--lab .case-thumb--ringed { box-shadow: var(--shadow-media) !important; }
+}
+
+/* The lab row FOLLOWS the three accounts again since later on 2026-10-28
+   (Adam: the shipped work first), so style.css's --space-block above it is
+   the right space and nothing here overrides it. For the morning it led,
+   the space went under the row instead. */
+
+/* The three accounts line up across, since 2026-10-28 (Adam: make it line
+   up clearly). Each card is its picture, title, description, tags and link,
+   five rows on one shared grid from 1024, so a description that runs a line
+   longer moves all three cards' tags and links together rather than one.
+   The row has no gap of its own: the cards keep their margins, and the
+   grid's --space-2xl stays between the columns. */
+@media (min-width: 1024px) {
+  #case-studies .case-grid--three { row-gap: 0; }
+  #case-studies .case-grid--three > .case-card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+  #case-studies .case-grid--three > .case-card > .case-go { align-self: start; }
 }

@@ -11,9 +11,8 @@
  * button, the comparison table.
  *
  * EVERY SIZE IS A STEP, every space a --space-*, every color a token and
- * every duration a --motion-*. The one carve-out is the lamps: they are
- * drawings of objects, so their fills are declared below as --lamp-* and
- * are artwork (COLOR.md, section 6). No text ever sits on them.
+ * every duration a --motion-*. The lamps are pictures, not
+ * drawn in CSS, and no text ever sits on them.
  *
  * NO MEANING IN COLOR ALONE. A match's closeness is a sentence ("Close
  * match", "A stretch") before it is a color; a stale count says "last
@@ -58,12 +57,6 @@
   box-shadow: var(--shadow-device);
 }
 .ai-app {
-  --lamp-walnut: #7a5a3c;
-  --lamp-black:  #2b2b2b;
-  --lamp-brass:  #b08d57;
-  --lamp-linen:  #ece4d2;
-  --lamp-cream:  #f3ecdc;
-  --lamp-line:   #9a8e7a;
   min-height: 42rem;
   padding: var(--space-lg) var(--space-md) var(--space-xl);
   background: var(--color-white);
@@ -137,6 +130,18 @@
    class-and-element and would otherwise set the app's lines at --text-lg
    on reading leading (the lesson dispatch-cockpit.css records). */
 .ai-app .ai-head { margin-bottom: var(--space-lg); }
+.ai-app .ai-head-row { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-xs); }
+.ai-app .ai-head-row .ai-title { margin: 0; }
+/* The badge is the place's drawing cut to a circle; 3.5rem is two 24px
+   lines of the title, so it sits level with a title that wraps. */
+.ai-app .ai-badge {
+  flex: none;
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .ai-app .ai-title {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
@@ -201,19 +206,21 @@
 }
 
 /* ---------- The photo ----------
-   The lamp at Maya's, drawn large on the warm ground, with when and where
-   under it. The frame is a card on white, so it takes the card edge. */
+   The lamp at a friend's house, as a phone would take it: a photograph of
+   her living room (drawn in ChatGPT, img/lab/aisle-maya-photo.webp) filling
+   the frame, with when and where under it. The frame is a card on white,
+   so it takes the card edge. */
 .ai-app .ai-photo { margin: 0; }
 .ai-app .ai-photo-frame {
   display: grid;
   place-items: center;
   aspect-ratio: 4 / 3;
-  padding: var(--space-lg);
+  overflow: hidden;
   background: var(--color-warm);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
 }
-.ai-app .ai-photo-frame .ai-art { height: 100%; width: auto; }
+.ai-app .ai-photo-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ai-app .ai-photo-cap {
   margin: var(--space-sm) 0 0;
   font-size: var(--text-sm);
@@ -222,18 +229,11 @@
 }
 .ai-app .ai-photo-when { display: block; margin-bottom: var(--space-2xs); color: var(--color-muted-gray); }
 
-/* ---------- The lamps, drawn ----------
-   Three shapes from a handful of paths. Stroke widths are in the drawing's
-   own units and scale with it, which is what a drawing does. */
-.ai-art { display: block; width: 100%; height: auto; }
-.ai-art .ai-leg { fill: none; stroke-width: 3.5; stroke-linecap: round; }
-.ai-art .ai-leg--walnut { stroke: var(--lamp-walnut); }
-.ai-art .ai-leg--black  { stroke: var(--lamp-black); }
-.ai-art .ai-leg--brass  { stroke: var(--lamp-brass); }
-.ai-art .ai-base--brass { fill: var(--lamp-brass); }
-.ai-art .ai-shade--linen { fill: var(--lamp-linen); stroke: var(--lamp-line); stroke-width: 1.5; }
-.ai-art .ai-shade--cream { fill: var(--lamp-cream); stroke: var(--lamp-line); stroke-width: 1.5; }
-.ai-art .ai-shade-line { stroke: var(--lamp-line); stroke-width: 1.5; }
+/* ---------- The lamps ----------
+   Product shots on white. Multiply drops the white into whatever ground the
+   picture sits on, so a saved card's tea-light shows through around the
+   lamp rather than a white box. */
+.ai-art { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 
 /* ---------- The results ---------- */
 .ai-app .ai-results,
