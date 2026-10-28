@@ -617,7 +617,9 @@ async function choose(page, name) {
 /* Since agent-review#50 (2026-10-26) a stage opens only once every stage
    before it is decided, so Explore is reached through Discover and Define,
    each direction opens with the batch already selected, and Evaluate opens
-   once all three have been tried. */
+   once all three have been tried. Since agent-review#65 (2026-10-28) the
+   move offers the next direction by number, "Try direction 2" with the name
+   visually hidden after it, so the recipe presses by the number. */
 async function exploreOpen(page) {
   await choose(page, 'Correct it');
   await stage(page, 'define');
@@ -627,10 +629,10 @@ async function exploreOpen(page) {
 async function cycleTo(page, last) {
   await exploreOpen(page);
   await page.getByRole('button', { name: 'Archive', exact: true }).click();
-  await page.getByRole('button', { name: 'Try confirm first, naming who' }).click();
+  await page.getByRole('button', { name: /^Try direction 2/ }).click();
   await page.getByRole('button', { name: 'Archive', exact: true }).click();
   await page.getByRole('button', { name: 'Archive 5 customers' }).click();
-  await page.getByRole('button', { name: 'Try review batch, then archive' }).click();
+  await page.getByRole('button', { name: /^Try direction 3/ }).click();
   await page.getByRole('button', { name: 'Archive', exact: true }).click();
   await page.getByRole('button', { name: 'Archive 4 customers' }).click();
   await stage(page, 'evaluate');
@@ -683,6 +685,16 @@ const RELAY_AS = {
   primary: 'primary', 'primary-hover': 'primary-hover', 'primary-active': 'primary-active',
   'text-on-accent': 'text-on-primary', 'text-on-primary': 'text-on-primary',
 };
+/* THE NEXT PRESS IS NOT MARKED in the direction crops. Since agent-review#65
+   (2026-10-28) Explore marks the control its move will press next, a ring
+   and a "Press this" tag drawn in the frame over Relay, until the direction
+   is tried. It is a walking aid for a visitor pressing through the stage,
+   not part of the direction, and the Evaluate pair shows the three as
+   working screens: the undo direction is tried the moment Archive is
+   pressed, so its crop never carries the mark, and the review's would,
+   over "Archive 4 customers", so the pair would not match. Hidden for the
+   crops marked `dark`, which are the direction crops. */
+const NEXT_MARK_OFF = ' .cycle__next-mark { display: none !important; }';
 const RELAY_PAIRS = [...RELAY_TOKENS.map((t) => [t, t]), ...Object.entries(RELAY_AS)];
 const RELAY_DARK =
   ` :root { ${[...RELAY_PAIRS.map(([, from]) => from), 'accent', 'accent-subtle', 'accent-border'].map((from) => `--rv-${from}: var(--color-${from});`).join(' ')} }` +
@@ -690,16 +702,16 @@ const RELAY_DARK =
   ` [data-surface='product'] .badge--accent { --badge-edge: var(--rv-accent-border); --badge-ink: var(--rv-accent); --badge-ground: var(--rv-accent-subtle); }`;
 
 async function hold(ctx, theme, zoom = 1, pad = 0, relay = false) {
-  await ctx.addInitScript(({ theme, zoom, pad, relay, RELAY_DARK }) => {
+  await ctx.addInitScript(({ theme, zoom, pad, relay, RELAY_DARK, NEXT_MARK_OFF }) => {
     const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`:root { --zoom: ${zoom} !important; ${pad ? `padding-inline: ${pad}px;` : ''} }${relay ? RELAY_DARK : ''}`);
+    sheet.replaceSync(`:root { --zoom: ${zoom} !important; ${pad ? `padding-inline: ${pad}px;` : ''} }${relay ? RELAY_DARK + NEXT_MARK_OFF : ''}`);
     document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
     /* The theme, as the app's control remembers it (useTheme.ts). Storage can
        throw on a page that is not the app's; nothing here needs it there. */
     try {
       localStorage.setItem('agent-review:theme', theme);
     } catch {}
-  }, { theme, zoom, pad, relay, RELAY_DARK });
+  }, { theme, zoom, pad, relay, RELAY_DARK, NEXT_MARK_OFF });
 }
 
 async function write(name, suffix, page, clip, expected = 1, oneTheme = false, theme = THEME) {
