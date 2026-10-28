@@ -43,7 +43,7 @@ so starting in the cloud does not commit anyone to finishing there.
 ## Git
 
 Work happens on a `claude/<task-name>` branch and lands through a pull
-request. **A merge never waits on a check.** The fast five run locally before
+request. **A merge never waits on a check.** The fast six run locally before
 the push, because they cost a second; the six browser checks run scoped to
 the page when the change is one page, and otherwise ride the post-merge run
 (below). The one change worth holding a merge for is a stylesheet more than
@@ -126,7 +126,7 @@ yes. Never force without it.
 ## A green `checks` does not mean the site updated
 
 Those are two workflows and they fail independently. `checks.yml` reports on
-the tree; `pages.yml` ships it. A commit can pass all eleven checks and never
+the tree; `pages.yml` ships it. A commit can pass all twelve checks and never
 reach the URL, and when that happens the site does not look broken. It looks
 unchanged, which is indistinguishable from a change nobody made.
 
@@ -276,6 +276,7 @@ node scripts/tokens.mjs                   # every token the docs name actually e
 node scripts/counts.mjs                   # every number the docs assert, recounted
 node scripts/seo.mjs                      # what the site tells a machine, vs the site
 node scripts/keys.mjs                     # every key idea on an article is still its h2
+node scripts/oxford.mjs                   # every list of three keeps its Oxford comma
 node scripts/resting.mjs --strict         # every color a reader can SEE, untouched
 node scripts/states.mjs --strict          # hover, focus and script-applied state
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
@@ -289,15 +290,29 @@ node scripts/states.mjs <page> --strict   # just the page you touched
 `main`, after the merge**, and on demand with `gh workflow run checks.yml
 --ref <branch>`. Nothing runs on a pull request, so nothing to wait for
 before merging; a failure opens an issue naming the commit, which by then is
-live. `tokens.mjs`, `counts.mjs` and `seo.mjs` need nothing installed and
-finish in about a second between them, so run those every time.
+live. `tokens.mjs`, `counts.mjs`, `seo.mjs`, and `oxford.mjs` need nothing
+installed and finish in about a second between them, so run those every time.
+
+**`oxford.mjs` is the sixth static check since 2026-10-28.** It holds
+VOICE.md's Oxford comma rule, "phone, store, and person," over everything a
+reader or a machine reads: every page's visible text, alt text, titles,
+descriptions, and metadata (Open Graph, Twitter, JSON-LD), plus `llms.txt`,
+the `og.mjs` registry, the `variant.mjs` registry, `VOICE.md`, `README.md`,
+and the four specs. The pattern is a heuristic, so a phrase that only looks
+like a list ("the next builder, person or agent") is allowed by name in the
+script's `ALLOW`, with its file and one line saying why. A copy change that fails it wants the
+comma, almost always; reach for the allowlist only after reading the
+sentence, and prefer rewording to excusing. Its first sweep found 308 series
+missing it across 48 files and put in about 350 commas, since a phrase
+repeats across a title, its cards, and its graph. This file is not one it
+reads.
 
 ### How much of that to run, and when
 
-The cost is not spread evenly across the eleven. `deployable.mjs`,
-`tokens.mjs`, `counts.mjs`, `seo.mjs` and `keys.mjs` finish in about a second together and
-need nothing installed. The six browser checks are the entire bill: five of
-them render every page in the tree, `typescale.mjs` renders each of them at
+The cost is not spread evenly across the twelve. `deployable.mjs`,
+`tokens.mjs`, `counts.mjs`, `seo.mjs`, `keys.mjs`, and `oxford.mjs` finish in
+about a second together and need nothing installed. The six browser checks
+are the entire bill: five of them render every page in the tree, `typescale.mjs` renders each of them at
 four widths, and `readtime.mjs` renders only the 27 pages that state a read
 time, once each, in about five seconds. Unscoped, that is minutes locally and
 was 9m11s in CI on #78.
@@ -313,8 +328,8 @@ and a check you skip because you are in a hurry.
 
 | What the change touches | Run locally |
 | --- | --- |
-| Copy, markup, SEO, images | The fast five, plus `readtime.mjs`: a page's words and pictures are what its read time counts, and all 27 take about five seconds |
-| Color, type, spacing or motion **on one page** | The fast five, plus the six browser checks scoped to that page |
+| Copy, markup, SEO, images | The fast six, plus `readtime.mjs`: a page's words and pictures are what its read time counts, and all 27 take about five seconds |
+| Color, type, spacing or motion **on one page** | The fast six, plus the six browser checks scoped to that page |
 | A stylesheet more than one page loads (`style.css`, `color.css`, `type.css`, `shell.css`) | The whole suite. This is the one worth waiting for: `gh workflow run checks.yml --ref <branch>` on the branch, rather than minutes of local browser time |
 | Anything else | Merge; the push-to-`main` run is the full sweep, and a failure opens an issue |
 
@@ -380,7 +395,7 @@ straight into the matrix because it passed the day it arrived, the condition
 `cards.mjs` waited a month for. **The browser bill is six now, and the sixth
 is the cheapest**: one load at 1440 for each page that states a read time,
 about five seconds for all 27. It is also the one browser check a copy change
-moves, which is why the table above puts it beside the fast five for copy and
+moves, which is why the table above puts it beside the fast six for copy and
 images. Adding a sentence to a page can move its label a minute, and the fix
 is `node scripts/readtime.mjs --write`, then `keys.mjs --write` for the
 writing index and `seo.mjs --write` for the dates.

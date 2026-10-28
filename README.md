@@ -2,7 +2,7 @@
 
 The live public site of Adam Hickey's independent product design practice: a
 single-page portfolio, nine case studies, four "How I work" pages, six
-articles and a design system reference. Static HTML, CSS and JavaScript, no build step and no
+articles, and a design system reference. Static HTML, CSS, and JavaScript, no build step and no
 `package.json`. The one built file is the case studies' Tailwind stylesheet,
 built once from `tailwind.config.js` into `case-study/case-tailwind.css` and
 committed (#14); the header of that config says how to rebuild it. The check
@@ -37,7 +37,7 @@ the portfolio: no "Built end to end" section, the three independently built
 products absent from the homepage and their write-ups not here at all, so
 nothing was reachable by URL. That distinction ended with #20. This tree has been
 the staging tree, page for page, since then -- fifteen pages, including Door
-County Found, Lucy Learns and While We're Here -- and since #28 it is the only
+County Found, Lucy Learns, and While We're Here -- and since #28 it is the only
 tree.
 
 That was a decision about positioning rather than about confidentiality, and
@@ -59,7 +59,7 @@ over this tree) and #147. The carry was staging's diff from #136 to #147,
 applied as a three-way merge with the live apparatus kept on every page, and
 the four browser checks measure this tree at staging's own numbers
 afterward. Among what came across: the homepage lost the four-step "How each
-of these got made" panel, the three-station proof strip and the Earlier
+of these got made" panel, the three-station proof strip, and the Earlier
 experience cards, and gained an ask at the foot of every case study (#142);
 the two career case studies are linked from About instead (#143); body copy
 is primary ink on every light ground (#147); and
@@ -119,23 +119,23 @@ the archive so that it holds everything staging ever had.
 | File | Notes |
 | --- | --- |
 | `index.html` | The homepage |
-| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the seventeen writing pages, the design system page and the two prototype pages load it |
+| `style.css` | The stylesheet; the homepage, the engagement pages, the five build write-ups, the seventeen writing pages, the design system page, and the two prototype pages load it |
 | `color.css`, `type.css`, `shell.css` | The token files, loaded by all forty pages. Color, type scale, and the page shell |
 | `site-nav.css` | The shared header, loaded by every page |
 | `cursor.js` | The custom cursor |
-| `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
-| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-three pages with prose worth hearing -- the fifteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
+| `reveal.css`, `reveal.js` | The five build write-ups arrive as they are read: every heading, paragraph, figure, and list inside a `.build-chapter` settles the site's own 20px as it comes into view. Loaded by those four and by nothing else. It decorates by class signature at runtime, like `case-study/case-motion.js` on the Tailwind pages, so no markup changed on any of the four. It is deliberately **not** `style.css`'s `.reveal`, which sets `opacity: 0` as a resting state: the five browser checks never scroll, and `resting.mjs` skips an element at opacity 0, so 28 of `index.html`'s 34 reveal blocks and 111 of its text nodes are never contrast-checked. This pair takes the contract the cockpit's own arrivals use -- a keyframe with a `from` and no `to`, styled only once the script says the block is on screen -- so an untriggered block, a page without JavaScript, and a reader who asked for no motion all see the finished page, and not one measurement moved on any of the four. Two rules it is easy to get wrong are written up in the stylesheet's header: the observer's bottom `rootMargin` must be POSITIVE so the arrival begins below the fold, and the animation must not touch opacity at all |
+| `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-three pages with prose worth hearing -- the fifteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages, and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
-| `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages and five build write-ups |
+| `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages, and five build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
-| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
-| `prototype/aisle.html`, `prototype/aisle.{css,js}` | Aisle, the From Inspiration to Aisle prototype: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. No image search, inventory system or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers eight states for it. `scripts/aisle-shots.mjs` takes its screens for the write-up, the lab index and the share cards. An independent concept: the store is made up, and no retailer's name, mark or colors appear |
+| `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters, and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
+| `prototype/aisle.html`, `prototype/aisle.{css,js}` | Aisle, the From Inspiration to Aisle prototype: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. No image search, inventory system, or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers eight states for it. `scripts/aisle-shots.mjs` takes its screens for the write-up, the lab index, and the share cards. An independent concept: the store is made up, and no retailer's name, mark, or colors appear |
 | `lab/inspiration-to-aisle.html`, `lab/inspiration-to-aisle.css`, `lab/inspiration-to-aisle.js` | The From Inspiration to Aisle write-up: the opportunity, one service map drawn in HTML so the checks read it (the journey and a simplified service blueprint on six shared moments, with a Today/Connected switch and a moment to follow down, both lanes showing without script), five assumptions made in place of research, the prototype, where the person stays in charge, the study that would test it, and a reflection. Illustrative and conceptual material is labeled as such on the figure itself |
 | `prototype/rebalance-cockpit.html`, `prototype/rebalance-cockpit.{css,js}`, `prototype/rebalance-snapshot.js` | The rebalancing cockpit: the dispatch cockpit's interface on Citi Bike's public GBFS feed, read in the reader's browser every minute, with no server and no key. It loads `dispatch-cockpit.css` whole and renders the same `.ck` markup; its own stylesheet holds only the feed line and a phone wrap. The page plays `rebalance-snapshot.js` instead of the feed when the feed does not answer, when the address carries `?snapshot`, and whenever `navigator.webdriver` is set, which is every check here, so the checks measure the same stations on every run. `scripts/rebalance-snapshot.mjs` retakes the snapshot and `scripts/rebalance-shots.mjs` the hero and the share card's picture from it |
 | `writing/*.html` | The index, the eleven articles it lists and the four it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
-| `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing and components, read off the stylesheets |
+| `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing, and components, read off the stylesheets |
 | `ab8eb2c23b8aa943256cadc405e3473d.txt` | The IndexNow key, public by design: a file at the root whose name and content are the key is how the site proves it may submit its own URLs. `node scripts/indexnow.mjs --submit` reads it and tells Bing which pages changed; see "What the site tells a machine" in `CLAUDE.md` |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | What a crawler is told, and what an assistant is told. The sitemap is generated -- `node scripts/seo.mjs --write` -- with a `lastmod` per page from git, and `node scripts/seo.mjs` fails if it stops matching the pages on disk or the dates fall behind. `llms.txt` is the site in a page of markdown for an assistant that reads that first |
 | `404.html` | What Pages serves for a miss, at any depth: root-absolute links, `noindex`, no canonical, and not one of the thirty-four. `seo.mjs` holds it to all four |
@@ -144,7 +144,7 @@ the archive so that it holds everything staging ever had.
 | `img/` | See Images |
 | `Adam Hickey Resume.pdf` | The résumé a person downloads, linked from the footer: two columns, the site's wordmark, about half the words. Rendered by `scripts/resume.mjs` |
 | `Adam Hickey Resume (detailed).pdf` | The same facts in one column, written to be parsed; what `llms.txt` points an assistant at, and the base every tailored variant is cut from. `node scripts/resume.mjs --full` |
-| `scripts/variant.mjs` | Reorders the homepage's four cards, six facts and dek, and the writing index's collections and articles, to lead with one of three proofs -- craft, substance or AI -- and puts them back. The three orderings live in the private practice-hq repository, in `site-variants/`, beside the résumé variants and for the same reason; the base ordering (craft, on main since #177 and #178, its cards put back to ambiguity-first and prototype-last on 2026-09-17) lives in the script, so the site can always restore itself. A variant moves no text node and no rule, so every count the checks print is the same either side, and the script refuses to write a result whose block counts moved |
+| `scripts/variant.mjs` | Reorders the homepage's four cards, six facts, and dek, and the writing index's collections and articles, to lead with one of three proofs -- craft, substance, or AI -- and puts them back. The three orderings live in the private practice-hq repository, in `site-variants/`, beside the résumé variants and for the same reason; the base ordering (craft, on main since #177 and #178, its cards put back to ambiguity-first and prototype-last on 2026-09-17) lives in the script, so the site can always restore itself. A variant moves no text node and no rule, so every count the checks print is the same either side, and the script refuses to write a result whose block counts moved |
 | `TYPOGRAPHY.md`, `COLOR.md`, `SPACING.md`, `MOTION.md` | The four normative specs. The check scripts read them as rules and this tree as evidence |
 | `CNAME`, `.nojekyll` | Pages configuration: the custom domain, and no Jekyll pass over the tree |
 | `.github/workflows/` | `pages.yml` deploys, `checks.yml` reports; see below |
@@ -154,7 +154,7 @@ the archive so that it holds everything staging ever had.
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
 an eyebrow naming the role, the search ("Open to remote or hybrid roles" since
-2026-10-24), two buttons and a résumé link, the six-item proof strip
+2026-10-24), two buttons and a résumé link, the six-item proof strip,
 and the client logos) → Selected work (the three client case studies first
 since 2026-10-23 -- SAP, USDA, and since 2026-10-26 the Innovators Studio
 identity where dispatch was -- with no label over them since
@@ -177,7 +177,7 @@ book and the shelf out of the proof; the page argues for one thing first,
 hiring Adam onto a team. Since 2026-09-17 the four cards open the pages
 under `engagement/` again, reworked from the engagement pages into one page
 per card; from #129 to then they linked straight to the accounts. The header carries Work, How I
-Work, Writing, About and Contact, an email icon and a LinkedIn icon, and every
+Work, Writing, About and Contact, an email icon, and a LinkedIn icon, and every
 page loads it from `site-nav.css`.
 
 ## The pages, by family
@@ -191,7 +191,7 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon and the skip link are hand-written into all forty-two pages, so a
+email icon, and the skip link are hand-written into all forty-two pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
@@ -209,7 +209,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 3 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, since 2026-10-27 its interface on live Citi Bike data, the rebalancing cockpit, and since 2026-10-28 Aisle, the phone-sized prototype of From Inspiration to Aisle, on sample data. The deploy console was a second until 2026-10-23. |
-| Lab | 4 | A | The index of the experiments in React, AI-assisted prototyping and component systems, the Agent Review case study, since 2026-10-28 From Inspiration to Aisle, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The rebalancing cockpit is listed there too, at its own address, in the dispatch cockpit's place since 2026-10-27. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
+| Lab | 4 | A | The index of the experiments in React, AI-assisted prototyping, and component systems, the Agent Review case study, since 2026-10-28 From Inspiration to Aisle, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The rebalancing cockpit is listed there too, at its own address, in the dispatch cockpit's place since 2026-10-27. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
 
 **Homepage** -- `index.html`
@@ -237,7 +237,7 @@ tree it sits in, so every number in it is one a check here prints.
 404".
 
 **Writing** -- `writing/index.html` and the articles beside it. No fact
-block; an article has no four facts to state. The kicker, the title and a dek
+block; an article has no four facts to state. The kicker, the title, and a dek
 that is the article's whole answer in three or four sentences, then the essay
 on the `.writing-measure` column, then one line naming the engagement it
 describes and the account it draws on, the next article, and the way back. The
@@ -282,7 +282,7 @@ needs to explain to an agent" took the design-engineer article's place at
 its head: what a coding agent can build from components and tokens, what
 it still cannot know about meaning, and where a reviewer's answer should
 be kept, worked through Agent Review. The design-engineer article was not
-retired. It keeps its address, its sitemap entry and the links into it,
+retired. It keeps its address, its sitemap entry, and the links into it,
 and is simply no longer listed, so the family is eleven pages and the
 index still shows nine. `keys.mjs` names it in an UNLISTED set and holds
 the index to not carrying it. The new article has one drawing rather than
@@ -296,7 +296,7 @@ took its three words: **The system** (what people and agents build from),
 **The build** (designing in working software) and **The judgment** (where a
 person decides). Three articles came in, one at the head of each, written
 from three research essays on how designers at Netflix, Atlassian,
-Justworks, Adobe and elsewhere are working now, every outside claim checked
+Justworks, Adobe, and elsewhere are working now, every outside claim checked
 against its primary source the same day: what changes when AI agents join
 the product team, what a product designer is for when anyone can build, and
 who decides when software can act on its own. Three went off the index and
@@ -339,17 +339,17 @@ trimmed off them, on the case-study shell at the root. The homepage's
 
 **Prototypes** -- `prototype/dispatch-cockpit.html` and, since 2026-10-27,
 `prototype/rebalance-cockpit.html`. Working demos rather than write-ups: the
-first wraps a vanilla HTML, CSS and JavaScript cockpit in the problem it
+first wraps a vanilla HTML, CSS, and JavaScript cockpit in the problem it
 answers, five design decisions, and what would be tested next; the second
 points the same interface at a public live feed, and says what changed when
 the data got real.
 
-**Lab** -- `lab/index.html`, `lab/agent-review.html` and, since 2026-10-21,
+**Lab** -- `lab/index.html`, `lab/agent-review.html`, and, since 2026-10-21,
 `lab/designing-motion.html`, the homepage's former scroll story, an
 exploration rather than a test; the lab index listed it last until
 2026-10-28, and it stays at its address, unlisted. The tenth family,
 since 2026-10-01: the door to the experiments in React, AI-assisted
-prototyping and component systems, and the first flagship's case study.
+prototyping, and component systems, and the first flagship's case study.
 The product the case study is about, Agent Review, is a React and
 Storybook project in its own public repository
 (`adamdhickey-collab/agent-review`), deployed by its own workflow to
@@ -388,9 +388,9 @@ at a phone's width was a quarter of the screen.
 
 The write-up opens on "Would you ship this?" over Relay's customer list,
 a batch selected for archiving, since the evening of 2026-10-26, so the
-opener, the pictures under it, the prototype's first screen and the
+opener, the pictures under it, the prototype's first screen, and the
 homepage card follow one feature. Since the same night those pictures are
-the prototype's own: agent-review draws each stage, the opener's batch and
+the prototype's own: agent-review draws each stage, the opener's batch, and
 the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
 `scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
 The three directions side by side (`three`) are the lab index's card.
@@ -409,7 +409,7 @@ the earlier run 1's color example, which opened the page from 2026-10-12
 and was the homepage card's picture until 2026-10-20; its connector,
 `same-red.js`, and its rules in `style.css` went with it. On 2026-10-21, at
 Adam's request, the guided tour under the hero came out entirely: the
-`<details>` tour, `walkthrough.css`, `walkthrough.js` and the
+`<details>` tour, `walkthrough.css`, `walkthrough.js`, and the
 `img/lab/agent-review-tour-*.webp` captures it stepped through. From
 2026-10-08 it listed seven steps beside the product in a tablet, in the
 order their parts sit on the screen, each opening as the reader scrolled to
@@ -456,25 +456,25 @@ search engine it sat under Work.
 until 2026-10-23: the cockpit's arrangement applied to a developer's bad
 day, a deploy console named Rollcall, on synthetic data. It came off the
 site on 2026-10-23, with its stylesheet, its script, `img/console/`, its
-share card and its two capture scripts, and the pages that linked to it
+share card, and its two capture scripts, and the pages that linked to it
 were rewritten to stand without it. Git history has all of it.
 
 ### Images
 
 | Folder | Holds |
 | --- | --- |
-| `img/site/` | Case-study screens, client logos and the built-step drawings, the bulk of the folder |
+| `img/site/` | Case-study screens, client logos, and the built-step drawings, the bulk of the folder |
 | `img/about/` | Three photographs, each as a 600x450 frame thumbnail and a full size the lightbox fetches only when opened |
-| `img/engagement/` | The four card still lifes at 1080x720, each "How I work" page's hero, and the numbered step drawings (the four invitation drawings went with the invitation band on 2026-09-17). **The four card pictures are the still lifes again since 2026-09-17**: `01-clarity`, `02-system`, `03-embedded` and `04-ai` are the homepage's "How I work" grid, real objects on an office theme, each on its own wall, at this folder's 3:2 and 1080x720, the bytes the archive's #77 and #104 left them at. From #135 to then they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut to 16:9 (#150); that registry stays, and nothing on the site loads its output now. They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
-| `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. One picture carries a third, on purpose: the agent article's feature (2026-10-08) pins a small card in muted ochre `#D4A548`, a deeper sibling of the butter, to one of two identical slate panels, because its brief asked for ink-blue, cream and a small ochre; the job says so in its own colour line (`colours` in `writing-features.mjs`) The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct **Rail tiles, since 2026-10-20, are a third kind and a different hand**: `<slug>-<figure>-<n>.webp` at 360x240, the drawings of a rail figure (`.writing-rail` in `style.css`), small wordless interface glyphs on white in the sage line of Agent Review's learning loop, with rose only where a person reads or decides. Each figure is one 3 x 2 sheet drawn in ChatGPT, filed by `draw.mjs sheet <name>` to `img/inbox/<name>-sheet.png` (kept local) and cut by `draw.mjs slice` to tiles at one shared scale; every word of the figure is the page's text and every tile is `alt=""`. |
+| `img/engagement/` | The four card still lifes at 1080x720, each "How I work" page's hero, and the numbered step drawings (the four invitation drawings went with the invitation band on 2026-09-17). **The four card pictures are the still lifes again since 2026-09-17**: `01-clarity`, `02-system`, `03-embedded`, and `04-ai` are the homepage's "How I work" grid, real objects on an office theme, each on its own wall, at this folder's 3:2 and 1080x720, the bytes the archive's #77 and #104 left them at. From #135 to then they were redrawn in the writing set's hand -- flat vector, one everyday object cropped by the frame -- from `scripts/proof-cards.mjs` through `scripts/draw.mjs --set proof`, cut to 16:9 (#150); that registry stays, and nothing on the site loads its output now. They keep their paths because only the homepage loads them. Everything else in the folder is still the engagement spec below. The retired brand page's drawings stay, as part of the set. The Whole Thing's six went to the archive on 2026-09-08: no page here loads them, they were the one set never solved to its hero, and `adamhickey-next` holds them at the bytes they left with |
+| `img/writing/` | Two drawings per article in one hand: the feature, stored as the 1600x900 picture under the article's dek and the 640x360 card beside its entry on the index, both cut from one source through `scripts/illustrate.mjs feature` and `card`, prompts in `scripts/writing-features.mjs`; and `<slug>-2.webp`, the same object seen again for the argument's second half, at 1600x900 in the body, from `scripts/writing-scenes.mjs`. Both go through `scripts/draw.mjs`, which takes `--set features` for the first. The hand is a magazine lead's rather than a diagram's, after the grammar The Atlantic's art department uses: the essay's most literal noun with the essay's verb performed on it once, drawn as one everyday object bigger than the frame, flat vector with a single outline weight on a putty-cream ground, black used as a solid shape (a strap, a cord, a shadow) and never as shading, no people, no text. The reference is `img/inbox/reference-binoculars.png`, tracked by name. Four passes before this one were diagrams of the argument, and the card at about 300 CSS pixels is what showed it. **A feature's accent colour is its section on the index** -- sage `#657d60` for AI in the workflow, slate `#56718c` for Systems and teams, terracotta `#c0714e` for Getting to a release -- so `draw.mjs take` measures the dominant hue of what came back (`scripts/lib/accent.mjs`) and says which group it landed in; three of each ten flip it, a cream object on the full accent field. Two colours beyond the accent, butter yellow `#F0DF7C` and dusty rose `#D9A3B4`, are allowed only inside a reveal, a small second picture inside the object, and never as the object, so the hue measurement still finds the section. One picture carries a third, on purpose: the agent article's feature (2026-10-08) pins a small card in muted ochre `#D4A548`, a deeper sibling of the butter, to one of two identical slate panels, because its brief asked for ink-blue, cream, and a small ochre; the job says so in its own colour line (`colours` in `writing-features.mjs`) The engagement set's luminance band does not govern these; `illustrate.mjs` will flag the cream-ground pictures bright and the accent-field pictures dark, and both are correct **Rail tiles, since 2026-10-20, are a third kind and a different hand**: `<slug>-<figure>-<n>.webp` at 360x240, the drawings of a rail figure (`.writing-rail` in `style.css`), small wordless interface glyphs on white in the sage line of Agent Review's learning loop, with rose only where a person reads or decides. Each figure is one 3 x 2 sheet drawn in ChatGPT, filed by `draw.mjs sheet <name>` to `img/inbox/<name>-sheet.png` (kept local) and cut by `draw.mjs slice` to tiles at one shared scale; every word of the figure is the page's text and every tile is `alt=""`. |
 | `img/shelf/` | The four shelf cards |
 | `img/og/` | The share cards, one per page, rendered by `scripts/og.mjs` from the page's title and its own picture. The homepage's is `index.jpg`, and the design system page, which has no card of its own, points at that one. Until 2026-09-17 the homepage kept a hand-drawn `img/og-card.jpg`; it named the independent practice a week after the site stopped, and went the day the eyebrow moved to Senior |
-| `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up and the prototype engagement page |
+| `img/products/` | The Built end to end product shots, used by the homepage, the Lucy Learns write-up, and the prototype engagement page |
 | `img/cockpit/` | The dispatch cockpit prototype page's pictures: six crops of the running prototype, captured by `scripts/cockpit-shots.mjs` so a restyle of the cockpit is one run rather than an afternoon of screenshots, and two drawings of the room it is used in, cut to the writing features' 16:9 through `scripts/illustrate.mjs feature` |
-| `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
+| `img/dcf/`, `img/lucy/`, `img/wwh/` | One folder per build write-up: Door County Found captures, Lucy Learns phone screens, and art-era scenes, While We're Here book photographs. The first two are captured by `scripts/dcf.mjs` and `scripts/lucy.mjs` from sibling checkouts on the Mac, so a restyle there is one run rather than an afternoon of screenshots |
 | `img/casework/` | One image, on the Hybrid Designer page |
 | `img/hero-portrait.mp4` | The hero clip |
-| the rest of `img/` | Two portrait stills, the CBRE logo, the favicons, the touch icon and `icon-192` / `icon-512` |
+| the rest of `img/` | Two portrait stills, the CBRE logo, the favicons, the touch icon, and `icon-192` / `icon-512` |
 
 Two things are worth knowing before swapping any of them out.
 
@@ -490,7 +490,7 @@ replacement has to match it or the set stops reading as a set: flat vector on
 a warm cream ground, muted sage / charcoal-navy / slate with a single
 terracotta accent, paper grain, no text anywhere in the image. 3:2 at
 1080x720, and they go in through `scripts/illustrate.mjs`, which crops,
-resamples, lifts and solves a hero's wall against the charcoal. **This spec
+resamples, lifts, and solves a hero's wall against the charcoal. **This spec
 governs the heroes and the step drawings; the four homepage cards are the
 still lifes**, real objects on their own walls rather than drawings, and
 are not held to it. From #135 to 2026-09-17 they were drawings in the
@@ -510,7 +510,7 @@ others, measure where its ink starts, and set the `viewBox` x to that
 minus 31.86. Drop one in at `viewBox="0 0 200 98"` and its mark upstairs
 will miss it by however much whitespace the file happens to carry.
 
-Cache-busters: the stylesheets, the images and the hero clip are loaded with a
+Cache-busters: the stylesheets, the images, and the hero clip are loaded with a
 `?v=` query, and it gets bumped whenever the bytes at a path change, because
 the path alone will not tell a browser anything moved.
 
@@ -525,9 +525,9 @@ which was worse; #151 settled on checking after the merge, where the runner
 waits instead of a person, and opening an issue when a leg goes red. It
 reports and deploys nothing; the two workflows are separate on purpose so a failing check
 reads as a failing check rather than as a failed deploy. It is the eight
-scripts that came across from staging with #20, three written here
-(`keys.mjs`, `cards.mjs` and `readtime.mjs`), and the two Tailwind steps this
-repository had first, thirteen steps in all:
+scripts that came across from staging with #20, four written here
+(`keys.mjs`, `cards.mjs`, `readtime.mjs`, and `oxford.mjs`), and the two
+Tailwind steps this repository had first, fourteen steps in all:
 
 - **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
   nothing tracked that `.gitignore` matches, because the Pages artifact is a
@@ -538,7 +538,7 @@ repository had first, thirteen steps in all:
 - **Every counted claim still counts** -- `counts.mjs`. The numbers the specs
   and this file assert, recounted from the tree.
 - **What the site tells a machine still matches the site** -- `seo.mjs`. A
-  canonical, an Open Graph card and a JSON-LD graph per page, and a sitemap
+  canonical, an Open Graph card, and a JSON-LD graph per page, and a sitemap
   listing every page once with a `lastmod` that agrees with the page's own
   `dateModified` and is within a fortnight of the file's last commit; every
   FAQ question in a page's graph is on the page in words; and `404.html` is
@@ -549,6 +549,14 @@ repository had first, thirteen steps in all:
   dek and as the eyebrow over each section, and the last two are written
   from the first. A heading reworded without `--write` is a list naming a
   section the page no longer has.
+- **Every list of three keeps its Oxford comma** -- `oxford.mjs`. VOICE.md's
+  rule, "phone, store, and person," held over every page's visible text,
+  alt text, titles, descriptions, and metadata (Open Graph, Twitter,
+  JSON-LD), plus `llms.txt`, the `og.mjs` registry, the `variant.mjs`
+  registry, this file, and the four specs. A
+  phrase that only looks like a list is allowed by name in the script, with
+  its file and one line saying why, and an entry nothing matches any more
+  fails.
 - **The built Tailwind stylesheet is current.** It rebuilds from
   `tailwind.config.js` and the markup and compares; when the bytes differ it
   reports at the class level, which selectors the markup uses that the
@@ -577,9 +585,9 @@ repository had first, thirteen steps in all:
 checks learned to press things. They load a page, wait for it to settle and
 measure what is there, which is the whole of twenty-eight of the thirty
 pages -- and about a sixth of each page under `prototype/`: the cockpit renders
-its comparison, its override question, its refused button and its opened rows
+its comparison, its override question, its refused button, and its opened rows
 from JavaScript in response to a press, and the deploy console its failed
-build, its reading, its rollback plan and its rolled-back rows. Twelve such states existed in no DOM
+build, its reading, its rollback plan, and its rolled-back rows. Twelve such states existed in no DOM
 any check ever saw, so every `querySelector` for them came back empty and every
 check said "✓" in good conscience.
 
@@ -616,9 +624,9 @@ comparison is a `<table>` -- hovering its Assign button kept the near-white ink
 and swapped the accent green for a pale wash. Measured on a real pointer:
 5.32:1 at rest, 1.29:1 under the cursor.
 
-The five static checks need nothing installed and report before anything
+The six static checks need nothing installed and report before anything
 is; the browser checks use the runner image's Chrome and fall back to
-fetching Chromium. Locally, the same eleven scripts:
+fetching Chromium. Locally, the same twelve scripts:
 
 ```
 npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
@@ -628,6 +636,7 @@ node scripts/tokens.mjs                   # every token the docs name actually e
 node scripts/counts.mjs                   # every number the docs assert, recounted
 node scripts/seo.mjs                      # what the site tells a machine, vs the site
 node scripts/keys.mjs                     # every key idea on an article is still its h2
+node scripts/oxford.mjs                   # every list of three keeps its Oxford comma
 node scripts/resting.mjs --strict         # every color a reader can see, untouched
 node scripts/states.mjs --strict          # hover, focus and script-applied state
 node scripts/typescale.mjs                # every rendered size against the fourteen steps
@@ -637,10 +646,10 @@ node scripts/readtime.mjs                 # every read time against its page's w
 ```
 
 `CHROME` has to name a browser that exists, and the scripts check. Each
-prints the path, page count and commit it measured before doing anything
+prints the path, page count, and commit it measured before doing anything
 else; read that line first, because a wrong target you cannot see is a false
 result. At #62 the four browser checks measure 3335 resting colors, 1627
-state rules, 14172 type sizes and 7871 elements checked for a partial
+state rules, 14172 type sizes, and 7871 elements checked for a partial
 border, across twenty-nine pages (thirty since the deploy console): the twenty-eight of the site as it then stood and `404.html`, which
 the browser checks measure and the inventory does not count. Nothing
 verifies those four numbers; treat them as a tripwire, and a run that comes back materially smaller means something
@@ -670,7 +679,7 @@ Analytics tag `G-BLY8X4YCNK` on every page. Staging's pages carried the reverse,
 `noindex` meta marked `STAGING ONLY` and a `STAGING NOTE` comment where the
 tag would be, so a page lifted from the archive needs those two swapped
 before it merges. Every page names its https://adamhickey.com/ address
-absolutely in the canonical link, the Open Graph card and the JSON-LD graph,
+absolutely in the canonical link, the Open Graph card, and the JSON-LD graph,
 `seo.mjs` holds each page to it, and the sitemap it generates lists the
 thirty-four live addresses, each dated. Every case study's and every article's
 Article carries `datePublished`, the date the page first existed at its
@@ -689,7 +698,7 @@ the one word a hiring manager reads as a permanent commitment to consulting,
 and every head term survives without it. The description and the Person's `knowsAbout`
 say the same five things the practice wants to be found for: complex
 enterprise software, enterprise design systems, legacy modernization, AI
-product prototyping and agentic workflows (since 2026-10-06, where it said
+product prototyping, and agentic workflows (since 2026-10-06, where it said
 AI-supported decision workflows), embedded senior product design. `seo.mjs` holds each
 page's `og:title` to its `<title>`, and the share cards `og.mjs` renders
 carry the h1's name, since a feed is where the name is the thing to
@@ -714,7 +723,7 @@ recognize.
 All internal links and assets are **relative** (no root-absolute `/...`
 paths), so the same files work from a subpath, as they did on the staging
 host, and from this root domain. The exceptions are the addresses a machine reads: `og:image`,
-`og:url`, the canonical link and the structured data, which scrapers do not
+`og:url`, the canonical link, and the structured data, which scrapers do not
 resolve relatively, and so name https://adamhickey.com/ explicitly.
 
 ## History worth knowing
@@ -734,7 +743,7 @@ are the way they are:
 | #17 | The résumé catches up with staging, and gets a source there |
 | #18 | This file's Deployment section stops claiming the repository publishes nothing |
 | #19 | This file describes this repository, not the one it was copied from |
-| #20 | The live site catches up with staging at its #136: fifteen pages, the four specs, the scripts, canonicals and structured data on every page; the brand page retired; `noindex` gone |
+| #20 | The live site catches up with staging at its #136: fifteen pages, the four specs, the scripts, canonicals, and structured data on every page; the brand page retired; `noindex` gone |
 | #21 | American English throughout, the same sweep as staging's #145 |
 | #22 | This file describes the tree #20 left behind, and `counts.mjs` stops asking how many pages the live site carries |
 | #23 | `checks.yml` runs all seven scripts, not just the two Tailwind steps, and `pages.yml` refuses a tree it cannot tar |
@@ -748,4 +757,4 @@ are the way they are:
 | #32 | The homepage and the four engagement pages are titled in the words a buyer searches, the h1s keep their names, the Person says what it knows, and the site can tell Bing what changed through IndexNow |
 | #34 | The Writing family comes back, as search doors: an index and six articles, each answering a buyer's question in its first paragraph and ending on the engagement it describes and the account it draws on; twenty-two pages in seven families |
 | #59 | Three articles on operational work in positions two to four -- the moment a workflow breaks, AI that helps someone decide rather than only answer, and a request carried through to a release; the opening article closes on the account rather than the engagement, and the index lede leads with the three; twenty-five pages in seven families |
-| #62 | The first Prototypes page: a self-directed dispatch cockpit on synthetic data, vanilla HTML, CSS and JavaScript in its own directory, arguing in four working states that people skip verifying a recommendation when they can predict its misses; the AI article and the Working Product Prototype page link to it; twenty-six pages in eight families |
+| #62 | The first Prototypes page: a self-directed dispatch cockpit on synthetic data, vanilla HTML, CSS, and JavaScript in its own directory, arguing in four working states that people skip verifying a recommendation when they can predict its misses; the AI article and the Working Product Prototype page link to it; twenty-six pages in eight families |
