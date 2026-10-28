@@ -171,27 +171,42 @@ export const REACHABLE = {
   /* The Shortlist prototype draws every screen after the
      first from JavaScript in response to a press (prototype/aisle.js), so
      without these the checks would measure the photo and call that the
-     app. One state per screen, plus the three things a screen can carry
-     that its plain load does not: a match's reasons open, a lamp hidden
-     with its Undo line, and the comparison data table. The presses are the
-     app's data-* hooks, the same ones scripts/aisle-shots.mjs uses. */
+     app. One state per screen, plus the things a screen can carry that its
+     plain load does not: the preference asked under the photo, a match's
+     reasons open, a lamp hidden with its Undo line, the comparison data
+     table with the preferred row first, the two kinds of missing lamp,
+     the sharing choice, and the request with somebody free and with
+     nobody. The presses are the app's data-* hooks, the same ones
+     scripts/aisle-shots.mjs and scripts/aisle-test.mjs use. */
   'prototype/aisle.html': [
+    { name: 'what the shopper liked, picked',
+      press: ['[data-pref="legs"]'] },
     { name: 'the four matches, one opened to its reasons',
       press: ['[data-go="results"]', '[data-why="hollis"]'] },
+    { name: 'the matches, checked on what the shopper liked',
+      press: ['[data-pref="legs"]', '[data-go="results"]'] },
     { name: 'a match hidden, with its Undo line',
       press: ['[data-go="results"]', '[data-reject="rowan"]'] },
     { name: 'two lamps saved',
       press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]'] },
     { name: 'the trip planned, with a stale count',
       press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
-    { name: 'in the store, compared',
-      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
+    { name: 'in the store, compared, what the shopper liked first',
+      press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
+    { name: 'four lamps across three aisles, compared',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-save="rowan"]', '[data-save="linden"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
     { name: 'a lamp not on the shelf',
-      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="missing"]'] },
+      press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-missing="bexley"]'] },
+    { name: 'a lamp not found that the count says is there',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-missing="hollis"]'] },
+    { name: 'asking for help, choosing what to share',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-missing="bexley"]', '[data-go="help"]'] },
     { name: 'a person joins',
-      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]'] },
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-send]'] },
+    { name: 'nobody free, the request kept open',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-send]', '[data-staff]'] },
     { name: 'the trip, done',
-      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-go="done"]'] },
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-send]', '[data-outcome="helped"]'] },
   ],
 
   /* The rebalancing cockpit renders from data, and the checks always get
