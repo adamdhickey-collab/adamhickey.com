@@ -23,7 +23,7 @@
  *   aisle-card.webp
  *     The lab index's card, 1600x900: the trip's two ends side by side, the
  *     photo at the friend's house and the two lamps in the aisle, each the app's own
- *     content from its title down, flat on white cards on the tea-light
+ *     content from its title down, flat on white cards on the charcoal
  *     ground, no phone shells. At the card's 18rem a phone's screen is too
  *     small to read; two panels at 1.8x are not. It replaced a trio of
  *     staggered phones (2026-10-28) whose words could not be read at that
@@ -156,7 +156,7 @@ if (!only.length || only.some((o) => 'card'.includes(o))) {
     <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/style.css">
     <style>
       html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; }
-      body { background: var(--color-tea-light); display: flex; align-items: center; justify-content: center; gap: 56px; }
+      body { background: var(--color-charcoal); display: flex; align-items: center; justify-content: center; gap: 56px; }
       .pn { box-sizing: content-box; width: ${WIDTH * K}px; height: ${tall}px; padding: 36px 0; overflow: hidden;
             background: var(--color-white); border: 2px solid var(--rule-card); border-radius: 28px; box-shadow: var(--shadow-card); }
       .pn img { display: block; width: 100%; }
