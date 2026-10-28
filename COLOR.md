@@ -126,7 +126,7 @@ page, and a line answers to 3:1.
 
 The rail's card takes a ground that is not slate's: `--color-gray-light`,
 `#f5f5f5`, a fill under ink and never a line. On it charcoal reads 14.06,
-muted-gray 5.93, accent-text 5.34 and caution-text 5.91, and the card stands
+muted-gray 5.93, accent-text 5.34, and caution-text 5.91, and the card stands
 1.09 off a white page. The card went warm, then `--color-slate-light`
 (`#f3f6f8`, 2026-10-23, after warm read as tan behind the drawings), and on
 2026-10-27 this gray, when the slate tint read as blue (Adam: "can we make
@@ -183,7 +183,7 @@ already declaring — the same shape as the ink rule in §3, *decide from the
 ground*. Eleven surfaces: the skip link, the footer, `.problems`,
 `.still-evolving`, `.eng3-hero`, `.eng3-one`, `.build-chapter.ground-charcoal`,
 the read-aloud player, the design system's dark demo, and the cockpit's
-selected tab, pressed density button and table head.
+selected tab, pressed density button, and table head.
 
 The ring on the dark band goes **3.40:1 → 7.47:1**. One of those eleven had
 noticed the problem before and fixed it for links and not for buttons; the
@@ -261,7 +261,7 @@ border does composite over the card's own fill — that part is right, and it
 is why `--rule-hairline` may never be spent on an outer edge. But the fix is
 not to abandon the tint for an opaque swatch; it is to pick the **alpha the
 composite needs**. `--rule-card` is charcoal at 24%, which over a white card
-paints `rgb(203,203,203)` and reads 1.48:1 on warm, 1.37 on tea-light and
+paints `rgb(203,203,203)` and reads 1.48:1 on warm, 1.37 on tea-light, and
 1.28 on muted-light. At 22% it lands on 1.42 / 1.31 / 1.23 — the opaque
 `--color-rule`'s own row to within a hundredth, the same line by the numbers
 — and 24% is a shade over it with room to spare.
@@ -603,7 +603,7 @@ of them on the reference page's own chrome. The site's shadows were, in
 practice, entirely hand-written.
 
 Five of them were the same lifted-screen idea written five ways —
-`.build-hero-img`, `.build-phone`, `.mini-phone`, `.product-shot` and the case
+`.build-hero-img`, `.build-phone`, `.mini-phone`, `.product-shot`, and the case
 studies' hero image — drifting a little in offset and alpha each time. And
 four different near-blacks were in use as shadow bases (`#000`, `#111111`,
 `#1b1d1a`, `#252525`), which differ by less than a shadow at 8% opacity can
@@ -639,7 +639,7 @@ The only honest method is to render the page, hide the glyphs, screenshot the
 box they occupied, and take the ratio against the **lightest pixel** in it,
 because that is where white type is weakest.
 
-Measured that way against the still illustration, at 390, 768 and 1440px, the
+Measured that way against the still illustration, at 390, 768, and 1440px, the
 caption's worst single pixel was 4.47:1 and its mean about 16:1. It cleared the
 floor by 0.03.
 
@@ -688,7 +688,7 @@ does — and now something re-measures for you.
 
 ## 6. Artwork is not interface
 
-The flight-story scene, the engagement illustrations, the product screenshots
+The flight-story scene, the engagement illustrations, the product screenshots,
 and the book cover carry colors this palette does not name and should not:
 terracotta `#c0714e`, slate `#56718c`, the device chrome `#1b1d22`, and the
 scene's own accents. That is correct. An illustration is allowed its own
@@ -726,7 +726,7 @@ true and is now unnecessary: `color.css` is on all fifteen pages, so a color
 token always resolves.
 
 **The four non-color fallbacks are gone too**, in step 8. `--nav-height`,
-`--ease` and `--container-max` moved to `shell.css` and `--font-sans` to
+`--ease`, and `--container-max` moved to `shell.css` and `--font-sans` to
 `type.css`, so `site-nav.css` no longer has a single `var()` fallback: every
 token it names is on every page that loads it. They happened to match, so
 nothing looked wrong — but change `--nav-height` and the shared header would
@@ -737,7 +737,7 @@ architecture.
 ### Two more sets that are outside the palette on purpose
 
 **The story section's four grounds.** `#eaeee2`, `#d7e1c6`, `#c4d5d2`,
-`#ded7ca` — a pale green, a light sage, a muted blue-green and a warm greige,
+`#ded7ca` — a pale green, a light sage, a muted blue-green, and a warm greige,
 which the section drifts through as you scroll. They are an *environment*, not
 chrome: a designed sequence with its own rationale, written in `style.css`
 next to the rule that uses them. Snapping them onto the palette would flatten
@@ -774,7 +774,7 @@ around it, as a screenshot of one is.
 loop on `lab/agent-review.html` sit under one drawing in code, a line the
 change travels along, in place of six drawings. It is artwork by this
 section's rule, and its colours are the drawings' rather than the
-interface's: the palette's sage, inks and lines, plus butter yellow
+interface's: the palette's sage, inks, and lines, plus butter yellow
 `#f0df7c` and dusty rose `#d9a3b4`, the two accents the README's style spec
 already allows the drawings. They are `--rl-butter` and `--rl-rose`,
 declared on `.ar-rail` in `lab/agent-review.css` and nowhere else, with the
@@ -804,8 +804,8 @@ change of decision.
 light", ported from the shop theme into `case-study/faunaform-day.css`: seven
 skies, each hour's sun on one arc, the scenes on one horizon. Its colours
 are the prints' inks, so they are artwork by this section's rule. Each hour
-has a sky, a sun and a light ink, declared on `.ffd` only as
-`--ffd-<animal>-sky`, `-sun` and `-light` (the owl's sky `#475687` through
+has a sky, a sun, and a light ink, declared on `.ffd` only as
+`--ffd-<animal>-sky`, `-sun`, and `-light` (the owl's sky `#475687` through
 the hare's `#455284`; the file's header lists all twenty), with the paper
 `--ffd-paper` `#fbfaf7`. None of them carries text: the hours and the
 animals' names are set under the skies on the page's white, in the site's
@@ -817,7 +817,7 @@ on the darkest sky and 6.2:1 on white.
 
 ## 7. What the code does today
 
-An audit of `style.css`, `site-nav.css`, `ds.css`, `case-motion.css` and all
+An audit of `style.css`, `site-nav.css`, `ds.css`, `case-motion.css`, and all
 fifteen pages, run before this document was written.
 
 > **Stale as written; kept for the shape of the problem.** The counts below
@@ -862,7 +862,7 @@ day, the homepage's two paragraphs in `--color-muted-gray` — the hero's
 promise line and the identity shelf's intro — went to charcoal for the same
 reason. The rule that came out of it: a sentence a reader is meant to take
 in is primary ink on every light ground; the secondary gray is for captions,
-labels, stats and the read-time line.
+labels, stats, and the read-time line.
 
 ### A retired color that never left — finished in step 3
 
@@ -944,7 +944,7 @@ Pure black's eleven alphas are all shadows, and are step 5's problem.
 ### Six near-blacks — four of them gone
 
 `#252525`, `#000000`, `#141412`, `#1b1d1a`, `#111111`, `#10110f` were all in
-use as base colors. `#1b1d1a`, `#111111` and the shadow uses of `#252525`
+use as base colors. `#1b1d1a`, `#111111`, and the shadow uses of `#252525`
 were shadow bases and went to `--color-black` in step 5, which is the one
 place a pure black belongs. `#141412` and `#10110f` remain: both are scrims —
 the lightbox backdrop and the hero caption veil — and they are step 6's.
@@ -1037,7 +1037,7 @@ time. So the extraction comes first here, not sixth.
 ### A note on measuring this
 
 Step 1 should change nothing, and proving that meant reading `color`,
-`background-color`, `border-color`, `outline-color`, `fill` and `stroke` off
+`background-color`, `border-color`, `outline-color`, `fill`, and `stroke` off
 every element on every page — 34,867 values — before and after.
 
 Four came back different, all on one element. It turned out to be
