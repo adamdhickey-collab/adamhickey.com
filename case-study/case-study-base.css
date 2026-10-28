@@ -649,14 +649,14 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   .svc-stages { gap: 0; column-gap: var(--space-md); grid-template-columns: 9rem repeat(var(--svc-stages), minmax(0, 1fr)); }
   .svc-stage, .svc-lanes, .svc-lane { display: contents; }
   .svc-map .svc-stage-name {
-    grid-row: 1;
+    grid-row: 2;
     grid-column: calc(var(--svc-i) + 2);
     margin: 0;
     padding-bottom: var(--space-sm);
     border-bottom: 1px solid var(--rule-strong);
   }
   .svc-lane dt {
-    grid-row: calc(var(--svc-lane) + 1);
+    grid-row: calc(var(--svc-lane) + 2);
     grid-column: 1;
     padding: var(--space-sm) 0;
     border-bottom: 1px solid var(--rule-hairline);
@@ -673,7 +673,7 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
     border: 0;
   }
   .svc-lane dd {
-    grid-row: calc(var(--svc-lane) + 1);
+    grid-row: calc(var(--svc-lane) + 2);
     grid-column: calc(var(--svc-i) + 2);
     padding: var(--space-sm) 0;
     border-bottom: 1px solid var(--rule-hairline);
@@ -726,8 +726,8 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 /* ---------- The journey's furniture ----------
    Since 2026-10-28 the map takes the rest of the Aisle journey's style
    (lab/inspiration-to-aisle.css), in the same tokens, so the two service
-   maps on the site read as one hand: two phase bands over the stages, the
-   discs over the names on one sage line, a line icon before each lane's
+   maps on the site read as one hand: two phase bands over the stages, a
+   storyboard drawing over each, the discs over the names on one sage line, a line icon before each lane's
    name, and a thread lane of small labels on one sage line, gathering
    from stage to stage. It leaves out the Aisle's curve and its switch: a
    feeling curve here would be a reading nobody measured, and four stages
@@ -829,6 +829,30 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
     border-top: 2px solid var(--color-accent-text);
   }
   .svc-stage:last-child .svc-lane--thread dd::before { right: 0; }
+}
+
+/* The storyboard: one small wordless drawing over each stage, as the
+   Aisle journey has: a form beside a basket of produce, two pages joined
+   in a folder, a form checked field by field, a chart beside a crate.
+   Drawn as one sheet in the Aisle drawings' hand, cut to 3:2 at one scale,
+   and alt="", because the stage's name under each says what it shows.
+   White tiles on the figure's gray, each on a small white card. */
+.svc-scene {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin: 0 0 var(--space-sm);
+  border-radius: 12px;
+}
+@media (min-width: 64rem) {
+  .svc-scene {
+    grid-row: 1;
+    grid-column: calc(var(--svc-i) + 2);
+    max-width: none;
+    border: 1px solid var(--rule-card);
+  }
 }
 
 .svc-map .svc-after {
