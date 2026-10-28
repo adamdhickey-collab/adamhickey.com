@@ -157,6 +157,32 @@ export const REACHABLE = {
       press: ['.ck-card-act [data-assign]'] },
   ],
 
+  /* The From Inspiration to Aisle prototype draws every screen after the
+     first from JavaScript in response to a press (prototype/aisle.js), so
+     without these the checks would measure the photo and call that the
+     app. One state per screen, plus the three things a screen can carry
+     that its plain load does not: a match's reasons open, a lamp hidden
+     with its Undo line, and the comparison data table. The presses are the
+     app's data-* hooks, the same ones scripts/aisle-shots.mjs uses. */
+  'prototype/aisle.html': [
+    { name: 'the four matches, one opened to its reasons',
+      press: ['[data-go="results"]', '[data-why="hollis"]'] },
+    { name: 'a match hidden, with its Undo line',
+      press: ['[data-go="results"]', '[data-reject="rowan"]'] },
+    { name: 'two lamps saved',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]'] },
+    { name: 'the trip planned, with a stale count',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
+    { name: 'in the store, compared',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
+    { name: 'a lamp not on the shelf',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="missing"]'] },
+    { name: 'a person joins',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]'] },
+    { name: 'the trip, done',
+      press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-go="done"]'] },
+  ],
+
   /* The rebalancing cockpit renders from data, and the checks always get
      the same data: under automation the page plays
      prototype/rebalance-snapshot.js rather than the live feed. So these
