@@ -447,14 +447,57 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    under it. Since 2026-10-23 the enterprise accounts lead again and the
    lab card follows them, so the space is above it, after the three. */
 .case-grid--lab { margin-top: 0; }
-/* Two groups in Selected work, since 2026-10-28: a serif heading and one
-   line each, the hero's two buttons landing on them (#enterprise-work on
+/* Two groups in Selected work, since 2026-10-28: a heading each (a serif
+   one and a line under it until later that day), the hero's two buttons landing on them (#enterprise-work on
    the section head above the first, #lab-work on the second). The space
    that sat above the lab grid is above its heading now. */
-.case-group-head { margin: 0 0 var(--space-xl); max-width: var(--measure); }
+/* Group heads, since later on 2026-10-28 (Adam): the name in the sans at
+   --text-xl, semibold, no line under it, and a small moving drawing to its
+   left. The drawings are artwork, so their loops keep their own time
+   (MOTION.md, "Artwork keeps its own time") and stop for a reader who asked
+   for stillness, resting on a frame that still reads: the office with some
+   windows lit, the tubes full. Inks are the site's own. The icon is 2em
+   square and centred on the name, which is one line from 400 up. */
+.case-group-head { margin: 0 0 var(--space-lg); }
 .case-group-head--lab { margin-top: var(--space-block); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
-.case-group-title { margin: 0 0 var(--space-xs); font-size: var(--type-section); font-weight: var(--weight-regular); line-height: var(--leading-heading); color: var(--color-charcoal); }
-.case-group-dek { margin: 0; color: var(--color-charcoal); }
+.case-group-title {
+  display: flex; align-items: center; gap: var(--space-sm);
+  margin: 0;
+  font-family: var(--font-sans); font-size: var(--text-xl); font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight); letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.gi { flex: none; width: 2em; height: 2em; overflow: visible; }
+.gi * { vector-effect: non-scaling-stroke; }
+.gi-line, .gi-pole, .gi-door, .gi-tube { fill: none; stroke: var(--color-charcoal); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.gi-body, .gi-rack { fill: var(--color-tea-light); stroke: var(--color-charcoal); stroke-width: 1; stroke-linejoin: round; }
+.gi-flag { fill: var(--color-accent-text); transform-box: fill-box; transform-origin: left center; animation: gi-flag 1.6s ease-in-out infinite; }
+.gi-win { fill: var(--color-white); stroke: var(--color-charcoal); stroke-width: 1; animation: gi-light 4.8s steps(1, end) infinite; }
+.gi-win:nth-of-type(2) { animation-delay: -0.6s; }
+.gi-win:nth-of-type(3) { animation-delay: -3.0s; }
+.gi-win:nth-of-type(4) { animation-delay: -1.8s; }
+.gi-win:nth-of-type(5) { animation-delay: -4.2s; }
+.gi-win:nth-of-type(6) { animation-delay: -1.2s; }
+.gi-win:nth-of-type(7) { animation-delay: -3.6s; }
+.gi-win:nth-of-type(8) { animation-delay: -2.4s; }
+.gi-liquid--sage  { fill: var(--color-accent-text); }
+.gi-liquid--slate { fill: var(--color-slate); }
+.gi-liquid { animation: gi-slosh 2.4s ease-in-out infinite alternate; }
+.gi-liquid--slate { animation-delay: -1.2s; }
+.gi-bubble { fill: var(--color-white); opacity: 0; animation: gi-rise 2.1s ease-in infinite; }
+.gi-bubble:nth-of-type(2) { animation-delay: -0.7s; }
+.gi-bubble:nth-of-type(3) { animation-delay: -1.4s; }
+.gi--tubes g:last-of-type > .gi-bubble { animation-duration: 1.7s; }
+.gi-pop { fill: none; stroke: var(--color-slate); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; animation: gi-pop 2.6s ease-out infinite; }
+@keyframes gi-flag  { 0%, 100% { transform: scaleX(1) skewY(0deg); } 50% { transform: scaleX(0.82) skewY(-8deg); } }
+@keyframes gi-light { 0%, 100% { fill: var(--color-white); } 50% { fill: var(--color-accent-on-dark); } }
+@keyframes gi-slosh { from { transform: translateY(0); } to { transform: translateY(1.5px); } }
+@keyframes gi-rise  { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-17px); } }
+@keyframes gi-pop   { 0%, 40% { opacity: 0; transform: translateY(3px) scale(0.6); } 60% { opacity: 1; } 100% { opacity: 0; transform: translateY(-5px) scale(1.2); } }
+@media (prefers-reduced-motion: reduce) {
+  .gi * { animation: none !important; }
+  .gi-win:nth-of-type(odd) { fill: var(--color-accent-on-dark); }
+}
 /* The hero's "See enterprise work" lands on the section head
    (#enterprise-work) since 2026-10-24, when the group label it used to
    land on came out. The label's clearance comes with it: the nav's height
