@@ -126,7 +126,7 @@
   <link rel="stylesheet" href="style.css?v=20261027c" />
   <link rel="stylesheet" href="site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
-  <link rel="stylesheet" href="thumb-loop.css?v=5" />
+  <link rel="stylesheet" href="thumb-loop.css?v=6" />
   <script src="site-nav.js?v=20260906a" defer></script>
   <script src="app-device.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
@@ -979,20 +979,20 @@
                  the finished screen (Adam: "not have it keep looping"); it
                  looped for its first hour. The poster in the markup is the
                  finished screen, for a reduced-motion reader and a page
-                 without script. For everyone else the script below swaps in
+                 without script. For everyone else thumb-loop.js swaps in
                  the cleared screen and starts the clip 0.7s in, past its
                  opening, so the card builds once as it arrives and stays;
                  until then the reader saw the finished screen, watched it
                  clear, and watched it build again (Adam: "it disappears on
                  you and rebuilds"). No autoplay and preload="none",
-                 as with the hero portrait: the script below starts the clip only
+                 as with the hero portrait: thumb-loop.js starts the clip only
                  when the card is on screen and motion is allowed, so nobody pays
                  for bytes they will not see. thumb-loop.css has the pause
                  control and why it is there. -->
-            <div class="case-thumb-play">
+            <div class="case-thumb-play thumb-play">
               <a class="case-thumb" href="lab/agent-review.html" aria-label="Read the Agent Review case study: three ways to archive, one designer&rsquo;s call">
                 <video class="case-thumb-video" tabindex="-1" src="img/lab/agent-review-explore-card.mp4?v=4"
-                       poster="img/lab/agent-review-explore-card.webp?v=4" width="1600" height="900"
+                       poster="img/lab/agent-review-explore-card.webp?v=4" data-poster-start="img/lab/agent-review-explore-card-start.webp?v=3" width="1600" height="900"
                        muted playsinline preload="none" aria-hidden="true"></video>
               </a>
               <div class="thumb-controls">
@@ -1897,74 +1897,7 @@
       sync();
     })();
   </script>
-  <script>
-    /* The Agent Review card's clip plays once, the first time the card is on
-       screen, unless the reader prefers reduced motion; the poster stands in
-       otherwise. Scrolled away mid-clip, it waits and carries on when the
-       card comes back. Once it has ended it stays on the finished screen.
-       Beside the pause, a replay starts it from the top whenever it is
-       pressed (Adam: "a replay button next to the pause"). A press is the
-       reader's own choice, so it plays even under reduced motion.
-       The clip opens on the finished screen and clears it by START, so the
-       page starts it there and, where motion is allowed, shows the cleared
-       screen as the poster: the card builds as it arrives, and never shows
-       its finished screen only to take it away. */
-    (function () {
-      var v = document.querySelector('.case-thumb-video');
-      var btn = document.querySelector('.thumb-toggle');
-      if (!v || !btn) return;
-      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      var seen = !('IntersectionObserver' in window);
-      var choice = null; /* 'play' or 'pause' once the reader has pressed */
-      var done = false;  /* it has played through once */
-      var START = 0.7;
-      var started = false;
-      var play = function () {
-        if (!started) { started = true; v.currentTime = START; }
-        var p = v.play(); if (p && p.catch) p.catch(function () {});
-      };
-      if (!mq.matches) v.poster = 'img/lab/agent-review-explore-card-start.webp?v=3';
-      var apply = function () {
-        var want = seen && (choice ? choice === 'play' : !mq.matches && !done);
-        if (want) { if (v.paused) play(); } else if (!v.paused) v.pause();
-      };
-      if (!seen) {
-        new IntersectionObserver(function (entries) {
-          seen = entries[0].isIntersecting;
-          apply();
-        }, { threshold: 0.35 }).observe(v);
-      }
-      if (mq.addEventListener) mq.addEventListener('change', apply);
-      apply();
-
-      var pauseIcon = btn.querySelector('.thumb-toggle-pause');
-      var playIcon = btn.querySelector('.thumb-toggle-play');
-      var show = function (el, on) {
-        if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
-      };
-      var sync = function () {
-        var playing = !v.paused;
-        show(pauseIcon, playing);
-        show(playIcon, !playing);
-        btn.setAttribute('aria-label', playing ? 'Pause the animation' : 'Play the animation');
-      };
-      btn.addEventListener('click', function () {
-        choice = v.paused ? 'play' : 'pause';
-        if (choice === 'play') play(); else v.pause();
-      });
-      v.addEventListener('play', sync);
-      v.addEventListener('pause', sync);
-      v.addEventListener('ended', function () { done = true; choice = null; sync(); });
-      var replay = document.querySelector('.thumb-replay');
-      if (replay) replay.addEventListener('click', function () {
-        choice = 'play';
-        started = true;
-        v.currentTime = START;
-        play();
-      });
-      sync();
-    })();
-  </script>
+  <script src="thumb-loop.js?v=1" defer></script>
   <script src="cursor.js?v=20260918b" defer></script>
 </body>
 </html>
