@@ -86,10 +86,12 @@ const BASE = {
      when the dek started saying he builds what he designs, and back the
      same evening to the dek before it. Since 2026-10-26 it is the breadth
      (visual, interactive, enterprise) with no <strong>, and since that
-     evening its second sentence is the agent work again, bold and all. */
-  dek: 'Twenty years across visual design, interactive experiences, and enterprise software, making complicated products work for the people who use them. I help teams figure out <strong>which problem to solve, what good looks like, and what ships</strong>.',
+     evening its second sentence is the agent work again, bold and all.
+     Since 2026-10-28 the first sentence stops at the breadth and the
+     second takes new ideas to something people can try. */
+  dek: 'Twenty years across visual design, interactive experiences, and enterprise software. I take new ideas from a question to something people can try, and help teams figure out <strong>which problem to solve, what good looks like, and what ships</strong>.',
   cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
-  facts: ['Design systems', 'Prototypes', 'Accessibility', 'Complex workflows', 'Agent boundaries', 'Research'],
+  facts: ['New directions', 'Prototypes', 'Service design', 'Usability testing', 'Design systems', 'Accessibility'],
   writing: {
     /* The position article's three words since 2026-10-20, a new article at
        the head of each. Until then "Designing with code" ("Craft and code"
