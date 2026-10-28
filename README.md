@@ -345,8 +345,9 @@ points the same interface at a public live feed, and says what changed when
 the data got real.
 
 **Lab** -- `lab/index.html`, `lab/agent-review.html` and, since 2026-10-21,
-`lab/designing-motion.html`, the homepage's former scroll story kept as the
-lab's last entry, an exploration rather than a test. The tenth family,
+`lab/designing-motion.html`, the homepage's former scroll story, an
+exploration rather than a test; the lab index listed it last until
+2026-10-28, and it stays at its address, unlisted. The tenth family,
 since 2026-10-01: the door to the experiments in React, AI-assisted
 prototyping and component systems, and the first flagship's case study.
 The product the case study is about, Agent Review, is a React and
