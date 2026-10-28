@@ -31,13 +31,13 @@ Tailwind font (`font-['Montserrat']`).
 headings, deks and ledes, pull quotes, figure titles, display numerals.
 
 **Sans (Montserrat)** — body copy, block and card titles, eyebrows, kickers,
-tags, metadata, captions, table headers and cells, buttons, navigation, and
+tags, metadata, captions, table headers, and cells, buttons, navigation, and
 every form of label.
 
 ### The words
 
 The names in this document are American newsroom terms, and they are
-deliberately odd-looking. *Hed*, *dek*, *lede* and *graf* are misspelled on
+deliberately odd-looking. *Hed*, *dek*, *lede*, and *graf* are misspelled on
 purpose so that an editor's instruction could never be mistaken for copy to be
 typeset. They are the standard American terms, they are what this site's class
 names use, and they are worth knowing because they are shorter and more exact
@@ -56,7 +56,7 @@ became `.build-dek`, and the prose here follows. One element, one word, one
 English.
 
 The token `--type-lede` is named for the ramp's job rather than for a single
-component: it sets deks, ledes and pull quotes, all of which are prose set
+component: it sets deks, ledes, and pull quotes, all of which are prose set
 above body size and below a heading.
 
 ### Weights
@@ -104,7 +104,7 @@ not a hand-written size, and it is the only one.
 at the widths where the ramps are pinned, reads the computed size off every
 element that shows text, and fails on anything that is neither a step nor that
 one ramp's two endpoints. Until it existed the claim was honored by attention,
-and attention had already missed three sizes — 13, 15 and 17px, hand-written in
+and attention had already missed three sizes — 13, 15, and 17px, hand-written in
 the glance block on the build write-ups, on pages this section covered.
 
 The scale has two tiers, and they are built on different principles on
@@ -114,7 +114,7 @@ purpose.
 
 At small sizes the eye reads the absolute difference, not the ratio. A
 geometric scale near the bottom produces steps a reader cannot tell apart
-(the site currently has 11, 11.2, 11.52, 12, 12.48, 12.8 and 13px all in
+(the site currently has 11, 11.2, 11.52, 12, 12.48, 12.8, and 13px all in
 use). So the text tier steps by whole pixels and stops.
 
 | Token | rem | px | Tailwind | Job |
@@ -301,7 +301,7 @@ The homepage hero is an `h1` on this ladder, not a level above it.
 
 **Two lifted floors, on the homepage only.** Since 2026-09-18 the six section
 `h2`s on `index.html` take `max(--type-section, --text-4xl)`, 34 on a phone
-instead of 28, and its ramped `h3`s, the case study, story and product
+instead of 28, and its ramped `h3`s, the case study, story, and product
 titles, take `max(--type-subsection, --text-3xl)`, 28 instead of 24. Each
 ramp is unchanged from the point it passes its new floor on its own, at
 about 664px and 752px. Each `h2` sits directly on an 18px dek, and at 28
@@ -358,7 +358,7 @@ the heading is two or three words and wants to hold together, the paragraph is
 a block of text and wants air. So:
 
 - **Headings and labels** take leading by size, straight off the table.
-- **Prose** takes it on its own two-step scale: above 18px — deks, ledes and
+- **Prose** takes it on its own two-step scale: above 18px — deks, ledes, and
   pull quotes — `--leading-tight`; at 14–18px, `--leading-body`; in a
   long-form reading column, `--leading-reading`.
 
@@ -403,7 +403,7 @@ type set tight only looks slightly tight. So `h1` takes
 
 **"Label" is a treatment, not a case.** The first draft of this rule said
 uppercase always gets tracking and lowercase never gets a positive value, and
-applying it went wrong immediately: `.ds-num`, `.ds-spec`, `.ds-table th`
+applying it went wrong immediately: `.ds-num`, `.ds-spec`, `.ds-table th`,
 and the lightbox caption were all set in sentence case and all carried
 deliberate label tracking. Reading them as "lowercase" would have stripped the
 treatment from four components in the name of tidiness. So the positive steps
@@ -415,7 +415,7 @@ kicker's case; it did not turn "label" into "uppercase", and the other four
 are still read the way this paragraph reads them.
 
 What does not get positive tracking: running text, headings, and **numerals**.
-A tracked two-digit numeral is just a gap; `.story-num`, `.eng3-num` and
+A tracked two-digit numeral is just a gap; `.story-num`, `.eng3-num`, and
 `.story-progress-num` all had one and now take `--tracking-normal`.
 
 The site used eleven distinct positive tracking values between 0.015em and
@@ -435,7 +435,7 @@ rest.
 
 **The case is set in CSS and never typed.** The markup keeps ordinary
 capitalization (`Lab · case study · 6 min read`), so the text a screen reader,
-a search engine and the read-aloud player receive is the sentence and not a
+a search engine, and the read-aloud player receive is the sentence and not a
 shout, and a reworded kicker cannot arrive in the wrong case. Do not type a
 kicker in capitals, and do not add a kicker class that leaves out
 `text-transform`.
@@ -453,7 +453,7 @@ What counts as one, so the next one is easy to place:
 | `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
 | `.ds-surface-kicker` | The ground names on the design system page | 11px |
 | `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |
-| `.related-label` | "Related" over the list of pages at the foot of an article, a prototype, a build write-up or a case study (`related.css`) | 12px |
+| `.related-label` | "Related" over the list of pages at the foot of an article, a prototype, a build write-up, or a case study (`related.css`) | 12px |
 
 `.case-readtime` is the one that does not sit at a kicker's size: it is 14px
 and muted, so it takes the 14px step, `--tracking-label`, and not
@@ -482,7 +482,7 @@ The sizes are not a choice to make per label. A label in a `.build-facts` strip
 is the Kicker's treatment, 12px in the sage, because it is a kicker: a short
 tracked label over the thing it names. The Tailwind case studies'
 `.case-field-label` is the same treatment, and the class sets all of it (size,
-tracking, case and ink), so a label there cannot be typed at another size or in
+tracking, case, and ink), so a label there cannot be typed at another size or in
 another color; `text-xs` stays in its markup only to keep one paragraph rule in
 `case-study-base.css` from setting a `<p>` label at 18px. Both were 14px
 charcoal until 2026-10-03, which made them the one label on the site louder
@@ -493,7 +493,7 @@ now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
 **What this still does not cover**, and why each is its own case:
 
 - A head that is a sentence or a run name. The three `.build-facts` variants
-  on the lab page (two columns, three columns and the icon strip) hold
+  on the lab page (two columns, three columns, and the icon strip) hold
   findings ("The rules mattered where the system was silent.") and run names, which are headings
   in a grid, not field names, so they opt out of the strip's capitals.
 - A numeral. `.writing-facts dt` is a figure set in the serif; uppercase would
@@ -505,7 +505,7 @@ now. It clears 4.5:1 on white and on warm, the two grounds these labels sit on.
   `.ds-spec`, `.ds-step-px`. They describe a swatch or a size and are read
   against it, like a caption.
 - The title over an article's figure: the `figcaption` of a flow, a split, a
-  number row or a rail (`.writing-figure`, not a `.writing-scene`). It was
+  number row, or a rail (`.writing-figure`, not a `.writing-scene`). It was
   the eyebrow's 11px capitals until 2026-10-21, and a sixty-character
   sentence in tracked capitals was the hardest line on the page to read. It
   is the figure's heading, so it is serif at 400 in charcoal: `--text-xl`
@@ -748,7 +748,7 @@ Before step 2, across every stylesheet and page: **40 distinct fixed sizes
 and 20 distinct `clamp()` expressions**, no two of the clamps sharing a `vw`
 coefficient. Step 2 removed four clamps and step 3 removed seven more. Step 4
 then took every remaining fixed size to a token: **across `style.css`,
-`site-nav.css`, `ds.css` and the Regime A pages there are now 141 token
+`site-nav.css`, `ds.css`, and the Regime A pages there are now 141 token
 references and exactly two numeric font-sizes left**, both deliberate and both
 documented above — the 16px root anchor and `.product-link-ext` at `0.875em`.
 
@@ -780,7 +780,7 @@ Before step 1, `style.css`'s `:root` defined color, radius, container,
 shadow, and easing tokens, and exactly two typographic ones — the two font
 families. Every size, line-height, and tracking value on the site was written
 inline at its use site, which is why there were sixty of them. The scale, the
-ramps, the leadings, the trackings and the weights are tokens there now, and
+ramps, the leadings, the trackings, and the weights are tokens there now, and
 the base ladder is the first thing to consume them.
 
 ### What snapping actually cost
