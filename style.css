@@ -451,20 +451,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    one and a line under it until later that day), the hero's two buttons landing on them (#enterprise-work on
    the section head above the first, #lab-work on the second). The space
    that sat above the lab grid is above its heading now. */
-/* Group heads, since later on 2026-10-28 (Adam): the name in the sans at
-   --text-xl, semibold, no line under it, and a small moving drawing to its
-   left. The drawings are artwork, so their loops keep their own time
-   (MOTION.md, "Artwork keeps its own time") and stop for a reader who asked
-   for stillness, resting on a frame that still reads: the office with some
-   windows lit, the tubes full. Inks are the site's own. The icon is 2em
-   square and centred on the name, which is one line from 400 up. */
-/* Redrawn larger the same day (Adam: double the icon, more detail, more
-   room under it, the name a step up): the drawings are on a 64 grid now,
-   an office with two wings, a cornice, a door under a canopy and two
-   shrubs, and three tubes with tick marks and a glint; the icon is 3.5em
-   from 768 (84px at --text-2xl, against 40 before) and 2.25em on a phone,
-   so the name keeps one line from 390 up; the head sits --space-2xl over
-   its cards. Strokes stay 1px at every size. */
+/* Group heads, since later on 2026-10-28 (Adam): the name in the sans,
+   semibold, no line under it, and an icon to its left. The icon was a
+   moving drawing that afternoon, an office and a rack of test tubes at up
+   to 84px; by the evening it was the site's own mark, kept small (Adam: the
+   minimal line icons that draw themselves): .fact-node and .fact-icon from
+   the hero's row, the 44px tea disc and the 22px sage icon, beside the name
+   the way that row sets them beside a label, --space-sm apart. A building
+   and a flask, both in the design system's icon set. The draw is the hero
+   row's rule (".hero-proof .fact-icon", below), started by the same .reveal
+   observer as the head comes into view. */
 .case-group-head { margin: 0 0 var(--space-2xl); }
 .case-group-head--lab { margin-top: var(--space-block); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
 .case-group-title {
@@ -474,52 +470,8 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   line-height: var(--leading-tight); letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-@media (min-width: 768px) { .case-group-title { font-size: var(--text-2xl); gap: var(--space-lg); } }
-.gi { flex: none; width: 2.25em; height: 2.25em; overflow: visible; }
-@media (min-width: 768px) { .gi { width: 3.5em; height: 3.5em; } }
-.gi * { vector-effect: non-scaling-stroke; }
-.gi-line, .gi-pole, .gi-door, .gi-tube, .gi-tick { fill: none; stroke: var(--color-charcoal); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
-.gi-body, .gi-rack { fill: var(--color-tea-light); stroke: var(--color-charcoal); stroke-width: 1; stroke-linejoin: round; }
-.gi-shrub { fill: var(--color-accent-on-dark); stroke: var(--color-charcoal); stroke-width: 1; stroke-linejoin: round; }
-.gi-shine { fill: none; stroke: var(--color-white); stroke-width: 1; stroke-linecap: round; opacity: 0.7; }
-.gi-flag { fill: var(--color-accent-text); transform-box: fill-box; transform-origin: left center; animation: gi-flag 1.6s ease-in-out infinite; }
-.gi-win { fill: var(--color-white); stroke: var(--color-charcoal); stroke-width: 1; animation: gi-light 4.8s steps(1, end) infinite; }
-.gi-win:nth-of-type(2)  { animation-delay: -0.6s; }
-.gi-win:nth-of-type(3)  { animation-delay: -3.0s; }
-.gi-win:nth-of-type(4)  { animation-delay: -1.8s; }
-.gi-win:nth-of-type(5)  { animation-delay: -4.2s; }
-.gi-win:nth-of-type(6)  { animation-delay: -1.2s; }
-.gi-win:nth-of-type(7)  { animation-delay: -3.6s; }
-.gi-win:nth-of-type(8)  { animation-delay: -2.4s; }
-.gi-win:nth-of-type(9)  { animation-delay: -0.3s; }
-.gi-win:nth-of-type(10) { animation-delay: -2.7s; }
-.gi-win:nth-of-type(11) { animation-delay: -3.9s; }
-.gi-win:nth-of-type(12) { animation-delay: -1.5s; }
-.gi-win:nth-of-type(13) { animation-delay: -4.5s; }
-.gi-liquid--sage  { fill: var(--color-accent-text); }
-.gi-liquid--slate { fill: var(--color-slate); }
-.gi-liquid--pale  { fill: var(--color-accent-on-dark); }
-.gi-liquid { animation: gi-slosh 2.4s ease-in-out infinite alternate; }
-.gi-liquid--slate { animation-delay: -1.2s; }
-.gi-liquid--pale  { animation-delay: -0.6s; }
-.gi-fill--a { --gi-rise: -27px; }
-.gi-fill--b { --gi-rise: -34px; }
-.gi-fill--c { --gi-rise: -22px; }
-.gi-bubble { fill: var(--color-white); opacity: 0; animation: gi-rise 2.1s ease-in infinite; }
-.gi-bubble:nth-of-type(2) { animation-delay: -0.7s; }
-.gi-bubble:nth-of-type(3) { animation-delay: -1.4s; }
-.gi-fill--b > .gi-bubble { animation-duration: 1.7s; }
-.gi-fill--c > .gi-bubble { animation-duration: 2.6s; }
-.gi-pop { fill: none; stroke: var(--color-slate); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; animation: gi-pop 2.6s ease-out infinite; }
-@keyframes gi-flag  { 0%, 100% { transform: scaleX(1) skewY(0deg); } 50% { transform: scaleX(0.82) skewY(-8deg); } }
-@keyframes gi-light { 0%, 100% { fill: var(--color-white); } 50% { fill: var(--color-accent-on-dark); } }
-@keyframes gi-slosh { from { transform: translateY(0); } to { transform: translateY(1.5px); } }
-@keyframes gi-rise  { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(var(--gi-rise)); } }
-@keyframes gi-pop   { 0%, 40% { opacity: 0; transform: translateY(3px) scale(0.6); } 60% { opacity: 1; } 100% { opacity: 0; transform: translateY(-5px) scale(1.2); } }
-@media (prefers-reduced-motion: reduce) {
-  .gi * { animation: none !important; }
-  .gi-win:nth-of-type(odd) { fill: var(--color-accent-on-dark); }
-}
+@media (min-width: 768px) { .case-group-title { font-size: var(--text-2xl); } }
+.case-group-title .fact-node { flex: none; margin-bottom: 0; }
 /* The hero's "See enterprise work" lands on the section head
    (#enterprise-work) since 2026-10-24, when the group label it used to
    land on came out. The label's clearance comes with it: the nav's height
@@ -657,15 +609,37 @@ a.case-thumb { display: block; }
    is the same four pixels -- the difference between the two steps -- on the
    compositor. */
 .case-go svg { width: 17px; height: 17px; transition: transform var(--motion-move) var(--ease); }
-.case-card:focus-visible .case-go { color: var(--color-charcoal); }
-@media (hover: hover) and (pointer: fine) {
-  .case-card:hover .case-go { color: var(--color-charcoal); }
+/* The same line as a link of its own, since 2026-10-28 (Adam: one pattern
+   for a link standing by itself, the arrow and no underline): the lab
+   cards, where the picture is a second link and the card cannot be one,
+   and the features on other.html. It answers to its own hover and focus
+   rather than the card's: the card rules name a.case-card, because a lab
+   card is a div, and an arrow that moved under the pointer anywhere on it
+   would promise a click the card does not take. Its parent,
+   .product-actions, sets the space above it. The visible line is about
+   half a target tall, so the 44px grows behind it, the way .product-link's
+   does. */
+a.case-go { position: relative; margin-top: 0; }
+a.case-go::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
-.case-card:focus-visible .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+a.case-card:focus-visible .case-go,
+a.case-go:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
-  .case-card:hover .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+  a.case-card:hover .case-go,
+  a.case-go:hover { color: var(--color-charcoal); }
 }
-@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } @media (hover: hover) and (pointer: fine) { .case-card:hover .case-go svg { transform: none; } } }
+a.case-card:focus-visible .case-go svg,
+a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+@media (hover: hover) and (pointer: fine) {
+  a.case-card:hover .case-go svg,
+  a.case-go:hover svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+}
+@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } @media (hover: hover) and (pointer: fine) { a.case-card:hover .case-go svg, a.case-go:hover svg { transform: none; } } }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
@@ -4330,17 +4304,25 @@ html.ah-lightbox-open body { overflow: hidden; }
    adds .is-visible as a block enters the viewport -- so the facts hang off
    that instead of a second script watching the same element. The hidden
    state is gated behind .js for the same reason .reveal is: with no script
-   to finish them the icons render drawn rather than blank. */
+   to finish them the icons render drawn rather than blank. Selected work's
+   two group heads take the same mark and the same clock, since 2026-10-28:
+   each head is a .reveal of its own, so its icon draws as it arrives. */
 .js .hero-proof .fact-icon path,
-.js .hero-proof .fact-icon circle { stroke-dashoffset: 1; }
+.js .hero-proof .fact-icon circle,
+.js .case-group-head .fact-icon path,
+.js .case-group-head .fact-icon circle { stroke-dashoffset: 1; }
 .js .hero-proof.is-visible .fact-icon path,
-.js .hero-proof.is-visible .fact-icon circle {
+.js .hero-proof.is-visible .fact-icon circle,
+.js .case-group-head.is-visible .fact-icon path,
+.js .case-group-head.is-visible .fact-icon circle {
   animation: eng3-draw var(--motion-draw) var(--ease) forwards;
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
 }
 @media (prefers-reduced-motion: reduce) {
   .js .hero-proof .fact-icon path,
-  .js .hero-proof .fact-icon circle { stroke-dashoffset: 0; animation: none; }
+  .js .hero-proof .fact-icon circle,
+  .js .case-group-head .fact-icon path,
+  .js .case-group-head .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 /* No margin between the label and its detail. With --space-2xs there the
    pair stood 47px against a 44px disc, and the 4px sat on top of the slack
