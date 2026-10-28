@@ -201,19 +201,21 @@
 }
 
 /* ---------- The photo ----------
-   The lamp at Maya's, drawn large on the warm ground, with when and where
-   under it. The frame is a card on white, so it takes the card edge. */
+   The lamp at Maya's, as a phone would take it: a photograph of her
+   living room (drawn in ChatGPT, img/lab/aisle-maya-photo.webp) filling
+   the frame, with when and where under it. The frame is a card on white,
+   so it takes the card edge. */
 .ai-app .ai-photo { margin: 0; }
 .ai-app .ai-photo-frame {
   display: grid;
   place-items: center;
   aspect-ratio: 4 / 3;
-  padding: var(--space-lg);
+  overflow: hidden;
   background: var(--color-warm);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
 }
-.ai-app .ai-photo-frame .ai-art { height: 100%; width: auto; }
+.ai-app .ai-photo-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ai-app .ai-photo-cap {
   margin: var(--space-sm) 0 0;
   font-size: var(--text-sm);
@@ -228,7 +230,8 @@
 .ai-art { display: block; width: 100%; height: auto; }
 .ai-art .ai-leg { fill: none; stroke-width: 3.5; stroke-linecap: round; }
 .ai-art .ai-leg--walnut { stroke: var(--lamp-walnut); }
-.ai-art .ai-leg--black  { stroke: var(--lamp-black); }
+.ai-art .ai-leg--walnut { stroke-width: 5; }
+.ai-art .ai-leg--black  { stroke: var(--lamp-black); stroke-width: 2; }
 .ai-art .ai-leg--brass  { stroke: var(--lamp-brass); }
 .ai-art .ai-base--brass { fill: var(--lamp-brass); }
 .ai-art .ai-shade--linen { fill: var(--lamp-linen); stroke: var(--lamp-line); stroke-width: 1.5; }
