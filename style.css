@@ -635,15 +635,37 @@ a.case-thumb { display: block; }
    is the same four pixels -- the difference between the two steps -- on the
    compositor. */
 .case-go svg { width: 17px; height: 17px; transition: transform var(--motion-move) var(--ease); }
-.case-card:focus-visible .case-go { color: var(--color-charcoal); }
-@media (hover: hover) and (pointer: fine) {
-  .case-card:hover .case-go { color: var(--color-charcoal); }
+/* The same line as a link of its own, since 2026-10-28 (Adam: one pattern
+   for a link standing by itself, the arrow and no underline): the lab
+   cards, where the picture is a second link and the card cannot be one,
+   and the features on other.html. It answers to its own hover and focus
+   rather than the card's: the card rules name a.case-card, because a lab
+   card is a div, and an arrow that moved under the pointer anywhere on it
+   would promise a click the card does not take. Its parent,
+   .product-actions, sets the space above it. The visible line is about
+   half a target tall, so the 44px grows behind it, the way .product-link's
+   does. */
+a.case-go { position: relative; margin-top: 0; }
+a.case-go::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
-.case-card:focus-visible .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+a.case-card:focus-visible .case-go,
+a.case-go:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
-  .case-card:hover .case-go svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+  a.case-card:hover .case-go,
+  a.case-go:hover { color: var(--color-charcoal); }
 }
-@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } @media (hover: hover) and (pointer: fine) { .case-card:hover .case-go svg { transform: none; } } }
+a.case-card:focus-visible .case-go svg,
+a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+@media (hover: hover) and (pointer: fine) {
+  a.case-card:hover .case-go svg,
+  a.case-go:hover svg { transform: translateX(calc(var(--space-sm) - var(--space-xs))); }
+}
+@media (prefers-reduced-motion: reduce) { .case-go, .case-go svg { transition: none; } @media (hover: hover) and (pointer: fine) { a.case-card:hover .case-go svg, a.case-go:hover svg { transform: none; } } }
 @media (min-width: 768px) {
   /* Desktop: still a touch breezier than mobile, but tighter than before
      so the headline, description, and tag row feel like one block. */
