@@ -5583,17 +5583,16 @@ html.ah-lightbox-open body { overflow: hidden; }
    illustration about 200px wide, which is enough to see that a wall changed
    color and not enough to see anything else about a drawing. Twenty-four of
    them also made the figure a subject grid rather than a style comparison.
-   One picture per era, at half the column, is what the figure was always
-   arguing. */
+   One picture per era is what the figure was always arguing. */
 .build-eras { margin: var(--space-2xl) 0 var(--space-3xl); }
 .build-eras-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2xl); }
-.build-era { margin: 0; display: grid; gap: var(--space-lg); align-items: start; }
+.build-era { margin: 0; display: grid; gap: var(--space-sm); align-content: start; }
 @media (min-width: 720px) {
-  /* Picture and note side by side, rather than the picture full width with
-     its note under it. The four pictures are read DOWN the column against one
-     another -- that comparison is the whole figure -- and full width puts a
-     paragraph of prose between every pair of them. */
-  .build-era { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-xl); }
+  /* Two across, each title under its picture. Until 2026-10-29 each picture
+     sat beside its own note, which left half the column empty beside every
+     era once the notes came down to a title; a 2 x 2 grid puts all four
+     pictures in one view, which is the comparison the figure exists for. */
+  .build-eras-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl) var(--space-xl); }
 }
 .build-era-art {
   border-radius: 10px;
