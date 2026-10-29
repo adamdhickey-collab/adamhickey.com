@@ -661,12 +661,13 @@ async function settle(page) {
    takes from the window by the step. A capture that comes out drawn at
    anything else is refused rather than written, which is also what a
    renamed step would do. */
-/* RELAY IN NIGHT SAGE, for the shots marked `dark`. Relay has one palette,
-   light and frozen (tokens.css, "-product"), and its surface hands it back
-   inside the review, so the app's dark theme leaves the preview frame
-   white. The case study's Evaluate pair is dark since 2026-10-27 (Adam:
-   "use the dark theme for these screens as well"), to sit with the opener's
-   list, which the page draws in Night sage (#690). So for these captures
+/* RELAY IN THE REVIEW'S DARK, for the shots marked `dark` (the charcoal
+   since 2026-10-29, agent-review#79; Night sage before that). Relay has one
+   palette, light and frozen (tokens.css, "-product"), and its surface hands
+   it back inside the review, so the app's dark theme leaves the preview
+   frame white. The case study's Evaluate pair is dark since 2026-10-27
+   (Adam: "use the dark theme for these screens as well"), to sit with the
+   opener's list, which the page draws dark (#690). So for these captures
    alone Relay is handed the review's own tokens instead: each is aliased on
    the root, where it is the review's, and the product's surface reads the
    alias back, in the dark scheme. Relay's accent takes the review's

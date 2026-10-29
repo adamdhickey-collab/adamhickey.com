@@ -395,7 +395,8 @@ the three directions side by side as a 16:9 scene at `#/scenes/<id>`, and
 `scripts/scenes.mjs` captures them to `img/lab/agent-review-scene-*.webp`.
 The three directions side by side (`three`) are the lab index's card.
 Since 2026-10-27 (agent-review#58) the scenes are dark, in the prototype's
-Night sage, its default, and each stage scene is one decision: the cycle as
+default dark — the site's charcoal since 2026-10-29 (agent-review#79, which
+took Night sage's green-black out) — and each stage scene is one decision: the cycle as
 six dots, the call as the title, the agent's position in slate and the
 person's in sage, and one fact set large. The case study's Explore row is
 the `explore` scene, the three directions drawn as shapes, where it was

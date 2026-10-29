@@ -7,7 +7,7 @@
    SceneScreen, #/scenes/explore) draws each direction as a tile, a small
    screen of the batch over its name and its cost, and this script captures
    those three tiles from the app and sets them on the card, so the card and
-   step 3 cannot drift apart. Dark, the app's Night sage, as step 3 is.
+   step 3 cannot drift apart. Dark, the app's charcoal, as step 3 is.
 
    Since later that evening the card takes only each tile's screen from the
    app, masked to its own rounded corners (a whole tile's capture showed the
