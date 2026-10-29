@@ -90,10 +90,9 @@
   <link rel="stylesheet" href="../type.css?v=8" />
   <link rel="stylesheet" href="../style.css?v=20261029za" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
-  <link rel="stylesheet" href="../thumb-loop.css?v=9" />
-  <link rel="stylesheet" href="index.css?v=5" />
+  <link rel="stylesheet" href="../thumb-loop.css?v=10" />
+  <link rel="stylesheet" href="index.css?v=6" />
   <script src="../site-nav.js?v=20260906a" defer></script>
-  <script src="../thumb-loop.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -286,32 +285,42 @@
               </div>
             </a>
           </li>
-          <!-- THE HOMEPAGE'S CLIP, since 2026-10-28 (Adam: "use the animated
-               version of this graphic that we have on the homepage here as
-               well"): the Explore scene building its three ways to archive,
-               in place of the still cycle card, with the homepage's replay and
-               pause (thumb-loop.js, thumb-loop.css). A link cannot hold a
-               button, so this entry is the one whose row is not an <a>: the
-               title's link stretches over the row (index.css, "The entry that
-               plays"), and the controls sit above it. -->
+          <!-- THE HOMEPAGE'S STILL, since 2026-10-29: the same markup as
+               the homepage's Agent Review card (thumb-loop.css), which was a
+               clip with a replay and a pause until that day. Without the
+               buttons the row is a link again, as its neighbours are. -->
           <li class="writing-item">
-            <div class="writing-link writing-link--play">
-              <div class="writing-card-play thumb-play">
-                <video class="writing-card" tabindex="-1" src="../img/lab/agent-review-explore-card.mp4?v=8"
-                       poster="../img/lab/agent-review-explore-card.webp?v=7" data-poster-start="../img/lab/agent-review-explore-card-start.webp?v=6" width="1600" height="900"
-                       muted playsinline preload="none" aria-hidden="true"></video>
-                <div class="thumb-controls">
-                  <button type="button" class="thumb-control thumb-replay" aria-label="Replay the animation">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg>
-                  </button>
-                  <button type="button" class="thumb-control thumb-toggle" aria-label="Pause the animation">
-                    <svg class="thumb-toggle-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></svg>
-                    <svg class="thumb-toggle-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M8 5.2v13.6a1 1 0 0 0 1.53.85l10.2-6.8a1 1 0 0 0 0-1.7L9.53 4.35A1 1 0 0 0 8 5.2Z"/></svg>
-                  </button>
-                </div>
+            <a class="writing-link" href="agent-review.html">
+              <div class="explore-still writing-card" aria-hidden="true">
+                <ol class="explore-still-stages" aria-label="The prototype's six stages">
+                  <li><span>Discover</span></li>
+                  <li><span>Define</span></li>
+                  <li aria-current="step"><span>Explore</span></li>
+                  <li><span>Evaluate</span></li>
+                  <li><span>Delegate</span></li>
+                  <li><span>Learn</span></li>
+                </ol>
+                <p class="explore-still-title">Three ways to archive the same five customers</p>
+                <ul class="explore-still-ways">
+                  <li>
+                    <svg class="explore-still-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+                    <span class="explore-still-name">Archive now, undo after</span>
+                    <span class="explore-still-line">Fast, but you have to notice</span>
+                  </li>
+                  <li>
+                    <svg class="explore-still-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5Z"/><path d="M9.8 9.2a2.3 2.3 0 1 1 3.2 2.1c-.6.3-1 .8-1 1.4v.3"/><path d="M12 16.2h.01"/></svg>
+                    <span class="explore-still-name">Ask first, warn about active ones</span>
+                    <span class="explore-still-line">People click past the warning</span>
+                  </li>
+                  <li>
+                    <svg class="explore-still-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 1.5 1.5L8.5 4.5"/><path d="m4 12 1.5 1.5L8.5 10.5"/><path d="m4 18 1.5 1.5L8.5 16.5"/><path d="M12 6h8"/><path d="M12 12h8"/><path d="M12 18h8"/></svg>
+                    <span class="explore-still-name">Review each, then archive</span>
+                    <span class="explore-still-line">Safest, but the most steps</span>
+                  </li>
+                </ul>
               </div>
               <div class="writing-text">
-                <h3 class="writing-title"><a class="writing-stretch" href="agent-review.html">Agent Review: design judgment when agents join the team</a></h3>
+                <h3 class="writing-title">Agent Review: design judgment when agents join the team</h3>
                 <p class="writing-dek">What does a designer decide once a coding agent builds the screens? One feature, from support ticket to release, in simulated scenarios.</p>
                 <ul class="build-list writing-points">
                   <li>Six stages, and who does what at each</li>
@@ -327,7 +336,7 @@
                   <span class="tag">Claude Code</span>
                 </div>
               </div>
-            </div>
+            </a>
           </li>
           <li class="writing-item">
             <a class="writing-link" href="../prototype/dispatch-cockpit.html">

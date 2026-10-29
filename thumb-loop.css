@@ -1,79 +1,158 @@
-/* ---------- A card picture that moves ----------
-   The homepage's Agent Review card since 2026-10-27: the prototype's
-   Explore scene as a six-second clip (scripts/explore-card.mjs), each
-   of the three ways to archive building in turn, and the lab index's
-   Agent Review entry since 2026-10-28. Two pages load this file, so
-   style.css and its site-wide buster are untouched; the lab's layout for
-   the clip is in lab/index.css, and only the controls here apply to it.
+/* ---------- Agent Review's Explore screen, as a still ----------
+   The homepage's Agent Review card and the lab index's entry, since
+   2026-10-29 (Adam: "I don't think this needs to be animated anymore ...
+   an icon for each step ... make the three steps much more readable"). From
+   2026-10-27 it was a clip of the app's own screen with a replay and a
+   pause, and its three ways printed at about 9px; the clip, its controls
+   and thumb-loop.js went that day. Two pages load this file, so style.css
+   and its site-wide buster are untouched.
 
-   The picture is still the card's link, and a link cannot hold a button, so
-   the two share a wrapper: the wrapper is the card's grid item where the
-   link was, and takes the link's place in the order and its margin.
+   It is the page's own markup rather than a picture, so the words stay
+   sharp at every width and the checks read them: the stage bar, the
+   question, and the three ways, each an icon, a name, and its catch. The
+   charcoal and its inks are the dark band's (COLOR.md); the icons are the
+   site's line icons at 1.6, in sage on its own ring.
 
-   WCAG 2.2.2: the clip runs longer than five seconds, so a way to stop it
-   has to exist for everyone, not only for readers who have set
-   prefers-reduced-motion. The control is the hero portrait's, at the
-   picture's empty corner: quiet until the picture is hovered or the button
-   focused, always in the tab order, and always shown on touch. A replay
-   sits beside it, since the clip plays once. */
-.case-thumb-play {
-  position: relative;
-  margin-bottom: var(--space-sm);
+   It sizes to its own width, not the viewport's: the homepage gives it a
+   lab panel and the lab index gives it the 18rem picture column. Narrow,
+   the ways are rows with the icon beside the words, and the stage bar
+   names only the stage it is on; from 30rem the ways stand three across
+   and every stage is named; from 36rem their words take a step up. */
+.case-thumb--still {
+  aspect-ratio: auto;
+  background: var(--color-charcoal);
 }
-@media (min-width: 768px) { .case-thumb-play { margin-bottom: var(--space-md); } }
-.case-thumb-play > .case-thumb { margin-bottom: 0; }
-.case-card--lab .case-thumb-play { order: -1; }
-@media (min-width: 1024px) {
-  .case-card--lab .case-thumb-play { order: 0; margin-bottom: 0; }
-}
-
-.case-thumb video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* The two controls, replay and pause, side by side in the corner. 16px
-   between them keeps their 44px targets from overlapping. */
-.thumb-controls {
-  position: absolute;
-  right: var(--space-sm);
-  bottom: var(--space-sm);
-  z-index: 2;
-  display: flex;
-  gap: var(--space-md);
-}
-.thumb-control {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--color-scrim);
+.explore-still {
+  container-type: inline-size;
+  background: var(--color-charcoal);
   color: var(--ink-on-dark);
-  cursor: pointer;
-  opacity: 0.55;
-  transition: opacity var(--motion-state) var(--ease);
+  border-radius: var(--radius-xl);
+  font-family: var(--font-sans);
 }
-.thumb-control::after {
+
+.explore-still-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-sm);
+  margin: 0;
+  padding: var(--space-md) var(--space-lg);
+  list-style: none;
+  border-bottom: 1px solid var(--rule-on-dark);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark-muted);
+}
+.explore-still-stages li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.explore-still-stages li::before {
   content: "";
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 44px; height: 44px;
-  transform: translate(-50%, -50%);
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: 50%;
+  background: var(--rule-on-dark-strong);
 }
-.thumb-control svg { width: 14px; height: 14px; }
-.thumb-control:focus-visible { opacity: 1; }
-@media (hover: hover) and (pointer: fine) {
-  .case-thumb-play:hover .thumb-control,
-  .thumb-control:hover { opacity: 1; }
+.explore-still-stages [aria-current] {
+  color: var(--ink-on-dark);
+  font-weight: var(--weight-semibold);
 }
-@media (hover: none) {
-  .thumb-control { opacity: 1; }
+.explore-still-stages [aria-current]::before {
+  background: var(--color-accent-on-dark);
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring-on-dark);
+}
+/* Narrow, a stage it is not on is its dot alone; the name stays for a
+   reader who hears the list. */
+@container (max-width: 29.99rem) {
+  .explore-still-stages li:not([aria-current]) span {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.explore-still .explore-still-title {
+  margin: 0;
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  color: var(--ink-on-dark);
+  text-wrap: pretty;
+}
+/* Doubled class: the lab index's section sets every p in it to its own
+   size and ink, and that rule outranks a single class. */
+
+.explore-still-ways {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0 var(--space-lg) var(--space-lg);
+  list-style: none;
+}
+/* 12px corners inside the panel's 20: the panel's radius less the 8 the
+   eye reads between the two, so the curves sit concentric. */
+.explore-still-ways li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-sm);
+  background: var(--wash-on-dark);
+  border: 1px solid var(--rule-on-dark);
+  border-radius: calc(var(--radius-xl) - var(--space-xs));
+}
+.explore-still-icon {
+  grid-row: span 2;
+  align-self: center;
+  box-sizing: border-box;
+  width: var(--space-3xl);
+  height: var(--space-3xl);
+  padding: var(--space-xs);
+  border-radius: 50%;
+  background: var(--color-accent-ring-on-dark);
+  color: var(--color-accent-on-dark);
+}
+.explore-still-name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--ink-on-dark);
+}
+.explore-still-line {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark-secondary);
+}
+
+@container (min-width: 30rem) {
+  .explore-still .explore-still-title {
+    padding: var(--space-xl) var(--space-xl) var(--space-lg);
+    font-size: var(--text-3xl);
+  }
+  .explore-still-ways {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0 var(--space-xl) var(--space-xl);
+  }
+  .explore-still-ways li {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--space-md);
+  }
+  .explore-still-icon {
+    grid-row: auto;
+    align-self: start;
+    margin-bottom: var(--space-sm);
+  }
+}
+@container (min-width: 36rem) {
+  .explore-still-name { font-size: var(--text-lg); }
+  .explore-still-line { font-size: var(--text-base); line-height: var(--leading-tight); }
 }
 
 /* ---------- The lab row, two across ----------
@@ -96,8 +175,7 @@
    row gap from style.css (--space-2xl, for the picture beside the words)
    stacked on top of it put 56px under every picture (Adam, 2026-10-28). */
 .case-card--lab { grid-template-rows: auto 1fr; row-gap: 0; }
-.case-card--lab > .case-thumb,
-.case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+.case-card--lab > .case-thumb { margin-bottom: var(--space-xl); }
 /* The tags ride down with the link, so the two panels' tags line up as
    their links do, whichever description runs longer. At least --space-xl
    under the question, the step between the picture and the app: at
@@ -142,10 +220,8 @@
     align-items: stretch;
     padding: var(--space-2xl);
   }
-  .case-card--lab .case-thumb,
-  .case-card--lab .case-thumb-play { order: -1; }
-  .case-card--lab > .case-thumb,
-  .case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
+  .case-card--lab .case-thumb { order: -1; }
+  .case-card--lab > .case-thumb { margin-bottom: var(--space-xl); }
 }
 
 /* A light picture on the light panel. Aisle's card is drawn on tea-light,
