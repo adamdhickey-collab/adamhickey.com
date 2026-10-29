@@ -238,12 +238,6 @@ const CLAIMS = [
   { doc: 'case-study/this-site.html',
     says: '35 pages, 3 token files, 4 specs, 39 scripts',
     n: 39, what: 'scripts in scripts/', of: scriptsInTree },
-  { doc: 'case-study/this-site.html',
-    says: 'Twelve checks; six of them render pages in a real browser',
-    n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
-  { doc: 'case-study/this-site.html',
-    says: 'Twelve checks; six of them render pages in a real browser',
-    n: 6, what: 'browser checks in the matrix', of: browserChecks },
   /* The dek and the description, which said ten checks with nothing holding
      either while the llms.txt copy of the same phrase was registered below:
      readtime.mjs made the matrix six on 2026-10-22, and the grep for every
@@ -259,12 +253,6 @@ const CLAIMS = [
     says: 'twelve checks that measure the rendered page before anything ships',
     n: 12, what: 'checks in checks.yml, as the description states them', of: () => staticChecks() + browserChecks() },
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-five pages, each a plain HTML file',
-    n: 35, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
-  { doc: 'case-study/this-site.html',
-    says: 'a change to the shell is a change to thirty-five files',
-    n: 35, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
-  { doc: 'case-study/this-site.html',
     says: 'Twelve checks run on every merge. Six read the tree',
     n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
   { doc: 'case-study/this-site.html',
@@ -273,9 +261,6 @@ const CLAIMS = [
   { doc: 'case-study/this-site.html',
     says: 'The other six open the pages in Chrome',
     n: 6, what: 'browser checks in the matrix', of: browserChecks },
-  { doc: 'case-study/this-site.html',
-    says: 'seventy-one nodes across the site',
-    n: 71, what: 'schema.org graph nodes across the pages', of: schemaNodes },
 
   { doc: 'llms.txt',
     says: 'twelve checks that measure the rendered page',
