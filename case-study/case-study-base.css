@@ -452,6 +452,26 @@ body h3.font-sans { line-height: var(--leading-tight); letter-spacing: var(--tra
   }
 }
 
+/* ---------- The overview stands on the feature ground ----------
+   The brief is the one block a reader who stops after the hero still
+   reads, so it gets the ground COLOR.md keeps for a feature: tea-light,
+   edge to edge (Adam, 2026-10-29: "its own section background color like
+   a light sage or tea green"). The block sits inside the page's max-w-7xl
+   column, so the band reaches the viewport's edges with a spread shadow
+   in the ground's color, clipped to the block's own height; a shadow
+   adds no scroll width, which a negative margin would. The ground on the
+   element itself is what the contrast checks read, since they take a
+   ground from ancestors. Tea-light takes the same three inks as white,
+   so nothing inside changes color. */
+.case-overview {
+  background: var(--color-tea-light);
+  box-shadow: 0 0 0 100vmax var(--color-tea-light);
+  clip-path: inset(0 -100vmax);
+  padding-block: var(--space-block);
+  margin-bottom: var(--space-block);
+}
+.case-overview .case-brief { margin-bottom: 0; }
+
 /* ---------- The impact table is as wide as its own contents ----------
    The rule above caps the outcome cells at the measure, and the paragraph
    above that says a case study caps only its prose while the impact table
