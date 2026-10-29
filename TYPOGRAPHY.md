@@ -449,7 +449,7 @@ What counts as one, so the next one is easy to place:
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" pages | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
 | `.writing-eyebrow` | "Key idea 2 of 6" above each section of an article | 11px |
-| `.glance-kicker` | The "My approach" blocks. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
+| `.glance-kicker` | The "My approach" blocks, and "What the map shows" over the three claims that open The Shortlist's service map. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
 | `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
 | `.ds-surface-kicker` | The ground names on the design system page | 11px |
 | `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |
@@ -471,7 +471,7 @@ size, never a literal.
 
 | Class | Where | Size and tracking |
 |---|---|---|
-| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, and the verb over each column on a card (Recognize, Translate, Mobilize, Sustain) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
+| `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, the verb over each column on a card (Recognize, Translate, Mobilize, Sustain), and "What the map shows" over the three claims that open the USDA service map | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
 | `.build-facts dt` | The facts strips on the four "How I work" pages, on both prototype write-ups and in the design system | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
 | `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
 | `.ar-sort-label`, `.ar-sort-why dt` | The Agent Review write-up's three kinds of work: For example and Who acts inside each card, and the two answers under the cards; `.ar-sort-label` was `.ar-kind-where` (In the prototype, Proposed) until 2026-10-24. The two lanes over the cards (`.ar-sort-lane`, Goes through, Stops for a person) were here until 2026-10-24 and are headings now (below) | `.ar-sort-label` 11px, `--tracking-caps`, muted: the glance row's label, because the card's own name is the heading. The answers 12px, `--tracking-caps`, in the sage |
