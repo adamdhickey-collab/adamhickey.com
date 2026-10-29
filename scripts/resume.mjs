@@ -61,7 +61,13 @@
  * matters is still hard.", then "...matters isn’t.", opening both summaries), the system people and
  * coding agents build from, and the hero's facts (design systems, prototypes, usability testing, accessibility,
  * complex workflows) in place of the four strengths, which read as a run of
- * adjectives. The title stays Senior Product Designer; employers, titles,
+ * adjectives. From 2026-10-29 the three stretches are told as one career
+ * coming back together, as The Shortlist's close tells them: brought
+ * together early in a product, to find the right problem and decide what to
+ * build. The Shortlist takes Dispatch Cockpit's place among the independent
+ * work (the dispatch cockpit stays as the RBA project it came from), service
+ * design takes Developer Collaboration's slot, and Agent Review says its
+ * runs are simulated. The title stays Senior Product Designer; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -183,21 +189,21 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Design Systems · Prototyping in Code · Usability Testing · Complex Workflows</p>
+  <p class="tagline">Senior Product Designer · Visual Design · Design Systems · Service Design · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Building is getting easier. Knowing what matters isn&rsquo;t. Senior product designer with 20 years across visual design, interactive experiences and enterprise software, for organizations including Cargill, Intel, CBRE and Toro. I make complicated products work for the people who use them, deciding which problem to solve and what ships. I began as a hybrid interactive designer and developer, building what I designed in HTML, CSS and jQuery; spent thirteen years leading enterprise product design and design systems at scale; and now design the system people and coding agents build from, and decide what ships.</p>
+  <p>Building is getting easier. Knowing what matters isn&rsquo;t. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a hybrid designer and developer, building what I designed in HTML, CSS, and jQuery, then spent thirteen years leading enterprise product design and design systems at scale. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, visual systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: a component system with written design rules and automated visual and accessibility checks, following one feature from a support ticket to release.</li>
-    <li><b>Dispatch Cockpit</b> — Designed a decision-support prototype for AI-assisted load assignment, making evidence, confidence, overrides and the manual path visible to expert dispatchers.</li>
+    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: written design rules and automated visual and accessibility checks, following one feature from ticket to release, on simulated runs.</li>
+    <li><b>The Shortlist</b> — A service design concept carrying one shopping trip from a phone into a store: a service map joining the journey and the blueprint, and a working prototype on sample data.</li>
     <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel guide (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
@@ -205,7 +211,7 @@ const html = String.raw`<!doctype html>
     <li>Led UX and visual design for complex digital products, enterprise applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
     <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
-    <li>Tied design decisions to the numbers teams already track: efficiency, adoption, quality, ROI.</li>
+    <li>Tied design to the numbers product, engineering, and business teams track: efficiency, adoption, quality, ROI.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
   <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS and jQuery.</p>
@@ -226,7 +232,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Human&ndash;AI Interaction</span><span>Developer Collaboration</span></p>
+  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Human&ndash;AI Interaction</span><span>Service Design</span></p>
 </section>
 
 <section>
@@ -386,14 +392,14 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Building is getting easier. Knowing what matters isn&rsquo;t. Twenty years across visual design, interactive experiences and enterprise software, deciding which problem to solve and what ships.</p>
+  <p class="intro">Building is getting easier. Knowing what matters isn&rsquo;t. Twenty years across visual design, interactive experiences, and enterprise software, now brought together early in a product to find the right problem and decide what to build.</p>
 
   <section>
     <h2>Independent</h2>
     <div class="role">
       <h3>Product design, visual systems, prototyping</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel guide, and Lucy Learns, an illustrated dog-training app. Also Agent Review and Dispatch Cockpit, two working prototypes built with coding agents.</p>
+      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel guide, and Lucy Learns, an illustrated dog-training app. Also The Shortlist and Agent Review, two working prototypes built with coding agents.</p>
     </div>
   </section>
 
@@ -438,12 +444,12 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Expertise</h2>
     <ul>
+      <li>Visual design and typography</li>
+      <li>Service design</li>
       <li>Design systems</li>
       <li>Prototyping in code</li>
       <li>Usability testing</li>
       <li>Accessibility</li>
-      <li>Complex workflows</li>
-      <li>Visual design and typography</li>
       <li>Brand identity and illustration</li>
     </ul>
   </section>

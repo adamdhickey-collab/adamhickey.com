@@ -79,10 +79,6 @@ const CARDS = {
     region: () => ({ x: 0, y: 80, width: 1280, height: 720 }),
   },
   'dispatch-cockpit': { image: 'img/cockpit/slide-close-call.webp' },
-  /* The rebalancing cockpit's, since 2026-10-27, when it took the
-     cockpit's place in the lab: its hero, the saved reading's empty
-     station, rule card and close call, cut to 16:9 from the top. */
-  'rebalance-cockpit': { image: 'img/rebalance/hero.webp' },
   /* A url card is captured at its own CSS size and scaled by the device
      pixel ratio to exactly 1280x720, so there is no resample step: 720 x
      405 at 1280 / 720 = 1.778. */
