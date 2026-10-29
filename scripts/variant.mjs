@@ -100,10 +100,11 @@ const BASE = {
        the head of each. Until then "Designing with code" ("Craft and code"
        until 2026-10-08), "Enterprise and operational software" and "AI as
        the material"; the private variants name those eyebrows until moved,
-       and three of their articles are unlisted now, not gone. */
-    'The system': ['what-changes-when-ai-agents-join-the-product-team', 'what-a-design-system-needs-to-explain-to-an-agent', 'what-does-a-design-system-need-once-ai-is-in-the-product'],
-    'The build': ['what-is-a-product-designer-for-when-anyone-can-build', 'what-should-a-working-prototype-actually-prove', 'how-should-you-test-a-product-now-that-ai-can-help'],
-    'The judgment': ['who-decides-when-software-can-act-on-its-own', 'enterprise-ai-should-help-people-decide-not-just-answer', 'what-does-a-person-need-to-supervise-an-ai-agent'],
+       and three of their articles are unlisted now, not gone. Two, one, and
+       two since 2026-10-29, when the writing went to seven. */
+    'The system': ['what-a-design-system-needs-to-explain-to-an-agent', 'what-does-a-design-system-need-once-ai-is-in-the-product'],
+    'The build': ['how-should-you-test-a-product-now-that-ai-can-help'],
+    'The judgment': ['who-decides-when-software-can-act-on-its-own', 'what-does-a-person-need-to-supervise-an-ai-agent'],
   },
 };
 
