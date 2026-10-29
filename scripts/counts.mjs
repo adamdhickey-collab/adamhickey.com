@@ -247,6 +247,12 @@ const CLAIMS = [
      oxford.mjs made the static checks six and the total twelve on
      2026-10-28, and every entry here moved with it, the scripts count too. */
   { doc: 'case-study/this-site.html',
+    says: 'Twelve checks; six of them render pages in a real browser',
+    n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
+  { doc: 'case-study/this-site.html',
+    says: 'Twelve checks; six of them render pages in a real browser',
+    n: 6, what: 'browser checks in the matrix', of: browserChecks },
+  { doc: 'case-study/this-site.html',
     says: 'specs by twelve checks that measure the rendered page',
     n: 12, what: 'checks in checks.yml, as the dek states them', of: () => staticChecks() + browserChecks() },
   { doc: 'case-study/this-site.html',
