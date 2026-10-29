@@ -49,8 +49,9 @@ const CARDS = {
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into one trusted platform',                image: 'img/site/hero-img.webp' },
   'innovators-studio-visual-identity': { kicker: 'Case study · Innovators Studio',       title: 'A global innovation network on one brand and platform',         image: 'img/site/group-100008-1.webp' },
-  'enterprise-consulting':             { kicker: 'Career · 2013 to 2026',                title: '13 years designing enterprise software',                   image: 'img/site/rba-hero.webp' },
-  'hybrid-designer':                   { kicker: 'Career · 2005 to 2013',                title: '8 years as a hybrid designer / developer',                      image: 'img/site/pixel-farm-building.webp' },
+  /* Earlier work, one page for the two career pages and other.html since
+     2026-10-29. */
+  'earlier-work':                      { kicker: '2005 to 2026',                         title: 'Earlier work',                                                  image: 'img/site/rba-hero.webp' },
   'door-county-found':                 { kicker: 'Built end to end',                          title: 'How I built Door County Found',                                 image: 'img/products/door-county-found.webp' },
   'lucy-learns':                       { kicker: 'Built end to end',                          title: 'How I built Lucy Learns',                                       image: 'img/products/lucy-learns.webp' },
   /* Faunaform, 2026-10-20: the bear, square like the frame; since
@@ -59,7 +60,6 @@ const CARDS = {
   'faunaform':                         { kicker: 'Built end to end',                          title: 'How I’m building Faunaform',                                    image: 'img/faunaform/bear-approved.webp' },
   'while-were-here':                   { kicker: 'Built end to end',                          title: 'How I built While We’re Here',                             image: 'img/products/while-were-here.webp' },
   'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
-  'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
   'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
   /* The lab's picture is the case study's since later on 2026-10-09: the
      app itself, a square of the run's main column (lab-cards.mjs
