@@ -5,9 +5,10 @@
  * and for every page but one it is the whole of what the page is. The
  * exception is `prototype/dispatch-cockpit.html`, which renders its entire
  * interesting surface from JavaScript in response to a press, so the checks
- * would measure an opening screen and call that the page. Since 2026-10-27
- * `prototype/rebalance-cockpit.html` is a second, the same interface on a
- * saved reading of a live feed. Until 2026-10-23
+ * would measure an opening screen and call that the page. From 2026-10-27
+ * to 2026-10-29 `prototype/rebalance-cockpit.html` was a second, the same
+ * interface on a saved reading of a live feed, with seven states here; its
+ * address forwards to the dispatch cockpit now. Until 2026-10-23
  * `prototype/deploy-console.html` was a second, of the same shape, with
  * fourteen states here; it left the site, and its states with it. From #401
  * the lab index was another, a smaller one, while it kept its three pieces
@@ -209,36 +210,6 @@ export const REACHABLE = {
       press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-send]', '[data-staff]'] },
     { name: 'the trip, done',
       press: ['[data-go="results"]', '[data-save="hollis"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="help"]', '[data-send]', '[data-outcome="helped"]'] },
-  ],
-
-  /* The rebalancing cockpit renders from data, and the checks always get
-     the same data: under automation the page plays
-     prototype/rebalance-snapshot.js rather than the live feed. So these
-     selectors are written against that reading: its first tab has a rule
-     card, and at least one tab is a close call, which the tab says in
-     data-shape. Retake the snapshot and a
-     state may change shape; reach() throws on a selector that matches
-     nothing, so a reading without a close call fails the run rather than
-     quietly measuring less. */
-  'prototype/rebalance-cockpit.html': [
-    { name: 'a close call, compared',
-      press: ['.ck-tab[data-shape="close"]', '.ck-lead[data-tone="close"] .ck-vs [data-assign]'] },
-    /* The override and the card need a clear pick, so they press a tab
-       that is not a close call first. Rows are sorted by rank and each is
-       followed by its detail row, so the third tr is the station ranked
-       second. */
-    { name: 'the override question, open',
-      press: ['.ck-tab:not([data-shape="close"])', '.ck-table tbody tr:nth-child(3) [data-assign]'] },
-    { name: 'a reason stored',
-      press: ['.ck-tab:not([data-shape="close"])', '.ck-table tbody tr:nth-child(3) [data-assign]', '.ck-why-form input[name="reason"]', '.ck-why-form [type="submit"]'] },
-    { name: 'a rule refusing a send',
-      press: ['.ck-row.is-blocked [data-assign]'] },
-    { name: 'a station opened to every figure',
-      press: ['.ck-table [data-more]'] },
-    { name: 'the stations at compact density',
-      press: ['[data-density="compact"]'] },
-    { name: 'the recommendation sent, and the card offering Undo',
-      press: ['.ck-tab:not([data-shape="close"])', '.ck-card-act [data-assign]'] },
   ],
 };
 

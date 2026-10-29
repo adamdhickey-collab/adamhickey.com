@@ -61,7 +61,6 @@ const CARDS = {
   'this-site':                         { kicker: 'Built end to end',                          title: 'How I built this site',                                        image: 'img/site/this-site.webp' },
   'other':                             { kicker: 'Adam Hickey',                              title: 'Other things I make',                                          image: 'img/products/while-were-here.webp' },
   'dispatch-cockpit':                  { kicker: 'Prototype · synthetic data',              title: 'An AI recommendation the dispatcher can check and overrule',                        image: 'img/site/dispatch-cockpit.webp' },
-  'rebalance-cockpit':                 { kicker: 'Prototype · live data',                   title: 'A rebalancing call on live bike-share data that a person can check and overrule',  image: 'img/site/rebalance-cockpit.webp' },
   /* The lab's picture is the case study's since later on 2026-10-09: the
      app itself, a square of the run's main column (lab-cards.mjs
      agent-review-og), so the lab and the case study unfurl alike. It was

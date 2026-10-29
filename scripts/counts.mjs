@@ -146,19 +146,6 @@ function schemaNodes() {
   return n;
 }
 
-/* The rebalancing cockpit's saved reading, as the page reads it. The page's
-   account of what changed with real data quotes two figures from it, and
-   both move whenever scripts/rebalance-snapshot.mjs retakes it, which is
-   exactly when a sentence about it goes stale without anybody rereading it.
-   "Quiet" is the page's half hour, the same staleMin rebalance-cockpit.js
-   marks a count at. */
-function snapshotQuiet({ stopped = false } = {}) {
-  const src = read('prototype/rebalance-snapshot.js');
-  const d = JSON.parse(src.slice(src.indexOf('{'), src.lastIndexOf('}') + 1));
-  const at = (f) => d.fields.indexOf(f);
-  return d.stations.filter((r) => d.updated - r[at('reported')] >= 30 * 60 && (!stopped || !r[at('renting')])).length;
-}
-
 const WORDS = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
                 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven',
                 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen',
@@ -181,28 +168,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Forty-one pages in ten families',
-    n: 41, what: 'pages', of: () => PAGES.length },
+    says: 'Forty pages in ten families',
+    n: 40, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 41 pages in ten families',
-    n: 41, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 40 pages in ten families',
+    n: 40, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Forty-one pages in ten families',
+    says: 'Forty pages in ten families',
     n: 10, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Forty-one pages in ten families',
-    n: 41, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Forty pages in ten families',
+    n: 40, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all forty-one pages',
-    n: 41, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all forty pages',
+    n: 40, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all forty-one pages',
-    n: 41, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all forty pages',
+    n: 40, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -212,20 +199,20 @@ const CLAIMS = [
      2026-10-13; the page count moved to How it's enforced, which names
      this check as the thing that holds it. */
   { doc: 'design-system/index.html',
-    says: 'across all forty-one pages',
-    n: 41, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
+    says: 'across all forty pages',
+    n: 40, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Eighteen of them',
     n: 18, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by thirty-five pages',
-    n: 35, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by thirty-four pages',
+    n: 34, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all forty-one',
-    n: 41, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all forty',
+    n: 40, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 
   /* The build write-up about this site, which is the one page whose whole
      argument is that its numbers are checked, and which carried twenty-eight
@@ -234,23 +221,23 @@ const CLAIMS = [
      browser counts in the same section are dated in the prose instead,
      because no check without a browser can recount them. */
   { doc: 'case-study/this-site.html',
-    says: 'Forty-one pages of plain HTML, no framework and no build step',
-    n: 41, what: 'pages, as the dek states them', of: () => PAGES.length },
+    says: 'Forty pages of plain HTML, no framework and no build step',
+    n: 40, what: 'pages, as the dek states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'forty-one pages of plain HTML with no framework and no build step',
-    n: 41, what: 'pages, as the description states them', of: () => PAGES.length },
+    says: 'forty pages of plain HTML with no framework and no build step',
+    n: 40, what: 'pages, as the description states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '41 pages, 3 token files, 4 specs, 41 scripts',
-    n: 41, what: 'pages, as the size row states them', of: () => PAGES.length },
+    says: '40 pages, 3 token files, 4 specs, 39 scripts',
+    n: 40, what: 'pages, as the size row states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '41 pages, 3 token files, 4 specs, 41 scripts',
+    says: '40 pages, 3 token files, 4 specs, 39 scripts',
     n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
   { doc: 'case-study/this-site.html',
-    says: '41 pages, 3 token files, 4 specs, 41 scripts',
+    says: '40 pages, 3 token files, 4 specs, 39 scripts',
     n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
   { doc: 'case-study/this-site.html',
-    says: '41 pages, 3 token files, 4 specs, 41 scripts',
-    n: 41, what: 'scripts in scripts/', of: scriptsInTree },
+    says: '40 pages, 3 token files, 4 specs, 39 scripts',
+    n: 39, what: 'scripts in scripts/', of: scriptsInTree },
   { doc: 'case-study/this-site.html',
     says: 'Twelve checks; six of them render pages in a real browser',
     n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
@@ -272,11 +259,11 @@ const CLAIMS = [
     says: 'twelve checks that measure the rendered page before anything ships',
     n: 12, what: 'checks in checks.yml, as the description states them', of: () => staticChecks() + browserChecks() },
   { doc: 'case-study/this-site.html',
-    says: 'Forty-one pages, each a plain HTML file',
-    n: 41, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
+    says: 'Forty pages, each a plain HTML file',
+    n: 40, what: 'pages, as the pages chapter states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'a change to the shell is a change to forty-one files',
-    n: 41, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
+    says: 'a change to the shell is a change to forty files',
+    n: 40, what: 'pages carrying the shell (site-nav.css)', of: () => pagesLoading('site-nav.css') },
   { doc: 'case-study/this-site.html',
     says: 'Twelve checks run on every merge. Six read the tree',
     n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
@@ -287,17 +274,8 @@ const CLAIMS = [
     says: 'The other six open the pages in Chrome',
     n: 6, what: 'browser checks in the matrix', of: browserChecks },
   { doc: 'case-study/this-site.html',
-    says: 'eighty-seven nodes across the site',
-    n: 87, what: 'schema.org graph nodes across the pages', of: schemaNodes },
-
-  /* The rebalancing cockpit's saved reading, which moves every time it is
-     retaken. */
-  { doc: 'prototype/rebalance-cockpit.html',
-    says: '24 of about 2,500 stations had gone quiet for half an hour',
-    n: 24, what: 'stations in the saved reading silent for 30 minutes', of: () => snapshotQuiet() },
-  { doc: 'prototype/rebalance-cockpit.html',
-    says: 'and all 24 had stopped renting',
-    n: 24, what: 'of those, stations the feed says are not renting', of: () => snapshotQuiet({ stopped: true }) },
+    says: 'eighty-five nodes across the site',
+    n: 85, what: 'schema.org graph nodes across the pages', of: schemaNodes },
 
   { doc: 'llms.txt',
     says: 'twelve checks that measure the rendered page',
