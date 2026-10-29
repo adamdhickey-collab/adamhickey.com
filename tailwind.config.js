@@ -115,6 +115,17 @@ module.exports = {
         '8xl':  'var(--text-8xl)',
         '9xl':  'var(--text-9xl)',
       },
+      /* The six leadings, read from type.css for the same reason. Until
+         2026-10-29 leading-tight was Tailwind's own 1.25, a value no token
+         names, under the token's name: --leading-tight is 1.35. */
+      lineHeight: {
+        'display': 'var(--leading-display)',
+        'heading': 'var(--leading-heading)',
+        'tight':   'var(--leading-tight)',
+        'ui':      'var(--leading-ui)',
+        'body':    'var(--leading-body)',
+        'reading': 'var(--leading-reading)',
+      },
       fontFamily: {
         'sans':   ['var(--font-sans)'],
         'serif':  ['var(--font-serif)'],
