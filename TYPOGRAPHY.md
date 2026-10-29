@@ -209,6 +209,18 @@ above it. The ramp is unchanged from about 693px, where it passes 20 on
 its own, and `max()` rather than a media query for the reason the
 homepage's lifted heading floors give below: no seam.
 
+**The essay column's `h2` steps down a ramp, and stops at a phone.** Inside
+`.writing-measure`, the column of the articles, The Shortlist, and the
+cockpit write-up, a section head takes `--type-subsection` rather than
+`--type-section`: those pages run to twenty-odd sections, and at 48 each
+read as a chapter opening. Since 2026-10-29 it takes
+`max(--type-subsection, --text-3xl)`, 28 on a phone instead of 24, which
+is the floor every other `h2` already has. At 24 over the column's 18px
+Montserrat, the serif's x-height left the head barely larger than the
+sentence under it. The ramp is unchanged from about 752px, where it passes
+28 on its own, so the step down still holds on a desktop (34 against 48),
+and the phone ladder on those pages is the site's own, 34 · 28 · 24.
+
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
 
