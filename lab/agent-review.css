@@ -506,8 +506,10 @@
 }
 /* THE STAGES, AND THE PROTOTYPE ITSELF, since 2026-10-29 (Adam: the six
    rows were long and said again what the prototype says). Each stage is
-   one line, its name in bold and the call after it, in a grid of three
-   from 64rem, and the prototype runs live under them at the column's full
+   one bold line, its name and what it is for, under the heading "How
+   designing with an agent works, in six steps", six across from 64rem
+   like the prototype's stage bar (until 2026-10-29 the example followed
+   in the regular weight, three across), and the prototype runs live under them at the column's full
    width (beside them it was a third too narrow for the app's own layout), so a reader plays the six stages rather than reading
    six pictures of them. Until then each stage was a serif line, a labelled
    call and a 16:9 scene drawn by scripts/scenes.mjs, one row apiece. */
@@ -550,15 +552,7 @@
   color: var(--color-charcoal);
 }
 .ar-steps strong { font-weight: var(--weight-semibold); }
-.ar-steps a {
-  font-weight: var(--weight-semibold);
-  color: var(--color-accent-text);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  transition: color var(--motion-state) var(--ease);
-}
-@media (hover: hover) and (pointer: fine) { .ar-steps a:hover { color: var(--color-charcoal); } }
-.ar-steps a:focus-visible { color: var(--color-charcoal); }
+.case-section .ar-steps-head { margin: 0 0 var(--space-lg); }
 /* The app's own ground fills the frame, so the frame is the card's edge,
    corner and drop, as the scenes' was. Tall on a phone, where the app
    stacks; the window's shape from 64rem. */
@@ -578,7 +572,11 @@
   .ar-try-frame iframe { aspect-ratio: 4 / 3; }
 }
 @media (min-width: 64rem) {
-  .ar-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Six across, in the order and shape of the prototype's own stage bar
+     under it: the number over the name, so each column holds its line. */
+  .ar-steps { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--space-lg); }
+  .ar-steps li { flex-direction: column; gap: var(--space-sm); }
+  .ar-steps .ar-cycle-n { margin-top: 0; }
   .ar-try-frame iframe { aspect-ratio: 16 / 10; }
 }
 
