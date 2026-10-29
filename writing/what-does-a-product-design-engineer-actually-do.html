@@ -107,8 +107,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="../color.css?v=10" />
   <link rel="stylesheet" href="../shell.css?v=6" />
-  <link rel="stylesheet" href="../type.css?v=7" />
-  <link rel="stylesheet" href="../style.css?v=20261028g" />
+  <link rel="stylesheet" href="../type.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=20261029v" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=2" />
@@ -251,7 +251,7 @@
          on purpose. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 6 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">What does a product design engineer actually do?</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
@@ -287,12 +287,12 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 5</p>
           <h2 id="the-handoff-did-not-move-it-dissolved">The handoff did not move; it dissolved</h2>
-          <p>For years a design job was a document that went somewhere else. You made the file, somebody built from it, and quality leaked out in the gap between the two.</p>
-          <p>AI coding tools moved that line. I came to this from product design, enterprise design systems, and UX architecture, not engineering, and I now use React, TypeScript, and Storybook to carry that work into code.</p>
+          <p>For years a design job was a document that went somewhere else. Quality leaked out in the gap between the file and the build.</p>
+          <p>AI coding tools moved that line. I came to this from design systems, not engineering, and I now carry that work into code.</p>
           <p><mark>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</mark> The evidence here is one project built that way, <a href="../lab/agent-review.html">Agent Review</a>, and this site.</p>
           <p class="writing-eyebrow">Key idea 2 of 5</p>
           <h2 id="the-component-is-the-deliverable-and-it-lives-in-one-place">The component is the deliverable, and it lives in one place</h2>
-          <p>In a product codebase the unit of design is a component: a button, a data table, a status line. In TypeScript its properties are typed, so the contract between design and engineering is a list the compiler reads.</p>
+          <p>In a product codebase the unit of design is a component. In TypeScript its properties are typed, so the contract between design and engineering is a list the compiler reads.</p>
           <p>Agent Review has fourteen components and 284 stories in Storybook, and every story is also a test: Vitest renders it in Chromium and runs axe on it. A state with no story is a state nothing checks.</p>
           <figure class="writing-figure">
             <figcaption>What the component replaces, and what it keeps</figcaption>
@@ -317,13 +317,12 @@
               </div>
             </div>
           </figure>
-          <p>Under the components is one file of tokens. Semantic tokens point at primitives, components point at semantic tokens, and nothing points at a hex code, so changing the green moves every button in one pull request.</p>
-          <p>Motion lives there too: a duration, a curve, a spring&rsquo;s stiffness. A transition in Storybook can be played, interrupted, and commented on by line, so a spring that overshoots by a hair is a diff.</p>
+          <p>Under the components is one file of tokens, and nothing points at a hex code, so changing the green moves every button in one pull request.</p>
+          <p>Motion lives there too. A spring that overshoots by a hair is a diff someone can comment on.</p>
           <p><mark>Code doesn&rsquo;t make motion easier to write. It makes it reviewable.</mark></p>
           <p class="writing-eyebrow">Key idea 3 of 5</p>
           <h2 id="a-pull-request-is-a-design-review-with-the-evidence-attached">A pull request is a design review with the evidence attached</h2>
-          <p>A pull request is a proposed change with its reasoning above it and its difference below it. A design engineer spends more of the day there than in any tool with a canvas.</p>
-          <p>At nine in the morning that means: read the change, open the story, press the states, and leave a comment on the line rather than in a channel.</p>
+          <p>A design engineer spends more of the day in pull requests than in any tool with a canvas. At nine in the morning: read the change, open the story, press the states, and comment on the line.</p>
           <figure class="writing-figure">
             <figcaption>One change, brief to shipped</figcaption>
             <ol class="writing-flow">
@@ -334,8 +333,8 @@
               <li class="writing-flow-mark">Ship<small>the merge is the handover, and there is no other</small></li>
             </ol>
           </figure>
-          <p>A working prototype on a branch used to cost a week of an engineer&rsquo;s time. With Claude Code in a terminal the mechanical part is a session, and the time goes to the decisions.</p>
-          <p>In Agent Review&rsquo;s experiment, two agent runs read the same rule about shared components and did opposite things. One changed the shared data table&rsquo;s stylesheet; the other flagged the same defect. Both were defensible.</p>
+          <p>A working prototype on a branch used to cost a week of an engineer&rsquo;s time. With Claude Code the mechanical part is a session.</p>
+          <p>In Agent Review, two agent runs read the same rule about shared components and did opposite things. One changed the shared data table&rsquo;s stylesheet; the other flagged the defect. Both were defensible.</p>
           <p>It took a person reading the measurement to say which was right. <mark>The prototype is real because I can read what it does.</mark></p>
           <aside class="writing-pull" aria-hidden="true">
             <p>A design engineer is a designer whose deliverable is the thing itself, in the repository, next to everyone else&rsquo;s.</p>
@@ -348,8 +347,7 @@
           </figure>
           <p class="writing-eyebrow">Key idea 4 of 5</p>
           <h2 id="the-checks-are-part-of-the-design-system">The checks are part of the design system</h2>
-          <p>A design rule that isn&rsquo;t a script is a wish. Contrast floors, type scales, token coverage, and whether a toolbar fits its box at tablet width can all be measured on the rendered page.</p>
-          <p>Agent Review has three instruments, a token lint, axe in Vitest, and Playwright&rsquo;s visual baselines, and each caught a different part of a branch I seeded with drift:</p>
+          <p>A design rule that isn&rsquo;t a script is a wish. Agent Review has three instruments, a token lint, axe in Vitest, and Playwright&rsquo;s visual baselines, and each caught a different part of a branch I seeded with drift:</p>
           <figure class="writing-figure">
             <figcaption>What Agent Review&rsquo;s checks reported on the seeded branch</figcaption>
             <dl class="build-facts writing-facts">
@@ -362,8 +360,7 @@
           <p>This site runs twelve checks, and six of them render its pages in a real browser. I think a design engineer is the person who reads a design rule as a test, and writes it as one.</p>
           <p class="writing-eyebrow">Key idea 5 of 5</p>
           <h2 id="a-green-check-and-a-live-site-are-two-different-facts">A green check and a live site are two different facts</h2>
-          <p>A green check means the tree passed. It doesn&rsquo;t mean the site changed. I learned that from a merge that ran every check, went green, and never deployed.</p>
-          <p>The site didn&rsquo;t look broken. It looked unchanged, which is indistinguishable from a change nobody made.</p>
+          <p>A merge to <a href="../case-study/this-site.html#checks">this site</a> once went green on every check and never deployed. It looked unchanged, which is indistinguishable from a change nobody made.</p>
           <figure class="writing-figure">
             <figcaption>What a green check says, and what it does not</figcaption>
             <div class="writing-split">
@@ -387,8 +384,7 @@
               </div>
             </div>
           </figure>
-          <p>So the last step of every change is to look at the page a stranger would get, with a cache-buster on the address.</p>
-          <p>The honest map of the job, for me, has three regions:</p>
+          <p>So the last step of every change is to look at the page a stranger would get. The honest map of the job, for me, has three regions:</p>
           <ul>
             <li>Tokens, systems, accessibility, and the checks around them: I&rsquo;ve done this longest, and would run it on day one</li>
             <li>React, TypeScript, Storybook, branches, and tests: I do this now, and would expect to be fluent in a team&rsquo;s conventions within a quarter</li>

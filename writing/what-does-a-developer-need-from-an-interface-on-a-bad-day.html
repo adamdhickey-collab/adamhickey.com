@@ -111,9 +111,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="../color.css?v=10" />
   <link rel="stylesheet" href="../shell.css?v=6" />
-  <link rel="stylesheet" href="../type.css?v=7" />
-  <link rel="stylesheet" href="../style.css?v=20261028g" />
-  <link rel="stylesheet" href="../design-psychology.css?v=8" />
+  <link rel="stylesheet" href="../type.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=20261029v" />
+  <link rel="stylesheet" href="../design-psychology.css?v=9" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=2" />
@@ -269,7 +269,7 @@
          outside source to cut. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 5 min read</p>
+        <p class="case-kicker">Writing &middot; 4 min read</p>
         <h1 class="case-title">What does a developer need from an interface on a bad day?</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
@@ -306,15 +306,12 @@
         <div class="writing-measure">
           <p class="writing-eyebrow">Key idea 1 of 5</p>
           <h2 id="the-screens-a-developer-opens-most-are-the-ones-that-open-when-something-broke">The screens a developer opens most are the ones that open when something broke</h2>
-          <p>Nobody opens the dashboard when the deploy works. You get a green line in a chat window and go back to the editor.</p>
-          <p>You open it when the deploy fails, the build is red, or the bill doubled. So the screens people reach stressed and short on time are the ones that matter most.</p>
-          <p>I think that makes failure a first-class state, not an edge case. This small site has taught me so three times.</p>
+          <p>Nobody opens the dashboard when the deploy works. You open it when the deploy fails, the build is red, or the bill doubled.</p>
+          <p>I think that makes failure a first-class state, not an edge case.</p>
 
           <p class="writing-eyebrow">Key idea 2 of 5</p>
           <h2 id="an-error-message-is-an-interface-and-most-are-written-by-the-thing-that-failed">An error message is an interface, and most are written by the thing that failed</h2>
-          <p>Most error messages are written by the thing that failed: an engineer handling the exception, not the person who&rsquo;ll read it.</p>
-          <p>&ldquo;Deploy failed&rdquo; is what this site&rsquo;s deploy said the day it failed fourteen seconds in, on a tree that had passed every check. A folder had been committed as a link to a path on one Mac.</p>
-          <p>The check I wrote afterward names the link, where it points and why the upload can&rsquo;t follow it, and it catches the problem before the push.</p>
+          <p>&ldquo;Deploy failed&rdquo; is what this site&rsquo;s deploy said fourteen seconds in, on a tree that had passed every check. The check I wrote afterward names the file it couldn&rsquo;t follow, before the push.</p>
           <figure class="writing-figure">
             <figcaption>A status, and an interface</figcaption>
             <div class="writing-split">
@@ -338,8 +335,7 @@
               </div>
             </div>
           </figure>
-          <p>That decision gets made in a design review of the strings, with the engineer who owns the code that throws them in the room.</p>
-          <p>Worse than a bad error is no error. The build behind one of this site&rsquo;s stylesheets skips any class it has never seen, silently, and the type measures wrong at every width with nothing in the console.</p>
+          <p>That decision gets made in a design review of the strings, with the engineer who owns the code in the room. Worse than a bad error is no error at all.</p>
           <figure class="writing-figure">
             <figcaption>Three numbers from this site&rsquo;s own bad days</figcaption>
             <dl class="build-facts writing-facts">
@@ -348,14 +344,13 @@
               <div><dt>10</dt><dd>minutes the host keeps serving the old page after a deploy, so a fetch straight after one proves nothing</dd></div>
             </dl>
           </figure>
-          <p>A merge that passed every check and never deployed didn&rsquo;t look broken. It looked unchanged, and there was nothing to search for.</p>
           <p>So make nothing look like something. An empty list says why it&rsquo;s empty, and a deploy that didn&rsquo;t run is a row that says so.</p>
           <p><mark>The empty state is the product telling the truth about a moment when it has nothing to show, and the truth is almost always a reason.</mark></p>
 
           <p class="writing-eyebrow">Key idea 3 of 5</p>
           <h2 id="the-first-ten-minutes-decide-whether-the-tool-is-believed">The first ten minutes decide whether the tool is believed</h2>
-          <p>A developer arrives with a repository and a deadline: sign up, connect, first deploy. What happens when that first deploy fails decides what the tool will ever be believed about.</p>
-          <p>If the failure explains itself, every later green line is read as true. If it&rsquo;s a status, they keep a terminal open beside the product for as long as they use it.</p>
+          <p>A developer arrives with a repository and a deadline. If their first failed deploy explains itself, every later green line is read as true.</p>
+          <p>If it&rsquo;s a status, they keep a terminal open beside the product for as long as they use it.</p>
           <p><mark>Trust in a tool is a record of whether the thing said what it was doing, and people start keeping it in the first ten minutes.</mark></p>
           <aside class="writing-pull" aria-hidden="true">
             <p>The empty state is the product telling the truth about a moment when it has nothing to show.</p>
@@ -363,10 +358,9 @@
 
           <p class="writing-eyebrow">Key idea 4 of 5</p>
           <h2 id="the-log-is-the-interface-of-last-resort-so-design-it-as-one">The log is the interface of last resort, so design it as one</h2>
-          <p>Most of what a developer&rsquo;s tools say, they say in a log. It&rsquo;s the least designed surface in software, and it&rsquo;s read at the worst moment.</p>
+          <p>Most of what a developer&rsquo;s tools say, they say in a log: the least designed surface in software, read at the worst moment.</p>
           <p>So design it as an interface: the failing line first, the noise folded, the step names and times in a column the eye can run down.</p>
-          <p>The screen above it should be built from the same record, not a summary that can drift. And the record can be wrong too.</p>
-          <p>Two of this site&rsquo;s browser checks once measured the wrong tree and printed the results under the right name. Now every one prints the path, page count, and commit before anything else.</p>
+          <p>The record can be wrong too. Two of this site&rsquo;s checks once printed one tree&rsquo;s results under another&rsquo;s name; now each prints the path, page count, and commit first.</p>
           <p><mark>A summary is an interpretation of the record, so the screen has to let a person reach the evidence under it.</mark></p>
           <!-- The second drawing: the argument's second half, in the set's style,
                from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
@@ -377,7 +371,7 @@
 
           <p class="writing-eyebrow">Key idea 5 of 5</p>
           <h2 id="the-questions-come-in-an-order-and-the-screen-can-follow-it">The questions come in an order, and the screen can follow it</h2>
-          <p>Ship through a developer&rsquo;s tools for a season and a pattern shows. Whatever went wrong, my questions came in the same order:</p>
+          <p>Whatever went wrong, my questions came in the same order:</p>
           <ul>
             <li>What is live right now? The deploy log.</li>
             <li>What failed? The check.</li>
@@ -385,12 +379,12 @@
             <li>What depends on what changed? The history.</li>
             <li>Can I put it back safely? The branch, because a change on one commit reverts with one.</li>
           </ul>
-          <p>A screen can be arranged in that order, top to bottom, and it can be dense, because a developer under pressure has plenty of data and little attention.</p>
+          <p>A screen can be arranged in that order, and it can be dense: a developer under pressure has plenty of data and little attention.</p>
           <p>The first question is the one most screens answer badly. A list sorted newest-first puts a failed deploy on top, and a developer reads it as the one serving traffic.</p>
           <p>So keep the word <strong>live</strong> for the deploy that&rsquo;s serving, and make a failed build&rsquo;s first sentence say nothing is down.</p>
           <p>The order is mine, from shipping one site alone, so treat it as an assumption. On a team the first question may be who pushed.</p>
-          <p>What I run daily is the branch, the commit, the pull request, the checks, and a static deploy. Containers and observability across many services I&rsquo;ve read about and not run.</p>
-          <p>It&rsquo;s close to the order an operations floor asks in, too, which is <a href="designing-for-the-moment-the-workflow-breaks.html">another article</a>. <mark>Knowing the questions in order, from having asked them yourself, is the best qualification I know for designing the answer.</mark></p>
+          <p>I haven&rsquo;t run containers or observability across many services.</p>
+          <p><mark>Knowing the questions in order, from having asked them yourself, is the best qualification I know for designing the answer.</mark></p>
           <!-- The Blink's final summary and its actionable advice: the argument in
                one breath for a reader who skipped to the end, then one thing to do. -->
           <aside class="writing-recap" aria-labelledby="writing-recap-label">
