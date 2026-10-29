@@ -83,6 +83,76 @@
   color: var(--color-muted-gray);
 }
 
+/* ---------- What the map shows ----------
+   Since 2026-10-29 the map opens on its point, for a reader who will give
+   it ten seconds: three claims, each a bold line, one sentence of
+   evidence, and the moments that show it, in the moment discs the grid
+   uses, so the eye can find them below. The same component, in the same
+   tokens, as .svc-short in case-study/case-study-base.css.
+
+   A white card on the figure's gray-light, with the --rule-card edge.
+   Stacked under 64rem, the claims split by hairlines; from 64rem, three
+   columns split by the same hairline, a rule between square columns and
+   not an edge on the rounded card. The label is .glance-kicker, the
+   Kicker's treatment. Charcoal on white is 15.33, muted-gray 6.47. */
+.ia-short {
+  margin: 0 0 var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+/* Its size and ink said again under two classes, because .case-section p
+   sets prose at --text-lg in charcoal and outranks the bare class (as
+   .eng3-proof-client and .writing-meta in style.css do). */
+.ia-short .glance-kicker {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ia-short-list { list-style: none; margin: 0; padding: 0; }
+.ia-short-list > li { margin: 0; padding: var(--space-sm) 0; border-top: 1px solid var(--rule-hairline); }
+.ia-short-list > li:first-child { padding-top: 0; border-top: 0; }
+.ia-short-list > li:last-child { padding-bottom: 0; }
+.ia-figure .ia-short-claim {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ia-figure .ia-short-why {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ia-figure .ia-short-at {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+@media (min-width: 64rem) {
+  .ia-short { padding: var(--space-lg); }
+  .ia-short-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ia-short-list > li,
+  .ia-short-list > li:first-child,
+  .ia-short-list > li:last-child { padding: 0 var(--space-lg); border-top: 0; border-left: 1px solid var(--rule-hairline); }
+  .ia-short-list > li:first-child { padding-left: 0; border-left: 0; }
+  .ia-short-list > li:last-child { padding-right: 0; }
+  /* The moment line sits on one baseline across the three columns. */
+  .ia-short-list > li { display: flex; flex-direction: column; }
+  .ia-figure .ia-short-at { margin-top: auto; padding-top: var(--space-sm); }
+  .ia-figure .ia-short-claim { margin-bottom: var(--space-xs); font-size: var(--text-lg); }
+}
+
 /* ---------- The matrix ----------
    Stacked by default. Each moment is an <li> card on white with its name
    on top and its lanes under it, each lane a labelled row. */
@@ -114,7 +184,8 @@
   align-items: start;
   column-gap: var(--space-xs);
 }
-.ia-moment-name .ia-n {
+.ia-moment-name .ia-n,
+.ia-short-at .ia-n {
   color: var(--color-accent-text);
   font-variant-numeric: tabular-nums;
 }
@@ -226,7 +297,8 @@
    - One phrase a cell is bold in the pain row and the payoff row, so the
      two rows read across as the story in a dozen words. Bold, never a
      second color: emphasis on this site is weight. */
-.ia-moment-name .ia-n {
+.ia-moment-name .ia-n,
+.ia-short-at .ia-n {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -238,6 +310,8 @@
   /* Centred on the name's first line, from that line's own box. */
   margin-top: calc((var(--text-base) * var(--leading-tight) - 2 * var(--text-xs)) / 2);
 }
+/* In the summary the disc sits in a centred row of its own. */
+.ia-short-at .ia-n { margin-top: 0; }
 .ia-line {
   display: block;
   margin-top: var(--space-2xs);
