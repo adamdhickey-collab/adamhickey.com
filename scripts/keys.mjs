@@ -63,7 +63,9 @@ const commit = () => {
   } catch { return 'not a git checkout'; }
 };
 
-const articles = readdirSync(DIR).filter((f) => f.endsWith('.html') && f !== 'index.html').sort();
+/* A forwarding note is an old address, not an article (lib/harness.mjs). */
+const articles = readdirSync(DIR).filter((f) => f.endsWith('.html') && f !== 'index.html'
+  && !/<meta http-equiv="refresh"/i.test(readFileSync(resolve(DIR, f), 'utf8'))).sort();
 say(`keys.mjs: ${ROOT}, ${articles.length} articles, ${commit()}`);
 
 /* The heading's text as a list entry: tags out, entities kept, whitespace
@@ -74,11 +76,8 @@ const slug = (html) => inner(html).replace(/&[a-z]+;|&#\d+;/g, '').toLowerCase()
 
 /* Kept at their address, off the index (see the header). */
 const UNLISTED = new Set([
-  'what-does-a-product-design-engineer-actually-do',
-  'what-does-a-developer-need-from-an-interface-on-a-bad-day',
-  'designing-for-the-moment-the-workflow-breaks',
-  'standardizing-ux-across-40-sap-fiori-apps',
-  'what-makes-an-interface-feel-finished',
+  /* Empty since 2026-10-29: the five that were kept at their address
+     off the index became forwarding notes when the writing went to seven. */
 ]);
 
 const faults = [];

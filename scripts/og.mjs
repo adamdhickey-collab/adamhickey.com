@@ -94,14 +94,7 @@ const CARDS = {
      plane and its one curl, the first article's drawing since the 2026-09-17
      regrouping. */
   'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
-  'standardizing-ux-across-40-sap-fiori-apps':            { kicker: 'Writing', title: 'What I learned standardizing UX across 40+ SAP Fiori apps', image: 'img/writing/standardizing-ux-across-40-sap-fiori-apps.webp' },
   'what-a-design-system-needs-to-explain-to-an-agent':     { kicker: 'Writing', title: 'What a design system needs to explain to an agent', image: 'img/writing/what-a-design-system-needs-to-explain-to-an-agent.webp', position: '70% center' },
-  'what-does-a-product-design-engineer-actually-do':        { kicker: 'Writing', title: 'What does a product design engineer actually do?', image: 'img/writing/what-does-a-product-design-engineer-actually-do.webp' },
-  'what-makes-an-interface-feel-finished':                 { kicker: 'Writing', title: 'What makes an interface feel finished?', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
-  'what-does-a-developer-need-from-an-interface-on-a-bad-day': { kicker: 'Writing', title: 'What does a developer need from an interface on a bad day?', image: 'img/writing/what-does-a-developer-need-from-an-interface-on-a-bad-day.webp' },
-  'what-should-a-working-prototype-actually-prove':       { kicker: 'Writing', title: 'What should a working prototype actually prove?', image: 'img/writing/what-should-a-working-prototype-actually-prove.webp' },
-  'designing-for-the-moment-the-workflow-breaks':          { kicker: 'Writing', title: 'Designing for the moment the workflow breaks',                  image: 'img/writing/designing-for-the-moment-the-workflow-breaks.webp' },
-  'enterprise-ai-should-help-people-decide-not-just-answer': { kicker: 'Writing', title: 'Enterprise AI should help people decide, not just answer',    image: 'img/writing/enterprise-ai-should-help-people-decide-not-just-answer.webp' },
   'what-does-a-person-need-to-supervise-an-ai-agent': { kicker: 'Writing', title: 'What does a person need to supervise an AI agent?', image: 'img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp' },
   'what-does-a-design-system-need-once-ai-is-in-the-product': { kicker: 'Writing', title: 'What does a design system need once AI is in the product?', image: 'img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp' },
   /* The position article, 2026-10-20, above the three collections. Type
@@ -114,8 +107,6 @@ const CARDS = {
      the position article. Type alone until their drawings exist, as above;
      the kicker names the collection so a card in a feed says where in the
      argument it sits. */
-  'what-changes-when-ai-agents-join-the-product-team': { kicker: 'Writing · the system', title: 'What changes when AI agents join the product team?', image: 'img/writing/what-changes-when-ai-agents-join-the-product-team.webp' },
-  'what-is-a-product-designer-for-when-anyone-can-build': { kicker: 'Writing · the build', title: 'What is a product designer for, when anyone can build?', image: 'img/writing/what-is-a-product-designer-for-when-anyone-can-build.webp' },
   'who-decides-when-software-can-act-on-its-own': { kicker: 'Writing · the judgment', title: 'Who decides when software can act on its own?', image: 'img/writing/who-decides-when-software-can-act-on-its-own.webp' },
   /* The build's third since 2026-10-21, in the interface-feel-finished
      article's place. */
