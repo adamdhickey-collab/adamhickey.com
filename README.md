@@ -1,7 +1,7 @@
 # adamhickey.com
 
 The live public site of Adam Hickey's independent product design practice: a
-single-page portfolio, nine case studies, four "How I work" pages, six
+single-page portfolio, nine case studies, a "How I work" page, six
 articles, and a design system reference. Static HTML, CSS, and JavaScript, no build step and no
 `package.json`. The one built file is the case studies' Tailwind stylesheet,
 built once from `tailwind.config.js` into `case-study/case-tailwind.css` and
@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 41 pages in ten families |
+| **What this is** | The site: 38 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -129,7 +129,7 @@ the archive so that it holds everything staging ever had.
 | `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages, and five build write-ups |
 | `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The six Tailwind case studies' shared base, and every case study's scroll motion |
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
-| `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
+| `how-i-work.html`, `engagement/*.html` | How I work, one page since 2026-10-29: the four parts of the job, each the situation, the moves, and the account that shows it. The four pages it replaced under `engagement/` are forwarding notes now, each to its own section |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters, and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
 | `lab/aisle.{css,js}`, `prototype/aisle.html` | The Shortlist prototype, in the write-up's hero since 2026-10-29: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. Shortlist is the feature's name in the app of the made-up store, Marigold Home. What the shopper liked about the lamp is asked once and carried through every later screen, and every screen is written from what the shopper did. No image search, inventory system, or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers fourteen states for it, and `scripts/aisle-test.mjs` walks every branch and asserts what each screen says. `scripts/aisle-shots.mjs` takes its screens for the lab index and the share card. It had a page of its own for a day; `prototype/aisle.html` is a forwarding note to the write-up now, which no check measures and `seo.mjs` holds to a noindex, a canonical, and a place outside the sitemap. An independent concept: the store is made up, and no retailer's name, mark, or colors appear |
 | `lab/inspiration-to-aisle.html`, `lab/inspiration-to-aisle.css`, `lab/inspiration-to-aisle.js` | The Shortlist, one page since 2026-10-29: the question and four facts, with the working prototype beside them in the hero, then the opportunity, with what retailers already ship (one linked source), one service map drawn in HTML so the checks read it (the journey and a simplified service blueprint on six shared moments, with a Today/Connected switch and a moment to follow down, both lanes showing without script), five decisions each with the guess under it, made in place of research, the study that would test them, and a reflection. From 64rem the phone holds one height and its screen scrolls inside it, so a press never moves the map. Illustrative and conceptual material is labeled as such on the figure itself |
@@ -161,9 +161,8 @@ identity where dispatch was -- with no label over them since
 2026-10-24, then the lab card for Agent Review, the self-directed
 prototype) →
 How I work inside a
-product organization (the four cards that were the engagement grid, now
-answering each situation with how I operate on a team and opening its own
-page under `engagement/`) → What changes when agents can build (the scroll
+product organization (four pictures and their names, each opening its
+section of `how-i-work.html` since 2026-10-29) → What changes when agents can build (the scroll
 story, "The design-to-build shift" until 2026-10-06) → Built end to end (the
 two products, ending on the line to `other.html`, where the book and the
 "Identity and illustration" shelf now live) → About, which links the two career case studies → the
@@ -174,15 +173,16 @@ gave the two career case studies their route in from About. The hire-me pass
 put the work ahead of the method, reframed the engagement grid for a hiring
 manager, brought the proof strip back as a résumé-level line, and moved the
 book and the shelf out of the proof; the page argues for one thing first,
-hiring Adam onto a team. Since 2026-09-17 the four cards open the pages
-under `engagement/` again, reworked from the engagement pages into one page
-per card; from #129 to then they linked straight to the accounts. The header carries Work, How I
+hiring Adam onto a team. From 2026-09-17 the four cards opened the pages
+under `engagement/`, reworked from the engagement pages into one page
+per card; from #129 to then they linked straight to the accounts. Since
+2026-10-29 they open the sections of one page, `how-i-work.html`. The header carries Work, How I
 Work, Writing, About and Contact, an email icon, and a LinkedIn icon, and every
 page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Forty-one pages in ten families, all hand-written HTML with no include step
+Thirty-eight pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -191,11 +191,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all forty-one pages, so a
+email icon, and the skip link are hand-written into all thirty-eight pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all forty-one pages
+base ladder, and both regimes read it from `type.css`, which all thirty-eight pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -205,7 +205,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
 | Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
-| How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
+| How I work | 1 | A | One page for the four parts of the job: the situation, the moves, and the account that shows each. Four pages under `engagement/` until 2026-10-29, engagement pages until 2026-09-17. |
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 2 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, since 2026-10-27 its interface on live Citi Bike data, and the rebalancing cockpit. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
@@ -229,10 +229,12 @@ family: these load `style.css` and carry no Tailwind. The fourth, since
 2026-09-17, is about the site itself: the only page whose subject is the
 tree it sits in, so every number in it is one a check here prints.
 
-**How I work** -- `engagement/working-product-prototype.html`,
+**How I work** -- `how-i-work.html`, since 2026-10-29. The four pages it
+replaced, `engagement/product-clarity.html`,
 `engagement/design-system-foundation.html`,
-`engagement/embedded-senior-product-design.html`,
-`engagement/product-clarity.html`. The first was
+`engagement/embedded-senior-product-design.html`, and
+`engagement/working-product-prototype.html`, are forwarding notes to its
+sections, the way `prototype/aisle.html` is to The Shortlist. The last was
 `engagement/ai-product-prototype.html` until #24; see "Two live URLs now
 404".
 

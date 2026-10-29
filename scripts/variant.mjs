@@ -90,7 +90,10 @@ const BASE = {
      Since 2026-10-28 the first sentence stops at the breadth and the
      second takes new ideas to a prototype. */
   dek: 'Twenty years across visual design, interaction, and enterprise software. I take new ideas from a first question to a prototype, and help teams figure out <strong>which problem to solve, what good looks like, and what ships</strong>.',
-  cards: ['engagement/product-clarity.html', 'engagement/design-system-foundation.html', 'engagement/embedded-senior-product-design.html', 'engagement/working-product-prototype.html'],
+  /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
+     variant names it by that address; the private variants named the four
+     engagement/ pages until then. */
+  cards: ['how-i-work.html#ambiguity', 'how-i-work.html#systems', 'how-i-work.html#ownership', 'how-i-work.html#prototypes'],
   facts: ['New directions', 'Prototypes', 'Service design', 'Usability testing', 'Design systems', 'Accessibility'],
   writing: {
     /* The position article's three words since 2026-10-20, a new article at

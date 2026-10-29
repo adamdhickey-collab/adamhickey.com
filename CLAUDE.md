@@ -1848,6 +1848,9 @@ Four rules that came with #29, each held by `seo.mjs`:
   FAQPage. The check faults a question in the graph that the page does not
   ask in words. Never put a price in one: since 2026-09-17 the pages state
   no length and no fee, and the engagement is one sentence at the close.
+  Since 2026-10-29 the four are one page, `how-i-work.html`, with no
+  questions panel and so no FAQPage; the rule holds for the next page that
+  carries one.
 - **Every page names its own card.** `node scripts/og.mjs` renders
   `img/og/<slug>.jpg` from a registry of kicker, title and picture, using
   the same Chrome as the checks; keep the registry's title in step with the
@@ -1863,8 +1866,8 @@ Two more since #32:
 
 - **The `<title>` is search language; the h1 is the site's.** A buyer who
   does not know the name searches "enterprise design system consultant",
-  not "Design System Foundation", so the homepage and the four "How I work"
-  pages carry the search phrase in `<title>`, `og:title` and the
+  not "Design System Foundation", so the homepage and How I work (four
+  pages until 2026-10-29) carry the search phrase in `<title>`, `og:title` and the
   description, and keep their own name in the h1 and on the share card.
   `seo.mjs` holds `og:title` to `<title>`. Do not rewrite the page's prose
   to sound like the title; the translation lives in the head, on purpose,

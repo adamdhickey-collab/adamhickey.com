@@ -170,7 +170,8 @@ export function revision(root) {
    counts.mjs and seo.mjs need nothing installed and do not import this
    file, so each carries the same test; seo.mjs also holds each note to a
    noindex, a canonical naming its page, and a place outside the sitemap.
-   Since 2026-10-29 there is one, prototype/aisle.html. */
+   Since 2026-10-29 there are five: prototype/aisle.html, and the four
+   engagement/ pages How I work replaced. */
 export const FORWARD = /<meta http-equiv="refresh"/i;
 
 export function pages(root, dir = root, out = []) {
