@@ -676,7 +676,9 @@
   --rl-sage-fill: color-mix(in srgb, var(--color-accent-text) 40%, var(--color-tea-light));
   --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
   position: relative;
-  margin: var(--space-4xl) 0 0;
+  margin: var(--space-4xl) 0;
+  padding-bottom: var(--space-4xl);
+  border-bottom: 1px solid var(--rule-strong);
 }
 .rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 /* What the drawing is, said once over it, so it reads as the section's
@@ -754,6 +756,8 @@
 .build-loop--rail li::before { grid-column: 2; grid-row: 1; }
 .build-loop--rail strong { grid-column: 2; grid-row: 2; }
 .build-loop--rail li > span { grid-column: 2; grid-row: 3; padding-bottom: var(--space-4xl); }
+/* The last step's room is the rail's own padding, over its rule. */
+.build-loop--rail li:last-child > span { padding-bottom: 0; }
 .rl-step {
   grid-column: 1;
   grid-row: 1 / -1;
