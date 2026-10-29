@@ -99,10 +99,31 @@
 .case-card--lab > .case-thumb,
 .case-card--lab > .case-thumb-play { margin-bottom: var(--space-xl); }
 /* The tags ride down with the link, so the two panels' tags line up as
-   their links do, whichever description runs longer. */
-.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-md); }
+   their links do, whichever description runs longer. At least --space-xl
+   under the question, the step between the picture and the app: at
+   --space-md the serif's last line sat on the tags once the description
+   stopped standing between them. */
+.case-grid--lab .case-card--lab .tag-row { margin-top: auto; padding-top: var(--space-xl); }
 .case-grid--lab .case-card--lab .tag-row + .product-actions { margin-top: 0; }
 .case-card--lab .product-actions { margin-top: auto; padding-top: var(--space-lg); }
+/* THE APP HEADS THE WORDS, since 2026-10-29 (Adam: "maybe the icon with the
+   description should go on top"). style.css puts the icon and its
+   description between the question and the tags ("THE ICON BESIDE THE
+   DESCRIPTION"), where they read as a third paragraph wedged between the
+   card's two serif lines and its tags and link. In this row they come first
+   under the picture: the app, then its headline and question, then the tags
+   and the link.
+   The markup keeps the h3 first, so a screen reader meets the card's heading
+   before the description; `order` lifts the row, as it lifts the picture,
+   and nothing in it takes focus, so the tab order is unchanged.
+   Under 640 the description runs four or five lines beside the icon, and a
+   centred icon floated halfway down them, so there the icon tops the
+   description's first line, as an app listing sets it; from 640 the
+   description is two or three lines and the icon centres on them. */
+.case-grid--lab .case-app { order: -1; align-items: flex-start; margin: 0 0 var(--space-lg); }
+@media (min-width: 640px) {
+  .case-grid--lab .case-app { align-items: center; }
+}
 @media (min-width: 1024px) {
   .case-grid--lab { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case-card--lab {
