@@ -216,14 +216,13 @@
          check on this tree prints. -->
     <header class="case-hero">
       <div class="container">
-        <p class="case-kicker">Build write-up &middot; 6 min read</p>
+        <p class="case-kicker">Build write-up &middot; 3 min read</p>
         <h1 class="case-title">How I built this site</h1>
         <p class="build-dek">Thirty-five pages of plain HTML, no framework and no build step, held to four written specs by twelve checks that measure the rendered page. It&rsquo;s the closest thing to a production codebase I own.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
-            <div><dt>Built with</dt><dd>HTML and CSS, Node scripts, and one Chrome that measures every page</dd></div>
             <div><dt>Size</dt><dd>35 pages, 3 token files, 4 specs, 39 scripts</dd></div>
             <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
           </dl>
@@ -242,60 +241,6 @@
                    alt="The homepage of this site at laptop width: the wordmark and six section links across the top, the portrait in a circle on the left, and on the right the eyebrow Senior Product Designer &middot; Open to remote or hybrid roles over the title &ldquo;Software that fits the job and the person doing it.&rdquo;, a three-line dek beginning &ldquo;Twenty years across visual design, interactive experiences, and enterprise software.&rdquo;, a green See enterprise work button, an outlined See Agent Review button and a R&eacute;sum&eacute; link. Under the pair, six facts in two rows of three, each with a small line icon in a pale disc, among them Agent boundaries, and a row of six client wordmarks along the bottom." />
             </div></div>
         </figure>
-
-        <div class="glance">
-          <p class="glance-kicker">My approach</p>
-          <ol class="glance-row">
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 3.8h12a2.2 2.2 0 0 1 2.2 2.2v12a2.2 2.2 0 0 1-2.2 2.2H6a2.2 2.2 0 0 1-2.2-2.2V6A2.2 2.2 0 0 1 6 3.8z"/><path pathLength="1" d="M12 3.8v16.4"/><path pathLength="1" d="M3.8 12h16.4"/></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>01</span>Tokens</p>
-                <ul class="glance-points">
-                  <li>Three token files: color, type, and the page shell</li>
-                  <li>Four specs that are the rule, not the record of one</li>
-                  <li>A fourteen-step type scale and four fluid ramps between its steps</li>
-                </ul>
-                <a class="glance-more" href="#tokens">Tokens first</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.5,-1.5)"><path pathLength="1" d="M3 21l1.2-4.2L15 6l3 3L7.2 19.8 3 21z"/><path pathLength="1" d="M13.2 7.8l3 3"/></g></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>02</span>Pages</p>
-                <ul class="glance-points">
-                  <li>Hand-written HTML with the shell copied in, not included</li>
-                  <li>A third of the markup is comments saying why</li>
-                  <li>One generated file, and a check that rebuilds and diffs it</li>
-                </ul>
-                <a class="glance-more" href="#pages">The pages</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.1,0.1)"><circle pathLength="1" cx="9" cy="10" r="6"/><path pathLength="1" d="M13.4 14.4 18.8 19.8"/></g></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>03</span>Checks</p>
-                <ul class="glance-points">
-                  <li>Twelve checks; six of them render pages in a real browser</li>
-                  <li>Contrast measured on the resting page and in every forced state</li>
-                  <li>Every number the specs assert, recounted from the tree</li>
-                </ul>
-                <a class="glance-more" href="#checks">What the checks measure</a>
-              </div>
-            </li>
-            <li class="glance-step">
-              <span class="glance-node"><svg class="glance-icon" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3.8 19.2h4.6a2.8 2.8 0 0 0 2.8-2.8V9.2a2.8 2.8 0 0 1 2.8-2.8h6"/><path pathLength="1" d="m17.4 3.6 2.8 2.8-2.8 2.8"/></svg></span>
-              <div class="glance-body">
-                <p class="glance-title"><span>04</span>Ship</p>
-                <ul class="glance-points">
-                  <li>A merge is live in about a minute, with nothing in between</li>
-                  <li>Guards that refuse rather than warn</li>
-                  <li>AI wrote most of the scripts, to rules that came from failures I found</li>
-                </ul>
-                <a class="glance-more" href="#ship">Nothing ships on a feeling</a>
-              </div>
-            </li>
-          </ol>
-        </div>
       </div>
     </header>
 
@@ -317,67 +262,19 @@
         <h2 id="tokens">Tokens first, and the specs are the rule</h2>
         <p>Three files hold every value the site may use: the colors, the type scale, and the spacing and radii of the page shell. A color that isn&rsquo;t in the palette isn&rsquo;t a color.</p>
         <p>Four specs sit over those files: typography, color, spacing, and motion. When a spec and the stylesheet disagree, one of them is a bug, and all four have been found stale at least once.</p>
-        <ul class="build-list">
-          <li>The type scale is fourteen steps, and every rendered size, on every page at four widths, is one of them</li>
-          <li>The color spec lists every ink on every ground with its measured ratio, and the accent splits by ground, never by job</li>
-          <li>Motion is six durations and two curves, and any other duration is refused</li>
-        </ul>
-        <a class="glance-more" href="../design-system/index.html">The design system itself, every value read live</a>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-tea">
-      <div class="container case-narrow">
-        <h2 id="pages">The pages, written by hand</h2>
-        <p>Thirty-five pages, each a plain HTML file. The header and navigation are copied into every one rather than pulled from an include, so a change to the shell is a change to thirty-five files.</p>
-        <p>There&rsquo;s no build step, except one generated file: the Tailwind stylesheet the six oldest case studies load. The pipeline rebuilds it and diffs the bytes, because a class the build has never seen isn&rsquo;t an error. It&rsquo;s nothing at all.</p>
         <p>About a third of the markup is comments saying why: what was tried, what it measured, and what sent it back. I think a rule with no reason attached is the first thing the next change deletes.</p>
+        <a class="glance-more" href="../design-system/index.html">The design system itself, every value read live</a>
       </div>
     </section>
 
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2 id="checks">What the checks measure</h2>
-        <p>Twelve checks run on every merge. Six read the tree and finish in about a second. Each confirms one thing:</p>
-        <ul class="build-list">
-          <li>It can be deployed at all</li>
-          <li>Every token the specs name exists</li>
-          <li>Every number the documentation asserts still counts</li>
-          <li>What each page tells a machine matches the page</li>
-          <li>Every article's key ideas are still its headings</li>
-          <li>Every list of three keeps its Oxford comma</li>
-        </ul>
-        <p>The other six open the pages in Chrome and measure what rendered. The first five figures are the sweep of 30 September 2026, at e10d336:</p>
-        <ul class="build-list">
-          <li>Every color a reader can see, at rest and in every reachable state: 11,530 measurements, with ink over artwork read by the pixel</li>
-          <li>Every hover, focus, and script-applied state, forced: 2,005 state rules</li>
-          <li>Every rendered type size at four widths against the fourteen steps: 47,792</li>
-          <li>Every curved corner, for a border that follows only part of the curve: 29,216 elements</li>
-          <li>Every card on a ground, for an edge a reader can see: 374 raised surfaces</li>
-          <li>Every read time a page states, against the words and pictures a reader meets: 27 labels, held since 22 October</li>
-        </ul>
+        <p>Twelve checks run on every merge. Six read the tree and finish in about a second.</p>
+        <p>The other six open the pages in Chrome and measure what rendered: every color a reader can see, every forced state, and every type size against the scale.</p>
         <p>The prototype page renders its interesting surface from JavaScript in response to a press. For a while, every check said the page passed while measuring a sixth of it.</p>
         <p>So a registry now names every state a reader can reach, and each check presses into every one. A selector that matches nothing fails the run. Its first pass found a live hover at 1.29:1.</p>
         <p>I watch the counts as closely as the verdicts. The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured.</p>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-warm">
-      <div class="container case-narrow">
-        <h2 id="reads">Two things the site does for a reader that a check made honest</h2>
-        <p>Every page of writing can read itself aloud in the browser&rsquo;s own voice, marking each word as it goes. It hands over one sentence at a time, because one long utterance stops mid-word after fifteen seconds in Chrome.</p>
-        <p>It marks the text with the CSS Highlight API rather than wrapping words in spans, so what a reader copies is what was there before they pressed play.</p>
-        <p>Every page carries a canonical address, a share card rendered from the site's own type, and a schema.org graph. The graph is seventy-one nodes across the site, all naming one Person.</p>
-        <p>Dates are stamped from each file&rsquo;s last commit, never typed, so the sitemap and the article can&rsquo;t disagree.</p>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-tea">
-      <div class="container case-narrow">
-        <h2 id="ship">Nothing ships on a feeling</h2>
-        <p>A merge to the main branch is the live site about a minute later, with no staging in front of it. The branch and its checks are the gate, which is why the guards refuse rather than warn.</p>
-        <p>Squash merges make a branch and main diverge by construction, so a script answers, file by file, whether a force-push can lose work. Its exit 2 means it couldn&rsquo;t tell, and 2 isn&rsquo;t a yes.</p>
-        <p>Since June, and before the change that wrote this sentence: 512 commits, 331 pull requests, and a written account under each of why. The account is the product as much as the pages are.</p>
       </div>
     </section>
 
