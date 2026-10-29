@@ -185,6 +185,16 @@
 @media (hover: hover) and (pointer: fine) {
   .nav-links a:hover { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
 }
+/* The section the page is in. Its link carries aria-current, "page" on the
+   section's own index and "true" on a page inside it, and holds the hover
+   state at rest: sage ink over a sage bar, as .ai-progress marks its
+   current step. The bar is what keeps the mark from being color alone, and
+   it fills the 2px every link already reserves, so nothing in the row
+   moves. The homepage marks none of them, since the mark is its link
+   home. Which section a page belongs to is its breadcrumb's second item,
+   except that Built end to end reads as Work and Earlier work as About,
+   where their back links already send a reader. */
+.nav-links a[aria-current] { color: var(--color-accent-text); border-bottom-color: var(--color-accent-text); }
 /* The same ring style.css gives every link on regime A, stated here so the
    six pages that cannot see style.css get it too. */
 .nav-links a:focus-visible {
@@ -246,6 +256,14 @@
     border-bottom-color: var(--color-rule);
   }
   .site-nav.is-menu-open .nav-links li:last-child a { border-bottom-color: transparent; }
+  /* In the panel each row's border is the rule between rows, so the bar
+     under the current section moves onto the word: the same 2px under the
+     same sage, the width of the word rather than the row. */
+  .site-nav.is-menu-open .nav-links a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
   .site-nav.is-menu-open .nav-links a:focus-visible { border-bottom-color: var(--color-accent-text); }
   @media (hover: hover) and (pointer: fine) {
     .site-nav.is-menu-open .nav-links a:hover { border-bottom-color: var(--color-accent-text); }
