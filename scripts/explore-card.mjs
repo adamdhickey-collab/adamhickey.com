@@ -12,11 +12,12 @@
    time and capturing each frame, so the clip is the same every run and no
    frame depends on how fast the machine is.
 
-   The clip, 15 seconds at 30fps, plays once on the page (it looped for
+   The clip, 8.5 seconds at 30fps, plays once on the page (it looped for
    its first hour), so it ends on the frame it began with. It ran 12
    seconds until 2026-10-27 (Adam: "takes too long ... a little more
    zippy"); every beat is about half what it was, and the build a reader
-   sees went from 10.5s to 5.3s:
+   sees went from 10.5s to 5.3s. It ran 15 seconds from 2026-10-28, for a
+   slow pick, until 2026-10-29, when the pick took the build's tempo:
      0.0  the finished screen, which is also the poster (so the switch from
           poster to clip is invisible, and a reduced-motion reader sees the
           same picture the clip opens and closes on)
@@ -29,15 +30,15 @@
      3.7  Review batch, then archive: the panel slides in, each row is
           ticked, and the button counts with them
      5.2  "Tried all three"
-     6.4  after a breath, each way is picked out in turn (Adam, 2026-10-28:
-          "highlight in a very obvious way ... to emphasize a designer
-          decides what ships"): the tile takes the app's sage ground and a
-          sage ring, holds, and lets go just as the next is taken. Slow
-          and even against the build's quick spring, on purpose (Adam:
-          "the contrast between what an agent would do and then what a
-          person would do ... slow down thoughtfully consider the
-          options")
-    14.4  the third has let go, and the finished screen holds to the end
+     5.6  each way is picked out in turn (Adam, 2026-10-28: "highlight in
+          a very obvious way ... to emphasize a designer decides what
+          ships"): the tile takes the app's sage ground and a sage ring,
+          holds, and lets go just as the next is taken. It was slow and
+          even against the build, 2.6s a way, until 2026-10-29; it is the
+          build's own curve and about its pace now, 0.7s a way (Adam:
+          "much faster similar to how the build for the animation is
+          before this ... all be quick")
+     7.95 the third has let go, and the finished screen holds to the end
           with nothing picked
 
    The page starts the clip at 0.7s, not 0 (Adam: the card was there,
@@ -64,7 +65,7 @@ const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/M
 const i = process.argv.indexOf('--app');
 const app = (i > -1 ? process.argv[i + 1] : 'https://adamdhickey-collab.github.io/agent-review/').replace(/\/?$/, '/');
 const OUT = 'img/lab/agent-review-explore-card';
-const W = 800, H = 450, SCALE = 2, FPS = 30, T = 15000, START = 700;
+const W = 800, H = 450, SCALE = 2, FPS = 30, T = 8500, START = 700;
 const BITRATE = 1_500_000;
 
 const browser = await chromium.launch({ executablePath: CHROME });
@@ -199,19 +200,18 @@ try {
 
     /* The pick: each way in turn takes the app's own sage, its success
        ground and a ring of its primary, holds while it is read, and lets go
-       just as the next is taken, on an even curve the build never uses.
-       Colors only, because the tile's rise owns its transform. */
+       just as the next is taken, on the build's own curve and at about its
+       pace. Colors only, because the tile's rise owns its transform. */
     {
-      const calm = 'cubic-bezier(0.45, 0, 0.55, 1)';
       const tok = (n) => { const p = document.createElement('i'); p.style.color = `var(${n})`; document.body.append(p); const c = getComputedStyle(p).color; p.remove(); return c; };
       const sage = tok('--color-primary'), ground = tok('--color-success-subtle');
       ways.forEach((li, n) => {
         const cs = getComputedStyle(li);
         const base = { backgroundColor: cs.backgroundColor, borderColor: cs.borderColor, boxShadow: `${sage.replace('rgb(', 'rgba(').replace(/\)$/, ', 0)')} 0px 0px 0px 0px` };
-        const on = 6400 + n * 2600;
+        const on = 5600 + n * 700;
         track(li, base, [
-          [on, 900, { backgroundColor: ground, borderColor: sage, boxShadow: `${sage} 0px 0px 0px 2px` }, calm],
-          [on + 1900, 900, base, calm],
+          [on, 250, { backgroundColor: ground, borderColor: sage, boxShadow: `${sage} 0px 0px 0px 2px` }],
+          [on + 700, 250, base],
         ], base);
       });
     }
