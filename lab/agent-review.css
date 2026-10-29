@@ -24,7 +24,8 @@
    2026-10-26; it now follows the feature the stages and the pictures do.
 
    NOTHING ON THE PAGE MOVES WITH SCROLL. The opener's question works the
-   same at every width, and Evaluate's two screens are two pictures.
+   same at every width, and so do Evaluate's two screens, which a reader
+   presses through.
 
    NO CAPITALS ARE FORCED anywhere on the page but its kicker: eyebrows and
    labels are set in sentence case at their own size, and the shared glance
@@ -581,26 +582,217 @@
   .ar-try-frame iframe { aspect-ratio: 16 / 10; }
 }
 
-/* ---- Evaluate: the two directions, side by side ----
-   The designer's pick on the left, the agent's on the right, in the same
-   crop of the prototype's window, each under its own name. Two columns
-   from 64rem, so each prints at half the frame; stacked under it, and on
-   a phone each is its phone capture. Until 2026-10-26 this was one frame
-   with a line between the two screens, scrubbed by scroll and moved by a
-   range: it read as confusing, and the one frame printed the prototype
-   too large (Adam). */
+/* ---- Evaluate: the two directions, side by side, both working ----
+   The agent's pick on the left and the designer's call on the right, in
+   the order the lead says them, each under who chose it and the
+   direction's name from the prototype. Two columns from 64rem; stacked
+   under it, the agent's first.
+
+   SINCE 2026-10-29 BOTH ARE RELAY IN LIVE HTML, drawn as the opener's
+   list is (the same five customers, the same on-dark tokens and status
+   pills), and both work. Until then they were two captures of the
+   moment after the press, so the one thing undo is for, rows leaving and
+   coming back, was the one thing a reader could not see (Adam: "I want to
+   be able to click on the undo button and see what happens").
+     - My call: the active three named before the press, which is the part
+       kept from the review; Archive takes four and stops at Monarch; the
+       bar says so with Undo; Undo brings the four back.
+     - The agent's pick: Archive opens the review, one more stop, with a
+       real box per active customer; Archive N takes what is left
+       checked, and there is no Undo after it.
+   A figure's step is one word on data-step, set by agent-review-story.js;
+   anything marked data-for shows only in the steps it names. With no
+   script the figure stays at its first step, which is what the checks
+   measure at rest; every later step is in scripts/lib/reachable.mjs. */
 .arc-pair { display: grid; gap: var(--space-xl); }
 .arc-pair figure { margin: 0; }
-.arc-pair .arc-screen img { display: block; width: 100%; height: auto; }
-.arc-pair figcaption {
-  margin-top: var(--space-sm);
+@media (min-width: 64rem) {
+  .arc-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl); align-items: start; }
+}
+.ev-head { display: grid; gap: var(--space-2xs); margin-bottom: var(--space-md); }
+.ev-who {
   font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.ev-name {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-.arc-pair-who { color: var(--color-muted-gray); }
-@media (min-width: 64rem) {
-  .arc-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xl); }
+
+.ev [data-for] { display: none; }
+.ev[data-step="selected"] [data-for~="selected"],
+.ev[data-step="reviewing"] [data-for~="reviewing"],
+.ev[data-step="archived"] [data-for~="archived"],
+.ev[data-step="undone"] [data-for~="undone"] { display: flex; }
+.ev[data-step="reviewing"] .ev-review[data-for~="reviewing"],
+.ev[data-step="selected"] .ev-note[data-for~="selected"] { display: block; }
+
+/* The bar over the rows: what is selected, then what happened, and the
+   one press that moves it on, at the end. */
+.ev-bar {
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--rule-on-dark);
+  background: var(--wash-on-dark);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark);
+}
+.ev-bar-text { flex: 1 1 10rem; font-weight: var(--weight-semibold); text-wrap: pretty; }
+
+/* The keys. Archive is the opener's: caution ink on the caution light
+   (5.23:1), the one warm thing on the screen. Undo is the secondary, a
+   ring in the strong on-dark rule; Cancel and Start over are quiet. The
+   key a reader presses next carries the sage ring the prototype marks it
+   with, so the way through is plain without a word about it. */
+.ev-key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  flex: none;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
+}
+.ev-key--archive { background: var(--color-caution-light); color: var(--color-caution-text); }
+.ev-key--undo { box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong); }
+.ev-key--quiet { color: var(--ink-on-dark-secondary); }
+.ev[data-step="selected"] .ev-bar .ev-key,
+.ev[data-step="reviewing"] .ev-review-keys .ev-key--archive,
+.ev[data-step="archived"] .ev-key--undo,
+.ev[data-step="archived"] [data-for="archived"] [data-press="again"],
+.ev[data-step="undone"] [data-press="again"] {
+  box-shadow: 0 0 0 2px var(--color-charcoal), 0 0 0 4px var(--color-accent-on-dark);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ev-key--undo:hover,
+  .ev-key--quiet:hover { background: var(--wash-on-dark-hover); color: var(--ink-on-dark); }
+}
+.ev-key:focus-visible { outline: 2px solid var(--color-accent-on-dark); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ev-key { transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease), scale var(--motion-response) var(--ease); }
+  .ev-key:active { scale: var(--motion-press); }
+}
+.ev-undo-icon {
+  width: 1lh;
+  height: 1lh;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Before the press, the active three named: the part of the review the
+   designer kept. */
+.case-section .ev-note {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--rule-on-dark);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark);
+  text-wrap: pretty;
+}
+.ev-note .ship-list-tag { margin-right: var(--space-2xs); }
+
+/* The review, the agent's one more stop, under the bar. */
+.ev-review {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--rule-on-dark);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark);
+}
+.case-section .ev-review-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--ink-on-dark);
+}
+.case-section .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
+.ev-review strong { font-weight: var(--weight-semibold); }
+.ev-review-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
+.ev-tag {
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  font-weight: var(--weight-medium);
+}
+.ev-tag--blocked { background: var(--color-caution-light); color: var(--color-caution-text); }
+.ev-keep { margin: 0 0 var(--space-xs); padding: 0; list-style: none; }
+.ev-keep li { margin: 0; }
+.ev-keep label { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; cursor: pointer; }
+.ev-keep input { width: 1lh; height: 1lh; margin: 0; accent-color: var(--color-accent-on-dark); }
+.ev-review .ev-review-keys { display: flex; justify-content: flex-end; gap: var(--space-xs); margin: var(--space-sm) 0 0; }
+
+/* The rows. A row that leaves folds to nothing and fades, one after
+   another; Undo opens them again. Each row is three boxes so the fold
+   takes the padding and the rule with it. */
+.ev-rows { margin: 0; padding: 0; list-style: none; }
+.ev-row {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin: 0;
+  transition: grid-template-rows var(--motion-move) var(--ease), opacity var(--motion-state) var(--ease);
+}
+.ev-row-in { min-height: 0; overflow: hidden; }
+.ev-row-body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--rule-on-dark);
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark);
+}
+.ev-row:first-child .ev-row-body { border-top: 0; }
+.ev-row[data-gone] { grid-template-rows: 0fr; opacity: 0; }
+.ev-row-name { flex: 1; min-width: 0; }
+.ev-check {
+  flex: none;
+  box-sizing: border-box;
+  width: 1lh;
+  height: 1lh;
+  border: 1px solid var(--rule-on-dark-strong);
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
+}
+.ev-row[data-on] .ev-check { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); stroke: var(--color-charcoal); }
+@media (prefers-reduced-motion: no-preference) {
+  .ev-row:nth-child(2) { transition-delay: var(--motion-stagger); }
+  .ev-row:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
+  .ev-row:nth-child(4) { transition-delay: calc(var(--motion-stagger) * 3); }
+  .ev-row:nth-child(5) { transition-delay: calc(var(--motion-stagger) * 4); }
+  .ev[data-step="archived"] .ev-bar,
+  .ev[data-step="undone"] .ev-bar,
+  .ev[data-step="reviewing"] .ev-review { animation: ship-in var(--motion-move) var(--ease-enter) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev-row { transition: none; }
 }
 
 /* ---- the rest of the page ---- */
@@ -929,8 +1121,10 @@
   .arc-head { margin-bottom: var(--space-2xl); }
 }
 @media (max-width: 63.99rem) and (pointer: coarse) {
-  /* The answers are a finger's target. */
-  .ship-pick { min-height: 44px; }
+  /* The answers, and Evaluate's keys and boxes, are a finger's target. */
+  .ship-pick,
+  .ev-key,
+  .ev-keep label { min-height: 44px; }
 }
 
 /* Phones. */
