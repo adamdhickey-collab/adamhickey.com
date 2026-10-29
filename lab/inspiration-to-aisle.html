@@ -231,12 +231,15 @@
           <p class="build-dek">How might one shopping trip feel continuous across a phone, a store, and a person who works there? One trip, from a photo of a friend&rsquo;s lamp to a store aisle, as a service map and a working prototype.</p>
           <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS, since 2026-10-28: the
                human problem, what is different about this answer to it, what
-               was made, and what has been tested, which is nothing yet. -->
+               was made, and what it shows. Since 2026-10-29 the fourth says
+               what the work has not shown as well as that nothing is tested,
+               so the first screen is where the limits are stated, not the
+               foot of the page. -->
           <dl class="build-facts ia-facts">
             <div><dt>The problem</dt><dd>What a shopper works out at home stays on the phone. At the store door, the trip starts over.</dd></div>
             <div><dt>What&rsquo;s different</dt><dd>It carries the decision, not only the search: what you liked, your shortlist, and how sure the shelf count is.</dd></div>
             <div><dt>What I built</dt><dd>A service map of one trip, and a working prototype at a phone&rsquo;s width, on sample data.</dd></div>
-            <div><dt>Tested</dt><dd>Not yet, with shoppers or with store staff. <a href="#evaluation">The study I&rsquo;d run first</a> is below.</dd></div>
+            <div><dt>What it shows</dt><dd>An idea worked through far enough to test. Nothing yet about demand, feasibility, or revenue: <a href="#evaluation">the study I&rsquo;d run first</a> is below.</dd></div>
           </dl>
           <!-- The row read-aloud.js puts "Listen to this page" in. The
                prototype is beside it, so the row carries no button of its
@@ -294,7 +297,7 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>One trip, from the shopper down to the systems</h2>
-          <p>Six moments across. The top lanes are what the shopper meets; under the line is what has to be true. Switch to the connected version to see where today&rsquo;s trip breaks, and pick a moment to follow it down.</p>
+          <p>Six moments across: what the shopper meets on top, and what has to be true under the line. Switch to Connected to see where today&rsquo;s trip breaks, and pick a moment to follow it down.</p>
         </div>
         <figure class="ia-figure ia-map" style="--ia-moments: 6">
           <figcaption>One trip, today and connected<span class="ia-standing">Illustrative: drawn from the scenario, not from observed shoppers. The systems are what a service like this would need, as I imagine them.</span></figcaption>
@@ -406,23 +409,22 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>Five decisions, each resting on a guess</h2>
-          <p>The AI matches, explains, and suggests. Everything else is the shopper&rsquo;s, as in <a href="agent-review.html">Agent Review</a> and <a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, except that a shopper can walk away. So here the app waits to be asked.</p>
-          <p>I haven&rsquo;t talked to shoppers or staff yet, so each decision rests on a guess.</p>
+          <p>The AI matches, explains, and suggests; the shopper decides the rest. I haven&rsquo;t talked to shoppers or staff yet, so each decision rests on a guess.</p>
         </div>
         <ol class="ia-decisions">
           <li class="ia-decision">
             <h3>Carry the context, not the cart</h3>
-            <p>What goes into the store is the photo, what you liked about it, and your shortlist: how far you got, not what you bought. Never your account, and never your history.</p>
+            <p>The store gets the photo, what you liked about it, and your shortlist. Never your account or your history.</p>
             <p class="ia-guess"><b>My guess:</b> what you liked is the one thing worth asking, once, under the photo.</p>
           </li>
           <li class="ia-decision">
             <h3>Say why, and how sure</h3>
-            <p>Each match says in words what matched and what didn&rsquo;t: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo; The weak one stays on the list and calls itself a stretch.</p>
+            <p>Each match says in words what matched and what didn&rsquo;t: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo;</p>
             <p class="ia-guess"><b>My guess:</b> a sentence someone can check against the photo earns more trust than a score.</p>
           </li>
           <li class="ia-decision">
             <h3>Make no cheap</h3>
-            <p>&ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; the same size, with Undo on the line that reports it. Hiding all four is allowed: &ldquo;none of these&rdquo; is an answer.</p>
+            <p>&ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; the same size, and hiding all four is allowed: &ldquo;none of these&rdquo; is an answer.</p>
             <p class="ia-guess"><b>My guess:</b> what someone turns down tells the app what they meant.</p>
           </li>
           <li class="ia-decision">
@@ -432,7 +434,7 @@
           </li>
           <li class="ia-decision">
             <h3>Hand off to a person on purpose</h3>
-            <p>&ldquo;Ask someone in Home&rdquo; is on the store screen from the start. You choose what the employee sees, and nothing goes until Send. If nobody is free, the request stays open.</p>
+            <p>&ldquo;Ask someone in Home&rdquo; is on the store screen from the start, and you choose what the employee sees.</p>
             <p class="ia-guess"><b>My guess:</b> an employee wants a stranger&rsquo;s shortlist, and has the time for it.</p>
           </li>
         </ol>
@@ -440,36 +442,52 @@
              does, and what has and has not been checked. The figures are
              aisle-test.mjs's and an axe run's. -->
         <div class="writing-measure ia-access">
-          <p><strong>Built for anyone in the aisle.</strong> Each new screen is announced and takes focus, nothing rests on color alone, and every control is at least 44 pixels. Automated checks pass; no screen reader user has tried it yet.</p>
+          <p><strong>Built for anyone in the aisle.</strong> Each new screen is announced and takes focus, nothing rests on color alone, and every control is at least 44 pixels. No screen reader user has tried it yet.</p>
         </div>
       </div>
     </section>
 
-    <!-- 4. EVALUATION. What to test first, and what would prove it wrong.
-         No results: nothing here has been run. -->
+    <!-- 4. EVALUATION. The bet in business terms, what to test first, and
+         what would prove it wrong. No results: nothing here has been run.
+         Since 2026-10-29 the bet opens the section, and a simpler version
+         is a named outcome, so the plan can end in less of the design. -->
     <section class="case-section case-overview build-chapter ground-white" id="evaluation">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>What I&rsquo;d test first, and what would prove it wrong</h2>
-          <p>Nothing has been run. The riskiest guess comes before all five: <strong>does a person in an aisle want their phone out at all?</strong> If not, the store half shrinks to an aisle number and a hand-off.</p>
-          <p><strong>With shoppers:</strong> five people who bought something they first saw elsewhere, each with their own photo. They narrow it to two at home, then find them in a store, with one missing.</p>
+          <p><strong>The bet:</strong> if a shopper&rsquo;s choices follow them into the store, they find things faster, decide with more confidence, and abandon fewer trips. For a retailer, that&rsquo;s sales, satisfaction, and staff time.</p>
+          <p>The riskiest guess comes before all five: <strong>does a person in an aisle want their phone out at all?</strong> If not, the store half shrinks to an aisle number and a hand-off.</p>
+          <p><strong>With shoppers:</strong> five people who bought something they first saw elsewhere, each with their own photo, narrowing to two at home and finding them in a store with one missing.</p>
           <p><strong>With staff:</strong> three people from a home department, fifteen minutes each, walked through the request.</p>
+          <p><strong>With engineering and store operations:</strong> which of the map&rsquo;s bottom lanes exist today, and how old a shelf count really is.</p>
           <ul class="build-list">
             <li><strong>Keep it</strong> if most shoppers reach for the list in the aisle unprompted, can say why a match was offered, and the marked count changes at least one decision.</li>
-            <li><strong>Revise it</strong> if the list helps but what they liked is ignored, or the count reads as a promise.</li>
+            <li><strong>Simplify it</strong> if a plain list with aisle numbers does as well, if what they liked goes unused, or if the count reads as a promise.</li>
             <li><strong>Cut the store half</strong> if the phone only comes out to pay, or staff say the request costs more time than it saves.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- 5. THE REFLECTION, on the charcoal band: the one closing chapter. -->
+    <!-- 5. THE REFLECTION, on the charcoal band: the one closing chapter.
+         Since 2026-10-29 it answers the question a hiring manager asks of
+         any concept piece, what it says about the person who made it: the
+         three stretches of the career the work drew on, where that career
+         runs out, and what he wants to do next. No links here: accent-text
+         on charcoal fails resting.mjs (style.css, the prose link group),
+         and the Related list under it carries the SAP and USDA work. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>What got easier, and what didn&rsquo;t</h2>
-          <p>The service map took a morning and the prototype an afternoon. Ten years ago the prototype alone was a sprint for a small team.</p>
-          <p>What didn&rsquo;t get easier is deciding what to carry across, what to say when the system isn&rsquo;t sure, and when to find a person. The seams are where the judgment lives.</p>
+          <h2>An afternoon to build, twenty years to know what to build</h2>
+          <p>The service map took a morning and the prototype an afternoon. What went into them took longer:</p>
+          <ul class="build-list">
+            <li><strong>Eight years in studios</strong>, the last five at Pixel Farm, designing and building at one desk. That&rsquo;s where the feel of the trip comes from.</li>
+            <li><strong>Thirteen years at RBA</strong>, making 40+ SAP apps one product and a federal coalition&rsquo;s grant tools one platform. That&rsquo;s the bottom half of the map.</li>
+            <li><strong>Coding agents, now</strong>, which put the build back in my hands, so a hand-off can be tried before anyone builds it for real.</li>
+          </ul>
+          <p>What I&rsquo;d still need to learn is the store itself: its shoppers, operations, merchandising, and economics.</p>
+          <p>What I&rsquo;d bring is the part that didn&rsquo;t get easier: finding the right problem, making it real enough to try, and helping a team decide what to build. The seams are where the judgment lives.</p>
         </div>
       </div>
     </section>
