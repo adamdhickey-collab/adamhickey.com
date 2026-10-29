@@ -5,21 +5,17 @@
  * has in cockpit-shots.mjs and Agent Review in scenes.mjs).
  *
  *   node scripts/aisle-shots.mjs            # every picture
- *   node scripts/aisle-shots.mjs store      # one, by name
+ *   node scripts/aisle-shots.mjs plan       # one, by name
  *
  * What it makes, all under img/lab/:
  *
- *   aisle-results.webp, aisle-plan.webp, aisle-store.webp
+ *   aisle-plan.webp
  *     The app's screen alone (.ai-app, no chrome) at 2x, 736 wide and cut
- *     at 1520 tall, so the three print at one height; the write-up's
- *     .build-phone draws the shell around each. Results is the four
- *     matches with the first one's reasons open; plan is the trip with the
- *     stale count; store is the aisle with the comparison open.
- *   aisle-arrive.webp
- *     The hero's picture: the In the store screen with the comparison
- *     closed, the same 2x frame as the three above but cut under the
- *     shelf counts and Compare side by side, so in the hero's .build-phone it prints
- *     at a phone's own size and every line of it reads.
+ *     at 1520 tall: the trip planned, with the stale count. og.mjs sets it
+ *     on the write-up's share card. Until 2026-10-29 the write-up also
+ *     printed it in a row with aisle-results and aisle-store, and its hero
+ *     was aisle-arrive; the prototype itself runs there now, and those
+ *     three left the tree with the captures that showed it.
  *   aisle-card.webp
  *     The lab index's card, 1600x900: the trip's two ends side by side, the
  *     photo at the friend's house and the two lamps in the aisle, each the app's own
@@ -42,9 +38,15 @@ import { loadChromium, findChrome, serve } from './lib/harness.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'img', 'lab');
-const PAGE = 'prototype/aisle.html';
+const PAGE = 'lab/inspiration-to-aisle.html';
 
-/* The screen's width inside the shell at the prototype page's own 24rem
+/* Under 64rem the write-up's hero is one column and the phone takes each
+   screen's own height, which is what a picture wants; from 64rem it holds
+   one height and scrolls the screen inside (inspiration-to-aisle.css). So
+   the pictures are taken at 1000 wide, under that, rather than at 1280. */
+const VIEW = { width: 1000, height: 1000 };
+
+/* The screen's width inside the shell at the phone's own 24rem
    frame: 384 less two 8px bezels. 760 tall is a little over the first
    screen's own height, so a longer screen is cut where a phone would cut it. */
 const WIDTH = 368;
@@ -55,14 +57,10 @@ const SCALE = 2;
    legs matter, so the pictures show the one thing the trip carries: the
    matches checked on it, and the comparison with its row first. */
 const SHOTS = {
-  results: { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-why="hollis"]'] },
   plan:    { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
-  /* The store screen is taller than a phone since the recheck line and
-     the per-lamp "Not on the shelf?" arrived, so its picture starts where a
-     reader would have scrolled to: the last lamp, then the comparison. */
-  store:   { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'], from: '.ai-saved-item:last-child' },
-  arrive:  { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]'], cut: '.ai-saved + .ai-note + .ai-row' },
 };
+/* The In the store screen, which the card's second panel shows. */
+const ARRIVE = ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]'];
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
 const chromium = loadChromium('aisle-shots.mjs');
@@ -71,7 +69,7 @@ const { server, origin } = await serve(ROOT);
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 
 async function screen(name) {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: SCALE, reducedMotion: 'reduce' });
+  const context = await browser.newContext({ viewport: VIEW, deviceScaleFactor: SCALE, reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
@@ -133,7 +131,7 @@ for (const name of wanted) {
    cards that sit side by side under Experimental lab work share one dark
    sage. It was --color-charcoal. */
 async function panel(press, from, to) {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 3, reducedMotion: 'reduce' });
+  const context = await browser.newContext({ viewport: VIEW, deviceScaleFactor: 3, reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
@@ -161,7 +159,7 @@ async function panel(press, from, to) {
 
 if (!only.length || only.some((o) => 'card'.includes(o))) {
   const at = await panel([], '.ai-head-row', '.ai-photo-frame');
-  const aisle = await panel(SHOTS.arrive.press, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
+  const aisle = await panel(ARRIVE, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
   const K = 1.8;
   const tall = Math.ceil(Math.max(at.height, aisle.height) * K);
   const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });

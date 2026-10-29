@@ -1,14 +1,17 @@
 /* aisle.css -- The Shortlist prototype's own components, and
- * nothing else. Loaded by one page, prototype/aisle.html, after style.css,
- * for the same reason dispatch-cockpit.css is its own file: reach. Nothing
- * on any other page is a phone-sized shopping companion.
+ * nothing else. Loaded by one page, lab/inspiration-to-aisle.html, after
+ * style.css, for the same reason dispatch-cockpit.css is its own file:
+ * reach. Nothing on any other page is a phone-sized shopping companion.
+ * Until 2026-10-29 it was prototype/aisle.css, on a page of the
+ * prototype's own; the page around the phone, and how the phone sits in
+ * its hero, are inspiration-to-aisle.css's.
  *
  * WHAT IT INHERITS. The page is a style.css page: the hero, the chapter
- * grounds, the measure, .btn and .btn-primary, the disclosure row, the
- * global focus ring on links and buttons, and the reduced-motion blanket all
- * come from there. This file adds the phone, the screens inside it, and the
- * few controls the app has that style.css does not: the chips, the back
- * button, the comparison table.
+ * grounds, the measure, .btn and .btn-primary, the global focus ring on
+ * links and buttons, and the reduced-motion blanket all come from there.
+ * This file adds the phone, the screens inside it, and the few controls
+ * the app has that style.css does not: the chips, the back button, the
+ * comparison table.
  *
  * EVERY SIZE IS A STEP, every space a --space-*, every color a token and
  * every duration a --motion-*. The lamps are pictures, not
@@ -45,7 +48,8 @@
    device under it (style.css, "Device chrome"). 24rem is a large phone; on
    a viewport narrower than that the frame takes the container's width and
    the screens were designed to hold at 311px, the width left inside the
-   bezel at 375. */
+   bezel at 375. The 42rem is the least a screen is, and from 64rem, in the
+   write-up's hero, the most as well (inspiration-to-aisle.css). */
 .ai-frame {
   --shell-radius: 26px;
   width: 100%;
@@ -546,161 +550,3 @@
   margin: calc((1lh - 1.125rem) / 2) 0 0;
   accent-color: var(--color-accent-text);
 }
-
-/* ---------- Around the phone ----------
-   The page's own frame for the prototype: the lists over it take the
-   cockpit page's two-column arrangement from 768, and the phone sits on the
-   warm chapter under them with a line of ground either side. */
-.aiw-try-grid {
-  display: grid;
-  gap: var(--space-xl) var(--space-2xl);
-  margin: var(--space-xl) 0 var(--space-2xl);
-}
-@media (min-width: 768px) {
-  .aiw-try-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-.aiw-try-grid .build-list { margin-bottom: 0; }
-.aiw-label {
-  margin: 0 0 var(--space-sm);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-/* The hero: the kicker, the title, the dek, the two ways in, and the facts
-   strip under them, three to a row from 1024 as on the cockpit page. */
-.aiw-hero { padding-bottom: var(--space-block); }
-.aiw-hero-dek {
-  margin: 0;
-  max-width: var(--measure);
-  font-family: var(--font-serif);
-  font-size: var(--type-lede);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.aiw-hero-act {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-lg) var(--space-xl);
-  margin: var(--space-2xl) 0 0;
-}
-.aiw-hero-link {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  color: var(--color-accent-text);
-}
-.aiw-hero-link:focus-visible { color: var(--color-charcoal); }
-@media (hover: hover) and (pointer: fine) {
-  .aiw-hero-link:hover { color: var(--color-accent-hover); }
-}
-.aiw-facts { margin: var(--space-4xl) 0 0; max-width: none; }
-@media (min-width: 1024px) {
-  .aiw-facts { grid-template-columns: repeat(3, 1fr); }
-}
-.case-hero .aiw-facts dd { max-width: var(--measure); }
-.case-hero .aiw-facts dd a {
-  color: var(--color-accent-text);
-  font-weight: var(--weight-semibold);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  transition: color var(--motion-state) var(--ease);
-}
-.case-hero .aiw-facts dd a:focus-visible { color: var(--color-charcoal); }
-@media (hover: hover) and (pointer: fine) {
-  .case-hero .aiw-facts dd a:hover { color: var(--color-charcoal); }
-}
-.aiw-facts-note {
-  margin: var(--space-md) 0 0;
-  max-width: var(--measure);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-}
-
-/* ---------- The decisions ----------
-   Each beside what it decided, in the cockpit page's shape: a numbered disc
-   (the case studies' 40px step marker, named once so the disc and the
-   indent cannot drift), the title centred on the disc, the lead at the
-   measure, and the reasons behind a disclosure labelled for what it holds. */
-.aiw-decisions {
-  --aiw-num: 40px;
-  list-style: none;
-  margin: var(--space-3xl) 0 0;
-  padding: 0;
-  counter-reset: aiw;
-  display: grid;
-  gap: var(--space-block);
-}
-.aiw-decision {
-  counter-increment: aiw;
-  position: relative;
-  padding-left: calc(var(--aiw-num) + var(--space-sm));
-}
-.aiw-decision::before {
-  content: counter(aiw, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: grid;
-  place-items: center;
-  width: var(--aiw-num);
-  height: var(--aiw-num);
-  border-radius: 50%;
-  background: var(--color-accent-text);
-  color: var(--color-white);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-}
-.case-section .aiw-decision h3 {
-  min-height: var(--aiw-num);
-  display: flex;
-  align-items: center;
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-}
-.case-section .aiw-decision .aiw-lead {
-  margin: 0;
-  max-width: var(--measure);
-  font-size: var(--text-lg);
-  line-height: var(--leading-reading);
-  color: var(--color-charcoal);
-}
-.aiw-more {
-  margin: var(--space-md) 0 0;
-  max-width: var(--measure);
-  border-top: 1px solid var(--rule-hairline);
-}
-.aiw-more-label { font-weight: var(--weight-semibold); }
-.case-section .aiw-more .build-list { margin: var(--space-sm) 0 0; }
-.aiw-more .build-list li > strong:first-child {
-  font-weight: var(--weight-semibold);
-  color: var(--color-accent-text);
-}
-
-/* The assumption most likely to be wrong, as a callout on the tea ground,
-   and the close at the measure. */
-.aiw-callout {
-  margin: var(--space-2xl) 0 0;
-  padding: var(--space-lg) var(--space-xl);
-  max-width: var(--measure);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-}
-.case-section .aiw-callout-h {
-  margin: 0 0 var(--space-xs);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.case-section .aiw-callout p:last-child { font-size: var(--text-base); line-height: var(--leading-body); }
-.aiw-close { margin-top: var(--space-2xl); }

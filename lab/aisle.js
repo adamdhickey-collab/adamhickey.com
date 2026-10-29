@@ -1,13 +1,15 @@
 /* aisle.js -- The Shortlist prototype: one shopping trip,
    from a photo at a friend's home to a store aisle, at a phone's width.
-   Loaded by prototype/aisle.html and nothing else.
+   Loaded by lab/inspiration-to-aisle.html and nothing else, where it runs
+   in the hero; until 2026-10-29 it was prototype/aisle.js, on a page of its
+   own.
 
    EVERYTHING HERE IS SAMPLE DATA, and it says so on every screen. The lamps,
    the store, the shelf counts and the employee are made up; no retailer's
    inventory, no image search and no model is connected. "Find lamps like
    this" does not look at a photo: it shows the four results written below,
    in the order written. What the prototype is for is the transition the
-   write-up (lab/inspiration-to-aisle.html) argues about: what a person
+   page around it argues about: what a person
    carries from home into the store, what the app says when it is not sure,
    and when a person is more useful than the app.
 
@@ -557,7 +559,7 @@
       '<p class="ai-dek">What came with you, and what you decided.</p></header>' +
       '<ul class="ai-person-list ai-done-list">' + story().map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ul>' +
       '<p class="ai-act"><button type="button" class="btn btn-primary ai-btn" data-reset>Start over</button></p>' +
-      '<p class="ai-fine">Nothing was bought, ordered, or sent: this is sample data. The write-up says what would be tested first, and what would prove this wrong.</p>';
+      '<p class="ai-fine">Nothing was bought, ordered, or sent: this is sample data. Further down the page: what I’d test first, and what would prove it wrong.</p>';
   };
 
   /* ---------- rendering ---------- */
@@ -583,12 +585,16 @@
     }
     if (opts.focus !== false) {
       var h = stage.querySelector('.ai-title');
-      /* A press near the foot of a long screen leaves the page scrolled
-         there, so a new screen would take focus somewhere out of sight.
-         Bring the phone's top into view first (the html's scroll-padding
+      /* A press near the foot of a long screen leaves it scrolled there,
+         so a new screen would take focus somewhere out of sight. From 64rem
+         the screen scrolls inside the phone (inspiration-to-aisle.css), so
+         the new one starts at its own top; under that the stage does not
+         scroll and this does nothing. Then, if the title is still off the
+         page, bring the phone's top into view (the html's scroll-padding
          keeps it under the site's header, and the reduced-motion blanket
-         makes it a jump), then focus the title without a second scroll. */
+         makes it a jump), and focus the title without a second scroll. */
       if (h && opts.arrive) {
+        stage.scrollTop = 0;
         var r = h.getBoundingClientRect();
         if (r.top < 0 || r.bottom > window.innerHeight) root.scrollIntoView({ block: 'start' });
       }

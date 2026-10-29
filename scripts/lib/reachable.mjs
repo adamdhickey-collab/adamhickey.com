@@ -157,28 +157,30 @@ export const REACHABLE = {
       press: ['.ck-card-act [data-assign]'] },
   ],
 
-  /* The Shortlist write-up's service map shows its Today
-     lane at rest, once its script has run, so the Connected lane, the
-     thread carried to the end and a moment's lit column are each in no DOM
-     a plain load measures (lab/inspiration-to-aisle.js). */
+  /* The Shortlist, one page since 2026-10-29: the service map and, in the
+     hero, the prototype, which had a page of its own (prototype/aisle.html,
+     a forwarding note now) and brought its fourteen states here with it.
+
+     The service map shows its Today lane at rest, once its script has run,
+     so the Connected lane, the thread carried to the end and a moment's lit
+     column are each in no DOM a plain load measures
+     (lab/inspiration-to-aisle.js).
+
+     The prototype draws every screen after the first from JavaScript in
+     response to a press (lab/aisle.js), so without these the checks would
+     measure the photo and call that the app. One state per screen, plus the
+     things a screen can carry that its plain load does not: the preference
+     asked under the photo, a match's reasons open, a lamp hidden with its
+     Undo line, the comparison data table with the preferred row first, the
+     two kinds of missing lamp, the sharing choice, and the request with
+     somebody free and with nobody. The presses are the app's data-* hooks,
+     the same ones scripts/aisle-shots.mjs and scripts/aisle-test.mjs use,
+     and none of them matches anything in the map. */
   'lab/inspiration-to-aisle.html': [
     { name: 'the service map, connected',
       press: ['.ia-view [data-view="connected"]'] },
     { name: 'the service map, one moment followed down',
       press: ['.ia-moment-pick[data-moment="5"]'] },
-  ],
-
-  /* The Shortlist prototype draws every screen after the
-     first from JavaScript in response to a press (prototype/aisle.js), so
-     without these the checks would measure the photo and call that the
-     app. One state per screen, plus the things a screen can carry that its
-     plain load does not: the preference asked under the photo, a match's
-     reasons open, a lamp hidden with its Undo line, the comparison data
-     table with the preferred row first, the two kinds of missing lamp,
-     the sharing choice, and the request with somebody free and with
-     nobody. The presses are the app's data-* hooks, the same ones
-     scripts/aisle-shots.mjs and scripts/aisle-test.mjs use. */
-  'prototype/aisle.html': [
     { name: 'what the shopper liked, picked',
       press: ['[data-pref="legs"]'] },
     { name: 'the four matches, one opened to its reasons',

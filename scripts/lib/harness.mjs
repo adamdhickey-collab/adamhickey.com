@@ -163,12 +163,22 @@ export function revision(root) {
   }
 }
 
+/* A FORWARDING NOTE IS NOT A PAGE: an old address kept so a link already
+   sent somewhere still lands, a meta refresh and one line. Loaded, it would
+   hand the check the page it forwards to under its own name, measured twice
+   and filed under the wrong address, so every check walks past it.
+   counts.mjs and seo.mjs need nothing installed and do not import this
+   file, so each carries the same test; seo.mjs also holds each note to a
+   noindex, a canonical naming its page, and a place outside the sitemap.
+   Since 2026-10-29 there is one, prototype/aisle.html. */
+export const FORWARD = /<meta http-equiv="refresh"/i;
+
 export function pages(root, dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) pages(root, p, out);
-    else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
+    else if (e.name.endsWith('.html') && !FORWARD.test(fs.readFileSync(p, 'utf8'))) out.push(path.relative(root, p));
   }
   return out.sort();
 }
