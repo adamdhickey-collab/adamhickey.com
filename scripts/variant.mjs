@@ -88,8 +88,10 @@ const BASE = {
      (visual, interactive, enterprise) with no <strong>, and since that
      evening its second sentence is the agent work again, bold and all.
      Since 2026-10-28 the first sentence stops at the breadth and the
-     second takes new ideas to a prototype. */
-  dek: 'Twenty years across visual design, interaction, and enterprise software. I take new ideas from a first question to a prototype, and help teams figure out <strong>which problem to solve, what good looks like, and what ships</strong>.',
+     second takes new ideas to a prototype. Since 2026-10-29 it is one
+     sentence, the breadth helping teams decide, so the dek holds to two
+     lines from 1280. */
+  dek: 'Twenty years across visual design, interaction, and enterprise software, helping teams decide <strong>what to solve, what good looks like, and what ships</strong>.',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
