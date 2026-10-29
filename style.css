@@ -458,20 +458,24 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
    minimal line icons that draw themselves): .fact-node and .fact-icon from
    the hero's row, the 44px tea disc and the 22px sage icon, beside the name
    the way that row sets them beside a label, --space-sm apart. A building
-   and a flask, both in the design system's icon set. The draw is the hero
-   row's rule (".hero-proof .fact-icon", below), started by the same .reveal
-   observer as the head comes into view. */
-.case-group-head { margin: 0 0 var(--space-2xl); }
+   and a flask, drawn on by the hero row's rule as the head came into view. */
+/* Group heads are kickers, since 2026-10-29 (Adam: "use the standard kicker
+   text style and ... remove the icon"). .case-kicker's treatment, 12px
+   semibold sage in tracked capitals with the case set here and never typed.
+   --space-3xl over the cards (Adam, the same day: "a little more margin
+   underneath ... like 20 more pixels" than .case-kicker's own --space-md;
+   36 falls between steps, and 40 is the one that reads as more). No icon,
+   so nothing to draw. TYPOGRAPHY.md, "Tracked capitals never name a
+   group", carries these two as its one exception. */
+.case-group-head { margin: 0 0 var(--space-3xl); }
 .case-group-head--lab { margin-top: var(--space-block); scroll-margin-top: calc(var(--nav-height) + var(--space-xl)); }
 .case-group-title {
-  display: flex; align-items: center; gap: var(--space-sm);
   margin: 0;
-  font-family: var(--font-sans); font-size: var(--text-xl); font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight); letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
 }
-@media (min-width: 768px) { .case-group-title { font-size: var(--text-2xl); } }
-.case-group-title .fact-node { flex: none; margin-bottom: 0; }
 /* The hero's "See enterprise work" lands on the section head
    (#enterprise-work) since 2026-10-24, when the group label it used to
    land on came out. The label's clearance comes with it: the nav's height
@@ -4343,24 +4347,18 @@ html.ah-lightbox-open body { overflow: hidden; }
    that instead of a second script watching the same element. The hidden
    state is gated behind .js for the same reason .reveal is: with no script
    to finish them the icons render drawn rather than blank. Selected work's
-   two group heads take the same mark and the same clock, since 2026-10-28:
-   each head is a .reveal of its own, so its icon draws as it arrives. */
+   two group heads took the same mark and the same clock from 2026-10-28
+   until they became kickers on 2026-10-29. */
 .js .hero-proof .fact-icon path,
-.js .hero-proof .fact-icon circle,
-.js .case-group-head .fact-icon path,
-.js .case-group-head .fact-icon circle { stroke-dashoffset: 1; }
+.js .hero-proof .fact-icon circle { stroke-dashoffset: 1; }
 .js .hero-proof.is-visible .fact-icon path,
-.js .hero-proof.is-visible .fact-icon circle,
-.js .case-group-head.is-visible .fact-icon path,
-.js .case-group-head.is-visible .fact-icon circle {
+.js .hero-proof.is-visible .fact-icon circle {
   animation: eng3-draw var(--motion-draw) var(--ease) forwards;
   animation-delay: calc(var(--i, 0) * var(--motion-stagger));
 }
 @media (prefers-reduced-motion: reduce) {
   .js .hero-proof .fact-icon path,
-  .js .hero-proof .fact-icon circle,
-  .js .case-group-head .fact-icon path,
-  .js .case-group-head .fact-icon circle { stroke-dashoffset: 0; animation: none; }
+  .js .hero-proof .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 /* No margin between the label and its detail. With --space-2xs there the
    pair stood 47px against a 44px disc, and the 4px sat on top of the slack

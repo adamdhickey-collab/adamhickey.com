@@ -446,6 +446,7 @@ What counts as one, so the next one is easy to place:
 |---|---|---|
 | `.hero-eyebrow`, `.section-eyebrow`, `.product-eyebrow` | Homepage | 11 – 12px |
 | `.case-kicker` | The top of every detail page: case studies, build write-ups, writing, lab, prototypes | 12px |
+| `.case-group-title` | The two group heads in the homepage's Selected work, since 2026-10-29 (section 6, "Tracked capitals never name a group", has why) | 12px |
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" page (the last two on none since the four pages became one, 2026-10-29) | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
 | `.writing-eyebrow` | "Key idea 2 of 6" above each section of an article | 11px |
@@ -532,6 +533,15 @@ section's `h2` is close to it. It may carry a color that says what the
 group means. The first is `.ar-sort-lane` on `lab/agent-review.html`: the
 sage over the kind that goes through, the caution ink over the two that
 stop, `--text-3xl` from 64rem, where it brackets the row.
+
+**One exception, by name: the homepage's two group heads in Selected
+work**, "Established enterprise work" and "Experimental lab work"
+(`.case-group-title`). Since 2026-10-29 (Adam: "use the standard kicker
+text style and ... remove the icon") they are kickers, `.case-kicker`'s
+treatment exactly, with no icon, `--space-3xl` over the cards. They were
+Montserrat semibold at `--text-xl` to `--text-2xl` with a drawn line icon
+from 2026-10-28. They stay `h3`, so the outline still has the two groups.
+Nothing else takes this exception by analogy.
 
 ### Superscripts, and two things the scale does not govern
 
@@ -921,6 +931,7 @@ they really render.
 9. Stay inside the loaded weights. Adding one means editing the font `<link>`
    on every page first.
 10. Tracked capitals are for a kicker or a field label. A name over a group
-    of things is a heading, in the serif.
+    of things is a heading, in the serif; the homepage's two Selected work
+    group heads are the one exception, by name.
 11. Update this file in the same commit as the code. A specimen that ships
     later is fiction.
