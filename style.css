@@ -4412,13 +4412,21 @@ html.ah-lightbox-open body { overflow: hidden; }
    twenty-seven, and at 48px they read as chapter openings rather than as the
    waypoints in a continuous argument. Their spacing steps down with them:
    --space-4xl above and --space-2xl below is the rhythm of a page changing
-   subject, not of an essay taking a breath. */
+   subject, not of an essay taking a breath.
+
+   The step down stops at a phone. Since 2026-10-29 the floor is
+   --text-3xl, 28 rather than 24, the floor every other h2 already has:
+   over an 18px Montserrat column, Crimson's small x-height left a 24px
+   head barely larger than the sentence under it (Adam: "too small on
+   mobile"). The ramp is unchanged from about 752px, where it passes 28 on
+   its own, and max() rather than a media query for the homepage's reason:
+   no seam. Still under the 34 of every page title. */
 .writing-measure {
   font-size: var(--text-lg);
   max-width: var(--measure);
 }
 .writing-measure h2 {
-  font-size: var(--type-subsection);
+  font-size: max(var(--type-subsection), var(--text-3xl));
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   margin-bottom: var(--space-md);
