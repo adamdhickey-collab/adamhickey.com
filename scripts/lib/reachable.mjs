@@ -111,6 +111,18 @@ export const REACHABLE = {
       press: ['[data-pick="ship"]'] },
     { name: 'the opener’s question, asked first',
       press: ['[data-pick="confirm"]'] },
+    /* Since 2026-10-29 Evaluate's two screens work, and every step after
+       the first is in no DOM at rest: the undo bar and its Undo, the rows
+       back with Start over, the agent's review with its boxes, and the
+       review's archive with no Undo after it. */
+    { name: 'Evaluate, undo: archived, with Undo',
+      press: ['[data-ev="undo"] [data-press="archive"]'] },
+    { name: 'Evaluate, undo: undone',
+      press: ['[data-ev="undo"] [data-press="archive"]', '[data-ev="undo"] [data-press="undo"]'] },
+    { name: 'Evaluate, review: the review open',
+      press: ['[data-ev="review"] [data-press="review"]'] },
+    { name: 'Evaluate, review: archived',
+      press: ['[data-ev="review"] [data-press="review"]', '[data-ev="review"] [data-press="archive"]'] },
   ],
 
   'prototype/dispatch-cockpit.html': [

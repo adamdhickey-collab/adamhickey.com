@@ -102,10 +102,10 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../design-psychology.css?v=9" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="agent-review.css?v=86" />
+  <link rel="stylesheet" href="agent-review.css?v=87" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
-  <script src="agent-review-story.js?v=7" defer></script>
+  <script src="agent-review-story.js?v=8" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -526,39 +526,73 @@
     </section>
 
     <!-- EVALUATE, IN FULL: the one stage the strip points at. The two
-         directions it weighed sit side by side, the designer's on the
-         left, in the same crop of the prototype's window. -->
+         directions it weighed sit side by side, the agent's pick on the
+         left and the designer's call on the right, in the order the lead
+         says them. Since 2026-10-29 both are Relay drawn in live HTML,
+         like the opener's list, and both work: a reader presses Archive
+         on each and sees what happens next (agent-review.css, "Evaluate";
+         agent-review-story.js). The words follow the prototype's
+         ArchiveFlow, the undo direction with namesActive on. -->
     <section class="case-section case-overview build-chapter ground-tea" id="evaluate">
       <div class="container case-wide">
         <header class="arc-head">
           <div class="arc-head-text">
             <p class="arc-eyebrow">Stage 4 of 6 &middot; Evaluate</p>
             <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
-            <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo.</p>
+            <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo. Both screens below work: press Archive on each.</p>
           </div>
         </header>
-        <div class="arc-pair">
-          <figure>
+        <div class="arc-pair" data-ev-pair>
+          <figure class="ev" data-ev="review" data-step="selected" aria-labelledby="ev-review-name">
+            <figcaption class="ev-head"><span class="ev-who">The agent&rsquo;s pick</span> <span class="ev-name" id="ev-review-name">Review batch, then archive</span></figcaption>
             <div class="arc-device">
               <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-              <div class="arc-screen"><picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-undo-phone.webp?v=7" width="1029" height="1593" />
-                <img src="../img/lab/agent-review-cycle-wipe-undo.webp?v=7" width="1820" height="920" loading="lazy" decoding="async"
-                     alt="The undo direction: the customer table just after archiving a batch, a bar reading 4 customers archived, Monarch Dental Group wasn&rsquo;t, it has an open invoice, with Undo." />
-              </picture></div>
+              <div class="ev-screen">
+                <div class="ev-bar" data-for="selected reviewing"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="review" data-for="selected">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text"><span class="ev-gone-count">4 customers</span> archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <section class="ev-review" data-for="reviewing" aria-labelledby="ev-review-title">
+                  <h3 class="ev-review-title" id="ev-review-title">Review 5 customers before archiving</h3>
+                  <p class="ev-review-group"><span class="ev-tag ev-tag--blocked">Can&rsquo;t archive</span></p>
+                  <p class="ev-review-line"><strong>Monarch Dental Group</strong>: it has an open invoice. It stays in the table.</p>
+                  <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> Check these. Clear a box to keep the customer.</p>
+                  <ul class="ev-keep">
+                    <li><label><input type="checkbox" data-keep="halvorsen" checked /> Halvorsen Freight, $3,840 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="brightwater" checked /> Brightwater Clinics, $1,320 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="saltmarsh" checked /> Saltmarsh Studio, $87 a month</label></li>
+                  </ul>
+                  <p class="ev-review-line">1 customer churned, past due, or on trial.</p>
+                  <p class="ev-review-keys"><button type="button" class="ev-key ev-key--quiet" data-press="cancel">Cancel</button> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive <span class="ev-going">4 customers</span></button></p>
+                </section>
+                <ul class="ev-rows">
+                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
+                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                </ul>
+                <p class="visually-hidden" data-said role="status"></p>
+              </div>
             </div>
-            <figcaption><strong>Undo</strong> <span class="arc-pair-who">my call</span></figcaption>
           </figure>
-          <figure>
+          <figure class="ev" data-ev="undo" data-step="selected" aria-labelledby="ev-undo-name">
+            <figcaption class="ev-head"><span class="ev-who">My call</span> <span class="ev-name" id="ev-undo-name">Archive now, undo after</span></figcaption>
             <div class="arc-device">
               <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-              <div class="arc-screen"><picture>
-                <source media="(max-width: 40rem)" srcset="../img/lab/agent-review-cycle-review-phone.webp?v=6" width="1029" height="2043" />
-                <img src="../img/lab/agent-review-cycle-wipe-review.webp?v=6" width="1820" height="920" loading="lazy" decoding="async"
-                     alt="The review direction: the same table with a review panel under the toolbar, Monarch Dental Group marked can&rsquo;t archive, three active customers each with a box, and Archive 4 customers, marked Press this." />
-              </picture></div>
+              <div class="ev-screen">
+                <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
+                <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <p class="ev-note" data-for="selected"><span class="ship-list-tag ship-list-tag--active">Active</span> Halvorsen Freight, Brightwater Clinics, and Saltmarsh Studio are in this selection.</p>
+                <ul class="ev-rows">
+                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
+                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                </ul>
+                <p class="visually-hidden" data-said role="status"></p>
+              </div>
             </div>
-            <figcaption><strong>Review</strong> <span class="arc-pair-who">agent&rsquo;s pick</span></figcaption>
           </figure>
         </div>
         <div class="arc-after">
