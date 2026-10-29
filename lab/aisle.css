@@ -119,9 +119,18 @@
    The stage is replaced whole on every press (aisle.js). A new screen rises
    --space-xs over --motion-move on the entering curve, which is a change
    that travels; a save or a hide re-renders in place and does not animate,
-   so the head never jumps under the pointer that pressed it. */
+   so the head never jumps under the pointer that pressed it.
+
+   THE SCREEN'S RHYTHM. Every block stands --space-md under the one before,
+   and the screen's one filled action --space-lg, so a note never touches
+   the card or list above it, nor a caption the button. Three classes deep
+   on purpose: the app's paragraphs and lists reset their own margins two
+   deep (below), and until 2026-10-29 that reset beat a one-class rule
+   here, so every note, caption, and list after the first block sat flush
+   against whatever was above it. */
 .ai-stage > * { margin: 0; }
-.ai-stage > * + * { margin-top: var(--space-md); }
+.ai-app .ai-stage > * + :not(.ai-act) { margin-top: var(--space-md); }
+.ai-app .ai-stage > * + .ai-act { margin-top: var(--space-lg); }
 @keyframes ai-arrive {
   from { opacity: 0; translate: 0 var(--space-xs); }
 }
@@ -374,8 +383,8 @@
 }
 
 /* The screen's one filled action. style.css's .btn-primary, the app's
-   width, and a count after the label at the label's own size. */
-.ai-app .ai-act { margin-top: var(--space-lg); }
+   width, and a count after the label at the label's own size. The space
+   above it is the screen's rhythm (above). */
 .ai-app .ai-btn { width: 100%; gap: var(--space-xs); }
 .ai-app .ai-btn-count { font-weight: var(--weight-regular); }
 .ai-app .ai-btn-count::before { content: "\00b7"; margin-right: var(--space-xs); }
