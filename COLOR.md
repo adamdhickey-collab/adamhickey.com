@@ -1075,7 +1075,7 @@ taxonomy**:
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
 `style.css` holds no shared token at all. It is loaded by thirty-one pages; the
-token files are loaded by all thirty-seven, so anything defined in `style.css` is
+token files are loaded by all thirty-five, so anything defined in `style.css` is
 invisible to the six Tailwind case studies. That single fact caused three
 separate bugs across this work and the type work before it: a regression that
 shipped for two commits, an undefined `--color-accent` that had never

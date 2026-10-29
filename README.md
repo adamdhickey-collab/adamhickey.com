@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 37 pages in ten families |
+| **What this is** | The site: 35 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -162,9 +162,9 @@ prototype) →
 How I work inside a
 product organization (four pictures and their names, each opening its
 section of `how-i-work.html` since 2026-10-29) → What changes when agents can build (the scroll
-story, "The design-to-build shift" until 2026-10-06) → Built end to end (the
-two products, ending on the line to `other.html`, where the book and the
-"Identity and illustration" shelf now live) → About, which links the two career case studies → the
+story, "The design-to-build shift" until 2026-10-06) → Built end to end (four
+things made end to end, and the line to the this-site write-up) → About,
+which links Earlier work → the
 contact section, headed "Describe what is happening". Since #24 there is no
 Earlier experience section and no four-step panel under the products;
 staging's #142 cut the second half of the page by about a third, and #143
@@ -181,7 +181,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Thirty-seven pages in ten families, all hand-written HTML with no include step
+Thirty-five pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -190,11 +190,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all thirty-seven pages, so a
+email icon, and the skip link are hand-written into all thirty-five pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all thirty-seven pages
+base ladder, and both regimes read it from `type.css`, which all thirty-five pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -202,24 +202,19 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 |---|---|---|---|
 | Homepage | 1 | A | The page every other page hangs off. |
 | Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
-| Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 1 | A | One page for the four parts of the job: the situation, the moves, and the account that shows each. Four pages under `engagement/` until 2026-10-29, engagement pages until 2026-09-17. |
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data. Its interface on live Citi Bike data, the rebalancing cockpit, was a second from 2026-10-27 to 2026-10-29, when the lab went back to the dispatch story and its address became a forwarding note. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
 | Lab | 4 | A | The index of the working prototypes, each asking one question about a connected service, a design system, or a live operation (since 2026-10-28; it was "Design systems for humans and agents" before), the Agent Review case study, since 2026-10-28 The Shortlist, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The dispatch cockpit is listed there too, at its own address; the rebalancing cockpit took its place from 2026-10-27 to 2026-10-29. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
-| Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
+| Earlier work | 1 | A | The client work before coding agents, 2005 to 2026, in two eras. Each client is a picture and one line. Until 2026-10-29 it was the two career pages plus `other.html`. |
 
 **Homepage** -- `index.html`
 
 **Client case studies** -- `case-study/dispatch-complexity.html`,
 `case-study/innovators-studio-visual-identity.html`,
 `case-study/sap-product-maturity.html`, `case-study/usda-operational-overhead.html`
-
-**Career-arc pages** -- `case-study/enterprise-consulting.html`,
-`case-study/hybrid-designer.html`. They share the case-study shell but the
-content model is a list of many small pieces rather than one deep one.
 
 **Build write-ups** -- `case-study/door-county-found.html`,
 `case-study/lucy-learns.html`, `case-study/while-were-here.html`,
@@ -331,10 +326,11 @@ work that out. Two carry a Design psychology note, which until then had only
 appeared on a case study. The order is editorial rather than chronological:
 `hasPart` in the index's graph is kept in the order the page lists them.
 
-**Other work** -- `other.html`. The book's compact row and the "Identity and
-illustration, for clients" shelf, with the descriptions the homepage had
-trimmed off them, on the case-study shell at the root. The homepage's
-"Built end to end" ends on the line that points here.
+**Earlier work** -- `earlier-work.html`, since 2026-10-29. Two eras on the
+case-study shell at the root; each client is a picture and one line, in the
+shelf `other.html` used. `other.html`,
+`case-study/hybrid-designer.html`, and `case-study/enterprise-consulting.html`
+are forwarding notes to it. About links it.
 
 **Reference** -- `design-system/index.html`
 
