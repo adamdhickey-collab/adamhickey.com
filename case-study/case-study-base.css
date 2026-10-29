@@ -393,6 +393,60 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 .min-h-screen .bg-warm .grid > .text-charcoal:last-child { max-width: var(--measure); }
 .min-h-screen p.text-center.text-charcoal { margin-inline: auto; }
 
+/* ---------- The overview, in brief ----------
+   Since 2026-10-29. The Overview on the four client case studies was its
+   three or four headed paragraphs stacked in one column at the measure, so
+   at 1440 it stood about 780px tall in the left half of a 1216px column
+   with the right half empty (Adam: "It doesn't need to be in one column").
+   It is a grid of fields now, the same grammar as the facts strip in the
+   hero above it: each paragraph under a field label, over a hairline. The
+   labels were 18px bold over 18px regular, one weight apart, so the four
+   read as one gray block. The label is .case-field-label, the hero's own
+   CLIENT and MY ROLE, which an h3 here has to be told is the sans; the
+   rule is --color-rule, the row divider COLOR.md names. Every paragraph
+   is the reading paragraph the rest of the page uses, in one face: a first
+   pass set the problem as a serif lede beside sans paragraphs, and two
+   faces side by side read as two documents (Adam: "a different font").
+
+   From 64rem the fields stand two to a row, in reading order, so the
+   hairlines of a row line up. A page with an odd count lets its last field
+   take the whole row, so the rule over it closes the pair above it rather
+   than stopping halfway across, and holds its paragraph to one column's
+   width so the left edge and the right edge both stay on the grid. Three
+   of the four pages have three fields, which puts My part on that row.
+   Measured on the USDA page: a column is 584px from 1280 up, about 62
+   characters of the 18px paragraph a line, and 458px at 1024, about 49.
+   The measure is wider than both, so the column sets the line. It waits
+   for lg rather than md because a column at 768 would be about 333px, 35
+   characters, which SPACING.md section 4 calls cramped at 43; three
+   across at 1440 would be 373px, 42. Stacked, the fields keep the 32px
+   the headed paragraphs had between them; on the grid a row takes 40. */
+.case-brief {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+.case-brief-item {
+  border-top: 1px solid var(--color-rule);
+  padding-top: var(--space-md);
+}
+.case-brief h3.case-field-label {
+  font-family: var(--font-sans);
+  line-height: var(--leading-ui);
+  margin: 0 0 var(--space-sm);
+}
+@media (min-width: 64rem) {
+  .case-brief {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3xl) var(--space-4xl);
+  }
+  .case-brief-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .min-h-screen .case-brief-item:last-child:nth-child(odd) p.text-charcoal.leading-relaxed {
+    max-width: calc((100% - var(--space-4xl)) / 2);
+  }
+}
+
 /* ---------- The impact table is as wide as its own contents ----------
    The rule above caps the outcome cells at the measure, and the paragraph
    above that says a case study caps only its prose while the impact table
