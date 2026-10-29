@@ -90,18 +90,17 @@
    uses, so the eye can find them below. The same component, in the same
    tokens, as .svc-short in case-study/case-study-base.css.
 
-   A white card on the figure's gray-light, with the --rule-card edge.
-   Stacked under 64rem, the claims split by hairlines; from 64rem, three
-   columns split by the same hairline, a rule between square columns and
-   not an edge on the rounded card. The label is .glance-kicker, the
-   Kicker's treatment. Charcoal on white is 15.33, muted-gray 6.47. */
-.ia-short {
-  margin: 0 0 var(--space-lg);
-  padding: var(--space-md);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: 12px;
-}
+   No card of its own since 2026-10-29, the day it arrived: a white card
+   inside the figure's card, over a row of white moment cards, read as one
+   more box stacked on the map rather than as the map's own words. The
+   claims sit on the figure's gray-light, split by hairlines. Stacked
+   under 64rem, they follow the caption. From 64rem the figure takes the
+   matrix's own columns, and the caption sits over the lane names and
+   moments 01 and 02 with the claims beside it over 03 to 06, so the left
+   edge of the claims is the left edge of a moment below. The label is
+   .glance-kicker, the Kicker's treatment. Charcoal on gray-light is
+   14.06, muted-gray 5.93. */
+.ia-short { margin: 0 0 var(--space-xl); }
 /* Its size and ink said again under two classes, because .case-section p
    sets prose at --text-lg in charcoal and outranks the bare class (as
    .eng3-proof-client and .writing-meta in style.css do). */
@@ -140,17 +139,17 @@
   color: var(--color-muted-gray);
 }
 @media (min-width: 64rem) {
-  .ia-short { padding: var(--space-lg); }
-  .ia-short-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .ia-short-list > li,
-  .ia-short-list > li:first-child,
-  .ia-short-list > li:last-child { padding: 0 var(--space-lg); border-top: 0; border-left: 1px solid var(--rule-hairline); }
-  .ia-short-list > li:first-child { padding-left: 0; border-left: 0; }
-  .ia-short-list > li:last-child { padding-right: 0; }
-  /* The moment line sits on one baseline across the three columns. */
-  .ia-short-list > li { display: flex; flex-direction: column; }
-  .ia-figure .ia-short-at { margin-top: auto; padding-top: var(--space-sm); }
-  .ia-figure .ia-short-claim { margin-bottom: var(--space-xs); font-size: var(--text-lg); }
+  .ia-map {
+    display: grid;
+    grid-template-columns: 9rem repeat(var(--ia-moments), minmax(0, 1fr));
+    column-gap: var(--space-md);
+    align-content: start;
+  }
+  .ia-map > * { grid-column: 1 / -1; }
+  /* A grid item would stretch the pill switch across the figure. */
+  .ia-map > .ia-view { justify-self: start; }
+  .ia-map > figcaption { grid-column: 1 / 4; grid-row: 1; margin-bottom: var(--space-2xl); }
+  .ia-map > .ia-short { grid-column: 4 / -1; grid-row: 1; margin-bottom: var(--space-2xl); }
 }
 
 /* ---------- The matrix ----------

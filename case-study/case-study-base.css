@@ -596,21 +596,18 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
    uses, so the eye can find them below. Before, the point was one closing
    sentence under twenty cells, where a skimming reader never got.
 
-   A white card on the figure's gray-light, with the --rule-card edge the
-   stage cards take, so it reads as part of the figure and ahead of it.
-   Stacked under 64rem, the three claims split by hairlines; from 64rem,
-   three columns split by the same hairline, which is a rule between
-   square columns, not an edge on the rounded card. The label is the
-   Kicker's treatment through .case-field-label. Charcoal on white is
-   15.33, muted-gray 6.47. Lab twin: .ia-short in
+   No card of its own since 2026-10-29, the day it arrived: a white card
+   inside the figure's card, over a row of white stage cards, read as one
+   more box stacked on the map rather than as the map's own words. The
+   claims sit on the figure's gray-light, split by hairlines. Stacked
+   under 64rem, they follow the caption. From 64rem the figure takes the
+   map's own columns, and the caption sits over the lane names and stage
+   01 with the claims beside it over stages 02 to 04, so the left edge of
+   the claims is the left edge of a stage card below. The label is the
+   Kicker's treatment through .case-field-label. Charcoal on gray-light
+   is 14.06, muted-gray 5.93. Lab twin: .ia-short in
    lab/inspiration-to-aisle.css. */
-.svc-short {
-  margin: 0 0 var(--space-lg);
-  padding: var(--space-md);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: 12px;
-}
+.svc-short { margin: 0 0 var(--space-xl); }
 .svc-short .case-field-label { margin: 0 0 var(--space-sm); }
 .svc-short-list { list-style: none; margin: 0; padding: 0; }
 .svc-short-list > li { padding: var(--space-sm) 0; border-top: 1px solid var(--rule-hairline); }
@@ -641,17 +638,16 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   color: var(--color-muted-gray);
 }
 @media (min-width: 64rem) {
-  .svc-short { padding: var(--space-lg); }
-  .svc-short-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .svc-short-list > li,
-  .svc-short-list > li:first-child,
-  .svc-short-list > li:last-child { padding: 0 var(--space-lg); border-top: 0; border-left: 1px solid var(--rule-hairline); }
-  .svc-short-list > li:first-child { padding-left: 0; border-left: 0; }
-  .svc-short-list > li:last-child { padding-right: 0; }
-  /* The stage line sits on one baseline across the three columns. */
-  .svc-short-list > li { display: flex; flex-direction: column; }
-  .svc-map .svc-short-at { margin-top: auto; padding-top: var(--space-sm); }
-  .svc-map .svc-short-claim { margin-bottom: var(--space-xs); font-size: var(--text-lg); }
+  .svc-map {
+    display: grid;
+    grid-template-columns: 9rem repeat(var(--svc-stages), minmax(0, 1fr));
+    column-gap: var(--space-md);
+    align-content: start;
+  }
+  .svc-map > * { grid-column: 1 / -1; }
+  .svc-map > figcaption { grid-column: 1 / 3; grid-row: 1; margin-bottom: var(--space-2xl); }
+  .svc-map > .svc-short { grid-column: 3 / -1; grid-row: 1; margin-bottom: var(--space-2xl); }
+  .svc-map .svc-standing { margin-bottom: 0; }
 }
 .svc-stages { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-md); }
 .svc-stage {
