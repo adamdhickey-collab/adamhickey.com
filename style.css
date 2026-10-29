@@ -1238,8 +1238,9 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
    carries an empty alt. --app-icon is the one size authored here and it is
    a sum of spacing steps, not a new number: 64. The files are 480 square,
    so it is printed well under half its file. */
+.app-id,
+.case-app { --app-icon: calc(var(--space-4xl) + var(--space-md)); }
 .app-id {
-  --app-icon: calc(var(--space-4xl) + var(--space-md));
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -1262,6 +1263,43 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
   color: var(--color-charcoal);
 }
 .app-id .case-kicker { display: block; margin: var(--space-2xs) 0 0; }
+/* THE ICON BESIDE THE DESCRIPTION on the homepage's two lab cards, since
+   2026-10-28 (Adam: an icon by each description, about 60 square, a
+   rounded rectangle). The description names the app in bold, so the icon
+   sits to its left at --app-icon, the lockup's own size, and stays there
+   at every width; the words take what is left and wrap at the measure.
+
+   Agent Review's is the app's own mark, drawn as its favicon draws it:
+   Phosphor's terminal window, fill weight, on a tile whose corner is 6 of
+   32. The Shortlist's is its companion from the same family and weight,
+   Phosphor's list with a heart (the list of what you liked, carried into
+   the store), on the same tile. Both are drawn in code, so the tile and
+   the glyph take the site's inks: the tile charcoal, the glyph warm, the
+   primary ink on charcoal. The corner is the drawing's, in its own
+   viewBox, as the favicon's is: no radius token is an app tile's corner,
+   as --shell-radius is a device's and no other's. The svg is aria-hidden
+   for the same reason the lockup's image carries an empty alt.
+
+   The wrapper takes the description's margins, so the tags sit where they
+   sat. */
+.case-app {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-md) 0 var(--space-xs);
+}
+@media (min-width: 768px) {
+  .case-app { margin-bottom: var(--space-sm); }
+}
+.case-app .case-desc { margin: 0; }
+.case-app-icon {
+  flex: none;
+  display: block;
+  width: var(--app-icon);
+  height: var(--app-icon);
+}
+.case-app-tile { fill: var(--color-charcoal); }
+.case-app-glyph { fill: var(--color-warm); }
 .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm); }
 /* One tag component, three homes: the case study cards, the product
    cards and the lab index's entries. The products used to set their own
