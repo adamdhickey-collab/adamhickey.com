@@ -592,8 +592,10 @@
    moment after the press, so the one thing undo is for, rows leaving and
    coming back, was the one thing a reader could not see (Adam: "I want to
    be able to click on the undo button and see what happens").
-     - My call: the active three named before the press, which is the part
-       kept from the review; Archive takes four and stops at Monarch; the
+     - My call: the active three shaded before the press, which is the
+       part kept from the review (a line naming them, until 2026-10-29,
+       said again what their pills say); Archive takes four and stops at
+       Monarch; the
        bar says so with Undo; Undo brings the four back.
      - The agent's pick: Archive opens the review, one more stop, with a
        real box per active customer; Archive N takes what is left
@@ -627,8 +629,7 @@
 .ev[data-step="reviewing"] [data-for~="reviewing"],
 .ev[data-step="archived"] [data-for~="archived"],
 .ev[data-step="undone"] [data-for~="undone"] { display: flex; }
-.ev[data-step="reviewing"] .ev-review[data-for~="reviewing"],
-.ev[data-step="selected"] .ev-note[data-for~="selected"] { display: block; }
+.ev[data-step="reviewing"] .ev-review[data-for~="reviewing"] { display: block; }
 
 /* The bar over the rows: what is selected, then what happened, and the
    one press that moves it on, at the end. */
@@ -725,19 +726,6 @@
   stroke-linejoin: round;
 }
 
-/* Before the press, the active three named: the part of the review the
-   designer kept. */
-.case-section .ev-note {
-  margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--rule-on-dark);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-  text-wrap: pretty;
-}
-.ev-note .ship-list-tag { margin-right: var(--space-2xs); }
-
 /* The review, the agent's one more stop, under the bar. */
 .ev-review {
   padding: var(--space-md);
@@ -795,6 +783,9 @@
 }
 .ev-row:first-child .ev-row-body { border-top: 0; }
 .ev-row[data-gone] { grid-template-rows: 0fr; opacity: 0; }
+/* Before the press, the active three stand out on a sage ground: the part
+   of the review the designer kept, said by the rows themselves. */
+.ev[data-ev="undo"][data-step="selected"] .ev-row:has(.ship-list-tag--active) .ev-row-body { background: var(--color-accent-wash-on-dark); }
 .ev-row-name { flex: 1; min-width: 0; }
 .ev-check {
   flex: none;
