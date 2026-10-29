@@ -76,6 +76,8 @@ const ALLOW = [
     why: 'one item in a list that has its comma' },
   { file: 'case-study/faunaform.html', phrase: 'grayed blue sky and shadow',
     why: 'one ink, sky and shadow, in a list that has its comma' },
+  { file: 'case-study/hybrid-designer.html', phrase: 'taking big corporate ideas and making them',
+    why: 'a participle phrase on the sentence, then a pair' },
   { file: 'case-study/lucy-learns.html', phrase: 'step 1 of 6, ring or knock once',
     why: 'alt text reading the screen: a step, then its instruction' },
   { file: 'case-study/lucy-learns.html', phrase: 'the blue chair and gray bed unchanged',
