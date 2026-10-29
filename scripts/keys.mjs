@@ -12,9 +12,10 @@
  * so two of them are written by this script from the third. The h2 is the
  * source: its text is the list entry, its position is the eyebrow's number,
  * and its id is the link between them. Edit the heading, run --write, and
- * the list and the eyebrows follow. The index gets the count the same way:
- * "6 ideas · 6 min read" beside each entry, the ideas from the h2s and the
- * minutes from the article's own kicker.
+ * the list and the eyebrows follow. The index gets its label the same way:
+ * "6 min read" beside each entry, from the article's own kicker. Until
+ * 2026-10-29 it read "6 ideas · 6 min read"; the idea count came off the
+ * index, and stays on the article, where the list shows it.
  *
  * The check is the same question seo.mjs asks of the sitemap: is what the
  * page says about itself what the page is. A heading reworded without a
@@ -152,25 +153,25 @@ for (const f of articles) {
   }
 }
 
-/* 4. The index: "N ideas · M min read" per entry. */
+/* 4. The index: "M min read" per entry. */
 {
   const path = resolve(DIR, 'index.html');
   const src = readFileSync(path, 'utf8');
   let next = src;
-  for (const [s, { count, minutes }] of ideas) {
+  for (const [s, { minutes }] of ideas) {
     const re = new RegExp(`(<a class="writing-link" href="${s}\\.html">[\\s\\S]*?<p class="writing-meta">)[^<]*(<\\/p>)`);
     if (UNLISTED.has(s)) {
       if (re.test(next)) fault('index.html', `${s}.html is unlisted but has an entry; take it out of UNLISTED or off the index`);
       continue;
     }
     if (!re.test(next)) { fault('index.html', `no entry for ${s}.html`); continue; }
-    next = next.replace(re, `$1${count} ideas &middot; ${minutes} min read$2`);
+    next = next.replace(re, `$1${minutes} min read$2`);
   }
   if (next !== src) {
-    if (WRITE) { writeFileSync(path, next); say('  wrote index.html: idea counts'); }
-    else fault('index.html', 'idea counts are out of step with the articles; `node scripts/keys.mjs --write`');
+    if (WRITE) { writeFileSync(path, next); say('  wrote index.html: read times'); }
+    else fault('index.html', 'read times are out of step with the articles; `node scripts/keys.mjs --write`');
   } else {
-    say('  ok    index.html: idea counts');
+    say('  ok    index.html: read times');
   }
 }
 
