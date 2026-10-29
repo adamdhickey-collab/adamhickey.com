@@ -504,23 +504,29 @@
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
 }
-.ar-cycle {
+/* THE STAGES, AND THE PROTOTYPE ITSELF, since 2026-10-29 (Adam: the six
+   rows were long and said again what the prototype says). Each stage is
+   one line, its name in bold and the call after it, in a grid of three
+   from 64rem, and the prototype runs live under them at the column's full
+   width (beside them it was a third too narrow for the app's own layout), so a reader plays the six stages rather than reading
+   six pictures of them. Until then each stage was a serif line, a labelled
+   call and a 16:9 scene drawn by scripts/scenes.mjs, one row apiece. */
+.ar-try { display: grid; gap: var(--space-2xl); }
+.ar-steps {
   display: grid;
-  gap: var(--space-4xl) var(--space-xl);
+  column-gap: var(--space-2xl);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.ar-cycle li { display: grid; gap: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--rule-card); }
-.case-section .ar-cycle-stage {
+.ar-steps li {
   display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0 0 var(--space-lg);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+  align-items: flex-start;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--rule-card);
 }
 .ar-cycle-n {
   display: inline-grid;
@@ -528,89 +534,52 @@
   flex: none;
   width: var(--space-xl);
   height: var(--space-xl);
+  /* Centred on the first line of the sentence beside it: its line box less
+     the disc, halved. 1lh here would be the disc's own 12px line. */
+  margin-top: calc((var(--text-base) * var(--leading-body) - var(--space-xl)) / 2);
   border-radius: var(--radius-pill);
   background: var(--color-charcoal);
   font-size: var(--text-xs);
   line-height: 1;
   color: var(--ink-on-dark);
 }
-/* Two lines a stage, since the evening of 2026-10-26 (Adam: hard to read
-   and hard to follow for someone browsing). What happened, in the serif,
-   then Alex's call under it, its label in the sage. Until then a stage had
-   four: that line, a line each for the agent and the designer under their
-   two marks, and a "Look for" pointer into the picture, and the last three
-   said the first one again. The picture's own "Your move" panel shows who
-   decided, so the marks and their key came off with them. The serif line
-   is 24px from 640, where it was 20 everywhere until 2026-10-27 (Adam:
-   larger in all the steps): its x-height put 20px under the 16px sans of
-   the call beneath it. Below 640 it holds at 20, under the section's h2,
-   as TYPOGRAPHY.md sets a serif heading in the column. */
-.case-section .ar-cycle-text p.ar-cycle-story {
+.case-section .ar-steps p {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-@media (min-width: 40rem) {
-  .case-section .ar-cycle-text p.ar-cycle-story { font-size: var(--text-2xl); }
-}
-.case-section .ar-cycle-text p.ar-cycle-call {
-  margin: var(--space-md) 0 0;
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
-.ar-cycle-call strong {
-  display: block;
-  margin-bottom: var(--space-2xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-accent-text);
-}
-/* The one stage told in full is marked, and links to its section. */
-.ar-cycle-full a {
+.ar-steps strong { font-weight: var(--weight-semibold); }
+.ar-steps a {
   font-weight: var(--weight-semibold);
   color: var(--color-accent-text);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
-@media (hover: hover) and (pointer: fine) { .ar-cycle-full a:hover { color: var(--color-charcoal); } }
-.ar-cycle-full a:focus-visible { color: var(--color-charcoal); }
-@media (min-width: 40rem) {
-  .case-section .ar-ticket { padding: var(--space-xl) var(--space-2xl); }
-}
-/* SIX ROWS, since 2026-10-26, where the stages were a grid of three: each
-   stage's two lines on the left and its scene on the right, so the scene
-   is wide enough to carry the product's words. In three columns a scene
-   was 379px at 1440, and two short cards would not fit in it. */
-@media (min-width: 64rem) {
-  .ar-cycle li {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    column-gap: var(--space-3xl);
-    align-items: start;
-  }
-}
-#the-cycle .build-hero-act { margin-top: var(--space-block); }
-
-/* ---- The stage scenes ----
-   A picture beside each of the six stages, and the opener's screen: since
-   2026-10-26 each is drawn by the prototype itself, at its own address
-   (agent-review #/scenes/<id>), from its own components and tokens, and
-   captured at 16:9 by scripts/scenes.mjs. Until then they were simplified
-   screens built here in the site's type and colors, which a reader then
-   met in a prototype that looked nothing like them. The words the pictures
-   carry are in each one's alt text. The picture holds the app's own
-   ground, so the frame is the card's edge, corner and drop, as the device
-   frame's is. */
-.ar-scene { margin: 0; }
-.ar-scene img {
+@media (hover: hover) and (pointer: fine) { .ar-steps a:hover { color: var(--color-charcoal); } }
+.ar-steps a:focus-visible { color: var(--color-charcoal); }
+/* The app's own ground fills the frame, so the frame is the card's edge,
+   corner and drop, as the scenes' was. Tall on a phone, where the app
+   stacks; the window's shape from 64rem. */
+.ar-try-frame iframe {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 3 / 4;
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
+  background: var(--color-charcoal);
+}
+.case-section .ar-try-open { margin: var(--space-md) 0 0; }
+@media (min-width: 40rem) {
+  .case-section .ar-ticket { padding: var(--space-xl) var(--space-2xl); }
+  .ar-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ar-try-frame iframe { aspect-ratio: 4 / 3; }
+}
+@media (min-width: 64rem) {
+  .ar-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ar-try-frame iframe { aspect-ratio: 16 / 10; }
 }
 
 /* ---- Evaluate: the two directions, side by side ----
@@ -851,7 +820,6 @@
   .ar-kind[data-shown]:nth-child(3) { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
   /* The ticket lands as a message does: the words, then who sent them. */
   .ar-ticket footer[data-shown] { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
-  .ar-cycle-text + .ar-scene[data-shown] { animation-delay: var(--motion-stagger); animation-fill-mode: backwards; }
 }
 
 /* THE THREE KINDS SAY THEIR OUTCOME. A tick for the one that goes
@@ -879,29 +847,6 @@
   /* Armed is never set still; this is for a preference changed mid-read. */
   .ar-kinds.is-armed .ar-kind-mark { stroke-dashoffset: 0; animation: none; }
 }
-
-/* WHERE YOU ARE IN THE CYCLE. The stage crossing the middle of the window
-   is the current one: its number takes the sage and a sage line grows
-   along its rule. Position, not decoration, so it holds still for a
-   reader who asked for no motion, it just doesn't grow. With no script no
-   stage is current, which is the page as it was. White on the sage is
-   5.82:1. */
-.ar-cycle li { position: relative; }
-.ar-cycle li::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-accent-text);
-  scale: 0 1;
-  transform-origin: left;
-  transition: scale var(--motion-enter) var(--ease-enter);
-}
-.ar-cycle li.is-current::before { scale: 1 1; }
-.ar-cycle-n { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
-.ar-cycle li.is-current .ar-cycle-n { background: var(--color-accent-text); color: var(--color-white); }
 
 /* THE LIST ANSWERS THE PICK, so the consequence shows in the thing being
    archived and not only in the sentence under it. Only live and only
