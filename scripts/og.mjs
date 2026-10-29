@@ -67,10 +67,11 @@ const CARDS = {
      agent-review-og), so the lab and the case study unfurl alike. It was
      the phone-layout square, agent-review-share, before. */
   /* The Shortlist, 2026-10-28: the write-up and its prototype
-     share the prototype's own screen, the plan with its stale count
-     (aisle-shots.mjs), squared from the top. */
+     each take one of the prototype's own screens (aisle-shots.mjs),
+     squared from the top: the plan with its stale count, and the store
+     with the list it carried in. */
   'inspiration-to-aisle':              { kicker: 'Lab · service design',                     title: 'The Shortlist',                                   sub: 'One shopping trip, carried across phone, store, and person', image: 'img/lab/aisle-plan.webp' },
-  'aisle':                             { kicker: 'Prototype · sample data',                  title: 'A shopping trip that keeps its context, from a photo to the aisle', image: 'img/lab/aisle-store.webp' },
+  'aisle':                             { kicker: 'Prototype · sample data',                  title: 'A shopping trip that keeps its context, from a photo to the aisle', image: 'img/lab/aisle-arrive.webp' },
   'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
   'lab':                               { kicker: 'Lab',                                      title: 'Design systems for humans and agents',                        sub: 'Experiments in React, AI-assisted prototyping, and component systems', image: 'img/lab/agent-review-og.webp' },
   /* The case study's card is a drawing since 2026-10-24, the first `full`

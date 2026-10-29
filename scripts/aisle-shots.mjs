@@ -51,11 +51,17 @@ const WIDTH = 368;
 const HEIGHT = 760;
 const SCALE = 2;
 
+/* Since 2026-10-28 every shot after the first has the shopper say the wood
+   legs matter, so the pictures show the one thing the trip carries: the
+   matches checked on it, and the comparison with its row first. */
 const SHOTS = {
-  results: { press: ['[data-go="results"]', '[data-why="hollis"]'] },
-  plan:    { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
-  store:   { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'] },
-  arrive:  { press: ['[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]'], cut: '.ai-saved + .ai-row' },
+  results: { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-why="hollis"]'] },
+  plan:    { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]'] },
+  /* The store screen is taller than a phone since the recheck line and
+     the per-lamp "Not on the shelf?" arrived, so its picture starts where a
+     reader would have scrolled to: the last lamp, then the comparison. */
+  store:   { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]', '[data-go="compare"]'], from: '.ai-saved-item:last-child' },
+  arrive:  { press: ['[data-pref="legs"]', '[data-go="results"]', '[data-save="hollis"]', '[data-save="bexley"]', '[data-go="plan"]', '[data-go="store"]'], cut: '.ai-saved + .ai-note + .ai-row' },
 };
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
@@ -83,13 +89,15 @@ async function screen(name) {
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
   /* The box in page coordinates, since the presses scroll the page and a
      clip on a full-page shot is measured from its top. */
-  const box = await page.$eval('.ai-app', (el, cut) => {
+  const box = await page.$eval('.ai-app', (el, [cut, from]) => {
     const r = el.getBoundingClientRect();
     /* A cut ends the frame 12px under that element: the rows below it sit
-       16px down, so any more and the top of the next one shows. */
+       16px down, so any more and the top of the next one shows. A from
+       starts it at that element instead of the app's top. */
+    const top = from ? el.querySelector(from).getBoundingClientRect().top : r.top;
     const end = cut ? el.querySelector(cut).getBoundingClientRect().bottom + 12 : r.bottom;
-    return { x: r.left + scrollX, y: r.top + scrollY, height: end - r.top };
-  }, SHOTS[name].cut || null);
+    return { x: r.left + scrollX, y: top + scrollY, height: end - top };
+  }, [SHOTS[name].cut || null, SHOTS[name].from || null]);
   const buf = await page.screenshot({
     type: 'png',
     fullPage: true,
@@ -129,7 +137,10 @@ async function panel(press, from, to) {
   const page = await context.newPage();
   await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
-  await page.addStyleTag({ content: '.site-nav { display: none !important; }' });
+  /* The card shows the list as something to read, so the per-lamp "Not on
+     the shelf?" press is left out of it: at the card's size it would sit
+     under one lamp and be cut off under the other. */
+  await page.addStyleTag({ content: '.site-nav { display: none !important; } .ai-saved-act { display: none !important; }' });
   for (const sel of press) {
     const hit = await page.$(sel);
     if (!hit) throw new Error(`card: nothing matches ${sel}`);

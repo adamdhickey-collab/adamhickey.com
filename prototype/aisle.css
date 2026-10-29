@@ -189,8 +189,12 @@
   .ai-app .ai-back:hover { color: var(--color-accent-hover); }
 }
 
-/* A link inside a sentence, as a button: Undo, bring them all back. */
+/* A link inside a sentence, as a button: Undo, bring them all back. It
+   stays the size of its words, and a pseudo-element under it makes the
+   target a finger's, 44px tall and at least 44px wide, as the console's
+   controls did (#322). */
 .ai-app .ai-link {
+  position: relative;
   padding: 0;
   border: 0;
   background: transparent;
@@ -199,6 +203,15 @@
   text-decoration: underline;
   text-underline-offset: 0.15em;
   cursor: pointer;
+}
+.ai-app .ai-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 2.75rem);
+  height: 2.75rem;
+  transform: translate(-50%, -50%);
 }
 .ai-app .ai-link:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
@@ -462,6 +475,77 @@
 }
 .ai-app .ai-person-note { margin: var(--space-sm) 0 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
 .ai-app .ai-done-list { font-size: var(--text-base); line-height: var(--leading-body); }
+
+/* ---------- What the shopper liked, carried across ----------
+   Asked once under the photo, as four chips of one choice. On a match it
+   is one line before the match's own: "What you liked:" and how this lamp
+   does on it. A yes takes the sage and a no the charcoal, and the sentence
+   says which either way ("like your photo", "not wood"). */
+.ai-app .ai-pref > p { margin: 0; }
+.ai-app .ai-pref > p + p { margin-top: var(--space-xs); }
+.ai-app .ai-pref-q { font-size: var(--text-base); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
+.ai-app .ai-fit { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
+.ai-app .ai-fit[data-fit="yes"] { color: var(--color-accent-text); }
+.ai-app .ai-fit-k { font-weight: var(--weight-semibold); }
+
+/* "Not on the shelf?" under each saved lamp in the store: a link-sized
+   button whose target is a finger's, 44px, without making the row taller
+   than its line. */
+.ai-app .ai-link--tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-block: calc((1lh - 2.75rem) / 2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+/* The comparison scrolls sideways once it holds three or four lamps, so
+   each column keeps a readable width on a phone. The region is focusable
+   so a keyboard can scroll it. The row for what the shopper liked comes
+   first, on the feature ground, with its reason under the row head. */
+.ai-app .ai-table-wrap { overflow-x: auto; }
+.ai-app #ai-compare > * + * { margin-top: var(--space-xs); }
+.ai-app .ai-table-wrap:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 4px; }
+.ai-app .ai-table-wrap[data-wide] .ai-table { min-width: 30rem; }
+.ai-app .ai-table tr[data-pick] > * { background: var(--color-tea-light); }
+.ai-app .ai-table tr[data-pick] th,
+.ai-app .ai-table tr[data-pick] td { color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+.ai-app .ai-table tr[data-pick] th { padding-left: var(--space-2xs); }
+.ai-app .ai-table-pick { display: block; font-size: var(--text-xs); font-weight: var(--weight-regular); color: var(--color-accent-text); }
+
+/* Asking for help: what the person will see, as checkboxes on the same
+   tea-light panel the person's own view sits on. The whole row is the
+   label, padded to 44px on one line, so the target is the sentence and
+   not the box, and the rows keep one gap however many lines they wrap to. */
+.ai-app .ai-share {
+  margin: 0;
+  padding: var(--space-md);
+  min-width: 0;
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ai-app .ai-share legend { float: left; width: 100%; padding: 0; }
+.ai-app .ai-share legend + * { clear: left; }
+.ai-app .ai-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: calc((2.75rem - 1lh) / 2) 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+.ai-app .ai-check input:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+.ai-app .ai-check input {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: calc((1lh - 1.125rem) / 2) 0 0;
+  accent-color: var(--color-accent-text);
+}
 
 /* ---------- Around the phone ----------
    The page's own frame for the prototype: the lists over it take the
