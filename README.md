@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 26 pages in nine families |
+| **What this is** | The site: 27 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -164,7 +164,7 @@ product organization (four pictures and their names, each opening its
 section of `how-i-work.html` since 2026-10-29) → What changes when agents can build (the scroll
 story, "The design-to-build shift" until 2026-10-06) → Built end to end (four
 things made end to end, and the line to the this-site write-up) → About,
-which links Earlier work → the
+which links the two career case studies → the
 contact section, headed "Describe what is happening". Since #24 there is no
 Earlier experience section and no four-step panel under the products;
 staging's #142 cut the second half of the page by about a third, and #143
@@ -181,7 +181,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-six pages in nine families, all hand-written HTML with no include step
+Twenty-seven pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -190,11 +190,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all twenty-six pages, so a
+email icon, and the skip link are hand-written into all twenty-seven pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-six pages
+base ladder, and both regimes read it from `type.css`, which all twenty-seven pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -208,7 +208,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data. Its interface on live Citi Bike data, the rebalancing cockpit, was a second from 2026-10-27 to 2026-10-29, when the lab went back to the dispatch story and its address became a forwarding note. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
 | Lab | 4 | A | The index of the working prototypes, each asking one question about a connected service, a design system, or a live operation (since 2026-10-28; it was "Design systems for humans and agents" before), the Agent Review case study, since 2026-10-28 The Shortlist, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The dispatch cockpit is listed there too, at its own address; the rebalancing cockpit took its place from 2026-10-27 to 2026-10-29. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
-| Earlier work | 1 | A | The client work before coding agents, 2005 to 2026, in two eras. Each client is a picture and one line. Until 2026-10-29 it was the two career pages plus `other.html`. |
+| Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. On 2026-10-29 they were one page, `earlier-work.html`, for a day; it and `other.html` are forwarding notes to them. |
 
 **Homepage** -- `index.html`
 
@@ -340,11 +340,12 @@ work that out. Two carry a Design psychology note, which until then had only
 appeared on a case study. The order is editorial rather than chronological:
 `hasPart` in the index's graph is kept in the order the page lists them.
 
-**Earlier work** -- `earlier-work.html`, since 2026-10-29. Two eras on the
-case-study shell at the root; each client is a picture and one line, in the
-shelf `other.html` used. `other.html`,
-`case-study/hybrid-designer.html`, and `case-study/enterprise-consulting.html`
-are forwarding notes to it. About links it.
+**Career-arc pages** -- `case-study/enterprise-consulting.html`,
+`case-study/hybrid-designer.html`. They share the case-study shell but the
+content model is a list of many small pieces rather than one deep one, each
+with its pictures at full size. About links both. `earlier-work.html`, which
+held them as one page on 2026-10-29, and `other.html` are forwarding notes
+to them.
 
 **Reference** -- `design-system/index.html`
 
@@ -771,4 +772,4 @@ are the way they are:
 | #32 | The homepage and the four engagement pages are titled in the words a buyer searches, the h1s keep their names, the Person says what it knows, and the site can tell Bing what changed through IndexNow |
 | #34 | The Writing family comes back, as search doors: an index and six articles, each answering a buyer's question in its first paragraph and ending on the engagement it describes and the account it draws on; twenty-two pages in seven families |
 | #59 | Three articles on operational work in positions two to four -- the moment a workflow breaks, AI that helps someone decide rather than only answer, and a request carried through to a release; the opening article closes on the account rather than the engagement, and the index lede leads with the three; twenty-five pages in seven families |
-| #62 | The first Prototypes page: a self-directed dispatch cockpit on synthetic data, vanilla HTML, CSS, and JavaScript in its own directory, arguing in four working states that people skip verifying a recommendation when they can predict its misses; the AI article and the Working Product Prototype page link to it; twenty-six pages in eight families |
+| #62 | The first Prototypes page: a self-directed dispatch cockpit on synthetic data, vanilla HTML, CSS, and JavaScript in its own directory, arguing in four working states that people skip verifying a recommendation when they can predict its misses; the AI article and the Working Product Prototype page link to it; twenty-seven pages in eight families |
