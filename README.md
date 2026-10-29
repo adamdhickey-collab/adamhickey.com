@@ -11,7 +11,7 @@ see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 42 pages in ten families |
+| **What this is** | The site: 41 pages in ten families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -131,8 +131,8 @@ the archive so that it holds everything staging ever had.
 | `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
 | `engagement/*.html` | The four "How I work" pages, one per card on the homepage's grid since 2026-09-17: the situation, how it goes step by step, and where it is shown. They were the engagement pages until then and keep their addresses; every case study's close and the sitemap still reach them |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters, and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
-| `prototype/aisle.html`, `prototype/aisle.{css,js}` | The Shortlist prototype: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. Shortlist is the feature's name in the app of the made-up store, Marigold Home. What the shopper liked about the lamp is asked once and carried through every later screen, and every screen is written from what the shopper did. No image search, inventory system, or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers fourteen states for it, and `scripts/aisle-test.mjs` walks every branch and asserts what each screen says. `scripts/aisle-shots.mjs` takes its screens for the write-up, the lab index, and the share cards. An independent concept: the store is made up, and no retailer's name, mark, or colors appear |
-| `lab/inspiration-to-aisle.html`, `lab/inspiration-to-aisle.css`, `lab/inspiration-to-aisle.js` | The Shortlist write-up: the opportunity, with what retailers already ship (one linked source), one service map drawn in HTML so the checks read it (the journey and a simplified service blueprint on six shared moments, with a Today/Connected switch and a moment to follow down, both lanes showing without script), five assumptions made in place of research, the prototype, where the person stays in charge, the study that would test it, and a reflection. Illustrative and conceptual material is labeled as such on the figure itself |
+| `lab/aisle.{css,js}`, `prototype/aisle.html` | The Shortlist prototype, in the write-up's hero since 2026-10-29: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. Shortlist is the feature's name in the app of the made-up store, Marigold Home. What the shopper liked about the lamp is asked once and carried through every later screen, and every screen is written from what the shopper did. No image search, inventory system, or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers fourteen states for it, and `scripts/aisle-test.mjs` walks every branch and asserts what each screen says. `scripts/aisle-shots.mjs` takes its screens for the lab index and the share card. It had a page of its own for a day; `prototype/aisle.html` is a forwarding note to the write-up now, which no check measures and `seo.mjs` holds to a noindex, a canonical, and a place outside the sitemap. An independent concept: the store is made up, and no retailer's name, mark, or colors appear |
+| `lab/inspiration-to-aisle.html`, `lab/inspiration-to-aisle.css`, `lab/inspiration-to-aisle.js` | The Shortlist, one page since 2026-10-29: the question and four facts, with the working prototype beside them in the hero, then the opportunity, with what retailers already ship (one linked source), one service map drawn in HTML so the checks read it (the journey and a simplified service blueprint on six shared moments, with a Today/Connected switch and a moment to follow down, both lanes showing without script), five decisions each with the guess under it, made in place of research, the study that would test them, and a reflection. From 64rem the phone holds one height and its screen scrolls inside it, so a press never moves the map. Illustrative and conceptual material is labeled as such on the figure itself |
 | `prototype/rebalance-cockpit.html`, `prototype/rebalance-cockpit.{css,js}`, `prototype/rebalance-snapshot.js` | The rebalancing cockpit: the dispatch cockpit's interface on Citi Bike's public GBFS feed, read in the reader's browser every minute, with no server and no key. It loads `dispatch-cockpit.css` whole and renders the same `.ck` markup; its own stylesheet holds only the feed line and a phone wrap. The page plays `rebalance-snapshot.js` instead of the feed when the feed does not answer, when the address carries `?snapshot`, and whenever `navigator.webdriver` is set, which is every check here, so the checks measure the same stations on every run. `scripts/rebalance-snapshot.mjs` retakes the snapshot and `scripts/rebalance-shots.mjs` the hero and the share card's picture from it |
 | `writing/*.html` | The index, the eleven articles it lists and the four it no longer does, each answering in its first paragraph a question a buyer asks before knowing the name, and each ending on the "How I work" page it describes and the account it draws on. The search doors into the site; see "What the site tells a machine" in `CLAUDE.md` |
 | `design-system/index.html`, `design-system/ds.css` | The design system reference: tokens, type, spacing, and components, read off the stylesheets |
@@ -182,7 +182,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Forty-two pages in ten families, all hand-written HTML with no include step
+Forty-one pages in ten families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -191,11 +191,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all forty-two pages, so a
+email icon, and the skip link are hand-written into all forty-one pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all forty-two pages
+base ladder, and both regimes read it from `type.css`, which all forty-one pages
 load. Regime A loads `style.css`; regime B is the six older pages on the built
 Tailwind stylesheet, which cannot see anything `style.css` declares.
 
@@ -208,7 +208,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 | How I work | 4 | A | One page per thing I bring to a team: the situation, the steps, and where it is shown. Engagement pages until 2026-09-17. |
 | Writing | 17 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and nine articles in three collections named for its three words since 2026-10-20: the system, the build, the judgment. Five more keep their addresses off the index. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
-| Prototypes | 3 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, since 2026-10-27 its interface on live Citi Bike data, the rebalancing cockpit, and since 2026-10-28 Aisle, the phone-sized prototype of The Shortlist, on sample data. The deploy console was a second until 2026-10-23. |
+| Prototypes | 2 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data, since 2026-10-27 its interface on live Citi Bike data, and the rebalancing cockpit. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
 | Lab | 4 | A | The index of the working prototypes, each asking one question about a connected service, a design system, or a live operation (since 2026-10-28; it was "Design systems for humans and agents" before), the Agent Review case study, since 2026-10-28 The Shortlist, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The rebalancing cockpit is listed there too, at its own address, in the dispatch cockpit's place since 2026-10-27. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
 | Other work | 1 | A | The book and the identity shelf, off the homepage since the hire-me pass, and since 2026-10-26 the dispatch case study, filed at the foot. |
 

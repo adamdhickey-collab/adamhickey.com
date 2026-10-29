@@ -96,14 +96,21 @@ const ORIGIN = 'https://adamhickey.com';
 
 /* Same walk as counts.mjs, and deliberately the same exclusions. 404.html is
    what Pages serves for a miss, not a page of the site: it has no canonical
-   address, must not be in the sitemap, and is checked separately below. */
+   address, must not be in the sitemap, and is checked separately below. A
+   forwarding note is an old address that refreshes to the page now holding
+   what it held (scripts/lib/harness.mjs, FORWARD); it is set aside the same
+   way and checked separately below too. */
+const FORWARD = /<meta http-equiv="refresh"/i;
+const FORWARDS = [];
 function htmlPages(dir = root, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') || e.name === 'node_modules' || e.name === 'independent-practice') continue;
     if (dir === root && e.name === '404.html') continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) htmlPages(p, out);
-    else if (e.name.endsWith('.html')) out.push(path.relative(root, p));
+    else if (!e.name.endsWith('.html')) continue;
+    else if (FORWARD.test(fs.readFileSync(p, 'utf8'))) FORWARDS.push(path.relative(root, p));
+    else out.push(path.relative(root, p));
   }
   return out.sort();
 }
@@ -291,6 +298,23 @@ if (!has('404.html')) {
   if (!/href="\//.test(s404)) fault('404.html', 'no root-absolute links; it is served at any depth, so relative ones break');
   ok('404.html is noindexed, uncanonical, absolute-linked and out of the sitemap');
 }
+
+/* --- forwarding notes: an old address, kept, and not a page --------------
+   Each names the page it forwards to three times, and all three have to be
+   the same page: the refresh a browser follows, the canonical a crawler
+   reads in its place, and a link for a browser that follows neither. */
+for (const f of FORWARDS.sort()) {
+  const s = read(f);
+  const to = (s.match(/<meta http-equiv="refresh" content="0; url=([^"#]+)/i) || [])[1];
+  const target = to && path.posix.normalize(path.posix.join(path.posix.dirname(f), to));
+  if (!target || !PAGES.includes(target)) { fault(f, `forwards to ${to || 'nothing'}, which is not a page of the site`); continue; }
+  if (!/<meta name="robots" content="noindex/.test(s)) fault(f, 'no noindex; a crawler would index the note in place of the page it forwards to');
+  const canon = (s.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+  if (canon !== urlFor(target)) fault(f, `canonical is ${canon || 'missing'}; a note names the page it forwards to, ${urlFor(target)}`);
+  if (!s.includes(`href="${to}`)) fault(f, `no link to ${to}, for a browser that does not follow the refresh`);
+  if (locs.includes(urlFor(f))) fault('sitemap.xml', `lists ${f}, which forwards to ${target} rather than being a page`);
+}
+if (FORWARDS.length) ok(`${FORWARDS.length} forwarding note${FORWARDS.length === 1 ? '' : 's'} (${FORWARDS.join(', ')}): noindexed, canonical to the page it forwards to, linked, and out of the sitemap`);
 
 /* --- robots.txt points at it --------------------------------------------- */
 if (!has('robots.txt')) {

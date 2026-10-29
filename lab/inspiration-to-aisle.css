@@ -250,45 +250,12 @@
   .ia-line { margin-top: var(--space-xs); }
 }
 
-/* ---------- Around the figures ----------
-   The questions, each the question in the semibold and the assumption
-   under it, as the site's dash list; the principles the same way. */
-.case-section .ia-questions li,
-.case-section .ia-list li { font-size: var(--text-base); line-height: var(--leading-body); }
-.ia-questions li > strong:first-child { display: block; font-weight: var(--weight-semibold); color: var(--color-charcoal); }
-.ia-questions li > span { display: block; margin-top: var(--space-2xs); color: var(--color-charcoal); }
-.ia-questions li > span > b { font-weight: var(--weight-semibold); color: var(--color-accent-text); }
-
-/* The prototype's screens, three phones in a row from 40rem, each a capture
-   of the running prototype (scripts/aisle-shots.mjs), in the phone frame
-   the build write-ups use. */
-.ia-screens {
-  display: grid;
-  gap: var(--space-xl);
-  margin: var(--space-2xl) 0;
-}
-@media (min-width: 40rem) { .ia-screens { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.ia-screens figure { margin: 0; }
-.ia-screens .build-phone { max-width: 20rem; margin: 0 auto; }
-.ia-screens figcaption {
-  margin: var(--space-sm) auto 0;
-  max-width: 20rem;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.ia-screens figcaption strong { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
-
-/* The hero's picture: the prototype's own screen in its frame. */
+/* ---------- The hero ----------
+   The question and the facts in the first column, the prototype in the
+   second from 64rem. Under that the hero is one column, and the phone
+   follows the facts. */
 .ia-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
 @media (min-width: 64rem) { .ia-hero-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
-.ia-hero-art { margin: 0; }
-/* One phone at a phone's own width, 24rem, the prototype page's frame: the
-   screen inside it is 368px of a 736px capture, so it prints at half the
-   file and every line reads at the size the app sets it. Centered in the
-   column rather than stretched to it. */
-.ia-hero-art .build-phone { width: 24rem; max-width: 100%; margin-inline: auto; }
 .ia-status {
   margin: var(--space-lg) 0 0;
   max-width: var(--measure);
@@ -296,6 +263,105 @@
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
+
+/* ---------- The phone in the hero ----------
+   The prototype itself, since 2026-10-29, where a capture of it stood and
+   looked pressable without being so. It is lab/aisle.css's 24rem frame,
+   centered in the column, under one line that says it is the real thing
+   and what to try. That line is as wide as the phone, and charcoal on
+   warm (14.02).
+
+   ONE HEIGHT FROM 64rem. Each screen is its own height, and the comparison
+   is half again as tall as the first. Beside the facts, a phone that grew
+   and shrank with every press would move the map up and down the page
+   under the reader, so from 64rem the app holds the 42rem its frame was
+   drawn at (never more than the viewport leaves under the header) and the
+   screen scrolls inside it, under the app's bar, as a phone's does.
+   lab/aisle.js starts each new screen at its top. Under 64rem the phone
+   takes each screen's own height again, as on a phone itself: a box that
+   scrolls inside a page that scrolls is a box a thumb gets caught in.
+
+   The stage is the box that scrolls, so it would clip a control's focus
+   ring at its edge; it gives the ring --space-2xs of room on every side
+   and takes the same back from its margin, so nothing inside it moves. */
+.ia-hero-app { min-width: 0; }
+.ia-try {
+  max-width: 24rem;
+  margin: 0 auto var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.ia-try strong { font-weight: var(--weight-semibold); }
+@media (min-width: 64rem) {
+  .ia-hero-app .ai-app {
+    display: flex;
+    flex-direction: column;
+    height: min(42rem, calc(100svh - var(--nav-height) - 2 * var(--space-4xl)));
+    min-height: 0;
+  }
+  .ia-hero-app .ai-bar { flex: none; }
+  .ia-hero-app .ai-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    margin: calc(-1 * var(--space-2xs));
+    padding: var(--space-2xs);
+  }
+}
+
+/* ---------- The five decisions ----------
+   Each a numbered disc (the case studies' 40px step marker, named once so
+   the disc and the indent cannot drift), the decision centred on the disc,
+   what the app does at the measure, and the guess under it, its label in
+   the sage. They were the prototype page's .aiw-decisions until 2026-10-29,
+   with a disclosure of reasons each, which the one page leaves out. */
+.ia-decisions {
+  --ia-num: 40px;
+  list-style: none;
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
+  counter-reset: ia-decision;
+  display: grid;
+  gap: var(--space-2xl);
+}
+.ia-decision {
+  counter-increment: ia-decision;
+  position: relative;
+  padding-left: calc(var(--ia-num) + var(--space-sm));
+}
+.ia-decision::before {
+  content: counter(ia-decision, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--ia-num);
+  height: var(--ia-num);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+.case-section .ia-decision h3 {
+  min-height: var(--ia-num);
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.case-section .ia-decision p { max-width: var(--measure); margin-bottom: var(--space-xs); }
+.case-section .ia-decision p:last-child { margin-bottom: 0; }
+.case-section .ia-guess { font-size: var(--text-base); line-height: var(--leading-body); }
+.ia-guess b { font-weight: var(--weight-semibold); color: var(--color-accent-text); }
 
 /* ---------- The map's two views ----------
    With script (inspiration-to-aisle.js) the figure carries .is-connected
@@ -596,7 +662,6 @@
   .ia-facts dd a:hover { color: var(--color-charcoal); }
 }
 
-/* Accessibility, inside the prototype chapter: its own small heading
-   under the three screens, before the way in. */
+/* Accessibility, under the five decisions: one paragraph, its lead in
+   the semibold. */
 .ia-access { margin-top: var(--space-3xl); }
-.case-overview .ia-access h3 { margin-top: 0; }

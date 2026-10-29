@@ -41,7 +41,7 @@
           "mainEntityOfPage": "https://adamhickey.com/lab/inspiration-to-aisle.html",
           "image": "https://adamhickey.com/img/og/inspiration-to-aisle.jpg?v=3",
           "datePublished": "2026-10-28",
-          "dateModified": "2026-10-28",
+          "dateModified": "2026-10-29",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -103,10 +103,18 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261026a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
-  <link rel="stylesheet" href="inspiration-to-aisle.css?v=9" />
+  <link rel="stylesheet" href="aisle.css?v=1" />
+  <link rel="stylesheet" href="inspiration-to-aisle.css?v=10" />
   <script src="../site-nav.js?v=20260906a" defer></script>
+  <!-- "Listen to this page" reads the writing around the prototype and not
+       the prototype: the phone is marked data-read-aloud="skip", because its
+       text changes under the reader's own presses and includes a live
+       region. -->
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="inspiration-to-aisle.js?v=1" defer></script>
+  <!-- The prototype. Deferred, no dependencies, no build step; the lamps,
+       the store and the counts are the objects at the top of the file. -->
+  <script src="aisle.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -205,15 +213,20 @@
   </nav>
 
   <main id="main">
-    <!-- THE HERO SAYS THE QUESTION, THEN WHAT THIS IS. The status line says,
-         before any picture, that this is an independent concept with a
-         made-up store and nothing tested. The picture is the prototype's own
-         In the store screen, in the site's phone shell at a
-         phone's own size (scripts/aisle-shots.mjs), not a drawing. -->
+    <!-- THE HERO SAYS THE QUESTION, THEN WHAT THIS IS, AND THE PHONE BESIDE
+         IT IS THE PROTOTYPE ITSELF, since 2026-10-29. It was a capture of the
+         In the store screen in the phone shell, which looked pressable and
+         was not, while the working version sat on a page of its own
+         (prototype/aisle.html, a forwarding note now) that retold most of
+         this one. The status line still says, before anyone presses, that
+         this is an independent concept with a made-up store and nothing
+         tested, and the line under the phone says the matches are written.
+         From 64rem the phone holds one height and its screen scrolls inside
+         it (inspiration-to-aisle.css, "The phone in the hero"). -->
     <header class="case-hero">
       <div class="container case-wide ia-hero-grid">
         <div>
-          <p class="case-kicker">Lab &middot; The Shortlist &middot; <span class="case-readtime">8 min read</span></p>
+          <p class="case-kicker">Lab &middot; The Shortlist &middot; <span class="case-readtime">7 min read</span></p>
           <h1 class="case-title">The Shortlist</h1>
           <p class="build-dek">How might one shopping trip feel continuous across a phone, a store, and a person who works there? One trip, from a photo of a friend&rsquo;s lamp to a store aisle, as a service map and a working prototype.</p>
           <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS, since 2026-10-28: the
@@ -225,15 +238,37 @@
             <div><dt>What I built</dt><dd>A service map of one trip, and a working prototype at a phone&rsquo;s width, on sample data.</dd></div>
             <div><dt>Tested</dt><dd>Not yet, with shoppers or with store staff. <a href="#evaluation">The study I&rsquo;d run first</a> is below.</dd></div>
           </dl>
-          <p class="build-hero-act" data-read-aloud="skip after">
-            <a class="btn btn-primary" href="../prototype/aisle.html">Try the prototype</a>
-          </p>
+          <!-- The row read-aloud.js puts "Listen to this page" in. The
+               prototype is beside it, so the row carries no button of its
+               own to point at it. -->
+          <p class="build-hero-act" data-read-aloud="skip after"></p>
           <p class="ia-status">An independent concept, designed and built by me with Claude Code. No retailer is involved: the store is made up, and every lamp, count, and person is sample data.</p>
         </div>
-        <figure class="ia-hero-art">
-          <div class="build-phone"><img src="../img/lab/aisle-arrive.webp?v=5" width="736" height="1432" fetchpriority="high" decoding="async"
-               alt="The prototype's In the store screen: your photo and your list came in with you, and both lamps are in Aisle 14, along the back wall. The two saved lamps with their bays and the store system's counts, one counted this morning and one last counted 2 days ago in the caution ink, each with a Not on the shelf? link; a line saying the counts were checked again on arrival; and a button to compare them side by side." /></div>
-        </figure>
+        <div class="ia-hero-app" id="try-it" data-read-aloud="skip">
+          <h2 class="visually-hidden">The prototype</h2>
+          <p class="ia-try"><strong>Try it here.</strong> Say what you like about the lamp, save two, and then say one isn&rsquo;t on the shelf. The matches are written, not computed.</p>
+          <div class="ai-frame" data-aisle>
+            <div class="ai-app">
+              <div class="ai-bar">
+                <p class="ai-brand">Shortlist</p>
+                <ol class="ai-progress" aria-label="Where you are in the trip">
+                  <li data-aisle-half="home" aria-current="step">At home</li>
+                  <li data-aisle-half="store">In the store</li>
+                </ol>
+              </div>
+              <div class="ai-stage" data-aisle-stage data-screen="home">
+                <noscript>
+                  <p class="ai-dek">The prototype is built in JavaScript and it is switched off here, so the phone is empty. The five decisions below describe what it does, and the source is <a href="aisle.js">aisle.js</a>, with the lamps and the store as plain objects at the top.</p>
+                </noscript>
+              </div>
+              <!-- The live region: one line, always in the document, updated
+                   when a screen changes, a lamp is saved or hidden, or the
+                   comparison opens, so a screen reader hears what a sighted
+                   reader sees move. -->
+              <p class="visually-hidden" role="status" data-aisle-status></p>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -244,9 +279,8 @@
           <h2>The trip starts over at the door</h2>
           <p>You like the lamp at a friend&rsquo;s house, so you take a picture. That night you find four that look close and narrow it to two.</p>
           <p>Two days later you&rsquo;re in the store. Which two were yours? Your phone knows, the aisle doesn&rsquo;t, and the person who works there starts with &ldquo;What are you looking for?&rdquo;</p>
-          <p>Every part of that trip works. What breaks is between them: <strong>the context doesn&rsquo;t travel.</strong> That makes it a service design problem before a screen design problem, and a seam only shows when you draw the whole trip.</p>
-          <p>Some of the trip already ships. In September 2026 Target described <a href="https://corporate.target.com/news-features/article/2026/09/digital-tools">Photo Search and Continue Shopping</a> in its app: find a product from a picture, and pick up where you left off.</p>
-          <p>So searching by photo isn&rsquo;t the new part. The question here comes after it: <strong>what should follow the shopper into the store, so they continue a decision instead of starting over?</strong></p>
+          <p>Every part of that trip works. What breaks is between them: <strong>the context doesn&rsquo;t travel.</strong></p>
+          <p>Searching by photo already ships. In September 2026 Target described <a href="https://corporate.target.com/news-features/article/2026/09/digital-tools">Photo Search and Continue Shopping</a> in its app. The question here comes after it: <strong>what should follow the shopper into the store?</strong></p>
         </div>
       </div>
     </section>
@@ -260,7 +294,7 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>One trip, from the shopper down to the systems</h2>
-          <p>Six moments across. The top lanes are what the shopper meets; under the line is what has to be true for it to work. Switch between today and the connected version to see where the trip breaks, and pick a moment to follow it down.</p>
+          <p>Six moments across. The top lanes are what the shopper meets; under the line is what has to be true. Switch to the connected version to see where today&rsquo;s trip breaks, and pick a moment to follow it down.</p>
         </div>
         <figure class="ia-figure ia-map" style="--ia-moments: 6">
           <figcaption>One trip, today and connected<span class="ia-standing">Illustrative: drawn from the scenario, not from observed shoppers. The systems are what a service like this would need, as I imagine them.</span></figcaption>
@@ -357,131 +391,85 @@
           </ol>
         </figure>
         <div class="writing-measure">
-          <p>Read the Today lane across and it&rsquo;s one failure six times: a system knows something a person can&rsquo;t get at. Drawing it moved the design twice. The <strong>timestamp</strong> on a shelf count does more work than any screen, because without it moment three can&rsquo;t be honest. And the employee shows up twice, counting at moment three and helping at moment six. The first job is what makes the second possible.</p>
+          <p>Read the Today lane across and it&rsquo;s one failure six times: a system knows something a person can&rsquo;t get at.</p>
+          <p>Drawing it moved the design twice. The <strong>timestamp</strong> on a shelf count does more work than any screen. And the employee shows up twice: counting at moment three is what makes helping at moment six possible.</p>
         </div>
       </div>
     </section>
 
-    <!-- 3. ASSUMPTIONS. No interviews were run, and the section says so. -->
-    <section class="case-section case-overview build-chapter ground-white" id="questions">
+    <!-- 3. FIVE DECISIONS, each with the guess under it. Since 2026-10-29
+         this is the one place they are told: they were five assumptions
+         here, five calls in a section on human judgment, and five decisions
+         with their reasons on the prototype's own page, the same five three
+         times over. No interviews were run, and the section says so. -->
+    <section class="case-section case-overview build-chapter ground-warm" id="decisions">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <h2>Five assumptions I built on</h2>
-          <p>I haven&rsquo;t interviewed shoppers or staff, and I haven&rsquo;t invented findings. Each question carries the assumption I made so the prototype could exist.</p>
-          <ol class="build-list ia-questions">
-            <li><strong>What should carry across, and what shouldn&rsquo;t?</strong><span><b>Mine:</b> the photo, what you liked, and the shortlist. Never the account or the purchase history, and nothing to an employee unless the shopper sends it.</span></li>
-            <li><strong>When does the AI help, and when does it intrude?</strong><span><b>Mine:</b> at home it leads; in the store it waits to be asked.</span></li>
-            <li><strong>How do people judge a substitute?</strong><span><b>Mine:</b> by the one thing they wanted from the original, so the prototype asks for it once, under the photo.</span></li>
-            <li><strong>What makes a shelf count worth driving for?</strong><span><b>Mine:</b> its age, printed beside it every time.</span></li>
-            <li><strong>What happens when the technology is wrong?</strong><span><b>Mine:</b> the shelf wins, and a person is one press away.</span></li>
-          </ol>
+          <h2>Five decisions, each resting on a guess</h2>
+          <p>The AI matches, explains, and suggests. Everything else is the shopper&rsquo;s, as in <a href="agent-review.html">Agent Review</a> and <a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, except that a shopper can walk away. So here the app waits to be asked.</p>
+          <p>I haven&rsquo;t talked to shoppers or staff yet, so each decision rests on a guess.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- 4. THE PROTOTYPE: the transition itself, pressable, on its own
-         page; three of its screens here. -->
-    <section class="case-section case-overview build-chapter ground-warm" id="the-prototype">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>The prototype: the moment the phone goes into the store</h2>
-          <p>Eight screens at a phone&rsquo;s width, from the photo to a person in the aisle, on sample data. Each screen is written from what the shopper did. No image search or inventory system is connected. Its page walks through the five interface decisions.</p>
-        </div>
-        <div class="ia-screens">
-          <figure>
-            <div class="build-phone"><img src="../img/lab/aisle-results.webp?v=4" width="736" height="1520" loading="lazy" decoding="async" alt="The results screen, after the shopper said the wood legs matter most: the first of four lamps, its price, how close a match it is in words, a line saying what you liked, walnut legs like your photo, one line on what matched and what did not, its reasons open, and Save and Not it buttons." /></div>
-            <figcaption><strong>At home.</strong> Four matches that say why, and how each does on what you liked.</figcaption>
-          </figure>
-          <figure>
-            <div class="build-phone"><img src="../img/lab/aisle-plan.webp?v=4" width="736" height="1520" loading="lazy" decoding="async" alt="The Before you go screen: what you saved travels with you, and so does what you liked, the wood legs. The store, its distance and hours, the two saved lamps with aisle and bay, and each count in the store's system with when the shelf was counted; one reads last counted 2 days ago in the caution ink." /></div>
-            <figcaption><strong>Before the trip.</strong> The counts, with their age.</figcaption>
-          </figure>
-          <figure>
-            <div class="build-phone"><img src="../img/lab/aisle-store.webp?v=5" width="736" height="1520" loading="lazy" decoding="async" alt="The In the store screen, scrolled to the comparison: the Bexley with its two-day-old count, a line saying the counts were checked again on arrival, and a data table of the two lamps with Legs first, marked what you liked, then height, shape, shade, dimming, bulb, price, and where, and a button to ask someone in Home." /></div>
-            <figcaption><strong>In the aisle.</strong> The comparison, what you liked first, and a person one press away.</figcaption>
-          </figure>
-        </div>
-        <!-- ACCESSIBILITY, said in the trip's terms, since 2026-10-28: who
-             the hand-off is for, what the app does about it, and what has
-             and has not been checked. The figures are aisle-test.mjs's and
-             the axe run's in the pull request that added this. -->
+        <ol class="ia-decisions">
+          <li class="ia-decision">
+            <h3>Carry the context, not the cart</h3>
+            <p>What goes into the store is the photo, what you liked about it, and your shortlist: how far you got, not what you bought. Never your account, and never your history.</p>
+            <p class="ia-guess"><b>My guess:</b> what you liked is the one thing worth asking, once, under the photo.</p>
+          </li>
+          <li class="ia-decision">
+            <h3>Say why, and how sure</h3>
+            <p>Each match says in words what matched and what didn&rsquo;t: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo; The weak one stays on the list and calls itself a stretch.</p>
+            <p class="ia-guess"><b>My guess:</b> a sentence someone can check against the photo earns more trust than a score.</p>
+          </li>
+          <li class="ia-decision">
+            <h3>Make no cheap</h3>
+            <p>&ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; the same size, with Undo on the line that reports it. Hiding all four is allowed: &ldquo;none of these&rdquo; is an answer.</p>
+            <p class="ia-guess"><b>My guess:</b> what someone turns down tells the app what they meant.</p>
+          </li>
+          <li class="ia-decision">
+            <h3>Give every shelf count its age</h3>
+            <p>Three counted this morning is a fact. One last counted two days ago is closer to a guess, and the app says so before anyone drives four miles on it.</p>
+            <p class="ia-guess"><b>My guess:</b> the age, printed every time, changes whether someone makes the trip.</p>
+          </li>
+          <li class="ia-decision">
+            <h3>Hand off to a person on purpose</h3>
+            <p>&ldquo;Ask someone in Home&rdquo; is on the store screen from the start. You choose what the employee sees, and nothing goes until Send. If nobody is free, the request stays open.</p>
+            <p class="ia-guess"><b>My guess:</b> an employee wants a stranger&rsquo;s shortlist, and has the time for it.</p>
+          </li>
+        </ol>
+        <!-- ACCESSIBILITY, in one paragraph since 2026-10-29: what the app
+             does, and what has and has not been checked. The figures are
+             aisle-test.mjs's and an axe run's. -->
         <div class="writing-measure ia-access">
-          <h3>Built for anyone in the aisle</h3>
-          <p>A shopper who can&rsquo;t read a shelf tag, or reach the top shelf, is exactly who the hand-off is for. So the app has to work for them first.</p>
-          <ul class="build-list">
-            <li><strong>Every change is said, and focus follows it.</strong> A new screen comes into view with focus on its title and is announced. A save or a hide keeps focus where it was.</li>
-            <li><strong>Nothing rests on color alone.</strong> A stale count reads &ldquo;last counted 2 days ago,&rdquo; and a match says &ldquo;like your photo&rdquo; or &ldquo;not wood.&rdquo;</li>
-            <li><strong>Real controls, at a finger&rsquo;s size.</strong> Native buttons, checkboxes, and a data table, every target at least 44 pixels. Four lamps scroll inside the table, not across the page.</li>
-            <li><strong>Checked, not yet tried.</strong> Automated checks find nothing on any screen it can show. That isn&rsquo;t the same as accessible: nobody using a screen reader has tried it yet.</li>
-          </ul>
-        </div>
-        <p class="build-hero-act"><a class="btn btn-primary" href="../prototype/aisle.html">Try the prototype</a></p>
-      </div>
-    </section>
-
-    <!-- 5. HUMAN JUDGMENT, borrowed from Agent Review and Dispatch
-         Cockpit, said in this trip's terms. -->
-    <section class="case-section case-overview build-chapter ground-tea" id="judgment">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>Where the person stays in charge</h2>
-          <p>The AI matches, explains, and suggests. Everything else is the shopper&rsquo;s, on the rules <a href="agent-review.html">Agent Review</a> and <a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a> already use. Five calls decide where that line sits:</p>
-          <ul class="build-list ia-list">
-            <li><strong>What travels.</strong> The photo, what you liked, the shortlist, and what you compared. Not the cart.</li>
-            <li><strong>What stays private.</strong> Your name, your account, and what you bought before. You choose what an employee sees, item by item.</li>
-            <li><strong>When automation helps.</strong> At home, matching and explaining: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo;</li>
-            <li><strong>When a person is needed.</strong> A back room, a count the shelf disagrees with, or a near match that needs an eye.</li>
-            <li><strong>How to recover from a wrong suggestion.</strong> &ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; with Undo on the line. A missing lamp gets three ways forward, none picked for you.</li>
-          </ul>
-          <p>One difference: a dispatcher has to check the system&rsquo;s work, and a shopper can walk away. So here, waiting to be asked matters more than any explanation.</p>
+          <p><strong>Built for anyone in the aisle.</strong> Each new screen is announced and takes focus, nothing rests on color alone, and every control is at least 44 pixels. Automated checks pass; no screen reader user has tried it yet.</p>
         </div>
       </div>
     </section>
 
-    <!-- 6. EVALUATION. What to test first, and what would prove it wrong.
-         No results: nothing here has been run. The rail is the loop every
-         lab piece runs, with two steps saying "not yet" on purpose; its
-         drawings are the find-out rail's, from "What makes a good product
-         designer now?", because the loop is the same one. -->
+    <!-- 4. EVALUATION. What to test first, and what would prove it wrong.
+         No results: nothing here has been run. -->
     <section class="case-section case-overview build-chapter ground-white" id="evaluation">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>What I&rsquo;d test first, and what would prove it wrong</h2>
-          <p>Nothing has been run. Three assumptions carry the most risk:</p>
-          <ol class="build-list">
-            <li><strong>A person in an aisle wants their phone at all.</strong> If not, the store half shrinks to an aisle number and a hand-off.</li>
-            <li><strong>One thing they liked is enough</strong> to judge a substitute.</li>
-            <li><strong>An employee wants a stranger&rsquo;s shortlist,</strong> and has the time for it.</li>
-          </ol>
-          <p><strong>With shoppers:</strong> five people who recently bought something they first saw somewhere else, each with a photo of their own. They narrow it to two at home, then find them in a store, with one missing.</p>
-          <p>I&rsquo;d watch three tasks: picking the list back up in the store without being told how, saying why a match was offered, and deciding what to do about the missing one.</p>
-          <p><strong>With staff:</strong> three people who work a home department, fifteen minutes each, walked through the request and what the employee sees. Would they use it, and what would they need that isn&rsquo;t there?</p>
+          <p>Nothing has been run. The riskiest guess comes before all five: <strong>does a person in an aisle want their phone out at all?</strong> If not, the store half shrinks to an aisle number and a hand-off.</p>
+          <p><strong>With shoppers:</strong> five people who bought something they first saw elsewhere, each with their own photo. They narrow it to two at home, then find them in a store, with one missing.</p>
+          <p><strong>With staff:</strong> three people from a home department, fifteen minutes each, walked through the request.</p>
           <ul class="build-list">
             <li><strong>Keep it</strong> if most shoppers reach for the list in the aisle unprompted, can say why a match was offered, and the marked count changes at least one decision.</li>
             <li><strong>Revise it</strong> if the list helps but what they liked is ignored, or the count reads as a promise.</li>
             <li><strong>Cut the store half</strong> if the phone only comes out to pay, or staff say the request costs more time than it saves.</li>
           </ul>
-          <figure class="writing-figure writing-rail">
-            <figcaption>Where this stands</figcaption>
-            <ol class="writing-rail-steps">
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-1.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>A question</strong><span>can one trip feel continuous?</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-2.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>A working version</strong><span>eight screens, built in a few days</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-3.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Real use</strong><span>five shoppers: not yet</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-4.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Evidence</strong><span>not yet</span></li>
-              <li><img src="../img/writing/what-makes-a-good-product-designer-now-find-out-5.webp?v=1" width="360" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">05</span><strong>A call</strong><span>waits on the first sessions</span></li>
-            </ol>
-          </figure>
         </div>
       </div>
     </section>
 
-    <!-- 7. THE REFLECTION, on the charcoal band: the one closing chapter. -->
+    <!-- 5. THE REFLECTION, on the charcoal band: the one closing chapter. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>What got easier, and what didn&rsquo;t</h2>
-          <p>The blueprint took a morning and the prototype an afternoon. Ten years ago the prototype alone was a sprint for a small team.</p>
-          <p>What didn&rsquo;t get easier is deciding what to carry across, what to say when the system isn&rsquo;t sure, and when to find a person. The seams are where the judgment lives, and a prototype is the fastest way to find out whether you drew them in the right place.</p>
+          <p>The service map took a morning and the prototype an afternoon. Ten years ago the prototype alone was a sprint for a small team.</p>
+          <p>What didn&rsquo;t get easier is deciding what to carry across, what to say when the system isn&rsquo;t sure, and when to find a person. The seams are where the judgment lives.</p>
         </div>
       </div>
     </section>
@@ -496,9 +484,9 @@
         <nav class="related" aria-labelledby="related-label">
           <p class="related-label" id="related-label">Related</p>
           <ul class="related-list">
-            <li><a class="related-link" href="../prototype/aisle.html"><span class="related-kind">Prototype</span><span class="related-title">The Shortlist prototype, with its five interface decisions</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="agent-review.html"><span class="related-kind">Case study</span><span class="related-title">Agent Review: where design judgment goes when coding agents join the team</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../case-study/usda-operational-overhead.html"><span class="related-kind">Case study</span><span class="related-title">Grant tools unified into one trusted platform: the service map behind a federal coalition</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../prototype/dispatch-cockpit.html"><span class="related-kind">Prototype</span><span class="related-title">An AI recommendation the dispatcher can check and overrule</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../engagement/working-product-prototype.html"><span class="related-kind">How I work</span><span class="related-title">Build to find out</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </nav>

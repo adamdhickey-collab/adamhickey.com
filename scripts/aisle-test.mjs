@@ -11,10 +11,14 @@
  * never did: a missing lamp they never saved, an aisle none of their lamps
  * is in, an employee who knows what nobody told her, an ending that lists
  * a comparison nobody opened. Each case below presses its way through
- * prototype/aisle.html from a fresh load and reads the screen's text.
+ * the prototype in lab/inspiration-to-aisle.html's hero from a fresh load
+ * and reads the screen's text. It had a page of its own,
+ * prototype/aisle.html, until 2026-10-29.
  *
  * It is not in checks.yml. It is the prototype's own test, run after a
- * change to prototype/aisle.js, in about ten seconds.
+ * change to lab/aisle.js, in about ten seconds. The cases run at 1280,
+ * where the phone holds one height and scrolls inside, unless they say a
+ * phone's 375, where it takes each screen's own height.
  *
  * Needs playwright-core and a Chromium (npm install --no-save
  * playwright-core; CHROME=/path/to/chrome if the harness cannot find one).
@@ -24,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 import { loadChromium, findChrome, serve } from './lib/harness.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PAGE = 'prototype/aisle.html';
+const PAGE = 'lab/inspiration-to-aisle.html';
 
 const chromium = loadChromium('aisle-test.mjs');
 const chromePath = findChrome();
@@ -365,6 +369,39 @@ await run('a new screen arrives in view, with focus on its title', async (t) => 
   await t.press('[data-go="compare"]');
   t.ok(!(await t.has('.ai-table-wrap[tabindex]')), 'two lamps fit, so the comparison is not a tab stop');
 }, { viewport: { width: 375, height: 812 } });
+
+/* From 64rem the phone holds one height and the screen scrolls inside it
+   (inspiration-to-aisle.css), so a new screen has to start at its own top,
+   and no press may change how tall the hero is. */
+await run('on a wide screen the phone holds one height, and a new screen starts at its top', async (t) => {
+  const box = () => t.page.evaluate(() => {
+    const f = document.querySelector('[data-aisle]').getBoundingClientRect();
+    const s = document.querySelector('[data-aisle-stage]');
+    return { frame: Math.round(f.height), scrolls: s.scrollHeight > s.clientHeight, top: s.scrollTop };
+  });
+  const first = await box();
+  await t.press('[data-go="results"]');
+  for (const l of ['hollis', 'bexley', 'rowan', 'linden']) await t.press(`[data-save="${l}"]`);
+  const results = await box();
+  t.ok(results.scrolls, 'the results screen is taller than the phone, so it scrolls inside it');
+  t.ok(results.frame === first.frame, `the phone is one height (${first.frame} at rest, ${results.frame} on the results)`);
+  /* Four saved, so the plan is taller than the phone too: a shorter screen
+     would clamp the scroll to its top whether or not the app reset it, and
+     the case would pass without asking anything. A swap keeps the old
+     screen's scroll otherwise. */
+  await t.page.$eval('[data-aisle-stage]', (s) => { s.scrollTop = s.scrollHeight; });
+  await t.press('[data-go="plan"]');
+  const plan = await box();
+  t.ok(plan.scrolls, 'the plan with four lamps is taller than the phone');
+  t.ok(plan.top === 0, `the new screen starts at its top (scrolled ${plan.top})`);
+  t.ok(plan.frame === first.frame, `the phone is still one height (${plan.frame})`);
+  const r = await t.page.evaluate(() => {
+    const a = document.activeElement.getBoundingClientRect();
+    const s = document.querySelector('[data-aisle-stage]').getBoundingClientRect();
+    return { title: document.activeElement.classList.contains('ai-title'), inStage: a.top >= s.top && a.bottom <= s.bottom, onPage: a.top >= 0 && a.bottom <= innerHeight };
+  });
+  t.ok(r.title && r.inStage && r.onPage, 'focus is on the new title, in sight inside the phone and on the page');
+}, { viewport: { width: 1280, height: 900 } });
 
 /* ---------- the verdict first, then the list ---------- */
 
