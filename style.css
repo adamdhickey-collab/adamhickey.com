@@ -85,8 +85,7 @@ body {
      code, dt labels. Measured across the nine pages, 1150 of the elements
      taking this value are exactly that. */
   line-height: var(--leading-ui);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  /* Font smoothing is type.css's, so all thirty-six pages draw alike. */
 }
 /* height:auto joins this now that the markup carries intrinsic width/height.
    Without it, an <img width height> that has no CSS height of its own keeps
@@ -103,7 +102,12 @@ img, svg { display: block; max-width: 100%; height: auto; }
 img[hidden], svg[hidden] { display: none; }
 button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
-strong { font-weight: 700; }
+/* One bold, and it is the semibold. Montserrat 600 is what every title and
+   label on the site is set in, and inline emphasis was split between it and
+   this rule's 700 by whichever component had thought to say so: 64 bolds in
+   the articles at 600 and 9 at 700, the same sentence on two pages in two
+   weights (measured 2026-10-29). <b> joins it; the UA gives it `bolder`. */
+strong, b { font-weight: var(--weight-semibold); }
 
 /* The marked sentence. One or two lines an essay is actually about, marked
    the way a reader marks a book, so someone who scans before they read finds
@@ -277,7 +281,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   margin-top: var(--space-4xl);
   margin-bottom: var(--space-xs);
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
@@ -286,7 +290,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   color: var(--color-accent-text);
 }
 @media (min-width: 768px) {
-  .hero-eyebrow { margin-top: 0; margin-bottom: var(--space-sm); font-size: var(--text-xs); }
+  .hero-eyebrow { margin-top: 0; margin-bottom: var(--space-sm); }
 }
 /* THREE FACTS SINCE 2026-10-23: the role, where, and the search. Each
    phrase holds together, and the separator's no-break space ties the dot to
@@ -382,14 +386,14 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   margin: 0 0 var(--space-xs);
   max-width: none;
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-@media (min-width: 768px) { .section-head .section-eyebrow { margin-bottom: var(--space-sm); font-size: var(--text-xs); } }
+@media (min-width: 768px) { .section-head .section-eyebrow { margin-bottom: var(--space-sm); } }
 .problems .section-head .section-eyebrow { color: var(--color-accent-on-dark); }
 /* .archive-head was the lighter head this pair of rules gave the identity and
    illustration shelf: --space-2xl under it instead of --space-4xl, and its
@@ -2336,7 +2340,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 .product-body { min-width: 0; }
 .product-eyebrow {
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
@@ -2531,7 +2535,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   letter-spacing: var(--tracking-display);
   margin-bottom: var(--space-md);
 }
-.eng3-dek { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark-secondary); max-width: 36rem; }
+/* The dek every detail page sets under its title (.build-dek), since
+   2026-10-29; this one was the sans at 18, the one page whose title sat on
+   a paragraph of body copy. */
+.eng3-dek { font-family: var(--font-serif); font-size: var(--type-lede); line-height: var(--leading-tight); color: var(--ink-on-dark-secondary); max-width: 36rem; }
 
 /* The process gets its own warm band with generous air above and below,
    so the page breathes: white situation, tan process, white gap, charcoal
@@ -3733,7 +3740,7 @@ figure.hero-photo-frame { margin: 0; }
   display: block;
   margin-bottom: var(--space-md);
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-on-dark);
@@ -4403,13 +4410,21 @@ html.ah-lightbox-open body { overflow: hidden; }
    twenty-seven, and at 48px they read as chapter openings rather than as the
    waypoints in a continuous argument. Their spacing steps down with them:
    --space-4xl above and --space-2xl below is the rhythm of a page changing
-   subject, not of an essay taking a breath. */
+   subject, not of an essay taking a breath.
+
+   The step down stops at a phone. Since 2026-10-29 the floor is
+   --text-3xl, 28 rather than 24, the floor every other h2 already has:
+   over an 18px Montserrat column, Crimson's small x-height left a 24px
+   head barely larger than the sentence under it (Adam: "too small on
+   mobile"). The ramp is unchanged from about 752px, where it passes 28 on
+   its own, and max() rather than a media query for the homepage's reason:
+   no seam. Still under the 34 of every page title. */
 .writing-measure {
   font-size: var(--text-lg);
   max-width: var(--measure);
 }
 .writing-measure h2 {
-  font-size: var(--type-subsection);
+  font-size: max(var(--type-subsection), var(--text-3xl));
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   margin-bottom: var(--space-md);
@@ -4608,7 +4623,7 @@ html.ah-lightbox-open body { overflow: hidden; }
      and beats a bare class on specificity: the label shipped at 18px body
      size with reading leading, a line of caps as loud as the dek above it.
      Same fix as .eng3-proof-client. */
-  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-accent-text);
@@ -4958,7 +4973,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   display: block;
   margin-bottom: var(--space-2xs);
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-text);
@@ -5274,24 +5289,30 @@ html.ah-lightbox-open body { overflow: hidden; }
   grid-template-columns: minmax(0, 1fr);
   margin: 0;
 }
+/* The same two voices as every other facts strip on the site, since
+   2026-10-29: the Tailwind case studies' .case-field-label over a fact in
+   the sans, and .build-facts. This strip had a third, an 11px gray label
+   over a serif fact at 16px on a leading no token names, and the serif at
+   16 sets a size smaller than the sans beside it, so the build write-ups'
+   facts read as footnotes to the case studies' (TYPOGRAPHY.md, section 6). */
 .glance-facts dt {
-  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps); text-transform: uppercase;
-  color: var(--color-muted-gray);
+  color: var(--color-accent-text);
   margin: 0 0 var(--space-2xs);
 }
 .glance-facts dd {
   margin: 0;
-  font-family: var(--font-serif); font-size: var(--text-base); line-height: 1.4;
+  font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
 /* A link in a fact has to look like one. The Agent Review write-up's Status row
    carries three, and until 2026-10-03 they were the colour and weight of the
    words round them with no underline, which is no cue at all (WCAG 1.4.1). The
    sage that clears the floor on the strip's white, underlined, and charcoal on
-   hover: the prose link (.writing-measure p a), at this strip's size and in
-   its serif, so regular
-   weight, since the serif is never bold. */
+   hover: the prose link (.writing-measure p a), at this strip's size, and
+   at the fact's own regular weight. */
 .glance-facts a {
   color: var(--color-accent-text);
   text-decoration: underline;
@@ -5367,7 +5388,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .glance-points li {
   position: relative; padding-left: var(--space-md);
-  font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.5;
+  font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-body);
   color: var(--color-muted-gray);
 }
 /* The same dash the build lists use, at the smaller step's scale, so a
@@ -5624,7 +5645,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-mode-shot { border-radius: 10px; overflow: hidden; }
 .build-mode-shot img { display: block; width: 100%; height: auto; }
 .build-mode-note span {
-  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
   letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-accent-text);
 }
 .build-mode-note p { margin: var(--space-xs) 0 0; font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); }
@@ -5644,14 +5665,14 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-pair-item img { display: block; width: 100%; height: auto; }
 .build-pair-label {
   position: absolute; top: 8px; left: 8px;
-  font-family: var(--font-sans); font-size: var(--text-2xs); font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600;
   letter-spacing: var(--tracking-caps); text-transform: uppercase;
   color: var(--color-charcoal); background: rgba(255, 255, 255, 0.85);
   padding: var(--space-2xs) var(--space-xs); border-radius: 999px;
 }
 /* A sage ground carrying text clears the TEXT floor against that text, not
    the 3:1 fill floor -- COLOR.md section 2. White on accent-deep is 4.51:1 and
-   this label is 11px; on accent-text it is 5.82:1. Same rule that decided
+   this label is 12px; on accent-text it is 5.82:1. Same rule that decided
    .btn-primary, where warm on accent-deep was 4.12:1. */
 .build-pair-item.is-after .build-pair-label { color: var(--color-white); background: var(--color-accent-text); }
 
@@ -6373,7 +6394,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-section .writing-eyebrow,
 .case-section .writing-recap-label {
   font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
@@ -6775,7 +6796,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   grid-column: 2;
   grid-row: 1;
   padding-top: var(--space-xs);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-text);
@@ -6850,7 +6871,6 @@ html.ah-lightbox-open body { overflow: hidden; }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li { font-size: var(--text-base); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps strong { font-size: var(--text-lg); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-num { font-size: var(--text-xs); }
 }
 /* A rail of scenes, since 2026-10-22: Lucy Learns's three tries, drawn in
    the app's own art rather than the rails' line hand -- the entry hall,

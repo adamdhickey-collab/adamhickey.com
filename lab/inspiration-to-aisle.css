@@ -90,17 +90,22 @@
    uses, so the eye can find them below. The same component, in the same
    tokens, as .svc-short in case-study/case-study-base.css.
 
-   A white card on the figure's gray-light, with the --rule-card edge.
-   Stacked under 64rem, the claims split by hairlines; from 64rem, three
-   columns split by the same hairline, a rule between square columns and
-   not an edge on the rounded card. The label is .glance-kicker, the
-   Kicker's treatment. Charcoal on white is 15.33, muted-gray 6.47. */
+   No card of its own since 2026-10-29, the day it arrived: a white card
+   inside the figure's card, over a row of white moment cards, read as one
+   more box stacked on the map rather than as the map's own words. The
+   claims sit on the figure's gray-light under a hairline that closes the
+   caption, and are split by the same hairline. Stacked under 64rem; from
+   64rem, three columns, the moment line on one baseline across them, and
+   the caption takes the same three columns: the name over the first, the
+   standing line over the other two, so the top of the figure has no
+   empty half. For a few hours the claims stood in one column beside the
+   caption instead, and read as a list squeezed into the corner of the
+   figure. The label is .glance-kicker, the Kicker's treatment. Charcoal
+   on gray-light is 14.06, muted-gray 5.93. */
 .ia-short {
-  margin: 0 0 var(--space-lg);
-  padding: var(--space-md);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: 12px;
+  margin: 0 0 var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-hairline);
 }
 /* Its size and ink said again under two classes, because .case-section p
    sets prose at --text-lg in charcoal and outranks the bare class (as
@@ -140,7 +145,24 @@
   color: var(--color-muted-gray);
 }
 @media (min-width: 64rem) {
-  .ia-short { padding: var(--space-lg); }
+  /* The caption on the claims' three columns, first lines on one
+     baseline: the name is the caption's own text, so it fills the first
+     column as an anonymous grid item, and the standing line's text starts
+     where the second claim's does. */
+  .ia-map > figcaption {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: baseline;
+    max-width: none;
+    margin-bottom: var(--space-xl);
+  }
+  .ia-map > figcaption .ia-standing {
+    grid-column: 2 / -1;
+    max-width: var(--measure);
+    margin-top: 0;
+    padding-left: var(--space-lg);
+  }
+  .ia-short { margin-bottom: var(--space-2xl); padding-top: var(--space-xl); }
   .ia-short-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .ia-short-list > li,
   .ia-short-list > li:first-child,

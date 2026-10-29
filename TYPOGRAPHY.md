@@ -46,7 +46,7 @@ than the plain-English alternatives.
 | Word | Means | Where it appears |
 |---|---|---|
 | **hed** | The headline itself | `h1`, `.hero-title`, `.case-title` |
-| **dek** | The short line between the hed and the body | `--type-lede`, `.eng3-dek`, `.build-dek`, `.ds-dek`, `.case-lab-lead` |
+| **dek** | The short line between the hed and the body. **One treatment**: the serif at `--type-lede` on `--leading-tight` (section 4, "One hero") | `--type-lede`, `.build-dek`, `.eng3-dek`, `.ds-dek`, `.arc-dek`, `.ckw-hero-dek`, `.case-lab-lead` |
 | **lede** | The opening passage of the body | `.ds-lede`, `.about-lede` |
 | **kicker** / **eyebrow** | The small tracked label above the hed, **always uppercase** (section 6, "Kickers and eyebrows") | `.case-kicker`, `.hero-eyebrow`, `.eng3-kicker` |
 
@@ -68,7 +68,7 @@ one.
 | Family | Weights | Notes |
 |--------|---------|-------|
 | Crimson Text | **400** only, upright and italic | Never bold. All serif headings sit at 400; hierarchy comes from size. |
-| Montserrat | **400 / 500 / 600 / 700** | 400 body, 500 nav and quiet labels, 600 titles and most labels, 700 strong emphasis. No 300. |
+| Montserrat | **400 / 500 / 600 / 700** | 400 body, 500 nav and quiet labels, 600 titles, labels, and **every bold in running text**. 700 stays loaded and the site's own type does not use it (a prototype's brand mark does). No 300. |
 
 **The italic is a cut, and it has to be in the `<link>` too.** Until
 2026-09-06 only the design system page asked Google Fonts for
@@ -80,6 +80,13 @@ step cards' output line (`.eng3-step-out`) is the other place the italic is
 used: the whole line italic, one step above the body, and its lead sentence
 upright rather than bold, because emphasis inside an italic setting is roman
 and because there is no bold to give it.
+
+**One bold, since 2026-10-29: the semibold.** `strong` and `b` are 600 on
+every page. The global rule said 700 and most components said 600, so a
+bold phrase was one weight in an article and the other in a case study,
+often on the same kind of sentence: 64 at 600 and 9 at 700 in the articles
+alone, and the four Tailwind case studies at 700 throughout, from the
+preflight's `bolder`. Three weights in practice is easier to hold than four.
 
 Tokens: `--weight-regular` 400, `--weight-medium` 500, `--weight-semibold`
 600, `--weight-bold` 700. Tailwind's `font-normal` / `font-medium` /
@@ -119,8 +126,8 @@ use). So the text tier steps by whole pixels and stops.
 
 | Token | rem | px | Tailwind | Job |
 |---|---|---|---|---|
-| `--text-2xs` | 0.6875 | **11** | `text-[11px]` | Micro caps. Tracked uppercase only, four words or fewer. This is the floor — nothing on the site is smaller. |
-| `--text-xs` | 0.75 | **12** | `text-xs` | Kickers, tags, figure captions, footnotes, timestamps. |
+| `--text-2xs` | 0.6875 | **11** | `text-2xs` | Specimen notes on the design system page and a prototype's own small labels. **Not a kicker size** since 2026-10-29 (section 6). This is the floor — nothing on the site is smaller. |
+| `--text-xs` | 0.75 | **12** | `text-xs` | Every kicker and field label; tags, figure captions, footnotes, timestamps. |
 | `--text-sm` | 0.875 | **14** | `text-sm` | Dense UI: navigation, footer links, table cells, dt labels, secondary meta. |
 | `--text-base` | 1 | **16** | `text-base` | Default body copy, card copy, list items, buttons. |
 | `--text-lg` | 1.125 | **18** | `text-lg` | Reading prose in a long-form column; the smallest heading level. |
@@ -201,6 +208,18 @@ smaller; 24 ran it to three lines at 375 and crowded the 28px card title
 above it. The ramp is unchanged from about 693px, where it passes 20 on
 its own, and `max()` rather than a media query for the reason the
 homepage's lifted heading floors give below: no seam.
+
+**The essay column's `h2` steps down a ramp, and stops at a phone.** Inside
+`.writing-measure`, the column of the articles, The Shortlist, and the
+cockpit write-up, a section head takes `--type-subsection` rather than
+`--type-section`: those pages run to twenty-odd sections, and at 48 each
+read as a chapter opening. Since 2026-10-29 it takes
+`max(--type-subsection, --text-3xl)`, 28 on a phone instead of 24, which
+is the floor every other `h2` already has. At 24 over the column's 18px
+Montserrat, the serif's x-height left the head barely larger than the
+sentence under it. The ramp is unchanged from about 752px, where it passes
+28 on its own, so the step down still holds on a desktop (34 against 48),
+and the phone ladder on those pages is the site's own, 34 · 28 · 24.
 
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
@@ -334,6 +353,29 @@ an `h4` in a section whose heading is an `h3`, or it is a `<p class="...">`
 that is not a heading at all. Sizes come from the ladder; the ladder comes
 from the document outline.
 
+### One hero
+
+**Every detail page opens the same three lines, since 2026-10-29**: the
+kicker (`.case-kicker`, or `.case-readtime` on the four Tailwind case
+studies), the `h1` on `--type-title`, and the dek in the serif at
+`--type-lede` on `--leading-tight` (`.build-dek`). A title that shares its
+row with a picture takes `--type-title-inset` instead, which is the
+homepage, the dispatch cockpit, and Agent Review.
+
+Twenty-five of the thirty-three detail pages already did. The other eight
+each did something of their own, and the first screen is where a reader
+compares one page with the last: the four Tailwind case studies opened on a
+14px muted read time where every other page has the sage kicker (they carry
+no dek; the facts strip follows the title); Agent Review on a 14px
+sentence-case kicker, a flat 48px title, and a 20px sans dek; the cockpit
+on a 24px sans dek; How I work on an 18px sans dek; and the design system
+page on a serif dek at a flat 20. Each now takes the shared treatment, so a
+dek in the sans means a paragraph of body copy and nothing else.
+
+The homepage's dek is the one sans dek left, on purpose: it carries a bold
+run ("which problem to solve, what good looks like, and what ships"), and
+Crimson has no bold to give it.
+
 ---
 
 ## 5. Line height
@@ -424,10 +466,18 @@ The site used eleven distinct positive tracking values between 0.015em and
 ### Kickers and eyebrows
 
 **Every kicker and eyebrow on the site is uppercase.** One treatment, no
-exceptions, since 2026-10-02: Montserrat 600, `--text-xs` (12px) or
-`--text-2xs` (11px), `text-transform: uppercase`, `letter-spacing:
-var(--tracking-caps)`, in `--color-accent-text` (or `--color-accent-on-dark`
-on a dark ground, or charcoal where sage would read as a recommendation).
+exceptions, since 2026-10-02: Montserrat 600, `--text-xs` (12px),
+`text-transform: uppercase`, `letter-spacing: var(--tracking-caps)`, in
+`--color-accent-text` (or `--color-accent-on-dark` on a dark ground, or
+charcoal where sage would read as a recommendation).
+
+**One size, since 2026-10-29.** Until then a kicker was 12px or 11px by
+component, and an article showed both a screen apart: `WRITING · 7 MIN
+READ` at 12 over the title, `IN THIS ARTICLE` and `KEY IDEA 1 OF 5` at 11
+under it. The homepage's three eyebrows were 11 on a phone and 12 from
+768px. A pixel apart is the gap a reader sees as a mistake rather than a
+decision, so every kicker and field label is 12, and `--text-2xs` is left
+to the specimens and prototypes that annotate rather than label.
 Before that the case-study kickers and the "Next" links at the foot of the
 case studies and build write-ups were sentence case, with the foot links on a
 literal `0.04em` that no token names; they now take `--tracking-caps` like the
@@ -444,21 +494,21 @@ What counts as one, so the next one is easy to place:
 
 | Class | Where | Size |
 |---|---|---|
-| `.hero-eyebrow`, `.section-eyebrow`, `.product-eyebrow` | Homepage | 11 – 12px |
-| `.case-kicker` | The top of every detail page: case studies, build write-ups, writing, lab, prototypes | 12px |
+| `.hero-eyebrow`, `.section-eyebrow`, `.product-eyebrow` | Homepage | 12px |
+| `.case-kicker` | The top of every detail page: case studies, build write-ups, writing, lab, prototypes. Agent Review's opener took it on 2026-10-29, where it had been a 14px sentence-case line of its own | 12px |
 | `.case-group-title` | The two group heads in the homepage's Selected work, since 2026-10-29 (section 6, "Tracked capitals never name a group", has why) | 12px |
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" page (the last two on none since the four pages became one, 2026-10-29) | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
-| `.writing-eyebrow` | "Key idea 2 of 6" above each section of an article | 11px |
+| `.writing-eyebrow`, `.writing-keys-label`, `.writing-recap-label` | "Key idea 2 of 6" above each section of an article, "In this article" over its list of ideas, and the labels of its recap | 12px |
 | `.glance-kicker` | The "My approach" blocks, and "What the map shows" over the three claims that open The Shortlist's service map. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
-| `.case-readtime` | The read time above a Tailwind case study's title | 14px, on `--tracking-label` |
-| `.ds-surface-kicker` | The ground names on the design system page | 11px |
-| `.dc-lead-kicker`, `.ck-lead-kicker` | The lead of each prototype's answer zone | 11 – 12px |
+| `.case-readtime` | The read time above a Tailwind case study's title. It was 14px, muted, on `--tracking-label` until 2026-10-29, the one kicker at another size | 12px |
+| `.ds-surface-kicker`, `.ds-side-title`, `.ds-scale-tier` | The ground names, the sidebar's group names, and the scale's two tiers on the design system page | 12px |
+| `.dp-note-label` | "Design psychology" and "Human judgment" over their notes (`design-psychology.css`) | 12px |
+| `.ck-lead-kicker` | The lead of the cockpit's answer zone: the prototype's own screen, which keeps its own sizes | 11 – 12px |
 | `.related-label` | "Related" over the list of pages at the foot of an article, a prototype, a build write-up, or a case study (`related.css`) | 12px |
 
-`.case-readtime` is the one that does not sit at a kicker's size: it is 14px
-and muted, so it takes the 14px step, `--tracking-label`, and not
-`--tracking-caps`.
+Nothing here takes `--tracking-label` any more. It is the step for 14px
+capitals, and since `.case-readtime` came down to 12 no kicker is 14.
 
 ### Field labels
 
@@ -474,7 +524,7 @@ size, never a literal.
 |---|---|---|
 | `.case-field-label` | The six Tailwind case studies: the facts-strip heads (Client, My role, Timeline, What changed, Employer), the category over each list of deliverables, the verb over each column on a card (Recognize, Translate, Mobilize, Sustain), and "What the map shows" over the three claims that open the USDA service map | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment, set by the class |
 | `.build-facts dt` | The facts strips on both prototype write-ups and in the design system (and on the four "How I work" pages until 2026-10-29) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
-| `.glance-facts dt` | The glance row's facts on the case studies (Role, Built with, Runs on) | 11px, `--tracking-caps`, muted |
+| `.glance-facts dt` | The glance row's facts on the build write-ups (Role, Built with, Runs on) | 12px, `--tracking-caps`, in the sage: the Kicker's own treatment since 2026-10-29, where it was 11px and muted. The fact under it is the sans at `--text-base` on `--leading-body`, as the other two strips set it; it was the serif at 16px on a literal 1.4 |
 | `.ar-sort-label`, `.ar-sort-why dt` | The Agent Review write-up's three kinds of work: For example and Who acts inside each card, and the two answers under the cards; `.ar-sort-label` was `.ar-kind-where` (In the prototype, Proposed) until 2026-10-24. The two lanes over the cards (`.ar-sort-lane`, Goes through, Stops for a person) were here until 2026-10-24 and are headings now (below) | `.ar-sort-label` 11px, `--tracking-caps`, muted: the glance row's label, because the card's own name is the heading. The answers 12px, `--tracking-caps`, in the sage |
 | `.ckw-question-label`, `.dcw-question-label` | "The design question" over the callout on each prototype page | 12px, `--tracking-caps` |
 | `.related-kind` | The kind of page each row of a Related list goes to (Article, Case study, Build write-up, Prototype, How I work), beside its title (`related.css`) | 12px, `--tracking-caps`, in the sage (`--color-accent-text`): the Kicker's own treatment |
@@ -832,6 +882,42 @@ ramp with `h4` at sans 600 1.5rem and cited `.hero-card-title` and
 and Regime A's `h4` is serif, not sans. A specimen written by hand goes stale
 the moment the site moves; that is why §2's numbers are read out of the
 stylesheet by `design-system/index.html` rather than transcribed.
+
+### A cohesion pass, 2026-10-29
+
+Every size was on the scale and the site still read as assembled from
+parts, because the scale governs one property of seven. Measured as the
+whole computed style (family, size, weight, style, leading, tracking,
+case) of every element that holds text, on all 36 pages at 1440, the site
+set **111 distinct type styles**. Leaving out the design system's
+specimens, its monospace, and the prototypes' own screens, the site's own
+type was **70**: 52 in the sans and 18 in the serif.
+
+What made the 70 was not new sizes but the same role spelled several ways.
+Kickers came at 11px, 12px, and 14px. Deks were set in the serif, and in
+the sans at three sizes. Bold was 600 in one component and 700 in the next.
+One facts strip had three treatments. 431 elements sat on a leading no
+token names (Tailwind's 1.5 and 1.25, a literal 1.4). And the four Tailwind
+case studies drew every glyph heavier, because the font smoothing was in a
+stylesheet they do not load.
+
+This pass made each role one style: one rendering (`type.css` now carries
+the smoothing), one bold (section 1), one kicker size (section 6), one hero
+(section 4), and one facts strip (section 6, field labels). The Tailwind
+`lineHeight` keys now read the six leading tokens, as `fontSize` reads the
+fourteen steps. After it: **92** at 1440, and **54** for the site's own
+type (38 in the sans, 16 in the serif). Elements on an off-token leading
+went from 431 to 71. Seventy of those are one class, `.icon-link-label` in
+`site-nav.css`, the two labels under the header's icons, at
+`line-height: 1` with a literal `0.02em` of tracking,
+left for a change of their own because the nav was being edited in
+parallel. Most of what remains between 54 and a tighter count is the same
+size at two leadings, a single line at `--leading-ui` beside a wrapped one
+at `--leading-body`, which a reader does not see.
+
+The instrument is not a check. It is the measuring loop of `typescale.mjs`
+reading six properties instead of one, run once; if the number starts to
+drift it is worth making one.
 
 ---
 
