@@ -41,7 +41,7 @@
  *
  * What it edits, and only this: the number in a page's
  * <p class="case-kicker">...N min read</p> or <span class="case-readtime">N
- * min read</span>. The writing index's "N ideas · M min read" is keys.mjs's,
+ * min read</span>. The writing index's "M min read" is keys.mjs's,
  * taken from the kickers, so run `node scripts/keys.mjs --write` after a
  * --write here, and `node scripts/seo.mjs --write` for the dates.
  */
