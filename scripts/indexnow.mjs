@@ -29,7 +29,7 @@
  *
  *   node scripts/indexnow.mjs                       what would be sent
  *   node scripts/indexnow.mjs --submit              send every page in the sitemap
- *   node scripts/indexnow.mjs --submit https://adamhickey.com/engagement/product-clarity.html
+ *   node scripts/indexnow.mjs --submit https://adamhickey.com/how-i-work.html
  *
  * Exit 0 when the endpoint accepted the list (200 or 202), 1 when it refused
  * it, 2 when the question could not be asked: no key file, no sitemap, or a

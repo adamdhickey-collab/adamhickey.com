@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How I Work as a Senior Product Designer | Adam Hickey</title>
+  <meta name="description" content="How I work inside a product organization: turn ambiguity into a decision, build the system everyone builds from, own an initiative end to end, and build to find out." />
+
+  <link rel="canonical" href="https://adamhickey.com/how-i-work.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adamhickey.com/how-i-work.html" />
+  <meta property="og:title" content="How I Work as a Senior Product Designer | Adam Hickey" />
+  <meta property="og:description" content="How I work inside a product organization: turn ambiguity into a decision, build the system everyone builds from, own an initiative end to end, and build to find out." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/how-i-work.jpg?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://adamhickey.com/how-i-work.html#page",
+          "url": "https://adamhickey.com/how-i-work.html",
+          "name": "What I do inside a product organization",
+          "description": "Four parts of the job. In each, the hard part is a decision, and coding agents don’t take it off my hands.",
+          "about": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/how-i-work.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "How I Work",
+              "item": "https://adamhickey.com/how-i-work.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <!-- Site stylesheet, the chrome the four pages this one replaced carried. -->
+  <link rel="stylesheet" href="color.css?v=10" />
+  <link rel="stylesheet" href="shell.css?v=6" />
+  <link rel="stylesheet" href="type.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=20261028g" />
+  <link rel="stylesheet" href="site-nav.css?v=20261026a" />
+  <script src="site-nav.js?v=20260906a" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="index.html#case-studies">Work</a></li>
+        <li><a href="how-i-work.html" aria-current="page">How I Work</a></li>
+        <li><a href="writing/index.html">Writing</a></li>
+        <li><a href="lab/index.html">Lab</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- ONE PAGE FOR FOUR, since 2026-10-29. Until then each of the four
+         parts of the job had a page of its own under engagement/, written
+         when the work was also sold as an engagement: a row of terms, a
+         buyer's questions, four steps worked through an invented company,
+         and a close inviting one. About 4,150 words between them, where a
+         hiring team needs the situation, the moves, and the account that
+         shows it. Each part is that now, and each account is the proof card
+         its old page carried, with the case study's own figures. The old
+         addresses forward here, each to its own section. -->
+    <header class="eng3-hero">
+      <div class="container case-wide">
+        <div class="eng3-hero-inner">
+          <p class="eng3-kicker">How I work</p>
+          <h1>What I do inside a product organization</h1>
+          <p class="eng3-dek">Four parts of the job. In each, the hard part is a decision, and coding agents don&rsquo;t take it off my hands.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="case-section case-overview" id="ambiguity">
+      <div class="container case-wide">
+        <h2>Turn ambiguity into a decision</h2>
+        <p>The product works, and nobody can say what it&rsquo;s for any more. Three people hold three accounts of the problem, each partly right, and the decision waits because it means telling somebody no.</p>
+        <p>I hear it from everyone who owns a piece, get it into one sentence the room recognizes, put what follows in order, and make something concrete enough to judge.</p>
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">Midwest Couriers &middot; 450+ trucks</p>
+            <h3>I assumed the answer was a map. I had not asked anyone who does the job.</h3>
+            <p>Each dispatcher manages fifty drivers at once. Watching them work turned my assumption over: they knew every location code by heart, and what slowed them down was scrolling through lists.</p>
+            <ul class="eng3-proof-stats">
+              <li><b>30%</b><span>roughly, off the time to clear the board each cycle</span></li>
+              <li><b>25%</b><span>roughly, off wrong-vehicle dispatches</span></li>
+            </ul>
+          </div>
+          <div class="eng3-proof-media">
+            <figure class="eng3-proof-shot is-single">
+              <a href="case-study/dispatch-complexity.html" class="eng3-proof-link">
+                <img src="img/site/map-based-layout-22.webp" width="1800" height="1012" loading="lazy" decoding="async" alt="The Midwest Couriers dispatch view: orders on the left and drivers on the right, each on a live map of the Twin Cities, with one order&rsquo;s details open over the map." />
+              </a>
+            </figure>
+            <a class="eng3-proof-cta" href="case-study/dispatch-complexity.html">The full account&nbsp;&rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="case-section case-overview" id="systems">
+      <div class="container case-wide">
+        <h2>Build the system everyone builds from</h2>
+        <p>Four teams have built the same data table four ways, and nobody is sure which is right. The AI tools they build with see all four and generate a fifth.</p>
+        <p>I find what has been built twice, decide what is shared and what stays local, build the foundation in design and code, and write down who can change it.</p>
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">SAP practice &middot; 40+ enterprise apps</p>
+            <h3>Nobody could say whether any of it was working, because nobody was measuring it.</h3>
+            <p>Someone in the field might open four apps before lunch and relearn the layout each time. So we built one style guide and component library, with checks in the release process, and it kept working after I left.</p>
+            <ul class="eng3-proof-stats">
+              <li><b>About a third</b><span>less time from design to development</span></li>
+              <li><b>About half</b><span>fewer UI defects in production, quarter over quarter</span></li>
+            </ul>
+            <p class="eng3-proof-more">More recently, Sprout, a design system for Cargill: its tokens live in the code, and it is also a Claude Code skill, so the team&rsquo;s AI tools build from the same source the people do.</p>
+          </div>
+          <div class="eng3-proof-media">
+            <figure class="eng3-proof-shot is-single">
+              <a href="case-study/sap-product-maturity.html" class="eng3-proof-link">
+                <img src="img/site/sap-hero-02.webp" width="1672" height="941" loading="lazy" decoding="async" alt="The SAP enterprise platform: one style guide and one component library across a suite of apps." />
+              </a>
+            </figure>
+            <a class="eng3-proof-cta" href="case-study/sap-product-maturity.html">The full account&nbsp;&rarr;</a>
+            <a class="eng3-proof-cta" href="design-system/index.html">The design system behind this site&nbsp;&rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="case-section case-overview" id="ownership">
+      <div class="container case-wide">
+        <h2>Own an initiative end to end</h2>
+        <p>An initiative that matters is funded and staffed with engineers, and it moves sideways, waiting on design decisions nobody is placed to make.</p>
+        <p>I own its design from inside the team, in its standups and its repository: the research, the states, the edge cases, and the pull-request comments. Ownership means the parts nobody volunteers for.</p>
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">Nutrition Incentive Hub &middot; USDA-backed, eight months</p>
+            <h3>Grantees spent more time chasing paperwork than running their programs.</h3>
+            <p>The network ran on old software, spreadsheets, and workarounds, and no two of them agreed. For eight months I led product design inside that effort, from the interviews to one portal that replaced all of it.</p>
+            <ul class="eng3-proof-stats">
+              <li><b>~10 hrs</b><span>to process a data request, down from 45 to 55 hrs</span></li>
+              <li><b>~2&times;</b><span>the grantees served, without adding analysts</span></li>
+            </ul>
+            <p class="eng3-proof-more">It ended with a documented design system and a component library the team could extend without me.</p>
+          </div>
+          <div class="eng3-proof-media">
+            <figure class="eng3-proof-shot is-single">
+              <a href="case-study/usda-operational-overhead.html" class="eng3-proof-link">
+                <img src="img/site/nutrition-incentive-hub-12.webp" width="1812" height="1020" loading="lazy" decoding="async" alt="The Nutrition Incentive Hub on a laptop and a phone: the program-finder site and a transactions-by-firm chart." />
+              </a>
+            </figure>
+            <a class="eng3-proof-cta" href="case-study/usda-operational-overhead.html">The full account&nbsp;&rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="case-section case-overview" id="prototypes">
+      <div class="container case-wide">
+        <h2>Build to find out</h2>
+        <p>There are ideas, sketches, and a demo or three, with pressure to make one of them real. Nobody can say which is worth building, because nothing exists anyone can use.</p>
+        <p>With coding agents, a working version takes days, so the job is judging it: what to build first, what it may claim, and whether to build, kill, or park it.</p>
+        <article class="eng3-proof-card">
+          <div class="eng3-proof-body">
+            <p class="eng3-proof-client">Lucy Learns &middot; my own product</p>
+            <h3>AI built working versions in an afternoon. I judged them.</h3>
+            <p>A training app for my own household. The trainer&rsquo;s handouts were written for someone sitting still, and practice happens in a hallway with a leash in one hand.</p>
+            <p class="eng3-proof-more">Listening for commands came out after a couple of real sessions, because Lucy heard every one as hers.</p>
+          </div>
+          <div class="eng3-proof-media">
+            <ol class="product-screens">
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns-splash.webp?v=5" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="The Lucy Learns splash screen: the app name in a tall serif above an illustration of a black Labrador and her person crouched nose to nose, with the build version below." />
+                </a>
+                <p class="mini-cap"><span>01</span> Built for one dog in particular</p>
+              </li>
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns.webp?v=9" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="Lucy Learns home screen: the Calm Door Greetings track and today&rsquo;s homework with a Start session button." />
+                </a>
+                <p class="mini-cap"><span>02</span> Today&rsquo;s session, already chosen</p>
+              </li>
+              <li>
+                <a class="mini-phone" href="case-study/lucy-learns.html">
+                  <img src="img/products/lucy-learns-3.webp?v=9" width="620" height="1342" loading="lazy" decoding="async"
+                       alt="End of session: ready for the next step, with the next level saved and the next activity queued." />
+                </a>
+                <p class="mini-cap"><span>03</span> End on a win, next one queued</p>
+              </li>
+            </ol>
+            <a class="eng3-proof-cta" href="case-study/lucy-learns.html">The full account&nbsp;&rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="eng3-one eng3-one-compact eng3-one-split" aria-label="On a team">
+      <div class="container case-wide">
+        <div class="eng3-split">
+          <div class="eng3-split-how">
+            <h2>On a team</h2>
+            <p>The people who will own the work build it with me, and the reasoning is written down as each call is made. A foundation the team can&rsquo;t extend without me is rented, not built.</p>
+          </div>
+          <div class="eng3-split-cta">
+            <h2 class="eng3-cta-title">If this is the job</h2>
+            <p>I&rsquo;m looking for a senior product design role where this is the work: in-house, remote, or hybrid in the Twin Cities, with a team that can hire in Minnesota. A few sentences about your team are enough to start.</p>
+            <a href="mailto:adam@adamhickey.com?subject=Product%20conversation" class="btn btn-primary">Start a conversation</a>
+            <p class="eng3-cta-alt">or write to <a href="mailto:adam@adamhickey.com">adam@adamhickey.com</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -85,7 +85,9 @@ const CARDS = {
      stopped being about the quiet cancel alone, and the card now shows the
      work it is about. */
   'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-cycle-share.webp' },
-  'product-clarity': { kicker: 'How I work', title: 'Turn ambiguity into a decision', sub: 'The product has become complicated', hero: 'img/engagement/clarity-hero.webp' },  'design-system-foundation': { kicker: 'How I work', title: 'Build the system everyone builds from', sub: 'The products need a system', hero: 'img/engagement/system-hero.webp' },  'embedded-senior-product-design': { kicker: 'How I work', title: 'Own the design inside the team, not beside it', sub: 'An initiative with no senior owner', hero: 'img/engagement/embedded-hero.webp' },  'working-product-prototype': { kicker: 'How I work', title: 'Build to find out', sub: 'Ideas everywhere, nothing you can use yet', hero: 'img/engagement/ai-hero.webp' },
+  /* How I work, one page for four since 2026-10-29, on the first part's
+     drawing; the four engagement cards went with their pages. */
+  'how-i-work':                        { kicker: 'How I work', title: 'What I do inside a product organization', sub: 'Four parts of the job, and the proof', hero: 'img/engagement/clarity-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
      feed already looks like the page it leads to. The index takes the
