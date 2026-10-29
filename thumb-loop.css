@@ -33,12 +33,15 @@
 .explore-still-stages {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-sm);
+  gap: var(--space-xs) var(--space-lg);
   margin: 0;
   padding: var(--space-md) var(--space-lg);
   list-style: none;
   border-bottom: 1px solid var(--rule-on-dark);
-  font-size: var(--text-sm);
+  /* One step down from --text-sm since 2026-10-29 (Adam: the top looked
+     cramped; "make the type size a little bit smaller for the top bar"),
+     which leaves room for --space-lg between the stages on one line. */
+  font-size: var(--text-xs);
   line-height: var(--leading-ui);
   color: var(--ink-on-dark-muted);
 }
@@ -222,6 +225,18 @@
   }
   .case-card--lab .case-thumb { order: -1; }
   .case-card--lab > .case-thumb { margin-bottom: var(--space-xl); }
+  /* ONE HEIGHT FOR BOTH PICTURES, since 2026-10-29 (Adam: "the card on the
+     right is the same height as the card on the left"). Agent Review's still
+     is markup and stands as tall as its words; The Shortlist's is a 16:9
+     picture. Each panel takes its three rows (app, picture, words) from the
+     row's own grid, so the two pictures share one row and the taller sets
+     it; the Shortlist's picture fills that row, cropped at the sides, which
+     are the painted room around its two phones. The row's gap goes to 0
+     because the panels' rows inherit it, and the spacing inside each panel
+     is already the margins above. */
+  .case-grid--lab { grid-template-rows: auto auto 1fr; row-gap: 0; }
+  .case-grid--lab .case-card--lab { grid-row: span 3; grid-template-rows: subgrid; }
+  .case-grid--lab .case-thumb--ringed { aspect-ratio: auto; }
 }
 
 /* A light picture on the light panel. Aisle's card is drawn on tea-light,
@@ -255,3 +270,9 @@
   }
   #case-studies .case-grid--three > .case-card > .case-go { align-self: start; }
 }
+
+/* The scenario's label in sage, since 2026-10-29 (Adam: "put the word
+   scenario in a sage color so it popped a little bit"). Sage on light
+   clears 4.6:1 on every light ground (COLOR.md), and the serif here is
+   20px and up. */
+.case-lab-label { color: var(--color-accent-text); }
