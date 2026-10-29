@@ -3675,3 +3675,13 @@ html[data-embed] .ck { border-radius: 0; }
   animation-delay: calc(var(--i, 0) * var(--motion-stagger) + var(--motion-state));
   animation-fill-mode: backwards;
 }
+
+/* "Try it, it's live" (style.css) over the frame, on the frame's own width
+   so the label starts at the bezel's left edge, and the frame's top margin
+   moves up to it. Not in the embed, where the tablet already says so. */
+p.ckw-try-live {
+  width: min(100% - var(--gutter) * 2, calc(var(--container-max) - var(--gutter) * 2));
+  margin: var(--space-3xl) auto var(--space-sm);
+}
+p.ckw-try-live + .ck-frame { margin-top: 0; }
+html[data-embed] p.ckw-try-live { display: none; }
