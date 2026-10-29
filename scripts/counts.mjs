@@ -227,17 +227,17 @@ const CLAIMS = [
     says: 'twenty-seven pages of plain HTML with no framework and no build step',
     n: 27, what: 'pages, as the description states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '27 pages, 3 token files, 4 specs, 39 scripts',
+    says: '27 pages, 3 token files, 4 specs, 38 scripts',
     n: 27, what: 'pages, as the size row states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '27 pages, 3 token files, 4 specs, 39 scripts',
+    says: '27 pages, 3 token files, 4 specs, 38 scripts',
     n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
   { doc: 'case-study/this-site.html',
-    says: '27 pages, 3 token files, 4 specs, 39 scripts',
+    says: '27 pages, 3 token files, 4 specs, 38 scripts',
     n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
   { doc: 'case-study/this-site.html',
-    says: '27 pages, 3 token files, 4 specs, 39 scripts',
-    n: 39, what: 'scripts in scripts/', of: scriptsInTree },
+    says: '27 pages, 3 token files, 4 specs, 38 scripts',
+    n: 38, what: 'scripts in scripts/', of: scriptsInTree },
   /* The dek and the description, which said ten checks with nothing holding
      either while the llms.txt copy of the same phrase was registered below:
      readtime.mjs made the matrix six on 2026-10-22, and the grep for every
