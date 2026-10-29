@@ -52,7 +52,10 @@ html {
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Crimson Text", "Georgia", "Times New Roman", serif;
 }
-body { font-family: var(--font-sans); color: var(--color-charcoal); background: var(--color-white); }
+/* line-height is style.css's body value, which these four pages never
+   loaded: what does not set its own leading took Tailwind's 1.5 from the
+   preflight, a value no token names, on 104 list items and card lines. */
+body { font-family: var(--font-sans); color: var(--color-charcoal); background: var(--color-white); line-height: var(--leading-ui); }
 
 /* Higher specificity beats Tailwind preflight. */
 /* The heading ladder, same as style.css. TYPOGRAPHY.md section 4 is
@@ -84,6 +87,16 @@ body h4 { font-size: var(--text-xl);  letter-spacing: var(--tracking-heading); }
 body h5 { font-size: var(--text-lg);  letter-spacing: var(--tracking-normal); }
 body h6 { font-size: var(--text-base); letter-spacing: var(--tracking-normal); }
 body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height: var(--leading-body); }
+/* A list of sentences reads at a paragraph's leading, as it does on every
+   other page. */
+body ul.list-disc > li { line-height: var(--leading-body); }
+/* One bold, the semibold, as in style.css. The preflight gives `bolder`,
+   which is 700 here and was 600 on the other thirty-two pages. */
+body strong, body b { font-weight: var(--weight-semibold); }
+/* An h3 the markup sets in the sans (The problem, The solution, My part) is
+   a card title, h5 on the ladder: the semibold, at the sans titles' leading
+   and with no tracking. It took the serif h3's 1.15 and -0.01em, and 700. */
+body h3.font-sans { line-height: var(--leading-tight); letter-spacing: var(--tracking-normal); }
 
 /* Framer-motion fade-up: keep initial state, reveal via JS observer. */
 .min-h-screen [style*="opacity: 0"],
@@ -123,14 +136,18 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 }
 
 /* ---------- Read-time line in the hero ----------
-   An eyebrow, so it is uppercase like every other one. It keeps its own 14px
-   and muted ink, which is the size --tracking-label is the step for. */
+   The kicker every other detail page opens on (.case-kicker in style.css),
+   since 2026-10-29: 12px semibold capitals in the sage. It had kept its own
+   14px muted regular on --tracking-label, so these four pages were the only
+   ones whose first line was a second kind of kicker. */
 .case-readtime {
   display: block;
   margin-bottom: var(--space-xl);
-  font-size: var(--text-sm);
-  color: var(--color-muted-gray);
-  letter-spacing: var(--tracking-label);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
 }
 
@@ -196,7 +213,6 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   color: var(--color-muted-gray);
   font-size: var(--text-sm);
   font-weight: 500;
-  letter-spacing: 0.01em;
   white-space: nowrap;
   /* Vertical padding bumped from 0.25rem to 0.75rem so the link
      hits the 44px touch target minimum without resizing text. */
@@ -262,8 +278,8 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
   font-family: var(--font-serif);
   font-size: var(--text-3xl);
   font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
   transition: color var(--motion-state) var(--ease);
 }
 @media (min-width: 768px) {
@@ -775,7 +791,7 @@ body p  { color: var(--color-charcoal); font-size: var(--text-base); line-height
 /* In the summary the disc sits in a centred row of its own. */
 .svc-short-at .svc-n { margin-top: 0; color: var(--color-accent-text); font-variant-numeric: tabular-nums; }
 .svc-map .svc-lane:nth-child(2) dd strong,
-.svc-map .svc-lane--after dd strong { font-weight: var(--weight-bold); color: var(--color-charcoal); }
+.svc-map .svc-lane--after dd strong { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
 .svc-map .svc-lane--after dt { color: var(--color-accent-text); }
 .svc-map .svc-lane--after dd {
   padding: var(--space-sm);
