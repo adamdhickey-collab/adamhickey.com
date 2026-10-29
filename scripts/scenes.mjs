@@ -13,9 +13,10 @@
    homepage card's size, so it stays sharp printed anywhere up to 1280px.
    800 is below the app's first zoom step (app/scale.css), so the root is
    never scaled; the script refuses a capture whose root zoom isn't 1. Dark,
-   the app's Night sage and its default since 2026-10-27 (agent-review#58),
-   chosen the way the app's toggle chooses it; --theme light takes the light
-   palette instead. They were light from 2026-10-24.
+   the app's default since 2026-10-27 (agent-review#58) — its charcoal since
+   2026-10-29 (agent-review#79), Night sage before that — chosen the way the
+   app's toggle chooses it; --theme light takes the light palette instead.
+   They were light from 2026-10-24.
 
    The prototype is read from its deployed address by default. Pass --from
    for a local build served under /agent-review/ (vite preview), which is how
