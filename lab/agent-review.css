@@ -637,6 +637,35 @@
 
 /* ---- the rest of the page ---- */
 #how-it-was-made .writing-facts { margin: var(--space-xl) 0; }
+/* The numeral row and the loop under it are two three-column strips, so
+   from 1024 they share one set of columns and their left rules fall on one
+   line, rather than the numeral row's auto-fit tracks and tighter gap
+   leaving each rule a few pixels short of the one below it. */
+@media (min-width: 1024px) {
+  #how-it-was-made .writing-facts {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--space-2xl);
+  }
+}
+/* The loop is its own block, not the paragraph's last line: it stands a
+   chapter step below, as each .ar-next does. */
+#how-it-was-made .arc-measure + .build-facts--three { margin-top: var(--space-3xl); }
+/* The prose link, in the paragraphs this page sets inside .arc-measure.
+   style.css's group reaches only a paragraph directly under .container,
+   so these three links ("The full record", the billing run, the research
+   plan) sat in the sentence's own ink with no underline. Same treatment
+   as that group. */
+.arc-measure > p:not([class]) a {
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.arc-measure > p:not([class]) a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .arc-measure > p:not([class]) a:hover { color: var(--color-charcoal); }
+}
 #how-it-was-made .ar-next { margin-top: var(--space-3xl); }
 .case-section .ar-next h3 { margin-bottom: var(--space-md); }
 /* The shared glance labels, in sentence case on this page. */
