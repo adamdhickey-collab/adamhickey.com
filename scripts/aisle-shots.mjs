@@ -18,12 +18,12 @@
  *     three left the tree with the captures that showed it.
  *   aisle-card.webp
  *     The lab index's card, 1600x900: the trip's two ends side by side, the
- *     photo at the friend's house and the two lamps in the aisle, each the app's own
- *     content from its title down, flat on white cards on the charcoal
- *     ground, no phone shells. At the card's 18rem a phone's screen is too
- *     small to read; two panels at 1.8x are not. It replaced a trio of
- *     staggered phones (2026-10-28) whose words could not be read at that
- *     size.
+ *     photo at the friend's house and the two lamps in the aisle, each in
+ *     its phone, the two level and cut off by the card's foot, on a painted
+ *     store aisle (img/lab/aisle-ground.webp). Cutting the phones is what
+ *     lets their screens print at 1.6x, near enough the 1.8x of the flat
+ *     white panels that stood here on 2026-10-28, which had replaced a trio
+ *     of whole phones whose words could not be read at the card's size.
  *
  * The screens are reached by the same presses scripts/lib/reachable.mjs
  * registers, so a hook that goes stale fails here as it would there.
@@ -121,16 +121,26 @@ for (const name of wanted) {
   await context.close();
 }
 
-/* The card: the trip's two ends, the photo at the friend's house and the lamps in the
-   aisle, each panel the app's own content from its title to the end of what
-   it shows. Taken at 3x and printed at 1.8x, so the bitmap is always being
-   reduced. The composition page loads the site's own stylesheets, so the
-   edge and the shadow are tokens rather than hex. The ground is not the
-   site's: since 2026-10-28 it is Agent Review's scene ground, #2b3a2f
-   (agent-review src/review/SceneScreen, agent-review#78), so the two lab
-   cards that sit side by side under Experimental lab work share one dark
-   sage. It was --color-charcoal. */
-async function panel(press, from, to) {
+/* The card: the trip's two ends, the photo at the friend's house and the
+   lamps in the aisle, each the app's screen from its bar down, in the phone
+   the write-up runs it in, rising from the card's foot. Since 2026-10-29
+   the phones stand on a painted store aisle, as the Lucy Learns card
+   stands on its entryway (built-cards.mjs): the back wall the lamps are
+   on, kept quiet, drawn in ChatGPT at 1672x941 and kept at
+   img/lab/aisle-ground.webp. Before that the two were flat white panels on
+   Agent Review's dark sage, with no phone, because the panels could print
+   at 1.8x; the phones print at 1.6x, which is as large as two can stand
+   side by side with the aisle still showing round them.
+
+   Each screen is taken at 3x, so the bitmap is always being reduced, and
+   set in style.css's own .build-phone, so the bezel, chrome and shadow are
+   tokens rather than a capture of the prototype's frame, which is the same
+   object. The two phones stand level, and so do their screens: the store
+   screen's back link is left out, so both open on the bar, then the place's
+   badge and name at one height. One cut ends both, halfway down the gap
+   under the photo; the store screen shows its two lamps and nothing after
+   them, so the cut falls in white there too rather than through a line. */
+async function phone(press, last, { next, hide = '' } = {}) {
   const context = await browser.newContext({ viewport: VIEW, deviceScaleFactor: 3, reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
@@ -146,39 +156,54 @@ async function panel(press, from, to) {
     await page.waitForTimeout(150);
   }
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
-  const box = await page.$eval('.ai-app', (el, [f, t]) => {
+  /* What the card leaves out of this screen, once the presses are done:
+     before, it could hide a button they need. */
+  if (hide) await page.addStyleTag({ content: hide });
+  /* The whole screen, where the last block shown ends, where the next
+     block starts if there is one, and the top of the badge the two must
+     share. */
+  const box = await page.$eval('.ai-app', (el, [a, b]) => {
     const r = el.getBoundingClientRect();
-    const a = el.querySelector(f).getBoundingClientRect();
-    const z = el.querySelector(t).getBoundingClientRect();
-    return { x: r.left + scrollX, y: a.top + scrollY, width: r.width, height: z.bottom - a.top };
-  }, [from, to]);
-  const buf = await page.screenshot({ type: 'png', fullPage: true, clip: box });
+    const y = (sel, edge) => el.querySelector(sel).getBoundingClientRect()[edge] - r.top;
+    return { x: r.left + scrollX, y: r.top + scrollY, width: r.width, height: r.height,
+             end: y(a, 'bottom'), next: b ? y(b, 'top') : null, badge: y('.ai-badge', 'top') };
+  }, [last, next]);
+  const buf = await page.screenshot({ type: 'png', fullPage: true, clip: { x: box.x, y: box.y, width: box.width, height: box.height } });
   await context.close();
-  return { src: `data:image/png;base64,${buf.toString('base64')}`, height: box.height };
+  return { src: `data:image/png;base64,${buf.toString('base64')}`, ...box };
 }
 
 if (!only.length || only.some((o) => 'card'.includes(o))) {
-  const at = await panel([], '.ai-head-row', '.ai-photo-frame');
-  const aisle = await panel(ARRIVE, '.ai-head-row', '.ai-saved-item:last-child .ai-saved-stock');
-  const K = 1.8;
-  const tall = Math.ceil(Math.max(at.height, aisle.height) * K);
-  const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
+  const at = await phone([], '.ai-photo-frame', { next: '.ai-photo-cap' });
+  const aisle = await phone(ARRIVE, '.ai-saved', {
+    hide: '.ai-app .ai-back { display: none !important; } .ai-app .ai-saved ~ * { visibility: hidden !important; }',
+  });
+  const cut = (at.end + at.next) / 2;
+  if (Math.abs(at.badge - aisle.badge) > 0.5) throw new Error(`card: the badges stand at ${at.badge} and ${aisle.badge}, not level`);
+  if (aisle.end > cut) throw new Error(`card: the store's list ends at ${aisle.end}, under the cut at ${cut}`);
+  const K = 1.6, BEZEL = 8, H = 900;
+  /* The phones' one top, so the card's foot lands on the cut. */
+  const top = Math.round(H - (BEZEL + cut) * K);
+  const context = await browser.newContext({ viewport: { width: 1600, height: H }, deviceScaleFactor: 1 });
   const page = await context.newPage();
   await page.goto(`${origin}/404.html`, { waitUntil: 'load' });
   await page.setContent(`<!doctype html><html><head>
-    <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/shell.css"><link rel="stylesheet" href="/style.css">
     <style>
-      html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; }
-      body { --scene-sage: #2b3a2f; background: var(--scene-sage); display: flex; align-items: center; justify-content: center; gap: 56px; }
-      .pn { box-sizing: content-box; width: ${WIDTH * K}px; height: ${tall}px; padding: 36px 0; overflow: hidden;
-            background: var(--color-white); border: 2px solid var(--rule-card); border-radius: 28px; box-shadow: var(--shadow-card); }
-      .pn img { display: block; width: 100%; }
+      html, body { margin: 0; width: 1600px; height: ${H}px; overflow: hidden; }
+      body { background: url("/img/lab/aisle-ground.webp") center / cover, var(--color-muted-light);
+             display: flex; align-items: flex-start; justify-content: center; gap: var(--space-4xl); }
+      .build-phone { width: ${WIDTH + 2 * BEZEL}px; zoom: ${K}; }
     </style></head>
-    <body><div class="pn"><img src="${at.src}"></div><div class="pn"><img src="${aisle.src}"></div></body></html>`);
+    <body>
+      <div style="margin-top: ${top}px"><div class="build-phone"><img src="${at.src}" alt=""></div></div>
+      <div style="margin-top: ${top}px"><div class="build-phone"><img src="${aisle.src}" alt=""></div></div>
+    </body></html>`);
+  await page.waitForLoadState('networkidle');
   await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
   const file = path.join(OUT, 'aisle-card.webp');
   fs.writeFileSync(file, await page.screenshot({ type: 'webp', quality: 86 }));
-  console.log(`  ${path.relative(ROOT, file)}  1600x900`);
+  console.log(`  ${path.relative(ROOT, file)}  1600x900  (phones at ${top}, cut at ${cut.toFixed(1)})`);
   await context.close();
 }
 
