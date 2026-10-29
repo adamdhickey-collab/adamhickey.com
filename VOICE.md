@@ -127,6 +127,13 @@ sentences anywhere else, with a link.
   and run it in the same commit.
 - **Lists are for real lists.** Steps, figures, and options stay as lists
   and rails. An argument goes in short paragraphs.
+- **A cut takes prose, not lists.** When a page gets shorter, the
+  paragraphs, restated deks, previews of the headings, and second tellings
+  go first. Card bullets, one-line glosses, fact rows, and approach grids
+  stay: they're what a skimming reader reads instead of the paragraphs. Three
+  cuts on 2026-10-29 took lists out and all three came back the same day
+  (#787, #790, #796). If a list really repeats what's beside it, ask before
+  cutting it.
 
 ---
 
@@ -134,26 +141,38 @@ sentences anywhere else, with a link.
 
 The audit of 2026-10-21 measured every word a reader sees: 46,000 across the
 31 reading pages, with 329 of 1,060 paragraphs over 40 words and 81 over 60.
-The targets are set in **running text** instead, meaning the paragraphs and
-the list items between them. Figure labels, captions, the key-ideas list,
-and the recap don't count, because they're what a skimming reader reads instead
-of the paragraphs. An article with five drawn rails carries about 300 words
-of them, and cutting those would make the page longer to read.
+The rewrite that followed brought paragraphs under 40 words but left pages
+about as long, so on 2026-10-29 the site was cut to its headline, "Knowing
+what matters": from 51,752 words seen on 41 pages to 40,536 on 35, with
+How I work four pages made one and the career pages and other.html made
+Earlier work.
 
-| Family | Seen at the audit | Target |
+The budgets are set in **running text**, meaning the paragraphs and the
+list items between them. Figure labels, captions, the key-ideas list, and
+the recap don't count, because they're what a skimming reader reads instead
+of the paragraphs. They are where each family landed on 2026-10-29, not a
+wish. A page over its budget is the next one to cut, and a page under it is
+fine.
+
+| Family | Landed, 2026-10-29 | Budget |
 | --- | --- | --- |
-| Homepage | 1,391 | about 1,000 seen, which takes a section out, not just shorter sentences |
-| Articles | 1,350 to 2,640 | about 700 of running text, five key ideas at most |
-| Build write-ups | 1,020 to 2,400 | 1,000 of running text at most |
-| Enterprise case studies | 330 to 960 | 600 of running text at most |
-| How I work | 1,220 to 1,400 | about 600 of running text |
-| Lab and indexes | up to 1,551 | 800 of running text at most |
+| Homepage | 698 seen | 700 seen |
+| Enterprise case studies | 386 to 443 running | 450 running |
+| Build write-ups | 559 to 772 running | 700 running |
+| How I work (one page) | 615 running | 650 running |
+| Earlier work | 260 running | 300 running |
+| Lab write-ups | 493 to 695 running | 700 running |
+| Prototype pages | 734 running, around the interface | 750 running |
+| Articles | 572 to 1,005 running, not yet cut | 500 running, four key ideas |
+| Indexes | 113 running, 285 to 556 seen | 300 seen |
+| Design system reference | 5,856 running | No budget. Say the premise once; the specimens are the page |
 
-The pilot is the calibration. "What makes a good product designer now?"
-went from 1,007 words of running text to 766 and from 1,557 seen to 1,283,
-six key ideas to five, with every figure kept. The homepage's copy came down
-by about a hundred words. The rest of its length is cards and labels, and
-reaching 1,000 means choosing a section to take out.
+The articles are the family still to cut, sixteen to seven, once Search
+Console says which ones bring readers. The pilot is the calibration. "What
+makes a good product designer now?" went from 1,007 words of running text to
+766 and from 1,557 seen to 1,283, six key ideas to five, with every figure
+kept.
 
-A cut that takes a page under its target is fine. A cut that takes out the
-one moment where something went wrong has cut the wrong thing.
+A cut that takes a page under its budget is fine. A cut that takes out the
+one moment where something went wrong has cut the wrong thing, and so has
+one that takes out a list.
