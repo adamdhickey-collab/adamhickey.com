@@ -168,28 +168,28 @@ const CLAIMS = [
      that is checked somewhere is not the same as a claim that is checked
      everywhere it is made. */
   { doc: 'README.md',
-    says: 'Thirty-five pages in nine families',
-    n: 35, what: 'pages', of: () => PAGES.length },
+    says: 'Twenty-six pages in nine families',
+    n: 26, what: 'pages', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'The site: 35 pages in nine families',
-    n: 35, what: 'pages, as the summary table states them', of: () => PAGES.length },
+    says: 'The site: 26 pages in nine families',
+    n: 26, what: 'pages, as the summary table states them', of: () => PAGES.length },
 
   { doc: 'README.md',
-    says: 'Thirty-five pages in nine families',
+    says: 'Twenty-six pages in nine families',
     n: 9, what: 'families in the README table', of: familyTableRows },
 
   { doc: 'README.md',
-    says: 'Thirty-five pages in nine families',
-    n: 35, what: 'pages summed across the family table', of: familyTableSum },
+    says: 'Twenty-six pages in nine families',
+    n: 26, what: 'pages summed across the family table', of: familyTableSum },
 
   { doc: 'README.md',
-    says: 'which all thirty-five pages',
-    n: 35, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
+    says: 'which all twenty-six pages',
+    n: 26, what: 'pages loading type.css', of: () => pagesLoading('type.css') },
 
   { doc: 'README.md',
-    says: 'hand-written into all thirty-five pages',
-    n: 35, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
+    says: 'hand-written into all twenty-six pages',
+    n: 26, what: 'pages loading site-nav.css', of: () => pagesLoading('site-nav.css') },
 
   /* The claim this file's own header says it exists to hold, and did not: the
      header promised "nothing now holds it to it" was fixed, while the editions
@@ -199,20 +199,20 @@ const CLAIMS = [
      2026-10-13; the page count moved to How it's enforced, which names
      this check as the thing that holds it. */
   { doc: 'design-system/index.html',
-    says: 'across all thirty-five pages',
-    n: 35, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
+    says: 'across all twenty-six pages',
+    n: 26, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
     says: 'Eighteen of them',
     n: 18, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by thirty-one pages',
-    n: 31, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty-two pages',
+    n: 22, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
-    says: 'token files are loaded by all thirty-five',
-    n: 35, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
+    says: 'token files are loaded by all twenty-six',
+    n: 26, what: 'pages loading color.css', of: () => pagesLoading('color.css') },
 
   /* The build write-up about this site, which is the one page whose whole
      argument is that its numbers are checked, and which carried twenty-eight
@@ -221,22 +221,22 @@ const CLAIMS = [
      browser counts in the same section are dated in the prose instead,
      because no check without a browser can recount them. */
   { doc: 'case-study/this-site.html',
-    says: 'Thirty-five pages of plain HTML, no framework and no build step',
-    n: 35, what: 'pages, as the dek states them', of: () => PAGES.length },
+    says: 'Twenty-six pages of plain HTML, no framework and no build step',
+    n: 26, what: 'pages, as the dek states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: 'thirty-five pages of plain HTML with no framework and no build step',
-    n: 35, what: 'pages, as the description states them', of: () => PAGES.length },
+    says: 'twenty-six pages of plain HTML with no framework and no build step',
+    n: 26, what: 'pages, as the description states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '35 pages, 3 token files, 4 specs, 39 scripts',
-    n: 35, what: 'pages, as the size row states them', of: () => PAGES.length },
+    says: '26 pages, 3 token files, 4 specs, 39 scripts',
+    n: 26, what: 'pages, as the size row states them', of: () => PAGES.length },
   { doc: 'case-study/this-site.html',
-    says: '35 pages, 3 token files, 4 specs, 39 scripts',
+    says: '26 pages, 3 token files, 4 specs, 39 scripts',
     n: 3, what: 'token files', of: () => filesPresent('color.css', 'type.css', 'shell.css') },
   { doc: 'case-study/this-site.html',
-    says: '35 pages, 3 token files, 4 specs, 39 scripts',
+    says: '26 pages, 3 token files, 4 specs, 39 scripts',
     n: 4, what: 'specs', of: () => filesPresent('TYPOGRAPHY.md', 'COLOR.md', 'SPACING.md', 'MOTION.md') },
   { doc: 'case-study/this-site.html',
-    says: '35 pages, 3 token files, 4 specs, 39 scripts',
+    says: '26 pages, 3 token files, 4 specs, 39 scripts',
     n: 39, what: 'scripts in scripts/', of: scriptsInTree },
   /* The dek and the description, which said ten checks with nothing holding
      either while the llms.txt copy of the same phrase was registered below:
@@ -279,12 +279,6 @@ const CLAIMS = [
     says: 'Twelve scripts check this one',
     n: 12, what: 'checks in checks.yml, as How it\'s enforced states them', of: () => staticChecks() + browserChecks() },
 
-  { doc: 'writing/what-does-a-product-design-engineer-actually-do.html',
-    says: 'This site runs twelve checks',
-    n: 12, what: 'checks in checks.yml', of: () => staticChecks() + browserChecks() },
-  { doc: 'writing/what-does-a-product-design-engineer-actually-do.html',
-    says: 'six of them render its pages in a real browser',
-    n: 6, what: 'browser checks in the matrix', of: browserChecks },
 
   { doc: 'writing/what-makes-a-good-product-designer-now.html',
     says: '<dt>12</dt><dd>checks run on every merge to this site',
