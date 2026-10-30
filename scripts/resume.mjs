@@ -195,7 +195,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>Building is getting easier. Knowing what matters isn&rsquo;t. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a hybrid designer and developer, building what I designed in HTML, CSS, and jQuery, then spent thirteen years leading enterprise product design and design systems at scale. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
+  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a hybrid designer and developer, building what I designed in HTML, CSS, and jQuery, then spent thirteen years leading enterprise product design and design systems at scale. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
 </section>
 
 <section>
@@ -392,7 +392,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">Building is getting easier. Knowing what matters isn&rsquo;t. Twenty years across visual design, interactive experiences, and enterprise software, now brought together early in a product to find the right problem and decide what to build.</p>
+  <p class="intro">I make complicated products easier to use and new ideas easier to test. Twenty years across visual design, interactive experiences, and enterprise software, now brought together to find the right problem.</p>
 
   <section>
     <h2>Independent</h2>
