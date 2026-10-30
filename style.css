@@ -7025,16 +7025,35 @@ p.try-live {
 }
 
 
-/* The index groups the articles into three collections: an eyebrow with the sage rule, a one-line sans description in the
-   muted ink, then the list. The eyebrow is the article's own, so one class
+/* The index groups the articles into three collections: a drawn mark, an
+   eyebrow, a one-line sans description in the muted ink at --text-sm, a step
+   under the article deks so it reads as the collection's gloss rather than
+   one more of them, then the list. The mark is .fact-node and .fact-icon
+   unchanged, the homepage facts' tea disc, and it takes the place of the
+   sage rule; Start here keeps the rule. The draw is gated behind .draw-js,
+   which the page's own observer sets, and starts on .is-inview, so with no
+   script the marks render drawn. The eyebrow is the article's own, so one class
    marks a section on both kinds of page. */
 .case-section .writing-collection-dek {
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
   margin: 0;
   max-width: 60ch;
+}
+.case-section .writing-collection .writing-eyebrow { margin-top: 0; }
+.case-section .writing-collection .writing-eyebrow::before { content: none; }
+.draw-js .writing-collections .fact-icon path,
+.draw-js .writing-collections .fact-icon circle { stroke-dashoffset: 1; }
+.draw-js .writing-collections.is-inview .fact-icon path,
+.draw-js .writing-collections.is-inview .fact-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) * 3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .draw-js .writing-collections .fact-icon path,
+  .draw-js .writing-collections .fact-icon circle { stroke-dashoffset: 0; animation: none; }
 }
 /* Scoped to the column so it outranks `.case-narrow h2:not(:first-child)`,
    which is (0,2,1) and took this to --space-4xl the moment the collection
