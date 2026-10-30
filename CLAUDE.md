@@ -1882,7 +1882,8 @@ Two more since #32:
 
 - **Every article is an essay.** The dek answers, the h2s are the
   argument's steps as sentences, one figure breaks the column every
-  section or two, one line a section is marked and one stands as a pull,
+  section or two, one line in the article is marked (since 2026-10-30; it
+  was one a section, and the marks turned into texture) and one stands as a pull,
   and the article ends on its own last line. Until 2026-10-30 most
   articles were Blinks, with a numbered list of key ideas under the dek, a
   "Key idea 2 of 6" eyebrow over each section and a recap at the end; #897
