@@ -123,7 +123,7 @@
   <link rel="stylesheet" href="color.css?v=12" />
   <link rel="stylesheet" href="shell.css?v=7" />
   <link rel="stylesheet" href="type.css?v=8" />
-  <link rel="stylesheet" href="style.css?v=20261030i" />
+  <link rel="stylesheet" href="style.css?v=20261030j" />
   <link rel="stylesheet" href="site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="app-device.css?v=1" />
   <link rel="stylesheet" href="thumb-loop.css?v=11" />
@@ -1666,53 +1666,6 @@
           thumb.style.setProperty('--rx', '0deg');
           thumb.style.setProperty('--ry', '0deg');
         });
-      });
-    })();
-
-    /* ---------- 5e. Case-study hero morph ---------------------------------------
-       Cross-document view transitions: the clicked card's thumbnail is
-       given view-transition-name: case-hero just before navigation, and
-       each case study page's hero image carries the same name, so
-       supporting browsers morph one into the other. On the way back,
-       pagereveal names the matching card so the hero returns into it.
-       Unsupported browsers never enter any of these code paths' effects
-       and navigate normally.                                             */
-    (function setupCaseMorph() {
-      if (!('CSS' in window) || !CSS.supports('view-transition-name: none')) return;
-      /* The lab card is left out: its page carries no case-hero, so naming
-         its thumb would animate the picture out into nothing. */
-      const cards = Array.from(document.querySelectorAll('.case-card:not(.case-card--lab)'));
-      const clearNames = () => cards.forEach(c => {
-        const img = c.querySelector('.case-thumb img');
-        if (img) img.style.viewTransitionName = '';
-      });
-      cards.forEach(card => {
-        card.addEventListener('click', () => {
-          clearNames(); // only one element may carry the name at snapshot
-          const img = card.querySelector('.case-thumb img');
-          if (img) img.style.viewTransitionName = 'case-hero';
-        });
-      });
-      let activeTransition = null;
-      window.addEventListener('pagereveal', (e) => {
-        if (!e.viewTransition) return;
-        const from = window.navigation && navigation.activation && navigation.activation.from;
-        if (!from) return;
-        clearNames();
-        const card = cards.find(a => from.url && from.url.indexOf(a.getAttribute('href')) !== -1);
-        if (!card) return;
-        const img = card.querySelector('.case-thumb img');
-        if (!img) return;
-        img.style.viewTransitionName = 'case-hero';
-        activeTransition = e.viewTransition;
-        e.viewTransition.finished.finally(() => {
-          img.style.viewTransitionName = '';
-          activeTransition = null;
-        });
-      });
-      // A bfcache restore can resurrect a stale name from the last click.
-      window.addEventListener('pageshow', (e) => {
-        if (e.persisted && !activeTransition) clearNames();
       });
     })();
 

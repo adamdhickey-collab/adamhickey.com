@@ -28,21 +28,17 @@
    pages would download all of it and render none of it.
    ========================================================================== */
 
-/* Cross-document view transitions: this page's hero pairs with the
-   clicked case card's thumbnail on the home page (and with other
-   case pages' heroes via the next-case links). Reduced motion and
-   unsupported browsers navigate normally. */
+/* Cross-document view transitions: a plain cross-fade between pages.
+   Nothing is named, so nothing travels: the hero used to morph out of the
+   clicked card's thumbnail, and arriving any other way it read as the
+   picture flying in from the top. Reduced motion and phone widths
+   navigate instantly. */
 @view-transition { navigation: auto; }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
 @media (max-width: 767.98px) {
   @view-transition { navigation: none; }
-}
-.vt-case-hero { view-transition-name: case-hero; }
-::view-transition-group(case-hero) {
-  animation-duration: var(--motion-enter);
-  animation-timing-function: var(--ease);
 }
 
 html {
