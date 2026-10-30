@@ -7043,6 +7043,89 @@ p.try-live {
 }
 
 
+/* THE MARGIN, since 2026-10-30 (Adam: "take full advantage of the two
+   column layout ... so there's less vertical scrolling"; "it doesn't have
+   to be an image"). At 1440 an essay's text is 620px on the frame's left
+   edge and the 550px beside it was empty from the dek to the Related
+   list, while every picture, pull and comparison stopped the column to
+   sit in it. From 72rem the essay is two columns: the text keeps its
+   measure, and the things a reader looks at beside the argument rather
+   than read along it move into a margin to its right, Tufte's sidenote.
+
+   WHAT GOES IN THE MARGIN: a scene (one drawing or photograph and its
+   caption), the pull, a split (two short lists behind two rules), and the
+   Design psychology note. Each is a float with a negative right margin as
+   wide as itself plus the gap, so it takes no room from the text's line
+   boxes and starts level with the line after the block it follows. clear:
+   right stacks two that land close together rather than overlapping them.
+
+   WHAT SPANS: a rail, a flow, and a number row are read across, so they
+   stay in the column, at --col-full, under both columns, and clear both, so a margin item above one ends before it starts. The
+   column is a flow root, so a margin item that outruns the last paragraph
+   still pushes the footer down.
+
+   The widths are percentages of .writing-measure, which is the 52ch
+   measure here, and cqi of the essay column (.case-narrow), so the margin
+   is the column less the measure less --space-4xl, whatever the type
+   does: 548px at 1440 and 420 at 72rem, where it starts. Below 72rem it
+   would be under 420, a split's two lists at under 190 each, so the page
+   is one column as it was; a phone sees nothing move.
+
+   THE HERO TAKES THE SAME TWO COLUMNS: kicker, title, dek and Listen on
+   the measure, the feature drawing in the margin, centered on them. The
+   drawing was 832x468 under the dek; beside it, it is the margin's width,
+   and the hero is about 470px shorter. The hero column carries the
+   essay's --text-lg so its 52ch is the body's 620px and the two margins
+   start on one line; every child sets its own size.
+
+   ONLY THE ARTICLES. The case studies and the lab pages use
+   .writing-measure too, and they are not this layout. The progress line
+   is the articles' alone, so every rule here starts from it. */
+@media (min-width: 72rem) {
+  .writing-progress ~ main .writing-measure { display: flow-root; }
+  .writing-progress ~ main .writing-measure > .writing-scene,
+  .writing-progress ~ main .writing-measure > .writing-pull,
+  .writing-progress ~ main .writing-measure > .dp-note,
+  .writing-progress ~ main .writing-measure > .writing-figure:has(> .writing-split) {
+    float: right;
+    clear: right;
+    box-sizing: border-box;
+    width: calc(100cqi - 100% - var(--space-4xl));
+    max-width: none;
+    margin: var(--space-xs) calc(100% - 100cqi) var(--space-2xl) 0;
+  }
+  .writing-progress ~ main .writing-measure > .writing-rail,
+  .writing-progress ~ main .writing-measure > .writing-figure:not(.writing-scene):not(:has(> .writing-split)) { clear: both; }
+  /* At 832 a rail of three, a flow, or a number row left a 384px strip
+     of the margin empty beside it, the one place on the page that was
+     neither two columns nor one band. Here they all take the frame. */
+  .writing-progress ~ main .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))),
+  .writing-progress ~ main .writing-measure > .writing-figure:has(> .writing-flow, > .writing-facts) { width: var(--col-full); }
+  /* The split's two lists sit side by side in the margin at about 200px
+     each from 72rem; its rules keep them apart. */
+  .writing-progress ~ main .writing-measure > .writing-figure > .writing-split { grid-template-columns: 1fr 1fr; }
+  /* In the margin the pull is the page's display line, so it takes the
+     step above the one it had in the column, between the same two rules. */
+  .writing-progress ~ main .case-section .writing-measure > .writing-pull p { font-size: var(--text-3xl); }
+
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) {
+    font-size: var(--text-lg);
+    display: grid;
+    grid-template-columns: var(--measure) minmax(0, 1fr);
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) > * { grid-column: 1; max-width: none; }
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) > .build-dek { margin-bottom: 0; }
+  .writing-progress ~ main .case-hero .case-narrow > .writing-feature,
+  .writing-progress ~ main .case-hero .case-narrow > .writing-loop {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: center;
+    margin: 0;
+  }
+}
+
 /* The index groups the articles into three collections: a drawn mark, an
    eyebrow, then the list. The one-line gloss that sat between the eyebrow
    and the list came out on 2026-10-30; the eyebrow and the article deks say

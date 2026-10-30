@@ -270,6 +270,18 @@ three widths:
 | wide | `--col-wide` | 832px | The default for any other block: diagrams, screenshots, pairs, a three-step rail |
 | full | `--col-full` | 1216px | A rail of four or five, a row of phones, a rail of scenes, and Shortlist's map and its decisions |
 
+**An article's margin.** From 72rem (1152px) an article is two columns:
+the text at the measure, and beside it a margin: whatever the frame has
+left after the measure and a `--space-4xl` gap. That is 548px at 1440 and
+420 at 72rem. A scene, the
+pull, a split, and the Design psychology note float into it beside the
+text they follow; a rail, a flow, and a number row span both at `full`;
+the hero puts the feature drawing (or the loop) in the margin beside the
+title. Below 72rem the margin would be under 420px, too narrow for a
+split's two lists, so the article is one column as it was. Only the five
+articles take it; the case studies that use `.writing-measure` do not.
+`style.css`, THE MARGIN, has the mechanism.
+
 Nothing in the column centers itself. A figure that wants more than the
 text grows to the right. Before this, `.case-narrow` was an 896px column
 centered in the frame: its text hung on the column's left while its figures
