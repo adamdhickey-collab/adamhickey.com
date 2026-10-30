@@ -166,8 +166,6 @@ const ALLOW = [
     why: 'the rule quoting the form it forbids' },
   { file: 'llms.txt', phrase: 'paced spread by spread and proofed',
     why: 'the same sentence as the While We’re Here write-up' },
-  { file: 'llms.txt', phrase: 'design systems that people and agents build from',
-    why: 'a relative clause after a pair' },
   { file: 'llms.txt', phrase: 'worked through',
     why: 'a participle phrase on a credit, then a pair' },
   { file: 'llms.txt', phrase: 'one portal and Power BI platform',
