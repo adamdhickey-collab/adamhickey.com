@@ -480,15 +480,33 @@
    columns rather than four, so the two rows are even; the one sentence
    under them is the part of the disclosure that is a caveat and not a fact.
    Below 64rem the grid is style.css's own two, then one. */
-/* A rule across the full width over the strip, so the hero's pair and the
-   six answers read as two sections rather than the facts running on from
-   the figure's caption. --color-rule is the row divider; the column rules
-   inside the strip stay tag-border, a step quieter, under it. The line
-   sits one --space-4xl off the caption and one off the strip. */
-.ckw-facts {
+/* THE SIX ANSWERS ARE A CARD, since 2026-10-30 (Adam: "this whole section
+   could be in its own card like a white card"). Until then a full-width
+   rule over the strip kept it from running on from the figure's caption;
+   a white card on the hero's warm does that as one object, with the
+   caveat inside it at the foot, where it belongs to the facts it
+   qualifies. The rail's card treatment (.writing-rail, style.css): the
+   --rule-card edge, --radius-xl, and --shadow-card, the ladder's rung for
+   a card at rest, on white. The inset follows the rail's too: --space-md
+   on a phone, --space-xl from 640, and from 1024 --space-2xl down and
+   --space-3xl across. White is a ground COLOR.md already clears all three
+   of its inks on: charcoal, muted-gray, and accent-text. */
+.ckw-facts-card {
   margin: var(--space-4xl) 0 0;
-  padding-top: var(--space-4xl);
-  border-top: 1px solid var(--color-rule);
+  padding: var(--space-lg) var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) {
+  .ckw-facts-card { padding: var(--space-xl); }
+}
+@media (min-width: 1024px) {
+  .ckw-facts-card { padding: var(--space-2xl) var(--space-3xl); }
+}
+.ckw-facts {
+  margin: 0;
   max-width: none;
 }
 @media (min-width: 1024px) {
@@ -504,7 +522,7 @@
    link inside body copy on a light
    ground looks like here: accent-text, 600, underlined at the 0.2em offset,
    charcoal on hover and focus so the pointer moves it toward the page.
-   accent-text on warm is 5.32:1. */
+   It sits on the card's white now, where accent-text clears 4.5 by more. */
 .case-hero .ckw-facts dd a {
   color: var(--color-accent-text);
   font-weight: var(--weight-semibold);
