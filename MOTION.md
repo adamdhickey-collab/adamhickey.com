@@ -134,8 +134,10 @@ not allowed to leave that content hidden when the animation is suppressed.
 This already holds, and it is the one axis that arrived in good shape.
 Verified in Chromium under `prefers-reduced-motion: reduce`: **nothing
 animates on any of the fifteen pages.** Both JavaScript motion files —
-`cursor.js` and `case-study/case-motion.js` — check the query and return
-before doing anything.
+`cursor.js` and `case-study/case-motion.js` — checked the query and returned
+before doing anything. `case-motion.js` and its stylesheet went with the
+Tailwind case studies on 2026-10-30; those pages take `reveal.js` now, which
+holds the same rule.
 
 It is held up by two mechanisms, and the split between them is the rule:
 

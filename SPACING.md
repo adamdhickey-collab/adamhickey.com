@@ -8,6 +8,14 @@ This document is normative. If it and the stylesheet say different things, one
 of the two has gone stale; find out which before editing either. The audit in §7
 says which is which today.
 
+**One regime since 2026-10-30.** The six case studies that ran on Tailwind
+("regime B" below) moved onto the write-up template that day, and their cards
+are named rules in `case-study/case-cards.css`, in these same tokens. Every
+page loads `style.css`. What this document says about regime B, its counts,
+its breakpoint uses, and its seam, is the record of how the two were joined,
+kept because the decisions in it still hold; none of it describes a page
+any more.
+
 Spacing is the last of the three axes to be written down. Type and color
 already have specs; this one is the biggest of the three by volume — 536
 box-spacing declarations against **zero** tokens — and the easiest to get

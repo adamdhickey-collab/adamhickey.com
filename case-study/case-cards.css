@@ -1,0 +1,265 @@
+/* case-cards.css -- the case studies' card grids, off Tailwind.
+
+   The warm cards each case study shows its working in: a title, the
+   artifact, and what it was for. On SAP they sit as a bento, one tall card
+   beside a stack of two, mirrored on the next step; a single card carries a
+   wide picture. Until 2026-10-30 they were Tailwind utilities in the
+   markup. When the SAP case study moved onto the write-up template (#934)
+   they were replaced by the articles' rail, and the owner asked for the
+   cards back exactly as they were, so this file is those utilities
+   translated one for one into named rules, in the same tokens
+   (tailwind.config.js read every spacing, size and color from them).
+
+   The one value that is not a straight translation is the artifacts'
+   shadow. Tailwind's shadow-sm was 0 1px 2px at 5%, a number of its own;
+   it is --shadow-card here, the token for a thing resting on a surface.
+
+   The grid takes the page's full width from 1024px, as the rails and the
+   wide flows do, because the cards were 1216px across at 1440 and a
+   bento at the 832px figure width would crush the split inside each
+   card. */
+
+.cc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin: var(--space-2xl) 0 var(--space-3xl);
+}
+@media (min-width: 768px) {
+  .cc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+}
+@media (min-width: 1024px) {
+  .container.case-narrow > .cc-grid,
+  .container.case-narrow > .cc-card { width: var(--col-full); max-width: var(--col-full); }
+}
+
+/* The stack beside the tall card: two cards sharing its height. */
+.cc-stack { display: flex; flex-direction: column; gap: var(--space-xl); }
+@media (min-width: 768px) {
+  .cc-stack { height: 100%; }
+  .cc-stack > .cc-card { flex: 1; }
+}
+
+.cc-card {
+  padding: var(--space-md);
+  background: var(--color-warm);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+@media (min-width: 768px) {
+  .cc-card { padding: var(--space-3xl); }
+  .cc-grid > .cc-card { height: 100%; }
+}
+.container.case-narrow > .cc-card { margin: var(--space-2xl) 0 var(--space-3xl); }
+
+:is(.build-chapter, .ds-demo) .cc-title {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+
+/* The artifact and its notes: 45 to 55, the notes centered beside it. */
+.cc-split {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  gap: var(--space-sm);
+}
+@media (min-width: 768px) { .cc-split { gap: var(--space-md); } }
+.cc-split + * { margin-top: var(--space-md); }
+
+.cc-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  box-shadow: var(--shadow-card);
+}
+.cc-img-tall { height: 100%; }
+
+.cc-body { display: flex; flex-direction: column; justify-content: center; }
+@media (min-width: 768px) { .cc-body { padding-left: var(--space-xs); } }
+
+:is(.build-chapter, .ds-demo) .cc-label {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+:is(.build-chapter, .ds-demo) .cc-list {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding-left: var(--space-lg);
+  list-style: disc;
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+:is(.build-chapter, .ds-demo) .cc-list li { margin: 0; padding: 0; }
+:is(.build-chapter, .ds-demo) .cc-list li::before { content: none; }
+@media (min-width: 1024px) {
+  :is(.build-chapter, .ds-demo) .cc-label,
+  :is(.build-chapter, .ds-demo) .cc-list { font-size: var(--text-base); }
+}
+
+/* The step headings over the cards carry their number in a sage disc, as
+   they did on Tailwind: 40px, the numeral in white at --text-xl (5.82:1 on
+   the sage, COLOR.md section 2). A step that follows a step's cards opens
+   at --space-block, the room the old step blocks kept between them. */
+:is(.build-chapter, .ds-demo) .cc-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.cc-step-n {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+}
+.container.case-narrow > :is(.cc-grid, .cc-card, .dp-note) + h3 { margin-top: var(--space-block); }
+
+/* ---------- Variants, one per page family, each as it was ---------- */
+
+/* USDA: two up with more air, each card a picture over its notes. */
+.cc-grid--loose { gap: var(--space-2xl); margin-bottom: var(--space-4xl); }
+.cc-card--flush { padding: 0; overflow: hidden; }
+.cc-card-head { padding: var(--space-xl) var(--space-xl) var(--space-2xs); }
+.cc-card-foot { padding: var(--space-xs) var(--space-xl) var(--space-xl); }
+@media (min-width: 768px) {
+  .cc-card--flush { padding: 0; }
+  .cc-card-head { padding: var(--space-3xl) var(--space-3xl) var(--space-2xs); }
+  .cc-card-foot { padding: var(--space-xs) var(--space-3xl) var(--space-3xl); }
+}
+.cc-notes { margin-bottom: var(--space-sm); }
+
+/* The career pages: one card a project, a framed screen over its notes. */
+.cc-column { display: grid; gap: var(--space-4xl); margin: var(--space-2xl) 0 var(--space-3xl); }
+@media (min-width: 1024px) {
+  .container.case-narrow > .cc-column,
+  .container.case-narrow > .cc-panel { width: var(--col-full); max-width: var(--col-full); }
+}
+.cc-card--roomy { padding: var(--space-xl); }
+@media (min-width: 768px) { .cc-card--roomy { padding: var(--space-3xl); } }
+.cc-figure { margin-bottom: var(--space-md); }
+.cc-figure--loose { margin-bottom: var(--space-2xl); }
+@media (min-width: 768px) { .cc-notes--indent { padding-left: var(--space-xs); } }
+
+:is(.build-chapter, .ds-demo) .cc-title--lg { font-size: var(--text-lg); }
+@media (min-width: 768px) { :is(.build-chapter, .ds-demo) .cc-title--lg { font-size: var(--text-xl); } }
+:is(.build-chapter, .ds-demo) .cc-title--snug { margin-bottom: var(--space-2xs); }
+:is(.build-chapter, .ds-demo) .cc-title--loose { margin-bottom: var(--space-xl); }
+
+.cc-img--flat { box-shadow: none; }
+.cc-img--raised { box-shadow: var(--shadow-card-raised); }
+.cc-img--framed { border-radius: 12px; background: var(--color-white); }
+
+:is(.build-chapter, .ds-demo) .cc-label--base,
+:is(.build-chapter, .ds-demo) .cc-list--base { font-size: var(--text-base); }
+:is(.build-chapter, .ds-demo) .cc-list--loose { gap: var(--space-xs); }
+
+/* The field label the old pages called .case-field-label: the Kicker. */
+:is(.build-chapter, .ds-demo) .cc-kicker {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+:is(.build-chapter, .ds-demo) .cc-kicker--loose { margin-bottom: var(--space-md); }
+
+/* The overview panel: a centered title and lede over a row of pieces. */
+.cc-panel {
+  margin: var(--space-2xl) 0 var(--space-section);
+  padding: var(--space-3xl) var(--space-md);
+  background: var(--color-warm);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+@media (min-width: 768px) { .cc-panel { padding: var(--space-block); } }
+:is(.build-chapter, .ds-demo) .cc-panel-title { margin: 0 0 var(--space-xl); text-align: center; }
+:is(.build-chapter, .ds-demo) .cc-panel-title--tight { margin-bottom: var(--space-xs); }
+:is(.build-chapter, .ds-demo) .cc-panel-lede {
+  max-width: 48rem;
+  margin: 0 auto var(--space-3xl);
+  text-align: center;
+}
+.cc-panel-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
+@media (min-width: 768px) { .cc-panel-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.cc-panel-grid--3 { gap: var(--space-3xl); max-width: 64rem; margin: 0 auto; }
+@media (min-width: 768px) { .cc-panel-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl); } }
+@media (min-width: 1024px) { .cc-panel-grid--3 { gap: var(--space-4xl); } }
+
+/* Innovators' four pieces: white cards with a numbered serif title. */
+.cc-mini {
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+.cc-mini-head { display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm); }
+.cc-mini-n {
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--color-accent-text); color: var(--color-white);
+  font-size: var(--text-xs); font-weight: var(--weight-semibold); line-height: 1;
+}
+:is(.build-chapter, .ds-demo) .cc-mini-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.cc-mini-list { display: grid; gap: var(--space-sm); }
+.cc-mini-item { display: flex; align-items: center; gap: var(--space-sm); }
+.cc-mini-icon { flex: none; width: 1.25rem; height: 1.25rem; color: var(--color-charcoal); }
+.cc-mini-text { font-size: var(--text-sm); line-height: var(--leading-tight); color: var(--color-charcoal); }
+
+/* Dispatch's three methods: round pictures over a caption. */
+.cc-circle-item { display: flex; flex-direction: column; align-items: center; }
+.cc-circle {
+  flex: none;
+  width: 16rem; height: 16rem;
+  margin-bottom: var(--space-lg);
+  border-radius: 50%;
+  object-fit: contain;
+}
+@media (min-width: 1024px) { .cc-circle { width: 18rem; height: 18rem; } }
+@media (min-width: 1280px) { .cc-circle { width: 20rem; height: 20rem; } }
+:is(.build-chapter, .ds-demo) .cc-circle-cap { margin: 0; padding: 0 var(--space-md); text-align: center; font-size: var(--text-base); }
+
+/* The closing line on the sage, with its drawing. */
+.cc-pull {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xl);
+  margin-top: var(--space-xl);
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-accent-text);
+}
+.cc-pull-mark { flex: none; display: block; width: 160px; height: auto; }
+:is(.build-chapter, .ds-demo) .cc-pull p { margin: 0; color: var(--color-white); }
+@media (max-width: 640px) {
+  .cc-pull { flex-direction: column; align-items: flex-start; gap: var(--space-lg); }
+}

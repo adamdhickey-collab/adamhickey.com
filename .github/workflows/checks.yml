@@ -21,7 +21,8 @@
 # about how many of staging's pages the live site holds, because this is the
 # live site (README, "What still differs").
 #
-# WHY THREE JOBS RATHER THAN ONE. All nine used to run as one job's steps, in
+# WHY SEPARATE JOBS RATHER THAN ONE (two plus the report since 2026-10-30,
+# when the Tailwind job went with Tailwind). All nine used to run as one job's steps, in
 # order, and a job's steps are sequential by definition, so the wall clock was
 # their SUM: 11m16s on the three runs before this change. Five of the nine
 # finish in about a second between them and need nothing installed. The bill is
@@ -181,87 +182,17 @@ jobs:
       # No page may go back to compiling its CSS in the browser. #14 removed the
       # cdn.tailwindcss.com script from all six case studies; this is one grep
       # rather than a browser, and it costs nothing to keep. It sits with the
-      # static checks rather than with the Tailwind build for that reason: it
-      # is a grep, and waiting for an npm install to run a grep is the sort of
-      # thing this split exists to stop.
+      # static checks because it is a grep. Since 2026-10-30 no page loads
+      # Tailwind in any form: the six case studies moved onto the write-up
+      # template, their cards into case-study/case-cards.css, and the built
+      # stylesheet and its job here went with them.
       - name: No page compiles Tailwind in the browser
         run: |
           if grep -rl 'cdn\.tailwindcss\.com' --include='*.html' .; then
-            echo "::error title=CDN Tailwind is back::A page loads the browser-side compiler. Build the stylesheet instead -- see tailwind.config.js."
+            echo "::error title=CDN Tailwind is back::A page loads the browser-side compiler. The case studies are plain CSS since 2026-10-30; style them in case-study/case-cards.css or style.css."
             exit 1
           fi
           echo "no page loads the browser-side compiler"
-
-  # The built stylesheet, on its own, because it is the one check that needs
-  # Tailwind and none that needs a browser.
-  tailwind:
-    name: Built Tailwind CSS
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '22'
-
-      # No package.json in this repository, and the check scripts are the only
-      # thing that would want one. Install what they need for the length of the
-      # job rather than committing a manifest for two dependencies.
-      #
-      # Both in ONE command, and that is not a tidiness preference. With no
-      # package.json, `npm install --no-save` rebuilds node_modules around the
-      # package it was given: a second call removes what the first installed.
-      # Two separate steps looked correct in staging, passed review, and made
-      # the Tailwind step delete playwright-core out from under the contrast
-      # check two steps later -- "added 72 packages, and removed 1 package".
-      #
-      # The jobs are separate now, so this job could ask for tailwindcss alone
-      # and the browser legs for playwright-core alone. They do not, and the
-      # invariant is easier to hold than the exception: ONE install call per
-      # job, naming BOTH. A second call anywhere in a job is the bug, and
-      # keeping the command identical everywhere means nobody has to re-derive
-      # that before editing it.
-      - name: Install the checks' dependencies
-        run: npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
-
-      # The six case studies ship a built stylesheet rather than compiling
-      # Tailwind in the browser (#14). Built output can fall behind its markup
-      # the moment somebody adds a class and does not rebuild -- and the page
-      # would NOT look wrong, because the new class would simply do nothing.
-      # That is the failure this step exists for, and it is a risk #14 created.
-      #
-      # The report is class-level on purpose. Both files are one minified line,
-      # so a plain diff prints 15KB twice and says nothing; what a reader needs
-      # is which selectors moved.
-      - name: Built Tailwind CSS is current
-        run: |
-          printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tw-input.css
-          npx tailwindcss -c tailwind.config.js -i /tmp/tw-input.css -o /tmp/tw-built.css --minify
-          if diff -q /tmp/tw-built.css case-study/case-tailwind.css >/dev/null; then
-            echo "built stylesheet matches its source"
-            exit 0
-          fi
-          echo "::error title=Built CSS is stale::case-study/case-tailwind.css is not what tailwind.config.js and the markup produce. Rebuild it with the command in the config header and commit the result."
-          cat > /tmp/tw-report.mjs <<'REPORT'
-          import fs from 'node:fs';
-          /* A selector token, honoring Tailwind's escapes. The escape branch
-             has to come first, or the negated class eats the backslash and
-             truncates .md\:p-10 to .md. */
-          const TOKEN = /\.((?:\\.|[^\\\s{},.:>+~[\]()#*="'])+)/g;
-          const sel = (f) => new Set([...fs.readFileSync(f, 'utf8').matchAll(TOKEN)]
-            .map((m) => m[1].replace(/\\(.)/g, '$1')));
-          const fresh = sel('/tmp/tw-built.css');
-          const committed = sel('case-study/case-tailwind.css');
-          const missing = [...fresh].filter((s) => !committed.has(s)).sort();
-          const extra = [...committed].filter((s) => !fresh.has(s)).sort();
-          for (const s of missing) console.log('  the markup uses it, the committed file lacks it: .' + s);
-          for (const s of extra) console.log('  in the committed file, no longer built: .' + s);
-          if (!missing.length && !extra.length)
-            console.log('  same selectors, different bytes -- a Tailwind version change, most likely.');
-          REPORT
-          sed -i 's/^          //' /tmp/tw-report.mjs
-          node /tmp/tw-report.mjs
-          exit 1
 
   # The six that render. One leg each, in parallel, because they are the whole
   # bill and they share nothing.
@@ -334,10 +265,13 @@ jobs:
         with:
           node-version: '22'
 
-      # Both packages, one call. See the note in the tailwind job above: the
-      # rule is per job, and this job makes exactly one install call.
+      # ONE install call per job. With no package.json, `npm install
+      # --no-save` rebuilds node_modules around what it was given, so a
+      # second call removes what the first installed -- the bug that, while
+      # Tailwind was built here, deleted playwright-core out from under the
+      # contrast check ("added 72 packages, and removed 1 package").
       - name: Install the checks' dependencies
-        run: npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
+        run: npm install --no-save --no-audit --no-fund playwright-core
 
       # The browser is found rather than assumed: states.mjs takes CHROME at
       # its word without stat-ing it, so a hardcoded path the runner image
@@ -368,7 +302,7 @@ jobs:
   # post-merge arrangement rests on someone opening the Actions tab, which is
   # exactly the habit that made the pull-request run feel pointless.
   #
-  # if: failure() is on the job, and needs: lists all three, so this fires
+  # if: failure() is on the job, and needs: lists both, so this fires
   # once for the run rather than once per failing leg. It is skipped on a
   # green run and on a cancelled one.
   #
@@ -376,7 +310,7 @@ jobs:
   # already the live site: this is a "go and look" notice, not a build break.
   report:
     name: Say so when a check fails
-    needs: [static, tailwind, browser]
+    needs: [static, browser]
     if: failure() && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
