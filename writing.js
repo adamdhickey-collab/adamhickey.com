@@ -1,8 +1,8 @@
 /* The progress line on an article. A 4px sage rule under the nav that scales
    from the left as the reader moves through the essay -- and only the essay:
-   the run is measured from the top of the body section to the bottom of the
-   recap, so the line says how much of the argument is left rather than how
-   much of the page, and the footer under the recap does not count.
+   the run is measured from the top of the body section to the end of the
+   essay, so the line says how much of the argument is left rather than how
+   much of the page, and the footer under it does not count.
 
    The width is written as a transform on the element, not as a class, which
    is why states.mjs has nothing to force here; the transition and its
