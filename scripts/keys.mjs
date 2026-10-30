@@ -43,6 +43,13 @@
  * day, the workflow that breaks, and the SAP article. A fifth on
  * 2026-10-21: the interface-feel-finished article, when the usability
  * testing article took its place in The build.
+ *
+ * Not every article is a Blink. Since 2026-10-30 the ones in ESSAYS are
+ * essays: h2s with ids, and no list under the dek, no eyebrow over a
+ * section and no recap at the end. A content audit found the same frame on
+ * all seven read as manufactured, so the personal ones lost it and the
+ * practical guides kept it. --write takes the list and the eyebrows out of
+ * an essay, and the check faults one that grows them back.
  */
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -81,6 +88,12 @@ const UNLISTED = new Set([
      off the index became forwarding notes when the writing went to seven. */
 ]);
 
+/* Essays, not Blinks (see the header). */
+const ESSAYS = new Set([
+  'my-next-design-challenge',
+  'what-makes-a-good-product-designer-now',
+  'who-decides-when-software-can-act-on-its-own',
+]);
 const faults = [];
 const fault = (f, msg) => faults.push(`${f}: ${msg}`);
 
@@ -105,13 +118,14 @@ for (const f of articles) {
   });
   if (!heads.length) { fault(f, 'no h2 in main'); continue; }
   const M = heads.length;
+  const essay = ESSAYS.has(basename(f, '.html'));
 
   /* 2. The eyebrow before each h2, numbered. Any eyebrow already there comes
      out first, so the pass is the same whether it is the first run or the
      fortieth; the h2's own indentation is the eyebrow's. */
   main = main.replace(/[ \t]*<p class="writing-eyebrow">[^<]*<\/p>\n(?=[ \t]*<h2 id=")/g, '');
   let n = 0;
-  main = main.replace(/^([ \t]*)(<h2 id=")/gm, (m, indent, h2) => {
+  if (!essay) main = main.replace(/^([ \t]*)(<h2 id=")/gm, (m, indent, h2) => {
     n += 1;
     return `${indent}<p class="writing-eyebrow">Key idea ${n} of ${M}</p>\n${indent}${h2}`;
   });
@@ -131,7 +145,10 @@ for (const f of articles) {
     '<!-- keys:end -->',
   ];
   const keysRe = /([ \t]*)<!-- keys:start -->[\s\S]*?<!-- keys:end -->/;
-  if (keysRe.test(main)) {
+  if (essay) {
+    main = main.replace(/[ \t]*<!-- keys:start -->[\s\S]*?<!-- keys:end -->\n/, '');
+    if (/class="writing-recap"/.test(main)) fault(f, 'an essay carries no recap; take the "In one breath" aside out');
+  } else if (keysRe.test(main)) {
     main = main.replace(keysRe, (m, indent) => list.map((l) => indent + l).join('\n'));
   } else {
     const dek = main.match(/([ \t]*)<p class="build-dek">[\s\S]*?<\/p>\n/);
@@ -146,10 +163,11 @@ for (const f of articles) {
 
   const next = src.slice(0, mainStart) + main + src.slice(mainEnd);
   if (next !== src) {
-    if (WRITE) { writeFileSync(path, next); say(`  wrote ${f}: ${M} key ideas`); }
-    else fault(f, `key ideas, eyebrows or ids are out of step with its ${M} h2s; \`node scripts/keys.mjs --write\``);
+    if (WRITE) { writeFileSync(path, next); say(`  wrote ${f}: ${essay ? 'an essay, no key ideas' : `${M} key ideas`}`); }
+    else fault(f, essay ? 'an essay carries no key ideas or eyebrows; `node scripts/keys.mjs --write`'
+      : `key ideas, eyebrows or ids are out of step with its ${M} h2s; \`node scripts/keys.mjs --write\``);
   } else {
-    say(`  ok    ${f}: ${M} key ideas`);
+    say(`  ok    ${f}: ${essay ? 'an essay' : `${M} key ideas`}`);
   }
 }
 
