@@ -202,13 +202,13 @@ const CLAIMS = [
     says: 'across all twenty-five pages',
     n: 25, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
-    says: 'Thirteen of them',
-    n: 13, what: 'component entries on the page',
+    says: 'Fourteen of them',
+    n: 14, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by twenty pages',
-    n: 20, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty-five pages',
+    n: 25, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
     says: 'token files are loaded by all twenty-five',

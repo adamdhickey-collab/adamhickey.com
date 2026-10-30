@@ -300,12 +300,12 @@ zero**, so `cards.mjs` is a step in `checks.yml` as of 2026-09-21 — it was
 merged outside the workflow in #247 precisely because it was red, and its own
 header said to wire it in the day it passed.
 
-**The case studies take the edge as a Tailwind utility**, `border
-border-[var(--rule-card)]`, in the markup rather than in `style.css`, because
-that is how those six pages are written — `border-[var(--color-rule)]` was
-already there. All 62 sit on white; none is warm-on-warm, so none of them
-gains a line where there was nothing to separate. `case-tailwind.css` gains
-exactly one rule for it.
+**The case studies take the edge in `case-study/case-cards.css`**, on
+`.cc-card`, `.cc-panel`, and `.cc-mini`. Until 2026-10-30 it was a Tailwind
+utility in the markup, `border border-[var(--rule-card)]`, on 62 cards; the
+cards kept their look when the pages moved onto the write-up template, and
+the edge is the same token. None is warm-on-warm, so none of them gains a
+line where there was nothing to separate.
 
 ---
 
@@ -1074,13 +1074,16 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by twenty pages; the
-token files are loaded by all twenty-five, so anything defined in `style.css` is
-invisible to the five Tailwind case studies. That single fact caused three
+`style.css` holds no shared token at all. It is loaded by twenty-five pages,
+and the token files are loaded by all twenty-five: since 2026-10-30 they are
+the same pages. Until that day six
+case studies ran on a built Tailwind stylesheet instead, so anything defined in
+`style.css` was invisible to them. That single fact caused three
 separate bugs across this work and the type work before it: a regression that
 shipped for two commits, an undefined `--color-accent` that had never
 resolved, and four fallbacks quietly holding the shared header together. It is
-the only architectural rule here that matters.
+the rule that mattered most, and it no longer has a regime to split: a token
+still belongs in the token files, but nothing is out of `style.css`'s reach.
 
 Elevation sat in `color.css` for two steps because it needed the reach and
 there was nowhere better. `shell.css` is that somewhere, so the compromise is

@@ -160,7 +160,7 @@ failed.
 ## Running the site
 
 Nothing to install to **serve** it. Every internal link and asset reference is
-relative, so any static server works, and the one generated file is committed.
+relative, so any static server works, and nothing is generated.
 
 ```bash
 python3 -m http.server 8000        # from the repository root
@@ -169,46 +169,24 @@ python3 -m http.server 8000        # from the repository root
 Serve from the root, not from a subdirectory. Pages link sideways to
 `design-system/` and to `img/`, so a narrower root 404s them.
 
-### One file is built
+### Nothing is built
 
-`case-study/case-tailwind.css` is generated from `tailwind.config.js` and the
-Tailwind case-study pages, five since the SAP case study moved onto the
-write-up template on 2026-10-30, and `checks.yml` rebuilds it and diffs the
-bytes. Each page that leaves changes the built file, so its pull request
-rebuilds and commits it. There is no `package.json`; the install is `--no-save`:
+Since 2026-10-30 no file here is generated. The six case studies that ran on
+a built Tailwind stylesheet moved onto the write-up template, one page in
+#934 and five after it, and their warm cards, which the owner asked to keep
+exactly as they were, are named rules in `case-study/case-cards.css` rather
+than utilities in the markup. `case-tailwind.css`, `tailwind.config.js`,
+`case-study-base.css` and `case-motion.{css,js}` went with them, and so did
+the Tailwind job in `checks.yml`; the one grep that refuses the browser-side
+compiler stays. The USDA service map's rules, which lived in the base
+stylesheet, are `case-study/service-map.css`. Every page loads `style.css`
+now, so a rule declared there reaches the whole site.
+
+The install for the checks is one package:
 
 ```bash
-npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
-printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > /tmp/tw-input.css
-npx tailwindcss -c tailwind.config.js -i /tmp/tw-input.css \
-  -o case-study/case-tailwind.css --minify
+npm install --no-save --no-audit --no-fund playwright-core
 ```
-
-**Install both packages in one command.** Without a manifest, `npm install
---no-save <one>` prunes whatever the previous install left, so installing
-Tailwind after Playwright removes Playwright, and the other way round removes
-Tailwind ("added 1 package, and removed 72 packages"). `checks.yml` learned
-this the hard way and installs them together.
-
-**The trap is not the red check, it is the silence before it.** The build
-emits only the classes those six pages actually use, so a class the markup
-names but the build has never seen is not an error. It is nothing at all: the
-type simply measures wrong at every width and the console says nothing. Grep
-the built file for a class before trusting it, or add it to the markup and
-rebuild, which is what makes it exist.
-
-The trap runs the other way too. The `content` glob is `case-study/*.html`,
-which includes the five build write-ups that never load the file, and
-Tailwind reads every word in those files as a candidate class. A sentence
-containing the word "fixed" made the build emit `.fixed`, the committed file
-lacked it, and `checks` went red on a pull request that had not touched a
-Tailwind page. The config header lists the utilities that already ship this
-way. Reword the sentence rather than commit the rule.
-
-Hand-editing the built file fails on a step whose report reads the difference
-correctly and guesses the cause wrong ("same selectors, different bytes -- a
-Tailwind version change, most likely"). Verify the way CI does: build to
-`/tmp/tw-built.css` and `diff -q` it against the committed file.
 
 ## Images and assets
 
@@ -288,7 +266,7 @@ node scripts/readtime.mjs                 # every read time against its page's w
 node scripts/states.mjs <page> --strict   # just the page you touched
 ```
 
-`checks.yml` runs all of these plus the two Tailwind steps **on push to
+`checks.yml` runs all of these **on push to
 `main`, after the merge**, and on demand with `gh workflow run checks.yml
 --ref <branch>`. Nothing runs on a pull request, so nothing to wait for
 before merging; a failure opens an issue naming the commit, which by then is

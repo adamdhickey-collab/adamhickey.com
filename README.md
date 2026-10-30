@@ -3,11 +3,10 @@
 The live public site of Adam Hickey's independent product design practice: a
 single-page portfolio, nine case studies, a "How I work" page, six
 articles, and a design system reference. Static HTML, CSS, and JavaScript, no build step and no
-`package.json`. The one built file is the case studies' Tailwind stylesheet,
-built once from `tailwind.config.js` into `case-study/case-tailwind.css` and
-committed (#14); the header of that config says how to rebuild it. The check
-scripts under `scripts/` need `playwright-core` and Tailwind installed ad hoc;
-see Checks.
+`package.json`, and since 2026-10-30 nothing generated: the six case studies
+that ran on a built Tailwind stylesheet are on the write-up template, their
+cards in `case-study/case-cards.css`. The check scripts under `scripts/`
+need `playwright-core` installed ad hoc; see Checks.
 
 | | |
 | --- | --- |
@@ -128,8 +127,8 @@ the archive so that it holds everything staging ever had.
 | `map-rail.css`, `map-rail.js` | The stage rail over a service map read under 64rem, where the stages sit in a row the reader swipes along: one disc a stage on a sage line, each a button that brings its stage into view, the stages in view filled. Loaded by `case-study/usda-operational-overhead.html` and `lab/inspiration-to-aisle.html`, the two pages with a service map. The swipe itself is CSS in each map's own stylesheet, so without the script the row still swipes and only the rail is missing |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
 | `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages, and five build write-ups |
-| `case-study/case-study-base.css`, `case-study/case-motion.{css,js}` | The five Tailwind case studies' shared base, and every case study's scroll motion |
-| `case-study/case-tailwind.css`, `tailwind.config.js` | The built Tailwind stylesheet the six older case studies load instead of `style.css`, and the config it is built from |
+| `case-study/case-cards.css` | The case studies' warm card grids, as they were on Tailwind, in named rules: SAP's and Innovators' bento, USDA's two-up cards, the overview panels, and the career pages' framed screens |
+| `case-study/service-map.css` | The USDA case study's service map, moved out of the old base stylesheet |
 | `how-i-work.html`, `engagement/*.html` | How I work, one page since 2026-10-29: the four parts of the job, each the situation, the moves, and the account that shows it. The four pages it replaced under `engagement/` are forwarding notes now, each to its own section |
 | `prototype/dispatch-cockpit.html`, `prototype/dispatch-cockpit.{css,js}` | The dispatch cockpit prototype: a self-directed, interactive page on synthetic data, with its own stylesheet and script and the fleet as one object at the top of the script. `scripts/cockpit.mjs` captures the first screen for the share card, and `scripts/cockpit-shots.mjs` the four remaining stills: the hero's close call, the two frames decision 02 sits beside, and the wide window the HOMEPAGE's prototype card prints. The page has one other mode: `?embed` hands the document `data-embed` and the stylesheet takes off the nav, the hero, the two chapters, and the footer, leaving the cockpit and its own device chrome off with them. That is what stands in the tablet the homepage card opens, and it is a flag on this page rather than a second bare file so there is one copy of the cockpit's markup, one address in the sitemap, and no public URL with no way back to the site |
 | `lab/aisle.{css,js}`, `prototype/aisle.html` | The Shortlist prototype, in the write-up's hero since 2026-10-29: one shopping trip at a phone's width, from a photo of a friend's lamp to a store aisle and a hand-off to a person, on sample data written at the top of the script. Shortlist is the feature's name in the app of the made-up store, Marigold Home. What the shopper liked about the lamp is asked once and carried through every later screen, and every screen is written from what the shopper did. No image search, inventory system, or model is connected, and the page says so in its first screen. Every screen after the first is drawn on a press, so `scripts/lib/reachable.mjs` registers fourteen states for it, and `scripts/aisle-test.mjs` walks every branch and asserts what each screen says. `scripts/aisle-shots.mjs` takes its screens for the lab index and the share card. It had a page of its own for a day; `prototype/aisle.html` is a forwarding note to the write-up now, which no check measures and `seo.mjs` holds to a noindex, a canonical, and a place outside the sitemap. An independent concept: the store is made up, and no retailer's name, mark, or colors appear |
@@ -196,20 +195,21 @@ change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
 base ladder, and both regimes read it from `type.css`, which all twenty-five pages
-load. Regime A loads `style.css`; regime B is the six older pages on the built
-Tailwind stylesheet, which cannot see anything `style.css` declares.
+load. Regime A loads `style.css`; regime B was the six older pages on a built
+Tailwind stylesheet, which could not see anything `style.css` declares. Since
+2026-10-30 every page is regime A.
 
 | Family | Pages | Regime | What it is |
 |---|---|---|---|
 | Homepage | 1 | A | The page every other page hangs off. |
-| Client case studies | 4 | B | Client work under NDA-safe framing. The oldest pages on the site. |
+| Client case studies | 4 | A | Client work under NDA-safe framing. The oldest pages on the site. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 1 | A | One page for the four parts of the job: the situation, the moves, and the account that shows each. Four pages under `engagement/` until 2026-10-29, engagement pages until 2026-09-17. |
 | Writing | 6 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and one article for each of its three words since 2026-10-30, when The system's two and The judgment's two became one each: the system, the build, and the judgment. Eleven more addresses are forwarding notes, nine since 2026-10-29 and two since 2026-10-30. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data. Its interface on live Citi Bike data, the rebalancing cockpit, was a second from 2026-10-27 to 2026-10-29, when the lab went back to the dispatch story and its address became a forwarding note. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
 | Lab | 4 | A | The index of the working prototypes, each asking one question about a connected service, a design system, or a live operation (since 2026-10-28; it was "Design systems for humans and agents" before), the Agent Review case study, since 2026-10-28 The Shortlist, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The dispatch cockpit is listed there too, at its own address; the rebalancing cockpit took its place from 2026-10-27 to 2026-10-29. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
-| Career-arc pages | 2 | B | A span of years, told as a shelf of engagements. On 2026-10-29 they were one page, `earlier-work.html`, for a day; it and `other.html` are forwarding notes to them. |
+| Career-arc pages | 2 | A | A span of years, told as a shelf of engagements. On 2026-10-29 they were one page, `earlier-work.html`, for a day; it and `other.html` are forwarding notes to them. |
 
 **Homepage** -- `index.html`
 
@@ -220,7 +220,7 @@ Tailwind stylesheet, which cannot see anything `style.css` declares.
 **Build write-ups** -- `case-study/door-county-found.html`,
 `case-study/lucy-learns.html`, `case-study/while-were-here.html`,
 `case-study/this-site.html`. Same directory as the client work, different
-family: these load `style.css` and carry no Tailwind. The fourth, since
+family. Since 2026-10-30 the client case studies share their template. The fourth, since
 2026-09-17, is about the site itself: the only page whose subject is the
 tree it sits in, so every number in it is one a check here prints.
 
@@ -455,10 +455,10 @@ because that comparison is the one the live panel can only make across two
 tab presses and a scroll -- and they are made from the running prototype by
 `scripts/cockpit-shots.mjs`, so the picture and the live demo cannot drift
 apart. Its
-own directory rather than `case-study/`, because `tailwind.config.js` reads
-every word of every file there as a candidate class, and a page with this
-much interactive markup would have emitted utilities into the built
-stylesheet. It is labelled on the page, in its head and in `llms.txt` as
+own directory rather than `case-study/`, because until 2026-10-30
+`tailwind.config.js` read every word of every file there as a candidate
+class, and a page with this much interactive markup would have emitted
+utilities into the built stylesheet. It is labelled on the page, in its head and in `llms.txt` as
 self-directed and synthetic, informed by the Midwest Couriers cockpit and not
 an account of it. The homepage's Selected work section closed on it, in a
 card that spanned the grid, from 2026-09-15 until the deploy console made
@@ -542,8 +542,10 @@ waits instead of a person, and opening an issue when a leg goes red. It
 reports and deploys nothing; the two workflows are separate on purpose so a failing check
 reads as a failing check rather than as a failed deploy. It is the eight
 scripts that came across from staging with #20, four written here
-(`keys.mjs`, `cards.mjs`, `readtime.mjs`, and `oxford.mjs`), and the two
-Tailwind steps this repository had first, fourteen steps in all:
+(`keys.mjs`, `cards.mjs`, `readtime.mjs`, and `oxford.mjs`), and the grep
+that keeps the browser-side Tailwind compiler out, thirteen steps in all.
+The fourteenth, the built Tailwind stylesheet's check, went with Tailwind on
+2026-10-30:
 
 - **The tree can be tarred** -- `deployable.mjs`. No tracked symlink and
   nothing tracked that `.gitignore` matches, because the Pages artifact is a
@@ -572,13 +574,9 @@ Tailwind steps this repository had first, fourteen steps in all:
   phrase that only looks like a list is allowed by name in the script, with
   its file and one line saying why, and an entry nothing matches any more
   fails.
-- **The built Tailwind stylesheet is current.** It rebuilds from
-  `tailwind.config.js` and the markup and compares; when the bytes differ it
-  reports at the class level, which selectors the markup uses that the
-  committed file lacks and which are committed but no longer built, because
-  both files are one minified line and a plain diff says nothing.
 - **No page compiles Tailwind in the browser.** One grep for the CDN
-  compiler, which #14 removed from all six case studies.
+  compiler, which #14 removed from all six case studies; since 2026-10-30
+  none of them uses Tailwind at all.
 - **Contrast, at rest and in every reachable state** -- `resting.mjs` and
   `states.mjs`, both `--strict`. Neither covers the other: a color can be
   perfect at rest and fail on hover, and it can fail sitting still, which no
@@ -644,7 +642,7 @@ is; the browser checks use the runner image's Chrome and fall back to
 fetching Chromium. Locally, the same twelve scripts:
 
 ```
-npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
+npm install --no-save --no-audit --no-fund playwright-core
 export CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 node scripts/deployable.mjs               # the tree can be tarred into an artifact
 node scripts/tokens.mjs                   # every token the docs name actually exists

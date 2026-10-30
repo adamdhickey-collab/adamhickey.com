@@ -9,6 +9,14 @@ of the two, and reaching for the stylesheet first is how a spec's own errors
 survive — nothing re-reads a document that has been declared correct. The
 migration table at the end says which is which today.
 
+**One regime since 2026-10-30.** The six case studies that ran on Tailwind
+("regime B" below) moved onto the write-up template that day, and their cards
+are named rules in `case-study/case-cards.css`, in these same tokens. Every
+page loads `style.css`. What this document says about regime B, its counts,
+its breakpoint uses, and its seam, is the record of how the two were joined,
+kept because the decisions in it still hold; none of it describes a page
+any more.
+
 ---
 
 ## 1. The two families
@@ -635,7 +643,7 @@ stylesheet it loaded.
 | Regime | Pages | Loads |
 |---|---|---|
 | **A — `style.css`** | Homepage, 3 build write-ups, 4 engagements, this reference (9 pages) | `type.css` + `style.css` + `site-nav.css` |
-| **B — Tailwind + inline** | The 6 Tailwind case studies | `type.css` + `site-nav.css` + `case-motion.css` + Tailwind CDN + a per-page inline `<style>` base. **These pages still never load `style.css`** — see below. |
+| **B — Tailwind + inline** | Retired 2026-10-30. Was the 6 case studies | Was `type.css` + `site-nav.css` + `case-motion.css` + Tailwind + a per-page inline `<style>` base, with no `style.css`. The case studies load regime A's files now, plus `case-study/case-cards.css`. |
 | **C — the practice app** | `independent-practice/app/` | Its own `style.css`, unrelated to either. Not part of the site. |
 
 **`type.css` is what joins A and B.** The six Tailwind pages were never going
