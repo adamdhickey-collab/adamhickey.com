@@ -422,7 +422,11 @@
    the disc and the indent cannot drift), the decision centred on the disc,
    what the app does at the measure, and the guess under it, its label in
    the sage. They were the prototype page's .aiw-decisions until 2026-10-29,
-   with a disclosure of reasons each, which the one page leaves out. */
+   with a disclosure of reasons each, which the one page leaves out.
+   Since 2026-10-30 each carries a drawing in the storyboard's hand, on a
+   white tile with the figure's card edge: over the words to 64rem, and
+   from 64rem beside them, the list leaving the reading column for the
+   container as the map does, so the drawing and the words each get half. */
 .ia-decisions {
   --ia-num: 40px;
   list-style: none;
@@ -430,14 +434,24 @@
   padding: 0;
   counter-reset: ia-decision;
   display: grid;
-  gap: var(--space-2xl);
+  gap: var(--space-4xl);
 }
-.ia-decision {
-  counter-increment: ia-decision;
+.ia-decision { counter-increment: ia-decision; }
+.ia-decision-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin: 0 0 var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ia-decision-text {
   position: relative;
   padding-left: calc(var(--ia-num) + var(--space-sm));
 }
-.ia-decision::before {
+.ia-decision-text::before {
   content: counter(ia-decision, decimal-leading-zero);
   position: absolute;
   left: 0;
@@ -452,6 +466,21 @@
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
+}
+@media (min-width: 64rem) {
+  .ia-decisions {
+    position: relative;
+    left: 50%;
+    translate: -50% 0;
+    width: min(calc(100vw - 2 * var(--gutter)), calc(var(--container-max) - 2 * var(--gutter)));
+  }
+  .ia-decision {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+  .ia-decision-pic { margin: 0; }
 }
 .case-section .ia-decision h3 {
   min-height: var(--ia-num);
@@ -738,7 +767,7 @@
   width: 100%;
   max-width: 15rem;
   height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   margin: 0 0 var(--space-sm);
   border-radius: 12px;
 }
@@ -844,3 +873,99 @@
 /* Accessibility, under the five decisions: one paragraph, its lead in
    the semibold. */
 .ia-access { margin-top: var(--space-3xl); }
+
+/* THE TRAIL, in the closing chapter on charcoal: the three stretches of the
+   career the work drew on, each a picture over its years, a title that links
+   to the page telling it, its one sentence, and where the link goes. Until
+   2026-10-30 they were a bold-led list with nothing to press, on the one
+   chapter where a prose link cannot go (accent-text on charcoal fails
+   resting.mjs), so the trail sets its own inks: the warm for the title, the
+   secondary for the sentence, and sage on dark for the years and the go line,
+   7.47:1. It leaves the measure for the chapter's 56rem, which is what makes
+   three pictures across wide enough to see, from 720 as .build-eras does.
+
+   The title's link covers the card with a pseudo-element, so the whole step
+   is one target and a screen reader hears one link with the title's name;
+   the go line repeats it for the eye and is hidden from the tree. Hover
+   lifts the picture inside its frame by --motion-lift and underlines the
+   title; no ink changes, so states.mjs has no new color to measure. The
+   frame is a ring, not a border, on all four sides (curves.mjs). */
+.aisle-trail {
+  list-style: none;
+  margin: var(--space-2xl) 0 var(--space-3xl);
+  padding: 0;
+  display: grid;
+  gap: var(--space-2xl);
+}
+@media (min-width: 720px) {
+  .aisle-trail { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); }
+}
+.aisle-trail-step { position: relative; display: grid; gap: var(--space-xs); align-content: start; }
+.aisle-trail-art {
+  aspect-ratio: 16 / 9;
+  margin-bottom: var(--space-xs);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--rule-on-dark-strong);
+}
+.aisle-trail-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-move) var(--ease);
+}
+/* 16:9 because the SAP picture is, and its headline is part of it: a
+   narrower frame cut that headline mid-word. The studio picture is wider,
+   and anchors right so its logo stays whole; the site capture is taller,
+   and anchors at the top so its navigation stays. */
+.aisle-trail-art--right img { object-position: right center; }
+.aisle-trail-art--top img { object-position: center top; }
+.build-chapter.ground-charcoal .aisle-trail-when {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-on-dark);
+}
+.build-chapter.ground-charcoal .aisle-trail-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--ink-on-dark);
+}
+.aisle-trail-title a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+.aisle-trail-title a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-xl); }
+.aisle-trail-title a:focus-visible { outline: none; text-decoration: underline; }
+.aisle-trail-title a:focus-visible::after { outline: 2px solid var(--color-focus-ring); outline-offset: var(--space-xs); }
+.build-chapter.ground-charcoal .aisle-trail-text {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--ink-on-dark-secondary);
+}
+.build-chapter.ground-charcoal .aisle-trail-go {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-on-dark);
+}
+.aisle-trail-go span { display: inline-block; transition: transform var(--motion-move) var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .aisle-trail-step:hover .aisle-trail-art img { transform: scale(var(--motion-lift)); }
+  .aisle-trail-step:hover .aisle-trail-title a { text-decoration: underline; }
+  .aisle-trail-step:hover .aisle-trail-go span { transform: translateX(var(--space-2xs)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aisle-trail-art img, .aisle-trail-go span { transition: none; }
+}
