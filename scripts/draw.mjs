@@ -210,7 +210,7 @@ if (cmd === 'queue') {
   if (job.group) {
     const want = features.ACCENTS[job.group];
     const hue = Number(execFileSync('node', [resolve(root, 'scripts/lib/accent.mjs'), job.final], { cwd: root }).toString().trim());
-    const band = hue < 45 || hue > 330 ? 'release' : hue < 70 ? 'amber (no group)' : hue < 170 ? 'ai' : 'systems';
+    const band = hue < 45 || hue > 330 ? 'release' : hue < 70 ? 'amber (no group)' : hue < 170 ? 'ai' : hue < 270 ? 'systems' : 'judgment';
     const ok = band === job.group;
     console.log(`\n  ${ok ? '\u2713' : '\u2717'} accent hue ${hue} reads as ${band}; ${want.section} wants ${want.name} ${want.hex}`);
     if (!ok) console.log('    redraw it naming the colour again, or the index loses its three groups');

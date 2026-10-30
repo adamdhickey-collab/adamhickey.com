@@ -52,6 +52,7 @@ export const ACCENTS = {
   'ai':      { name: 'muted sage green',  hex: '#657d60', section: 'AI as the material' },
   'systems': { name: 'dusty slate blue',  hex: '#56718c', section: 'Designing with code' },
   'release': { name: 'warm terracotta',   hex: '#c0714e', section: 'Enterprise and operational software' },
+  'judgment':  { name: 'muted plum',        hex: '#7a5a78', section: 'The judgment' },
   /* The keys predate the 2026-09-17 regrouping and are what accent.mjs bins
      by, so they kept their names when the sections took the three leads'. */
 };
@@ -161,10 +162,10 @@ export const FEATURES = [
   },
   {
     id: 'what-does-a-design-system-need-once-ai-is-in-the-product',
-    group: 'release',
+    group: 'systems',
     device: 'repetition as texture, with a reveal on one hook',
-    alt: 'A large terracotta pegboard cropped by the frame, a straight row of six black hooks across its middle, five of them empty and the fourth holding one small butter-yellow tag.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta pegboard, a flat board with a regular grid of small round holes, drawn so big it is cropped by all four edges of the frame. Across the middle of the board, one straight row of six identical hooks, evenly spaced, each one a simple solid black shape. Five of the hooks are empty. From the fourth hook hangs one small plain tag, a rectangle with a black outline and a black string loop, and the tag is the reveal: it is filled butter yellow. No tools, no labels, no shelf. Nothing else on the board.`,
+    alt: 'A large slate blue pegboard cropped by the frame, a straight row of six black hooks across its middle, five of them empty and the fourth holding one small butter-yellow tag.',
+    prompt: `Same style, same hand as the reference. Cream ground. One large dusty slate blue pegboard, a flat board with a regular grid of small round holes, drawn so big it is cropped by all four edges of the frame. Across the middle of the board, one straight row of six identical hooks, evenly spaced, each one a simple solid black shape. Five of the hooks are empty. From the fourth hook hangs one small plain tag, a rectangle with a black outline and a black string loop, and the tag is the reveal: it is filled butter yellow. No tools, no labels, no shelf. Nothing else on the board.`,
   },
   {
     id: 'standardizing-ux-across-40-sap-fiori-apps',
@@ -181,14 +182,18 @@ export const FEATURES = [
      the index's sections since the regroup into The system, The build and
      The judgment, so each lead takes the colour that keeps its column from
      reading as one hue: slate for the system, sage for the build,
-     terracotta for the start and the judgment, the judgment's on a full
-     field so the two terracottas do not read as a pair. */
+     terracotta for the start, and, since 2026-10-30, muted plum for the
+     judgment, so each collection on the index is one colour of its own.
+     The two pieces under Start here sit on a warm light tan, #E3D2B4,
+     rather than the cream: the index is white now, and cream read as no
+     ground at all beside it. The four were redrawn from the shipped
+     pictures, colour only, composition kept. */
   {
     id: 'what-makes-a-good-product-designer-now',
     group: 'release',
     device: 'the structure behind the growth, with a reveal at its top',
     alt: 'A large terracotta garden trellis cropped by the frame, one solid black vine climbing it along the lattice, and one small butter-yellow flower open at the top of the vine.',
-    prompt: `Same style, same hand as the reference. Cream ground. One large warm terracotta garden trellis, a flat lattice of crossed slats in a diamond grid, seen exactly straight on, drawn so big it is cropped by the top and bottom edges of the frame and filling the middle third left to right, with cream ground either side. One vine, a single solid black winding shape with a few simple solid black leaves, climbs from the bottom edge up the lattice, following the slats, and stops just below the top edge. At the tip of the vine, one small open flower, the reveal, filled butter yellow with a black outline. No pot, no wall, no ground line. Nothing else in the picture.`,
+    prompt: `Same style, same hand as the reference. Warm light tan ground, #E3D2B4, edge to edge. One large warm terracotta garden trellis, a flat lattice of crossed slats in a diamond grid, seen exactly straight on, drawn so big it is cropped by the top and bottom edges of the frame and filling the middle third left to right, with cream ground either side. One vine, a single solid black winding shape with a few simple solid black leaves, climbs from the bottom edge up the lattice, following the slats, and stops just below the top edge. At the tip of the vine, one small open flower, the reveal, filled butter yellow with a black outline. No pot, no wall, no ground line. Nothing else in the picture.`,
   },
   /* The personal essay, 2026-10-27, first under "Start here": the plan
      for a career drawn as a map opened only as far as it has been walked.
@@ -197,7 +202,7 @@ export const FEATURES = [
     id: 'my-next-design-challenge',
     group: 'release',
     device: 'the object half-done: a row of research notes ending in a blank one, the pen still on it',
-    alt: 'A row of terracotta sticky notes stuck in a line across a cream wall, each carrying a few quick black marker scribbles, ending at the right in one blank butter-yellow note with a black marker pen resting its tip on it.',
+    alt: 'A row of terracotta sticky notes stuck in a line across a tan wall, each carrying a few quick black marker scribbles, ending at the right in one blank butter-yellow note with a black marker pen resting its tip on it.',
     prompt: `Same style, same hand as the reference. Cream ground, which is a wall seen exactly straight on, flat, with no perspective. Across the middle third of the frame, one straight horizontal row of five large square sticky notes, each filled warm terracotta with a thin black outline, the bottom corner of each curling up slightly, evenly spaced, the first note cropped by the left edge of the frame. Each terracotta note carries a few quick black marker marks: short scribbled lines, one small sketched box, one small arrow. The marks are not letters or words. At the right end of the row, one more note of the same size, the reveal, filled butter yellow with a black outline and completely blank. A thick black marker pen drawn as one solid black shape comes in diagonally from the lower right edge of the frame, cropped by it, and rests its tip on the blank note, as if about to write. No hands, no people, no table, no lettering anywhere. Nothing else in the picture.`,
   },
   {
@@ -216,10 +221,10 @@ export const FEATURES = [
   },
   {
     id: 'who-decides-when-software-can-act-on-its-own',
-    group: 'release',
+    group: 'judgment',
     device: 'object on an accent field; a no as cheap as a yes',
-    alt: 'A cream seesaw on a terracotta field, drawn flat from the side, its plank perfectly level on a solid black triangular pivot, cropped by the left and right edges.',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. One long playground seesaw in cream with black outlines, drawn as a strict flat side elevation with no perspective: one long thick plank, so long it is cropped by the left and right edges of the frame, resting exactly level across the middle of the picture on one pivot, a solid black triangle standing on the bottom edge of the frame and cropped by it. The plank is perfectly horizontal, tipped neither way. Two plain handles, small upright cream loops with black outlines, one near each end of the visible plank, the same height. No people, no ground line, no shadow. Nothing else in the picture.`,
+    alt: 'A cream seesaw on a plum field, drawn flat from the side, its plank perfectly level on a solid black triangular pivot, cropped by the left and right edges.',
+    prompt: `Same style, same hand as the reference. The ground is the full muted plum, edge to edge, instead of cream. One long playground seesaw in cream with black outlines, drawn as a strict flat side elevation with no perspective: one long thick plank, so long it is cropped by the left and right edges of the frame, resting exactly level across the middle of the picture on one pivot, a solid black triangle standing on the bottom edge of the frame and cropped by it. The plank is perfectly horizontal, tipped neither way. Two plain handles, small upright cream loops with black outlines, one near each end of the visible plank, the same height. No people, no ground line, no shadow. Nothing else in the picture.`,
   },
   /* The build's third since 2026-10-21. A desire path: the paved walk is
      what the team designed and reviewed, the worn line across the grass is

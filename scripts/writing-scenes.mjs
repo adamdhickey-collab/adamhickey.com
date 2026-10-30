@@ -87,11 +87,11 @@ export const SCENES = [
   },
   {
     id: 'what-does-a-design-system-need-once-ai-is-in-the-product',
-    group: 'release',
+    group: 'systems',
     device: 'the same row, full, and the tag no hook was made for',
     caption: 'Six components, six states, and the one thing the system was never given a hook for, hanging from the board itself.',
-    alt: 'The terracotta pegboard with its row of six black hooks each holding a small cream tag, the fourth tag filled dusty rose, and a seventh cream tag hanging from a hole in the board to the right of the row where there is no hook.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same large warm terracotta pegboard as before, cropped by all four edges, with the same straight row of six solid black hooks across its middle. Now every hook holds one small plain tag, a rectangle with a black outline and a black string loop, six identical cream tags, except that the tag on the fourth hook is filled dusty rose instead of cream. To the right of the row, one more cream tag hangs by its string loop straight from a hole in the board itself, where there is no hook. No tools, no labels, no shelf. Nothing else on the board.`,
+    alt: 'The slate blue pegboard with its row of six black hooks each holding a small cream tag, the fourth tag filled dusty rose, and a seventh cream tag hanging from a hole in the board to the right of the row where there is no hook.',
+    prompt: `Same style, same hand as the reference. Cream ground. The same large dusty slate blue pegboard as before, cropped by all four edges, with the same straight row of six solid black hooks across its middle. Now every hook holds one small plain tag, a rectangle with a black outline and a black string loop, six identical cream tags, except that the tag on the fourth hook is filled dusty rose instead of cream. To the right of the row, one more cream tag hangs by its string loop straight from a hole in the board itself, where there is no hook. No tools, no labels, no shelf. Nothing else on the board.`,
   },
   {
     id: 'standardizing-ux-across-40-sap-fiori-apps',
@@ -108,15 +108,15 @@ export const SCENES = [
     device: 'the same trellis, one shoot cut back',
     caption: 'The line where a person decides: the system carries what grows along it, and someone still chooses what is cut back.',
     alt: 'The terracotta trellis again, closer, its black vine following the lattice, and one shoot that grew off the lattice into empty ground cut cleanly, the cut piece lying below it with a dusty-rose cut face.',
-    prompt: `Same style, same hand as the reference. Cream ground. The same warm terracotta garden trellis as before, seen exactly straight on, now closer, so the diamond lattice is cropped by the top, left and bottom edges and ends a little right of the middle, with cream ground to its right. The same solid black vine with simple solid black leaves climbs along the slats. Halfway up, one shoot grew off the edge of the lattice into the empty cream to the right, and it has been cut: the stub ends cleanly at the trellis edge, and the cut piece, a short solid black length of shoot with two leaves, lies on the bottom edge of the frame below it. The reveal: the two cut ends are each a small oval filled dusty rose. No shears, no hands, no ground line. Nothing else in the picture.`,
+    prompt: `Same style, same hand as the reference. Warm light tan ground, #E3D2B4, edge to edge. The same warm terracotta garden trellis as before, seen exactly straight on, now closer, so the diamond lattice is cropped by the top, left and bottom edges and ends a little right of the middle, with cream ground to its right. The same solid black vine with simple solid black leaves climbs along the slats. Halfway up, one shoot grew off the edge of the lattice into the empty cream to the right, and it has been cut: the stub ends cleanly at the trellis edge, and the cut piece, a short solid black length of shoot with two leaves, lies on the bottom edge of the frame below it. The reveal: the two cut ends are each a small oval filled dusty rose. No shears, no hands, no ground line. Nothing else in the picture.`,
   },
   {
     id: 'my-next-design-challenge',
     group: 'release',
     device: 'the same row of notes, the next ones not written yet',
     caption: 'The wall only goes as far as what I’ve learned so far. The next note gets written after the next conversation.',
-    alt: 'The same row of terracotta sticky notes, cropped at the left, the butter-yellow note now carrying one short black line, and beyond it to the right three empty squares drawn only in black dashed outline on the cream wall where the next notes will go.',
-    prompt: `Same style, same hand as the reference. Cream ground, the same wall seen exactly straight on, flat, with no perspective. The same row of large square sticky notes as before across the middle third of the frame, now in the left half: three warm terracotta notes with thin black outlines and a few quick black marker scribbles, the first cropped by the left edge, then the same butter-yellow note, the reveal, which now carries one single short black marker line and nothing else. To its right, continuing the row into the right half, three empty squares of the same size drawn only as thin black dashed outlines on the cream wall, with nothing inside them: the places for notes not written yet. No pen, no hands, no people, no lettering anywhere. Nothing else in the picture.`,
+    alt: 'The same row of terracotta sticky notes, cropped at the left, the butter-yellow note now carrying one short black line, and beyond it to the right three empty squares drawn only in black dashed outline on the tan wall where the next notes will go.',
+    prompt: `Same style, same hand as the reference. Warm light tan ground, #E3D2B4, the same wall seen exactly straight on, flat, with no perspective. The same row of large square sticky notes as before across the middle third of the frame, now in the left half: three warm terracotta notes with thin black outlines and a few quick black marker scribbles, the first cropped by the left edge, then the same butter-yellow note, the reveal, which now carries one single short black marker line and nothing else. To its right, continuing the row into the right half, three empty squares of the same size drawn only as thin black dashed outlines on the tan wall, with nothing inside them: the places for notes not written yet. No pen, no hands, no people, no lettering anywhere. Nothing else in the picture.`,
   },
   {
     id: 'what-changes-when-ai-agents-join-the-product-team',
@@ -136,11 +136,11 @@ export const SCENES = [
   },
   {
     id: 'who-decides-when-software-can-act-on-its-own',
-    group: 'release',
+    group: 'judgment',
     device: 'the same seesaw, tipped by what was put on it',
     caption: 'Reliance that matches the evidence: the decision tips by what has been put on it to check, not by how sure the system sounds.',
-    alt: 'The cream seesaw on its terracotta field again, its plank now tipped down to the left on the black pivot, a small stack of three cream cards at the low end, and one card in the middle of the stack dusty rose.',
-    prompt: `Same style, same hand as the reference. The ground is the full warm terracotta, edge to edge, instead of cream. The same long cream seesaw as before, in the same strict flat side elevation, on the same solid black triangular pivot standing on the bottom edge, still cropped by the left and right edges of the frame. The plank is now tipped down on the left side at a gentle angle, the left end low and the right end high. On the plank near the low left end sits one small neat stack of three plain cards, flat cream rectangles with black outlines, and the reveal: the middle card of the stack is filled dusty rose. Nothing on the high end. No people, no shadow. Nothing else in the picture.`,
+    alt: 'The cream seesaw on its plum field again, its plank now tipped down to the left on the black pivot, a small stack of three cream cards at the low end, and one card in the middle of the stack dusty rose.',
+    prompt: `Same style, same hand as the reference. The ground is the full muted plum, edge to edge, instead of cream. The same long cream seesaw as before, in the same strict flat side elevation, on the same solid black triangular pivot standing on the bottom edge, still cropped by the left and right edges of the frame. The plank is now tipped down on the left side at a gentle angle, the left end low and the right end high. On the plank near the low left end sits one small neat stack of three plain cards, flat cream rectangles with black outlines, and the reveal: the middle card of the stack is filled dusty rose. Nothing on the high end. No people, no shadow. Nothing else in the picture.`,
   },
   {
     id: 'how-should-you-test-a-product-now-that-ai-can-help',
