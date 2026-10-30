@@ -9,17 +9,27 @@
    in the same column you had to scroll past to compare.
 
    From 64rem both lists take --col-full. Start here is its two pieces side
-   by side, each its drawing over its words, so the two the page asks you
-   to read first are the two you see first. The three collections become
-   three columns, each its eyebrow, its one-line description, and its
-   entries stacked, so a reader takes the system, the build, and the
-   judgment in at once. The columns are a subgrid of three rows, so the
-   lists start on one line however long each description runs.
+   by side, so the two the page asks you to read first are the two you see
+   first. The three collections become three columns, each its eyebrow,
+   its description, and its entries stacked, so a reader takes the system,
+   the build, and the judgment in at once. The columns are a subgrid of
+   four rows, so the lists start on one line however long each
+   description runs, and the three descriptions are written to one length
+   so they end together too.
+
+   SMALL DRAWINGS, since 2026-10-30. The first cut stacked each drawing
+   over its words at the column's full width: a 16:9 picture 580px across
+   in Start here and 380px in each column, so the drawings were most of
+   the page and the titles sat a screen below their headings. A drawing
+   here is a door's sign, not its content. Each entry is now the drawing
+   at a fixed small width beside its title and read time, with the dek
+   under both, which is the order a reader scans a list in: what it is,
+   how long, then what it says. From 80rem the drawing is 14rem in Start
+   here and 7rem in a column; between 64 and 80rem, 10rem and 6rem, where
+   a column is about 296px and 7rem would leave the title under 170.
 
    Under 64rem nothing changes: the rows and their 768 breakpoint in
-   style.css still hold. A third of 1216px is about 380px a column, the
-   narrowest a two-line serif title and its dek read well at; at 1024 the
-   frame gives each about 296px, which is still a card, not a list row. */
+   style.css still hold. */
 @media (max-width: 63.98rem) {
   .writing-collection + .writing-collection { margin-top: var(--space-3xl); }
 }
@@ -28,16 +38,8 @@
   .writing-list--pair,
   .writing-collections { max-width: var(--col-full); }
 
-  /* Each entry stacks: the drawing over its words, whatever the column. */
-  .writing-list--pair .writing-link,
-  .writing-collections .writing-link {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-xl);
-  }
-
-  /* Start here: two cards across, no hairline between, since the gap
-     separates them. The padding above is the eyebrow's distance from its
-     list in a collection column, so both sections open the same way. */
+  /* Start here: two entries across, no hairline between, since the gap
+     separates them. */
   .writing-list--pair {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -47,25 +49,68 @@
   .writing-list--pair .writing-link { padding: var(--space-xl) 0 var(--space-3xl); }
   /* style.css means the two sections to meet at 80px, the link's 40 and
      the next section's 40, but a later section rule puts --space-section
-     back under this one and the gap measured 176. Side by side, the two
-     cards and the three columns read as one board only at the 80. */
+     back under this one and the gap measured 176. */
   .case-section.writing-start { padding-bottom: 0; }
 
   /* The collections: three columns, each a subgrid of eyebrow,
-     description, and list, so the three lists share a top edge. */
+     description, and two entries, so the three lists share a top edge and
+     a column's second entry starts level with its neighbour's however
+     long the first one's dek runs. The list is a subgrid of the last two
+     rows, so it stays a list. A column with one entry leaves the fourth
+     row empty. */
   .writing-collections {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto auto auto;
+    grid-template-rows: repeat(4, auto);
     column-gap: var(--space-3xl);
   }
   .writing-collection {
     display: grid;
-    grid-row: span 3;
+    grid-row: span 4;
     grid-template-rows: subgrid;
     row-gap: 0;
     align-content: start;
   }
-  .writing-collection .writing-link { padding: var(--space-xl) 0 var(--space-2xl); }
-  .writing-collection .writing-item + .writing-item .writing-link { padding-top: var(--space-2xl); }
+  .writing-collection .writing-list {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+
+  /* Every entry: the drawing beside the title and read time, the dek
+     under both at the full width of its column. The text wrapper steps
+     aside so its three children land in the link's own grid. */
+  .writing-list--pair .writing-link,
+  .writing-collection .writing-link {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    grid-template-areas:
+      "card title"
+      "card meta"
+      "dek  dek";
+    grid-template-rows: auto 1fr auto;
+    column-gap: var(--space-xl);
+    row-gap: 0;
+  }
+  .writing-collection .writing-link {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    column-gap: var(--space-md);
+    padding: var(--space-xl) 0;
+  }
+  .writing-list--pair .writing-text,
+  .writing-collection .writing-text { display: contents; }
+  .writing-list--pair .writing-card,
+  .writing-collection .writing-card { grid-area: card; }
+  .writing-list--pair .writing-title,
+  .writing-collection .writing-title { grid-area: title; margin: 0; }
+  .writing-collection .writing-title { font-size: var(--text-xl); }
+  .writing-list--pair .writing-meta,
+  .writing-collection .writing-meta { grid-area: meta; margin-top: var(--space-xs); }
+  .writing-list--pair .writing-dek,
+  .writing-collection .writing-dek { grid-area: dek; margin-top: var(--space-md); }
+}
+
+@media (min-width: 80rem) {
+  .writing-list--pair .writing-link { grid-template-columns: 14rem minmax(0, 1fr); }
+  .writing-collection .writing-link { grid-template-columns: 7rem minmax(0, 1fr); }
 }
