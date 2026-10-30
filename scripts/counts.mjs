@@ -202,8 +202,8 @@ const CLAIMS = [
     says: 'across all twenty-five pages',
     n: 25, what: 'pages, as How it\'s enforced states them', of: () => PAGES.length },
   { doc: 'design-system/index.html',
-    says: 'Fourteen of them',
-    n: 14, what: 'component entries on the page',
+    says: 'Sixteen of them',
+    n: 16, what: 'component entries on the page',
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
