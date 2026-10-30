@@ -1,0 +1,36 @@
+/* side-pair.css -- a run of prose with its picture beside it.
+
+   The design audit of 2026-10-30 found the right half of a 1440px screen
+   empty wherever a page runs three or more paragraphs with no figure, and
+   a fixed "On this page" index was tried for that band and dropped: the
+   full-width figures cross it so often it would have been hidden from 36
+   to 82% of the way down the pages it was meant for. The emptiness is in
+   the prose runs, so the answer goes in them: the run keeps the measure on
+   the logo's line, as one-edge layout (#890) asks, and the picture that
+   belongs to it stands in the band beside it rather than after it.
+
+   From 64rem the text takes the measure and the picture the rest of the
+   frame, top-aligned with the first line. Below that they stack, the
+   picture after the text at the width most figures take. The picture is
+   the page's own figure, not a decoration: it carries real alt text, and a
+   pair is used only where a picture already belongs to that run. */
+.side-pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); margin-bottom: var(--space-3xl); }
+.side-pair-art { margin: 0; max-width: var(--col-wide); }
+.side-pair-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-media);
+}
+.side-pair-text > :first-child { margin-top: 0; }
+.side-pair-text > :last-child { margin-bottom: 0; }
+@media (min-width: 64rem) {
+  .container > .side-pair { width: var(--col-full); max-width: var(--col-full); }
+  .side-pair {
+    grid-template-columns: minmax(0, var(--measure)) minmax(0, 1fr);
+    gap: var(--space-4xl);
+    align-items: start;
+  }
+  .side-pair-art { max-width: none; }
+}
