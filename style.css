@@ -6923,14 +6923,29 @@ p.try-live {
    slice at 480x320), not a change here. Under the ceiling the tile is the
    step's whole column, as above.
 
+   THE CARD IS AS WIDE AS ITS STEPS, since 2026-10-30 (Adam: "the width
+   be dynamic based on how many steps there are ... the max is five
+   steps"). A step is one width on every rail: a fifth of a rail of five
+   at the page's width, less the gaps and the inset. A rail of five fills
+   the page as before; four and three are that many steps wide and stay
+   centered on the column, so three bets no longer spread across a frame
+   built for five. At 1440 a step is about 202px, and a rail of three is
+   about 750px against the page's 1216.
+
    1024px is the site's wide breakpoint, where four-across grids begin;
    below it the rail stays in the column as it was. The scenes rail is
    excepted: it takes the 990px frame of its own page's phone rows. */
 @media (min-width: 1024px) {
   .writing-measure > .writing-rail:not(.writing-rail--scenes) {
-    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
+    --rail-n: 5;
+    /* The 2px is the card's two 1px borders: the width is border-box. */
+    --rail-step: (min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter)) - 2 * var(--space-3xl) - 2px - 4 * var(--space-2xl)) / 5;
+    --rail-w: calc(var(--rail-n) * var(--rail-step) + (var(--rail-n) - 1) * var(--space-2xl) + 2 * var(--space-3xl) + 2px);
+    width: var(--rail-w);
+    margin-inline-start: calc(50cqi - var(--rail-w) / 2);
   }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(5))) { --rail-n: 4; }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { --rail-n: 3; }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps {
     --rail-tile: min(15rem, (100cqi - 4 * var(--space-2xl)) / 5);
     gap: var(--space-2xl);
