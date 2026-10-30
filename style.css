@@ -6724,30 +6724,34 @@ p.try-live {
 
 /* THE RAIL, a fourth figure kind since 2026-10-20: a sequence worth seeing
    as well as reading. Each step is a small drawing with its number, name
-   and one line, and one sage line joins the drawings, after the loop on
-   Agent Review (lab/agent-review.css, "the loop, as one line"), whose look
-   it takes. The drawings are ChatGPT's, made as one sheet per figure so
+   and one line. The drawings are ChatGPT's, made as one sheet per figure so
    every step is in one hand, and cut to tiles at one shared scale; the
    words are the page's own, so a reader, a screen reader and the checks
    all read the same text, and every drawing is alt="". A figure with a
    label is still code: the drawing carries no word.
 
-   STACKED BY DEFAULT, which is the phone: the drawing beside its words,
-   the line down the drawings' centres. From 34rem of figure the steps go
-   across in equal columns, each drawing over its words and the line
-   through the drawings' middles. Either way the line is each step's
-   ::before, running from the edge of its drawing's tile to the edge of the
-   next one, so it meets the next one whatever height or width the words
-   take, and shows only between drawings. (It ran from tile centre to tile
-   centre under an opaque white tile until #566 put the rail on a tinted
-   zone the tile had to let through; on the white card below, edge to edge
-   draws the same line.)
+   STACKED BY DEFAULT, which is the phone: the drawing beside its words.
+   From 34rem of figure the steps go across in equal columns, each drawing
+   over its words.
 
-   THE TILE IS 3:2 AND ITS WIDTH IS A LENGTH, never a percentage: the
-   line's top is half the tile's height, a third of its width, and a
-   percentage there would be read against the step's height. 3:2 because
-   most of the drawings are wider than tall; a square left them a band of
-   white above and below and broke the stacked line into short dashes.
+   NO LINE JOINS THE STEPS, since 2026-10-30. One sage line ran from each
+   drawing to the next, after the loop on Agent Review, and it said every
+   rail was a sequence when several are not: three kinds of work, five
+   things a component carries, three bets (Adam: "Some of them aren't even
+   linear processes ... it would make it cleaner"). The numbers keep the
+   order where there is one.
+
+   THE DRAWING STANDS ON THE TEXT'S LEFT EDGE. Each tile was cut 360x240
+   from its sheet with its glyph centred in white, so the glyph sat 20 to
+   99px in from the number under it. The tiles are trimmed to their ink
+   across and keep the full 240 down, and print at a height of two thirds
+   of --rail-tile with their width following: every drawing at the one
+   shared scale it was cut at, and every one starting where its words do.
+
+   THE TILE IS 3:2 AND ITS WIDTH IS A LENGTH, never a percentage, so a
+   rail of three, four or five prints its drawings at a size set by the
+   figure rather than by the step's words. 3:2 because most of the
+   drawings are wider than tall.
    Across, the width is the column's, capped: a rail of five fills the
    article's column at 9rem a tile, and a rail of three would otherwise
    print its drawings at the same small size in a column twice as wide.
@@ -6822,41 +6826,42 @@ p.try-live {
   color: var(--color-muted-gray);
 }
 .writing-measure .writing-rail-steps li::before { content: none; }
-.writing-measure .writing-rail-steps li:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  left: calc(var(--rail-tile) / 2);
-  top: calc(var(--rail-tile) * 2 / 3);
-  width: 1.5px;
-  height: calc(100% + var(--space-xl) - var(--rail-tile) * 2 / 3);
-  border-radius: 0;
-  background: var(--color-accent-text);
-}
 .writing-rail-steps img {
-  position: relative;
-  z-index: 1;
   grid-column: 1;
   grid-row: 1 / -1;
+  justify-self: start;
   display: block;
   width: 100%;
   height: auto;
+}
+.writing-rail:not(.writing-rail--scenes) .writing-rail-steps img {
+  width: auto;
+  height: calc(var(--rail-tile) * 2 / 3);
 }
 .writing-rail-num {
   grid-column: 2;
   grid-row: 1;
   padding-top: var(--space-xs);
+  margin-bottom: var(--space-2xs);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-text);
 }
+/* The words are set as the Agent Review loop's are (.build-loop), at
+   every width, since 2026-10-30 (Adam: "the side rail text is too large
+   ... match more of what's in this image"): the number at --text-xs, the
+   name in --text-sm semibold charcoal, its line in --text-sm muted. Until
+   then the name was --text-base and, from 1024px, --text-lg over a line
+   at the body size, so a figure's captions read louder than the
+   paragraphs around them. */
 .writing-measure .writing-rail-steps strong {
   grid-column: 2;
   grid-row: 2;
-  margin: var(--space-2xs) 0;
-  font-size: var(--text-base);
+  margin: 0;
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
 .writing-rail-steps li > span:last-child { grid-column: 2; grid-row: 3; }
@@ -6874,13 +6879,8 @@ p.try-live {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
   }
-  .writing-measure .writing-rail-steps li:not(:last-child)::before {
-    left: var(--rail-tile);
-    top: calc(var(--rail-tile) / 3);
-    width: calc(100% + var(--space-md) - var(--rail-tile));
-    height: 1.5px;
-  }
   .writing-rail-steps img { grid-row: auto; width: var(--rail-tile); margin-bottom: var(--space-sm); }
+  .writing-rail:not(.writing-rail--scenes) .writing-rail-steps img { width: auto; }
   .writing-rail-num { grid-column: 1; grid-row: auto; padding-top: 0; }
   .writing-measure .writing-rail-steps strong { grid-column: 1; grid-row: auto; }
   .writing-rail-steps li > span:last-child { grid-column: 1; grid-row: auto; }
@@ -6892,16 +6892,16 @@ p.try-live {
    step's name broke onto two lines and its line onto three, and one
    step's words ran up against the next across a 16px gap, so the figure
    read as a crowd of small things rather than one sequence. Out of it the
-   same four are 280px a step with --space-2xl between them, and the type
-   steps up one each: the line to the body size, the name to --text-lg,
-   the number to --text-xs.
+   same four are 280px a step with --space-2xl between them. The type
+   stepped up one size here until 2026-10-30; it now holds the column's
+   sizes, the loop's, so the wider steps buy room rather than volume.
 
    The tile's ceiling is 15rem here rather than 11.25. The tiles are 360px,
    so at 240 a 2x screen draws each at 1.33 of its pixels; rendered at 2x
    beside the old ceiling, the drawings, soft-edged to begin with, carry
    it. A sharper tile is a fresh cut from the figure's sheet (draw.mjs
    slice at 480x320), not a change here. Under the ceiling the tile is the
-   step's whole column, as above, and the line keeps the gap.
+   step's whole column, as above.
 
    1024px is the site's wide breakpoint, where four-across grids begin;
    below it the rail stays in the column as it was. The scenes rail is
@@ -6917,9 +6917,6 @@ p.try-live {
   }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(15rem, (100cqi - 3 * var(--space-2xl)) / 4); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(15rem, (100cqi - 2 * var(--space-2xl)) / 3); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li { font-size: var(--text-base); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps strong { font-size: var(--text-lg); }
 }
 /* A rail of scenes, since 2026-10-22: Lucy Learns's three tries, drawn in
    the app's own art rather than the rails' line hand -- the entry hall,
@@ -6934,9 +6931,8 @@ p.try-live {
    percentage there would be the 52ch measure's.
 
    Across, the tile is the step's whole column. A scene is not a drawing
-   floating on white, and a band of white either side of it would only
-   shorten the line. The line keeps its place in the gap between pictures,
-   which is --space-2xl here so that it still reads as a line.
+   floating on white, so it is not trimmed, and its frame already starts
+   on its words' left edge.
 
    The corners are the app's, whose pictures sit in rounded frames; this
    page's other two from that set (.build-mode-shot) take 10px. Stacked,
@@ -6953,8 +6949,7 @@ p.try-live {
    In the column, four across would be 113px a room at 640 and 141 at
    768, under the 160 they are stacked on a phone. So until the card is
    46rem inside, wide enough for four at 160, they sit two and two at
-   about 250, and the line runs within each row: 02 has nothing to its
-   right to join. */
+   about 250. */
 .writing-rail--scenes .writing-rail-steps img { border-radius: 10px; }
 .writing-rail.writing-rail--scenes .writing-rail-steps { --rail-tile: 10rem; }
 @container writing-rail (min-width: 34rem) {
@@ -6963,7 +6958,6 @@ p.try-live {
     gap: var(--space-2xl);
   }
   .writing-rail.writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) { --rail-tile: calc((100cqi - 3 * var(--space-2xl)) / 4); }
-  .writing-measure .writing-rail--scenes .writing-rail-steps li:not(:last-child)::before { width: calc(100% + var(--space-2xl) - var(--rail-tile)); }
 }
 @container writing-rail (min-width: 34rem) and (max-width: 45.99rem) {
   .writing-rail.writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) {
@@ -6972,7 +6966,6 @@ p.try-live {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: var(--space-xl);
   }
-  .writing-measure .writing-rail--scenes .writing-rail-steps:has(> li:nth-child(4)) > li:nth-child(2)::before { content: none; }
 }
 @media (min-width: 56rem) {
   .writing-measure > .writing-rail--scenes {
