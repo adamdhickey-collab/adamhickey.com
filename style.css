@@ -488,23 +488,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 @media (min-width: 768px) { .case-grid--lab { grid-template-columns: 1fr; gap: var(--space-2xl); } }
 
 /* --- Cross-document view transitions ------------------------------------
-   Clicking a case card morphs its thumbnail into the case study page's
-   hero image (setupCaseMorph names the clicked thumb; each case page's
-   hero carries the matching view-transition-name). Browsers without
-   support simply navigate normally, and reduced-motion users opt out.
-   Disabled on mobile widths too: the morph is a desktop flourish, and
-   on phones (where this navigation is the primary way through the
-   site) a plain, instant page change reads as more responsive. */
+   A plain cross-fade between pages. No element carries a
+   view-transition-name, so nothing moves across the page change; the
+   thumbnail-to-hero morph came out on 2026-10-30. Reduced-motion users
+   and phone widths navigate instantly. */
 @view-transition { navigation: auto; }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
 @media (max-width: 767.98px) {
   @view-transition { navigation: none; }
-}
-::view-transition-group(case-hero) {
-  animation-duration: var(--motion-enter);
-  animation-timing-function: var(--ease);
 }
 
 .case-card { display: block; text-align: left; }

@@ -9,7 +9,7 @@
    Scrub model (matches the home page): animations have no clock — the
    scrollbar is the playhead. Scrolling down plays each element in;
    scrolling up rewinds it. "in" elements ramp 0→1 over a slice of
-   viewport travel after they enter; the hero uses page scroll directly.
+   viewport travel after they enter. The hero image does not move.
 
    Never runs for reduced-motion users; without JS no classes are added
    and the page renders fully resolved.
@@ -29,7 +29,6 @@
     var c1 = 1.70158, c3 = c1 + 1;
     return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
   }
-  function linear(p) { return p; }
   function hasCls(el, s) {
     return typeof el.className === 'string' && el.className.indexOf(s) !== -1;
   }
@@ -52,8 +51,9 @@
     });
   }
 
-  /* ---- hero image: parallax driven by raw page scroll ---- */
-  reg(document.querySelector('img.vt-case-hero'), 'cm-hero', { mode: 'page', ease: linear });
+  /* The hero image holds still. It used to drift down and grow as the page
+     scrolled away from the top, which on top of the page change read as
+     the picture flying in; it came out on 2026-10-30. */
 
   /* ---- page-load choreography: read time → title → meta row ---- */
   var h1 = document.querySelector('main h1');
@@ -144,21 +144,16 @@
   function update() {
     ticking = false;
     var vh = window.innerHeight;
-    var sy = window.scrollY || window.pageYOffset;
     var i, it, r, p;
     for (i = 0; i < items.length; i++) {
       it = items[i];
-      if (it.mode !== 'page') {
-        r = it.el.getBoundingClientRect();
-        it.top = r.top;
-        it.h = r.height;
-      }
+      r = it.el.getBoundingClientRect();
+      it.top = r.top;
+      it.h = r.height;
     }
     for (i = 0; i < items.length; i++) {
       it = items[i];
-      if (it.mode === 'page') {
-        p = clamp01(sy / (vh * 0.9));
-      } else if (it.mode === 'through') {
+      if (it.mode === 'through') {
         p = clamp01((vh - it.top) / (vh + it.h));
       } else {
         p = clamp01(((vh - it.top) / vh - it.lead) / it.span);
