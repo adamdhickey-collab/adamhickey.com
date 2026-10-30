@@ -6,9 +6,10 @@
    THE SET (.ff-set). The seven prints, simulated on paper by the studio
    (../faunaform output/six/stills/<animal>-paper.jpg, encoded at 800px),
    each with its hour and its animal under it and then its four inks, in
-   the order they are pulled: light, sun, sky, deep. It breaks out of the
-   896px column to the hero's width, four over three like the set on a
-   wall, two by two on a phone. The prints are paper with their own margin,
+   the order they are pulled: light, sun, sky, deep. It takes the page's
+   full width, --col-full, from the column's left edge, four over three
+   like the set on a wall, two by two on a phone; every row, word and chip
+   starts on the left, the logo's line (SPACING.md section 4). The prints are paper with their own margin,
    so the figure sits on a ground that is not white (the section's tea) and
    each print carries the card shadow that says it is an object on it.
 
@@ -35,27 +36,24 @@
   --ff-bear-light: #f4bd72;   --ff-bear-sun: #f0812c;   --ff-bear-sky: #6f82b8;   --ff-bear-deep: #3a2536;
   --ff-fox-light: #f3a457;    --ff-fox-sun: #e2452b;    --ff-fox-sky: #6d6eae;    --ff-fox-deep: #2b2142;
   --ff-rabbit-light: #b98aad; --ff-rabbit-sun: #f2c27a; --ff-rabbit-sky: #455284; --ff-rabbit-deep: #12172e;
-  /* The hero's width: the container's, or the viewport less its gutters. */
-  --ff-set-w: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
-  width: var(--ff-set-w);
-  margin-inline: calc((100% - var(--ff-set-w)) / 2);
+  /* Until 2026-10-30 this asked for the full width and the column's
+     --col-wide cap held it to 832px, a print 193px wide at 1440. */
+  width: var(--col-full);
+  max-width: var(--col-full);
 }
-/* Eight half columns, each print two wide, the three centred under the
-   four; a phone's is four, two prints a row, the hare centred alone. */
+/* Four columns, the three under the four starting on the left; a phone's
+   is two, the hare alone on the left. */
 .ff-set-row {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-xl) var(--space-md);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.ff-set-print { grid-column: span 2; min-width: 0; text-align: center; }
-.ff-set-print:last-child { grid-column: 2 / span 2; }
+.ff-set-print { min-width: 0; }
 @media (min-width: 40rem) {
-  .ff-set-row { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: var(--space-2xl) var(--space-lg); }
-  .ff-set-print:last-child { grid-column: auto / span 2; }
-  .ff-set-print:nth-child(5) { grid-column: 2 / span 2; }
+  .ff-set-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2xl) var(--space-lg); }
 }
 .ff-set-print img {
   display: block;
@@ -81,7 +79,6 @@
 /* The four inks, pulled left to right. */
 .ff-set-inks {
   display: flex;
-  justify-content: center;
   gap: var(--space-2xs);
   margin-top: var(--space-xs);
 }
@@ -97,7 +94,7 @@
 .ff-set-print--bear   i:nth-child(1) { background: var(--ff-bear-light); }   .ff-set-print--bear   i:nth-child(2) { background: var(--ff-bear-sun); }   .ff-set-print--bear   i:nth-child(3) { background: var(--ff-bear-sky); }   .ff-set-print--bear   i:nth-child(4) { background: var(--ff-bear-deep); }
 .ff-set-print--fox    i:nth-child(1) { background: var(--ff-fox-light); }    .ff-set-print--fox    i:nth-child(2) { background: var(--ff-fox-sun); }    .ff-set-print--fox    i:nth-child(3) { background: var(--ff-fox-sky); }    .ff-set-print--fox    i:nth-child(4) { background: var(--ff-fox-deep); }
 .ff-set-print--rabbit i:nth-child(1) { background: var(--ff-rabbit-light); } .ff-set-print--rabbit i:nth-child(2) { background: var(--ff-rabbit-sun); } .ff-set-print--rabbit i:nth-child(3) { background: var(--ff-rabbit-sky); } .ff-set-print--rabbit i:nth-child(4) { background: var(--ff-rabbit-deep); }
-.ff-set figcaption { text-align: center; margin: var(--space-2xl) auto 0; }
+.ff-set figcaption { margin: var(--space-2xl) 0 0; }
 
 /* The Cosmos picks: references, so one row of four at the column's width
    (two by two on a phone) rather than pictures the size of the work. They
