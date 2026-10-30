@@ -207,8 +207,8 @@ const CLAIMS = [
     of: () => countClass('design-system/index.html', 'ds-component') },
 
   { doc: 'COLOR.md',
-    says: 'It is loaded by nineteen pages',
-    n: 19, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
+    says: 'It is loaded by twenty pages',
+    n: 20, what: 'pages loading style.css', of: () => pagesLoading('style.css') },
 
   { doc: 'COLOR.md',
     says: 'token files are loaded by all twenty-five',
