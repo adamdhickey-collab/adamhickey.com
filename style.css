@@ -3157,6 +3157,14 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    is the taller column.
    The Lucy Learns phones are a.mini-phone, as on the homepage, and lift
    whole under the rule up there. */
+/* How I work's four parts are four white bands in a row. Each carries
+   --space-section top and bottom, so where two touch the reader crossed both
+   paddings, twice the gap between any other two bands on the site and wider
+   than the part it was separating. Between two bands is one --space-section
+   (SPACING.md section 6), and the h2's sage rule marks the seam. Scoped to
+   the page: a build write-up's chapters touch too, but on different grounds,
+   where the padding is the ground's own. */
+.eng3-part + .eng3-part { padding-top: 0; }
 .eng3-proof-card {
   display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
   background: var(--color-warm); border-radius: 16px;
@@ -5134,6 +5142,9 @@ html.ah-lightbox-open body { overflow: hidden; }
    the figure and moves with it. 56rem is .case-narrow's own width: below it
    the column already is the viewport and the rows agree. The row's own
    max-width is the 990, so the figure only has to be at least that wide. */
+/* A paragraph's 16px left the row crowding the line that leads into it. The
+   row takes the same 40px above as it keeps below. */
+.case-narrow > p + .build-flow--wide { margin-top: var(--space-3xl); }
 @media (min-width: 56rem) {
   .case-narrow > .build-flow--wide {
     width: min(990px, 100vw - 2 * var(--gutter));
