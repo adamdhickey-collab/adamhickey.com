@@ -153,7 +153,8 @@
   gap: var(--space-2xl);
   align-items: start;
 }
-/* ONE COLUMN, BECAUSE ONLY ONE DECISION STILL CARRIES EVIDENCE. This was a
+/* (Until 2026-10-30, and the drawings above.) ONE COLUMN, BECAUSE ONLY ONE
+   DECISION STILL CARRIES EVIDENCE. This was a
    fixed 28rem of copy beside a 1fr of picture above 72rem, which was the
    right answer while all five items had a capture to put in that second
    column. Four of the five lost theirs on 2026-09-20 -- they were
@@ -167,6 +168,41 @@
    the thing it is about is shown at the size it was drawn. The per-capture
    ceilings below do the sizing now; nothing here is a fraction of the
    container. */
+/* EACH DECISION A ROW, A DRAWING BESIDE ITS ARGUMENT, as The Shortlist's
+   five are (.ia-decision, lab/inspiration-to-aisle.css): a 3:2 line
+   drawing on a white card in a quarter column, the numbered copy in the
+   other three, from 64rem. Below that the drawing leads at half width over
+   the copy. The drawings are wordless and aria-hidden; every label is the
+   copy's. Decision 02's captures stay in the copy column, under its
+   paragraph. */
+.ckw-decision-pic {
+  display: block;
+  width: 50%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ckw-decision-pic .ink { stroke: var(--color-charcoal); }
+.ckw-decision-pic .mute { stroke: var(--color-muted-gray); opacity: 0.45; }
+.ckw-decision-pic .sage { stroke: var(--color-accent-text); }
+.ckw-decision-pic .warn { stroke: var(--color-caution-text); }
+.ckw-decision-pic .tea { fill: var(--color-tea-light); }
+.ckw-decision-pic .white { fill: var(--color-white); }
+.ckw-decision-pic .sage.fill { fill: var(--color-accent-text); }
+@media (min-width: 64rem) {
+  .ckw-decision {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+  .ckw-decision-pic { width: 100%; }
+  .ckw-decision > .ckw-shot { grid-column: 2; }
+}
 .ckw-decision-copy {
   position: relative;
   /* the disc plus the case studies' own gap-3 between it and the title */
@@ -444,8 +480,15 @@
    columns rather than four, so the two rows are even; the one sentence
    under them is the part of the disclosure that is a caveat and not a fact.
    Below 64rem the grid is style.css's own two, then one. */
+/* A rule across the full width over the strip, so the hero's pair and the
+   six answers read as two sections rather than the facts running on from
+   the figure's caption. --color-rule is the row divider; the column rules
+   inside the strip stay tag-border, a step quieter, under it. The line
+   sits one --space-4xl off the caption and one off the strip. */
 .ckw-facts {
   margin: var(--space-4xl) 0 0;
+  padding-top: var(--space-4xl);
+  border-top: 1px solid var(--color-rule);
   max-width: none;
 }
 @media (min-width: 1024px) {
