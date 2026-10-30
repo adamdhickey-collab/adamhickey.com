@@ -499,7 +499,7 @@ What counts as one, so the next one is easy to place:
 | `.case-group-title` | The two group heads in the homepage's Selected work, since 2026-10-29 (section 6, "Tracked capitals never name a group", has why) | 12px |
 | `.eng3-kicker`, `.eng3-invite-kicker`, `.eng3-closing-next-eyebrow` | The "How I work" page (the last two on none since the four pages became one, 2026-10-29) | 12px |
 | `.build-next-eyebrow`, `.case-closing-next-eyebrow` | The "Next" link at the foot of a build write-up and of a case study | 12px |
-| `.writing-eyebrow`, `.writing-keys-label`, `.writing-recap-label` | "Key idea 2 of 6" above each section of an article, "In this article" over its list of ideas, and the labels of its recap | 12px |
+| `.writing-eyebrow` | Start here and the three collection names on the writing index. It numbered an article's sections, with a list label and a recap label beside it, until the Blink frame came off on 2026-10-30 | 12px |
 | `.glance-kicker` | The "My approach" blocks, and "What the map shows" over the three claims that open The Shortlist's service map. "What I built" on the Agent Review write-up is an h2 (`.glance-head`, `--text-2xl`) and not a kicker | 12px |
 | `.case-readtime` | The read time above a Tailwind case study's title. It was 14px, muted, on `--tracking-label` until 2026-10-29, the one kicker at another size | 12px |
 | `.ds-surface-kicker`, `.ds-side-title`, `.ds-scale-tier` | The ground names, the sidebar's group names, and the scale's two tiers on the design system page | 12px |

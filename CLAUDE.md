@@ -275,7 +275,7 @@ node scripts/deployable.mjs               # the tree can be tarred into an artif
 node scripts/tokens.mjs                   # every token the docs name actually exists
 node scripts/counts.mjs                   # every number the docs assert, recounted
 node scripts/seo.mjs                      # what the site tells a machine, vs the site
-node scripts/keys.mjs                     # every key idea on an article is still its h2
+node scripts/keys.mjs                     # every article is an essay; the index's read times
 node scripts/oxford.mjs                   # every list of three keeps its Oxford comma
 node scripts/resting.mjs --strict         # every color a reader can SEE, untouched
 node scripts/states.mjs --strict          # hover, focus and script-applied state
@@ -1900,21 +1900,22 @@ Two more since #32:
   `seo.mjs --write`, `llms.txt`, the README's family table and the counts
   it feeds all move with it.
 
-- **Each article is a Blink.** Since the writing-blinks branch an article
-  carries its argument the way a Blinkist summary carries a book: the dek
-  answers, a numbered list of key ideas under it maps the sections, each
-  section opens on a "Key idea 2 of 6" eyebrow and an h2 that is the idea
-  as a sentence, one figure breaks the column every section or two, one
-  line a section is marked and one of them stands as a pull, and the
-  article ends on a recap and one thing to do. The list and the eyebrows
-  are written from the h2s by `node scripts/keys.mjs --write`, and the
-  check runs in `checks.yml`, so **reword a heading and run --write in the
-  same commit.** Four figure kinds, all inside the essay column and all in
+- **Every article is an essay.** The dek answers, the h2s are the
+  argument's steps as sentences, one figure breaks the column every
+  section or two, one line a section is marked and one stands as a pull,
+  and the article ends on its own last line. Until 2026-10-30 most
+  articles were Blinks, with a numbered list of key ideas under the dek, a
+  "Key idea 2 of 6" eyebrow over each section and a recap at the end; #897
+  took that off the three personal essays, and the frame came off the
+  rest when The system's two articles and The judgment's two became one
+  each, five articles in all. `keys.mjs` now gives each h2 an id, faults a
+  list, eyebrow or recap that comes back, and writes the index's read
+  times. Four figure kinds, all inside the essay column and all in
   tokens: a flow (`.writing-flow`, stages with a rising bar), a split
   (`.writing-split`, two columns behind two rules), a number row
   (`.build-facts.writing-facts`) and, since 2026-10-20, a rail
-  (`.writing-rail`, "THE RAIL" in `style.css`): steps joined by one sage
-  line after Agent Review's learning loop, each a small wordless drawing
+  (`.writing-rail`, "THE RAIL" in `style.css`): numbered steps with no line
+  joining them (since 2026-10-30), each a small wordless drawing flush left
   over its number, name and one line of text. A figure with a label is
   still code, never a generated image, because the checks cannot read a
   label in a bitmap: a rail's drawings carry no word and are `alt=""`, and

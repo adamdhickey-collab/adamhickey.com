@@ -11,7 +11,7 @@
  *   node scripts/draw.mjs take 0          the job's PNG -> img/writing/<slug>[-2].webp, via illustrate.mjs
  *   node scripts/draw.mjs sheet <name>    the clipboard's picture -> img/inbox/<name>-sheet.png (a rail's sheet)
  *   node scripts/draw.mjs slice <name> <tile,tile,-,...> [360x240]
- *                                         a rail's 3 x 2 sheet -> img/writing/<tile>.webp, one shared scale
+ *                                         a rail's 3 x 2 sheet -> img/writing/<tile>.webp, one shared scale, trimmed across
  *
  * The drawings are made in ChatGPT through the user's own Chrome, in the
  * chat the account already pays for, rather than through the image API. The
@@ -246,7 +246,11 @@ if (cmd === 'queue') {
      refuses the whole cut, naming the tile and the edge: redraw the sheet
      with the drawing inside its cell, or cut that one tile by hand from
      the full sheet when the neighbour cell is empty.
-     Near-white goes to white, so the tile sits on the page's ground. */
+     Near-white goes to white, so the tile sits on the page's ground.
+     Then each tile is trimmed across to its ink, 4px either side, and keeps
+     the full height: the rail prints a drawing by its height, so the scale
+     holds, and the drawing starts on its words' left edge (2026-10-30).
+     The width it prints is the tile's width attribute. */
   const [, name, namesArg, size = '360x240'] = argv;
   if (!name || !namesArg) { console.error('slice <name> <tile,tile,-,...> [WxH]'); process.exit(1); }
   const sheet = resolve(INBOX, `${name}-sheet.png`);
@@ -289,7 +293,15 @@ if (cmd === 'queue') {
       const d = tg.getImageData(0, 0, OW, OH); const p = d.data;
       for (let i = 0; i < p.length; i += 4) if (Math.min(p[i], p[i + 1], p[i + 2]) >= 251) { p[i] = p[i + 1] = p[i + 2] = 255; }
       tg.putImageData(d, 0, 0);
-      return t.toDataURL('image/webp', 0.9);
+      let l = OW, r = -1;
+      for (let y = 0; y < OH; y++) for (let x = 0; x < OW; x++) {
+        const i = (y * OW + x) * 4;
+        if (Math.min(p[i], p[i + 1], p[i + 2]) < 235) { l = Math.min(l, x); r = Math.max(r, x); }
+      }
+      const L = Math.max(0, l - 4), w = Math.min(OW, r + 5) - L;
+      const o = document.createElement('canvas'); o.width = w; o.height = OH;
+      o.getContext('2d').drawImage(t, L, 0, w, OH, 0, 0, w, OH);
+      return { url: o.toDataURL('image/webp', 0.9), w };
     });
     return { side, out };
   }, { dataUrl, skip: names.map((x) => x === '-'), OW, OH });
@@ -300,13 +312,13 @@ if (cmd === 'queue') {
     process.exit(1);
   }
   const dir = resolve(root, 'img/writing');
-  res.out.forEach((u, k) => {
-    if (!u) return;
+  res.out.forEach((t, k) => {
+    if (!t) return;
     const f = resolve(dir, `${names[k]}.webp`);
-    writeFileSync(f, Buffer.from(u.split(',')[1], 'base64'));
-    console.log(`✓ ${short(f)}  (${statSync(f).size} bytes)`);
+    writeFileSync(f, Buffer.from(t.url.split(',')[1], 'base64'));
+    console.log(`✓ ${short(f)}  ${t.w}x${OH}  (${statSync(f).size} bytes)`);
   });
-  console.log(`  one scale: ${res.side}px of sheet across each ${OW}x${OH} tile`);
+  console.log(`  one scale: ${res.side}px of sheet across each ${OW}x${OH} cell, trimmed across to its ink`);
 } else {
   console.error('queue [ids] | status | next [i] | clip <i> | land <i> [file] | take <i> [illustrate args] | sheet <name> | slice <name> <tiles> [WxH]');
   process.exit(1);

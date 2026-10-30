@@ -39,7 +39,7 @@
           "mainEntityOfPage": "https://adamhickey.com/lab/agent-review.html",
           "image": "https://adamhickey.com/img/og/agent-review.jpg?v=23",
           "datePublished": "2026-10-01",
-          "dateModified": "2026-10-29",
+          "dateModified": "2026-10-30",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -93,16 +93,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="../color.css?v=11" />
-  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../color.css?v=12" />
+  <link rel="stylesheet" href="../shell.css?v=7" />
   <link rel="stylesheet" href="../type.css?v=8" />
-  <link rel="stylesheet" href="../style.css?v=20261030c" />
+  <link rel="stylesheet" href="../style.css?v=20261030n" />
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
-  <link rel="stylesheet" href="../design-psychology.css?v=9" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="agent-review.css?v=92" />
+  <link rel="stylesheet" href="agent-review.css?v=95" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="agent-review-story.js?v=8" defer></script>
@@ -275,7 +274,7 @@
     <header class="case-hero arc-open">
       <div class="container case-wide arc-open-grid">
         <div class="arc-open-text">
-          <p class="case-kicker">Lab &middot; Agent Review &middot; <span class="case-readtime">4 min read</span></p>
+          <p class="case-kicker">Lab &middot; Agent Review &middot; <span class="case-readtime">5 min read</span></p>
           <h1 class="case-title arc-title">When agents build, designers lead</h1>
           <p class="arc-dek">Coding agents now do much of the building. This prototype shows the design job that grows around them.</p>
           <div class="arc-open-act">
@@ -327,8 +326,97 @@
             <p class="ship-then" data-then="ask"><strong>That&rsquo;s what the agent does in the prototype.</strong> Two goals pull against each other here: cleanup should be fast, and no customer should be lost by mistake. No automated check can say which matters more, so the agent asks me.</p>
             <div class="ship-after">
               <p class="ship-verdict"><strong>I didn&rsquo;t ship any of these three.</strong></p>
-              <p>The six stages below show what I chose instead, and how the agent and I got there.</p>
+              <p>Here&rsquo;s what I chose instead. The six stages after it show how the agent and I got there.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVALUATE, IN FULL: the one stage the strip points at. The two
+         directions it weighed sit side by side, the agent's pick on the
+         left and the designer's call on the right, in the order the lead
+         says them. Since 2026-10-29 both are Relay drawn in live HTML,
+         like the opener's list, and both work: a reader presses Archive
+         on each and sees what happens next (agent-review.css, "Evaluate";
+         agent-review-story.js). The words follow the prototype's
+         ArchiveFlow, the undo direction with namesActive on. -->
+    <section class="case-section case-overview build-chapter ground-white" id="evaluate">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <p class="arc-eyebrow">What I chose</p>
+            <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
+            <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo. Both screens below work: press Archive on each.</p>
+          </div>
+        </header>
+        <div class="arc-pair" data-ev-pair>
+          <figure class="ev" data-ev="review" data-step="selected" aria-labelledby="ev-review-name">
+            <figcaption class="ev-head"><span class="ev-who">The agent&rsquo;s pick</span> <span class="ev-name" id="ev-review-name">Review batch, then archive</span></figcaption>
+            <div class="arc-device">
+              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+              <div class="ev-screen">
+                <div class="ev-bar" data-for="selected reviewing"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="review" data-for="selected">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text"><span class="ev-gone-count">4 customers</span> archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <section class="ev-review" data-for="reviewing" aria-labelledby="ev-review-title">
+                  <h3 class="ev-review-title" id="ev-review-title">Review 5 customers before archiving</h3>
+                  <p class="ev-review-group"><span class="ev-tag ev-tag--blocked">Can&rsquo;t archive</span></p>
+                  <p class="ev-review-line"><strong>Monarch Dental Group</strong>: it has an open invoice. It stays in the table.</p>
+                  <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> Check these. Clear a box to keep the customer.</p>
+                  <ul class="ev-keep">
+                    <li><label><input type="checkbox" data-keep="halvorsen" checked /> Halvorsen Freight, $3,840 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="brightwater" checked /> Brightwater Clinics, $1,320 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="saltmarsh" checked /> Saltmarsh Studio, $87 a month</label></li>
+                  </ul>
+                  <p class="ev-review-line">1 customer churned, past due, or on trial.</p>
+                  <p class="ev-review-keys"><button type="button" class="ev-key ev-key--quiet" data-press="cancel">Cancel</button> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive <span class="ev-going">4 customers</span></button></p>
+                </section>
+                <ul class="ev-rows">
+                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
+                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                </ul>
+                <p class="visually-hidden" data-said role="status"></p>
+              </div>
+            </div>
+          </figure>
+          <figure class="ev" data-ev="undo" data-step="selected" aria-labelledby="ev-undo-name">
+            <figcaption class="ev-head"><span class="ev-who">My call</span> <span class="ev-name" id="ev-undo-name">Archive now, undo after</span></figcaption>
+            <div class="arc-device">
+              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+              <div class="ev-screen">
+                <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
+                <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <ul class="ev-rows">
+                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
+                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                </ul>
+                <p class="visually-hidden" data-said role="status"></p>
+              </div>
+            </div>
+          </figure>
+        </div>
+        <div class="arc-after arc-why">
+          <p class="arc-verdict">Undo keeps people safe without making them stop.</p>
+          <div class="arc-why-col">
+            <h3 class="arc-why-head">Why not the review</h3>
+            <ul class="build-list">
+              <li><strong>People may stop reading it.</strong> In the prototype&rsquo;s session notes, which I wrote to show what testing could turn up, people press straight through its question by their third batch. No real session has tested that yet.</li>
+              <li><strong>A skipped check still costs time.</strong> It protects no one, and it still slows everyone down.</li>
+            </ul>
+          </div>
+          <div class="arc-why-col">
+            <h3 class="arc-why-head">What undo keeps, and what it risks</h3>
+            <ul class="build-list">
+              <li><strong>Active customers stand out.</strong> The same notes have someone archive an active customer without noticing in 2 of 5 sessions. Their rows are shaded before you press Archive.</li>
+              <li><strong>The undo bar has to be seen.</strong> No check can tell me that, so it&rsquo;s the first thing to measure once it ships.</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -351,7 +439,7 @@
           <li class="ar-kind ar-kind--through">
             <p class="ar-kind-lane"><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 8.5l3.5 3.5L13 4.5"/></svg>Goes through</p>
             <h3>Proceeds on its own</h3>
-            <p>Clear instructions, allowed, and the checks pass. Colors typed in by hand become the system&rsquo;s named ones.</p>
+            <p>The instructions are clear, the change is allowed, and the checks pass. Colors typed in by hand become the system&rsquo;s named ones.</p>
           </li>
           <li class="ar-kind ar-kind--stops">
             <p class="ar-kind-lane"><svg class="ar-kind-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M5.5 3.5v9M10.5 3.5v9"/></svg>Pauses for a person</p>
@@ -482,7 +570,7 @@
             </svg></div><strong>Stronger system</strong><span>The next agent inherits it</span></li>
           </ol>
         </figure>
-        <p>On an SAP program I set the standards 40+ apps were built from. Here an agent does the building, and the question is the same: what can the system settle, and what needs a person?</p>
+        <p>On an SAP program, I set the standards 40+ apps were built from. Here an agent does the building, and the question is the same: what can the system settle, and what needs a person?</p>
         <p class="ar-sap-link"><a href="../case-study/sap-product-maturity.html">See how I established shared standards across 40+ enterprise apps <span aria-hidden="true">&rarr;</span></a></p>
       </div>
     </section>
@@ -493,7 +581,7 @@
          cycle's first piece of evidence (agent-review src/data/cycle.ts);
          every line traces to the stage it names. Evaluate is told in full
          after it. -->
-    <section class="case-section case-overview build-chapter ground-white" id="the-cycle">
+    <section class="case-section case-overview build-chapter ground-tea" id="the-cycle">
       <div class="container case-wide">
         <header class="arc-head">
           <div class="arc-head-text">
@@ -509,12 +597,12 @@
           <div class="ar-steps-wrap">
             <h3 class="ar-steps-head">How designing with an agent works, in six steps</h3>
             <ol class="ar-steps">
-              <li><span class="ar-cycle-n" aria-hidden="true">1</span><p><strong>Discover: find the real problem.</strong></p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">2</span><p><strong>Define: decide what a fix must do.</strong></p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">3</span><p><strong>Explore: try more than one answer.</strong></p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">4</span><p><strong>Evaluate: pick one, and say why.</strong></p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">5</span><p><strong>Delegate: hand the build to the agent.</strong></p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">6</span><p><strong>Learn: find out if it worked.</strong></p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">1</span><p><strong>Discover:</strong> find the real problem.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">2</span><p><strong>Define:</strong> decide what a fix must do.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">3</span><p><strong>Explore:</strong> try more than one answer.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">4</span><p><strong>Evaluate:</strong> pick one, and say why.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">5</span><p><strong>Delegate:</strong> hand the build to the agent.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">6</span><p><strong>Learn:</strong> find out if it worked.</p></li>
             </ol>
           </div>
           <div class="ar-try-frame">
@@ -527,90 +615,6 @@
       </div>
     </section>
 
-    <!-- EVALUATE, IN FULL: the one stage the strip points at. The two
-         directions it weighed sit side by side, the agent's pick on the
-         left and the designer's call on the right, in the order the lead
-         says them. Since 2026-10-29 both are Relay drawn in live HTML,
-         like the opener's list, and both work: a reader presses Archive
-         on each and sees what happens next (agent-review.css, "Evaluate";
-         agent-review-story.js). The words follow the prototype's
-         ArchiveFlow, the undo direction with namesActive on. -->
-    <section class="case-section case-overview build-chapter ground-tea" id="evaluate">
-      <div class="container case-wide">
-        <header class="arc-head">
-          <div class="arc-head-text">
-            <p class="arc-eyebrow">Stage 4 of 6 &middot; Evaluate</p>
-            <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
-            <p class="arc-lead">The agent picked the review, since my brief put recovery first. I chose undo. Both screens below work: press Archive on each.</p>
-          </div>
-        </header>
-        <div class="arc-pair" data-ev-pair>
-          <figure class="ev" data-ev="review" data-step="selected" aria-labelledby="ev-review-name">
-            <figcaption class="ev-head"><span class="ev-who">The agent&rsquo;s pick</span> <span class="ev-name" id="ev-review-name">Review batch, then archive</span></figcaption>
-            <div class="arc-device">
-              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-              <div class="ev-screen">
-                <div class="ev-bar" data-for="selected reviewing"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="review" data-for="selected">Archive</button></div>
-                <div class="ev-bar" data-for="archived"><span class="ev-bar-text"><span class="ev-gone-count">4 customers</span> archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
-                <section class="ev-review" data-for="reviewing" aria-labelledby="ev-review-title">
-                  <h3 class="ev-review-title" id="ev-review-title">Review 5 customers before archiving</h3>
-                  <p class="ev-review-group"><span class="ev-tag ev-tag--blocked">Can&rsquo;t archive</span></p>
-                  <p class="ev-review-line"><strong>Monarch Dental Group</strong>: it has an open invoice. It stays in the table.</p>
-                  <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> Check these. Clear a box to keep the customer.</p>
-                  <ul class="ev-keep">
-                    <li><label><input type="checkbox" data-keep="halvorsen" checked /> Halvorsen Freight, $3,840 a month</label></li>
-                    <li><label><input type="checkbox" data-keep="brightwater" checked /> Brightwater Clinics, $1,320 a month</label></li>
-                    <li><label><input type="checkbox" data-keep="saltmarsh" checked /> Saltmarsh Studio, $87 a month</label></li>
-                  </ul>
-                  <p class="ev-review-line">1 customer churned, past due, or on trial.</p>
-                  <p class="ev-review-keys"><button type="button" class="ev-key ev-key--quiet" data-press="cancel">Cancel</button> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive <span class="ev-going">4 customers</span></button></p>
-                </section>
-                <ul class="ev-rows">
-                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
-                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
-                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                </ul>
-                <p class="visually-hidden" data-said role="status"></p>
-              </div>
-            </div>
-          </figure>
-          <figure class="ev" data-ev="undo" data-step="selected" aria-labelledby="ev-undo-name">
-            <figcaption class="ev-head"><span class="ev-who">My call</span> <span class="ev-name" id="ev-undo-name">Archive now, undo after</span></figcaption>
-            <div class="arc-device">
-              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
-              <div class="ev-screen">
-                <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
-                <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
-                <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
-                <ul class="ev-rows">
-                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
-                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
-                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                </ul>
-                <p class="visually-hidden" data-said role="status"></p>
-              </div>
-            </div>
-          </figure>
-        </div>
-        <div class="arc-after arc-after--aside">
-          <div class="arc-after-text">
-          <p>Why not the review? In the prototype&rsquo;s 5 simulated sessions, people stopped reading its question by their third batch and pressed straight through. A check people skip doesn&rsquo;t protect anyone, and it still slows them down.</p>
-          <p>The review did catch one real problem: in 2 of the 5 sessions, someone archived an active customer without noticing. So I kept that part, without the extra step: before you press Archive, the active customers&rsquo; rows are shaded, so they stand out in the batch.</p>
-          <p>Undo has a risk of its own: it only helps if people see the bar. No check can tell me that, so it&rsquo;s the first thing to measure once it ships, in stage 6, Learn.</p>
-          </div>
-          <aside class="dp-note" aria-labelledby="dp-undo-label">
-            <p class="dp-note-label" id="dp-undo-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
-            <h3 class="dp-note-head">A question people answer every time stops being read</h3>
-            <p class="dp-note-source">The argument for undo over warnings: <a href="https://alistapart.com/article/neveruseawarning/" target="_blank" rel="noopener noreferrer">Aza Raskin, Never Use a Warning When You Mean Undo</a></p>
-          </aside>
-        </div>
-      </div>
-    </section>
-
     <!-- HOW IT WAS MADE, WHAT'S NEXT AND THE BUILD, at the foot, in one
          section where they were three. -->
     <section class="case-section case-overview build-chapter ground-white" id="how-it-was-made">
@@ -618,16 +622,16 @@
         <header class="arc-head">
           <div class="arc-head-text">
             <h2>It grew out of a real Claude Code experiment</h2>
-            <p class="arc-lead">I asked Claude Code for one feature twice, with twelve design rules and without, then planted mistakes in a third. The checks caught them.</p>
+            <p class="arc-lead">I asked Claude Code for one feature twice, with twelve design rules and without. Then I wrote a third version by hand, with mistakes planted in it. The checks caught them.</p>
           </div>
         </header>
         <div class="arc-measure">
           <dl class="build-facts writing-facts">
-            <div><dt>3</dt><dd>Claude Code runs of one feature</dd></div>
+            <div><dt>2</dt><dd>Claude Code runs of one feature</dd></div>
             <div><dt>12</dt><dd>design rules, given to one run and not the other</dd></div>
             <div><dt>1</dt><dd>question neither agent could settle</dd></div>
           </dl>
-          <p>Neither agent could decide if archiving needed a step first, and that question became the cycle. Each ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+          <p>Neither agent could decide whether archiving needed a step first, and that question became the cycle. Each ran once: an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
         </div>
       </div>
     </section>
@@ -647,8 +651,8 @@
         <dl class="build-facts build-facts--three">
           <div><dt>Question</dt><dd>What does a designer decide once a coding agent does the building?</dd></div>
           <div><dt>Hypothesis</dt><dd>Most of an agent&rsquo;s work needs nobody; two kinds of change should stop for a person.</dd></div>
-          <div><dt>Prototype</dt><dd>Three Claude Code runs of one feature, then a six-stage cycle in React and Storybook, on simulated scenarios.</dd></div>
-          <div><dt>Evaluation</dt><dd>The checks caught the planted mistakes. Nobody has used the prototype yet.</dd></div>
+          <div><dt>Prototype</dt><dd>Two Claude Code runs of one feature and a third version I seeded by hand, then a six-stage cycle in React and Storybook, on simulated scenarios.</dd></div>
+          <div><dt>Evaluation</dt><dd>The checks caught the planted mistakes. Nobody has used the prototype yet, and its session notes are invented.</dd></div>
           <div><dt>Decision</dt><dd>Build the cycle around the one question neither run could settle.</dd></div>
           <div><dt>Learning</dt><dd>The judgment the agent lacked was about what mattered more, not how to build it.</dd></div>
         </dl>
@@ -666,12 +670,22 @@
           </div>
         </header>
         <div class="arc-measure">
-          <p>I&rsquo;d watch four or five designers and product managers try it. Can they:</p>
-          <ul class="build-list">
-            <li><strong>Say</strong> what the designer did at each stage, and what the agent did?</li>
-            <li><strong>Tell</strong> the simulated evidence from the working software?</li>
-            <li><strong>Weigh</strong> the three directions, instead of taking &ldquo;Agent recommends&rdquo;?</li>
-          </ul>
+          <p>I&rsquo;d watch four or five designers and product managers try it, and see whether they can do three things.</p>
+          <!-- A rail of three since 2026-10-30, where Say, Tell, and Weigh
+               were a bold-labelled list (Adam: "Let's use a side rail here
+               and add some graphics"). The drawings are one ChatGPT sheet in
+               the rails' line hand, cut by draw.mjs slice; every word is the
+               page's own and every drawing alt="". -->
+          <div class="writing-measure">
+            <figure class="writing-figure writing-rail">
+              <figcaption>What each person should be able to do</figcaption>
+              <ol class="writing-rail-steps">
+                <li><img src="../img/lab/agent-review-next-say.webp?v=2" width="265" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Say</strong><span>what the designer did at each stage, and what the agent did</span></li>
+                <li><img src="../img/lab/agent-review-next-tell.webp?v=2" width="211" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>Tell</strong><span>the simulated evidence apart from the working software</span></li>
+                <li><img src="../img/lab/agent-review-next-weigh.webp?v=2" width="313" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Weigh</strong><span>the three directions, instead of taking &ldquo;Agent recommends&rdquo; on trust</span></li>
+              </ol>
+            </figure>
+          </div>
           <p><a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/validation/README.md" target="_blank" rel="noopener noreferrer">The research plan<span class="visually-hidden"> (opens in a new tab)</span></a> says what result would change the design.</p>
         </div>
       </div>
@@ -713,9 +727,8 @@
         <nav class="related" aria-labelledby="related-label">
           <p class="related-label" id="related-label">Related</p>
           <ul class="related-list">
-            <li><a class="related-link" href="../writing/what-a-design-system-needs-to-explain-to-an-agent.html"><span class="related-kind">Article</span><span class="related-title">What a design system needs to explain to an agent</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../writing/what-does-a-design-system-need-once-ai-is-in-the-product.html"><span class="related-kind">Article</span><span class="related-title">What does a design system need once AI is in the product?</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
-            <li><a class="related-link" href="../writing/what-does-a-person-need-to-supervise-an-ai-agent.html"><span class="related-kind">Article</span><span class="related-title">What does a person need to supervise an AI agent?</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../writing/who-decides-when-software-can-act-on-its-own.html"><span class="related-kind">Article</span><span class="related-title">Who decides when software can act on its own?</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../how-i-work.html#systems"><span class="related-kind">How I work</span><span class="related-title">Build the system everyone builds from</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </nav>

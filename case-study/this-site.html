@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>How I built this site | Adam Hickey</title>
-  <meta name="description" content="How adamhickey.com is built: twenty-seven pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
+  <meta name="description" content="How adamhickey.com is built: twenty-five pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
 
   <link rel="canonical" href="https://adamhickey.com/case-study/this-site.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/case-study/this-site.html" />
   <meta property="og:title" content="How I built this site | Adam Hickey" />
-  <meta property="og:description" content="How adamhickey.com is built: twenty-seven pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
+  <meta property="og:description" content="How adamhickey.com is built: twenty-five pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships." />
   <meta property="og:image" content="https://adamhickey.com/img/og/this-site.jpg?v=12" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -37,12 +37,12 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/case-study/this-site.html#article",
           "headline": "How I built this site",
-          "description": "A build write-up for adamhickey.com: twenty-seven pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships.",
+          "description": "A build write-up for adamhickey.com: twenty-five pages of plain HTML with no framework and no build step, three token files under four normative specs, and twelve checks that measure the rendered page before anything ships.",
           "url": "https://adamhickey.com/case-study/this-site.html",
           "mainEntityOfPage": "https://adamhickey.com/case-study/this-site.html",
           "image": "https://adamhickey.com/img/og/this-site.jpg?v=12",
           "datePublished": "2026-09-17",
-          "dateModified": "2026-10-29",
+          "dateModified": "2026-10-30",
           "author": {
             "@id": "https://adamhickey.com/#adam"
           },
@@ -91,10 +91,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
   <!-- Site stylesheet rather than the Tailwind CDN the older captured case
        studies load: one request, no framework. -->
-  <link rel="stylesheet" href="../color.css?v=11" />
-  <link rel="stylesheet" href="../shell.css?v=6" />
+  <link rel="stylesheet" href="../color.css?v=12" />
+  <link rel="stylesheet" href="../shell.css?v=7" />
   <link rel="stylesheet" href="../type.css?v=8" />
-  <link rel="stylesheet" href="../style.css?v=20261030c" />
+  <link rel="stylesheet" href="../style.css?v=20261030n" />
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <!-- The chapters arrive as they are read. See reveal.css for why this is
        its own pair of files rather than style.css's .reveal. -->
@@ -218,12 +218,12 @@
       <div class="container">
         <p class="case-kicker">Build write-up &middot; 3 min read</p>
         <h1 class="case-title">How I built this site</h1>
-        <p class="build-dek">Twenty-seven pages of plain HTML, no framework and no build step, held to four written specs by twelve checks that measure the rendered page. It&rsquo;s the closest thing to a production codebase I own.</p>
+        <p class="build-dek">Twenty-five pages of plain HTML, no framework and no build step, held to four written specs by twelve checks that measure the rendered page. It&rsquo;s the closest thing to a production codebase I own.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Role</dt><dd>Everything: the design, the code, the checks that hold them together</dd></div>
-            <div><dt>Size</dt><dd>27 pages, 3 token files, 4 specs, 38 scripts</dd></div>
+            <div><dt>Size</dt><dd>25 pages, 3 token files, 4 specs, 38 scripts</dd></div>
             <div><dt>Status</dt><dd>Live. Every merge deploys; there is no staging in front of it</dd></div>
           </dl>
         </div>
@@ -300,7 +300,7 @@
     <section class="case-section case-overview build-chapter ground-white">
       <div class="container case-narrow">
         <h2>The problem</h2>
-        <p>A portfolio that claims design systems, accessibility, and real code, built on a template with a contrast failure in the hero, says the opposite. So the site had to be built to the standard it claims for the work.</p>
+        <p>A portfolio can claim design systems, accessibility, and real code and still sit on a template with a contrast failure in the hero. Then it says the opposite. So this site had to be built to the standard it claims for the work.</p>
         <p>That standard is three things I ask of any production codebase:</p>
         <ul class="build-list">
           <li>The rules are written down</li>
@@ -325,8 +325,8 @@
         <h2 id="checks">What the checks measure</h2>
         <p>Twelve checks run on every merge. Six read the tree and finish in about a second.</p>
         <p>The other six open the pages in Chrome and measure what rendered: every color a reader can see, every forced state, and every type size against the scale.</p>
-        <p>The prototype page renders its interesting surface from JavaScript in response to a press. For a while, every check said the page passed while measuring a sixth of it.</p>
-        <p>So a registry now names every state a reader can reach, and each check presses into every one. A selector that matches nothing fails the run. Its first pass found a live hover at 1.29:1.</p>
+        <p>One prototype page draws its key states from JavaScript, only when a reader presses something. For a while, every check said the page passed while measuring a sixth of it.</p>
+        <p>So a registry now names every state a reader can reach, and each check presses its way into every one. A selector that matches nothing fails the run. Its first pass found a live hover at 1.29:1.</p>
         <p>I watch the counts as closely as the verdicts. The state check once passed clean at 416 rules and at 617, and the gap was a third of the site going unmeasured.</p>
       </div>
     </section>
@@ -342,7 +342,7 @@
         </ul>
         <p>What that changed isn&rsquo;t who decides. It&rsquo;s how fast a bad idea can be shown to be bad. A rule I&rsquo;d once have written down and hoped to remember is now a script that refuses.</p>
         <p>The design is mine at every step: the scale, the palette, the order of the page, and every sentence. So is the judgment about what a check should hold the site to.</p>
-        <p>It has a cost. The site is slower to change than a template, because a change that moves a number has to move the sentence that states it.</p>
+        <p>This way of working has a cost. The site is slower to change than a template, because a change that moves a number has to move the sentence that states it.</p>
         <p>For a site whose subject is checking a claim everywhere it&rsquo;s made, I think that&rsquo;s the right price.</p>
       </div>
     </section>

@@ -117,105 +117,14 @@
 .ck-disclosure p + p { margin-top: var(--space-xs); }
 .ck-disclosure strong { font-weight: var(--weight-semibold); }
 
-/* ---------- The four decisions, each beside its evidence ----------
-   Until #78 this was a numbered list of four paragraphs, each ending with a
-   line naming where on the screen to go and look. That asked a reader to hold
-   a position in their head and scroll three sections up to check it, which is
-   the same thing the cockpit itself refuses to ask of a dispatcher: the page
-   was arguing for evidence beside the answer while keeping its own evidence a
-   screen away. Each decision now carries a capture of the thing it decided.
-
-   Two columns from 64rem: the argument on the left at a readable measure, the
-   picture on the right. The numbered disc stays where it was, in the margin of
-   the copy column, because the number orders the arguments and not the
-   pictures. */
-.ck-decisions {
-  list-style: none;
-  /* the paragraph that introduces the list ends flush against it otherwise;
-     space above the first item matches the gap between the items */
-  margin: var(--space-3xl) 0 0;
-  padding: 0;
-  counter-reset: decision;
-  display: grid;
-  gap: var(--space-block);
-  /* The disc, and the one number this block authors. It is the case
-     studies' step marker -- w-10 h-10 on a bg-accent circle with the
-     numeral reversed out, in sap-product-maturity, dispatch-complexity and
-     innovators-studio -- which is 40px, and 40px is --space-3xl but it is
-     not a space: it sizes a mark. Named once here so the disc, the indent
-     the prose hangs on and the title's minimum height cannot drift apart. */
-  --ck-num: 40px;
-}
-.ckw-decision {
-  counter-increment: decision;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-2xl);
-  align-items: start;
-}
-/* ONE COLUMN, BECAUSE ONLY ONE DECISION STILL CARRIES EVIDENCE. This was a
-   fixed 28rem of copy beside a 1fr of picture above 72rem, which was the
-   right answer while all five items had a capture to put in that second
-   column. Four of the five lost theirs on 2026-09-20 -- they were
-   photographs of the live panel a screen above -- and a two-column grid with
-   nothing in the right-hand column for four items out of five is 720px of
-   void repeated four times.
-
-   So every item runs at the measure, and decision 02's pair sits under its
-   paragraph, which is the arrangement the two screen-width decisions already
-   used and the better of the two at any width: the argument is read, then
-   the thing it is about is shown at the size it was drawn. The per-capture
-   ceilings below do the sizing now; nothing here is a fraction of the
-   container. */
-.ckw-decision-copy {
-  position: relative;
-  /* the disc plus the case studies' own gap-3 between it and the title */
-  padding-left: calc(var(--ck-num) + var(--space-sm));
-}
-/* Reversed out rather than set in sage: accent-deep is the FILL step of the
-   sage and white on it is 4.51:1, where the same sage as small TEXT on a
-   light ground is not (color.css says so at the token). A numeral inside the
-   disc is also unambiguously a marker and not the start of the sentence
-   beside it, which is what the hanging serif figure kept looking like. */
-.ckw-decision-copy::before {
-  content: counter(decision, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: grid;
-  place-items: center;
-  width: var(--ck-num);
-  height: var(--ck-num);
-  border-radius: 50%;
-  background: var(--color-accent-text);
-  color: var(--color-white);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-}
-.ck .ckw-decision h3,
-.ckw-decision h3 {
-  /* The disc is taller than this title's line, so the title takes the
-     disc's height and centres in it -- the case studies' items-center,
-     reached without a wrapper. Top-aligning instead would drop the disc
-     halfway into the paragraph below. */
-  min-height: var(--ck-num);
-  display: flex;
-  align-items: center;
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-}
-.case-section .ckw-decision .ckw-lead {
-  margin: 0;
-  max-width: var(--measure);
-  font-size: var(--text-lg);
-  line-height: var(--leading-reading);
-  color: var(--color-charcoal);
+/* ---------- The five decisions ----------
+   The list, its discs, its drawings and their captions are decisions.css
+   since 2026-10-30, shared with The Shortlist: the decision on the left,
+   and on the right a drawing of why, with the why as its caption. What is
+   left here is this page's own: the disclosure under each decision, and
+   decision 02's pair of captures, which runs under both columns. */
+@media (min-width: 64rem) {
+  .decision > .ckw-shot { grid-column: 1 / -1; }
 }
 
 /* A capture, framed the way style.css frames a wide product screenshot, so a
@@ -264,7 +173,7 @@
    to the viewport and an indent would be taking back the width that bleed
    exists to give. */
 @media (min-width: 64rem) {
-  .ckw-shot { margin-left: calc(var(--ck-num) + var(--space-sm)); }
+  .ckw-shot { margin-left: calc(var(--decision-num) + var(--space-sm)); }
 }
 .ckw-frames {
   list-style: none;
@@ -444,8 +353,33 @@
    columns rather than four, so the two rows are even; the one sentence
    under them is the part of the disclosure that is a caveat and not a fact.
    Below 64rem the grid is style.css's own two, then one. */
-.ckw-facts {
+/* THE SIX ANSWERS ARE A CARD, since 2026-10-30 (Adam: "this whole section
+   could be in its own card like a white card"). Until then a full-width
+   rule over the strip kept it from running on from the figure's caption;
+   a white card on the hero's warm does that as one object, with the
+   caveat inside it at the foot, where it belongs to the facts it
+   qualifies. The rail's card treatment (.writing-rail, style.css): the
+   --rule-card edge, --radius-xl, and --shadow-card, the ladder's rung for
+   a card at rest, on white. The inset follows the rail's too: --space-md
+   on a phone, --space-xl from 640, and from 1024 --space-2xl down and
+   --space-3xl across. White is a ground COLOR.md already clears all three
+   of its inks on: charcoal, muted-gray, and accent-text. */
+.ckw-facts-card {
   margin: var(--space-4xl) 0 0;
+  padding: var(--space-lg) var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) {
+  .ckw-facts-card { padding: var(--space-xl); }
+}
+@media (min-width: 1024px) {
+  .ckw-facts-card { padding: var(--space-2xl) var(--space-3xl); }
+}
+.ckw-facts {
+  margin: 0;
   max-width: none;
 }
 @media (min-width: 1024px) {
@@ -461,7 +395,7 @@
    link inside body copy on a light
    ground looks like here: accent-text, 600, underlined at the 0.2em offset,
    charcoal on hover and focus so the pointer moves it toward the page.
-   accent-text on warm is 5.32:1. */
+   It sits on the card's white now, where accent-text clears 4.5 by more. */
 .case-hero .ckw-facts dd a {
   color: var(--color-accent-text);
   font-weight: var(--weight-semibold);
@@ -599,7 +533,7 @@
   .ckw-full:hover { color: var(--color-accent-hover); }
 }
 @media (min-width: 64rem) {
-  .ckw-decision .ckw-full { display: none; }
+  .decision .ckw-full { display: none; }
 }
 
 /* ---------- The one drawing, and the one that closes ----------
@@ -3214,10 +3148,6 @@ html[data-embed] .ck { border-radius: 0; }
     border: 0;
   }
   .ck .ck-vs-act .ck-btn { width: 100%; justify-content: center; }
-  /* The disc does not shrink -- it is the case studies' mark at every width
-     there too -- so what a phone buys back is the gap beside it, not the
-     column. */
-  .ckw-decision-copy { padding-left: calc(var(--ck-num) + var(--space-xs)); }
   /* Four cards inside a card: the compare sides, the question cards and the
      callout keep a readable inset at the width the rest of the page gives
      back. */
