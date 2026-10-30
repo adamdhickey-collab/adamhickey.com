@@ -124,7 +124,9 @@ sentences anywhere else, with a link.
   paragraph the 40-word cap doesn't apply to.
 - **Each h2 is one key idea, as a sentence.** `node scripts/keys.mjs
   --write` writes the list and the eyebrows from them, so reword a heading
-  and run it in the same commit.
+  and run it in the same commit. Essays are the exception: the personal
+  articles named in `ESSAYS` in that script carry no list, no eyebrows, and
+  no recap, and end on their own last line.
 - **Lists are for real lists.** Steps, figures, and options stay as lists
   and rails. An argument goes in short paragraphs.
 - **A cut takes prose, not lists.** When a page gets shorter, the

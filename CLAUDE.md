@@ -1900,7 +1900,12 @@ Two more since #32:
   `seo.mjs --write`, `llms.txt`, the README's family table and the counts
   it feeds all move with it.
 
-- **Each article is a Blink.** Since the writing-blinks branch an article
+- **Most articles are Blinks, and three are essays.** Since 2026-10-30
+  the personal ones (`ESSAYS` in `keys.mjs`: the next design challenge,
+  what makes a good product designer now, and who decides when software
+  can act) carry h2s and nothing else from the frame below: no list, no
+  eyebrows, no recap, because the same frame on all seven read as
+  manufactured. The practical guides keep it. Since the writing-blinks branch an article
   carries its argument the way a Blinkist summary carries a book: the dek
   answers, a numbered list of key ideas under it maps the sections, each
   section opens on a "Key idea 2 of 6" eyebrow and an h2 that is the idea
