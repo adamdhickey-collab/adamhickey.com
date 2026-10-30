@@ -10,8 +10,9 @@
  *   node scripts/draw.mjs land 0 [file]   the newest ~/Downloads picture -> the job's PNG
  *   node scripts/draw.mjs take 0          the job's PNG -> img/writing/<slug>[-2].webp, via illustrate.mjs
  *   node scripts/draw.mjs sheet <name>    the clipboard's picture -> img/inbox/<name>-sheet.png (a rail's sheet)
- *   node scripts/draw.mjs slice <name> <tile,tile,-,...> [360x240]
+ *   node scripts/draw.mjs slice <name> <tile,tile,-,...> [360x240] [--out img/lab] [--alpha]
  *                                         a rail's 3 x 2 sheet -> img/writing/<tile>.webp, one shared scale, trimmed across
+ *                                         (--out files them elsewhere; --alpha makes the white ground transparent)
  *
  * The drawings are made in ChatGPT through the user's own Chrome, in the
  * chat the account already pays for, rather than through the image API. The
@@ -250,7 +251,18 @@ if (cmd === 'queue') {
      Then each tile is trimmed across to its ink, 4px either side, and keeps
      the full height: the rail prints a drawing by its height, so the scale
      holds, and the drawing starts on its words' left edge (2026-10-30).
-     The width it prints is the tile's width attribute. */
+     The width it prints is the tile's width attribute.
+     --alpha, since 2026-10-30: the white ground goes transparent instead,
+     for a tile that sits on a ground that is not white (The Shortlist's
+     decisions, on the warm chapter). The threshold is the same 251 the
+     flatten uses, so a tile cut either way carries the same ink; the
+     anti-aliased edge keeps its white, which on the warm (#f5f5f0) is
+     under a hairline's worth of difference. --out <dir> files the tiles
+     somewhere other than img/writing/. */
+  const alpha = argv.includes('--alpha');
+  const oi = argv.indexOf('--out');
+  const outDir = oi >= 0 ? argv.splice(oi, 2)[1] : 'img/writing';
+  if (alpha) argv.splice(argv.indexOf('--alpha'), 1);
   const [, name, namesArg, size = '360x240'] = argv;
   if (!name || !namesArg) { console.error('slice <name> <tile,tile,-,...> [WxH]'); process.exit(1); }
   const sheet = resolve(INBOX, `${name}-sheet.png`);
@@ -261,7 +273,7 @@ if (cmd === 'queue') {
   const browser = await loadChromium('draw.mjs slice').launch({ executablePath: findChrome() });
   const page = await browser.newPage();
   const dataUrl = `data:image/png;base64,${readFileSync(sheet).toString('base64')}`;
-  const res = await page.evaluate(async ({ dataUrl, skip, OW, OH }) => {
+  const res = await page.evaluate(async ({ dataUrl, skip, OW, OH, alpha }) => {
     const im = new Image(); im.src = dataUrl; await im.decode();
     const W = im.naturalWidth, H = im.naturalHeight, cw = W / 3, ch = H / 2;
     const c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -291,7 +303,7 @@ if (cmd === 'queue') {
       tg.imageSmoothingQuality = 'high';
       tg.drawImage(cell, b.cx - side / 2, b.cy - side / ar / 2, side, side / ar, 0, 0, OW, OH);
       const d = tg.getImageData(0, 0, OW, OH); const p = d.data;
-      for (let i = 0; i < p.length; i += 4) if (Math.min(p[i], p[i + 1], p[i + 2]) >= 251) { p[i] = p[i + 1] = p[i + 2] = 255; }
+      for (let i = 0; i < p.length; i += 4) if (Math.min(p[i], p[i + 1], p[i + 2]) >= 251) { p[i] = p[i + 1] = p[i + 2] = 255; if (alpha) p[i + 3] = 0; }
       tg.putImageData(d, 0, 0);
       let l = OW, r = -1;
       for (let y = 0; y < OH; y++) for (let x = 0; x < OW; x++) {
@@ -304,14 +316,14 @@ if (cmd === 'queue') {
       return { url: o.toDataURL('image/webp', 0.9), w };
     });
     return { side, out };
-  }, { dataUrl, skip: names.map((x) => x === '-'), OW, OH });
+  }, { dataUrl, skip: names.map((x) => x === '-'), OW, OH, alpha });
   await browser.close();
   if (res.crossed) {
     for (const { k, edges } of res.crossed) console.error(`✗ ${names[k]}: ink within 2px of its cell's ${edges} edge -- the cut sees only the cell, so anything past the seam goes white`);
     console.error('  nothing written. Redraw the sheet with the drawing inside its cell, or cut that tile by hand from the full sheet if the neighbour cell is empty (1b262784 is the worked example).');
     process.exit(1);
   }
-  const dir = resolve(root, 'img/writing');
+  const dir = resolve(root, outDir);
   res.out.forEach((t, k) => {
     if (!t) return;
     const f = resolve(dir, `${names[k]}.webp`);

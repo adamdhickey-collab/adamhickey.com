@@ -137,3 +137,59 @@
   .decision-text,
   .decision-figure { padding-left: calc(var(--decision-num) + var(--space-xs)); }
 }
+
+/* THE LEDGER, since 2026-10-30, on The Shortlist (.decisions--ledger). The
+   two-column rows above gave each decision a 3:2 tile two-fifths of the
+   page wide beside three lines of words, so a row was about 340px tall
+   for what it said and the five ran 2,300px, most of it ground (Adam: "the
+   images are too big ... too much white space as you go down the page").
+   A ledger instead: the list keeps the reading column's width and its
+   left edge, each decision is one row under a hairline, the words first
+   (title, what the app does, the guess) and the drawing of the guess in a
+   fixed column at the right, top-aligned with the title, so the eye runs
+   down one edge. The drawing sits on the chapter's ground with no tile
+   and no card edge: it is a small picture beside a paragraph, not a figure
+   of its own. Under 40rem the drawing follows the words on their indent
+   at 11rem, where a 3:2 column beside the words would leave neither
+   readable. The cockpit keeps the rows above until the ledger is judged. */
+.decisions--ledger {
+  margin-top: var(--space-xl);
+  gap: 0;
+}
+.decisions--ledger .decision {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.decisions--ledger .decision:last-child { border-bottom: 1px solid var(--rule-hairline); }
+.decisions--ledger .decision-figure { max-width: 11rem; }
+.decisions--ledger .decision-pic {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+@media (min-width: 40rem) {
+  .decisions--ledger .decision {
+    grid-template-columns: minmax(0, 1fr) 13.75rem;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .decisions--ledger .decision-figure { max-width: none; padding-left: 0; }
+}
+@media (min-width: 64rem) {
+  .decisions--ledger {
+    width: auto;
+    max-width: var(--col-wide);
+  }
+}
+/* The ledger's drawings are cut from one sheet (img/inbox/aisle-guesses-2-sheet.png,
+   drawn in ChatGPT in the storyboard's hand) at one shared scale and
+   trimmed across to their ink, like a rail's, so each prints by its
+   height and the five stand at one size; the width is each file's own. */
+.decisions--ledger .decision-pic {
+  width: auto;
+  height: 11rem;
+  max-width: 100%;
+  aspect-ratio: auto;
+}
