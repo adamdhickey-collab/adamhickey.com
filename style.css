@@ -282,7 +282,8 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   margin-bottom: var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   /* Deeper than --color-accent: at 12px uppercase the sage measured
@@ -3465,11 +3466,15 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    paragraphs so the prose still reads as prose, but a skimmer gets
    Craft -> Systems -> Building in three glances, echoed by the evolution
    rail below. Dark section, so the accent needs its on-dark value. */
+/* The kicker's own leading, --leading-ui, which it took from the reading
+   paragraph it opens until 2026-10-30, so it set at 20.4px where every
+   other kicker on the page sets at 17.4. */
 .about-beat {
   display: block;
   font-family: var(--font-sans);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-on-dark);
@@ -4686,7 +4691,13 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 /* The plain sentence above the lede: body size, the long-form step, on the
    band's ink, wide enough to hold one sentence without a ragged third line. */
-.about-entity { font-size: var(--text-lg); line-height: var(--leading-body); color: var(--ink-on-dark); margin: 0 0 var(--space-2xl); max-width: var(--measure); }
+/* The paragraph the three beats under it set: 16 on a phone, 18 from 768,
+   on --leading-reading. Until 2026-10-30 it was 18 at every width on
+   --leading-body, so on a phone the band's first paragraph was a step
+   larger than the three after it, and on a desktop the same size on a
+   tighter line. It keeps its full ink; the beats' .92 is theirs. */
+.about-entity { font-size: var(--text-base); line-height: var(--leading-reading); color: var(--ink-on-dark); margin: 0 0 var(--space-2xl); max-width: var(--measure); }
+@media (min-width: 768px) { .about-entity { font-size: var(--text-lg); } }
 
 /* The Lucy Learns card shows the app as three screens in the order you meet
    it, app-store style, rather than one phone beside a lot of empty column.
