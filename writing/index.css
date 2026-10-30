@@ -1,32 +1,26 @@
 /* writing/index.css -- the writing index's own rules, on top of the writing
    list in style.css. One page loads this file.
 
-   COLUMNS FROM 64rem, since 2026-10-30. The index was one list at
-   --col-wide, an 18rem drawing beside its words, seven rows down the left
-   two thirds of the frame and nothing to the right of them. On a desktop
-   the page read as a long scroll with a third of it empty, and the three
-   collections, which are the page's whole structure, were three headings
-   in the same column you had to scroll past to compare.
+   A CONTENTS PAGE FROM 64rem, since 2026-10-30. Two layouts came before
+   this one the same day: a pair of wide entries over three columns of one
+   entry each, then the same with small drawings. Both set five essays in
+   two shapes, so the eye had to relearn the page halfway down; the
+   collections spent an icon, a label and a column on one article each; and
+   every dek ran wider than the title over it, under a drawing it had
+   nothing to do with.
 
-   From 64rem both lists take --col-full. Start here is its two pieces side
-   by side, so the two the page asks you to read first are the two you see
-   first. The three collections become three columns, each its eyebrow,
-   its description, and its entries stacked, so a reader takes the system,
-   the build, and the judgment in at once. The columns are a subgrid of
-   four rows, so the lists start on one line however long each
-   description runs, and the three descriptions are written to one length
-   so they end together too.
+   Now every essay is one row on one grid. The left column is the label --
+   Start here, or the collection's mark and name -- and it is printed once,
+   at the head of its group, the way a magazine's contents page names a
+   section. The middle column is the title, the dek and the read time,
+   stacked, so the dek is the title's width and no wider. The drawing sits
+   at the right edge at one size for all five, a door's sign rather than its
+   content. A hairline across the full frame opens each collection; Start
+   here keeps its sage rule, since it opens the page.
 
-   SMALL DRAWINGS, since 2026-10-30. The first cut stacked each drawing
-   over its words at the column's full width: a 16:9 picture 580px across
-   in Start here and 380px in each column, so the drawings were most of
-   the page and the titles sat a screen below their headings. A drawing
-   here is a door's sign, not its content. Each entry is now the drawing
-   at a fixed small width beside its title and read time, with the dek
-   under both, which is the order a reader scans a list in: what it is,
-   how long, then what it says. From 80rem the drawing is 14rem in Start
-   here and 7rem in a column; between 64 and 80rem, 10rem and 6rem, where
-   a column is about 296px and 7rem would leave the title under 170.
+   The label column is 10rem and the drawing 14rem to 80rem, then 14rem and
+   18rem, so the words get about 500px at 1024 and the measure's 60ch from
+   1280 on.
 
    Under 64rem nothing changes: the rows and their 768 breakpoint in
    style.css still hold. */
@@ -35,82 +29,47 @@
 }
 
 @media (min-width: 64rem) {
-  .writing-list--pair,
   .writing-collections { max-width: var(--col-full); }
 
-  /* Start here: two entries across, no hairline between, since the gap
-     separates them. */
-  .writing-list--pair {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-4xl);
-  }
-  .writing-list--pair .writing-item + .writing-item { border-top: 0; }
-  .writing-list--pair .writing-link { padding: var(--space-xl) 0 var(--space-3xl); }
-  /* style.css means the two sections to meet at 80px, the link's 40 and
-     the next section's 40, but a later section rule puts --space-section
-     back under this one and the gap measured 176. */
-  .case-section.writing-start { padding-bottom: 0; }
-
-  /* The collections: three columns, each a subgrid of eyebrow,
-     description, and two entries, so the three lists share a top edge and
-     a column's second entry starts level with its neighbour's however
-     long the first one's dek runs. The list is a subgrid of the last two
-     rows, so it stays a list. A column with one entry leaves the fourth
-     row empty. */
-  .writing-collections {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(4, auto);
-    column-gap: var(--space-3xl);
-  }
+  /* A group: its label in the first column, its list in the second. The
+     mark takes its own height and the name sits under it, so the list
+     spans both rows and its extra height goes to the second. */
+  .writing-start .container,
   .writing-collection {
     display: grid;
-    grid-row: span 4;
-    grid-template-rows: subgrid;
-    row-gap: 0;
-    align-content: start;
-  }
-  .writing-collection .writing-list {
-    display: grid;
-    grid-row: span 2;
-    grid-template-rows: subgrid;
-    row-gap: 0;
-  }
-
-  /* Every entry: the drawing beside the title and read time, the dek
-     under both at the full width of its column. The text wrapper steps
-     aside so its three children land in the link's own grid. */
-  .writing-list--pair .writing-link,
-  .writing-collection .writing-link {
     grid-template-columns: 10rem minmax(0, 1fr);
-    grid-template-areas:
-      "card title"
-      "card meta"
-      "dek  dek";
-    grid-template-rows: auto 1fr auto;
-    column-gap: var(--space-xl);
-    row-gap: 0;
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-3xl);
+    align-items: start;
   }
-  .writing-collection .writing-link {
-    grid-template-columns: 6rem minmax(0, 1fr);
-    column-gap: var(--space-md);
-    padding: var(--space-xl) 0;
+  .writing-start .container > * { max-width: none; }
+  .writing-start .writing-list,
+  .writing-collection > .writing-list { grid-column: 2; grid-row: 1 / span 2; }
+  .writing-collection {
+    border-top: 1px solid var(--color-tag-border);
+    padding-top: var(--space-3xl);
   }
-  .writing-list--pair .writing-text,
-  .writing-collection .writing-text { display: contents; }
-  .writing-list--pair .writing-card,
-  .writing-collection .writing-card { grid-area: card; }
-  .writing-list--pair .writing-title,
-  .writing-collection .writing-title { grid-area: title; margin: 0; }
-  .writing-collection .writing-title { font-size: var(--text-xl); }
-  .writing-list--pair .writing-meta,
-  .writing-collection .writing-meta { grid-area: meta; margin-top: var(--space-xs); }
-  .writing-list--pair .writing-dek,
-  .writing-collection .writing-dek { grid-area: dek; margin-top: var(--space-md); }
+  /* The hairline is the gap between Start here and the collections: the
+     last entry's 40 above it, the collection's 40 below. */
+  .writing-start + .case-overview { padding-top: 0; }
+  /* style.css zeroes this, but a later section rule puts --space-section
+     back under it. */
+  .case-section.writing-start { padding-bottom: 0; }
+
+  /* A row: the words, then the drawing at the right edge. */
+  .writing-list .writing-link {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    grid-template-areas: "text card";
+    column-gap: var(--space-3xl);
+    padding: 0 0 var(--space-3xl);
+  }
+  .writing-list .writing-item + .writing-item .writing-link { padding-top: var(--space-3xl); }
+  .writing-list .writing-card { grid-area: card; }
+  .writing-list .writing-text { grid-area: text; }
 }
 
 @media (min-width: 80rem) {
-  .writing-list--pair .writing-link { grid-template-columns: 14rem minmax(0, 1fr); }
-  .writing-collection .writing-link { grid-template-columns: 7rem minmax(0, 1fr); }
+  .writing-start .container,
+  .writing-collection { grid-template-columns: 14rem minmax(0, 1fr); column-gap: var(--space-4xl); }
+  .writing-list .writing-link { grid-template-columns: minmax(0, 1fr) 18rem; column-gap: var(--space-4xl); }
 }
