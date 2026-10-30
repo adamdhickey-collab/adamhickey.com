@@ -374,7 +374,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 .home .case-card h3,
 .home .story-step h3,
 .home .product h3 { font-size: max(var(--type-subsection), var(--text-3xl)); }
-.section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-lg); }
+.section-head p { max-width: var(--measure); color: var(--color-charcoal); font-size: var(--text-base); }
 /* The header says How I Work and Contact; the heads they scroll to say "When
    people bring me in" and "Tell me about the role". Neither title
    carries the word a reader just clicked, so the eyebrow does, in the
@@ -1532,13 +1532,13 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
 }
 .story-step p {
   font-family: var(--font-sans);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-reading);
   color: var(--story-body);
   max-width: 30rem;
   transition: color var(--motion-ambient) var(--ease);
 }
-@media (min-width: 768px) { .story-step p { font-size: var(--text-lg); } }
+@media (min-width: 768px) { .story-step p { font-size: var(--text-base); } }
 /* A SHORT WINDOW, since 2026-10-06. The stage is the window's height less the
    nav and 8.5rem, and the steps are centred in it, so on a short window the
    longest steps ran past it top and bottom: step 03 by 42px at 900x700 and
@@ -1906,7 +1906,7 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
   opacity: 0.92;
 }
 @media (min-width: 768px) {
-  .still-copy p { font-size: var(--text-lg); }
+  .still-copy p { font-size: var(--text-base); }
   .still-copy { margin-bottom: var(--space-4xl); }
 }
 
@@ -2406,7 +2406,10 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
    The card styles themselves live in the V2 block further down. */
 .engagement-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
 @media (min-width: 768px)  { .engagement-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-2xl) var(--space-3xl); } }
-@media (min-width: 1024px) { .engagement-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-2xl); } }
+/* Two across at every width from 768 since 2026-10-30: four across left
+   each still life about 230px wide inside its card, a thumbnail of a
+   picture made at 1080. Two across they are about 560. */
+@media (min-width: 1024px) { .engagement-grid { gap: var(--space-2xl) var(--space-3xl); } }
 
 
 
@@ -2689,11 +2692,11 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   max-width: var(--measure);
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
 }
-.case-section .eng3-step-out { font-size: var(--text-lg); line-height: var(--leading-body); }
+.case-section .eng3-step-out { font-size: var(--text-base); line-height: var(--leading-body); }
 /* The mark takes --color-accent-text, which is now the only sage on light --
    it was the TEXT sage against a separate fill step when this was written,
    the FILL sage. It inherits --text-lg from .eng3-step-out, which is 18px and
@@ -4346,6 +4349,17 @@ html.ah-lightbox-open body { overflow: hidden; }
    facts are a single column of six. Above it the row is two buttons wide
    and the facts are two or three across, and 80 is the right distance
    between a block that wide and the rule under it. */
+/* COMPACT ON A PHONE, since 2026-10-30. Six full rows, each a mark, a
+   label and a line of detail, were a whole phone screen between the
+   buttons and the work. Under 640 the six sit two across as a mark and a
+   label, three short rows; the detail lines come back from 641px, where
+   the strip already lays them out beside the label. */
+@media (max-width: 640px) {
+  .hero-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-md); padding: var(--space-md) 0; }
+  .hero-proof li { padding: var(--space-xs) 0; border-top: 0; }
+  .hero-proof .hero-proof-detail { display: none; }
+  .hero-proof .hero-proof-label { font-size: var(--text-lg); }
+}
 @media (max-width: 640px) {
   .hero-cta { margin-bottom: var(--space-3xl); }
   .hero-proof { margin-top: var(--space-lg); }
@@ -4471,7 +4485,7 @@ html.ah-lightbox-open body { overflow: hidden; }
    its own, and max() rather than a media query for the homepage's reason:
    no seam. Still under the 34 of every page title. */
 .writing-measure {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   max-width: var(--measure);
 }
 .writing-measure h2 {
@@ -4558,7 +4572,7 @@ html.ah-lightbox-open body { overflow: hidden; }
   position: relative;
   padding-left: var(--space-lg);
   color: var(--color-charcoal);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-reading);
 }
 .writing-measure li::before {
@@ -4705,7 +4719,7 @@ html.ah-lightbox-open body { overflow: hidden; }
    own, the lede's 60ch would be its own, fluid, serif ch and the two edges
    would only meet at one viewport; at 46ch, where it used to sit, the lede
    stopped 160px short of the sentence above it. */
-.about-intro { font-size: var(--text-lg); max-width: 60ch; }
+.about-intro { font-size: var(--text-base); max-width: 60ch; }
 /* The line the hero used to carry. */
 .about-lede {
   font-family: var(--font-serif);
@@ -4722,7 +4736,7 @@ html.ah-lightbox-open body { overflow: hidden; }
    larger than the three after it, and on a desktop the same size on a
    tighter line. It keeps its full ink; the beats' .92 is theirs. */
 .about-entity { font-size: var(--text-base); line-height: var(--leading-reading); color: var(--ink-on-dark); margin: 0 0 var(--space-2xl); max-width: var(--measure); }
-@media (min-width: 768px) { .about-entity { font-size: var(--text-lg); } }
+@media (min-width: 768px) { .about-entity { font-size: var(--text-base); } }
 
 /* The Lucy Learns card shows the app as three screens in the order you meet
    it, app-store style, rather than one phone beside a lot of empty column.
@@ -6017,7 +6031,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .miss-list li {
   position: relative;
   padding-left: var(--space-lg);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-reading);
   color: var(--color-charcoal);
 }
@@ -6089,7 +6103,7 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-section h6 { margin: var(--space-xl) 0 var(--space-xs); }
 .case-section p {
   color: var(--color-charcoal);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-reading);
   margin-bottom: var(--space-md);
 }
@@ -6446,7 +6460,7 @@ p.try-live {
    thing seen twice. (The h2's own gap to it is set with .section-head h2, up at
    the top of the file.) */
 .other-lead {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
   max-width: var(--measure);

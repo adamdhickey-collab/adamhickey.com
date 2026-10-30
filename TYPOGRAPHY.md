@@ -137,8 +137,8 @@ use). So the text tier steps by whole pixels and stops.
 | `--text-2xs` | 0.6875 | **11** | `text-2xs` | Specimen notes on the design system page and a prototype's own small labels. **Not a kicker size** since 2026-10-29 (section 6). This is the floor — nothing on the site is smaller. |
 | `--text-xs` | 0.75 | **12** | `text-xs` | Every kicker and field label; tags, figure captions, footnotes, timestamps. |
 | `--text-sm` | 0.875 | **14** | `text-sm` | Dense UI: navigation, footer links, table cells, dt labels, secondary meta. |
-| `--text-base` | 1 | **16** | `text-base` | Default body copy, card copy, list items, buttons. |
-| `--text-lg` | 1.125 | **18** | `text-lg` | Reading prose in a long-form column; the smallest heading level. |
+| `--text-base` | 1 | **16** | `text-base` | All body copy, since 2026-10-30: the reading column of every essay and case study, card copy, list items, buttons. One body size site-wide (Adam: "body text is always 16"). |
+| `--text-lg` | 1.125 | **18** | `text-lg` | The smallest heading level, and the hero's one-line invitation. Reading prose until 2026-10-30, when body copy went to `--text-base` everywhere. |
 
 ### Display tier — geometric
 
