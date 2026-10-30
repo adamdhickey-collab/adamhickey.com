@@ -424,10 +424,11 @@
    what the app does at the measure, and the guess under it, its label in
    the sage. They were the prototype page's .aiw-decisions until 2026-10-29,
    with a disclosure of reasons each, which the one page leaves out.
-   Since 2026-10-30 each carries a drawing in the storyboard's hand, on a
-   white tile with the figure's card edge: over the words to 64rem, and
-   from 64rem beside them, the list leaving the reading column for the
-   container as the map does, so the drawing and the words each get half. */
+   Since 2026-10-30 each carries a small diagram drawn in code, one idea
+   per decision in the map's line weight and colors (sage for what goes or
+   holds, caution ink for what is left out or stale), on a white tile with
+   the figure's card edge: half the column over the words to 64rem, and
+   from 64rem a quarter of the container beside them. */
 .ia-decisions {
   --ia-num: 40px;
   list-style: none;
@@ -440,14 +441,26 @@
 .ia-decision { counter-increment: ia-decision; }
 .ia-decision-pic {
   display: block;
-  width: 100%;
+  width: 50%;
   height: auto;
   aspect-ratio: 3 / 2;
   margin: 0 0 var(--space-lg);
   background: var(--color-white);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
+.ia-decision-pic .ink { stroke: var(--color-charcoal); }
+.ia-decision-pic .mute { stroke: var(--color-muted-gray); opacity: 0.45; }
+.ia-decision-pic .sage { stroke: var(--color-accent-text); }
+.ia-decision-pic .warn { stroke: var(--color-caution-text); }
+.ia-decision-pic .dash { stroke-dasharray: 6 6; }
+.ia-decision-pic .tea { fill: var(--color-tea-light); }
+.ia-decision-pic .white { fill: var(--color-white); }
+.ia-decision-pic .sage.fill { fill: var(--color-accent-text); }
 .ia-decision-text {
   position: relative;
   padding-left: calc(var(--ia-num) + var(--space-sm));
@@ -477,11 +490,11 @@
   }
   .ia-decision {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
     gap: var(--space-3xl);
     align-items: center;
   }
-  .ia-decision-pic { margin: 0; }
+  .ia-decision-pic { width: 100%; margin: 0; }
 }
 .case-section .ia-decision h3 {
   min-height: var(--ia-num);
