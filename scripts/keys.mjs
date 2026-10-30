@@ -1,55 +1,32 @@
 #!/usr/bin/env node
 /**
- * keys.mjs -- the key ideas of each article, generated from its headings.
+ * keys.mjs -- every article's headings, and the read time the index shows.
  *
- *   node scripts/keys.mjs            check: every list, eyebrow and count matches the h2s
- *   node scripts/keys.mjs --write    regenerate them
+ *   node scripts/keys.mjs            check
+ *   node scripts/keys.mjs --write    fix what it can
  *   node scripts/keys.mjs --root <path>
  *
- * A Blinked article carries its argument three times: as the h2s down the
- * page, as the numbered list of key ideas under the dek, and as the "Key
- * idea 2 of 6" eyebrow over each section. Three copies of one thing drift,
- * so two of them are written by this script from the third. The h2 is the
- * source: its text is the list entry, its position is the eyebrow's number,
- * and its id is the link between them. Edit the heading, run --write, and
- * the list and the eyebrows follow. The index gets its label the same way:
- * "6 min read" beside each entry, from the article's own kicker. Until
- * 2026-10-29 it read "6 ideas · 6 min read"; the idea count came off the
- * index, and stays on the article, where the list shows it.
+ * Until 2026-10-30 most articles were Blinks: the argument carried three
+ * times, as the h2s, as a numbered list of key ideas under the dek, and as
+ * a "Key idea 2 of 6" eyebrow over each section, with a recap at the end.
+ * This script wrote the list and the eyebrows from the h2s so the three
+ * could not drift. #897 took the frame off three personal essays; on
+ * 2026-10-30 it came off the rest, when the four articles in The system
+ * and The judgment became two. The frame added a list, an eyebrow per
+ * section and a recap to every page for articles a reader finishes in five
+ * minutes, and every one of them is an essay now.
  *
- * The check is the same question seo.mjs asks of the sitemap: is what the
- * page says about itself what the page is. A heading reworded without a
- * --write is a red check, on purpose, because a list that names a section
- * the page no longer has is the exact thing a reader would notice and a
- * script would not.
+ * What it does now, and only this:
+ *   - gives each h2 in an article's main an `id`, if it has none, so a
+ *     section can still be linked to
+ *   - takes out any key-ideas list, eyebrow or recap that comes back, and
+ *     faults one on a check
+ *   - writes the <p class="writing-meta"> of each entry on the index, "5 min
+ *     read", from the article's own kicker
  *
- * What it edits, and only this:
- *   - the `id` attribute on each h2 in an article's main, if it has none
- *   - the <p class="writing-eyebrow"> immediately before each h2
- *   - the block between <!-- keys:start --> and <!-- keys:end --> in the hero
- *     (inserted after the dek if the markers are missing)
- *   - the <p class="writing-meta"> of each entry on the index
- *
- * An article can be kept at its address and left off the index. Until
- * 2026-10-08 an article that left the nine was deleted and its URL left to
- * 404; "What does a product design engineer actually do?" was the first to
- * be unlisted instead, because its place went to a new article and its
- * address is still linked and still read. It is named in UNLISTED below.
- * Its list and eyebrows are held to its h2s like any other's; the index is
- * held to NOT carrying it, so an unlisted article cannot drift back into
- * the nine without someone taking it out of the set. Three more joined it
- * on 2026-10-20, when the index regrouped as The system, The build and The
- * judgment and an article came in at the head of each: the developer's bad
- * day, the workflow that breaks, and the SAP article. A fifth on
- * 2026-10-21: the interface-feel-finished article, when the usability
- * testing article took its place in The build.
- *
- * Not every article is a Blink. Since 2026-10-30 the ones in ESSAYS are
- * essays: h2s with ids, and no list under the dek, no eyebrow over a
- * section and no recap at the end. A content audit found the same frame on
- * all seven read as manufactured, so the personal ones lost it and the
- * practical guides kept it. --write takes the list and the eyebrows out of
- * an essay, and the check faults one that grows them back.
+ * The index is held to listing every article, so an article cannot be
+ * added at an address without a door on the index, and a forwarding note
+ * is not an article (lib/harness.mjs).
  */
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -82,22 +59,10 @@ const inner = (html) => html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 /* The id: the text with its entities decoded to nothing, lowercased, hyphened. */
 const slug = (html) => inner(html).replace(/&[a-z]+;|&#\d+;/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/* Kept at their address, off the index (see the header). */
-const UNLISTED = new Set([
-  /* Empty since 2026-10-29: the five that were kept at their address
-     off the index became forwarding notes when the writing went to seven. */
-]);
-
-/* Essays, not Blinks (see the header). */
-const ESSAYS = new Set([
-  'my-next-design-challenge',
-  'what-makes-a-good-product-designer-now',
-  'who-decides-when-software-can-act-on-its-own',
-]);
 const faults = [];
 const fault = (f, msg) => faults.push(`${f}: ${msg}`);
 
-const ideas = new Map(); // slug -> { count, minutes }
+const minutesOf = new Map(); // slug -> minutes
 
 for (const f of articles) {
   const path = resolve(DIR, f);
@@ -117,57 +82,22 @@ for (const f of articles) {
     return `<h2 id="${id}"${rest}>${body}</h2>`;
   });
   if (!heads.length) { fault(f, 'no h2 in main'); continue; }
-  const M = heads.length;
-  const essay = ESSAYS.has(basename(f, '.html'));
 
-  /* 2. The eyebrow before each h2, numbered. Any eyebrow already there comes
-     out first, so the pass is the same whether it is the first run or the
-     fortieth; the h2's own indentation is the eyebrow's. */
+  /* 2. No eyebrow over a section, no list under the dek, no recap. */
   main = main.replace(/[ \t]*<p class="writing-eyebrow">[^<]*<\/p>\n(?=[ \t]*<h2 id=")/g, '');
-  let n = 0;
-  if (!essay) main = main.replace(/^([ \t]*)(<h2 id=")/gm, (m, indent, h2) => {
-    n += 1;
-    return `${indent}<p class="writing-eyebrow">Key idea ${n} of ${M}</p>\n${indent}${h2}`;
-  });
-
-  /* 3. The list under the dek. */
-  const list = [
-    '<!-- keys:start -->',
-    '<!-- The key ideas, one per section, written by scripts/keys.mjs from the',
-    '     h2s below. Edit the heading, not this list; `node scripts/keys.mjs',
-    '     --write` regenerates it and the eyebrows. -->',
-    '<nav class="writing-keys" aria-labelledby="writing-keys-label">',
-    '  <p class="writing-keys-label" id="writing-keys-label">In this article</p>',
-    '  <ol>',
-    ...heads.map((h) => `    <li><a href="#${h.id}">${h.text}</a></li>`),
-    '  </ol>',
-    '</nav>',
-    '<!-- keys:end -->',
-  ];
-  const keysRe = /([ \t]*)<!-- keys:start -->[\s\S]*?<!-- keys:end -->/;
-  if (essay) {
-    main = main.replace(/[ \t]*<!-- keys:start -->[\s\S]*?<!-- keys:end -->\n/, '');
-    if (/class="writing-recap"/.test(main)) fault(f, 'an essay carries no recap; take the "In one breath" aside out');
-  } else if (keysRe.test(main)) {
-    main = main.replace(keysRe, (m, indent) => list.map((l) => indent + l).join('\n'));
-  } else {
-    const dek = main.match(/([ \t]*)<p class="build-dek">[\s\S]*?<\/p>\n/);
-    if (!dek) { fault(f, 'no <p class="build-dek"> to put the key ideas under'); continue; }
-    const indent = dek[1];
-    main = main.replace(dek[0], dek[0] + list.map((l) => indent + l).join('\n') + '\n');
-  }
+  main = main.replace(/[ \t]*<!-- keys:start -->[\s\S]*?<!-- keys:end -->\n/, '');
+  if (/class="writing-recap"/.test(main)) fault(f, 'an article carries no recap; take the "In one breath" aside out');
 
   const minutes = (src.match(/<p class="case-kicker">Writing &middot; (\d+) min read<\/p>/) || [])[1];
   if (!minutes) fault(f, 'no "Writing · N min read" kicker to take the minutes from');
-  ideas.set(basename(f, '.html'), { count: M, minutes });
+  minutesOf.set(basename(f, '.html'), minutes);
 
   const next = src.slice(0, mainStart) + main + src.slice(mainEnd);
   if (next !== src) {
-    if (WRITE) { writeFileSync(path, next); say(`  wrote ${f}: ${essay ? 'an essay, no key ideas' : `${M} key ideas`}`); }
-    else fault(f, essay ? 'an essay carries no key ideas or eyebrows; `node scripts/keys.mjs --write`'
-      : `key ideas, eyebrows or ids are out of step with its ${M} h2s; \`node scripts/keys.mjs --write\``);
+    if (WRITE) { writeFileSync(path, next); say(`  wrote ${f}: ids, no key ideas or eyebrows`); }
+    else fault(f, 'an h2 without an id, or a key-ideas list or eyebrow; `node scripts/keys.mjs --write`');
   } else {
-    say(`  ok    ${f}: ${essay ? 'an essay' : `${M} key ideas`}`);
+    say(`  ok    ${f}: ${heads.length} sections`);
   }
 }
 
@@ -176,12 +106,8 @@ for (const f of articles) {
   const path = resolve(DIR, 'index.html');
   const src = readFileSync(path, 'utf8');
   let next = src;
-  for (const [s, { minutes }] of ideas) {
+  for (const [s, minutes] of minutesOf) {
     const re = new RegExp(`(<a class="writing-link" href="${s}\\.html">[\\s\\S]*?<p class="writing-meta">)[^<]*(<\\/p>)`);
-    if (UNLISTED.has(s)) {
-      if (re.test(next)) fault('index.html', `${s}.html is unlisted but has an entry; take it out of UNLISTED or off the index`);
-      continue;
-    }
     if (!re.test(next)) { fault('index.html', `no entry for ${s}.html`); continue; }
     next = next.replace(re, `$1${minutes} min read$2`);
   }
@@ -199,4 +125,4 @@ if (faults.length) {
   say(`\n${faults.length} fault${faults.length === 1 ? '' : 's'}`);
   process.exit(1);
 }
-say(`\nevery list, eyebrow and count matches its headings`);
+say(`\nevery article is an essay, and every read time on the index is its article's`);

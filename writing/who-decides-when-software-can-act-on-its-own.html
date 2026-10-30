@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey</title>
-  <meta name="description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit." />
+  <meta name="description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Appropriate reliance rather than maximum trust, a line drawn where an agent&rsquo;s mistake gets expensive to reverse, an approval that carries its evidence and a no as cheap as a yes, a record of the run someone can read afterward, and what a system says when it doesn&rsquo;t know." />
 
   <link rel="canonical" href="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html" />
   <meta property="og:title" content="Who Decides When AI Software Can Act on Its Own? Designing Human Oversight | Adam Hickey" />
-  <meta property="og:description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit." />
+  <meta property="og:description" content="Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Appropriate reliance rather than maximum trust, a line drawn where an agent&rsquo;s mistake gets expensive to reverse, an approval that carries its evidence and a no as cheap as a yes, a record of the run someone can read afterward, and what a system says when it doesn&rsquo;t know." />
   <meta property="og:image" content="https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -39,7 +39,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html#article",
           "headline": "Who decides when software can act on its own?",
-          "description": "Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Behavioral design and dark patterns, confidence in AI that replaces checking it, appropriate reliance rather than maximum trust, approvals that are real oversight, and what a system says when it doesn't know, with Microsoft's research on reliance and my own Dispatch Cockpit.",
+          "description": "Who decides when AI software can act on its own: the person accountable for the outcome, and the design work is making sure they really can. Appropriate reliance rather than maximum trust, a line drawn where an agent&rsquo;s mistake gets expensive to reverse, an approval that carries its evidence and a no as cheap as a yes, a record of the run someone can read afterward, and what a system says when it doesn&rsquo;t know.",
           "url": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
           "mainEntityOfPage": "https://adamhickey.com/writing/who-decides-when-software-can-act-on-its-own.html",
           "image": "https://adamhickey.com/img/og/who-decides-when-software-can-act-on-its-own.jpg",
@@ -112,13 +112,14 @@
   <link rel="stylesheet" href="../color.css?v=12" />
   <link rel="stylesheet" href="../shell.css?v=7" />
   <link rel="stylesheet" href="../type.css?v=8" />
-  <link rel="stylesheet" href="../style.css?v=20261030j" />
+  <link rel="stylesheet" href="../style.css?v=20261030k" />
+  <link rel="stylesheet" href="../design-psychology.css?v=9" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
-  <script src="../writing.js?v=20260912a" defer></script>
+  <script src="../writing.js?v=20261030a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -249,47 +250,38 @@
   <div class="writing-progress" data-lead="ai" aria-hidden="true"></div>
 
     <main id="main">
-    <!-- THE JUDGMENT's new lead, written 2026-10-20 with the two beside it
-         (the system, the build). It took the place on the index of "What I
-         learned standardizing UX across 40+ SAP Fiori apps", which keeps
-         its address (keys.mjs UNLISTED); the SAP case study stays on the
-         homepage and makes that one's case.
-
-         WHERE THE OUTSIDE CLAIMS COME FROM. Every sentence about another
-         designer, team or study was checked against its primary source on
-         2026-10-20 and links to it. Zakiya Pope's is the published session
-         description, quoted to the word ("worth it"); a story about her
-         earlier work that no source confirmed is left out. Patricia Yu's is
-         the podcast's own description; the claim that a third diamond
-         covers the time after launch was not confirmed and is not made. The
-         critical-thinking study is self-reported and the page says so. The
-         FTC report's four kinds are the ones its press release names. The
-         retirement assistant and the dispatch agent are illustrations, and
-         say so.
+    <!-- THE JUDGMENT, one article since 2026-10-30. Until then it was two:
+         this essay (2026-10-20), about one decision a system recommends and
+         a person makes, and "What does a person need to supervise an AI
+         agent?" (2026-09-22), about the run of decisions an agent makes
+         when nobody is watching each one. The second was the first one's
+         next step, so it became the second half here: the line, the
+         approval that carries its evidence, and the record. Its address is a
+         forwarding note, and its Blink frame did not come with it.
 
          ONE OUTSIDE VOICE since the voice pass of 2026-10-21 (VOICE.md):
          Microsoft Research, for its three papers on confidence,
-         explanations and appropriate reliance. Zakiya Pope, the FTC's dark
-         patterns report, Tushar Roy's case study, NIST's framework and
-         Patricia Yu's podcast came out; this file's history before that
-         pass has them with their links. The dispatcher who approves all day
-         is part of the illustration and carries no figure. Sections 3 and 4
-         became one the same day, under 4's heading.
+         explanations and appropriate reliance, and Microsoft's Guidelines
+         for Human-AI Interaction in the design psychology note, which came
+         with the agent half. The critical-thinking study is self-reported
+         and the page says so. The retirement assistant and the overnight
+         queue are illustrations, and say so; the queue keeps the figures it
+         always had and none added.
 
          WHAT IT MAY NOT CLAIM about Adam's own work: Dispatch Cockpit runs on
          synthetic data, ranks with a transparent weighted rule rather than
-         a model, and has not been in front of a working dispatcher.
+         a model, recommends rather than acts, and has not been in front of a
+         working dispatcher.
 
-         THE FIGURES are two splits and three rails since the art pass of 2026-10-20. A
-         sequence is a rail (style.css, "THE RAIL"): ChatGPT's wordless
-         drawings, one sheet per figure, cut by draw.mjs slice, with every
-         word as text. A comparison stays a split, which is code. -->
+         THE FIGURES: three rails, two splits and a flow. A sequence is a
+         rail (style.css, "THE RAIL") or, where the cost rises, a flow; a
+         comparison is a split, which is code. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 4 min read</p>
+        <p class="case-kicker">Writing &middot; 6 min read</p>
         <h1 class="case-title">Who decides when software can act on its own?</h1>
         <!-- The answer, whole, before the argument, as on every article. -->
-        <p class="build-dek">The person accountable for the outcome, and the design work is making sure they really can. As AI moves from answering to acting, the interface sets when the system acts, when it asks, and when it leaves the choice alone.</p>
+        <p class="build-dek">The person accountable for the outcome, and the design work is making sure they really can. As AI moves from answering to acting, and from one recommendation to a run of steps, the interface sets when the system acts, when it asks, and what a person can check afterward.</p>
         <!-- The feature: one drawing per article, the essay's most literal
              noun with its verb performed on it once (writing-features.mjs).
              Under the dek so the answer is read before the picture is, and
@@ -306,8 +298,8 @@
           <h2 id="designing-an-interface-now-means-designing-a-decision">Designing an interface now means designing a decision</h2>
           <p>Here&rsquo;s an illustration. Your retirement account&rsquo;s assistant has worked out that raising your contribution by 3% would improve your outlook. Under that is a big button: Optimize my future.</p>
           <p>One tap, and your next paycheck is smaller. Did you make an informed decision, or did someone make one decision feel inevitable? If it was wrong, who answers for it?</p>
-          <p>A good default can get someone saving who never would have started. The same levers can push a choice they wouldn&rsquo;t make with the facts in front of them.</p>
-          <p>AI can tune those levers for each person, and it can move from suggesting to doing:</p>
+          <p>A version that shows its assumptions and a version that hides the downsides in small print both raise contributions. On a dashboard, they&rsquo;re the same number. If a metric can&rsquo;t tell a nudge from a push, it isn&rsquo;t measuring the design.</p>
+          <p>And AI can move from suggesting to doing:</p>
           <figure class="writing-figure writing-rail">
             <figcaption>From answering to acting, and who decides at each step</figcaption>
             <ol class="writing-rail-steps">
@@ -319,32 +311,6 @@
             </ol>
           </figure>
           <p>Each step down that list is a delegation, and the interface sets its terms. <mark>Every default, every framing, and every button is part of the decision now.</mark></p>
-
-          <h2 id="a-nudge-and-a-push-look-the-same-in-the-metrics">A nudge and a push look the same in the metrics</h2>
-          <p>One version of that suggestion shows its assumptions and what it does to take-home pay, and leaves the choice to you. Another shows a large, reassuring button and puts the downsides in small print.</p>
-          <p>Both raise contributions. On a dashboard, they&rsquo;re the same number.</p>
-          <figure class="writing-figure">
-            <figcaption>What a conversion metric sees, and what it misses</figcaption>
-            <div class="writing-split">
-              <div>
-                <p class="writing-split-head">It sees</p>
-                <ul>
-                  <li>The yes</li>
-                  <li>How fast the yes came</li>
-                  <li>How many people said it</li>
-                </ul>
-              </div>
-              <div>
-                <p class="writing-split-head">It misses</p>
-                <ul>
-                  <li>Whether they understood what they agreed to</li>
-                  <li>Whether they&rsquo;d choose it again</li>
-                  <li>Who quietly reversed it a month later</li>
-                </ul>
-              </div>
-            </div>
-          </figure>
-          <p><mark>If a metric can&rsquo;t tell a nudge from a push, it isn&rsquo;t measuring the design.</mark></p>
 
           <h2 id="aim-for-appropriate-reliance-not-maximum-trust">Aim for appropriate reliance, not maximum trust</h2>
           <p>The risk is also in what the person stops doing. <a href="https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/" target="_blank" rel="noopener noreferrer">Microsoft researchers found<span class="visually-hidden"> (opens in a new tab)</span></a> that the more confident knowledge workers were in the AI, the less critical thinking they reported. It&rsquo;s self-reported, so it shows a pattern, not a cause.</p>
@@ -367,9 +333,6 @@
           </ul>
           <p>Then measure the decision, not the acceptance. A high acceptance rate can mean the suggestions are good, or that people stopped reading them.</p>
           <p><mark>An explanation that sounds right is not evidence that it is right.</mark></p>
-          <aside class="writing-pull" aria-hidden="true">
-            <p>If saying no is harder than saying yes, the approval is a formality.</p>
-          </aside>
           <!-- The second drawing: the same object again, carrying the argument's
                second half, from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
           <figure class="writing-figure writing-scene">
@@ -377,8 +340,34 @@
             <figcaption>Reliance that matches the evidence: the decision tips by what has been put on it to check, not by how sure the system sounds.</figcaption>
           </figure>
 
+          <h2 id="an-agent-is-a-run-of-decisions-so-draw-the-line-where-a-mistake-gets-expensive">An agent is a run of decisions, so draw the line where a mistake gets expensive</h2>
+          <p>In Dispatch Cockpit a person judges one recommendation: one load, one truck, one press. An agent is given a goal instead, and takes a run of steps nobody watches one by one.</p>
+          <p>Picture an agent working the overnight queue of failed orders. By morning it has touched forty. The specialist who arrives at seven needs to know:</p>
+          <ul>
+            <li>Which of the forty it was sure about</li>
+            <li>Which it wasn&rsquo;t</li>
+            <li>What it did when it wasn&rsquo;t</li>
+            <li>Whether any of that can still be undone</li>
+          </ul>
+          <p>The first design decision is made off the screen: the line between what the agent may do alone and what it has to ask about. I&rsquo;d draw it where a mistake gets expensive to reverse, not where it gets possible.</p>
+          <figure class="writing-figure">
+            <figcaption>One run, and where the line falls in it</figcaption>
+            <ol class="writing-flow">
+              <li data-level="1">Read<small>the failed order; nothing to undo</small></li>
+              <li data-level="2">Look up<small>the partner&rsquo;s rule; nothing to undo</small></li>
+              <li data-level="3">Draft<small>the correction; a review to undo</small></li>
+              <li data-level="4">Resubmit<small>the order; a phone call to undo</small></li>
+              <li data-level="5" class="writing-flow-mark">Change the rule<small>every future order; a week to undo</small></li>
+            </ol>
+          </figure>
+          <p>The person supervising the agent has to see where the line is, and move it for one partner or one kind of order, without opening a ticket.</p>
+          <p><mark>Autonomy is a boundary in the workflow, and engineering has to enforce it where the copy describes it.</mark></p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>If saying no is harder than saying yes, the approval is a formality.</p>
+          </aside>
+
           <h2 id="an-approve-button-isnt-oversight">An approve button isn&rsquo;t oversight</h2>
-          <p>An approval is only oversight if the person can actually say no.</p>
+          <p>When a system reaches the line, it asks, and how it asks is most of the interface. &ldquo;Resubmit order 4471?&rdquo; teaches people to answer yes, because there&rsquo;s nothing in it to judge.</p>
           <figure class="writing-figure">
             <figcaption>An approval that&rsquo;s a formality, and one that&rsquo;s oversight</figcaption>
             <div class="writing-split">
@@ -400,9 +389,44 @@
               </div>
             </div>
           </figure>
+          <p>The question that works carries its evidence: this order failed on a missing customer identifier, eleven others from this partner have had the same gap since Tuesday, and here is the corrected document beside the original, with the change marked.</p>
+          <p>Two more things belong on it and are usually missing: what happens if nobody answers at three in the morning, and whether a yes covers this order or teaches the agent to stop asking.</p>
           <p>The decision belongs to whoever is accountable for the outcome. In Dispatch Cockpit, the federal hours-of-service limit is checked before anything is ranked, and the close calls stay with the dispatcher.</p>
-          <p>The test is simple: give people a bad recommendation and count how many catch it.</p>
-          <p><mark>If saying no is harder than saying yes, the approval is a formality.</mark></p>
+          <p>The test is simple: give people a bad recommendation and count how many catch it. <mark>If saying no is harder than saying yes, the approval is a formality.</mark></p>
+          <aside class="dp-note" aria-labelledby="dp-scope-label">
+            <p class="dp-note-label" id="dp-scope-label"><svg class="dp-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>Design psychology</p>
+            <h3 class="dp-note-head">When in doubt, do less, and say so</h3>
+            <p class="dp-note-body">The one human&ndash;AI guideline I&rsquo;d keep is to scope the service when in doubt: ask or do less, rather than guess and do more. A step held for a person is cheaper than a confident wrong one.</p>
+            <p class="dp-note-source">The guidelines, with the research behind each: <a href="https://www.microsoft.com/en-us/research/project/guidelines-for-human-ai-interaction/" target="_blank" rel="noopener noreferrer">Microsoft, Guidelines for Human-AI Interaction</a></p>
+          </aside>
+
+          <h2 id="the-run-has-to-be-readable-afterward-by-someone-who-wasnt-there">The run has to be readable afterward, by someone who wasn&rsquo;t there</h2>
+          <p>Readable is a stronger word than logged. The specialist at seven needs the forty grouped: the three that hit the line and waited at the top, the one it skipped next, and the thirty-six it resubmitted folded away.</p>
+          <figure class="writing-figure">
+            <figcaption>What the log holds, and what the person needs from it</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">The log</p>
+                <ul>
+                  <li>Every call, in the order it was made</li>
+                  <li>What the model returned, in full</li>
+                  <li>Timestamps to the millisecond</li>
+                  <li>Written for the engineer who built the agent</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">The record</p>
+                <ul>
+                  <li>Every decision, grouped by how sure the agent was</li>
+                  <li>What each one stood on, and how old that was</li>
+                  <li>Which are still reversible, and until when</li>
+                  <li>Written for the person who has to answer for it</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p>Stopping is where the record matters most. Stopping before the next step is easy, and undoing the last one depends on the record. Handing a half-done queue back to a person is the stop nobody designs.</p>
+          <p><mark>If a decision can&rsquo;t be reconstructed from the record, the agent wasn&rsquo;t supervised. It was trusted.</mark> An agent that finishes everything and is never caught is either perfect or unsupervised, and the dashboard can&rsquo;t tell you which.</p>
 
           <h2 id="what-the-system-says-when-it-doesnt-know-belongs-in-the-design-system">What the system says when it doesn&rsquo;t know belongs in the design system</h2>
           <p>A design system defines what an error looks like. An AI product also needs to decide what it says when it doesn&rsquo;t know.</p>
@@ -436,9 +460,9 @@
             <li><a class="related-link" href="../how-i-work.html#ambiguity"><span class="related-kind">How I work</span><span class="related-title">Turn ambiguity into a decision</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </nav>
-        <a class="build-next" href="what-does-a-person-need-to-supervise-an-ai-agent.html">
+        <a class="build-next" href="my-next-design-challenge.html">
           <span class="build-next-eyebrow">Next</span>
-          <span class="build-next-title">What does a person need to supervise an AI agent? &rarr;</span>
+          <span class="build-next-title">The hardest thing I&rsquo;ve designed is what&rsquo;s next &rarr;</span>
         </a>
         <a class="btn-back" href="index.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>

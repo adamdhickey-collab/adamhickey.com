@@ -122,11 +122,10 @@ sentences anywhere else, with a link.
   product designer in Minneapolis..." says who, what, and where in the words
   the JSON-LD Person says, so an assistant can quote it. It is the one
   paragraph the 40-word cap doesn't apply to.
-- **Each h2 is one key idea, as a sentence.** `node scripts/keys.mjs
-  --write` writes the list and the eyebrows from them, so reword a heading
-  and run it in the same commit. Essays are the exception: the personal
-  articles named in `ESSAYS` in that script carry no list, no eyebrows, and
-  no recap, and end on their own last line.
+- **Each h2 is one step of the argument, as a sentence.** Every article
+  is an essay since 2026-10-30: no list of key ideas, no eyebrows, and no
+  recap, and each ends on its own last line. `node scripts/keys.mjs`
+  holds that.
 - **Lists are for real lists.** Steps, figures, and options stay as lists
   and rails. An argument goes in short paragraphs.
 - **A cut takes prose, not lists.** When a page gets shorter, the
@@ -150,8 +149,8 @@ How I work four pages made one and the career pages and other.html made
 Earlier work.
 
 The budgets are set in **running text**, meaning the paragraphs and the
-list items between them. Figure labels, captions, the key-ideas list, and
-the recap don't count, because they're what a skimming reader reads instead
+list items between them. Figure labels and captions don't
+count, because they're what a skimming reader reads instead
 of the paragraphs. They are where each family landed on 2026-10-29, not a
 wish. A page over its budget is the next one to cut, and a page under it is
 fine.
@@ -165,7 +164,7 @@ fine.
 | Earlier work | 260 running | 300 running |
 | Lab write-ups | 493 to 695 running | 700 running |
 | Prototype pages | 734 running, around the interface | 750 running |
-| Articles | 572 to 1,005 running, not yet cut | 500 running, four key ideas |
+| Articles | 572 to 1,005 running, not yet cut | 500 running, four sections |
 | Indexes | 113 running, 285 to 556 seen | 300 seen |
 | Design system reference | 5,856 running | No budget. Say the premise once; the specimens are the page |
 

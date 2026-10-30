@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Design System Patterns for AI Features: Sources, Pending States, Refusals, and Reversible Actions | Adam Hickey</title>
-  <meta name="description" content="Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them." />
+  <meta name="description" content="What a design system needs once AI is in the product, from both sides. Coding agents that build from it need to know what each part means and where the usual answer stops holding. AI inside the product hands its components claims, which need a source and an age, a pending state, a refusal that never looks like a suggestion, an undo that says what it promises, and checks that reach every state." />
 
   <link rel="canonical" href="https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html" />
   <meta property="og:title" content="Design System Patterns for AI Features: Sources, Pending States, Refusals, and Reversible Actions | Adam Hickey" />
-  <meta property="og:description" content="Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them." />
+  <meta property="og:description" content="What a design system needs once AI is in the product, from both sides. Coding agents that build from it need to know what each part means and where the usual answer stops holding. AI inside the product hands its components claims, which need a source and an age, a pending state, a refusal that never looks like a suggestion, an undo that says what it promises, and checks that reach every state." />
   <meta property="og:image" content="https://adamhickey.com/img/og/what-does-a-design-system-need-once-ai-is-in-the-product.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -39,7 +39,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html#article",
           "headline": "What does a design system need once AI is in the product?",
-          "description": "Six things a design system built for facts needs once AI hands it claims: a slot for the source and the age, a pending state, a refusal that never looks like a suggestion, a reversible action that says what reversing means, an ink for generated text, and checks that reach them.",
+          "description": "What a design system needs once AI is in the product, from both sides. Coding agents that build from it need to know what each part means and where the usual answer stops holding. AI inside the product hands its components claims, which need a source and an age, a pending state, a refusal that never looks like a suggestion, an undo that says what it promises, and checks that reach every state.",
           "url": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html",
           "mainEntityOfPage": "https://adamhickey.com/writing/what-does-a-design-system-need-once-ai-is-in-the-product.html",
           "image": "https://adamhickey.com/img/og/what-does-a-design-system-need-once-ai-is-in-the-product.jpg",
@@ -108,14 +108,14 @@
   <link rel="stylesheet" href="../color.css?v=12" />
   <link rel="stylesheet" href="../shell.css?v=7" />
   <link rel="stylesheet" href="../type.css?v=8" />
-  <link rel="stylesheet" href="../style.css?v=20261030j" />
+  <link rel="stylesheet" href="../style.css?v=20261030k" />
   <link rel="stylesheet" href="../design-psychology.css?v=9" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
-  <script src="../writing.js?v=20260912a" defer></script>
+  <script src="../writing.js?v=20261030a" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -246,46 +246,34 @@
   <div class="writing-progress" data-lead="enterprise" aria-hidden="true"></div>
 
   <main id="main">
-    <!-- THE DESIGN-SYSTEM-FOR-AI ARTICLE, written 2026-09-22 in place of the
-         one on moving a workflow from ambiguity to release (#59), whose
-         argument lives on the product-clarity engagement page it pointed
-         at. The postings this site is read against ask, almost word for
-         word, for design systems and interaction patterns that hold up once
-         AI is in the product, and the SAP article shows a system being run
-         without saying what AI asks of one. The six things below were each
-         tried on the dispatch cockpit's one screen, and the article says
-         which of them the cockpit does not do. -->
-    <!-- THE VOICE PASS, 2026-10-21 (VOICE.md): seven ideas became five. The
-         source and the age joined the first, about claims, and the fourth ink
-         joined the one about styles, since both are treatments the tokens
-         have to name. The six things are all still here, in about 700 words
-         of running text instead of 1,270, with no paragraph over 40. There
-         was no outside source to cut. The recap is one sentence; the six are
-         the headings and the description. -->
+    <!-- THE SYSTEM, one article since 2026-10-30. Until then it was two:
+         "What a design system needs to explain to an agent" (2026-10-08),
+         about AI building the product, and this one (2026-09-22), about AI
+         inside it. They used the same words for two halves of one argument,
+         so they became one essay at this address, and the other address is a
+         forwarding note. The Blink frame (key ideas, eyebrows, recap) came
+         off with the merge.
+
+         WHAT IT MAY NOT CLAIM, the lists both halves kept. Agent Review: the
+         run is simulated, the experiment was two real runs and one seeded
+         branch, once each, and nothing has been tested with anyone. Nothing
+         learns; a rule exists because a person kept one. The cancel link's
+         quotes (my reason, the rule) are the prototype's src/data/billing.ts
+         word for word; Relay, the run and my reason in it are simulated, and
+         the page says so where it states them. Dispatch Cockpit runs on
+         synthetic data. Every other fact traces to the agent-review
+         repository's PROJECT.md, docs/experiment/README.md or
+         skills/ui-quality/SKILL.md, to lab/agent-review.html, and to the
+         cockpit's own page. -->
     <header class="case-hero">
       <div class="container case-narrow">
-        <p class="case-kicker">Writing &middot; 4 min read</p>
+        <p class="case-kicker">Writing &middot; 5 min read</p>
         <h1 class="case-title">What does a design system need once AI is in the product?</h1>
         <!-- The answer, whole, before the argument. A reader who came in from
              a search wants the question answered in the first screen, and a
              machine asked the question can quote this paragraph on its own.
              The essay below is why it is the answer. -->
-        <p class="build-dek">Once AI hands a design system claims instead of facts, its components need six things they were never asked for. Dispatch Cockpit, a prototype on synthetic data, is where I tried all six on one screen.</p>
-        <!-- keys:start -->
-        <!-- The key ideas, one per section, written by scripts/keys.mjs from the
-             h2s below. Edit the heading, not this list; `node scripts/keys.mjs
-             --write` regenerates it and the eyebrows. -->
-        <nav class="writing-keys" aria-labelledby="writing-keys-label">
-          <p class="writing-keys-label" id="writing-keys-label">In this article</p>
-          <ol>
-            <li><a href="#the-components-were-built-for-facts-and-ai-hands-them-claims">The components were built for facts, and AI hands them claims</a></li>
-            <li><a href="#pending-is-a-state-not-a-spinner">Pending is a state, not a spinner</a></li>
-            <li><a href="#a-suggestion-and-a-rule-must-never-share-a-style">A suggestion and a rule must never share a style</a></li>
-            <li><a href="#a-reversible-action-needs-a-pattern-and-the-pattern-has-to-say-what-reversing-means">A reversible action needs a pattern, and the pattern has to say what reversing means</a></li>
-            <li><a href="#the-checks-have-to-reach-the-new-states">The checks have to reach the new states</a></li>
-          </ol>
-        </nav>
-        <!-- keys:end -->
+        <p class="build-dek">AI changes a design system from both sides. Coding agents build from it, so it has to say what each part means, not only what it&rsquo;s made of. And AI inside the product hands its components claims instead of facts, which they were never built to show.</p>
         <!-- The feature: one drawing per article, in the set's hand, of the
              argument rather than the topic. Under the dek so the answer is
              read before the picture is, and inside the hero so it sits on
@@ -299,12 +287,56 @@
     <section class="case-section case-overview">
       <div class="container case-narrow">
         <div class="writing-measure">
-          <p class="writing-eyebrow">Key idea 1 of 5</p>
-          <h2 id="the-components-were-built-for-facts-and-ai-hands-them-claims">The components were built for facts, and AI hands them claims</h2>
-          <p>A design system like the one that held <a href="../case-study/sap-product-maturity.html">forty-plus SAP apps</a> together is a system for facts. Its data table shows a value, its status shows a state, and every component assumes the number in the cell is true.</p>
-          <p>An AI feature hands the same components something else: a claim. A recommended truck, a suspected cause, a drafted correction.</p>
-          <p>The value looks the same in the cell. <mark>The first thing AI asks of a design system is a way to say what kind of thing a value is.</mark></p>
-          <p>In <a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, three of the five factors behind a recommendation say where they came from and how long ago: the GPS position four minutes ago, the driver&rsquo;s hours forty-five minutes ago.</p>
+          <h2 id="an-agent-can-build-from-the-parts-and-still-miss-the-meaning">An agent can build from the parts and still miss the meaning</h2>
+          <p>Before I designed anything for review, I gave Claude Code the same request twice: add bulk actions to a customer data table built from a React component system.</p>
+          <p>One run read twelve written design rules first. The other had only the components, the tokens, and the stories. Both stayed inside the system, and the checks found no defect in either.</p>
+          <p>The parts carry a lot. <a href="../lab/agent-review.html">Agent Review</a>&rsquo;s simulated run shows where they stop. In it I hand Claude Code a job: bring Relay&rsquo;s billing screens onto the design system, and change nothing anyone can see.</p>
+          <p>Every action on Billing settings is the system&rsquo;s Button except &ldquo;Cancel subscription,&rdquo; small gray text built by hand. The rule says actions are Buttons, so following it makes cancel easier to find, in a job meant to change nothing.</p>
+          <figure class="writing-figure">
+            <figcaption>What the checks established about cancel, and what they couldn&rsquo;t</figcaption>
+            <div class="writing-split">
+              <div>
+                <p class="writing-split-head">The checks established</p>
+                <ul>
+                  <li>Every value is exactly a token&rsquo;s</li>
+                  <li>The gray clears its contrast floor</li>
+                  <li>Neither direction moves a pixel</li>
+                </ul>
+              </div>
+              <div>
+                <p class="writing-split-head">No check could establish</p>
+                <ul>
+                  <li>Whether cancel is quiet on purpose</li>
+                  <li>Who decides how easy it is to find</li>
+                  <li>What a quiet variant would let the next agent do</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+          <p><mark>A passing check establishes what that check measures, and nothing beyond it.</mark></p>
+
+          <h2 id="the-designer-decides-what-each-thing-is-for">The designer decides what each thing is for</h2>
+          <p>So the real question isn&rsquo;t which component to use. It&rsquo;s how easy it should be to cancel.</p>
+          <p>The agent doesn&rsquo;t guess. It stops on that one change and recommends a quiet variant, so nothing visible moves. That variant would let any later agent make any action this quiet.</p>
+          <p>I leave cancel as built, to be changed on purpose in its own change. My reason: &ldquo;The gray link is from a retention test last year that ended without a decision, and nobody turned it off.&rdquo;</p>
+          <p><mark>None of that was in the code, and all of it decided the answer.</mark></p>
+          <p>Then I keep the answer where the next agent will find it: on the billing screens, a hand-built action that ends or reduces a subscription never gets a quiet variant.</p>
+          <p>A rule is only one place to keep an answer, though. Reviewing the experiment changed the system in four places, and its twelve rules stayed twelve:</p>
+          <ul>
+            <li><strong>A better test.</strong> The layout check had passed a toolbar 58 pixels too wide. Now it measures each toolbar.</li>
+            <li><strong>A clearer rule.</strong> It says what a reason for changing a shared component looks like.</li>
+            <li><strong>A condition written down.</strong> When a confirmation fits a destructive action, and when an undo does.</li>
+            <li><strong>A pointer to what exists.</strong> The bar of actions a selection needs, named, so an agent finds it before building another.</li>
+          </ul>
+          <p>Every new rule is one more thing an agent reads before every run. Most of what a review teaches belongs in something the system already has.</p>
+          <aside class="writing-pull" aria-hidden="true">
+            <p>A passing check establishes what that check measures, and nothing beyond it.</p>
+          </aside>
+
+          <h2 id="ai-inside-the-product-hands-the-components-claims-not-facts">AI inside the product hands the components claims, not facts</h2>
+          <p>The other side is what the product shows. A design system like the one that held <a href="../case-study/sap-product-maturity.html">forty-plus SAP apps</a> together is a system for facts. Every component assumes the number in the cell is true.</p>
+          <p>An AI feature hands the same components a claim: a recommended truck, a suspected cause, a drafted correction. The value looks the same in the cell.</p>
+          <p><mark>The first thing AI asks of a design system is a way to say what kind of thing a value is.</mark></p>
           <figure class="writing-figure">
             <figcaption>What a fact component holds, and what a claim component adds</figcaption>
             <div class="writing-split">
@@ -328,23 +360,22 @@
               </div>
             </div>
           </figure>
-          <p>The source and the age are a slot in the component, not a note on the screen. When the forty-five-minute reading could change a close call, it&rsquo;s raised into a note on the card that says what to check.</p>
-          <p>A confidence percentage is a claim about the system, with nothing on the screen to set it beside. A source and an age are claims about the world, and a person knows what to do with those.</p>
+          <p>In <a href="../prototype/dispatch-cockpit.html">Dispatch Cockpit</a>, my prototype on synthetic data, where a value came from is a slot in the component, with how old it is beside it: the GPS position four minutes ago, the driver&rsquo;s hours forty-five minutes ago.</p>
+          <p>A confidence percentage is a claim about the system. A source and an age are claims about the world, and a person knows what to do with those.</p>
 
-          <p class="writing-eyebrow">Key idea 2 of 5</p>
-          <h2 id="pending-is-a-state-not-a-spinner">Pending is a state, not a spinner</h2>
-          <p>A spinner says busy. A pending state says what&rsquo;s coming, what it will replace, and what the person can do meanwhile, and it settles without moving what they were reading.</p>
-          <p><mark>A system with no pending state gets one improvised in every feature, and the product learns four ways to say wait.</mark></p>
-
-          <p class="writing-eyebrow">Key idea 3 of 5</p>
-          <h2 id="a-suggestion-and-a-rule-must-never-share-a-style">A suggestion and a rule must never share a style</h2>
-          <p>In Dispatch Cockpit, the one truck a rule removes gets the only caution background on the screen. No suggestion ever does, and a stale figure gets caution-colored text, not the background.</p>
-          <p>People read things that look alike as the same kind of thing, the law of similarity. The day a rule and a suggestion share a style, people press through the caution color, and the rule is gone.</p>
-          <aside class="writing-pull" aria-hidden="true">
-            <p>Once an interface can refuse, refusal is a state, and a state is a token before it is a screen.</p>
-          </aside>
+          <h2 id="waiting-refusing-and-undoing-are-states-the-system-has-to-name">Waiting, refusing, and undoing are states the system has to name</h2>
+          <p>A spinner says busy. A pending state says what&rsquo;s coming, what it will replace, and what the person can do meanwhile. Without one in the system, every feature improvises its own way to say wait.</p>
+          <p>In Dispatch Cockpit, the one truck a rule removes gets the only caution background on the screen, and no suggestion ever does. The day a rule and a suggestion share a style, people press through the caution color, and the rule is gone.</p>
           <p><mark>Once an interface can refuse, refusal is a state, and a state is a token before it is a screen.</mark></p>
-          <p>Text the system wrote needs its own treatment too: a fourth text color, labeled as what it is, because a drafted sentence set like a written one passes a guess off as a fact again.</p>
+          <p>Text the system wrote needs its own ink too, labeled as what it is, so a drafted sentence never passes for a written one.</p>
+          <p>Pressing Assign puts Undo in its place. But undo, cancel, revert, and stop are four words and four promises:</p>
+          <ul>
+            <li>The thing never happened</li>
+            <li>The thing will not happen</li>
+            <li>The thing happened and has been put back</li>
+            <li>The thing is in progress and will go no further</li>
+          </ul>
+          <p>The pattern&rsquo;s job is to make the promise clear before the press, not after it.</p>
           <!-- The second drawing: the argument's second half, in the set's style,
                from scripts/writing-scenes.mjs through scripts/draw.mjs. -->
           <figure class="writing-figure writing-scene">
@@ -352,20 +383,7 @@
             <figcaption>Six components, six states, and the one thing the system was never given a hook for, hanging from the board itself.</figcaption>
           </figure>
 
-          <p class="writing-eyebrow">Key idea 4 of 5</p>
-          <h2 id="a-reversible-action-needs-a-pattern-and-the-pattern-has-to-say-what-reversing-means">A reversible action needs a pattern, and the pattern has to say what reversing means</h2>
-          <p>In Dispatch Cockpit, pressing Assign puts Undo in its place on the row. Every AI feature has an action a person will want back, so undo belongs in the system.</p>
-          <p>But undo, cancel, revert, and stop are four words and four promises:</p>
-          <ul>
-            <li>The thing never happened</li>
-            <li>The thing will not happen</li>
-            <li>The thing happened and has been put back</li>
-            <li>The thing is in progress and will go no further</li>
-          </ul>
-          <p>The pattern&rsquo;s job is to make the promise clear before the press. After the press is when the person finds out which one they had.</p>
-
-          <p class="writing-eyebrow">Key idea 5 of 5</p>
-          <h2 id="the-checks-have-to-reach-the-new-states">The checks have to reach the new states</h2>
+          <h2 id="the-checks-have-to-reach-every-state">The checks have to reach every state</h2>
           <p>The checks that hold <a href="../case-study/this-site.html">this site</a> once passed Dispatch Cockpit after measuring a sixth of it, because twelve of its states take a press to exist.</p>
           <figure class="writing-figure">
             <figcaption>What the checks learned from one screen</figcaption>
@@ -375,20 +393,14 @@
               <div><dt>7</dt><dd>reachable states the page registers now, each measured on its own fresh load</dd></div>
             </dl>
           </figure>
-          <p>Pending, stale, refused, drafted, undone: none of them is on screen when the page loads, so each is a state a check has to reach before it can measure it.</p>
-          <p><mark>A state the checks cannot reach is a state the system does not have, whatever the documentation says.</mark></p>
-          <!-- The Blink's final summary and its actionable advice: the argument in
-               one breath for a reader who skipped to the end, then one thing to do. -->
-          <aside class="writing-recap" aria-labelledby="writing-recap-label">
-            <p class="writing-recap-label" id="writing-recap-label">In one breath</p>
-            <p class="writing-recap-sum">Once AI hands a design system claims instead of facts, it needs new states, styles, and patterns, and checks that can reach every one of them.</p>
-            <p class="writing-recap-do"><span class="writing-recap-lead">If you do one thing:</span> take your system&rsquo;s data table and ask what it would show if the value in one cell were a guess. If the answer is &ldquo;the same thing,&rdquo; that is the first component to design.</p>
-          </aside>
+          <p>Pending, stale, refused, drafted, undone: none of them is on screen when the page loads. <mark>A state the checks can&rsquo;t reach is a state the system doesn&rsquo;t have, whatever the documentation says.</mark></p>
+          <p>Agent Review has its own limit: I haven&rsquo;t tested it with anyone. A design system can carry what a team has decided. Noticing what it hasn&rsquo;t decided is still the job.</p>
         </div>
       </div>
     </section>
 
     </main>
+
   <footer class="case-footer">
       <div class="container case-narrow">
         <!-- Where the argument leads on this site, said once and softly: the

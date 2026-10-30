@@ -158,13 +158,12 @@ jobs:
       - name: What the site tells a machine still matches the site
         run: node scripts/seo.mjs
 
-      # The fourth static check, the same shape again: each article carries its
-      # argument three times -- the h2s, the list of key ideas under the dek,
-      # and the "Key idea 2 of 6" eyebrow over each section -- and two of the
-      # three are written from the first by scripts/keys.mjs. A heading
-      # reworded without a --write is a list naming a section the page no
-      # longer has, which a reader would notice and no browser check would.
-      - name: Every key idea is still its heading
+      # The fourth static check: every article is an essay, with no list of
+      # key ideas, no eyebrow over a section and no recap (the Blink frame
+      # came off on 2026-10-30), and every read time on the writing index
+      # is its article's own. A page that grows the frame back looks fine
+      # to every browser check.
+      - name: Every article is an essay, and the index's read times are its articles'
         run: node scripts/keys.mjs
 
       # The fifth, and the first that reads the prose itself rather than a
