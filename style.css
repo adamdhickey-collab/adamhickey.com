@@ -5820,6 +5820,13 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-chapter.ground-warm     { background: var(--color-warm); }
 .build-chapter.ground-tea      { background: var(--color-tea-light); }
 .build-chapter.ground-charcoal { background: var(--color-charcoal); --color-focus-ring: var(--color-accent-on-dark); }
+/* Two chapters on the same ground read as one band, so the second's top
+   padding would stack on the first's bottom and leave double the gap a band
+   keeps anywhere else. The first chapter's bottom padding is the gap. */
+.build-chapter.ground-white + .build-chapter.ground-white,
+.build-chapter.ground-warm + .build-chapter.ground-warm,
+.build-chapter.ground-tea + .build-chapter.ground-tea,
+.build-chapter.ground-charcoal + .build-chapter.ground-charcoal { padding-top: 0; }
 
 /* The charcoal chapter, and the whole cost of it stated in one place. Every
    color inside a build write-up is authored for a light ground: .case-section
