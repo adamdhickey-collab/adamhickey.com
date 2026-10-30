@@ -174,6 +174,7 @@
 
 /* The field label the old pages called .case-field-label: the Kicker. */
 :is(.build-chapter, .ds-demo) .cc-kicker {
+  font-family: var(--font-sans);
   margin: 0 0 var(--space-sm);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -262,4 +263,88 @@
 :is(.build-chapter, .ds-demo) .cc-pull p { margin: 0; color: var(--color-white); }
 @media (max-width: 640px) {
   .cc-pull { flex-direction: column; align-items: flex-start; gap: var(--space-lg); }
+}
+
+/* ---------- The overview, in brief ----------
+   As it was on the Tailwind pages from 2026-10-29: the Overview as a grid
+   of fields, each paragraph under a field label (the Kicker, the hero's own
+   CLIENT and MY ROLE), on the tea-light feature ground, which the chapter
+   supplies as .ground-tea. From 64rem three to a row with the column gap
+   alone between them; a first field of four (USDA's client) takes the
+   whole row above the other three, held to the measure. Stacked, 32px
+   apart. The paragraphs are the page's reading paragraph. */
+.cc-brief { display: flex; flex-direction: column; gap: var(--space-2xl); }
+:is(.build-chapter, .ds-demo) .cc-brief .cc-kicker { margin: 0 0 var(--space-sm); }
+.cc-brief p { margin: 0; }
+@media (min-width: 64rem) {
+  .container.case-narrow > .cc-brief { width: var(--col-full); max-width: var(--col-full); }
+  .cc-brief {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3xl) var(--space-4xl);
+  }
+  .cc-brief-item:first-child:nth-last-child(4) { grid-column: 1 / -1; }
+  .cc-brief-item:first-child:nth-last-child(4) p { max-width: var(--measure); }
+}
+
+/* ---------- The impact table ----------
+   As it was: a warm card holding a Dimension and Outcome table, each
+   dimension led by its icon in a sage disc (white on --color-accent-text,
+   5.82:1), rows on --color-tag-border hairlines. The first track is 130px
+   on a phone and 250px from 768, a column width rather than a space, so
+   no token. The card is as wide as its own contents: the measure the
+   outcomes are held to, the dimension track, the gap, and the card's
+   inset on both sides, so the longest line ends on the padding. "How I
+   measured this" and the closing line sit inside it, as its footnotes. */
+.cc-impact {
+  max-width: calc(var(--measure) + 250px + var(--space-4xl) + 2 * var(--space-3xl));
+  margin: var(--space-2xl) 0 0;
+  font-family: var(--font-sans);
+}
+.cc-impact-row {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: center;
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--color-tag-border);
+}
+.cc-impact-head { padding: 0 0 var(--space-xs); }
+@media (min-width: 768px) {
+  .cc-impact-row { grid-template-columns: 250px minmax(0, 1fr); gap: var(--space-4xl); }
+}
+.cc-impact-dim {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.cc-impact-head > * { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--color-charcoal); }
+.cc-impact-out {
+  max-width: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.cc-impact-disc {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+}
+.cc-impact-disc svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; }
+.cc-impact .cc-pull { margin-top: var(--space-xl); }
+@media (min-width: 1024px) {
+  .container.case-narrow > .cc-card.cc-impact {
+    width: auto;
+    max-width: calc(var(--measure) + 250px + var(--space-4xl) + 2 * var(--space-3xl));
+  }
 }
