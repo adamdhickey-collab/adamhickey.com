@@ -268,7 +268,7 @@ three widths:
 |---|---|---|---|
 | text | `--measure` | 620px | Paragraphs, headings, lists, an essay's `.writing-measure` |
 | wide | `--col-wide` | 832px | The default for any other block: diagrams, screenshots, pairs, a three-step rail |
-| full | `--col-full` | 1216px | A rail of four or five, a row of phones, a rail of scenes, and Shortlist's map and its decisions |
+| full | `--col-full` | 1216px | A rail of four or five, a row of phones, a rail of scenes, Shortlist's map, Shortlist's decisions, and the Related list at a page's foot |
 
 **An article's margin.** From 72rem (1152px) an article is two columns:
 the text at the measure, and beside it a margin: whatever the frame has
