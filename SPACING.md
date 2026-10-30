@@ -274,8 +274,11 @@ three widths:
 the text at the measure, and beside it a margin: whatever the frame has
 left after the measure and a `--space-4xl` gap. That is 548px at 1440 and
 420 at 72rem. A scene, the
-pull, a split, and the Design psychology note float into it beside the
-text they follow; a rail, a flow, and a number row span both at `full`;
+pull, a split, and the Design psychology note float into it. A scene, a
+split, or the note comes just before the paragraph it illustrates in the
+source, so its top meets that paragraph's first line, and every h2 clears
+the margin, so nothing in it runs on into the next section; the pull
+follows the sentence it repeats. A rail, a flow, and a number row span both at `full`;
 the hero puts the feature drawing (or the loop) in the margin beside the
 title. Below 72rem the margin would be under 420px, too narrow for a
 split's two lists, so the article is one column as it was. Only the five
