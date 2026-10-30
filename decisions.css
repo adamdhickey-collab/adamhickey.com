@@ -150,7 +150,7 @@
    down one edge. The drawing sits on the chapter's ground with no tile
    and no card edge: it is a small picture beside a paragraph, not a figure
    of its own. Under 40rem the drawing follows the words on their indent
-   at 11rem, where a 3:2 column beside the words would leave neither
+   at 16rem, where a 3:2 column beside the words would leave neither
    readable. The cockpit keeps the rows above until the ledger is judged. */
 .decisions--ledger {
   margin-top: var(--space-xl);
@@ -163,15 +163,15 @@
   border-top: 1px solid var(--rule-hairline);
 }
 .decisions--ledger .decision:last-child { border-bottom: 1px solid var(--rule-hairline); }
-.decisions--ledger .decision-figure { max-width: 11rem; }
+.decisions--ledger .decision-figure { max-width: 16rem; }
 .decisions--ledger .decision-pic {
   background: none;
   border: 0;
-  border-radius: 0;
+  border-radius: 0.75rem;
 }
 @media (min-width: 40rem) {
   .decisions--ledger .decision {
-    grid-template-columns: minmax(0, 1fr) 13.75rem;
+    grid-template-columns: minmax(0, 1fr) 15rem;
     gap: var(--space-2xl);
     align-items: start;
   }
@@ -182,14 +182,18 @@
     width: auto;
     max-width: var(--col-wide);
   }
+  .decisions--ledger .decision { grid-template-columns: minmax(0, 1fr) 20rem; }
 }
 /* The ledger's drawings are scenes in the Lucy Learns style, one cast per
    page, drawn in ChatGPT one chat per set and cut to 720x480 (2026-10-30;
-   the sources are in img/inbox/). Each prints by its height, so the five
-   stand at one size; at 3:2 the width follows. */
+   the sources are in img/inbox/). Each fills its column at 3:2, so the five
+   stand at one size. Until 2026-10-30 each printed by an 11rem height in a
+   13.75rem column, which wants 16.5rem at 3:2, and max-width: 100% took the
+   difference out of the width: every drawing squeezed to about 5:4. Their
+   corners are the 12px the storyboard scenes and the About photographs
+   carry, so a drawing here reads as one of the page's pictures. */
 .decisions--ledger .decision-pic {
-  width: auto;
-  height: 11rem;
-  max-width: 100%;
-  aspect-ratio: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
 }
