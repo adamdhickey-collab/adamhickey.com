@@ -96,15 +96,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="../color.css?v=11" />
+  <link rel="stylesheet" href="../color.css?v=12" />
   <link rel="stylesheet" href="../shell.css?v=6" />
   <link rel="stylesheet" href="../type.css?v=8" />
-  <link rel="stylesheet" href="../style.css?v=20261030a" />
+  <link rel="stylesheet" href="../style.css?v=20261030g" />
   <link rel="stylesheet" href="../site-nav.css?v=20261029a" />
   <link rel="stylesheet" href="../related.css?v=2" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="aisle.css?v=3" />
-  <link rel="stylesheet" href="inspiration-to-aisle.css?v=16" />
+  <link rel="stylesheet" href="../map-rail.css?v=1" />
+  <link rel="stylesheet" href="inspiration-to-aisle.css?v=20" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the phone is marked data-read-aloud="skip", because its
@@ -112,6 +113,7 @@
        region. -->
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="inspiration-to-aisle.js?v=1" defer></script>
+  <script src="../map-rail.js?v=1" defer></script>
   <!-- The prototype. Deferred, no dependencies, no build step; the lamps,
        the store and the counts are the objects at the top of the file. -->
   <script src="aisle.js?v=1" defer></script>
@@ -302,32 +304,6 @@
         </div>
         <figure class="ia-figure ia-map" style="--ia-moments: 6">
           <figcaption>One trip, today and connected<span class="ia-standing">Illustrative: drawn from the scenario, not from observed shoppers. The systems are what a service like this would need, as I imagine them.</span></figcaption>
-          <!-- WHAT THE MAP SHOWS, since 2026-10-29: the map's point first,
-               for a reader who will not read forty-eight cells. Three
-               claims, each with one sentence of evidence and the moments
-               that show it, in the moment discs the grid uses. They replace
-               the two paragraphs that followed the figure and said the same
-               things last (inspiration-to-aisle.css, "What the map shows"). -->
-          <div class="ia-short">
-            <p class="glance-kicker">What the map shows</p>
-            <ul class="ia-short-list">
-              <li>
-                <p class="ia-short-claim">The trip breaks at the store door</p>
-                <p class="ia-short-why">At every moment, a system knows something a person can&rsquo;t get at. At the door, the shortlist stays behind on the phone.</p>
-                <p class="ia-short-at">Moments <span class="ia-n">04</span> to <span class="ia-n">06</span></p>
-              </li>
-              <li>
-                <p class="ia-short-claim">A timestamp does more than any screen</p>
-                <p class="ia-short-why">&ldquo;In stock&rdquo; with no date is a guess. The time of each count tells the shopper how sure to be.</p>
-                <p class="ia-short-at">Moments <span class="ia-n">03</span> and <span class="ia-n">05</span></p>
-              </li>
-              <li>
-                <p class="ia-short-claim">The employee&rsquo;s count makes the help possible</p>
-                <p class="ia-short-why">Counting the shelf at moment three is what lets someone help at moment six, without starting from zero.</p>
-                <p class="ia-short-at">Moments <span class="ia-n">03</span> and <span class="ia-n">06</span></p>
-              </li>
-            </ul>
-          </div>
           <div class="ia-view" role="group" aria-label="Show the trip" hidden>
             <button type="button" class="ia-view-btn" data-view="today" aria-pressed="true">Today</button>
             <button type="button" class="ia-view-btn" data-view="connected" aria-pressed="false">Connected</button>
@@ -419,6 +395,33 @@
               </dl>
             </li>
           </ol>
+          <!-- WHAT THE MAP SHOWS, since 2026-10-29: the map's point, for a
+               reader who will not read forty-eight cells. Three claims,
+               each with one sentence of evidence and the moments that show
+               it, in the moment discs the grid uses. They opened the figure
+               for a day; since 2026-10-29 they close it, under the grid, so
+               the moments they name have been seen before they are cited
+               (inspiration-to-aisle.css, "What the map shows"). -->
+          <div class="ia-short">
+            <p class="glance-kicker">What the map shows</p>
+            <ul class="ia-short-list">
+              <li>
+                <p class="ia-short-claim">The trip breaks at the store door</p>
+                <p class="ia-short-why">At every moment, a system knows something a person can&rsquo;t get at. At the door, the shortlist stays behind on the phone.</p>
+                <p class="ia-short-at">Moments <span class="ia-n">04</span> to <span class="ia-n">06</span></p>
+              </li>
+              <li>
+                <p class="ia-short-claim">A timestamp does more than any screen</p>
+                <p class="ia-short-why">&ldquo;In stock&rdquo; with no date is a guess. The time of each count tells the shopper how sure to be.</p>
+                <p class="ia-short-at">Moments <span class="ia-n">03</span> and <span class="ia-n">05</span></p>
+              </li>
+              <li>
+                <p class="ia-short-claim">The employee&rsquo;s count makes the help possible</p>
+                <p class="ia-short-why">Counting the shelf at moment three is what lets someone help at moment six, without starting from zero.</p>
+                <p class="ia-short-at">Moments <span class="ia-n">03</span> and <span class="ia-n">06</span></p>
+              </li>
+            </ul>
+          </div>
         </figure>
       </div>
     </section>
@@ -436,29 +439,44 @@
         </div>
         <ol class="ia-decisions">
           <li class="ia-decision">
-            <h3>Carry the context, not the cart</h3>
-            <p>The store gets the photo, what you liked about it, and your shortlist. Never your account or your history.</p>
-            <p class="ia-guess"><b>My guess:</b> what you liked is the one thing worth asking, once, under the photo.</p>
+            <svg class="ia-decision-pic" viewBox="0 0 240 160" aria-hidden="true" focusable="false"><rect class="ink tea" x="18" y="22" width="92" height="76" rx="10"/><path class="ink" d="M32 36h24l4 16h-32z"/><path class="ink" d="M44 52l-12 34M44 52v34M44 52l12 34"/><path class="sage fill" d="M78 44c0-5 6-7 9-3 3-4 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/><path class="ink" d="M74 70h22M74 80h16"/><path class="sage" d="M120 60h34M146 52l8 8-8 8"/><path class="ink tea" d="M164 58v46h56V58"/><path class="ink" d="M160 58l8-18h48l8 18zM183 104V80h14v24"/><g class="mute"><rect x="30" y="112" width="68" height="34" rx="6"/><circle cx="46" cy="124" r="5"/><path d="M38 140c1-6 4-8 8-8s7 2 8 8M62 124h26M62 134h18"/></g><path class="warn" d="M24 106l80 46"/></svg>
+            <div class="ia-decision-text">
+              <h3>Carry the context, not the cart</h3>
+              <p>The store gets the photo, what you liked about it, and your shortlist. Never your account or your history.</p>
+              <p class="ia-guess"><b>My guess:</b> what you liked is the one thing worth asking, once, under the photo.</p>
+            </div>
           </li>
           <li class="ia-decision">
-            <h3>Say why, and how sure</h3>
-            <p>Each match says in words what matched and what didn&rsquo;t: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo;</p>
-            <p class="ia-guess"><b>My guess:</b> a sentence someone can check against the photo earns more trust than a score.</p>
+            <svg class="ia-decision-pic" viewBox="0 0 240 160" aria-hidden="true" focusable="false"><rect class="ink tea" x="34" y="20" width="64" height="120" rx="8"/><rect class="ink tea" x="142" y="20" width="64" height="120" rx="8"/><path class="ink" d="M54 40h24l4 16h-32z"/><path class="ink" d="M66 56l-12 34M66 56v34M66 56l12 34"/><path class="ink" d="M162 40h24l4 16h-32z"/><path class="ink" d="M174 56v34M162 90h24"/><path class="sage dash" d="M90 48h60"/><circle class="sage white" cx="120" cy="48" r="11"/><path class="sage" d="M115 48l4 4 7-8"/><path class="warn dash" d="M84 104h70"/><circle class="warn white" cx="120" cy="104" r="11"/><path class="warn" d="M115 99l10 10M125 99l-10 10"/></svg>
+            <div class="ia-decision-text">
+              <h3>Say why, and how sure</h3>
+              <p>Each match says in words what matched and what didn&rsquo;t: &ldquo;Same shade, different legs,&rdquo; not &ldquo;87% match.&rdquo;</p>
+              <p class="ia-guess"><b>My guess:</b> a sentence someone can check against the photo earns more trust than a score.</p>
+            </div>
           </li>
           <li class="ia-decision">
-            <h3>Make &ldquo;no&rdquo; cheap</h3>
-            <p>&ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; the same size, and hiding all four is allowed: &ldquo;none of these&rdquo; is an answer.</p>
-            <p class="ia-guess"><b>My guess:</b> what someone turns down tells the app what they meant.</p>
+            <svg class="ia-decision-pic" viewBox="0 0 240 160" aria-hidden="true" focusable="false"><rect class="ink tea" x="78" y="10" width="84" height="72" rx="8"/><path class="ink" d="M108 20h24l4 16h-32z"/><path class="ink" d="M120 36l-12 34M120 36v34M120 36l12 34"/><rect class="sage white" x="58" y="94" width="56" height="40" rx="8"/><path class="sage" d="M79 104h14v20l-7-5-7 5z"/><rect class="warn white" x="126" y="94" width="56" height="40" rx="8"/><path class="warn" d="M147 107l14 14M161 107l-14 14"/><path class="mute" d="M58 146h56M58 142v8M114 142v8M126 146h56M126 142v8M182 142v8"/></svg>
+            <div class="ia-decision-text">
+              <h3>Make &ldquo;no&rdquo; cheap</h3>
+              <p>&ldquo;Not it&rdquo; sits beside &ldquo;Save,&rdquo; the same size, and hiding all four is allowed: &ldquo;none of these&rdquo; is an answer.</p>
+              <p class="ia-guess"><b>My guess:</b> what someone turns down tells the app what they meant.</p>
+            </div>
           </li>
           <li class="ia-decision">
-            <h3>Give every shelf count its age</h3>
-            <p>Three counted this morning is a fact. One last counted two days ago is closer to a guess, and the app says so before anyone drives four miles on it.</p>
-            <p class="ia-guess"><b>My guess:</b> the age, printed every time, changes whether someone makes the trip.</p>
+            <svg class="ia-decision-pic" viewBox="0 0 240 160" aria-hidden="true" focusable="false"><path class="ink" d="M20 118h200"/><path class="sage tea" d="M40 50l16-16h48v76H56l-16-16z"/><circle class="sage" cx="52" cy="72" r="4"/><circle class="sage white" cx="80" cy="64" r="13"/><path class="sage" d="M80 57v7l5 4"/><path class="sage" d="M72 92l5 5 10-11"/><path class="warn dash" d="M136 50l16-16h48v76h-48l-16-16z"/><circle class="warn" cx="148" cy="72" r="4"/><circle class="warn white" cx="176" cy="64" r="13"/><path class="warn" d="M176 57v7l-5 4"/><path class="warn" d="M171 88c0-4 2-6 5-6s5 2 5 5-5 4-5 8M176 101v.5"/></svg>
+            <div class="ia-decision-text">
+              <h3>Give every shelf count its age</h3>
+              <p>Three counted this morning is a fact. One last counted two days ago is closer to a guess, and the app says so before anyone drives four miles on it.</p>
+              <p class="ia-guess"><b>My guess:</b> the age, printed every time, changes whether someone makes the trip.</p>
+            </div>
           </li>
           <li class="ia-decision">
-            <h3>Hand off to a person on purpose</h3>
-            <p>&ldquo;Ask someone in Home&rdquo; is on the store screen from the start, and you choose what the employee sees.</p>
-            <p class="ia-guess"><b>My guess:</b> an employee wants a stranger&rsquo;s shortlist, and has the time for it.</p>
+            <svg class="ia-decision-pic" viewBox="0 0 240 160" aria-hidden="true" focusable="false"><rect class="ink tea" x="24" y="16" width="84" height="128" rx="12"/><rect class="ink white" x="34" y="34" width="64" height="40" rx="6"/><path class="ink" d="M42 46h22M42 56h16"/><rect class="sage fill" x="70" y="58" width="22" height="12" rx="6"/><circle class="white" cx="86" cy="64" r="4"/><g class="mute"><rect x="34" y="86" width="64" height="40" rx="6"/><path d="M42 98h22M42 108h16"/><rect x="70" y="110" width="22" height="12" rx="6"/><circle cx="76" cy="116" r="4"/></g><path class="sage dash" d="M98 54h72"/><circle class="ink tea" cx="192" cy="56" r="14"/><path class="ink tea" d="M166 112c0-20 12-32 26-32s26 12 26 32z"/><rect class="sage white" x="196" y="92" width="14" height="10" rx="2"/></svg>
+            <div class="ia-decision-text">
+              <h3>Hand off to a person on purpose</h3>
+              <p>&ldquo;Ask someone in Home&rdquo; is on the store screen from the start, and you choose what the employee sees.</p>
+              <p class="ia-guess"><b>My guess:</b> an employee wants a stranger&rsquo;s shortlist, and has the time for it.</p>
+            </div>
           </li>
         </ol>
         <!-- ACCESSIBILITY, in one paragraph since 2026-10-29: what the app
@@ -501,7 +519,10 @@
          tells it (.aisle-trail in inspiration-to-aisle.css). No link in the
          running text: accent-text on charcoal fails resting.mjs (style.css,
          the prose link group), so the trail draws its own in the on-dark
-         inks, and the Related list under it carries the SAP and USDA work. -->
+         inks, and the Related list under it carries the SAP and USDA work.
+         Since 2026-10-30 the Now stop is Agent Review (Adam: "Use agent
+         review for this example"), and the site write-up it pointed at
+         moved to the Related list. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">
         <div class="writing-measure">
@@ -530,14 +551,14 @@
             <p class="aisle-trail-go" aria-hidden="true">The enterprise work <span>&rarr;</span></p>
           </li>
           <li class="aisle-trail-step">
-            <div class="aisle-trail-art aisle-trail-art--top">
-              <img src="../img/site/this-site.webp" width="1400" height="875" loading="lazy" decoding="async"
-                   alt="The homepage of this site at laptop width, built with coding agents: the portrait in a circle beside the title and its buttons, and six facts under them." />
+            <div class="aisle-trail-art">
+              <img src="../img/lab/agent-review-drawing.webp?v=2" width="1600" height="900" loading="lazy" decoding="async"
+                   alt="A dusty slate crane hook hanging from a black cable, lifting a plain cream panel, and one taut black tag line running from the panel&rsquo;s corner off the bottom of the frame, steering it." />
             </div>
             <p class="aisle-trail-when">Now</p>
-            <h3 class="aisle-trail-title"><a href="../case-study/this-site.html">Coding agents</a></h3>
-            <p class="aisle-trail-text">They put the build back in my hands, so a hand-off can be tried before anyone builds it for real.</p>
-            <p class="aisle-trail-go" aria-hidden="true">How I built this site <span>&rarr;</span></p>
+            <h3 class="aisle-trail-title"><a href="agent-review.html">Coding agents</a></h3>
+            <p class="aisle-trail-text">They do much of the building now. Agent Review is my prototype of the design work that grows around them.</p>
+            <p class="aisle-trail-go" aria-hidden="true">Agent Review <span>&rarr;</span></p>
           </li>
         </ol>
         <div class="writing-measure">
@@ -557,7 +578,7 @@
         <nav class="related" aria-labelledby="related-label">
           <p class="related-label" id="related-label">Related</p>
           <ul class="related-list">
-            <li><a class="related-link" href="agent-review.html"><span class="related-kind">Case study</span><span class="related-title">Agent Review: where design judgment goes when coding agents join the team</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+            <li><a class="related-link" href="../case-study/this-site.html"><span class="related-kind">Build write-up</span><span class="related-title">How I built this site</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../case-study/usda-operational-overhead.html"><span class="related-kind">Case study</span><span class="related-title">Grant tools unified into a platform people trust: the service map behind a federal coalition</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../prototype/dispatch-cockpit.html"><span class="related-kind">Prototype</span><span class="related-title">An AI recommendation the dispatcher can check and overrule</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
             <li><a class="related-link" href="../how-i-work.html#prototypes"><span class="related-kind">How I work</span><span class="related-title">Build to find out</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
