@@ -172,8 +172,10 @@ Serve from the root, not from a subdirectory. Pages link sideways to
 ### One file is built
 
 `case-study/case-tailwind.css` is generated from `tailwind.config.js` and the
-six Tailwind case-study pages, and `checks.yml` rebuilds it and diffs the
-bytes. There is no `package.json`; the install is `--no-save`:
+Tailwind case-study pages, five since the SAP case study moved onto the
+write-up template on 2026-10-30, and `checks.yml` rebuilds it and diffs the
+bytes. Each page that leaves changes the built file, so its pull request
+rebuilds and commits it. There is no `package.json`; the install is `--no-save`:
 
 ```bash
 npm install --no-save --no-audit --no-fund playwright-core tailwindcss@3.4.19
