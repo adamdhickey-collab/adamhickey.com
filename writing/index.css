@@ -1,0 +1,71 @@
+/* writing/index.css -- the writing index's own rules, on top of the writing
+   list in style.css. One page loads this file.
+
+   COLUMNS FROM 64rem, since 2026-10-30. The index was one list at
+   --col-wide, an 18rem drawing beside its words, seven rows down the left
+   two thirds of the frame and nothing to the right of them. On a desktop
+   the page read as a long scroll with a third of it empty, and the three
+   collections, which are the page's whole structure, were three headings
+   in the same column you had to scroll past to compare.
+
+   From 64rem both lists take --col-full. Start here is its two pieces side
+   by side, each its drawing over its words, so the two the page asks you
+   to read first are the two you see first. The three collections become
+   three columns, each its eyebrow, its one-line description, and its
+   entries stacked, so a reader takes the system, the build, and the
+   judgment in at once. The columns are a subgrid of three rows, so the
+   lists start on one line however long each description runs.
+
+   Under 64rem nothing changes: the rows and their 768 breakpoint in
+   style.css still hold. A third of 1216px is about 380px a column, the
+   narrowest a two-line serif title and its dek read well at; at 1024 the
+   frame gives each about 296px, which is still a card, not a list row. */
+@media (max-width: 63.98rem) {
+  .writing-collection + .writing-collection { margin-top: var(--space-3xl); }
+}
+
+@media (min-width: 64rem) {
+  .writing-list--pair,
+  .writing-collections { max-width: var(--col-full); }
+
+  /* Each entry stacks: the drawing over its words, whatever the column. */
+  .writing-list--pair .writing-link,
+  .writing-collections .writing-link {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* Start here: two cards across, no hairline between, since the gap
+     separates them. The padding above is the eyebrow's distance from its
+     list in a collection column, so both sections open the same way. */
+  .writing-list--pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4xl);
+  }
+  .writing-list--pair .writing-item + .writing-item { border-top: 0; }
+  .writing-list--pair .writing-link { padding: var(--space-xl) 0 var(--space-3xl); }
+  /* style.css means the two sections to meet at 80px, the link's 40 and
+     the next section's 40, but a later section rule puts --space-section
+     back under this one and the gap measured 176. Side by side, the two
+     cards and the three columns read as one board only at the 80. */
+  .case-section.writing-start { padding-bottom: 0; }
+
+  /* The collections: three columns, each a subgrid of eyebrow,
+     description, and list, so the three lists share a top edge. */
+  .writing-collections {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    column-gap: var(--space-3xl);
+  }
+  .writing-collection {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    align-content: start;
+  }
+  .writing-collection .writing-link { padding: var(--space-xl) 0 var(--space-2xl); }
+  .writing-collection .writing-item + .writing-item .writing-link { padding-top: var(--space-2xl); }
+}
