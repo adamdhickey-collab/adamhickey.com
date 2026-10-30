@@ -1,0 +1,139 @@
+/* decisions.css -- a numbered list of design decisions, each with a drawing
+   of the reason behind it. Two pages load it: prototype/dispatch-cockpit.html
+   ("Five decisions, and what each one looks like") and
+   lab/inspiration-to-aisle.html ("Five decisions, each resting on a guess").
+
+   Until 2026-10-30 the two drew the same idea twice, as .ckw-decision and
+   .ia-decision: a drawing of WHAT the decision was in a quarter column,
+   left of the words. A picture of the decision repeats the title beside it,
+   so the drawings said nothing the heading had not. Now the order is the
+   reading order -- the decision on the left, then a figure on the right
+   whose caption is the reason for it (the cockpit's "Why", The Shortlist's
+   "My guess"), and the drawing is of that caption. If the drawing and the
+   caption could be swapped for another decision's, one of them is wrong.
+
+   Two columns from 64rem, 3:2, at the full width. Below that the figure
+   follows the words, on their indent, at most 28rem. The numbered disc is
+   the case studies' 40px step marker, named once so the disc, the indent
+   and the title's height cannot drift apart. The drawings are wordless and
+   aria-hidden; every label is the page's own text, in the caption. */
+.decisions {
+  --decision-num: 40px;
+  list-style: none;
+  margin: var(--space-2xl) 0 0;
+  padding: 0;
+  counter-reset: decision;
+  display: grid;
+  gap: var(--space-4xl);
+}
+.decision {
+  counter-increment: decision;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+.decision-text {
+  position: relative;
+  padding-left: calc(var(--decision-num) + var(--space-sm));
+}
+/* Reversed out of the sage fill: white on accent-text is 4.51:1 as a fill,
+   and a numeral in a disc reads as a marker, not the start of the title. */
+.decision-text::before {
+  content: counter(decision, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--decision-num);
+  height: var(--decision-num);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+/* The title takes the disc's height and centres in it, so the disc does not
+   drop into the paragraph under it. */
+.case-section .decision h3 {
+  min-height: var(--decision-num);
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.case-section .decision-lead {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+
+/* The figure: the drawing on a white tile with the card edge, the reason
+   under it. */
+.decision-figure {
+  margin: 0;
+  max-width: 28rem;
+  padding-left: calc(var(--decision-num) + var(--space-sm));
+}
+.decision-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.decision-pic .ink { stroke: var(--color-charcoal); }
+.decision-pic .mute { stroke: var(--color-muted-gray); opacity: 0.45; }
+.decision-pic .sage { stroke: var(--color-accent-text); }
+.decision-pic .warn { stroke: var(--color-caution-text); }
+.decision-pic .dash { stroke-dasharray: 6 6; }
+.decision-pic .tea { fill: var(--color-tea-light); }
+.decision-pic .white { fill: var(--color-white); }
+.decision-pic .sage.fill { fill: var(--color-accent-text); }
+.decision-pic .warn.fill { fill: var(--color-caution-text); }
+.decision-pic .ink.fill { fill: var(--color-charcoal); }
+.case-section .decision-cap {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.decision-cap b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent-text);
+}
+
+@media (min-width: 64rem) {
+  .decisions {
+    width: var(--col-full);
+    max-width: none;
+  }
+  .decision {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--space-2xl) var(--space-4xl);
+  }
+  .decision-figure { max-width: none; padding-left: 0; }
+}
+
+/* On a phone the disc does not shrink -- it is the case studies' mark at
+   every width -- so what a phone buys back is the gap beside it. */
+@media (max-width: 599px) {
+  .decision-text,
+  .decision-figure { padding-left: calc(var(--decision-num) + var(--space-xs)); }
+}
