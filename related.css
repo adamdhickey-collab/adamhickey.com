@@ -2,9 +2,9 @@
    related.css -- the Related list at the foot of a page: the other pages on
    this site the one you just read draws on, argues, builds or describes.
 
-   Loaded by the seventeen pages that end on one: ten articles, two
-   prototypes, the Agent Review and Lucy Learns write-ups, and three
-   case studies. Both families load it, because the case studies under
+   Loaded by the thirteen pages that end on one: five articles, the
+   cockpit, the Agent Review and Shortlist write-ups, and five case
+   studies. Both families load it, because the case studies under
    case-study-base.css do not load style.css, and this is one component
    rather than two copies of it.
 
@@ -30,18 +30,22 @@
    on hover and focus, the same way .build-next's title moves, and the arrow
    travels --space-2xs on the compositor, the way .case-go's does.
 
-   THE LIST TAKES THE COLUMN, NOT THE MEASURE. Until 2026-10-22 it stopped
-   at --measure, like the ask above it, and on a desktop a title as short as
-   "What makes a good product designer now?" broke onto a second line while
-   the rule of the next link under it ran the whole column. A row of links
-   is not prose, and the measure caps prose, not the column that holds it
-   (SPACING.md), so the rows now end where that rule ends: the column of
-   whichever footer holds the list, .case-narrow, .case-wide or
-   .case-closing-inner.
+   THE LIST IS ALWAYS FULL WIDTH, --col-full, on every page that ends on
+   one. Until 2026-10-22 it stopped at --measure, and a title as short as
+   "What makes a good product designer now?" broke onto a second line; from
+   then until 2026-10-30 it took whichever column held it, which after one
+   edge, three widths (SPACING.md) was --col-wide on the essays and three
+   case studies, 56rem on the cockpit and --col-full on the rest. Three
+   widths for one component read as drift from page to page, so it is the
+   frame less its gutters everywhere. On the cockpit it sits in a nested
+   .case-narrow, which is 56rem and starts on the frame's edge, so the list
+   grows to the right past it, the way SPACING.md says a wide block does.
 
    ON A PHONE the kind sits over the title, and the arrow keeps its own
    column at the right of both lines. */
 .related {
+  width: var(--col-full);
+  max-width: var(--col-full);
   margin: 0 0 var(--space-2xl);
 }
 .related-label {
