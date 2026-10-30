@@ -4356,6 +4356,24 @@ html.ah-lightbox-open body { overflow: hidden; }
      step to --space-3xl, which is 40, and the strip reads as its own thing
      again. */
   .logo-block { margin-top: var(--space-3xl); }
+  /* Two across on a phone, since 2026-10-30. One column of six rows ran a
+     whole screen at 390px before the wordmarks, the first thing under the
+     hero, and the design audit named it. Two columns halve that, and in a
+     column 160-odd pixels wide the mark goes above its label rather than
+     beside it, so the label keeps the width. Every gloss stays. */
+  .hero-proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+    row-gap: var(--space-xl);
+    padding: var(--space-xl) 0;
+  }
+  .hero-proof li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    padding: 0;
+    border-top: 0;
+  }
 }
 /* Two and three columns. Open-ended again: #154 had to close the 640 range
    at 1023.98 because its lattice marked a row start with :nth-child(odd) at
