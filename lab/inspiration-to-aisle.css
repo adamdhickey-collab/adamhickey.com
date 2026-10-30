@@ -875,3 +875,103 @@
 @media (prefers-reduced-motion: reduce) {
   .aisle-trail-art img, .aisle-trail-go span { transition: none; }
 }
+
+/* THE TEST PLAN, since 2026-10-30 (#evaluation). One column of eight
+   paragraphs read as a list of things to do; it is a plan with a shape,
+   so the shape is drawn. On the left, what is being bet and the one guess
+   everything rests on; on the right, who it is tried with, as hairline rows
+   like the decisions ledger above; across both, the three ways it can end.
+   From 64rem the block takes --col-full from the column's left edge and
+   each side keeps the measure; under that it stacks in reading order.
+
+   The riskiest guess sits on a tea-light plate, the pull-out's ground
+   (.eng3-pull, style.css): it restates the question the whole plan exists
+   to answer. Tea-light, not caution: nothing here is refused. Its edge is
+   --rule-card, and the plate is rounded on all four sides with no stripe.
+   The three endings are the trail's titles (sans 18, semibold) under a
+   line mark in sage on a tea-light disc, the homepage group heads' mark, so the eye finds the verdict before the condition. */
+.ia-test {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+.ia-test-bet { font-size: var(--text-lg); max-width: var(--measure); }
+.case-section .ia-test-bet p { margin-bottom: var(--space-lg); }
+.case-section .ia-test-bet p.ia-test-risk {
+  margin: 0;
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ia-test-who { margin: 0; max-width: var(--measure); }
+.ia-test-who > div {
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.ia-test-who > div:first-child { padding-top: 0; border-top: 0; }
+.ia-test-who > div:last-child { padding-bottom: 0; }
+.ia-test-who dt {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ia-test-who dd {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-reading);
+  color: var(--color-charcoal);
+}
+
+.ia-test-ends {
+  list-style: none;
+  margin: var(--space-3xl) 0 0;
+  padding: var(--space-2xl) 0 0;
+  border-top: 1px solid var(--rule-hairline);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+.ia-test-ends > li { margin: 0; padding: 0; max-width: var(--measure); }
+.ia-test-ends > li::before { content: none; }
+.ia-test-mark {
+  display: block;
+  box-sizing: border-box;
+  width: var(--space-3xl);
+  height: var(--space-3xl);
+  margin-bottom: var(--space-md);
+  padding: var(--space-xs);
+  background: var(--color-tea-light);
+  border-radius: var(--radius-pill);
+  fill: none;
+  stroke: var(--color-accent-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.case-section .ia-test-ends h3 {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.case-section .ia-test-ends p {
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+@media (min-width: 40rem) {
+  .ia-test-ends { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl); }
+}
+@media (min-width: 64rem) {
+  .ia-test, .ia-test-ends { width: var(--col-full); max-width: none; }
+  .ia-test-who { max-width: none; }
+  .ia-test { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4xl); }
+  .ia-test-ends { gap: var(--space-3xl); }
+}
