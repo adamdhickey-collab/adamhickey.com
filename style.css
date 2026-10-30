@@ -4610,20 +4610,15 @@ html.ah-lightbox-open body { overflow: hidden; }
 .writing-item--lead .writing-link { grid-template-columns: minmax(0, 1fr); }
 .writing-start { padding-bottom: 0; }
 .writing-start + .case-overview { padding-top: var(--space-3xl); }
-/* The article's feature: the same drawing at 1600x900, under the dek in
-   the hero, on the warm ground with the title. It comes after the answer
-   on purpose; a reader in from a search gets the paragraph first and the
-   picture as the turn into the essay. */
-.writing-feature { margin: var(--space-2xl) 0 0; }
+/* The article's feature drawing is not in the hero any more (Adam,
+   2026-10-30: the title and dek take the full width, and the drawing moves
+   into the body). It is the first scene of the essay, a .writing-scene
+   beside the opening paragraph of the first section, so a reader in from
+   a search still gets the answer first and the picture as the turn into
+   the essay. */
 /* The loop at the head of the position article (since 2026-10-28) sits
-   under the read-aloud bar, which carries no margin of its own; it takes
-   the feature's distance from what is above it. */
+   under the read-aloud bar, which carries no margin of its own. */
 .writing-loop { margin-top: var(--space-2xl); }
-.writing-feature img {
-  display: block; width: 100%; height: auto;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-media);
-}
 /* The read time sits under the dek rather than above the title, because the
    sage rule .case-overview draws above every h2 landed between the two and
    cut the label off from the entry it belonged to. That rule is suppressed
@@ -7096,10 +7091,10 @@ p.try-live {
    would be under 420, a split's two lists at under 190 each, so the page
    is one column as it was; a phone sees nothing move.
 
-   THE HERO TAKES THE SAME TWO COLUMNS: kicker, title, dek and Listen on
-   the measure, the feature drawing in the margin, centered on them. The
-   drawing was 832x468 under the dek; beside it, it is the margin's width,
-   and the hero is about 470px shorter. The hero column carries the
+   THE LOOP'S HERO TAKES THE SAME TWO COLUMNS: kicker, title, dek and
+   Listen on the measure, the loop in the margin, centered on them. The
+   drawn features left the hero on 2026-10-30 for the body's first scene,
+   so every other article's title and dek take the frame. The hero column carries the
    essay's --text-lg so its 52ch is the body's 620px and the two margins
    start on one line; every child sets its own size.
 
@@ -7134,16 +7129,15 @@ p.try-live {
      step above the one it had in the column, between the same two rules. */
   .writing-progress ~ main .case-section .writing-measure > .writing-pull p { font-size: var(--text-3xl); }
 
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) {
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) {
     font-size: var(--text-lg);
     display: grid;
     grid-template-columns: var(--measure) minmax(0, 1fr);
     column-gap: var(--space-4xl);
     align-items: start;
   }
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) > * { grid-column: 1; max-width: none; }
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-feature, > .writing-loop) > .build-dek { margin-bottom: 0; }
-  .writing-progress ~ main .case-hero .case-narrow > .writing-feature,
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) > * { grid-column: 1; max-width: none; }
+  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) > .build-dek { margin-bottom: 0; }
   .writing-progress ~ main .case-hero .case-narrow > .writing-loop {
     grid-column: 2;
     grid-row: 1 / span 4;
