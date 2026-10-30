@@ -12,7 +12,11 @@
 
    The row itself is made keyboard-scrollable here, and only while it
    scrolls: from 64rem it is a grid with nothing to scroll, and a tab stop
-   there would go nowhere. */
+   there would go nowhere.
+
+   It also starts the marks over each map's claims drawing as the claims
+   come into view (map-rail.css, "The claims' marks"), and arms them only
+   when it can finish them: not for a reader who asked for no motion. */
 (function () {
   var lists = document.querySelectorAll('.svc-stages, .ia-matrix');
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -81,4 +85,19 @@
     window.addEventListener('resize', once(fit));
     fit();
   });
+
+  var feet = document.querySelectorAll('.svc-short, .ia-short');
+  if (!still.matches && 'IntersectionObserver' in window) {
+    var watch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-drawn');
+        watch.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 });
+    Array.prototype.forEach.call(feet, function (foot) {
+      foot.classList.add('is-armed');
+      watch.observe(foot);
+    });
+  }
 })();
