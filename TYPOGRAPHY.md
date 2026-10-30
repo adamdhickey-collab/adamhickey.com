@@ -915,6 +915,16 @@ parallel. Most of what remains between 54 and a tighter count is the same
 size at two leadings, a single line at `--leading-ui` beside a wrapped one
 at `--leading-body`, which a reader does not see.
 
+**The homepage and the nav, 2026-10-30.** The change of their own came
+the next day. `.icon-link-label` is 12px semibold on `--leading-ui` with
+no tracking at every width (it was 11px on a phone), so those 70 are on a
+token now. The hero eyebrow and the About band's beat kickers take
+`--leading-ui`, as every other kicker does, and the About band's first
+paragraph sets like the three beats under it. The homepage went from 29
+distinct styles to 26 at both 1440 and 390. What remains there is the
+Agent Review card's prototype screen, which is product UI, and the same
+size at two leadings.
+
 The instrument is not a check. It is the measuring loop of `typescale.mjs`
 reading six properties instead of one, run once; if the number starts to
 drift it is worth making one.

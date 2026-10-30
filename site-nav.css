@@ -320,16 +320,23 @@
   transition: color var(--motion-state) var(--ease);
 }
 .icon-link svg { display: block; width: 22px; height: 22px; flex-shrink: 0; }
+/* A 12px label at every width, on the UI leading and no tracking: the
+   size, line, and spacing every other small label on the site sets. Until
+   2026-10-30 it was 11px on a phone and 12 from 768, at line-height 1 and
+   0.02em, three literals no token names, left out of the 10-29 cohesion
+   pass while the nav was being edited elsewhere (TYPOGRAPHY.md, section 7).
+   The taller line adds about 6px to each icon link, 53 to 59 on a phone
+   and 56 to 62 above, inside the 80px bar either way. */
 .icon-link-label {
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.02em;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
   color: inherit;
 }
 /* The TEXT step, not the fill one. This colors .icon-link-label, which is
-   11px, and accent-deep reads 4.51:1 on white -- over the 4.5 floor by a
+   12px, and accent-deep reads 4.51:1 on white -- over the 4.5 floor by a
    hundredth, and under it on every other ground the nav could ever sit on.
    accent-text is 5.82:1 here. The outline below keeps accent-deep, because a
    control boundary answers to the 3:1 floor and the fill sage is what that
@@ -349,7 +356,6 @@
 @media (min-width: 768px) {
   .icon-link { padding: var(--space-xs) var(--space-sm); gap: var(--space-2xs); }
   .icon-link svg { width: 24px; height: 24px; }
-  .icon-link-label { font-size: 0.75rem; }
 }
 
 /* ==========================================================================
