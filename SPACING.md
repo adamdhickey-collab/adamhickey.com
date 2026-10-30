@@ -254,11 +254,35 @@ step cards beside them want the whole container.
 The test is not whether the cap sits on a wrapper. It is whether the element
 holding the cap is set in the type the cap is meant to measure.
 
-**The measure caps prose, not the column that holds it.** `.case-narrow` is
-896px and stays there: the figures, fact lists, and step cards inside it want
-the room, and capping the container would have shrunk every figure on the
-build write-ups by 23%. The paragraphs inside take the measure; the column
-does not.
+**The measure caps prose, not the column that holds it.** The figures, fact
+lists, and step cards in a reading column want more room than the text, and
+capping the container would have shrunk every figure on the build write-ups
+by 23%. The paragraphs take the measure; the column does not.
+
+**One edge, three widths.** Since 2026-10-30 a page's reading column
+(`.container.case-narrow`) is the whole frame, and every block in it starts
+on the frame's left edge, the line the logo is on. Each block takes one of
+three widths:
+
+| Width | Token | At 1440 | Takes it |
+|---|---|---|---|
+| text | `--measure` | 620px | Paragraphs, headings, lists, an essay's `.writing-measure` |
+| wide | `--col-wide` | 832px | The default for any other block: diagrams, screenshots, pairs, a three-step rail |
+| full | `--col-full` | 1216px | A rail of four or five, a row of phones, a rail of scenes, and Shortlist's map and its decisions |
+
+Nothing in the column centers itself. A figure that wants more than the
+text grows to the right. Before this, `.case-narrow` was an 896px column
+centered in the frame: its text hung on the column's left while its figures
+centered on it, at 620, 750, 832, 983, 990, or 1216. At 1440 a paragraph
+centered on x=614 and a figure on x=720, so every figure looked pushed right
+of the words around it, and a case study's title and body started 192px
+apart. Seventeen pages moved; the others were already on the edge. `wide` is
+the 832px those blocks measured in the centered column, so nothing shrank.
+
+A `.case-narrow` nested inside a `.container` is not a page's column (the
+cockpit's are) and keeps 56rem. A grid column inside a block, such as the
+text beside an About photograph, is a column of that block, not a second
+edge.
 
 The five engagement pages have since left `.case-narrow` for `.case-wide`,
 the same column at `--container-max`, the 1280px frame the home page and the

@@ -50,14 +50,12 @@
 /* From 64rem the grid leaves the reading column for the page's container,
    as an article's rail does from 1024 (style.css, THE RAIL): six columns of
    words in the 832px column set each at about ten characters a line. The
-   figure keeps the column's centre and takes the container's width less
-   its gutters. */
+   figure starts on the column's left edge, as every block does, and takes
+   the full width, --col-full (style.css, the reading column). */
 @media (min-width: 64rem) {
   .ia-figure {
-    position: relative;
-    left: 50%;
-    translate: -50% 0;
-    width: min(calc(100vw - 2 * var(--gutter)), calc(var(--container-max) - 2 * var(--gutter)));
+    width: var(--col-full);
+    max-width: none;
     --ia-pad-y: var(--space-2xl);
     --ia-pad-x: var(--space-3xl);
     padding: var(--space-2xl) var(--space-3xl);
@@ -483,10 +481,8 @@
 }
 @media (min-width: 64rem) {
   .ia-decisions {
-    position: relative;
-    left: 50%;
-    translate: -50% 0;
-    width: min(calc(100vw - 2 * var(--gutter)), calc(var(--container-max) - 2 * var(--gutter)));
+    width: var(--col-full);
+    max-width: none;
   }
   .ia-decision {
     display: grid;

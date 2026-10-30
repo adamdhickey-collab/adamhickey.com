@@ -5125,9 +5125,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    rows further down sit in .case-narrow, 896px, and the same markup gave 261:
    the same screens, 17% smaller, in the part of the page where a reader is
    looking hardest at the type inside them. A figure marked --wide takes the
-   hero's width instead -- the cap, or the viewport less its two gutters,
-   whichever is smaller -- and centers on the column it is breaking out of, so
-   it overhangs the prose by the same amount either side. The caption is inside
+   frame, --col-full, from the column's left edge; the row inside keeps its
+   own 990px cap, so a phone is the hero's size. The caption is inside
    the figure and moves with it. 56rem is .case-narrow's own width: below it
    the column already is the viewport and the rows agree. The row's own
    max-width is the 990, so the figure only has to be at least that wide. */
@@ -5136,8 +5135,8 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-narrow > p + .build-flow--wide { margin-top: var(--space-3xl); }
 @media (min-width: 56rem) {
   .case-narrow > .build-flow--wide {
-    width: min(990px, 100vw - 2 * var(--gutter));
-    margin-inline: calc(50% - min(495px, 50vw - var(--gutter)));
+    width: var(--col-full);
+    max-width: var(--col-full);
   }
 }
 /* Lucy Learns' hero row centers in the full frame. The row stops at the 990
@@ -5146,7 +5145,7 @@ html.ah-lightbox-open body { overflow: hidden; }
    figure takes the cap and centers, and the caption keeps the first phone's
    left edge. Below 600 the row is the sideways strip and this changes
    nothing. */
-.build-flow--centered { max-width: 990px; margin-inline: auto; }
+.build-flow--centered { max-width: 990px; }
 .build-phone {
   --shell-radius: 26px;
   border-radius: var(--shell-radius);
@@ -5917,8 +5916,23 @@ html.ah-lightbox-open body { overflow: hidden; }
    Capping the container instead would have shrunk every figure on the build
    write-ups by 23%.
 
-   Two widths, one treatment. .case-narrow is 896px and holds every case study
-   and essay. .case-wide is the same column at --container-max, the frame the
+   ONE EDGE, THREE WIDTHS, since 2026-10-30. .case-narrow was an 896px
+   column centered in the frame, with its text hung on the column's left and
+   its figures centered on it, each at a width of its own: 620, 750, 832,
+   983, 990 and 1216 on one essay. At 1440 a paragraph centered on x=614 and
+   a figure on x=720, so every figure looked pushed right of the words, and
+   a case study's title and body started 192px apart. On a page's own
+   column (.container.case-narrow) every block now starts on the frame's
+   left edge, the logo's line, at one of three widths: the measure for
+   text, --col-wide for most figures, and --col-full for the ones that read
+   across the page. A figure that wants more than the text grows to the
+   right. The default for a block is wide, exactly what it measured in the
+   centered column; the selector has no specificity, so a block with a cap
+   of its own (a paragraph's measure, the essay's .writing-measure) keeps
+   it. A .case-narrow nested inside a .container (the cockpit's) is not a
+   page column and keeps 56rem.
+
+   .case-narrow holds every case study and essay. .case-wide is the same column at --container-max, the frame the
    home page and the nav already use, and holds the five engagement pages:
    their step cards are two-column objects that need about 1200px to give the
    prose its measure beside a readable illustration, and inside 896px the
@@ -5927,6 +5941,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    shared, so the two never drift. A .case-wide inside .container adds no
    width of its own -- it names the treatment, not the number. */
 .case-narrow { max-width: 56rem; margin: 0 auto; }
+.container.case-narrow { max-width: var(--container-max); }
+:where(.container.case-narrow) > * { max-width: var(--col-wide); }
 .case-wide { max-width: var(--container-max); margin: 0 auto; }
 .case-narrow > p, .case-wide > p { max-width: var(--measure); }
 /* The miss page's "Where to go instead", which ran 832px -- 79ch -- beside
@@ -6609,7 +6625,7 @@ p.try-live {
 .case-narrow:has(> .writing-measure) { container: essay-column / inline-size; }
 .writing-measure > .writing-rail,
 .writing-measure > .writing-figure:has(> .writing-flow, > .writing-split, > .writing-facts) {
-  width: 100cqi;
+  width: min(100cqi, var(--col-wide));
   max-width: none;
 }
 .writing-flow {
@@ -6926,26 +6942,19 @@ p.try-live {
    THE CARD IS AS WIDE AS ITS STEPS, since 2026-10-30 (Adam: "the width
    be dynamic based on how many steps there are ... the max is five
    steps"). A step is one width on every rail: a fifth of a rail of five
-   at the page's width, less the gaps and the inset. A rail of five fills
-   the page as before; four and three are that many steps wide and stay
-   centered on the column, so three bets no longer spread across a frame
-   built for five. At 1440 a step is about 202px, and a rail of three is
-   about 750px against the page's 1216.
+   at the page's width, less the gaps and the inset.
+
+   SUPERSEDED THE SAME DAY by one edge and three widths (the reading
+   column, above): a rail of four or five is --col-full, a rail of three
+   is --col-wide, and every rail starts on the column's left edge. The
+   step count still sets the tile, from the rail's own width below.
 
    1024px is the site's wide breakpoint, where four-across grids begin;
    below it the rail stays in the column as it was. The scenes rail is
-   excepted: it takes the 990px frame of its own page's phone rows. */
+   excepted: it takes the frame its own page's phone rows take. */
 @media (min-width: 1024px) {
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) {
-    --rail-n: 5;
-    /* The 2px is the card's two 1px borders: the width is border-box. */
-    --rail-step: (min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter)) - 2 * var(--space-3xl) - 2px - 4 * var(--space-2xl)) / 5;
-    --rail-w: calc(var(--rail-n) * var(--rail-step) + (var(--rail-n) - 1) * var(--space-2xl) + 2 * var(--space-3xl) + 2px);
-    width: var(--rail-w);
-    margin-inline-start: calc(50cqi - var(--rail-w) / 2);
-  }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(5))) { --rail-n: 4; }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { --rail-n: 3; }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) { width: var(--col-full); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { width: var(--col-wide); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps {
     --rail-tile: min(15rem, (100cqi - 4 * var(--space-2xl)) / 5);
     gap: var(--space-2xl);
@@ -7003,16 +7012,10 @@ p.try-live {
   }
 }
 @media (min-width: 56rem) {
-  .writing-measure > .writing-rail--scenes {
-    width: min(990px, 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(495px, 50vw - var(--gutter)));
-  }
+  .writing-measure > .writing-rail--scenes { width: var(--col-full); }
 }
 @media (min-width: 1024px) {
-  .writing-measure > .writing-rail--scenes:has(> .writing-rail-steps > li:nth-child(4)) {
-    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
-  }
+  .writing-measure > .writing-rail--scenes:has(> .writing-rail-steps > li:nth-child(4)) { width: var(--col-full); }
 }
 
 /* A number row is .build-facts with the number first: the figure in serif
