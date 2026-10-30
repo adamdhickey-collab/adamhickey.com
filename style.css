@@ -6842,18 +6842,26 @@ p.try-live {
   grid-column: 2;
   grid-row: 1;
   padding-top: var(--space-xs);
+  margin-bottom: var(--space-2xs);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-caps);
   color: var(--color-accent-text);
 }
+/* The words are set as the Agent Review loop's are (.build-loop), at
+   every width, since 2026-10-30 (Adam: "the side rail text is too large
+   ... match more of what's in this image"): the number at --text-xs, the
+   name in --text-sm semibold charcoal, its line in --text-sm muted. Until
+   then the name was --text-base and, from 1024px, --text-lg over a line
+   at the body size, so a figure's captions read louder than the
+   paragraphs around them. */
 .writing-measure .writing-rail-steps strong {
   grid-column: 2;
   grid-row: 2;
-  margin: var(--space-2xs) 0;
-  font-size: var(--text-base);
+  margin: 0;
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
 .writing-rail-steps li > span:last-child { grid-column: 2; grid-row: 3; }
@@ -6884,9 +6892,9 @@ p.try-live {
    step's name broke onto two lines and its line onto three, and one
    step's words ran up against the next across a 16px gap, so the figure
    read as a crowd of small things rather than one sequence. Out of it the
-   same four are 280px a step with --space-2xl between them, and the type
-   steps up one each: the line to the body size, the name to --text-lg,
-   the number to --text-xs.
+   same four are 280px a step with --space-2xl between them. The type
+   stepped up one size here until 2026-10-30; it now holds the column's
+   sizes, the loop's, so the wider steps buy room rather than volume.
 
    The tile's ceiling is 15rem here rather than 11.25. The tiles are 360px,
    so at 240 a 2x screen draws each at 1.33 of its pixels; rendered at 2x
@@ -6909,8 +6917,6 @@ p.try-live {
   }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(5))) { --rail-tile: min(15rem, (100cqi - 3 * var(--space-2xl)) / 4); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps:not(:has(> li:nth-child(4))) { --rail-tile: min(15rem, (100cqi - 2 * var(--space-2xl)) / 3); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps li { font-size: var(--text-base); }
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps strong { font-size: var(--text-lg); }
 }
 /* A rail of scenes, since 2026-10-22: Lucy Learns's three tries, drawn in
    the app's own art rather than the rails' line hand -- the entry hall,
