@@ -6232,7 +6232,14 @@ html.ah-lightbox-open body { overflow: hidden; }
    frame the hero's three screens use (.build-phone), at a phone's width, so a
    reader can run a session without leaving the page. The frame is not new;
    the width, the iframe inside it and the title are. */
-.build-try { margin: 0 0 var(--space-3xl); }
+.build-try {
+  /* 390 x 844 is a phone's CSS viewport (the iPhone 14 through 16), so the
+     app inside lays itself out the way it does in a hand. Not a spacing
+     token: it is the device, the way 620x1342 is on the captures. Declared
+     here rather than on the frame so the split layout's column can read it. */
+  --phone-width: 390px;
+  margin: 0 0 var(--space-3xl);
+}
 .build-try p {
   margin: 0 0 var(--space-md);
   max-width: var(--measure);
@@ -6241,12 +6248,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-charcoal);
 }
 .build-try-phone {
-  /* 390 x 844 is a phone's CSS viewport (the iPhone 14 through 16), so the
-     app inside lays itself out the way it does in a hand. Not a spacing
-     token: it is the device, the way 620x1342 is on the captures. The
-     column narrows the frame under 390px and the app follows, because it is
-     built for that. */
-  --phone-width: 390px;
+  /* The column narrows the frame under 390px and the app follows, because
+     it is built for that. */
   width: min(var(--phone-width), 100%);
   margin: var(--space-xl) 0;
 }
@@ -6259,6 +6262,23 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-white);
 }
 .build-try-actions { margin: 0; }
+/* Since 2026-10-30 the Lucy Learns write-up sets the live app beside its
+   words rather than under them: what to try on the left, the phone on the
+   right, so the instructions are still in view while a reader runs a
+   session. The copy sits at the phone's vertical center. Under 900px it is the single column it was, label and phone after the
+   list. */
+.build-try-copy .build-list { margin-bottom: var(--space-lg); }
+.build-try-demo { margin-top: var(--space-xl); }
+@media (min-width: 900px) {
+  .build-try--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--phone-width);
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+  .build-try--split .build-try-demo { margin-top: 0; }
+  .build-try--split .build-try-phone { margin-bottom: 0; }
+}
 
 /* ---------- "Try it, it's live" ----------
    The one label over every working thing a reader can press: the Agent
