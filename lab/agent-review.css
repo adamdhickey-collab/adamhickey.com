@@ -415,6 +415,12 @@
 /* ---- a reading measure ---- */
 .arc-measure > p,
 .arc-measure > ul { max-width: var(--measure); }
+/* A rail in a chapter, since 2026-10-30 (What's next's Say, Tell, and
+   Weigh). The rail sizes itself by its column's cqi, and an article names
+   .case-narrow for that; here the column is the chapter's own, so it is
+   named instead. Without it the cqi is the viewport's and the rail ran off
+   the page's right edge. */
+.arc-measure:has(> .writing-measure) { container: essay-column / inline-size; }
 
 /* ---- a chapter's head ----
    The eyebrow, the heading and one line, at the reading measure. */
@@ -431,18 +437,33 @@
 .case-section .arc-lead,
 .case-section .arc-after { max-width: var(--measure); text-wrap: pretty; }
 .arc-after { margin-top: var(--space-2xl); }
-/* Evaluate's after: the reasons on the left, under the agent's pick, and
-   the Design psychology note beside them on the right, under my call, in
-   the pair's own columns from 64rem. Stacked under it, the note follows. */
+/* Evaluate's after: the decision in one line, then the reasons as two
+   short lists, each under the screen it is about from 64rem: why not the
+   review under the agent's pick, what undo keeps and risks under my call. */
+.case-section .arc-why { max-width: none; display: grid; gap: var(--space-xl); }
+/* The verdict sits a step further off the pair than a plain after does,
+   so it reads as the answer to both screens rather than a caption on one. */
+.arc-after.arc-why { margin-top: var(--space-4xl); }
+.case-section .arc-verdict {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  color: var(--color-charcoal);
+}
+.case-section .arc-why-head {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.arc-why .build-list { margin: 0; gap: var(--space-sm); }
 @media (min-width: 64rem) {
-  .case-section .arc-after--aside {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-2xl);
-    align-items: start;
-    max-width: none;
-  }
-  .arc-after--aside .dp-note { margin: 0; }
+  .case-section .arc-why { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-2xl); }
+  .arc-verdict { grid-column: 1 / -1; }
 }
 
 /* ---------- The rule: three kinds of change ----------
@@ -528,6 +549,9 @@
    call and a 16:9 scene drawn by scripts/scenes.mjs, one row apiece. */
 .ar-try { display: grid; gap: var(--space-2xl); }
 .ar-steps {
+  /* The prototype's own stage-bar disc (its --color-accent, dark scheme),
+     so the six numbers here read as the six in the frame below. */
+  --ar-stage-disc: #a3b1f5;
   display: grid;
   column-gap: var(--space-2xl);
   margin: 0;
@@ -553,10 +577,10 @@
      the disc, halved. 1lh here would be the disc's own 12px line. */
   margin-top: calc((var(--text-base) * var(--leading-body) - var(--space-xl)) / 2);
   border-radius: var(--radius-pill);
-  background: var(--color-charcoal);
+  background: var(--ar-stage-disc);
   font-size: var(--text-xs);
   line-height: 1;
-  color: var(--ink-on-dark);
+  color: var(--color-charcoal);
 }
 .case-section .ar-steps p {
   margin: 0;
@@ -892,8 +916,10 @@
   --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
   position: relative;
   margin: var(--space-4xl) 0;
-  padding-bottom: var(--space-4xl);
-  border-bottom: 1px solid var(--rule-strong);
+  padding-block: var(--space-4xl);
+  /* A rule on each side sets the summary apart from the cards above it
+     and from the section below. */
+  border-block: 1px solid var(--rule-strong);
 }
 .rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 /* What the drawing is, said once over it, so it reads as the section's

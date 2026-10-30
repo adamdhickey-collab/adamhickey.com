@@ -488,23 +488,16 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 @media (min-width: 768px) { .case-grid--lab { grid-template-columns: 1fr; gap: var(--space-2xl); } }
 
 /* --- Cross-document view transitions ------------------------------------
-   Clicking a case card morphs its thumbnail into the case study page's
-   hero image (setupCaseMorph names the clicked thumb; each case page's
-   hero carries the matching view-transition-name). Browsers without
-   support simply navigate normally, and reduced-motion users opt out.
-   Disabled on mobile widths too: the morph is a desktop flourish, and
-   on phones (where this navigation is the primary way through the
-   site) a plain, instant page change reads as more responsive. */
+   A plain cross-fade between pages. No element carries a
+   view-transition-name, so nothing moves across the page change; the
+   thumbnail-to-hero morph came out on 2026-10-30. Reduced-motion users
+   and phone widths navigate instantly. */
 @view-transition { navigation: auto; }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
 @media (max-width: 767.98px) {
   @view-transition { navigation: none; }
-}
-::view-transition-group(case-hero) {
-  animation-duration: var(--motion-enter);
-  animation-timing-function: var(--ease);
 }
 
 .case-card { display: block; text-align: left; }
@@ -673,8 +666,10 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
 }
 
 /* Selected work cards lost their role line, so the tags sat right under
-   the title. This is the gap that line used to provide. */
-.case-grid .case-card .tag-row { margin-top: var(--space-md); }
+   the title. This is the gap that line used to provide, at --space-2xs
+   since 2026-10-30: with .case-desc's own margin that is 16px at 1440 and
+   12px on a phone, close enough that the tags read as the description's. */
+.case-grid .case-card .tag-row { margin-top: var(--space-2xs); }
 
 /* --- The self-directed prototype, closing Selected work ------------------
    It spans the grid rather than taking a column. Five cards in a
@@ -3198,8 +3193,9 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
 }
 .eng3-proof-shot.is-single { max-width: none; }
 /* .case-section p sets prose at --text-lg, and beats a bare class on
-   specificity; the kicker and the closing line here say which size they are
-   under the same selector so they are not quietly promoted to body copy. */
+   specificity; the kicker says which size it is under the same selector so
+   it is not quietly promoted to body copy. The closing line takes the lead's
+   size on purpose: one paragraph size above and below the figures. */
 .case-section .eng3-proof-client {
   font-size: var(--text-xs); line-height: var(--leading-ui); font-weight: 600; letter-spacing: var(--tracking-caps);
   text-transform: uppercase; color: var(--color-accent-text);
@@ -3222,7 +3218,7 @@ a.mini-phone:focus-visible { transform: scale(var(--motion-lift)); }
   color: var(--color-charcoal);
 }
 .eng3-proof-stats span { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: 14rem; }
-.case-section .eng3-proof-more { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
+.case-section .eng3-proof-more { margin: 0; }
 /* A second closing paragraph is a second client, and gets a paragraph gap;
    the Design System Foundation card has one, the other three have not. */
 .case-section .eng3-proof-more + .eng3-proof-more { margin-top: var(--space-md); }
@@ -4444,17 +4440,6 @@ html.ah-lightbox-open body { overflow: hidden; }
 }
 .case-narrow .writing-measure h2:not(:first-child) { margin-top: var(--space-3xl); }
 .writing-measure h2:first-child { margin-top: 0; }
-/* The claim headings balance their lines. They are claims now rather than
-   labels, so they run to two and three lines and strand the last one:
-   sixteen across the ten articles ended on a fragment under a quarter of
-   the line above it. Same treatment, and the same reason, as the
-   engagement pages' nine-word heading.
-
-   Keyed to the eyebrow rather than to .writing-measure h2, which the
-   dispatch cockpit write-up also uses: every article heading has a "Key
-   idea N of M" before it and none of the cockpit's five do, so this is
-   exactly the set that was rewritten and nothing else. */
-.writing-measure .writing-eyebrow + h2 { text-wrap: balance; }
 /* One-sentence paragraphs are this writer's rhythm, and at --space-md the
    gaps read as a list rather than as prose. Three quarters of that keeps the
    sentences grouped while the section gap above stays clearly larger. */
@@ -5125,9 +5110,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    rows further down sit in .case-narrow, 896px, and the same markup gave 261:
    the same screens, 17% smaller, in the part of the page where a reader is
    looking hardest at the type inside them. A figure marked --wide takes the
-   hero's width instead -- the cap, or the viewport less its two gutters,
-   whichever is smaller -- and centers on the column it is breaking out of, so
-   it overhangs the prose by the same amount either side. The caption is inside
+   frame, --col-full, from the column's left edge; the row inside keeps its
+   own 990px cap, so a phone is the hero's size. The caption is inside
    the figure and moves with it. 56rem is .case-narrow's own width: below it
    the column already is the viewport and the rows agree. The row's own
    max-width is the 990, so the figure only has to be at least that wide. */
@@ -5136,8 +5120,8 @@ html.ah-lightbox-open body { overflow: hidden; }
 .case-narrow > p + .build-flow--wide { margin-top: var(--space-3xl); }
 @media (min-width: 56rem) {
   .case-narrow > .build-flow--wide {
-    width: min(990px, 100vw - 2 * var(--gutter));
-    margin-inline: calc(50% - min(495px, 50vw - var(--gutter)));
+    width: var(--col-full);
+    max-width: var(--col-full);
   }
 }
 /* Lucy Learns' hero row centers in the full frame. The row stops at the 990
@@ -5146,7 +5130,7 @@ html.ah-lightbox-open body { overflow: hidden; }
    figure takes the cap and centers, and the caption keeps the first phone's
    left edge. Below 600 the row is the sideways strip and this changes
    nothing. */
-.build-flow--centered { max-width: 990px; margin-inline: auto; }
+.build-flow--centered { max-width: 990px; }
 .build-phone {
   --shell-radius: 26px;
   border-radius: var(--shell-radius);
@@ -5924,8 +5908,23 @@ html.ah-lightbox-open body { overflow: hidden; }
    Capping the container instead would have shrunk every figure on the build
    write-ups by 23%.
 
-   Two widths, one treatment. .case-narrow is 896px and holds every case study
-   and essay. .case-wide is the same column at --container-max, the frame the
+   ONE EDGE, THREE WIDTHS, since 2026-10-30. .case-narrow was an 896px
+   column centered in the frame, with its text hung on the column's left and
+   its figures centered on it, each at a width of its own: 620, 750, 832,
+   983, 990 and 1216 on one essay. At 1440 a paragraph centered on x=614 and
+   a figure on x=720, so every figure looked pushed right of the words, and
+   a case study's title and body started 192px apart. On a page's own
+   column (.container.case-narrow) every block now starts on the frame's
+   left edge, the logo's line, at one of three widths: the measure for
+   text, --col-wide for most figures, and --col-full for the ones that read
+   across the page. A figure that wants more than the text grows to the
+   right. The default for a block is wide, exactly what it measured in the
+   centered column; the selector has no specificity, so a block with a cap
+   of its own (a paragraph's measure, the essay's .writing-measure) keeps
+   it. A .case-narrow nested inside a .container (the cockpit's) is not a
+   page column and keeps 56rem.
+
+   .case-narrow holds every case study and essay. .case-wide is the same column at --container-max, the frame the
    home page and the nav already use, and holds the five engagement pages:
    their step cards are two-column objects that need about 1200px to give the
    prose its measure beside a readable illustration, and inside 896px the
@@ -5934,6 +5933,8 @@ html.ah-lightbox-open body { overflow: hidden; }
    shared, so the two never drift. A .case-wide inside .container adds no
    width of its own -- it names the treatment, not the number. */
 .case-narrow { max-width: 56rem; margin: 0 auto; }
+.container.case-narrow { max-width: var(--container-max); }
+:where(.container.case-narrow) > * { max-width: var(--col-wide); }
 .case-wide { max-width: var(--container-max); margin: 0 auto; }
 .case-narrow > p, .case-wide > p { max-width: var(--measure); }
 /* The miss page's "Where to go instead", which ran 832px -- 79ch -- beside
@@ -6239,7 +6240,14 @@ html.ah-lightbox-open body { overflow: hidden; }
    frame the hero's three screens use (.build-phone), at a phone's width, so a
    reader can run a session without leaving the page. The frame is not new;
    the width, the iframe inside it and the title are. */
-.build-try { margin: 0 0 var(--space-3xl); }
+.build-try {
+  /* 390 x 844 is a phone's CSS viewport (the iPhone 14 through 16), so the
+     app inside lays itself out the way it does in a hand. Not a spacing
+     token: it is the device, the way 620x1342 is on the captures. Declared
+     here rather than on the frame so the split layout's column can read it. */
+  --phone-width: 390px;
+  margin: 0 0 var(--space-3xl);
+}
 .build-try p {
   margin: 0 0 var(--space-md);
   max-width: var(--measure);
@@ -6248,12 +6256,8 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-charcoal);
 }
 .build-try-phone {
-  /* 390 x 844 is a phone's CSS viewport (the iPhone 14 through 16), so the
-     app inside lays itself out the way it does in a hand. Not a spacing
-     token: it is the device, the way 620x1342 is on the captures. The
-     column narrows the frame under 390px and the app follows, because it is
-     built for that. */
-  --phone-width: 390px;
+  /* The column narrows the frame under 390px and the app follows, because
+     it is built for that. */
   width: min(var(--phone-width), 100%);
   margin: var(--space-xl) 0;
 }
@@ -6266,6 +6270,23 @@ html.ah-lightbox-open body { overflow: hidden; }
   background: var(--color-white);
 }
 .build-try-actions { margin: 0; }
+/* Since 2026-10-30 the Lucy Learns write-up sets the live app beside its
+   words rather than under them: what to try on the left, the phone on the
+   right, so the instructions are still in view while a reader runs a
+   session. The copy sits at the phone's vertical center. Under 900px it is the single column it was, label and phone after the
+   list. */
+.build-try-copy .build-list { margin-bottom: var(--space-lg); }
+.build-try-demo { margin-top: var(--space-xl); }
+@media (min-width: 900px) {
+  .build-try--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--phone-width);
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+  .build-try--split .build-try-demo { margin-top: 0; }
+  .build-try--split .build-try-phone { margin-bottom: 0; }
+}
 
 /* ---------- "Try it, it's live" ----------
    The one label over every working thing a reader can press: the Agent
@@ -6389,19 +6410,19 @@ p.try-live {
 }
 .other-feature .product-actions { margin-top: var(--space-xl); }
 
-/* ---------- the writing pages' Blink treatment ---------- */
-/* What Blinkist does to a book, done to the essays: the structure made
-   visible rather than the prose decorated. Every rule below is one of six
-   pieces, top to bottom of an article -- the progress line, the list of key
-   ideas under the dek, the eyebrow that numbers each section, the figures
-   that break the column, the promoted line, and the recap the article ends
-   on. Sizes come from the scale and colors from the four grounds; the only
+/* ---------- the writing pages ---------- */
+/* An article's furniture, top to bottom: the progress line, the figures
+   that break the column, and the promoted line. Until 2026-10-30 there were
+   three more, from the Blink frame the articles carried -- a list of key
+   ideas under the dek, a "Key idea 2 of 6" eyebrow over each section and a
+   recap at the end -- and they went with it (scripts/keys.mjs has why).
+   Sizes come from the scale and colors from the four grounds; the only
    terracotta on these pages is the one mark in a flow figure, which is the
    same rule the drawings follow: one terracotta object, and it is the point.
 
    The progress line. A 4px sage rule under the nav, scaled from the left
    edge as the reader moves through the essay, and only the essay: writing.js
-   measures from the top of the body to the bottom of the recap, so the line
+   measures from the top of the body to the end of the essay, so the line
    reads "how much of the argument is left" rather than "how much page".
    transform rather than width, so it never lays out; --motion-response,
    because MOTION.md reserves that step for the interface tracking the reader,
@@ -6432,23 +6453,11 @@ p.try-live {
 .writing-progress[data-lead="craft"] { background: var(--color-slate); }
 .writing-progress[data-lead="enterprise"] { background: var(--color-caution-text); }
 
-/* The key ideas: one sentence per section, each the section's own h2 and a
-   link to it, generated by scripts/keys.mjs so the list cannot drift from
-   the headings. It sits under the dek and above the drawing, so the order on
-   screen is answer, map, picture, argument. Serif at --text-xl, the step
-   under the dek's ramp, because these are the headings in miniature and not
-   body copy; the counter takes the fact-node's tea disc and hairline ring at
-   the smallest size the scale allows a label. The nav carries the essay's
-   own font-size so --measure resolves to the same 620px column the prose
-   takes below it. */
-.writing-keys {
-  font-size: var(--text-lg);
-  max-width: var(--measure);
-  margin: var(--space-2xl) 0 0;
-}
-.writing-keys-label,
-.case-section .writing-eyebrow,
-.case-section .writing-recap-label {
+/* The eyebrow: a tracked-capitals label with the short sage rule the case
+   studies draw above a body heading. Since 2026-10-30 it labels the writing
+   index's sections, Start here and the three collections; it numbered an
+   article's sections until the Blink frame came off. */
+.case-section .writing-eyebrow {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -6489,63 +6498,7 @@ p.try-live {
     margin-bottom: var(--space-lg);
   }
 }
-.writing-keys ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-sm);
-  counter-reset: key;
-}
-.writing-keys li {
-  /* The entries are those same headings, at the same risk. */
-  text-wrap: balance;
-  position: relative;
-  padding-left: var(--space-2xl);
-  counter-increment: key;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-}
-.writing-keys li::before {
-  content: counter(key);
-  position: absolute;
-  left: 0; top: 0.1em;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--color-tea-light);
-  border: 1px solid var(--color-accent-ring);
-  font-family: var(--font-sans);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  line-height: 22px;
-  text-align: center;
-  color: var(--color-accent-text);
-}
-.writing-keys a {
-  /* The row, not the text run. Inline, the target was the 26px box the words
-     happened to fill; as a block it is the column's width, which is what the
-     index already does with .writing-link. The counter stays on the item, so
-     the number is a mark rather than part of the target. */
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--motion-state) var(--ease);
-}
-.writing-keys a:focus-visible { color: var(--color-accent-text); }
-@media (hover: hover) and (pointer: fine) {
-  .writing-keys a:hover { color: var(--color-accent-text); }
-}
 
-/* The eyebrow: "Key idea 2 of 6" above each section head, so a reader who
-   jumped in from the list knows where they are, and a scanner reads the
-   eyebrows, the heads and the marked lines as one path. It takes the short
-   sage rule the case studies draw above a body heading, and the heading
-   under it gives that rule up, so the mark moves one line up rather than
-   appearing twice. The section gap moves up with it: the eyebrow is now the
-   first thing in a section, and it carries --space-3xl where the h2 did. */
 .case-section .writing-eyebrow::before {
   content: "";
   display: block;
@@ -6554,19 +6507,6 @@ p.try-live {
   margin-bottom: var(--space-sm);
   background: var(--color-accent-text);
 }
-.case-overview .writing-measure .writing-eyebrow + h2::before { content: none; }
-.case-narrow .writing-measure .writing-eyebrow:not(:first-child) { margin-top: var(--space-3xl); }
-/* Every key idea is a jump link, and the heading it lands on is the second
-   thing in its section: the eyebrow saying "Key idea 3 of 9" sits above it.
-   html's scroll-padding-top is exactly --nav-height, so the heading stopped
-   under the nav's bottom edge and the eyebrow stopped behind the nav -- a
-   reader arrived at a section with the label telling them where they were
-   off screen, and the heading tucked against the progress line. This is the
-   eyebrow's own height plus the line plus a breath, added to the padding the
-   scrollport already applies. It is on the heading rather than on html
-   because html's value is right for every other anchor on the site. */
-.writing-measure h2[id] { scroll-margin-top: calc(var(--space-4xl) + var(--space-md)); }
-.case-narrow .writing-measure .writing-eyebrow + h2 { margin-top: 0; }
 
 /* The figures. Three kinds, each a <figure> with its label first, inside the
    essay's column rather than breaking out of it, because the column is the
@@ -6596,7 +6536,7 @@ p.try-live {
 .case-narrow:has(> .writing-measure) { container: essay-column / inline-size; }
 .writing-measure > .writing-rail,
 .writing-measure > .writing-figure:has(> .writing-flow, > .writing-split, > .writing-facts) {
-  width: 100cqi;
+  width: min(100cqi, var(--col-wide));
   max-width: none;
 }
 .writing-flow {
@@ -6910,14 +6850,22 @@ p.try-live {
    slice at 480x320), not a change here. Under the ceiling the tile is the
    step's whole column, as above.
 
+   THE CARD IS AS WIDE AS ITS STEPS, since 2026-10-30 (Adam: "the width
+   be dynamic based on how many steps there are ... the max is five
+   steps"). A step is one width on every rail: a fifth of a rail of five
+   at the page's width, less the gaps and the inset.
+
+   SUPERSEDED THE SAME DAY by one edge and three widths (the reading
+   column, above): a rail of four or five is --col-full, a rail of three
+   is --col-wide, and every rail starts on the column's left edge. The
+   step count still sets the tile, from the rail's own width below.
+
    1024px is the site's wide breakpoint, where four-across grids begin;
    below it the rail stays in the column as it was. The scenes rail is
-   excepted: it takes the 990px frame of its own page's phone rows. */
+   excepted: it takes the frame its own page's phone rows take. */
 @media (min-width: 1024px) {
-  .writing-measure > .writing-rail:not(.writing-rail--scenes) {
-    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
-  }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes) { width: var(--col-full); }
+  .writing-measure > .writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { width: var(--col-wide); }
   .writing-measure > .writing-rail:not(.writing-rail--scenes) .writing-rail-steps {
     --rail-tile: min(15rem, (100cqi - 4 * var(--space-2xl)) / 5);
     gap: var(--space-2xl);
@@ -6975,16 +6923,10 @@ p.try-live {
   }
 }
 @media (min-width: 56rem) {
-  .writing-measure > .writing-rail--scenes {
-    width: min(990px, 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(495px, 50vw - var(--gutter)));
-  }
+  .writing-measure > .writing-rail--scenes { width: var(--col-full); }
 }
 @media (min-width: 1024px) {
-  .writing-measure > .writing-rail--scenes:has(> .writing-rail-steps > li:nth-child(4)) {
-    width: min(var(--container-max) - 2 * var(--gutter), 100vw - 2 * var(--gutter));
-    margin-inline-start: calc(50cqi - min(var(--container-max) / 2 - var(--gutter), 50vw - var(--gutter)));
-  }
+  .writing-measure > .writing-rail--scenes:has(> .writing-rail-steps > li:nth-child(4)) { width: var(--col-full); }
 }
 
 /* A number row is .build-facts with the number first: the figure in serif
@@ -7067,8 +7009,8 @@ p.try-live {
 }
 
 /* The promoted line: one of the section's marked sentences, standing on its
-   own between two rules at the essay's midpoint. The breather a Blink gets
-   from a page turn. It repeats a line the prose also carries, on purpose,
+   own between two rules at the essay's midpoint, a breather in the column.
+   It repeats a line the prose also carries, on purpose,
    which is what a pull quote is; aria-hidden keeps a screen reader from
    hearing it twice, and typescale.mjs skips it for the same reason. */
 .writing-pull {
@@ -7089,59 +7031,42 @@ p.try-live {
   margin: 0;
 }
 
-/* The recap: the argument in one breath and one thing to do, on the tea
-   ground the design psychology note sits on, with its border and its
-   corner, so the two panels read as one family of "the note beside the
-   essay". The summary is serif at --text-xl, the key ideas' size, because
-   it is the key ideas run together; the action is sans at body size with a
-   semibold lead, because it is an instruction. */
-.writing-recap {
-  box-sizing: border-box;
-  max-width: calc(var(--measure) + 2 * var(--space-xl) + 2px);
-  margin: var(--space-3xl) 0 0;
-  padding: var(--space-xl);
-  background: var(--color-tea-light);
-  border: 1px solid var(--color-accent-text);
-  border-radius: var(--radius-xl);
-}
-.case-section .writing-recap-sum {
-  /* Three sentences is past what balance handles, and balancing a paragraph
-     is not what a reader wants anyway: pretty leaves the block alone and
-     only refuses to stop on a short last line. */
-  text-wrap: pretty;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-  margin: 0 0 var(--space-md);
-}
-.case-section .writing-recap-do {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-  margin: 0;
-}
-.writing-recap-lead { font-weight: var(--weight-semibold); }
 
-/* The index groups the ten into three collections, the way a Blink sits in
-   a Space: an eyebrow with the sage rule, a one-line sans description in the
-   muted ink, then the list. The eyebrow is the article's own, so one class
+/* The index groups the articles into three collections: a drawn mark, an
+   eyebrow, a one-line sans description in the muted ink at --text-sm, a step
+   under the article deks so it reads as the collection's gloss rather than
+   one more of them, then the list. The mark is .fact-node and .fact-icon
+   unchanged, the homepage facts' tea disc, and it takes the place of the
+   sage rule; Start here keeps the rule. The draw is gated behind .draw-js,
+   which the page's own observer sets, and starts on .is-inview, so with no
+   script the marks render drawn. The eyebrow is the article's own, so one class
    marks a section on both kinds of page. */
 .case-section .writing-collection-dek {
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
   margin: 0;
   max-width: 60ch;
 }
+.case-section .writing-collection .writing-eyebrow { margin-top: 0; }
+.case-section .writing-collection .writing-eyebrow::before { content: none; }
+.draw-js .writing-collections .fact-icon path,
+.draw-js .writing-collections .fact-icon circle { stroke-dashoffset: 1; }
+.draw-js .writing-collections.is-inview .fact-icon path,
+.draw-js .writing-collections.is-inview .fact-icon circle {
+  animation: eng3-draw var(--motion-draw) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--motion-stagger) * 3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .draw-js .writing-collections .fact-icon path,
+  .draw-js .writing-collections .fact-icon circle { stroke-dashoffset: 0; animation: none; }
+}
 /* Scoped to the column so it outranks `.case-narrow h2:not(:first-child)`,
    which is (0,2,1) and took this to --space-4xl the moment the collection
-   label became a real h2. 40px is what the label was designed to carry --
-   the note on .case-section .writing-eyebrow::before says it takes
-   --space-3xl "where the h2 did" -- and giving the three collections their
-   heading level is a change to the outline, not to the rhythm. */
+   label became a real h2. 40px is what the label was designed to carry,
+   the --space-3xl an article's h2 takes above it, and giving the three
+   collections their heading level is a change to the outline, not to the
+   rhythm. */
 .case-narrow .writing-list + .writing-eyebrow,
 .case-wide .writing-list + .writing-eyebrow { margin-top: var(--space-3xl); }

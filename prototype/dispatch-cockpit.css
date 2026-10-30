@@ -153,7 +153,8 @@
   gap: var(--space-2xl);
   align-items: start;
 }
-/* ONE COLUMN, BECAUSE ONLY ONE DECISION STILL CARRIES EVIDENCE. This was a
+/* (Until 2026-10-30, and the drawings above.) ONE COLUMN, BECAUSE ONLY ONE
+   DECISION STILL CARRIES EVIDENCE. This was a
    fixed 28rem of copy beside a 1fr of picture above 72rem, which was the
    right answer while all five items had a capture to put in that second
    column. Four of the five lost theirs on 2026-09-20 -- they were
@@ -167,6 +168,41 @@
    the thing it is about is shown at the size it was drawn. The per-capture
    ceilings below do the sizing now; nothing here is a fraction of the
    container. */
+/* EACH DECISION A ROW, A DRAWING BESIDE ITS ARGUMENT, as The Shortlist's
+   five are (.ia-decision, lab/inspiration-to-aisle.css): a 3:2 line
+   drawing on a white card in a quarter column, the numbered copy in the
+   other three, from 64rem. Below that the drawing leads at half width over
+   the copy. The drawings are wordless and aria-hidden; every label is the
+   copy's. Decision 02's captures stay in the copy column, under its
+   paragraph. */
+.ckw-decision-pic {
+  display: block;
+  width: 50%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ckw-decision-pic .ink { stroke: var(--color-charcoal); }
+.ckw-decision-pic .mute { stroke: var(--color-muted-gray); opacity: 0.45; }
+.ckw-decision-pic .sage { stroke: var(--color-accent-text); }
+.ckw-decision-pic .warn { stroke: var(--color-caution-text); }
+.ckw-decision-pic .tea { fill: var(--color-tea-light); }
+.ckw-decision-pic .white { fill: var(--color-white); }
+.ckw-decision-pic .sage.fill { fill: var(--color-accent-text); }
+@media (min-width: 64rem) {
+  .ckw-decision {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+  .ckw-decision-pic { width: 100%; }
+  .ckw-decision > .ckw-shot { grid-column: 2; }
+}
 .ckw-decision-copy {
   position: relative;
   /* the disc plus the case studies' own gap-3 between it and the title */
@@ -444,8 +480,33 @@
    columns rather than four, so the two rows are even; the one sentence
    under them is the part of the disclosure that is a caveat and not a fact.
    Below 64rem the grid is style.css's own two, then one. */
-.ckw-facts {
+/* THE SIX ANSWERS ARE A CARD, since 2026-10-30 (Adam: "this whole section
+   could be in its own card like a white card"). Until then a full-width
+   rule over the strip kept it from running on from the figure's caption;
+   a white card on the hero's warm does that as one object, with the
+   caveat inside it at the foot, where it belongs to the facts it
+   qualifies. The rail's card treatment (.writing-rail, style.css): the
+   --rule-card edge, --radius-xl, and --shadow-card, the ladder's rung for
+   a card at rest, on white. The inset follows the rail's too: --space-md
+   on a phone, --space-xl from 640, and from 1024 --space-2xl down and
+   --space-3xl across. White is a ground COLOR.md already clears all three
+   of its inks on: charcoal, muted-gray, and accent-text. */
+.ckw-facts-card {
   margin: var(--space-4xl) 0 0;
+  padding: var(--space-lg) var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) {
+  .ckw-facts-card { padding: var(--space-xl); }
+}
+@media (min-width: 1024px) {
+  .ckw-facts-card { padding: var(--space-2xl) var(--space-3xl); }
+}
+.ckw-facts {
+  margin: 0;
   max-width: none;
 }
 @media (min-width: 1024px) {
@@ -461,7 +522,7 @@
    link inside body copy on a light
    ground looks like here: accent-text, 600, underlined at the 0.2em offset,
    charcoal on hover and focus so the pointer moves it toward the page.
-   accent-text on warm is 5.32:1. */
+   It sits on the card's white now, where accent-text clears 4.5 by more. */
 .case-hero .ckw-facts dd a {
   color: var(--color-accent-text);
   font-weight: var(--weight-semibold);

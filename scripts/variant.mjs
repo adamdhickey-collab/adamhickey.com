@@ -103,10 +103,11 @@ const BASE = {
        until 2026-10-08), "Enterprise and operational software" and "AI as
        the material"; the private variants name those eyebrows until moved,
        and three of their articles are unlisted now, not gone. Two, one, and
-       two since 2026-10-29, when the writing went to seven. */
-    'The system': ['what-a-design-system-needs-to-explain-to-an-agent', 'what-does-a-design-system-need-once-ai-is-in-the-product'],
+       two since 2026-10-29, when the writing went to seven; one, one, and
+       one since 2026-10-30, when each pair became one article. */
+    'The system': ['what-does-a-design-system-need-once-ai-is-in-the-product'],
     'The build': ['how-should-you-test-a-product-now-that-ai-can-help'],
-    'The judgment': ['who-decides-when-software-can-act-on-its-own', 'what-does-a-person-need-to-supervise-an-ai-agent'],
+    'The judgment': ['who-decides-when-software-can-act-on-its-own'],
   },
 };
 

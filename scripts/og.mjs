@@ -44,7 +44,7 @@ const CARDS = {
      this one too. It replaced img/og-card.jpg on 2026-09-17, a card drawn by
      hand for the independent practice that had outlived the practice by a
      week and the level by a day. */
-  'index':                             { kicker: 'Senior Product Designer',                title: 'Building is getting easier. Knowing what matters isn’t.', image: 'img/site/this-site.webp' },
+  'index':                             { kicker: 'Senior Product Designer',                title: 'I make complicated products easier to use and new ideas easier to test.', image: 'img/site/this-site.webp' },
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into a platform people trust',              image: 'img/site/hero-img.webp' },
@@ -93,14 +93,12 @@ const CARDS = {
      plane and its one curl, the first article's drawing since the 2026-09-17
      regrouping. */
   'writing':                                              { kicker: 'Adam Hickey', title: 'Writing', sub: 'Questions people ask about complicated software, answered', image: 'img/writing/what-makes-an-interface-feel-finished.webp' },
-  'what-a-design-system-needs-to-explain-to-an-agent':     { kicker: 'Writing', title: 'What a design system needs to explain to an agent', image: 'img/writing/what-a-design-system-needs-to-explain-to-an-agent.webp', position: '70% center' },
-  'what-does-a-person-need-to-supervise-an-ai-agent': { kicker: 'Writing', title: 'What does a person need to supervise an AI agent?', image: 'img/writing/what-does-a-person-need-to-supervise-an-ai-agent.webp' },
   'what-does-a-design-system-need-once-ai-is-in-the-product': { kicker: 'Writing', title: 'What does a design system need once AI is in the product?', image: 'img/writing/what-does-a-design-system-need-once-ai-is-in-the-product.webp' },
   /* The position article, 2026-10-20, above the three collections. Type
      alone until its drawing existed; it carries its feature like the rest
      since the drawings for the four that lead were made, the same day. */
   /* The personal essay, 2026-10-27, first under "Start here". */
-  'my-next-design-challenge': { kicker: 'Writing · start here', title: 'The hardest thing I’ve had to design is what’s next', image: 'img/writing/my-next-design-challenge.webp', position: 'right center' },
+  'my-next-design-challenge': { kicker: 'Writing · start here', title: 'The hardest thing I’ve designed is what’s next', image: 'img/writing/my-next-design-challenge.webp', position: 'right center' },
   'what-makes-a-good-product-designer-now': { kicker: 'Writing · start here', title: 'What makes a good product designer now?', image: 'img/writing/what-makes-a-good-product-designer-now.webp' },
   /* The three that lead the collections since 2026-10-20, one per word of
      the position article. Type alone until their drawings exist, as above;
