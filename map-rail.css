@@ -1,0 +1,75 @@
+/* map-rail.css -- the stage rail over a service map read on a phone.
+   Two pages load it: case-study/usda-operational-overhead.html and
+   lab/inspiration-to-aisle.html, each with map-rail.js, which builds it.
+
+   Under 64rem each map's stages sit in a row the reader swipes along
+   (case-study-base.css and lab/inspiration-to-aisle.css, "Narrow"). The
+   rail is the row's position and its shortcut: one disc a stage, on the
+   one sage line the wide grid draws through its discs, the stage in view
+   filled. A disc is a button that brings its stage into view. From 64rem
+   every stage is on screen and the rail is not drawn.
+
+   The discs are the maps' own station mark: the tea disc with the accent
+   hairline, sage numeral (4.90 on tea-light). The current one is the
+   pressed treatment of the map's Today and Connected switch, white on
+   the sage (5.82). Each disc sits in a 2.75rem target, the 44px floor,
+   and the line runs from the first disc's centre to the last's. */
+.map-rail { display: none; }
+@media (max-width: 63.98rem) {
+  .map-rail {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+  .map-rail::before {
+    content: "";
+    position: absolute;
+    left: calc(2.75rem / 2);
+    right: calc(2.75rem / 2);
+    top: 50%;
+    border-top: 2px solid var(--color-accent-text);
+    translate: 0 -50%;
+  }
+  .map-rail-btn {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+  .map-rail-n {
+    display: grid;
+    place-items: center;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background: var(--color-tea-light);
+    border: 1px solid var(--color-accent-ring);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent-text);
+    transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+  }
+  .map-rail-btn.is-current .map-rail-n {
+    background: var(--color-accent-text);
+    border-color: var(--color-accent-text);
+    color: var(--color-white);
+  }
+  .map-rail-btn:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: -2px; }
+}
+@media (max-width: 63.98rem) and (hover: hover) and (pointer: fine) {
+  .map-rail-btn:hover .map-rail-n { border-color: var(--color-accent-text); }
+}
