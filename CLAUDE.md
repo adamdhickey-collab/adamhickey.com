@@ -1913,8 +1913,8 @@ Two more since #32:
   tokens: a flow (`.writing-flow`, stages with a rising bar), a split
   (`.writing-split`, two columns behind two rules), a number row
   (`.build-facts.writing-facts`) and, since 2026-10-20, a rail
-  (`.writing-rail`, "THE RAIL" in `style.css`): steps joined by one sage
-  line after Agent Review's learning loop, each a small wordless drawing
+  (`.writing-rail`, "THE RAIL" in `style.css`): numbered steps with no line
+  joining them (since 2026-10-30), each a small wordless drawing flush left
   over its number, name and one line of text. A figure with a label is
   still code, never a generated image, because the checks cannot read a
   label in a bitmap: a rail's drawings carry no word and are `alt=""`, and

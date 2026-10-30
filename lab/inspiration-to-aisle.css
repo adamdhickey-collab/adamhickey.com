@@ -414,7 +414,11 @@
    the disc and the indent cannot drift), the decision centred on the disc,
    what the app does at the measure, and the guess under it, its label in
    the sage. They were the prototype page's .aiw-decisions until 2026-10-29,
-   with a disclosure of reasons each, which the one page leaves out. */
+   with a disclosure of reasons each, which the one page leaves out.
+   Since 2026-10-30 each carries a drawing in the storyboard's hand, on a
+   white tile with the figure's card edge: over the words to 64rem, and
+   from 64rem beside them, the list leaving the reading column for the
+   container as the map does, so the drawing and the words each get half. */
 .ia-decisions {
   --ia-num: 40px;
   list-style: none;
@@ -422,14 +426,24 @@
   padding: 0;
   counter-reset: ia-decision;
   display: grid;
-  gap: var(--space-2xl);
+  gap: var(--space-4xl);
 }
-.ia-decision {
-  counter-increment: ia-decision;
+.ia-decision { counter-increment: ia-decision; }
+.ia-decision-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin: 0 0 var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.ia-decision-text {
   position: relative;
   padding-left: calc(var(--ia-num) + var(--space-sm));
 }
-.ia-decision::before {
+.ia-decision-text::before {
   content: counter(ia-decision, decimal-leading-zero);
   position: absolute;
   left: 0;
@@ -444,6 +458,21 @@
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
+}
+@media (min-width: 64rem) {
+  .ia-decisions {
+    position: relative;
+    left: 50%;
+    translate: -50% 0;
+    width: min(calc(100vw - 2 * var(--gutter)), calc(var(--container-max) - 2 * var(--gutter)));
+  }
+  .ia-decision {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+  .ia-decision-pic { margin: 0; }
 }
 .case-section .ia-decision h3 {
   min-height: var(--ia-num);
