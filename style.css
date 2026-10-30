@@ -3979,7 +3979,8 @@ figure.hero-photo-frame { margin: 0; }
   padding: var(--space-2xl) 0;
   border-top: 1px solid var(--rule-on-dark);
 }
-.about-beat-row:first-child { border-top: 0; padding-top: var(--space-xs); }
+/* The first row keeps its rule: it is the line between the plain sentence
+   and the three beats, and the sentence's own bottom margin sits above it. */
 @media (min-width: 768px) {
   .about-beat-row { grid-template-columns: 250px minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
 }
@@ -3992,6 +3993,13 @@ figure.hero-photo-frame { margin: 0; }
   border-radius: 0.75rem;
 }
 .about-media img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+/* From 1024 the band has room the 250px column left empty to the right of
+   the prose, so the pictures take five twelfths and the prose seven, which
+   still holds the paragraphs at their measure. */
+@media (min-width: 1024px) {
+  .about-beat-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .about-media { max-width: none; }
+}
 
 /* Each frame opens its picture full size. The 4:3 crop is a window onto
    something wider, so the corner badge has to say that there is more to
