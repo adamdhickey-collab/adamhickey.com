@@ -134,7 +134,8 @@ white page. The card went warm, then `--color-slate-light` (`#f3f6f8`,
 blue), and on 2026-10-31 warm again, when the gray read cold (Adam: "match
 this warmer beige instead of the cold gray"). The Aisle journey and the
 USDA service map had taken the gray with the card and went warm with it.
-Both tints were retired when the card left them; neither had another use.
+Both tints were retired when the card left them; neither had another use. On a tinted chapter the
+card is white, by the rule under "A figure card on a ground" below.
 
 The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
 37 Tailwind utilities across six minified case-study pages write it, and
