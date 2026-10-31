@@ -1177,6 +1177,21 @@ a.case-go:focus-visible svg { transform: translateX(calc(var(--space-sm) - var(-
 @container loop (min-width: 34rem) {
   .loop-step b { font-size: var(--text-base); }
 }
+/* In an essay column (the position article, since 2026-10-31) the
+   column's list rule would indent, mark, recolor and resize the loop's
+   items; these give them back, as .writing-rail-steps does for its own. */
+.writing-measure .loop li { padding-left: 0; }
+.writing-measure .loop-relay li::before,
+.writing-measure .loop-step:last-child::before { content: none; }
+.writing-measure .loop-relay li {
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark-secondary);
+}
+.writing-measure .loop-step { color: var(--ink-on-dark); }
+@container loop (min-width: 28rem) {
+  .writing-measure .loop-relay li { font-size: var(--text-sm); }
+}
 
 /* The build. --loop-beat is one step's turn: the step lands, its icon
    draws, its arrow runs on, and the next step lands as the arrow arrives.
@@ -4663,9 +4678,6 @@ html.ah-lightbox-open body { overflow: hidden; }
    beside the opening paragraph of the first section, so a reader in from
    a search still gets the answer first and the picture as the turn into
    the essay. */
-/* The loop at the head of the position article (since 2026-10-28) sits
-   under the read-aloud bar, which carries no margin of its own. */
-.writing-loop { margin-top: var(--space-2xl); }
 /* The read time sits under the dek rather than above the title, because the
    sage rule .case-overview draws above every h2 landed between the two and
    cut the label off from the entry it belonged to. That rule is suppressed
@@ -7179,22 +7191,6 @@ p.try-live {
   /* In the margin the pull is the page's display line, so it takes the
      step above the one it had in the column, between the same two rules. */
   .writing-progress ~ main .case-section .writing-measure > .writing-pull p { font-size: var(--text-3xl); }
-
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) {
-    font-size: var(--text-lg);
-    display: grid;
-    grid-template-columns: var(--measure) minmax(0, 1fr);
-    column-gap: var(--space-4xl);
-    align-items: start;
-  }
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) > * { grid-column: 1; max-width: none; }
-  .writing-progress ~ main .case-hero .case-narrow:has(> .writing-loop) > .build-dek { margin-bottom: 0; }
-  .writing-progress ~ main .case-hero .case-narrow > .writing-loop {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: center;
-    margin: 0;
-  }
 }
 
 /* The index groups the articles into three collections: a drawn mark, an
