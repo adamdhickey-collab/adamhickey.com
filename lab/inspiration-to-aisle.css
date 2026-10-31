@@ -65,20 +65,37 @@
   }
 }
 
-/* The figure's name, then its one-line standing: illustrative, or
-   conceptual. Both are real text a reader meets before the grid. */
+/* The caption is the service map's, as on the USDA case study
+   (case-study/service-map.css, .svc-kicker and .svc-title), since
+   2026-10-31: the kicker names the figure for what it is, a sentence in
+   the serif says what it shows, and the standing line under them says it
+   is illustrative. Until then the figcaption was itself the serif title,
+   and the two maps opened differently. Each part restates its size and
+   ink under two classes, because .case-section p outranks a bare class. */
 .ia-figure > figcaption {
   margin: 0 0 var(--space-lg);
+  max-width: var(--measure);
+}
+.ia-figure > figcaption .ia-kicker {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.ia-figure > figcaption .ia-title {
+  margin: 0;
   font-family: var(--font-serif);
   font-weight: var(--weight-regular);
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
-  max-width: var(--measure);
 }
 @media (min-width: 640px) {
-  .ia-figure > figcaption { font-size: var(--text-2xl); letter-spacing: var(--tracking-heading); }
+  .ia-figure > figcaption .ia-title { font-size: var(--text-2xl); }
 }
 .ia-figure > figcaption .ia-standing {
   display: block;
