@@ -6776,7 +6776,9 @@ p.try-live {
    print its drawings at the same small size in a column twice as wide.
    11.25rem is the ceiling, because the tiles are 360px and that is half;
    out of the column, from 1024px, it is 15rem, set out further down.
-   The cqi is the figure's own width (it is the container). */
+   The cqi is the figure's own width (it is the container). One figure's
+   tiles are wider than 3:2; the rule on the drawing below says how they
+   fit. */
 .writing-rail { container: writing-rail / inline-size; }
 /* THE RAIL IS A CARD, since 2026-10-22 (Adam: "these need some kind of
    background or frame around them ... to add a little structure of the
@@ -6853,9 +6855,26 @@ p.try-live {
   width: 100%;
   height: auto;
 }
+/* A DRAWING NEVER TAKES MORE THAN ITS COLUMN, since 2026-10-31. "Three
+   ways people rely on a system" draws a hand-off, a pair, and a pipeline,
+   so cut at 3:2 its widest set the scale, and its cards printed at two
+   thirds of the size of the next figure's on the same page (Adam: "make
+   the images in the second one larger and match the first image"). Its
+   tiles are cut 501x240, about 2:1, so they print at the height every
+   rail's do and use the room a rail of three has across. A tile that wide
+   would cross into the next step wherever the column is narrower than it,
+   so max-width holds the box to the column and object-fit scales the
+   drawing inside it, from the left. The three are one width, with their
+   ink 4px from the left, so a narrow column shrinks them together and the
+   figure keeps its one scale. At 3:2 or narrower a tile prints no wider
+   than --rail-tile, which no column is narrower than, so every other rail
+   is untouched. */
 .writing-rail:not(.writing-rail--scenes) .writing-rail-steps img {
   width: auto;
   height: calc(var(--rail-tile) * 2 / 3);
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
 }
 .writing-rail-num {
   grid-column: 2;
