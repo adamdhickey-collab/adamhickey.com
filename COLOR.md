@@ -95,16 +95,18 @@ Three sages. One for light grounds, its pressed step, and one for charcoal.
 Two families that are not the sage, each entered with its measured row.
 **Caution** is the status pair the dispatch cockpit spends on a refusal and
 a figure it will not vouch for (the deploy console spent it on a reading too,
-until it left the site on 2026-10-23); **slate** is the writing index's
-"Craft and code" colour, entered 2026-09-28 so an article's progress line can
-wear its collection. The terracotta collection needs no new token: it is
-`--color-caution-text`, the ink the site already draws its terracotta in.
+until it left the site on 2026-10-23); **slate** was the writing index's
+"Craft and code" colour, entered 2026-09-28 so an article's progress line could
+wear its collection. Since 2026-10-31 every article's progress line is the
+sage, whatever its collection (Adam: "standardize all these scroll indicator
+bars ... to the default sage"), so slate's one use is the build step's disc
+in the loop figure.
 
 | Token | Value | Notes |
 |---|---|---|
 | `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, a verdict it will not change, or, since 2026-10-24, work that stops for a person (below). |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
-| `--color-slate` | `#56718c` | The Craft collection's line. **A line, never text.** |
+| `--color-slate` | `#56718c` | The loop figure's build disc, under a warm icon. Until 2026-10-31, also the Craft collection's progress line. **Never text.** |
 | `--color-gray-light` | `#f5f5f5` | A neutral ground: the writing rail's card, since 2026-10-27, in place of slate-light's tint. Warm's lightness with no hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
 
 | | white | warm | tea | muted | charcoal |
@@ -120,9 +122,9 @@ meaning narrowed rather than a new one: the agent will not go on alone.
 The caution ground stays a refusal and nothing else. On tea, where the lane
 sits, it reads 5.43; on the white cards 6.45.
 
-Slate clears 4.5 only on white and warm, which is why it is a line and not
-ink: the one place it is spent sits on the nav's white edge and the warm
-page, and a line answers to 3:1.
+Slate clears 4.5 only on white and warm, which is why it is never ink. Its
+one use is a fill: the build disc sits on the loop's charcoal panel at 3.02,
+over the 3:1 a graphic answers to, and carries its warm icon at 4.64.
 
 The rail's card takes a ground that is not slate's: `--color-gray-light`,
 `#f5f5f5`, a fill under ink and never a line. On it charcoal reads 14.06,
