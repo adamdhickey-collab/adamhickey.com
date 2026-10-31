@@ -96,8 +96,6 @@ const ALLOW = [
     why: 'a participle phrase, then a pair' },
   { file: 'lab/agent-review.html', phrase: 'remote or Twin Cities hybrid',
     why: 'a pair: remote, or hybrid in the Twin Cities' },
-  { file: 'lab/inspiration-to-aisle.html', phrase: 'One trip, today and connected',
-    why: 'a title in apposition: the one trip, shown today and connected' },
   { file: 'prototype/dispatch-cockpit.html', phrase: 'distance and driver hours',
     why: 'a pair naming the two rows' },
   { file: 'writing/how-should-you-test-a-product-now-that-ai-can-help.html', phrase: 'who I need, five or six tasks',
