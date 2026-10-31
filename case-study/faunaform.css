@@ -106,6 +106,26 @@
 }
 .build-pair-row--cosmos img { aspect-ratio: 7 / 10; object-fit: cover; }
 
+/* WHERE THIS IS HEADED: the two desks beside the words. From 72rem, where
+   the articles' margin items start, the drawing floats right of the
+   paragraphs, its top on the first one's first line, and takes what the
+   column leaves after the measure and --space-4xl: 548px at 1440, an
+   article's margin scene exactly. The figure carries the paragraphs'
+   --text-lg so its 52ch is theirs. The column is a flow root, so a drawing
+   that outruns the last paragraph still holds the section open. Below
+   72rem it sits under the heading at the measure, as a scene does in an
+   article's column. */
+.ff-headed > .ff-headed-scene { font-size: var(--text-lg); max-width: var(--measure); }
+@media (min-width: 72rem) {
+  .ff-headed { display: flow-root; }
+  .ff-headed > .ff-headed-scene {
+    float: right;
+    width: calc(100% - var(--measure) - var(--space-4xl));
+    max-width: none;
+    margin: var(--space-xs) 0 0;
+  }
+}
+
 /* The Cosmos credits: each name links to its pick on Cosmos, underlined in
    the caption's own ink, since a bare link on this site is plain text. */
 .ff-credits a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
