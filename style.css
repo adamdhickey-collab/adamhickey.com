@@ -7125,8 +7125,9 @@ p.try-live {
    than read along it move into a margin to its right, Tufte's sidenote.
 
    WHAT GOES IN THE MARGIN: a scene (one drawing or photograph and its
-   caption), the pull, a split (two short lists behind two rules), and the
-   Design psychology note. Each is a float with a negative right margin as
+   caption), the pull, a split (two short lists behind two rules), the
+   Design psychology note, and the loop on the position article (Adam,
+   2026-10-31: "This black one goes in the right hand side"). Each is a float with a negative right margin as
    wide as itself plus the gap, so it takes no room from the text's line
    boxes. clear: right stacks two that land close together rather than
    overlapping them.
@@ -7173,12 +7174,12 @@ p.try-live {
    would be under 420, a split's two lists at under 190 each, so the page
    is one column as it was; a phone sees nothing move.
 
-   THE LOOP'S HERO TAKES THE SAME TWO COLUMNS: kicker, title, dek and
-   Listen on the measure, the loop in the margin, centered on them. The
-   drawn features left the hero on 2026-10-30 for the body's first scene,
-   so every other article's title and dek take the frame. The hero column carries the
-   essay's --text-lg so its 52ch is the body's 620px and the two margins
-   start on one line; every child sets its own size.
+   THE LOOP IS A MARGIN ITEM, not a figure that spans. It sat in the
+   position article's hero until 2026-10-31 and then in its first
+   section's column; in the margin it is 548px wide and 280px tall, and
+   its own container queries set its type for that width. The drawn
+   features left the hero on 2026-10-30 for the body's first scene, so
+   every article's title and dek take the frame.
 
    ONLY THE ARTICLES. The case studies and the lab pages use
    .writing-measure too, and they are not this layout. The progress line
@@ -7188,6 +7189,7 @@ p.try-live {
   .writing-progress ~ main .writing-measure > .writing-scene,
   .writing-progress ~ main .writing-measure > .writing-pull,
   .writing-progress ~ main .writing-measure > .dp-note,
+  .writing-progress ~ main .writing-measure > .loop,
   .writing-progress ~ main .writing-measure > .writing-figure:has(> .writing-split) {
     float: right;
     clear: right;
@@ -7198,7 +7200,7 @@ p.try-live {
   }
   .writing-progress ~ main .writing-measure > h2 { clear: right; }
   .writing-progress ~ main .writing-measure > .writing-rail,
-  .writing-progress ~ main .writing-measure > .writing-figure:not(.writing-scene):not(:has(> .writing-split)) { clear: both; }
+  .writing-progress ~ main .writing-measure > .writing-figure:not(.writing-scene):not(.loop):not(:has(> .writing-split)) { clear: both; }
   /* At 832 a rail of three, a flow, or a number row left a 384px strip
      of the margin empty beside it, the one place on the page that was
      neither two columns nor one band. Here they all take the frame. */
