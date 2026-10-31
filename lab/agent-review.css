@@ -124,42 +124,9 @@
   .ship-result { grid-area: result; }
 }
 
-/* ---- the device frame ----
-   A plain window: a bar with three dots and the screen's name, over the
-   product's own ground. Charcoal with the on-dark edge and the card's drop,
-   since 2026-10-27, when the Evaluate pair it frames was retaken dark, to
-   sit with the opener's list (.ship-list); the prototype's dark is the
-   same charcoal since 2026-10-29 (agent-review#79), when Night sage's
-   green-black left. */
-.arc-device {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
-  background: var(--color-charcoal);
-  border: 1px solid var(--rule-on-dark);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-}
-.arc-device-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-xs) var(--space-md);
-  border-bottom: 1px solid var(--rule-on-dark);
-}
-.arc-device-dots { display: flex; gap: var(--space-2xs); }
-.arc-device-dots span {
-  width: var(--space-xs);
-  height: var(--space-xs);
-  border-radius: var(--radius-pill);
-  background: var(--rule-on-dark-strong);
-}
-.arc-device-title {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark-secondary);
-}
+/* ---- the device frame, Relay's status pills and Evaluate's two
+   screens are in relay-screen.css since 2026-10-31, which this page
+   loads first and the personal essay loads too. ---- */
 .arc-screen { position: relative; }
 
 /* ---------- Would you ship this? ----------
@@ -294,15 +261,6 @@
   stroke-linejoin: round;
 }
 .ship-list-name { flex: 1; min-width: 0; }
-.ship-list-tag {
-  padding: 0 var(--space-xs);
-  border: 1px solid var(--rule-on-dark-strong);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--ink-on-dark-secondary);
-}
-.ship-list-tag--active { border-color: var(--color-accent-on-dark); color: var(--color-accent-on-dark); }
 
 /* The answers: three tiles in a row, one choice. Each is white on the
    page's ground with the card's edge and a radio mark, the label at the
@@ -636,10 +594,10 @@
      - The agent's pick: Archive opens the review, one more stop, with a
        real box per active customer; Archive N takes what is left
        checked, and there is no Undo after it.
-   A figure's step is one word on data-step, set by agent-review-story.js;
-   anything marked data-for shows only in the steps it names. With no
-   script the figure stays at its first step, which is what the checks
-   measure at rest; every later step is in scripts/lib/reachable.mjs. */
+   The screens themselves, and the script that steps them, are
+   relay-screen.css and relay-screen.js since 2026-10-31, when the
+   personal essay took the undo one for its margin; what stays here is
+   the pair and the line over each. */
 .arc-pair { display: grid; gap: var(--space-xl); }
 .arc-pair figure { margin: 0; }
 @media (min-width: 64rem) {
@@ -660,195 +618,6 @@
   color: var(--color-charcoal);
 }
 
-.ev [data-for] { display: none; }
-.ev[data-step="selected"] [data-for~="selected"],
-.ev[data-step="reviewing"] [data-for~="reviewing"],
-.ev[data-step="archived"] [data-for~="archived"],
-.ev[data-step="undone"] [data-for~="undone"] { display: flex; }
-.ev[data-step="reviewing"] .ev-review[data-for~="reviewing"] { display: block; }
-
-/* The bar over the rows: what is selected, then what happened, and the
-   one press that moves it on, at the end. */
-.ev-bar {
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xs) var(--space-md);
-  padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--rule-on-dark);
-  background: var(--wash-on-dark);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-}
-.ev-bar-text { flex: 1 1 10rem; font-weight: var(--weight-semibold); text-wrap: pretty; }
-
-/* The keys. Archive is the opener's (.ship-list-archive): caution ink on
-   the caution light (5.23:1), the one warm thing on the screen, and every
-   key takes its square corner, since 2026-10-29, when the two had drifted
-   to a square and a pill (Adam: "I want these to look consistent"). Undo is the secondary, a
-   ring in the strong on-dark rule; Cancel and Start over are quiet. The
-   key a reader presses next is marked the way the prototype marks it
-   (CycleScreen.css, .cycle__next-mark), since 2026-10-29: a 2px ring in
-   the ink and "Press this" over it in a tag of the same ink (Adam: "make
-   it really obvious with a label"). In the ink and not the accent, for
-   the prototype's reason: on a red button a colored ring reads as a state
-   of the button. The tag's text is hidden from assistive tech, since the
-   button's own name already says what it does. */
-.ev-key {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  flex: none;
-  padding: var(--space-2xs) var(--space-sm);
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-  cursor: pointer;
-  transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease);
-}
-.ev-key--archive { background: var(--color-caution-light); color: var(--color-caution-text); }
-.ev-key--undo { box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong); }
-.ev-key--quiet { color: var(--ink-on-dark-secondary); }
-.ev[data-step="selected"] .ev-bar .ev-key,
-.ev[data-step="reviewing"] .ev-review-keys .ev-key--archive,
-.ev[data-step="archived"] .ev-key--undo,
-.ev[data-step="archived"] [data-for="archived"] [data-press="again"],
-.ev[data-step="undone"] [data-press="again"] {
-  position: relative;
-  outline: 2px solid var(--ink-on-dark);
-  outline-offset: 3px;
-}
-.ev[data-step="selected"] .ev-bar .ev-key::after,
-.ev[data-step="reviewing"] .ev-review-keys .ev-key--archive::after,
-.ev[data-step="archived"] .ev-key--undo::after,
-.ev[data-step="archived"] [data-for="archived"] [data-press="again"]::after,
-.ev[data-step="undone"] [data-press="again"]::after {
-  content: 'Press this' / '';
-  position: absolute;
-  bottom: calc(100% + var(--space-xs));
-  right: calc(var(--space-2xs) * -1);
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
-  background: var(--ink-on-dark);
-  color: var(--color-charcoal);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-ui);
-  white-space: nowrap;
-  pointer-events: none;
-}
-@media (hover: hover) and (pointer: fine) {
-  .ev-key--undo:hover,
-  .ev-key--quiet:hover { background: var(--wash-on-dark-hover); color: var(--ink-on-dark); }
-}
-.ev-key:focus-visible { outline: 2px solid var(--color-accent-on-dark); outline-offset: 3px; }
-@media (prefers-reduced-motion: no-preference) {
-  .ev-key { transition: background-color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease), scale var(--motion-response) var(--ease); }
-  .ev-key:active { scale: var(--motion-press); }
-}
-.ev-undo-icon {
-  width: 1lh;
-  height: 1lh;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* The review, the agent's one more stop, under the bar. */
-.ev-review {
-  padding: var(--space-md);
-  border-bottom: 1px solid var(--rule-on-dark);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-}
-.case-section .ev-review-title {
-  margin: 0 0 var(--space-sm);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  letter-spacing: var(--tracking-normal);
-  color: var(--ink-on-dark);
-}
-.case-section .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
-.ev-review strong { font-weight: var(--weight-semibold); }
-.ev-review-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs); }
-.ev-tag {
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
-  font-weight: var(--weight-medium);
-}
-.ev-tag--blocked { background: var(--color-caution-light); color: var(--color-caution-text); }
-.ev-keep { margin: 0 0 var(--space-xs); padding: 0; list-style: none; }
-.ev-keep li { margin: 0; }
-.ev-keep label { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; cursor: pointer; }
-.ev-keep input { width: 1lh; height: 1lh; margin: 0; accent-color: var(--color-accent-on-dark); }
-/* The keys sit a tag's height lower than the lines above them, so
-   "Press this" over Archive never covers the last of them. */
-.ev-review .ev-review-keys { display: flex; justify-content: flex-end; gap: var(--space-xs); margin: var(--space-2xl) 0 0; }
-
-/* The rows. A row that leaves folds to nothing and fades, one after
-   another; Undo opens them again. Each row is three boxes so the fold
-   takes the padding and the rule with it. */
-.ev-rows { margin: 0; padding: 0; list-style: none; }
-.ev-row {
-  display: grid;
-  grid-template-rows: 1fr;
-  margin: 0;
-  transition: grid-template-rows var(--motion-move) var(--ease), opacity var(--motion-state) var(--ease);
-}
-.ev-row-in { min-height: 0; overflow: hidden; }
-.ev-row-body {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border-top: 1px solid var(--rule-on-dark);
-  font-size: var(--text-base);
-  line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
-}
-.ev-row:first-child .ev-row-body { border-top: 0; }
-.ev-row[data-gone] { grid-template-rows: 0fr; opacity: 0; }
-/* Before the press, the active three stand out on a sage ground: the part
-   of the review the designer kept, said by the rows themselves. */
-.ev[data-ev="undo"][data-step="selected"] .ev-row:has(.ship-list-tag--active) .ev-row-body { background: var(--color-accent-wash-on-dark); }
-.ev-row-name { flex: 1; min-width: 0; }
-.ev-check {
-  flex: none;
-  box-sizing: border-box;
-  width: 1lh;
-  height: 1lh;
-  border: 1px solid var(--rule-on-dark-strong);
-  fill: none;
-  stroke: transparent;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
-}
-.ev-row[data-on] .ev-check { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); stroke: var(--color-charcoal); }
-@media (prefers-reduced-motion: no-preference) {
-  .ev-row:nth-child(2) { transition-delay: var(--motion-stagger); }
-  .ev-row:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
-  .ev-row:nth-child(4) { transition-delay: calc(var(--motion-stagger) * 3); }
-  .ev-row:nth-child(5) { transition-delay: calc(var(--motion-stagger) * 4); }
-  .ev[data-step="archived"] .ev-bar,
-  .ev[data-step="undone"] .ev-bar,
-  .ev[data-step="reviewing"] .ev-review { animation: ship-in var(--motion-move) var(--ease-enter) both; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ev-row { transition: none; }
-}
 
 /* ---- the rest of the page ---- */
 #how-it-was-made .writing-facts { margin: var(--space-xl) 0; }
@@ -1178,10 +947,9 @@
   .arc-head { margin-bottom: var(--space-2xl); }
 }
 @media (max-width: 63.99rem) and (pointer: coarse) {
-  /* The answers, and Evaluate's keys and boxes, are a finger's target. */
-  .ship-pick,
-  .ev-key,
-  .ev-keep label { min-height: 44px; }
+  /* The answers are a finger's target (Evaluate's keys and boxes are in
+     relay-screen.css). */
+  .ship-pick { min-height: 44px; }
 }
 
 /* Phones. */
