@@ -282,13 +282,14 @@ three widths:
 the text at the measure, and beside it a margin: whatever the frame has
 left after the measure and a `--space-4xl` gap. That is 548px at 1440 and
 420 at 72rem. A scene, the
-pull, a split, and the Design psychology note float into it. A scene, a
-split, or the note comes just before the paragraph it illustrates in the
-source, so its top meets that paragraph's first line, and every h2 clears
-the margin, so nothing in it runs on into the next section; the pull
-follows the sentence it repeats. A rail, a flow, and a number row span both at `full`;
-the hero puts the feature drawing (or the loop) in the margin beside the
-title. Below 72rem the margin would be under 420px, too narrow for a
+pull, a split, the Design psychology note, and the loop float into it.
+Each comes just before a paragraph in the source, so its top meets that
+paragraph's first line: the latest paragraph of its section where it
+still ends before the next h2, which is the one it illustrates when there
+is room. Every h2 clears the margin, so nothing in it runs on into the
+next section, and `scripts/margins.mjs` holds both rules at 1440. A rail,
+a flow, and a number row span both at `full`; the hero is kicker, title,
+and dek on every article. Below 72rem the margin would be under 420px, too narrow for a
 split's two lists, so the article is one column as it was. Only the five
 articles take it; the case studies that use `.writing-measure` do not.
 `style.css`, THE MARGIN, has the mechanism.

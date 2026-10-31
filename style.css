@@ -7107,6 +7107,12 @@ p.try-live {
   color: var(--color-charcoal);
   margin: 0;
 }
+/* In the articles the pull sits ahead of the paragraph that carries its
+   line, which is right in the margin and gives the line away in one
+   column; THE MARGIN, below, says why it moved. */
+@media (max-width: 71.99rem) {
+  .writing-progress ~ main .writing-measure > .writing-pull { display: none; }
+}
 
 
 /* THE MARGIN, since 2026-10-30 (Adam: "take full advantage of the two
@@ -7119,8 +7125,9 @@ p.try-live {
    than read along it move into a margin to its right, Tufte's sidenote.
 
    WHAT GOES IN THE MARGIN: a scene (one drawing or photograph and its
-   caption), the pull, a split (two short lists behind two rules), and the
-   Design psychology note. Each is a float with a negative right margin as
+   caption), the pull, a split (two short lists behind two rules), the
+   Design psychology note, and the loop on the position article (Adam,
+   2026-10-31: "This black one goes in the right hand side"). Each is a float with a negative right margin as
    wide as itself plus the gap, so it takes no room from the text's line
    boxes. clear: right stacks two that land close together rather than
    overlapping them.
@@ -7134,13 +7141,26 @@ p.try-live {
    paragraph's first line. Placed after, as #924 had them, every one
    started a paragraph late, and 13 of 18 ran on past the next h2, beside
    an argument they were not part of. An h2 clears the margin, so a
-   section starts below the last picture of the one before; the text
-   column takes the white space instead, which is the price of the
-   picture and its paragraph reading as one. The pull stays after its
-   sentence, because on a phone a pull before the line it repeats gives
-   the line away. Each float's bottom margin is --space-3xl, the h2's
-   own top margin, so a section that starts under a picture keeps the
-   rhythm of one that starts under text.
+   section starts below the last picture of the one before. Each float's
+   bottom margin is --space-3xl, the h2's own top margin, so a section
+   that starts under a picture keeps the rhythm of one that starts under
+   text.
+
+   FIT FIRST, THEN CLOSENESS (Adam, 2026-10-31: the margin should not
+   take "its own vertical space across the whole page"). Beside the
+   paragraph it names, a picture late in a short section outran the
+   section's text, and the h2's clear left the text column blank
+   under it: 100 to 440px a section, on every article. So an item goes
+   beside the LATEST paragraph of its section where it still ends before
+   the next h2, which is the one it names when there is room and the
+   section's first when there is not. The pull keeps the same rule as
+   the rest, beside the paragraph that carries its line rather than
+   after it, so every margin item's top meets a paragraph's first line;
+   below 72rem, where that would put it ahead of the line it repeats,
+   the pull is not shown, since it only repeats a sentence the column
+   already carries. scripts/margins.mjs holds both rules: a top on a
+   paragraph's first line, and no section left blank beside an item
+   that ran on.
 
    WHAT SPANS: a rail, a flow, and a number row are read across, so they
    stay in the column, at --col-full, under both columns, and clear both, so a margin item above one ends before it starts. The
@@ -7154,12 +7174,12 @@ p.try-live {
    would be under 420, a split's two lists at under 190 each, so the page
    is one column as it was; a phone sees nothing move.
 
-   THE LOOP'S HERO TAKES THE SAME TWO COLUMNS: kicker, title, dek and
-   Listen on the measure, the loop in the margin, centered on them. The
-   drawn features left the hero on 2026-10-30 for the body's first scene,
-   so every other article's title and dek take the frame. The hero column carries the
-   essay's --text-lg so its 52ch is the body's 620px and the two margins
-   start on one line; every child sets its own size.
+   THE LOOP IS A MARGIN ITEM, not a figure that spans. It sat in the
+   position article's hero until 2026-10-31 and then in its first
+   section's column; in the margin it is 548px wide and 280px tall, and
+   its own container queries set its type for that width. The drawn
+   features left the hero on 2026-10-30 for the body's first scene, so
+   every article's title and dek take the frame.
 
    ONLY THE ARTICLES. The case studies and the lab pages use
    .writing-measure too, and they are not this layout. The progress line
@@ -7169,6 +7189,7 @@ p.try-live {
   .writing-progress ~ main .writing-measure > .writing-scene,
   .writing-progress ~ main .writing-measure > .writing-pull,
   .writing-progress ~ main .writing-measure > .dp-note,
+  .writing-progress ~ main .writing-measure > .loop,
   .writing-progress ~ main .writing-measure > .writing-figure:has(> .writing-split) {
     float: right;
     clear: right;
@@ -7179,7 +7200,7 @@ p.try-live {
   }
   .writing-progress ~ main .writing-measure > h2 { clear: right; }
   .writing-progress ~ main .writing-measure > .writing-rail,
-  .writing-progress ~ main .writing-measure > .writing-figure:not(.writing-scene):not(:has(> .writing-split)) { clear: both; }
+  .writing-progress ~ main .writing-measure > .writing-figure:not(.writing-scene):not(.loop):not(:has(> .writing-split)) { clear: both; }
   /* At 832 a rail of three, a flow, or a number row left a 384px strip
      of the margin empty beside it, the one place on the page that was
      neither two columns nor one band. Here they all take the frame. */
