@@ -53,7 +53,7 @@ the alpha steps in §4.
 | Token | Value | Use |
 |---|---|---|
 | `--color-white` | `#ffffff` | The page ground. Case studies, build write-ups, the default. |
-| `--color-warm` | `#f5f5f0` | The warm ground. Selected work, the case-study closings, the footer. Also the primary ink **on** charcoal. |
+| `--color-warm` | `#f5f5f0` | The warm ground. Selected work, the case-study closings, the footer, and since 2026-10-31 a figure card on the white page (the writing rail, the Aisle journey, and the service map), through `--figure-card`. Also the primary ink **on** charcoal. |
 | `--color-tea-light` | `#e8ede5` | The feature ground. Hero card, pull-outs, and the marked sentence in an essay. |
 | `--color-muted-light` | `#e5e5dd` | The alternate ground, for a section that must separate from its neighbor without changing temperature. |
 | `--color-charcoal` | `#252525` | The dark band. Also the primary ink on every light ground. |
@@ -107,7 +107,6 @@ in the loop figure.
 | `--color-caution-text` | `#96482a` | Caution ink: text, a line, an edge. A figure the system will not vouch for, a verdict it will not change, or, since 2026-10-24, work that stops for a person (below). |
 | `--color-caution-light` | `#f6e4dc` | Caution ground: a refusal and nothing else. Charcoal on it 12.44, caution-text 5.23. |
 | `--color-slate` | `#56718c` | The loop figure's build disc, under a warm icon. Until 2026-10-31, also the Craft collection's progress line. **Never text.** |
-| `--color-gray-light` | `#f5f5f5` | A neutral ground: the writing rail's card, since 2026-10-27, in place of slate-light's tint. Warm's lightness with no hue, 1.09 against white as warm is, so the light grounds' inks keep warm's numbers. |
 
 | | white | warm | tea | muted | charcoal |
 |---|---|---|---|---|---|
@@ -126,13 +125,17 @@ Slate clears 4.5 only on white and warm, which is why it is never ink. Its
 one use is a fill: the build disc sits on the loop's charcoal panel at 3.02,
 over the 3:1 a graphic answers to, and carries its warm icon at 4.64.
 
-The rail's card takes a ground that is not slate's: `--color-gray-light`,
-`#f5f5f5`, a fill under ink and never a line. On it charcoal reads 14.06,
-muted-gray 5.93, accent-text 5.34, and caution-text 5.91, and the card stands
-1.09 off a white page. The card went warm, then `--color-slate-light`
-(`#f3f6f8`, 2026-10-23, after warm read as tan behind the drawings), and on
-2026-10-27 this gray, when the slate tint read as blue (Adam: "can we make
-it completely gray"). Slate-light was retired with it; it had no other use.
+The rail's card takes a ground that is not slate's: `--color-warm`,
+`#f5f5f0`, the footer's. On it charcoal reads 14.02, muted-gray 5.91,
+accent-text 5.32, and caution-text 5.90, and the card stands 1.09 off a
+white page. The card went warm, then `--color-slate-light` (`#f3f6f8`,
+2026-10-23, after warm read as tan behind the drawings), then
+`--color-gray-light` (`#f5f5f5`, 2026-10-27, when the slate tint read as
+blue), and on 2026-10-31 warm again, when the gray read cold (Adam: "match
+this warmer beige instead of the cold gray"). The Aisle journey and the
+USDA service map had taken the gray with the card and went warm with it.
+Both tints were retired when the card left them; neither had another use. On a tinted chapter the
+card is white, by the rule under "A figure card on a ground" below.
 
 The name `accent-text` is now half wrong, and it is kept anyway: 84 rules and
 37 Tailwind utilities across six minified case-study pages write it, and
@@ -308,6 +311,32 @@ utility in the markup, `border border-[var(--rule-card)]`, on 62 cards; the
 cards kept their look when the pages moved onto the write-up template, and
 the edge is the same token. None is warm-on-warm, so none of them gains a
 line where there was nothing to separate.
+
+### A figure card on a ground
+
+**A figure card is warm on the white page and white on every tinted one.**
+The figure cards are the writing rail, the Aisle journey, and the USDA
+service map: a framed figure with its title inside it. Their fill is one
+token, `--figure-card`, declared in `color.css` as `--color-warm`, and the
+tinted grounds hand down `--color-white` in its place, where the grounds
+themselves are declared (`.build-chapter.ground-warm` and
+`.build-chapter.ground-tea` in `style.css`). The rule is Adam's, 2026-10-31,
+from the Aisle journey sitting gray on a tea chapter: "if the currently gray
+card is on some type of background like the green or the beige let's make
+sure that the card is rendered white."
+
+| The card sits on | Its fill | Off its ground |
+|---|---|---|
+| white (the page) | `--color-warm` | 1.09 |
+| warm | `--color-white` | 1.09 |
+| tea-light | `--color-white` | 1.19 |
+
+Warm on warm is no card at all, only an edge, and warm on tea-light is two
+tints side by side, neither of them the page's. White is the one fill that
+reads as a card on every light ground, and every ink on it is at its best
+number. A new tinted ground sets `--figure-card` the day it arrives, and a
+new figure card takes `background: var(--figure-card)` rather than naming a
+color, so the rule holds without anyone remembering it.
 
 ---
 
@@ -702,7 +731,8 @@ Two rules keep the boundary from blurring:
    buttons, no slate links. Slate crossed twice, on purpose and by the
    rule below: it is `--color-slate` in §2 with a measured row, spent on
    one line, and once more on one card's ground as `--color-slate-light`,
-   retired 2026-10-27 for the neutral `--color-gray-light`.
+   retired 2026-10-27 for the neutral `--color-gray-light`, itself retired
+   2026-10-31 for `--color-warm`.
 2. **An interface color never gets sampled out of an artwork.** If a new UI
    color is needed, it goes in §2 with a measured contrast row, or it does
    not exist.
@@ -1109,5 +1139,7 @@ undone rather than left standing.
 8. Artwork keeps its own palette and never lends a color to the interface.
 9. Two tokens that differ only where a rule forced them apart are one token
    and a bug in the rule.
-10. Update this file in the same commit as the code. A palette that ships
+10. A figure card is warm on white and white on any tinted ground. Its fill
+    is `--figure-card`, never a color named on the card.
+11. Update this file in the same commit as the code. A palette that ships
     later is fiction.

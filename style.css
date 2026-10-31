@@ -5886,6 +5886,13 @@ html.ah-lightbox-open body { overflow: hidden; }
 .build-chapter.ground-warm     { background: var(--color-warm); }
 .build-chapter.ground-tea      { background: var(--color-tea-light); }
 .build-chapter.ground-charcoal { background: var(--color-charcoal); --color-focus-ring: var(--color-accent-on-dark); }
+/* A figure card on a tinted ground is white. Warm on white stands 1.09 off
+   the page; warm on warm is no card at all, and warm beside tea-light is
+   two tints arguing. White is the one fill that reads as a card on every
+   light ground, so the tinted grounds hand it down (color.css,
+   --figure-card; COLOR.md, "A figure card on a ground"). */
+.build-chapter.ground-warm,
+.build-chapter.ground-tea { --figure-card: var(--color-white); }
 /* Two chapters on the same ground read as one band, so the second's top
    padding would stack on the first's bottom and leave double the gap a band
    keeps anywhere else. The first chapter's bottom padding is the gap. */
@@ -6798,10 +6805,15 @@ p.try-live {
    "a very light blue almost like earthy blue ... just a little bit of a
    tint"): warm's lightness with slate's hue, so the card sits 1.09 off
    the page as warm did. Tea-light's lightness was tried first and read
-   as too heavy. Since 2026-10-27 it is gray-light, #f5f5f5, because the
+   as too heavy. From 2026-10-27 it was gray-light, #f5f5f5, because the
    tint read as blue (Adam: "can we make it completely gray"): the same
-   lightness with no hue. The number in accent-text is 5.34 on it, the
-   line under each name in muted-gray 5.93.
+   lightness with no hue. Since 2026-10-31 it is warm again, because the
+   gray read cold (Adam: "match this warmer beige instead of the cold
+   gray"), and the two figure cards that had taken its gray, the Aisle
+   journey and the service map, went warm with it. The number in
+   accent-text is 5.32 on it, the line under each name in muted-gray 5.91.
+   On a tinted chapter the card is white, by --figure-card, which the
+   grounds set (.build-chapter.ground-*, above).
 
    The drawings are white tiles, and on a tinted card a white tile is a
    box. Each is multiplied into the card, which takes the white to the
@@ -6812,7 +6824,7 @@ p.try-live {
    words keep their width; --space-xl from 640; and from 1024, where the
    rail is the page's width, --space-3xl on the sides. */
 .writing-rail {
-  background: var(--color-gray-light);
+  background: var(--figure-card);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
