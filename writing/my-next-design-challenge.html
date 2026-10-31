@@ -116,9 +116,11 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=3" />
+  <link rel="stylesheet" href="../lab/relay-screen.css?v=1" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="../writing.js?v=20261030a" defer></script>
+  <script src="../lab/relay-screen.js?v=1" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -319,9 +321,29 @@
 
           <h2 id="when-making-things-becomes-easier-choosing-what-matters-becomes-harder">When making things becomes easier, choosing what matters becomes harder</h2>
           <p>AI is getting better at taste and judgment too.</p>
-          <figure class="writing-figure writing-scene">
-            <img src="../img/lab/agent-review-batch-active.webp?v=1" width="1184" height="800" loading="lazy" decoding="async" alt="A customer list in Agent Review&rsquo;s made-up app, Relay, with five customers selected for archiving. Three of the five, Halvorsen Freight, Brightwater Clinics, and Saltmarsh Studio, are marked Active." />
-            <figcaption>Five selected, one press. Three of them are still active customers.</figcaption>
+          <!-- Relay's customer list, working: the undo screen from Agent
+               Review's Evaluate chapter, the direction I chose, in the same
+               markup (lab/relay-screen.css and relay-screen.js). Until
+               2026-10-31 this was a capture of the list before the press,
+               with no Archive button on it to press. -->
+          <figure class="writing-figure writing-scene ev" data-ev="undo" data-step="selected">
+            <div class="arc-device">
+              <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
+              <div class="ev-screen">
+                <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
+                <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <ul class="ev-rows">
+                  <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                  <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                  <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
+                  <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                </ul>
+                <p class="visually-hidden" data-said role="status"></p>
+              </div>
+            </div>
+            <figcaption>Five selected, one press. Three of them are still active customers, so the press comes with an Undo.</figcaption>
           </figure>
           <p><mark>Producing a solution isn&rsquo;t the same as deciding whether that solution is appropriate.</mark> Someone still has to take responsibility for the decision.</p>
           <p>That distinction runs through my whole career. In enterprise systems, a workflow can function perfectly and still confuse its users. Getting it right means deciding what should happen, and when a person needs to step in.</p>

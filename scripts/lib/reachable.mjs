@@ -125,6 +125,17 @@ export const REACHABLE = {
       press: ['[data-ev="review"] [data-press="review"]', '[data-ev="review"] [data-press="archive"]'] },
   ],
 
+  /* The personal essay sets the same undo screen in its margin since
+     2026-10-31, beside the paragraph about the archive batch, in the same
+     markup and on the same script, so its two later steps are in no DOM
+     at rest there either. */
+  'writing/my-next-design-challenge.html': [
+    { name: 'the undo screen: archived, with Undo',
+      press: ['[data-ev="undo"] [data-press="archive"]'] },
+    { name: 'the undo screen: undone',
+      press: ['[data-ev="undo"] [data-press="archive"]', '[data-ev="undo"] [data-press="undo"]'] },
+  ],
+
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying
        which trucks changed rank, which only appear across a genuine switch. */
