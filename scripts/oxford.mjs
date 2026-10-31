@@ -74,8 +74,6 @@ const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 const ALLOW = [
   { file: 'case-study/door-county-found.html', phrase: 'its town and category stamped above',
     why: 'one item in a list that has its comma' },
-  { file: 'case-study/faunaform.html', phrase: 'grayed blue sky and shadow',
-    why: 'one ink, sky and shadow, in a list that has its comma' },
   { file: 'case-study/hybrid-designer.html', phrase: 'taking big corporate ideas and making them',
     why: 'a participle phrase on the sentence, then a pair' },
   { file: 'case-study/lucy-learns.html', phrase: 'step 1 of 6, ring or knock once',
