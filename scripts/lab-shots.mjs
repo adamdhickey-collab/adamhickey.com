@@ -603,8 +603,8 @@ const { defaultBrowserType: _ignored, ...phoneDevice } = devices['iPhone 13'];
 /* The design cycle's stages are addresses and its choices persist in the
    session, so a recipe moves between stages by the hash and presses what a
    visitor would. The path the case study tells: the summary corrected, the
-   priority "nothing leaves without a way back", the agent's recommendation
-   declined for Archive now with active customers named, the brief sent, the
+   priority "Safety comes first", the agent's recommendation declined for
+   Archive now with active customers shaded, the brief sent, the
    undo bar kept on its screen, and the guidance kept. */
 async function stage(page, id) {
   await page.evaluate((id) => (location.hash = `#/cycle/${id}`), id);
