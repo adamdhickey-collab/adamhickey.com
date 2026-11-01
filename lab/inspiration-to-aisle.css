@@ -733,16 +733,32 @@
    --rule-card for its edge, as every card on a ground does, because tea
    on white is 1.19:1 (cards.mjs).
 
-   The columns move as one: the script writes the track list to --ia-cols
-   with the open moment's share in it, and the grid and the phase bands
-   over it both read it, so a press is one --motion-enter glide of the
-   grid, the open column widening as the last one folds. The open words
-   arrive after it, so they are never seen rewrapping on the way.
+   NOTHING MOVES BUT THE COLUMNS. Since the same day, a press changes
+   no height anywhere. The script wraps each cell's words in .ia-cell
+   while stepping, and every cell, open or folded, is laid out at the
+   width the open column will have, --ia-open-w, in the open column's
+   type; a folded cell is only hidden. So every lane is as tall as its
+   tallest moment in every step, and the grid, the bar under it and the
+   page under that hold still from 01 to 06. Today and Connected share one
+   row while stepping, the inactive one hidden rather than removed, so the
+   switch moves nothing either. A name is held to two lines of a strip's
+   size, which is taller than the open name's one, so the names row holds
+   too.
+
+   And nothing rewraps. A cell never changes width, so the opening
+   column's words are not reflowed through ten widths on the way; they
+   wait, and arrive when the column has settled (--motion-move into the
+   glide, over --motion-state), and the closing column's words go at once.
+   The columns glide on --motion-enter, the open column widening as the
+   last one folds, and the tea ground slides with them from the column it
+   was on to the next (the script, from the columns' own widths).
 
    A bar steps it, stuck to the foot of the window while the map is on
-   screen: back, where the reader is, Next, and a close. It is the dark
-   band's charcoal with the warm ink; the count is accent-on-dark, and
-   Next is charcoal on accent-on-dark, 7.47 either way round. */
+   screen: back, where the reader is, Next, and a close. It holds one
+   width: the count, the longest name and "See it all" are all laid out in
+   it at once, and only the current ones show. It is the dark band's
+   charcoal with the warm ink; the count is accent-on-dark, and Next is
+   charcoal on accent-on-dark, 7.47 either way round. */
 @media (min-width: 64rem) {
   .ia-map {
     --ia-open: 5.5;
@@ -753,6 +769,10 @@
     grid-template-columns: var(--ia-cols);
     transition: grid-template-columns var(--motion-enter) var(--ease-enter);
   }
+  /* Leaving goes straight back to the whole map: a glide there would
+     rewrap every cell of it on the way. */
+  .ia-map.is-leaving .ia-matrix,
+  .ia-map.is-leaving .ia-phases { transition: none; }
 
   /* The view switch and the way in, on one line. */
   .ia-toolbar {
@@ -764,13 +784,18 @@
   }
   .ia-toolbar .ia-view { margin: 0; }
 
-  /* The open column's ground. A pseudo-element is a grid item but not a
-     child, so the rules that find the first and last moment still do. */
+  /* The open column's ground, placed by the script (--ia-spot-x and
+     --ia-spot-w) so it can slide between columns rather than jump. Under
+     every cell: the grid isolates, and the ground sits at -1 in it. */
+  .ia-map.can-step .ia-matrix { position: relative; isolation: isolate; }
   .ia-map.can-step .ia-matrix::before {
     content: "";
-    grid-row: 1 / span 10;
-    grid-column: calc(var(--ia-at, 0) + 2);
-    margin: calc(-1 * var(--space-sm));
+    position: absolute;
+    z-index: -1;
+    top: calc(-1 * var(--space-sm));
+    bottom: calc(-1 * var(--space-sm));
+    left: calc(var(--ia-spot-x, 0px) - var(--space-sm));
+    width: calc(var(--ia-spot-w, 0px) + 2 * var(--space-sm));
     background: var(--color-tea-light);
     border: 1px solid var(--rule-card);
     border-radius: var(--radius-xl);
@@ -794,50 +819,65 @@
   }
   .ia-map.is-stepping .ia-moment.is-open .ia-scene { box-shadow: var(--shadow-card-raised); }
 
-  /* The names. */
-  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-moment-name {
+  /* The names: two lines of a strip's size, whichever is open. */
+  .ia-map.is-stepping .ia-moment-label {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: calc(2 * var(--text-sm) * var(--leading-tight));
     font-size: var(--text-sm);
-    color: var(--color-muted-gray);
   }
-  .ia-map.is-stepping .ia-moment.is-open .ia-moment-name { font-size: var(--text-xl); }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-moment-name { color: var(--color-muted-gray); }
+  .ia-map.is-stepping .ia-moment.is-open .ia-moment-label {
+    display: block;
+    white-space: nowrap;
+    font-size: var(--text-xl);
+    animation: ia-arrive var(--motion-state) var(--ease) var(--motion-move) backwards;
+  }
+  .ia-map.is-stepping .ia-n { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
   .ia-map.is-stepping .ia-moment.is-open .ia-n {
     background: var(--color-accent-text);
     border-color: var(--color-accent-text);
     color: var(--color-white);
   }
 
-  /* A strip's lanes: the words fold away, hidden rather than made clear
-     so the checks and a screen reader leave them too, and the row line,
-     the thread line and the dots stay. */
-  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane dd {
-    position: relative;
-    visibility: hidden;
-    white-space: nowrap;
-    flex-wrap: nowrap;
-  }
-  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane dd::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    border-bottom: inherit;
-    visibility: visible;
-  }
-  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane--thread dd::before,
-  .ia-map.is-stepping .ia-moment:not(.is-open) :is(.ia-dot, .ia-curve) { visibility: visible; }
-  .ia-map.is-stepping .ia-moment.is-open .ia-lane dd {
+  /* The cells: every one at the open width in the open type, and only
+     the open one shown. A folded cell is hidden rather than made clear,
+     so the checks and a screen reader leave it too. */
+  .ia-map.is-stepping .ia-cell {
+    flex: none;
+    width: calc(var(--ia-open-w) - 2 * var(--space-xs));
     font-size: var(--text-base);
     line-height: var(--leading-body);
-    animation: ia-arrive var(--motion-state) var(--ease) var(--motion-move) backwards;
   }
-  .ia-map.is-stepping .ia-moment.is-open .ia-lane--asks dd {
+  .ia-map.is-stepping .ia-lane--asks .ia-cell {
     font-family: var(--font-serif);
     font-weight: var(--weight-regular);
     font-size: var(--text-2xl);
     line-height: var(--leading-heading);
   }
+  .ia-map.is-stepping .ia-lane--thread .ia-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    align-items: center;
+    align-content: flex-start;
+  }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-cell { visibility: hidden; }
+  .ia-map.is-stepping .ia-moment.is-open .ia-cell {
+    animation: ia-arrive var(--motion-state) var(--ease) var(--motion-move) backwards;
+  }
   .ia-map.is-stepping .ia-moment.is-open .ia-dot { width: var(--space-md); height: var(--space-md); }
+
+  /* Today and Connected in one row while stepping, the other one hidden,
+     so the switch changes no height. The note under the thread the same. */
+  .ia-map.is-stepping.is-today .ia-lane--connected,
+  .ia-map.is-stepping.is-connected .ia-lane--today { display: contents; }
+  .ia-map.is-stepping .ia-lane--connected :is(dt, dd) { grid-row: calc(var(--ia-lane) + 1); }
+  .ia-map.is-stepping.is-today .ia-lane--connected :is(dt, dd),
+  .ia-map.is-stepping.is-connected .ia-lane--today :is(dt, dd) { visibility: hidden; }
+  .ia-map.is-stepping.is-connected .ia-lost-note { display: block; visibility: hidden; }
 
   /* The bar. */
   .ia-stepper {
@@ -886,7 +926,6 @@
     display: flex;
     align-items: baseline;
     gap: var(--space-xs);
-    min-width: 13rem;
     margin: 0 var(--space-xs);
     font-size: var(--text-sm);
     line-height: var(--leading-ui);
@@ -895,6 +934,12 @@
   }
   .ia-step-of { color: var(--color-accent-on-dark); }
   .ia-step-name { font-weight: var(--weight-semibold); }
+  /* What the bar can say, laid out in one cell so the widest decides the
+     width; only what is current is shown. */
+  .ia-step-name, .ia-step-next-label { display: inline-grid; }
+  .ia-step-name > *, .ia-step-next-label > * { grid-area: 1 / 1; }
+  .ia-step-name > [aria-hidden="true"],
+  .ia-step-next-label > [aria-hidden="true"] { visibility: hidden; }
 }
 /* The way in, and the bar, are for the wide grid only. */
 .ia-step-start, .ia-stepper { display: none; }
