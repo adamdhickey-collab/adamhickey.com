@@ -263,9 +263,12 @@
    of them with one rule under it, which is what makes the two named lines
    below possible. */
 @media (min-width: 64rem) {
+  /* The lane names' column, named once for the grid, the phase bands over
+     it and the stepped grid the script composes ("Stepping through"). */
+  .ia-map { --ia-names: 9rem; }
   .ia-matrix {
     gap: 0;
-    grid-template-columns: 9rem repeat(var(--ia-moments), minmax(0, 1fr));
+    grid-template-columns: var(--ia-names) repeat(var(--ia-moments), minmax(0, 1fr));
     column-gap: var(--space-md);
   }
   .ia-moment {
@@ -505,11 +508,11 @@
 }
 
 /* ---------- Following one moment down ----------
-   A moment's name is a button (the script makes it one); pressed, its
-   column takes tea-light from the shopper to the systems, so a reader
-   follows one moment down without losing the rest. Every ink here clears
-   its floor on tea-light: charcoal 13.1, caution-text 5.43, accent-text
-   4.90. */
+   A moment's name is a button (the script makes it one). Under 64rem,
+   pressed, its card takes tea-light, so a reader follows one moment
+   without losing the rest; from 64rem the same press opens the moment
+   instead ("Stepping through", below). Every ink here clears its floor
+   on tea-light: charcoal 13.1, caution-text 5.43, accent-text 4.90. */
 .ia-moment-pick {
   padding: 0;
   background: none;
@@ -531,11 +534,6 @@
   .ia-moment-pick:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .ia-moment.is-followed { background: var(--color-tea-light); }
-@media (min-width: 64rem) {
-  .ia-moment.is-followed { background: none; }
-  .ia-moment.is-followed .ia-moment-name,
-  .ia-moment.is-followed .ia-lane dd { background: var(--color-tea-light); }
-}
 
 /* ---------- Wide: the moments as one rail ----------
    A column is about ten characters wide, so beside its disc a name like
@@ -568,7 +566,7 @@
 @media (min-width: 64rem) {
   .ia-phases {
     display: grid;
-    grid-template-columns: 9rem repeat(var(--ia-moments), minmax(0, 1fr));
+    grid-template-columns: var(--ia-names) repeat(var(--ia-moments), minmax(0, 1fr));
     column-gap: var(--space-md);
     margin: 0 0 var(--space-sm);
   }
@@ -713,6 +711,222 @@
     border: 1px solid var(--rule-card);
   }
 }
+
+/* ---------- Stepping through, one moment at a time ----------
+   Since 2026-11-01, from 64rem. Six moments across leave each about ten
+   characters a line: a map to scan, not to read. "Step through the trip"
+   (inspiration-to-aisle.js) opens one moment at a time. Its column takes
+   --ia-open shares of the width to every other column's one, on the
+   tea-light ground, and the other five fold to strips. A strip keeps what
+   carries the trip across: its drawing, cut to a tall slice; its disc and
+   its name, in the muted ink; the two confidence dots, which the curve
+   still runs through; and the thread line, solid or dashed. Its words
+   fold away and its row lines stay, so each lane still reads from its
+   name in the first column across to the open moment.
+
+   The open moment reads a size up: its name at --text-xl, the shopper's
+   question in the serif at --text-2xl, every lane at --text-base. Its
+   drawing keeps its 3:2, so the storyboard row is two thirds of the width
+   the open column will have, --ia-stage-h, which the script sets. Every
+   ink in the open column clears its floor on tea-light: charcoal 13.1,
+   caution-text 5.43, accent-text 4.90, muted-gray 5.44. The ground takes
+   --rule-card for its edge, as every card on a ground does, because tea
+   on white is 1.19:1 (cards.mjs).
+
+   The columns move as one: the script writes the track list to --ia-cols
+   with the open moment's share in it, and the grid and the phase bands
+   over it both read it, so a press is one --motion-enter glide of the
+   grid, the open column widening as the last one folds. The open words
+   arrive after it, so they are never seen rewrapping on the way.
+
+   A bar steps it, stuck to the foot of the window while the map is on
+   screen: back, where the reader is, Next, and a close. It is the dark
+   band's charcoal with the warm ink; the count is accent-on-dark, and
+   Next is charcoal on accent-on-dark, 7.47 either way round. */
+@media (min-width: 64rem) {
+  .ia-map {
+    --ia-open: 5.5;
+    --ia-folded-opacity: 0.6;
+  }
+  .ia-map.can-step .ia-matrix,
+  .ia-map.can-step .ia-phases {
+    grid-template-columns: var(--ia-cols);
+    transition: grid-template-columns var(--motion-enter) var(--ease-enter);
+  }
+
+  /* The view switch and the way in, on one line. */
+  .ia-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin: 0 0 var(--space-lg);
+  }
+  .ia-toolbar .ia-view { margin: 0; }
+
+  /* The open column's ground. A pseudo-element is a grid item but not a
+     child, so the rules that find the first and last moment still do. */
+  .ia-map.can-step .ia-matrix::before {
+    content: "";
+    grid-row: 1 / span 10;
+    grid-column: calc(var(--ia-at, 0) + 2);
+    margin: calc(-1 * var(--space-sm));
+    background: var(--color-tea-light);
+    border: 1px solid var(--rule-card);
+    border-radius: var(--radius-xl);
+    opacity: 0;
+    transition: opacity var(--motion-state) var(--ease);
+    pointer-events: none;
+  }
+  .ia-map.is-stepping .ia-matrix::before { opacity: 1; }
+
+  /* The storyboard, as a strip of slices around one drawing. */
+  .ia-map.is-stepping .ia-matrix { grid-template-rows: var(--ia-stage-h); }
+  .ia-map.is-stepping .ia-scene {
+    height: 100%;
+    aspect-ratio: auto;
+    align-self: stretch;
+    transition: opacity var(--motion-state) var(--ease);
+  }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-scene {
+    opacity: var(--ia-folded-opacity);
+    cursor: pointer;
+  }
+  .ia-map.is-stepping .ia-moment.is-open .ia-scene { box-shadow: var(--shadow-card-raised); }
+
+  /* The names. */
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-moment-name {
+    font-size: var(--text-sm);
+    color: var(--color-muted-gray);
+  }
+  .ia-map.is-stepping .ia-moment.is-open .ia-moment-name { font-size: var(--text-xl); }
+  .ia-map.is-stepping .ia-moment.is-open .ia-n {
+    background: var(--color-accent-text);
+    border-color: var(--color-accent-text);
+    color: var(--color-white);
+  }
+
+  /* A strip's lanes: the words fold away, hidden rather than made clear
+     so the checks and a screen reader leave them too, and the row line,
+     the thread line and the dots stay. */
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane dd {
+    position: relative;
+    visibility: hidden;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane dd::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    border-bottom: inherit;
+    visibility: visible;
+  }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-lane--thread dd::before,
+  .ia-map.is-stepping .ia-moment:not(.is-open) :is(.ia-dot, .ia-curve) { visibility: visible; }
+  .ia-map.is-stepping .ia-moment.is-open .ia-lane dd {
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    animation: ia-arrive var(--motion-state) var(--ease) var(--motion-move) backwards;
+  }
+  .ia-map.is-stepping .ia-moment.is-open .ia-lane--asks dd {
+    font-family: var(--font-serif);
+    font-weight: var(--weight-regular);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-heading);
+  }
+  .ia-map.is-stepping .ia-moment.is-open .ia-dot { width: var(--space-md); height: var(--space-md); }
+
+  /* The bar. */
+  .ia-stepper {
+    position: sticky;
+    bottom: var(--space-lg);
+    z-index: 3;
+    align-items: center;
+    gap: var(--space-xs);
+    width: fit-content;
+    margin: var(--space-xl) auto 0;
+    padding: var(--space-2xs);
+    background: var(--color-charcoal);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-card-raised);
+  }
+  .ia-step-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    height: var(--space-3xl);
+    min-width: var(--space-3xl);
+    padding: 0;
+    background: var(--wash-on-dark);
+    border: 0;
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-ui);
+    color: var(--color-warm);
+    cursor: pointer;
+    transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+  }
+  .ia-step-btn svg { width: 1.125em; height: 1.125em; flex: none; }
+  .ia-step-btn:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+  /* At the first moment there is nothing behind; the button keeps its
+     place, so the count does not move under the reader. */
+  .ia-step-btn[aria-disabled="true"] { visibility: hidden; }
+  .ia-step-next {
+    padding: 0 var(--space-md) 0 var(--space-lg);
+    background: var(--color-accent-on-dark);
+    color: var(--color-charcoal);
+  }
+  .case-section .ia-step-count {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    min-width: 13rem;
+    margin: 0 var(--space-xs);
+    font-size: var(--text-sm);
+    line-height: var(--leading-ui);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-warm);
+  }
+  .ia-step-of { color: var(--color-accent-on-dark); }
+  .ia-step-name { font-weight: var(--weight-semibold); }
+}
+/* The way in, and the bar, are for the wide grid only. */
+.ia-step-start, .ia-stepper { display: none; }
+@media (min-width: 64rem) {
+  .ia-step-start {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    background: var(--color-white);
+    border: 1px solid var(--rule-card);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-ui);
+    color: var(--color-charcoal);
+    cursor: pointer;
+    transition: background-color var(--motion-state) var(--ease);
+  }
+  .ia-step-start svg { width: 1.125em; height: 1.125em; flex: none; }
+  .ia-step-start:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+  .ia-map.is-stepping .ia-step-start { visibility: hidden; }
+  .ia-map.is-stepping .ia-stepper { display: flex; }
+}
+@media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+  .ia-step-start:hover { background: var(--color-tea-light); }
+  .ia-step-btn:hover { background: var(--color-accent-ring-on-dark); }
+  .ia-step-btn.ia-step-next:hover { background: var(--color-warm); }
+  .ia-map.is-stepping .ia-moment:not(.is-open) .ia-scene:hover { opacity: 1; }
+}
+@keyframes ia-arrive { from { opacity: 0; } }
 
 /* ---------- Narrow: the moments side by side ----------
    Since 2026-10-29, under 64rem the six moments sit in a row the reader
