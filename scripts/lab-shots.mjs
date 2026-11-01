@@ -361,7 +361,7 @@ const SHOTS = {
     desktop: { size: { width: 1440, height: 1000 }, zoom: 1.125, clip: (page) => partClip(page, '.cycle__intro', '.cycle__move', '.cycle') },
     phone: { clip: (page) => partClip(page, '.cycle__move', '.cycle__move', '.cycle__move', 8) },
     open: async (page) => {
-      await choose(page, 'Correct it');
+      await choose(page, 'Correct the summary');
       await page.mouse.move(0, 0);
       await page.waitForTimeout(300);
     },
@@ -621,9 +621,9 @@ async function choose(page, name) {
    move offers the next direction by number, "Try direction 2" with the name
    visually hidden after it, so the recipe presses by the number. */
 async function exploreOpen(page) {
-  await choose(page, 'Correct it');
+  await choose(page, 'Correct the summary');
   await stage(page, 'define');
-  await choose(page, 'Nothing leaves without a way back');
+  await choose(page, 'Safety comes first');
   await stage(page, 'explore');
 }
 async function cycleTo(page, last) {
@@ -641,9 +641,9 @@ async function cycleTo(page, last) {
   await stage(page, 'delegate');
   await page.getByRole('button', { name: 'Send the brief' }).click();
   if (last === 'delegate') return;
-  await choose(page, 'Keep it on this screen');
+  await choose(page, 'Keep the bar on this screen');
   await stage(page, 'learn');
-  await page.getByRole('checkbox', { name: /Keep it as guidance/ }).check({ force: true });
+  await page.getByRole('checkbox', { name: /Save the rule/ }).check({ force: true });
 }
 async function settle(page) {
   await page.evaluate(() => document.fonts.ready);
