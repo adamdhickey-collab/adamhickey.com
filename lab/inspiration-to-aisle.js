@@ -15,8 +15,11 @@
    "Stepping through"). A bar stuck to the foot of the window steps it.
    The arrow keys step and Escape closes while it is open, and a moment's
    name or a folded drawing opens that moment. The script writes the
-   track list, with the open moment's share of the width in it, and the
-   storyboard row's height, so the open drawing keeps its 3:2.
+   track list, with the open moment's share of the width in it; the
+   storyboard row's height, so the open drawing keeps its 3:2; the open
+   column's width, at which every cell is laid out so that no row changes
+   height from one moment to the next; and where the tea ground is, so it
+   slides from the column it was on to the next one instead of jumping.
 
    FOLLOWING A MOMENT, UNDER 64rem. Each moment's name becomes a button;
    pressed under 64rem, its card takes the tea-light ground, and pressing
@@ -60,7 +63,16 @@
     pick.className = 'ia-moment-pick';
     pick.setAttribute('data-moment', String(m + 1));
     pick.setAttribute('aria-pressed', 'false');
-    while (name.firstChild) pick.appendChild(name.firstChild);
+    /* The disc, and the words in a span of their own, which stepping
+       holds to two lines (inspiration-to-aisle.css). */
+    var label = document.createElement('span');
+    label.className = 'ia-moment-label';
+    while (name.firstChild) {
+      var node = name.firstChild;
+      if (node.nodeType === 1 && node.classList.contains('ia-n')) pick.appendChild(node);
+      else label.appendChild(node);
+    }
+    pick.appendChild(label);
     name.appendChild(pick);
     return pick;
   });
@@ -102,18 +114,20 @@
   bar.setAttribute('aria-label', 'Step through the trip');
   bar.innerHTML =
     '<button type="button" class="ia-step-btn ia-step-prev" aria-label="Previous moment">' + back + '</button>' +
-    '<p class="ia-step-count" aria-live="polite"><span class="ia-step-of"></span><span class="ia-step-name"></span></p>' +
-    '<button type="button" class="ia-step-btn ia-step-next"><span class="ia-step-next-label">Next</span>' + arrow + '</button>' +
+    '<p class="ia-step-count" aria-live="polite"><span class="ia-step-of"></span><span class="ia-step-name"><span></span>' +
+      picks.map(function (p) { return '<span aria-hidden="true">' + p.querySelector('.ia-moment-label').textContent.trim() + '</span>'; }).join('') + '</span></p>' +
+    '<button type="button" class="ia-step-btn ia-step-next"><span class="ia-step-next-label"><span>Next</span><span aria-hidden="true">See it all</span></span>' + arrow + '</button>' +
     '<button type="button" class="ia-step-btn ia-step-close" aria-label="Show the whole map">' + cross + '</button>';
   matrix.parentNode.insertBefore(bar, matrix.nextSibling);
   var prev = bar.querySelector('.ia-step-prev');
   var next = bar.querySelector('.ia-step-next');
-  var nextLabel = bar.querySelector('.ia-step-next-label');
+  var nextSays = bar.querySelectorAll('.ia-step-next-label > span');
   var close = bar.querySelector('.ia-step-close');
   var of = bar.querySelector('.ia-step-of');
-  var said = bar.querySelector('.ia-step-name');
+  var said = bar.querySelector('.ia-step-name > span');
 
   var open = -1;
+  var labels = picks.map(function (p) { return p.querySelector('.ia-moment-label').textContent.trim(); });
   function share() { return parseFloat(getComputedStyle(map).getPropertyValue('--ia-open')) || 1; }
   function tracks() {
     var w = share();
@@ -121,15 +135,40 @@
       return 'minmax(0, ' + (j === open ? w : 1) + 'fr)';
     }).join(' ');
   }
-  /* The storyboard row: two thirds of the width the open column will
-     have once it has opened, not the width it has now, mid-glide. */
+  /* The widths the columns are gliding to, not the ones they have now:
+     the open column's sets the storyboard row (two thirds of it, so the
+     open drawing keeps its 3:2) and the width every cell is laid out at. */
+  var folded = 0, opened = 0;
   function stage() {
     var cs = getComputedStyle(matrix);
     var gap = parseFloat(cs.columnGap) || 0;
     var names = parseFloat(cs.gridTemplateColumns) || 0;
     var free = matrix.clientWidth - names - n * gap;
-    var w = free * share() / (share() + n - 1);
-    map.style.setProperty('--ia-stage-h', Math.round(w * 2 / 3) + 'px');
+    opened = free * share() / (share() + n - 1);
+    folded = free / (share() + n - 1);
+    map.style.setProperty('--ia-stage-h', Math.round(opened * 2 / 3) + 'px');
+    map.style.setProperty('--ia-open-w', Math.floor(opened) + 'px');
+  }
+
+  /* Each cell's words in a box of their own while stepping, laid out at
+     the open width whether shown or not, and put back after. The dots and
+     the curve stay where they were, in the cell's own box. */
+  function wrap() {
+    [].forEach.call(matrix.querySelectorAll('.ia-lane dd'), function (dd) {
+      var cell = document.createElement('div');
+      cell.className = 'ia-cell';
+      [].slice.call(dd.childNodes).forEach(function (node) {
+        if (node.nodeType === 1 && (node.classList.contains('ia-dot') || node.classList.contains('ia-curve'))) return;
+        cell.appendChild(node);
+      });
+      dd.appendChild(cell);
+    });
+  }
+  function unwrap() {
+    [].forEach.call(matrix.querySelectorAll('.ia-cell'), function (cell) {
+      while (cell.firstChild) cell.parentNode.insertBefore(cell.firstChild, cell);
+      cell.parentNode.removeChild(cell);
+    });
   }
 
   /* The confidence curve is one SVG drawn for six equal columns. While
@@ -161,34 +200,61 @@
     });
   }
   function settle() {
+    if (!curve) return;
     curve.style.width = '';
     lines.forEach(function (l, i) { l.setAttribute('points', drawn[i]); });
   }
+
+  /* The tea ground. Mid-glide it is between where it was at the press
+     and the column it is going to, by how far that column has opened, so
+     it slides across with the columns rather than jumping to a strip and
+     growing there. From where it was, not from a column: a press in the
+     middle of a glide starts from the middle. */
+  var heads = moments.map(function (moment) { return moment.querySelector('.ia-moment-name'); });
+  var sx = 0, sw = 0, fromX = 0, fromW = 0, startW = 0, sliding = false;
+  function column(i) {
+    var r = heads[i].getBoundingClientRect();
+    return { x: r.left - matrix.getBoundingClientRect().left, w: r.width };
+  }
+  function spot() {
+    if (open < 0) return;
+    var to = column(open);
+    var x = to.x, w = to.w;
+    if (sliding) {
+      var p = opened - startW > 1 ? Math.max(0, Math.min(1, (to.w - startW) / (opened - startW))) : 1;
+      x = fromX + (to.x - fromX) * p;
+      w = fromW + (to.w - fromW) * p;
+    }
+    sx = x; sw = w;
+    matrix.style.setProperty('--ia-spot-x', x.toFixed(1) + 'px');
+    matrix.style.setProperty('--ia-spot-w', w.toFixed(1) + 'px');
+  }
+
   /* For as long as the glide runs, read off the grid itself. */
   var gliding = 0;
   function glide() {
-    if (!curve) return;
     var token = ++gliding;
     var until = performance.now() + (parseFloat(getComputedStyle(matrix).transitionDuration) || 0) * 1000 + 100;
     (function frame() {
       if (token !== gliding) return;
       redraw();
-      if (performance.now() < until) requestAnimationFrame(frame);
-      else if (open < 0) settle();
+      spot();
+      if (performance.now() < until) { requestAnimationFrame(frame); return; }
+      if (open < 0) settle();
     })();
   }
 
   function paint() {
     map.style.setProperty('--ia-cols', tracks());
-    map.style.setProperty('--ia-at', String(Math.max(open, 0)));
     map.classList.toggle('is-stepping', open >= 0);
     moments.forEach(function (moment, j) { moment.classList.toggle('is-open', j === open); });
     press(open);
     if (open >= 0) {
       of.textContent = pad(open) + ' / ' + pad(n - 1);
-      said.textContent = picks[open].textContent.replace(/^\s*\d+\s*/, '');
+      said.textContent = labels[open];
       prev.setAttribute('aria-disabled', String(open === 0));
-      nextLabel.textContent = open === n - 1 ? 'See it all' : 'Next';
+      nextSays[0].setAttribute('aria-hidden', String(open === n - 1));
+      nextSays[1].setAttribute('aria-hidden', String(open !== n - 1));
       if (open === 0 && document.activeElement === prev) next.focus();
     }
     glide();
@@ -196,20 +262,33 @@
   function pad(i) { return (i < 9 ? '0' : '') + (i + 1); }
   function step(i) {
     if (!wide.matches) return;
-    var was = open;
-    open = Math.max(0, Math.min(n - 1, i));
+    var first = open < 0;
+    var to = Math.max(0, Math.min(n - 1, i));
+    if (first) wrap();
+    sliding = !first;
+    if (sliding) { fromX = sx; fromW = sw; startW = column(to).w; }
+    open = to;
     stage();
     paint();
-    if (was < 0) {
+    if (first) {
       document.addEventListener('keydown', keys);
       if (document.activeElement === start) next.focus();
     }
   }
+  /* Leaving cuts straight back to the whole map, with no glide: the map
+     at rest wraps every word to its narrow column, and a glide would show
+     every one of them rewrapping. */
   function stop() {
     if (open < 0) return;
     var inside = bar.contains(document.activeElement);
     open = -1;
+    sliding = false;
+    map.classList.add('is-leaving');
     paint();
+    unwrap();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { map.classList.remove('is-leaving'); });
+    });
     document.removeEventListener('keydown', keys);
     if (inside) start.focus();
   }
@@ -240,7 +319,7 @@
     if (wide.matches && followed >= 0) follow(followed);
     else if (!wide.matches) stop();
   });
-  window.addEventListener('resize', function () { if (open >= 0) { stage(); redraw(); } });
+  window.addEventListener('resize', function () { if (open >= 0) { stage(); redraw(); sliding = false; spot(); } });
 
   map.style.setProperty('--ia-cols', tracks());
   map.classList.add('can-step');
