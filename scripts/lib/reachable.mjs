@@ -186,9 +186,14 @@ export const REACHABLE = {
      a forwarding note now) and brought its fourteen states here with it.
 
      The service map shows its Today lane at rest, once its script has run,
-     so the Connected lane, the thread carried to the end and a moment's lit
-     column are each in no DOM a plain load measures
-     (lab/inspiration-to-aisle.js).
+     so the Connected lane, the thread carried to the end and a moment
+     opened are each in no DOM a plain load measures
+     (lab/inspiration-to-aisle.js). Since 2026-11-01 a moment's name opens
+     it from 64rem, the map stepped to that moment with the others folded
+     and the bar under it, and under 64rem lights its card as it always
+     did; the same press reaches both, at each check's own width. The
+     second state opens the last moment on Connected, where the bar's Next
+     says "See it all" and the open column carries Connected's inks.
 
      The prototype draws every screen after the first from JavaScript in
      response to a press (lab/aisle.js), so without these the checks would
@@ -203,8 +208,10 @@ export const REACHABLE = {
   'lab/inspiration-to-aisle.html': [
     { name: 'the service map, connected',
       press: ['.ia-view [data-view="connected"]'] },
-    { name: 'the service map, one moment followed down',
+    { name: 'the service map, one moment opened',
       press: ['.ia-moment-pick[data-moment="5"]'] },
+    { name: 'the service map, connected, the last moment opened',
+      press: ['.ia-view [data-view="connected"]', '.ia-moment-pick[data-moment="6"]'] },
     { name: 'what the shopper liked, picked',
       press: ['[data-pref="legs"]'] },
     { name: 'the four matches, one opened to its reasons',
