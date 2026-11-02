@@ -52,7 +52,7 @@
      the batch with three opens the agent's own review, so its last step
      is the agent's screen again. */
   const SCREENS = [['review', 'selected'], ['review', 'reviewing'], ['review', 'archived'],
-    ['clear', 'selected'], ['clear', 'archived'], ['review', 'reviewing']];
+    ['clear', 'selected'], ['clear', 'archived'], ['flagged', 'reviewing']];
   document.querySelectorAll('[data-ev-walk]').forEach((walk) => {
     const steps = [...walk.querySelectorAll('.ev-walk-step')];
     const back = walk.querySelector('[data-go="back"]');
