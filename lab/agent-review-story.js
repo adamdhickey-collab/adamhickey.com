@@ -14,9 +14,11 @@
  * EVALUATE, A STEP AT A TIME, since 2026-11-02 (agent-review.css,
  * "Evaluate"). Six numbered steps and one Relay screen: Back, Next or a
  * step itself sets which screen shows and at what step, and the screen
- * follows. The screens are relay-screen.js's, which the personal essay
- * loads too; here they are pictures, so a press inside one is stopped
- * before it reaches that file and its keys are out of the tab order.
+ * follows. A press anywhere on the screen is Next, since 2026-11-02, so a
+ * reader can press through the prototype itself. The screens are
+ * relay-screen.js's, which the personal essay loads too; a press inside
+ * one is stopped before it reaches that file, and its keys stay out of
+ * the tab order, because Next already is the press for a keyboard.
  *
  * THE PAGE ARRIVING, since 2026-10-27 (agent-review.css, "Motion"). The
  * blocks below the opener settle into place as they come up, on
@@ -58,7 +60,6 @@
     const said = walk.querySelector('[data-walk-said]');
     const stage = walk.querySelector('.ev-walk-stage');
     const figs = [...stage.querySelectorAll('[data-ev]')];
-    stage.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); }, true);
     stage.querySelectorAll('button, input').forEach((el) => {
       el.tabIndex = -1;
       el.setAttribute('aria-disabled', 'true');
@@ -81,13 +82,21 @@
       back.disabled = at === 0;
       walk.toggleAttribute('data-last', at === steps.length - 1);
     };
+    const say = () => { said.textContent = `Step ${at + 1} of ${steps.length}: ${steps[at].lastElementChild.textContent}`; };
+    stage.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!e.target.closest('.ev-screen')) return;
+      go(at + 1);
+      say();
+    }, true);
     walk.addEventListener('click', (e) => {
       const button = e.target.closest('[data-go]');
       if (!button) return;
       const to = button.dataset.go;
       go(to === 'back' ? at - 1 : to === 'next' ? at + 1 : Number(to) - 1);
       if (to === 'back' && at === 0) next.focus();
-      said.textContent = `Step ${at + 1} of ${steps.length}: ${steps[at].lastElementChild.textContent}`;
+      say();
     });
     go(0);
   });

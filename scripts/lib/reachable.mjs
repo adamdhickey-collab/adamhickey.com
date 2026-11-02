@@ -113,10 +113,10 @@ export const REACHABLE = {
       press: ['[data-pick="confirm"]'] },
     /* Since 2026-11-02 Evaluate is six steps beside one screen, and
        every step after the first is in no DOM at rest: the agent's review
-       open with its "Press 2", the review's archive, my call's cleanup
+       open with its "Press this", the review's archive, my call's cleanup
        of four with no one active, that cleanup archived at once, and the
        agent's review again for the batch with three active. At rest the
-       page shows step 1, the agent's five selected with "Press 1" on
+       page shows step 1, the agent's five selected with "Press this" on
        Archive. From 2026-10-29 until that day these were four presses
        inside two screens side by side, and until the same day's evening
        my call was undo. */

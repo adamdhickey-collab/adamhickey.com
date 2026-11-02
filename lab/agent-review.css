@@ -660,10 +660,12 @@
      - THE PRESSES ARE COUNTED, since the same day (Adam: "it makes it
        look like the undo has more clicks"). Each direction's name carries
        its presses to archive, two and one, and on the screen the key a
-       step presses wears the prototype's ring with "Press 1" or "Press 2"
-       in its tag;
-     - the screens are pictures here, not controls: their keys take no
-       press, and Start over is gone.
+       step presses wears the prototype's ring and its "Press this" tag
+       (it said "Press 1" and "Press 2" for an afternoon; the heads
+       already count, and a number on the key only asked a question);
+     - a press anywhere on the screen is Next, so a reader can press
+       through the prototype itself. Its own keys take no press of their
+       own, and Start over is gone.
    Six steps beside the screen from 64rem, Next and Back under them.
    Under 64rem the list folds to the step that is showing, and the keys
    sit between it and the screen, so a phone reads one sentence, then
@@ -748,18 +750,19 @@
 .ev-walk-next > span { grid-area: 1 / 1; }
 .ev-walk[data-last] .ev-walk-next > :first-child,
 .ev-walk:not([data-last]) .ev-walk-next > :last-child { visibility: hidden; }
-/* The screens as pictures of a step. The ring and its tag stay only on
-   the key a step presses, numbered as a press rather than asked for:
-   Archive is press 1 in both directions, the review's Archive N is the
-   agent's press 2. Undo wears none, and Start over, which only made sense
-   to a reader pressing through, is gone. */
+/* The screens as one press each. The ring and its "Press this" stay only
+   on the key a step presses: Archive, and the review's Archive N. Undo
+   wears none, and Start over, which Next already says at the last step,
+   is gone. A press anywhere on the screen is Next, so the whole screen
+   takes the pointer and its keys take none of their own. */
 .ship-live .ev-walk .ev .ev-key { outline: 0; }
 .ship-live .ev-walk .ev .ev-key::after { content: none; }
 .ship-live .ev-walk .ev[data-step="selected"] .ev-bar[data-for~="selected"] .ev-key,
 .ship-live .ev-walk .ev[data-step="reviewing"] .ev-review-keys .ev-key--archive { outline: 2px solid var(--ink-on-dark); outline-offset: 3px; }
-.ship-live .ev-walk .ev[data-step="selected"] .ev-bar[data-for~="selected"] .ev-key::after { content: 'Press 1' / ''; }
-.ship-live .ev-walk .ev[data-step="reviewing"] .ev-review-keys .ev-key--archive::after { content: 'Press 2' / ''; }
+.ship-live .ev-walk .ev[data-step="selected"] .ev-bar[data-for~="selected"] .ev-key::after,
+.ship-live .ev-walk .ev[data-step="reviewing"] .ev-review-keys .ev-key--archive::after { content: 'Press this' / ''; }
 .ship-live .ev-walk .ev [data-press="again"] { display: none; }
+.ship-live .ev-walk .ev-screen { cursor: pointer; }
 .ship-live .ev-walk .ev-screen :is(button, label) { pointer-events: none; }
 /* A screen arrives as the bars inside it do, when a step brings it in. */
 @media (prefers-reduced-motion: no-preference) {
