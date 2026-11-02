@@ -106,7 +106,7 @@ const BASE = {
        two since 2026-10-29, when the writing went to seven; one, one, and
        one since 2026-10-30, when each pair became one article. */
     'The system': ['what-does-a-design-system-need-once-ai-is-in-the-product'],
-    'The build': ['how-should-you-test-a-product-now-that-ai-can-help'],
+    'The build': ['how-should-you-test-a-product-now-that-ai-can-help', 'what-do-the-best-prd-templates-have-in-common'],
     'The judgment': ['who-decides-when-software-can-act-on-its-own'],
   },
 };

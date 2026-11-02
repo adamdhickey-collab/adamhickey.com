@@ -108,6 +108,7 @@ const CARDS = {
   /* The build's third since 2026-10-21, in the interface-feel-finished
      article's place. */
   'how-should-you-test-a-product-now-that-ai-can-help': { kicker: 'Writing · the build', title: 'How should you test a product now that AI can help?', image: 'img/writing/how-should-you-test-a-product-now-that-ai-can-help.webp' },
+  'what-do-the-best-prd-templates-have-in-common': { kicker: 'Writing · the build', title: 'What do the best PRD templates have in common?', image: 'img/writing/what-do-the-best-prd-templates-have-in-common.webp' },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
