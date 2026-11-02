@@ -113,32 +113,34 @@ export const REACHABLE = {
       press: ['[data-pick="confirm"]'] },
     /* Since 2026-11-02 Evaluate is six steps beside one screen, and
        every step after the first is in no DOM at rest: the agent's review
-       open with its "Press 2", the review's archive with no Undo bar, my
-       call's shaded rows, its archive with the Undo bar, and the rows
-       restored. At rest the page shows step 1, the agent's five selected
-       with "Press 1" on Archive. From 2026-10-29 until that day these
-       were four presses inside two screens side by side. */
+       open with its "Press 2", the review's archive, my call's cleanup
+       of four with no one active, that cleanup archived at once, and the
+       agent's review again for the batch with three active. At rest the
+       page shows step 1, the agent's five selected with "Press 1" on
+       Archive. From 2026-10-29 until that day these were four presses
+       inside two screens side by side, and until the same day's evening
+       my call was undo. */
     { name: 'Evaluate, step 2: the agent’s review open',
       press: ['[data-ev-walk] [data-go="2"]'] },
-    { name: 'Evaluate, step 3: the review archived, no Undo bar',
+    { name: 'Evaluate, step 3: the review archived',
       press: ['[data-ev-walk] [data-go="3"]'] },
-    { name: 'Evaluate, step 4: my call, the active three shaded',
+    { name: 'Evaluate, step 4: my call, a cleanup with no one active',
       press: ['[data-ev-walk] [data-go="4"]'] },
-    { name: 'Evaluate, step 5: my call archived, with the Undo bar',
+    { name: 'Evaluate, step 5: the cleanup archived at once',
       press: ['[data-ev-walk] [data-go="5"]'] },
-    { name: 'Evaluate, step 6: my call restored',
+    { name: 'Evaluate, step 6: a batch with active customers, reviewed',
       press: ['[data-ev-walk] [data-go="6"]'] },
   ],
 
-  /* The personal essay sets the same undo screen in its margin since
-     2026-10-31, beside the paragraph about the archive batch, in the same
-     markup and on the same script, so its two later steps are in no DOM
-     at rest there either. */
+  /* The personal essay sets the same review screen in its margin, beside
+     the paragraph about the archive batch, in the same markup and on the
+     same script, so its two later steps are in no DOM at rest there
+     either. From 2026-10-31 until 2026-11-02 it was the undo screen. */
   'writing/my-next-design-challenge.html': [
-    { name: 'the undo screen: archived, with Undo',
-      press: ['[data-ev="undo"] [data-press="archive"]'] },
-    { name: 'the undo screen: undone',
-      press: ['[data-ev="undo"] [data-press="archive"]', '[data-ev="undo"] [data-press="undo"]'] },
+    { name: 'the review screen: open',
+      press: ['[data-ev="review"] [data-press="review"]'] },
+    { name: 'the review screen: archived',
+      press: ['[data-ev="review"] [data-press="review"]', '[data-ev="review"] [data-press="archive"]'] },
   ],
 
   'prototype/dispatch-cockpit.html': [

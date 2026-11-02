@@ -116,7 +116,7 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../related.css?v=3" />
-  <link rel="stylesheet" href="../lab/relay-screen.css?v=1" />
+  <link rel="stylesheet" href="../lab/relay-screen.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="../writing.js?v=20261030a" defer></script>
@@ -321,18 +321,34 @@
 
           <h2 id="when-making-things-becomes-easier-choosing-what-matters-becomes-harder">When making things becomes easier, choosing what matters becomes harder</h2>
           <p>AI is getting better at taste and judgment too.</p>
-          <!-- Relay's customer list, working: the undo screen from Agent
-               Review's Evaluate chapter, the direction I chose, in the same
-               markup (lab/relay-screen.css and relay-screen.js). Until
-               2026-10-31 this was a capture of the list before the press,
-               with no Archive button on it to press. -->
-          <figure class="writing-figure writing-scene ev" data-ev="undo" data-step="selected">
+          <!-- Relay's customer list, working: the review screen from Agent
+               Review's Evaluate chapter, in the same markup
+               (lab/relay-screen.css and relay-screen.js). Archive opens the
+               review, because three of the five are active; since
+               2026-11-02 that is the direction I chose, the agent's review
+               stopping only for a batch like this one. Until that day this
+               was the undo screen, and until 2026-10-31 a capture of the
+               list before the press, with no Archive button on it to
+               press. -->
+          <figure class="writing-figure writing-scene ev" data-ev="review" data-step="selected">
             <div class="arc-device">
               <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
               <div class="ev-screen">
-                <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
-                <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
-                <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <div class="ev-bar" data-for="selected reviewing"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="review" data-for="selected">Archive</button></div>
+                <div class="ev-bar" data-for="archived"><span class="ev-bar-text"><span class="ev-gone-count">4 customers</span> archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                <section class="ev-review" data-for="reviewing" aria-labelledby="ev-review-title">
+                  <h3 class="ev-review-title" id="ev-review-title">Review 5 customers before archiving</h3>
+                  <p class="ev-review-group"><span class="ev-tag ev-tag--blocked">Can&rsquo;t archive</span></p>
+                  <p class="ev-review-line"><strong>Monarch Dental Group</strong>: it has an open invoice. It stays in the table.</p>
+                  <p class="ev-review-group"><span class="ship-list-tag ship-list-tag--active">Active</span> Check these. Clear a box to keep the customer.</p>
+                  <ul class="ev-keep">
+                    <li><label><input type="checkbox" data-keep="halvorsen" checked /> Halvorsen Freight, $3,840 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="brightwater" checked /> Brightwater Clinics, $1,320 a month</label></li>
+                    <li><label><input type="checkbox" data-keep="saltmarsh" checked /> Saltmarsh Studio, $87 a month</label></li>
+                  </ul>
+                  <p class="ev-review-line">1 customer churned, past due, or on trial.</p>
+                  <p class="ev-review-keys"><button type="button" class="ev-key ev-key--quiet" data-press="cancel">Cancel</button> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive <span class="ev-going">4 customers</span></button></p>
+                </section>
                 <ul class="ev-rows">
                   <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
                   <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
@@ -343,7 +359,7 @@
                 <p class="visually-hidden" data-said role="status"></p>
               </div>
             </div>
-            <figcaption>Five selected, one press. Three of them are still active customers, so the press comes with an Undo.</figcaption>
+            <figcaption>Five selected, three of them still active customers, so Archive opens a review that flags them first.</figcaption>
           </figure>
           <p><mark>Producing a solution isn&rsquo;t the same as deciding whether that solution is appropriate.</mark> Someone still has to take responsibility for the decision.</p>
           <p>That distinction runs through my whole career. In enterprise systems, a workflow can function perfectly and still confuse its users. Getting it right means deciding what should happen, and when a person needs to step in.</p>

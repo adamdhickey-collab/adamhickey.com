@@ -101,12 +101,12 @@
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
-  <link rel="stylesheet" href="relay-screen.css?v=1" />
-  <link rel="stylesheet" href="agent-review.css?v=100" />
+  <link rel="stylesheet" href="relay-screen.css?v=2" />
+  <link rel="stylesheet" href="agent-review.css?v=101" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="relay-screen.js?v=1" defer></script>
-  <script src="agent-review-story.js?v=11" defer></script>
+  <script src="agent-review-story.js?v=12" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
@@ -355,14 +355,23 @@
          were the same five rows. The screens are Relay in live HTML, like
          the opener's list (relay-screen.css and relay-screen.js, which the
          personal essay shares since 2026-10-31). The words follow the
-         prototype's ArchiveFlow, the undo direction with namesActive on. -->
+         prototype's ArchiveFlow. SINCE 2026-11-02 MY CALL IS THE AGENT'S
+         REVIEW WITH A CONDITION, not undo (Adam: undo's bar says "4
+         customers archived" and names none of the active three, and the
+         page's own 2 of 5 sessions argued against it). A batch with no
+         active customer archives at once, which is the third screen, a
+         quarterly cleanup of two trial and two churned customers from the
+         prototype's own table (customers.ts); a batch with one opens the
+         agent's review, which is why step 6 shows the agent's screen. The
+         prototype offers the condition only as Learn's "next time" for the
+         review (cycle.ts), so the page is a step ahead of it. -->
     <section class="case-section case-overview build-chapter ground-white" id="evaluate">
       <div class="container case-wide">
         <header class="arc-head">
           <div class="arc-head-text">
             <p class="arc-eyebrow">What I chose</p>
-            <h2>I turned down the agent&rsquo;s safest-looking pick</h2>
-            <p class="arc-lead">I&rsquo;d told the agent safety came first, so it picked a review before anything is archived. I chose undo.</p>
+            <h2>I kept the agent&rsquo;s pick, and made it stop only when it matters</h2>
+            <p class="arc-lead">I&rsquo;d told the agent safety came first, so it picked a review before every archive. I kept the review, and made it stop only when a batch has an active customer in it.</p>
           </div>
         </header>
         <div class="ev-walk" data-ev-walk>
@@ -372,15 +381,15 @@
               <ol class="ev-walk-steps">
                 <li><button type="button" class="ev-walk-step" data-go="1" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">1</span><span>Press Archive.</span></button></li>
                 <li><button type="button" class="ev-walk-step" data-go="2" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">2</span><span>A review opens. Press Archive 4 customers.</span></button></li>
-                <li><button type="button" class="ev-walk-step" data-go="3" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">3</span><span>4 customers are archived, with no Undo bar.</span></button></li>
+                <li><button type="button" class="ev-walk-step" data-go="3" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">3</span><span>4 customers are archived. Monarch Dental Group stays: it has an open invoice.</span></button></li>
               </ol>
             </div>
             <div class="ev-walk-group">
-              <p class="ev-head" id="ev-undo-name"><span class="ev-who">My call</span> <span class="ev-name">Archive now, undo after</span> <span class="ev-presses">1 press to archive</span></p>
+              <p class="ev-head" id="ev-clear-name"><span class="ev-who">My call</span> <span class="ev-name">Review only when someone&rsquo;s active</span> <span class="ev-presses">1 press, 2 if someone&rsquo;s active</span></p>
               <ol class="ev-walk-steps" start="4">
-                <li><button type="button" class="ev-walk-step" data-go="4" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">4</span><span>The 3 active customers are shaded. Press Archive.</span></button></li>
-                <li><button type="button" class="ev-walk-step" data-go="5" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">5</span><span>4 customers are archived, with an Undo bar.</span></button></li>
-                <li><button type="button" class="ev-walk-step" data-go="6" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">6</span><span>If that was a mistake, Undo restores all 4 customers.</span></button></li>
+                <li><button type="button" class="ev-walk-step" data-go="4" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">4</span><span>A cleanup of 4 churned and trial customers. Press Archive.</span></button></li>
+                <li><button type="button" class="ev-walk-step" data-go="5" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">5</span><span>All 4 are archived at once, with no review.</span></button></li>
+                <li><button type="button" class="ev-walk-step" data-go="6" aria-controls="ev-stage"><span class="ar-cycle-n" aria-hidden="true">6</span><span>A batch with active customers opens the same review, with the 3 flagged.</span></button></li>
               </ol>
             </div>
           </div>
@@ -417,19 +426,17 @@
                 </div>
               </div>
             </figure>
-            <figure class="ev" data-ev="undo" data-step="selected" aria-labelledby="ev-undo-name">
+            <figure class="ev" data-ev="clear" data-step="selected" aria-labelledby="ev-clear-name">
               <div class="arc-device">
                 <div class="arc-device-bar" aria-hidden="true"><span class="arc-device-dots"><span></span><span></span><span></span></span><span class="arc-device-title">Relay &middot; Customers</span></div>
                 <div class="ev-screen">
-                  <div class="ev-bar" data-for="selected"><span class="ev-bar-text">5 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
-                  <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived. Monarch Dental Group wasn&rsquo;t: it has an open invoice.</span> <button type="button" class="ev-key ev-key--undo" data-press="undo"><svg class="ev-undo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 4L3 7l3 3M3 7h6.5a3.5 3.5 0 0 1 0 7H8"/></svg>Undo</button></div>
-                  <div class="ev-bar" data-for="undone"><span class="ev-bar-text">4 customers back in the table.</span> <button type="button" class="ev-key ev-key--quiet" data-press="again">Start over</button></div>
+                  <div class="ev-bar" data-for="selected"><span class="ev-bar-text">4 customers selected</span> <button type="button" class="ev-key ev-key--archive" data-press="archive">Archive</button></div>
+                  <div class="ev-bar" data-for="archived"><span class="ev-bar-text">4 customers archived.</span></div>
                   <ul class="ev-rows">
-                    <li class="ev-row" data-id="halvorsen" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
-                    <li class="ev-row" data-id="brightwater" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
                     <li class="ev-row" data-id="alder" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Alder &amp; Finch</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
-                    <li class="ev-row" data-id="monarch" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Monarch Dental Group</span> <span class="ship-list-tag ship-list-tag--due">Past due</span></div></div></li>
-                    <li class="ev-row" data-id="saltmarsh" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Saltmarsh Studio</span> <span class="ship-list-tag ship-list-tag--active">Active</span></div></div></li>
+                    <li class="ev-row" data-id="verity" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Verity Labs</span> <span class="ship-list-tag ship-list-tag--trial">Trial</span></div></div></li>
+                    <li class="ev-row" data-id="juniper" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Juniper Foods</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li>
+                    <li class="ev-row" data-id="kestrel" data-on><div class="ev-row-in"><div class="ev-row-body"><svg class="ev-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ev-row-name">Kestrel Aviation</span> <span class="ship-list-tag ship-list-tag--churned">Churned</span></div></div></li>
                   </ul>
                   <p class="visually-hidden" data-said role="status"></p>
                 </div>
@@ -438,19 +445,19 @@
           </div>
         </div>
         <div class="arc-after arc-why">
-          <p class="arc-verdict">Undo keeps people safe without making them stop.</p>
+          <p class="arc-verdict">Most batches go straight through. The risky ones stop.</p>
           <div class="arc-why-col">
-            <h3 class="arc-why-head">Why not the review</h3>
+            <h3 class="arc-why-head">Why not undo</h3>
             <ul class="build-list">
-              <li><strong>People may stop reading it.</strong> In the prototype&rsquo;s session notes, which I wrote to show what testing could turn up, people press straight through its question by their third batch. No real session has tested that yet.</li>
-              <li><strong>A skipped check still costs time.</strong> It protects no one, and it still slows everyone down.</li>
+              <li><strong>The bar doesn&rsquo;t say who left.</strong> &ldquo;4 customers archived&rdquo; doesn&rsquo;t name the three that were active, so there&rsquo;s nothing to check before deciding whether to undo.</li>
+              <li><strong>The evidence points the other way.</strong> In the prototype&rsquo;s session notes, which I wrote to show what testing could turn up, someone archives an active customer without noticing in 2 of 5 sessions. No real session has tested that yet.</li>
             </ul>
           </div>
           <div class="arc-why-col">
-            <h3 class="arc-why-head">What undo keeps, and what it risks</h3>
+            <h3 class="arc-why-head">What the condition keeps, and what it risks</h3>
             <ul class="build-list">
-              <li><strong>Active customers stand out.</strong> The same notes have someone archive an active customer without noticing in 2 of 5 sessions. Their rows are shaded before you press Archive.</li>
-              <li><strong>The undo bar has to be seen.</strong> No check can tell me that, so it&rsquo;s the first thing to measure once it ships.</li>
+              <li><strong>A review that&rsquo;s rare gets read.</strong> The same notes have people press straight through a review they meet on every batch by their third. A cleanup of churned and trial customers now takes one press.</li>
+              <li><strong>The review still has to be read.</strong> No check can tell me that, so it&rsquo;s the first thing to measure once it ships: how often the review appears, and whether people read it or press straight through.</li>
             </ul>
           </div>
         </div>
@@ -460,8 +467,8 @@
     <!-- THE RULE the reader just used: three kinds of change, one that goes
          through and two that stop for a person, each with an example from
          the prototype (agent-review src/data: billing.ts for the routine
-         token move and the cancel link, cycle.ts for the undo bar, whose
-         system is Priya's). The loop's rail is its picture. -->
+         token move and the cancel link, cycle.ts for the archive pattern,
+         whose system is Priya's). The loop's rail is its picture. -->
     <section class="case-section case-overview build-chapter ground-warm" id="the-rule">
       <div class="container case-wide">
         <header class="arc-head">

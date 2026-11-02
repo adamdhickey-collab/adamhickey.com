@@ -44,10 +44,13 @@
   });
 
   /* Each step is a screen and its step, in the list's order. A row is
-     selected before the press, folded when archived (all but Monarch,
-     which has an open invoice), and back, unselected, when restored. */
+     selected before the press and folded when archived (all but Monarch,
+     which has an open invoice). My call is the agent's review with a
+     condition: the cleanup with no active customer archives at once, and
+     the batch with three opens the agent's own review, so its last step
+     is the agent's screen again. */
   const SCREENS = [['review', 'selected'], ['review', 'reviewing'], ['review', 'archived'],
-    ['undo', 'selected'], ['undo', 'archived'], ['undo', 'undone']];
+    ['clear', 'selected'], ['clear', 'archived'], ['review', 'reviewing']];
   document.querySelectorAll('[data-ev-walk]').forEach((walk) => {
     const steps = [...walk.querySelectorAll('.ev-walk-step')];
     const back = walk.querySelector('[data-go="back"]');
