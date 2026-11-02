@@ -237,4 +237,15 @@ export const FEATURES = [
     alt: 'A sage lawn seen from straight above, a cream paved walk turning a sharp right angle across it, and one solid black worn path cutting straight across the corner of the grass.',
     prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream: a lawn, seen from straight above, the way a map or a site plan is drawn, with no perspective, no horizon and no depth. Across it runs one wide paved walk in cream with black outlines and a few thin black joint lines across it, entering from the bottom edge of the frame, running straight up to the middle, turning a sharp right angle and leaving by the right edge. Cutting straight across the inside of that corner, diagonally from the walk's lower stretch to its right-hand stretch, is one narrow worn path drawn as a single solid black shape with slightly ragged edges, the only black shape in the picture: the shortcut people actually walk. No people, no footprints, no trees, no benches, no shadows. Nothing else in the picture.`,
   },
+  /* The build's second since 2026-11-02. A requirements document is a
+     long sheet, and the habit every good template shares is cutting it:
+     every section added is one fewer people read. The sheet runs off both
+     edges; the scissors have already gone through it in the middle third. */
+  {
+    id: 'what-do-the-best-prd-templates-have-in-common',
+    group: 'ai',
+    device: 'object on an accent field; something cut away',
+    alt: 'A long cream sheet of paper on a sage field, seen from straight above, ruled with thin black lines and running off the top and bottom edges, cut clean across the middle with its lower half slid a little apart, and a pair of solid black scissors open across the gap.',
+    prompt: `Same style, same hand as the reference. The ground is the full sage green, edge to edge, instead of cream. One long sheet of cream paper with a black outline, seen from straight above with no perspective, standing upright in the middle of the frame and so long it runs off both the top and the bottom edge. Across the sheet run a dozen thin black horizontal rules, like lines of writing with no letters on them. In the middle third the sheet has been cut clean across, and the lower part has slid a little down and to the side, leaving a narrow gap of sage between the two pieces. Lying open across that gap is one pair of scissors drawn as a single solid black shape, the only black shape in the picture. No people, no hands, no text, no shadows. Nothing else in the picture.`,
+  },
 ];
