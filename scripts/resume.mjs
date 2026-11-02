@@ -67,7 +67,10 @@
  * build. The Shortlist takes Dispatch Cockpit's place among the independent
  * work (the dispatch cockpit stays as the RBA project it came from), service
  * design takes Developer Collaboration's slot, and Agent Review says its
- * runs are simulated. The title stays Senior Product Designer; employers, titles,
+ * runs are simulated. From 2026-11-02 the RBA years are told in product
+ * terms a "SaaS experience" screen looks for: complex B2B applications,
+ * role-based, in continuous release, iterated after launch, with the SAP
+ * case study's NPS figure as the evidence. The title stays Senior Product Designer; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -195,7 +198,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a hybrid designer and developer, building what I designed in HTML, CSS, and jQuery, then spent thirteen years leading enterprise product design and design systems at scale. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
+  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a designer who built what I designed in HTML, CSS, and jQuery, then spent thirteen years designing complex B2B applications and design systems: role-based products in continuous release. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
 </section>
 
 <section>
@@ -208,10 +211,10 @@ const html = String.raw`<!doctype html>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
-    <li>Led UX and visual design for complex digital products, enterprise applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
+    <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
     <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
-    <li>Tied design to the numbers product, engineering, and business teams track: efficiency, adoption, quality, ROI.</li>
+    <li>Iterated after launch from in-app feedback and usage data; NPS up about 20 points over several SAP releases.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
   <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS and jQuery.</p>
@@ -226,13 +229,13 @@ const html = String.raw`<!doctype html>
     <li>Making 40+ SAP applications feel like one product: one visual language, one design system and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
     <li>Replacing spreadsheets with one USDA grant-management portal, cutting data-analysis requests from 45–55 hours to just over 10.</li>
-    <li>A real-time cockpit for a 450+ truck fleet, built for the speed of expert dispatchers; board-clearing time down roughly 30%.</li>
+    <li>A real-time, data-dense dispatch app for a 450+ truck fleet; board-clearing time down roughly 30%.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Human&ndash;AI Interaction</span><span>Service Design</span></p>
+  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex B2B Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Post-Launch Iteration</span><span>Human&ndash;AI Interaction</span><span>Service Design</span></p>
 </section>
 
 <section>
@@ -408,14 +411,14 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Lead UX Product Designer</h3>
       <p class="dates">2013 – 2026</p>
-      <p class="did">Led UX and visual design for complex digital products, enterprise applications and design systems across logistics, manufacturing, healthcare, finance and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, led the accessibility practice, and designed and built Connect, the firm&rsquo;s own design-system site.</p>
+      <p class="did">Led UX and visual design for complex B2B web applications: data-dense, role-based products in continuous release, across logistics, manufacturing, healthcare, finance and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, iterated after launch from in-app feedback, and led the accessibility practice.</p>
     </div>
   </section>
 
   <section class="work">
     <h2>Selected work</h2>
     <ul>
-      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less design-to-development time, production UI defects roughly halved.</li>
+      <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
       <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates and a portal.</li>
       <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
