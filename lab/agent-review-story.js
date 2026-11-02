@@ -11,9 +11,12 @@
  * this?"). Another press moves the mark and swaps the consequence. Still
  * or without this file, everything is already there.
  *
- * EVALUATE'S TWO SCREENS, since 2026-10-29: the agent's review and the
- * designer's undo, each pressed through a step at a time. Since 2026-10-31
- * that is relay-screen.js, which the personal essay loads too.
+ * EVALUATE, A STEP AT A TIME, since 2026-11-02 (agent-review.css,
+ * "Evaluate"). Five numbered steps and one Relay screen: Back, Next or a
+ * step itself sets which screen shows and at what step, and the screen
+ * follows. The screens are relay-screen.js's, which the personal essay
+ * loads too; here they are pictures, so a press inside one is stopped
+ * before it reaches that file and its keys are out of the tab order.
  *
  * THE PAGE ARRIVING, since 2026-10-27 (agent-review.css, "Motion"). The
  * blocks below the opener settle into place as they come up, on
@@ -40,6 +43,52 @@
     });
   });
 
+  /* Each step is a screen and its step, in the list's order. A row is
+     selected before the press, folded when archived (all but Monarch,
+     which has an open invoice), and back, unselected, when restored. */
+  const SCREENS = [['review', 'reviewing'], ['review', 'archived'],
+    ['undo', 'selected'], ['undo', 'archived'], ['undo', 'undone']];
+  document.querySelectorAll('[data-ev-walk]').forEach((walk) => {
+    const steps = [...walk.querySelectorAll('.ev-walk-step')];
+    const back = walk.querySelector('[data-go="back"]');
+    const next = walk.querySelector('[data-go="next"]');
+    const said = walk.querySelector('[data-walk-said]');
+    const stage = walk.querySelector('.ev-walk-stage');
+    const figs = [...stage.querySelectorAll('[data-ev]')];
+    stage.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); }, true);
+    stage.querySelectorAll('button, input').forEach((el) => {
+      el.tabIndex = -1;
+      el.setAttribute('aria-disabled', 'true');
+    });
+    let at = 0;
+    const go = (i) => {
+      at = (i + steps.length) % steps.length;
+      const [ev, step] = SCREENS[at];
+      figs.forEach((fig) => { fig.hidden = fig.dataset.ev !== ev; });
+      const fig = figs.find((f) => f.dataset.ev === ev);
+      fig.dataset.step = step;
+      fig.querySelectorAll('.ev-row').forEach((row) => {
+        row.toggleAttribute('data-on', step === 'selected' || step === 'reviewing');
+        row.toggleAttribute('data-gone', step === 'archived' && row.dataset.id !== 'monarch');
+      });
+      steps.forEach((s, j) => {
+        if (j === at) s.setAttribute('aria-current', 'step');
+        else s.removeAttribute('aria-current');
+      });
+      back.disabled = at === 0;
+      walk.toggleAttribute('data-last', at === steps.length - 1);
+    };
+    walk.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-go]');
+      if (!button) return;
+      const to = button.dataset.go;
+      go(to === 'back' ? at - 1 : to === 'next' ? at + 1 : Number(to) - 1);
+      if (to === 'back' && at === 0) next.focus();
+      said.textContent = `Step ${at + 1} of ${steps.length}: ${steps[at].lastElementChild.textContent}`;
+    });
+    go(0);
+  });
+
   if (!('IntersectionObserver' in window)) return;
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
@@ -48,7 +97,7 @@
     /* Arrivals: fired 4% of a window early, as reveal.js does, so the rise
        has started before the block can be seen. */
     const RISE = '.arc-head, .ar-kind, .ar-rail, .ar-ticket, .ar-ticket footer,' +
-      ' .ar-cycle-text, .ar-scene, .arc-pair > figure, div.arc-after, .arc-measure,' +
+      ' .ar-cycle-text, .ar-scene, .ev-walk, div.arc-after, .arc-measure,' +
       ' .glance, .case-wide > p';
     const rise = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
