@@ -401,7 +401,7 @@ phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen.
 
-The write-up opens on "Would you ship this?" over Relay's customer list,
+The write-up opens on "Which fix would you ship?" over Relay's customer list,
 a batch selected for archiving, since the evening of 2026-10-26, so the
 opener, the pictures under it, the prototype's first screen, and the
 homepage card follow one feature. Since the same night those pictures are
