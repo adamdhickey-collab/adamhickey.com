@@ -102,16 +102,16 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=2" />
-  <link rel="stylesheet" href="agent-review.css?v=106" />
+  <link rel="stylesheet" href="agent-review.css?v=107" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="relay-screen.js?v=1" defer></script>
-  <script src="agent-review-story.js?v=14" defer></script>
+  <script src="agent-review-story.js?v=15" defer></script>
   <!-- One switch, thrown here before first paint because
        agent-review-story.js is deferred, and taken back at DOMContentLoaded
        if that file never ran: .ship-live, the opener's question waiting for
        an answer, so its consequences are hidden until a press
-       (agent-review.css, "Would you ship this?"). Thrown late, the answers
+       (agent-review.css, "Which fix would you ship?"). Thrown late, the answers
        painted and then vanished.
        It also says, as early, whether read-aloud.js will add its Listen
        button to the opener, so the row it wraps onto is held rather than
@@ -259,9 +259,13 @@
          and the Archive button, where the prototype's whole window was
          (Adam: "it makes you think too long"): the stage bar, the seats,
          MRR and last-active columns and a cut-off row said nothing the
-         question needs. Three answers; a press says what the answer leads to,
-         then what happened
-         (agent-review.css, "Would you ship this?"; the press is
+         question needs. SINCE 2026-11-02 THE THREE ANSWERS ARE THE AGENT'S THREE
+         DIRECTIONS, by the names and in the order the row under the next
+         heading uses (Adam: "Stop and ask someone" was not one of them, so
+         the opener and the row below told two stories). A press says
+         what the answer leads to, then that the agent recommended the
+         review and left the call to me
+         (agent-review.css, "Which fix would you ship?"; the press is
          agent-review-story.js's).
 
          ARCHIVING, NOT CANCEL, since the evening of 2026-10-26. The opener
@@ -311,10 +315,10 @@
           <footer>A support ticket, from an account manager. Relay is a made-up app.</footer>
         </blockquote>
         <div class="ship" data-ship>
-          <p class="ship-ask" id="ship-ask">Would you ship this?</p>
-          <p class="ship-setup">An agent is rebuilding archiving, and it stopped here: one press archives all five. <strong>Three are active customers.</strong></p>
+          <p class="ship-ask" id="ship-ask">Which fix would you ship?</p>
+          <p class="ship-setup">An agent is rebuilding archiving. As it stands, one press archives all five, and <strong>three are active customers.</strong> The agent built three fixes.</p>
           <figure class="ship-list" aria-label="Relay&rsquo;s customer list with five customers selected for archiving">
-            <p class="ship-list-bar"><span>5 customers selected</span> <span class="ship-list-stop" aria-hidden="true">Agent stopped: 3 are active</span> <span class="ship-list-archive">Archive</span></p>
+            <p class="ship-list-bar"><span>5 customers selected</span> <span class="ship-list-stop" aria-hidden="true">Review: 3 are active</span> <span class="ship-list-archive">Archive</span></p>
             <ul>
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Halvorsen Freight</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
               <li><svg class="ship-list-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 8.5l2.5 2.5 5.5-6"/></svg><span class="ship-list-name">Brightwater Clinics</span> <span class="ship-list-tag ship-list-tag--active">Active</span></li>
@@ -324,21 +328,22 @@
             </ul>
             <div class="ship-list-confirm" aria-hidden="true">
               <p><strong>Archive 5 customers?</strong></p>
+              <p>Halvorsen, Brightwater, and Saltmarsh are active.</p>
               <p class="ship-list-confirm-keys"><span>Cancel</span> <span class="ship-list-archive">Archive</span></p>
             </div>
           </figure>
           <div class="ship-picks" role="group" aria-labelledby="ship-ask">
-            <button type="button" class="ship-pick" data-pick="ship" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ship it as it is</button>
-            <button type="button" class="ship-pick" data-pick="confirm" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Ask &ldquo;Are you sure?&rdquo; first</button>
-            <button type="button" class="ship-pick" data-pick="ask" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Stop and ask someone</button>
+            <button type="button" class="ship-pick" data-pick="review" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Review batch, then archive</button>
+            <button type="button" class="ship-pick" data-pick="confirm" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Confirm first, naming who</button>
+            <button type="button" class="ship-pick" data-pick="undo" aria-pressed="false" aria-controls="ship-result"><span class="ship-dot" aria-hidden="true"></span>Archive now, undo after</button>
           </div>
           <div class="ship-result" id="ship-result" role="status">
-            <p class="ship-then" data-then="ship"><strong>If you ship it,</strong> cleanup takes one press, and three active customers, Halvorsen, Brightwater, and Saltmarsh, are archived along with the rest. Nothing on the screen brings them back.</p>
-            <p class="ship-then" data-then="confirm"><strong>If you ask first,</strong> every batch gets a pop-up. Someone who archives hundreds of customers a quarter soon clicks through it without reading.</p>
-            <p class="ship-then" data-then="ask"><strong>That&rsquo;s what the agent does in the prototype.</strong> Two goals pull against each other here: cleanup should be fast, and no customer should be lost by mistake. No automated check can say which matters more, so the agent asks me.</p>
+            <p class="ship-then" data-then="review"><strong>If you review first,</strong> the batch stops on a list of the three active customers before anything is archived. It catches the most, but every cleanup takes a second press, even one with nobody active in it.</p>
+            <p class="ship-then" data-then="confirm"><strong>If you confirm first,</strong> every batch gets a pop-up. Someone who archives hundreds of customers a quarter soon clicks through it without reading.</p>
+            <p class="ship-then" data-then="undo"><strong>If you archive now,</strong> cleanup takes one press, and Halvorsen, Brightwater, and Saltmarsh go with the rest. An Undo bar brings them back, but only if someone notices it in time.</p>
             <div class="ship-after">
-              <p class="ship-verdict"><strong>I didn&rsquo;t ship any of these three.</strong></p>
-              <p>The agent drafted three fixes and recommended one. Here&rsquo;s its pick beside mine; the six stages further down show how we got there.</p>
+              <p class="ship-verdict"><strong>The agent recommended the review.</strong></p>
+              <p>Fast cleanup and never losing a customer pull against each other, and no automated check can say which matters more. So the agent left the call to me.</p>
             </div>
           </div>
         </div>

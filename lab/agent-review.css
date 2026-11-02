@@ -134,7 +134,7 @@
    loads first and the personal essay loads too. ---- */
 .arc-screen { position: relative; }
 
-/* ---------- Would you ship this? ----------
+/* ---------- Which fix would you ship? ----------
    The reader takes the agent's seat before the page explains anything:
    Relay's customer list with Explore's batch selected, rebuilt in live
    HTML from the prototype's own rows (agent-review src/product/customers/
@@ -153,10 +153,11 @@
      - the answers are three options in a row under the screen, each a
        tile with a radio mark, so they say "pick one" before anything is
        read, and the pressed one is marked, not promoted;
-     - the screen answers first: "Ask 'Are you sure?' first" turns the
-       selection bar into the question, "Stop and ask someone" puts the
-       agent's stop beside the button, and "Ship it as it is" changes
-       nothing, which is the point of it;
+     - the screen answers first: "Confirm first, naming who" puts the
+       pop-up over the list, "Review batch, then archive" puts the
+       review's mark beside the button, and "Archive now, undo after"
+       archives the rows. Since 2026-11-02 the answers are the agent's
+       three directions, in the order the row in Evaluate lists them;
      - one result under the answers says what YOUR answer leads to, then
        what happened, so a press is followed by one paragraph and the
        payoff, never three. Another press swaps the paragraph in place.
@@ -367,9 +368,9 @@
    section 10: an arrival rises a short way); a second press swaps the
    paragraph in place and moves nothing else. */
 .ship-live .ship:not([data-picked]) .ship-result { display: none; }
-.ship-live .ship[data-picked="ship"] .ship-then:not([data-then="ship"]),
+.ship-live .ship[data-picked="undo"] .ship-then:not([data-then="undo"]),
 .ship-live .ship[data-picked="confirm"] .ship-then:not([data-then="confirm"]),
-.ship-live .ship[data-picked="ask"] .ship-then:not([data-then="ask"]) { display: none; }
+.ship-live .ship[data-picked="review"] .ship-then:not([data-then="review"]) { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .ship-live .ship[data-picked] .ship-result { animation: ship-in var(--motion-enter) var(--ease-enter) both; }
   @keyframes ship-in { from { opacity: 0; translate: 0 var(--motion-rise); } }
@@ -1033,20 +1034,20 @@
    archived and not only in the sentence under it. Only live and only
    once pressed; still or without script the list is the question's
    picture and nothing more.
-   Ship it: the five rows go, one after another, and stay as ghosts, struck
+   Archive now: the five rows go, one after another, and stay as ghosts, struck
    through in the secondary ink, the three active ones keyed in the
    caution light the Archive button uses (caution ink on it, 5.23:1).
-   Ask first: the pop-up every batch would get rises over the list.
-   Stop and ask: the agent's stop sits beside Archive, which goes quiet. */
+   Confirm first: the pop-up every batch would get rises over the list.
+   Review: the review's mark sits beside Archive, which goes quiet. */
 .ship-list { position: relative; }
 .ship-list li { transition: color var(--motion-state) var(--ease), translate var(--motion-move) var(--ease-enter); }
 .ship-list-check { transition: background-color var(--motion-state) var(--ease); }
 .ship-list-tag { transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
 .ship-list-archive { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease); }
-.ship-live .ship[data-picked="ship"] .ship-list li { color: var(--ink-on-dark-secondary); translate: var(--motion-rise-tight) 0; }
-.ship-live .ship[data-picked="ship"] .ship-list-name { text-decoration: line-through; }
-.ship-live .ship[data-picked="ship"] .ship-list-check { background: var(--rule-on-dark-strong); }
-.ship-live .ship[data-picked="ship"] .ship-list-tag--active {
+.ship-live .ship[data-picked="undo"] .ship-list li { color: var(--ink-on-dark-secondary); translate: var(--motion-rise-tight) 0; }
+.ship-live .ship[data-picked="undo"] .ship-list-name { text-decoration: line-through; }
+.ship-live .ship[data-picked="undo"] .ship-list-check { background: var(--rule-on-dark-strong); }
+.ship-live .ship[data-picked="undo"] .ship-list-tag--active {
   background: var(--color-caution-light);
   border-color: var(--color-caution-light);
   color: var(--color-caution-text);
@@ -1069,8 +1070,8 @@
   background: var(--color-caution-light);
   color: var(--color-caution-text);
 }
-.ship-live .ship[data-picked="ask"] .ship-list-stop { display: inline; }
-.ship-live .ship[data-picked="ask"] .ship-list-bar .ship-list-archive {
+.ship-live .ship[data-picked="review"] .ship-list-stop { display: inline; }
+.ship-live .ship[data-picked="review"] .ship-list-bar .ship-list-archive {
   background: transparent;
   color: var(--ink-on-dark-secondary);
   box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong);
@@ -1100,7 +1101,7 @@
 .ship-list-confirm-keys > span:first-child { padding: var(--space-2xs) var(--space-sm); box-shadow: inset 0 0 0 1px var(--rule-card); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ship-live .ship[data-picked="ask"] .ship-list-stop,
+  .ship-live .ship[data-picked="review"] .ship-list-stop,
   .ship-live .ship[data-picked="confirm"] .ship-list-confirm { animation: ship-in var(--motion-move) var(--ease-enter) both; }
   /* A second pick swaps the consequence, and the new words travel a
      short way in rather than cutting (MOTION.md, section 10: a fade has no

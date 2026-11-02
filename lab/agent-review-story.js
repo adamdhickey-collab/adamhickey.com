@@ -4,11 +4,11 @@
  * and takes it back at DOMContentLoaded if this file never ran, which it
  * says by setting window.arcStory.
  *
- * THE QUESTION in the opener, "Would you ship this?" A press marks the
+ * THE QUESTION in the opener, "Which fix would you ship?" A press marks the
  * answer pressed (aria-pressed) and the figure answered (data-picked), and
  * the stylesheet changes the screen to match, then shows that answer's
- * consequence and what happened (agent-review.css, "Would you ship
- * this?"). Another press moves the mark and swaps the consequence. Still
+ * consequence and what happened (agent-review.css, "Which fix would
+ * you ship?"). Another press moves the mark and swaps the consequence. Still
  * or without this file, everything is already there.
  *
  * EVALUATE, A STEP AT A TIME, since 2026-11-02 (agent-review.css,

@@ -99,17 +99,17 @@ export const REACHABLE = {
      that only loads the page measures the question and never the answer.
      One state: a press shows that answer's consequence and the payoff,
      marks the pressed tile in the sage, and for this answer puts the
-     agent's stop beside the screen's Archive button, which no other state has. */
+     review's mark beside the screen's Archive button, which no other state has. */
   'lab/agent-review.html': [
     { name: 'the opener’s question, answered',
-      press: ['[data-pick="ask"]'] },
+      press: ['[data-pick="review"]'] },
     /* Since 2026-10-27 the list answers each pick in colors of its own,
        so the other two answers are states too: the five rows archived as
        ghosts with the active three keyed in caution, and the pop-up over
        a list that has stepped back. */
-    { name: 'the opener’s question, shipped as it is',
-      press: ['[data-pick="ship"]'] },
-    { name: 'the opener’s question, asked first',
+    { name: 'the opener’s question, archived now',
+      press: ['[data-pick="undo"]'] },
+    { name: 'the opener’s question, confirmed first',
       press: ['[data-pick="confirm"]'] },
     /* Since 2026-11-02 Evaluate is six steps beside one screen, and
        every step after the first is in no DOM at rest: the agent's review
