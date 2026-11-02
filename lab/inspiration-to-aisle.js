@@ -131,23 +131,47 @@
   function share() { return parseFloat(getComputedStyle(map).getPropertyValue('--ia-open')) || 1; }
   function tracks() {
     var w = share();
-    return 'var(--ia-names) ' + moments.map(function (moment, j) {
+    return (open >= 0 ? 'var(--ia-names-open) ' : 'var(--ia-names) ') + moments.map(function (moment, j) {
       return 'minmax(0, ' + (j === open ? w : 1) + 'fr)';
     }).join(' ');
   }
   /* The widths the columns are gliding to, not the ones they have now:
      the open column's sets the storyboard row (two thirds of it, so the
      open drawing keeps its 3:2) and the width every cell is laid out at. */
-  var folded = 0, opened = 0;
+  var folded = 0, opened = 0, staged = 0;
+  function px(v) {
+    v = String(v).trim();
+    return parseFloat(v) * (/rem$/.test(v) ? parseFloat(getComputedStyle(document.documentElement).fontSize) : 1) || 0;
+  }
+  function token(name, el) { return px(getComputedStyle(el || document.documentElement).getPropertyValue(name)); }
   function stage() {
-    var cs = getComputedStyle(matrix);
-    var gap = parseFloat(cs.columnGap) || 0;
-    var names = parseFloat(cs.gridTemplateColumns) || 0;
-    var free = matrix.clientWidth - names - n * gap;
+    var gap = parseFloat(getComputedStyle(matrix).columnGap) || 0;
+    var free = matrix.clientWidth - token('--ia-names-open', map) - n * gap;
     opened = free * share() / (share() + n - 1);
     folded = free / (share() + n - 1);
-    map.style.setProperty('--ia-stage-h', Math.round(opened * 2 / 3) + 'px');
+    staged = Math.round(opened * 2 / 3);
+    map.style.setProperty('--ia-stage-h', staged + 'px');
     map.style.setProperty('--ia-open-w', Math.floor(opened) + 'px');
+  }
+  /* The whole map in the window: from the phase bands to the foot of the
+     bar, under the nav. The lanes' heights are fixed while stepping, so
+     the storyboard takes what is left, between 8rem and its 3:2 height.
+     Then, if the map does not already sit in full on screen, it is
+     scrolled up under the nav. */
+  var phases = map.querySelector('.ia-phases');
+  function fit(scroll) {
+    var head = (phases || matrix).getBoundingClientRect();
+    var foot = bar.getBoundingClientRect();
+    var top = token('--nav-height') + token('--space-md');
+    var room = window.innerHeight - top - token('--space-lg');
+    var below = matrix.getBoundingClientRect().bottom + parseFloat(getComputedStyle(bar).marginTop) + foot.height;
+    var lanes = below - head.top - parseFloat(getComputedStyle(map).getPropertyValue('--ia-stage-h'));
+    var h = Math.round(Math.max(px('8rem'), Math.min(staged, room - lanes)));
+    map.style.setProperty('--ia-stage-h', h + 'px');
+    if (!scroll) return;
+    if (head.top >= top && head.top + lanes + h <= top + room) return;
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: window.scrollY + head.top - top, behavior: still ? 'auto' : 'smooth' });
   }
 
   /* Each cell's words in a box of their own while stepping, laid out at
@@ -270,6 +294,7 @@
     open = to;
     stage();
     paint();
+    fit(first);
     if (first) {
       document.addEventListener('keydown', keys);
       if (document.activeElement === start) next.focus();
@@ -319,7 +344,7 @@
     if (wide.matches && followed >= 0) follow(followed);
     else if (!wide.matches) stop();
   });
-  window.addEventListener('resize', function () { if (open >= 0) { stage(); redraw(); sliding = false; spot(); } });
+  window.addEventListener('resize', function () { if (open >= 0) { stage(); fit(false); redraw(); sliding = false; spot(); } });
 
   map.style.setProperty('--ia-cols', tracks());
   map.classList.add('can-step');

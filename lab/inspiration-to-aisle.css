@@ -265,7 +265,7 @@
 @media (min-width: 64rem) {
   /* The lane names' column, named once for the grid, the phase bands over
      it and the stepped grid the script composes ("Stepping through"). */
-  .ia-map { --ia-names: 9rem; }
+  .ia-map { --ia-names: 9rem; --ia-cell-pad: var(--space-sm); }
   .ia-matrix {
     gap: 0;
     grid-template-columns: var(--ia-names) repeat(var(--ia-moments), minmax(0, 1fr));
@@ -294,7 +294,7 @@
   .ia-lane dt {
     grid-row: calc(var(--ia-lane) + 2);
     grid-column: 1;
-    padding: var(--space-sm) 0;
+    padding: var(--ia-cell-pad) 0;
     border-bottom: 1px solid var(--rule-hairline);
     align-self: stretch;
     font-size: var(--text-sm);
@@ -312,7 +312,7 @@
   .ia-lane dd {
     grid-row: calc(var(--ia-lane) + 2);
     grid-column: calc(var(--ia-i) + 2);
-    padding: var(--space-sm) 0;
+    padding: var(--ia-cell-pad) 0;
     border-bottom: 1px solid var(--rule-hairline);
   }
   /* The two named lines of a blueprint: a stronger rule under the lane
@@ -499,7 +499,7 @@
     position: absolute;
     left: 0;
     right: calc(-1 * var(--space-md));
-    top: calc(var(--space-sm) + 0.5lh);
+    top: calc(var(--ia-cell-pad) + 0.5lh);
     border-top: 2px solid var(--color-accent-text);
   }
   .ia-moment:last-child .ia-lane--thread dd::before { right: 0; }
@@ -605,13 +605,13 @@
     --ia-plot: 4rem;
     position: relative;
     align-content: start;
-    padding-top: calc(var(--ia-plot) + 2 * var(--space-sm));
+    padding-top: calc(var(--ia-plot) + 2 * var(--ia-cell-pad));
   }
   .ia-curve {
     display: block;
     position: absolute;
     z-index: 1;
-    top: var(--space-sm);
+    top: var(--ia-cell-pad);
     left: calc(var(--space-md) / -2);
     width: calc(var(--ia-moments) * (100% + var(--space-md)));
     max-width: none;
@@ -640,8 +640,8 @@
     border: 2px solid var(--color-white);
     translate: -50% -50%;
   }
-  .ia-dot--connected { top: calc(var(--space-sm) + (2 - var(--ia-c)) / 4 * var(--ia-plot)); background: var(--color-accent-text); }
-  .ia-dot--today { top: calc(var(--space-sm) + (2 - var(--ia-t)) / 4 * var(--ia-plot)); background: var(--color-caution-text); }
+  .ia-dot--connected { top: calc(var(--ia-cell-pad) + (2 - var(--ia-c)) / 4 * var(--ia-plot)); background: var(--color-accent-text); }
+  .ia-dot--today { top: calc(var(--ia-cell-pad) + (2 - var(--ia-t)) / 4 * var(--ia-plot)); background: var(--color-caution-text); }
   .ia-map.is-today .ia-dot--connected,
   .ia-map.is-connected .ia-dot--today { background: var(--color-rule); z-index: 1; }
 }
@@ -664,7 +664,7 @@
   -webkit-mask: var(--ia-icon) center / contain no-repeat;
   mask: var(--ia-icon) center / contain no-repeat;
 }
-@media (min-width: 64rem) { .ia-lane dt { --ia-dt-pad: var(--space-sm); } }
+@media (min-width: 64rem) { .ia-lane dt { --ia-dt-pad: var(--ia-cell-pad); } }
 .ia-lane--asks { --ia-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M4 5h16v11h-9l-4 4v-4H4z'/%3E%3C/svg%3E"); }
 .ia-lane--feel { --ia-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M2 14c3 0 4-7 7-7s4 11 7 11 3-6 6-6'/%3E%3C/svg%3E"); }
 .ia-lane--thread { --ia-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 13H6z'/%3E%3Cpath d='M9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E"); }
@@ -727,7 +727,18 @@
    The open moment reads a size up: its name at --text-xl, the shopper's
    question in the serif at --text-2xl, every lane at --text-base. Its
    drawing keeps its 3:2, so the storyboard row is two thirds of the width
-   the open column will have, --ia-stage-h, which the script sets. Every
+   the open column will have, --ia-stage-h, which the script sets.
+
+   THE WHOLE MAP FITS THE WINDOW. Since 2026-11-02, so a laptop steps
+   01 to 06 without scrolling. While stepping the lane names get
+   --ia-names-open, wide enough that each takes one line, the rows close
+   to --space-xs, their words to --leading-tight and the confidence plot
+   to 3rem; the script then gives
+   the storyboard what the window has left over the lanes and the bar,
+   never more than the 3:2 height and never less than 8rem, and scrolls
+   the map up under the nav when it does not already sit there. A drawing
+   held under its 3:2 height is narrowed to keep its shape, at the left of
+   its column, rather than cropped. Every
    ink in the open column clears its floor on tea-light: charcoal 13.1,
    caution-text 5.43, accent-text 4.90, muted-gray 5.44. The ground takes
    --rule-card for its edge, as every card on a ground does, because tea
@@ -763,7 +774,12 @@
   .ia-map {
     --ia-open: 5.5;
     --ia-folded-opacity: 0.6;
+    --ia-names-open: 12rem;
   }
+  /* Tighter rows while stepping, so the whole map fits a laptop's window. */
+  .ia-map.is-stepping { --ia-cell-pad: var(--space-xs); }
+  .ia-map.is-stepping .ia-lane--feel dd { --ia-plot: 3rem; }
+  .ia-map.is-stepping .ia-lane dt { white-space: nowrap; }
   .ia-map.can-step .ia-matrix,
   .ia-map.can-step .ia-phases {
     grid-template-columns: var(--ia-cols);
@@ -817,7 +833,10 @@
     opacity: var(--ia-folded-opacity);
     cursor: pointer;
   }
-  .ia-map.is-stepping .ia-moment.is-open .ia-scene { box-shadow: var(--shadow-card-raised); }
+  .ia-map.is-stepping .ia-moment.is-open .ia-scene {
+    width: min(100%, calc(var(--ia-stage-h) * 3 / 2));
+    box-shadow: var(--shadow-card-raised);
+  }
 
   /* The names: two lines of a strip's size, whichever is open. */
   .ia-map.is-stepping .ia-moment-label {
@@ -849,7 +868,7 @@
     flex: none;
     width: calc(var(--ia-open-w) - 2 * var(--space-xs));
     font-size: var(--text-base);
-    line-height: var(--leading-body);
+    line-height: var(--leading-tight);
   }
   .ia-map.is-stepping .ia-lane--asks .ia-cell {
     font-family: var(--font-serif);
@@ -887,7 +906,7 @@
     align-items: center;
     gap: var(--space-xs);
     width: fit-content;
-    margin: var(--space-xl) auto 0;
+    margin: var(--space-lg) auto 0;
     padding: var(--space-2xs);
     background: var(--color-charcoal);
     border-radius: var(--radius-pill);
