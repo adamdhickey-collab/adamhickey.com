@@ -503,8 +503,9 @@
 }
 /* THE STAGES, AND THE PROTOTYPE ITSELF, since 2026-10-29 (Adam: the six
    rows were long and said again what the prototype says). Each stage is
-   one bold line, its name and what it is for, under the heading "How
-   designing with an agent works, in six steps", six across from 64rem
+   one bold line, its name and what it is for (since 2026-11-02 the
+   question the designer decides there), under the heading "Designing
+   with an agent, in six stages", six across from 64rem
    like the prototype's stage bar (until 2026-10-29 the example followed
    in the regular weight, three across), and the prototype runs live under them at the column's full
    width (beside them it was a third too narrow for the app's own layout), so a reader plays the six stages rather than reading
@@ -577,6 +578,59 @@
   .ar-steps li { flex-direction: column; gap: var(--space-sm); }
   .ar-steps .ar-cycle-n { margin-top: 0; }
   .ar-try-frame iframe { aspect-ratio: 16 / 10; }
+}
+
+/* ---- Evaluate: the three directions, in a row ----
+   Since 2026-11-02, between the chapter's head and the walkthrough, so a
+   reader meets all three before the walkthrough tells the agent's pick
+   and my condition on it. A row across the column, not a card: a rule
+   over each like the six stages' (.ar-steps), the homepage facts' tea
+   disc (.fact-node, style.css) beside the words, and the walkthrough's
+   own label (.ev-who) over the agent's pick. Three across from 64rem,
+   about a hundred pixels tall; stacked rows under it. The two without a
+   label drop their names from 64rem by the label's line and gap, to keep
+   the three names on one baseline. A block's air under the row, more
+   than the head's above it, because the walkthrough opens on the agent's
+   pick again and reads as the next thing rather than a second line of
+   the row. */
+.ar-ways {
+  display: grid;
+  gap: var(--space-lg);
+  margin: 0 0 var(--space-block);
+  padding: 0;
+  list-style: none;
+}
+.ar-ways li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-md);
+  margin: 0;
+  padding: var(--space-md) 0 0;
+  border-top: 1px solid var(--rule-card);
+}
+.ar-ways li::before { content: none; }
+.ar-ways .fact-node { margin: 0; }
+.case-section .ar-way {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+}
+.ar-way-name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.ar-way-line {
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
+  text-wrap: pretty;
+}
+@media (min-width: 64rem) {
+  .ar-ways { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-2xl); }
+  .ar-way-name:first-child { margin-top: calc(var(--text-sm) * var(--leading-ui) + var(--space-2xs)); }
 }
 
 /* ---- Evaluate: the two directions, one step at a time ----

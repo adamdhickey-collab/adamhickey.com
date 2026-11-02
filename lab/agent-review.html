@@ -102,7 +102,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../reveal.css?v=2" />
   <link rel="stylesheet" href="relay-screen.css?v=2" />
-  <link rel="stylesheet" href="agent-review.css?v=101" />
+  <link rel="stylesheet" href="agent-review.css?v=102" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <script src="../read-aloud.js?v=4" defer></script>
   <script src="relay-screen.js?v=1" defer></script>
@@ -281,7 +281,7 @@
     <header class="case-hero arc-open">
       <div class="container case-wide arc-open-grid">
         <div class="arc-open-text">
-          <p class="case-kicker">Lab &middot; Agent Review &middot; an AI-assisted design experiment &middot; <span class="case-readtime">5 min read</span></p>
+          <p class="case-kicker">Lab &middot; Agent Review &middot; an AI-assisted design experiment &middot; <span class="case-readtime">6 min read</span></p>
           <h1 class="case-title arc-title">Agents build the screens. A designer decides what ships.</h1>
           <p class="arc-dek">I used AI to explore three ways to solve the same interaction problem. Generating the options was the easy part. Deciding which one deserved to ship was the work.</p>
           <p class="arc-dek"><span class="arc-dek-label">The question:</span> When AI can build the interface, where does human judgment belong?</p>
@@ -371,9 +371,32 @@
           <div class="arc-head-text">
             <p class="arc-eyebrow">What I chose</p>
             <h2>I kept the agent&rsquo;s pick, and made it stop only when it matters</h2>
-            <p class="arc-lead">I&rsquo;d told the agent safety came first, so it picked a review before every archive. I kept the review, and made it stop only when a batch has an active customer in it.</p>
+            <p class="arc-lead">The agent built three directions for archiving. I&rsquo;d told it safety came first, so it picked a review before every archive. I kept the review, and made it stop only when a batch has an active customer in it.</p>
           </div>
         </header>
+        <!-- THE THREE DIRECTIONS, since 2026-11-02 (Adam: "when we get to
+             this section we don't know what the three choices are"): the
+             homepage still's three ways, as a row across the column rather
+             than a card, ordered from the most careful to the fastest. Only
+             the agent's pick is labelled: my call is that pick with a
+             condition (#991), not one of the three, and the walkthrough
+             under the row tells it. Names are the prototype's (DIRECTIONS in
+             cycle.ts); each line is its gain and its cost from there,
+             shortened. The icons are the still's. -->
+        <ul class="ar-ways" aria-label="The three directions the agent built">
+          <li>
+            <span class="fact-node" aria-hidden="true"><svg class="fact-icon" viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="m4 6 1.5 1.5L8.5 4.5"/><path pathLength="1" d="m4 12 1.5 1.5L8.5 10.5"/><path pathLength="1" d="m4 18 1.5 1.5L8.5 16.5"/><path pathLength="1" d="M12 6h8"/><path pathLength="1" d="M12 12h8"/><path pathLength="1" d="M12 18h8"/></svg></span>
+            <p class="ar-way"><span class="ev-who">The agent&rsquo;s pick</span> <span class="ar-way-name">Review batch, then archive</span> <span class="ar-way-line">Catches the most, but it&rsquo;s the slowest.</span></p>
+          </li>
+          <li>
+            <span class="fact-node" aria-hidden="true"><svg class="fact-icon" viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5Z"/><path pathLength="1" d="M9.8 9.2a2.3 2.3 0 1 1 3.2 2.1c-.6.3-1 .8-1 1.4v.3"/><path pathLength="1" d="M12 16.2h.01"/></svg></span>
+            <p class="ar-way"><span class="ar-way-name">Confirm first, naming who</span> <span class="ar-way-line">Warns every time, so people stop reading.</span></p>
+          </li>
+          <li>
+            <span class="fact-node" aria-hidden="true"><svg class="fact-icon" viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="M9 14 4 9l5-5"/><path pathLength="1" d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></span>
+            <p class="ar-way"><span class="ar-way-name">Archive now, undo after</span> <span class="ar-way-line">Fastest, but someone has to notice the Undo bar.</span></p>
+          </li>
+        </ul>
         <div class="ev-walk" data-ev-walk>
           <div class="ev-walk-list">
             <div class="ev-walk-group">
@@ -627,25 +650,28 @@
          The agent's pick in the live cycle follows the priority a visitor
          sets at Define (recommendedFor in cycle.ts): "Safety comes first"
          gets the review, "Speed comes first" gets undo. The lead names the
-         one that meets the story above, since speed is listed first. -->
+         one that meets the story above, since speed is listed first. Since
+         2026-11-02 each stage's line is the question the designer decides
+         there, about this ticket, where it was a verb any design process
+         could claim; the questions are the app's, shortened. -->
     <section class="case-section case-overview build-chapter ground-tea" id="the-cycle">
       <div class="container case-wide">
         <header class="arc-head">
           <div class="arc-head-text">
             <h2>One support ticket, six stages</h2>
-            <p class="arc-lead">You play the designer and take that ticket to what ships. The agent does the work; you make one call a stage. Put safety first at Define, as I did, and the agent recommends the review.</p>
+            <p class="arc-lead">You play the designer and take that ticket to what ships. The agent does the work; you make one decision a stage. Put safety first at Define, as I did, and the agent recommends the review.</p>
           </div>
         </header>
         <div class="ar-try">
           <div class="ar-steps-wrap">
-            <h3 class="ar-steps-head">How designing with an agent works, in six steps</h3>
+            <h3 class="ar-steps-head">Designing with an agent, in six stages</h3>
             <ol class="ar-steps">
-              <li><span class="ar-cycle-n" aria-hidden="true">1</span><p><strong>Discover:</strong> find the real problem.</p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">2</span><p><strong>Define:</strong> decide what a fix must do.</p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">3</span><p><strong>Explore:</strong> try more than one answer.</p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">4</span><p><strong>Evaluate:</strong> pick one, and say why.</p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">5</span><p><strong>Delegate:</strong> hand the build to the agent.</p></li>
-              <li><span class="ar-cycle-n" aria-hidden="true">6</span><p><strong>Learn:</strong> find out if it worked.</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">1</span><p><strong>Discover:</strong> Does archiving really delete customer data?</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">2</span><p><strong>Define:</strong> Does speed or safety come first?</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">3</span><p><strong>Explore:</strong> Where does each direction break?</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">4</span><p><strong>Evaluate:</strong> Which direction, and what must it do?</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">5</span><p><strong>Delegate:</strong> What can&rsquo;t the agent decide alone?</p></li>
+              <li><span class="ar-cycle-n" aria-hidden="true">6</span><p><strong>Learn:</strong> What&rsquo;s verified, and what&rsquo;s still unknown?</p></li>
             </ol>
           </div>
           <div class="ar-try-frame">
