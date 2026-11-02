@@ -111,21 +111,23 @@ export const REACHABLE = {
       press: ['[data-pick="ship"]'] },
     { name: 'the opener’s question, asked first',
       press: ['[data-pick="confirm"]'] },
-    /* Since 2026-11-02 Evaluate is five steps beside one screen, and
-       every step after the first is in no DOM at rest: the review's
-       archive with no Undo bar, my call's shaded rows, its archive with
-       the Undo bar, and the rows restored. At rest the page shows step 1,
-       the agent's review open. From 2026-10-29 these were four presses
-       inside two screens side by side; the same four screens are reached
-       now by a press on the step. */
-    { name: 'Evaluate, step 2: the review archived, no Undo bar',
+    /* Since 2026-11-02 Evaluate is six steps beside one screen, and
+       every step after the first is in no DOM at rest: the agent's review
+       open with its "Press 2", the review's archive with no Undo bar, my
+       call's shaded rows, its archive with the Undo bar, and the rows
+       restored. At rest the page shows step 1, the agent's five selected
+       with "Press 1" on Archive. From 2026-10-29 until that day these
+       were four presses inside two screens side by side. */
+    { name: 'Evaluate, step 2: the agent’s review open',
       press: ['[data-ev-walk] [data-go="2"]'] },
-    { name: 'Evaluate, step 3: my call, the active three shaded',
+    { name: 'Evaluate, step 3: the review archived, no Undo bar',
       press: ['[data-ev-walk] [data-go="3"]'] },
-    { name: 'Evaluate, step 4: my call archived, with the Undo bar',
+    { name: 'Evaluate, step 4: my call, the active three shaded',
       press: ['[data-ev-walk] [data-go="4"]'] },
-    { name: 'Evaluate, step 5: my call restored',
+    { name: 'Evaluate, step 5: my call archived, with the Undo bar',
       press: ['[data-ev-walk] [data-go="5"]'] },
+    { name: 'Evaluate, step 6: my call restored',
+      press: ['[data-ev-walk] [data-go="6"]'] },
   ],
 
   /* The personal essay sets the same undo screen in its margin since

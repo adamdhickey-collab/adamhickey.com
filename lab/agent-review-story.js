@@ -12,7 +12,7 @@
  * or without this file, everything is already there.
  *
  * EVALUATE, A STEP AT A TIME, since 2026-11-02 (agent-review.css,
- * "Evaluate"). Five numbered steps and one Relay screen: Back, Next or a
+ * "Evaluate"). Six numbered steps and one Relay screen: Back, Next or a
  * step itself sets which screen shows and at what step, and the screen
  * follows. The screens are relay-screen.js's, which the personal essay
  * loads too; here they are pictures, so a press inside one is stopped
@@ -46,7 +46,7 @@
   /* Each step is a screen and its step, in the list's order. A row is
      selected before the press, folded when archived (all but Monarch,
      which has an open invoice), and back, unselected, when restored. */
-  const SCREENS = [['review', 'reviewing'], ['review', 'archived'],
+  const SCREENS = [['review', 'selected'], ['review', 'reviewing'], ['review', 'archived'],
     ['undo', 'selected'], ['undo', 'archived'], ['undo', 'undone']];
   document.querySelectorAll('[data-ev-walk]').forEach((walk) => {
     const steps = [...walk.querySelectorAll('.ev-walk-step')];
