@@ -287,7 +287,7 @@
         <div class="arc-open-text">
           <p class="case-kicker">Lab &middot; Agent Review &middot; an AI-assisted design experiment &middot; <span class="case-readtime">6 min read</span></p>
           <h1 class="case-title arc-title">Agents build the screens. A designer decides what ships.</h1>
-          <p class="arc-dek">I used AI to explore three ways to solve the same interaction problem. Generating the options was the easy part. Deciding which one deserved to ship was the work.</p>
+          <p class="arc-dek">I had coding agents build the same feature, with design rules and without. Both built it well. Neither could decide which design should ship, and that call was the work.</p>
           <p class="arc-dek"><span class="arc-dek-label">The question:</span> When AI can build the interface, where does human judgment belong?</p>
           <div class="arc-open-act">
             <p class="build-hero-act" data-read-aloud="skip after">
@@ -301,6 +301,42 @@
         </figure>
       </div>
     </header>
+
+    <!-- THE FINDINGS, FIRST, since 2026-11-02: what the experiment showed,
+         before any of the story that proves it, so a reader has the payoff
+         in the first screen. Each finding is the experiment record's
+         (agent-review docs/experiment/README.md): both runs reused the
+         components, stayed on the tokens and passed axe (92 and 93
+         stories); Run 1 rendered EmptyState and wrote its Table.css reason
+         under rule 9, Run 2 left the empty table and flagged the head-row
+         growth without fixing it; the seeded drift was caught by the token
+         lint, axe and the visual run. The third finding is the one the rest
+         of the page plays out, and the closing sentence keeps the real
+         experiment apart from the simulated archiving story. Until then
+         this was "It started as a Claude Code experiment", at the foot. -->
+    <section class="case-section case-overview build-chapter ground-white" id="findings">
+      <div class="container case-wide">
+        <header class="arc-head">
+          <div class="arc-head-text">
+            <h2>What the experiment showed</h2>
+            <p class="arc-lead">I asked Claude Code to build the same feature twice: once with twelve design rules, once without. Then I wrote a third version by hand, with mistakes planted in it, to test the automated checks.</p>
+          </div>
+        </header>
+        <div class="arc-measure">
+          <dl class="build-facts writing-facts">
+            <div><dt>2</dt><dd>Claude Code agents building one feature</dd></div>
+            <div><dt>12</dt><dd>design rules, given to one agent and not the other</dd></div>
+            <div><dt>1</dt><dd>question neither agent could settle</dd></div>
+          </dl>
+          <ul class="build-list">
+            <li><strong>The agents already built good screens.</strong> Both reused the design system&rsquo;s components, kept every value on its tokens, and passed every accessibility check.</li>
+            <li><strong>The rules made the work complete.</strong> With them, the agent designed the emptied table and wrote down why it changed a shared component. Without them, it left the empty table blank and only flagged the shared fix.</li>
+            <li><strong>Passing the checks didn&rsquo;t settle what ships.</strong> The checks caught every mistake I planted. They couldn&rsquo;t say whether archiving should ask first or offer undo after, because that weighs speed against losing a customer.</li>
+          </ul>
+          <p>Each version ran once, so this is an experiment, not a study. The archiving story below is simulated, in a made-up app, to show how I&rsquo;d make that third call. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+        </div>
+      </div>
+    </section>
 
     <!-- THE QUESTION, in a band of its own since 2026-10-27 (Adam: "put
          would you ship this, that whole section, in a section background
@@ -716,27 +752,6 @@
       </div>
     </section>
 
-    <!-- HOW IT WAS MADE, WHAT'S NEXT AND THE BUILD, at the foot, in one
-         section where they were three. -->
-    <section class="case-section case-overview build-chapter ground-white" id="how-it-was-made">
-      <div class="container case-wide">
-        <header class="arc-head">
-          <div class="arc-head-text">
-            <h2>It started as a Claude Code experiment</h2>
-            <p class="arc-lead">I asked Claude Code to build the same feature twice: once with twelve design rules, once without. Then I wrote a third version myself, with mistakes planted in it, to see whether the automated checks would catch them. They did.</p>
-          </div>
-        </header>
-        <div class="arc-measure">
-          <dl class="build-facts writing-facts">
-            <div><dt>2</dt><dd>Claude Code agents building one feature</dd></div>
-            <div><dt>12</dt><dd>design rules, given to one agent and not the other</dd></div>
-            <div><dt>1</dt><dd>question neither agent could settle</dd></div>
-          </dl>
-          <p>Both agents built the feature. Neither could decide whether archiving should ask for a review first or just let people undo it afterward. That question became the six-stage cycle. Each version ran once, so this is an experiment, not a study. <a href="https://github.com/adamdhickey-collab/agent-review/blob/main/docs/experiment/README.md" target="_blank" rel="noopener noreferrer">The full record<span class="visually-hidden"> (opens in a new tab)</span></a></p>
-        </div>
-      </div>
-    </section>
-
     <!-- THE PROJECT AS ONE LOOP, since 2026-10-28: question to learning,
          in the order it ran, every cell from the paragraphs on this page.
          Evaluation says plainly that no person has used it. Its own warm
@@ -757,8 +772,13 @@
           <div><dt>Prototype</dt><dd>Claude Code built one feature twice, and I wrote a third version by hand with mistakes planted in it. From that, I built a six-stage design cycle in React and Storybook using simulated scenarios.</dd></div>
           <div><dt>Evaluation</dt><dd>The automated checks caught the planted mistakes. Nobody has used the prototype yet, and its session notes are made up to show what testing might find.</dd></div>
           <div><dt>Decision</dt><dd>Build the cycle around the one question neither agent could answer: should archiving ask first, or offer undo after?</dd></div>
-          <div><dt>Learning</dt><dd>The agent could build the feature. What it couldn&rsquo;t do was judge what mattered more: speed or a safety check.</dd></div>
+          <div><dt>Learning</dt><dd>The agents could build to the system, and the rules made them finish the work. What they couldn&rsquo;t do was judge what mattered more: speed or a safety check.</dd></div>
         </dl>
+        <!-- The close returns to the three findings, as what they change
+             in the job, since 2026-11-02. -->
+        <div class="arc-measure">
+          <p>For my work, that moves the job. Less of it is checking an agent&rsquo;s screens. More is writing the rules it builds from, and making the few calls it brings back to me.</p>
+        </div>
       </div>
     </section>
 
