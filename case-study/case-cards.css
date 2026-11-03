@@ -404,9 +404,12 @@
   stroke-linejoin: round;
 }
 
-/* SAP's four moves: drawings in white circles on one line, a name and a
-   line under each. Two across on a phone, where the line drops out. */
+/* SAP's four moves: drawings in white circles on one line, a number on each
+   circle, a name and a line under each. Two across on a phone, where the line
+   drops out. The drawings are wordless and sit high in their square, so the
+   number has the foot of the circle to itself. */
 .cc-moves {
+  counter-reset: cc-move;
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -425,8 +428,26 @@
     background: var(--color-rule);
   }
 }
-.cc-move { position: relative; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; text-align: center; }
+.cc-move { counter-increment: cc-move; position: relative; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; text-align: center; }
 .cc-move::before { content: none; }
+.cc-move::after {
+  content: counter(cc-move);
+  position: absolute;
+  top: calc(5rem - var(--space-lg) - var(--space-2xs));
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: 50%;
+  background: var(--color-accent-text);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  transform: translateX(-50%);
+}
 .cc-move-img {
   width: 5rem; height: 5rem;
   margin-bottom: var(--space-sm);
@@ -436,6 +457,14 @@
   object-fit: cover;
 }
 @media (min-width: 768px) { .cc-move-img { width: 8rem; height: 8rem; margin-bottom: var(--space-md); } }
+@media (min-width: 768px) {
+  .cc-move::after {
+    top: calc(8rem - var(--space-xl) - var(--space-xs));
+    width: var(--space-xl);
+    height: var(--space-xl);
+    font-size: var(--text-xs);
+  }
+}
 :is(.build-chapter, .ds-demo) .cc-move-title {
   max-width: 10rem;
   margin: 0 0 var(--space-2xs);
