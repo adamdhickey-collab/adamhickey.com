@@ -348,3 +348,52 @@
     max-width: calc(var(--measure) + 250px + var(--space-4xl) + 2 * var(--space-3xl));
   }
 }
+
+/* ---------- Who I worked with, and what on ----------
+   SAP's pair of warm cards under the Overview, as they were on Tailwind
+   until #786 cut them and the owner asked for them back: a title, a line
+   under it, and a white panel of six pieces, each a line icon in the sage
+   over its name. Two to a row from 768, beside each other at the page's
+   full width from 1024, as .cc-grid already does. The panel's 32px inset,
+   the pieces' 32px gap and the 48px between rows from 768 are the old
+   p-8, gap-8 and gap-y-12. */
+.cc-card--roster { display: flex; flex-direction: column; }
+:is(.build-chapter, .ds-demo) .cc-roster-title { margin-bottom: var(--space-xs); font-size: var(--text-xl); }
+:is(.build-chapter, .ds-demo) .cc-card--roster .cc-label { margin-bottom: var(--space-xl); }
+:is(.build-chapter, .ds-demo) .cc-roster {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: var(--space-2xl);
+  margin: 0;
+  padding: var(--space-2xl);
+  list-style: none;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) { :is(.build-chapter, .ds-demo) .cc-roster { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { :is(.build-chapter, .ds-demo) .cc-roster { row-gap: var(--space-4xl); } }
+:is(.build-chapter, .ds-demo) .cc-roster li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+:is(.build-chapter, .ds-demo) .cc-roster li::before { content: none; }
+.cc-roster-icon {
+  width: 2rem;
+  height: 2rem;
+  fill: none;
+  stroke: var(--color-accent-text);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
