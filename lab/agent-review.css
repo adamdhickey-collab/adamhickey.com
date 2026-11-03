@@ -127,7 +127,11 @@
   }
   .ship-ask { grid-area: ask; }
   .ship-setup { grid-area: setup; }
-  .ship-list { grid-area: list; align-self: end; }
+  /* Out of flow in its area, so the review opening under its bar grows
+     the list upward, into the empty column beside the ticket, and the
+     answers a reader just pressed stay where they are. */
+  .arc-ship .ship { position: relative; }
+  .arc-ship .ship-list { position: absolute; grid-area: list; inset: auto 0 0; }
   .arc-ship .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
   .ship-result { grid-area: result; }
 }
@@ -156,7 +160,7 @@
      - the answers are three options in a row under the screen, each a
        tile with a radio mark, so they say "pick one" before anything is
        read, and the pressed one is marked, not promoted;
-     - the screen answers first: "Confirm first, naming who" puts the
+     - the screen answers first: "Confirm first, naming who's active" puts the
        pop-up over the list, "Review batch, then archive" puts the
        review's mark beside the button, and "Archive now, undo after"
        archives the rows. Since 2026-11-02 the answers are the agent's
@@ -917,6 +921,17 @@
   border-color: var(--color-caution-light);
   color: var(--color-caution-text);
 }
+/* Archived, the bar says what happened and Archive gives way to Undo,
+   the way Relay's own bar does after a press (relay-screen.css, .ev-bar):
+   the secondary key, a ring in the strong on-dark rule, with the undo
+   arrow the Evaluate row uses for this direction. Since 2026-11-03 (Adam:
+   "it's kind of weird that it's not visible at this point"). */
+.ship-list-done,
+.ship-list .ship-list-undo { display: none; }
+.ship-live .ship[data-picked="undo"] .ship-list-count,
+.ship-live .ship[data-picked="undo"] .ship-list-bar .ship-list-archive { display: none; }
+.ship-live .ship[data-picked="undo"] .ship-list-done { display: inline; }
+.ship-live .ship[data-picked="undo"] .ship-list .ship-list-undo { display: inline-flex; }
 @media (prefers-reduced-motion: no-preference) {
   .ship-list li:nth-child(2) { transition-delay: var(--motion-stagger); }
   .ship-list li:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
@@ -927,20 +942,13 @@
 }
 
 .arc-ship .ship-list-bar { flex-wrap: wrap; }
-.ship-list-stop {
-  display: none;
-  margin-left: auto;
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
-  background: var(--color-caution-light);
-  color: var(--color-caution-text);
-}
-.ship-live .ship[data-picked="review"] .ship-list-stop { display: inline; }
-.ship-live .ship[data-picked="review"] .ship-list-bar .ship-list-archive {
-  background: transparent;
-  color: var(--ink-on-dark-secondary);
-  box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong);
-}
+/* Review: the agent's review opens under the bar, the same panel
+   Evaluate's first screen shows for 4 customers (relay-screen.css,
+   .ev-review), here naming the 3 who are active. Since 2026-11-03 (Adam:
+   the two screens showed the same thing two ways); it was a "Review: 3
+   are active" chip beside a quieted Archive. */
+.ship-list-review { display: none; }
+.ship-live .ship[data-picked="review"] .ship-list-review { display: block; }
 
 .ship-list-confirm {
   display: none;
@@ -966,8 +974,9 @@
 .ship-list-confirm-keys > span:first-child { padding: var(--space-2xs) var(--space-sm); box-shadow: inset 0 0 0 1px var(--rule-card); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ship-live .ship[data-picked="review"] .ship-list-stop,
-  .ship-live .ship[data-picked="confirm"] .ship-list-confirm { animation: ship-in var(--motion-move) var(--ease-enter) both; }
+  .ship-live .ship[data-picked="review"] .ship-list-review,
+  .ship-live .ship[data-picked="confirm"] .ship-list-confirm,
+  .ship-live .ship[data-picked="undo"] .ship-list-undo { animation: ship-in var(--motion-move) var(--ease-enter) both; }
   /* A second pick swaps the consequence, and the new words travel a
      short way in rather than cutting (MOTION.md, section 10: a fade has no
      edge to follow). The paragraph is display: none until picked, so its
@@ -992,7 +1001,4 @@
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }
-  /* The agent's stop takes a line of its own under the bar's, so Archive
-     stays at the end of the first. */
-  .ship-list-stop { order: 1; margin-left: 0; }
 }
