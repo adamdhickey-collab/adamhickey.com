@@ -220,9 +220,9 @@ const html = String.raw`<!doctype html>
     <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore: tokens, component libraries, contribution rules, and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
     <li>Aligned product owners, developers, and analysts on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself; NPS up about 20 points over several SAP releases.</li>
   </ul>
-  <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
+  <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Oct 2008 – Apr 2013</span></div>
   <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS, and jQuery.</p>
-  <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
+  <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Oct 2006 – Oct 2008</span></div>
   <p>Designed and built websites and interactive pieces in HTML, CSS and Flash, beside writers, creative leads and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
 </section>
