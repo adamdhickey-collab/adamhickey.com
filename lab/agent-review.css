@@ -370,14 +370,27 @@
 /* ---- How it started ----
    Two columns from 64rem: the experiment on the left, and on the right the
    build, one drawing over its paragraph, in the hand of the case studies'
-   Overview drawings, unframed on the white ground. The lead and the
-   paragraphs under it are one run of text here, so the head closes at a
-   paragraph's gap rather than a chapter head's. Under 64rem it is one
-   column, in that order. */
+   Overview drawings, on a figure card since 2026-11-03 (Adam: "the right
+   hand side on a card"), so the build separates from the experiment. The
+   drawing is centered at most of the card's width, with air around it. The
+   lead and the paragraphs under it are one run of text here, so the head
+   closes at a paragraph's gap rather than a chapter head's. Under 64rem it
+   is one column, in that order. */
 .arc-started { display: grid; gap: var(--space-2xl); }
 .arc-started .arc-head { margin-bottom: var(--space-md); }
-.arc-started-art { margin: 0 0 var(--space-lg); }
-.arc-started-art img { display: block; width: 100%; height: auto; }
+.arc-started-build {
+  align-self: start;
+  padding: var(--space-lg) var(--space-md);
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) { .arc-started-build { padding: var(--space-2xl); } }
+.arc-started-art { margin: 0 auto var(--space-xl); max-width: 80%; }
+/* The drawing is on opaque white, and multiply lets the card's fill stand in
+   for it, so no white box sits on the warm card. */
+.arc-started-art img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 @media (min-width: 64rem) {
   .arc-started {
     grid-template-columns: repeat(2, minmax(0, 1fr));
