@@ -108,10 +108,13 @@
 }
 
 /* The question's band: two equal columns, the question, its line and the
-   three answers on the left and Relay's list on the right. Since
-   2026-11-03 the list sits on the answers' foot rather than the question's
-   top (Adam: the table's bottom on the third answer's), so it spans the
-   first three rows and ends with them. The result opens under the answers
+   three answers on the left and Relay's list on the right. Earlier on
+   2026-11-03 the list sat on the answers' foot (Adam: the table's bottom
+   on the third answer's); since it took Relay's window bar and the
+   agent's whole review, the same day, it starts at the question's top and
+   spans the result's row too, so the review grows it downward and no
+   answer moves under the reader's press. At rest it is a window bar
+   taller than the answers' column. The result opens under the answers
    and moves nothing else. */
 @media (min-width: 64rem) {
   .arc-ship .ship {
@@ -120,18 +123,18 @@
       "ask    list"
       "setup  list"
       "picks  list"
-      "result .";
+      "result list";
     grid-template-rows: auto auto auto 1fr;
     column-gap: var(--space-4xl);
     align-items: start;
   }
   .ship-ask { grid-area: ask; }
   .ship-setup { grid-area: setup; }
-  /* Out of flow in its area, so the review opening under its bar grows
-     the list upward, into the empty column beside the ticket, and the
-     answers a reader just pressed stay where they are. */
-  .arc-ship .ship { position: relative; }
-  .arc-ship .ship-list { position: absolute; grid-area: list; inset: auto 0 0; }
+  /* The list spans the result's row too, from the question's top, so
+     the review opening under its bar grows it downward, into the 1fr row
+     beside the result, and the answers a reader just pressed stay where
+     they are. */
+  .ship-list { grid-area: list; align-self: start; }
   .arc-ship .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
   .ship-result { grid-area: result; }
 }
