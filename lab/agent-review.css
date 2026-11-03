@@ -472,22 +472,36 @@
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
 }
-/* The band's heading and the ticket, side by side from 64rem on the same two
-   columns as the question and Relay's list under them. */
+/* The band's heading, then the ticket across the frame: the account manager
+   drawn on the left, saying the quote on the right, in the page's largest
+   type under its headings. The drawing and the card are both white, so the
+   drawing has no box of its own. */
 .ar-scenario { margin-bottom: var(--space-block); }
 .ar-scenario .arc-head { margin-bottom: var(--space-lg); }
 .ar-scenario .arc-head h2 { margin-bottom: 0; }
-.case-section .ar-scenario .ar-ticket { margin: 0; }
-@media (min-width: 64rem) {
-  .ar-scenario {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-4xl);
-    align-items: start;
-  }
-  .ar-scenario .arc-head { margin-bottom: 0; }
-  .case-section .ar-scenario .ar-ticket { max-width: none; }
+.case-section .ar-scenario .ar-ticket {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center;
+  margin: 0;
+  max-width: none;
 }
+.ar-ticket-art { display: block; width: 100%; height: auto; }
+.ar-ticket-quote { margin: 0; padding: 0; border: 0; }
+.case-section .ar-scenario .ar-ticket p { font-size: var(--text-2xl); }
+@media (min-width: 40rem) {
+  .case-section .ar-scenario .ar-ticket {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--space-2xl);
+  }
+  .case-section .ar-scenario .ar-ticket footer { font-size: var(--text-base); }
+}
+@media (min-width: 64rem) {
+  .case-section .ar-scenario .ar-ticket { column-gap: var(--space-4xl); padding: var(--space-2xl) var(--space-3xl); }
+  .case-section .ar-scenario .ar-ticket p { font-size: var(--text-4xl); }
+  .case-section .ar-scenario .ar-ticket footer { margin-top: var(--space-md); }
+}
+
 /* THE STAGES, AND THE PROTOTYPE ITSELF, since 2026-10-29 (Adam: the six
    rows were long and said again what the prototype says). Each stage is
    one bold line, its name and what it is for (since 2026-11-02 the
