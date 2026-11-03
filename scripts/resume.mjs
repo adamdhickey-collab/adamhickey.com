@@ -70,7 +70,11 @@
  * runs are simulated. From 2026-11-02 the RBA years are told in product
  * terms a "SaaS experience" screen looks for: complex B2B applications,
  * role-based, in continuous release, iterated after launch, with the SAP
- * case study's NPS figure as the evidence. The title stays Senior Product Designer; employers, titles,
+ * case study's NPS figure as the evidence. From 2026-11-03 the summary and the
+ * RBA bullets lead with the design leadership the SAP and USDA work shows
+ * (audits walked through app by app, workshops, a scorecard each team ran
+ * itself) and the capabilities put enterprise product design first, for a
+ * senior or lead product design search that is not only new products. The title stays Senior Product Designer; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -192,32 +196,32 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Visual Design · Design Systems · Service Design · Prototyping in Code</p>
+  <p class="tagline">Senior Product Designer · Enterprise Systems · Design Leadership · Visual Design · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interactive experiences, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. I began as a designer who built what I designed in HTML, CSS, and jQuery, then spent thirteen years designing complex B2B applications and design systems: role-based products in continuous release. Now I bring those together early in a product: finding the right problem, making it tangible with service maps and working prototypes, and helping a team decide what to build.</p>
+  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Product design, visual systems, prototyping</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: written design rules and automated visual and accessibility checks, following one feature from ticket to release, on simulated runs.</li>
+    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: written design rules and automated visual and accessibility checks, on simulated runs.</li>
     <li><b>The Shortlist</b> — A service design concept carrying one shopping trip from a phone into a store: a service map joining the journey and the blueprint, and a working prototype on sample data.</li>
     <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel guide (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
-    <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services and the public sector, including compliance-sensitive work for a federal agency, a regional bank and healthcare providers.</li>
-    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
-    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore platforms: tokens, component libraries, contribution rules and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps and governance practices.</li>
-    <li>Iterated after launch from in-app feedback and usage data; NPS up about 20 points over several SAP releases.</li>
+    <li>Led UX and visual design for complex B2B web applications and design systems for clients in logistics, manufacturing, healthcare, financial services, and the public sector, including compliance-sensitive work for a federal agency, a regional bank, and healthcare providers.</li>
+    <li>Sat with people through their workday and fixed what slowed them: usability testing on real tasks, information architecture, interaction design, and visual hierarchy across large sets of screens, with developers in the room from the first sketch.</li>
+    <li>Built and governed design systems across SAP, Microsoft, Umbraco, and Sitecore: tokens, component libraries, contribution rules, and release checkpoints, including one standard for 40+ SAP apps; designed and built Connect, the firm&rsquo;s own design-system site. Led the accessibility (WCAG 2.1 AA), DesignOps, and governance practices.</li>
+    <li>Aligned product owners, developers, and analysts on one standard: audits walked through app by app, workshops, and a scorecard each team ran itself; NPS up about 20 points over several SAP releases.</li>
   </ul>
   <div class="job"><span><b>Pixel Farm</b> — Interactive Designer / Developer</span><span class="dates">Jan 2008 – Apr 2013</span></div>
-  <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS and jQuery.</p>
+  <p>Designed and built brand-led websites, campaigns and interactive pieces for Lund Boats, Fulton Beer, Hazelden and others, including Lund&rsquo;s boat configurator; shipped two native iOS apps and an iPad app; led rebrands and identity systems. Front ends in HTML, CSS, and jQuery.</p>
   <div class="job"><span><b>LEVEL</b> — Interactive Designer</span><span class="dates">Jan 2006 – Jan 2008</span></div>
   <p>Designed and built websites and interactive pieces in HTML, CSS and Flash, beside writers, creative leads and developers.</p>
   <div class="job"><span><b>ByDesign</b> — Design Intern</span><span class="dates">2004 – 2006</span></div>
@@ -226,16 +230,16 @@ const html = String.raw`<!doctype html>
 <section>
   <h2>Selected projects</h2>
   <ul>
-    <li>Making 40+ SAP applications feel like one product: one visual language, one design system and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
+    <li>Making 40+ SAP applications feel like one product: one visual language, one design system, and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
-    <li>Replacing spreadsheets with one USDA grant-management portal, cutting data-analysis requests from 45–55 hours to just over 10.</li>
+    <li>Leading product design on a USDA grant platform, one record from application through analysis in place of spreadsheets; data-analysis requests from 45–55 hours to just over 10.</li>
     <li>A real-time, data-dense dispatch app for a 450+ truck fleet; board-clearing time down roughly 30%.</li>
   </ul>
 </section>
 
 <section>
   <h2>Core capabilities</h2>
-  <p class="inline"><span>UX &amp; Interface Design</span><span>Visual Design &amp; Typography</span><span>Complex B2B Workflows</span><span>Information Architecture</span><span>Interaction Design</span><span>Design Systems &amp; Governance</span><span>Accessibility (WCAG 2.1 AA)</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Usability Testing</span><span>Post-Launch Iteration</span><span>Human&ndash;AI Interaction</span><span>Service Design</span></p>
+  <p class="inline"><span>Enterprise Product Design</span><span>Complex B2B Workflows</span><span>UX Research &amp; Usability Testing</span><span>Design Leadership &amp; Facilitation</span><span>Design Systems &amp; Governance</span><span>Information Architecture</span><span>Interaction Design</span><span>Visual Design &amp; Typography</span><span>Accessibility (WCAG 2.1 AA)</span><span>Service Design</span><span>Brand Identity &amp; Illustration</span><span>Prototyping in Code</span><span>Human&ndash;AI Interaction</span></p>
 </section>
 
 <section>
@@ -395,7 +399,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">I make complicated products easier to use and new ideas easier to test. Twenty years across visual design, interactive experiences, and enterprise software, now brought together to find the right problem.</p>
+  <p class="intro">I make complicated products easier to use and new ideas easier to test. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
 
   <section>
     <h2>Independent</h2>
@@ -411,7 +415,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Lead UX Product Designer</h3>
       <p class="dates">2013 – 2026</p>
-      <p class="did">Led UX and visual design for complex B2B web applications: data-dense, role-based products in continuous release, across logistics, manufacturing, healthcare, finance and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco and Sitecore, iterated after launch from in-app feedback, and led the accessibility practice.</p>
+      <p class="did">Led UX and visual design for complex B2B web applications: data-dense, role-based products in continuous release, across logistics, manufacturing, healthcare, finance, and the public sector. Built and governed design systems on SAP, Microsoft, Umbraco, and Sitecore, got product teams running their own checks against them, iterated after launch from in-app feedback, and led the accessibility practice.</p>
     </div>
   </section>
 
@@ -419,7 +423,7 @@ const reading = String.raw`<!doctype html>
     <h2>Selected work</h2>
     <ul>
       <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
-      <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates and a portal.</li>
+      <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates, and a portal.</li>
       <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
@@ -429,7 +433,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Interactive Designer / Developer</h3>
       <p class="dates">2008 – 2013</p>
-      <p class="did">Designed and built brand-led sites, campaigns and apps for Lund Boats, Fulton Beer, Hazelden and others, in HTML, CSS and jQuery.</p>
+      <p class="did">Designed and built brand-led sites, campaigns, and apps for Lund Boats, Fulton Beer, Hazelden, and others, in HTML, CSS, and jQuery.</p>
     </div>
   </section>
 </main>
@@ -447,11 +451,12 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Expertise</h2>
     <ul>
+      <li>Enterprise product design</li>
+      <li>Design systems and governance</li>
+      <li>Research and usability testing</li>
       <li>Visual design and typography</li>
       <li>Service design</li>
-      <li>Design systems</li>
       <li>Prototyping in code</li>
-      <li>Usability testing</li>
       <li>Accessibility</li>
       <li>Brand identity and illustration</li>
     </ul>

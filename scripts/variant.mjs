@@ -91,12 +91,12 @@ const BASE = {
      second takes new ideas to a prototype. Since 2026-10-29 it is one
      sentence, the breadth helping teams decide, so the dek holds to two
      lines from 1280. */
-  dek: 'Twenty years across visual design, interaction, and enterprise software, helping teams decide <strong>what to solve, what good looks like, and what ships</strong>.',
+  dek: 'Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and helping teams decide <strong>what to solve, what good looks like, and what ships</strong>.',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
   cards: ['how-i-work.html#ambiguity', 'how-i-work.html#systems', 'how-i-work.html#ownership', 'how-i-work.html#prototypes'],
-  facts: ['Complex workflows', 'Prototypes', 'Service design', 'Usability testing', 'Design systems', 'Accessibility'],
+  facts: ['Complex workflows', 'Prototypes', 'Service design', 'Research and testing', 'Design systems', 'Accessibility'],
   writing: {
     /* The position article's three words since 2026-10-20, a new article at
        the head of each. Until then "Designing with code" ("Craft and code"
