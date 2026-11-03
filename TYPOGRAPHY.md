@@ -54,7 +54,7 @@ than the plain-English alternatives.
 | Word | Means | Where it appears |
 |---|---|---|
 | **hed** | The headline itself | `h1`, `.hero-title`, `.case-title` |
-| **dek** | The short line between the hed and the body. **One treatment**: the serif at `--type-lede` on `--leading-tight` (section 4, "One hero") | `--type-lede`, `.build-dek`, `.eng3-dek`, `.ds-dek`, `.arc-dek`, `.ckw-hero-dek`, `.case-lab-lead` |
+| **dek** | The short line between the hed and the body. **One treatment**: the serif at `--type-lede` on `--leading-tight` (section 4, "One hero") | `--type-lede`, `.build-dek`, `.eng3-dek`, `.ds-dek`, `.ckw-hero-dek`, `.case-lab-lead` |
 | **lede** | The opening passage of the body | `.ds-lede`, `.about-lede` |
 | **kicker** / **eyebrow** | The small tracked label above the hed, **always uppercase** (section 6, "Kickers and eyebrows") | `.case-kicker`, `.hero-eyebrow`, `.eng3-kicker` |
 
@@ -199,14 +199,6 @@ stacks and the title takes `--type-title` like every other `h1`, so the seam is
 the layout's own breakpoint rather than an unreconciled second curve. A ramp is
 sized against the column it lands in. That is the argument, and it is the only
 place it applies.
-
-**One dek takes the next ramp up.** Since 2026-10-09 the Agent Review
-write-up's dek (`.ar-hero .build-dek`, `lab/agent-review.css`) is on
-`--type-subsection`, 24 → 34, rather than `--type-lede`: the question and the
-thesis under the title are that page's claim, and at 24 they read as an
-introduction to it. It moves to an existing ramp rather than a size between
-the two, so it sits on a step at every width, and it keeps the dek's
-`--leading-tight`. Every other dek stays on `--type-lede`.
 
 **One dek has a lifted floor.** Since 2026-10-12 the homepage lab card's
 dek (`.case-lab-lead`) takes `max(--type-lede, --text-xl)`, 20 on a phone
@@ -368,7 +360,13 @@ kicker (`.case-kicker`, or `.case-readtime` on the four Tailwind case
 studies), the `h1` on `--type-title`, and the dek in the serif at
 `--type-lede` on `--leading-tight` (`.build-dek`). A title that shares its
 row with a picture takes `--type-title-inset` instead, which is the
-homepage, the dispatch cockpit, and Agent Review.
+homepage and the dispatch cockpit.
+
+**Same widths and same wrap, since 2026-11-03.** A title holds to `.case-title`'s
+64rem, a dek to `--measure`, and no page lets either run to the frame. Every
+`h1` takes `text-wrap: balance`, so a two-line title comes out even and does
+not strand a word; the homepage's `.hero-title` keeps `pretty`, because its
+lines are drawn in. Deks wrap where they fall.
 
 Twenty-five of the thirty-three detail pages already did. The other eight
 each did something of their own, and the first screen is where a reader
