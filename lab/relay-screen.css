@@ -207,6 +207,7 @@
 .ev-keep { margin: 0 0 var(--space-xs); padding: 0; list-style: none; }
 .ev-keep li { margin: 0; }
 .ev-keep label { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; cursor: pointer; }
+.ev-keep li:has(> .ev-check) { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-2xs) 0; }
 .ev-keep input { width: 1lh; height: 1lh; margin: 0; accent-color: var(--color-accent-on-dark); }
 /* The keys sit a tag's height lower than the lines above them, so
    "Press this" over Archive never covers the last of them. */
@@ -252,7 +253,8 @@
   stroke-linejoin: round;
   transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease);
 }
-.ev-row[data-on] .ev-check { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); stroke: var(--color-charcoal); }
+.ev-row[data-on] .ev-check,
+.ev-keep [data-on] > .ev-check { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); stroke: var(--color-charcoal); }
 @media (prefers-reduced-motion: no-preference) {
   .ev-row:nth-child(2) { transition-delay: var(--motion-stagger); }
   .ev-row:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
