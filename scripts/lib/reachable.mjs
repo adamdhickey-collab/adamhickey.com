@@ -111,26 +111,9 @@ export const REACHABLE = {
       press: ['[data-pick="undo"]'] },
     { name: 'the opener’s question, confirmed first',
       press: ['[data-pick="confirm"]'] },
-    /* Since 2026-11-02 Evaluate is six steps beside one screen, and
-       every step after the first is in no DOM at rest: the agent's review
-       open with its "Press this", the review's archive, my call on the
-       same cleanup of four with no one active, that cleanup archived at
-       once, and the agent's review for a batch with three active. At rest
-       the page shows step 1, the agent's four selected with "Press this"
-       on Archive. Until the same day's evening the agent's half ran on
-       five, three of them active. From 2026-10-29 until that day these were four presses
-       inside two screens side by side, and until the same day's evening
-       my call was undo. */
-    { name: 'Evaluate, step 2: the agent’s review open, with no one to check',
-      press: ['[data-ev-walk] [data-go="2"]'] },
-    { name: 'Evaluate, step 3: the review archived',
-      press: ['[data-ev-walk] [data-go="3"]'] },
-    { name: 'Evaluate, step 4: my call, the same cleanup',
-      press: ['[data-ev-walk] [data-go="4"]'] },
-    { name: 'Evaluate, step 5: the cleanup archived at once',
-      press: ['[data-ev-walk] [data-go="5"]'] },
-    { name: 'Evaluate, step 6: a batch with active customers, reviewed',
-      press: ['[data-ev-walk] [data-go="6"]'] },
+    /* Evaluate was six steps beside one stepped screen from 2026-11-02,
+       five of them states here; since 2026-11-03 it is two still
+       screens side by side, both in the DOM at rest. */
   ],
 
   /* The personal essay sets the same review screen in its margin, beside

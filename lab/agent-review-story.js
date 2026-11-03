@@ -45,62 +45,6 @@
     });
   });
 
-  /* Each step is a screen and its step, in the list's order. A row is
-     selected before the press and folded when archived (all but Monarch,
-     which has an open invoice). My call is the agent's review with a
-     condition: the cleanup with no active customer archives at once, and
-     the batch with three opens the agent's own review, so its last step
-     is the agent's screen again. */
-  const SCREENS = [['review', 'selected'], ['review', 'reviewing'], ['review', 'archived'],
-    ['clear', 'selected'], ['clear', 'archived'], ['flagged', 'reviewing']];
-  document.querySelectorAll('[data-ev-walk]').forEach((walk) => {
-    const steps = [...walk.querySelectorAll('.ev-walk-step')];
-    const back = walk.querySelector('[data-go="back"]');
-    const next = walk.querySelector('[data-go="next"]');
-    const said = walk.querySelector('[data-walk-said]');
-    const stage = walk.querySelector('.ev-walk-stage');
-    const figs = [...stage.querySelectorAll('[data-ev]')];
-    stage.querySelectorAll('button, input').forEach((el) => {
-      el.tabIndex = -1;
-      el.setAttribute('aria-disabled', 'true');
-    });
-    let at = 0;
-    const go = (i) => {
-      at = (i + steps.length) % steps.length;
-      const [ev, step] = SCREENS[at];
-      figs.forEach((fig) => { fig.hidden = fig.dataset.ev !== ev; });
-      const fig = figs.find((f) => f.dataset.ev === ev);
-      fig.dataset.step = step;
-      fig.querySelectorAll('.ev-row').forEach((row) => {
-        row.toggleAttribute('data-on', step === 'selected' || step === 'reviewing');
-        row.toggleAttribute('data-gone', step === 'archived' && row.dataset.id !== 'monarch');
-      });
-      steps.forEach((s, j) => {
-        if (j === at) s.setAttribute('aria-current', 'step');
-        else s.removeAttribute('aria-current');
-      });
-      back.disabled = at === 0;
-      walk.toggleAttribute('data-last', at === steps.length - 1);
-    };
-    const say = () => { said.textContent = `Step ${at + 1} of ${steps.length}: ${steps[at].lastElementChild.textContent}`; };
-    stage.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!e.target.closest('.ev-screen')) return;
-      go(at + 1);
-      say();
-    }, true);
-    walk.addEventListener('click', (e) => {
-      const button = e.target.closest('[data-go]');
-      if (!button) return;
-      const to = button.dataset.go;
-      go(to === 'back' ? at - 1 : to === 'next' ? at + 1 : Number(to) - 1);
-      if (to === 'back' && at === 0) next.focus();
-      say();
-    });
-    go(0);
-  });
-
   if (!('IntersectionObserver' in window)) return;
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
@@ -109,7 +53,7 @@
     /* Arrivals: fired 4% of a window early, as reveal.js does, so the rise
        has started before the block can be seen. */
     const RISE = '.arc-head, .ar-kind, .ar-rail, .ar-ticket, .ar-ticket footer,' +
-      ' .ar-cycle-text, .ar-scene, .ev-walk, div.arc-after, .arc-measure,' +
+      ' .ar-cycle-text, .ar-scene, .ev-pair, div.arc-after, .arc-measure,' +
       ' .glance, .case-wide > p';
     const rise = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
