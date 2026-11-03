@@ -379,8 +379,9 @@
 .arc-started { display: grid; gap: var(--space-2xl); }
 .arc-started .arc-head { margin-bottom: var(--space-md); }
 /* The build's card is charcoal, so it reads as code (Adam, 2026-11-03), and
-   its type is a step smaller than the column beside it. The drawing is the
-   dark version, on a transparent ground, so the card's fill shows through. */
+   its type is a step smaller than the column beside it. The drawing is on a
+   transparent ground, so the card's fill shows through, and its dashed
+   connectors are recolored to the on-dark ink so they read on the charcoal. */
 .arc-started-build {
   --color-focus-ring: var(--color-accent-on-dark);
   align-self: start;
@@ -484,6 +485,22 @@
   font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--color-muted-gray);
+}
+/* The band's heading and the ticket, side by side from 64rem on the same two
+   columns as the question and Relay's list under them. */
+.ar-scenario { margin-bottom: var(--space-block); }
+.ar-scenario .arc-head { margin-bottom: var(--space-lg); }
+.ar-scenario .arc-head h2 { margin-bottom: 0; }
+.case-section .ar-scenario .ar-ticket { margin: 0; }
+@media (min-width: 64rem) {
+  .ar-scenario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .ar-scenario .arc-head { margin-bottom: 0; }
+  .case-section .ar-scenario .ar-ticket { max-width: none; }
 }
 /* THE STAGES, AND THE PROTOTYPE ITSELF, since 2026-10-29 (Adam: the six
    rows were long and said again what the prototype says). Each stage is
