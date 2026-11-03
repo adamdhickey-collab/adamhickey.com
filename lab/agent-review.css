@@ -36,43 +36,29 @@
 .arc { --arc-head: calc(var(--nav-height) + var(--space-2xl)); }
 
 /* ---- the opener ---- */
-.arc-open { padding-bottom: var(--space-block); }
-.arc-title { margin-bottom: var(--space-lg); max-width: none; text-wrap: wrap; }
-/* The dek every detail page sets (.build-dek), in the serif since
-   2026-10-29; it was the sans, stepped to 20px beside the drawing. */
-.arc-open .arc-dek {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--type-lede);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-  text-wrap: pretty;
-}
-/* The question under the dek, since 2026-10-31: a second paragraph, its
+/* The title and dek are the shared .case-title and .build-dek, at the widths
+   every other page sets them, since 2026-11-03 (Adam: this was "the only
+   place" the small text ran across the page).
+
+   The question under the dek, since 2026-10-31: a second paragraph, its
    label in the accent ink the homepage's Scenario label wears, because the
-   serif has no bold to give it. */
-.arc-open .arc-dek + .arc-dek { margin-top: var(--space-md); }
+   serif has no bold to give it. The two are one lede, so the gap between
+   them is a paragraph's. */
+.arc-open .build-dek { margin-bottom: 0; }
+.arc-open .build-dek + .build-dek { margin-top: var(--space-md); }
 .arc-dek-label { color: var(--color-accent-text); }
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
-/* From 64rem the way in sits in the opener's wider right column, which fits
-   the button and the Listen button side by side, so one row is held from
+/* From 64rem the button and the Listen button sit side by side, so one row is held from
    first paint (the head marks .arc-can-listen where read-aloud.js will add
    the button), and its arrival moves nothing. */
 @media (min-width: 64rem) {
   .arc-can-listen .arc-open-act { min-height: calc(var(--space-sm) * 2 + var(--text-base) * var(--leading-body)); }
 }
-.arc-open .arc-status {
-  margin: var(--space-md) 0 0;
-  max-width: var(--measure);
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--color-muted-gray);
-}
-/* SINCE 2026-11-03, THE TEXT ALONE (Adam: "remove the image ... and have
-   the text go full width"): the kicker, the title, what it means, and the
-   way in, across the frame. From 2026-10-27 a drawing shared the row; the
-   question stayed in its own band under it, .arc-ship, on the tea ground. */
+/* SINCE 2026-11-03, THE TEXT ALONE (Adam: "remove the image"): the kicker,
+   the title, what it means, and the way in. From 2026-10-27 a drawing shared
+   the row; the question stayed in its own band under it, .arc-ship, on the
+   tea ground. */
 
 /* The question's band: two equal columns, the question, its line and the
    three answers on the left and Relay's list on the right. Earlier on

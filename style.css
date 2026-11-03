@@ -178,7 +178,9 @@ mark {
 h1, h2, h3 { font-family: var(--font-serif); font-weight: var(--weight-regular); color: var(--color-charcoal); }
 h4, h5, h6 { font-family: var(--font-sans);  font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
 
-h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); }  /* 34 -> 68 */
+/* A page title's lines come out even, on every page, since 2026-11-03 (Adam:
+   one rule, the balanced one). The homepage's .hero-title sets its own wrap. */
+h1 { font-size: var(--type-title);      line-height: var(--leading-display); letter-spacing: var(--tracking-display); text-wrap: balance; }  /* 34 -> 68 */
 h2 { font-size: var(--type-section);    line-height: var(--leading-heading); letter-spacing: var(--tracking-title); }    /* 28 -> 48 */
 h3 { font-size: var(--type-subsection); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }  /* 24 -> 34 */
 h4 { font-size: var(--text-xl);         letter-spacing: var(--tracking-heading); }  /* 20 */
@@ -5821,6 +5823,9 @@ html.ah-lightbox-open body { overflow: hidden; }
   color: var(--color-accent-text);
   margin-bottom: var(--space-md);
 }
+/* .case-wide > p and .case-narrow > p cap a paragraph at the reading measure,
+   worked out at the kicker's own 12px, which wrapped a long kicker at 420px. */
+.case-hero .case-kicker { max-width: none; }
 .case-title {
   font-family: var(--font-serif);
   font-weight: 400;
