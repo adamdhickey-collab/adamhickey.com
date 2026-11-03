@@ -5406,8 +5406,17 @@ html.ah-lightbox-open body { overflow: hidden; }
 @media (min-width: 640px) {
   .glance-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* From 820 the facts sit in one row, one equal column each, however many
+   there are. Four columns held for every strip until 2026-11-03, when the
+   case studies dropped What changed (it said again what the dek, the
+   Overview and the impact rows say) and a strip of three left a quarter of
+   the card empty on the right. */
 @media (min-width: 820px) {
-  .glance-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--space-3xl); }
+  .glance-facts {
+    grid-template-columns: none;
+    grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+    gap: 0 var(--space-3xl);
+  }
 }
 .glance-row { list-style: none; margin: 0; padding: 0; display: grid; }
 .glance-step { position: relative; }
