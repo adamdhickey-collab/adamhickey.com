@@ -265,6 +265,39 @@
   .cc-pull { flex-direction: column; align-items: flex-start; gap: var(--space-lg); }
 }
 
+/* A client's own words, under the hero's picture and on the column's left
+   edge, whole sentences from what she wrote. The serif at the pull's size,
+   the name under it in the sans, and a link to where she wrote it. Nothing
+   here names the company; the link's page does, one press away. */
+.case-testimonial { max-width: var(--measure); margin: 0; }
+.case-testimonial blockquote { margin: 0; padding: 0; border: 0; }
+.case-testimonial p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  text-wrap: pretty;
+  color: var(--color-charcoal);
+}
+.case-testimonial figcaption {
+  margin-top: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-accent-text);
+}
+
+.case-testimonial figcaption a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--motion-state) var(--ease);
+}
+.case-testimonial figcaption a:focus-visible { color: var(--color-charcoal); }
+@media (hover: hover) and (pointer: fine) {
+  .case-testimonial figcaption a:hover { color: var(--color-charcoal); }
+}
+
 /* ---------- The overview, in brief ----------
    As it was on the Tailwind pages from 2026-10-29: the Overview as a grid
    of fields, each paragraph under a field label (the Kicker, the hero's own
