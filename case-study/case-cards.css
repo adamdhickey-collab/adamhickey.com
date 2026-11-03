@@ -397,3 +397,47 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+/* SAP's four moves: drawings in white circles on one line, a name and a
+   line under each. Two across on a phone, where the line drops out. */
+.cc-moves {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .cc-moves { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2xl); }
+  .cc-moves::before {
+    content: "";
+    position: absolute;
+    top: 4rem; left: 12.5%; right: 12.5%;
+    height: 1px;
+    background: var(--color-rule);
+  }
+}
+.cc-move { position: relative; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; text-align: center; }
+.cc-move::before { content: none; }
+.cc-move-img {
+  width: 5rem; height: 5rem;
+  margin-bottom: var(--space-sm);
+  border-radius: 50%;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  object-fit: cover;
+}
+@media (min-width: 768px) { .cc-move-img { width: 8rem; height: 8rem; margin-bottom: var(--space-md); } }
+:is(.build-chapter, .ds-demo) .cc-move-title {
+  max-width: 10rem;
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-heading);
+  color: var(--color-charcoal);
+}
+@media (min-width: 768px) { :is(.build-chapter, .ds-demo) .cc-move-title { font-size: var(--text-2xl); } }
+:is(.build-chapter, .ds-demo) .cc-move-text { margin: 0; font-size: var(--text-sm); line-height: var(--leading-tight); color: var(--color-charcoal); }
