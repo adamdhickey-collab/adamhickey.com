@@ -108,8 +108,11 @@
 }
 
 /* The question's band: two equal columns, the question, its line and the
-   three answers on the left and Relay's list on the right, sharing a top.
-   The result opens under the answers and moves nothing else. */
+   three answers on the left and Relay's list on the right. Since
+   2026-11-03 the list sits on the answers' foot rather than the question's
+   top (Adam: the table's bottom on the third answer's), so it spans the
+   first three rows and ends with them. The result opens under the answers
+   and moves nothing else. */
 @media (min-width: 64rem) {
   .arc-ship .ship {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -117,14 +120,14 @@
       "ask    list"
       "setup  list"
       "picks  list"
-      "result list";
+      "result .";
     grid-template-rows: auto auto auto 1fr;
     column-gap: var(--space-4xl);
     align-items: start;
   }
   .ship-ask { grid-area: ask; }
   .ship-setup { grid-area: setup; }
-  .ship-list { grid-area: list; }
+  .ship-list { grid-area: list; align-self: end; }
   .arc-ship .ship-picks { grid-area: picks; grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); margin-top: var(--space-md); }
   .ship-result { grid-area: result; }
 }
@@ -350,18 +353,6 @@
   text-wrap: pretty;
 }
 .ship-then strong { font-weight: var(--weight-semibold); }
-.ship-after {
-  display: grid;
-  gap: var(--space-xs);
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--rule-on-dark);
-}
-.arc-ship .ship-result .ship-verdict {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-}
-.ship-verdict strong { font-weight: inherit; color: var(--color-accent-on-dark); }
 
 /* Live, the result waits for the reader's answer and shows only that
    answer's consequence. It rises in on the first press (MOTION.md,
