@@ -378,19 +378,34 @@
    is one column, in that order. */
 .arc-started { display: grid; gap: var(--space-2xl); }
 .arc-started .arc-head { margin-bottom: var(--space-md); }
+/* The build's card is charcoal, so it reads as code (Adam, 2026-11-03), and
+   its type is a step smaller than the column beside it. The drawing is the
+   dark version, on a transparent ground, so the card's fill shows through. */
 .arc-started-build {
+  --color-focus-ring: var(--color-accent-on-dark);
   align-self: start;
   padding: var(--space-lg) var(--space-md);
-  background: var(--figure-card);
-  border: 1px solid var(--rule-card);
+  background: var(--color-charcoal);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
 @media (min-width: 640px) { .arc-started-build { padding: var(--space-2xl); } }
 .arc-started-art { margin: 0 auto var(--space-xl); max-width: 80%; }
-/* The drawing is on opaque white, and multiply lets the card's fill stand in
-   for it, so no white box sits on the warm card. */
-.arc-started-art img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+.arc-started-art img { display: block; width: 100%; height: auto; }
+.case-section .arc-started-build > p {
+  margin-bottom: 0;
+  font-size: var(--text-sm);
+  color: var(--ink-on-dark);
+}
+.case-section .arc-started-build > p strong { color: var(--ink-on-dark); }
+.case-section .arc-measure.arc-started-build > p:not([class]) a {
+  color: var(--color-accent-on-dark);
+  text-decoration-color: currentColor;
+}
+.case-section .arc-measure.arc-started-build > p:not([class]) a:focus-visible { color: var(--ink-on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .case-section .arc-measure.arc-started-build > p:not([class]) a:hover { color: var(--ink-on-dark); }
+}
 @media (min-width: 64rem) {
   .arc-started {
     grid-template-columns: repeat(2, minmax(0, 1fr));
