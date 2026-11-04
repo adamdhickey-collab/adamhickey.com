@@ -202,7 +202,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I make complicated products easier to use and new ideas easier to test. Senior product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
+  <p>I make enterprise software easier to use and new ideas faster to test. Senior product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
 </section>
 
 <section>
@@ -399,7 +399,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Senior Product Designer</p>
   </header>
-  <p class="intro">I make complicated products easier to use and new ideas easier to test. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
+  <p class="intro">I make enterprise software easier to use and new ideas faster to test. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
 
   <section>
     <h2>Independent</h2>
