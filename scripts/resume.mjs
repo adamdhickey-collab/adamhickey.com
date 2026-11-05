@@ -232,7 +232,7 @@ const html = String.raw`<!doctype html>
   <ul>
     <li>Making 40+ SAP applications feel like one product: one visual language, one design system, and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
     <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
-    <li>Leading product design on a USDA grant platform, one record from application through analysis in place of spreadsheets; data-analysis requests from 45–55 hours to just over 10.</li>
+    <li>Leading UX design on a USDA grant platform, one record from application through analysis in place of spreadsheets; data-analysis requests from 45–55 hours to just over 10.</li>
     <li>A real-time, data-dense dispatch app for a 450+ truck fleet; board-clearing time down roughly 30%.</li>
   </ul>
 </section>
