@@ -79,7 +79,7 @@
         e.target.classList.add('is-drawn');
       });
     }, { threshold: 0.4 });
-    document.querySelectorAll('.ar-rail, .ar-kinds').forEach((el) => {
+    document.querySelectorAll('.ar-rail, .ar-kinds, .ar-fork').forEach((el) => {
       if (!below(el)) return;
       el.classList.add('is-armed');
       draw.observe(el);
