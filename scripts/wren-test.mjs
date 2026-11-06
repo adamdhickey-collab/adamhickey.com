@@ -83,7 +83,7 @@ await run('a fresh load is the buyer’s list, five payments, step 1', async (t)
   await t.on('list');
   t.ok((await t.rows()) === 5, `five rows on load, saw ${await t.rows()}`);
   t.ok((await t.step()) === '1', 'step 1 is current');
-  await t.includes('Sent, waiting for supplier');
+  await t.includes('Not processed yet');
   await t.includes('Processed, ready to match');
   await t.includes('Processed and matched');
   await t.includes('Expired, not processed');
@@ -127,12 +127,12 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   t.ok((await t.step()) === '2', 'step 2 on the record');
   t.ok((await t.active()).startsWith('wr-title'), 'a new screen moves focus to its title');
   t.ok((await t.status()).includes('Payment record'), 'the record is announced');
-  await t.includes('Sent to supplier');
-  await t.includes('Waiting for Larkspur Packaging to process it');
+  await t.includes('Not processed yet');
+  await t.includes('Sent and delivered Oct 28');
   await t.includes('Not yet');
   await t.includes('Matching waits for processing');
   await t.includes('Who acts next Larkspur Packaging');
-  await t.includes('Nothing for you to do yet');
+  await t.includes('Larkspur Packaging has until Nov 27');
   await t.includes('Valid through Nov 27');
   await t.includes('Last confirmed event Notice delivered');
   t.ok(!(await t.has('[data-review]')), 'no Review match while waiting');
@@ -261,7 +261,7 @@ await run('Start over puts everything back, after processing and matching', asyn
   t.ok((await t.step()) === '1', 'step 1 after reset');
   t.ok(await t.has('[data-role="buyer"][aria-pressed="true"]'), 'buyer role after reset');
   await t.type('[data-search]', 'INV-20483');
-  await t.includes('Sent, waiting for supplier');
+  await t.includes('Not processed yet');
   await t.press('[data-open="larkspur-20483"]');
   await t.includes('Activity, 3 events');
 });
@@ -276,7 +276,7 @@ await run('switching scenario mid-run starts that scenario fresh', async (t) => 
   await t.press('[data-scenario="default"]');
   await t.on('list');
   await t.press('[data-open="larkspur-20483"]');
-  await t.includes('Sent to supplier');
+  await t.includes('Not processed yet');
 });
 
 /* What the walkthrough says, and that it never asks for a press that is gone. */
@@ -297,11 +297,15 @@ await run('the walkthrough’s hint follows the state, and it ends', async (t) =
   t.ok((await hint(t)).includes('Press Process this payment'), 'the notice asks for the press');
   await t.press('[data-process]');
   t.ok(!(await hint(t)).includes('Press Process'), `no hint for a press that is gone: ${await hint(t)}`);
+  await t.press('[data-next]');
+  await t.on('detail');
+  t.ok((await t.step()) === '4', 'the guide’s offer goes back to the buyer');
+  await t.press('[data-role="supplier"]');
   t.ok((await t.step()) === '3', 'still step 3 on the notice');
   await t.press('[data-role="buyer"]');
   await t.press('[data-review]');
   await t.press('[data-confirm-match]');
-  t.ok((await hint(t)).includes('Expired payment'), `the end points at the exception: ${await hint(t)}`);
+  t.ok((await t.page.textContent('[data-wren-next]')).includes('Expired payment'), 'the end offers the exception');
   t.ok(!(await hint(t)).includes('confirm it'), 'no hint to confirm what is confirmed');
   t.ok((await done(t)) === 4, 'four steps done');
   t.ok((await t.step()) === '5', 'the exception is next');
@@ -369,7 +373,7 @@ await run('a supplier on the phone: when to follow up, who got the notice, and s
   await t.press('[data-open="larkspur-20483"]');
   await t.includes('No processing event as of Nov 5, 2:05 pm');
   await t.includes('Follow up if it’s still waiting on Nov 20');
-  await t.includes('the notice went to ar@larkspur.example on Oct 28');
+  await t.includes('What to tell them: the notice went to ar@larkspur.example on Oct 28');
   await t.press('[data-resend]');
   await t.includes('and again Nov 5, 2:06 pm');
   await t.includes('Activity, 4 events');
