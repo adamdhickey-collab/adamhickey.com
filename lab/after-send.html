@@ -104,7 +104,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=3" />
-  <link rel="stylesheet" href="after-send.css?v=5" />
+  <link rel="stylesheet" href="after-send.css?v=6" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -113,7 +113,7 @@
   <script src="../read-aloud.js?v=4" defer></script>
   <!-- The prototype. Deferred, no dependencies, no build step; the
        payments and their events are the objects at the top of the file. -->
-  <script src="wren.js?v=3" defer></script>
+  <script src="wren.js?v=4" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -239,44 +239,46 @@
     </header>
 
     <!-- THE PROTOTYPE, at the container's width. Everything outside the
-         window is the demo's: one bar with the kicker and the controls that
-         switch scenario and role and start over, then the five steps of the
-         walkthrough with the one the reader is on marked and a line saying
-         what to try. Everything inside the window is the product, and
-         carries no demo control, so the product never asks a visitor to do
-         something a specialist could not. The whole section is data-wren:
-         wren.js listens on it. Since 2026-11-06 (the second pass) the
-         controls are plain text toggles on one line with the kicker, not
-         chips in bordered pills under their own label: three rows of chrome
-         over the window read as busier than the product. -->
+         window is the demo's: the kicker, then one panel holding the
+         controls that switch scenario and role and start over, and under
+         them the five steps of the walkthrough with the one the reader is
+         on marked and a line saying what to try. Everything inside the
+         window is the product, and carries no demo control, so the product
+         never asks a visitor to do something a specialist could not. The
+         whole section is data-wren: wren.js listens on it. Since 2026-11-06
+         (the third pass) everything starts at the left and each control is
+         a cell of the panel with a rule beside it, not plain text pushed to
+         the right of the kicker. -->
     <section class="case-section as-demo" id="try-it" aria-labelledby="try-h" data-wren data-read-aloud="skip">
       <div class="container case-wide">
         <h2 class="visually-hidden" id="try-h">The prototype</h2>
-        <div class="as-demo-bar">
-          <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try it, it&rsquo;s live</p>
+        <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try it, it&rsquo;s live</p>
+        <div class="as-panel">
           <div class="as-controls" role="group" aria-label="Demo controls">
-            <div class="as-control" role="group" aria-label="Scenario">
+            <div class="as-cell" role="group" aria-label="Scenario">
               <span class="as-control-name">Scenario</span>
               <button type="button" class="as-toggle" data-scenario="default" aria-pressed="true">Default path</button>
               <button type="button" class="as-toggle" data-scenario="expired" aria-pressed="false">Expired payment</button>
             </div>
-            <div class="as-control" role="group" aria-label="Role">
+            <div class="as-cell" role="group" aria-label="Role">
               <span class="as-control-name">Role</span>
               <button type="button" class="as-toggle" data-role="buyer" aria-pressed="true">Buyer</button>
               <button type="button" class="as-toggle" data-role="supplier" aria-pressed="false">Supplier</button>
             </div>
-            <button type="button" class="as-reset" data-reset><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Start over</button>
+            <div class="as-cell">
+              <button type="button" class="as-reset" data-reset><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Start over</button>
+            </div>
           </div>
-        </div>
-        <div class="as-walk">
-          <ol class="as-steps" aria-label="The walkthrough, five steps">
-            <li data-wren-step="1" aria-current="step"><span class="as-step-n" aria-hidden="true">1</span><span class="as-step-name">Find it</span><span class="visually-hidden" data-step-said></span></li>
-            <li data-wren-step="2"><span class="as-step-n" aria-hidden="true">2</span><span class="as-step-name">Interpret it</span><span class="visually-hidden" data-step-said></span></li>
-            <li data-wren-step="3"><span class="as-step-n" aria-hidden="true">3</span><span class="as-step-name">Follow the handoff</span><span class="visually-hidden" data-step-said></span></li>
-            <li data-wren-step="4"><span class="as-step-n" aria-hidden="true">4</span><span class="as-step-name">Close the loop</span><span class="visually-hidden" data-step-said></span></li>
-            <li data-wren-step="5"><span class="as-step-n" aria-hidden="true">5</span><span class="as-step-name">The exception</span><span class="visually-hidden" data-step-said></span></li>
-          </ol>
-          <p class="as-hint" data-wren-hint>Search INV-20483, or filter to Waiting for supplier, and open the row.</p>
+          <div class="as-walk">
+            <ol class="as-steps" aria-label="The walkthrough, five steps">
+              <li data-wren-step="1" aria-current="step"><span class="as-step-n" aria-hidden="true">1</span><span class="as-step-name">Find it</span><span class="visually-hidden" data-step-said></span></li>
+              <li data-wren-step="2"><span class="as-step-n" aria-hidden="true">2</span><span class="as-step-name">Interpret it</span><span class="visually-hidden" data-step-said></span></li>
+              <li data-wren-step="3"><span class="as-step-n" aria-hidden="true">3</span><span class="as-step-name">Follow the handoff</span><span class="visually-hidden" data-step-said></span></li>
+              <li data-wren-step="4"><span class="as-step-n" aria-hidden="true">4</span><span class="as-step-name">Close the loop</span><span class="visually-hidden" data-step-said></span></li>
+              <li data-wren-step="5"><span class="as-step-n" aria-hidden="true">5</span><span class="as-step-name">The exception</span><span class="visually-hidden" data-step-said></span></li>
+            </ol>
+            <p class="as-hint" data-wren-hint>Search INV-20483, or filter to Waiting for supplier, and open the row.</p>
+          </div>
         </div>
         <div class="wr-frame">
           <div class="wr-app">
