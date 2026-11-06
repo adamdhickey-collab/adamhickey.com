@@ -156,7 +156,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   t.ok(await t.has('[data-process]'), 'Process this payment is offered');
   await t.press('[data-process]');
   t.ok((await t.status()).includes('Processed Nov 5, 2:10 pm'), `processing is announced: "${await t.status()}"`);
-  await t.includes('Processed Nov 5, 2:10 pm, in this demo');
+  await t.includes('Processed Nov 5, 2:10 pm.');
   t.ok(!(await t.has('[data-process]')), 'Process cannot be pressed twice');
 
   /* Back to the buyer: the same record, two facts. */
@@ -164,7 +164,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.on('detail');
   t.ok((await t.step()) === '4', 'step 4 once processed');
   await t.includes('Processed by supplier');
-  await t.includes('Larkspur Packaging processed it Nov 5, 2:10 pm, in this demo');
+  await t.includes('Larkspur Packaging processed it Nov 5, 2:10 pm.');
   await t.includes('Ready to match to invoice');
   await t.includes('Who acts next You');
   await t.includes('Activity, 4 events');
@@ -177,9 +177,9 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   t.ok((await t.active()).includes('data-review') || (await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-review'))), 'declining returns focus to Review match');
   await t.press('[data-review]');
   await t.press('[data-confirm-match]');
-  t.ok((await t.status()).includes('Matched in this demo'), 'the match is announced');
+  t.ok((await t.status()).includes('Matched:'), 'the match is announced');
   await t.includes('Matched to INV-20483');
-  await t.includes('Matched in this demo, Nov 5, 2:12 pm');
+  await t.includes('Matched Nov 5, 2:12 pm');
   await t.includes('Processed by supplier');
   await t.includes('processed it Nov 5, 2:10 pm', 'the processing time is unchanged by the match');
   await t.includes('Who acts next No one');
@@ -197,7 +197,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.includes('Processed and matched');
 });
 
-await run('the supplier preview before any record is open shows the followed payment', async (t) => {
+await run('the supplier before any record is open shows the followed payment', async (t) => {
   await t.press('[data-role="supplier"]');
   await t.on('notice');
   await t.includes('INV-20483');
@@ -277,6 +277,126 @@ await run('switching scenario mid-run starts that scenario fresh', async (t) => 
   await t.on('list');
   await t.press('[data-open="larkspur-20483"]');
   await t.includes('Sent to supplier');
+});
+
+/* What the walkthrough says, and that it never asks for a press that is gone. */
+const hint = (t) => t.page.$eval('[data-wren-hint]', (h) => h.textContent);
+const done = (t) => t.page.$$eval('[data-wren-step][data-done]', (l) => l.length);
+const closeLoop = async (t) => {
+  await t.press('[data-open="larkspur-20483"]');
+  await t.press('[data-role="supplier"]');
+  await t.press('[data-process]');
+  await t.press('[data-role="buyer"]');
+  await t.press('[data-review]');
+  await t.press('[data-confirm-match]');
+};
+
+await run('the walkthrough’s hint follows the state, and it ends', async (t) => {
+  await t.press('[data-open="larkspur-20483"]');
+  await t.press('[data-role="supplier"]');
+  t.ok((await hint(t)).includes('Press Process this payment'), 'the notice asks for the press');
+  await t.press('[data-process]');
+  t.ok(!(await hint(t)).includes('Press Process'), `no hint for a press that is gone: ${await hint(t)}`);
+  t.ok((await t.step()) === '3', 'still step 3 on the notice');
+  await t.press('[data-role="buyer"]');
+  await t.press('[data-review]');
+  await t.press('[data-confirm-match]');
+  t.ok((await hint(t)).includes('Expired payment'), `the end points at the exception: ${await hint(t)}`);
+  t.ok(!(await hint(t)).includes('confirm it'), 'no hint to confirm what is confirmed');
+  t.ok((await done(t)) === 4, 'four steps done');
+  t.ok((await t.step()) === '5', 'the exception is next');
+  await t.press('[data-role="supplier"]');
+  t.ok((await t.step()) === '5' && (await done(t)) === 4, 'the rail does not go backwards');
+  await t.press('[data-role="buyer"]');
+  await t.press('[data-scenario="expired"]');
+  t.ok((await done(t)) === 4, 'the walked steps stay done in the exception');
+  await t.press('[data-reset]');
+  t.ok((await done(t)) === 0 && (await t.step()) === '1', 'Start over clears the rail');
+});
+
+await run('a payment the walkthrough doesn’t follow says so', async (t) => {
+  await t.press('[data-open="cedar-11920"]');
+  t.ok((await hint(t)).includes('Another payment'), `opened another payment: ${await hint(t)}`);
+  await t.press('[data-role="supplier"]');
+  t.ok(!(await hint(t)).includes('Larkspur'), `no Larkspur on Cedar Ridge’s notice: ${await hint(t)}`);
+});
+
+await run('Confirm match lands on the facts, not on the page', async (t) => {
+  await closeLoop(t);
+  t.ok((await t.active()).startsWith('wr-facts'), `focus is on the facts: ${await t.active()}`);
+  t.ok(await t.page.$eval('[data-wren] .wr-facts', (f) => { const r = f.getBoundingClientRect(); return r.top >= 0 && r.top < innerHeight; }), 'the facts are on screen');
+});
+
+await run('on a phone the result of Confirm match is on screen, below the nav', async (t) => {
+  await closeLoop(t);
+  t.ok((await t.active()).startsWith('wr-facts'), `focus is on the facts: ${await t.active()}`);
+  const box = await t.page.$eval('[data-wren] .wr-facts', (f) => { const r = f.getBoundingClientRect(); return { top: r.top, nav: document.querySelector('.site-nav').getBoundingClientRect().bottom }; });
+  t.ok(box.top >= box.nav && box.top < 800, `the facts are visible: top ${box.top}, nav ${box.nav}`);
+}, { viewport: { width: 375, height: 800 } });
+
+await run('on a phone the match panel opens where it can be seen', async (t) => {
+  await t.press('[data-open="bright-30077"]');
+  await t.press('[data-review]');
+  const box = await t.page.$eval('[data-wren] #wr-match', (f) => f.getBoundingClientRect().top);
+  t.ok(box >= 0 && box < 800, `the panel’s top is on screen: ${box}`);
+}, { viewport: { width: 375, height: 800 } });
+
+await run('one primary at a time while a panel is open', async (t) => {
+  await t.press('[data-open="bright-30077"]');
+  await t.press('[data-review]');
+  t.ok(!(await t.has('[data-review]')), 'Review match gives way to the panel');
+  await t.press('[data-decline-match]');
+  t.ok(await t.has('[data-review]'), 'Review match is back');
+  await t.press('[data-scenario="expired"]');
+  await t.press('[data-replace]');
+  t.ok(!(await t.has('[data-replace]')), 'Review replacement options gives way to the panel');
+});
+
+await run('a match that disagrees can’t be confirmed, and leaving it says what’s next', async (t) => {
+  await t.press('[data-open="bright-30077"]');
+  await t.includes('for $12,040.00');
+  await t.press('[data-review]');
+  await t.includes('$12,400.00');
+  await t.includes('$12,040.00');
+  await t.includes('The amounts differ by $360.00');
+  t.ok(!(await t.has('[data-confirm-match]')), 'no Confirm match');
+  await t.press('[data-decline-match]');
+  await t.includes('Check it with Bright Harbor Logistics');
+  await t.includes('Who acts next You');
+});
+
+await run('a supplier on the phone: when to follow up, who got the notice, and sending it again', async (t) => {
+  await t.press('[data-open="larkspur-20483"]');
+  await t.includes('No processing event as of Nov 5, 2:05 pm');
+  await t.includes('Follow up if it’s still waiting on Nov 20');
+  await t.includes('the notice went to ar@larkspur.example on Oct 28');
+  await t.press('[data-resend]');
+  await t.includes('and again Nov 5, 2:06 pm');
+  await t.includes('Activity, 4 events');
+  t.ok(!(await t.has('[data-resend]')), 'it can’t be pressed twice');
+  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-resent')), 'focus lands on what changed');
+  await t.press('[data-role="supplier"]');
+  await t.press('[data-process]');
+  await t.press('[data-role="buyer"]');
+  const ev = await t.events();
+  t.ok(ev.length === 5 && ev[3].includes('sent again') && ev[4].includes('Processed'), `the events stay in order: ${ev.join(' / ')}`);
+});
+
+await run('the list puts what needs you first, and states validity', async (t) => {
+  const first = await t.page.$$eval('[data-wren] tbody tr', (r) => r.map((x) => x.getAttribute('data-row')));
+  t.ok(first[0] === 'tamsin-0921' && first[1] === 'bright-30077', `expired, then ready: ${first.join(', ')}`);
+  await t.includes('5 payments, 2 need you');
+  await t.includes('Valid through');
+  await t.includes('Nov 27');
+});
+
+await run('the facts don’t wear one check while one is open; an unfolded activity stays open', async (t) => {
+  await t.press('[data-open="bright-30077"]');
+  const paths = await t.page.$$eval('[data-wren] .wr-fact-head svg', (s) => s.map((x) => x.innerHTML));
+  t.ok(paths.length === 2 && paths[0] !== paths[1], 'processed and ready are different marks');
+  await t.press('.wr-activity summary');
+  await t.press('[data-review]');
+  t.ok(await t.page.$eval('[data-wren] .wr-activity', (d) => d.open), 'the activity stays open across a press');
 });
 
 await run('at a phone’s width the rows are cards with their column names, and the handoff still runs', async (t) => {

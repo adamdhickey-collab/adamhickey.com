@@ -57,7 +57,7 @@
    over a quiet sage button with its arrow. Until that pass the controls
    were filled pills inside bordered pills under a label of their own, a
    third row of chrome that read as busier than the product under it. */
-.as-demo { padding: var(--space-block) 0 0; }
+.as-demo { padding: var(--space-block) 0 0; scroll-margin-top: var(--nav-height); }
 .as-demo-bar {
   display: flex;
   flex-wrap: wrap;
@@ -73,7 +73,7 @@
   align-items: center;
   gap: var(--space-xs) var(--space-lg);
 }
-.as-control { display: inline-flex; align-items: center; gap: var(--space-sm); }
+.as-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-sm); }
 .as-control-name {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
@@ -163,6 +163,9 @@
   color: var(--color-accent-text);
   transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
 }
+/* A step already walked: a check in place of its number. */
+.as-step-n svg { width: 0.875rem; height: 0.875rem; }
+.as-steps li[data-done] .as-step-n { background: var(--color-tea-light); }
 .as-steps li[aria-current="step"] { color: var(--color-charcoal); }
 .as-steps li[aria-current="step"] .as-step-n { background: var(--color-accent-text); color: var(--color-white); }
 .case-section .as-hint,
@@ -437,12 +440,11 @@
   .as-stop .as-stop-fail { grid-row: 6; margin-top: var(--space-xs); }
 }
 
-/* ---------- The two wireframes ----------
-   Side by side from 64rem. Each is a drawing of a screen with no words
-   (aria-hidden), and a numbered list of notes beside it that are the
-   words. The drawing's bars are the rule tints; the proposed version's
-   two facts and its next-action block take the tea and the sage, which is
-   the one thing the drawing says on its own. */
+/* ---------- The two records ----------
+   Side by side from 64rem: the same payment on the same afternoon, in real
+   words, then the specialist's two questions asked of each. Until the
+   review of 2026-11-06 these were wordless wireframes with numbered notes,
+   which told the reader the difference; this lets them read it. */
 .as-wires { display: grid; gap: var(--space-xl); }
 @media (min-width: 64rem) {
   .as-wires { grid-template-columns: repeat(2, minmax(0, 1fr)); width: var(--col-full); max-width: none; }
@@ -468,14 +470,17 @@
 }
 .as-wire-block {
   display: grid;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
   padding: var(--space-sm);
-  border: 1px dashed var(--rule-strong);
+  border: 1px solid var(--rule-card);
   border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
 }
-.as-wire-block--tall { min-height: 8rem; }
-.as-wire-block--thin { min-height: 2.5rem; }
-.as-wire-block--next { background: var(--color-tea-light); border-style: solid; border-color: var(--rule-card); }
+.as-wire-block--next { background: var(--color-tea-light); }
+.as-wire-who { font-weight: var(--weight-semibold); }
 .as-wire-label {
   font-family: var(--font-sans);
   font-size: var(--text-xs);
@@ -483,36 +488,45 @@
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-.as-wire-line { display: block; height: 0.5rem; border-radius: 4px; background: var(--rule-strong); }
-.as-wire-line--short { width: 60%; }
-.as-wire-btn { display: block; width: 7rem; height: 1.75rem; border-radius: var(--radius-pill); background: var(--color-accent-text); }
-.as-wire-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); gap: var(--space-xs); }
+.as-wire-events { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2xs); }
+.as-wire-events li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--space-xs); }
+.as-wire-events time { color: var(--color-muted-gray); font-variant-numeric: tabular-nums; }
+.as-wire-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr)); gap: var(--space-xs); }
 .as-wire-row--facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .as-wire-cell {
-  display: flex;
-  align-items: flex-end;
-  min-height: 2.75rem;
-  padding: var(--space-xs);
-  border: 1px dashed var(--rule-strong);
-  border-radius: 8px;
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-}
-.as-wire-cell--fact { min-height: 4.5rem; background: var(--color-warm); border-style: solid; border-color: var(--rule-card); color: var(--color-charcoal); }
-.as-notes {
-  margin: var(--space-lg) 0 0;
-  padding: 0 0 0 1.75rem;
   display: grid;
-  gap: var(--space-xs);
+  align-content: start;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--rule-card);
+  border-radius: 8px;
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.as-notes li::marker { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+.as-wire-cell--fact { background: var(--color-warm); font-weight: var(--weight-semibold); }
+.as-wire-cell--fact .as-wire-label { font-weight: var(--weight-semibold); }
+
+/* The specialist's two questions, asked of each record in the same words,
+   so the pair reads across: the point of the figure is that one column
+   says "Nothing says" twice. */
+.as-answers { margin: var(--space-lg) 0 0; display: grid; gap: var(--space-sm); }
+.as-answers dt {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-answers dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
 .as-why { margin-top: var(--space-2xl); }
 
 /* ---------- The sources ---------- */
@@ -531,9 +545,9 @@
   line-height: var(--leading-tight);
   color: var(--color-charcoal);
 }
-.as-sources dt a { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--color-accent-text); }
-.as-sources dt a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
-@media (hover: hover) and (pointer: fine) { .as-sources dt a:hover { color: var(--color-accent-text); } }
+.as-sources dd a { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--color-accent-text); }
+.as-sources dd a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-sources dd a:hover { color: var(--color-accent-text); } }
 .as-sources dd { margin: 0; }
 .case-section .as-sources dd p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
 .case-section .as-sources dd p + p { margin-top: var(--space-xs); }
