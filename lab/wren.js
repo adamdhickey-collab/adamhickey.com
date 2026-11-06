@@ -33,6 +33,10 @@
    Start over puts everything back. Both are deterministic: the clock is a
    fixed demo date, and every timestamp is written below.
 
+   ONE PAYMENT THAT CAN'T BE MATCHED. Bright Harbor processed less than the
+   invoice says, so its proposed match disagrees and offers no Confirm. It
+   is there so the side-by-side check is a check, not a formality.
+
    WHAT THE CHECKS SEE. Every screen after the list is drawn on a press, so
    scripts/lib/reachable.mjs registers each with the presses that reach it,
    and scripts/wren-test.mjs walks the handoff and asserts what each screen
@@ -54,7 +58,7 @@
   /* The one payment the walkthrough follows, and four more so the list can
      be searched and filtered. Amounts in cents, so nothing is rounded. */
   var BASE = [
-    { id: 'larkspur-20483', ref: 'VP-7Q2M-11', supplier: 'Larkspur Packaging', invoice: 'INV-20483', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27',
+    { id: 'larkspur-20483', ref: 'VP-7Q2M-11', supplier: 'Larkspur Packaging', invoice: 'INV-20483', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27', followUp: 'Nov 20', noticeTo: 'ar@larkspur.example',
       events: [
         { at: 'Oct 28, 9:14 am', kind: 'issued', what: 'Payment issued for INV-20483', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 28, 9:15 am', kind: 'notice', what: 'Payment notice sent to Larkspur Packaging', by: PRODUCT },
@@ -67,7 +71,7 @@
         { at: 'Oct 24, 8:40 am', kind: 'processed', what: 'Processed by Cedar Ridge Produce', by: 'Cedar Ridge Produce' },
         { at: 'Oct 24, 1:15 pm', kind: 'matched', what: 'Matched to INV-11920', by: BUYER.name + ' accounts payable' }
       ] },
-    { id: 'bright-30077', ref: 'VP-9C4D-07', supplier: 'Bright Harbor Logistics', invoice: 'INV-30077', amount: 1240000, sent: 'Oct 30', validThrough: 'Nov 29',
+    { id: 'bright-30077', ref: 'VP-9C4D-07', supplier: 'Bright Harbor Logistics', invoice: 'INV-30077', amount: 1240000, processedAmount: 1204000, sent: 'Oct 30', validThrough: 'Nov 29',
       events: [
         { at: 'Oct 30, 3:48 pm', kind: 'issued', what: 'Payment issued for INV-30077', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 30, 3:49 pm', kind: 'notice', what: 'Payment notice sent to Bright Harbor Logistics', by: PRODUCT },
@@ -97,6 +101,8 @@
   };
 
   /* What the two presses in this demo add. Fixed, so a run is a run. */
+  var CHECKED_AT = 'Nov 5, 2:05 pm'; /* when the record last read the events */
+  var RESENT_AT = 'Nov 5, 2:06 pm';
   var PROCESSED_AT = 'Nov 5, 2:10 pm';
   var MATCHED_AT = 'Nov 5, 2:12 pm';
 
@@ -110,11 +116,14 @@
       open: null,                        /* the payment id the record shows */
       q: '',                             /* the search box */
       filter: 'all',                     /* the status filter */
+      resent: {},                        /* id -> true once the buyer sent the notice again */
       processed: {},                     /* id -> true once the supplier pressed Process */
       matched: {},                       /* id -> true once the buyer confirmed the match */
       reviewing: false,                  /* the match panel is open */
       replacing: false,                  /* the replacement panel is open */
-      declined: false                    /* "Not this invoice" was pressed, so the record says nothing changed */
+      declined: false,                   /* the match was declined, so the record says nothing changed */
+      activity: false,                   /* the reader unfolded the activity, kept across presses */
+      walked: false                      /* the loop was closed, kept across a switch to the expired scenario */
     };
   }
   var state = fresh();
@@ -129,8 +138,9 @@
   function eventsOf(p) {
     var ev = p.events.slice();
     if (state.scenario === 'expired' && p.id === FOLLOWED) ev.push(EXPIRED.event);
-    if (state.processed[p.id]) ev.push({ at: PROCESSED_AT, kind: 'processed', what: 'Processed by ' + p.supplier, by: p.supplier, demo: true });
-    if (state.matched[p.id]) ev.push({ at: MATCHED_AT, kind: 'matched', what: 'Matched to ' + p.invoice + ' in this demo', by: BUYER.name + ' accounts payable', demo: true });
+    if (state.resent[p.id]) ev.push({ at: RESENT_AT, kind: 'resent', what: 'Notice sent again to ' + p.noticeTo, by: BUYER.name + ' accounts payable' });
+    if (state.processed[p.id]) ev.push({ at: PROCESSED_AT, kind: 'processed', what: 'Processed by ' + p.supplier, by: p.supplier });
+    if (state.matched[p.id]) ev.push({ at: MATCHED_AT, kind: 'matched', what: 'Matched to ' + p.invoice, by: BUYER.name + ' accounts payable' });
     return ev;
   }
   function has(ev, kind) { return ev.some(function (e) { return e.kind === kind; }); }
@@ -145,6 +155,7 @@
   /* The buyer's fact. */
   function matching(p) { return has(eventsOf(p), 'matched') ? 'matched' : 'unmatched'; }
   function last(p) { var ev = eventsOf(p); return ev[ev.length - 1]; }
+  function processedFor(p) { return p.processedAmount || p.amount; }
 
   /* One line for the list, in plain words, from the two facts. */
   function listStatus(p) {
@@ -152,7 +163,7 @@
     if (pr === 'expired') return { key: 'expired', text: 'Expired, not processed', icon: 'alert' };
     if (pr === 'sent') return { key: 'waiting', text: 'Sent, waiting for supplier', icon: 'clock' };
     if (m === 'matched') return { key: 'matched', text: 'Processed and matched', icon: 'done' };
-    return { key: 'ready', text: 'Processed, ready to match', icon: 'check' };
+    return { key: 'ready', text: 'Processed, ready to match', icon: 'open' };
   }
 
   var FILTERS = [
@@ -164,9 +175,15 @@
   ];
   function filterLabel(id) { for (var i = 0; i < FILTERS.length; i++) if (FILTERS[i].id === id) return FILTERS[i].label; return ''; }
 
+  /* The rows that need the reader come first: the list answers "what's
+     mine?" before it answers anything else. Array.sort is stable, so the
+     fixture's order holds inside each group. */
+  var RANK = { expired: 0, ready: 1, waiting: 2, matched: 3 };
+  function needsYou(p) { var k = listStatus(p).key; return k === 'expired' || k === 'ready'; }
+
   function shown() {
     var q = state.q.trim().toLowerCase();
-    return BASE.filter(function (p) {
+    return BASE.slice().sort(function (a, b) { return RANK[listStatus(a).key] - RANK[listStatus(b).key]; }).filter(function (p) {
       if (state.filter !== 'all' && listStatus(p).key !== state.filter) return false;
       if (!q) return true;
       return (p.supplier + ' ' + p.invoice + ' ' + p.ref).toLowerCase().indexOf(q) !== -1;
@@ -185,10 +202,13 @@
 
   /* A status is a word and a shape, never a color alone. The shapes are
      one each: a clock for waiting, a check for processed, a double check
-     for matched, a triangle for expired. */
+     for matched, an open circle for ready, a triangle for expired. Ready
+     is open on purpose: the fact is not done yet, so it can't wear a
+     check beside the one that is. */
   var ICONS = {
     clock: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     check: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
+    open: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/></svg>',
     done: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 13 4 4L15 7"/><path d="m11 17 10-10"/></svg>',
     alert: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5"/><path d="M12 17.5v.01"/></svg>'
   };
@@ -203,7 +223,7 @@
      so the box keeps its focus and its caret. */
   screens.list = function () {
     return '<header class="wr-head"><h3 class="wr-title" tabindex="-1">Payments</h3>' +
-      '<p class="wr-dek">Virtual payments sent to suppliers in the last 60 days, in this demo.</p></header>' +
+      '<p class="wr-dek">Virtual payments sent to suppliers in the last 60 days.</p></header>' +
       '<form class="wr-tools" role="search" aria-label="Find a payment">' +
         '<div class="wr-field wr-field--grow"><label for="wr-q">Search by supplier or invoice reference</label>' +
           '<input id="wr-q" type="search" data-search autocomplete="off" spellcheck="false" value="' + esc(state.q) + '"></div>' +
@@ -218,12 +238,13 @@
     var rows = shown();
     var s = '<p class="wr-count" data-count>' + count(rows.length, 'payment', 'payments') +
       (state.filter !== 'all' ? ', ' + filterLabel(state.filter).toLowerCase() : '') +
-      (state.q.trim() ? ', matching “' + esc(state.q.trim()) + '”' : '') + '</p>';
+      (state.q.trim() ? ', matching “' + esc(state.q.trim()) + '”' : '') +
+      (state.filter === 'all' && !state.q.trim() && rows.some(needsYou) ? ', ' + rows.filter(needsYou).length + ' need you' : '') + '</p>';
     if (!rows.length) {
       return s + '<p class="wr-empty">No payments match. Check the invoice reference, or <button type="button" class="wr-link" data-clear>clear the search and filter</button>.</p>';
     }
     s += '<div class="wr-table-wrap"><table class="wr-table"><caption class="visually-hidden">Payments, with each one’s status in plain words</caption>' +
-      '<thead><tr><th scope="col">Supplier</th><th scope="col">Invoice</th><th scope="col" class="wr-num">Amount</th><th scope="col">Status</th><th scope="col">Sent</th><th scope="col"><span class="visually-hidden">Open</span></th></tr></thead><tbody>';
+      '<thead><tr><th scope="col">Supplier</th><th scope="col">Invoice</th><th scope="col" class="wr-num">Amount</th><th scope="col">Status</th><th scope="col">Valid through</th><th scope="col"><span class="visually-hidden">Open</span></th></tr></thead><tbody>';
     rows.forEach(function (p) {
       var st = listStatus(p);
       s += '<tr data-row="' + p.id + '">' +
@@ -231,7 +252,7 @@
         '<td><span class="wr-td-label" aria-hidden="true">Invoice</span><span class="wr-ref">' + p.invoice + '</span></td>' +
         '<td class="wr-num"><span class="wr-td-label" aria-hidden="true">Amount</span>' + money(p.amount) + '</td>' +
         '<td><span class="wr-td-label" aria-hidden="true">Status</span>' + badge(st) + '</td>' +
-        '<td><span class="wr-td-label" aria-hidden="true">Sent</span>' + p.sent + '</td>' +
+        '<td><span class="wr-td-label" aria-hidden="true">Valid through</span>' + validThrough(p) + '</td>' +
         '<td class="wr-cell-act"><button type="button" class="wr-link wr-open" data-open="' + p.id + '">Open<span class="visually-hidden"> ' + p.invoice + ', ' + esc(p.supplier) + '</span></button></td>' +
       '</tr>';
     });
@@ -252,7 +273,7 @@
       '</header>';
 
     /* The two facts, side by side, each a status with its date. */
-    s += '<dl class="wr-facts" data-processing="' + pr + '" data-matching="' + m + '">' +
+    s += '<dl class="wr-facts" tabindex="-1" data-processing="' + pr + '" data-matching="' + m + '">' +
       '<div class="wr-fact"><dt>Supplier processing</dt><dd>' + processingFact(p, pr, ev) + '</dd></div>' +
       '<div class="wr-fact"><dt>Invoice matching</dt><dd>' + matchingFact(p, pr, m, ev) + '</dd></div>' +
     '</dl>';
@@ -269,7 +290,7 @@
     '</dl>';
 
     /* The activity, folded under the facts it was once above. */
-    s += '<details class="wr-activity"><summary class="disclosure-row wr-activity-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span data-activity>Activity, ' + count(ev.length, 'event', 'events') + '</span></summary>' +
+    s += '<details class="wr-activity"' + (state.activity ? ' open' : '') + '><summary class="disclosure-row wr-activity-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span data-activity>Activity, ' + count(ev.length, 'event', 'events') + '</span></summary>' +
       '<ol class="wr-events">' + ev.map(function (e) {
         return '<li><span class="wr-event-at">' + e.at + '</span><span class="wr-event-what">' + esc(e.what) + '</span><span class="wr-event-by">' + esc(e.by) + '</span></li>';
       }).join('') + '</ol></details>';
@@ -279,12 +300,12 @@
   function processingFact(p, pr, ev) {
     if (pr === 'sent') {
       return '<span class="wr-fact-head">' + ICONS.clock + 'Sent to supplier</span>' +
-        '<span class="wr-fact-line">Waiting for ' + esc(p.supplier) + ' to process it. Notice delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '.</span>';
+        '<span class="wr-fact-line">Waiting for ' + esc(p.supplier) + ' to process it. Notice delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No processing event as of ' + CHECKED_AT + '.</span>';
     }
     if (pr === 'processed') {
       var e = find(ev, 'processed');
       return '<span class="wr-fact-head">' + ICONS.check + 'Processed by supplier</span>' +
-        '<span class="wr-fact-line">' + esc(p.supplier) + ' processed it ' + e.at + (e.demo ? ', in this demo' : '') + '.</span>';
+        '<span class="wr-fact-line">' + esc(p.supplier) + ' processed it ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '.</span>';
     }
     /* The date that passed is the validity date, not the moment the system
        noticed: "Expired Nov 4" names what ran out. */
@@ -295,12 +316,12 @@
   function matchingFact(p, pr, m, ev) {
     if (m === 'matched') {
       var e = find(ev, 'matched');
-      return '<span class="wr-fact-head">' + ICONS.done + 'Matched to ' + p.invoice + '</span>' +
-        '<span class="wr-fact-line">' + (e.demo ? 'Matched in this demo, ' + e.at : 'Matched ' + e.at) + '. The invoice is closed' + (e.demo ? ' here' : '') + '.</span>';
+      return '<span class="wr-fact-head">' + ICONS.done + 'Matched to <span class="wr-nb">' + p.invoice + '</span></span>' +
+        '<span class="wr-fact-line">' + 'Matched ' + e.at + '. The invoice is closed.</span>';
     }
     if (pr === 'processed') {
-      return '<span class="wr-fact-head">' + ICONS.check + 'Ready to match to invoice</span>' +
-        '<span class="wr-fact-line">Processed, and not yet matched to ' + p.invoice + '. ' + (state.declined && p.id === state.open ? 'Nothing changed when you declined; the match is still open.' : 'Review the match to close the invoice.') + '</span>';
+      return '<span class="wr-fact-head">' + ICONS.open + 'Ready to match to invoice</span>' +
+        '<span class="wr-fact-line">Processed, and not yet matched to ' + p.invoice + '. ' + (state.declined && p.id === state.open ? 'Nothing changed when you declined. Check it with ' + esc(p.supplier) + ', then review the match again.' : 'Review the match to close the invoice.') + '</span>';
     }
     if (pr === 'expired') {
       return '<span class="wr-fact-head">Nothing to match</span>' +
@@ -314,18 +335,26 @@
     var who, line, act = '';
     if (pr === 'sent') {
       who = p.supplier;
-      line = 'Nothing for you to do yet. ' + esc(p.supplier) + ' has until ' + validThrough(p) + ' to process it, and the notice reached them ' + dateOf(find(eventsOf(p), 'notice').at) + '. If it’s still waiting a week before that date, follow up with them.';
+      line = 'Nothing for you to do yet. ' + esc(p.supplier) + ' has until ' + validThrough(p) + ' to process it. Follow up if it’s still waiting on ' + p.followUp + '.';
+      /* The scene is this supplier on the phone, so the record says what a
+         specialist can tell them, and offers the one thing they can do. */
+      var sent = dateOf(find(eventsOf(p), 'notice').at);
+      act = state.resent[p.id]
+        ? '<p class="wr-next-ask" tabindex="-1" data-resent><strong>If they call:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + ', and again ' + RESENT_AT + '.</p>'
+        : '<p class="wr-next-ask"><strong>If they call:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + '. Delivered doesn’t mean read.</p>' +
+          '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-resend>Send the notice again</button></p>';
     } else if (pr === 'processed' && m === 'unmatched') {
       who = 'You';
       line = esc(p.supplier) + ' processed it. Match it to ' + p.invoice + ' so the invoice closes in your books.';
-      act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-review aria-expanded="' + state.reviewing + '" aria-controls="wr-match">Review match</button></p>';
+      /* The panel's own button takes over while it is open: one primary. */
+      if (!state.reviewing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-review aria-expanded="false" aria-controls="wr-match">Review match</button></p>';
     } else if (m === 'matched') {
       who = 'No one';
-      line = 'This payment is processed and matched' + (state.matched[p.id] ? ' in this demo' : '') + '. There is nothing left to do on it.';
+      line = 'This payment is processed and matched. There is nothing left to do on it.';
     } else {
       who = 'You';
       line = 'The payment can’t be processed now. A replacement would be a new payment for ' + p.invoice + ' with a new validity date.';
-      act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-replace aria-expanded="' + state.replacing + '" aria-controls="wr-replace">Review replacement options</button></p>';
+      if (!state.replacing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-replace aria-expanded="false" aria-controls="wr-replace">Review replacement options</button></p>';
     }
     var s = '<section class="wr-next" aria-labelledby="wr-next-h"><h4 id="wr-next-h" class="wr-next-h">Who acts next</h4>' +
       '<p class="wr-next-who">' + esc(who) + '</p><p class="wr-next-line">' + line + '</p>' + act;
@@ -339,14 +368,21 @@
      memory. */
   function matchPanel(p) {
     var e = find(eventsOf(p), 'processed');
+    var agree = processedFor(p) === p.amount;
+    var charged = money(processedFor(p));
+    var verdict = agree
+      ? '<p class="wr-panel-line">' + ICONS.check + 'Supplier and amount agree. Confirming records the match and changes nothing about the processing.</p>'
+      : '<p class="wr-panel-line" data-differs>' + ICONS.alert + 'The amounts differ by ' + money(p.amount - processedFor(p)) + ', so this can’t be confirmed. Check it with ' + esc(p.supplier) + ' before the invoice closes.</p>';
+    var buttons = agree
+      ? '<button type="button" class="btn btn-primary wr-btn" data-confirm-match>Confirm match</button>' +
+        '<button type="button" class="btn btn-ghost-light wr-btn" data-decline-match>Not this invoice</button>'
+      : '<button type="button" class="btn btn-ghost-light wr-btn" data-decline-match>Leave it open</button>';
     return '<div class="wr-panel" id="wr-match"><h5 class="wr-panel-h" tabindex="-1">Proposed match</h5>' +
       '<div class="wr-pair">' +
         '<dl class="wr-pair-col"><dt>Invoice</dt><dd><span class="wr-ref">' + p.invoice + '</span></dd><dt>From</dt><dd>' + esc(p.supplier) + '</dd><dt>Amount</dt><dd>' + money(p.amount) + '</dd></dl>' +
-        '<dl class="wr-pair-col"><dt>Payment</dt><dd><span class="wr-ref">' + p.ref + '</span></dd><dt>Processed by</dt><dd>' + esc(p.supplier) + ', ' + e.at + '</dd><dt>Amount</dt><dd>' + money(p.amount) + '</dd></dl>' +
-      '</div>' +
-      '<p class="wr-panel-line">' + ICONS.check + 'Supplier and amount agree. Confirming records the match here and changes nothing about the processing.</p>' +
-      '<p class="wr-row"><button type="button" class="btn btn-primary wr-btn" data-confirm-match>Confirm match</button>' +
-      '<button type="button" class="wr-chip wr-chip--quiet" data-decline-match>Not this invoice</button></p></div>';
+        '<dl class="wr-pair-col"><dt>Payment</dt><dd><span class="wr-ref">' + p.ref + '</span></dd><dt>Processed by</dt><dd>' + esc(p.supplier) + ', ' + e.at + '</dd><dt>Amount</dt><dd' + (agree ? '' : ' data-differs') + '>' + charged + '</dd></dl>' +
+      '</div>' + verdict +
+      '<p class="wr-row">' + buttons + '</p></div>';
   }
 
   /* The exception's next step, informational: what a replacement is and
@@ -358,10 +394,10 @@
         '<li><strong>A replacement payment</strong> would be a new payment for ' + p.invoice + ', ' + money(p.amount) + ', with a new validity date. Issuing one needs your approver, and it is outside this demo.</li>' +
         '<li><strong>Don’t pay twice.</strong> This payment expired unprocessed, so nothing was charged. A replacement replaces it; it doesn’t add to it.</li>' +
       '</ol>' +
-      '<p class="wr-row"><button type="button" class="wr-chip" data-close-replace>Close</button></p></div>';
+      '<p class="wr-row"><button type="button" class="btn btn-ghost-light wr-btn" data-close-replace>Close</button></p></div>';
   }
 
-  /* 3. The supplier's notice, read-only, with only what the buyer shared. */
+  /* 3. The supplier's notice, with only what the buyer shared. */
   screens.notice = function () {
     var p = byId(state.open) || byId(FOLLOWED);
     var pr = processing(p), ev = eventsOf(p);
@@ -379,37 +415,56 @@
       '</dl>';
     if (pr === 'sent') {
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Process this payment</h4>' +
-        '<p class="wr-next-line">Processing charges the payment for the amount above and tells ' + BUYER.name + ' it is done. In this demo it adds one event and charges nothing.</p>' +
+        '<p class="wr-next-line">Processing charges the payment for the amount above and tells ' + BUYER.name + ' it is done.</p>' +
         '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-process>Process this payment</button></p></section>';
     } else if (pr === 'processed') {
       var e = find(ev, 'processed');
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Processed</h4>' +
-        '<p class="wr-next-line">' + ICONS.check + 'Processed ' + e.at + (e.demo ? ', in this demo' : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</p></section>';
+        '<p class="wr-next-line">' + ICONS.check + 'Processed ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</p></section>';
     } else {
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Expired</h4>' +
         '<p class="wr-next-line">' + ICONS.alert + 'This payment expired ' + validThrough(p) + ' and can no longer be processed. ' + BUYER.name + ' would need to send a replacement.</p></section>';
     }
-    s += '<p class="wr-fine">Read-only preview of the supplier’s notice. It shows only what the buyer shared: no approver, no account coding, no internal notes.</p>';
+    s += '<p class="wr-fine">The supplier’s notice shows only what the buyer shared: no approver, no account coding, no internal notes.</p>';
     return s;
   };
 
   /* ---------- the walkthrough's steps, outside the product ---------- */
 
-  var STEPS = [
-    { n: 1, name: 'Find it', hint: 'Search INV-20483, or filter to Waiting for supplier, and open the row.' },
-    { n: 2, name: 'Interpret it', hint: 'Two facts and who acts next, before any history. Then switch to the Supplier preview to follow the handoff.' },
-    { n: 3, name: 'Follow the handoff', hint: 'Larkspur’s side, read-only. Press Process this payment, then come back as the Buyer.' },
-    { n: 4, name: 'Close the loop', hint: 'Processed, and ready to match, as two facts. Review the match and confirm it.' },
-    { n: 5, name: 'The exception', hint: 'The same payment, expired unprocessed: what expired, what happened, and who acts next.' }
-  ];
-  function stepNow() {
-    if (state.scenario === 'expired') return 5;
-    if (state.screen === 'notice') return 3;
-    if (state.screen === 'detail') {
-      var p = byId(state.open);
-      return p && processing(p) === 'processed' ? 4 : 2;
+  /* Where the walkthrough stands is read from the followed payment, so the
+     rail can't go backwards and a hint can't ask for a press that is gone.
+     A payment other than the followed one says so rather than borrowing
+     the walkthrough's words. Returns the current step, how many before it
+     are done, and the line to show. */
+  function walk() {
+    var f = byId(FOLLOWED), pr = processing(f), m = matching(f);
+    var other = state.screen !== 'list' && state.open && state.open !== FOLLOWED;
+    var otherLine = 'Another payment on the list. The walkthrough follows INV-20483, back under Payments.';
+    if (other && state.open === 'bright-30077' && state.screen === 'detail') {
+      otherLine = state.reviewing
+        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows INV-20483, back under Payments.'
+        : 'This one was processed for less than the invoice. Review the match to see the check hold. The walkthrough follows INV-20483.';
     }
-    return 1;
+    if (state.scenario === 'expired') {
+      return { now: 5, done: state.walked ? 4 : 0, hint: other ? otherLine :
+        state.screen === 'notice' ? 'Larkspur’s side: it can’t be processed any more. Switch back to the Buyer.' :
+        state.screen === 'list' ? 'Expired payments sort to the top, because they need you. Start over to run the default path again.' :
+        state.replacing ? 'Nothing is issued here. Start over to run the default path again.' :
+        'The same payment, expired unprocessed: what ran out, what happened, and who acts next.' };
+    }
+    if (m === 'matched') {
+      return { now: 5, done: 4, hint: other ? otherLine : 'INV-20483 is closed, and the two facts changed at different ends. Now press Expired payment, above: the same payment when no one processes it.' };
+    }
+    if (pr === 'processed') {
+      if (other) return { now: 4, done: 3, hint: otherLine };
+      if (state.screen === 'notice') return { now: 3, done: 2, hint: 'That’s all on Larkspur’s side. Switch back to the Buyer to see what changed.' };
+      if (state.screen === 'list') return { now: 4, done: 3, hint: 'Open INV-20483 to close the loop.' };
+      return { now: 4, done: 3, hint: state.reviewing ? 'Check the two columns against each other, then confirm.' : 'Processed, and ready to match, as two facts. Review the match and confirm it.' };
+    }
+    if (other) return { now: 1, done: 0, hint: otherLine };
+    if (state.screen === 'notice') return { now: 3, done: 2, hint: 'Larkspur’s side. Press Process this payment, then switch back to the Buyer.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, hint: 'Two facts and who acts next, before any history. Then switch to the Supplier to follow the handoff.' };
+    return { now: 1, done: 0, hint: 'Search INV-20483, or filter to Waiting for supplier, and open the row.' };
   }
 
   /* ---------- rendering ---------- */
@@ -428,11 +483,19 @@
     setTimeout(function () { status.textContent = msg; }, 30);
   }
 
+  var lastKey = null;
+  var STEP_DONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 12.5 4 4 8-9"/></svg>';
+
   function render(opts) {
     opts = opts || {};
     var screen = state.role === 'supplier' ? 'notice' : state.screen;
     state.screen = screen;
     var scrolled = stage.scrollTop;
+    /* A new screen arrives; a press that stays on the screen doesn't replay
+       the arrival over everything already there. */
+    var key = screen + '|' + state.open + '|' + state.scenario;
+    if (key !== lastKey) stage.setAttribute('data-arrive', ''); else stage.removeAttribute('data-arrive');
+    lastKey = key;
     stage.innerHTML = screens[screen]();
     /* The window is one fixed size from 48rem and the stage scrolls inside
        it: a new screen starts at its top, and a press that stays on the
@@ -443,15 +506,20 @@
     root.setAttribute('data-scenario', state.scenario);
     if (chrome) {
       chrome.innerHTML = state.role === 'supplier'
-        ? '<span class="wr-org">' + esc(byId(state.open || FOLLOWED).supplier) + '</span><span class="wr-role">Accounts receivable · Supplier preview, read-only</span>'
+        ? '<span class="wr-org">' + esc(byId(state.open || FOLLOWED).supplier) + '</span><span class="wr-role">Accounts receivable</span>'
         : '<span class="wr-org">' + BUYER.name + '</span><span class="wr-role">' + BUYER.team + '</span>';
     }
-    var now = stepNow();
+    var w = walk();
     Array.prototype.forEach.call(steps, function (el) {
       var n = Number(el.getAttribute('data-wren-step'));
-      if (n === now) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+      if (n === w.now) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+      var done = n <= w.done;
+      if (done) el.setAttribute('data-done', ''); else el.removeAttribute('data-done');
+      el.querySelector('.as-step-n').innerHTML = done ? STEP_DONE : String(n);
+      var said = el.querySelector('[data-step-said]');
+      if (said) said.textContent = done ? ', done' : '';
     });
-    if (hint) hint.textContent = STEPS[now - 1].hint;
+    if (hint) hint.textContent = w.hint;
     Array.prototype.forEach.call(scenarios, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-scenario') === state.scenario)); });
     Array.prototype.forEach.call(roles, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-role') === state.role)); });
     if (opts.announce) announce(opts.announce);
@@ -464,12 +532,20 @@
     }
   }
 
-  /* Brings what a press opened into the stage's view, moving the stage and
-     not the page. A panel taller than the stage shows from its top. */
+  /* Brings what a press opened or changed into view. From 48rem that moves
+     the stage and not the page; a phone has no inner scroll, so there it
+     moves the page, below the fixed nav. A thing taller than the view shows
+     from its top. */
   function reveal(el) {
-    var view = stage.getBoundingClientRect();
     var box = el.getBoundingClientRect();
     var foot = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
+    if (getComputedStyle(stage).overflowY === 'visible') {
+      var nav = document.querySelector('.site-nav');
+      var top = (nav ? nav.getBoundingClientRect().bottom : 0) + foot;
+      if (box.top < top || box.bottom + foot > window.innerHeight) window.scrollBy(0, box.top - top);
+      return;
+    }
+    var view = stage.getBoundingClientRect();
     var below = box.bottom + foot - view.bottom;
     if (below > 0) stage.scrollTop += Math.min(below, box.top - view.top);
     else if (box.top < view.top) stage.scrollTop -= view.top - box.top;
@@ -491,6 +567,7 @@
     state.reviewing = false;
     state.replacing = false;
     state.declined = false;
+    state.activity = false;
     state.returnTo = from || null;
     state.screen = 'detail';
     var p = byId(id);
@@ -510,7 +587,9 @@
     if (t.hasAttribute('data-scenario')) {
       var sc = t.getAttribute('data-scenario');
       if (sc === state.scenario) return;
+      var walked = state.walked;
       state = fresh(sc);
+      state.walked = walked;
       if (sc === 'expired') {
         state.open = FOLLOWED;
         state.screen = 'detail';
@@ -527,7 +606,7 @@
       if (r === 'supplier') {
         if (!state.open) state.open = FOLLOWED;
         state.screen = 'notice';
-        render({ focus: '.wr-title', announce: 'Supplier preview: the payment notice as ' + byId(state.open).supplier + ' sees it. Read-only.' });
+        render({ focus: '.wr-title', announce: 'Supplier role: the payment notice as ' + byId(state.open).supplier + ' sees it.' });
       } else {
         state.screen = 'detail';
         render({ focus: '.wr-title', announce: 'Back to the buyer’s record. ' + listStatus(byId(state.open)).text + '.' });
@@ -566,7 +645,8 @@
       if (!pm || processing(pm) !== 'processed' || matching(pm) === 'matched') return;
       state.matched[pm.id] = true;
       state.reviewing = false;
-      render({ focus: '.wr-facts', still: true, announce: 'Matched in this demo: ' + pm.ref + ' to ' + pm.invoice + ', ' + MATCHED_AT + '. The processing event is unchanged.' });
+      if (pm.id === FOLLOWED) state.walked = true;
+      render({ focus: '.wr-facts', still: true, announce: 'Matched: ' + pm.ref + ' to ' + pm.invoice + ', ' + MATCHED_AT + '. The processing event is unchanged.' });
       return;
     }
     if (t.hasAttribute('data-replace')) {
@@ -579,14 +659,26 @@
       render({ focus: '[data-replace]', still: true, announce: 'Replacement options hidden.' });
       return;
     }
+    if (t.hasAttribute('data-resend')) {
+      var pn = byId(state.open);
+      if (!pn || state.resent[pn.id]) return;
+      state.resent[pn.id] = true;
+      render({ focus: '[data-resent]', still: true, announce: 'Notice sent again to ' + pn.noticeTo + ', ' + RESENT_AT + '.' });
+      return;
+    }
     if (t.hasAttribute('data-process')) {
       var ps = byId(state.open || FOLLOWED);
       if (!ps || processing(ps) !== 'sent') return;
       state.processed[ps.id] = true;
-      render({ focus: '.wr-title', still: true, announce: 'Processed ' + PROCESSED_AT + ', in this demo. ' + BUYER.name + ' can see it now.' });
+      render({ focus: '.wr-title', still: true, announce: 'Processed ' + PROCESSED_AT + '. ' + BUYER.name + ' can see it now.' });
       return;
     }
   });
+
+  /* Unfolding the activity survives the next press. toggle doesn't bubble. */
+  root.addEventListener('toggle', function (e) {
+    if (e.target.classList && e.target.classList.contains('wr-activity')) state.activity = e.target.open;
+  }, true);
 
   /* The search and the filter redraw the rows in place. */
   root.addEventListener('input', function (e) {
@@ -604,10 +696,6 @@
     if (state.reviewing) { state.reviewing = false; render({ focus: '[data-review]', still: true, announce: 'Proposed match hidden.' }); }
     else if (state.replacing) { state.replacing = false; render({ focus: '[data-replace]', still: true, announce: 'Replacement options hidden.' }); }
   });
-
-  /* The focus ring the stage draws is the site's; a title focused by
-     script shows none, as a landed heading. */
-  Array.prototype.forEach.call(stage.querySelectorAll('.wr-title'), function (h) { h.setAttribute('tabindex', '-1'); });
 
   render();
 })();

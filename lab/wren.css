@@ -8,7 +8,7 @@
  * focus ring on links and buttons, and the reduced-motion blanket come from
  * there. This file adds the window, the list, the record, the supplier's
  * notice, and the few controls the app has that style.css does not: the
- * search field, the status filter, the chips, the status marks.
+ * search field, the status filter, the status marks.
  *
  * DESKTOP FIRST. Accounts payable is done at a desk, so the window takes
  * the page's full container and the list is a table with six columns from
@@ -171,6 +171,7 @@
 .wr-app .wr-eyebrow { margin: 0 0 var(--space-2xs); }
 .wr-app .wr-fine { font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: var(--measure); }
 .wr-muted { color: var(--color-muted-gray); }
+.wr-nb { white-space: nowrap; }  /* a reference doesn't break at its hyphen */
 /* A reference is set in the mono at the line's own size (one size per
    line, and every size a step of the scale), so an invoice and a payment
    reference read as the things they are: strings to be matched character
@@ -182,7 +183,7 @@
   color: inherit;
 }
 
-/* ---------- Links and chips the app has ---------- */
+/* ---------- Links the app has ---------- */
 .wr-app .wr-link,
 .wr-app .wr-back {
   display: inline-flex;
@@ -202,6 +203,9 @@
   cursor: pointer;
 }
 .wr-app .wr-back { text-decoration: none; }
+/* The way into a record and the way back out: a thumb's size on a touch
+   screen, the floor the demo's own controls keep. */
+@media (pointer: coarse) { .wr-app .wr-open, .wr-app .wr-back { min-height: 2.75rem; } }
 .wr-app .wr-back svg { width: 1lh; height: 1lh; margin-left: calc(-1 * var(--space-2xs)); }
 @media (hover: hover) and (pointer: fine) {
   .wr-app .wr-link:hover,
@@ -209,31 +213,8 @@
 }
 .wr-app .wr-link:focus-visible,
 .wr-app .wr-back:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 4px; }
-/* A row's Open is a link in a cell; it keeps the row's 44px height by the
-   cell's padding, and the whole label reads as one press. */
 .wr-app .wr-crumbs { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); }
 
-.wr-app .wr-chip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  padding: var(--space-xs) var(--space-md);
-  background: var(--color-white);
-  border: 1px solid var(--color-muted-gray);
-  border-radius: var(--radius-pill);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-  cursor: pointer;
-  transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
-}
-.wr-app .wr-chip--quiet { color: var(--color-muted-gray); }
-@media (hover: hover) and (pointer: fine) {
-  .wr-app .wr-chip:hover { background: var(--wash-on-light-hover); color: var(--color-charcoal); }
-}
-.wr-app .wr-chip:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 .wr-app .wr-btn { min-height: 2.75rem; }
 .wr-app .wr-row,
 .wr-app .wr-act {
@@ -385,6 +366,8 @@
   gap: var(--space-sm);
   margin: 0;
 }
+.wr-facts:focus { outline: none; }
+.wr-facts:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; border-radius: 4px; }
 @media (min-width: 48rem) { .wr-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); } }
 .wr-facts:focus { outline: none; }
 .wr-fact {
@@ -451,6 +434,16 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+/* What a specialist can tell a supplier on the phone. */
+.wr-app .wr-next-ask {
+  margin: var(--space-sm) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wr-app .wr-next-ask:focus { outline: none; }
+.wr-app .wr-next-ask:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; border-radius: 4px; }
 .wr-app .wr-next-line .wr-icon { vertical-align: top; margin-right: var(--space-2xs); color: var(--color-accent-text); }
 .wr-next .wr-act { margin-bottom: 0; }
 
@@ -482,6 +475,10 @@
   color: var(--color-charcoal);
 }
 .wr-panel-line .wr-icon { color: var(--color-accent-text); }
+/* A match that disagrees: the words say so, and the one figure that
+   differs takes the caution ink beside them. */
+.wr-app .wr-panel-line[data-differs] .wr-icon,
+.wr-app .wr-pair-col dd[data-differs] { color: var(--color-caution-text); }
 .wr-app .wr-panel .wr-row { margin-top: var(--space-md); }
 .wr-pair {
   display: grid;
@@ -577,7 +574,7 @@
 
 /* ---------- Motion ----------
    A new screen arrives as the site's blocks do, --motion-move on
-   --ease-enter; the reduced-motion blanket in style.css stops it. */
+   --ease-enter, and a press that stays on the screen doesn't replay it; the reduced-motion blanket in style.css stops it. */
 @keyframes wr-arrive { from { opacity: 0; transform: translateY(var(--space-xs)); } }
-.wr-stage > * { animation: wr-arrive var(--motion-move) var(--ease-enter) both; }
-@media (prefers-reduced-motion: reduce) { .wr-stage > * { animation: none; } }
+.wr-stage[data-arrive] > * { animation: wr-arrive var(--motion-move) var(--ease-enter) both; }
+@media (prefers-reduced-motion: reduce) { .wr-stage[data-arrive] > * { animation: none; } }

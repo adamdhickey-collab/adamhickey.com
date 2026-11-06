@@ -199,7 +199,7 @@ export const REACHABLE = {
   /* After Send, since 2026-11-06: the buyer's payments list is the page at
      rest, and every screen after it is drawn by lab/wren.js on a press:
      the record while the supplier has not processed, the supplier's
-     read-only notice before and after Process, the record with the match
+     notice before and after Process, the record with the match
      proposed, confirmed, and declined, the activity opened, and the same
      payment in the expired scenario with its replacement options open.
      The presses are the demo's data-* hooks, the same ones
@@ -210,9 +210,13 @@ export const REACHABLE = {
   'lab/after-send.html': [
     { name: 'a payment record, waiting for the supplier',
       press: ['[data-open="larkspur-20483"]'] },
+    { name: 'the record, the notice sent again',
+      press: ['[data-open="larkspur-20483"]', '[data-resend]'] },
+    { name: 'a match that disagrees',
+      press: ['[data-open="bright-30077"]', '[data-review]'] },
     { name: 'the record, its activity opened',
       press: ['[data-open="larkspur-20483"]', '.wr-activity-row'] },
-    { name: 'the supplier’s notice, read-only',
+    { name: 'the supplier’s notice',
       press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]'] },
     { name: 'the notice, processed',
       press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]'] },
