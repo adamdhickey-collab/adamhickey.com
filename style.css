@@ -295,16 +295,8 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
 @media (min-width: 768px) {
   .hero-eyebrow { margin-top: 0; margin-bottom: var(--space-sm); }
 }
-/* THREE FACTS SINCE 2026-10-23: the role, where, and the search. Each
-   phrase holds together, and the separator's no-break space ties the dot to
-   the phrase before it, so a line that has to wrap ends on a dot rather than
-   starting on one. On a phone the line would wrap twice either way, so the
-   three stack as three short lines and the dots go. */
-.hero-eyebrow > span:not(.hero-eyebrow-sep) { white-space: nowrap; }
-@media (max-width: 640px) {
-  .hero-eyebrow > span { display: block; }
-  .hero-eyebrow > .hero-eyebrow-sep { display: none; }
-}
+/* The role wraps on a phone; pretty keeps "Designer" from a line of its own. */
+.hero-eyebrow { text-wrap: pretty; }
 .hero-eyebrow + .hero-title { margin-top: 0; }
 .hero-title { margin-top: var(--space-4xl); margin-bottom: var(--space-md); word-break: break-word; }
 @media (min-width: 768px) { .hero-title { margin-top: var(--space-4xl); margin-bottom: 0; } }
@@ -483,7 +475,7 @@ p  { font-size: var(--text-base); line-height: var(--leading-body); color: var(-
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-/* The hero's "See enterprise work" lands on the section head
+/* The hero's "See case studies" lands on the section head
    (#enterprise-work) since 2026-10-24, when the group label it used to
    land on came out. The label's clearance comes with it: the nav's height
    and a step, so "Selected work" arrives under the bar, not behind it. */
@@ -2262,9 +2254,33 @@ html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
    settled screen. Mobile has no per-letter title animation at all, so
    there the buttons arrive almost with the copy. */
 .hero-cta { margin-top: var(--space-xl); }
+.hero-availability.reveal,
 .hero-cta.reveal { transition-delay: 0.35s; }
-@media (max-width: 767.98px) { .hero-cta.reveal { transition-delay: 0.1s; } }
+@media (max-width: 767.98px) {
+  .hero-availability.reveal,
+  .hero-cta.reveal { transition-delay: 0.1s; }
+}
 @media (min-width: 768px) { .hero-cta { margin-top: var(--space-2xl); } }
+/* The search, directly over the row it leads to, since 2026-11-06. It came out
+   of the eyebrow with the eyebrow's wrapping: each phrase holds together, the
+   no-break space ties the dot to the phrase before it, so a line that has to
+   wrap ends on a dot rather than starting on one. On a phone, and in the
+   narrow two-column hero from 768 to 1024, the two stack and the dot goes. It sits nearer the buttons than the dek, so the two read
+   as one group. */
+.hero-availability {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.hero-availability > span:not(.hero-availability-sep) { white-space: nowrap; }
+.hero-availability + .hero-cta { margin-top: var(--space-md); }
+@media (max-width: 640px), (min-width: 768px) and (max-width: 1023.98px) {
+  .hero-availability > span { display: block; }
+  .hero-availability > .hero-availability-sep { display: none; }
+}
 /* The résumé, last in the row since 2026-10-23: a text link on the buttons'
    line rather than a third button, so the row keeps one filled ask. Its box
    is the 44px touch floor, centred on the buttons; the prose-link group

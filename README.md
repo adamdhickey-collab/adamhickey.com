@@ -152,8 +152,8 @@ the archive so that it holds everything staging ever had.
 
 Sections in file order, in the base ordering -- `scripts/variant.mjs` can
 lead with a different proof, and `--status` says which is live: the hero (the portrait clip with its pause control,
-an eyebrow naming the role, the search ("Open to remote or hybrid roles" since
-2026-10-24), two buttons and a résumé link, the six-item proof strip,
+an eyebrow naming the role, the search as its own line above the buttons
+(since 2026-11-06), two buttons and a résumé link, the six-item proof strip,
 and the client logos) → Selected work (the three client case studies first
 since 2026-10-23 -- SAP, USDA, and since 2026-10-26 the Innovators Studio
 identity where dispatch was -- with no label over them since
