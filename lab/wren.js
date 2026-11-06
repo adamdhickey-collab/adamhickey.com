@@ -442,8 +442,8 @@
     var otherLine = 'Another payment on the list. The walkthrough follows INV-20483, back under Payments.';
     if (other && state.open === 'bright-30077' && state.screen === 'detail') {
       otherLine = state.reviewing
-        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows INV-20483, back under Payments.'
-        : 'This one was processed for less than the invoice. Review the match to see the check hold. The walkthrough follows INV-20483.';
+        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows INV-20483.'
+        : 'Processed for less than the invoice. Review the match to see the check hold. Then go back to INV-20483.';
     }
     if (state.scenario === 'expired') {
       return { now: 5, done: state.walked ? 4 : 0, hint: other ? otherLine :
@@ -453,7 +453,7 @@
         'The same payment, expired unprocessed: what ran out, what happened, and who acts next.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, hint: other ? otherLine : 'INV-20483 is closed, and the two facts changed at different ends. Now press Expired payment, above: the same payment when no one processes it.' };
+      return { now: 5, done: 4, hint: other ? otherLine : 'INV-20483 is closed. Now press Expired payment, above: the same payment when no one processes it.' };
     }
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, hint: otherLine };
