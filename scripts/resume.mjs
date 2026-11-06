@@ -74,7 +74,7 @@
  * RBA bullets lead with the design leadership the SAP and USDA work shows
  * (audits walked through app by app, workshops, a scorecard each team ran
  * itself) and the capabilities put enterprise product design first, for a
- * senior or lead product design search that is not only new products. The title stays Senior Product Designer; employers, titles,
+ * senior or lead product design search that is not only new products. From 2026-11-06 the headline title and first sentence match the homepage hero, at Adam's word; employers, titles,
  * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -196,13 +196,13 @@ const html = String.raw`<!doctype html>
 <body>
 <header>
   <h1>Adam Hickey</h1>
-  <p class="tagline">Senior Product Designer · Enterprise Systems · Design Leadership · Visual Design · Prototyping in Code</p>
+  <p class="tagline">Hands-on Senior / Lead Product Designer · Enterprise Systems · Visual Design · Prototyping in Code</p>
   <p class="contact"><span>Minneapolis, MN</span><span>Remote or hybrid</span><span>adam@adamhickey.com</span><span>adamhickey.com</span><span>linkedin.com/in/adamdhickey</span></p>
 </header>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I make enterprise software easier to use and new ideas faster to test. Senior product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
+  <p>I simplify complex workflows and build prototypes to test new ideas. Senior and lead product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
 </section>
 
 <section>
@@ -397,9 +397,9 @@ const reading = String.raw`<!doctype html>
 <main>
   <header>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
-    <p class="title">Senior Product Designer</p>
+    <p class="title">Hands-on Senior / Lead Product Designer</p>
   </header>
-  <p class="intro">I make enterprise software easier to use and new ideas faster to test. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
+  <p class="intro">I simplify complex workflows and build prototypes to test new ideas. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
 
   <section>
     <h2>Independent</h2>
