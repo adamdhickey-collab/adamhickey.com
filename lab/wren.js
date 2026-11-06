@@ -432,7 +432,12 @@
     opts = opts || {};
     var screen = state.role === 'supplier' ? 'notice' : state.screen;
     state.screen = screen;
+    var scrolled = stage.scrollTop;
     stage.innerHTML = screens[screen]();
+    /* The window is one fixed size from 48rem and the stage scrolls inside
+       it: a new screen starts at its top, and a press that stays on the
+       screen leaves the reader where they were. */
+    stage.scrollTop = opts.still ? scrolled : 0;
     stage.setAttribute('data-screen', screen);
     root.setAttribute('data-role', state.role);
     root.setAttribute('data-scenario', state.scenario);
@@ -452,8 +457,22 @@
     if (opts.announce) announce(opts.announce);
     if (opts.focus) {
       var el = stage.querySelector(opts.focus);
-      if (el) el.focus({ preventScroll: !!opts.still });
+      if (el) {
+        el.focus({ preventScroll: !!opts.still });
+        if (opts.still) reveal(el.closest('.wr-panel') || el);
+      }
     }
+  }
+
+  /* Brings what a press opened into the stage's view, moving the stage and
+     not the page. A panel taller than the stage shows from its top. */
+  function reveal(el) {
+    var view = stage.getBoundingClientRect();
+    var box = el.getBoundingClientRect();
+    var foot = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
+    var below = box.bottom + foot - view.bottom;
+    if (below > 0) stage.scrollTop += Math.min(below, box.top - view.top);
+    else if (box.top < view.top) stage.scrollTop -= view.top - box.top;
   }
 
   /* The rows alone, as the reader types or filters. */

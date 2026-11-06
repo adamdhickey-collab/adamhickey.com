@@ -12,9 +12,11 @@
  *
  * DESKTOP FIRST. Accounts payable is done at a desk, so the window takes
  * the page's full container and the list is a table with six columns from
- * 48rem. Under that the table stacks: each row a small card with its
- * column names printed inside it (real elements, shown only there), so a
- * phone reads the same words a desk does.
+ * 48rem. From 48rem the window is also one fixed shape, a tablet held
+ * landscape, whatever screen is in it; see "The window" below. Under that
+ * the table stacks: each row a small card with its column names printed
+ * inside it (real elements, shown only there), so a phone reads the same
+ * words a desk does, at the height those words take.
  *
  * EVERY SIZE IS A STEP, every space a --space-*, every color a token and
  * every duration a --motion-*. No tracked capitals: the field labels take
@@ -46,7 +48,18 @@
 /* ---------- The window ----------
    The site's device chrome, as the cockpit's .ck-frame: one --bezel of
    --device-chrome with --shadow-device under it, and the app white inside.
-   The corner is the cockpit's 14px, a desktop window's, not a phone's. */
+   The corner is the cockpit's 14px, a desktop window's, not a phone's.
+
+   ONE SHAPE, EVERY SCREEN. From 48rem the window is a tablet held
+   landscape, 1180:820, on every scenario, role, and step, so moving through
+   the demo changes what is in the window and never the window. Until
+   2026-11-06 it took each screen's height, 541px to 1018px at the same
+   width, and everything under it jumped on each press. The bar stays put
+   and the stage scrolls, which is what the two longest screens need with a
+   panel open (wren.js keeps an opened panel in view). The floor is the
+   list's own height, for the narrow end of that range, where the ratio
+   alone would cut the table. A phone keeps the flow: a window inside a
+   scrolling page is a scroll trap under a thumb. */
 .wr-frame {
   --shell-radius: 14px;
   width: 100%;
@@ -64,6 +77,21 @@
   font-size: var(--text-base);
   line-height: var(--leading-ui);
   overflow: clip;
+}
+@media (min-width: 48rem) {
+  .wr-frame {
+    display: flex;
+    aspect-ratio: 1180 / 820;
+    min-height: 38rem;
+  }
+  .wr-app {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .wr-stage { overflow-y: auto; }
 }
 
 /* The app's bar: its name, then the organization and the role the reader

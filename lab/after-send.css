@@ -44,8 +44,10 @@
 }
 
 /* ---------- The demo, around the window ----------
-   The section sits tight under the hero, on the page's white, and the
-   window takes the container. The rail and the controls are the demo's
+   The section stands the same distance from the hero above it as from the
+   next chapter below it: --space-block on top here, and none at the foot,
+   because that chapter's own top padding is --space-block. The window
+   takes the container. The rail and the controls are the demo's
    own and sit outside the device chrome, so what is inside the bezel is
    the product and nothing else. Two rows over the window since the second
    pass (2026-11-06): the kicker with the controls at its right, then the
@@ -55,7 +57,7 @@
    over a quiet sage button with its arrow. Until that pass the controls
    were filled pills inside bordered pills under a label of their own, a
    third row of chrome that read as busier than the product under it. */
-.as-demo { padding-top: 0; }
+.as-demo { padding: var(--space-block) 0 0; }
 .as-demo-bar {
   display: flex;
   flex-wrap: wrap;
@@ -119,7 +121,9 @@
 }
 
 /* The steps: five numbered names in a row, the one the reader is on in
-   charcoal, and the hint under them saying what to press. */
+   charcoal, and the hint under them saying what to press. The hint runs
+   the window's width so that every step's sits on one line and the window
+   holds its place; at the measure, some wrapped and moved it 26px. */
 .as-walk {
   display: grid;
   gap: var(--space-xs);
@@ -165,7 +169,6 @@
 .as-hint {
   margin: 0;
   min-height: 1lh;
-  max-width: var(--measure);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-body);
