@@ -230,6 +230,10 @@ export const REACHABLE = {
       press: ['[data-scenario="expired"]'] },
     { name: 'the expired record, replacement options open',
       press: ['[data-scenario="expired"]', '[data-replace]'] },
+    /* Not the prototype: the two records under "Status first", whose answers
+       wait for a press since 2026-11-06. One state for the pair. */
+    { name: 'the two records, answered',
+      press: ['.as-wire [data-show-answers]', '.as-wire--proposed [data-show-answers]'] },
   ],
 
   'lab/inspiration-to-aisle.html': [
