@@ -34,8 +34,8 @@
  * published at adamhickey.com, which is why the script refuses to put one
  * there.
  *
- * The one-page contract applies to variants too, and the detailed copy
- * already renders at 1056px of 1056. A variant that adds a line has to take
+ * The one-page contract applies to variants too, margins included, and the
+ * detailed copy has little room left. A variant that adds a line has to take
  * one back.
  *
  * Deliberately a .mjs holding a template string rather than a .html file:
@@ -202,7 +202,7 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Professional summary</h2>
-  <p>I simplify complex workflows and build prototypes to test new ideas. Senior and lead product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
+  <p>I design complex workflows and prototype new ideas. Senior and lead product designer with 20 years across visual design, interaction, and enterprise software, for organizations including Cargill, Intel, CBRE, and Toro. Thirteen years leading UX for complex B2B applications and the design systems other teams built from: research with the people doing the work, one standard across 40+ apps, and release checks that held after I left. Hands-on from the first sketch to working prototypes, now built with coding agents, on products that are new or have grown complicated.</p>
 </section>
 
 <section>
@@ -299,10 +299,10 @@ const reading = String.raw`<!doctype html>
   body {
     width: 8.5in;
     height: 11in;
-    padding: 0.62in 0.7in 0.5in;
+    padding: 0.6in 0.7in 0.6in;
     font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
     font-size: 9.5pt;
-    line-height: 1.5;
+    line-height: 1.45;
     color: #252525;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -337,7 +337,7 @@ const reading = String.raw`<!doctype html>
   .intro {
     font-size: 10.5pt;
     line-height: 1.5;
-    margin: 18pt 0 0;
+    margin: 14pt 0 0;
   }
   h2 {
     font-size: 11pt;
@@ -345,7 +345,7 @@ const reading = String.raw`<!doctype html>
     line-height: 1.3;
     margin: 0 0 5pt;
   }
-  main section { margin-top: 24pt; }
+  main section { margin-top: 18pt; }
   aside section + section { margin-top: 22pt; }
   /* The reference this was drawn from hangs each role on a dot, with a
      hairline running down beside what was done there. It is the one
@@ -399,7 +399,7 @@ const reading = String.raw`<!doctype html>
     <h1><span class="name-text">Adam Hickey</span><img class="wordmark" src="${logo}" alt=""></h1>
     <p class="title">Hands-on Senior / Lead Product Designer</p>
   </header>
-  <p class="intro">I simplify complex workflows and build prototypes to test new ideas. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
+  <p class="intro">I design complex workflows and prototype new ideas. Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and the systems teams build from.</p>
 
   <section>
     <h2>Independent</h2>
@@ -539,8 +539,15 @@ try {
   await page.setContent(doc, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   /* One page is the contract. Measure before printing so the failure names
-     the overflow in points rather than handing back a two-page file. */
-  const height = await page.evaluate(() => document.body.scrollHeight);
+     the overflow in points rather than handing back a two-page file. It
+     measures the content plus the bottom margin: the reading copy's body is a
+     fixed 11in, so scrollHeight read 1056 while its last line sat on the edge
+     of the paper with the bottom margin gone (2026-11-06). */
+  const height = await page.evaluate(() => {
+    const kids = [...document.body.children].filter((el) => !['SCRIPT', 'STYLE'].includes(el.tagName));
+    const bottom = Math.max(...kids.map((el) => el.getBoundingClientRect().bottom));
+    return Math.ceil(bottom + parseFloat(getComputedStyle(document.body).paddingBottom));
+  });
   const limit = 11 * 96;
   if (png) await page.screenshot({ path: png, fullPage: true });
   if (height > limit) {
