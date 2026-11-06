@@ -161,6 +161,150 @@
   .explore-still-line { font-size: var(--text-base); line-height: var(--leading-tight); }
 }
 
+/* ---------- The handoff: After Send's point, as a still ----------
+   The homepage's After Send card and the lab index's entry, since later on
+   2026-11-06 (Adam: a simplified graphic that explains it, with words on
+   it, as Agent Review's has). The same panel, the same words at the same
+   sizes, so the two read as a pair. What differs is what they show: Agent
+   Review's three tiles are options, so they stand apart in boxes; these are
+   three facts that happen in order, so they sit on a rail with no boxes.
+   A status is a shape as well as an ink, as it is in the prototype: a check
+   on a filled disc for the fact that is known, a clock on a sage ring for
+   the one the headline asks about, and an invoice on a gray ring for the
+   one still open. The line is solid
+   as far as anyone knows and dashed from there.
+
+   Narrow, the rail runs down the left with the words beside each disc, as
+   the ways are rows; from 30rem it runs across, its names and lines on a
+   shared grid, so a name that takes two lines leaves its neighbors' lines
+   level.
+
+   BESIDE AGENT REVIEW, EVERYTHING SITS LEVEL, since later on 2026-11-06
+   (Adam: the headlines, the icons, and the text below should line up across
+   the two panels). So the rail keeps the ways' measures though it draws no
+   box: the same gaps, the same padding above and below inside each step,
+   and the same transparent hairline where a tile has its border. Change
+   one and the other moves out of level. The lab index gives the panel a
+   16:9 of its own and centers the pair in it (index.css). */
+.explore-still--handoff {
+  display: flex;
+  flex-direction: column;
+}
+/* On the homepage only: the lab index gives the panel a 16:9 of its own,
+   and a height there would stop it growing past that on a phone. */
+.case-thumb--still > .explore-still--handoff { height: 100%; }
+
+.explore-still .handoff-record {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin: 0;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--rule-on-dark);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--ink-on-dark-muted);
+}
+.handoff-paid {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex: none;
+  font-weight: var(--weight-semibold);
+  color: var(--ink-on-dark);
+}
+.handoff-paid::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: 50%;
+  background: var(--color-accent-on-dark);
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring-on-dark);
+}
+@container (max-width: 29.99rem) {
+  .handoff-supplier {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.handoff-rail {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0 var(--space-lg) var(--space-lg);
+  list-style: none;
+}
+.handoff-rail li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  column-gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-block: 1px solid transparent;
+}
+.handoff-rail .explore-still-line { margin-top: var(--space-2xs); }
+.handoff-step--done .explore-still-icon {
+  background: var(--color-accent-on-dark);
+  color: var(--color-charcoal);
+}
+.handoff-step--asked .explore-still-icon {
+  box-shadow: inset 0 0 0 1px var(--color-accent-on-dark);
+}
+.handoff-step--open .explore-still-icon {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong);
+  color: var(--ink-on-dark-muted);
+}
+/* The rail, from one disc to the next, stopping short of both. */
+.handoff-rail li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% + var(--space-3xl) / 2 + var(--space-2xs));
+  height: calc(100% + var(--space-sm) - var(--space-3xl) - 2 * var(--space-2xs));
+  left: calc(var(--space-3xl) / 2);
+  border-left: 1px solid var(--color-accent-on-dark);
+}
+.handoff-rail li.handoff-step--asked::after {
+  border-left-style: dashed;
+  border-left-color: var(--rule-on-dark-strong);
+}
+
+@container (min-width: 30rem) {
+  .explore-still .handoff-record { padding: var(--space-md) var(--space-xl); }
+  .handoff-rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+    row-gap: var(--space-2xs);
+    padding: 0 var(--space-xl) var(--space-xl);
+  }
+  .handoff-rail li {
+    grid-row: span 3;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    padding: var(--space-md) var(--space-md) var(--space-md) 0;
+  }
+  .handoff-rail .explore-still-line { margin-top: 0; }
+  .handoff-rail li:not(:last-child)::after {
+    top: calc(var(--space-md) + var(--space-3xl) / 2);
+    height: 0;
+    left: calc(var(--space-3xl) + var(--space-xs));
+    right: calc(var(--space-xs) - var(--space-sm));
+    border-left: 0;
+    border-top: 1px solid var(--color-accent-on-dark);
+  }
+  .handoff-rail li.handoff-step--asked::after {
+    border-top-style: dashed;
+    border-top-color: var(--rule-on-dark-strong);
+  }
+}
+
 /* ---------- The lab row, two across ----------
    Since 2026-10-28 (Adam: add the new case study, de-emphasize the agents
    one, two columns). The row under the three accounts holds two pieces,
