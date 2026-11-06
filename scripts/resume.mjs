@@ -13,7 +13,8 @@
  *   node scripts/resume.mjs --full          # writes ../Adam Hickey Resume (detailed).pdf
  *   node scripts/resume.mjs --out x.pdf     # writes somewhere else
  *   node scripts/resume.mjs --png x.png     # a full-page screenshot, for eyeballing
- *   node scripts/resume.mjs --variant P     # renders a tailored copy from P
+ *   node scripts/resume.mjs --variant P     # renders a tailored detailed copy from P
+ *   node scripts/resume.mjs --variant P --reading   # the tailored reading copy from the same P
  *
  * Render both and commit both whenever a fact changes: they are one set of
  * facts at two lengths, and the reading copy must never say what the
@@ -25,9 +26,13 @@
  * detailed copy, which reads well to a filter and like a form to a person.
  *
  * A VARIANT is a small JSON file naming a target and a list of {from, to}
- * edits applied to the detailed copy's markup, below. Each `from` must match exactly once or
- * the render refuses -- a tailored résumé that silently edited the wrong
- * sentence is worse than one that did not render. The variants live in the
+ * edits applied to the detailed copy's markup, below, in `edits`; since
+ * 2026-11-06 it may also carry `readingEdits`, applied to the reading copy
+ * when the render is asked for with --reading, so one file tailors both
+ * copies for one target (a recruiter's VMS parses the detailed copy and the
+ * hiring manager reads the other). Each `from` must match exactly once in
+ * the copy it is cut from or the render refuses -- a tailored résumé that
+ * silently edited the wrong sentence is worse than one that did not render. The variants live in the
  * private practice-hq repository, in resumes/, because a file naming twelve
  * companies has no business in a tree that deploys to a public URL. So does
  * the output: a tailored PDF written into this repository's root would be
@@ -91,9 +96,13 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
 const varFlag = argv.indexOf('--variant');
 const variantPath = varFlag >= 0 ? path.resolve(argv[varFlag + 1]) : null;
-/* A variant is always cut from the detailed copy: that is the one written to
-   be parsed, and the one every variant's {from} was written against. */
-const full = argv.includes('--full') || Boolean(variantPath);
+/* A variant is cut from the detailed copy unless --reading asks for the
+   other: the detailed one is written to be parsed, and the one every
+   variant's `edits` was written against; `readingEdits` is written against
+   the reading copy. --reading without a variant is the plain reading copy,
+   which is also the default. */
+const readingFlag = argv.includes('--reading');
+const full = !readingFlag && (argv.includes('--full') || Boolean(variantPath));
 const outFlag = argv.indexOf('--out');
 const out = outFlag >= 0
   ? path.resolve(argv[outFlag + 1])
@@ -501,11 +510,12 @@ let doc = full ? html : reading;
 let variant = null;
 if (variantPath) {
   variant = JSON.parse(fs.readFileSync(variantPath, 'utf8'));
-  const edits = variant.edits || [];
+  const edits = (readingFlag ? variant.readingEdits : variant.edits) || [];
   if (!edits.length) {
-    console.error(`✗ variant ${variant.name || variantPath} has no edits`);
+    console.error(`✗ variant ${variant.name || variantPath} has no ${readingFlag ? 'readingEdits' : 'edits'}`);
     process.exit(1);
   }
+  variant.applied = edits.length;
   edits.forEach((e, i) => {
     const hits = doc.split(e.from).length - 1;
     if (hits !== 1) {
@@ -528,7 +538,7 @@ if (variant && path.resolve(outDir) === root) {
   process.exit(1);
 }
 const target = variant
-  ? (outFlag >= 0 ? out : path.join(outDir, `Adam Hickey Resume — ${variant.name}.pdf`))
+  ? (outFlag >= 0 ? out : path.join(outDir, `Adam Hickey Resume — ${variant.name}${readingFlag ? ' (reading)' : ''}.pdf`))
   : out;
 if (variant && outFlag < 0) fs.mkdirSync(outDir, { recursive: true });
 
@@ -555,7 +565,7 @@ try {
     process.exit(1);
   }
   await page.pdf({ path: target, format: 'Letter', printBackground: true, preferCSSPageSize: true });
-  if (variant) console.log(`  variant ${variant.name}${variant.target ? ` → ${variant.target}` : ''}, ${(variant.edits || []).length} edits`);
+  if (variant) console.log(`  variant ${variant.name}${variant.target ? ` → ${variant.target}` : ''}, ${variant.applied} ${readingFlag ? 'reading ' : ''}edits`);
   console.log(`  wrote ${path.relative(process.cwd(), target)}  (${fs.statSync(target).size} bytes, ${height}px of ${limit})`);
 } finally {
   await browser.close();
