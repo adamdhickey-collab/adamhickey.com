@@ -400,10 +400,106 @@
   }
 }
 
+/* ---- a chapter's two columns ----
+   Since 2026-11-06 (Adam: use the empty right side). One column under 64rem,
+   the words first; from it two equal ones, with the page's wide gap, or
+   Evaluate's narrower one so the right column starts on "My call"'s. */
+.arc-split { display: grid; gap: var(--space-2xl); margin-bottom: var(--space-3xl); }
+.arc-split > .arc-head { margin-bottom: 0; }
+.arc-split .arc-lead + .arc-lead { margin-top: var(--space-md); }
+.arc-next { margin-bottom: 0; }
+.arc-next .arc-head { margin-bottom: var(--space-lg); }
+@media (min-width: 64rem) {
+  .arc-split { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); align-items: start; }
+  .arc-split--pair { column-gap: var(--space-2xl); align-items: center; }
+}
+
+/* Evaluate's fork: my call as one question and its two ends. The line is the
+   rail's pen and draws once, armed below the fold by the page's script; the
+   question and its ends are the page's own text. */
+.ar-fork { display: grid; gap: var(--space-md); margin: 0; }
+.ar-fork-map { display: grid; grid-template-columns: minmax(0, 2fr) var(--space-block) minmax(0, 3fr); align-items: center; }
+.case-section .ar-fork-q {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+.ar-fork-lines { display: block; width: 100%; height: 100%; }
+.ar-fork-lines path { fill: none; stroke: var(--color-accent-text); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+/* A reveal rather than a dash: the drawing stretches to its row, and a dash
+   pattern on a stretched path breaks into pieces. */
+.ar-fork.is-armed .ar-fork-lines { clip-path: inset(0 100% 0 0); }
+.ar-fork.is-drawn .ar-fork-lines { animation: ar-reveal var(--motion-draw) var(--ease) forwards; }
+@keyframes ar-reveal { to { clip-path: inset(0); } }
+.ar-fork-ends { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
+.ar-fork-ends li { display: grid; align-content: center; gap: var(--space-2xs); margin: 0; padding: 0; }
+.ar-fork-ends li::before { content: none; }
+.ar-fork-if { font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: var(--leading-ui); color: var(--color-accent-text); }
+.ar-fork-ends strong { font-size: var(--text-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
+.ar-fork-line { font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted-gray); text-wrap: pretty; }
+@media (prefers-reduced-motion: reduce) {
+  .ar-fork.is-armed .ar-fork-lines { clip-path: none; animation: none; }
+}
+@media (max-width: 40rem) {
+  .ar-fork-map { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-md); }
+  .ar-fork-lines { display: none; }
+}
+
+/* The six stages' turns: the agent above the line, the designer under it, so
+   the line reads as a hand-off rather than a list. One column of rows under
+   64rem. The note is Delegate's, in the empty slot under its number. */
+.ar-lanes-figure { margin: 0; }
+.ar-lanes { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+.ar-lane { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm); margin: 0; padding: 0; }
+.ar-lane::before { content: none; }
+.ar-lane .ar-cycle-n { order: -1; margin-top: 0; }
+.ar-lane-text { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
+.ar-lane-who { font-weight: var(--weight-semibold); color: var(--color-muted-gray); }
+.ar-lane--designer .ar-lane-who { color: var(--color-accent-text); }
+/* Delegate's note is in the serif, so it does not read as a third "who", and
+   its number wears a ring: the one stage that is mine. */
+.ar-lane-note { font-family: var(--font-serif); font-size: var(--text-base); line-height: var(--leading-tight); color: var(--color-accent-text); }
+.ar-lane:has(.ar-lane-note) .ar-cycle-n { box-shadow: 0 0 0 2px var(--color-tea-light), 0 0 0 3px var(--color-accent-text); }
+@media (max-width: 63.99rem) {
+  /* Under its row's words, past the number. */
+  .ar-lane-note { flex-basis: 100%; padding-left: calc(var(--space-xl) + var(--space-sm)); }
+}
+.ar-lanes-figure figcaption { margin-top: var(--space-lg); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); text-wrap: pretty; }
+@media (min-width: 64rem) {
+  .ar-lanes {
+    position: relative;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: 1fr auto 1fr;
+    gap: var(--space-sm) var(--space-xs);
+  }
+  /* The line the six sit on: the number row's centre. */
+  .ar-lanes::before {
+    content: "";
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-self: center;
+    height: 1px;
+    background: var(--rule-strong);
+  }
+  .ar-lane { display: grid; grid-row: 1 / 4; grid-template-rows: subgrid; align-items: start; gap: inherit; }
+  .ar-lane:nth-child(1) { grid-column: 1; } .ar-lane:nth-child(2) { grid-column: 2; }
+  .ar-lane:nth-child(3) { grid-column: 3; } .ar-lane:nth-child(4) { grid-column: 4; }
+  .ar-lane:nth-child(5) { grid-column: 5; } .ar-lane:nth-child(6) { grid-column: 6; }
+  .ar-lane .ar-cycle-n { order: 0; grid-row: 2; position: relative; }
+  .ar-lane-who { display: block; }
+  .ar-lane--agent .ar-lane-text { grid-row: 1; align-self: end; }
+  .ar-lane--designer .ar-lane-text { grid-row: 3; }
+  .ar-lane-note { grid-row: 3; }
+}
+
 /* ---------- The rule: three kinds of change ----------
    The reader has just made the call the checks couldn't. This names it:
-   one kind goes through, two stop for a person. Each is a white card on
-   the tea ground, so its edge reads (cards.mjs). The lane over each is the
+   one kind goes through, two stop for a person. Each sits directly on
+   the page, under a rule since 2026-11-06. The lane over each is the
    go and stop colors of TYPOGRAPHY.md's group names: the sage, and the
    caution ink, whose third use COLOR.md gives as a stop for a person. */
 .ar-kinds {
@@ -413,29 +509,23 @@
   padding: 0;
   list-style: none;
 }
+/* Since 2026-11-06 a rule over each, as the six stages have, and no card: the
+   rail under them is this section's picture, and the two together were a
+   screen and a third. */
 .ar-kind {
-  padding: var(--space-lg) var(--space-xl) var(--space-xl);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
+  padding: var(--space-md) 0 0;
+  border-top: 1px solid var(--rule-card);
 }
 .case-section .ar-kind-lane {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-serif);
   font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
   color: var(--color-accent-text);
 }
 .ar-kind--stops .ar-kind-lane { color: var(--color-caution-text); }
-.case-section .ar-kind h3 {
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-charcoal);
-}
 .case-section .ar-kind p:not(.ar-kind-lane) { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
 @media (min-width: 48rem) {
   .ar-kinds { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -677,7 +767,8 @@
    held still: nothing on them presses, so no key wears "Press this". */
 .ev-pair { display: grid; gap: var(--space-2xl); }
 .ev-pair figure { margin: 0; }
-.ev-side { display: grid; align-content: start; gap: var(--space-md); }
+.ev-side { display: grid; grid-template-rows: auto auto 1fr; gap: var(--space-md); }
+.ev-side > .ev, .ev-side > .ev > .arc-device { height: 100%; }
 .case-section .ev-head { display: grid; gap: var(--space-2xs); margin: 0; }
 .ev-who {
   font-size: var(--text-sm);
@@ -736,6 +827,7 @@
 /* The shared glance labels, in sentence case on this page. */
 .arc .glance-facts dt { text-transform: none; letter-spacing: var(--tracking-normal); font-size: var(--text-xs); }
 
+.case-section .ar-evidence-links { max-width: none; }
 .ar-evidence-links {
   display: flex;
   flex-wrap: wrap;
@@ -757,11 +849,7 @@
   --rl-sage-fill: color-mix(in srgb, var(--color-accent-text) 40%, var(--color-tea-light));
   --rl-sage-pale: color-mix(in srgb, var(--color-accent-text) 18%, var(--color-tea-light));
   position: relative;
-  margin: var(--space-4xl) 0;
-  padding-block: var(--space-4xl);
-  /* A rule on each side sets the summary apart from the cards above it
-     and from the section below. */
-  border-block: 1px solid var(--rule-strong);
+  margin: var(--space-3xl) 0 0;
 }
 .rl-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 /* What the drawing is, said once over it, so it reads as the section's
@@ -1039,4 +1127,10 @@
   .ship-picks { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
   .ship-pick { align-items: center; }
   .ship-result { padding: var(--space-lg) var(--space-md); }
+}
+
+/* What's next's rail, in the right column from 64rem, as rows: the column is
+   narrower than the rail's own breakpoint, so it keeps its stacked layout. */
+@media (min-width: 64rem) {
+  .arc-next .writing-measure > .writing-rail.writing-rail:not(.writing-rail--scenes):not(:has(> .writing-rail-steps > li:nth-child(4))) { width: 100%; margin-block: 0; }
 }
