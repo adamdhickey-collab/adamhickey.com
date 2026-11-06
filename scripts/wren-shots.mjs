@@ -17,9 +17,9 @@
  *     than that since it took one fixed ratio (#1057), and a crop from its
  *     top left the card a white foot, so the capture sets the ratio itself.
  *
- * The lab index's and the homepage's card, after-send-card.webp, was taken
- * here until the second pass of 2026-11-06. It is a drawing now, of the
- * handoff rather than a screen, so nothing here writes it.
+ * The lab index's and the homepage's card was a picture taken here until
+ * the second pass of 2026-11-06. It is the page's own markup now
+ * (thumb-loop.css, "The handoff"), so nothing here writes it.
  *
  * The screen is reached by the same presses scripts/lib/reachable.mjs
  * registers, so a hook that goes stale fails here as it would there.
