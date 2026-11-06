@@ -10,10 +10,12 @@
  *
  *   after-send-record.webp
  *     The window alone at 2x in an 820 viewport, where the two facts still
- *     sit side by side, cut square from its top: the record once the
+ *     sit side by side, held square for the picture: the record once the
  *     supplier has processed, with Processed by supplier and Ready to
  *     match to invoice beside each other. og.mjs sets it on the write-up's
- *     share card, whose picture is a square.
+ *     share card, whose picture is a square. The page's window is shorter
+ *     than that since it took one fixed ratio (#1057), and a crop from its
+ *     top left the card a white foot, so the capture sets the ratio itself.
  *
  * The lab index's and the homepage's card, after-send-card.webp, was taken
  * here until the second pass of 2026-11-06. It is a drawing now, of the
@@ -50,12 +52,13 @@ const { server, origin } = await serve(ROOT);
 const browser = await chromium.launch(chromePath ? { executablePath: chromePath } : {});
 
 /* The window, as a PNG at 2x, and its CSS size. */
-async function window_(press, view = VIEW) {
+async function window_(press, view = VIEW, css = '') {
   const context = await browser.newContext({ viewport: view, deviceScaleFactor: SCALE, reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
-  await page.addStyleTag({ content: '.site-nav { display: none !important; }' });
+  /* The guide is sticky, so a full-page capture can paint it over the window. */
+  await page.addStyleTag({ content: `.site-nav { display: none !important; } .as-guide { position: static; } ${css}` });
   for (const sel of press) {
     const hit = await page.$(sel);
     if (!hit) throw new Error(`nothing matches ${sel}`);
@@ -87,8 +90,8 @@ async function compose(file, { width, height, html }) {
 
 const want = (n) => !only.length || only.some((o) => n.includes(o));
 if (want('record')) {
-  /* The window in the narrower viewport, square from its top. */
-  const narrow = await window_(RECORD, { width: 820, height: 1000 });
+  /* The window in the narrower viewport, held square. */
+  const narrow = await window_(RECORD, { width: 820, height: 1000 }, '.wr-frame { aspect-ratio: 1; min-height: 0; }');
   const W = Math.round(narrow.width), H = W;
   await compose(path.join(OUT, 'after-send-record.webp'), {
     width: W, height: H,
