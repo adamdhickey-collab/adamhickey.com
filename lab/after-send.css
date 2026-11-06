@@ -245,131 +245,196 @@
 }
 
 /* ---------- The flow ----------
-   Four nodes in a row from 64rem, stacked under it, each a white card: who
-   is on the screen, the screen's name, one line of what it does, and the
-   invoice reference it carries. Between nodes an arrow; where an event
-   parts the facts, the node says so above itself. */
+   One figure, not four cards: a rail through numbered stops, with the same
+   rows under each stop, so the eye can read a screen down or a row across.
+   The rail is the claim. The reference is named once over it rather than
+   boxed on every screen, and the two events sit on the rail at the stops
+   where they happen, in the filled disc. Where a screen can fail belongs to
+   that screen, so it is the last row of its stop.
+
+   Stacked under 64rem, with the rail running down the left. From 64rem the
+   stops are four columns on one subgrid, which is what holds each row level
+   however the words wrap: 1 rail, 2 who, 3 name, 4 what, 5 the fail label
+   and its hairline, 6 the fail text. */
+.as-flow-figure { --as-stop-disc: 40px; --as-stop-gap: var(--space-2xl); }
+.case-section .as-flow-thread,
+.as-flow-thread {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-carry {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  color: var(--color-accent-text);
+}
 .as-flow {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: var(--space-lg);
-  counter-reset: node;
 }
-@media (min-width: 64rem) {
-  .as-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xl); align-items: stretch; }
-}
-.as-node {
+.as-stop {
   position: relative;
-  padding: var(--space-md) var(--space-lg) var(--space-lg);
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: 12px;
-  counter-increment: node;
+  padding: 0 0 var(--space-2xl) calc(var(--as-stop-disc) + var(--space-md));
 }
-/* The event's name over the node that waits on it, in the sage label:
-   inside the card's top while the nodes stack (the arrow is above the
-   card there), and standing over the card in the row. */
-.as-node[data-event]::before {
-  content: attr(data-event);
-  display: block;
-  margin-bottom: var(--space-sm);
+.as-stop:last-child { padding-bottom: 0; }
+/* The rail, stacked: from under this disc to the next. */
+.as-stop:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--as-stop-disc) / 2 - 1px);
+  top: var(--as-stop-disc);
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent-text);
+}
+.as-stop-rail { display: contents; }
+/* An empty disc for a screen, the filled one for a screen where an event
+   happens. White on accent-text is 4.51:1, as on the decisions' discs. */
+.as-stop-num {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--as-stop-disc);
+  height: var(--as-stop-disc);
+  border: 2px solid var(--color-accent-text);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-accent-text);
   font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.as-stop--event .as-stop-num {
+  background: var(--color-accent-text);
+  color: var(--color-white);
+}
+.as-stop p { margin: 0; font-family: var(--font-sans); text-wrap: pretty; }
+/* Stacked, the first line beside a disc centres on it. Padding, because a
+   margin here collapses through the stop and opens a gap in the rail. */
+@media (max-width: 63.99rem) {
+  .as-stop .as-stop-event,
+  .as-stop:not(.as-stop--event) .as-stop-who { padding-top: calc((var(--as-stop-disc) - 1lh) / 2); }
+}
+.as-stop .as-stop-event {
+  margin-bottom: var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.as-stop .as-stop-who {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-muted-gray);
+}
+.as-stop .as-stop-name {
+  margin-top: var(--space-2xs);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.as-stop .as-stop-what {
+  margin-top: var(--space-sm);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.as-stop .as-stop-fail-label {
+  margin-top: var(--space-lg);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent-text);
-  white-space: nowrap;
 }
-/* The arrow between nodes: down while stacked, right in the row. */
-.as-node + .as-node::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: calc(-1 * var(--space-lg) / 2 - 7px);
-  width: 14px;
-  height: 14px;
-  border-right: 2px solid var(--color-accent-text);
-  border-bottom: 2px solid var(--color-accent-text);
-  transform: translateX(-50%) rotate(45deg);
+.as-stop .as-stop-fail {
+  margin-top: var(--space-2xs);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-muted-gray);
 }
 @media (min-width: 64rem) {
-  .as-flow { padding-top: var(--space-2xl); }
-  .as-node[data-event]::before { position: absolute; left: 0; bottom: 100%; margin-bottom: var(--space-xs); }
-  .as-node + .as-node::after {
-    left: calc(-1 * var(--space-xl) / 2 - 7px);
-    top: 50%;
-    transform: translateY(-50%) rotate(-45deg);
+  .as-flow-figure > figcaption { max-width: none; margin-bottom: var(--space-2xl); }
+  .as-flow-figure > figcaption .as-standing-note { max-width: var(--measure); }
+  .as-flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(6, auto);
+    column-gap: var(--as-stop-gap);
   }
-}
-.case-section .as-node p,
-.as-node p { margin: 0; font-family: var(--font-sans); }
-.as-node .as-node-who {
-  display: inline-block;
-  margin-bottom: var(--space-sm);
-  padding: var(--space-2xs) var(--space-sm);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-  background: var(--color-tea-light);
-}
-.as-node[data-who="supplier"] .as-node-who { background: var(--color-muted-light); }
-.as-node .as-node-name {
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.as-node .as-node-name::before {
-  content: counter(node, decimal-leading-zero) ' ';
-  color: var(--color-accent-text);
-  font-variant-numeric: tabular-nums;
-}
-.as-node .as-node-what {
-  margin-top: var(--space-xs);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
-}
-.as-node .as-node-carry { margin-top: var(--space-md); }
-.as-carry {
-  display: inline-block;
-  padding: var(--space-2xs) var(--space-xs);
-  border: 1px solid var(--color-accent-text);
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-}
-/* The key: who sees what, and the events, three columns from 64rem. */
-.as-key {
-  display: grid;
-  gap: var(--space-md);
-  margin: var(--space-xl) 0 0;
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--rule-hairline);
-}
-@media (min-width: 64rem) { .as-key { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); } .as-key--four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.as-key dt {
-  margin: 0 0 var(--space-2xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.as-key dd {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  .as-stop,
+  .as-stop:last-child {
+    display: grid;
+    grid-row: 1 / span 6;
+    grid-template-rows: subgrid;
+    padding: 0;
+  }
+  .as-stop:not(:last-child)::before { content: none; }
+  /* The rail, across: a line from each disc, past the gap, to the next. */
+  .as-stop-rail {
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: var(--as-stop-disc);
+  }
+  .as-stop:not(:last-child) .as-stop-rail::after {
+    content: '';
+    flex: 1 1 0;
+    min-width: var(--space-md);
+    height: 2px;
+    margin-right: calc(-1 * var(--as-stop-gap));
+    background: var(--color-accent-text);
+  }
+  .as-stop-num { position: static; flex: none; }
+  .as-stop .as-stop-event { margin: 0; flex: 0 1 auto; }
+  /* grid-column on every row: in a one-column subgrid, two items on a row
+     with no column named would push the second into a column of its own. */
+  .as-stop > * { grid-column: 1; }
+  .as-stop .as-stop-who { grid-row: 2; margin-top: var(--space-lg); }
+  .as-stop .as-stop-name { grid-row: 3; }
+  .as-stop .as-stop-what { grid-row: 4; }
+  /* One hairline across the four, bridging the gaps, at the top of row 5. */
+  .as-stop::after {
+    content: '';
+    grid-column: 1;
+    grid-row: 5;
+    align-self: start;
+    height: 1px;
+    margin-top: var(--space-xl);
+    margin-right: calc(-1 * var(--as-stop-gap));
+    background: var(--rule-hairline);
+  }
+  .as-stop:last-child::after { margin-right: 0; }
+  .as-stop .as-stop-fail-label {
+    grid-row: 5;
+    margin-top: calc(var(--space-xl) + var(--space-lg));
+  }
+  /* Across the row one label says it for all four. The other three stay in
+     the page for a screen reader, which reads each stop on its own. */
+  .as-stop:not(:first-child) .as-stop-fail-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .as-stop .as-stop-fail { grid-row: 6; margin-top: var(--space-xs); }
 }
 
 /* ---------- The two wireframes ----------

@@ -104,7 +104,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=2" />
-  <link rel="stylesheet" href="after-send.css?v=3" />
+  <link rel="stylesheet" href="after-send.css?v=4" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -396,10 +396,11 @@
     </section>
 
     <!-- 3. EXPERIENCE ARCHITECTURE: the flow, drawn in HTML so the checks
-         read it. Four screens, the invoice reference under each, the two
-         events that part the facts marked where they happen, and under the
-         row, where each screen can fail: the service map's one lane worth
-         keeping once the decisions above said the rest. -->
+         read it. Four stops on one rail, the invoice reference named once
+         over it, the two events that part the facts on the rail where they
+         happen, and at the foot of each stop, where that screen can fail:
+         the service map's one lane worth keeping once the decisions above
+         said the rest. -->
     <section class="case-section case-overview build-chapter ground-white" id="architecture">
       <div class="container case-narrow">
         <div class="writing-measure">
@@ -408,38 +409,51 @@
         </div>
         <figure class="as-figure as-flow-figure">
           <figcaption><p class="as-kicker">Experience architecture</p><p class="as-title">Where the invoice reference persists, and where processing and matching part</p><span class="as-standing-note">Conceptual: the screens and the events (issued, notice delivered, processed, expired, matched) are this concept&rsquo;s, not any product&rsquo;s.</span></figcaption>
+          <p class="as-flow-thread">Every screen carries <span class="as-carry">INV-20483</span>.</p>
           <ol class="as-flow">
-            <li class="as-node" data-who="buyer">
-              <p class="as-node-who">Buyer</p>
-              <p class="as-node-name">Payments list</p>
-              <p class="as-node-what">Search by invoice reference or supplier. Status in plain words.</p>
-              <p class="as-node-carry"><span class="as-carry">INV-20483</span></p>
+            <li class="as-stop">
+              <div class="as-stop-rail">
+                <span class="as-stop-num" aria-hidden="true">01</span>
+              </div>
+              <p class="as-stop-who">Buyer</p>
+              <p class="as-stop-name">Payments list</p>
+              <p class="as-stop-what">Search by invoice reference or supplier. Status in plain words.</p>
+              <p class="as-stop-fail-label">Where it can fail</p>
+              <p class="as-stop-fail">Two invoices from one supplier. Search returns both, and the reference tells them apart.</p>
             </li>
-            <li class="as-node" data-who="buyer">
-              <p class="as-node-who">Buyer</p>
-              <p class="as-node-name">Payment record</p>
-              <p class="as-node-what">Supplier processing and invoice matching as two facts. Who acts next.</p>
-              <p class="as-node-carry"><span class="as-carry">INV-20483</span></p>
+            <li class="as-stop">
+              <div class="as-stop-rail">
+                <span class="as-stop-num" aria-hidden="true">02</span>
+              </div>
+              <p class="as-stop-who">Buyer</p>
+              <p class="as-stop-name">Payment record</p>
+              <p class="as-stop-what">Supplier processing and invoice matching as two facts. Who acts next.</p>
+              <p class="as-stop-fail-label">Where it can fail</p>
+              <p class="as-stop-fail">&ldquo;Delivered&rdquo; is not &ldquo;read.&rdquo; A notice can sit in an inbox for weeks, and the record says delivered.</p>
             </li>
-            <li class="as-node" data-who="supplier" data-event="Processing happens here">
-              <p class="as-node-who">Supplier</p>
-              <p class="as-node-name">Payment notice</p>
-              <p class="as-node-what">Buyer, invoice reference, amount, validity date. Process it.</p>
-              <p class="as-node-carry"><span class="as-carry">INV-20483</span></p>
+            <li class="as-stop as-stop--event">
+              <div class="as-stop-rail">
+                <span class="as-stop-num" aria-hidden="true">03</span>
+                <p class="as-stop-event">Processing happens here</p>
+              </div>
+              <p class="as-stop-who">Supplier</p>
+              <p class="as-stop-name">Payment notice</p>
+              <p class="as-stop-what">Buyer, invoice reference, amount, validity date. Process it.</p>
+              <p class="as-stop-fail-label">Where it can fail</p>
+              <p class="as-stop-fail">Processed for a different amount, or in part. Outside this concept, and the first question for engineering.</p>
             </li>
-            <li class="as-node" data-who="buyer" data-event="Matching happens here">
-              <p class="as-node-who">Buyer</p>
-              <p class="as-node-name">The same record</p>
-              <p class="as-node-what">Processed, and ready to match. Review the match and confirm it.</p>
-              <p class="as-node-carry"><span class="as-carry">INV-20483</span></p>
+            <li class="as-stop as-stop--event">
+              <div class="as-stop-rail">
+                <span class="as-stop-num" aria-hidden="true">04</span>
+                <p class="as-stop-event">Matching happens here</p>
+              </div>
+              <p class="as-stop-who">Buyer</p>
+              <p class="as-stop-name">The same record</p>
+              <p class="as-stop-what">Processed, and ready to match. Review the match and confirm it.</p>
+              <p class="as-stop-fail-label">Where it can fail</p>
+              <p class="as-stop-fail">Confirmed against the wrong invoice. The side-by-side check exists for this.</p>
             </li>
           </ol>
-          <dl class="as-key as-key--four">
-            <div><dt>Where the list can fail</dt><dd>Two invoices from one supplier. Search returns both, and the reference tells them apart.</dd></div>
-            <div><dt>Where the record can fail</dt><dd>&ldquo;Delivered&rdquo; is not &ldquo;read.&rdquo; A notice can sit in an inbox for weeks, and the record says delivered.</dd></div>
-            <div><dt>Where the notice can fail</dt><dd>Processed for a different amount, or in part. Outside this concept, and the first question for engineering.</dd></div>
-            <div><dt>Where the match can fail</dt><dd>Confirmed against the wrong invoice. The side-by-side check exists for this.</dd></div>
-          </dl>
         </figure>
       </div>
     </section>
