@@ -60,11 +60,11 @@
    the sans at 14, the pressed one in charcoal over a sage rule (The
    Shortlist's .ai-progress), and Start over quiet in sage with its arrow.
    Under 48rem the cells stack, each under a rule, because a vertical rule
-   has nothing to divide once the row wraps. */
+   has nothing to divide once the row wraps. The hint is not in the panel:
+   it is the guide, below, and stays in view while the window scrolls. */
 .as-demo { padding: var(--space-block) 0 0; scroll-margin-top: var(--nav-height); }
 .as-demo p.try-live { margin: 0 0 var(--space-sm); }
 .as-panel {
-  margin-bottom: var(--space-lg);
   background: var(--figure-card);
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
@@ -132,13 +132,8 @@
 }
 
 /* The steps: five numbered names in a row, the one the reader is on in
-   charcoal, and the hint under them saying what to press. The hint runs
-   the panel's width so that every step's sits on one line at a laptop and
-   the window holds its place; at the measure, some wrapped and moved it
-   26px. */
+   charcoal. */
 .as-walk {
-  display: grid;
-  gap: var(--space-sm);
   padding: var(--space-md);
   border-top: 1px solid var(--color-rule);
 }
@@ -182,15 +177,62 @@
 .as-steps li[data-done] .as-step-n { background: var(--color-tea-light); }
 .as-steps li[aria-current="step"] { color: var(--color-charcoal); }
 .as-steps li[aria-current="step"] .as-step-n { background: var(--color-accent-text); color: var(--color-white); }
+/* The guide: what to do now, and the demo control it takes when that is the
+   next press. Sticky under the nav, because on a phone the panel's controls
+   sit a whole screen above the button that sends a reader back to them. It
+   holds a button's height with or without one, so at a laptop's width the
+   window keeps its place from step to step (the reason the hint runs wide,
+   since #1057). White, because the demo's ground is, and the window passes
+   under it. */
+.as-panel { margin-bottom: var(--space-2xs); }
+.as-guide {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-lg);
+  min-height: calc(2.25rem + 2 * var(--space-xs));
+  padding-block: var(--space-xs);
+  margin-bottom: var(--space-2xs);
+  background: var(--color-white);
+}
 .case-section .as-hint,
 .as-hint {
   margin: 0;
-  min-height: 1lh;
+  flex: 1 1 20rem;
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+@media (min-width: 48rem) {
+  .case-section .as-hint,
+  .as-hint { font-size: var(--text-base); }
+}
+.as-guide-next:empty { display: none; }
+.as-next {
+  min-height: 2.25rem;
+  white-space: nowrap;
+  padding: var(--space-2xs) 0;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  cursor: pointer;
+  transition: color var(--motion-state) var(--ease);
+}
+@media (pointer: coarse) {
+  .as-next { min-height: 2.75rem; }
+  .as-guide { min-height: calc(2.75rem + 2 * var(--space-xs)); }
+}
+.as-next:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-next:hover { color: var(--color-accent-hover); } }
 .case-section .as-demo-note,
 .as-demo-note {
   margin: var(--space-md) 0 0;
@@ -522,9 +564,9 @@
 .as-wire-cell--fact { background: var(--color-warm); font-weight: var(--weight-semibold); }
 .as-wire-cell--fact .as-wire-label { font-weight: var(--weight-semibold); }
 
-/* The specialist's two questions, asked of each record in the same words,
-   so the pair reads across: the point of the figure is that one column
-   says "Nothing says" twice. */
+/* The specialist's three questions, asked of each record in the same words,
+   so the pair reads across: one column makes the reader go and look, the
+   other says. */
 .as-answers { margin: var(--space-lg) 0 0; display: grid; gap: var(--space-sm); }
 .as-answers dt {
   font-family: var(--font-sans);

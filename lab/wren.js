@@ -161,14 +161,14 @@
   function listStatus(p) {
     var pr = processing(p), m = matching(p);
     if (pr === 'expired') return { key: 'expired', text: 'Expired, not processed', icon: 'alert' };
-    if (pr === 'sent') return { key: 'waiting', text: 'Sent, waiting for supplier', icon: 'clock' };
+    if (pr === 'sent') return { key: 'waiting', text: 'Not processed yet', icon: 'clock' };
     if (m === 'matched') return { key: 'matched', text: 'Processed and matched', icon: 'done' };
     return { key: 'ready', text: 'Processed, ready to match', icon: 'open' };
   }
 
   var FILTERS = [
     { id: 'all', label: 'All payments' },
-    { id: 'waiting', label: 'Waiting for supplier' },
+    { id: 'waiting', label: 'Not processed yet' },
     { id: 'ready', label: 'Ready to match' },
     { id: 'matched', label: 'Matched' },
     { id: 'expired', label: 'Expired' }
@@ -281,8 +281,10 @@
     /* Who acts next, and the one thing to do. */
     s += nextAction(p, pr, m);
 
-    /* What a specialist needs to act, in one row. */
-    s += '<dl class="wr-grid">' +
+    /* What a specialist needs to act, in one row. The proposed match carries
+       the same reference and amount, so the row steps aside while it is open
+       and the buttons stay inside the window. */
+    if (!(state.reviewing && pr === 'processed' && m === 'unmatched')) s += '<dl class="wr-grid">' +
       '<div><dt>Invoice reference</dt><dd><span class="wr-ref">' + p.invoice + '</span></dd></div>' +
       '<div><dt>Amount</dt><dd>' + money(p.amount) + '</dd></div>' +
       '<div><dt>Valid through</dt><dd>' + validThrough(p) + (pr === 'expired' ? ' <span class="wr-muted">(passed)</span>' : '') + '</dd></div>' +
@@ -299,8 +301,8 @@
 
   function processingFact(p, pr, ev) {
     if (pr === 'sent') {
-      return '<span class="wr-fact-head">' + ICONS.clock + 'Sent to supplier</span>' +
-        '<span class="wr-fact-line">Waiting for ' + esc(p.supplier) + ' to process it. Notice delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No processing event as of ' + CHECKED_AT + '.</span>';
+      return '<span class="wr-fact-head">' + ICONS.clock + 'Not processed yet</span>' +
+        '<span class="wr-fact-line">Sent and delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No processing event as of ' + CHECKED_AT + '.</span>';
     }
     if (pr === 'processed') {
       var e = find(ev, 'processed');
@@ -335,13 +337,13 @@
     var who, line, act = '';
     if (pr === 'sent') {
       who = p.supplier;
-      line = 'Nothing for you to do yet. ' + esc(p.supplier) + ' has until ' + validThrough(p) + ' to process it. Follow up if it’s still waiting on ' + p.followUp + '.';
+      line = esc(p.supplier) + ' has until ' + validThrough(p) + ' to process it. Follow up if it’s still waiting on ' + p.followUp + '.';
       /* The scene is this supplier on the phone, so the record says what a
          specialist can tell them, and offers the one thing they can do. */
       var sent = dateOf(find(eventsOf(p), 'notice').at);
       act = state.resent[p.id]
-        ? '<p class="wr-next-ask" tabindex="-1" data-resent><strong>If they call:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + ', and again ' + RESENT_AT + '.</p>'
-        : '<p class="wr-next-ask"><strong>If they call:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + '. Delivered doesn’t mean read.</p>' +
+        ? '<p class="wr-next-ask" tabindex="-1" data-resent><strong>What to tell them:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + ', and again ' + RESENT_AT + '.</p>'
+        : '<p class="wr-next-ask"><strong>What to tell them:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + '. Delivered doesn’t mean read, so you can send it again.</p>' +
           '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-resend>Send the notice again</button></p>';
     } else if (pr === 'processed' && m === 'unmatched') {
       who = 'You';
@@ -435,7 +437,12 @@
      rail can't go backwards and a hint can't ask for a press that is gone.
      A payment other than the followed one says so rather than borrowing
      the walkthrough's words. Returns the current step, how many before it
-     are done, and the line to show. */
+     are done, the line to show, and, when the next press is a demo control,
+     that control (next), which the guide offers beside the line. */
+  var TO_SUPPLIER = { label: 'Switch to Supplier', press: '[data-role="supplier"]' };
+  var TO_BUYER = { label: 'Back to Buyer', press: '[data-role="buyer"]' };
+  var TO_EXPIRED = { label: 'Expired payment', press: '[data-scenario="expired"]' };
+  var TO_START = { label: 'Start over', press: '[data-reset]' };
   function walk() {
     var f = byId(FOLLOWED), pr = processing(f), m = matching(f);
     var other = state.screen !== 'list' && state.open && state.open !== FOLLOWED;
@@ -446,25 +453,26 @@
         : 'Processed for less than the invoice. Review the match to see the check hold. Then go back to INV-20483.';
     }
     if (state.scenario === 'expired') {
-      return { now: 5, done: state.walked ? 4 : 0, hint: other ? otherLine :
-        state.screen === 'notice' ? 'Larkspur’s side: it can’t be processed any more. Switch back to the Buyer.' :
-        state.screen === 'list' ? 'Expired payments sort to the top, because they need you. Start over to run the default path again.' :
-        state.replacing ? 'Nothing is issued here. Start over to run the default path again.' :
+      var after = state.screen === 'notice' ? TO_BUYER : (state.screen === 'list' || state.replacing) ? TO_START : null;
+      return { now: 5, done: state.walked ? 4 : 0, next: other ? null : after, hint: other ? otherLine :
+        state.screen === 'notice' ? 'Larkspur’s side: it can’t be processed any more.' :
+        state.screen === 'list' ? 'Expired payments sort to the top, because they need you.' :
+        state.replacing ? 'Nothing is issued here.' :
         'The same payment, expired unprocessed: what ran out, what happened, and who acts next.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, hint: other ? otherLine : 'INV-20483 is closed. Now press Expired payment, above: the same payment when no one processes it.' };
+      return { now: 5, done: 4, next: other ? null : TO_EXPIRED, hint: other ? otherLine : 'INV-20483 is closed. Next, the same payment when no one processes it.' };
     }
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, hint: otherLine };
-      if (state.screen === 'notice') return { now: 3, done: 2, hint: 'That’s all on Larkspur’s side. Switch back to the Buyer to see what changed.' };
+      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'That’s all on Larkspur’s side. See what changed for the buyer.' };
       if (state.screen === 'list') return { now: 4, done: 3, hint: 'Open INV-20483 to close the loop.' };
       return { now: 4, done: 3, hint: state.reviewing ? 'Check the two columns against each other, then confirm.' : 'Processed, and ready to match, as two facts. Review the match and confirm it.' };
     }
     if (other) return { now: 1, done: 0, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, hint: 'Larkspur’s side. Press Process this payment, then switch back to the Buyer.' };
-    if (state.screen === 'detail') return { now: 2, done: 1, hint: 'Two facts and who acts next, before any history. Then switch to the Supplier to follow the handoff.' };
-    return { now: 1, done: 0, hint: 'Search INV-20483, or filter to Waiting for supplier, and open the row.' };
+    if (state.screen === 'notice') return { now: 3, done: 2, hint: 'Larkspur’s side. Press Process this payment.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Two facts and who acts next, before any history. Then follow the handoff.' };
+    return { now: 1, done: 0, hint: 'Search INV-20483, or filter to Not processed yet, and open the row.' };
   }
 
   /* ---------- rendering ---------- */
@@ -474,6 +482,8 @@
   var chrome = root.querySelector('[data-wren-chrome]');
   var steps = root.querySelectorAll('[data-wren-step]');
   var hint = root.querySelector('[data-wren-hint]');
+  var guide = root.querySelector('[data-wren-guide]');
+  var nextSlot = root.querySelector('[data-wren-next]');
   var scenarios = root.querySelectorAll('[data-scenario]');
   var roles = root.querySelectorAll('[data-role]');
 
@@ -520,28 +530,41 @@
       if (said) said.textContent = done ? ', done' : '';
     });
     if (hint) hint.textContent = w.hint;
+    if (nextSlot) {
+      nextSlot.innerHTML = w.next ? '<button type="button" class="as-next" data-next="' + esc(w.next.press) + '">' + w.next.label + '<span aria-hidden="true"> →</span></button>' : '';
+    }
     Array.prototype.forEach.call(scenarios, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-scenario') === state.scenario)); });
     Array.prototype.forEach.call(roles, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-role') === state.role)); });
     if (opts.announce) announce(opts.announce);
     if (opts.focus) {
       var el = stage.querySelector(opts.focus);
       if (el) {
-        el.focus({ preventScroll: !!opts.still });
+        el.focus({ preventScroll: true });
         if (opts.still) reveal(el.closest('.wr-panel') || el);
+        else windowIntoView();
       }
     }
   }
 
+  /* A new screen starts at its top, so the top of the window comes down
+     from under the sticky guide if the page had scrolled past it. */
+  function windowIntoView() {
+    var frame = root.querySelector('.wr-frame');
+    if (!frame || !guide) return;
+    var over = guide.getBoundingClientRect().bottom - frame.getBoundingClientRect().top;
+    if (over > 0) window.scrollBy(0, -over);
+  }
+
   /* Brings what a press opened or changed into view. From 48rem that moves
      the stage and not the page; a phone has no inner scroll, so there it
-     moves the page, below the fixed nav. A thing taller than the view shows
+     moves the page, below the fixed nav and the guide. A thing taller than the view shows
      from its top. */
   function reveal(el) {
     var box = el.getBoundingClientRect();
     var foot = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
     if (getComputedStyle(stage).overflowY === 'visible') {
       var nav = document.querySelector('.site-nav');
-      var top = (nav ? nav.getBoundingClientRect().bottom : 0) + foot;
+      var top = (nav ? nav.getBoundingClientRect().bottom : 0) + (guide ? guide.offsetHeight : 0) + foot;
       if (box.top < top || box.bottom + foot > window.innerHeight) window.scrollBy(0, box.top - top);
       return;
     }
@@ -549,6 +572,10 @@
     var below = box.bottom + foot - view.bottom;
     if (below > 0) stage.scrollTop += Math.min(below, box.top - view.top);
     else if (box.top < view.top) stage.scrollTop -= view.top - box.top;
+    /* The window can be taller than a laptop's view, so the page may have
+       scrolled past what changed. It comes back down under the guide. */
+    var over = (guide ? guide.getBoundingClientRect().bottom : 0) + foot - el.getBoundingClientRect().top;
+    if (over > 0) window.scrollBy(0, -over);
   }
 
   /* The rows alone, as the reader types or filters. */
@@ -577,6 +604,13 @@
   root.addEventListener('click', function (e) {
     var t = e.target.closest('button');
     if (!t || !root.contains(t)) return;
+
+    /* The guide's offer is the control itself, pressed: one path for both. */
+    if (t.hasAttribute('data-next')) {
+      var control = root.querySelector(t.getAttribute('data-next'));
+      if (control) control.click();
+      return;
+    }
 
     /* The demo controls, outside the product. */
     if (t.hasAttribute('data-reset')) {

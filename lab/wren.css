@@ -92,6 +92,19 @@
     grid-template-rows: auto minmax(0, 1fr);
   }
   .wr-stage { overflow-y: auto; }
+  /* The stage scrolls and a Mac may draw no bar, so what runs past the foot
+     fades instead of being cut: a line of text cut in half reads as a bug,
+     and one fading out reads as more below. At the end of the scroll this
+     sits below the last thing and shows nothing. */
+  .wr-stage::after {
+    content: "";
+    position: sticky;
+    bottom: 0;
+    display: block;
+    height: var(--space-xl);
+    background: linear-gradient(to bottom, transparent, var(--color-white));
+    pointer-events: none;
+  }
 }
 
 /* The app's bar: its name, then the organization and the role the reader

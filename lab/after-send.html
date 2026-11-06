@@ -103,8 +103,8 @@
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
-  <link rel="stylesheet" href="wren.css?v=3" />
-  <link rel="stylesheet" href="after-send.css?v=6" />
+  <link rel="stylesheet" href="wren.css?v=4" />
+  <link rel="stylesheet" href="after-send.css?v=7" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -113,7 +113,7 @@
   <script src="../read-aloud.js?v=4" defer></script>
   <!-- The prototype. Deferred, no dependencies, no build step; the
        payments and their events are the objects at the top of the file. -->
-  <script src="wren.js?v=4" defer></script>
+  <script src="wren.js?v=5" defer></script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -277,8 +277,11 @@
               <li data-wren-step="4"><span class="as-step-n" aria-hidden="true">4</span><span class="as-step-name">Close the loop</span><span class="visually-hidden" data-step-said></span></li>
               <li data-wren-step="5"><span class="as-step-n" aria-hidden="true">5</span><span class="as-step-name">The exception</span><span class="visually-hidden" data-step-said></span></li>
             </ol>
-            <p class="as-hint" data-wren-hint>Search INV-20483, or filter to Waiting for supplier, and open the row.</p>
           </div>
+        </div>
+        <div class="as-guide" data-wren-guide>
+          <p class="as-hint" data-wren-hint>Search INV-20483, or filter to Not processed yet, and open the row.</p>
+          <span class="as-guide-next" data-wren-next></span>
         </div>
         <div class="wr-frame">
           <div class="wr-app">
@@ -386,7 +389,7 @@
           <li class="decision">
             <div class="decision-text">
               <h3>A status is words and a shape before it is a color</h3>
-              <p class="decision-lead">Waiting, processed, ready, matched, and expired each get a word and a mark: a clock, a check, an open circle, a double check, a triangle. Color comes third, and expired is the only one in the caution ink.</p>
+              <p class="decision-lead">Not processed, processed, ready, matched, and expired each get a word and a mark: a clock, a check, an open circle, a double check, a triangle. Color comes third, and expired is the only one in the caution ink.</p>
               <p class="decision-cap"><b>Why:</b> a row has to read in a long list, on a phone, through a screen reader, and to someone who can&rsquo;t see red. The word does that on its own. The color only helps.</p>
             </div>
             <div class="decision-figure">
@@ -481,18 +484,19 @@
                 <span class="as-wire-label">Activity</span>
                 <ol class="as-wire-events">
                   <li><time>Oct 28, 9:14 am</time><span>Payment issued</span></li>
-                  <li><time>Oct 28, 9:15 am</time><span>Notice sent to Larkspur</span></li>
+                  <li><time>Oct 28, 9:15 am</time><span>Notice sent to ar@larkspur.example</span></li>
                   <li><time>Oct 28, 9:16 am</time><span>Notice delivered</span></li>
                 </ol>
               </div>
               <div class="as-wire-row">
                 <span class="as-wire-cell"><span class="as-wire-label">Status</span>Sent</span>
                 <span class="as-wire-cell"><span class="as-wire-label">Amount</span>$4,860.00</span>
-                <span class="as-wire-cell"><span class="as-wire-label">Date</span>Oct 28</span>
+                <span class="as-wire-cell"><span class="as-wire-label">Valid through</span>Nov 27</span>
               </div>
             </div>
             <dl class="as-answers">
               <div><dt>Has the supplier processed it?</dt><dd>Nothing says. Three events, and no fourth.</dd></div>
+              <div><dt>What do I tell them?</dt><dd>It&rsquo;s here, in two places, while they wait.</dd></div>
               <div><dt>Do I follow up?</dt><dd>Nothing says. It&rsquo;s a judgment call every time.</dd></div>
             </dl>
           </figure>
@@ -501,17 +505,18 @@
             <div class="as-wire-screen">
               <div class="as-wire-bar">Larkspur Packaging &middot; INV-20483 &middot; $4,860.00</div>
               <div class="as-wire-row as-wire-row--facts">
-                <span class="as-wire-cell as-wire-cell--fact"><span class="as-wire-label">Supplier processing</span>Sent, not processed</span>
+                <span class="as-wire-cell as-wire-cell--fact"><span class="as-wire-label">Supplier processing</span>Not processed yet</span>
                 <span class="as-wire-cell as-wire-cell--fact"><span class="as-wire-label">Invoice matching</span>Not yet</span>
               </div>
               <div class="as-wire-block as-wire-block--next">
                 <span class="as-wire-label">Who acts next</span>
                 <span class="as-wire-who">Larkspur Packaging</span>
-                <span>Follow up if it&rsquo;s still waiting on Nov 20.</span>
+                <span>Has until Nov 27. Notice went to ar@larkspur.example. Follow up if it&rsquo;s still waiting on Nov 20.</span>
               </div>
             </div>
             <dl class="as-answers">
               <div><dt>Has the supplier processed it?</dt><dd>No, as of Nov 5, 2:05 pm.</dd></div>
+              <div><dt>What do I tell them?</dt><dd>Notice went to ar@larkspur.example. Good through Nov 27.</dd></div>
               <div><dt>Do I follow up?</dt><dd>Not yet. On Nov 20, if it&rsquo;s still waiting.</dd></div>
             </dl>
           </figure>
