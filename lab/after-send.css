@@ -1,0 +1,678 @@
+/* after-send.css -- the After Send write-up's own rules: the demo's rail
+   and controls around the window, and the five figures drawn in code (the
+   flow, the two wireframes, the service map, the states, the check). One
+   page loads this file, lab/after-send.html, after style.css and wren.css.
+
+   WHY CODE AND NOT PICTURES. An architecture diagram, an annotated
+   wireframe, and a service map are mostly labels, and a label in a bitmap
+   is a label the checks cannot read: resting.mjs cannot measure its
+   contrast, typescale.mjs cannot see its size, and a screen reader gets
+   alt text in place of the words. So every figure here is HTML in the
+   scale's sizes on the palette's grounds, as The Shortlist's map is
+   (inspiration-to-aisle.css), and every word of them is the page's own.
+   The wireframes' gray bars are the one exception: they are the drawing
+   of a screen that has no words, and they are aria-hidden; the notes
+   beside them are the text.
+
+   EVERY SIZE IS A STEP, every space a --space-*, every color a token. A
+   figure's title is the serif at 400, as a figure's name is everywhere
+   here (TYPOGRAPHY.md): 20px under 640, 24 from it. Its kicker is the
+   service map's (case-study/service-map.css, .svc-kicker). Moment and
+   lane names are the sans at 14, semibold, sentence case.
+
+   RATIOS, from COLOR.md section 2: charcoal on white 15.33, on warm
+   14.02, on tea 12.90; muted-gray on white 6.47, on warm 5.91, on tea
+   5.44; accent-text on white 5.82, on warm 5.32, on tea 4.90;
+   caution-text on white 6.45, on warm 5.90, on tea 5.43. The figure card
+   is --figure-card: warm on a white chapter, white on a tea one, with
+   --rule-card for its edge (1.48 on white). */
+
+/* ---------- The hero ---------- */
+.as-facts dd a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+.as-facts dd a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-facts dd a:hover { color: var(--color-accent-hover); } }
+.case-hero .as-standing {
+  margin: var(--space-lg) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- The demo, around the window ----------
+   The section sits tight under the hero, on the page's white, and the
+   window takes the container. The rail and the controls are the demo's
+   own and sit outside the device chrome, so what is inside the bezel is
+   the product and nothing else. */
+.as-demo { padding-top: 0; }
+.as-demo p.try-live { margin-bottom: var(--space-md); }
+.as-walk {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.as-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+}
+.as-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+/* The step's number in the site's station mark: a tea disc with the
+   accent hairline (.fact-node in style.css), sized to the line. The one
+   the reader is on fills in sage with white on it (4.51:1 as a fill). */
+.as-step-n {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--color-tea-light);
+  border: 1px solid var(--color-accent-text);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent-text);
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.as-steps li[aria-current="step"] { color: var(--color-charcoal); }
+.as-steps li[aria-current="step"] .as-step-n { background: var(--color-accent-text); color: var(--color-white); }
+.case-section .as-hint,
+.as-hint {
+  margin: 0;
+  min-height: 1lh;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+/* The controls: a labelled row of pressed buttons, the pressed one in
+   sage under white (5.82), and Start over at the end. They are the demo's
+   and look like it: pill chips, not the product's buttons. */
+.as-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+.case-section .as-controls-label,
+.as-controls-label {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.as-control {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-pill);
+}
+.as-control-name {
+  padding: 0 var(--space-xs) 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-toggle {
+  min-height: 2.25rem;
+  white-space: nowrap;
+  padding: var(--space-xs) var(--space-md);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.as-toggle[aria-pressed="true"] { background: var(--color-accent-text); color: var(--color-white); }
+.as-toggle:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .as-toggle[aria-pressed="false"]:hover { background: var(--wash-on-light-hover); }
+}
+.as-reset { border: 1px solid var(--color-muted-gray); min-height: 2.75rem; }
+.case-section .as-demo-note,
+.as-demo-note {
+  margin: var(--space-md) 0 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-demo-note a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+.as-demo-note a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-demo-note a:hover { color: var(--color-accent-hover); } }
+
+/* ---------- A figure, and its caption ----------
+   The Shortlist's figure card: --figure-card, --rule-card, the site's
+   card shadow and the xl corner, taking the reading column's full width
+   from 64rem (style.css, --col-full). */
+.as-figure {
+  --as-pad-y: var(--space-lg);
+  --as-pad-x: var(--space-md);
+  margin: var(--space-2xl) 0 0;
+  overflow: clip;
+  padding: var(--as-pad-y) var(--as-pad-x);
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) { .as-figure { --as-pad-y: var(--space-xl); --as-pad-x: var(--space-xl); padding: var(--space-xl); } }
+@media (min-width: 64rem) {
+  .as-figure {
+    width: var(--col-full);
+    max-width: none;
+    --as-pad-y: var(--space-2xl);
+    --as-pad-x: var(--space-3xl);
+    padding: var(--space-2xl) var(--space-3xl);
+  }
+}
+.as-figure > figcaption { margin: 0 0 var(--space-lg); max-width: var(--measure); }
+.as-figure > figcaption .as-kicker,
+.case-section .as-figure > figcaption .as-kicker {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.as-figure > figcaption .as-title,
+.case-section .as-figure > figcaption .as-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+@media (min-width: 640px) { .as-figure > figcaption .as-title, .case-section .as-figure > figcaption .as-title { font-size: var(--text-2xl); } }
+.as-figure > figcaption .as-standing-note {
+  display: block;
+  margin-top: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- The flow ----------
+   Four nodes in a row from 64rem, stacked under it, each a white card: who
+   is on the screen, the screen's name, one line of what it does, and the
+   invoice reference it carries. Between nodes an arrow; where an event
+   parts the facts, the node says so above itself. */
+.as-flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-lg);
+  counter-reset: node;
+}
+@media (min-width: 64rem) {
+  .as-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xl); align-items: stretch; }
+}
+.as-node {
+  position: relative;
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+  counter-increment: node;
+}
+/* The event's name over the node that waits on it, in the sage label:
+   inside the card's top while the nodes stack (the arrow is above the
+   card there), and standing over the card in the row. */
+.as-node[data-event]::before {
+  content: attr(data-event);
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  white-space: nowrap;
+}
+/* The arrow between nodes: down while stacked, right in the row. */
+.as-node + .as-node::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--space-lg) / 2 - 7px);
+  width: 14px;
+  height: 14px;
+  border-right: 2px solid var(--color-accent-text);
+  border-bottom: 2px solid var(--color-accent-text);
+  transform: translateX(-50%) rotate(45deg);
+}
+@media (min-width: 64rem) {
+  .as-flow { padding-top: var(--space-2xl); }
+  .as-node[data-event]::before { position: absolute; left: 0; bottom: 100%; margin-bottom: var(--space-xs); }
+  .as-node + .as-node::after {
+    left: calc(-1 * var(--space-xl) / 2 - 7px);
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+}
+.case-section .as-node p,
+.as-node p { margin: 0; font-family: var(--font-sans); }
+.as-node .as-node-who {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  background: var(--color-tea-light);
+}
+.as-node[data-who="supplier"] .as-node-who { background: var(--color-muted-light); }
+.as-node .as-node-name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.as-node .as-node-name::before {
+  content: counter(node, decimal-leading-zero) ' ';
+  color: var(--color-accent-text);
+  font-variant-numeric: tabular-nums;
+}
+.as-node .as-node-what {
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-node .as-node-carry { margin-top: var(--space-md); }
+.as-carry {
+  display: inline-block;
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--color-accent-text);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+/* The key: who sees what, and the events, three columns from 64rem. */
+.as-key {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-hairline);
+}
+@media (min-width: 64rem) { .as-key { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); } }
+.as-key dt {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-key dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+
+/* ---------- The two wireframes ----------
+   Side by side from 64rem. Each is a drawing of a screen with no words
+   (aria-hidden), and a numbered list of notes beside it that are the
+   words. The drawing's bars are the rule tints; the proposed version's
+   two facts and its next-action block take the tea and the sage, which is
+   the one thing the drawing says on its own. */
+.as-wires { display: grid; gap: var(--space-xl); }
+@media (min-width: 64rem) {
+  .as-wires { grid-template-columns: repeat(2, minmax(0, 1fr)); width: var(--col-full); max-width: none; }
+  .as-wires .as-figure { width: auto; margin-top: var(--space-2xl); }
+}
+.as-wire .as-wire-screen {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+.as-wire-bar {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 var(--space-sm);
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted-gray);
+}
+.as-wire-block {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border: 1px dashed var(--rule-strong);
+  border-radius: 8px;
+}
+.as-wire-block--tall { min-height: 8rem; }
+.as-wire-block--thin { min-height: 2.5rem; }
+.as-wire-block--next { background: var(--color-tea-light); border-style: solid; border-color: var(--rule-card); }
+.as-wire-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-wire-line { display: block; height: 0.5rem; border-radius: 4px; background: var(--rule-strong); }
+.as-wire-line--short { width: 60%; }
+.as-wire-btn { display: block; width: 7rem; height: 1.75rem; border-radius: var(--radius-pill); background: var(--color-accent-text); }
+.as-wire-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); gap: var(--space-xs); }
+.as-wire-row--facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.as-wire-cell {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.75rem;
+  padding: var(--space-xs);
+  border: 1px dashed var(--rule-strong);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-wire-cell--fact { min-height: 4.5rem; background: var(--color-warm); border-style: solid; border-color: var(--rule-card); color: var(--color-charcoal); }
+.as-notes {
+  margin: var(--space-lg) 0 0;
+  padding: 0 0 0 1.75rem;
+  display: grid;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-notes li::marker { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+.as-why { margin-top: var(--space-2xl); }
+
+/* ---------- The service map ----------
+   The Shortlist's matrix, at four moments and six lanes: moments across,
+   lanes down, a cell at each crossing. From 64rem a grid with the lane
+   names in a first column; under it, one card a moment with its lanes as
+   rows and the lane name inside each cell. */
+.as-matrix {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+.as-moment {
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+  padding: var(--space-md);
+}
+.case-section .as-moment-name,
+.as-moment-name {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-xs);
+}
+.as-moment-name .as-n { color: var(--color-accent-text); font-variant-numeric: tabular-nums; }
+.as-lanes { margin: 0; }
+.as-lane {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xs);
+  padding: var(--space-xs) 0;
+  border-top: 1px solid var(--rule-hairline);
+}
+.as-lane:first-child { border-top: 0; padding-top: 0; }
+.as-lane dt {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-lane dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-lane--fail dd { color: var(--color-caution-text); }
+.as-lane--baseline dd { color: var(--color-muted-gray); }
+.as-lane dd.as-none { color: var(--color-muted-gray); }
+.as-line {
+  display: block;
+  font-weight: var(--weight-regular);
+  color: var(--color-muted-gray);
+}
+@media (min-width: 64rem) {
+  .as-map { --as-names: 9rem; --as-cell-pad: var(--space-sm); }
+  .as-matrix {
+    gap: 0;
+    grid-template-columns: var(--as-names) repeat(var(--as-moments), minmax(0, 1fr));
+    column-gap: var(--space-md);
+  }
+  .as-moment { display: contents; background: none; border: 0; padding: 0; }
+  .case-section .as-moment-name,
+  .as-moment-name {
+    grid-row: 1;
+    grid-column: calc(var(--as-i) + 2);
+    margin: 0;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .as-lanes { display: contents; }
+  .as-lane { display: contents; }
+  .as-lane dt {
+    grid-row: calc(var(--as-lane) + 1);
+    grid-column: 1;
+    padding: var(--as-cell-pad) 0;
+    border-bottom: 1px solid var(--rule-hairline);
+    align-self: stretch;
+    font-size: var(--text-sm);
+    color: var(--color-charcoal);
+  }
+  .as-moment:not(:first-child) .as-lane dt {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .as-lane dd {
+    grid-row: calc(var(--as-lane) + 1);
+    grid-column: calc(var(--as-i) + 2);
+    padding: var(--as-cell-pad) var(--space-xs);
+    border-bottom: 1px solid var(--rule-hairline);
+  }
+  /* The named line of a blueprint: a stronger rule under the supplier's
+     row, where the map crosses from the people to the screens, and under
+     the proposed row, where it crosses to the system. */
+  .as-lane--supplier dt, .as-lane--supplier dd,
+  .as-lane--proposed dt, .as-lane--proposed dd { border-bottom-color: var(--rule-strong); }
+}
+
+/* ---------- The states ----------
+   The prototype's own classes, at rest, in a wrapper that takes off the
+   app's minimum height. The three headers stack, each under its state's
+   name. */
+.as-spec { min-height: 0; border-radius: 0; background: transparent; overflow: visible; }
+.as-states .as-spec + .as-spec-heads { margin-top: var(--space-xl); }
+.as-spec-heads { display: grid; gap: var(--space-lg); }
+.case-section .as-spec-name,
+.as-spec-name {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-states .wr-table-wrap { background: var(--color-white); }
+
+/* ---------- The check ---------- */
+.as-check-wrap { overflow-x: auto; }
+.as-check-table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+.as-check-table th,
+.as-check-table td {
+  padding: var(--space-sm) var(--space-sm);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.as-check-table thead th {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted-gray);
+  border-bottom-color: var(--rule-strong);
+}
+.as-check-table tbody th { font-weight: var(--weight-semibold); color: var(--color-charcoal); white-space: nowrap; }
+.as-check-table td { color: var(--color-charcoal); }
+.as-check-table td:last-child { color: var(--color-muted-gray); }
+.as-check-table tbody tr:last-child th,
+.as-check-table tbody tr:last-child td { border-bottom: 0; }
+.as-check-table code { font-family: var(--font-mono); font-size: inherit; }
+
+/* ---------- The sources ---------- */
+.as-sources {
+  margin: var(--space-xl) 0 0;
+  max-width: var(--measure);
+  display: grid;
+  gap: var(--space-lg);
+}
+.as-sources > div { padding-top: var(--space-lg); border-top: 1px solid var(--rule-hairline); }
+.as-sources dt {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.as-sources dt a { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--color-accent-text); }
+.as-sources dt a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-sources dt a:hover { color: var(--color-accent-text); } }
+.as-sources dd { margin: 0; }
+.case-section .as-sources dd p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
+.case-section .as-sources dd p + p { margin-top: var(--space-xs); }
+.case-section .as-sources .as-source-q { color: var(--color-muted-gray); }
+.as-assume { margin-top: var(--space-2xl); }
+
+/* ---------- The research, in three labelled columns ---------- */
+.as-research {
+  display: grid;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+@media (min-width: 64rem) {
+  .as-research { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 0.8fr); width: var(--col-full); max-width: none; }
+}
+.as-research-col {
+  padding: var(--space-lg);
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.case-section .as-research-h,
+.as-research-h {
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-charcoal);
+}
+.as-research-tag {
+  justify-self: start;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: var(--color-tea-light);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.as-research-list { margin: 0; display: grid; gap: var(--space-md); }
+.as-research-list dt {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-research-list dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-research-col .build-list { margin: 0; }
+.case-section .as-research-col > p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }

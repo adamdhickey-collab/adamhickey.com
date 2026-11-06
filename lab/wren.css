@@ -1,0 +1,555 @@
+/* wren.css -- the After Send prototype's own components, and nothing else.
+ * Loaded by one page, lab/after-send.html, after style.css, for the same
+ * reason aisle.css and dispatch-cockpit.css are their own files: reach.
+ * Nothing on any other page is a payments workspace.
+ *
+ * WHAT IT INHERITS. The page is a style.css page: the hero, the chapter
+ * grounds, the measure, .btn and .btn-primary, .disclosure-row, the global
+ * focus ring on links and buttons, and the reduced-motion blanket come from
+ * there. This file adds the window, the list, the record, the supplier's
+ * notice, and the few controls the app has that style.css does not: the
+ * search field, the status filter, the chips, the status marks.
+ *
+ * DESKTOP FIRST. Accounts payable is done at a desk, so the window takes
+ * the page's full container and the list is a table with six columns from
+ * 48rem. Under that the table stacks: each row a small card with its
+ * column names printed inside it (real elements, shown only there), so a
+ * phone reads the same words a desk does.
+ *
+ * EVERY SIZE IS A STEP, every space a --space-*, every color a token and
+ * every duration a --motion-*. No tracked capitals: the field labels take
+ * the site's 12px sage label (TYPOGRAPHY.md), and the screen titles, column
+ * heads, and fact names are sentence case at their own size.
+ *
+ * NO MEANING IN COLOR ALONE. A status is words and a shape before it is a
+ * color: a clock for waiting, a check for processed, a double check for
+ * matched, a triangle for expired, and the expired ones take the caution
+ * ink after the word that says so. The caution ground is not spent here:
+ * an expired payment is a fact, not a refusal.
+ *
+ * STATE IS ON ATTRIBUTES. aria-pressed on the demo controls, aria-current
+ * on the step rail, aria-expanded on the two panel buttons, data-status on
+ * a mark, data-processing and data-matching on the facts, because
+ * scripts/states.mjs reads an .is-* class as a state to force, and every
+ * state here is reached instead through scripts/lib/reachable.mjs.
+ *
+ * THE RATIOS, from COLOR.md section 2, on the grounds they sit on:
+ *   charcoal     on white 15.33, warm 14.02, tea-light 12.90
+ *   muted-gray   on white  6.47, warm  5.91, tea-light  5.44
+ *   accent-text  on white  5.82, warm  5.32, tea-light  4.90
+ *   caution-text on white  6.45, warm  5.90, tea-light  5.43
+ *   warm         on accent-text 5.32, on accent-hover 6.90
+ *   a field's border, muted-gray on white: 6.47 (a control boundary owes 3:1)
+ *   a card's edge, --rule-card over white on white: 1.48 (a card owes 1.2)
+ */
+
+/* ---------- The window ----------
+   The site's device chrome, as the cockpit's .ck-frame: one --bezel of
+   --device-chrome with --shadow-device under it, and the app white inside.
+   The corner is the cockpit's 14px, a desktop window's, not a phone's. */
+.wr-frame {
+  --shell-radius: 14px;
+  width: 100%;
+  padding: var(--bezel);
+  background: var(--device-chrome);
+  border-radius: var(--shell-radius);
+  box-shadow: var(--shadow-device);
+}
+.wr-app {
+  min-height: 30rem;
+  background: var(--color-white);
+  border-radius: calc(var(--shell-radius) - var(--bezel));
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  overflow: clip;
+}
+
+/* The app's bar: its name, then the organization and the role the reader
+   is in, which the script writes (data-wren-chrome). The supplier preview
+   is named a preview in the bar itself, so the role is never a guess. */
+.wr-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--rule-hairline);
+  background: var(--color-warm);
+}
+.wr-app .wr-brand {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-charcoal);
+}
+.wr-brand-icon {
+  display: inline-block;
+  width: 1lh;
+  height: 1lh;
+  margin-right: var(--space-xs);
+  vertical-align: top;
+}
+.wr-brand-icon rect { fill: var(--color-charcoal); }
+.wr-brand-icon path { fill: none; stroke: var(--color-warm); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.wr-app .wr-chrome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.wr-chrome .wr-org { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
+/* In the supplier's role the bar says so in sage, as a label, not a warning. */
+[data-wren][data-role="supplier"] .wr-chrome .wr-role { color: var(--color-accent-text); font-weight: var(--weight-semibold); }
+
+/* The stage: one screen at a time. Each screen's blocks are spaced by the
+   stage, so no screen carries its own margins. Written under .wr-app so
+   the rhythm outranks a block's own margin: 0 and style.css's
+   .case-section p, which gives every paragraph a 16px foot. */
+.wr-stage { padding: var(--space-lg); }
+@media (min-width: 48rem) { .wr-stage { padding: var(--space-xl) var(--space-2xl) var(--space-2xl); } }
+.wr-app .wr-stage > * { margin: 0; }
+.wr-app .wr-stage > * + * { margin-top: var(--space-lg); }
+.wr-app .wr-stage > .wr-crumbs + .wr-head { margin-top: var(--space-sm); }
+.wr-app .wr-stage > .wr-head + .wr-facts,
+.wr-app .wr-stage > .wr-head + .wr-grid { margin-top: var(--space-xl); }
+
+/* ---------- Headings and text in the app ---------- */
+.wr-head .wr-title,
+.wr-app .wr-title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+.wr-app .wr-title:focus { outline: none; }
+.wr-app .wr-title:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; border-radius: 4px; }
+.wr-app .wr-dek,
+.wr-app .wr-eyebrow {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.wr-app .wr-eyebrow { margin: 0 0 var(--space-2xs); }
+.wr-app .wr-fine { font-size: var(--text-xs); line-height: var(--leading-ui); color: var(--color-muted-gray); max-width: var(--measure); }
+.wr-muted { color: var(--color-muted-gray); }
+/* A reference is set in the mono at the line's own size (one size per
+   line, and every size a step of the scale), so an invoice and a payment
+   reference read as the things they are: strings to be matched character
+   by character. */
+.wr-ref {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  letter-spacing: 0.01em;
+  color: inherit;
+}
+
+/* ---------- Links and chips the app has ---------- */
+.wr-app .wr-link,
+.wr-app .wr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.wr-app .wr-back { text-decoration: none; }
+.wr-app .wr-back svg { width: 1lh; height: 1lh; margin-left: calc(-1 * var(--space-2xs)); }
+@media (hover: hover) and (pointer: fine) {
+  .wr-app .wr-link:hover,
+  .wr-app .wr-back:hover { color: var(--color-accent-hover); }
+}
+.wr-app .wr-link:focus-visible,
+.wr-app .wr-back:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 4px; }
+/* A row's Open is a link in a cell; it keeps the row's 44px height by the
+   cell's padding, and the whole label reads as one press. */
+.wr-app .wr-crumbs { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); }
+
+.wr-app .wr-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  cursor: pointer;
+  transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease);
+}
+.wr-app .wr-chip--quiet { color: var(--color-muted-gray); }
+@media (hover: hover) and (pointer: fine) {
+  .wr-app .wr-chip:hover { background: var(--wash-on-light-hover); color: var(--color-charcoal); }
+}
+.wr-app .wr-chip:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+.wr-app .wr-btn { min-height: 2.75rem; }
+.wr-app .wr-row,
+.wr-app .wr-act {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.wr-app .wr-stage > .wr-act,
+.wr-app .wr-next .wr-act { margin-top: var(--space-md); }
+
+/* ---------- The search and the filter ----------
+   Visible labels, the site's field label: 12px, semibold, sage. The field
+   itself is the base size with a muted-gray border, which is the control
+   boundary at 6.47. From 40rem the two sit in one row, the search taking
+   what the filter leaves. */
+.wr-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  margin: 0;
+}
+@media (min-width: 40rem) {
+  .wr-tools { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+}
+.wr-field { display: grid; gap: var(--space-2xs); min-width: 0; }
+.wr-field label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.wr-field input,
+.wr-field select {
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-white);
+  border: 1px solid var(--color-muted-gray);
+  border-radius: 8px;
+  font: inherit;
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wr-field input::placeholder { color: var(--color-muted-gray); opacity: 1; }
+.wr-field input:focus-visible,
+.wr-field select:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+.wr-field select { padding-right: var(--space-2xl); appearance: auto; }
+
+/* ---------- The list ---------- */
+.wr-app .wr-count { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.wr-app [data-wren-table] > * { margin: 0; }
+.wr-app [data-wren-table] > * + * { margin-top: var(--space-sm); }
+.wr-app .wr-stage > [data-wren-table] { margin-top: var(--space-md); }
+.wr-app .wr-empty { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); max-width: var(--measure); }
+
+.wr-table-wrap { border: 1px solid var(--rule-card); border-radius: 12px; overflow: clip; }
+.wr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+.wr-table th,
+.wr-table td {
+  padding: var(--space-sm) var(--space-sm);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.wr-table thead th {
+  background: var(--color-warm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-muted-gray);
+  border-bottom-color: var(--rule-strong);
+}
+.wr-table tbody th { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
+.wr-table tbody tr:last-child th,
+.wr-table tbody tr:last-child td { border-bottom: 0; }
+.wr-table tbody th:first-child,
+.wr-table thead th:first-child { padding-left: var(--space-md); }
+.wr-table th:last-child,
+.wr-table td:last-child { padding-right: var(--space-md); }
+.wr-table .wr-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wr-table .wr-cell-act { text-align: right; white-space: nowrap; }
+.wr-table td:nth-child(5) { white-space: nowrap; color: var(--color-muted-gray); }
+/* The column's name inside each cell: a real element, hidden where the
+   head carries it, shown where the row stands alone. */
+.wr-td-label { display: none; }
+
+/* Under 48rem each row stands alone as a card, its cells stacked with
+   their names before them, and the Open at the foot. The table's parts
+   keep their roles by element, so a screen reader still hears a table. */
+@media (max-width: 47.99rem) {
+  .wr-table-wrap { border: 0; border-radius: 0; overflow: visible; }
+  .wr-table, .wr-table tbody, .wr-table tr, .wr-table th, .wr-table td { display: block; }
+  .wr-table thead { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .wr-table tbody tr {
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--rule-card);
+    border-radius: 12px;
+    background: var(--color-white);
+  }
+  .wr-table tbody tr + tr { margin-top: var(--space-sm); }
+  .wr-table tbody th,
+  .wr-table tbody td {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: var(--space-sm);
+    padding: var(--space-2xs) 0;
+    border: 0;
+    text-align: left;
+    white-space: normal;
+  }
+  .wr-table tbody th:first-child { padding-left: 0; }
+  .wr-table td:last-child { padding-right: 0; }
+  .wr-table .wr-num { text-align: left; }
+  .wr-table .wr-status { white-space: normal; }
+  .wr-table .wr-cell-act { display: block; padding-top: var(--space-xs); }
+  .wr-td-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--color-muted-gray);
+    padding-top: 0.1em;
+  }
+}
+
+/* ---------- A status: a mark and its words ---------- */
+.wr-status {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  color: var(--color-charcoal);
+  white-space: nowrap;
+}
+.wr-icon { flex: none; width: 1lh; height: 1lh; }
+.wr-status[data-status="waiting"] .wr-icon { color: var(--color-muted-gray); }
+.wr-status[data-status="ready"] .wr-icon,
+.wr-status[data-status="matched"] .wr-icon { color: var(--color-accent-text); }
+.wr-status[data-status="expired"] { color: var(--color-caution-text); font-weight: var(--weight-semibold); }
+
+/* ---------- The record: two facts ---------- */
+.wr-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+  margin: 0;
+}
+@media (min-width: 48rem) { .wr-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); } }
+.wr-facts:focus { outline: none; }
+.wr-fact {
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-warm);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+.wr-fact dt {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.wr-fact dd { margin: 0; display: grid; gap: var(--space-2xs); }
+.wr-fact-head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.wr-fact-head .wr-icon { color: var(--color-accent-text); }
+.wr-fact-line { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+/* The expired fact says so in the caution ink, after its words; the
+   waiting one keeps the muted clock, because waiting is the normal case. */
+.wr-facts[data-processing="sent"] .wr-fact:first-child .wr-icon { color: var(--color-muted-gray); }
+.wr-facts[data-processing="expired"] .wr-fact:first-child .wr-fact-head { color: var(--color-caution-text); }
+.wr-facts[data-processing="expired"] .wr-fact:first-child .wr-icon { color: var(--color-caution-text); }
+
+/* ---------- Who acts next ----------
+   One block, on the tea ground, between the facts and the details: the
+   actor in the heading's size, one sentence, and the one button if there
+   is one. Its panels open inside it, so the button and what it opened sit
+   together. */
+.wr-next {
+  padding: var(--space-lg);
+  background: var(--color-tea-light);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+.wr-app .wr-next-h {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.wr-app .wr-next-who {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.wr-app .wr-next-line {
+  display: block;
+  margin: var(--space-xs) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wr-app .wr-next-line .wr-icon { vertical-align: top; margin-right: var(--space-2xs); color: var(--color-accent-text); }
+.wr-next .wr-act { margin-bottom: 0; }
+
+/* A panel the next-action block opens: white on the tea, with its own
+   edge, so what was opened reads as a thing inside the block. */
+.wr-panel {
+  margin-top: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+.wr-app .wr-panel-h {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.wr-app .wr-panel-h:focus { outline: none; }
+.wr-app .wr-panel-h:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; border-radius: 4px; }
+.wr-app .wr-panel-line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wr-panel-line .wr-icon { color: var(--color-accent-text); }
+.wr-app .wr-panel .wr-row { margin-top: var(--space-md); }
+.wr-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+}
+@media (min-width: 40rem) { .wr-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); } }
+.wr-pair-col {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2xs) var(--space-sm);
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--rule-hairline);
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+.wr-pair-col dt { color: var(--color-muted-gray); }
+.wr-pair-col dd { margin: 0; color: var(--color-charcoal); font-weight: var(--weight-semibold); }
+.wr-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.wr-steps strong { font-weight: var(--weight-semibold); }
+
+/* ---------- The details grid, and the notice's ----------
+   No rule over it: the stage's space is the separation, and a hairline
+   there read as the next-action block's own edge run out past its
+   corners (2026-11-06). The activity under it keeps its rule, which is
+   the fold's. */
+.wr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-lg);
+  margin: 0;
+}
+@media (min-width: 48rem) { .wr-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.wr-grid > div { min-width: 0; }
+.wr-grid dt {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.wr-grid dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  overflow-wrap: anywhere;
+}
+.wr-grid .wr-when { display: block; margin-top: var(--space-2xs); color: var(--color-muted-gray); }
+/* The notice's grid is the same object with three columns from 48rem, in a
+   warm card, so it reads as a document the supplier received. */
+.wr-grid--notice {
+  padding: var(--space-lg);
+  background: var(--color-warm);
+  border: 1px solid var(--rule-card);
+  border-radius: 12px;
+}
+@media (min-width: 48rem) { .wr-grid--notice { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---------- The activity, folded ---------- */
+.wr-activity { border-top: 1px solid var(--rule-hairline); }
+.wr-app .wr-activity-row { font-size: var(--text-sm); }
+.wr-events {
+  list-style: none;
+  margin: 0 0 var(--space-sm);
+  padding: 0;
+  display: grid;
+  gap: var(--space-xs);
+}
+.wr-events li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xs) var(--space-md);
+  padding: var(--space-xs) 0;
+  border-top: 1px solid var(--rule-hairline);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+@media (min-width: 48rem) { .wr-events li { grid-template-columns: 9rem minmax(0, 1fr) 12rem; } }
+.wr-event-at { color: var(--color-muted-gray); font-variant-numeric: tabular-nums; }
+.wr-event-what { color: var(--color-charcoal); }
+.wr-event-by { color: var(--color-muted-gray); }
+
+/* ---------- Motion ----------
+   A new screen arrives as the site's blocks do, --motion-move on
+   --ease-enter; the reduced-motion blanket in style.css stops it. */
+@keyframes wr-arrive { from { opacity: 0; transform: translateY(var(--space-xs)); } }
+.wr-stage > * { animation: wr-arrive var(--motion-move) var(--ease-enter) both; }
+@media (prefers-reduced-motion: reduce) { .wr-stage > * { animation: none; } }

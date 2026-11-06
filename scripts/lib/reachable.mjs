@@ -196,6 +196,38 @@ export const REACHABLE = {
      somebody free and with nobody. The presses are the app's data-* hooks,
      the same ones scripts/aisle-shots.mjs and scripts/aisle-test.mjs use,
      and none of them matches anything in the map. */
+  /* After Send, since 2026-11-06: the buyer's payments list is the page at
+     rest, and every screen after it is drawn by lab/wren.js on a press:
+     the record while the supplier has not processed, the supplier's
+     read-only notice before and after Process, the record with the match
+     proposed, confirmed, and declined, the activity opened, and the same
+     payment in the expired scenario with its replacement options open.
+     The presses are the demo's data-* hooks, the same ones
+     scripts/wren-test.mjs and scripts/wren-shots.mjs use. The search box
+     and the status filter are typed and selected, not pressed, so the
+     narrowed list is wren-test.mjs's to read; its rows are the resting
+     list's rows. */
+  'lab/after-send.html': [
+    { name: 'a payment record, waiting for the supplier',
+      press: ['[data-open="larkspur-20483"]'] },
+    { name: 'the record, its activity opened',
+      press: ['[data-open="larkspur-20483"]', '.wr-activity-row'] },
+    { name: 'the supplier’s notice, read-only',
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]'] },
+    { name: 'the notice, processed',
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]'] },
+    { name: 'the record, processed, with the match proposed',
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]'] },
+    { name: 'the record, matched in the demo',
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-confirm-match]'] },
+    { name: 'the record, the match declined',
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-decline-match]'] },
+    { name: 'the expired scenario’s record',
+      press: ['[data-scenario="expired"]'] },
+    { name: 'the expired record, replacement options open',
+      press: ['[data-scenario="expired"]', '[data-replace]'] },
+  ],
+
   'lab/inspiration-to-aisle.html': [
     { name: 'the service map, connected',
       press: ['.ia-view [data-view="connected"]'] },
