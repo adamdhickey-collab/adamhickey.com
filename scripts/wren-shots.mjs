@@ -14,11 +14,10 @@
  *     supplier has processed, with Processed by supplier and Ready to
  *     match to invoice beside each other. og.mjs sets it on the write-up's
  *     share card, whose picture is a square.
- *   after-send-card.webp
- *     The lab index's and the homepage's card, 1600x900: the same window
- *     on the site's muted ground, large enough that the two facts read at
- *     half the section, cut off by the card's foot as The Shortlist's
- *     phones are.
+ *
+ * The lab index's and the homepage's card, after-send-card.webp, was taken
+ * here until the second pass of 2026-11-06. It is a drawing now, of the
+ * handoff rather than a screen, so nothing here writes it.
  *
  * The screen is reached by the same presses scripts/lib/reachable.mjs
  * registers, so a hook that goes stale fails here as it would there.
@@ -87,9 +86,6 @@ async function compose(file, { width, height, html }) {
 }
 
 const want = (n) => !only.length || only.some((o) => n.includes(o));
-const shot = await window_(RECORD);
-const src = `data:image/png;base64,${shot.buf.toString('base64')}`;
-
 if (want('record')) {
   /* The window in the narrower viewport, square from its top. */
   const narrow = await window_(RECORD, { width: 820, height: 1000 });
@@ -97,24 +93,6 @@ if (want('record')) {
   await compose(path.join(OUT, 'after-send-record.webp'), {
     width: W, height: H,
     html: `<!doctype html><html><body style="margin:0;background:#fff;overflow:hidden"><img src="data:image/png;base64,${narrow.buf.toString('base64')}" style="display:block;width:${W}px;height:auto"></body></html>`,
-  });
-}
-
-if (want('card')) {
-  /* The card: the window at 1400 wide on the muted ground, its top 60px
-     down, cut by the card's foot, with a margin either side that the
-     homepage's thumbnail crop can spend. */
-  const W = 1600, H = 900, SHOWN = 1400, TOP = 60;
-  await compose(path.join(OUT, 'after-send-card.webp'), {
-    width: W, height: H,
-    html: `<!doctype html><html><head>
-      <link rel="stylesheet" href="/color.css"><link rel="stylesheet" href="/shell.css">
-      <style>
-        html, body { margin: 0; width: ${W}px; height: ${H}px; overflow: hidden; }
-        body { background: var(--color-muted-light); display: flex; justify-content: center; }
-        img { display: block; width: ${SHOWN}px; height: auto; margin-top: ${TOP}px; border-radius: 22px; box-shadow: var(--shadow-lift); }
-      </style></head>
-      <body><img src="${src}"></body></html>`,
   });
 }
 

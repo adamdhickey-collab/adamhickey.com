@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>After Send: Tracking a Virtual Payment From Buyer to Supplier, an Accounts Payable Concept | Adam Hickey</title>
-  <meta name="description" content="An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, the experience architecture, two annotated hierarchies, a service map, the component states, and the test to run first. Not affiliated with any bank." />
+  <meta name="description" content="An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, six design decisions with the reason behind each, the experience architecture, two annotated hierarchies, and the test to run first. Not affiliated with any bank." />
 
   <link rel="canonical" href="https://adamhickey.com/lab/after-send.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/lab/after-send.html" />
   <meta property="og:title" content="After Send: Tracking a Virtual Payment From Buyer to Supplier, an Accounts Payable Concept | Adam Hickey" />
-  <meta property="og:description" content="An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, the experience architecture, two annotated hierarchies, a service map, the component states, and the test to run first. Not affiliated with any bank." />
+  <meta property="og:description" content="An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, six design decisions with the reason behind each, the experience architecture, two annotated hierarchies, and the test to run first. Not affiliated with any bank." />
   <meta property="og:image" content="https://adamhickey.com/img/og/after-send.jpg?v=1" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -37,7 +37,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/lab/after-send.html#article",
           "headline": "After Send: the payment was sent. Did the supplier process it?",
-          "description": "An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, the experience architecture, two annotated hierarchies, a service map, the component states, and the test to run first. Not affiliated with any bank.",
+          "description": "An independent commercial payments concept on simulated data: an accounts payable specialist asks whether the supplier has processed a virtual payment and whether to follow up. One invoice, followed from the buyer's payments list to the supplier's notice and back to the same record, with supplier processing and invoice matching kept as separate facts. A working prototype, six design decisions with the reason behind each, the experience architecture, two annotated hierarchies, and the test to run first. Not affiliated with any bank.",
           "url": "https://adamhickey.com/lab/after-send.html",
           "mainEntityOfPage": "https://adamhickey.com/lab/after-send.html",
           "image": "https://adamhickey.com/img/og/after-send.jpg?v=1",
@@ -102,8 +102,9 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
+  <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=1" />
-  <link rel="stylesheet" href="after-send.css?v=1" />
+  <link rel="stylesheet" href="after-send.css?v=2" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -219,18 +220,18 @@
          presses, that this is an independent concept on simulated data. -->
     <header class="case-hero">
       <div class="container case-wide">
-        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">10 min read</span></p>
+        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">7 min read</span></p>
         <h1 class="case-title">The payment was sent. Did the supplier process it?</h1>
-        <p class="build-dek">An accounts payable specialist asks: &ldquo;We sent a virtual payment for this invoice. Has the supplier processed it, and should I follow up?&rdquo; One payment, followed from the buyer&rsquo;s list to the supplier&rsquo;s notice and back to the same record, as a working prototype and the design work behind it.</p>
-        <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS: the problem, what is
-             different about this answer to it, what Adam did, and what the
-             work shows and has not shown. The third names the contributions,
-             so a hiring manager reads them before the demo. -->
+        <p class="build-dek">An accounts payable specialist gets a call about an invoice marked paid. One payment, followed from the buyer&rsquo;s list to the supplier&rsquo;s notice and back, as a working prototype and the thinking behind it.</p>
+        <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS: the problem, the
+             decision, what Adam did, and what the work shows and has not
+             shown. The third names the contributions, so a hiring manager
+             reads them before the demo. -->
         <dl class="build-facts as-facts">
-          <div><dt>The problem</dt><dd>&ldquo;Paid&rdquo; hides three facts: the buyer sent a payment, the supplier processed it, and the buyer matched it to an invoice. A specialist asked which is true has to read the history to find out.</dd></div>
-          <div><dt>What&rsquo;s different</dt><dd>The record leads with the two facts that can differ, then who acts next and the one thing needed to act. The history is there, folded under them.</dd></div>
-          <div><dt>What I did</dt><dd>The task model, the information architecture, the content hierarchy, the service map, the states, and the research plan. Then I built the prototype in code, with Claude Code, inside this site&rsquo;s own system.</dd></div>
-          <div><dt>What it shows</dt><dd>A direction worked through far enough to test with accounts payable specialists. Nothing yet about which events a real system can promise: <a href="#research">the test I&rsquo;d run first</a> is below.</dd></div>
+          <div><dt>The problem</dt><dd>&ldquo;Paid&rdquo; hides three facts: the buyer sent a payment, the supplier processed it, and the buyer matched it to an invoice. A specialist has to read the history to find out which is true.</dd></div>
+          <div><dt>The decision</dt><dd>Lead with the two facts that can differ, then who acts next. The history stays, folded underneath.</dd></div>
+          <div><dt>What I did</dt><dd>The task model, the hierarchy, the flow, and the states. Then I built the prototype in code, with Claude Code, inside this site&rsquo;s own system.</dd></div>
+          <div><dt>What it shows</dt><dd>A direction worked through far enough to test with accounts payable specialists. No findings yet: <a href="#the-bet">the test I&rsquo;d run first</a> is below.</dd></div>
         </dl>
         <p class="build-hero-act" data-read-aloud="skip after"></p>
         <p class="as-standing">Independent commercial payments concept &middot; Simulated data. Wren Payments, Fieldstone Foods, and Larkspur Packaging are made up, every reference is synthetic, and nothing here is any bank&rsquo;s screen or procedure.</p>
@@ -238,16 +239,35 @@
     </header>
 
     <!-- THE PROTOTYPE, at the container's width. Everything outside the
-         window is the demo's: the five steps of the walkthrough with the
-         one the reader is on marked and a line saying what to try, and the
-         controls that switch scenario and role and start over. Everything
-         inside the window is the product, and carries no demo control, so
-         the product never asks a visitor to do something a specialist
-         could not. The whole section is data-wren: wren.js listens on it. -->
+         window is the demo's: one bar with the kicker and the controls that
+         switch scenario and role and start over, then the five steps of the
+         walkthrough with the one the reader is on marked and a line saying
+         what to try. Everything inside the window is the product, and
+         carries no demo control, so the product never asks a visitor to do
+         something a specialist could not. The whole section is data-wren:
+         wren.js listens on it. Since 2026-11-06 (the second pass) the
+         controls are plain text toggles on one line with the kicker, not
+         chips in bordered pills under their own label: three rows of chrome
+         over the window read as busier than the product. -->
     <section class="case-section as-demo" id="try-it" aria-labelledby="try-h" data-wren data-read-aloud="skip">
       <div class="container case-wide">
         <h2 class="visually-hidden" id="try-h">The prototype</h2>
-        <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try it, it&rsquo;s live</p>
+        <div class="as-demo-bar">
+          <p class="try-live"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 9l11 4.5-4.6 1.7-1.7 4.6z"/><path d="M4 4l2 2M9.5 2.5V5M2.5 9.5H5M15 4.5l-1.6 1.6M4.5 15l1.6-1.6"/></svg>Try it, it&rsquo;s live</p>
+          <div class="as-controls" role="group" aria-label="Demo controls">
+            <div class="as-control" role="group" aria-label="Scenario">
+              <span class="as-control-name">Scenario</span>
+              <button type="button" class="as-toggle" data-scenario="default" aria-pressed="true">Default path</button>
+              <button type="button" class="as-toggle" data-scenario="expired" aria-pressed="false">Expired payment</button>
+            </div>
+            <div class="as-control" role="group" aria-label="Role">
+              <span class="as-control-name">Role</span>
+              <button type="button" class="as-toggle" data-role="buyer" aria-pressed="true">Buyer</button>
+              <button type="button" class="as-toggle" data-role="supplier" aria-pressed="false">Supplier preview</button>
+            </div>
+            <button type="button" class="as-reset" data-reset><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Start over</button>
+          </div>
+        </div>
         <div class="as-walk">
           <ol class="as-steps" aria-label="The walkthrough, five steps">
             <li data-wren-step="1" aria-current="step"><span class="as-step-n" aria-hidden="true">1</span><span class="as-step-name">Find it</span></li>
@@ -258,20 +278,6 @@
           </ol>
           <p class="as-hint" data-wren-hint>Search INV-20483, or filter to Waiting for supplier, and open the row.</p>
         </div>
-        <div class="as-controls" role="group" aria-label="Demo controls">
-          <p class="as-controls-label">Demo controls</p>
-          <div class="as-control" role="group" aria-label="Scenario">
-            <span class="as-control-name">Scenario</span>
-            <button type="button" class="as-toggle" data-scenario="default" aria-pressed="true">Default path</button>
-            <button type="button" class="as-toggle" data-scenario="expired" aria-pressed="false">Expired payment</button>
-          </div>
-          <div class="as-control" role="group" aria-label="Role">
-            <span class="as-control-name">Role</span>
-            <button type="button" class="as-toggle" data-role="buyer" aria-pressed="true">Buyer</button>
-            <button type="button" class="as-toggle" data-role="supplier" aria-pressed="false">Supplier preview</button>
-          </div>
-          <button type="button" class="as-toggle as-reset" data-reset>Start over</button>
-        </div>
         <div class="wr-frame">
           <div class="wr-app">
             <div class="wr-bar">
@@ -280,7 +286,7 @@
             </div>
             <div class="wr-stage" data-wren-stage data-screen="list">
               <noscript>
-                <p class="wr-dek">The prototype is built in JavaScript and it is switched off here, so the window is empty. The states below show each screen as it would read, and the source is <a href="wren.js">wren.js</a>, with the payments and their events as plain objects at the top.</p>
+                <p class="wr-dek">The prototype is built in JavaScript and it is switched off here, so the window is empty. The decisions below describe what each screen does, and the source is <a href="wren.js">wren.js</a>, with the payments and their events as plain objects at the top.</p>
               </noscript>
             </div>
             <!-- The live region: one line, always in the document, updated
@@ -294,29 +300,114 @@
       </div>
     </section>
 
-    <!-- 1. THE SCENE, then the design problem (VOICE.md). -->
+    <!-- 1. THE SCENE, then the design problem (VOICE.md): one call, and the
+         three facts one word was standing in for, as a list. -->
     <section class="case-section case-overview build-chapter ground-white" id="the-problem">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>A supplier calls, and &ldquo;paid&rdquo; turns out to be three different things</h2>
           <p>Thursday afternoon. Larkspur Packaging calls accounts payable about invoice INV-20483. The specialist opens the payment: sent October 28. So it&rsquo;s paid.</p>
-          <p>Except nothing says whether Larkspur has processed it. The invoice is still open in the books, because nobody has matched it. And the payment has a date it stops being good on.</p>
-          <p>Three facts, one word. The data for all three usually exists. I think the design problem is the hierarchy: keeping the facts apart, and saying who moves next.</p>
+          <p>Except &ldquo;paid&rdquo; is standing in for three facts, and the screen says one of them:</p>
+          <ul class="build-list">
+            <li><strong>The buyer sent it.</strong> True since October 28, and the only fact the status shows.</li>
+            <li><strong>The supplier processed it.</strong> Nobody can tell. And the payment has a date it stops being good on.</li>
+            <li><strong>The buyer matched it to the invoice.</strong> Not yet, so INV-20483 is still open in the books.</li>
+          </ul>
+          <p>The data for all three usually exists. I think the design problem is the hierarchy: keeping the facts apart, and saying who moves next.</p>
         </div>
       </div>
     </section>
 
-    <!-- 2. EXPERIENCE ARCHITECTURE: the flow, drawn in HTML so the checks
-         read it. Four screens, the invoice reference under each, and the
-         two events that part the facts marked where they happen. -->
-    <section class="case-section case-overview build-chapter ground-tea" id="architecture">
+    <!-- 2. THE DECISIONS, as The Shortlist's ledger (decisions.css): each
+         one row under a hairline, what the prototype does, the reason as
+         the Why line, and a small drawing of the reason at the right. The
+         drawings are one 3 x 2 sheet in the cockpit's line hand
+         (img/inbox/line-concept-ref.png), cut to 720x480 with the white
+         ground transparent, so they sit on the chapter's warm. -->
+    <section class="case-section case-overview build-chapter ground-warm" id="decisions">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>Six decisions, and the reason behind each</h2>
+          <p>None of these needed new data. Each one is about which fact comes first, in whose words, and what stays out of the way.</p>
+        </div>
+        <ol class="decisions decisions--ledger">
+          <li class="decision">
+            <div class="decision-text">
+              <h3>Two facts, not one status</h3>
+              <p class="decision-lead">The record opens on &ldquo;Supplier processing&rdquo; and &ldquo;Invoice matching&rdquo; as two separate facts, each named for who owns it, each with one line on where it stands.</p>
+              <p class="decision-cap"><b>Why:</b> one word has to be true for the buyer, the supplier, and the books at once. Two facts can each be checked, and can differ without either one lying.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-facts.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+          <li class="decision">
+            <div class="decision-text">
+              <h3>Say who acts next, and give them one button</h3>
+              <p class="decision-lead">Under the facts, one line names who moves next: you, the supplier, or no one. If there is something to do, the one button for it sits right there.</p>
+              <p class="decision-cap"><b>Why:</b> the specialist&rsquo;s question is &ldquo;do I follow up?&rdquo; A screen that answers it outright beats one that leaves it to be worked out from a log.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-next.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+          <li class="decision">
+            <div class="decision-text">
+              <h3>Let the invoice reference carry the handoff</h3>
+              <p class="decision-lead">INV-20483 is a column on the list, the title of the record, the first line of the supplier&rsquo;s notice, and the thing the match is checked against.</p>
+              <p class="decision-cap"><b>Why:</b> the supplier knows the invoice and the buyer knows the invoice. Neither of them knows the payment&rsquo;s own number.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-reference.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+          <li class="decision">
+            <div class="decision-text">
+              <h3>Show the supplier only what the buyer would share</h3>
+              <p class="decision-lead">The notice carries the buyer&rsquo;s name, the invoice reference, the amount, and the date the payment stops being good. Not the approver, the coding, or the notes.</p>
+              <p class="decision-cap"><b>Why:</b> the handoff crosses two companies. What the buyer wrote for itself stays on the buyer&rsquo;s side of it.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-share.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+          <li class="decision">
+            <div class="decision-text">
+              <h3>Keep the history, folded</h3>
+              <p class="decision-lead">Every event is still on the record, under &ldquo;Activity,&rdquo; closed by default. The buyer&rsquo;s record and the supplier&rsquo;s notice are drawn from the same list of events, so the two can&rsquo;t disagree.</p>
+              <p class="decision-cap"><b>Why:</b> the log is the evidence, not the answer. It has to stay one press away for the day the stated answer looks wrong.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-history.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+          <li class="decision">
+            <div class="decision-text">
+              <h3>A status is words and a shape before it is a color</h3>
+              <p class="decision-lead">Sent, processed, and expired each get a word and a mark: a clock, a check, a triangle. Color comes third, and expired is the only one in the caution ink.</p>
+              <p class="decision-cap"><b>Why:</b> a row has to read in a long list, on a phone, through a screen reader, and to someone who can&rsquo;t see red. The word does that on its own. The color only helps.</p>
+            </div>
+            <div class="decision-figure">
+              <img class="decision-pic" src="../img/lab/after-send-why-shape.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3. EXPERIENCE ARCHITECTURE: the flow, drawn in HTML so the checks
+         read it. Four screens, the invoice reference under each, the two
+         events that part the facts marked where they happen, and under the
+         row, where each screen can fail: the service map's one lane worth
+         keeping once the decisions above said the rest. -->
+    <section class="case-section case-overview build-chapter ground-white" id="architecture">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>One invoice reference runs through four screens</h2>
           <p>The buyer never leaves their own record. The supplier sees one notice. The reference ties them, and the two events that matter happen at different ends.</p>
         </div>
         <figure class="as-figure as-flow-figure">
-          <figcaption><p class="as-kicker">Experience architecture</p><p class="as-title">Where the invoice reference persists, and where processing and matching part</p><span class="as-standing-note">Conceptual: the screens and events are this concept&rsquo;s, not any product&rsquo;s.</span></figcaption>
+          <figcaption><p class="as-kicker">Experience architecture</p><p class="as-title">Where the invoice reference persists, and where processing and matching part</p><span class="as-standing-note">Conceptual: the screens and the events (issued, notice delivered, processed, expired, matched) are this concept&rsquo;s, not any product&rsquo;s.</span></figcaption>
           <ol class="as-flow">
             <li class="as-node" data-who="buyer">
               <p class="as-node-who">Buyer</p>
@@ -343,19 +434,22 @@
               <p class="as-node-carry"><span class="as-carry">INV-20483</span></p>
             </li>
           </ol>
-          <dl class="as-key">
-            <div><dt>Buyer sees</dt><dd>Every payment, both facts, the activity, the match</dd></div>
-            <div><dt>Supplier sees</dt><dd>Buyer name, invoice reference, amount, validity date. No approver, coding, or notes</dd></div>
-            <div><dt>System events</dt><dd>Issued, notice delivered, processed, expired, matched. Both views are drawn from the same list</dd></div>
+          <dl class="as-key as-key--four">
+            <div><dt>Where the list can fail</dt><dd>Two invoices from one supplier. Search returns both, and the reference tells them apart.</dd></div>
+            <div><dt>Where the record can fail</dt><dd>&ldquo;Delivered&rdquo; is not &ldquo;read.&rdquo; A notice can sit in an inbox for weeks, and the record says delivered.</dd></div>
+            <div><dt>Where the notice can fail</dt><dd>Processed for a different amount, or in part. Outside this concept, and the first question for engineering.</dd></div>
+            <div><dt>Where the match can fail</dt><dd>Confirmed against the wrong invoice. The side-by-side check exists for this.</dd></div>
           </dl>
         </figure>
       </div>
     </section>
 
-    <!-- 3. CONTENT HIERARCHY: two wireframes of the same facts, v1 and v2,
-         each annotated, and why the second order is worth testing rather
-         than assuming. -->
-    <section class="case-section case-overview build-chapter ground-white" id="hierarchy">
+    <!-- 4. THE BET, AND THE TEST: two wireframes of the same facts, v1 and
+         v2, each annotated, then the risk in stating a status, the test
+         that would settle it, and that there are no findings yet. The
+         research plan used to be its own section in three columns; a test
+         belongs beside the bet it settles. -->
+    <section class="case-section case-overview build-chapter ground-tea" id="the-bet">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>Status first, history second, and why that order is worth testing</h2>
@@ -394,174 +488,39 @@
           </figure>
         </div>
         <div class="writing-measure as-why">
-          <p><strong>Why test it rather than ship it.</strong> A stated status is only as good as the event behind it. If &ldquo;Waiting for supplier&rdquo; shows while a processing event sits in a queue, v2 is confidently wrong where v1 was merely slow. The test below asks whether the stated fact, with its last confirmed event beside it, is trusted and correct more often, and whether anyone misses the log.</p>
+          <p><strong>Why test it rather than ship it.</strong> A stated status is only as good as the event behind it. If &ldquo;Waiting for supplier&rdquo; shows while a processing event sits in a queue, v2 is confidently wrong where v1 was merely slow.</p>
+          <ul class="build-list">
+            <li><strong>The test:</strong> five accounts payable specialists try both hierarchies on the same five payments. Find INV-20483, say whether the supplier has processed it, say who acts next, then handle the expired one. Three accounts receivable people walk through the notice.</li>
+            <li><strong>Measured:</strong> correct status readings, time to find the invoice, and any press that would duplicate a payment or replace one early.</li>
+            <li><strong>What it settles:</strong> if specialists read the summary, trust it, and still open the log when it matters, v2 stays. If they read past it to the log anyway, v1 was right and the summary is noise.</li>
+            <li><strong>Findings:</strong> none yet. No specialist or supplier has used this, and nothing on this page is a result.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- 4. THE SERVICE MAP: baseline and proposed across four moments, the
-         buyer and the supplier each asking, the event each screen depends
-         on, and where it can fail. Drawn in HTML, as The Shortlist's is,
-         so the checks read every cell. Both lanes show; four moments and
-         six lanes fit without a switch. -->
-    <section class="case-section case-overview build-chapter ground-tea" id="the-map">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>Four moments, two people, and the event each screen depends on</h2>
-          <p>The baseline is a guess at how this goes today, from the public descriptions and from thirteen years of enterprise workflows. The proposed row is what the prototype does.</p>
-        </div>
-        <figure class="as-figure as-map" style="--as-moments: 4">
-          <figcaption><p class="as-kicker">Service map</p><p class="as-title">What the buyer and the supplier each ask, and what each is shown</p><span class="as-standing-note">Illustrative: the baseline is hypothetical, not observed. The system events are the concept&rsquo;s, named as a design assumption.</span></figcaption>
-          <ol class="as-matrix">
-            <li class="as-moment" style="--as-i: 0">
-              <p class="as-moment-name"><span class="as-n" aria-hidden="true">01</span>Locate</p>
-              <dl class="as-lanes">
-                <div class="as-lane as-lane--buyer" style="--as-lane: 1"><dt>The buyer asks</dt><dd>&ldquo;Which payment was this invoice?&rdquo;</dd></div>
-                <div class="as-lane as-lane--supplier" style="--as-lane: 2"><dt>The supplier asks</dt><dd>&ldquo;Did they pay INV-20483?&rdquo;</dd></div>
-                <div class="as-lane as-lane--baseline" style="--as-lane: 3"><dt>Baseline<span class="as-line">What they see</span></dt><dd>A list keyed by payment reference. The invoice reference is a field on the detail.</dd></div>
-                <div class="as-lane as-lane--proposed" style="--as-lane: 4"><dt>Proposed<span class="as-line">What they see</span></dt><dd>Search by invoice reference or supplier. The reference is a column, and the status is a sentence.</dd></div>
-                <div class="as-lane as-lane--event" style="--as-lane: 5"><dt>The event it depends on</dt><dd>Payment issued, carrying the invoice reference</dd></div>
-                <div class="as-lane as-lane--fail" style="--as-lane: 6"><dt>Where it can fail</dt><dd>Two invoices from one supplier. Search returns both, and the reference tells them apart.</dd></div>
-              </dl>
-            </li>
-            <li class="as-moment" style="--as-i: 1">
-              <p class="as-moment-name"><span class="as-n" aria-hidden="true">02</span>Interpret</p>
-              <dl class="as-lanes">
-                <div class="as-lane as-lane--buyer" style="--as-lane: 1"><dt>The buyer asks</dt><dd>&ldquo;Has Larkspur processed it? Do I follow up?&rdquo;</dd></div>
-                <div class="as-lane as-lane--supplier" style="--as-lane: 2"><dt>The supplier asks</dt><dd>&ldquo;Is this payment still good?&rdquo;</dd></div>
-                <div class="as-lane as-lane--baseline" style="--as-lane: 3"><dt>Baseline<span class="as-line">What they see</span></dt><dd>An activity history. The status is whatever the last line implies.</dd></div>
-                <div class="as-lane as-lane--proposed" style="--as-lane: 4"><dt>Proposed<span class="as-line">What they see</span></dt><dd>Two facts, who acts next, then the validity date and the last confirmed event.</dd></div>
-                <div class="as-lane as-lane--event" style="--as-lane: 5"><dt>The event it depends on</dt><dd>Notice delivered to the supplier</dd></div>
-                <div class="as-lane as-lane--fail" style="--as-lane: 6"><dt>Where it can fail</dt><dd>Delivered is not read. A notice can sit in an inbox for weeks.</dd></div>
-              </dl>
-            </li>
-            <li class="as-moment" style="--as-i: 2">
-              <p class="as-moment-name"><span class="as-n" aria-hidden="true">03</span>Process</p>
-              <dl class="as-lanes">
-                <div class="as-lane as-lane--buyer" style="--as-lane: 1"><dt>The buyer asks</dt><dd>&ldquo;Did it go through?&rdquo;</dd></div>
-                <div class="as-lane as-lane--supplier" style="--as-lane: 2"><dt>The supplier asks</dt><dd>&ldquo;Which invoice is this for, and how long do I have?&rdquo;</dd></div>
-                <div class="as-lane as-lane--baseline" style="--as-lane: 3"><dt>Baseline<span class="as-line">What they see</span></dt><dd>The supplier processes from a number. The buyer learns from a statement, later.</dd></div>
-                <div class="as-lane as-lane--proposed" style="--as-lane: 4"><dt>Proposed<span class="as-line">What they see</span></dt><dd>The notice carries the invoice reference, amount, and validity date. Processing posts an event the buyer&rsquo;s record shows at once.</dd></div>
-                <div class="as-lane as-lane--event" style="--as-lane: 5"><dt>The event it depends on</dt><dd>Processed by the supplier</dd></div>
-                <div class="as-lane as-lane--fail" style="--as-lane: 6"><dt>Where it can fail</dt><dd>Processed for a different amount, or in part. Outside this concept, and the first thing to ask engineering.</dd></div>
-              </dl>
-            </li>
-            <li class="as-moment" style="--as-i: 3">
-              <p class="as-moment-name"><span class="as-n" aria-hidden="true">04</span>Match</p>
-              <dl class="as-lanes">
-                <div class="as-lane as-lane--buyer" style="--as-lane: 1"><dt>The buyer asks</dt><dd>&ldquo;Is INV-20483 closed?&rdquo;</dd></div>
-                <div class="as-lane as-lane--supplier" style="--as-lane: 2"><dt>The supplier asks</dt><dd class="as-none">Nothing. The supplier is done.</dd></div>
-                <div class="as-lane as-lane--baseline" style="--as-lane: 3"><dt>Baseline<span class="as-line">What they see</span></dt><dd>Matching happens in a reconciliation file, on the file&rsquo;s schedule.</dd></div>
-                <div class="as-lane as-lane--proposed" style="--as-lane: 4"><dt>Proposed<span class="as-line">What they see</span></dt><dd>&ldquo;Ready to match&rdquo; is its own fact. The match is proposed, checked side by side, and confirmed on the record.</dd></div>
-                <div class="as-lane as-lane--event" style="--as-lane: 5"><dt>The event it depends on</dt><dd>Matched to invoice</dd></div>
-                <div class="as-lane as-lane--fail" style="--as-lane: 6"><dt>Where it can fail</dt><dd>Confirmed against the wrong invoice. The two-column check exists for this.</dd></div>
-              </dl>
-            </li>
-          </ol>
-        </figure>
-      </div>
-    </section>
-
-    <!-- 5. COMPONENTS AND STATES: the same list row and record header in
-         each state, as static markup in the prototype's own classes, so
-         the words are the page's and the checks measure them at rest.
-         This is also the page without JavaScript. -->
-    <section class="case-section case-overview build-chapter ground-white" id="states">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>The same row and the same header, in each state</h2>
-          <p>Every status is words and a shape before it is a color, and every timestamp says which event it is the time of.</p>
-        </div>
-        <figure class="as-figure as-states">
-          <figcaption><p class="as-kicker">Component states</p><p class="as-title">A list row and a record header for sent, processed, and expired</p></figcaption>
-          <div class="wr-app as-spec">
-            <div class="wr-table-wrap"><table class="wr-table"><caption class="visually-hidden">Three list rows, one in each state</caption>
-              <thead><tr><th scope="col">Supplier</th><th scope="col">Invoice</th><th scope="col" class="wr-num">Amount</th><th scope="col">Status</th><th scope="col">Sent</th></tr></thead>
-              <tbody>
-                <tr><th scope="row"><span class="wr-td-label" aria-hidden="true">Supplier</span>Larkspur Packaging</th><td><span class="wr-td-label" aria-hidden="true">Invoice</span><span class="wr-ref">INV-20483</span></td><td class="wr-num"><span class="wr-td-label" aria-hidden="true">Amount</span>$4,860.00</td><td><span class="wr-td-label" aria-hidden="true">Status</span><span class="wr-status" data-status="waiting"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Sent, waiting for supplier</span></td><td><span class="wr-td-label" aria-hidden="true">Sent</span>Oct 28</td></tr>
-                <tr><th scope="row"><span class="wr-td-label" aria-hidden="true">Supplier</span>Larkspur Packaging</th><td><span class="wr-td-label" aria-hidden="true">Invoice</span><span class="wr-ref">INV-20483</span></td><td class="wr-num"><span class="wr-td-label" aria-hidden="true">Amount</span>$4,860.00</td><td><span class="wr-td-label" aria-hidden="true">Status</span><span class="wr-status" data-status="ready"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Processed, ready to match</span></td><td><span class="wr-td-label" aria-hidden="true">Sent</span>Oct 28</td></tr>
-                <tr><th scope="row"><span class="wr-td-label" aria-hidden="true">Supplier</span>Larkspur Packaging</th><td><span class="wr-td-label" aria-hidden="true">Invoice</span><span class="wr-ref">INV-20483</span></td><td class="wr-num"><span class="wr-td-label" aria-hidden="true">Amount</span>$4,860.00</td><td><span class="wr-td-label" aria-hidden="true">Status</span><span class="wr-status" data-status="expired"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5"/><path d="M12 17.5v.01"/></svg>Expired, not processed</span></td><td><span class="wr-td-label" aria-hidden="true">Sent</span>Oct 28</td></tr>
-              </tbody>
-            </table></div>
-          </div>
-          <div class="as-spec-heads">
-            <div class="wr-app as-spec">
-              <p class="as-spec-name">Sent</p>
-              <dl class="wr-facts" data-processing="sent" data-matching="unmatched">
-                <div class="wr-fact"><dt>Supplier processing</dt><dd><span class="wr-fact-head"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Sent to supplier</span><span class="wr-fact-line">Waiting for Larkspur Packaging to process it. Notice delivered Oct 28.</span></dd></div>
-                <div class="wr-fact"><dt>Invoice matching</dt><dd><span class="wr-fact-head">Not yet</span><span class="wr-fact-line">Matching waits for processing. INV-20483 stays open until then.</span></dd></div>
-              </dl>
-            </div>
-            <div class="wr-app as-spec">
-              <p class="as-spec-name">Processed</p>
-              <dl class="wr-facts" data-processing="processed" data-matching="unmatched">
-                <div class="wr-fact"><dt>Supplier processing</dt><dd><span class="wr-fact-head"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Processed by supplier</span><span class="wr-fact-line">Larkspur Packaging processed it Nov 5, 2:10 pm.</span></dd></div>
-                <div class="wr-fact"><dt>Invoice matching</dt><dd><span class="wr-fact-head"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Ready to match to invoice</span><span class="wr-fact-line">Processed, and not yet matched to INV-20483. Review the match to close the invoice.</span></dd></div>
-              </dl>
-            </div>
-            <div class="wr-app as-spec">
-              <p class="as-spec-name">Expired</p>
-              <dl class="wr-facts" data-processing="expired" data-matching="unmatched">
-                <div class="wr-fact"><dt>Supplier processing</dt><dd><span class="wr-fact-head"><svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5"/><path d="M12 17.5v.01"/></svg>Expired Nov 4, not processed</span><span class="wr-fact-line">The validity date passed with no processing event from Larkspur Packaging. Nothing was charged.</span></dd></div>
-                <div class="wr-fact"><dt>Invoice matching</dt><dd><span class="wr-fact-head">Nothing to match</span><span class="wr-fact-line">No payment was processed, so INV-20483 is still open and unpaid.</span></dd></div>
-              </dl>
-            </div>
-          </div>
-        </figure>
-      </div>
-    </section>
-
-    <!-- 6. VERSIONS, AND THE DESIGN-TO-BUILD CHECK: what was intended,
-         how it is built, and what verified it. The verification column
-         names the script and the case; it is filled from the run, not
-         from the plan. -->
-    <section class="case-section case-overview build-chapter ground-warm" id="check">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>What was intended, how it&rsquo;s built, and what checked it</h2>
-          <p>v1 and v2 are the two hierarchies above; v2 is the working direction the prototype builds. There is no Figma source. The artifacts are this page&rsquo;s own HTML, the fixture at the top of <a href="wren.js">wren.js</a>, and the test that walks it.</p>
-        </div>
-        <figure class="as-figure as-check">
-          <figcaption><p class="as-kicker">Design-to-build check</p><p class="as-title">Each intention, and the check that says the build keeps it</p></figcaption>
-          <div class="as-check-wrap"><table class="as-check-table">
-            <caption class="visually-hidden">The design-to-build check: intended, built as, verified by</caption>
-            <thead><tr><th scope="col">Intended</th><th scope="col">Built as</th><th scope="col">Verified by</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Hierarchy</th><td>Two facts, who acts next, then details, then the activity folded</td><td>wren-test.mjs reads the record&rsquo;s order; the activity is a closed <code>details</code></td></tr>
-              <tr><th scope="row">Labels</th><td>&ldquo;Sent to supplier,&rdquo; &ldquo;Processed by supplier,&rdquo; &ldquo;Ready to match to invoice,&rdquo; &ldquo;Expired Nov 4, not processed,&rdquo; each with its event&rsquo;s time</td><td>wren-test.mjs asserts the words on each screen; oxford.mjs reads them</td></tr>
-              <tr><th scope="row">States</th><td>Sent, processed, matched, and expired, each a word with a shape; expired in the caution ink after its word</td><td>resting.mjs and states.mjs on nine reachable states, registered in reachable.mjs</td></tr>
-              <tr><th scope="row">Safe repeats</th><td>Process and Confirm match are drawn only while they apply; a match never touches the processing event</td><td>wren-test.mjs presses each twice and counts the events</td></tr>
-              <tr><th scope="row">Responsive</th><td>A six-column table from 48rem; each row a card with its column names under it</td><td>typescale.mjs at 375, 400, 1280, and 1440; a hand pass at 375</td></tr>
-              <tr><th scope="row">Keyboard</th><td>A new screen moves focus to its title; Back returns it to the row; Escape closes a panel and returns to its button</td><td>wren-test.mjs reads the active element after each press</td></tr>
-              <tr><th scope="row">Announcements</th><td>One live region says what changed: the screen, the count, a process, a match</td><td>wren-test.mjs reads the region after each press</td></tr>
-            </tbody>
-          </table></div>
-        </figure>
-      </div>
-    </section>
-
-    <!-- 7. THE PUBLIC GROUND: three sources, each named for what it
-         actually describes and the question it raises here, then the line
-         saying what is assumption. One outside source a page is the voice
-         rule; a reference note is the exception, and it is kept to the
-         three the concept stands on. -->
+    <!-- 5. THE PUBLIC GROUND: three sources, each named for the question it
+         raises here, then the line saying what is assumption. One outside
+         source a page is the voice rule; a reference note is the
+         exception, and it is kept to the three the concept stands on. -->
     <section class="case-section case-overview build-chapter ground-white" id="sources">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>Where the concept comes from, and what it doesn&rsquo;t claim</h2>
+          <p>Three public product descriptions, and the question each one raised for this design.</p>
         </div>
         <dl class="as-sources">
           <div>
             <dt><a href="https://www.usbank.com/corporate-and-commercial-banking/treasury-payment-solutions/corporate-payment-services/account-management-tools.html" target="_blank" rel="noopener noreferrer">U.S. Bank Access Online</a></dt>
-            <dd><p>Describes a card program management tool whose functions include virtual payments, beside account setup, transaction management, and reporting.</p><p class="as-source-q">The question it raises: inside a card management workspace, where does a payment&rsquo;s handoff to the supplier become visible?</p></dd>
+            <dd><p>A card program management tool whose functions include virtual payments, beside account setup, transaction management, and reporting.</p><p class="as-source-q">Inside a card management workspace, where does a payment&rsquo;s handoff to the supplier become visible?</p></dd>
           </div>
           <div>
             <dt><a href="https://www.usbank.com/corporate-and-commercial-banking/treasury-payment-solutions/corporate-payment-services/virtual-credit-cards/virtual-payments.html" target="_blank" rel="noopener noreferrer">U.S. Bank Virtual Pay</a></dt>
-            <dd><p>Describes buyer-to-supplier payments that carry detailed remittance information, each payment a unique identifier.</p><p class="as-source-q">The question it raises: if the invoice reference travels with the payment, can it be the one thing both sides search by?</p></dd>
+            <dd><p>Buyer-to-supplier payments that carry detailed remittance information, each payment a unique identifier.</p><p class="as-source-q">If the invoice reference travels with the payment, can it be the one thing both sides search by?</p></dd>
           </div>
           <div>
             <dt><a href="https://www.americanexpress.com/en-us/business/payments/vpayment/" target="_blank" rel="noopener noreferrer">American Express vPayment</a></dt>
-            <dd><p>Describes a supplier charging a virtual account, then the transaction data reconciled against the buyer&rsquo;s predefined details.</p><p class="as-source-q">The question it raises: processing and reconciliation are two events there too. Should a buyer&rsquo;s screen show them as two facts?</p></dd>
+            <dd><p>A supplier charges a virtual account, then the transaction data is reconciled against the buyer&rsquo;s predefined details.</p><p class="as-source-q">Processing and reconciliation are two events there too. Should a buyer&rsquo;s screen show them as two facts?</p></dd>
           </div>
         </dl>
         <div class="writing-measure as-assume">
@@ -570,50 +529,15 @@
       </div>
     </section>
 
-    <!-- 8. THE RESEARCH: proposed, kept apart from what the build checked
-         and from findings, of which there are none. The decision the test
-         would settle is named, because a test that settles nothing is a
-         demo. -->
-    <section class="case-section case-overview build-chapter ground-tea" id="research">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>What I&rsquo;d test first, and the decision it would settle</h2>
-          <p><strong>The decision:</strong> whether a next-action summary belongs above the activity history. v2 bets that it does. If specialists read the summary, trust it, and still open the log when it matters, it stays. If they read past it to the log anyway, v1 was right and the summary is noise.</p>
-        </div>
-        <div class="as-research">
-          <section class="as-research-col" aria-labelledby="rs-proposed">
-            <h3 id="rs-proposed" class="as-research-h"><span class="as-research-tag">Proposed</span>The test</h3>
-            <dl class="as-research-list">
-              <div><dt>With accounts payable</dt><dd>Five specialists, each trying both hierarchies on the same five payments: find INV-20483, say whether the supplier has processed it, say who acts next, then handle the expired one.</dd></div>
-              <div><dt>With a supplier</dt><dd>Three accounts receivable people, walked through the notice: which invoice is this for, and what would you do with it?</dd></div>
-              <div><dt>Measured</dt><dd>Correct status interpretation, time to find the invoice, and any attempted action that would duplicate a payment or replace one early.</dd></div>
-              <div><dt>With partners</dt><dd>Engineering: which events and timestamps are reliable. Content design: which terms buyers already use. Accessibility and compliance: which states, controls, and data boundaries need review.</dd></div>
-            </dl>
-          </section>
-          <section class="as-research-col" aria-labelledby="rs-checked">
-            <h3 id="rs-checked" class="as-research-h"><span class="as-research-tag">Checked in the build</span>What the prototype does</h3>
-            <ul class="build-list">
-              <li>Both views draw from one event list; the record and the notice can&rsquo;t disagree</li>
-              <li>Process and Confirm match can&rsquo;t be pressed twice, and a match leaves the processing event alone</li>
-              <li>Every screen moves focus, announces itself, and names each status in words and a shape</li>
-            </ul>
-          </section>
-          <section class="as-research-col" aria-labelledby="rs-found">
-            <h3 id="rs-found" class="as-research-h"><span class="as-research-tag">Findings</span>None yet</h3>
-            <p>No specialist or supplier has used this. Everything above the line is a plan, and nothing on this page is a result.</p>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9. THE CLOSE, on the charcoal band: the build note, and what the
-         work says about the person who made it. -->
+    <!-- 6. THE CLOSE, on the charcoal band: the build note, what checked
+         it, and what the work says about the person who made it. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>A day to build, thirteen years to know which fact to put first</h2>
-          <p>The prototype took a day with Claude Code, built inside this site&rsquo;s own tokens, with its checks run on every state. The agent built what I decided. The decisions came first, and they came from thirteen years of enterprise workflows where people got lost between systems that each worked on their own.</p>
-          <p>What I&rsquo;d still need to learn is the payments operation itself: which events a bank&rsquo;s systems can promise, what a supplier&rsquo;s receivables desk actually does with a notice, and where compliance draws the line on what a buyer may show.</p>
+          <p>The prototype took a day with Claude Code, inside this site&rsquo;s own tokens. A test script walks the handoff and confirms Process and Confirm match can&rsquo;t be pressed twice, and the site&rsquo;s checks measure all nine of its reachable states.</p>
+          <p>The agent built what I decided. The decisions came first, from thirteen years of enterprise workflows where people got lost between systems that each worked on their own.</p>
+          <p>What I&rsquo;d still need to learn is the payments operation itself: which events a bank&rsquo;s systems can promise, what a supplier&rsquo;s receivables desk does with a notice, and where compliance draws the line on what a buyer may show.</p>
           <p>What I&rsquo;d bring is the part that didn&rsquo;t get easier: deciding which fact goes first, and making it real enough to test.</p>
         </div>
       </div>
