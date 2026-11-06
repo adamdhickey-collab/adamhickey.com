@@ -213,7 +213,7 @@ export const REACHABLE = {
     { name: 'the record, the notice sent again',
       press: ['[data-open="larkspur-20483"]', '[data-resend]'] },
     { name: 'a match that disagrees',
-      press: ['[data-open="bright-30077"]', '[data-review]'] },
+      press: ['[data-clear-search]', '[data-open="bright-30077"]', '[data-review]'] },
     { name: 'the record, its activity opened',
       press: ['[data-open="larkspur-20483"]', '.wr-activity-row'] },
     { name: 'the supplier’s notice',

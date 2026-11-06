@@ -189,8 +189,8 @@
 .as-steps li[data-done] .as-step-n { border-color: var(--color-accent-on-dark); color: var(--color-accent-on-dark); }
 .as-steps li[aria-current="step"] { color: var(--ink-on-dark); }
 .as-steps li[aria-current="step"] .as-step-n { background: var(--color-accent-on-dark); border-color: var(--color-accent-on-dark); color: var(--color-charcoal); }
-/* The guide: what to do now, and the demo control it takes when that is the
-   next press. Sticky under the nav, because on a phone the panel's controls
+/* The guide: what to do now, and always the button that does it, which
+   presses the real control (marked in the window with data-target). Sticky under the nav, because on a phone the panel's controls
    sit a whole screen above the button that sends a reader back to them. It
    holds a button's height with or without one, so at a laptop's width the
    window keeps its place from step to step (the reason the hint runs wide,
@@ -205,8 +205,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0 var(--space-lg);
-  min-height: calc(2.25rem + 2 * var(--space-xs));
+  gap: var(--space-2xs) var(--space-lg);
+  min-height: calc(2.75rem + 2 * var(--space-xs));
   padding-block: var(--space-xs);
   margin-bottom: var(--space-2xs);
   background: var(--color-white);
@@ -225,26 +225,7 @@
   .as-hint { font-size: var(--text-base); }
 }
 .as-guide-next:empty { display: none; }
-.as-next {
-  min-height: 2.25rem;
-  white-space: nowrap;
-  padding: var(--space-2xs) 0;
-  background: transparent;
-  border: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-accent-text);
-  cursor: pointer;
-  transition: color var(--motion-state) var(--ease);
-}
-@media (pointer: coarse) {
-  .as-next { min-height: 2.75rem; }
-  .as-guide { min-height: calc(2.75rem + 2 * var(--space-xs)); }
-}
-.as-next:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
-@media (hover: hover) and (pointer: fine) { .as-next:hover { color: var(--color-accent-hover); } }
+.as-next { gap: var(--space-xs); white-space: nowrap; }
 .case-section .as-demo-note,
 .as-demo-note {
   margin: var(--space-md) 0 0;
