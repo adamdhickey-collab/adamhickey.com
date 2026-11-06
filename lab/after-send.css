@@ -35,8 +35,14 @@
 .as-facts dd a { color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
 .as-facts dd a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
 @media (hover: hover) and (pointer: fine) { .as-facts dd a:hover { color: var(--color-accent-hover); } }
+/* The buttons and the one-line note share a row; read-aloud.js puts Listen
+   straight after the first, and the note stays last. */
+.as-hero-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }
+.as-hero-act .build-hero-act { margin: 0; }
 .case-hero .as-standing {
-  margin: var(--space-lg) 0 0;
+  order: 1;
+  flex: 1 1 18rem;
+  margin: 0;
   max-width: var(--measure);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
@@ -541,7 +547,145 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
+
+/* ---------- Two columns in a chapter, since 2026-11-06 ----------
+   The chapters' text keeps the measure, and from 64rem what it describes takes
+   the column beside it, inside the frame's full width. */
+.as-split { display: grid; gap: var(--space-2xl); }
+.as-split > figure { margin: 0; }
+.as-split > .writing-measure > :last-child { margin-bottom: 0; }
+@media (min-width: 64rem) {
+  .as-split {
+    width: var(--col-full);
+    max-width: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4xl);
+    align-items: start;
+  }
+  .as-split > .writing-measure { width: auto; max-width: var(--measure); margin: 0; }
+}
+
+/* "Paid", coming apart. The line is one pen, 1.25 like the Agent Review rail's,
+   and it draws once when armed below the fold; nothing else waits on it. */
+.as-paid { display: grid; gap: var(--space-md); }
+.as-paid-who { display: grid; justify-items: center; gap: var(--space-xs); align-self: center; }
+/* The painted specialist, the account manager's hand on Agent Review. Its paper
+   is near white, so it multiplies into the chapter's white. */
+.as-paid-art { display: block; width: 100%; max-width: 14rem; height: auto; mix-blend-mode: multiply; }
+.case-section .as-paid-word {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-4xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-charcoal);
+}
+.as-paid-lines { display: none; }
+.as-paid-lines path { fill: none; stroke: var(--color-accent-text); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+/* A reveal rather than a dash: the drawing stretches to its row, and a dash
+   pattern on a stretched path breaks into pieces. */
+.as-paid.is-armed .as-paid-lines { clip-path: inset(0 100% 0 0); }
+.as-paid.is-drawn .as-paid-lines { animation: as-reveal var(--motion-draw) var(--ease) forwards; }
+@keyframes as-reveal { to { clip-path: inset(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .as-paid.is-armed .as-paid-lines { clip-path: none; animation: none; }
+}
+.as-paid-facts { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
+.as-paid-facts li {
+  display: grid;
+  grid-template-columns: 1lh minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.as-paid-facts li::before { content: none; }
+.as-paid-facts strong { font-weight: var(--weight-semibold); }
+.as-paid-mark { width: 1lh; height: 1lh; fill: none; stroke: var(--color-accent-text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (min-width: 64rem) {
+  .as-paid { grid-template-columns: minmax(0, 2fr) var(--space-block) minmax(0, 4fr); column-gap: 0; align-items: stretch; }
+  .as-paid-lines { display: block; width: 100%; height: 100%; }
+  .as-paid-facts { padding-left: var(--space-sm); }
+}
+
+/* The six decisions across the frame, from 64rem: what the prototype does, why,
+   and the drawing of why, so the reasons read straight down one column. This
+   page's rows only; The Shortlist keeps its ledger (decisions.css). */
+.as-ledger .decision-cap { padding-left: calc(var(--decision-num) + var(--space-sm)); }
+.case-section .as-ledger .decision-cap { margin: 0; }
+@media (max-width: 599px) { .as-ledger .decision-cap { padding-left: calc(var(--decision-num) + var(--space-xs)); } }
+.case-section .as-ledger .decision-lead { font-size: var(--text-base); line-height: var(--leading-body); }
+@media (min-width: 40rem) {
+  .as-ledger .decision {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    grid-template-areas: "text fig" "why fig";
+    gap: var(--space-md) var(--space-2xl);
+  }
+  .as-ledger .decision-text { grid-area: text; }
+  .as-ledger .decision-cap { grid-area: why; }
+  .as-ledger .decision-figure { grid-area: fig; }
+}
+@media (min-width: 64rem) {
+  .as-ledger { width: var(--col-full); max-width: none; }
+  .as-ledger .decision {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) 12rem;
+    grid-template-areas: "text why fig";
+    column-gap: var(--space-2xl);
+    padding: var(--space-lg) 0;
+  }
+  .as-ledger .decision-cap { padding-left: 0; padding-top: calc((var(--decision-num) - 1lh) / 2); }
+}
+
+/* The two records' answers wait for a press, live only, in a slot that holds
+   their height, so nothing moves when they arrive. Still or without script they
+   are simply there. */
+.as-answers-slot { display: grid; margin-top: var(--space-lg); }
+.as-answers-slot > * { grid-area: 1 / 1; }
+.as-answers-slot .as-answers { margin: 0; }
+.as-show { display: none; justify-self: start; align-self: start; }
+.as-live .as-show { display: inline-flex; }
+.as-live .as-answers-slot .as-answers { visibility: hidden; }
+.as-live .as-answers-slot[data-shown] .as-answers { visibility: visible; }
+.as-live .as-answers-slot[data-shown] .as-show { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .as-live .as-answers-slot[data-shown] .as-answers { animation: as-in var(--motion-enter) var(--ease-enter) both; }
+  @keyframes as-in { from { opacity: 0; translate: 0 var(--motion-rise); } }
+}
+
 .as-why { margin-top: var(--space-2xl); }
+.as-test {
+  padding: var(--space-lg) var(--space-md);
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) { .as-test { padding: var(--space-xl); } }
+.as-test-people { display: grid; gap: var(--space-md); margin: 0; }
+.as-test-people > div { display: grid; gap: var(--space-2xs); align-content: start; }
+@media (min-width: 40rem) { .as-test-people { grid-template-columns: repeat(3, minmax(0, 1fr)); } .as-test-ends { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-md); } }
+.as-test-people dt { font-family: var(--font-serif); font-size: var(--text-4xl); line-height: var(--leading-tight); color: var(--color-charcoal); }
+.as-test-people dd { margin: 0; font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-ui); color: var(--color-charcoal); }
+.as-test figcaption {
+  margin: var(--space-lg) 0 var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule-hairline);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.as-test-ends { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+.as-test-ends li { display: grid; gap: var(--space-2xs); margin: 0; padding: 0; font-family: var(--font-sans); font-size: var(--text-base); line-height: var(--leading-ui); color: var(--color-muted-gray); }
+.as-test-ends li::before { content: none; }
+.as-test-ends strong { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
 
 /* ---------- The sources ---------- */
 .as-sources {
@@ -549,6 +693,9 @@
   max-width: var(--measure);
   display: grid;
   gap: var(--space-lg);
+}
+@media (min-width: 64rem) {
+  .as-sources { width: var(--col-full); max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-2xl); }
 }
 .as-sources > div { padding-top: var(--space-lg); border-top: 1px solid var(--rule-hairline); }
 .as-sources dt {
@@ -565,5 +712,25 @@
 .as-sources dd { margin: 0; }
 .case-section .as-sources dd p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
 .case-section .as-sources dd p + p { margin-top: var(--space-xs); }
-.case-section .as-sources .as-source-q { color: var(--color-muted-gray); }
-.as-assume { margin-top: var(--space-2xl); }
+/* The question is what the source was for, so it is the entry's emphasis. */
+.case-section .as-sources .as-source-q {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.case-section .as-sources dd p + .as-source-q { margin-top: var(--space-md); }
+.case-section .as-assume { margin: 0; max-width: var(--measure); font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted-gray); }
+@media (min-width: 64rem) { .as-sources-head { align-items: end; } }
+
+/* The close's last line, set apart beside the rest. */
+.case-section .as-pull {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-4xl);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  color: var(--ink-on-dark);
+  text-wrap: pretty;
+}
+@media (min-width: 64rem) { .as-close { align-items: center; } }

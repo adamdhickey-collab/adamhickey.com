@@ -104,7 +104,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=3" />
-  <link rel="stylesheet" href="after-send.css?v=6" />
+  <link rel="stylesheet" href="after-send.css?v=7" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -114,6 +114,20 @@
   <!-- The prototype. Deferred, no dependencies, no build step; the
        payments and their events are the objects at the top of the file. -->
   <script src="wren.js?v=4" defer></script>
+  <script src="after-send-story.js?v=1" defer></script>
+  <!-- One switch, thrown before first paint because after-send-story.js is
+       deferred, and taken back at DOMContentLoaded if that file never ran:
+       .as-live, the two records' answers waiting for a press. Thrown late,
+       the answers would paint and then vanish. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      el.classList.add('as-live');
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.asStory) el.classList.remove('as-live');
+      });
+    })();
+  </script>
   <!-- The header logo plays a one-shot reveal clip on load and fades out
        over the static mark as it finishes. The class is set here, before
        first paint, so the static mark never flashes ahead of the animation;
@@ -233,8 +247,13 @@
           <div><dt>What I did</dt><dd>The hierarchy, the flow, and the states. Then I built the prototype in code, with Claude Code, inside this site&rsquo;s own system.</dd></div>
           <div><dt>What it shows</dt><dd>A direction worked through far enough to test with accounts payable specialists. No findings yet: <a href="#the-bet">the test I&rsquo;d run first</a> is below.</dd></div>
         </dl>
-        <p class="build-hero-act" data-read-aloud="skip after"><a class="btn btn-primary" href="#try-it">Try the prototype</a></p>
-        <p class="as-standing">Independent commercial payments concept &middot; Simulated data. Wren Payments, Fieldstone Foods, and Larkspur Packaging are made up, every reference is synthetic, and nothing here is any bank&rsquo;s screen or procedure.</p>
+        <!-- Since 2026-11-06 the standing note is one line, still on the first
+             screen and said before anyone presses; the names and references
+             are in the note under the window. -->
+        <div class="as-hero-act">
+          <p class="build-hero-act" data-read-aloud="skip after"><a class="btn btn-primary" href="#try-it">Try the prototype</a></p>
+          <p class="as-standing">Independent concept on simulated data. Every name and reference is made up.</p>
+        </div>
       </div>
     </header>
 
@@ -298,28 +317,40 @@
             <p class="visually-hidden" role="status" data-wren-status></p>
           </div>
         </div>
-        <p class="as-demo-note">Simulated. &ldquo;Process this payment&rdquo; charges nothing and adds one event to a list in <a href="wren.js">wren.js</a>. The demo&rsquo;s clock is fixed at November 5, so every run is the same run.</p>
+        <p class="as-demo-note">Simulated. Wren Payments, Fieldstone Foods, and Larkspur Packaging are made up, every reference is synthetic, and nothing here is any bank&rsquo;s screen or procedure. &ldquo;Process this payment&rdquo; charges nothing and adds one event to a list in <a href="wren.js">wren.js</a>. The demo&rsquo;s clock is fixed at November 5, so every run is the same run.</p>
       </div>
     </section>
 
     <!-- 1. THE SCENE, then the design problem (VOICE.md): one call, and the
          three facts one word was standing in for, as a list. -->
     <section class="case-section case-overview build-chapter ground-white" id="the-problem">
+      <!-- Since 2026-11-06 (Adam: use the empty right side) the three facts are
+           the figure beside the scene: one word coming apart. The list is still
+           a list, with the marks the prototype gives those statuses. Its lines
+           draw once (after-send-story.js); the words are always there. -->
       <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>A supplier calls, and &ldquo;paid&rdquo; turns out to be three different things</h2>
-          <p>Thursday afternoon. Larkspur Packaging calls accounts payable about invoice INV-20483. The specialist opens the payment: sent October 28. So it&rsquo;s paid.</p>
-          <p>Except &ldquo;paid&rdquo; is standing in for three facts, and the screen says one of them:</p>
-          <ul class="build-list">
-            <li><strong>The buyer sent it.</strong> True since October 28, and the only fact the status shows.</li>
-            <li><strong>The supplier processed it.</strong> Nothing on the screen says. And the payment has a date it stops being good on.</li>
-            <li><strong>The buyer matched it to the invoice.</strong> Not yet, so INV-20483 is still open in the books.</li>
-          </ul>
-          <p>The data for all three usually exists. I think the design problem is the hierarchy: keeping the facts apart, and saying who moves next.</p>
+        <div class="as-split">
+          <div class="writing-measure">
+            <h2>A supplier calls, and &ldquo;paid&rdquo; turns out to be three different things</h2>
+            <p>Thursday afternoon. Larkspur Packaging calls accounts payable about invoice INV-20483. The specialist opens the payment: sent October 28. So it&rsquo;s paid.</p>
+            <p>Except &ldquo;paid&rdquo; is standing in for three facts, and the screen says one of them.</p>
+            <p>The data for all three usually exists. I think the design problem is the hierarchy: keeping the facts apart, and saying who moves next.</p>
+          </div>
+          <figure class="as-paid">
+            <div class="as-paid-who">
+              <img class="as-paid-art" src="../img/lab/after-send-specialist.webp" width="1000" height="667" loading="lazy" decoding="async" alt="An accounts payable specialist at her laptop with a desk phone to her ear, looking puzzled, with a speech bubble holding a question mark." />
+              <p class="as-paid-word">&ldquo;Paid&rdquo;</p>
+            </div>
+            <svg class="as-paid-lines" viewBox="0 0 48 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M0 50C24 50 24 16.7 48 16.7"/><path pathLength="1" d="M0 50H48"/><path pathLength="1" d="M0 50C24 50 24 83.3 48 83.3"/></svg>
+            <ul class="as-paid-facts">
+              <li><svg class="as-paid-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg><span><strong>The buyer sent it.</strong> True since October 28, and the only fact the status shows.</span></li>
+              <li><svg class="as-paid-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>The supplier processed it.</strong> Nothing on the screen says. And the payment has a date it stops being good on.</span></li>
+              <li><svg class="as-paid-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/></svg><span><strong>The buyer matched it to the invoice.</strong> Not yet, so INV-20483 is still open in the books.</span></li>
+            </ul>
+          </figure>
         </div>
       </div>
     </section>
-
     <!-- 2. THE DECISIONS, as The Shortlist's ledger (decisions.css): each
          one row under a hairline, what the prototype does, the reason as
          the Why line, and a small drawing of the reason at the right. The
@@ -332,13 +363,13 @@
           <h2>Six decisions, and the reason behind each</h2>
           <p>None of these needed new data. Each one is about which fact comes first, in whose words, and what stays out of the way.</p>
         </div>
-        <ol class="decisions decisions--ledger">
+        <ol class="decisions decisions--ledger as-ledger">
           <li class="decision">
             <div class="decision-text">
               <h3>Two facts, not one status</h3>
               <p class="decision-lead">The record opens on &ldquo;Supplier processing&rdquo; and &ldquo;Invoice matching&rdquo; as two separate facts, each named for who owns it, each with one line on where it stands.</p>
-              <p class="decision-cap"><b>Why:</b> one word has to be true for the buyer, the supplier, and the books at once. Two facts can each be checked, and can differ without either one lying.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> one word has to be true for the buyer, the supplier, and the books at once. Two facts can each be checked, and can differ without either one lying.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-facts.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -347,8 +378,8 @@
             <div class="decision-text">
               <h3>Say who acts next, and give them one button</h3>
               <p class="decision-lead">Under the facts, one line names who moves next: you, the supplier, or no one. If there is something to do, the one button for it sits right there.</p>
-              <p class="decision-cap"><b>Why:</b> the specialist&rsquo;s question is &ldquo;do I follow up?&rdquo; A screen that answers it outright beats one that leaves it to be worked out from a log.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> the specialist&rsquo;s question is &ldquo;do I follow up?&rdquo; A screen that answers it outright beats one that leaves it to be worked out from a log.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-next.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -357,8 +388,8 @@
             <div class="decision-text">
               <h3>Let the invoice reference carry the handoff</h3>
               <p class="decision-lead">INV-20483 is a column on the list, the title of the record, the headline of the supplier&rsquo;s notice, and the thing the match is checked against.</p>
-              <p class="decision-cap"><b>Why:</b> the supplier knows the invoice and the buyer knows the invoice. Neither of them knows the payment&rsquo;s own number.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> the supplier knows the invoice and the buyer knows the invoice. Neither of them knows the payment&rsquo;s own number.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-reference.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -367,8 +398,8 @@
             <div class="decision-text">
               <h3>Show the supplier only what the buyer would share</h3>
               <p class="decision-lead">The notice carries what the supplier needs to process it: the buyer, the invoice, the amount, and the date it stops being good. Not the approver, the coding, or the notes.</p>
-              <p class="decision-cap"><b>Why:</b> the handoff crosses two companies. What the buyer wrote for itself stays on the buyer&rsquo;s side of it.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> the handoff crosses two companies. What the buyer wrote for itself stays on the buyer&rsquo;s side of it.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-share.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -377,8 +408,8 @@
             <div class="decision-text">
               <h3>Keep the history, folded</h3>
               <p class="decision-lead">Every event is still on the record, under &ldquo;Activity,&rdquo; closed by default. The buyer&rsquo;s record and the supplier&rsquo;s notice are drawn from the same list of events, so the two can&rsquo;t disagree.</p>
-              <p class="decision-cap"><b>Why:</b> the log is the evidence, not the answer. It has to stay one press away for the day the stated answer looks wrong.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> the log is the evidence, not the answer. It has to stay one press away for the day the stated answer looks wrong.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-history.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -387,8 +418,8 @@
             <div class="decision-text">
               <h3>A status is words and a shape before it is a color</h3>
               <p class="decision-lead">Waiting, processed, ready, matched, and expired each get a word and a mark: a clock, a check, an open circle, a double check, a triangle. Color comes third, and expired is the only one in the caution ink.</p>
-              <p class="decision-cap"><b>Why:</b> a row has to read in a long list, on a phone, through a screen reader, and to someone who can&rsquo;t see red. The word does that on its own. The color only helps.</p>
             </div>
+            <p class="decision-cap"><b>Why:</b> a row has to read in a long list, on a phone, through a screen reader, and to someone who can&rsquo;t see red. The word does that on its own. The color only helps.</p>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-shape.webp?v=2" alt="" width="720" height="480" loading="lazy" decoding="async" />
             </div>
@@ -410,7 +441,7 @@
           <p>The buyer never leaves their own record. The supplier sees one notice. The reference ties them, and the two events that matter happen at different ends.</p>
         </div>
         <figure class="as-figure as-flow-figure">
-          <figcaption><p class="as-kicker">Experience architecture</p><p class="as-title">Where the invoice reference persists, and where processing and matching part</p><span class="as-standing-note">Conceptual: the screens and the events (issued, notice delivered, processed, expired, matched) are this concept&rsquo;s, not any product&rsquo;s.</span></figcaption>
+          <figcaption><p class="as-kicker">Experience architecture</p><span class="as-standing-note">Conceptual: the screens and the events (issued, notice delivered, processed, expired, matched) are this concept&rsquo;s, not any product&rsquo;s.</span></figcaption>
           <p class="as-flow-thread">Every screen carries <span class="as-carry">INV-20483</span>.</p>
           <ol class="as-flow">
             <li class="as-stop">
@@ -491,10 +522,13 @@
                 <span class="as-wire-cell"><span class="as-wire-label">Date</span>Oct 28</span>
               </div>
             </div>
-            <dl class="as-answers">
+            <div class="as-answers-slot">
+              <button type="button" class="btn btn-ghost-light as-show" data-show-answers>See what this record answers</button>
+              <dl class="as-answers">
               <div><dt>Has the supplier processed it?</dt><dd>Nothing says. Three events, and no fourth.</dd></div>
               <div><dt>Do I follow up?</dt><dd>Nothing says. It&rsquo;s a judgment call every time.</dd></div>
             </dl>
+            </div>
           </figure>
           <figure class="as-figure as-wire as-wire--proposed">
             <figcaption><p class="as-kicker">v2 &middot; status first, the working direction</p><p class="as-title">The record as an answer</p></figcaption>
@@ -510,33 +544,53 @@
                 <span>Follow up if it&rsquo;s still waiting on Nov 20.</span>
               </div>
             </div>
-            <dl class="as-answers">
+            <div class="as-answers-slot">
+              <button type="button" class="btn btn-ghost-light as-show" data-show-answers>See what this record answers</button>
+              <dl class="as-answers">
               <div><dt>Has the supplier processed it?</dt><dd>No, as of Nov 5, 2:05 pm.</dd></div>
               <div><dt>Do I follow up?</dt><dd>Not yet. On Nov 20, if it&rsquo;s still waiting.</dd></div>
             </dl>
+            </div>
           </figure>
         </div>
-        <div class="writing-measure as-why">
-          <p><strong>Why test it rather than ship it.</strong> A stated status is only as good as the event behind it. If a processing event sits in a queue, v2 is confidently wrong where v1 was merely slow. So v2 says when it last checked.</p>
-          <ul class="build-list">
-            <li><strong>The test:</strong> five accounts payable specialists try both records, half in each order, on two matched sets of five payments. Find INV-20483, say whether the supplier has processed it, say who acts next, then handle the expired one. Three accounts receivable people walk through the notice.</li>
-            <li><strong>Measured:</strong> correct status readings, time to find the invoice, and any press that would duplicate a payment or replace one early.</li>
-            <li><strong>What it settles:</strong> if specialists read the summary, trust it, and still open the log when it matters, v2 stays. If they read past it to the log anyway, v1 was right and the summary is noise.</li>
-            <li><strong>Findings:</strong> none yet. No specialist or supplier has used this, and nothing on this page is a result.</li>
-          </ul>
+        <!-- Since 2026-11-06: the why and the test on the left, and on the right
+             who is in it and the two ways it can come out. -->
+        <div class="as-split as-why">
+          <div class="writing-measure">
+            <p><strong>Why test it rather than ship it.</strong> A stated status is only as good as the event behind it. If a processing event sits in a queue, v2 is confidently wrong where v1 was merely slow. So v2 says when it last checked.</p>
+            <ul class="build-list">
+              <li><strong>The test:</strong> people try both records, half in each order. Find INV-20483, say whether the supplier has processed it, say who acts next, then handle the expired one.</li>
+              <li><strong>Measured:</strong> correct status readings, time to find the invoice, and any press that would duplicate a payment or replace one early.</li>
+              <li><strong>Findings:</strong> none yet. No specialist or supplier has used this, and nothing on this page is a result.</li>
+            </ul>
+          </div>
+          <figure class="as-test">
+            <dl class="as-test-people">
+              <div><dt>5</dt><dd>accounts payable specialists try both records</dd></div>
+              <div><dt>3</dt><dd>accounts receivable people walk through the notice</dd></div>
+              <div><dt>2</dt><dd>matched sets of five payments</dd></div>
+            </dl>
+            <figcaption>What it settles</figcaption>
+            <ul class="as-test-ends">
+              <li><span>If they read the summary, trust it, and still open the log when it matters</span> <strong>v2 stays.</strong></li>
+              <li><span>If they read past it to the log anyway</span> <strong>v1 was right, and the summary is noise.</strong></li>
+            </ul>
+          </figure>
         </div>
       </div>
     </section>
-
     <!-- 5. THE PUBLIC GROUND: three kinds of public product description,
          each named for the question it raises here, then the line saying
          what is assumption. One outside source a page is the voice rule,
          and American Express vPayment is it. -->
     <section class="case-section case-overview build-chapter ground-white" id="sources">
       <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>Where the concept comes from, and what it doesn&rsquo;t claim</h2>
-          <p>Three kinds of public product description, and the question each one raised for this design.</p>
+        <div class="as-split as-sources-head">
+          <div class="writing-measure">
+            <h2>Where the concept comes from, and what it doesn&rsquo;t claim</h2>
+            <p>Three kinds of public product description, and the question each one raised for this design.</p>
+          </div>
+          <p class="as-assume">The screen sequence, the event names, who may see what, and how a match behaves here are my design assumptions, not any bank&rsquo;s screens or procedures.</p>
         </div>
         <dl class="as-sources">
           <div>
@@ -552,9 +606,6 @@
             <dd><p>In <a href="https://www.americanexpress.com/en-us/business/payments/vpayment/" target="_blank" rel="noopener noreferrer">American Express vPayment</a>, a supplier charges a virtual account, then the transaction data is reconciled against the buyer&rsquo;s predefined details.</p><p class="as-source-q">Processing and reconciliation are two events there too. Should a buyer&rsquo;s screen show them as two facts?</p></dd>
           </div>
         </dl>
-        <div class="writing-measure as-assume">
-          <p>The screen sequence, the event names, who may see what, and how a match behaves here are my design assumptions, not any bank&rsquo;s screens or procedures.</p>
-        </div>
       </div>
     </section>
 
@@ -562,12 +613,14 @@
          it, and what it can't settle, and the line worth keeping. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>A day to build, thirteen years to know which fact to put first</h2>
-          <p>The prototype took a day with Claude Code, inside this site&rsquo;s own tokens. A test script walks the handoff and confirms Process and Confirm match can&rsquo;t be pressed twice, and the site&rsquo;s checks measure all eleven of its reachable states.</p>
-          <p>The agent built what I decided. The decisions came first, from thirteen years of enterprise workflows where people got lost between systems that each worked on their own.</p>
-          <p>What this page can&rsquo;t settle is the payments operation itself: which events a bank&rsquo;s systems can promise, what a supplier&rsquo;s receivables desk does with a notice, and where compliance draws the line on what a buyer may show.</p>
-          <p>An agent will build whichever record you ask for. Deciding which fact goes first is still the hard part.</p>
+        <div class="as-split as-close">
+          <div class="writing-measure">
+            <h2>A day to build, thirteen years to know which fact to put first</h2>
+            <p>The prototype took a day with Claude Code, inside this site&rsquo;s own tokens. A test script walks the handoff and confirms Process and Confirm match can&rsquo;t be pressed twice, and the site&rsquo;s checks measure all twelve of its reachable states.</p>
+            <p>The agent built what I decided. The decisions came first, from thirteen years of enterprise workflows where people got lost between systems that each worked on their own.</p>
+            <p>What this page can&rsquo;t settle: which events a bank&rsquo;s systems can promise, what a supplier&rsquo;s receivables desk does with a notice, and where compliance draws the line on what a buyer may show.</p>
+          </div>
+          <p class="as-pull">An agent will build whichever record you ask for. Deciding which fact goes first is still the hard part.</p>
         </div>
       </div>
     </section>
