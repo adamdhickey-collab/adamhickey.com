@@ -37,6 +37,18 @@
    invoice says, so its proposed match disagrees and offers no Confirm. It
    is there so the side-by-side check is a check, not a formality.
 
+   THE LIST STARTS SEARCHED, AND A ROW IS ONE TARGET. A supplier on the phone
+   has already given the reference, so the box arrives holding it, one row
+   under it, with Clear search beside the words. The whole row opens the
+   record, and the supplier's name is the real button inside it, so the
+   keyboard and a screen reader get what the pointer gets. Dragging across a
+   reference to copy it doesn't count as a press.
+
+   THERE IS ALWAYS A NEXT PRESS. walk() names it, the guide over the window
+   offers it as a button that presses the real control, and the control
+   itself is marked with data-target, so a reader never has to work out what
+   the walkthrough wants.
+
    WHAT THE CHECKS SEE. Every screen after the list is drawn on a press, so
    scripts/lib/reachable.mjs registers each with the presses that reach it,
    and scripts/wren-test.mjs walks the handoff and asserts what each screen
@@ -92,6 +104,7 @@
       ] }
   ];
   var FOLLOWED = 'larkspur-20483';
+  var SEARCHED = 'INV-20483';        /* what the supplier on the phone gave */
 
   /* The exception: the same payment, its validity date a day before the
      demo's today, and no processing event ever arrived. */
@@ -114,7 +127,9 @@
       role: 'buyer',                     /* 'buyer' | 'supplier' */
       screen: 'list',                    /* 'list' | 'detail' | 'notice' */
       open: null,                        /* the payment id the record shows */
-      q: '',                             /* the search box */
+      /* The search box. The expired scenario opens on the record, and its
+         list is the whole list, so an expired payment sorts where it says. */
+      q: scenario === 'expired' ? '' : SEARCHED,
       filter: 'all',                     /* the status filter */
       resent: {},                        /* id -> true once the buyer sent the notice again */
       processed: {},                     /* id -> true once the supplier pressed Process */
@@ -209,6 +224,8 @@
   }
 
   var CARET_DOWN = 'M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z';
+  var CARET_RIGHT = 'M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z';
+  var CROSS = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z';
 
   /* A status is a word and a shape, never a color alone. The shapes are
      one each: a clock for waiting, a check for processed, a double check
@@ -236,7 +253,8 @@
       '<p class="wr-dek">Virtual payments sent to suppliers in the last 60 days.</p></header>' +
       '<form class="wr-tools" role="search" aria-label="Find a payment">' +
         '<div class="wr-field wr-field--grow"><label for="wr-q">Search by supplier or invoice reference</label>' +
-          '<input id="wr-q" type="search" data-search autocomplete="off" spellcheck="false" value="' + esc(state.q) + '"></div>' +
+          '<span class="wr-search"><input id="wr-q" type="search" data-search autocomplete="off" spellcheck="false" value="' + esc(state.q) + '">' +
+          '<button type="button" class="wr-clear" data-clear-search' + (state.q ? '' : ' hidden') + '>' + ph(CROSS) + 'Clear search</button></span></div>' +
         '<div class="wr-field"><label for="wr-filter">Status</label><span class="wr-select"><select id="wr-filter" data-filter>' +
           FILTERS.map(function (f) { return '<option value="' + f.id + '"' + (state.filter === f.id ? ' selected' : '') + '>' + f.label + '</option>'; }).join('') +
         '</select>' + ph(CARET_DOWN) + '</span></div>' +
@@ -258,12 +276,12 @@
     rows.forEach(function (p) {
       var st = listStatus(p);
       s += '<tr data-row="' + p.id + '">' +
-        '<th scope="row"><span class="wr-td-label" aria-hidden="true">Supplier</span>' + esc(p.supplier) + '</th>' +
+        '<th scope="row"><span class="wr-td-label" aria-hidden="true">Supplier</span><button type="button" class="wr-link wr-name" data-open="' + p.id + '">' + esc(p.supplier) + '<span class="visually-hidden">, ' + p.invoice + '</span></button></th>' +
         '<td><span class="wr-td-label" aria-hidden="true">Invoice</span><span class="wr-ref">' + p.invoice + '</span></td>' +
         '<td class="wr-num"><span class="wr-td-label" aria-hidden="true">Amount</span>' + money(p.amount) + '</td>' +
         '<td><span class="wr-td-label" aria-hidden="true">Status</span>' + badge(st) + '</td>' +
         '<td><span class="wr-td-label" aria-hidden="true">Valid through</span>' + validThrough(p) + '</td>' +
-        '<td class="wr-cell-act"><button type="button" class="wr-link wr-open" data-open="' + p.id + '">Open<span class="visually-hidden"> ' + p.invoice + ', ' + esc(p.supplier) + '</span></button></td>' +
+        '<td class="wr-cell-act">' + ph(CARET_RIGHT, 'wr-row-caret') + '</td>' +
       '</tr>';
     });
     return s + '</tbody></table></div>';
@@ -328,7 +346,7 @@
   function matchingFact(p, pr, m, ev) {
     if (m === 'matched') {
       var e = find(ev, 'matched');
-      return '<span class="wr-fact-head">' + ICONS.done + 'Matched to <span class="wr-nb">' + p.invoice + '</span></span>' +
+      return '<span class="wr-fact-head">' + ICONS.done + '<span>Matched to <span class="wr-nb">' + p.invoice + '</span></span></span>' +
         '<span class="wr-fact-line">' + 'Matched ' + e.at + '. The invoice is closed.</span>';
     }
     if (pr === 'processed') {
@@ -432,10 +450,10 @@
     } else if (pr === 'processed') {
       var e = find(ev, 'processed');
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Processed</h4>' +
-        '<p class="wr-next-line">' + ICONS.check + 'Processed ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</p></section>';
+        '<p class="wr-next-line wr-next-line--marked">' + ICONS.check + '<span>Processed ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</span></p></section>';
     } else {
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Expired</h4>' +
-        '<p class="wr-next-line">' + ICONS.alert + 'This payment expired ' + validThrough(p) + ' and can no longer be processed. ' + BUYER.name + ' would need to send a replacement.</p></section>';
+        '<p class="wr-next-line wr-next-line--marked">' + ICONS.alert + '<span>This payment expired ' + validThrough(p) + ' and can no longer be processed. ' + BUYER.name + ' would need to send a replacement.</span></p></section>';
     }
     s += '<p class="wr-fine">The supplier’s notice shows only what the buyer shared: no approver, no account coding, no internal notes.</p>';
     return s;
@@ -453,36 +471,50 @@
   var TO_BUYER = { label: 'Back to Buyer', press: '[data-role="buyer"]' };
   var TO_EXPIRED = { label: 'Expired payment', press: '[data-scenario="expired"]' };
   var TO_START = { label: 'Start over', press: '[data-reset]' };
+  var TO_OPEN = { label: 'Open ' + SEARCHED, press: '[data-open="' + FOLLOWED + '"]' };
+  var TO_PROCESS = { label: 'Process this payment', press: '[data-process]' };
+  var TO_REVIEW = { label: 'Review match', press: '[data-review]' };
+  var TO_CONFIRM = { label: 'Confirm match', press: '[data-confirm-match]' };
+  var TO_REPLACE = { label: 'Review replacement options', press: '[data-replace]' };
+  /* These two have no control on the screen to press. */
+  var TO_FOLLOWED = { label: 'Back to ' + SEARCHED, attr: 'data-follow' };
+  var TO_SEARCH = { label: 'Search ' + SEARCHED, attr: 'data-search-followed' };
   function walk() {
     var f = byId(FOLLOWED), pr = processing(f), m = matching(f);
     var other = state.screen !== 'list' && state.open && state.open !== FOLLOWED;
-    var otherLine = 'Another payment on the list. The walkthrough follows INV-20483, back under Payments.';
+    var otherLine = 'Another payment on the list. The walkthrough follows ' + SEARCHED + '.';
+    var otherNext = TO_FOLLOWED;
     if (other && state.open === 'bright-30077' && state.screen === 'detail') {
       otherLine = state.reviewing
-        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows INV-20483.'
-        : 'Processed for less than the invoice. Review the match to see the check hold. Then go back to INV-20483.';
+        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows ' + SEARCHED + '.'
+        : 'Processed for less than the invoice. Review the match to see the check hold.';
+      if (!state.reviewing) otherNext = TO_REVIEW;
     }
     if (state.scenario === 'expired') {
-      var after = state.screen === 'notice' ? TO_BUYER : (state.screen === 'list' || state.replacing) ? TO_START : null;
-      return { now: 5, done: state.walked ? 4 : 0, next: other ? null : after, hint: other ? otherLine :
+      var after = state.screen === 'notice' ? TO_BUYER : (state.screen === 'list' || state.replacing) ? TO_START : TO_REPLACE;
+      return { now: 5, done: state.walked ? 4 : 0, next: other ? otherNext : after, hint: other ? otherLine :
         state.screen === 'notice' ? 'Larkspur’s side: it can’t be processed any more.' :
         state.screen === 'list' ? 'Expired payments sort to the top, because they need you.' :
         state.replacing ? 'Nothing is issued here.' :
-        'The same payment, expired unprocessed: what ran out, what happened, and who acts next.' };
+        'The same payment, expired unprocessed. It’s yours to act on, so see your options.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, next: other ? null : TO_EXPIRED, hint: other ? otherLine : 'INV-20483 is closed. Next, the same payment when no one processes it.' };
+      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed. Next, the same payment when no one processes it.' };
     }
+    /* On the list the row may have been searched or filtered away. */
+    var onList = shown().some(function (p) { return p.id === FOLLOWED; }) ? TO_OPEN : TO_SEARCH;
     if (pr === 'processed') {
-      if (other) return { now: 4, done: 3, hint: otherLine };
+      if (other) return { now: 4, done: 3, next: otherNext, hint: otherLine };
       if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'That’s all on Larkspur’s side. See what changed for the buyer.' };
-      if (state.screen === 'list') return { now: 4, done: 3, hint: 'Open INV-20483 to close the loop.' };
-      return { now: 4, done: 3, hint: state.reviewing ? 'Check the two columns against each other, then confirm.' : 'Processed, and ready to match, as two facts. Review the match and confirm it.' };
+      if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Open ' + SEARCHED + ' to close the loop.' };
+      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'Check the two columns against each other, then confirm.' : 'Now it’s processed and ready to match. Review the match and confirm it.' };
     }
-    if (other) return { now: 1, done: 0, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, hint: 'Larkspur’s side. Press Process this payment.' };
-    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Two facts and who acts next, before any history. Then follow the handoff.' };
-    return { now: 1, done: 0, hint: 'Search INV-20483, or filter to Not processed yet, and open the row.' };
+    if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
+    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Larkspur’s side. Press Process this payment.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'It isn’t processed yet, and Larkspur acts next. See it from their side.' };
+    return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
+      ? 'Larkspur Packaging calls about ' + SEARCHED + '. Open its row to see where it stands.'
+      : SEARCHED + ' isn’t in this view. Search for it again.' };
   }
 
   /* ---------- rendering ---------- */
@@ -529,6 +561,23 @@
         ? '<span class="wr-org">' + esc(byId(state.open || FOLLOWED).supplier) + '</span><span class="wr-role">Accounts receivable</span>'
         : '<span class="wr-org">' + BUYER.name + '</span><span class="wr-role">' + BUYER.team + '</span>';
     }
+    drawGuide();
+    Array.prototype.forEach.call(scenarios, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-scenario') === state.scenario)); });
+    Array.prototype.forEach.call(roles, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-role') === state.role)); });
+    if (opts.announce) announce(opts.announce);
+    if (opts.focus) {
+      var el = stage.querySelector(opts.focus);
+      if (el) {
+        el.focus({ preventScroll: true });
+        if (opts.still) reveal(el.closest('.wr-panel') || el);
+        else windowIntoView();
+      }
+    }
+  }
+
+  /* The rail, the line, the next press, and the mark on what it presses.
+     Drawn from walk() after anything that can change them, the rows too. */
+  function drawGuide() {
     var w = walk();
     Array.prototype.forEach.call(steps, function (el) {
       var n = Number(el.getAttribute('data-wren-step'));
@@ -541,19 +590,12 @@
     });
     if (hint) hint.textContent = w.hint;
     if (nextSlot) {
-      nextSlot.innerHTML = w.next ? '<button type="button" class="as-next" data-next="' + esc(w.next.press) + '">' + w.next.label + '<span aria-hidden="true"> →</span></button>' : '';
+      var how = w.next.attr ? w.next.attr : 'data-next="' + esc(w.next.press) + '"';
+      nextSlot.innerHTML = '<button type="button" class="btn btn-primary as-next" ' + how + '>' + w.next.label + '<span aria-hidden="true"> →</span></button>';
     }
-    Array.prototype.forEach.call(scenarios, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-scenario') === state.scenario)); });
-    Array.prototype.forEach.call(roles, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-role') === state.role)); });
-    if (opts.announce) announce(opts.announce);
-    if (opts.focus) {
-      var el = stage.querySelector(opts.focus);
-      if (el) {
-        el.focus({ preventScroll: true });
-        if (opts.still) reveal(el.closest('.wr-panel') || el);
-        else windowIntoView();
-      }
-    }
+    Array.prototype.forEach.call(root.querySelectorAll('[data-target]'), function (el) { el.removeAttribute('data-target'); });
+    var target = w.next.press && root.querySelector(w.next.press);
+    if (target) (target.closest('tr[data-row]') || target).setAttribute('data-target', '');
   }
 
   /* A new screen starts at its top, so the top of the window comes down
@@ -595,6 +637,9 @@
     box.innerHTML = table();
     var c = box.querySelector('[data-count]');
     announce(c ? c.textContent : '');
+    var clear = stage.querySelector('[data-clear-search]');
+    if (clear) clear.hidden = !state.q;
+    drawGuide();
   }
 
   /* ---------- the presses ---------- */
@@ -613,12 +658,31 @@
 
   root.addEventListener('click', function (e) {
     var t = e.target.closest('button');
+
+    /* Anywhere on a row opens it, unless the press was a drag across its
+       words to copy a reference. */
+    var row = !t && e.target.closest('tr[data-row]');
+    if (row && !String(window.getSelection())) {
+      var rowId = row.getAttribute('data-row');
+      openRecord(rowId, '[data-open="' + rowId + '"]');
+      return;
+    }
+
     if (!t || !root.contains(t)) return;
 
     /* The guide's offer is the control itself, pressed: one path for both. */
     if (t.hasAttribute('data-next')) {
       var control = root.querySelector(t.getAttribute('data-next'));
       if (control) control.click();
+      return;
+    }
+
+    /* The guide's two offers with no control on the screen behind them. */
+    if (t.hasAttribute('data-follow')) { state.role = 'buyer'; openRecord(FOLLOWED); return; }
+    if (t.hasAttribute('data-search-followed')) {
+      state.q = SEARCHED;
+      state.filter = 'all';
+      render({ focus: '[data-open="' + FOLLOWED + '"]', still: true, announce: '1 payment, matching ' + SEARCHED + '.' });
       return;
     }
 
@@ -660,6 +724,11 @@
 
     /* The product. */
     if (t.hasAttribute('data-open')) { openRecord(t.getAttribute('data-open'), '[data-open="' + t.getAttribute('data-open') + '"]'); return; }
+    if (t.hasAttribute('data-clear-search')) {
+      state.q = '';
+      render({ focus: '[data-search]', still: true, announce: 'Search cleared. ' + count(shown().length, 'payment', 'payments') + '.' });
+      return;
+    }
     if (t.hasAttribute('data-clear')) {
       state.q = '';
       state.filter = 'all';
@@ -732,7 +801,11 @@
     if (e.target.hasAttribute('data-filter')) { state.filter = e.target.value; redrawTable(); }
   });
   root.addEventListener('submit', function (e) {
-    if (e.target.classList.contains('wr-tools')) e.preventDefault();
+    if (!e.target.classList.contains('wr-tools')) return;
+    e.preventDefault();
+    /* Enter in the search, when the search has found the one. */
+    var found = shown();
+    if (found.length === 1) openRecord(found[0].id, '[data-open="' + found[0].id + '"]');
   });
   /* Escape closes an open panel and puts focus back on its button. */
   root.addEventListener('keydown', function (e) {
