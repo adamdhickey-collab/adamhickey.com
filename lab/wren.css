@@ -263,7 +263,20 @@
 .wr-field input::placeholder { color: var(--color-muted-gray); opacity: 1; }
 .wr-field input:focus-visible,
 .wr-field select:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
-.wr-field select { padding-right: var(--space-2xl); appearance: auto; }
+/* The browser's own arrow sits against the edge and no padding moves it, so
+   the select draws none and the caret is ours, the search field's padding
+   in from the edge. It lets a press through to the select under it. */
+.wr-select { position: relative; display: grid; }
+.wr-field select { padding-right: var(--space-2xl); appearance: none; }
+.wr-select svg {
+  position: absolute;
+  top: 0; bottom: 0;
+  right: var(--space-sm);
+  width: 1em;
+  height: 100%;
+  color: var(--color-charcoal);
+  pointer-events: none;
+}
 
 /* ---------- The list ---------- */
 .wr-app .wr-count { margin: 0; font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-muted-gray); }
