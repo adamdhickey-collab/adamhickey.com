@@ -200,17 +200,27 @@
   function dateOf(at) { return at.split(',')[0]; }
   function count(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
 
+  /* Every icon in the window is Phosphor's (phosphoricons.com, MIT), on its
+     256 grid in its regular weight, with its own paths: a filled outline
+     that takes the ink it sits in, not a stroke. Wren's own mark is the one
+     drawing that isn't, because it's a logo. */
+  function ph(d, cls) {
+    return '<svg' + (cls ? ' class="' + cls + '"' : '') + ' viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="' + d + '"/></svg>';
+  }
+
+  var CARET_DOWN = 'M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z';
+
   /* A status is a word and a shape, never a color alone. The shapes are
      one each: a clock for waiting, a check for processed, a double check
-     for matched, an open circle for ready, a triangle for expired. Ready
+     for matched, a dashed circle for ready, a triangle for expired. Ready
      is open on purpose: the fact is not done yet, so it can't wear a
      check beside the one that is. */
   var ICONS = {
-    clock: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-    check: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
-    open: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/></svg>',
-    done: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 13 4 4L15 7"/><path d="m11 17 10-10"/></svg>',
-    alert: '<svg class="wr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5"/><path d="M12 17.5v.01"/></svg>'
+    clock: ph('M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z', 'wr-icon'),
+    check: ph('M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z', 'wr-icon'),
+    open: ph('M96.26,37.05A8,8,0,0,1,102,27.29a104.11,104.11,0,0,1,52,0,8,8,0,0,1-2,15.75,8.15,8.15,0,0,1-2-.26,88.09,88.09,0,0,0-44,0A8,8,0,0,1,96.26,37.05ZM53.79,55.14a104.05,104.05,0,0,0-26,45,8,8,0,0,0,15.42,4.27,88,88,0,0,1,22-38.09A8,8,0,0,0,53.79,55.14ZM43.21,151.55a8,8,0,1,0-15.42,4.28,104.12,104.12,0,0,0,26,45,8,8,0,0,0,11.41-11.22A88.14,88.14,0,0,1,43.21,151.55ZM150,213.22a88,88,0,0,1-44,0,8,8,0,1,0-4,15.49,104.11,104.11,0,0,0,52,0,8,8,0,0,0-4-15.49ZM222.65,146a8,8,0,0,0-9.85,5.58,87.91,87.91,0,0,1-22,38.08,8,8,0,1,0,11.42,11.21,104,104,0,0,0,26-45A8,8,0,0,0,222.65,146Zm-9.86-41.54a8,8,0,0,0,15.42-4.28,104,104,0,0,0-26-45,8,8,0,1,0-11.41,11.22A88,88,0,0,1,212.79,104.45Z', 'wr-icon'),
+    done: ph('M149.61,85.71l-89.6,88a8,8,0,0,1-11.22,0L10.39,136a8,8,0,1,1,11.22-11.41L54.4,156.79l84-82.5a8,8,0,1,1,11.22,11.42Zm96.1-11.32a8,8,0,0,0-11.32-.1l-84,82.5-18.83-18.5a8,8,0,0,0-11.21,11.42l24.43,24a8,8,0,0,0,11.22,0l89.6-88A8,8,0,0,0,245.71,74.39Z', 'wr-icon'),
+    alert: ph('M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z', 'wr-icon')
   };
   function badge(st) { return '<span class="wr-status" data-status="' + st.key + '">' + ICONS[st.icon] + st.text + '</span>'; }
 
@@ -227,9 +237,9 @@
       '<form class="wr-tools" role="search" aria-label="Find a payment">' +
         '<div class="wr-field wr-field--grow"><label for="wr-q">Search by supplier or invoice reference</label>' +
           '<input id="wr-q" type="search" data-search autocomplete="off" spellcheck="false" value="' + esc(state.q) + '"></div>' +
-        '<div class="wr-field"><label for="wr-filter">Status</label><select id="wr-filter" data-filter>' +
+        '<div class="wr-field"><label for="wr-filter">Status</label><span class="wr-select"><select id="wr-filter" data-filter>' +
           FILTERS.map(function (f) { return '<option value="' + f.id + '"' + (state.filter === f.id ? ' selected' : '') + '>' + f.label + '</option>'; }).join('') +
-        '</select></div>' +
+        '</select>' + ph(CARET_DOWN) + '</span></div>' +
       '</form>' +
       '<div data-wren-table>' + table() + '</div>';
   };
@@ -266,7 +276,7 @@
     if (!p) return screens.list();
     var pr = processing(p), m = matching(p), ev = eventsOf(p), lastEv = last(p);
     var s = '<p class="wr-crumbs"><button type="button" class="wr-back" data-back>' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>Payments</button></p>' +
+      ph('M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z') + 'Payments</button></p>' +
       '<header class="wr-head wr-head--record">' +
         '<p class="wr-eyebrow">Payment <span class="wr-ref">' + p.ref + '</span></p>' +
         '<h3 class="wr-title" tabindex="-1">' + esc(p.supplier) + ' · ' + p.invoice + ' · ' + money(p.amount) + '</h3>' +
@@ -292,7 +302,7 @@
     '</dl>';
 
     /* The activity, folded under the facts it was once above. */
-    s += '<details class="wr-activity"' + (state.activity ? ' open' : '') + '><summary class="disclosure-row wr-activity-row"><svg class="disclosure-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg><span data-activity>Activity, ' + count(ev.length, 'event', 'events') + '</span></summary>' +
+    s += '<details class="wr-activity"' + (state.activity ? ' open' : '') + '><summary class="disclosure-row wr-activity-row">' + ph(CARET_DOWN, 'disclosure-chev') + '<span data-activity>Activity, ' + count(ev.length, 'event', 'events') + '</span></summary>' +
       '<ol class="wr-events">' + ev.map(function (e) {
         return '<li><span class="wr-event-at">' + e.at + '</span><span class="wr-event-what">' + esc(e.what) + '</span><span class="wr-event-by">' + esc(e.by) + '</span></li>';
       }).join('') + '</ol></details>';
@@ -494,7 +504,7 @@
   }
 
   var lastKey = null;
-  var STEP_DONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 12.5 4 4 8-9"/></svg>';
+  var STEP_DONE = ph('M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z');
 
   function render(opts) {
     opts = opts || {};
