@@ -91,7 +91,7 @@ const BASE = {
      second takes new ideas to a prototype. Since 2026-10-29 it is one
      sentence, the breadth helping teams decide, so the dek holds to two
      lines from 1280. */
-  dek: 'Twenty years across visual design, interaction, and enterprise software, leading the design of complicated products and helping teams decide <strong>what to solve, what good looks like, and what ships</strong>.',
+  dek: 'I build accessible design systems that help teams ship consistent experiences, and I use interactive prototypes to test ideas before teams commit to building them.',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
