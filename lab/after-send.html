@@ -103,8 +103,8 @@
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
-  <link rel="stylesheet" href="wren.css?v=7" />
-  <link rel="stylesheet" href="after-send.css?v=17" />
+  <link rel="stylesheet" href="wren.css?v=8" />
+  <link rel="stylesheet" href="after-send.css?v=18" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -113,7 +113,7 @@
   <script src="../read-aloud.js?v=4" defer></script>
   <!-- The prototype. Deferred, no dependencies, no build step; the
        payments and their events are the objects at the top of the file. -->
-  <script src="wren.js?v=7" defer></script>
+  <script src="wren.js?v=8" defer></script>
   <script src="after-send-story.js?v=1" defer></script>
   <!-- One switch, thrown before first paint because after-send-story.js is
        deferred, and taken back at DOMContentLoaded if that file never ran:
@@ -234,7 +234,7 @@
          presses, that this is an independent concept on simulated data. -->
     <header class="case-hero">
       <div class="container case-wide">
-        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">5 min read</span></p>
+        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">6 min read</span></p>
         <h1 class="case-title">The payment was sent. Did the supplier process it?</h1>
         <p class="build-dek">A supplier calls about an invoice marked paid. The status is accurate, and the accounts payable specialist still can&rsquo;t tell what to do next.</p>
         <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS: what was hard for the
@@ -310,49 +310,29 @@
       </div>
     </section>
 
-    <!-- THE PROTOTYPE, at the container's width. Everything outside the
-         window is the demo's: the kicker, then one panel holding the
-         controls that switch scenario and role and start over, and under
-         them the five steps of the walkthrough with the one the reader is
-         on marked and a line saying what to try. Everything inside the
-         window is the product, and carries no demo control, so the product
-         never asks a visitor to do something a specialist could not. The
-         whole section is data-wren: wren.js listens on it. Since 2026-11-06
-         (the third pass) everything starts at the left and each control is
-         a cell of the panel with a rule beside it, not plain text pushed to
-         the right of the kicker. -->
+    <!-- THE PROTOTYPE, at the container's width, as one story with one button
+         (2026-11-07; Adam: one simple flow, no highlights saying where to
+         click). Everything outside the window is the demo's: the kicker, the
+         five steps, which only say where the reader is, then a line saying
+         what is happening and the button that moves it on, all at the left.
+         Everything inside the window is the product, and carries no demo
+         control, so the product never asks a visitor to do something a
+         specialist could not. The section is data-wren: wren.js listens on
+         it. Until then a panel over the window switched scenario and role,
+         and the next press was marked in the window as well. -->
     <section class="case-section as-demo" id="try-it" aria-labelledby="try-h" data-wren data-read-aloud="skip">
       <div class="container case-wide">
         <h2 class="visually-hidden" id="try-h">The prototype</h2>
         <p class="try-live"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M88,24V16a8,8,0,0,1,16,0v8a8,8,0,0,1-16,0ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31ZM219.31,184a16,16,0,0,1,0,22.63l-12.68,12.68a16,16,0,0,1-22.63,0L132.7,168,115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13L168,132.69ZM208,195.31,156.69,144h0a16,16,0,0,1,4.93-26l.32-.14,45.95-17.64L48,48l52.2,159.86,17.65-46c0-.11.08-.22.13-.33a16,16,0,0,1,11.69-9.34,16.72,16.72,0,0,1,3-.28,16,16,0,0,1,11.3,4.69L195.31,208Z"/></svg>Try it, it&rsquo;s live</p>
-        <div class="as-panel">
-          <div class="as-controls" role="group" aria-label="Demo controls">
-            <div class="as-cell" role="group" aria-label="Scenario">
-              <span class="as-control-name">Scenario</span>
-              <button type="button" class="as-toggle" data-scenario="default" aria-pressed="true">Default path</button>
-              <button type="button" class="as-toggle" data-scenario="expired" aria-pressed="false">Expired payment</button>
-            </div>
-            <div class="as-cell" role="group" aria-label="Role">
-              <span class="as-control-name">Role</span>
-              <button type="button" class="as-toggle" data-role="buyer" aria-pressed="true">Buyer</button>
-              <button type="button" class="as-toggle" data-role="supplier" aria-pressed="false">Supplier</button>
-            </div>
-            <div class="as-cell">
-              <button type="button" class="as-reset" data-reset><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></svg>Start over</button>
-            </div>
-          </div>
-          <div class="as-walk">
-            <ol class="as-steps" aria-label="The walkthrough, five steps">
-              <li data-wren-step="1" aria-current="step"><span class="as-step-n" aria-hidden="true">1</span><span class="as-step-name">Find it</span><span class="visually-hidden" data-step-said></span></li>
-              <li data-wren-step="2"><span class="as-step-n" aria-hidden="true">2</span><span class="as-step-name">Interpret it</span><span class="visually-hidden" data-step-said></span></li>
-              <li data-wren-step="3"><span class="as-step-n" aria-hidden="true">3</span><span class="as-step-name">Follow the handoff</span><span class="visually-hidden" data-step-said></span></li>
-              <li data-wren-step="4"><span class="as-step-n" aria-hidden="true">4</span><span class="as-step-name">Close the loop</span><span class="visually-hidden" data-step-said></span></li>
-              <li data-wren-step="5"><span class="as-step-n" aria-hidden="true">5</span><span class="as-step-name">The exception</span><span class="visually-hidden" data-step-said></span></li>
-            </ol>
-          </div>
-        </div>
+        <ol class="as-steps" aria-label="The walkthrough, five steps">
+          <li data-wren-step="1" aria-current="step"><span class="as-step-n" aria-hidden="true">1</span><span class="as-step-name">Find it</span><span class="visually-hidden" data-step-said></span></li>
+          <li data-wren-step="2"><span class="as-step-n" aria-hidden="true">2</span><span class="as-step-name">Interpret it</span><span class="visually-hidden" data-step-said></span></li>
+          <li data-wren-step="3"><span class="as-step-n" aria-hidden="true">3</span><span class="as-step-name">Follow the handoff</span><span class="visually-hidden" data-step-said></span></li>
+          <li data-wren-step="4"><span class="as-step-n" aria-hidden="true">4</span><span class="as-step-name">Close the loop</span><span class="visually-hidden" data-step-said></span></li>
+          <li data-wren-step="5"><span class="as-step-n" aria-hidden="true">5</span><span class="as-step-name">The exception</span><span class="visually-hidden" data-step-said></span></li>
+        </ol>
         <div class="as-guide" data-wren-guide>
-          <p class="as-hint" data-wren-hint>Larkspur Packaging calls about INV-20483. Open its row to see where it stands.</p>
+          <p class="as-hint" data-wren-hint>Larkspur Packaging calls about <span class="as-ref">INV-20483</span>, marked paid on your side. You’re on the buyer’s team, so you look it up.</p>
           <span class="as-guide-next" data-wren-next></span>
         </div>
         <div class="wr-frame">

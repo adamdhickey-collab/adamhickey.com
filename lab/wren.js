@@ -28,26 +28,33 @@
    unmatched. Pressing either again is impossible rather than ignored, and
    confirming a match never touches the processing event.
 
-   TWO SCENARIOS, ONE RESET. The demo controls outside the product switch
-   between the default path and the same payment expired unprocessed, and
-   Start over puts everything back. Both are deterministic: the clock is a
+   ONE STORY, ONE BUTTON, since 2026-11-07 (Adam: one simple flow that tells
+   a story, and no highlights saying where to click). A reader keeps pressing
+   the button over the window, from the supplier's call to the invoice closed,
+   then the same payment expired unprocessed, then Start over. The sides and
+   the exception are chapters of it rather than switches: only that button
+   changes role or scenario. Everything is deterministic: the clock is a
    fixed demo date, and every timestamp is written below.
 
    ONE PAYMENT THAT CAN'T BE MATCHED. Bright Harbor processed less than the
    invoice says, so its proposed match disagrees and offers no Confirm. It
    is there so the side-by-side check is a check, not a formality.
 
-   THE LIST STARTS SEARCHED, AND A ROW IS ONE TARGET. A supplier on the phone
-   has already given the reference, so the box arrives holding it, one row
-   under it, with Clear search beside the words. The whole row opens the
+   THE LIST STARTS WHOLE, AND A ROW IS ONE TARGET, since 2026-11-07 (Adam: a
+   clearer starting point). It opens on all five payments with an empty box,
+   so the first press of the story is the specialist's own: searching for the
+   reference the supplier just gave. Until then the box arrived holding it,
+   and a reader never saw a list. The whole row opens the
    record, and the supplier's name is the real button inside it, so the
    keyboard and a screen reader get what the pointer gets. Dragging across a
    reference to copy it doesn't count as a press.
 
-   THERE IS ALWAYS A NEXT PRESS. walk() names it, the guide over the window
-   offers it as a button that presses the real control, and the control
-   itself is marked with data-target, so a reader never has to work out what
-   the walkthrough wants.
+   THERE IS ALWAYS A NEXT PRESS. walk() names it and says what is happening,
+   and the guide over the window offers it as a button that presses the real
+   control. Nothing in the window is marked: the controls in it still work,
+   for anyone who wants to try them, and the button is the way through. Its
+   press keeps focus on the button, so a keyboard walks the story the same
+   way, and the live region reads the story's line.
 
    WHAT THE CHECKS SEE. Every screen after the list is drawn on a press, so
    scripts/lib/reachable.mjs registers each with the presses that reach it,
@@ -105,6 +112,7 @@
   ];
   var FOLLOWED = 'larkspur-20483';
   var SEARCHED = 'INV-20483';        /* what the supplier on the phone gave */
+  var HINT_START = 'Larkspur Packaging calls about INV-20483, marked paid on your side. You’re on the buyer’s team, so you look it up.';
 
   /* The exception: the same payment, its validity date a day before the
      demo's today, and no processing event ever arrived. */
@@ -127,9 +135,7 @@
       role: 'buyer',                     /* 'buyer' | 'supplier' */
       screen: 'list',                    /* 'list' | 'detail' | 'notice' */
       open: null,                        /* the payment id the record shows */
-      /* The search box. The expired scenario opens on the record, and its
-         list is the whole list, so an expired payment sorts where it says. */
-      q: scenario === 'expired' ? '' : SEARCHED,
+      q: '',                             /* the search box */
       filter: 'all',                     /* the status filter */
       resent: {},                        /* id -> true once the buyer sent the notice again */
       processed: {},                     /* id -> true once the supplier pressed Process */
@@ -137,8 +143,7 @@
       reviewing: false,                  /* the match panel is open */
       replacing: false,                  /* the replacement panel is open */
       declined: false,                   /* the match was declined, so the record says nothing changed */
-      activity: false,                   /* the reader unfolded the activity, kept across presses */
-      walked: false                      /* the loop was closed, kept across a switch to the expired scenario */
+      activity: false                    /* the reader unfolded the activity, kept across presses */
     };
   }
   var state = fresh();
@@ -447,13 +452,10 @@
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Process this payment</h4>' +
         '<p class="wr-next-line">Processing charges the payment for the amount above and tells ' + BUYER.name + ' it is done.</p>' +
         '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-process>Process this payment</button></p></section>';
-    } else if (pr === 'processed') {
+    } else {
       var e = find(ev, 'processed');
       s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Processed</h4>' +
         '<p class="wr-next-line wr-next-line--marked">' + ICONS.check + '<span>Processed ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '. ' + BUYER.name + ' can see this now. There is nothing more to do here.</span></p></section>';
-    } else {
-      s += '<section class="wr-next" aria-labelledby="wr-sup-h"><h4 id="wr-sup-h" class="wr-next-h">Expired</h4>' +
-        '<p class="wr-next-line wr-next-line--marked">' + ICONS.alert + '<span>This payment expired ' + validThrough(p) + ' and can no longer be processed. ' + BUYER.name + ' would need to send a replacement.</span></p></section>';
     }
     s += '<p class="wr-fine">The supplier’s notice shows only what the buyer shared: no approver, no account coding, no internal notes.</p>';
     return s;
@@ -461,60 +463,61 @@
 
   /* ---------- the walkthrough's steps, outside the product ---------- */
 
-  /* Where the walkthrough stands is read from the followed payment, so the
-     rail can't go backwards and a hint can't ask for a press that is gone.
-     A payment other than the followed one says so rather than borrowing
-     the walkthrough's words. Returns the current step, how many before it
-     are done, the line to show, and, when the next press is a demo control,
-     that control (next), which the guide offers beside the line. */
-  var TO_SUPPLIER = { label: 'Switch to Supplier', press: '[data-role="supplier"]' };
-  var TO_BUYER = { label: 'Back to Buyer', press: '[data-role="buyer"]' };
-  var TO_EXPIRED = { label: 'Expired payment', press: '[data-scenario="expired"]' };
-  var TO_START = { label: 'Start over', press: '[data-reset]' };
+  /* Where the story stands is read from the followed payment, so the rail
+     can't go backwards and a line can't ask for a press that is gone. A
+     payment other than the followed one says so rather than borrowing the
+     story's words. Returns the current step, how many before it are done, the
+     line to show, and the next press: `press` when it is a control in the
+     window, `attr` when the button itself does the work. Keep each line to
+     two lines at the guide's measure: that is the room it reserves, so the
+     button holds its place from press to press. */
   var TO_OPEN = { label: 'Open ' + SEARCHED, press: '[data-open="' + FOLLOWED + '"]' };
   var TO_PROCESS = { label: 'Process this payment', press: '[data-process]' };
   var TO_REVIEW = { label: 'Review match', press: '[data-review]' };
   var TO_CONFIRM = { label: 'Confirm match', press: '[data-confirm-match]' };
   var TO_REPLACE = { label: 'Review replacement options', press: '[data-replace]' };
-  /* These two have no control on the screen to press. */
+  var TO_SUPPLIER = { label: 'See Larkspur’s side', attr: 'data-role="supplier"' };
+  var TO_BUYER = { label: 'Back to the buyer', attr: 'data-role="buyer"' };
+  var TO_EXPIRED = { label: 'See the exception', attr: 'data-scenario="expired"' };
+  var TO_START = { label: 'Start over', attr: 'data-reset' };
   var TO_FOLLOWED = { label: 'Back to ' + SEARCHED, attr: 'data-follow' };
   var TO_SEARCH = { label: 'Search ' + SEARCHED, attr: 'data-search-followed' };
   function walk() {
     var f = byId(FOLLOWED), pr = processing(f), m = matching(f);
     var other = state.screen !== 'list' && state.open && state.open !== FOLLOWED;
-    var otherLine = 'Another payment on the list. The walkthrough follows ' + SEARCHED + '.';
+    var otherLine = 'Another payment on the list. The story follows ' + SEARCHED + '.';
     var otherNext = TO_FOLLOWED;
-    if (other && state.open === 'bright-30077' && state.screen === 'detail') {
+    if (other && state.open === 'bright-30077') {
       otherLine = state.reviewing
-        ? 'The two amounts don’t agree, so there’s no Confirm match. The walkthrough follows ' + SEARCHED + '.'
+        ? 'The two amounts don’t agree, so there’s no Confirm match. The story follows ' + SEARCHED + '.'
         : 'Processed for less than the invoice. Review the match to see the check hold.';
       if (!state.reviewing) otherNext = TO_REVIEW;
     }
     if (state.scenario === 'expired') {
-      var after = state.screen === 'notice' ? TO_BUYER : (state.screen === 'list' || state.replacing) ? TO_START : TO_REPLACE;
-      return { now: 5, done: state.walked ? 4 : 0, next: other ? otherNext : after, hint: other ? otherLine :
-        state.screen === 'notice' ? 'Larkspur’s side: it can’t be processed any more.' :
+      return { now: 5, done: 4, next: other ? otherNext : (state.screen === 'list' || state.replacing) ? TO_START : TO_REPLACE, hint: other ? otherLine :
         state.screen === 'list' ? 'Expired payments sort to the top, because they need you.' :
-        state.replacing ? 'Nothing is issued here.' :
-        'The same payment, expired unprocessed. It’s yours to act on, so see your options.' };
+        state.replacing ? 'A replacement would be a new payment, and nothing is issued here. That’s the whole story.' :
+        'The same payment, if Larkspur never processes it. It expired, nothing was charged, and the next move is yours.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed. Next, the same payment when no one processes it.' };
+      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed, and each fact has its own date. Next, what happens when no one processes the payment.' };
     }
-    /* On the list the row may have been searched or filtered away. */
-    var onList = shown().some(function (p) { return p.id === FOLLOWED; }) ? TO_OPEN : TO_SEARCH;
+    /* On the list, the search comes first: the row is offered once it is the
+       one row showing, and searched for if it is among others or gone. */
+    var rows = shown();
+    var onList = rows.length === 1 && rows[0].id === FOLLOWED ? TO_OPEN : TO_SEARCH;
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, next: otherNext, hint: otherLine };
-      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'That’s all on Larkspur’s side. See what changed for the buyer.' };
-      if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Open ' + SEARCHED + ' to close the loop.' };
-      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'Check the two columns against each other, then confirm.' : 'Now it’s processed and ready to match. Review the match and confirm it.' };
+      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed. That’s all Larkspur has to do, so back to the buyer’s record of the same payment.' };
+      if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Find ' + SEARCHED + ' again to close the loop.' };
+      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re the buyer again. It now says processed and ready to match, and closing the invoice is your job.' };
     }
     if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Larkspur’s side. Press Process this payment.' };
-    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'It isn’t processed yet, and Larkspur acts next. See it from their side.' };
+    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Larkspur. The notice shows only what the buyer shared, and the one thing to do.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'The record leads with the two facts that can differ. It was sent, Larkspur hasn’t processed it, and Larkspur acts next.' };
     return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
-      ? 'Larkspur Packaging calls about ' + SEARCHED + '. Open its row to see where it stands.'
-      : SEARCHED + ' isn’t in this view. Search for it again.' };
+      ? 'One payment, and the list says it isn’t processed yet. Open it to see where it stands.'
+      : HINT_START };
   }
 
   /* ---------- rendering ---------- */
@@ -526,8 +529,6 @@
   var hint = root.querySelector('[data-wren-hint]');
   var guide = root.querySelector('[data-wren-guide]');
   var nextSlot = root.querySelector('[data-wren-next]');
-  var scenarios = root.querySelectorAll('[data-scenario]');
-  var roles = root.querySelectorAll('[data-role]');
 
   function announce(msg) {
     if (!status) return;
@@ -536,6 +537,7 @@
   }
 
   var lastKey = null;
+  var guidePress = false;
   var STEP_DONE = ph('M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z');
 
   function render(opts) {
@@ -562,9 +564,7 @@
         : '<span class="wr-org">' + BUYER.name + '</span><span class="wr-role">' + BUYER.team + '</span>';
     }
     drawGuide();
-    Array.prototype.forEach.call(scenarios, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-scenario') === state.scenario)); });
-    Array.prototype.forEach.call(roles, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-role') === state.role)); });
-    if (opts.announce) announce(opts.announce);
+    if (opts.announce) announce(guidePress ? opts.announce + ' ' + walk().hint : opts.announce);
     if (opts.focus) {
       var el = stage.querySelector(opts.focus);
       if (el) {
@@ -573,10 +573,17 @@
         else windowIntoView();
       }
     }
+    /* The button's press stays on the button, wherever the screen's own focus
+       went: the next press is the same key, and the live region has the line. */
+    if (guidePress) {
+      guidePress = false;
+      var again = nextSlot && nextSlot.querySelector('button');
+      if (again) again.focus({ preventScroll: true });
+    }
   }
 
-  /* The rail, the line, the next press, and the mark on what it presses.
-     Drawn from walk() after anything that can change them, the rows too. */
+  /* The rail, the line, and the next press. Drawn from walk() after anything
+     that can change them, the rows too. */
   function drawGuide() {
     var w = walk();
     Array.prototype.forEach.call(steps, function (el) {
@@ -588,14 +595,12 @@
       var said = el.querySelector('[data-step-said]');
       if (said) said.textContent = done ? ', done' : '';
     });
-    if (hint) hint.textContent = w.hint;
+    /* The reference never breaks at its hyphen. */
+    if (hint) hint.innerHTML = esc(w.hint).replace(SEARCHED, '<span class="as-ref">' + SEARCHED + '</span>');
     if (nextSlot) {
       var how = w.next.attr ? w.next.attr : 'data-next="' + esc(w.next.press) + '"';
       nextSlot.innerHTML = '<button type="button" class="btn btn-primary as-next" ' + how + '>' + w.next.label + '<span aria-hidden="true"> →</span></button>';
     }
-    Array.prototype.forEach.call(root.querySelectorAll('[data-target]'), function (el) { el.removeAttribute('data-target'); });
-    var target = w.next.press && root.querySelector(w.next.press);
-    if (target) (target.closest('tr[data-row]') || target).setAttribute('data-target', '');
   }
 
   /* A new screen starts at its top, so the top of the window comes down
@@ -669,15 +674,17 @@
     }
 
     if (!t || !root.contains(t)) return;
+    if (nextSlot && nextSlot.contains(t)) guidePress = true;
 
     /* The guide's offer is the control itself, pressed: one path for both. */
     if (t.hasAttribute('data-next')) {
       var control = root.querySelector(t.getAttribute('data-next'));
       if (control) control.click();
+      guidePress = false;
       return;
     }
 
-    /* The guide's two offers with no control on the screen behind them. */
+    /* The guide's offers with no control on the screen behind them. */
     if (t.hasAttribute('data-follow')) { state.role = 'buyer'; openRecord(FOLLOWED); return; }
     if (t.hasAttribute('data-search-followed')) {
       state.q = SEARCHED;
@@ -686,33 +693,23 @@
       return;
     }
 
-    /* The demo controls, outside the product. */
+    /* The story's turns, which only the guide's button offers. */
     if (t.hasAttribute('data-reset')) {
       state = fresh();
       render({ focus: '.wr-title', announce: 'Started over. The payments list, as the buyer.' });
       return;
     }
     if (t.hasAttribute('data-scenario')) {
-      var sc = t.getAttribute('data-scenario');
-      if (sc === state.scenario) return;
-      var walked = state.walked;
-      state = fresh(sc);
-      state.walked = walked;
-      if (sc === 'expired') {
-        state.open = FOLLOWED;
-        state.screen = 'detail';
-        render({ focus: '.wr-title', announce: 'Expired scenario. The same payment to Larkspur Packaging, expired Nov 4 without being processed.' });
-      } else {
-        render({ focus: '.wr-title', announce: 'Default path. The payments list, as the buyer.' });
-      }
+      state = fresh('expired');
+      state.open = FOLLOWED;
+      state.screen = 'detail';
+      render({ focus: '.wr-title', announce: 'The exception. The same payment to Larkspur Packaging, expired Nov 4 without being processed.' });
       return;
     }
     if (t.hasAttribute('data-role')) {
       var r = t.getAttribute('data-role');
-      if (r === state.role) return;
       state.role = r;
       if (r === 'supplier') {
-        if (!state.open) state.open = FOLLOWED;
         state.screen = 'notice';
         render({ focus: '.wr-title', announce: 'Supplier role: the payment notice as ' + byId(state.open).supplier + ' sees it.' });
       } else {
@@ -758,7 +755,6 @@
       if (!pm || processing(pm) !== 'processed' || matching(pm) === 'matched') return;
       state.matched[pm.id] = true;
       state.reviewing = false;
-      if (pm.id === FOLLOWED) state.walked = true;
       render({ focus: '.wr-facts', still: true, announce: 'Matched: ' + pm.ref + ' to ' + pm.invoice + ', ' + MATCHED_AT + '. The processing event is unchanged.' });
       return;
     }

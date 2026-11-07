@@ -213,7 +213,7 @@ export const REACHABLE = {
     { name: 'the record, the notice sent again',
       press: ['[data-open="larkspur-20483"]', '[data-resend]'] },
     { name: 'a match that disagrees',
-      press: ['[data-clear-search]', '[data-open="bright-30077"]', '[data-review]'] },
+      press: ['[data-open="bright-30077"]', '[data-review]'] },
     { name: 'the record, its activity opened',
       press: ['[data-open="larkspur-20483"]', '.wr-activity-row'] },
     { name: 'the supplier’s notice',
@@ -226,10 +226,11 @@ export const REACHABLE = {
       press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-confirm-match]'] },
     { name: 'the record, the match declined',
       press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-decline-match]'] },
+    /* The exception is the story's last chapter, so it is reached through it. */
     { name: 'the expired scenario’s record',
-      press: ['[data-scenario="expired"]'] },
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-confirm-match]', '[data-scenario="expired"]'] },
     { name: 'the expired record, replacement options open',
-      press: ['[data-scenario="expired"]', '[data-replace]'] },
+      press: ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]', '[data-review]', '[data-confirm-match]', '[data-scenario="expired"]', '[data-replace]'] },
     /* Not the prototype: the two records under "Status first", whose answers
        wait for a press since 2026-11-06. One state for the pair. */
     { name: 'the two records, answered',
