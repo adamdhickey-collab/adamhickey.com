@@ -86,6 +86,8 @@ await run('a fresh load is the buyer’s whole list, the button searches, and cl
   t.ok((await t.step()) === '1', 'step 1 is current');
   t.ok(await t.page.$eval('[data-clear-search]', (b) => getComputedStyle(b).display === 'none'), 'nothing to clear yet');
   t.ok((await t.page.textContent('[data-wren-next]')).includes('Search INV-20483'), 'the first press is the search');
+  t.ok((await t.page.textContent('[data-wren-view]')).includes('Fieldstone Foods, the buyer'), 'the Demo view line names the buyer');
+  t.ok((await t.page.textContent('[data-wren-hint]')).includes('Our records show INV-20483 as unpaid'), 'the story opens on what the supplier asks');
   await t.press('[data-search-followed]');
   t.ok((await t.page.inputValue('[data-search]')) === 'INV-20483', 'the box holds the reference');
   t.ok((await t.rows()) === 1, `one row once searched, saw ${await t.rows()}`);
@@ -143,11 +145,11 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   t.ok((await t.active()).startsWith('wr-title'), 'a new screen moves focus to its title');
   t.ok((await t.status()).includes('Payment record'), 'the record is announced');
   await t.includes('Not processed yet');
-  await t.includes('Sent and delivered Oct 28');
+  await t.includes('Card issued and notice delivered Oct 28');
   await t.includes('Not yet');
   await t.includes('Matching waits for processing');
   await t.includes('Who acts next Larkspur Packaging');
-  await t.includes('Larkspur Packaging has until Nov 27');
+  await t.includes('Larkspur Packaging hasn’t charged the card. It’s good through Nov 27');
   await t.includes('Valid through Nov 27');
   await t.includes('Last confirmed event Notice delivered');
   t.ok(!(await t.has('[data-review]')), 'no Review match while waiting');
@@ -163,6 +165,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   t.ok((await t.step()) === '3', 'step 3 on the notice');
   t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), 'the button keeps focus, for the next press');
   t.ok((await t.status()).includes('Now you’re Larkspur'), `the live region reads the story’s line: "${await t.status()}"`);
+  t.ok((await t.page.textContent('[data-wren-view]')).includes('Larkspur Packaging, the supplier'), 'the Demo view line names the supplier');
   await t.includes('Payment notice from Fieldstone Foods');
   await t.includes('$4,860.00 for invoice INV-20483');
   await t.includes('Valid through Nov 27');
@@ -243,7 +246,8 @@ await run('the expired scenario: what expired, what happened, who acts next, and
   await t.on('detail');
   t.ok((await t.step()) === '5', 'step 5 in the expired scenario');
   await t.includes('Expired Nov 4, not processed');
-  await t.includes('The validity date passed with no processing event from Larkspur Packaging. Nothing was charged.');
+  await t.includes('The card’s date passed with no charge posted as of Nov 5, 2:05 pm. A late charge can still post for a day, so check again before replacing it.');
+  await t.excludes('Nothing was charged', 'the expired record does not claim certainty a day-old read cannot give');
   await t.includes('Nothing to match');
   await t.includes('Who acts next You');
   await t.includes('Valid through Nov 4 (passed)');
@@ -252,6 +256,7 @@ await run('the expired scenario: what expired, what happened, who acts next, and
   await t.press('[data-replace]');
   t.ok((await t.active()).startsWith('wr-panel-h'), 'the replacement panel takes focus');
   await t.includes('Replacement options');
+  await t.includes('Check for a late charge first');
   await t.includes('outside this demo');
   await t.includes('Don’t pay twice');
   t.ok(!(await t.has('[data-issue]')) && !(await t.has('[data-approve]')), 'nothing issues or approves a replacement');
@@ -287,7 +292,7 @@ await run('the story’s line follows the state, and it ends', async (t) => {
   t.ok((await t.step()) === '4', 'the button goes back to the buyer');
   await t.press('[data-review]');
   await t.press('[data-confirm-match]');
-  t.ok((await t.page.textContent('[data-wren-next]')).includes('See the exception'), 'the end offers the exception');
+  t.ok((await t.page.textContent('[data-wren-next]')).includes('See an expired payment'), 'the end offers the expired payment');
   t.ok((await done(t)) === 4, 'four steps done');
   t.ok((await t.step()) === '5', 'the exception is next');
   await t.press('[data-scenario="expired"]');
@@ -350,7 +355,7 @@ for (const width of [1440, 1024, 768]) {
       await t.press('[data-wren-next] button');
       t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), `focus stays on the button after "${label}"`);
     }
-    const want = ['Search INV-20483', 'Open INV-20483', 'See Larkspur’s side', 'Process this payment', 'Back to the buyer', 'Review match', 'Confirm match', 'See the exception', 'Review replacement options', 'Start over'];
+    const want = ['Search INV-20483', 'Open INV-20483', 'View the supplier’s notice', 'Process this payment', 'Back to the buyer’s record', 'Review match', 'Confirm match', 'See an expired payment', 'Review replacement options', 'Start over'];
     t.ok(walked.join('|') === want.join('|'), `the presses, in order: ${walked.join(' | ')}`);
     t.ok(spots.size === 1, `the button holds one place: ${[...spots].join(' ')}`);
     t.ok(await t.page.$eval('[data-wren-next] button', (b) => Math.abs(b.getBoundingClientRect().left - document.querySelector('.as-steps').getBoundingClientRect().left) <= 1), 'the button starts on the steps’ left edge');
@@ -449,11 +454,14 @@ await run('a match that disagrees can’t be confirmed, and leaving it says what
   await t.includes('Who acts next You');
 });
 
-await run('a supplier on the phone: when to follow up, who got the notice, and sending it again', async (t) => {
+await run('a supplier on the phone: what to tell them first, then when to follow up, and sending the notice again', async (t) => {
   await t.press('[data-open="larkspur-20483"]');
-  await t.includes('No processing event as of Nov 5, 2:05 pm');
-  await t.includes('Follow up if it’s still waiting on Nov 20');
-  await t.includes('What to tell them: the notice went to ar@larkspur.example on Oct 28');
+  await t.includes('No charge posted as of Nov 5, 2:05 pm');
+  await t.includes('What to tell them The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@larkspur.example on Oct 28');
+  await t.includes('Later: follow up Nov 20 if it’s still unprocessed, a week before the card expires Nov 27');
+  /* The call's answer comes before the follow-up, inside the block. */
+  const order = await t.page.$eval('[data-wren] .wr-next', (n) => [...n.children].map((c) => c.className.split(' ')[0]).join(','));
+  t.ok(order.indexOf('wr-tell') !== -1 && order.indexOf('wr-tell') < order.indexOf('wr-next-later'), `what to tell them comes before later: ${order}`);
   await t.press('[data-resend]');
   await t.includes('and again Nov 5, 2:06 pm');
   await t.includes('Activity, 4 events');

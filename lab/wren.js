@@ -112,7 +112,7 @@
   ];
   var FOLLOWED = 'larkspur-20483';
   var SEARCHED = 'INV-20483';        /* what the supplier on the phone gave */
-  var HINT_START = 'Larkspur Packaging calls about INV-20483, marked paid on your side. You’re on the buyer’s team, so you look it up.';
+  var HINT_START = 'Larkspur Packaging, the supplier, calls: “Our records show INV-20483 as unpaid. Can you check it?” Your screen says paid.';
 
   /* The exception: the same payment, its validity date a day before the
      demo's today, and no processing event ever arrived. */
@@ -333,9 +333,11 @@
   }
 
   function processingFact(p, pr, ev) {
+    /* A "no" is dated: it is the record's last read of the events, not a
+       fact about the card. Since 2026-11-07 the line says so in words. */
     if (pr === 'sent') {
       return '<span class="wr-fact-head">' + ICONS.clock + 'Not processed yet</span>' +
-        '<span class="wr-fact-line">Sent and delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No processing event as of ' + CHECKED_AT + '.</span>';
+        '<span class="wr-fact-line">Card issued and notice delivered ' + dateOf(find(ev, 'delivered') ? find(ev, 'delivered').at : find(ev, 'notice').at) + '. No charge posted as of ' + CHECKED_AT + ', the last read of the events.</span>';
     }
     if (pr === 'processed') {
       var e = find(ev, 'processed');
@@ -343,9 +345,11 @@
         '<span class="wr-fact-line">' + esc(p.supplier) + ' processed it ' + e.at + (processedFor(p) !== p.amount ? ' for ' + money(processedFor(p)) : '') + '.</span>';
     }
     /* The date that passed is the validity date, not the moment the system
-       noticed: "Expired Nov 4" names what ran out. */
+       noticed: "Expired Nov 4" names what ran out. Since 2026-11-07 the line
+       stops short of "nothing was charged": the read is a day old at most,
+       and a late charge can still post, so it asks for one more check. */
     return '<span class="wr-fact-head">' + ICONS.alert + 'Expired ' + validThrough(p) + ', not processed</span>' +
-      '<span class="wr-fact-line">The validity date passed with no processing event from ' + esc(p.supplier) + '. Nothing was charged.</span>';
+      '<span class="wr-fact-line">The card’s date passed with no charge posted as of ' + CHECKED_AT + '. A late charge can still post for a day, so check again before replacing it.</span>';
   }
 
   function matchingFact(p, pr, m, ev) {
@@ -370,14 +374,21 @@
     var who, line, act = '';
     if (pr === 'sent') {
       who = p.supplier;
-      line = esc(p.supplier) + ' has until ' + validThrough(p) + ' to process it. Follow up if it’s still waiting on ' + p.followUp + '.';
-      /* The scene is this supplier on the phone, so the record says what a
-         specialist can tell them, and offers the one thing they can do. */
+      line = esc(p.supplier) + ' hasn’t charged the card. It’s good through ' + validThrough(p) + '.';
+      /* The scene is this supplier on the phone, so the record answers the
+         call before it schedules anything: what to tell them, who got the
+         notice, and the one thing to do now. The follow-up is a second,
+         smaller line, with where its date comes from. Since 2026-11-07; until
+         then the follow-up led and the call's answer came after it. */
       var sent = dateOf(find(eventsOf(p), 'notice').at);
-      act = state.resent[p.id]
-        ? '<p class="wr-next-ask" tabindex="-1" data-resent><strong>What to tell them:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + ', and again ' + RESENT_AT + '.</p>'
-        : '<p class="wr-next-ask"><strong>What to tell them:</strong> the notice went to ' + p.noticeTo + ' on ' + sent + '. Delivered doesn’t mean read, so you can send it again.</p>' +
-          '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-resend>Send the notice again</button></p>';
+      act = '<div class="wr-tell"' + (state.resent[p.id] ? ' tabindex="-1" data-resent' : '') + '><h5 class="wr-tell-h">What to tell them</h5>' +
+        '<p class="wr-tell-line">The card hasn’t been charged, so the invoice is open on both sides. The notice went to ' + p.noticeTo + ' on ' + sent +
+        (state.resent[p.id]
+          ? ', and again ' + RESENT_AT + '.</p>'
+          : '. Confirm that’s the right inbox, and send it again if it isn’t.</p>' +
+            '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-resend>Send the notice again</button></p>') +
+        '</div>' +
+        '<p class="wr-next-later"><strong>Later:</strong> follow up ' + p.followUp + ' if it’s still unprocessed, a week before the card expires ' + validThrough(p) + '.</p>';
     } else if (pr === 'processed' && m === 'unmatched') {
       who = 'You';
       line = esc(p.supplier) + ' processed it. Match it to ' + p.invoice + ' so the invoice closes in your books.';
@@ -388,7 +399,7 @@
       line = 'This payment is processed and matched. There is nothing left to do on it.';
     } else {
       who = 'You';
-      line = 'The payment can’t be processed now. A replacement would be a new payment for ' + p.invoice + ' with a new validity date.';
+      line = 'The card can’t be charged now. Check for a late charge first; then a replacement would be a new payment for ' + p.invoice + ' with a new validity date.';
       if (!state.replacing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-replace aria-expanded="false" aria-controls="wr-replace">Review replacement options</button></p>';
     }
     var s = '<section class="wr-next" aria-labelledby="wr-next-h"><h4 id="wr-next-h" class="wr-next-h">Who acts next</h4>' +
@@ -425,9 +436,10 @@
   function replacePanel(p) {
     return '<div class="wr-panel" id="wr-replace"><h5 class="wr-panel-h" tabindex="-1">Replacement options</h5>' +
       '<ol class="wr-steps">' +
+        '<li><strong>Check for a late charge first.</strong> A charge can post up to a day after the date. One from ' + esc(p.supplier) + ' would put this payment back to ready to match, and there would be nothing to replace.</li>' +
         '<li><strong>Check with ' + esc(p.supplier) + '</strong> that the notice reached the right person. The validity date, not the invoice, is what ran out.</li>' +
         '<li><strong>A replacement payment</strong> would be a new payment for ' + p.invoice + ', ' + money(p.amount) + ', with a new validity date. Issuing one needs your approver, and it is outside this demo.</li>' +
-        '<li><strong>Don’t pay twice.</strong> This payment expired unprocessed, so nothing was charged. A replacement replaces it; it doesn’t add to it.</li>' +
+        '<li><strong>Don’t pay twice.</strong> No charge has posted on this card. A replacement replaces it; it doesn’t add to it.</li>' +
       '</ol>' +
       '<p class="wr-row"><button type="button" class="btn btn-ghost-light wr-btn" data-close-replace>Close</button></p></div>';
   }
@@ -476,9 +488,9 @@
   var TO_REVIEW = { label: 'Review match', press: '[data-review]' };
   var TO_CONFIRM = { label: 'Confirm match', press: '[data-confirm-match]' };
   var TO_REPLACE = { label: 'Review replacement options', press: '[data-replace]' };
-  var TO_SUPPLIER = { label: 'See Larkspur’s side', attr: 'data-role="supplier"' };
-  var TO_BUYER = { label: 'Back to the buyer', attr: 'data-role="buyer"' };
-  var TO_EXPIRED = { label: 'See the exception', attr: 'data-scenario="expired"' };
+  var TO_SUPPLIER = { label: 'View the supplier’s notice', attr: 'data-role="supplier"' };
+  var TO_BUYER = { label: 'Back to the buyer’s record', attr: 'data-role="buyer"' };
+  var TO_EXPIRED = { label: 'See an expired payment', attr: 'data-scenario="expired"' };
   var TO_START = { label: 'Start over', attr: 'data-reset' };
   var TO_FOLLOWED = { label: 'Back to ' + SEARCHED, attr: 'data-follow' };
   var TO_SEARCH = { label: 'Search ' + SEARCHED, attr: 'data-search-followed' };
@@ -493,14 +505,16 @@
         : 'Processed for less than the invoice. Review the match to see the check hold.';
       if (!state.reviewing) otherNext = TO_REVIEW;
     }
+    /* The expired payment is an alternate ending, not the next event, and
+       its line says so, with the one date that changes to show it. */
     if (state.scenario === 'expired') {
       return { now: 5, done: 4, next: other ? otherNext : (state.screen === 'list' || state.replacing) ? TO_START : TO_REPLACE, hint: other ? otherLine :
         state.screen === 'list' ? 'Expired payments sort to the top, because they need you.' :
         state.replacing ? 'A replacement would be a new payment, and nothing is issued here. That’s the whole story.' :
-        'The same payment, if Larkspur never processes it. It expired, nothing was charged, and the next move is yours.' };
+        'An alternate ending, not what came next: the same card, expiring Nov 4 instead of Nov 27, never charged. Your move.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed, and each fact has its own date. Next, what happens when no one processes the payment.' };
+      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed, and each fact has its own date. Last, a different ending: what if Larkspur never charges the card?' };
     }
     /* On the list, the search comes first: the row is offered once it is the
        one row showing, and searched for if it is among others or gone. */
@@ -508,13 +522,13 @@
     var onList = rows.length === 1 && rows[0].id === FOLLOWED ? TO_OPEN : TO_SEARCH;
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, next: otherNext, hint: otherLine };
-      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed. That’s all Larkspur has to do, so back to the buyer’s record of the same payment.' };
+      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed: the card is charged. That’s all Larkspur has to do, so back to the buyer’s record of the same payment.' };
       if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Find ' + SEARCHED + ' again to close the loop.' };
-      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re the buyer again. It now says processed and ready to match, and closing the invoice is your job.' };
+      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Fieldstone again. Larkspur charged the card, so the record reads processed and ready to match. Close the invoice.' };
     }
     if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Larkspur. The notice shows only what the buyer shared, and the one thing to do.' };
-    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'The record leads with the two facts that can differ. It was sent, Larkspur hasn’t processed it, and Larkspur acts next.' };
+    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Larkspur, the supplier. The notice shows only what Fieldstone shared, and one thing to do: charge the card.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Issued, not charged. The record says what to tell Larkspur now, what to do later, and that Larkspur acts next.' };
     return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
       ? 'One payment, and the list says it isn’t processed yet. Open it to see where it stands.'
       : HINT_START };
@@ -527,6 +541,7 @@
   var chrome = root.querySelector('[data-wren-chrome]');
   var steps = root.querySelectorAll('[data-wren-step]');
   var hint = root.querySelector('[data-wren-hint]');
+  var view = root.querySelector('[data-wren-view]');
   var guide = root.querySelector('[data-wren-guide]');
   var nextSlot = root.querySelector('[data-wren-next]');
 
@@ -562,6 +577,14 @@
       chrome.innerHTML = state.role === 'supplier'
         ? '<span class="wr-org">' + esc(byId(state.open || FOLLOWED).supplier) + '</span><span class="wr-role">Accounts receivable</span>'
         : '<span class="wr-org">' + BUYER.name + '</span><span class="wr-role">' + BUYER.team + '</span>';
+    }
+    /* Whose screen is in the window, said outside it, since 2026-11-07: the
+       chrome inside is the product's own sign-in line, and a reader who has
+       never seen the product can't read a role change from it. */
+    if (view) {
+      view.textContent = state.role === 'supplier'
+        ? 'Demo view: ' + byId(state.open || FOLLOWED).supplier + ', the supplier'
+        : 'Demo view: ' + BUYER.name + ', the buyer';
     }
     drawGuide();
     if (opts.announce) announce(guidePress ? opts.announce + ' ' + walk().hint : opts.announce);
@@ -703,7 +726,7 @@
       state = fresh('expired');
       state.open = FOLLOWED;
       state.screen = 'detail';
-      render({ focus: '.wr-title', announce: 'The exception. The same payment to Larkspur Packaging, expired Nov 4 without being processed.' });
+      render({ focus: '.wr-title', announce: 'An alternate ending. The same payment to Larkspur Packaging, its card expired Nov 4 with no charge.' });
       return;
     }
     if (t.hasAttribute('data-role')) {
