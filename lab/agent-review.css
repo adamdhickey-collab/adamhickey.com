@@ -23,9 +23,10 @@
    The opener was the billing run's cancel link until the evening of
    2026-10-26; it now follows the feature the stages and the pictures do.
 
-   NOTHING ON THE PAGE MOVES WITH SCROLL. The opener's question works the
-   same at every width, and so do Evaluate's two screens, which a reader
-   presses through.
+   SINCE 2026-11-07, TWO STORIES HOLD THEIR SCREEN WHILE THE WORDS SCROLL, from
+   64rem and only for a reader who hasn't asked for stillness ("The story",
+   below). The scroll stays the reader's own. Everywhere else each step sits
+   over its own screen.
 
    NO CAPITALS ARE FORCED anywhere on the page but its kicker: eyebrows and
    labels are set in sentence case at their own size, and the shared glance
@@ -411,43 +412,7 @@
 .arc-next .arc-head { margin-bottom: var(--space-lg); }
 @media (min-width: 64rem) {
   .arc-split { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); align-items: start; }
-  .arc-split--pair { column-gap: var(--space-2xl); align-items: center; }
-}
-
-/* Evaluate's fork: my call as one question and its two ends. The line is the
-   rail's pen and draws once, armed below the fold by the page's script; the
-   question and its ends are the page's own text. */
-.ar-fork { display: grid; gap: var(--space-md); margin: 0; }
-.ar-fork-map { display: grid; grid-template-columns: minmax(0, 2fr) var(--space-block) minmax(0, 3fr); align-items: center; }
-.case-section .ar-fork-q {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-  text-wrap: balance;
-}
-.ar-fork-lines { display: block; width: 100%; height: 100%; }
-.ar-fork-lines path { fill: none; stroke: var(--color-accent-text); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-/* A reveal rather than a dash: the drawing stretches to its row, and a dash
-   pattern on a stretched path breaks into pieces. */
-.ar-fork.is-armed .ar-fork-lines { clip-path: inset(0 100% 0 0); }
-.ar-fork.is-drawn .ar-fork-lines { animation: ar-reveal var(--motion-draw) var(--ease) forwards; }
-@keyframes ar-reveal { to { clip-path: inset(0); } }
-.ar-fork-ends { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
-.ar-fork-ends li { display: grid; align-content: center; gap: var(--space-2xs); margin: 0; padding: 0; }
-.ar-fork-ends li::before { content: none; }
-.ar-fork-if { font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: var(--leading-ui); color: var(--color-accent-text); }
-.ar-fork-ends strong { font-size: var(--text-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
-.ar-fork-line { font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted-gray); text-wrap: pretty; }
-@media (prefers-reduced-motion: reduce) {
-  .ar-fork.is-armed .ar-fork-lines { clip-path: none; animation: none; }
-}
-@media (max-width: 40rem) {
-  .ar-fork-map { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-md); }
-  .ar-fork-lines { display: none; }
-}
+  }
 
 /* ---------- The rule: three kinds of change ----------
    The reader has just made the call the checks couldn't. This names it:
@@ -628,128 +593,121 @@
   .ar-try-frame iframe { aspect-ratio: 16 / 10; }
 }
 
-/* ---- Evaluate: the three directions, in a row ----
-   Since 2026-11-02, between the chapter's head and the walkthrough, so a
-   reader meets all three before the walkthrough tells the agent's pick
-   and my condition on it. A row across the column, not a card: a rule
-   over each like the six stages' (.ar-steps), the homepage facts' tea
-   disc (.fact-node, style.css) beside the words, and the walkthrough's
-   own label (.ev-who) over each name: the agent's pick in the accent,
-   the other two "Another direction" in gray, so the pick still stands
-   out and the three names sit on one baseline without a hand margin.
-   Three across from 64rem, about a hundred pixels tall; stacked rows
-   under it. A block's air under the row, more
-   than the head's above it, because the walkthrough opens on the agent's
-   pick again and reads as the next thing rather than a second line of
-   the row. */
-.ar-ways {
-  display: grid;
-  gap: var(--space-lg);
-  margin: 0 0 var(--space-block);
-  padding: 0;
-  list-style: none;
-}
-.ar-ways li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  column-gap: var(--space-md);
+/* The label over a screen: who decided, led by the prototype's mark for it,
+   the filled "bot" for the agent and the filled "user" for me. */
+.case-section .ev-who {
   margin: 0;
-  padding: var(--space-md) 0 0;
-  border-top: 1px solid var(--rule-card);
-}
-.ar-ways li::before { content: none; }
-.ar-ways .fact-node { margin: 0; }
-.case-section .ar-way {
-  display: grid;
-  gap: var(--space-2xs);
-  margin: 0;
-}
-.ar-way-name {
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.ev-who.ar-way-other { color: var(--color-muted-gray); }
-/* The pick's label leads with the prototype's mark for an agent's
-   recommendation, its filled "bot" glyph, sized to the label's line and
-   in the label's ink. The walkthrough's two labels below wear the same:
-   the bot over the agent's pick, the same family's filled "user" over
-   my call. */
-.ev-who.ar-way-pick { display: flex; align-items: center; gap: var(--space-2xs); }
-.ar-way-bot { flex: none; width: 1lh; height: 1lh; fill: currentColor; }
-.ar-way-line {
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-muted-gray);
-  text-wrap: pretty;
-}
-@media (min-width: 64rem) {
-  .ar-ways { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-2xl); }
-}
-/* The pick is the one the rest of the chapter is about, so since
-   2026-11-03 it is the one card in the row (Adam: "make it much more
-   obvious what the agent pick is"): a figure card, white on this warm
-   ground, lifted on the elevation rung for the one card a screen is
-   asking you to look at, with its disc filled in the accent. The other
-   two stay rules with their names in gray, so the row reads as the pick
-   and two it was weighed against. The card's inset is the rule's
-   padding, so the three names still share a line. */
-.ar-ways li.ar-ways-pick {
-  padding: var(--space-md);
-  background: var(--figure-card);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card-raised);
-}
-.ar-ways-pick .fact-node { background: var(--color-accent-text); border-color: transparent; }
-.ar-ways-pick .fact-icon { color: var(--color-white); }
-.ar-ways li:not(.ar-ways-pick) .ar-way-name { color: var(--color-muted-gray); }
-
-/* ---- Evaluate: the two rules, side by side ----
-   Since 2026-11-03 (Adam: "this part feels overly complex and
-   confusing"), the agent's pick and my call on the same cleanup of four,
-   each as a label, its name, one line and one still screen: the agent's
-   review open over the five from Would you ship, and four with no one
-   active archived in one press, Undo in the bar.
-   The one difference a reader has to see is the review, so it is the one
-   thing the two screens do not share. Two columns from 64rem, stacked
-   under it. From 2026-11-02 this was six steps beside one stepped
-   screen; the git history has it. The screens are relay-screen.css,
-   held still: nothing on them presses, so no key wears "Press this". */
-.ev-pair { display: grid; gap: var(--space-2xl); }
-.ev-pair figure { margin: 0; }
-.ev-side { display: grid; grid-template-rows: auto auto 1fr; gap: var(--space-md); }
-.ev-side > .ev, .ev-side > .ev > .arc-device { height: 100%; }
-.case-section .ev-head { display: grid; gap: var(--space-2xs); margin: 0; }
-.ev-who {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-accent-text);
 }
-.ev-name {
+.ev-who.ar-way-pick { display: flex; align-items: center; gap: var(--space-2xs); }
+.ar-way-bot { flex: none; width: 1lh; height: 1lh; fill: currentColor; }
+
+/* ---------- The story ----------
+   Since 2026-11-07. Steps and their screens alternate in the markup, so a phone,
+   a still reader, the checks, and a page without script read each step over
+   its own screen. From 64rem they sit side by side. Live on a tall enough
+   window, every screen in a story shares one sticky cell, and the step crossing
+   the window's middle marks its screen current (agent-review-story.js). The
+   rows sit in the same place on each screen, so the change reads as one list
+   changing. */
+.ars { display: grid; gap: var(--space-lg); }
+.ars-fig { display: grid; gap: var(--space-xs); min-width: 0; margin-bottom: var(--space-xl); }
+.ars-fig:last-child { margin-bottom: 0; }
+.ars figure { margin: 0; }
+.case-section .ars-title {
+  margin: 0 0 var(--space-sm);
   font-family: var(--font-serif);
   font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-heading);
   letter-spacing: var(--tracking-heading);
   color: var(--color-charcoal);
 }
-.case-section .ev-side-line { margin: 0; max-width: var(--measure); text-wrap: pretty; }
-/* Doubled to outrank relay-screen.css's step marks, which are four
-   classes deep. */
-.ev-pair .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
-.ev-pair .ev[data-step] .ev-key.ev-key::after { content: none; }
-/* Archived, the rows stay as ghosts, as they do under "Archive now" in
-   Would you ship (.ship-list): secondary ink, struck through, the check
-   gone to the strong rule. */
-.ev-pair .ev[data-step="archived"] .ev-row { color: var(--ink-on-dark-secondary); }
-.ev-pair .ev[data-step="archived"] .ev-row-name { text-decoration: line-through; }
-.ev-pair .ev[data-step="archived"] .ev-check { background: var(--rule-on-dark-strong); border-color: var(--rule-on-dark-strong); }
-@media (min-width: 64rem) {
-  .ev-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-2xl); }
+.ars-step > p { max-width: var(--measure); text-wrap: pretty; }
+.ars-step > p:last-child { margin-bottom: 0; }
+/* These screens are pictures: nothing on them presses. Doubled to outrank
+   relay-screen.css's step marks. */
+.ars .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
+.ars .ev[data-step] .ev-key.ev-key::after { content: none; }
+.ars .ev-rows--ghost .ev-row { color: var(--ink-on-dark-secondary); }
+.ars .ev-rows--ghost .ev-row-body { color: var(--ink-on-dark-secondary); }
+.ars .ev-rows--ghost .ev-row-name { text-decoration: line-through; }
+.ars .ev-rows--ghost .ev-check { background: var(--rule-on-dark-strong); border-color: var(--rule-on-dark-strong); stroke: var(--color-charcoal); }
+/* The five that left. Still, they aren't there. Live, they fold away as their
+   screen arrives, one after another, on the row's own transition. */
+.ars [data-fold] { display: none; }
+/* The ticket, and the customer kept out of sight. */
+.ars-ticket { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-md); align-items: center; }
+.ars-ticket img { display: block; width: 100%; height: auto; }
+.ars-ticket blockquote { margin: 0; padding: 0; border: 0; }
+.case-section .ars-ticket p { margin: 0; font-family: var(--font-serif); font-size: var(--text-lg); line-height: var(--leading-body); color: var(--color-charcoal); }
+.ars-tray { margin: var(--space-md); border: 1px dashed var(--rule-on-dark-strong); border-radius: var(--radius-xl); overflow: hidden; }
+.case-section .ars-tray-head,
+.case-section .ars-tray-note { margin: 0; padding: var(--space-xs) var(--space-md); font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--ink-on-dark-secondary); }
+.case-section .ars-tray-head { font-weight: var(--weight-semibold); color: var(--ink-on-dark); }
+.ars-tray .ev-row-body { border-top: 1px solid var(--rule-on-dark); border-bottom: 1px solid var(--rule-on-dark); }
+/* The batch the reader chose. */
+.ars-try { display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xs); margin-top: var(--space-lg); max-width: var(--measure); }
+.ars-live .ars-try { display: grid; }
+[data-batch-shown="birch"] [data-for-batch="routine"],
+[data-batch-shown="routine"] [data-for-batch="birch"] { display: none; }
+.ars-live .ars-try .ship-pick[aria-pressed="true"] { border-color: var(--color-accent-text); }
+@media (max-width: 40rem) {
+  .ars-try { grid-template-columns: minmax(0, 1fr); }
 }
+@media (min-width: 64rem) {
+  .ars { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-3xl) var(--space-4xl); align-items: start; }
+  .ars-step { grid-column: 1; }
+  .ars-fig { grid-column: 2; margin-bottom: 0; }
+}
+@media (min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference) {
+  .ars-live .ars { row-gap: 0; }
+  .ars-live .ars-step { display: flex; flex-direction: column; justify-content: center; min-height: 60svh; }
+  .ars-live .ars-step:first-child { justify-content: flex-start; }
+  .ars-live .ars-fig {
+    grid-row: 1 / span 3;
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-xl));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--motion-state) var(--ease), visibility var(--motion-state) var(--ease);
+  }
+  .ars-live .ars-fig.is-current { opacity: 1; visibility: visible; }
+  .ars-live .ars-fig:not(.is-current) .ev-review,
+  .ars-live .ars-fig:not(.is-current) .ev-bar { animation: none; }
+  .ars-live .ars [data-fold] { display: grid; }
+  .ars-live .ars-fig.is-current [data-fold] { grid-template-rows: 0fr; opacity: 0; }
+}
+
+/* ---- what the checks leave open ---- */
+.ar-open { display: grid; gap: var(--space-xl); margin-top: var(--space-block); padding-top: var(--space-xl); border-top: 1px solid var(--rule-card); }
+.case-section .ar-open-q { margin: 0; max-width: var(--measure); font-family: var(--font-serif); font-size: var(--text-3xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); color: var(--color-charcoal); text-wrap: pretty; }
+.ar-passed { display: grid; gap: var(--space-xs); margin: 0 0 var(--space-md); padding: 0; list-style: none; }
+.ar-passed li { display: flex; align-items: center; gap: var(--space-xs); margin: 0; padding: 0; font-weight: var(--weight-medium); color: var(--color-charcoal); }
+.ar-passed li::before { content: none; }
+.ar-passed .ar-kind-mark { flex: none; width: 1lh; height: 1lh; fill: none; stroke: var(--color-accent-text); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.case-section .ar-open-note { margin: 0; max-width: var(--measure); color: var(--color-muted-gray); text-wrap: pretty; }
+@media (min-width: 64rem) {
+  .ar-open { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); }
+}
+
+/* ---- what the next build inherits ---- */
+.ar-carry { display: grid; gap: var(--space-lg); margin-top: var(--space-block); padding-top: var(--space-xl); border-top: 1px solid var(--rule-card); }
+.ar-carry p { max-width: var(--measure); margin-bottom: 0; text-wrap: pretty; }
+.ar-carry-rules { display: grid; margin: 0; padding: 0; list-style: none; }
+.ar-carry-rules li { margin: 0; padding: var(--space-sm) 0; font-weight: var(--weight-medium); color: var(--color-charcoal); }
+.ar-carry-rules li + li { border-top: 1px solid var(--rule-card); }
+.ar-carry-rules li::before { content: none; }
+@media (min-width: 64rem) {
+  .ar-carry { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); }
+}
+
+/* ---- the evidence ---- */
+.ar-evidence { margin-bottom: var(--space-lg); }
+.arc-standing { margin: var(--space-md) 0 0; max-width: var(--measure); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
 
 /* ---- the rest of the page ---- */
 #findings .writing-facts { margin: var(--space-xl) 0; }
@@ -1013,8 +971,7 @@
   .ship-list li:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
   .ship-list li:nth-child(4) { transition-delay: calc(var(--motion-stagger) * 3); }
   .ship-list li:nth-child(5) { transition-delay: calc(var(--motion-stagger) * 4); }
-  .ship-list li:nth-child(2) .ship-list-tag { transition-delay: var(--motion-stagger); }
-  .ship-list li:nth-child(5) .ship-list-tag { transition-delay: calc(var(--motion-stagger) * 4); }
+  .ship-list li:nth-child(3) .ship-list-tag { transition-delay: calc(var(--motion-stagger) * 2); }
 }
 
 .arc-ship .ship-list-bar { flex-wrap: wrap; }

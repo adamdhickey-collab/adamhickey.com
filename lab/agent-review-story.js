@@ -29,6 +29,11 @@
  * window is marked current, which is position rather than motion, so it
  * runs for a still reader too.
  *
+ * THE STORIES, since 2026-11-07 (agent-review.css, "The story"). The step
+ * crossing the window's middle marks its screen current, which is all the
+ * script does; the stylesheet decides whether that holds a sticky screen or
+ * changes nothing. The last step's two buttons change the batch on its screen.
+ *
  * Nothing here scrolls the page for the reader, and nothing takes the
  * scroll over.
  */
@@ -45,15 +50,41 @@
     });
   });
 
+  document.querySelectorAll('.ars-try').forEach((group) => {
+    const screen = group.closest('.ars-step').nextElementSibling;
+    const buttons = [...group.querySelectorAll('[data-batch]')];
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        screen.dataset.batchShown = button.dataset.batch;
+      });
+    });
+  });
+
   if (!('IntersectionObserver' in window)) return;
+
+  document.querySelectorAll('[data-story]').forEach((story) => {
+    const steps = [...story.querySelectorAll('.ars-step')];
+    const show = (step) => {
+      story.querySelectorAll('.ars-fig').forEach((fig) => {
+        fig.classList.toggle('is-current', fig === step.nextElementSibling);
+      });
+    };
+    show(steps[0]);
+    const middle = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) show(e.target); });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    steps.forEach((step) => middle.observe(step));
+  });
+
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
 
   if (!still) {
     /* Arrivals: fired 4% of a window early, as reveal.js does, so the rise
        has started before the block can be seen. */
-    const RISE = '.arc-head, .ar-kind, .ar-rail, .ar-ticket, .ar-ticket footer,' +
-      ' .ar-cycle-text, .ar-scene, .ev-pair, div.arc-after, .arc-measure,' +
+    const RISE = '.arc-head, .ar-kind, .ar-rail,' +
+      ' .ar-cycle-text, .ar-scene, div.arc-after, .arc-measure,' +
       ' .glance, .case-wide > p';
     const rise = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
@@ -79,7 +110,7 @@
         e.target.classList.add('is-drawn');
       });
     }, { threshold: 0.4 });
-    document.querySelectorAll('.ar-rail, .ar-kinds, .ar-fork').forEach((el) => {
+    document.querySelectorAll('.ar-rail, .ar-kinds').forEach((el) => {
       if (!below(el)) return;
       el.classList.add('is-armed');
       draw.observe(el);

@@ -111,6 +111,9 @@ export const REACHABLE = {
       press: ['[data-pick="undo"]'] },
     { name: 'the opener’s question, confirmed first',
       press: ['[data-pick="confirm"]'] },
+    /* Since 2026-11-07 the decision's last screen has two batches. */
+    { name: 'the decision, on a routine cleanup',
+      press: ['[data-batch="routine"]'] },
     /* Evaluate was six steps beside one stepped screen from 2026-11-02,
        five of them states here; since 2026-11-03 it is two still
        screens side by side, both in the DOM at rest. */

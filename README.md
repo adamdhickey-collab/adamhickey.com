@@ -403,8 +403,9 @@ phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen.
 
-The write-up opens on "Which fix would you ship?" over Relay's customer list,
-a batch selected for archiving, since the evening of 2026-10-26, so the
+The write-up opens on the mistake since 2026-11-07: one cleanup, with Birch
+Logistics in the batch, then "Which fix would you ship?" on the same five. From
+the evening of 2026-10-26 the question was the opener, so the
 opener, the pictures under it, the prototype's first screen, and the
 homepage card follow one feature. Since the same night those pictures are
 the prototype's own: agent-review draws each stage, the opener's batch, and
