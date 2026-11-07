@@ -185,14 +185,34 @@
    box: the same gaps, the same padding above and below inside each step,
    and the same transparent hairline where a tile has its border. Change
    one and the other moves out of level. The lab index gives the panel a
-   16:9 of its own and centers the pair in it (index.css). */
+   16:9 of its own and centers the pair in it (index.css).
+
+   WHITE, SINCE 2026-11-07 (Adam: at a glance the two cards look almost the
+   same; a light theme with a white background). The layout above is still
+   the pair's, so everything stays level; only the palette left. Agent
+   Review keeps the charcoal, and the inks here are the page's own on white:
+   charcoal, muted gray, and accent-text, never the on-dark set. The edge is
+   an inset ring rather than a border, so the panel measures what its
+   neighbor measures, and it is --rule-card because white on tea-light is
+   too close to stand as a surface by itself. The lab index keeps the
+   --shadow-media every .writing-card wears. */
+.case-thumb--still:has(> .explore-still--handoff) { background: var(--color-white); }
 .explore-still--handoff {
   display: flex;
   flex-direction: column;
+  background: var(--color-white);
+  color: var(--color-charcoal);
 }
+.explore-still--handoff .explore-still-title { color: var(--color-charcoal); }
+.explore-still--handoff .explore-still-ask { color: var(--color-accent-text); }
+.explore-still--handoff .explore-still-name { color: var(--color-charcoal); }
+.explore-still--handoff .explore-still-line { color: var(--color-muted-gray); }
 /* On the homepage only: the lab index gives the panel a 16:9 of its own,
    and a height there would stop it growing past that on a phone. */
-.case-thumb--still > .explore-still--handoff { height: 100%; }
+.case-thumb--still > .explore-still--handoff {
+  height: 100%;
+  box-shadow: inset 0 0 0 1px var(--rule-card);
+}
 
 .explore-still .handoff-record {
   display: flex;
@@ -200,11 +220,11 @@
   gap: var(--space-md);
   margin: 0;
   padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--rule-on-dark);
+  border-bottom: 1px solid var(--rule-strong);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   line-height: var(--leading-ui);
-  color: var(--ink-on-dark-muted);
+  color: var(--color-muted-gray);
 }
 .handoff-paid {
   display: flex;
@@ -212,7 +232,7 @@
   gap: var(--space-xs);
   flex: none;
   font-weight: var(--weight-semibold);
-  color: var(--ink-on-dark);
+  color: var(--color-charcoal);
 }
 .handoff-paid::before {
   content: "";
@@ -220,8 +240,8 @@
   width: var(--space-xs);
   height: var(--space-xs);
   border-radius: 50%;
-  background: var(--color-accent-on-dark);
-  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring-on-dark);
+  background: var(--color-accent-text);
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-accent-ring);
 }
 @container (max-width: 29.99rem) {
   .handoff-supplier {
@@ -251,16 +271,18 @@
 }
 .handoff-rail .explore-still-line { margin-top: var(--space-2xs); }
 .handoff-step--done .explore-still-icon {
-  background: var(--color-accent-on-dark);
-  color: var(--color-charcoal);
+  background: var(--color-accent-text);
+  color: var(--color-white);
 }
 .handoff-step--asked .explore-still-icon {
-  box-shadow: inset 0 0 0 1px var(--color-accent-on-dark);
+  background: var(--color-accent-ring);
+  box-shadow: inset 0 0 0 1px var(--color-accent-text);
+  color: var(--color-accent-text);
 }
 .handoff-step--open .explore-still-icon {
   background: none;
-  box-shadow: inset 0 0 0 1px var(--rule-on-dark-strong);
-  color: var(--ink-on-dark-muted);
+  box-shadow: inset 0 0 0 1px var(--color-muted-gray);
+  color: var(--color-muted-gray);
 }
 /* The rail, from one disc to the next, stopping short of both. */
 .handoff-rail li:not(:last-child)::after {
@@ -269,11 +291,11 @@
   top: calc(50% + var(--space-3xl) / 2 + var(--space-2xs));
   height: calc(100% + var(--space-sm) - var(--space-3xl) - 2 * var(--space-2xs));
   left: calc(var(--space-3xl) / 2);
-  border-left: 1px solid var(--color-accent-on-dark);
+  border-left: 1px solid var(--color-accent-text);
 }
 .handoff-rail li.handoff-step--asked::after {
   border-left-style: dashed;
-  border-left-color: var(--rule-on-dark-strong);
+  border-left-color: var(--color-muted-gray);
 }
 
 @container (min-width: 30rem) {
@@ -297,11 +319,11 @@
     left: calc(var(--space-3xl) + var(--space-xs));
     right: calc(var(--space-xs) - var(--space-sm));
     border-left: 0;
-    border-top: 1px solid var(--color-accent-on-dark);
+    border-top: 1px solid var(--color-accent-text);
   }
   .handoff-rail li.handoff-step--asked::after {
     border-top-style: dashed;
-    border-top-color: var(--rule-on-dark-strong);
+    border-top-color: var(--color-muted-gray);
   }
 }
 
