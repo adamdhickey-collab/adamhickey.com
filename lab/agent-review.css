@@ -230,6 +230,9 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* The three on the list who aren't in the batch: an empty box, and no pick
+   changes them. Relay's own unchecked row (relay-screen.css, .ev-check). */
+.ship .ship-list li[data-rest] .ship-list-check { box-sizing: border-box; border: 1px solid var(--rule-on-dark-strong); background: none; stroke: transparent; }
 .ship-list-name { flex: 1; min-width: 0; }
 
 /* The answers: three tiles in a row, one choice. Each is white on the
@@ -632,10 +635,10 @@
    relay-screen.css's step marks. */
 .ars .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
 .ars .ev[data-step] .ev-key.ev-key::after { content: none; }
-.ars .ev-rows--ghost .ev-row { color: var(--ink-on-dark-secondary); }
-.ars .ev-rows--ghost .ev-row-body { color: var(--ink-on-dark-secondary); }
-.ars .ev-rows--ghost .ev-row-name { text-decoration: line-through; }
-.ars .ev-rows--ghost .ev-check { background: var(--rule-on-dark-strong); border-color: var(--rule-on-dark-strong); stroke: var(--color-charcoal); }
+.ars .ev-rows--ghost .ev-row[data-on] { color: var(--ink-on-dark-secondary); }
+.ars .ev-rows--ghost .ev-row[data-on] .ev-row-body { color: var(--ink-on-dark-secondary); }
+.ars .ev-rows--ghost .ev-row[data-on] .ev-row-name { text-decoration: line-through; }
+.ars .ev-rows--ghost .ev-row[data-on] .ev-check { background: var(--rule-on-dark-strong); border-color: var(--rule-on-dark-strong); stroke: var(--color-charcoal); }
 /* The five that left. Still, they aren't there. Live, they fold away as their
    screen arrives, one after another, on the row's own transition. */
 .ars [data-fold] { display: none; }
@@ -943,14 +946,14 @@
    Confirm first: the pop-up every batch would get rises over the list.
    Review: the review's mark sits beside Archive, which goes quiet. */
 .ship-list { position: relative; }
-.ship-list li { transition: color var(--motion-state) var(--ease), translate var(--motion-move) var(--ease-enter); }
+.ship-list li { transition: color var(--motion-state) var(--ease); }
 .ship-list-check { transition: background-color var(--motion-state) var(--ease); }
 .ship-list-tag { transition: background-color var(--motion-state) var(--ease), border-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease); }
 .ship-list-archive { transition: background-color var(--motion-state) var(--ease), color var(--motion-state) var(--ease), box-shadow var(--motion-state) var(--ease); }
-.ship-live .ship[data-picked="undo"] .ship-list li { color: var(--ink-on-dark-secondary); translate: var(--motion-rise-tight) 0; }
-.ship-live .ship[data-picked="undo"] .ship-list-name { text-decoration: line-through; }
-.ship-live .ship[data-picked="undo"] .ship-list-check { background: var(--rule-on-dark-strong); }
-.ship-live .ship[data-picked="undo"] .ship-list-tag--active {
+.ship-live .ship[data-picked="undo"] .ship-list li:not([data-rest]) { color: var(--ink-on-dark-secondary); }
+.ship-live .ship[data-picked="undo"] .ship-list li:not([data-rest]) .ship-list-name { text-decoration: line-through; }
+.ship-live .ship[data-picked="undo"] .ship-list li:not([data-rest]) .ship-list-check { background: var(--rule-on-dark-strong); }
+.ship-live .ship[data-picked="undo"] .ship-list li:not([data-rest]) .ship-list-tag--active {
   background: var(--color-caution-light);
   border-color: var(--color-caution-light);
   color: var(--color-caution-text);
