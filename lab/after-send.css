@@ -537,14 +537,15 @@
    One figure, not four cards: a rail through numbered stops, with the same
    rows under each stop, so the eye can read a screen down or a row across.
    The rail is the claim. The reference is named once over it rather than
-   boxed on every screen, and the two events sit on the rail at the stops
-   where they happen, in the filled disc. Where a screen can fail belongs to
+   boxed on every screen, and the two events are named over the rail at the
+   stops where they happen, in the filled disc, so nothing interrupts the
+   line. Where a screen can fail belongs to
    that screen, so it is the last row of its stop.
 
    Stacked under 64rem, with the rail running down the left. From 64rem the
    stops are four columns on one subgrid, which is what holds each row level
-   however the words wrap: 1 rail, 2 who, 3 name, 4 what, 5 the fail label
-   and its hairline, 6 the fail text. */
+   however the words wrap: 1 the event, 2 rail, 3 who, 4 name, 5 what, 6 the
+   fail label and its hairline, 7 the fail text. */
 .as-flow-figure { --as-stop-disc: 40px; --as-stop-gap: var(--space-2xl); }
 .as-flow {
   list-style: none;
@@ -645,46 +646,44 @@
   .as-flow {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(6, auto);
+    grid-template-rows: repeat(7, auto);
     column-gap: var(--as-stop-gap);
   }
   .as-stop,
   .as-stop:last-child {
     display: grid;
-    grid-row: 1 / span 6;
+    grid-row: 1 / span 7;
     grid-template-rows: subgrid;
     padding: 0;
   }
   .as-stop:not(:last-child)::before { content: none; }
   /* The rail, across: a line from each disc, past the gap, to the next. */
   .as-stop-rail {
-    grid-row: 1;
+    grid-row: 2;
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     min-height: var(--as-stop-disc);
   }
   .as-stop:not(:last-child) .as-stop-rail::after {
     content: '';
     flex: 1 1 0;
-    min-width: var(--space-md);
     height: 2px;
     margin-right: calc(-1 * var(--as-stop-gap));
     background: var(--color-accent-text);
   }
   .as-stop-num { position: static; flex: none; }
-  .as-stop .as-stop-event { margin: 0; flex: 0 1 auto; }
+  .as-stop .as-stop-event { grid-row: 1; }
   /* grid-column on every row: in a one-column subgrid, two items on a row
      with no column named would push the second into a column of its own. */
   .as-stop > * { grid-column: 1; }
-  .as-stop .as-stop-who { grid-row: 2; margin-top: var(--space-lg); }
-  .as-stop .as-stop-name { grid-row: 3; }
-  .as-stop .as-stop-what { grid-row: 4; }
-  /* One hairline across the four, bridging the gaps, at the top of row 5. */
+  .as-stop .as-stop-who { grid-row: 3; margin-top: var(--space-lg); }
+  .as-stop .as-stop-name { grid-row: 4; }
+  .as-stop .as-stop-what { grid-row: 5; }
+  /* One hairline across the four, bridging the gaps, at the top of row 6. */
   .as-stop::after {
     content: '';
     grid-column: 1;
-    grid-row: 5;
+    grid-row: 6;
     align-self: start;
     height: 1px;
     margin-top: var(--space-xl);
@@ -693,7 +692,7 @@
   }
   .as-stop:last-child::after { margin-right: 0; }
   .as-stop .as-stop-fail-label {
-    grid-row: 5;
+    grid-row: 6;
     margin-top: calc(var(--space-xl) + var(--space-lg));
   }
   /* Across the row one label says it for all four. The other three stay in
@@ -707,7 +706,7 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
-  .as-stop .as-stop-fail { grid-row: 6; margin-top: var(--space-xs); }
+  .as-stop .as-stop-fail { grid-row: 7; margin-top: var(--space-xs); }
 }
 
 /* ---------- The two records ----------
