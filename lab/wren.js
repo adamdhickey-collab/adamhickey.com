@@ -385,7 +385,7 @@
          smaller line, with where its date comes from. Since 2026-11-07; until
          then the follow-up led and the call's answer came after it. */
       var sent = dateOf(find(eventsOf(p), 'notice').at);
-      act = '<div class="wr-tell"' + (state.resent[p.id] ? ' tabindex="-1" data-resent' : '') + '><h5 class="wr-tell-h">What to tell them</h5>' +
+      act = '<div class="wr-tell"' + (state.resent[p.id] ? ' tabindex="-1" data-resent' : '') + '><h5 class="wr-tell-h">What to tell ' + esc(p.supplier) + '</h5>' +
         '<p class="wr-tell-line">The card hasn’t been charged, so the invoice is open on both sides. The notice went to ' + p.noticeTo + ' on ' + sent +
         (state.resent[p.id]
           ? ', and again ' + RESENT_AT + '.</p>'
