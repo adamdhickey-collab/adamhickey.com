@@ -79,14 +79,21 @@ async function run(name, body, opts = {}) {
 
 /* ---------- the cases ---------- */
 
-await run('a fresh load is the buyer’s list, already searched, and clearing shows all five', async (t) => {
+await run('a fresh load is the buyer’s whole list, the button searches, and clearing shows all five', async (t) => {
   await t.on('list');
-  t.ok((await t.page.inputValue('[data-search]')) === 'INV-20483', 'the box holds the reference');
-  t.ok((await t.rows()) === 1, `one row on load, saw ${await t.rows()}`);
+  t.ok((await t.page.inputValue('[data-search]')) === '', 'the box is empty');
+  t.ok((await t.rows()) === 5, `all five on load, saw ${await t.rows()}`);
   t.ok((await t.step()) === '1', 'step 1 is current');
+  t.ok(await t.page.$eval('[data-clear-search]', (b) => getComputedStyle(b).display === 'none'), 'nothing to clear yet');
+  t.ok((await t.page.textContent('[data-wren-next]')).includes('Search INV-20483'), 'the first press is the search');
+  await t.press('[data-search-followed]');
+  t.ok((await t.page.inputValue('[data-search]')) === 'INV-20483', 'the box holds the reference');
+  t.ok((await t.rows()) === 1, `one row once searched, saw ${await t.rows()}`);
+  t.ok((await t.step()) === '1', 'still step 1');
+  t.ok((await t.page.textContent('[data-wren-next]')).includes('Open INV-20483'), 'the next press opens it');
   await t.press('[data-clear-search]');
   t.ok((await t.rows()) === 5, `five rows once cleared, saw ${await t.rows()}`);
-  t.ok((await t.page.inputValue('[data-search]')) === '', 'the box is empty');
+  t.ok((await t.page.inputValue('[data-search]')) === '', 'the box is empty again');
   t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-search')), 'focus goes to the box');
   t.ok(await t.page.$eval('[data-clear-search]', (b) => getComputedStyle(b).display === 'none'), 'Clear search leaves with the words');
   await t.type('[data-search]', 'cedar');
@@ -96,8 +103,8 @@ await run('a fresh load is the buyer’s list, already searched, and clearing sh
   await t.includes('Processed, ready to match');
   await t.includes('Processed and matched');
   await t.includes('Expired, not processed');
-  t.ok(await t.has('[data-scenario="default"][aria-pressed="true"]'), 'default scenario pressed');
-  t.ok(await t.has('[data-role="buyer"][aria-pressed="true"]'), 'buyer role pressed');
+  t.ok(!(await t.has('[aria-pressed]')), 'no switch over the window');
+  t.ok((await t.page.$$('[data-wren] .as-steps button, [data-wren] .as-steps a')).length === 0, 'the steps only report');
 });
 
 await run('search by invoice reference finds one row; by supplier, two; nonsense, none, with a way back', async (t) => {
@@ -116,7 +123,6 @@ await run('search by invoice reference finds one row; by supplier, two; nonsense
 });
 
 await run('the status filter narrows to the waiting payment, and combines with search', async (t) => {
-  await t.press('[data-clear-search]');
   await t.select('[data-filter]', 'waiting');
   t.ok((await t.rows()) === 1, `one waiting payment, saw ${await t.rows()}`);
   await t.includes('Larkspur Packaging');
@@ -155,7 +161,8 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.press('[data-role="supplier"]');
   await t.on('notice');
   t.ok((await t.step()) === '3', 'step 3 on the notice');
-  t.ok((await t.active()).startsWith('wr-title'), 'the notice takes focus');
+  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), 'the button keeps focus, for the next press');
+  t.ok((await t.status()).includes('Now you’re Larkspur'), `the live region reads the story’s line: "${await t.status()}"`);
   await t.includes('Payment notice from Fieldstone Foods');
   await t.includes('$4,860.00 for invoice INV-20483');
   await t.includes('Valid through Nov 27');
@@ -206,17 +213,20 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.includes('Processed and matched');
 });
 
-await run('the supplier before any record is open shows the followed payment', async (t) => {
+/* The story, as far as the invoice closing, and on to the exception. */
+const closeLoop = async (t) => {
+  await t.press('[data-open="larkspur-20483"]');
   await t.press('[data-role="supplier"]');
-  await t.on('notice');
-  await t.includes('INV-20483');
+  await t.press('[data-process]');
   await t.press('[data-role="buyer"]');
-  await t.on('detail');
-  await t.includes('Larkspur Packaging · INV-20483');
-});
+  await t.press('[data-review]');
+  await t.press('[data-confirm-match]');
+};
+const toException = async (t) => { await closeLoop(t); await t.press('[data-scenario="expired"]'); };
+const hint = (t) => t.page.$eval('[data-wren-hint]', (h) => h.textContent);
+const done = (t) => t.page.$$eval('[data-wren-step][data-done]', (l) => l.length);
 
 await run('Escape closes the match panel and returns focus to its button', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="bright-30077"]');
   await t.includes('Ready to match to invoice');
   await t.press('[data-review]');
@@ -229,7 +239,7 @@ await run('Escape closes the match panel and returns focus to its button', async
 });
 
 await run('the expired scenario: what expired, what happened, who acts next, and nothing issued', async (t) => {
-  await t.press('[data-scenario="expired"]');
+  await toException(t);
   await t.on('detail');
   t.ok((await t.step()) === '5', 'step 5 in the expired scenario');
   await t.includes('Expired Nov 4, not processed');
@@ -248,99 +258,52 @@ await run('the expired scenario: what expired, what happened, who acts next, and
   await t.press('[data-close-replace]');
   await t.excludes('Replacement options');
   t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-replace')), 'closing returns focus to its button');
-  /* The supplier's notice agrees. */
-  await t.press('[data-role="supplier"]');
-  await t.includes('This payment expired Nov 4 and can no longer be processed');
-  t.ok(!(await t.has('[data-process]')), 'an expired payment cannot be processed');
-  /* The list agrees too. */
-  await t.press('[data-role="buyer"]');
+  /* The list agrees. */
   await t.press('[data-back]');
   await t.select('[data-filter]', 'expired');
   t.ok((await t.rows()) === 2, `two expired payments in this scenario, saw ${await t.rows()}`);
 });
 
-await run('Start over puts everything back, after processing and matching', async (t) => {
-  await t.press('[data-open="larkspur-20483"]');
-  await t.press('[data-role="supplier"]');
-  await t.press('[data-process]');
-  await t.press('[data-role="buyer"]');
-  await t.press('[data-review]');
-  await t.press('[data-confirm-match]');
+await run('Start over puts everything back, at the end of the story', async (t) => {
+  await toException(t);
+  await t.press('[data-replace]');
   await t.press('[data-reset]');
   await t.on('list');
   t.ok((await t.step()) === '1', 'step 1 after reset');
-  t.ok(await t.has('[data-role="buyer"][aria-pressed="true"]'), 'buyer role after reset');
-  await t.type('[data-search]', 'INV-20483');
+  t.ok((await done(t)) === 0, 'Start over clears the rail');
   await t.includes('Not processed yet');
   await t.press('[data-open="larkspur-20483"]');
   await t.includes('Activity, 3 events');
 });
 
-await run('switching scenario mid-run starts that scenario fresh', async (t) => {
+await run('the story’s line follows the state, and it ends', async (t) => {
   await t.press('[data-open="larkspur-20483"]');
   await t.press('[data-role="supplier"]');
+  t.ok((await hint(t)).includes('Now you’re Larkspur'), 'the notice says whose side this is');
   await t.press('[data-process]');
-  await t.press('[data-scenario="expired"]');
-  await t.includes('Expired Nov 4, not processed');
-  await t.excludes('Processed by supplier');
-  await t.press('[data-scenario="default"]');
-  await t.on('list');
-  await t.press('[data-open="larkspur-20483"]');
-  await t.includes('Not processed yet');
-});
-
-/* What the walkthrough says, and that it never asks for a press that is gone. */
-const hint = (t) => t.page.$eval('[data-wren-hint]', (h) => h.textContent);
-const done = (t) => t.page.$$eval('[data-wren-step][data-done]', (l) => l.length);
-const closeLoop = async (t) => {
-  await t.press('[data-open="larkspur-20483"]');
-  await t.press('[data-role="supplier"]');
-  await t.press('[data-process]');
+  t.ok((await hint(t)).includes('Processed'), `the line moves on: ${await hint(t)}`);
   await t.press('[data-role="buyer"]');
-  await t.press('[data-review]');
-  await t.press('[data-confirm-match]');
-};
-
-await run('the walkthrough’s hint follows the state, and it ends', async (t) => {
-  await t.press('[data-open="larkspur-20483"]');
-  await t.press('[data-role="supplier"]');
-  t.ok((await hint(t)).includes('Press Process this payment'), 'the notice asks for the press');
-  await t.press('[data-process]');
-  t.ok(!(await hint(t)).includes('Press Process'), `no hint for a press that is gone: ${await hint(t)}`);
-  await t.press('[data-next]');
   await t.on('detail');
-  t.ok((await t.step()) === '4', 'the guide’s offer goes back to the buyer');
-  await t.press('[data-role="supplier"]');
-  t.ok((await t.step()) === '3', 'still step 3 on the notice');
-  await t.press('[data-role="buyer"]');
+  t.ok((await t.step()) === '4', 'the button goes back to the buyer');
   await t.press('[data-review]');
   await t.press('[data-confirm-match]');
-  t.ok((await t.page.textContent('[data-wren-next]')).includes('Expired payment'), 'the end offers the exception');
-  t.ok(!(await hint(t)).includes('confirm it'), 'no hint to confirm what is confirmed');
+  t.ok((await t.page.textContent('[data-wren-next]')).includes('See the exception'), 'the end offers the exception');
   t.ok((await done(t)) === 4, 'four steps done');
   t.ok((await t.step()) === '5', 'the exception is next');
-  await t.press('[data-role="supplier"]');
-  t.ok((await t.step()) === '5' && (await done(t)) === 4, 'the rail does not go backwards');
-  await t.press('[data-role="buyer"]');
   await t.press('[data-scenario="expired"]');
   t.ok((await done(t)) === 4, 'the walked steps stay done in the exception');
-  await t.press('[data-reset]');
-  t.ok((await done(t)) === 0 && (await t.step()) === '1', 'Start over clears the rail');
 });
 
 await run('a payment the walkthrough doesn’t follow says so, and offers the way back', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="cedar-11920"]');
   t.ok((await hint(t)).includes('Another payment'), `opened another payment: ${await hint(t)}`);
-  await t.press('[data-role="supplier"]');
-  t.ok(!(await hint(t)).includes('Larkspur'), `no Larkspur on Cedar Ridge’s notice: ${await hint(t)}`);
   await t.press('[data-follow]');
   await t.on('detail');
   await t.includes('Larkspur Packaging · INV-20483');
-  t.ok(await t.has('[data-role="buyer"][aria-pressed="true"]'), 'back in the buyer’s role');
 });
 
 await run('anywhere on a row opens it; the name is a real button; a drag across the words doesn’t', async (t) => {
+  await t.press('[data-search-followed]');
   t.ok(!(await t.has('.wr-open')), 'no Open link at the end of the row');
   t.ok(await t.page.$eval('[data-wren] .wr-row-caret', (c) => c.getBoundingClientRect().width > 10), 'the row’s caret is drawn');
   t.ok(await t.page.$eval('[data-wren] tbody th button', (b) => b.textContent.startsWith('Larkspur Packaging') && b.hasAttribute('data-open')), 'the supplier’s name is the button');
@@ -373,30 +336,35 @@ await run('Enter in the search opens the one it found, and not one of two', asyn
   await t.on('detail');
 });
 
-await run('the guide’s one button walks the whole story, and what it presses is marked', async (t) => {
-  const walked = [];
-  for (let i = 0; i < 12; i++) {
-    const label = (await t.page.textContent('[data-wren-next] button')).replace(/\s*→\s*$/, '');
-    walked.push(label);
-    const marked = await t.page.$$eval('[data-wren] [data-target]', (l) => l.length);
-    t.ok(marked === 1, `one mark at "${label}", saw ${marked}`);
-    if (label === 'Start over') break;
+for (const width of [1440, 1024, 768]) {
+  await run(`at ${width} the one button walks the whole story, holds its place, and nothing is marked`, async (t) => {
+    const walked = [];
+    const spots = new Set();
+    for (let i = 0; i < 12; i++) {
+      const label = (await t.page.textContent('[data-wren-next] button')).replace(/\s*→\s*$/, '');
+      walked.push(label);
+      t.ok((await t.page.$$eval('[data-wren] [data-target]', (l) => l.length)) === 0, `nothing marked at "${label}"`);
+      /* Measured against the guide, because the page may scroll under it. */
+      spots.add(await t.page.$eval('[data-wren-next] button', (b) => { const r = b.getBoundingClientRect(), g = b.closest('.as-guide').getBoundingClientRect(); return `${r.left - g.left},${r.top - g.top}`; }));
+      if (label === 'Start over') break;
+      await t.press('[data-wren-next] button');
+      t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), `focus stays on the button after "${label}"`);
+    }
+    const want = ['Search INV-20483', 'Open INV-20483', 'See Larkspur’s side', 'Process this payment', 'Back to the buyer', 'Review match', 'Confirm match', 'See the exception', 'Review replacement options', 'Start over'];
+    t.ok(walked.join('|') === want.join('|'), `the presses, in order: ${walked.join(' | ')}`);
+    t.ok(spots.size === 1, `the button holds one place: ${[...spots].join(' ')}`);
+    t.ok(await t.page.$eval('[data-wren-next] button', (b) => Math.abs(b.getBoundingClientRect().left - document.querySelector('.as-steps').getBoundingClientRect().left) <= 1), 'the button starts on the steps’ left edge');
     await t.press('[data-wren-next] button');
-  }
-  const want = ['Open INV-20483', 'Switch to Supplier', 'Process this payment', 'Back to Buyer', 'Review match', 'Confirm match', 'Expired payment', 'Review replacement options', 'Start over'];
-  t.ok(walked.join('|') === want.join('|'), `the presses, in order: ${walked.join(' | ')}`);
-  await t.press('[data-wren-next] button');
-  await t.on('list');
-  t.ok((await t.page.inputValue('[data-search]')) === 'INV-20483', 'Start over searches again');
-  t.ok(await t.has('tr[data-row="larkspur-20483"][data-target]'), 'the row is marked again');
-});
+    await t.on('list');
+    t.ok((await t.page.inputValue('[data-search]')) === '' && (await t.rows()) === 5, 'Start over is the whole list again');
+  }, { viewport: { width, height: 1000 } });
+}
 
-await run('a search that loses the row offers it back, and never marks what isn’t there', async (t) => {
+await run('a search that loses the row offers it back', async (t) => {
   await t.type('[data-search]', 'cedar');
   t.ok((await t.page.textContent('[data-wren-next]')).includes('Search INV-20483'), 'the guide offers the search');
-  t.ok(!(await t.has('[data-target]')), 'nothing is marked');
   await t.press('[data-search-followed]');
-  t.ok((await t.rows()) === 1 && await t.has('tr[data-row="larkspur-20483"][data-target]'), 'the row is back, and marked');
+  t.ok((await t.rows()) === 1, 'the row is back');
 });
 
 /* Alignment, measured: each is a defect the eye found first. */
@@ -408,7 +376,6 @@ const centerOffsets = (t) => t.page.$$eval('[data-wren] tbody tr', (rows) => row
 
 for (const width of [768, 900, 1024, 1280]) {
   await run(`at ${width} the rows hold their middle and the table fits its frame`, async (t) => {
-    await t.press('[data-clear-search]');
     const off = await centerOffsets(t);
     t.ok(off.length === 15 && off.every((d) => d <= 1), `every mark and amount on its row’s middle: ${off.map((d) => d.toFixed(1)).join(' ')}`);
     t.ok(await t.page.$eval('[data-wren] .wr-table-wrap', (w) => w.scrollWidth <= w.clientWidth + 1), 'the table fits, carets included');
@@ -449,7 +416,6 @@ await run('on a phone the result of Confirm match is on screen, below the nav', 
 }, { viewport: { width: 375, height: 800 } });
 
 await run('on a phone the match panel opens where it can be seen', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="bright-30077"]');
   await t.press('[data-review]');
   const box = await t.page.$eval('[data-wren] #wr-match', (f) => f.getBoundingClientRect().top);
@@ -457,19 +423,20 @@ await run('on a phone the match panel opens where it can be seen', async (t) => 
 }, { viewport: { width: 375, height: 800 } });
 
 await run('one primary at a time while a panel is open', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="bright-30077"]');
   await t.press('[data-review]');
   t.ok(!(await t.has('[data-review]')), 'Review match gives way to the panel');
   await t.press('[data-decline-match]');
   t.ok(await t.has('[data-review]'), 'Review match is back');
-  await t.press('[data-scenario="expired"]');
+});
+
+await run('one primary while the replacement options are open', async (t) => {
+  await toException(t);
   await t.press('[data-replace]');
   t.ok(!(await t.has('[data-replace]')), 'Review replacement options gives way to the panel');
 });
 
 await run('a match that disagrees can’t be confirmed, and leaving it says what’s next', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="bright-30077"]');
   await t.includes('for $12,040.00');
   await t.press('[data-review]');
@@ -500,7 +467,6 @@ await run('a supplier on the phone: when to follow up, who got the notice, and s
 });
 
 await run('the list puts what needs you first, and states validity', async (t) => {
-  await t.press('[data-clear-search]');
   const first = await t.page.$$eval('[data-wren] tbody tr', (r) => r.map((x) => x.getAttribute('data-row')));
   t.ok(first[0] === 'tamsin-0921' && first[1] === 'bright-30077', `expired, then ready: ${first.join(', ')}`);
   await t.includes('5 payments, 2 need you');
@@ -509,7 +475,6 @@ await run('the list puts what needs you first, and states validity', async (t) =
 });
 
 await run('the facts don’t wear one check while one is open; an unfolded activity stays open', async (t) => {
-  await t.press('[data-clear-search]');
   await t.press('[data-open="bright-30077"]');
   const paths = await t.page.$$eval('[data-wren] .wr-fact-head svg', (s) => s.map((x) => x.innerHTML));
   t.ok(paths.length === 2 && paths[0] !== paths[1], 'processed and ready are different marks');
