@@ -1,8 +1,7 @@
 /* after-send.css -- the After Send write-up's own rules: the demo's rail
    and controls around the window, and the figures drawn in code (the flow
-   and the two wireframes; the decisions are decisions.css, The Shortlist's
-   ledger). One page loads this file, lab/after-send.html, after style.css,
-   decisions.css, and wren.css. Until the second pass of 2026-11-06 it also
+   and the two wireframes) and the story's two figures. One page loads this
+   file, lab/after-send.html, after style.css and wren.css. Until the second pass of 2026-11-06 it also
    drew a six-lane service map, the states, a design-to-build check table,
    and three research columns; those figures left with that pass, which cut
    the page to what a reader scans.
@@ -49,174 +48,314 @@
   color: var(--color-muted-gray);
 }
 
-/* ---------- The payment flow, before the prototype ----------
-   One rail, and the handoff is the line itself: the supplier's steps stand
-   above it on tea-light, the buyer's below it on the card, so the steps read
-   across in order and the eye still sees two companies taking turns. The
-   discs are the architecture figure's, filled for the two events the page is
-   about, processing and matching. The bar under the buyer's side starts at
-   step 2 and runs to the end, which is the whole argument: one word covering
-   three steps.
+/* ---------- The story ----------
+   One invoice through two companies, then the record that answers for it.
+   Beats are text in order. The figure holds still beside them only where
+   there is room and motion is welcome, the media query below. Otherwise every
+   beat carries its own copy of the figure (after-send-story.js clones it), so
+   each state can be read without seeing a change. Under .as-live, an element
+   with data-on shows only with .is-on; without script, everything shows.
 
-   Stacked under 64rem, with the rail down the left and each step on its
-   company's ground. From 64rem the steps are four columns on one subgrid: 1
-   the supplier's side, 2 the rail, 3 the buyer's side. Each step spans all
-   three, with its text in its own company's row. The call is a child of step
-   2 because that is when it happens; from 64rem it stands in the empty cell
-   above step 2, and its tick lands on the rail just short of step 3. */
-.as-how { padding: var(--space-block) 0 0; }
-.as-how .as-how-figure { --as-how-disc: 40px; margin: 0; width: auto; }
-.as-how-steps { list-style: none; margin: 0; padding: 0; }
-.as-how-step {
-  position: relative;
-  display: grid;
-  grid-template-columns: var(--as-how-disc) minmax(0, 1fr);
-  column-gap: var(--space-md);
-  margin-inline: calc(-1 * var(--as-pad-x));
-  padding: var(--space-lg) var(--as-pad-x);
-}
-.as-how-step::before { content: none; }
-.as-how-step--supplier { background: var(--color-tea-light); }
-/* The rail, stacked: through this step, from its disc to the next one's. */
-.as-how-step:not(:last-child)::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--as-pad-x) + var(--as-how-disc) / 2 - 1px);
-  top: var(--space-lg);
-  bottom: calc(-1 * var(--space-lg));
-  width: 2px;
-  background: var(--color-accent-text);
-  z-index: 1;
-}
-.as-how-disc {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: var(--as-how-disc);
-  height: var(--as-how-disc);
-  border: 2px solid var(--color-accent-text);
-  border-radius: 50%;
-  background: var(--color-white);
-  color: var(--color-accent-text);
+   A .as-zone stacks its children in one grid cell when the figure is held, so
+   the cell is as tall as its tallest moment and the figure never changes size
+   mid-scroll. No moment dims the text beside it: every beat stays at full ink,
+   so a reader can stop anywhere and read. */
+.as-story { margin-top: var(--space-2xl); }
+.as-beats { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3xl); }
+.as-beat { margin: 0; padding: 0; }
+.as-beat::before { content: none; }
+.as-beat-text { max-width: var(--measure); }
+.as-beat-text > :last-child { margin-bottom: 0; }
+.as-beat-text h3 { margin-top: 0; }
+.case-section .as-beat-kicker {
+  margin: 0 0 var(--space-xs);
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.as-how-step--event .as-how-disc { background: var(--color-accent-text); color: var(--color-white); }
-.as-how-text { min-width: 0; }
-.as-how-step p { margin: 0; font-family: var(--font-sans); text-wrap: pretty; }
-.as-how-step .as-how-who {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.case-section .as-short { margin: var(--space-3xl) 0 var(--space-md); }
+@media (min-width: 64rem) { #the-answer .as-facts { width: var(--col-full); max-width: none; } }
+.as-beat-why b { font-weight: var(--weight-semibold); }
+.case-section .as-beat-act { margin: var(--space-lg) 0 0; }
+
+/* The figure. A beat's own copy sits under its text. */
+.as-stage {
+  margin: 0;
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-md);
+  background: var(--figure-card);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+@media (min-width: 640px) { .as-stage { padding: var(--space-xl); } }
+.as-beat > .as-stage { margin-top: var(--space-lg); }
+.as-live .as-story > .as-stage { display: none; }
+.as-zone { display: grid; min-width: 0; }
+.as-live [data-on]:not(.is-on) { display: none; }
+.as-stage p { margin: 0; font-family: var(--font-sans); }
+.as-field {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
   color: var(--color-muted-gray);
 }
-.as-how-step .as-how-name {
-  margin-top: var(--space-2xs);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
+.as-mark { flex: none; width: 1lh; height: 1lh; color: var(--color-accent-text); }
+
+/* The invoice: the one object that never leaves the first figure. */
+.as-inv {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-md);
+  row-gap: var(--space-2xs);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--rule-strong);
 }
-.as-how-step .as-how-what {
-  margin-top: var(--space-2xs);
-  font-size: var(--text-sm);
+.as-stage .as-inv-ref {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.as-how-step .as-how-call {
-  grid-column: 2;
-  margin-top: var(--space-sm);
+.as-stage .as-inv-amount {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  font-variant-numeric: tabular-nums;
+}
+.as-stage .as-inv-item {
+  grid-row: 2;
   font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-stage .as-inv-status {
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: end;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
   color: var(--color-accent-text);
 }
-.as-how-call strong { font-weight: var(--weight-semibold); }
-/* A reference breaks at its hyphen otherwise, and it is one word. */
-.as-how-ref { white-space: nowrap; }
-.case-section .as-how-paid,
-.as-how-paid {
-  margin: var(--space-md) 0 0;
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-charcoal);
-  border-radius: var(--radius-xl);
-  font-family: var(--font-sans);
+
+/* Moment 1: the person. The drawing's paper is near white, so it multiplies
+   into the chapter when it sits on one; on the card it sits on its own white
+   only if the card is. */
+.as-call { display: grid; gap: var(--space-md); align-items: center; }
+.as-call-art { display: block; width: 100%; max-width: 16rem; height: auto; justify-self: center; mix-blend-mode: multiply; }
+.as-stage .as-call-said {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.as-call-said .as-field { margin-bottom: var(--space-2xs); }
+@media (min-width: 640px) { .as-call { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+
+/* Moments 2 and 3: the two sides. The notice crosses in the second. */
+.as-sides {
+  --as-side-gap: var(--space-md);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--as-side-gap);
+  align-content: start;
+}
+.as-side { display: grid; gap: var(--space-2xs); align-content: start; min-width: 0; }
+.as-stage .as-side-name {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-ui);
-  color: var(--ink-on-dark);
+  color: var(--color-charcoal);
 }
-@media (min-width: 64rem) {
-  .as-how-steps {
+.as-stage .as-side-role {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-stage .as-side-word {
+  margin-top: var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.as-side-word .as-field { margin-bottom: var(--space-2xs); }
+.as-stage .as-slip {
+  grid-column: 1;
+  padding: var(--space-sm);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+}
+.as-stage[data-moment="3"] .as-slip { translate: calc(100% + var(--as-side-gap)) 0; }
+.as-stage .as-todo {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: var(--space-xs);
+  font-size: var(--text-base);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-todo strong { font-weight: var(--weight-semibold); }
+
+/* Moment 4: the word comes apart. */
+.as-three { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-md); align-content: start; }
+.as-three li {
+  display: flex;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.as-three li::before { content: none; }
+.as-three strong { font-weight: var(--weight-semibold); }
+
+/* The record, close up: only enough interface to read the decision. */
+.as-rec-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.as-rec { display: grid; gap: var(--space-lg); align-content: start; min-width: 0; }
+.as-stage .as-rec-whose {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-accent-text);
+}
+.as-rec-facts { display: grid; gap: var(--space-md); margin: 0; }
+.as-rec-facts > div { display: grid; gap: var(--space-2xs); }
+.as-rec-facts dt, .as-notice dt {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-rec-facts dd, .as-notice dd { margin: 0; font-family: var(--font-sans); }
+.as-rec-state {
+  display: flex;
+  gap: var(--space-xs);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-rec-state--stale, .as-rec-state--stale .as-mark { color: var(--color-caution-text); }
+.as-rec-line {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-rec-tell { display: grid; gap: var(--space-xs); padding-top: var(--space-md); border-top: 1px solid var(--rule-card); align-content: start; }
+.as-stage .as-rec-h {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.as-stage .as-rec-say {
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+.as-stage .as-rec-next {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+.as-rec-next strong { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
+.as-notice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); margin: 0; }
+.as-notice dd { font-size: var(--text-base); line-height: var(--leading-ui); color: var(--color-charcoal); margin-top: var(--space-2xs); }
+
+/* The switch waits for script: without it the figure already shows both. */
+.as-show-view { display: none; }
+.as-live .as-show-view { display: inline-flex; }
+
+/* HELD. Room for two columns, height for the figure, and motion welcome. */
+@media (min-width: 64rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference) {
+  .as-live .as-story {
+    width: var(--col-full);
+    max-width: none;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: auto var(--as-how-disc) auto;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: var(--space-4xl);
+    align-items: start;
   }
-  /* The supplier's ground, from the card's edges to the rail's center. */
-  .as-how-steps::before {
-    content: '';
-    grid-area: 1 / 1 / 3 / -1;
-    margin-inline: calc(-1 * var(--as-pad-x));
-    margin-bottom: calc(var(--as-how-disc) / 2);
-    background: var(--color-tea-light);
-  }
-  .as-how-step {
-    grid-row: 1 / -1;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: subgrid;
-    column-gap: 0;
-    margin: 0;
-    padding: 0;
-    background: none;
-  }
-  .as-how-step:nth-child(1) { grid-column: 1; }
-  .as-how-step:nth-child(2) { grid-column: 2; }
-  .as-how-step:nth-child(3) { grid-column: 3; }
-  .as-how-step:nth-child(4) { grid-column: 4; }
-  .as-how-disc { grid-row: 2; grid-column: 1; }
-  .as-how-text { padding-right: var(--space-xl); }
-  .as-how-step--supplier .as-how-text { grid-row: 1; padding-block: var(--space-xl) var(--space-md); }
-  .as-how-step--buyer .as-how-text { grid-row: 3; padding-block: var(--space-md) var(--space-sm); }
-  /* The rail, across: this disc to the next. */
-  .as-how-step:not(:last-child)::before {
-    position: relative;
-    left: auto;
-    top: auto;
-    bottom: auto;
-    width: auto;
-    height: 2px;
-    grid-row: 2;
-    grid-column: 1;
-    align-self: center;
-  }
-  .as-how-step .as-how-call {
-    position: relative;
+  .as-live .as-story > .as-stage {
+    --as-stage-half: 12rem;
+    display: grid;
+    grid-column: 2;
     grid-row: 1;
-    grid-column: 1;
-    align-self: end;
-    margin: 0 var(--space-xl) 0 0;
-    padding: var(--space-xl) var(--space-md) var(--space-md) 0;
-    text-align: right;
+    position: sticky;
+    /* Centered in the window under the nav, as the beats are: half the figure's
+       measured height, 24rem for the invoice, 25rem for the record. */
+    top: calc((100vh + var(--nav-height)) / 2 - var(--as-stage-half));
   }
-  .as-how-call strong { display: block; }
-  /* The tick, from under the note down to the rail. */
-  .as-how-call::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: var(--space-xl);
-    bottom: calc(-1 * var(--as-how-disc) / 2);
-    width: 2px;
-    background: var(--color-accent-text);
+  .as-live .as-story > .as-stage--record { --as-stage-half: 12.5rem; }
+  .as-live .as-beats { grid-column: 1; grid-row: 1; gap: 0; }
+  .as-live .as-beat { min-height: 75vh; display: flex; align-items: center; }
+  .as-live .as-beat:first-child { min-height: 60vh; align-items: flex-start; }
+  .as-live .as-beat > .as-stage { display: none; }
+  .as-live .as-story > .as-stage .as-zone > * { grid-area: 1 / 1; }
+  .as-live .as-story > .as-stage [data-on] {
+    transition: opacity var(--motion-enter) var(--ease-enter), translate var(--motion-enter) var(--ease-enter), visibility var(--motion-enter);
   }
-  .case-section .as-how-paid,
-  .as-how-paid { margin: var(--space-sm) 0 0 25%; border-radius: var(--radius-pill); }
+  .as-live .as-story > .as-stage .as-call[data-on],
+  .as-live .as-story > .as-stage .as-sides[data-on],
+  .as-live .as-story > .as-stage .as-three[data-on],
+  .as-live .as-story > .as-stage .as-rec[data-on],
+  .as-live .as-story > .as-stage .as-rec-tell[data-on] { display: grid; }
+  .as-live .as-story > .as-stage p.as-slip[data-on] { display: block; }
+  .as-live .as-story > .as-stage p.as-todo[data-on] { display: flex; }
+  .as-live .as-story > .as-stage [data-on]:not(.is-on) { opacity: 0; visibility: hidden; }
+  .as-live .as-story > .as-stage .as-zone > [data-on]:not(.is-on) { translate: 0 var(--motion-rise); }
+  .as-live .as-stage .as-slip { transition: opacity var(--motion-state) var(--ease), translate var(--motion-enter) var(--ease-enter); }
 }
+/* Side by side from 64rem wherever the figure is not held. */
+@media (min-width: 64rem) and (max-height: 43.99rem), (min-width: 64rem) and (prefers-reduced-motion: reduce) {
+  .as-beat:has(> .as-stage) { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: var(--space-4xl); align-items: start; }
+  .as-beat > .as-stage { margin-top: 0; }
+  .as-story:has(.as-beat > .as-stage) { width: var(--col-full); max-width: none; }
+}
+
+/* The return: the opening's drawing with its question clipped away, and the
+   answer where the bubble was. */
+.as-answer { position: relative; margin: 0; display: grid; gap: var(--space-md); }
+.as-answer-art {
+  display: block;
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  mix-blend-mode: multiply;
+  clip-path: polygon(0 0, 53.5% 0, 53.5% 38%, 100% 38%, 100% 100%, 0 100%);
+}
+.as-answer-said {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--color-charcoal);
+}
+.as-answer-said .as-field { margin-bottom: var(--space-xs); }
 
 /* ---------- The demo, around the window ----------
    The section stands the same distance from the hero above it as from the
@@ -692,53 +831,6 @@
   .as-split > .writing-measure { width: auto; max-width: var(--measure); margin: 0; }
 }
 
-/* "Paid", coming apart. The line is one pen, 1.25 like the Agent Review rail's,
-   and it draws once when armed below the fold; nothing else waits on it. */
-.as-paid { display: grid; gap: var(--space-md); }
-.as-paid-who { display: grid; justify-items: center; gap: var(--space-xs); align-self: center; }
-/* The painted specialist, the account manager's hand on Agent Review. Its paper
-   is near white, so it multiplies into the chapter's white. */
-.as-paid-art { display: block; width: 100%; max-width: 14rem; height: auto; mix-blend-mode: multiply; }
-.case-section .as-paid-word {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-4xl);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-}
-.as-paid-lines { display: none; }
-.as-paid-lines path { fill: none; stroke: var(--color-accent-text); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-/* A reveal rather than a dash: the drawing stretches to its row, and a dash
-   pattern on a stretched path breaks into pieces. */
-.as-paid.is-armed .as-paid-lines { clip-path: inset(0 100% 0 0); }
-.as-paid.is-drawn .as-paid-lines { animation: as-reveal var(--motion-draw) var(--ease) forwards; }
-@keyframes as-reveal { to { clip-path: inset(0); } }
-@media (prefers-reduced-motion: reduce) {
-  .as-paid.is-armed .as-paid-lines { clip-path: none; animation: none; }
-}
-.as-paid-facts { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
-.as-paid-facts li {
-  display: grid;
-  grid-template-columns: 1lh minmax(0, 1fr);
-  align-items: center;
-  column-gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-.as-paid-facts li::before { content: none; }
-.as-paid-facts strong { font-weight: var(--weight-semibold); }
-.as-paid-mark { width: 1lh; height: 1lh; color: var(--color-accent-text); }
-@media (min-width: 64rem) {
-  .as-paid { grid-template-columns: minmax(0, 2fr) var(--space-block) minmax(0, 4fr); column-gap: 0; align-items: stretch; }
-  .as-paid-lines { display: block; width: 100%; height: 100%; }
-  .as-paid-facts { padding-left: var(--space-sm); }
-}
-
 /* The two records' answers wait for a press, live only, in a slot that holds
    their height, so nothing moves when they arrive. Still or without script they
    are simply there. */
@@ -765,7 +857,7 @@
   padding-top: var(--space-3xl);
   border-top: 1px solid var(--rule-strong);
 }
-/* The three supporting decisions, as a bold-led list under the ledger. */
+/* The three supporting decisions, as a bold-led list under the story. */
 .as-support { margin-top: var(--space-2xl); }
 .as-support > p { margin-bottom: var(--space-sm); }
 /* The study is proposed, and the card says so first, in the kicker's own

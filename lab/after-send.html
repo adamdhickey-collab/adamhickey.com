@@ -102,9 +102,8 @@
   <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
   <link rel="stylesheet" href="../related.css?v=3" />
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
-  <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=9" />
-  <link rel="stylesheet" href="after-send.css?v=20" />
+  <link rel="stylesheet" href="after-send.css?v=21" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -114,11 +113,12 @@
   <!-- The prototype. Deferred, no dependencies, no build step; the
        payments and their events are the objects at the top of the file. -->
   <script src="wren.js?v=10" defer></script>
-  <script src="after-send-story.js?v=1" defer></script>
+  <script src="after-send-story.js?v=2" defer></script>
   <!-- One switch, thrown before first paint because after-send-story.js is
        deferred, and taken back at DOMContentLoaded if that file never ran:
-       .as-live, the two records' answers waiting for a press. Thrown late,
-       the answers would paint and then vanish. -->
+       .as-live, the two records' answers waiting for a press and the story's
+       figures holding one moment. Thrown late, both would paint and then
+       change. -->
   <script>
     (function () {
       var el = document.documentElement;
@@ -242,22 +242,9 @@
          the label instead of a reading of the decision. -->
     <header class="case-hero">
       <div class="container case-wide">
-        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">6 min read</span></p>
+        <p class="case-kicker">Lab &middot; After Send &middot; <span class="case-readtime">8 min read</span></p>
         <h1 class="case-title">The invoice says paid. Why is the supplier still calling?</h1>
         <p class="build-dek">The buyer&rsquo;s system says paid because it issued a virtual card. The supplier says unpaid because nobody has charged it. I designed a payment record that says what happened, who acts next, and what to do now.</p>
-        <!-- THE FIRST SCREEN ANSWERS FOUR QUESTIONS: what was hard for the
-             specialist, what Adam decided, why it matters, and what he did,
-             with what the work has not shown. The dek above is the one moment
-             the page is about. The fourth names the contributions, so a
-             hiring manager reads them before the demo. -->
-        <dl class="build-facts as-facts">
-          <div><dt>What was hard</dt><dd><strong>&ldquo;Paid&rdquo; means a card was issued</strong>, nothing more. Whether the supplier charged it, and whether the buyer matched it, the screen never showed.</dd></div>
-          <div><dt>What I decided</dt><dd>The card is issued. So the record leads with <strong>the two questions still open</strong>: has the supplier charged it, and has the buyer matched it? Then who acts next.</dd></div>
-          <div><dt>Why it matters</dt><dd>A specialist who can&rsquo;t tell has to guess: a follow-up nobody needed, or <strong>a second payment on top of a good one</strong>.</dd></div>
-          <div><dt>What I did</dt><dd>The hierarchy, the flow, and the states, then the prototype in code with Claude Code. <strong>No findings yet</strong>: <a href="#the-bet">the test I&rsquo;d run first</a> is below.</dd></div>
-        </dl>
-        <!-- Since 2026-11-06 the standing note is one line, still on the first
-             screen and said before anyone presses. -->
         <div class="as-hero-act">
           <p class="build-hero-act" data-read-aloud="skip after"><a class="btn btn-primary" href="#try-it">Try the prototype</a></p>
           <p class="as-standing">Independent concept on simulated data. Every name and reference is made up.</p>
@@ -265,101 +252,228 @@
       </div>
     </header>
 
-    <!-- 1. THE CALL, then the design problem (VOICE.md): what the supplier
-         asks, in their words, and the three facts one word was standing in
-         for, as a list. Above the flow and the prototype since 2026-11-07, so
-         a reader meets the person before the mechanism; until then it sat
-         under the prototype, a second telling of the premise.
-         Since 2026-11-06 (Adam: use the empty right side) the three facts are
-         the figure beside the scene: one word coming apart. The list is still
-         a list, with the marks the prototype gives those statuses. Its lines
-         draw once (after-send-story.js); the words are always there.
-         SINCE LATER ON 2026-11-07 (Adam: the scenario was boring) the buyer
-         is a Fridley hotdish maker and the supplier a Hibbing foil company,
-         and the invoice is for pans. The quirk is in the nouns and one clause
-         of the call (the next pallet ships Friday), so a reader has a reason
-         to care which side is right; the three facts and the two records are
-         the same words. -->
+    <!-- THE STORY, since 2026-11-07. One invoice, followed through two
+         companies, and the decisions told where they become necessary rather
+         than in a section of their own. The moments are real text in order;
+         the figure beside them (.as-stage) changes as the reader passes each
+         one, in either direction. Nothing scrubs and nothing takes the
+         scroll: after-send-story.js only says which moment is current. Only
+         from 64rem on a tall enough window, with motion allowed, does the
+         figure stay in place. Everywhere else, each moment carries its own
+         copy of the figure in that moment's state, so nothing depends on
+         seeing a transition. Without script the one figure shows everything.
+
+         data-on names the moments an element belongs to; "7:supplier" is
+         moment 7 with the supplier's view switched on. Every word is HTML, for
+         the reason at the top of after-send.css. -->
     <section class="case-section case-overview build-chapter ground-white" id="the-problem">
       <div class="container case-narrow">
-        <div class="as-split">
-          <div class="writing-measure">
-            <h2>Mesabi calls, and the screen settles one fact of three</h2>
-            <p>Thursday afternoon in Fridley. Mesabi Foil &amp; Paper, the supplier up in Hibbing, calls Ten Lakes Hotdish Co., the buyer: <strong>&ldquo;Our records still show INV-20483 as unpaid, and your next pallet of pans ships Friday. Can you check the payment?&rdquo;</strong> The specialist opens it. Sent October 28, marked paid.</p>
-            <p>&ldquo;Paid&rdquo; is standing in for three facts. I think <strong>the design problem is the hierarchy</strong>: keep them apart, say who moves next, and give the specialist a line for the phone.</p>
-          </div>
-          <figure class="as-paid">
-            <div class="as-paid-who">
-              <img class="as-paid-art" src="../img/lab/after-send-specialist.webp" width="1000" height="667" loading="lazy" decoding="async" alt="An accounts payable specialist at her laptop with a desk phone to her ear, looking puzzled, with a speech bubble holding a question mark." />
-              <p class="as-paid-word">&ldquo;Paid&rdquo;</p>
+        <div class="writing-measure">
+          <h2>Mesabi calls, and the screen settles one fact of three</h2>
+        </div>
+        <div class="as-story" data-as-story>
+          <figure class="as-stage" data-moment="1" data-read-aloud="skip">
+            <div class="as-inv">
+              <p class="as-inv-ref">INV-20483</p>
+              <p class="as-inv-item">8,000 foil pans with lids</p>
+              <p class="as-inv-amount">$4,860.00</p>
+              <p class="as-inv-status">Paid</p>
             </div>
-            <svg class="as-paid-lines" viewBox="0 0 48 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M0 50C24 50 24 16.7 48 16.7"/><path pathLength="1" d="M0 50H48"/><path pathLength="1" d="M0 50C24 50 24 83.3 48 83.3"/></svg>
-            <ul class="as-paid-facts">
-              <li><svg class="as-paid-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg><span><strong>The card was issued.</strong> Mesabi got a virtual-card notice. The only fact the status shows.</span></li>
-              <li><svg class="as-paid-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg><span><strong>The supplier charged the card.</strong> Not yet. The product calls this processing, and no event says it happened.</span></li>
-              <li><svg class="as-paid-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M96.26,37.05A8,8,0,0,1,102,27.29a104.11,104.11,0,0,1,52,0,8,8,0,0,1-2,15.75,8.15,8.15,0,0,1-2-.26,88.09,88.09,0,0,0-44,0A8,8,0,0,1,96.26,37.05ZM53.79,55.14a104.05,104.05,0,0,0-26,45,8,8,0,0,0,15.42,4.27,88,88,0,0,1,22-38.09A8,8,0,0,0,53.79,55.14ZM43.21,151.55a8,8,0,1,0-15.42,4.28,104.12,104.12,0,0,0,26,45,8,8,0,0,0,11.41-11.22A88.14,88.14,0,0,1,43.21,151.55ZM150,213.22a88,88,0,0,1-44,0,8,8,0,1,0-4,15.49,104.11,104.11,0,0,0,52,0,8,8,0,0,0-4-15.49ZM222.65,146a8,8,0,0,0-9.85,5.58,87.91,87.91,0,0,1-22,38.08,8,8,0,1,0,11.42,11.21,104,104,0,0,0,26-45A8,8,0,0,0,222.65,146Zm-9.86-41.54a8,8,0,0,0,15.42-4.28,104,104,0,0,0-26-45,8,8,0,1,0-11.41,11.22A88,88,0,0,1,212.79,104.45Z"/></svg><span><strong>The buyer matched the charge to the invoice.</strong> Not yet, in Ten Lakes&rsquo; books, so INV-20483 is still open.</span></li>
-            </ul>
+            <div class="as-zone">
+              <div class="as-call is-on" data-on="1">
+                <img class="as-call-art" src="../img/lab/after-send-specialist.webp" width="1000" height="667" loading="lazy" decoding="async" alt="An accounts payable specialist at her laptop with a desk phone to her ear, looking puzzled, with a speech bubble holding a question mark." />
+                <p class="as-call-said"><span class="as-field">On the phone</span>&ldquo;Our records still show it as unpaid.&rdquo;</p>
+              </div>
+              <div class="as-sides" data-on="2 3">
+                <div class="as-side">
+                  <p class="as-side-name">Ten Lakes Hotdish Co.</p>
+                  <p class="as-side-role">The buyer</p>
+                  <p class="as-side-word"><span class="as-field">Its screen says</span>Paid</p>
+                </div>
+                <div class="as-side">
+                  <p class="as-side-name">Mesabi Foil &amp; Paper</p>
+                  <p class="as-side-role">The supplier</p>
+                  <p class="as-side-word"><span class="as-field">Its records say</span>Unpaid</p>
+                </div>
+                <p class="as-slip" data-on="3"><span class="as-field">Virtual-card notice</span>One-time card, $4,860.00</p>
+                <p class="as-todo" data-on="3"><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M96.26,37.05A8,8,0,0,1,102,27.29a104.11,104.11,0,0,1,52,0,8,8,0,0,1-2,15.75,8.15,8.15,0,0,1-2-.26,88.09,88.09,0,0,0-44,0A8,8,0,0,1,96.26,37.05ZM53.79,55.14a104.05,104.05,0,0,0-26,45,8,8,0,0,0,15.42,4.27,88,88,0,0,1,22-38.09A8,8,0,0,0,53.79,55.14ZM43.21,151.55a8,8,0,1,0-15.42,4.28,104.12,104.12,0,0,0,26,45,8,8,0,0,0,11.41-11.22A88.14,88.14,0,0,1,43.21,151.55ZM150,213.22a88,88,0,0,1-44,0,8,8,0,1,0-4,15.49,104.11,104.11,0,0,0,52,0,8,8,0,0,0-4-15.49ZM222.65,146a8,8,0,0,0-9.85,5.58,87.91,87.91,0,0,1-22,38.08,8,8,0,1,0,11.42,11.21,104,104,0,0,0,26-45A8,8,0,0,0,222.65,146Zm-9.86-41.54a8,8,0,0,0,15.42-4.28,104,104,0,0,0-26-45,8,8,0,1,0-11.41,11.22A88,88,0,0,1,212.79,104.45Z"/></svg><span><strong>Next:</strong> Mesabi charges the card, by Nov 27.</span></p>
+              </div>
+              <ul class="as-three" data-on="4">
+                <li><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></svg><span><strong>The card was issued.</strong> The only fact the status shows.</span></li>
+                <li><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg><span><strong>The supplier charged the card.</strong> Not yet.</span></li>
+                <li><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M96.26,37.05A8,8,0,0,1,102,27.29a104.11,104.11,0,0,1,52,0,8,8,0,0,1-2,15.75,8.15,8.15,0,0,1-2-.26,88.09,88.09,0,0,0-44,0A8,8,0,0,1,96.26,37.05ZM53.79,55.14a104.05,104.05,0,0,0-26,45,8,8,0,0,0,15.42,4.27,88,88,0,0,1,22-38.09A8,8,0,0,0,53.79,55.14ZM43.21,151.55a8,8,0,1,0-15.42,4.28,104.12,104.12,0,0,0,26,45,8,8,0,0,0,11.41-11.22A88.14,88.14,0,0,1,43.21,151.55ZM150,213.22a88,88,0,0,1-44,0,8,8,0,1,0-4,15.49,104.11,104.11,0,0,0,52,0,8,8,0,0,0-4-15.49ZM222.65,146a8,8,0,0,0-9.85,5.58,87.91,87.91,0,0,1-22,38.08,8,8,0,1,0,11.42,11.21,104,104,0,0,0,26-45A8,8,0,0,0,222.65,146Zm-9.86-41.54a8,8,0,0,0,15.42-4.28,104,104,0,0,0-26-45,8,8,0,1,0-11.41,11.22A88,88,0,0,1,212.79,104.45Z"/></svg><span><strong>The buyer matched the charge to the invoice.</strong> Not yet, so INV-20483 is still open.</span></li>
+              </ul>
+            </div>
           </figure>
+          <ol class="as-beats">
+            <li class="as-beat" data-moment="1">
+              <div class="as-beat-text">
+                <h3>The phone rings</h3>
+                <p>Thursday afternoon in Fridley. Mesabi Foil &amp; Paper, the supplier up in Hibbing, calls Ten Lakes Hotdish Co., the buyer: <strong>&ldquo;Our records still show INV-20483 as unpaid, and your next pallet of pans ships Friday. Can you check the payment?&rdquo;</strong></p>
+                <p>The specialist opens it. Sent October 28, marked paid.</p>
+              </div>
+            </li>
+            <li class="as-beat" data-moment="2">
+              <div class="as-beat-text">
+                <h3>Two companies, one invoice</h3>
+                <p>Ten Lakes owes $4,860 for 8,000 foil pans with lids. Mesabi is waiting for it. They&rsquo;re looking at the same invoice and reading different words.</p>
+              </div>
+            </li>
+            <li class="as-beat" data-moment="3">
+              <div class="as-beat-text">
+                <h3>Sending starts a process</h3>
+                <p>On October 28, Ten Lakes issued a virtual card: a one-time number for the exact amount. Mesabi got a notice.</p>
+                <p>That only starts it. Mesabi still has to charge the number before it expires, which the product calls processing. The record shows no charge yet.</p>
+              </div>
+            </li>
+            <li class="as-beat" data-moment="4">
+              <div class="as-beat-text">
+                <h3>One word hides three facts</h3>
+                <p>&ldquo;Paid&rdquo; appeared when the card was issued, and it stayed. It can&rsquo;t say whether Mesabi charged the card, or whether Ten Lakes matched that charge to the invoice.</p>
+                <p>I think <strong>the design problem is the hierarchy</strong>: keep the facts apart, say who moves next, and give the specialist a line for the phone.</p>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <!-- 2. THE PAYMENT, BEFORE THE PROTOTYPE, since 2026-11-06. A reader who
-         has never seen accounts payable gets the whole workflow in four
-         steps before pressing anything: who does what, on which side of the
-         handoff, and how far "Paid" runs ahead of the money. Text, not a
-         picture, so the checks read every label; see .as-how in
-         after-send.css. Since 2026-11-07 step 3 says in words that
-         "processing" is the supplier charging the card, the one term the
-         prototype uses that a reader has to be given. -->
-    <section class="case-section as-how" id="the-flow" aria-labelledby="flow-h">
-      <div class="container case-wide">
-        <figure class="as-figure as-how-figure">
-          <figcaption>
-            <p class="as-kicker">How a virtual-card payment works</p>
-            <h2 class="as-title" id="flow-h">&ldquo;Paid&rdquo; appears at step 2. The money moves at step 3.</h2>
-          </figcaption>
-          <ol class="as-how-steps">
-            <li class="as-how-step as-how-step--supplier">
-              <span class="as-how-disc" aria-hidden="true">1</span>
-              <div class="as-how-text">
-                <p class="as-how-who">Supplier</p>
-                <p class="as-how-name">Sends the invoice</p>
-                <p class="as-how-what"><span class="as-how-ref">INV-20483</span>, $4,860 for 8,000 foil pans with lids.</p>
+    <!-- THE DECISIONS, told at the record they changed. Three carry the
+         concept and three support them, as since the review of 2026-11-07. The
+         words are the ledger's. The ledger's drawings (after-send-why-*) stay
+         in img/lab; the record close-up took their place here. The switch in
+         moment 7 is in the text column so it can be pressed from any moment
+         and on any width, and the text says what it shows, so nothing depends
+         on pressing it. -->
+    <section class="case-section case-overview build-chapter ground-warm" id="decisions">
+      <div class="container case-narrow">
+        <div class="writing-measure">
+          <h2>Three decisions turn one word into an answer</h2>
+        </div>
+        <div class="as-story" data-as-story>
+          <figure class="as-stage as-stage--record" data-moment="5" data-read-aloud="skip">
+            <div class="as-rec-head">
+              <p class="as-inv-ref">INV-20483</p>
+              <p class="as-inv-amount">$4,860.00</p>
+            </div>
+            <div class="as-zone">
+              <div class="as-rec is-on" data-on="5 6 7:buyer">
+                <dl class="as-rec-facts">
+                  <div><dt>Supplier processing</dt><dd><span class="as-rec-state"><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>Not processed yet</span><span class="as-rec-line" data-on="5">No charge posted as of Nov 5, 2:05 pm, the last read of the events.</span></dd></div>
+                  <div><dt>Invoice matching</dt><dd><span class="as-rec-state"><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M96.26,37.05A8,8,0,0,1,102,27.29a104.11,104.11,0,0,1,52,0,8,8,0,0,1-2,15.75,8.15,8.15,0,0,1-2-.26,88.09,88.09,0,0,0-44,0A8,8,0,0,1,96.26,37.05ZM53.79,55.14a104.05,104.05,0,0,0-26,45,8,8,0,0,0,15.42,4.27,88,88,0,0,1,22-38.09A8,8,0,0,0,53.79,55.14ZM43.21,151.55a8,8,0,1,0-15.42,4.28,104.12,104.12,0,0,0,26,45,8,8,0,0,0,11.41-11.22A88.14,88.14,0,0,1,43.21,151.55ZM150,213.22a88,88,0,0,1-44,0,8,8,0,1,0-4,15.49,104.11,104.11,0,0,0,52,0,8,8,0,0,0-4-15.49ZM222.65,146a8,8,0,0,0-9.85,5.58,87.91,87.91,0,0,1-22,38.08,8,8,0,1,0,11.42,11.21,104,104,0,0,0,26-45A8,8,0,0,0,222.65,146Zm-9.86-41.54a8,8,0,0,0,15.42-4.28,104,104,0,0,0-26-45,8,8,0,1,0-11.41,11.22A88,88,0,0,1,212.79,104.45Z"/></svg>Not matched</span><span class="as-rec-line" data-on="5">Nothing to match until a charge posts.</span></dd></div>
+                </dl>
+                <div class="as-zone">
+                  <div class="as-rec-tell" data-on="6">
+                    <p class="as-rec-h">What to tell them</p>
+                    <p class="as-rec-say">The card hasn&rsquo;t been charged, so the invoice is open on both sides. The notice went to ar@mesabifoil.example on Oct 28. Confirm that&rsquo;s the right inbox.</p>
+                    <p class="as-rec-next"><strong>Who acts next:</strong> Mesabi Foil &amp; Paper. <strong>Later:</strong> follow up Nov 20.</p>
+                  </div>
+                  <div class="as-rec-tell" data-on="7:buyer">
+                    <p class="as-rec-h">Stays with Ten Lakes</p>
+                    <p class="as-rec-say">The approver, the account coding, and the internal notes.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="as-rec" data-on="7:supplier">
+                <p class="as-rec-whose">Payment notice, as Mesabi sees it</p>
+                <dl class="as-notice">
+                  <div><dt>From</dt><dd>Ten Lakes Hotdish Co.</dd></div>
+                  <div><dt>Invoice reference</dt><dd>INV-20483</dd></div>
+                  <div><dt>Amount</dt><dd>$4,860.00</dd></div>
+                  <div><dt>Valid through</dt><dd>Nov 27</dd></div>
+                </dl>
+                <div class="as-rec-tell">
+                  <p class="as-rec-h">Process this payment</p>
+                  <p class="as-rec-say">Processing charges the card and tells Ten Lakes it is done.</p>
+                </div>
+              </div>
+              <div class="as-rec" data-on="8">
+                <p class="as-rec-whose">Alternate ending: the same payment, its card expired</p>
+                <dl class="as-rec-facts">
+                  <div><dt>Supplier processing</dt><dd><span class="as-rec-state as-rec-state--stale"><svg class="as-mark" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/></svg>Expired Nov 4, not processed</span><span class="as-rec-line">No charge posted as of Nov 5, 2:05 pm. A late charge can still post for a day.</span></dd></div>
+                </dl>
+                <div class="as-rec-tell">
+                  <p class="as-rec-h">Who acts next: you</p>
+                  <p class="as-rec-say">Check for a late charge first; then a replacement would be a new payment for INV-20483 with a new validity date.</p>
+                </div>
+              </div>
+            </div>
+          </figure>
+          <ol class="as-beats">
+            <li class="as-beat" data-moment="5">
+              <div class="as-beat-text">
+                <p class="as-beat-kicker">First decision</p>
+                <h3>Two facts, not one status</h3>
+                <p>The record opens on &ldquo;Supplier processing&rdquo; and &ldquo;Invoice matching,&rdquo; <strong>each named for who owns it</strong>.</p>
+                <p class="as-beat-why"><b>Why:</b> two facts can differ without either one lying.</p>
               </div>
             </li>
-            <li class="as-how-step as-how-step--buyer">
-              <span class="as-how-disc" aria-hidden="true">2</span>
-              <div class="as-how-text">
-                <p class="as-how-who">Buyer</p>
-                <p class="as-how-name">Issues a virtual card</p>
-                <p class="as-how-what">A one-time card number for the exact amount. The supplier gets a notice.</p>
-              </div>
-              <p class="as-how-call"><strong>The supplier calls here:</strong> issued, not charged.</p>
-            </li>
-            <li class="as-how-step as-how-step--supplier as-how-step--event">
-              <span class="as-how-disc" aria-hidden="true">3</span>
-              <div class="as-how-text">
-                <p class="as-how-who">Supplier</p>
-                <p class="as-how-name">Processes the payment</p>
-                <p class="as-how-what">Charges the card number before it expires. The money moves here.</p>
+            <li class="as-beat" data-moment="6">
+              <div class="as-beat-text">
+                <p class="as-beat-kicker">Second decision</p>
+                <h3>Answer the call first, then the follow-up</h3>
+                <p><strong>&ldquo;What to tell them&rdquo; leads</strong>: the card hasn&rsquo;t been charged, who got the notice, and a way to send it again. The follow-up date sits under it.</p>
+                <p class="as-beat-why"><b>Why:</b> the supplier is on the phone now. A reminder for the 20th doesn&rsquo;t end the call.</p>
               </div>
             </li>
-            <li class="as-how-step as-how-step--buyer as-how-step--event">
-              <span class="as-how-disc" aria-hidden="true">4</span>
-              <div class="as-how-text">
-                <p class="as-how-who">Buyer</p>
-                <p class="as-how-name">Matches it to the invoice</p>
-                <p class="as-how-what"><span class="as-how-ref">INV-20483</span> closes in the buyer&rsquo;s books.</p>
+            <li class="as-beat" data-moment="7">
+              <div class="as-beat-text">
+                <p class="as-beat-kicker">Third decision</p>
+                <h3>Show the supplier only what the buyer would share</h3>
+                <p>The notice carries the buyer, the invoice, the amount, and the last good date. Not the approver, the coding, or the notes.</p>
+                <p class="as-beat-why"><b>Why:</b> the handoff crosses two companies.</p>
+                <p class="as-beat-act"><button type="button" class="btn btn-ghost-light as-show-view" data-as-view aria-pressed="false">See what the supplier sees</button></p>
+              </div>
+            </li>
+            <li class="as-beat" data-moment="8">
+              <div class="as-beat-text">
+                <h3>What if the record doesn&rsquo;t know?</h3>
+                <p>A missing event isn&rsquo;t proof. If a charge sits in a queue, a confident status is simply wrong.</p>
+                <p>So the record dates its &ldquo;no.&rdquo; And when a card runs out, it asks for a late-charge check before anyone replaces the payment.</p>
               </div>
             </li>
           </ol>
-          <p class="as-how-paid">From step 2 on, the buyer&rsquo;s screen says &ldquo;Paid.&rdquo;</p>
-        </figure>
+        </div>
+        <div class="writing-measure as-support">
+          <p>Three more, in support:</p>
+          <ul class="build-list">
+            <li><strong>Let the invoice reference carry the handoff.</strong> INV-20483 titles the record, heads the notice, and is what the match checks against.</li>
+            <li><strong>Keep the history, folded.</strong> Every event stays under &ldquo;Activity,&rdquo; closed by default; both views read the same simulated events.</li>
+            <li><strong>Words and a shape before a color.</strong> Each status gets a word and a mark, for screen readers and for anyone who can&rsquo;t see red.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- 3. THE PROTOTYPE, at the container's width, as one story with one
+    <!-- BACK TO THE CALL: the opening's drawing with its question mark clipped
+         away and the answer where the bubble was. The first screen's four
+         facts live here since 2026-11-07, as the short version a hurried
+         reader stops on, kept whole rather than cut (VOICE.md, section 5). -->
+    <section class="case-section case-overview build-chapter ground-white" id="the-answer">
+      <div class="container case-narrow">
+        <div class="as-split">
+          <div class="writing-measure">
+            <h2>Back to the call, with something to say</h2>
+            <p>Same phone, same invoice. This time the specialist has an answer and a next step.</p>
+            <p>Whether that&rsquo;s enough for Mesabi is a guess until someone tests it. So try it yourself first.</p>
+            <div class="as-beat-act"><a class="btn btn-primary" href="#try-it">Try the prototype</a></div>
+          </div>
+          <figure class="as-answer">
+            <img class="as-answer-art" src="../img/lab/after-send-specialist.webp" width="1000" height="667" loading="lazy" decoding="async" alt="The same specialist at her laptop with the desk phone to her ear." />
+            <figcaption class="as-answer-said"><span class="as-field">What she can say now</span>&ldquo;The card hasn&rsquo;t been charged, so the invoice is open on both sides. The notice went to ar@mesabifoil.example on Oct 28. Is that the right inbox?&rdquo;</figcaption>
+          </figure>
+        </div>
+        <h3 class="as-short">The short version</h3>
+        <dl class="build-facts as-facts">
+          <div><dt>What was hard</dt><dd><strong>&ldquo;Paid&rdquo; means a card was issued</strong>, nothing more. Whether the supplier charged it, and whether the buyer matched it, the screen never showed.</dd></div>
+          <div><dt>What I decided</dt><dd>The card is issued. So the record leads with <strong>the two questions still open</strong>: has the supplier charged it, and has the buyer matched it? Then who acts next.</dd></div>
+          <div><dt>Why it matters</dt><dd>A specialist who can&rsquo;t tell has to guess: a follow-up nobody needed, or <strong>a second payment on top of a good one</strong>.</dd></div>
+          <div><dt>What I did</dt><dd>The hierarchy, the flow, and the states, then the prototype in code with Claude Code. <strong>No findings yet</strong>: <a href="#the-bet">the test I&rsquo;d run first</a> is below.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- THE PROTOTYPE, at the container's width, as one story with one
          button (2026-11-07; Adam: one simple flow, no highlights saying where
          to click). Everything outside the window is the demo's: the kicker,
          the five steps, which only say where the reader is, a line naming
@@ -415,68 +529,7 @@
       </div>
     </section>
 
-    <!-- 4. THE DECISIONS, as The Shortlist's ledger (decisions.css): each
-         one row under a hairline, what the prototype does, the reason as
-         the Why line, and a small drawing of the reason at the right. The
-         drawings are one 3 x 2 sheet in the cockpit's line hand
-         (img/inbox/line-concept-ref.png), cut to 720x480 with the white
-         ground transparent, so they sit on the chapter's warm.
-
-         THREE CARRY THE CONCEPT AND THREE SUPPORT IT, since 2026-11-07. Six
-         rows of equal weight read as six equal decisions; the review of that
-         day asked for the ones that make the concept to stand out. The
-         supporting three keep their words as a bold-led list under the
-         ledger, and their drawings (after-send-why-reference, -history,
-         -shape) stay in img/lab for the day they come back. -->
-    <section class="case-section case-overview build-chapter ground-warm" id="decisions">
-      <div class="container case-narrow">
-        <div class="writing-measure">
-          <h2>Three decisions carry the concept, and three more support them</h2>
-        </div>
-        <ol class="decisions decisions--ledger">
-          <li class="decision">
-            <div class="decision-text">
-              <h3>Two facts, not one status</h3>
-              <p class="decision-lead">The record opens on &ldquo;Supplier processing&rdquo; and &ldquo;Invoice matching,&rdquo; <strong>each named for who owns it</strong>.</p>
-              <p class="decision-cap"><b>Why:</b> two facts can differ without either one lying.</p>
-            </div>
-            <div class="decision-figure">
-              <img class="decision-pic" src="../img/lab/after-send-why-facts.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
-            </div>
-          </li>
-          <li class="decision">
-            <div class="decision-text">
-              <h3>Answer the call first, then the follow-up</h3>
-              <p class="decision-lead"><strong>&ldquo;What to tell them&rdquo; leads</strong>: the card hasn&rsquo;t been charged, who got the notice, and a button to send it again. The follow-up date sits under it.</p>
-              <p class="decision-cap"><b>Why:</b> the supplier is on the phone now. A reminder for the 20th doesn&rsquo;t end the call.</p>
-            </div>
-            <div class="decision-figure">
-              <img class="decision-pic" src="../img/lab/after-send-why-next.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
-            </div>
-          </li>
-          <li class="decision">
-            <div class="decision-text">
-              <h3>Show the supplier only what the buyer would share</h3>
-              <p class="decision-lead">The notice carries the buyer, the invoice, the amount, and the last good date. Not the approver, the coding, or the notes.</p>
-              <p class="decision-cap"><b>Why:</b> the handoff crosses two companies.</p>
-            </div>
-            <div class="decision-figure">
-              <img class="decision-pic" src="../img/lab/after-send-why-share.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
-            </div>
-          </li>
-        </ol>
-        <div class="writing-measure as-support">
-          <p>Three more, in support:</p>
-          <ul class="build-list">
-            <li><strong>Let the invoice reference carry the handoff.</strong> INV-20483 titles the record, heads the notice, and is what the match checks against.</li>
-            <li><strong>Keep the history, folded.</strong> Every event stays under &ldquo;Activity,&rdquo; closed by default; both views read the same simulated events.</li>
-            <li><strong>Words and a shape before a color.</strong> Each status gets a word and a mark, for screen readers and for anyone who can&rsquo;t see red.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. EXPERIENCE ARCHITECTURE: the flow, drawn in HTML so the checks
+    <!-- EXPERIENCE ARCHITECTURE: the flow, drawn in HTML so the checks
          read it. Four stops on one rail, the invoice reference named once
          over it, the two events that part the facts on the rail where they
          happen, and at the foot of each stop, where that screen can fail:
@@ -538,7 +591,7 @@
       </div>
     </section>
 
-    <!-- 6. THE BET, AND THE TEST: the same payment as two records, in real
+    <!-- THE BET, AND THE TEST: the same payment as two records, in real
          words, then the specialist's two questions asked of each, so the
          difference is read rather than told. Then the risk in stating a
          status, the test that would settle it, and that there are no
@@ -613,7 +666,7 @@
              who is in it and the two ways it can come out. -->
         <div class="as-split as-why">
           <div class="writing-measure">
-            <p><strong>A stated status is only as good as the event behind it.</strong> If a charge sits in a queue, v2 is confidently wrong where v1 was merely slow. So v2 dates its &ldquo;no,&rdquo; and the expired record asks for one more check before a replacement.</p>
+            <p><strong>A stated status is only as good as the event behind it</strong>, so v2 can be confidently wrong where v1 was merely slow. That is why the order is worth testing.</p>
             <ul class="build-list">
               <li><strong>The test:</strong> half in each order: find the invoice, read its status, say who acts next, and handle the expired one, without the walkthrough.</li>
               <li><strong>Measured:</strong> correct status readings, time to find the invoice, and any press that would duplicate a payment.</li>
@@ -636,7 +689,7 @@
         </div>
       </div>
     </section>
-    <!-- 7. THE PUBLIC GROUND: three kinds of public product description,
+    <!-- THE PUBLIC GROUND: three kinds of public product description,
          each named for the question it raises here. One outside source a
          page is the voice rule, and American Express vPayment is it. -->
     <section class="case-section case-overview build-chapter ground-white" id="sources">
@@ -661,7 +714,7 @@
       </div>
     </section>
 
-    <!-- 8. THE CLOSE, on the charcoal band: the build note, what checked
+    <!-- THE CLOSE, on the charcoal band: the build note, what checked
          it, and what it can't settle. -->
     <section class="case-section case-overview build-chapter ground-charcoal" id="reflection">
       <div class="container case-narrow">

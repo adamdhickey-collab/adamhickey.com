@@ -235,6 +235,10 @@ export const REACHABLE = {
        wait for a press since 2026-11-06. One state for the pair. */
     { name: 'the two records, answered',
       press: ['.as-wire [data-show-answers]', '.as-wire--proposed [data-show-answers]'] },
+    /* Not the prototype either: the story's third decision, the record's words
+       switched to the notice's, in the held figure or the beat's own copy. */
+    { name: 'the story, as the supplier sees it',
+      press: ['[data-as-view]'] },
   ],
 
   'lab/inspiration-to-aisle.html': [
