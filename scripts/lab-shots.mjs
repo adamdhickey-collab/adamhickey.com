@@ -672,9 +672,11 @@ async function settle(page) {
    the root, where it is the review's, and the product's surface reads the
    alias back, in the dark scheme. Relay's accent takes the review's
    primary, the sage, as the opener's checks do, but for the accent badge
-   (Trial), which keeps the review's slate so it is not read as Active; the
-   reds, greens and cautions are the review's dark ones. The app is
-   unchanged. */
+   (Trial), which goes neutral so it is not read as Active: since
+   agent-review#90 (2026-11-07) the review's own accent is the sage too, so
+   handing Trial that accent, as this did while it was slate, would draw it
+   in Active's color. The reds, greens and cautions are the review's dark
+   ones. The app is unchanged. */
 const RELAY_TOKENS = [
   'canvas', 'surface', 'surface-sunken', 'surface-hover', 'surface-hover-strong', 'border', 'divider', 'border-control',
   'text', 'text-secondary', 'text-muted', 'success', 'success-subtle', 'success-solid', 'success-border',
@@ -698,9 +700,9 @@ const RELAY_AS = {
 const NEXT_MARK_OFF = ' .cycle__next-mark { display: none !important; }';
 const RELAY_PAIRS = [...RELAY_TOKENS.map((t) => [t, t]), ...Object.entries(RELAY_AS)];
 const RELAY_DARK =
-  ` :root { ${[...RELAY_PAIRS.map(([, from]) => from), 'accent', 'accent-subtle', 'accent-border'].map((from) => `--rv-${from}: var(--color-${from});`).join(' ')} }` +
+  ` :root { ${[...RELAY_PAIRS.map(([, from]) => from)].map((from) => `--rv-${from}: var(--color-${from});`).join(' ')} }` +
   ` [data-surface='product'], .cycle__product-frame { color-scheme: dark !important; ${RELAY_PAIRS.map(([to, from]) => `--color-${to}: var(--rv-${from}) !important;`).join(' ')} --focus-ring-color: var(--rv-primary) !important; --shadow-raised: none !important; --shadow-control: none !important; }` +
-  ` [data-surface='product'] .badge--accent { --badge-edge: var(--rv-accent-border); --badge-ink: var(--rv-accent); --badge-ground: var(--rv-accent-subtle); }`;
+  ` [data-surface='product'] .badge--accent { --badge-edge: var(--rv-neutral-solid); --badge-ink: var(--rv-text-secondary); --badge-ground: var(--rv-surface-sunken); }`;
 
 async function hold(ctx, theme, zoom = 1, pad = 0, relay = false) {
   await ctx.addInitScript(({ theme, zoom, pad, relay, RELAY_DARK, NEXT_MARK_OFF }) => {
