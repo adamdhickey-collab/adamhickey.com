@@ -72,7 +72,7 @@ const CARDS = {
   /* After Send, 2026-11-06: the prototype's own record screen
      (wren-shots.mjs), the payment processed and ready to match, which is
      the two facts the page is about, one beside the other. */
-  'after-send':                        { kicker: 'Lab · enterprise UX',                       title: 'After Send',                                      sub: 'The payment was sent. Did the supplier process it?', image: 'img/lab/after-send-record.webp' },
+  'after-send':                        { kicker: 'Lab · enterprise UX',                       title: 'After Send',                                      sub: 'The invoice says paid. Why is the supplier still calling?', image: 'img/lab/after-send-record.webp' },
   'designing-motion':                  { kicker: 'Lab · exploration',                        title: 'Designing motion with Claude Code',                           image: 'img/lab/designing-motion-card.webp', position: '72% center' },
   'lab':                               { kicker: 'Lab',                                      title: 'Working prototypes, and the decisions people still make',     sub: 'A connected service, a design system, and a live operation', image: 'img/lab/agent-review-og.webp' },
   /* The case study's card is a drawing since 2026-10-24, the first `full`
