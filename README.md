@@ -403,7 +403,7 @@ phone one at 375 on a touch device, and the page offers the phone's through
 `<picture>`, because a 1440px capture printed at 832 was seven-pixel type and
 at a phone's width was a quarter of the screen.
 
-The write-up opens on the mistake since 2026-11-07: one cleanup, with Birch
+The write-up opens on the mistake since 2026-11-07: one cleanup, with Northside
 Logistics in the batch, then "Which fix would you ship?" on the same five. From
 the evening of 2026-10-26 the question was the opener, so the
 opener, the pictures under it, the prototype's first screen, and the
