@@ -104,7 +104,7 @@
   <link rel="stylesheet" href="../read-aloud.css?v=7" />
   <link rel="stylesheet" href="../decisions.css?v=3" />
   <link rel="stylesheet" href="wren.css?v=7" />
-  <link rel="stylesheet" href="after-send.css?v=15" />
+  <link rel="stylesheet" href="after-send.css?v=16" />
   <script src="../site-nav.js?v=20260906a" defer></script>
   <!-- "Listen to this page" reads the writing around the prototype and not
        the prototype: the demo is marked data-read-aloud="skip", because its
@@ -257,6 +257,59 @@
       </div>
     </header>
 
+    <!-- THE PAYMENT, BEFORE THE PROTOTYPE, since 2026-11-06. A reader who has
+         never seen accounts payable gets the whole workflow in four steps
+         before pressing anything: who does what, on which side of the
+         handoff, and how far "Paid" runs ahead of the money. Text, not a
+         picture, so the checks read every label; see .as-how in
+         after-send.css. -->
+    <section class="case-section as-how" id="the-flow" aria-labelledby="flow-h">
+      <div class="container case-wide">
+        <figure class="as-figure as-how-figure">
+          <figcaption>
+            <p class="as-kicker">The payment flow, simplified</p>
+            <h2 class="as-title" id="flow-h">&ldquo;Paid&rdquo; appears at step 2. The money moves at step 3.</h2>
+          </figcaption>
+          <ol class="as-how-steps">
+            <li class="as-how-step as-how-step--supplier">
+              <span class="as-how-disc" aria-hidden="true">1</span>
+              <div class="as-how-text">
+                <p class="as-how-who">Supplier</p>
+                <p class="as-how-name">Sends the invoice</p>
+                <p class="as-how-what"><span class="as-how-ref">INV-20483</span>, for $4,860.</p>
+              </div>
+            </li>
+            <li class="as-how-step as-how-step--buyer">
+              <span class="as-how-disc" aria-hidden="true">2</span>
+              <div class="as-how-text">
+                <p class="as-how-who">Buyer</p>
+                <p class="as-how-name">Issues a virtual payment</p>
+                <p class="as-how-what">A one-time card number for the exact amount. The supplier gets a notice.</p>
+              </div>
+              <p class="as-how-call"><strong>The supplier calls here:</strong> sent, not processed.</p>
+            </li>
+            <li class="as-how-step as-how-step--supplier as-how-step--event">
+              <span class="as-how-disc" aria-hidden="true">3</span>
+              <div class="as-how-text">
+                <p class="as-how-who">Supplier</p>
+                <p class="as-how-name">Processes the payment</p>
+                <p class="as-how-what">Charges the card number before it expires, and the money moves.</p>
+              </div>
+            </li>
+            <li class="as-how-step as-how-step--buyer as-how-step--event">
+              <span class="as-how-disc" aria-hidden="true">4</span>
+              <div class="as-how-text">
+                <p class="as-how-who">Buyer</p>
+                <p class="as-how-name">Matches it to the invoice</p>
+                <p class="as-how-what"><span class="as-how-ref">INV-20483</span> closes in the books.</p>
+              </div>
+            </li>
+          </ol>
+          <p class="as-how-paid">From step 2 on, the buyer&rsquo;s screen says &ldquo;Paid.&rdquo;</p>
+        </figure>
+      </div>
+    </section>
+
     <!-- THE PROTOTYPE, at the container's width. Everything outside the
          window is the demo's: the kicker, then one panel holding the
          controls that switch scenario and role and start over, and under
@@ -336,8 +389,8 @@
           <div class="writing-measure">
             <h2>A supplier calls, and &ldquo;paid&rdquo; turns out to be three different things</h2>
             <p>Thursday afternoon. Larkspur Packaging calls accounts payable about invoice INV-20483. The specialist opens the payment: <mark>sent October 28. So it&rsquo;s paid.</mark></p>
-            <p>Accurate, and the specialist still <mark>can&rsquo;t tell Larkspur what happens next</mark>. <mark>&ldquo;Paid&rdquo; is standing in for three facts</mark>, and <mark>the screen says one of them</mark>.</p>
-            <p>The data for all three usually exists. I think <mark>the design problem is the hierarchy: keeping the facts apart, and saying who moves next</mark>.</p>
+            <p><mark>&ldquo;Paid&rdquo; is standing in for three facts</mark>, and <mark>the screen says one of them</mark>.</p>
+            <p>I think <mark>the design problem is the hierarchy: keeping the facts apart, and saying who moves next</mark>.</p>
           </div>
           <figure class="as-paid">
             <div class="as-paid-who">
@@ -364,14 +417,14 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>Six decisions, and the reason behind each</h2>
-          <p><mark>None of these needed new data.</mark> The one I&rsquo;d highlight is <mark>saying who acts next</mark>, the question on the phone.</p>
+          <p><mark>None of these needed new data.</mark> The one I&rsquo;d highlight: <mark>saying who acts next</mark>.</p>
         </div>
         <ol class="decisions decisions--ledger">
           <li class="decision">
             <div class="decision-text">
               <h3>Two facts, not one status</h3>
               <p class="decision-lead">The record opens on <mark>&ldquo;Supplier processing&rdquo; and &ldquo;Invoice matching,&rdquo;</mark> <mark>each named for who owns it</mark>.</p>
-              <p class="decision-cap"><b>Why:</b> one word has to be true for the buyer, the supplier, and the books. <mark>Two facts can differ without either one lying.</mark></p>
+              <p class="decision-cap"><b>Why:</b> <mark>two facts can differ without either one lying.</mark></p>
             </div>
             <div class="decision-figure">
               <img class="decision-pic" src="../img/lab/after-send-why-facts.webp?v=1" alt="" width="720" height="480" loading="lazy" decoding="async" />
@@ -441,7 +494,6 @@
       <div class="container case-narrow">
         <div class="writing-measure">
           <h2>One invoice reference runs through four screens</h2>
-          <p><mark>The reference ties</mark> the buyer&rsquo;s record to the supplier&rsquo;s one notice, and <mark>the two events that matter happen at different ends</mark>.</p>
         </div>
         <figure class="as-figure as-flow-figure">
           <figcaption><p class="as-kicker">Experience architecture</p></figcaption>
@@ -474,7 +526,7 @@
               </div>
               <p class="as-stop-who">Supplier</p>
               <p class="as-stop-name">Payment notice</p>
-              <p class="as-stop-what">Buyer, reference, amount, last good date. <mark>Process it.</mark></p>
+              <p class="as-stop-what"><mark>Process it.</mark></p>
               <p class="as-stop-fail-label">Where it can fail</p>
               <p class="as-stop-fail"><mark>Processed in part.</mark> Outside this concept, and <mark>the first question for engineering</mark>.</p>
             </li>
@@ -566,7 +618,7 @@
             <ul class="build-list">
               <li><strong>The test:</strong> <mark>half in each order</mark>: find the invoice, read its status, say who acts next, and handle the expired one.</li>
               <li><strong>Measured:</strong> <mark>correct status readings</mark>, <mark>time to find the invoice</mark>, and <mark>any press that would duplicate a payment</mark>.</li>
-              <li><strong>Findings:</strong> <mark>none yet</mark>. No specialist or supplier has used this.</li>
+              <li><strong>Findings:</strong> <mark>none yet</mark>.</li>
             </ul>
           </div>
           <figure class="as-test">
