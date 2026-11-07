@@ -77,9 +77,12 @@
   text-transform: uppercase;
   color: var(--color-accent-text);
 }
-.case-section .as-short { margin: var(--space-3xl) 0 var(--space-md); }
+#the-answer .as-short { margin: var(--space-3xl) 0 var(--space-md); }
 @media (min-width: 64rem) { #the-answer .as-facts { width: var(--col-full); max-width: none; } }
 .as-beat-why b { font-weight: var(--weight-semibold); }
+.as-beat-why a { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--color-accent-text); }
+.as-beat-why a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) { .as-beat-why a:hover { color: var(--color-accent-text); } }
 .case-section .as-beat-act { margin: var(--space-lg) 0 0; }
 
 /* The figure. A beat's own copy sits under its text. */
@@ -352,22 +355,6 @@
 
 /* The return: the opening's drawing with its question clipped away, and the
    answer where the bubble was. */
-.as-answer { position: relative; margin: 0; display: grid; gap: var(--space-md); }
-.as-answer-art {
-  display: block;
-  width: 100%;
-  max-width: 22rem;
-  height: auto;
-  mix-blend-mode: multiply;
-  clip-path: polygon(0 0, 53.5% 0, 53.5% 38%, 100% 38%, 100% 100%, 0 100%);
-}
-.as-answer-said {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.as-answer-said .as-field { margin-bottom: var(--space-xs); }
 
 /* ---------- The demo, around the window ----------
    On its own ground since 2026-11-07, tea-light between two white chapters
@@ -559,20 +546,6 @@
    however the words wrap: 1 rail, 2 who, 3 name, 4 what, 5 the fail label
    and its hairline, 6 the fail text. */
 .as-flow-figure { --as-stop-disc: 40px; --as-stop-gap: var(--space-2xl); }
-.case-section .as-flow-thread,
-.as-flow-thread {
-  margin: 0 0 var(--space-lg);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-ui);
-  color: var(--color-charcoal);
-}
-.as-carry {
-  font-family: var(--font-mono);
-  font-size: inherit;
-  color: var(--color-accent-text);
-}
 .as-flow {
   list-style: none;
   margin: 0;
@@ -669,8 +642,6 @@
   color: var(--color-muted-gray);
 }
 @media (min-width: 64rem) {
-  .as-flow-figure > figcaption { max-width: none; margin-bottom: var(--space-2xl); }
-  .as-flow-figure > figcaption .as-standing-note { max-width: var(--measure); }
   .as-flow {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -865,11 +836,16 @@
    read as one crowded block (Adam, 2026-11-07: "crowded and overwhelming").
    --rule-strong, the divider that has to read as one, over the tea ground,
    with the chapter's own step of air on each side of it. */
-.as-why {
+.as-why-lead {
   margin-top: var(--space-3xl);
   padding-top: var(--space-3xl);
   border-top: 1px solid var(--rule-strong);
 }
+.as-why-lead p:last-child { margin-bottom: 0; }
+/* The study folds under the risk, on the row a case study's method uses. */
+.as-study { margin-top: var(--space-md); }
+.as-study .as-why { margin-top: var(--space-sm); }
+@media (min-width: 64rem) { .as-why-lead, .as-study { width: var(--col-full); max-width: none; } }
 /* The three supporting decisions, as a bold-led list under the story. */
 .as-support { margin-top: var(--space-2xl); }
 .as-support > p { margin-bottom: var(--space-sm); }
@@ -915,36 +891,3 @@
 .as-test-ends li::before { content: none; }
 .as-test-ends strong { font-weight: var(--weight-semibold); color: var(--color-charcoal); }
 
-/* ---------- The sources ---------- */
-.as-sources {
-  margin: var(--space-xl) 0 0;
-  max-width: var(--measure);
-  display: grid;
-  gap: var(--space-lg);
-}
-@media (min-width: 64rem) {
-  .as-sources { width: var(--col-full); max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-2xl); }
-}
-.as-sources > div { padding-top: var(--space-lg); border-top: 1px solid var(--rule-hairline); }
-.as-sources dt {
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.as-sources dd a { color: var(--color-charcoal); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--color-accent-text); }
-.as-sources dd a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; border-radius: 2px; }
-@media (hover: hover) and (pointer: fine) { .as-sources dd a:hover { color: var(--color-accent-text); } }
-.as-sources dd { margin: 0; }
-.case-section .as-sources dd p { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-charcoal); }
-.case-section .as-sources dd p + p { margin-top: var(--space-xs); }
-/* The question is what the source was for, so it is the entry's emphasis. */
-.case-section .as-sources .as-source-q {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  color: var(--color-charcoal);
-}
-.case-section .as-sources dd p + .as-source-q { margin-top: var(--space-md); }
