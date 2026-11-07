@@ -449,53 +449,6 @@
   .ar-fork-lines { display: none; }
 }
 
-/* The six stages' turns: the agent above the line, the designer under it, so
-   the line reads as a hand-off rather than a list. One column of rows under
-   64rem. The note is Delegate's, in the empty slot under its number. */
-.ar-lanes-figure { margin: 0; }
-.ar-lanes { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
-.ar-lane { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm); margin: 0; padding: 0; }
-.ar-lane::before { content: none; }
-.ar-lane .ar-cycle-n { order: -1; margin-top: 0; }
-.ar-lane-text { font-size: var(--text-sm); line-height: var(--leading-ui); color: var(--color-charcoal); }
-.ar-lane-who { font-weight: var(--weight-semibold); color: var(--color-muted-gray); }
-.ar-lane--designer .ar-lane-who { color: var(--color-accent-text); }
-/* Delegate's note is in the serif, so it does not read as a third "who", and
-   its number wears a ring: the one stage that is mine. */
-.ar-lane-note { font-family: var(--font-serif); font-size: var(--text-base); line-height: var(--leading-tight); color: var(--color-accent-text); }
-.ar-lane:has(.ar-lane-note) .ar-cycle-n { box-shadow: 0 0 0 2px var(--color-tea-light), 0 0 0 3px var(--color-accent-text); }
-@media (max-width: 63.99rem) {
-  /* Under its row's words, past the number. */
-  .ar-lane-note { flex-basis: 100%; padding-left: calc(var(--space-xl) + var(--space-sm)); }
-}
-.ar-lanes-figure figcaption { margin-top: var(--space-lg); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); text-wrap: pretty; }
-@media (min-width: 64rem) {
-  .ar-lanes {
-    position: relative;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: 1fr auto 1fr;
-    gap: var(--space-sm) var(--space-xs);
-  }
-  /* The line the six sit on: the number row's centre. */
-  .ar-lanes::before {
-    content: "";
-    grid-column: 1 / -1;
-    grid-row: 2;
-    align-self: center;
-    height: 1px;
-    background: var(--rule-strong);
-  }
-  .ar-lane { display: grid; grid-row: 1 / 4; grid-template-rows: subgrid; align-items: start; gap: inherit; }
-  .ar-lane:nth-child(1) { grid-column: 1; } .ar-lane:nth-child(2) { grid-column: 2; }
-  .ar-lane:nth-child(3) { grid-column: 3; } .ar-lane:nth-child(4) { grid-column: 4; }
-  .ar-lane:nth-child(5) { grid-column: 5; } .ar-lane:nth-child(6) { grid-column: 6; }
-  .ar-lane .ar-cycle-n { order: 0; grid-row: 2; position: relative; }
-  .ar-lane-who { display: block; }
-  .ar-lane--agent .ar-lane-text { grid-row: 1; align-self: end; }
-  .ar-lane--designer .ar-lane-text { grid-row: 3; }
-  .ar-lane-note { grid-row: 3; }
-}
-
 /* ---------- The rule: three kinds of change ----------
    The reader has just made the call the checks couldn't. This names it:
    one kind goes through, two stop for a person. Each sits directly on
