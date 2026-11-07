@@ -151,7 +151,7 @@
    into the chapter when it sits on one; on the card it sits on its own white
    only if the card is. */
 .as-call { display: grid; gap: var(--space-md); align-items: center; }
-.as-call-art { display: block; width: 100%; max-width: 16rem; height: auto; justify-self: center; mix-blend-mode: multiply; }
+.as-call-art { display: block; width: 100%; max-width: 20rem; height: auto; justify-self: center; mix-blend-mode: multiply; }
 .as-stage .as-call-said {
   font-family: var(--font-serif);
   font-size: var(--text-xl);
@@ -159,7 +159,9 @@
   color: var(--color-charcoal);
 }
 .as-call-said .as-field { margin-bottom: var(--space-2xs); }
-@media (min-width: 640px) { .as-call { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+/* The words stand beside her, past the drawing's empty right margin, rather
+   than across the card from her. */
+@media (min-width: 640px) { .as-call { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); column-gap: var(--space-xs); } }
 
 /* Moments 2 and 3: the two sides. The notice crosses in the second. */
 .as-sides {
@@ -358,10 +360,11 @@
 .as-answer-said .as-field { margin-bottom: var(--space-xs); }
 
 /* ---------- The demo, around the window ----------
-   The section stands the same distance from the hero above it as from the
-   next chapter below it: --space-block on top here, and none at the foot,
-   because that chapter's own top padding is --space-block. The window
-   takes the container.
+   On its own ground since 2026-11-07, tea-light between two white chapters
+   (Adam: something interactive should read as different). So it pads itself
+   at both ends, and the chapter above it ends where the ground starts rather
+   than adding its foot to a top of the same white. The window takes the
+   container.
 
    ONE COLUMN AT THE LEFT, since 2026-11-07 (Adam: the main button goes left
    like everything else, what's above it only says where you are, and nothing
@@ -370,14 +373,14 @@
    on the page's ground, with no panel, because a panel of named cells read
    as controls. Scenario, Role, and Start over left with it; the button does
    all three in turn. */
-.as-demo { padding: var(--space-block) 0 0; scroll-margin-top: var(--nav-height); }
+.as-demo { padding: var(--space-block) 0; background: var(--color-tea-light); scroll-margin-top: var(--nav-height); }
 .as-demo p.try-live { margin: 0 0 var(--space-sm); }
 /* Phosphor's cursor is a filled outline; the shared rule draws a stroke. */
 .as-demo p.try-live svg { fill: currentColor; stroke: none; }
 
 /* The steps: five numbered names in a row, the one the reader is on in full
-   ink. They report and nothing presses them. On white: muted-gray 6.47,
-   accent-text 5.82, charcoal 15.3. The number is a ring; a step walked rings
+   ink. They report and nothing presses them. On tea-light: muted-gray 5.44,
+   accent-text 4.90, charcoal 12.90. The number is a ring; a step walked rings
    in sage with a check; the one the reader is on fills in sage. */
 .as-steps {
   list-style: none;
@@ -420,7 +423,7 @@
    reach while the window scrolls. The line holds two lines' room at every
    width from 48rem and stays inside the measure, so the button doesn't move
    between presses and a reader can keep pressing without looking for it. The
-   label's width changes; its left edge doesn't. White, because the demo's
+   label's width changes; its left edge doesn't. Tea-light, because the demo's
    ground is, and the window passes under it. */
 .as-guide {
   position: sticky;
@@ -432,7 +435,7 @@
   gap: var(--space-sm);
   padding-block: var(--space-md);
   margin-bottom: var(--space-2xs);
-  background: var(--color-white);
+  background: var(--color-tea-light);
 }
 /* Whose screen is in the window, since 2026-11-07, in the guide and not the
    window: the product's chrome is its sign-in line, and this is the demo's

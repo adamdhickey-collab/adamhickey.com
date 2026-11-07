@@ -86,7 +86,7 @@ await run('a fresh load is the buyer’s whole list, the button searches, and cl
   t.ok((await t.step()) === '1', 'step 1 is current');
   t.ok(await t.page.$eval('[data-clear-search]', (b) => getComputedStyle(b).display === 'none'), 'nothing to clear yet');
   t.ok((await t.page.textContent('[data-wren-next]')).includes('Search INV-20483'), 'the first press is the search');
-  t.ok((await t.page.textContent('[data-wren-view]')).includes('Ten Lakes Hotdish Co., the buyer'), 'the Demo view line names the buyer');
+  t.ok((await t.page.textContent('[data-wren-view]')).includes('Maple Street Bakery, the buyer'), 'the Demo view line names the buyer');
   t.ok((await t.page.textContent('[data-wren-hint]')).includes('Our records show INV-20483 as unpaid'), 'the story opens on what the supplier asks');
   await t.press('[data-search-followed]');
   t.ok((await t.page.inputValue('[data-search]')) === 'INV-20483', 'the box holds the reference');
@@ -114,7 +114,7 @@ await run('search by invoice reference finds one row; by supplier, two; nonsense
   t.ok((await t.rows()) === 1, `one row for the reference, saw ${await t.rows()}`);
   t.ok((await t.status()).includes('1 payment'), `the count is announced: "${await t.status()}"`);
   t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-search')), 'typing keeps focus in the search box');
-  await t.type('[data-search]', 'mesabi');
+  await t.type('[data-search]', 'hillside');
   t.ok((await t.rows()) === 2, `two rows for the supplier, saw ${await t.rows()}`);
   await t.type('[data-search]', 'zzz');
   t.ok((await t.rows()) === 0, 'no rows for nonsense');
@@ -127,11 +127,11 @@ await run('search by invoice reference finds one row; by supplier, two; nonsense
 await run('the status filter narrows to the waiting payment, and combines with search', async (t) => {
   await t.select('[data-filter]', 'waiting');
   t.ok((await t.rows()) === 1, `one waiting payment, saw ${await t.rows()}`);
-  await t.includes('Mesabi Foil & Paper');
-  await t.excludes('Valley Tot');
+  await t.includes('Hillside Packaging');
+  await t.excludes('Valley Flour');
   await t.select('[data-filter]', 'expired');
   t.ok((await t.rows()) === 1, 'one expired payment in the default scenario');
-  await t.includes('Sauk Centre Canning Co.');
+  await t.includes('Sunrise Dairy Supply');
   await t.select('[data-filter]', 'matched');
   t.ok((await t.rows()) === 2, 'two matched');
   await t.type('[data-search]', 'valley');
@@ -139,7 +139,7 @@ await run('the status filter narrows to the waiting payment, and combines with s
 });
 
 await run('the default handoff: find, interpret, process as the supplier, close the loop as the buyer', async (t) => {
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.on('detail');
   t.ok((await t.step()) === '2', 'step 2 on the record');
   t.ok((await t.active()).startsWith('wr-title'), 'a new screen moves focus to its title');
@@ -148,8 +148,8 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.includes('Card issued and notice delivered Oct 28');
   await t.includes('Not yet');
   await t.includes('Matching waits for processing');
-  await t.includes('Who acts next Mesabi Foil & Paper');
-  await t.includes('Mesabi Foil & Paper hasn’t charged the card. It’s good through Nov 27');
+  await t.includes('Who acts next Hillside Packaging');
+  await t.includes('Hillside Packaging hasn’t charged the card. It’s good through Nov 27');
   await t.includes('Valid through Nov 27');
   await t.includes('Last confirmed event Notice delivered');
   t.ok(!(await t.has('[data-review]')), 'no Review match while waiting');
@@ -164,9 +164,9 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.on('notice');
   t.ok((await t.step()) === '3', 'step 3 on the notice');
   t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), 'the button keeps focus, for the next press');
-  t.ok((await t.status()).includes('Now you’re Mesabi'), `the live region reads the story’s line: "${await t.status()}"`);
-  t.ok((await t.page.textContent('[data-wren-view]')).includes('Mesabi Foil & Paper, the supplier'), 'the Demo view line names the supplier');
-  await t.includes('Payment notice from Ten Lakes Hotdish Co.');
+  t.ok((await t.status()).includes('Now you’re Hillside'), `the live region reads the story’s line: "${await t.status()}"`);
+  t.ok((await t.page.textContent('[data-wren-view]')).includes('Hillside Packaging, the supplier'), 'the Demo view line names the supplier');
+  await t.includes('Payment notice from Maple Street Bakery');
   await t.includes('$4,860.00 for invoice INV-20483');
   await t.includes('Valid through Nov 27');
   await t.excludes('Who acts next', 'the supplier does not see the buyer’s next-action block');
@@ -183,7 +183,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.on('detail');
   t.ok((await t.step()) === '4', 'step 4 once processed');
   await t.includes('Processed by supplier');
-  await t.includes('Mesabi Foil & Paper processed it Nov 5, 2:10 pm.');
+  await t.includes('Hillside Packaging processed it Nov 5, 2:10 pm.');
   await t.includes('Ready to match to invoice');
   await t.includes('Who acts next You');
   await t.includes('Activity, 4 events');
@@ -211,14 +211,14 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   /* The list agrees with the record. */
   await t.press('[data-back]');
   await t.on('list');
-  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-open') === 'mesabi-20483'), 'Back returns focus to the row that was opened');
+  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-open') === 'hillside-20483'), 'Back returns focus to the row that was opened');
   await t.type('[data-search]', 'INV-20483');
   await t.includes('Processed and matched');
 });
 
 /* The story, as far as the invoice closing, and on to the exception. */
 const closeLoop = async (t) => {
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.press('[data-role="supplier"]');
   await t.press('[data-process]');
   await t.press('[data-role="buyer"]');
@@ -277,14 +277,14 @@ await run('Start over puts everything back, at the end of the story', async (t) 
   t.ok((await t.step()) === '1', 'step 1 after reset');
   t.ok((await done(t)) === 0, 'Start over clears the rail');
   await t.includes('Not processed yet');
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.includes('Activity, 3 events');
 });
 
 await run('the story’s line follows the state, and it ends', async (t) => {
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.press('[data-role="supplier"]');
-  t.ok((await hint(t)).includes('Now you’re Mesabi'), 'the notice says whose side this is');
+  t.ok((await hint(t)).includes('Now you’re Hillside'), 'the notice says whose side this is');
   await t.press('[data-process]');
   t.ok((await hint(t)).includes('Processed'), `the line moves on: ${await hint(t)}`);
   await t.press('[data-role="buyer"]');
@@ -300,18 +300,18 @@ await run('the story’s line follows the state, and it ends', async (t) => {
 });
 
 await run('a payment the walkthrough doesn’t follow says so, and offers the way back', async (t) => {
-  await t.press('[data-open="valleytot-11920"]');
+  await t.press('[data-open="valleyflour-11920"]');
   t.ok((await hint(t)).includes('Another payment'), `opened another payment: ${await hint(t)}`);
   await t.press('[data-follow]');
   await t.on('detail');
-  await t.includes('Mesabi Foil & Paper · INV-20483');
+  await t.includes('Hillside Packaging · INV-20483');
 });
 
 await run('anywhere on a row opens it; the name is a real button; a drag across the words doesn’t', async (t) => {
   await t.press('[data-search-followed]');
   t.ok(!(await t.has('.wr-open')), 'no Open link at the end of the row');
   t.ok(await t.page.$eval('[data-wren] .wr-row-caret', (c) => c.getBoundingClientRect().width > 10), 'the row’s caret is drawn');
-  t.ok(await t.page.$eval('[data-wren] tbody th button', (b) => b.textContent.startsWith('Mesabi Foil & Paper') && b.hasAttribute('data-open')), 'the supplier’s name is the button');
+  t.ok(await t.page.$eval('[data-wren] tbody th button', (b) => b.textContent.startsWith('Hillside Packaging') && b.hasAttribute('data-open')), 'the supplier’s name is the button');
   const amount = await t.page.$('[data-wren] tbody .wr-num');
   const box = await amount.boundingBox();
   await t.page.mouse.move(box.x + box.width - 4, box.y + box.height / 2);
@@ -325,13 +325,13 @@ await run('anywhere on a row opens it; the name is a real button; a drag across 
   await t.on('detail');
   t.ok((await t.active()).startsWith('wr-title'), 'the record takes focus');
   await t.press('[data-back]');
-  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-open') === 'mesabi-20483'), 'Back lands on the name');
-  await t.press('[data-open="mesabi-20483"]');
+  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-open') === 'hillside-20483'), 'Back lands on the name');
+  await t.press('[data-open="hillside-20483"]');
   await t.on('detail');
 });
 
 await run('Enter in the search opens the one it found, and not one of two', async (t) => {
-  await t.type('[data-search]', 'mesabi');
+  await t.type('[data-search]', 'hillside');
   await t.page.keyboard.press('Enter');
   await t.page.waitForTimeout(60);
   await t.on('list');
@@ -391,7 +391,7 @@ for (const width of [768, 900, 1024, 1280]) {
 }
 
 await run('a mark sits on its sentence’s first line, and every button is one height', async (t) => {
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.press('[data-role="supplier"]');
   await t.press('[data-process]');
   const on = await t.page.$eval('[data-wren] .wr-next-line--marked', (p) => {
@@ -455,9 +455,9 @@ await run('a match that disagrees can’t be confirmed, and leaving it says what
 });
 
 await run('a supplier on the phone: what to tell them first, then when to follow up, and sending the notice again', async (t) => {
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.includes('No charge posted as of Nov 5, 2:05 pm');
-  await t.includes('What to tell them The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@mesabifoil.example on Oct 28');
+  await t.includes('What to tell them The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@hillsidepackaging.example on Oct 28');
   await t.includes('Later: follow up Nov 20 if it’s still unprocessed, a week before the card expires Nov 27');
   /* The call's answer comes before the follow-up, inside the block. */
   const order = await t.page.$eval('[data-wren] .wr-next', (n) => [...n.children].map((c) => c.className.split(' ')[0]).join(','));
@@ -476,7 +476,7 @@ await run('a supplier on the phone: what to tell them first, then when to follow
 
 await run('the list puts what needs you first, and states validity', async (t) => {
   const first = await t.page.$$eval('[data-wren] tbody tr', (r) => r.map((x) => x.getAttribute('data-row')));
-  t.ok(first[0] === 'saukcentre-0921' && first[1] === 'northshore-30077', `expired, then ready: ${first.join(', ')}`);
+  t.ok(first[0] === 'sunrise-0921' && first[1] === 'northshore-30077', `expired, then ready: ${first.join(', ')}`);
   await t.includes('5 payments, 2 need you');
   await t.includes('Valid through');
   await t.includes('Nov 27');
@@ -497,7 +497,7 @@ await run('at a phone’s width the rows are cards with their column names, and 
   t.ok(await t.page.$eval('[data-wren] .wr-frame', (f) => f.scrollWidth <= f.clientWidth + 1), 'the window does not scroll sideways');
   t.ok(await t.page.$eval('[data-search]', (i) => i.getBoundingClientRect().right <= i.closest('.wr-tools').getBoundingClientRect().right + 1), 'the search field stays inside its column');
   t.ok(await t.page.$eval('[data-wren] .wr-row-caret', (c) => c.getBoundingClientRect().width > 10), 'the row’s caret is drawn');
-  await t.press('[data-open="mesabi-20483"]');
+  await t.press('[data-open="hillside-20483"]');
   await t.on('detail');
   await t.press('[data-role="supplier"]');
   await t.press('[data-process]');
