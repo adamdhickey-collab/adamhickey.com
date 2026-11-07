@@ -43,7 +43,7 @@ const SCALE = 2;
 
 /* The record screen the pictures show: the followed payment, processed by
    the supplier and back as the buyer, the match not yet reviewed. */
-const RECORD = ['[data-open="larkspur-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]'];
+const RECORD = ['[data-open="mesabi-20483"]', '[data-role="supplier"]', '[data-process]', '[data-role="buyer"]'];
 
 const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
 const chromium = loadChromium('wren-shots.mjs');
