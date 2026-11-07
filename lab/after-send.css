@@ -109,7 +109,10 @@
   position: relative;
   min-height: 2.25rem;
   white-space: nowrap;
-  padding: var(--space-2xs) 0;
+  /* The inline padding is room for the walkthrough's mark and the focus ring
+     around the word; the margin takes it back, so the words keep their places. */
+  padding: var(--space-2xs) var(--space-xs);
+  margin-inline: calc(-1 * var(--space-xs));
   background: transparent;
   border: 0;
   font-family: var(--font-sans);
@@ -118,13 +121,13 @@
   line-height: var(--leading-ui);
   color: var(--color-muted-gray);
   cursor: pointer;
-  transition: color var(--motion-state) var(--ease);
+  transition: color var(--motion-state) var(--ease), background-color var(--motion-state) var(--ease);
 }
 /* The pressed option's rule, the tab mark the Shortlist's progress uses. */
 .as-toggle::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: var(--space-xs); right: var(--space-xs); bottom: 0;
   height: 2px;
   background: transparent;
   transition: background-color var(--motion-state) var(--ease);
