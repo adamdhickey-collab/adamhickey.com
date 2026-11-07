@@ -546,6 +546,7 @@
   var steps = root.querySelectorAll('[data-wren-step]');
   var hint = root.querySelector('[data-wren-hint]');
   var view = root.querySelector('[data-wren-view]');
+  var scenario = root.querySelector('[data-wren-scenario]');
   var guide = root.querySelector('[data-wren-guide]');
   var nextSlot = root.querySelector('[data-wren-next]');
 
@@ -622,6 +623,12 @@
       var said = el.querySelector('[data-step-said]');
       if (said) said.textContent = done ? ', done' : '';
     });
+    /* The label over the line: which story is running and where it stands,
+       so the alternate ending never reads as the next step of the first. */
+    if (scenario) {
+      scenario.textContent = 'Step ' + w.now + ' of 5 · ' +
+        (state.scenario === 'expired' ? 'Alternate ending: an expired payment' : 'The supplier’s call');
+    }
     /* The reference never breaks at its hyphen. */
     if (hint) hint.innerHTML = esc(w.hint).replace(SEARCHED, '<span class="as-ref">' + SEARCHED + '</span>');
     if (nextSlot) {
