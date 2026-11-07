@@ -402,8 +402,7 @@
 
 /* ---- a chapter's two columns ----
    Since 2026-11-06 (Adam: use the empty right side). One column under 64rem,
-   the words first; from it two equal ones, with the page's wide gap, or
-   Evaluate's narrower one so the right column starts on "My call"'s. */
+   the words first; from it two equal ones, with the page's wide gap. */
 .arc-split { display: grid; gap: var(--space-2xl); margin-bottom: var(--space-3xl); }
 .arc-split > .arc-head { margin-bottom: 0; }
 .arc-split .arc-lead + .arc-lead { margin-top: var(--space-md); }
@@ -411,42 +410,6 @@
 .arc-next .arc-head { margin-bottom: var(--space-lg); }
 @media (min-width: 64rem) {
   .arc-split { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); align-items: start; }
-  .arc-split--pair { column-gap: var(--space-2xl); align-items: center; }
-}
-
-/* Evaluate's fork: my call as one question and its two ends. The line is the
-   rail's pen and draws once, armed below the fold by the page's script; the
-   question and its ends are the page's own text. */
-.ar-fork { display: grid; gap: var(--space-md); margin: 0; }
-.ar-fork-map { display: grid; grid-template-columns: minmax(0, 2fr) var(--space-block) minmax(0, 3fr); align-items: center; }
-.case-section .ar-fork-q {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-heading);
-  color: var(--color-charcoal);
-  text-wrap: balance;
-}
-.ar-fork-lines { display: block; width: 100%; height: 100%; }
-.ar-fork-lines path { fill: none; stroke: var(--color-accent-text); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-/* A reveal rather than a dash: the drawing stretches to its row, and a dash
-   pattern on a stretched path breaks into pieces. */
-.ar-fork.is-armed .ar-fork-lines { clip-path: inset(0 100% 0 0); }
-.ar-fork.is-drawn .ar-fork-lines { animation: ar-reveal var(--motion-draw) var(--ease) forwards; }
-@keyframes ar-reveal { to { clip-path: inset(0); } }
-.ar-fork-ends { display: grid; grid-auto-rows: 1fr; gap: var(--space-md); margin: 0; padding: 0; list-style: none; }
-.ar-fork-ends li { display: grid; align-content: center; gap: var(--space-2xs); margin: 0; padding: 0; }
-.ar-fork-ends li::before { content: none; }
-.ar-fork-if { font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: var(--leading-ui); color: var(--color-accent-text); }
-.ar-fork-ends strong { font-size: var(--text-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); color: var(--color-charcoal); }
-.ar-fork-line { font-size: var(--text-base); line-height: var(--leading-body); color: var(--color-muted-gray); text-wrap: pretty; }
-@media (prefers-reduced-motion: reduce) {
-  .ar-fork.is-armed .ar-fork-lines { clip-path: none; animation: none; }
-}
-@media (max-width: 40rem) {
-  .ar-fork-map { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-md); }
-  .ar-fork-lines { display: none; }
 }
 
 /* ---------- The rule: three kinds of change ----------
