@@ -4,9 +4,13 @@
    else, where it runs under the hero.
 
    EVERYTHING HERE IS SIMULATED, and the page says so before anyone presses.
-   Wren Payments is a made-up product, Fieldstone Foods a made-up buyer,
-   Larkspur Packaging a made-up supplier, and every reference below is
-   synthetic. No card number, no account, no network, no file, no sign-in.
+   Wren Payments is a made-up product, Ten Lakes Hotdish Co. a made-up buyer,
+   Mesabi Foil & Paper a made-up supplier, and every reference below is
+   synthetic. Since 2026-11-07 (Adam: the scenario was boring) the buyer
+   makes frozen hotdish in Fridley and the supplier sells it foil pans from
+   Hibbing, so the list reads as the recipe: tots, soup, pans, and the
+   freight. The quirk lives in the nouns and the item line of each invoice;
+   the events, the statuses, and the words of the story did not move. No card number, no account, no network, no file, no sign-in.
    "Process this payment" charges nothing; it adds an event to a list in
    this file. The public sources the page cites establish the domain
    (buyer-to-supplier virtual payments, remittance, reconciliation); the
@@ -72,47 +76,49 @@
 
   var TODAY = 'Nov 5';               /* the demo's clock, fixed */
   var PRODUCT = 'Wren Payments';
-  var BUYER = { name: 'Fieldstone Foods', team: 'Accounts payable' };
+  var BUYER = { name: 'Ten Lakes Hotdish Co.', team: 'Accounts payable' };
 
   /* The one payment the walkthrough follows, and four more so the list can
-     be searched and filtered. Amounts in cents, so nothing is rounded. */
+     be searched and filtered. Amounts in cents, so nothing is rounded. `item`
+     is what the invoice is for, in the supplier's words, shown under the
+     reference on the record and the notice. */
   var BASE = [
-    { id: 'larkspur-20483', ref: 'VP-7Q2M-11', supplier: 'Larkspur Packaging', invoice: 'INV-20483', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27', followUp: 'Nov 20', noticeTo: 'ar@larkspur.example',
+    { id: 'mesabi-20483', ref: 'VP-7Q2M-11', supplier: 'Mesabi Foil & Paper', invoice: 'INV-20483', item: '8,000 9x13 foil pans with lids', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27', followUp: 'Nov 20', noticeTo: 'ar@mesabifoil.example',
       events: [
         { at: 'Oct 28, 9:14 am', kind: 'issued', what: 'Payment issued for INV-20483', by: BUYER.name + ' accounts payable' },
-        { at: 'Oct 28, 9:15 am', kind: 'notice', what: 'Payment notice sent to Larkspur Packaging', by: PRODUCT },
-        { at: 'Oct 28, 9:16 am', kind: 'delivered', what: 'Notice delivered to Larkspur’s accounts receivable inbox', by: PRODUCT }
+        { at: 'Oct 28, 9:15 am', kind: 'notice', what: 'Payment notice sent to Mesabi Foil & Paper', by: PRODUCT },
+        { at: 'Oct 28, 9:16 am', kind: 'delivered', what: 'Notice delivered to Mesabi’s accounts receivable inbox', by: PRODUCT }
       ] },
-    { id: 'cedar-11920', ref: 'VP-3H8K-02', supplier: 'Cedar Ridge Produce', invoice: 'INV-11920', amount: 221550, sent: 'Oct 22', validThrough: 'Nov 21',
+    { id: 'valleytot-11920', ref: 'VP-3H8K-02', supplier: 'Valley Tot Co.', invoice: 'INV-11920', item: '1,500 lb frozen tots', amount: 221550, sent: 'Oct 22', validThrough: 'Nov 21',
       events: [
         { at: 'Oct 22, 10:02 am', kind: 'issued', what: 'Payment issued for INV-11920', by: BUYER.name + ' accounts payable' },
-        { at: 'Oct 22, 10:03 am', kind: 'notice', what: 'Payment notice sent to Cedar Ridge Produce', by: PRODUCT },
-        { at: 'Oct 24, 8:40 am', kind: 'processed', what: 'Processed by Cedar Ridge Produce', by: 'Cedar Ridge Produce' },
+        { at: 'Oct 22, 10:03 am', kind: 'notice', what: 'Payment notice sent to Valley Tot Co.', by: PRODUCT },
+        { at: 'Oct 24, 8:40 am', kind: 'processed', what: 'Processed by Valley Tot Co.', by: 'Valley Tot Co.' },
         { at: 'Oct 24, 1:15 pm', kind: 'matched', what: 'Matched to INV-11920', by: BUYER.name + ' accounts payable' }
       ] },
-    { id: 'bright-30077', ref: 'VP-9C4D-07', supplier: 'Bright Harbor Logistics', invoice: 'INV-30077', amount: 1240000, processedAmount: 1204000, sent: 'Oct 30', validThrough: 'Nov 29',
+    { id: 'northshore-30077', ref: 'VP-9C4D-07', supplier: 'Northshore Freight Lines', invoice: 'INV-30077', item: 'Freezer runs, Fridley to Fargo and Des Moines, October', amount: 1240000, processedAmount: 1204000, sent: 'Oct 30', validThrough: 'Nov 29',
       events: [
         { at: 'Oct 30, 3:48 pm', kind: 'issued', what: 'Payment issued for INV-30077', by: BUYER.name + ' accounts payable' },
-        { at: 'Oct 30, 3:49 pm', kind: 'notice', what: 'Payment notice sent to Bright Harbor Logistics', by: PRODUCT },
-        { at: 'Nov 3, 11:20 am', kind: 'processed', what: 'Processed by Bright Harbor Logistics', by: 'Bright Harbor Logistics' }
+        { at: 'Oct 30, 3:49 pm', kind: 'notice', what: 'Payment notice sent to Northshore Freight Lines', by: PRODUCT },
+        { at: 'Nov 3, 11:20 am', kind: 'processed', what: 'Processed by Northshore Freight Lines', by: 'Northshore Freight Lines' }
       ] },
-    { id: 'tamsin-0921', ref: 'VP-5N1R-04', supplier: 'Tamsin Office Supply', invoice: 'INV-0921', amount: 31875, sent: 'Sep 30', validThrough: 'Oct 30',
+    { id: 'saukcentre-0921', ref: 'VP-5N1R-04', supplier: 'Sauk Centre Canning Co.', invoice: 'INV-0921', item: '25 cases cream of mushroom soup', amount: 31875, sent: 'Sep 30', validThrough: 'Oct 30',
       events: [
         { at: 'Sep 30, 2:05 pm', kind: 'issued', what: 'Payment issued for INV-0921', by: BUYER.name + ' accounts payable' },
-        { at: 'Sep 30, 2:06 pm', kind: 'notice', what: 'Payment notice sent to Tamsin Office Supply', by: PRODUCT },
+        { at: 'Sep 30, 2:06 pm', kind: 'notice', what: 'Payment notice sent to Sauk Centre Canning Co.', by: PRODUCT },
         { at: 'Oct 31, 12:00 am', kind: 'expired', what: 'Validity date passed. The payment expired without being processed.', by: PRODUCT }
       ] },
-    { id: 'larkspur-20391', ref: 'VP-2W6T-09', supplier: 'Larkspur Packaging', invoice: 'INV-20391', amount: 114000, sent: 'Oct 9', validThrough: 'Nov 8',
+    { id: 'mesabi-20391', ref: 'VP-2W6T-09', supplier: 'Mesabi Foil & Paper', invoice: 'INV-20391', item: '3,000 half-size foil pans', amount: 114000, sent: 'Oct 9', validThrough: 'Nov 8',
       events: [
         { at: 'Oct 9, 9:30 am', kind: 'issued', what: 'Payment issued for INV-20391', by: BUYER.name + ' accounts payable' },
-        { at: 'Oct 9, 9:31 am', kind: 'notice', what: 'Payment notice sent to Larkspur Packaging', by: PRODUCT },
-        { at: 'Oct 12, 4:12 pm', kind: 'processed', what: 'Processed by Larkspur Packaging', by: 'Larkspur Packaging' },
+        { at: 'Oct 9, 9:31 am', kind: 'notice', what: 'Payment notice sent to Mesabi Foil & Paper', by: PRODUCT },
+        { at: 'Oct 12, 4:12 pm', kind: 'processed', what: 'Processed by Mesabi Foil & Paper', by: 'Mesabi Foil & Paper' },
         { at: 'Oct 13, 9:05 am', kind: 'matched', what: 'Matched to INV-20391', by: BUYER.name + ' accounts payable' }
       ] }
   ];
-  var FOLLOWED = 'larkspur-20483';
+  var FOLLOWED = 'mesabi-20483';
   var SEARCHED = 'INV-20483';        /* what the supplier on the phone gave */
-  var HINT_START = 'Larkspur Packaging, the supplier, calls: “Our records show INV-20483 as unpaid. Can you check it?” Your screen says paid.';
+  var HINT_START = 'Mesabi Foil & Paper, the supplier, calls: “Our records show INV-20483 as unpaid. Can you check it?” Your screen says paid.';
 
   /* The exception: the same payment, its validity date a day before the
      demo's today, and no processing event ever arrived. */
@@ -318,7 +324,7 @@
        the same reference and amount, so the row steps aside while it is open
        and the buttons stay inside the window. */
     if (!(state.reviewing && pr === 'processed' && m === 'unmatched')) s += '<dl class="wr-grid">' +
-      '<div><dt>Invoice reference</dt><dd><span class="wr-ref">' + p.invoice + '</span></dd></div>' +
+      '<div><dt>Invoice reference</dt><dd><span class="wr-ref">' + p.invoice + '</span><span class="wr-when">' + esc(p.item) + '</span></dd></div>' +
       '<div><dt>Amount</dt><dd>' + money(p.amount) + '</dd></div>' +
       '<div><dt>Valid through</dt><dd>' + validThrough(p) + (pr === 'expired' ? ' <span class="wr-muted">(passed)</span>' : '') + '</dd></div>' +
       '<div><dt>Last confirmed event</dt><dd>' + esc(lastEv.what) + '<span class="wr-when">' + lastEv.at + '</span></dd></div>' +
@@ -454,7 +460,7 @@
       '</header>' +
       '<dl class="wr-grid wr-grid--notice">' +
         '<div><dt>From</dt><dd>' + BUYER.name + '</dd></div>' +
-        '<div><dt>Invoice reference</dt><dd><span class="wr-ref">' + p.invoice + '</span></dd></div>' +
+        '<div><dt>Invoice reference</dt><dd><span class="wr-ref">' + p.invoice + '</span><span class="wr-when">' + esc(p.item) + '</span></dd></div>' +
         '<div><dt>Amount</dt><dd>' + money(p.amount) + '</dd></div>' +
         '<div><dt>Valid through</dt><dd>' + validThrough(p) + '</dd></div>' +
         '<div><dt>Payment reference</dt><dd><span class="wr-ref">' + p.ref + '</span></dd></div>' +
@@ -499,7 +505,7 @@
     var other = state.screen !== 'list' && state.open && state.open !== FOLLOWED;
     var otherLine = 'Another payment on the list. The story follows ' + SEARCHED + '.';
     var otherNext = TO_FOLLOWED;
-    if (other && state.open === 'bright-30077') {
+    if (other && state.open === 'northshore-30077') {
       otherLine = state.reviewing
         ? 'The two amounts don’t agree, so there’s no Confirm match. The story follows ' + SEARCHED + '.'
         : 'Processed for less than the invoice. Review the match to see the check hold.';
@@ -514,7 +520,7 @@
         'An alternate ending, not what came next: the same card, expiring Nov 4 instead of Nov 27, never charged. Your move.' };
     }
     if (m === 'matched') {
-      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed, and each fact has its own date. Last, a different ending: what if Larkspur never charges the card?' };
+      return { now: 5, done: 4, next: other ? otherNext : TO_EXPIRED, hint: other ? otherLine : SEARCHED + ' is closed, and each fact has its own date. Last, a different ending: what if Mesabi never charges the card?' };
     }
     /* On the list, the search comes first: the row is offered once it is the
        one row showing, and searched for if it is among others or gone. */
@@ -522,13 +528,13 @@
     var onList = rows.length === 1 && rows[0].id === FOLLOWED ? TO_OPEN : TO_SEARCH;
     if (pr === 'processed') {
       if (other) return { now: 4, done: 3, next: otherNext, hint: otherLine };
-      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed: the card is charged. That’s all Larkspur has to do, so back to the buyer’s record of the same payment.' };
+      if (state.screen === 'notice') return { now: 3, done: 2, next: TO_BUYER, hint: 'Processed: the card is charged. That’s all Mesabi has to do, so back to the buyer’s record of the same payment.' };
       if (state.screen === 'list') return { now: 4, done: 3, next: onList, hint: 'Find ' + SEARCHED + ' again to close the loop.' };
-      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Fieldstone again. Larkspur charged the card, so the record reads processed and ready to match. Close the invoice.' };
+      return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Ten Lakes again. Mesabi charged the card, so the record reads processed and ready to match. Close the invoice.' };
     }
     if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Larkspur, the supplier. The notice shows only what Fieldstone shared, and one thing to do: charge the card.' };
-    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Issued, not charged. The record says what to tell Larkspur now, what to do later, and that Larkspur acts next.' };
+    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Mesabi, the supplier. The notice shows only what Ten Lakes shared, and one thing to do: charge the card.' };
+    if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Issued, not charged. The record says what to tell Mesabi now, what to do later, and that Mesabi acts next.' };
     return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
       ? 'One payment, and the list says it isn’t processed yet. Open it to see where it stands.'
       : HINT_START };
@@ -726,7 +732,7 @@
       state = fresh('expired');
       state.open = FOLLOWED;
       state.screen = 'detail';
-      render({ focus: '.wr-title', announce: 'An alternate ending. The same payment to Larkspur Packaging, its card expired Nov 4 with no charge.' });
+      render({ focus: '.wr-title', announce: 'An alternate ending. The same payment to Mesabi Foil & Paper, its card expired Nov 4 with no charge.' });
       return;
     }
     if (t.hasAttribute('data-role')) {
