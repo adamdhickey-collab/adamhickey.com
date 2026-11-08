@@ -394,7 +394,7 @@
         '</div>' +
         '<p class="wr-next-later"><strong>Later:</strong> follow up ' + p.followUp + ' if it’s still unprocessed, a week before the card expires ' + validThrough(p) + '.</p>';
     } else if (pr === 'processed' && m === 'unmatched') {
-      who = 'You';
+      who = BUYER.name + ', ' + BUYER.team.toLowerCase();
       line = esc(p.supplier) + ' processed it. Match it to ' + p.invoice + ' so the invoice closes in your books.';
       /* The panel's own button takes over while it is open: one primary. */
       if (!state.reviewing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-review aria-expanded="false" aria-controls="wr-match">Review match</button></p>';
@@ -402,7 +402,7 @@
       who = 'No one';
       line = 'This payment is processed and matched. There is nothing left to do on it.';
     } else {
-      who = 'You';
+      who = BUYER.name + ', ' + BUYER.team.toLowerCase();
       line = 'The card can’t be charged now. Check for a late charge first; then a replacement would be a new payment for ' + p.invoice + ' with a new validity date.';
       if (!state.replacing) act = '<p class="wr-act"><button type="button" class="btn btn-primary wr-btn" data-replace aria-expanded="false" aria-controls="wr-replace">Review replacement options</button></p>';
     }
