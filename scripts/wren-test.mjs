@@ -185,7 +185,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.includes('Processed by supplier');
   await t.includes('Hillside Packaging processed it Nov 5, 2:10 pm.');
   await t.includes('Ready to match to invoice');
-  await t.includes('Who acts next You');
+  await t.includes('Who acts next Maple Street Bakery, accounts payable');
   await t.includes('Activity, 4 events');
   await t.press('[data-review]');
   t.ok((await t.active()).startsWith('wr-panel-h'), 'the match panel takes focus');
@@ -249,7 +249,7 @@ await run('the expired scenario: what expired, what happened, who acts next, and
   await t.includes('The card’s date passed with no charge posted as of Nov 5, 2:05 pm. A late charge can still post for a day, so check again before replacing it.');
   await t.excludes('Nothing was charged', 'the expired record does not claim certainty a day-old read cannot give');
   await t.includes('Nothing to match');
-  await t.includes('Who acts next You');
+  await t.includes('Who acts next Maple Street Bakery, accounts payable');
   await t.includes('Valid through Nov 4 (passed)');
   await t.includes('Activity, 4 events');
   t.ok(!(await t.has('[data-review]')), 'no match review on an expired payment');
@@ -457,7 +457,7 @@ await run('a match that disagrees can’t be confirmed, and leaving it says what
   t.ok(!(await t.has('[data-confirm-match]')), 'no Confirm match');
   await t.press('[data-decline-match]');
   await t.includes('Check it with Northshore Freight Lines');
-  await t.includes('Who acts next You');
+  await t.includes('Who acts next Maple Street Bakery, accounts payable');
 });
 
 await run('a supplier on the phone: what to tell them first, then when to follow up, and sending the notice again', async (t) => {
