@@ -463,7 +463,7 @@ await run('a match that disagrees can’t be confirmed, and leaving it says what
 await run('a supplier on the phone: what to tell them first, then when to follow up, and sending the notice again', async (t) => {
   await t.press('[data-open="hillside-20483"]');
   await t.includes('No charge posted as of Nov 5, 2:05 pm');
-  await t.includes('What to tell Hillside Packaging The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@hillsidepackaging.example on Oct 28');
+  await t.includes('What to tell Hillside Packaging The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@hillsidepackaging.com on Oct 28');
   await t.includes('Later: follow up Nov 20 if it’s still unprocessed, a week before the card expires Nov 27');
   /* The call's answer comes before the follow-up, inside the block. */
   const order = await t.page.$eval('[data-wren] .wr-next', (n) => [...n.children].map((c) => c.className.split(' ')[0]).join(','));

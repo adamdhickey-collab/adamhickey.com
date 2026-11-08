@@ -81,7 +81,7 @@
      is what the invoice is for, in the supplier's words, shown under the
      reference on the record and the notice. */
   var BASE = [
-    { id: 'hillside-20483', ref: 'VP-7Q2M-11', supplier: 'Hillside Packaging', invoice: 'INV-20483', item: '8,000 bakery boxes', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27', followUp: 'Nov 20', noticeTo: 'ar@hillsidepackaging.example',
+    { id: 'hillside-20483', ref: 'VP-7Q2M-11', supplier: 'Hillside Packaging', invoice: 'INV-20483', item: '8,000 bakery boxes', amount: 486000, sent: 'Oct 28', validThrough: 'Nov 27', followUp: 'Nov 20', noticeTo: 'ar@hillsidepackaging.com',
       events: [
         { at: 'Oct 28, 9:14 am', kind: 'issued', what: 'Payment issued for INV-20483', by: BUYER.name + ' accounts payable' },
         { at: 'Oct 28, 9:15 am', kind: 'notice', what: 'Payment notice sent to Hillside Packaging', by: PRODUCT },
