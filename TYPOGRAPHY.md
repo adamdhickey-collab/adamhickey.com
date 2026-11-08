@@ -210,8 +210,8 @@ its own, and `max()` rather than a media query for the reason the
 homepage's lifted heading floors give below: no seam.
 
 **The essay column's `h2` steps down a ramp, and stops at a phone.** Inside
-`.writing-measure`, the column of the articles, The Shortlist, and the
-cockpit write-up, a section head takes `--type-subsection` rather than
+`.writing-measure`, the column of the articles and the cockpit write-up, a
+section head takes `--type-subsection` rather than
 `--type-section`: those pages run to twenty-odd sections, and at 48 each
 read as a chapter opening. Since 2026-10-29 it takes
 `max(--type-subsection, --text-3xl)`, 28 on a phone instead of 24, which
@@ -220,10 +220,11 @@ Montserrat, the serif's x-height left the head barely larger than the
 sentence under it. The ramp is unchanged from about 752px, where it passes
 28 on its own, so the step down still holds on a desktop (34 against 48),
 and the phone ladder on those pages is the site's own, 34 · 28 · 24.
-After Send wraps its chapter heads in the measure for the width alone and
-takes the ladder's `--type-section` anyway (`lab/after-send.css`): its story's
-step heads are the ladder's `h3`, and a 34px head over a 34px step is no
-step.
+After Send and The Shortlist wrap their chapter heads in the measure for the
+width alone and take the ladder's `--type-section` anyway
+(`lab/after-send.css`, `lab/inspiration-to-aisle.css`): the lab write-ups
+share one ladder with Agent Review, and on After Send the story's step heads
+are the ladder's `h3`, so a 34px head over a 34px step was no step.
 
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
