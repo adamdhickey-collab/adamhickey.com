@@ -220,6 +220,10 @@ Montserrat, the serif's x-height left the head barely larger than the
 sentence under it. The ramp is unchanged from about 752px, where it passes
 28 on its own, so the step down still holds on a desktop (34 against 48),
 and the phone ladder on those pages is the site's own, 34 · 28 · 24.
+After Send wraps its chapter heads in the measure for the width alone and
+takes the ladder's `--type-section` anyway (`lab/after-send.css`): its story's
+step heads are the ladder's `h3`, and a 34px head over a 34px step is no
+step.
 
 Nothing below `h3` is fluid. A 20px label is 20px on every screen; scaling it
 buys nothing and costs a token.
