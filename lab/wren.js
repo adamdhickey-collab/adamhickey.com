@@ -38,6 +38,15 @@
    changes role or scenario. Everything is deterministic: the clock is a
    fixed demo date, and every timestamp is written below.
 
+   A "NO" IS DATED EVERYWHERE, since 2026-11-08. The record's fact line had
+   said "no charge posted as of" the last read while the line to say on the
+   phone said "the card hasn't been charged", a certainty the events cannot
+   give; a review that day caught the gap. What to tell the supplier, the
+   next-action line and the replacement panel now carry CHECKED_AT too, the
+   one-day late-posting window is named as this scenario's rule, and the
+   guide's hint says the button processes the payment, which charges the
+   card: one verb for the action, explained once.
+
    ONE PAYMENT THAT CAN'T BE MATCHED. Bright Harbor processed less than the
    invoice says, so its proposed match disagrees and offers no Confirm. It
    is there so the side-by-side check is a check, not a formality.
@@ -378,7 +387,7 @@
     var who, line, act = '';
     if (pr === 'sent') {
       who = p.supplier;
-      line = esc(p.supplier) + ' hasn’t charged the card. It’s good through ' + validThrough(p) + '.';
+      line = 'No charge from ' + esc(p.supplier) + ' as of ' + CHECKED_AT + '. The card is good through ' + validThrough(p) + '.';
       /* The scene is this supplier on the phone, so the record answers the
          call before it schedules anything: what to tell them, who got the
          notice, and the one thing to do now. The follow-up is a second,
@@ -386,7 +395,7 @@
          then the follow-up led and the call's answer came after it. */
       var sent = dateOf(find(eventsOf(p), 'notice').at);
       act = '<div class="wr-tell"' + (state.resent[p.id] ? ' tabindex="-1" data-resent' : '') + '><h5 class="wr-tell-h">What to tell ' + esc(p.supplier) + '</h5>' +
-        '<p class="wr-tell-line">The card hasn’t been charged, so the invoice is open on both sides. The notice went to ' + p.noticeTo + ' on ' + sent +
+        '<p class="wr-tell-line">No charge posted as of ' + CHECKED_AT + ', so the invoice is open on both sides. The notice went to ' + p.noticeTo + ' on ' + sent +
         (state.resent[p.id]
           ? ', and again ' + RESENT_AT + '.</p>'
           : '. Confirm that’s the right inbox, and send it again if it isn’t.</p>' +
@@ -440,10 +449,10 @@
   function replacePanel(p) {
     return '<div class="wr-panel" id="wr-replace"><h5 class="wr-panel-h" tabindex="-1">Replacement options</h5>' +
       '<ol class="wr-steps">' +
-        '<li><strong>Check for a late charge first.</strong> A charge can post up to a day after the date. One from ' + esc(p.supplier) + ' would put this payment back to ready to match, and there would be nothing to replace.</li>' +
+        '<li><strong>Check for a late charge first.</strong> In this scenario a charge can post up to a day after the date. One from ' + esc(p.supplier) + ' would put this payment back to ready to match, and there would be nothing to replace.</li>' +
         '<li><strong>Check with ' + esc(p.supplier) + '</strong> that the notice reached the right person. The validity date, not the invoice, is what ran out.</li>' +
         '<li><strong>A replacement payment</strong> would be a new payment for ' + p.invoice + ', ' + money(p.amount) + ', with a new validity date. Issuing one needs your approver, and it is outside this demo.</li>' +
-        '<li><strong>Don’t pay twice.</strong> No charge has posted on this card. A replacement replaces it; it doesn’t add to it.</li>' +
+        '<li><strong>Don’t pay twice.</strong> No charge had posted as of ' + CHECKED_AT + '. A replacement replaces it; it doesn’t add to it.</li>' +
       '</ol>' +
       '<p class="wr-row"><button type="button" class="btn btn-ghost-light wr-btn" data-close-replace>Close</button></p></div>';
   }
@@ -531,7 +540,7 @@
       return { now: 4, done: 3, next: state.reviewing ? TO_CONFIRM : TO_REVIEW, hint: state.reviewing ? 'The invoice and the payment, side by side. The supplier and the amount agree.' : 'You’re Maple Street again. Hillside charged the card, so the record reads processed and ready to match. Close the invoice.' };
     }
     if (other) return { now: 1, done: 0, next: otherNext, hint: otherLine };
-    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Hillside, the supplier. The notice shows only what Maple Street shared, and one thing to do: charge the card.' };
+    if (state.screen === 'notice') return { now: 3, done: 2, next: TO_PROCESS, hint: 'Now you’re Hillside, the supplier. The notice shows only what Maple Street shared, and one thing to do: process the payment, which charges the card.' };
     if (state.screen === 'detail') return { now: 2, done: 1, next: TO_SUPPLIER, hint: 'Issued, not charged. The record says what to tell Hillside now, what to do later, and that Hillside acts next.' };
     return { now: 1, done: 0, next: onList, hint: onList === TO_OPEN
       ? 'One payment, and the list says it isn’t processed yet. Open it to see where it stands.'
