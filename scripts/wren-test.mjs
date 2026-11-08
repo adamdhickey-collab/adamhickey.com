@@ -350,7 +350,9 @@ for (const width of [1440, 1024, 768]) {
       walked.push(label);
       t.ok((await t.page.$$eval('[data-wren] [data-target]', (l) => l.length)) === 0, `nothing marked at "${label}"`);
       /* Measured against the guide, because the page may scroll under it. */
-      spots.add(await t.page.$eval('[data-wren-next] button', (b) => { const r = b.getBoundingClientRect(), g = b.closest('.as-guide').getBoundingClientRect(); return `${r.left - g.left},${r.top - g.top}`; }));
+      /* From 64rem the button sits right of the words, so its right edge is
+         the one that holds; under it, its left. */
+      spots.add(await t.page.$eval('[data-wren-next] button', (b, wide) => { const r = b.getBoundingClientRect(), g = b.closest('.as-guide').getBoundingClientRect(); return `${wide ? r.right - g.left : r.left - g.left},${r.top - g.top}`; }, width >= 1024));
       if (label === 'Start over') break;
       await t.press('[data-wren-next] button');
       t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.classList.contains('as-next')), `focus stays on the button after "${label}"`);
@@ -358,7 +360,11 @@ for (const width of [1440, 1024, 768]) {
     const want = ['Search INV-20483', 'Open INV-20483', 'View the supplier’s notice', 'Process this payment', 'Back to the buyer’s record', 'Review match', 'Confirm match', 'See an expired payment', 'Review replacement options', 'Start over'];
     t.ok(walked.join('|') === want.join('|'), `the presses, in order: ${walked.join(' | ')}`);
     t.ok(spots.size === 1, `the button holds one place: ${[...spots].join(' ')}`);
-    t.ok(await t.page.$eval('[data-wren-next] button', (b) => Math.abs(b.getBoundingClientRect().left - document.querySelector('.as-steps').getBoundingClientRect().left) <= 1), 'the button starts on the steps’ left edge');
+    t.ok(await t.page.$eval('[data-wren-next] button', (b, wide) => {
+      const r = b.getBoundingClientRect(), card = b.closest('.as-guide-card'), c = card.getBoundingClientRect(), pad = parseFloat(getComputedStyle(card).paddingLeft);
+      const text = card.querySelector('.as-guide-text').getBoundingClientRect();
+      return wide ? Math.abs(r.right - (c.right - pad - 1)) <= 1 : Math.abs(r.left - text.left) <= 1;
+    }, width >= 1024), width >= 1024 ? 'the button ends on the card’s right inset' : 'the button starts on the words’ left edge');
     await t.press('[data-wren-next] button');
     await t.on('list');
     t.ok((await t.page.inputValue('[data-search]')) === '' && (await t.rows()) === 5, 'Start over is the whole list again');
