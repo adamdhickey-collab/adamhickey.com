@@ -367,53 +367,6 @@
 .case-section .arc-after { max-width: var(--measure); text-wrap: pretty; }
 .arc-after { margin-top: var(--space-2xl); }
 
-/* ---- How it started ----
-   Two columns from 64rem: the experiment on the left, and on the right the
-   build, one drawing over its paragraph, in the hand of the case studies'
-   Overview drawings, on a figure card since 2026-11-03 (Adam: "the right
-   hand side on a card"), so the build separates from the experiment. The
-   drawing is centered at most of the card's width, with air around it. The
-   lead and the paragraphs under it are one run of text here, so the head
-   closes at a paragraph's gap rather than a chapter head's. Under 64rem it
-   is one column, in that order. */
-.arc-started { display: grid; gap: var(--space-2xl); }
-.arc-started .arc-head { margin-bottom: var(--space-md); }
-/* The build's card is charcoal, so it reads as code (Adam, 2026-11-03), and
-   its type is a step smaller than the column beside it. The drawing is on a
-   transparent ground, so the card's fill shows through, and its dashed
-   connectors are recolored to the on-dark ink so they read on the charcoal. */
-.arc-started-build {
-  --color-focus-ring: var(--color-accent-on-dark);
-  align-self: start;
-  padding: var(--space-lg) var(--space-md);
-  background: var(--color-charcoal);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-}
-@media (min-width: 640px) { .arc-started-build { padding: var(--space-2xl); } }
-.arc-started-art { margin: 0 auto var(--space-xl); max-width: 80%; }
-.arc-started-art img { display: block; width: 100%; height: auto; }
-.case-section .arc-started-build > p {
-  margin-bottom: 0;
-  font-size: var(--text-sm);
-  color: var(--ink-on-dark);
-}
-.case-section .arc-started-build > p strong { color: var(--ink-on-dark); }
-.case-section .arc-measure.arc-started-build > p:not([class]) a {
-  color: var(--color-accent-on-dark);
-  text-decoration-color: currentColor;
-}
-.case-section .arc-measure.arc-started-build > p:not([class]) a:focus-visible { color: var(--ink-on-dark); }
-@media (hover: hover) and (pointer: fine) {
-  .case-section .arc-measure.arc-started-build > p:not([class]) a:hover { color: var(--ink-on-dark); }
-}
-@media (min-width: 64rem) {
-  .arc-started {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-4xl);
-  }
-}
-
 /* ---- a chapter's two columns ----
    Since 2026-11-06 (Adam: use the empty right side). One column under 64rem,
    the words first; from it two equal ones, with the page's wide gap, or
@@ -723,30 +676,24 @@
 .arc-standing { margin: var(--space-md) 0 0; max-width: var(--measure); font-size: var(--text-sm); line-height: var(--leading-body); color: var(--color-muted-gray); }
 
 /* ---- the rest of the page ---- */
-#findings .writing-facts { margin: var(--space-xl) 0; }
-/* The numeral row over the findings takes the loop's three columns from
-   1024, so the page's two three-column strips share one set of tracks
-   rather than the row's auto-fit tracks and tighter gap. */
-@media (min-width: 1024px) {
-  #findings .writing-facts {
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: var(--space-2xl);
-  }
-}
 /* The prose link, in the paragraphs this page sets inside .arc-measure.
    style.css's group reaches only a paragraph directly under .container,
-   so these links ("The full record", the research plan) sat in the sentence's own ink with no underline. Same treatment
+   so these links (the research plan, and the experiment record in the
+   six stages' lead) sat in the sentence's own ink with no underline. Same treatment
    as that group. */
-.arc-measure > p:not([class]) a {
+.arc-measure > p:not([class]) a,
+.case-section .arc-lead a {
   color: var(--color-accent-text);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2em;
   transition: color var(--motion-state) var(--ease);
 }
-.arc-measure > p:not([class]) a:focus-visible { color: var(--color-charcoal); }
+.arc-measure > p:not([class]) a:focus-visible,
+.case-section .arc-lead a:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
-  .arc-measure > p:not([class]) a:hover { color: var(--color-charcoal); }
+  .arc-measure > p:not([class]) a:hover,
+  .case-section .arc-lead a:hover { color: var(--color-charcoal); }
 }
 /* The shared glance labels, in sentence case on this page. */
 .arc .glance-facts dt { text-transform: none; letter-spacing: var(--tracking-normal); font-size: var(--text-xs); }
