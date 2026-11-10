@@ -1,0 +1,70 @@
+/* ---------- The lead-in over a live prototype ----------
+   Since 2026-11-10, on Agent Review and After Send: one card right above the
+   working thing, holding the problem and the decision in two lines, and at
+   its foot the "Try it, it's live" label with one sentence saying what to
+   press. A reader who scrolls straight to the prototype, or an interviewer
+   shown it on a call, gets the story before pressing anything.
+
+   It is the one card on the page that asks the reader to act, so it takes
+   --shadow-card-raised rather than the resting drop, and sits on charcoal,
+   the dark band's ground, so it reads apart from the tinted chapter around
+   it (tea on Agent Review, tea-light on After Send) and from the light
+   prototype under it. The ink is the on-dark set (COLOR.md). The two
+   statements are read as a dek is, so they take the dek's one treatment:
+   the serif at --type-lede on --leading-tight, 400 (TYPOGRAPHY.md). The
+   field labels are the Kicker's, 12px tracked caps, in the sage that reads
+   on charcoal. */
+.try-lead {
+  margin: 0 0 var(--space-xl);
+  padding: var(--space-xl);
+  background: var(--color-charcoal);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card-raised);
+}
+.try-lead-facts {
+  display: grid;
+  gap: var(--space-xl);
+  margin: 0;
+}
+.try-lead-facts dt {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-accent-on-dark);
+}
+.try-lead-facts dd {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--type-lede);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  color: var(--ink-on-dark);
+  text-wrap: pretty;
+}
+/* The invitation, under a hairline: the label, then what to press. */
+.try-lead-go {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-on-dark);
+}
+.try-lead p.try-live { margin: 0 0 var(--space-2xs); color: var(--color-accent-on-dark); }
+/* Two classes and the element, to outrank .case-section p, which sets
+   charcoal on every paragraph in a chapter. */
+.try-lead p.try-lead-press {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-body);
+  color: var(--ink-on-dark);
+}
+@media (min-width: 48rem) {
+  .try-lead { padding: var(--space-2xl); }
+  .try-lead-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-2xl); }
+}
