@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BLY8X4YCNK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-BLY8X4YCNK");
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing human review for an agentic SAP workflow | Adam Hickey</title>
+  <meta name="description" content="UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma." />
+
+  <link rel="canonical" href="https://adamhickey.com/case-study/agentic-sto-approval.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://adamhickey.com/case-study/agentic-sto-approval.html" />
+  <meta property="og:title" content="Designing human review for an agentic SAP workflow | Adam Hickey" />
+  <meta property="og:description" content="UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma." />
+  <meta property="og:image" content="https://adamhickey.com/img/og/agentic-sto-approval.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- What a machine reads instead of guessing from the prose: who this is,
+       where, and what this page is. The @id values are shared across the site,
+       so a case study's author and the homepage's Person are one entity rather
+       than two people with the same name. Nothing here asserts anything the
+       page does not already say in words. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://adamhickey.com/case-study/agentic-sto-approval.html#article",
+          "headline": "Where a person checks an agent before it reaches SAP",
+          "description": "UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma.",
+          "url": "https://adamhickey.com/case-study/agentic-sto-approval.html",
+          "mainEntityOfPage": "https://adamhickey.com/case-study/agentic-sto-approval.html",
+          "image": "https://adamhickey.com/img/og/agentic-sto-approval.jpg",
+          "datePublished": "2026-11-13",
+          "dateModified": "2026-11-13",
+          "author": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "publisher": {
+            "@id": "https://adamhickey.com/#adam"
+          },
+          "isPartOf": {
+            "@id": "https://adamhickey.com/#website"
+          },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://adamhickey.com/case-study/agentic-sto-approval.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://adamhickey.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Work",
+              "item": "https://adamhickey.com/#case-studies"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Where a person checks an agent before it reaches SAP",
+              "item": "https://adamhickey.com/case-study/agentic-sto-approval.html"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+  <link rel="icon" href="../img/favicon-32.png?v=5" sizes="32x32" type="image/png" />
+  <link rel="icon" href="../img/icon-192.png?v=5" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=5" />
+  <meta name="color-scheme" content="light" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;1,400&family=Montserrat:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="../color.css?v=15" />
+  <link rel="stylesheet" href="../shell.css?v=7" />
+  <link rel="stylesheet" href="../type.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=20261106b" />
+  <link rel="stylesheet" href="../site-nav.css?v=20261030b" />
+  <link rel="stylesheet" href="../reveal.css?v=2" />
+  <link rel="stylesheet" href="../read-aloud.css?v=7" />
+  <link rel="stylesheet" href="case-cards.css?v=7" />
+  <link rel="stylesheet" href="../related.css?v=3" />
+  <script src="../site-nav.js?v=20260906a" defer></script>
+  <script src="../reveal.js?v=1" defer></script>
+  <script src="../read-aloud.js?v=4" defer></script>
+  <!-- The header logo plays a one-shot reveal clip on load and fades out
+       over the static mark as it finishes. The class is set here, before
+       first paint, so the static mark never flashes ahead of the animation;
+       anything that stops the clip from running puts the static mark
+       straight back. The 1.2s deadline is the slow-fetch case: rather than
+       leave the header empty while the clip arrives, or pop it in half a
+       second late, this load simply keeps the static mark and skips the
+       animation. -->
+  <script>
+    (function () {
+      var el = document.documentElement;
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var probe = document.createElement('video');
+        if (!probe.canPlayType || !probe.canPlayType('video/mp4')) return;
+      } catch (e) { return; }
+      el.classList.add('logo-reveal');
+      document.addEventListener('DOMContentLoaded', function () {
+        var v = document.querySelector('.logo-video');
+        if (!v) { el.classList.remove('logo-reveal'); return; }
+        /* Hand the header back to the static mark, hard: the clip goes and
+           the mark is standing. This is the whole story for a clip that
+           never ran, and the last step of one that did. Removing the clip
+           rather than leaving it paused is what keeps the logo on screen: a
+           backgrounded page can have its paused video's decoded frame
+           dropped, and the element would come back empty. */
+        var done = false;
+        var finish = function () {
+          done = true;
+          el.classList.remove('logo-reveal', 'logo-playing', 'logo-settled');
+          try { v.pause(); } catch (e) {}
+        };
+        /* The soft landing. The mark has been painted under the clip since
+           its first frame, so this fades the clip out over it, then removes
+           it. It begins a tenth of a second before the clip ends, on the
+           last frames, which is where the clip has finished moving: the
+           letters are still sliding into place at 1.6s, and a fade that
+           started there would ghost two positions. Beginning just ahead of
+           the end also gets in front of the blank some browsers paint at
+           end of stream; ended is the fallback trigger. */
+        var LEAD = 0.1;
+        var settle = function () {
+          if (done || el.classList.contains('logo-settled')) return;
+          el.classList.add('logo-settled');
+          v.addEventListener('transitionend', finish);
+          setTimeout(finish, 400);
+        };
+        var armed = true;
+        var giveUp = function () { if (armed) { armed = false; finish(); } };
+        /* Once a frame is actually on screen the animation is committed and
+           the start deadline stops applying. The mark goes on under the clip
+           at the same moment; the clip is opaque and fills the same box, so
+           nothing visible changes, and a dropped frame from here on shows
+           the mark rather than a hole. requestVideoFrameCallback fires when
+           a frame has been presented, which is the guarantee that matters;
+           without it, playing plus a paint is the closest approximation. */
+        var onFrame = function (now, meta) {
+          if (done) return;
+          armed = false;
+          el.classList.add('logo-playing');
+          if (meta && v.duration && meta.mediaTime >= v.duration - LEAD) { settle(); return; }
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        };
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(onFrame);
+        else v.addEventListener('playing', function () { requestAnimationFrame(onFrame); });
+        v.addEventListener('error', giveUp);
+        v.addEventListener('ended', settle);
+        /* Backgrounded mid-clip the animation is already missed, so finish
+           rather than leave a half-played video holding the header. */
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) finish();
+        });
+        var p = v.play();
+        if (p && p.catch) p.catch(giveUp);
+        setTimeout(giveUp, 1200);
+        /* Backstop for a clip that starts and then stalls without ever
+           firing ended: the clip runs two seconds, so by three it is over
+           one way or another. */
+        setTimeout(finish, 3000);
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo-btn" aria-label="Adam Hickey, back to the homepage">
+        <span class="logo-mark">
+          <img src="../img/site/adam-logo.svg" alt="Adam Hickey" class="logo-img" width="408" height="131" />
+          <video class="logo-video" tabindex="-1" src="../img/site/logo-reveal.mp4?v=3"
+                 width="896" height="288" autoplay muted playsinline
+                 preload="auto" aria-hidden="true"></video>
+        </span>
+      </a>
+      <ul class="nav-links" id="nav-links" aria-label="Site sections">
+        <li><a href="../index.html#case-studies" aria-current="true">Work</a></li>
+        <li><a href="../how-i-work.html">How I Work</a></li>
+        <li><a href="../writing/index.html">Writing</a></li>
+        <li><a href="../lab/index.html">Lab</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+        <li class="nav-links-social"><a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:adam@adamhickey.com" class="icon-link" aria-label="Email Adam Hickey">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="icon-link-label">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/adamdhickey/" target="_blank" rel="noopener noreferrer" class="icon-link nav-social" aria-label="Visit Adam Hickey's LinkedIn profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span class="icon-link-label">LinkedIn</span>
+        </a>
+        <button type="button" class="icon-link nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open the site sections menu">
+          <svg class="nav-toggle-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="nav-toggle-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span class="icon-link-label">Menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="case-hero">
+      <div class="container">
+        <p class="case-kicker">Case study &middot; 5 min read</p>
+        <h1 class="case-title">Where a person checks an agent before it reaches SAP</h1>
+        <p class="build-dek">A review screen for orders an AI agent extracts from email, designed around what one failed SAP attempt costs.</p>
+
+        <div class="glance">
+          <dl class="glance-facts">
+            <div><dt>Client</dt><dd>Supply chain team at a global corporation</dd></div>
+            <div><dt>My role</dt><dd>UX design consultant</dd></div>
+            <div><dt>Built with</dt><dd>Claude Code, the Figma MCP server</dd></div>
+          </dl>
+        </div>
+
+        <figure class="build-shot">
+          <img src="../img/sto/queue.webp" width="2880" height="1240" fetchpriority="high" decoding="async"
+               alt="The STO approval queue in dark mode: five pending requests, each with the time received, the sender, whether it came as Excel or email, the line count, a status, and a View button." />
+        </figure>
+      </div>
+    </header>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="how-it-started">How it started</h2>
+        <p>This was one of my first projects in a new way of working, and it started from work I&rsquo;d already done. The style guide and pattern library I made for the company&rsquo;s <a href="sap-product-maturity.html">40+ SAP apps</a> had been folded into its newest design system.</p>
+        <div class="writing-measure">
+          <figure class="writing-figure writing-rail">
+            <figcaption>From one style guide to a system any project can build from</figcaption>
+            <ol class="writing-rail-steps">
+              <li><img src="../img/sto/lineage-1-guide.webp" width="319" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">01</span><strong>Style guide and patterns</strong><span>one standard for 40+ SAP apps</span></li>
+              <li><img src="../img/sto/lineage-2-system.webp" width="309" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">02</span><strong>A larger design system</strong><span>that work folded into the company&rsquo;s newest system</span></li>
+              <li><img src="../img/sto/lineage-3-code.webp" width="313" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">03</span><strong>Rebuilt in Claude Code</strong><span>tokens, 48 components, their rules, and a plugin</span></li>
+              <li><img src="../img/sto/lineage-4-sync.webp" width="313" height="240" alt="" loading="lazy" decoding="async" /><span class="writing-rail-num" aria-hidden="true">04</span><strong>Synced to Figma</strong><span>every component, through the Figma MCP server</span></li>
+            </ol>
+          </figure>
+        </div>
+        <p>I built that design system in code with Claude Code: <strong>tokens, 48 components, and the rules for using them</strong>. The developers still wanted a Figma prototype, so I used the Figma MCP server to build every component in Figma from the code and keep the two in sync.</p>
+        <p>Then I packaged it as a <strong>Claude Code plugin</strong>. Installed on any project, it hands Claude the stylesheet, the component catalog, and the brand and accessibility rules, so a new screen is built from the system instead of invented. A new release reaches every project that has it installed.</p>
+        <p>So these screens weren&rsquo;t drawn one at a time. <strong>They came out of the rules I&rsquo;d written into the system</strong>, which left the review sessions free for product questions.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="what-a-failure-costs">What a failure costs</h2>
+        <p>Requests to move stock between sites arrive at a shared mailbox, as an Excel sheet or typed in the email. An agent reads each one and drafts a stock transport order. A person approves it before anything is created in SAP.</p>
+        <p>The first question I asked the engineers wasn&rsquo;t about the screen. It was: <strong>what happens when SAP says no?</strong></p>
+        <p>The agent logs into SAP with one service account, and <strong>that account locks after a few failed attempts</strong>. A lock doesn&rsquo;t stop one order. It stops the automation for every sender until IT unlocks it.</p>
+        <p>That changed what the review screen was for. Its job was to make sure <strong>a bad order fails here, in front of a person</strong>, and never at SAP.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/review.webp" width="2440" height="1703" loading="lazy" decoding="async"
+               alt="An extracted order open for review: sender, time, intake path, and subject across the top, a link to download the original email, and six line items, each with a High confidence, Low confidence, or Merged flag. Reject and Approve sit at the foot." />
+          <figcaption>Everything the agent pulled from the email, a flag on every line, and the original one click away.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="three-flags">Three questions, three kinds of flag</h2>
+        <p>A single &ldquo;needs review&rdquo; badge would have mixed up three different risks. So each flag answers one question:</p>
+        <ul class="build-list">
+          <li><strong>Will SAP accept it?</strong> Every line is checked against SAP&rsquo;s master data when the email arrives, before anyone opens it. A line that fails blocks Approve, because it would fail at SAP too.</li>
+          <li><strong>Did the agent read it right?</strong> Low confidence asks the reviewer to check the source. Approve stays open, because the reviewer often knows what the agent couldn&rsquo;t.</li>
+          <li><strong>Did the system change it?</strong> When duplicate lines are summed, the total is marked Merged and its parts sit underneath.</li>
+        </ul>
+        <figure class="build-shot">
+          <img src="../img/sto/legend.webp" width="2296" height="798" loading="lazy" decoding="async"
+               alt="How flags work: High confidence and Low confidence under Confidence, Validation failed under Validation, which blocks approve, and Merged under Modifier." />
+        </figure>
+        <p>I wasn&rsquo;t sure about leaving low confidence ungated, and a hard stop would have been simpler to build. What we agreed on: <strong>the confirm step counts the lines still flagged</strong>, so going ahead is a decision, not a slip.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/approve.webp" width="1040" height="701" loading="lazy" decoding="async"
+               alt="The Approve STO dialog: it says approving creates the STO in SAP and emails the sender, summarizes the sender, 42 line items, and the route, and notes that 3 lines need review." />
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="every-outcome">Every outcome has a reason</h2>
+        <p>Reject takes one of three fixed reasons: field-rep error, agent error, or duplicate. No free text. <strong>The split tells the team whether to fix the agent or the senders&rsquo; instructions.</strong></p>
+        <figure class="build-shot">
+          <img src="../img/sto/reject.webp" width="1040" height="965" loading="lazy" decoding="async"
+               alt="The Reject STO dialog with its reason menu open: Field-rep error, Agent error, and Duplicate." />
+        </figure>
+        <p>When SAP does refuse an order, its error is kept word for word, emailed back to the sender, and filed under SAP failed in the history.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/history.webp" width="2880" height="1120" loading="lazy" decoding="async"
+               alt="Approval history with tabs for All, Approved, Rejected, and SAP failed. Each row shows the outcome: an STO number, a reject reason, or the SAP error itself." />
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="working-with-ai">What working with AI changed</h2>
+        <p>The screens were the smaller part of what AI changed. The bigger part was how knowledge moved between me, the engineers, and the managers.</p>
+        <ul class="build-list">
+          <li><strong>Every screen carries its requirements.</strong> Each screen sat beside the numbered requirements it met, so a review checked FR025 against the screen that meets it, not against anyone&rsquo;s memory.</li>
+          <li><strong>Feedback arrived clear.</strong> Sessions were recorded, and AI turned them into notes and translated them, so a comment made in another language or accent reached the change in plain words.</li>
+        </ul>
+        <figure class="build-shot">
+          <img src="../img/sto/requirements.webp" width="2296" height="411" loading="lazy" decoding="async"
+               alt="The requirements panel under the Approve dialog: four requirements, each ending in its numbers, such as FR018 for the confirmed summary and FR025 and FR027 for flagged lines that don't block approval." />
+        </figure>
+        <p>I think that&rsquo;s the real gain. AI makes knowledge easier to share, across languages, accents, and roles.</p>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="reviewed">Reviewed until it held</h2>
+        <p>I took the screens through multiple review sessions with the engineers and managers. Some calls changed along the way. The source became a one-click download of the original email, not a side-by-side panel. <strong>The second round came back approved.</strong></p>
+        <p>Dark mode came from a question. I asked the developers what they work in, and almost all of them said dark. Because it&rsquo;s a theme in the design system, <strong>light mode is a switch, not a redesign</strong>.</p>
+        <p>An agent that&rsquo;s right most of the time still needs a screen designed for the time it isn&rsquo;t.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="case-footer">
+    <div class="container case-narrow">
+      <div class="case-ask">
+        <h2 class="case-ask-title">Want to talk about this?</h2>
+        <p>Write to me about this work, something you&rsquo;re building, or a role on your team. A few sentences are plenty.</p>
+        <a class="case-ask-link" href="../index.html#contact">Start a conversation &rarr;</a>
+      </div>
+      <nav class="related" aria-labelledby="related-label">
+        <p class="related-label" id="related-label">Related</p>
+        <ul class="related-list">
+          <li><a class="related-link" href="sap-product-maturity.html"><span class="related-kind">Case study</span><span class="related-title">Making 40+ enterprise apps feel like one product</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+          <li><a class="related-link" href="../lab/agent-review.html"><span class="related-kind">Case study</span><span class="related-title">Agent Review</span><span class="related-go" aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+      <a class="build-next" href="usda-operational-overhead.html">
+        <span class="build-next-eyebrow">Next case study</span>
+        <span class="build-next-title">Grant tools unified into a platform people trust &rarr;</span>
+      </a>
+      <a class="btn-back" href="../index.html#case-studies">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        Back to the work
+      </a>
+    </div>
+  </footer>
+</body>
+</html>

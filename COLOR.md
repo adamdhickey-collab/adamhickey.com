@@ -1106,8 +1106,8 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by twenty-seven pages,
-and the token files are loaded by all twenty-seven: since 2026-10-30 they are
+`style.css` holds no shared token at all. It is loaded by twenty-eight pages,
+and the token files are loaded by all twenty-eight: since 2026-10-30 they are
 the same pages. Until that day six
 case studies ran on a built Tailwind stylesheet instead, so anything defined in
 `style.css` was invisible to them. That single fact caused three
