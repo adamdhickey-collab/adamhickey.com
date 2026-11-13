@@ -12,13 +12,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Designing human review for an agentic SAP workflow | Adam Hickey</title>
-  <meta name="description" content="UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma." />
+  <meta name="description" content="UX design consultant for a global corporation: found the SAP account-lock risk behind the human review step for an AI agent that drafts stock transport orders, designed its three kinds of flag, and built it from a design system in code synced to Figma." />
 
   <link rel="canonical" href="https://adamhickey.com/case-study/agentic-sto-approval.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://adamhickey.com/case-study/agentic-sto-approval.html" />
   <meta property="og:title" content="Designing human review for an agentic SAP workflow | Adam Hickey" />
-  <meta property="og:description" content="UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma." />
+  <meta property="og:description" content="UX design consultant for a global corporation: found the SAP account-lock risk behind the human review step for an AI agent that drafts stock transport orders, designed its three kinds of flag, and built it from a design system in code synced to Figma." />
   <meta property="og:image" content="https://adamhickey.com/img/og/agentic-sto-approval.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -39,7 +39,7 @@
           "@type": "Article",
           "@id": "https://adamhickey.com/case-study/agentic-sto-approval.html#article",
           "headline": "Where a person checks an agent before it reaches SAP",
-          "description": "UX design consultant for a global corporation: the human review step for an AI agent that drafts stock transport orders in SAP, built from a design system in code and synced to Figma.",
+          "description": "UX design consultant for a global corporation: found the SAP account-lock risk behind the human review step for an AI agent that drafts stock transport orders, designed its three kinds of flag, and built it from a design system in code synced to Figma.",
           "url": "https://adamhickey.com/case-study/agentic-sto-approval.html",
           "mainEntityOfPage": "https://adamhickey.com/case-study/agentic-sto-approval.html",
           "image": "https://adamhickey.com/img/og/agentic-sto-approval.jpg",
@@ -231,27 +231,80 @@
       <div class="container">
         <p class="case-kicker">Case study &middot; 5 min read</p>
         <h1 class="case-title">Where a person checks an AI agent&rsquo;s orders before they reach SAP</h1>
-        <p class="build-dek">A review screen for orders an AI agent extracts from email, designed around what one failed SAP attempt costs.</p>
+        <p class="build-dek">An AI agent drafts stock transport orders from emails and spreadsheets. A few failed SAP attempts lock the account it uses and stop orders for every sender. I designed the screen where an approver sees which lines to fix, which to check against the source, and which the system changed.</p>
 
         <div class="glance">
           <dl class="glance-facts">
             <div><dt>Client</dt><dd>Supply chain team at a global corporation</dd></div>
-            <div><dt>My role</dt><dd>UX design consultant</dd></div>
+            <div><dt>My role</dt><dd>UX design consultant. I found the account-lock risk that set the screen&rsquo;s job, designed the three flags and the review workflow, and built every screen from a design system I&rsquo;d made in code, so reviews with the engineers and managers went to product questions.</dd></div>
             <div><dt>Built with</dt><dd>Claude Code, the Figma MCP server</dd></div>
           </dl>
         </div>
 
         <figure class="build-shot">
-          <img src="../img/sto/queue.webp" width="2880" height="1240" fetchpriority="high" decoding="async"
-               alt="The STO approval queue in dark mode: five pending requests, each with the time received, the sender, whether it came as Excel or email, the line count, a status, and a View button." />
+          <img src="../img/sto/review.webp?v=3" width="2440" height="1703" fetchpriority="high" decoding="async"
+               alt="An extracted order open for review: sender, time, intake path, and subject across the top, a link to download the original email, and six line items, each with a High confidence, Low confidence, or Merged flag. Reject and Approve sit at the foot." />
+          <figcaption>Everything the agent pulled from the email, a flag on every line, and the original one click away.</figcaption>
         </figure>
       </div>
     </header>
 
+
     <section class="case-section case-overview build-chapter ground-tea">
       <div class="container case-narrow">
-        <h2 id="how-it-started">How it started</h2>
-        <p>This was one of my first projects in a new way of working, and it started from work I&rsquo;d already done. The style guide and pattern library I made for the company&rsquo;s <a href="sap-product-maturity.html">40+ SAP apps</a> had been folded into its newest design system.</p>
+        <h2 id="what-a-failure-costs">What a failure costs</h2>
+        <p>Requests to move stock between sites arrive at a shared mailbox, as an Excel sheet or typed in the email. An agent reads each one and drafts a stock transport order. A person approves it before anything is created in SAP.</p>
+        <p>The first question I asked the engineers wasn&rsquo;t about the screen. It was: <strong>what happens when SAP says no?</strong></p>
+        <p>The agent logs into SAP with one service account, and <strong>that account locks after a few failed attempts</strong>. A lock doesn&rsquo;t stop one order. It stops the automation for every sender until IT unlocks it.</p>
+        <p>That changed what the review screen was for. Its job was to make sure <strong>every failure the system can see coming happens here, in front of a person</strong>, not at SAP.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/queue.webp?v=2" width="2880" height="1240" loading="lazy" decoding="async"
+               alt="The STO approval queue in dark mode: five pending requests, each with the time received, the sender, whether it came as Excel or email, the line count, a status, and a View button." />
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="three-flags">Three questions, three kinds of flag</h2>
+        <p>A single &ldquo;needs review&rdquo; badge would have mixed up three different risks. So each flag answers one question:</p>
+        <ul class="build-list">
+          <li><strong>Will SAP accept it?</strong> Every line is checked against SAP&rsquo;s master data when the email arrives, before anyone opens it. A line that fails blocks Approve, because it would fail at SAP too.</li>
+          <li><strong>Did the agent read it right?</strong> Low confidence asks the reviewer to check the source. Approve stays open, because the reviewer often knows what the agent couldn&rsquo;t.</li>
+          <li><strong>Did the system change it?</strong> When duplicate lines are summed, the total is marked Merged and its parts sit underneath.</li>
+        </ul>
+        <figure class="build-shot">
+          <img src="../img/sto/legend.webp?v=2" width="2296" height="798" loading="lazy" decoding="async"
+               alt="How flags work: High confidence and Low confidence under Confidence, Validation failed under Validation, which blocks approve, and Merged under Modifier." />
+        </figure>
+        <p>I wasn&rsquo;t sure about leaving low confidence ungated, and a hard stop would have been simpler to build. What we agreed on: <strong>the confirm step counts the lines still flagged</strong>, so going ahead is a decision, not a slip.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/approve.webp" width="1040" height="701" loading="lazy" decoding="async"
+               alt="The Approve STO dialog: it says approving creates the STO in SAP and emails the sender, summarizes the sender, 42 line items, and the route, and notes that 3 lines need review." />
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-tea">
+      <div class="container case-narrow">
+        <h2 id="every-outcome">Every outcome has a reason</h2>
+        <p>Reject takes one of three fixed reasons: field-rep error, agent error, or duplicate. No free text. <strong>The split tells the team whether to fix the agent or the senders&rsquo; instructions.</strong></p>
+        <figure class="build-shot">
+          <img src="../img/sto/reject.webp" width="1040" height="965" loading="lazy" decoding="async"
+               alt="The Reject STO dialog with its reason menu open: Field-rep error, Agent error, and Duplicate." />
+        </figure>
+        <p>Some refusals can&rsquo;t be seen in advance. When SAP does refuse an order, its error is kept word for word, emailed back to the sender, and filed under SAP failed in the history.</p>
+        <figure class="build-shot">
+          <img src="../img/sto/history.webp?v=2" width="2880" height="1120" loading="lazy" decoding="async"
+               alt="Approval history with tabs for All, Approved, Rejected, and SAP failed. Each row shows the outcome: an STO number, a reject reason, or the SAP error itself." />
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section case-overview build-chapter ground-white">
+      <div class="container case-narrow">
+        <h2 id="built-from-the-system">Built from a system I&rsquo;d already made</h2>
+        <p>The screens started from work I&rsquo;d already done. The style guide and pattern library I made for the company&rsquo;s <a href="sap-product-maturity.html">40+ SAP apps</a> had been folded into its newest design system.</p>
         <div class="writing-measure">
           <figure class="writing-figure writing-rail">
             <figcaption>From one style guide to a system any project can build from</figcaption>
@@ -266,58 +319,6 @@
         <p>I built that design system in code with Claude Code: <strong>tokens, 48 components, and the rules for using them</strong>. The developers still wanted a Figma prototype, so I used the Figma MCP server to build every component in Figma from the code and keep the two in sync.</p>
         <p>Then I packaged it as a <strong>Claude Code plugin</strong>. Installed on any project, it hands Claude the stylesheet, the component catalog, and the brand and accessibility rules, so a new screen is built from the system instead of invented. A new release reaches every project that has it installed.</p>
         <p>So these screens weren&rsquo;t drawn one at a time. <strong>They came out of the rules I&rsquo;d written into the system</strong>, which left the review sessions free for product questions.</p>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-white">
-      <div class="container case-narrow">
-        <h2 id="what-a-failure-costs">What a failure costs</h2>
-        <p>Requests to move stock between sites arrive at a shared mailbox, as an Excel sheet or typed in the email. An agent reads each one and drafts a stock transport order. A person approves it before anything is created in SAP.</p>
-        <p>The first question I asked the engineers wasn&rsquo;t about the screen. It was: <strong>what happens when SAP says no?</strong></p>
-        <p>The agent logs into SAP with one service account, and <strong>that account locks after a few failed attempts</strong>. A lock doesn&rsquo;t stop one order. It stops the automation for every sender until IT unlocks it.</p>
-        <p>That changed what the review screen was for. Its job was to make sure <strong>a bad order fails here, in front of a person</strong>, and never at SAP.</p>
-        <figure class="build-shot">
-          <img src="../img/sto/review.webp" width="2440" height="1703" loading="lazy" decoding="async"
-               alt="An extracted order open for review: sender, time, intake path, and subject across the top, a link to download the original email, and six line items, each with a High confidence, Low confidence, or Merged flag. Reject and Approve sit at the foot." />
-          <figcaption>Everything the agent pulled from the email, a flag on every line, and the original one click away.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-tea">
-      <div class="container case-narrow">
-        <h2 id="three-flags">Three questions, three kinds of flag</h2>
-        <p>A single &ldquo;needs review&rdquo; badge would have mixed up three different risks. So each flag answers one question:</p>
-        <ul class="build-list">
-          <li><strong>Will SAP accept it?</strong> Every line is checked against SAP&rsquo;s master data when the email arrives, before anyone opens it. A line that fails blocks Approve, because it would fail at SAP too.</li>
-          <li><strong>Did the agent read it right?</strong> Low confidence asks the reviewer to check the source. Approve stays open, because the reviewer often knows what the agent couldn&rsquo;t.</li>
-          <li><strong>Did the system change it?</strong> When duplicate lines are summed, the total is marked Merged and its parts sit underneath.</li>
-        </ul>
-        <figure class="build-shot">
-          <img src="../img/sto/legend.webp" width="2296" height="798" loading="lazy" decoding="async"
-               alt="How flags work: High confidence and Low confidence under Confidence, Validation failed under Validation, which blocks approve, and Merged under Modifier." />
-        </figure>
-        <p>I wasn&rsquo;t sure about leaving low confidence ungated, and a hard stop would have been simpler to build. What we agreed on: <strong>the confirm step counts the lines still flagged</strong>, so going ahead is a decision, not a slip.</p>
-        <figure class="build-shot">
-          <img src="../img/sto/approve.webp" width="1040" height="701" loading="lazy" decoding="async"
-               alt="The Approve STO dialog: it says approving creates the STO in SAP and emails the sender, summarizes the sender, 42 line items, and the route, and notes that 3 lines need review." />
-        </figure>
-      </div>
-    </section>
-
-    <section class="case-section case-overview build-chapter ground-white">
-      <div class="container case-narrow">
-        <h2 id="every-outcome">Every outcome has a reason</h2>
-        <p>Reject takes one of three fixed reasons: field-rep error, agent error, or duplicate. No free text. <strong>The split tells the team whether to fix the agent or the senders&rsquo; instructions.</strong></p>
-        <figure class="build-shot">
-          <img src="../img/sto/reject.webp" width="1040" height="965" loading="lazy" decoding="async"
-               alt="The Reject STO dialog with its reason menu open: Field-rep error, Agent error, and Duplicate." />
-        </figure>
-        <p>When SAP does refuse an order, its error is kept word for word, emailed back to the sender, and filed under SAP failed in the history.</p>
-        <figure class="build-shot">
-          <img src="../img/sto/history.webp" width="2880" height="1120" loading="lazy" decoding="async"
-               alt="Approval history with tabs for All, Approved, Rejected, and SAP failed. Each row shows the outcome: an STO number, a reject reason, or the SAP error itself." />
-        </figure>
       </div>
     </section>
 
