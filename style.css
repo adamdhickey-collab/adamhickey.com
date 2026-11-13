@@ -5608,6 +5608,25 @@ html.ah-lightbox-open body { overflow: hidden; }
    so on a cutout they draw a frame around empty space. */
 .build-shot--cutout img { border-radius: 0; box-shadow: none; }
 
+/* One text scale for a set of captures. Every capture on the STO case study
+   is taken at 2x from one 1440-wide app, so a file's width says how much of
+   the app it holds. A full capture, 2880 wide, spans the frame, --col-full,
+   so its tables read at about the size a reader works at; every other
+   capture prints at the same ratio, its own width over 2880, so a dialog is
+   the dialog's size on that screen rather than blown up to the column. The
+   file width rides on the figure as --shot-w, the same number as the img's
+   width attribute; it is a fact about the file, not a size. Below 56rem the
+   frame is the column, a full capture's text is already too small to
+   match, and every capture takes the column as before. */
+@media (min-width: 56rem) {
+  .case-narrow > .build-shot--scale,
+  .build-shot--scale {
+    width: var(--col-full);
+    max-width: var(--col-full);
+  }
+  .build-shot--scale img { width: calc(100% * var(--shot-w) / 2880); }
+}
+
 /* ---------- Laptop chrome for wide captures ----------
    A page that frames its phone captures in a bezel and its desktop captures
    in a bordered card is showing two ideas of what a screenshot is. So the
