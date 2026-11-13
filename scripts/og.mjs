@@ -47,6 +47,7 @@ const CARDS = {
   'index':                             { kicker: 'Senior / Lead Product Designer',          title: 'I design complex workflows and prototype new ideas.', image: 'img/site/this-site.webp' },
   'dispatch-complexity':               { kicker: 'Case study · Midwest Couriers',        title: 'One real-time view of a 450+ truck fleet',                      image: 'img/site/dispatch-floor.webp' },
   'sap-product-maturity':              { kicker: 'Case study · Enterprise UX',           title: 'Making 40+ enterprise apps feel like one product',              image: 'img/site/sap-hero-02.webp' },
+  'agentic-sto-approval':              { kicker: 'Case study · Enterprise UX',           title: 'Where a person checks an agent before it reaches SAP',          image: 'img/sto/review.webp' },
   'usda-operational-overhead':         { kicker: 'Case study · Nutrition Incentive Hub', title: 'Grant tools unified into a platform people trust',              image: 'img/site/hero-img.webp' },
   'innovators-studio-visual-identity': { kicker: 'Case study · Innovators Studio',       title: 'A brand and platform for a global innovation network',          image: 'img/site/group-100008-1.webp' },
   'enterprise-consulting':             { kicker: 'Career · 2013 to 2026',                title: '13 years designing enterprise software',                   image: 'img/site/rba-hero.webp' },

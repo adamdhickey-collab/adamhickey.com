@@ -10,7 +10,7 @@ need `playwright-core` installed ad hoc; see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 27 pages in nine families |
+| **What this is** | The site: 28 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -126,7 +126,7 @@ the archive so that it holds everything staging ever had.
 | `read-aloud.css`, `read-aloud.js` | "Listen to this page": the browser's own speech synthesiser reads the prose and marks it as it goes, a sage rule under the live sentence and a sage fill on the live word, scrolling to follow. Loaded by the thirty-three pages with prose worth hearing -- the fifteen writing articles, the eleven case studies, the Agent Review case study, the four engagement pages, and the two prototypes -- and by nothing else. The prototypes are the ones that read a part of themselves rather than all of it: `.ck-frame` and `.dc-frame` carry `data-read-aloud="skip"`, because the cockpit's text is generated, changes under the reader's presses and includes a live region, and its hero carries `data-read-aloud="after"`, which is how a page says the control belongs under something other than its dek. The script builds its own button and player, so a browser with no `speechSynthesis` shows no control rather than a broken one |
 | `map-rail.css`, `map-rail.js` | The stage rail over a service map read under 64rem, where the stages sit in a row the reader swipes along: one disc a stage on a sage line, each a button that brings its stage into view, the stages in view filled. Loaded by `case-study/usda-operational-overhead.html` and `lab/inspiration-to-aisle.html`, the two pages with a service map. The swipe itself is CSS in each map's own stylesheet, so without the script the row still swipes and only the rail is missing |
 | `app-device.css`, `app-device.js` | "Open the app" and "Open the prototype": on the homepage and the Lucy Learns write-up, at 768px and up, the link opens the live thing over the page in the device frame the site draws its captures in, as tall as the viewport allows -- `.build-phone` for Lucy Learns, and the same object at `--radius-xl` for the dispatch cockpit, which is a tablet, the shape the prototype card's own thumbnail already is. Under 768px, and without the script, the link goes where it points: the app in a new tab, the cockpit at the section of its write-up that holds it. A link declares its device by carrying `data-app-phone` or `data-app-tablet`, whose value is the dialog's label, and `data-app-src` when the address to LOAD is not the address the link points at. It was `app-phone.{css,js}` until the tablet arrived on 2026-09-18 |
-| `case-study/*.html` | Eleven case studies: four client engagements, two career-arc pages, and five build write-ups |
+| `case-study/*.html` | Twelve case studies: five client engagements, two career-arc pages, and five build write-ups |
 | `case-study/case-cards.css` | The case studies' warm card grids, as they were on Tailwind, in named rules: SAP's and Innovators' bento, USDA's two-up cards, the overview panels, and the career pages' framed screens |
 | `case-study/service-map.css` | The USDA case study's service map, moved out of the old base stylesheet |
 | `how-i-work.html`, `engagement/*.html` | How I work, one page since 2026-10-29: the four parts of the job, each the situation, the moves, and the account that shows it. The four pages it replaced under `engagement/` are forwarding notes now, each to its own section |
@@ -183,7 +183,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-seven pages in nine families, all hand-written HTML with no include step
+Twenty-eight pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -192,11 +192,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all twenty-seven pages, so a
+email icon, and the skip link are hand-written into all twenty-eight pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-seven pages
+base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
 load. Regime A loads `style.css`; regime B was the six older pages on a built
 Tailwind stylesheet, which could not see anything `style.css` declares. Since
 2026-10-30 every page is regime A.
@@ -204,7 +204,7 @@ Tailwind stylesheet, which could not see anything `style.css` declares. Since
 | Family | Pages | Regime | What it is |
 |---|---|---|---|
 | Homepage | 1 | A | The page every other page hangs off. |
-| Client case studies | 4 | A | Client work under NDA-safe framing. The oldest pages on the site. |
+| Client case studies | 5 | A | Client work under NDA-safe framing. The oldest pages on the site. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 1 | A | One page for the four parts of the job: the situation, the moves, and the account that shows each. Four pages under `engagement/` until 2026-10-29, engagement pages until 2026-09-17. |
 | Writing | 7 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and one article for each of its three words since 2026-10-30, when The system's two and The judgment's two became one each: the system, the build, and the judgment. The build has had a second since 2026-11-02, what the best PRD templates have in common. Eleven more addresses are forwarding notes, nine since 2026-10-29 and two since 2026-10-30. |
@@ -217,7 +217,8 @@ Tailwind stylesheet, which could not see anything `style.css` declares. Since
 
 **Client case studies** -- `case-study/dispatch-complexity.html`,
 `case-study/innovators-studio-visual-identity.html`,
-`case-study/sap-product-maturity.html`, `case-study/usda-operational-overhead.html`
+`case-study/sap-product-maturity.html`, `case-study/usda-operational-overhead.html`,
+`case-study/agentic-sto-approval.html`
 
 **Build write-ups** -- `case-study/door-county-found.html`,
 `case-study/lucy-learns.html`, `case-study/while-were-here.html`,
