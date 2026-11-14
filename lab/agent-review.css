@@ -56,6 +56,29 @@
 .arc-dek-label { color: var(--color-accent-text); }
 .arc-open-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
 .arc-open-act .build-hero-act { margin: 0; }
+/* SINCE 2026-11-14 the problem and the decision share the row with one Relay
+   screen, the review naming Northside, in the story's columns (.ars, 5fr and
+   6fr), so the screen is the same window at the same width and edge as every
+   Relay screen under it. The title keeps the full row. Under them, four
+   facts across the frame behind a hairline. */
+.arc-open-split { display: grid; gap: var(--space-2xl); }
+.arc-open-fig { min-width: 0; margin: 0; }
+/* relay-screen.css sets the review's lines under .case-section and
+   .writing-measure; the opener is neither, so the same two rules, here. */
+.arc-open .ev-review-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+  color: var(--ink-on-dark);
+}
+.arc-open .ev-review p { margin: 0 0 var(--space-xs); font-size: inherit; line-height: inherit; color: inherit; }
+.arc-open-facts { margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--rule-card); }
+@media (min-width: 64rem) {
+  .arc-open-split { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: var(--space-4xl); align-items: start; }
+}
 /* From 64rem the button and the Listen button sit side by side, so one row is held from
    first paint (the head marks .arc-can-listen where read-aloud.js will add
    the button), and its arrival moves nothing. */
@@ -596,7 +619,9 @@
 .ars-step > p:last-child { margin-bottom: 0; }
 /* These screens are pictures: nothing on them presses. Doubled to outrank
    relay-screen.css's step marks. */
+.arc-open .ev[data-step] .ev-key.ev-key,
 .ars .ev[data-step] .ev-key.ev-key { cursor: default; outline: 0; }
+.arc-open .ev[data-step] .ev-key.ev-key::after,
 .ars .ev[data-step] .ev-key.ev-key::after { content: none; }
 .ars .ev-rows--ghost .ev-row[data-on] { color: var(--ink-on-dark-secondary); }
 .ars .ev-rows--ghost .ev-row[data-on] .ev-row-body { color: var(--ink-on-dark-secondary); }
@@ -656,6 +681,13 @@
 .ar-passed li::before { content: none; }
 .ar-passed .ar-kind-mark { flex: none; width: 1lh; height: 1lh; fill: none; stroke: var(--color-accent-text); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .case-section .ar-open-note { margin: 0; max-width: var(--measure); color: var(--color-muted-gray); text-wrap: pretty; }
+/* The real runs, under the checks they passed (2026-11-14). */
+.case-section .ar-open-real { margin: var(--space-lg) 0 0; max-width: var(--measure); text-wrap: pretty; }
+/* The page's last line, in the serif the checks line wears. */
+.case-section .ar-close { margin: var(--space-2xl) 0 0; max-width: var(--measure); font-family: var(--font-serif); font-size: var(--text-3xl); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); color: var(--color-charcoal); text-wrap: pretty; }
+/* The card over the prototype carries only the invitation since 2026-11-14,
+   so its hairline and the gap over it go (try-lead.css sets both). */
+.try-lead--go .try-lead-go { margin-top: 0; padding-top: 0; border-top: 0; }
 @media (min-width: 64rem) {
   .ar-open { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); }
 }
@@ -682,6 +714,7 @@
    six stages' lead) sat in the sentence's own ink with no underline. Same treatment
    as that group. */
 .arc-measure > p:not([class]) a,
+.case-section .ar-open-real a,
 .case-section .arc-lead a {
   color: var(--color-accent-text);
   font-weight: 600;
@@ -690,9 +723,11 @@
   transition: color var(--motion-state) var(--ease);
 }
 .arc-measure > p:not([class]) a:focus-visible,
+.case-section .ar-open-real a:focus-visible,
 .case-section .arc-lead a:focus-visible { color: var(--color-charcoal); }
 @media (hover: hover) and (pointer: fine) {
   .arc-measure > p:not([class]) a:hover,
+  .case-section .ar-open-real a:hover,
   .case-section .arc-lead a:hover { color: var(--color-charcoal); }
 }
 /* The shared glance labels, in sentence case on this page. */
