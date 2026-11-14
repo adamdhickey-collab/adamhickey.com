@@ -830,3 +830,101 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    edge already marks where the chapter starts, as with .glance-head, so the
    head is the eyebrow and the headline alone. */
 .case-overview .shift-chapter-label::before { content: none; }
+
+/* ======================================================================
+   PICTURES IN THE LESSONS (2026-11-14, the second pass)
+   The first build carried one chapter drawing in each hero and nothing
+   drawn in the body, so twelve lessons read as the same three rows over
+   and over (owner: "too many repeated patterns"). Each lesson now carries
+   two pictures in the site's two drawing hands, in the chapter's hue:
+     a scene    the person in the lesson's story, in the editorial hand of
+                the cockpit's dispatcher (.writing-scene, wide, framed)
+     a concept  the lesson's idea as one object, in the thin-line hand of
+                the cockpit's decisions, set three ways so no two lessons
+                in a row look alike: a picture beside its line
+                (.shift-concept), two pictures side by side (.shift-pair),
+                or a small drawing on each row of a stack (.has-art).
+   Every drawing sits on white, with an edge and the resting shadow, the
+   rule the hero drawings already keep. No drawing carries a word: every
+   label is the page's own text. */
+
+/* The scene: wide from 64rem like every figure, framed like the hero. */
+@media (min-width: 64rem) {
+  .writing-progress ~ main.shift-lesson .writing-measure > .writing-scene { width: var(--col-wide); }
+}
+.shift-lesson .writing-scene img {
+  border: 1px solid var(--rule-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* The concept: the drawing on a white card, its one line beside it. */
+.shift-concept-body {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center;
+}
+.shift-concept-art,
+.shift-pair-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  background: var(--color-white);
+  border: 1px solid var(--rule-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.writing-measure .shift-concept-line {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--shift-ink);
+  text-wrap: balance;
+}
+@media (min-width: 48rem) {
+  .shift-concept-body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-2xl); }
+  .writing-measure .shift-concept-line { font-size: var(--text-2xl); }
+}
+
+/* The pair: two drawings, each over a one-line label. */
+.shift-pair {
+  display: grid;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.writing-measure .shift-pair li { margin: 0; padding: 0; }
+.writing-measure .shift-pair li::before { content: none; }
+.shift-pair-label {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-charcoal);
+}
+.shift-pair-label strong { color: var(--shift-ink); font-weight: var(--weight-semibold); }
+@media (min-width: 40rem) {
+  .shift-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* A stack with a drawing on each row: the drawing takes the row's end. */
+.shift-stack-art {
+  display: block;
+  width: var(--space-2xl);
+  height: auto;
+  aspect-ratio: 1;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  /* White under the drawing, so it reads on the charcoal row too. */
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+}
+.shift-stack.has-art li { grid-template-columns: var(--space-2xl) minmax(0, 1fr) var(--space-2xl); }
+@media (min-width: 40rem) {
+  .shift-stack.has-art li { grid-template-columns: var(--space-2xl) 11rem minmax(0, 1fr) var(--space-4xl); }
+  .shift-stack.has-art .shift-stack-art { grid-column: 4; grid-row: 1; width: var(--space-4xl); }
+}

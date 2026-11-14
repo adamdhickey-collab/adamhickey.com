@@ -23,6 +23,7 @@
     ['.shift-stack', ':scope > li'],
     ['.shift-stages', ':scope > li'],
     ['.writing-split', ':scope > div'],
+    ['.shift-pair', ':scope > li'],
     ['.writing-flow', ':scope > li'],
     ['.shift-diagram', ':scope > .shift-panel'],
     ['.shift-check', ':scope > .shift-q'],
