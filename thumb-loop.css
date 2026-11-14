@@ -561,6 +561,48 @@
   }
 }
 
+/* AFTER SEND IN AGENT REVIEW'S TYPE, on the homepage, since 2026-11-14
+   (Adam: match the first card's font and center alignment, keep the light
+   theme). The record stays on top, level with the stage bar; the headline
+   and the rail stand in the middle of what is left, as .three-body does,
+   the headline in the same semibold sans at the same size, centered. From
+   30rem each step centers its disc over its name and line, and the rail
+   runs from one disc's center to the next. The lab index has no
+   .handoff-body and keeps the serif. */
+.case-thumb--still > .explore-still--handoff {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  box-sizing: border-box;
+}
+.handoff-body {
+  display: grid;
+  align-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+.handoff-body .handoff-rail { padding: 0; }
+.explore-still--handoff .handoff-body .explore-still-title {
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  text-align: center;
+  text-wrap: balance;
+}
+@container (min-width: 30rem) {
+  .handoff-body { padding: var(--space-xl) var(--space-lg); gap: var(--space-xl); }
+  .handoff-body .handoff-rail li {
+    justify-items: center;
+    padding-inline: 0;
+    text-align: center;
+  }
+  .handoff-body .handoff-rail li:not(:last-child)::after {
+    left: calc(50% + var(--space-3xl) / 2 + var(--space-xs));
+    right: calc(var(--space-3xl) / 2 + var(--space-xs) - 50% - var(--space-sm));
+  }
+}
+
 /* ---------- The lab row, two across ----------
    Since 2026-10-28 (Adam: add the new case study, de-emphasize the agents
    one, two columns). The row under the three accounts holds two pieces,
