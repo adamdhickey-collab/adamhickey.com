@@ -91,7 +91,7 @@ const CARDS = {
   'agent-review':                      { kicker: 'Lab · case study',                         title: 'Agent Review: where design judgment goes when coding agents join the team', full: 'img/lab/agent-review-cycle-share.webp' },
   /* How I work, one page for four since 2026-10-29, on the first part's
      drawing; the four engagement cards went with their pages. */
-  'how-i-work':                        { kicker: 'How I work', title: 'What I do inside a product organization', sub: 'Four parts of the job, and the proof', hero: 'img/engagement/clarity-hero.webp' },
+  'how-i-work':                        { kicker: 'How I work', title: 'What I do inside a product organization', sub: 'Five parts of the job, and the proof', hero: 'img/engagement/clarity-hero.webp' },
   /* The writing family. Each article's card carries the article's own
      feature drawing, the same picture that opens the page, so a card in a
      feed already looks like the page it leads to. The index takes the
