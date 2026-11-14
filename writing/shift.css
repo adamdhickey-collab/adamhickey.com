@@ -800,3 +800,33 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-jump { width: auto; }
   .shift-jump .shift-strip { flex: none; grid-template-columns: repeat(12, var(--space-2xl)); }
 }
+
+/* ---- A chapter band: its name on a row of its own, then the drawing
+   with one line under it beside the three lessons (owner, 2026-11-14).
+   The name reads first, across the band; the line under the drawing is a
+   caption-sized description, not a second heading. */
+.shift-chapter { grid-template-areas: "title" "head" "cards"; }
+.shift-chapter > .shift-chapter-label { grid-area: title; }
+.shift-chapter > .shift-chapter-head { grid-area: head; gap: var(--space-sm); }
+.shift-chapter > .shift-cards { grid-area: cards; }
+.shift-chapter .shift-chapter-dek {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-muted-gray);
+}
+@media (min-width: 64rem) {
+  .shift-chapter {
+    grid-template-areas: "title title" "head cards";
+    row-gap: var(--space-xl);
+  }
+}
+/* The site's section h2 brings its own bottom margin; in the band the grid
+   gap is the only space between the name and what it heads. */
+.case-section .shift-chapter > .shift-chapter-label { margin: 0; }
+@media (min-width: 64rem) { .shift-chapter { row-gap: var(--space-lg); } }
+/* No sage rule above a chapter's name (owner, 2026-11-14): the band's own
+   edge already marks where the chapter starts, as with .glance-head, so the
+   head is the eyebrow and the headline alone. */
+.case-overview .shift-chapter-label::before { content: none; }
