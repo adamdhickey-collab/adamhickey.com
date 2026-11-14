@@ -257,16 +257,25 @@ async function measureProbes(page, records) {
       });
       if (!size.shown || size.w < 1 || size.h < 1) continue;
 
-      /* Hide the glyphs, and every glyph inside them, so the shot is the
-         ground alone. text-shadow goes too: a shadow is ink by another name
-         and would darken the very pixels being sampled. */
+      /* Hide every glyph on the page, not only this element's, so the shot
+         is the ground alone. An inline element that wraps (a <mark> inside a
+         paragraph) has a bounding box as wide as the lines it crosses, and
+         the paragraph's own words sit inside that box: hiding only the
+         element's glyphs measured them as ground, at 1:1 (2026-11-14).
+         text-shadow goes too: a shadow is ink by another name and would
+         darken the very pixels being sampled. The selector still names the
+         probe so the cleanup below can find this tag. */
       await page.addStyleTag({
-        content: `${sel}, ${sel} * { color: transparent !important; text-shadow: none !important; }`,
+        content: `${sel}, ${sel} *, body * { color: transparent !important; text-shadow: none !important; }`,
       });
 
       const frames = rec.videos > 0 ? PROBE_FRAMES : 1;
       for (let i = 0; i < frames; i++) {
         if (rec.videos > 0) await seekVideos(page, i / frames);
+        /* Centered, so a sticky header and its progress line are never
+           over the element when it is shot: scrolled only just into view,
+           it sits under them, and their ink reads as the ground. */
+        await el.evaluate((n) => n.scrollIntoView({ block: 'center' }));
         let shot;
         try { shot = await el.screenshot(); } catch { continue; }
         const { worst: w, at } = worstAgainst(decodePNG(shot), ink);
