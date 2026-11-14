@@ -24,8 +24,7 @@
  * blocks below the opener settle into place as they come up, on
  * reveal.css's contract: marked only while still below the fold, so
  * none is ever at rest anywhere but its finished place. The rule's rail
- * draws its line and the three kinds draw their marks the same way,
- * armed only below the fold. And the stage crossing the middle of the
+ * draws its line the same way, armed only below the fold. And the stage crossing the middle of the
  * window is marked current, which is position rather than motion, so it
  * runs for a still reader too.
  *
@@ -83,7 +82,7 @@
   if (!still) {
     /* Arrivals: fired 4% of a window early, as reveal.js does, so the rise
        has started before the block can be seen. */
-    const RISE = '.arc-head, .ar-kind, .ar-rail,' +
+    const RISE = '.arc-head, .ar-rail,' +
       ' .ar-cycle-text, .ar-scene, div.arc-after, .arc-measure,' +
       ' .glance, .case-wide > p';
     const rise = new IntersectionObserver((entries) => {
@@ -110,7 +109,7 @@
         e.target.classList.add('is-drawn');
       });
     }, { threshold: 0.4 });
-    document.querySelectorAll('.ar-rail, .ar-kinds').forEach((el) => {
+    document.querySelectorAll('.ar-rail').forEach((el) => {
       if (!below(el)) return;
       el.classList.add('is-armed');
       draw.observe(el);

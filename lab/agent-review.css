@@ -403,41 +403,6 @@
   .arc-split { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-4xl); align-items: start; }
   }
 
-/* ---------- The rule: three kinds of change ----------
-   The reader has just made the call the checks couldn't. This names it:
-   one kind goes through, two stop for a person. Each sits directly on
-   the page, under a rule since 2026-11-06. The lane over each is the
-   go and stop colors of TYPOGRAPHY.md's group names: the sage, and the
-   caution ink, whose third use COLOR.md gives as a stop for a person. */
-.ar-kinds {
-  display: grid;
-  gap: var(--space-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-/* Since 2026-11-06 a rule over each, as the six stages have, and no card: the
-   rail under them is this section's picture, and the two together were a
-   screen and a third. */
-.ar-kind {
-  padding: var(--space-md) 0 0;
-  border-top: 1px solid var(--rule-card);
-}
-.case-section .ar-kind-lane {
-  margin: 0 0 var(--space-xs);
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-accent-text);
-}
-.ar-kind--stops .ar-kind-lane { color: var(--color-caution-text); }
-.case-section .ar-kind p:not(.ar-kind-lane) { margin: 0; font-size: var(--text-base); line-height: var(--leading-body); }
-@media (min-width: 48rem) {
-  .ar-kinds { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
 /* ---------- One ticket, six stages ----------
    The cycle as one strip: each stage a column with what the agent did and
    what the designer did, under a sage rule and the stage's number. Six
@@ -896,18 +861,14 @@
    mid-arrival at a colour nobody sees. Siblings that arrive together are
    staggered; a delayed one holds its `from` while it waits. */
 @media (prefers-reduced-motion: no-preference) {
-  .ar-kind[data-shown]:nth-child(2) { animation-delay: var(--motion-stagger); animation-fill-mode: backwards; }
-  .ar-kind[data-shown]:nth-child(3) { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
   /* The ticket lands as a message does: the words, then who sent them. */
   .ar-ticket footer[data-shown] { animation-delay: calc(var(--motion-stagger) * 2); animation-fill-mode: backwards; }
 }
 
-/* THE THREE KINDS SAY THEIR OUTCOME. A tick for the one that goes
-   through, a pause for the two that stop, in each lane's own ink, sized
-   to the lane's line. Armed below the fold, each draws as the cards come
-   into view, the tick first and the pauses after it, since stopping is
-   what happens when going through doesn't. */
-.case-section .ar-kind-lane { display: flex; align-items: center; gap: var(--space-xs); }
+/* THE TICK beside each passed check (.ar-passed, which sets its ink and
+   weight). Until 2026-11-14 it also marked the three kinds of change, a
+   tick and two pauses that drew as their cards came into view; those cards
+   are one line of the lead now, and their rules went with them. */
 .ar-kind-mark {
   flex: none;
   width: 1lh;
@@ -918,14 +879,6 @@
   stroke-linecap: butt;
   stroke-linejoin: round;
   stroke-dasharray: 1;
-}
-.ar-kinds.is-armed .ar-kind-mark { stroke-dashoffset: 1; }
-.ar-kinds.is-drawn .ar-kind-mark { animation: glance-draw var(--motion-enter) var(--ease) forwards; }
-.ar-kinds.is-drawn .ar-kind:nth-child(2) .ar-kind-mark { animation-delay: var(--motion-enter); }
-.ar-kinds.is-drawn .ar-kind:nth-child(3) .ar-kind-mark { animation-delay: calc(var(--motion-enter) + var(--motion-stagger)); }
-@media (prefers-reduced-motion: reduce) {
-  /* Armed is never set still; this is for a preference changed mid-read. */
-  .ar-kinds.is-armed .ar-kind-mark { stroke-dashoffset: 0; animation: none; }
 }
 
 /* THE LIST ANSWERS THE PICK, so the consequence shows in the thing being
