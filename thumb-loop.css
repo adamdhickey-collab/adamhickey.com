@@ -161,6 +161,218 @@
   .explore-still-line { font-size: var(--text-base); line-height: var(--leading-tight); }
 }
 
+/* ---------- Three ways to archive: the homepage's Agent Review card ----------
+   Since 2026-11-14 (Adam liked the share card, og/agent-review.jpg, and
+   asked for it on the homepage card at the card's height, beside After
+   Send's). The share card as markup: the line centered in the sans, three
+   small white screens of one batch, each with its name and one line under
+   it, and the call, archive then undo, ringed in the charcoal's sage.
+   The screens are drawings (aria-hidden); their words are --text-2xs,
+   the floor for product UI. The panel fills the row After Send's picture
+   sets, and its content sits in the middle of it, so the row's height is
+   still After Send's. Narrow, each way is a row, its screen beside its
+   words; from 30rem the three stand across. The lab index keeps the
+   Explore still above. */
+.explore-still--three {
+  height: 100%;
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+.explore-still--three .explore-still-title {
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  text-align: center;
+  text-wrap: balance;
+}
+.three-ways {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.three-way {
+  display: grid;
+  justify-items: center;
+  row-gap: var(--space-2xs);
+  text-align: center;
+}
+.three-way .explore-still-name { font-size: var(--text-sm); white-space: nowrap; }
+.three-way .explore-still-line { font-size: var(--text-2xs); line-height: var(--leading-ui); white-space: nowrap; }
+/* Narrow, the three stack, each screen over its name and line, and a screen
+   keeps three rows, so the panel stays inside the height it had. */
+.three-way .three-screen { width: min(12rem, 100%); margin-bottom: var(--space-xs); }
+.three-row:nth-of-type(n+5) { display: none; }
+/* The confirm screen keeps a fourth, to hold its dialog under the header. */
+.three-screen--dim .three-row:nth-of-type(5) { display: flex; }
+
+/* The screen: a header with its button, four rows, and what the way puts
+   over them. */
+.three-screen {
+  position: relative;
+  display: grid;
+  align-content: start;
+  overflow: hidden;
+  padding-bottom: var(--space-2xs);
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  border-radius: var(--space-xs);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-tight);
+}
+.three-screen--dim { background: var(--color-muted-light); }
+/* The screens' UI at the mockup's scale (Adam, 2026-11-14: "make the user
+   interface element smaller ... too busy with everything so large"): drawn
+   at the floor, --text-2xs, then zoomed as a picture would be scaled. It is
+   aria-hidden, a drawing of a screen; the names under it carry the words. */
+.three-screen { zoom: 0.75; }
+.three-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-bottom: 1px solid var(--rule-hairline);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.three-btn {
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.three-btn--dark {
+  border-color: var(--color-charcoal);
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+}
+/* A row: its box, then a bar for the customer's name. */
+.three-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  height: var(--space-md);
+  margin: 0 var(--space-xs);
+  border-bottom: 1px solid var(--rule-hairline);
+}
+.three-row::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--space-2xs);
+}
+.three-row::after {
+  content: "";
+  flex: 1;
+  max-width: 60%;
+  height: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-muted-light);
+}
+.three-screen--dim .three-row::after { background: var(--rule-strong); }
+.three-row.is-picked::before { background: var(--color-charcoal); border-color: var(--color-charcoal); }
+.three-row.is-active { justify-content: space-between; }
+.three-row.is-active::after { background: var(--color-caution-light); }
+.three-row.is-active > span {
+  order: 1;
+  margin-left: auto;
+  font-weight: var(--weight-semibold);
+  color: var(--color-caution-text);
+}
+
+/* Archive, then undo: the toast over the last rows. */
+.three-toast {
+  position: absolute;
+  left: var(--space-2xs);
+  right: var(--space-2xs);
+  bottom: var(--space-2xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-xs);
+  background: var(--color-charcoal);
+  color: var(--ink-on-dark);
+  border-radius: var(--space-2xs);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+.three-undo {
+  padding: 0 var(--space-xs);
+  background: var(--color-accent-on-dark);
+  color: var(--color-charcoal);
+  border-radius: var(--space-2xs);
+}
+/* Confirm first: the dialog over the batch. */
+.three-dialog {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-xs);
+  translate: -50% 0;
+  display: grid;
+  justify-items: start;
+  gap: 1px;
+  width: 72%;
+  box-sizing: border-box;
+  padding: var(--space-xs);
+  background: var(--color-white);
+  border-radius: var(--space-xs);
+  box-shadow: var(--shadow-media);
+}
+.three-dialog-title { font-weight: var(--weight-semibold); }
+.three-dialog .three-btn { justify-self: end; margin-top: var(--space-2xs); }
+/* The call: ringed in sage, a gap of the panel's charcoal between. */
+.three-way--call .three-screen {
+  outline: 2px solid var(--color-accent-on-dark);
+  outline-offset: var(--space-2xs);
+}
+
+/* From 22rem (the homepage at 1024, where each panel is 400px) to 30rem,
+   each screen sits beside its name and line, which still hold one line. */
+@container (min-width: 22rem) and (max-width: 29.99rem) {
+  .three-way {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    column-gap: var(--space-md);
+    align-items: center;
+    justify-items: start;
+    text-align: left;
+  }
+  .three-way .three-screen { grid-row: span 2; width: 100%; margin-bottom: 0; }
+  .three-way .explore-still-name { align-self: end; }
+  .three-way .explore-still-line { align-self: start; }
+}
+@container (min-width: 30rem) {
+  .explore-still--three { padding: var(--space-2xl) var(--space-lg); gap: var(--space-xl); }
+  /* Three across, one row each for the screens, the names and the lines,
+     so the three of each sit level. A column is about 154px at the card's
+     width, and each name and line holds one line in it. */
+  .three-ways {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    column-gap: var(--space-sm);
+    row-gap: 0;
+  }
+  .three-way {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    align-items: start;
+  }
+  .three-way .three-screen { width: 100%; margin-bottom: var(--space-sm); }
+  .three-row:nth-of-type(n+5) { display: flex; }
+  .three-row { height: var(--space-lg); }
+  .three-way--call .three-screen { outline-width: 3px; outline-offset: var(--space-2xs); }
+}
+
 /* ---------- The handoff: After Send's point, as a still ----------
    The homepage's After Send card and the lab index's entry, since later on
    2026-11-06 (Adam: a simplified graphic that explains it, with words on
