@@ -92,7 +92,7 @@ const BASE = {
      sentence, the breadth helping teams decide, so the dek holds to two
      lines from 1280. Since 2026-11-13 it is the systems dek in the
      owner's words, with two <strong>s: what he improves, and the call. */
-  dek: '20 years designing <strong>enterprise products and their design systems</strong>. Research and AI tell me what a product should keep, fix, or build next.',
+  dek: '20 years designing <strong>enterprise products and their design systems</strong>. Research and AI inform what I decide a product should keep, fix, or build next.',
   /* Since 2026-10-29 each card opens its section of how-i-work.html, and a
      variant names it by that address; the private variants named the four
      engagement/ pages until then. */
