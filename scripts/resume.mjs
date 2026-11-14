@@ -240,7 +240,7 @@ const html = String.raw`<!doctype html>
   <h2>Selected projects</h2>
   <ul>
     <li>Making 40+ SAP applications feel like one product: one visual language, one design system, and one accessibility standard, about a third less time from design to development, and UI defects in production cut roughly in half.</li>
-    <li>An identity, illustration and badge system, templates and a community platform for a global corporation&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
+    <li>An identity, illustration and badge system, templates and a community platform for a global food and agriculture company&rsquo;s innovation network, over four fiscal years; campaign production time roughly halved.</li>
     <li>Leading UX design on a USDA grant platform, one record from application through analysis in place of spreadsheets; data-analysis requests from 45–55 hours to just over 10.</li>
     <li>A real-time, data-dense dispatch app for a 450+ truck fleet; board-clearing time down roughly 30%.</li>
   </ul>
@@ -432,7 +432,7 @@ const reading = String.raw`<!doctype html>
     <h2>Selected work</h2>
     <ul>
       <li><b>40+ SAP applications</b> made to feel like one product: one design system and accessibility standard; a third less time to development, UI defects roughly halved, NPS up about 20 points.</li>
-      <li><b>An identity and community platform</b> for a global corporation&rsquo;s innovation network: mark, illustration, badges, templates, and a portal.</li>
+      <li><b>An identity and community platform</b> for a global food and agriculture company&rsquo;s innovation network: mark, illustration, badges, templates, and a portal.</li>
       <li><b>A USDA grant-management portal</b> in place of spreadsheets, taking data-analysis requests from 45–55 hours to just over 10.</li>
           </ul>
   </section>
