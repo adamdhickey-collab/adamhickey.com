@@ -81,8 +81,8 @@
  * itself) and the capabilities put enterprise product design first, for a
  * senior or lead product design search that is not only new products. From 2026-11-06 the headline title and first sentence match the homepage hero, at Adam's word; employers, titles,
  * dates and figures are unchanged. From 2026-11-14 the independent entry is
- * about enterprise design as agents build and act: Agent Review, The
- * Shortlist and the essays lead, Lucy Learns stays as one line, and Door
+ * about enterprise design as agents build and act: Agent Review, After
+ * Send, The Shortlist and the essays lead, Lucy Learns stays as one line, and Door
  * County Found leaves the résumé (it stays on the site). It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
@@ -221,7 +221,8 @@ const html = String.raw`<!doctype html>
   <h2>Experience</h2>
   <div class="job"><span><b>Selected Independent Work</b> — Enterprise product design with AI, prototyped in code</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Built with Claude Code: a React and TypeScript prototype of where a coding agent has to stop for a person, grown from two real agent runs, with twelve written design rules and without. Scenarios simulated.</li>
+    <li><b>Agent Review</b> — A React prototype, built with Claude Code from two real agent runs, of where an agent stops for a person.</li>
+    <li><b>After Send</b> — An accounts payable concept on simulated data: what a specialist needs to see first when the invoice says paid and the supplier calls anyway. First working version built with AI in a day.</li>
     <li><b>The Shortlist</b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
     <li><b>Essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
   </ul>
@@ -418,7 +419,7 @@ const reading = String.raw`<!doctype html>
     <div class="role">
       <h3>Enterprise product design with AI, prototyped in code</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">How enterprise design changes once agents build and act. Agent Review, built with Claude Code, shows where an agent has to stop for a person; The Shortlist carries one trip from a phone into a store. Essays on who decides when software acts.</p>
+      <p class="did">How enterprise design changes once agents build and act. Agent Review shows where an agent has to stop for a person; After Send, what an accounts payable specialist needs to see first; The Shortlist, one trip from a phone into a store.</p>
     </div>
   </section>
 
