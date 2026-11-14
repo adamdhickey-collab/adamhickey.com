@@ -1880,6 +1880,17 @@ Two more since #32:
   `seo.mjs --write`, `llms.txt`, the README's family table and the counts
   it feeds all move with it.
 
+- **The writing is The Shift, since 2026-11-14.** `writing/index.html` is
+  one series of twelve short lessons in four chapters, read in order, and
+  the articles before it are forwarding notes to the lesson their argument
+  lives in. Each lesson takes one outside idea, cited in a sentence and
+  linked, and tests it against something on this site; the skeleton (the
+  answer, three terms, three sections, figures, two questions) and the
+  chapter colors are in `writing/shift.css`, the colors measured in COLOR.md
+  section 2. A lesson's `<main>` carries `shift-lesson shift-ch-N`, its
+  figures build on scroll through `writing/shift.js` without ever changing
+  opacity, and `keys.mjs` reads the landing's "Lesson N · M min read".
+  What follows about articles describes the series' predecessors.
 - **Every article is an essay.** The dek answers, the h2s are the
   argument's steps as sentences, one figure breaks the column every
   section or two, one line a section is marked and one stands as a pull,

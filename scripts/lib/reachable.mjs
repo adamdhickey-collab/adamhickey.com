@@ -119,16 +119,6 @@ export const REACHABLE = {
        screens side by side, both in the DOM at rest. */
   ],
 
-  /* The personal essay sets the same review screen in its margin, beside
-     the paragraph about the archive batch, in the same markup and on the
-     same script, so its two later steps are in no DOM at rest there
-     either. From 2026-10-31 until 2026-11-02 it was the undo screen. */
-  'writing/my-next-design-challenge.html': [
-    { name: 'the review screen: open',
-      press: ['[data-ev="review"] [data-press="review"]'] },
-    { name: 'the review screen: archived',
-      press: ['[data-ev="review"] [data-press="review"]', '[data-ev="review"] [data-press="archive"]'] },
-  ],
 
   'prototype/dispatch-cockpit.html': [
     /* Switching situations at all: the comparison table, and the arrows saying

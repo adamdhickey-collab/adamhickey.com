@@ -340,6 +340,42 @@ color, so the rule holds without anyone remembering it.
 
 ---
 
+### The Shift's chapter colors
+
+Since 2026-11-14 the writing is one series, The Shift, in four chapters,
+and each chapter wears one hue on its landing band and on every lesson in
+it. The hues began as the accents of the four chapter drawings, so by
+section 6 they could not simply be sampled into the interface; they are
+declared here instead, with the rows that let them carry text. They live
+in `writing/shift.css` and nothing outside the series reads them.
+
+Each hue has four roles, and a page reads them through `--shift-fill`,
+`--shift-ground`, `--shift-soft`, and `--shift-ink`, set by `.shift-ch-1`
+to `.shift-ch-4`:
+
+| Chapter | fill (shapes only) | ground (24%) | soft (10%) | ink (text) |
+| --- | --- | --- | --- | --- |
+| 1, sage | `--shift-sage-fill` #657d60 | `--shift-sage-ground` #dae0d9 | `--shift-sage-soft` #f0f2ef | `--shift-sage-ink` #52634e |
+| 2, slate | `--shift-slate-fill` #56718c | `--shift-slate-ground` #d6dde3 | `--shift-slate-soft` #eef1f4 | `--shift-slate-ink` #4a5f73 |
+| 3, terracotta | `--shift-terracotta-fill` #c0714e | `--shift-terracotta-ground` #f0ddd5 | `--shift-terracotta-soft` #f9f1ed | `--shift-terracotta-ink` #85543e |
+| 4, plum | `--shift-plum-fill` #7a5a78 | `--shift-plum-ground` #dfd7df | `--shift-plum-soft` #f2eef2 | `--shift-plum-ink` #6c526b |
+
+Measured, as ink on ground:
+
+| Chapter | ink on ground | ink on soft | ink on white | white on ink | charcoal on ground | fill on ground |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1, sage | 4.81 | 5.73 | 6.45 | 6.45 | 11.42 | 3.36 |
+| 2, slate | 4.82 | 5.83 | 6.61 | 6.61 | 11.18 | 3.70 |
+| 3, terracotta | 4.80 | 5.65 | 6.30 | 6.30 | 11.68 | 2.80 |
+| 4, plum | 4.88 | 5.98 | 6.87 | 6.87 | 10.89 | 4.19 |
+
+So: text in a chapter's color is always its **ink**, on any of the three
+light grounds or white; a white numeral sits on the ink, never on the fill;
+and the **fill** draws shapes only: a progress segment, say, or a card's edge,
+where terracotta's 2.80:1 on its ground clears the 1.2:1 an edge needs and
+the 3:1 a meaningful graphic needs is never asked of it. The site's sage
+link is 4.2 to 4.4:1 on a chapter ground, so a link there takes the ink.
+
 ## 3. Ink on ground
 
 The rule is one line: **decide the ink from the ground, and check the number.**
@@ -1106,8 +1142,8 @@ taxonomy**:
 | `color.css` | The palette, the alpha steps, the rings, the scrim |
 | `shell.css` | The frame: nav height, container width, radii, easing, elevation |
 
-`style.css` holds no shared token at all. It is loaded by twenty-eight pages,
-and the token files are loaded by all twenty-eight: since 2026-10-30 they are
+`style.css` holds no shared token at all. It is loaded by thirty-four pages,
+and the token files are loaded by all thirty-four: since 2026-10-30 they are
 the same pages. Until that day six
 case studies ran on a built Tailwind stylesheet instead, so anything defined in
 `style.css` was invisible to them. That single fact caused three

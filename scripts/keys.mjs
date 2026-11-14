@@ -67,7 +67,9 @@ const minutesOf = new Map(); // slug -> minutes
 for (const f of articles) {
   const path = resolve(DIR, f);
   const src = readFileSync(path, 'utf8');
-  const mainStart = src.indexOf('<main id="main">');
+  /* A lesson in The Shift carries its chapter on <main> as a class, so the
+     tag is matched by its id, not by the whole tag. */
+  const mainStart = src.indexOf('<main id="main"');
   const mainEnd = src.indexOf('</main>');
   if (mainStart < 0 || mainEnd < 0) { fault(f, 'no <main id="main">'); continue; }
   let main = src.slice(mainStart, mainEnd);
@@ -108,8 +110,15 @@ for (const f of articles) {
   let next = src;
   for (const [s, minutes] of minutesOf) {
     const re = new RegExp(`(<a class="writing-link" href="${s}\\.html">[\\s\\S]*?<p class="writing-meta">)[^<]*(<\\/p>)`);
-    if (!re.test(next)) { fault('index.html', `no entry for ${s}.html`); continue; }
-    next = next.replace(re, `$1${minutes} min read$2`);
+    /* The Shift's landing (since 2026-11-14): a lesson's card says "Lesson N
+       · M min read", and the start card names lesson 1 the same way. */
+    const card = new RegExp(`(<a class="shift-card" href="${s}\\.html">[\\s\\S]*?<span class="shift-card-meta">Lesson \\d+ &middot; )[^<]*(<\\/span>)`);
+    const start = new RegExp(`(<a class="shift-start[^"]*" href="${s}\\.html">[\\s\\S]*?<span class="shift-series-label">Lesson \\d+ &middot; )[^<]*(<\\/span>)`);
+    if (re.test(next)) next = next.replace(re, `$1${minutes} min read$2`);
+    else if (card.test(next)) {
+      next = next.replace(card, `$1${minutes} min read$2`);
+      if (start.test(next)) next = next.replace(start, `$1${minutes} min read$2`);
+    } else { fault('index.html', `no entry for ${s}.html`); continue; }
   }
   if (next !== src) {
     if (WRITE) { writeFileSync(path, next); say('  wrote index.html: read times'); }

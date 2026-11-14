@@ -106,9 +106,7 @@ const BASE = {
        and three of their articles are unlisted now, not gone. Two, one, and
        two since 2026-10-29, when the writing went to seven; one, one, and
        one since 2026-10-30, when each pair became one article. */
-    'The system': ['what-does-a-design-system-need-once-ai-is-in-the-product'],
-    'The build': ['how-should-you-test-a-product-now-that-ai-can-help', 'what-do-the-best-prd-templates-have-in-common'],
-    'The judgment': ['who-decides-when-software-can-act-on-its-own'],
+    /* Empty since 2026-11-14: the writing is The Shift, in a fixed order. */
   },
 };
 
@@ -147,6 +145,8 @@ const facts = (src) => list(src,
   '\n        </ul>',
   (b) => b.match(/hero-proof-label">([^<]+)</)[1], 6, 'the six facts');
 
+/* The Shift's landing has chapters in a fixed order, not collections. */
+const SERIES = (src) => src.includes('class="shift-chapters"');
 const collections = (src) => list(src,
   '<section class="case-section case-overview">\n      <div class="container case-narrow">\n',
   /* An <h2> since #206 made the three collections headings; the reader was
@@ -203,7 +203,11 @@ function apply(home, index, v) {
   if (!m) die('the dek: cannot find <p class="hero-invite reveal">');
   if ((home.match(/class="hero-invite reveal"/g) || []).length !== 1) die('the dek: more than one hero-invite');
   home = home.replace(dekRe, `$1${v.dek}$3`);
-  /* the writing index: collections, then the articles inside each */
+  /* the writing index: collections, then the articles inside each. Since
+     2026-11-14 the index is The Shift, twelve lessons in a fixed reading
+     order with no collections to lead with, so there is nothing to reorder
+     there and a variant's "writing" is ignored. */
+  if (!SERIES(index)) {
   const col = collections(index);
   const names = Object.keys(v.writing);
   let blocks = reorder(col, names, 'collections');
@@ -213,14 +217,15 @@ function apply(home, index, v) {
     return splice(b, a, reorder(a, v.writing[name], `articles in ${name}`));
   });
   index = splice(index, col, blocks);
+  }
   return { home, index };
 }
 
 /* What is live: the orders read straight back off the two files. */
 function status(home, index) {
-  const col = collections(index);
   const writing = {};
-  for (const b of col.items) {
+  if (!SERIES(index)) for (const b of collections(index).items) {
+    const col = collections(index);
     const name = col.key(b);
     writing[name] = articles(b, name, (b.match(/<li class="writing-item(?: writing-item--lead)?">/g) || []).length).items.map((x) => x.match(/href="([a-z0-9-]+)\.html"/)[1]);
   }

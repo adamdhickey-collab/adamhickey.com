@@ -10,7 +10,7 @@ need `playwright-core` installed ad hoc; see Checks.
 
 | | |
 | --- | --- |
-| **What this is** | The site: 28 pages in nine families |
+| **What this is** | The site: 34 pages in nine families |
 | **Where it goes** | https://adamhickey.com, on every push to `main` |
 | **Where the work happens** | Here, since 2026-09-08. `CLAUDE.md` is the working guide |
 | **Where it was staged** | `adamdhickey-collab/adamhickey-next`, archived on 2026-09-08 at its #169, which this tree matches |
@@ -183,7 +183,7 @@ page loads it from `site-nav.css`.
 
 ## The pages, by family
 
-Twenty-eight pages in nine families, all hand-written HTML with no include step
+Thirty-four pages in nine families, all hand-written HTML with no include step
 and no build. The inventory lives here rather than on the design system page,
 because a site inventory describes *this* site where the rest of that page
 describes anything built with the system.
@@ -192,11 +192,11 @@ describes anything built with the system.
 makes a family is the content model and the shell it wears, not the path.
 
 **The shell is copied, not included.** The fixed header, the nav links, the
-email icon, and the skip link are hand-written into all twenty-eight pages, so a
+email icon, and the skip link are hand-written into all thirty-four pages, so a
 change to the shell is a change to thirty-seven files.
 
 **Two regimes.** There is no single base stylesheet, but there is a single
-base ladder, and both regimes read it from `type.css`, which all twenty-eight pages
+base ladder, and both regimes read it from `type.css`, which all thirty-four pages
 load. Regime A loads `style.css`; regime B was the six older pages on a built
 Tailwind stylesheet, which could not see anything `style.css` declares. Since
 2026-10-30 every page is regime A.
@@ -207,7 +207,7 @@ Tailwind stylesheet, which could not see anything `style.css` declares. Since
 | Client case studies | 5 | A | Client work under NDA-safe framing. The oldest pages on the site. |
 | Build write-ups | 5 | A | Products built end to end, alone, and this site. Faunaform, since 2026-10-20, is the first still in progress. |
 | How I work | 1 | A | One page for the four parts of the job: the situation, the moves, and the account that shows each. Four pages under `engagement/` until 2026-10-29, engagement pages until 2026-09-17. |
-| Writing | 7 | A | An index, the two pieces it opens with under "Start here" (a personal essay since 2026-10-27, then the position article of 2026-10-20), and one article for each of its three words since 2026-10-30, when The system's two and The judgment's two became one each: the system, the build, and the judgment. The build has had a second since 2026-11-02, what the best PRD templates have in common. Eleven more addresses are forwarding notes, nine since 2026-10-29 and two since 2026-10-30. |
+| Writing | 13 | A | The Shift in Product Design, since 2026-11-14: an index and twelve short lessons in four chapters, each one outside idea tested against something on this site, in a fixed reading order. The articles before it are forwarding notes to the lesson their argument lives in now. |
 | Reference | 1 | A | The design system page. Unlisted; nothing links to it. |
 | Prototypes | 1 | A | Self-directed, interactive prototypes framed as design work: the dispatch cockpit on synthetic data. Its interface on live Citi Bike data, the rebalancing cockpit, was a second from 2026-10-27 to 2026-10-29, when the lab went back to the dispatch story and its address became a forwarding note. The deploy console was a second until 2026-10-23, and The Shortlist's prototype had a page here from 2026-10-28 until it moved into its write-up's hero the next day. |
 | Lab | 5 | A | The index of the working prototypes, each asking one question about a connected service, a design system, a live operation, or an enterprise workflow (since 2026-10-28; it was "Design systems for humans and agents" before), the Agent Review case study, since 2026-11-06 After Send, an independent commercial payments concept following one virtual payment from the buyer to the supplier and back, since 2026-10-28 The Shortlist, a service design exploration of one shopping trip across phone, store, and person, and since 2026-10-21 an exploration of motion, the homepage's former scroll story. The dispatch cockpit is listed there too, at its own address; the rebalancing cockpit took its place from 2026-10-27 to 2026-10-29. Since 2026-10-01 the homepage reaches it from one card under Selected work and from the navigation. |
