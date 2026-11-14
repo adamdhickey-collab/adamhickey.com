@@ -80,7 +80,10 @@
  * (audits walked through app by app, workshops, a scorecard each team ran
  * itself) and the capabilities put enterprise product design first, for a
  * senior or lead product design search that is not only new products. From 2026-11-06 the headline title and first sentence match the homepage hero, at Adam's word; employers, titles,
- * dates and figures are unchanged. It was Lora and Figtree until 2026-09-05 -- a document nobody had
+ * dates and figures are unchanged. From 2026-11-14 the independent entry is
+ * about enterprise design as agents build and act: Agent Review, The
+ * Shortlist and the essays lead, Lucy Learns stays as one line, and Door
+ * County Found leaves the résumé (it stays on the site). It was Lora and Figtree until 2026-09-05 -- a document nobody had
  * reconciled with TYPOGRAPHY.md, and the only one of the practice's artifacts
  * that actually reaches people.
  *
@@ -216,11 +219,11 @@ const html = String.raw`<!doctype html>
 
 <section>
   <h2>Experience</h2>
-  <div class="job"><span><b>Selected Independent Work</b> — Product design, visual systems, prototyping</span><span class="dates">2026 – Present</span></div>
+  <div class="job"><span><b>Selected Independent Work</b> — Enterprise product design with AI, prototyped in code</span><span class="dates">2026 – Present</span></div>
   <ul>
-    <li><b>Agent Review</b> — Designed and built, with Claude Code, a React and TypeScript prototype where agents build the screens and a designer decides what ships: written design rules and automated visual and accessibility checks, on simulated runs.</li>
-    <li><b>The Shortlist</b> — A service design concept carrying one shopping trip from a phone into a store: a service map joining the journey and the blueprint, and a working prototype on sample data.</li>
-    <li><b>Door County Found</b> and <b>Lucy Learns</b> — two products in use, designed and built end to end: an editorial travel guide (identity, art direction, a site its editor keeps current) and an illustrated, offline-first dog-training app.</li>
+    <li><b>Agent Review</b> — Built with Claude Code: a React and TypeScript prototype of where a coding agent has to stop for a person, grown from two real agent runs, with twelve written design rules and without. Scenarios simulated.</li>
+    <li><b>The Shortlist</b> — A service map and working prototype carrying one shopping trip from a phone into a store, on sample data.</li>
+    <li><b>Essays</b> on enterprise design as AI moves from answering to acting; <b>Lucy Learns</b>, a dog-training app in use.</li>
   </ul>
   <div class="job"><span><b>RBA Inc</b> — Lead UX Product Designer</span><span class="dates">2013 – 2026</span></div>
   <ul>
@@ -413,9 +416,9 @@ const reading = String.raw`<!doctype html>
   <section>
     <h2>Independent</h2>
     <div class="role">
-      <h3>Product design, visual systems, prototyping</h3>
+      <h3>Enterprise product design with AI, prototyped in code</h3>
       <p class="dates">2026 – Present</p>
-      <p class="did">Two products in use, designed and built end to end: Door County Found, an editorial travel guide, and Lucy Learns, an illustrated dog-training app. Also The Shortlist and Agent Review, two working prototypes built with coding agents.</p>
+      <p class="did">How enterprise design changes once agents build and act. Agent Review, built with Claude Code, shows where an agent has to stop for a person; The Shortlist carries one trip from a phone into a store. Essays on who decides when software acts.</p>
     </div>
   </section>
 
