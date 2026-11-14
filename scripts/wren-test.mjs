@@ -149,7 +149,7 @@ await run('the default handoff: find, interpret, process as the supplier, close 
   await t.includes('Not yet');
   await t.includes('Matching waits for processing');
   await t.includes('Who acts next Hillside Packaging');
-  await t.includes('Hillside Packaging hasn’t charged the card. It’s good through Nov 27');
+  await t.includes('No charge from Hillside Packaging as of Nov 5, 2:05 pm. The card is good through Nov 27.');
   await t.includes('Valid through Nov 27');
   await t.includes('Last confirmed event Notice delivered');
   t.ok(!(await t.has('[data-review]')), 'no Review match while waiting');
@@ -463,7 +463,7 @@ await run('a match that disagrees can’t be confirmed, and leaving it says what
 await run('a supplier on the phone: what to tell them first, then when to follow up, and sending the notice again', async (t) => {
   await t.press('[data-open="hillside-20483"]');
   await t.includes('No charge posted as of Nov 5, 2:05 pm');
-  await t.includes('What to tell Hillside Packaging The card hasn’t been charged, so the invoice is open on both sides. The notice went to ar@hillsidepackaging.com on Oct 28');
+  await t.includes('What to tell Hillside Packaging No charge posted as of Nov 5, 2:05 pm, so the invoice is open on both sides. The notice went to ar@hillsidepackaging.com on Oct 28');
   await t.includes('Later: follow up Nov 20 if it’s still unprocessed, a week before the card expires Nov 27');
   /* The call's answer comes before the follow-up, inside the block. */
   const order = await t.page.$eval('[data-wren] .wr-next', (n) => [...n.children].map((c) => c.className.split(' ')[0]).join(','));
