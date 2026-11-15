@@ -376,6 +376,10 @@ where terracotta's 2.80:1 on its ground clears the 1.2:1 an edge needs and
 the 3:1 a meaningful graphic needs is never asked of it. The site's sage
 link is 4.2 to 4.4:1 on a chapter ground, so a link there takes the ink.
 
+A lesson's highlight is the chapter's ground in the essay column, which is
+white, and `--color-white` in the hero's dek, which already sits on that
+ground. One phrase is marked in each dek, in charcoal either way.
+
 ## 3. Ink on ground
 
 The rule is one line: **decide the ink from the ground, and check the number.**
