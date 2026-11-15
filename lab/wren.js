@@ -67,6 +67,16 @@
    press keeps focus on the button, so a keyboard walks the story the same
    way, and the live region reads the story's line.
 
+   THE TEST VIEW HAS ONE MORE BUTTON, since 2026-11-15. With ?test=1 on the
+   address the payments list carries "New payment". It issues nothing: it is
+   there so a usability session can count the press that would have put a
+   second payment on top of a good one, which the study on the page names as
+   a measure and the demo otherwise has no control for. Each press is kept
+   in window.wrenTest.presses with the seconds since load and the record
+   last opened, and counted on the root as data-new-payment-presses. Without
+   the flag the button is never drawn, so the page a reader sees, and
+   everything the checks measure, is unchanged.
+
    WHAT THE CHECKS SEE. Every screen after the list is drawn on a press, so
    scripts/lib/reachable.mjs registers each with the presses that reach it,
    and scripts/wren-test.mjs walks the handoff and asserts what each screen
@@ -123,6 +133,12 @@
         { at: 'Oct 13, 9:05 am', kind: 'matched', what: 'Matched to INV-20391', by: BUYER.name + ' accounts payable' }
       ] }
   ];
+  /* The test view: see THE TEST VIEW HAS ONE MORE BUTTON, above. */
+  var TEST = /[?&]test=1(&|$)/.test(window.location.search);
+  var LOADED_AT = Date.now();
+  var presses = [];                  /* survives Start over: a session is one log */
+  if (TEST) window.wrenTest = { presses: presses };
+
   var FOLLOWED = 'hillside-20483';
   var SEARCHED = 'INV-20483';        /* what the supplier on the phone gave */
   var HINT_START = 'Hillside Packaging, the supplier, calls: “Our records show INV-20483 as unpaid. Can you check it?” Your screen says paid.';
@@ -155,6 +171,7 @@
       matched: {},                       /* id -> true once the buyer confirmed the match */
       reviewing: false,                  /* the match panel is open */
       replacing: false,                  /* the replacement panel is open */
+      refused: false,                    /* the test view's New payment was pressed, and the list says nothing was issued */
       declined: false,                   /* the match was declined, so the record says nothing changed */
       activity: false                    /* the reader unfolded the activity, kept across presses */
     };
@@ -267,8 +284,10 @@
      drawn once; the rows are redrawn as the reader types (redrawTable),
      so the box keeps its focus and its caret. */
   screens.list = function () {
-    return '<header class="wr-head"><h3 class="wr-title" tabindex="-1">Payments</h3>' +
-      '<p class="wr-dek">Virtual payments sent to suppliers in the last 60 days.</p></header>' +
+    return '<header class="wr-head' + (TEST ? ' wr-head--act' : '') + '"><div><h3 class="wr-title" tabindex="-1">Payments</h3>' +
+      '<p class="wr-dek">Virtual payments sent to suppliers in the last 60 days.</p></div>' +
+      (TEST ? '<p class="wr-act"><button type="button" class="btn btn-ghost-light wr-btn" data-new-payment>New payment</button></p>' : '') + '</header>' +
+      (TEST && state.refused ? '<p class="wr-fine" data-new-payment-note>Nothing was issued. New payments are switched off in this test.</p>' : '') +
       '<form class="wr-tools" role="search" aria-label="Find a payment">' +
         '<div class="wr-field wr-field--grow"><label for="wr-q">Search by supplier or invoice reference</label>' +
           '<span class="wr-search"><input id="wr-q" type="search" data-search autocomplete="off" spellcheck="false" value="' + esc(state.q) + '">' +
@@ -697,6 +716,7 @@
     state.reviewing = false;
     state.replacing = false;
     state.declined = false;
+    state.refused = false;
     state.activity = false;
     state.returnTo = from || null;
     state.screen = 'detail';
@@ -764,6 +784,14 @@
 
     /* The product. */
     if (t.hasAttribute('data-open')) { openRecord(t.getAttribute('data-open'), '[data-open="' + t.getAttribute('data-open') + '"]'); return; }
+    if (t.hasAttribute('data-new-payment')) {
+      if (!TEST) return;
+      presses.push({ at: Math.round((Date.now() - LOADED_AT) / 1000), scenario: state.scenario, lastOpened: state.open });
+      root.setAttribute('data-new-payment-presses', String(presses.length));
+      state.refused = true;
+      render({ focus: '[data-new-payment]', still: true, announce: 'Nothing was issued. New payments are switched off in this test.' });
+      return;
+    }
     if (t.hasAttribute('data-clear-search')) {
       state.q = '';
       render({ focus: '[data-search]', still: true, announce: 'Search cleared. ' + count(shown().length, 'payment', 'payments') + '.' });
