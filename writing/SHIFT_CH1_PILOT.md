@@ -57,17 +57,31 @@ hero's place; Lesson 6's concept, a roll of paper that read as a toilet
 roll, became a stack of fan-folded printout. Lesson 5's icon sheet came out
 a little flatter than Lesson 4's.
 
-**Chapter 3 is started and paused** (2026-11-14, terracotta `#C0714E`).
-ChatGPT's image allowance for the account ran out after Lesson 7's hero;
-the notice said it resets on 2026-11-15 at 3:02 PM. Lesson 7's hero is
-drawn and kept as a source in `img/inbox/narrative-ink/src3/` (not in the
-tree, not on the page): the archive wall of drawers with four pulled open,
-and a team at four folders, basket-weave pattern on the main figure. Still
-to draw for Chapter 3: Lesson 7's scene, pair, and four icons; Lesson 8's
-hero, scene, concept, and eight icons; Lesson 9's hero, scene, pair, and
-four icons. Patterns planned: basket weave (7), key fret (8), nested
-hexagons (9). `tone` now treats very light pixels as paper, because tan
-paper sits next to terracotta on the color wheel.
+**Chapter 3 is complete in the new hand** (2026-11-15, terracotta
+`#C0714E`), after the image allowance reset. Lessons 7, 8, and 9: a hero and
+a scene each, the form and menu pair, the boundary concept, the tangle and
+knot pair, and eighteen icons on three sheets (sixteen placed; a tape roll
+and a checklist are spares), all in
+`img/writing/shift/narrative-ink/chapter-3/`. Patterns: basket weave (7),
+key fret (8), nested hexagons (9). Lesson 8's hero was redrawn once: its
+five teammates came back as clones.
+
+**Owner's review of the live Chapters 1 and 2, same day:**
+
+- **Icons are fully transparent.** The gap inside the oil can's handle
+  showed white. `icons` now clears all paper, not only the paper that
+  touches the cell's edge, and all 24 placed icons were re-cut.
+- **No white tile, no charcoal row.** `.shift-stack-art` lost its white
+  rounded tile, and the marked row (`li.is-mark`) is the chapter's ground
+  with charcoal text where it was charcoal with white text.
+- **Lesson 4's hero** was a cutaway building: too busy, and its floors cut
+  across the people inside. It is five gears on a watchmaker's bench, one
+  of them slate. Drawn twice; the first had a gear across her chest.
+- **Lesson 6's paper** is dot-matrix fan-fold in all three pictures, and
+  falls straight from the desk into a flat pile.
+- **The four chapter emblems** on the landing are redrawn (compass, pocket
+  watch, clipboard, toolbox) and cut out with the new `cutout` command:
+  they stand on the chapter's ground with no plate, edge, or shadow.
 
 **Still open, by design or by nature:**
 
@@ -76,8 +90,9 @@ paper sits next to terracotta on the color wheel.
 2. **Weight.** About 770 to 890 KB of pictures a lesson, against about 220
    before. Hatching does not compress; the only lever left is quality
    below 0.7, which starts to soften the linework.
-3. **The landing and the share cards** still show the old chapter emblem:
-   all four chapters change there together.
+3. **The share cards** still show the old chapter emblems
+   (`chapter-N-wide.webp`, through `og.mjs`). The landing's are redrawn.
+4. **Chapter 4** (Lessons 10 to 12) is still in the old hand.
 
 ## Exact image mapping
 

@@ -309,24 +309,8 @@
 }
 .shift-stack li { grid-template-columns: var(--space-3xl) minmax(0, 1fr); }
 /* The drawing leads the row where a number used to: it marks the row, and a
-   number beside it would say the same thing twice. White under it, so it
-   reads on the charcoal row too. */
-.shift-stack-art {
-  display: block;
-  width: var(--space-3xl);
-  height: auto;
-  aspect-ratio: 1;
-  grid-row: 1 / span 2;
-  align-self: start;
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-}
-.shift-stack-name {
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  color: var(--color-charcoal);
-}
+   number beside it would say the same thing twice. It is ink on a clear
+   ground with no tile under it, so every row it sits on is a light one. */
 .shift-stack-name small {
   display: block;
   font-size: var(--text-xs);
@@ -346,11 +330,10 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-.shift-stack li.is-mark { background: var(--color-charcoal); border-color: var(--color-charcoal); }
-.shift-stack li.is-mark .shift-stack-name,
-.shift-stack li.is-mark .shift-stack-q { color: var(--ink-on-dark); }
-.shift-stack li.is-mark .shift-stack-name small { color: var(--ink-on-dark-muted); }
-.shift-stack li.is-mark .shift-stack-name .shift-stack-count { color: var(--ink-on-dark); }
+/* The marked row is the chapter's ground, not charcoal: the drawing is
+   charcoal ink and has to read on it without a white tile behind. */
+.shift-stack li.is-mark { background: var(--shift-ground); }
+.shift-stack li.is-mark .shift-stack-name small { color: var(--shift-ink); }
 @media (min-width: 40rem) {
   .shift-stack li { grid-template-columns: var(--space-4xl) 11rem minmax(0, 1fr); }
   .shift-stack-art { grid-row: 1; align-self: center; width: var(--space-4xl); }
@@ -720,16 +703,9 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-q,
 .shift-stages li.is-gap { border-color: var(--shift-fill); }
 
-/* A drawing's cream ground melted into the soft and 24% grounds around it
-   (owner, 2026-11-14). The landing's drawings carry an edge and a resting
-   shadow, so each reads as a picture set on the band, never as a patch of
-   it. A lesson's hero drawing is cut to a transparent ground instead and
-   stands on the chapter's ground with no frame (owner, 2026-11-14). */
-.shift-chapter-art,
-.shift-mosaic img {
-  border: 1px solid var(--rule-card);
-  box-shadow: var(--shadow-card);
-}
+/* The landing's emblems are cut to a transparent ground, like a lesson's
+   icons: each is ink and one accent standing straight on its chapter's
+   ground, with no plate, edge, or shadow behind it (owner, 2026-11-15). */
 /* The mosaic's labels are one line each: two-word names, never wrapped. */
 .shift-mosaic-label { white-space: nowrap; }
 

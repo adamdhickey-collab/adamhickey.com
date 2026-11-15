@@ -7,11 +7,12 @@
  *   node scripts/narrative-ink.mjs tone <source.png>... --chapter N
  *   node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]
  *   node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f
+ *   node scripts/narrative-ink.mjs cutout <src.png> <out.webp> --size WxH
  *
  * EXPORT scales a toned source to its slot's size and encodes it in
  * Chromium, the site's one WebP encoder. ICONS cuts a 3 x 2 sheet into six:
- * the paper around each object is cleared to alpha by a flood fill from the
- * cell's edges (paper inside the object stays), the object is trimmed and
+ * the paper is cleared to alpha everywhere, inside the object too, so it
+ * sits on any light ground with no tile behind it; the object is trimmed and
  * centered at 80% of the square, and each is written twice, a 512 px PNG
  * master and the 256 px WebP the page loads, as chapterN-icon-<name>.
  *
@@ -284,6 +285,50 @@ async function exportOne() {
   await b.close();
 }
 
+/* Paper to alpha, shared by ICONS and CUTOUT. Runs in the page: takes a
+   canvas context and its size, clears the paper, and returns the box the
+   ink fills. */
+const UNMIX = `(g, cw, ch) => {
+      const id = g.getImageData(0, 0, cw, ch), d = id.data;
+      /* The paper is the median of the cell's outer ring, not its corner
+         pixel: a generated sheet's paper is grainy and a little uneven. */
+      const ring = [[], [], []], m = Math.max(4, Math.round(cw * 0.03));
+      for (let y = 0; y < ch; y += 2) for (let x = 0; x < cw; x += 2) {
+        if (x >= m && x < cw - m && y >= m && y < ch - m) continue;
+        for (let k2 = 0; k2 < 3; k2++) ring[k2].push(d[(y * cw + x) * 4 + k2]);
+      }
+      const bg = ring.map((v) => v.sort((a, b2) => a - b2)[v.length >> 1]);
+      /* Paper becomes alpha everywhere, not only where it touches the cell
+         edge: the gap inside a handle or a loop is ground too, and a flood
+         from the border never reaches it. A neutral pixel is read as
+         charcoal ink over paper and un-mixed, so hatching and soft edges
+         carry no paper tone onto another ground; a colored pixel is the
+         accent and stays solid. */
+      const INK = 37, lum = (r, gg, bb) => 0.299 * r + 0.587 * gg + 0.114 * bb, bl = lum(bg[0], bg[1], bg[2]);
+      let x0 = cw, y0 = ch, x1 = 0, y1 = 0;
+      const cols = new Uint32Array(cw), rows = new Uint32Array(ch);
+      for (let q = 0; q < cw * ch; q++) {
+        const r = d[q * 4], gg = d[q * 4 + 1], bb = d[q * 4 + 2];
+        const dist = Math.abs(r - bg[0]) + Math.abs(gg - bg[1]) + Math.abs(bb - bg[2]);
+        const chroma = Math.max(r, gg, bb) - Math.min(r, gg, bb) - (Math.max(...bg) - Math.min(...bg));
+        let al;
+        if (chroma > 10) al = Math.max(0, Math.min(1, (dist - 30) / 50));
+        else {
+          al = Math.max(0, Math.min(1, (bl - lum(r, gg, bb)) / (bl - INK)));
+          if (al < 0.14) al = 0;
+          d[q * 4] = d[q * 4 + 1] = d[q * 4 + 2] = INK;
+        }
+        d[q * 4 + 3] = Math.round(al * 255);
+        if (al > 0.5) { cols[q % cw]++; rows[(q / cw) | 0]++; }
+      }
+      /* The object's box is where the ink is dense: a stray speck of paper
+         grain is a pixel or two in its row and must not stretch the box. */
+      for (let x = 0; x < cw; x++) if (cols[x] >= 4) { if (x < x0) x0 = x; if (x > x1) x1 = x; }
+      for (let y = 0; y < ch; y++) if (rows[y] >= 4) { if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      g.putImageData(id, 0, 0);
+      return { x0, y0, x1, y1 };
+}`;
+
 async function icons() {
   const [sheet, outDir] = positional;
   const ch = Number(opt('--chapter'));
@@ -294,32 +339,14 @@ async function icons() {
   }
   const b = await browser();
   const page = await b.newPage();
-  const res = await page.evaluate(async ({ data }) => {
+  const res = await page.evaluate(async ({ data, UNMIX }) => {
+    const unmix = (0, eval)(UNMIX);
     const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
     const cw = Math.floor(img.naturalWidth / 3), ch = Math.floor(img.naturalHeight / 2), out = [];
     for (let k = 0; k < 6; k++) {
       const c = document.createElement('canvas'); c.width = cw; c.height = ch;
       const g = c.getContext('2d'); g.drawImage(img, -(k % 3) * cw, -Math.floor(k / 3) * ch);
-      const id = g.getImageData(0, 0, cw, ch), d = id.data, bg = [d[0], d[1], d[2]];
-      const paper = (q) => Math.abs(d[q * 4] - bg[0]) + Math.abs(d[q * 4 + 1] - bg[1]) + Math.abs(d[q * 4 + 2] - bg[2]) < 60;
-      const seen = new Uint8Array(cw * ch), stack = [];
-      for (let x = 0; x < cw; x++) stack.push(x, x + (ch - 1) * cw);
-      for (let y = 0; y < ch; y++) stack.push(y * cw, y * cw + cw - 1);
-      while (stack.length) {
-        const q = stack.pop(); if (seen[q] || !paper(q)) continue; seen[q] = 1;
-        const x = q % cw, y = (q / cw) | 0;
-        if (x > 0) stack.push(q - 1); if (x < cw - 1) stack.push(q + 1);
-        if (y > 0) stack.push(q - cw); if (y < ch - 1) stack.push(q + cw);
-      }
-      let x0 = cw, y0 = ch, x1 = 0, y1 = 0;
-      for (let q = 0; q < cw * ch; q++) {
-        const x = q % cw, y = (q / cw) | 0;
-        if (seen[q]) { d[q * 4 + 3] = 0; continue; }
-        if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
-        /* one soft pixel at the cut, so the edge is not a staircase */
-        if ((x > 0 && seen[q - 1]) || (x < cw - 1 && seen[q + 1]) || (y > 0 && seen[q - cw]) || (y < ch - 1 && seen[q + cw])) d[q * 4 + 3] = 150;
-      }
-      g.putImageData(id, 0, 0);
+      const { x0, y0, x1, y1 } = unmix(g, cw, ch);
       const w = x1 - x0 + 1, h = y1 - y0 + 1;
       const make = (S) => {
         const o = document.createElement('canvas'); o.width = o.height = S;
@@ -332,7 +359,7 @@ async function icons() {
                  touches: x0 === 0 || y0 === 0 || x1 === cw - 1 || y1 === ch - 1 });
     }
     return out;
-  }, { data: fs.readFileSync(sheet).toString('base64') });
+  }, { data: fs.readFileSync(sheet).toString('base64'), UNMIX });
   fs.mkdirSync(outDir, { recursive: true });
   let bad = 0;
   res.forEach((r, i) => {
@@ -346,12 +373,45 @@ async function icons() {
   process.exit(bad ? 1 : 0);
 }
 
+/* CUTOUT is ICONS for one picture: the paper goes to alpha, the object is
+   trimmed, and it is set at 94% of a WxH frame. For a single object that
+   sits straight on a page's own ground, with no plate behind it. */
+async function cutout() {
+  const [src, out] = positional;
+  const size = (opt('--size') || '').split('x').map(Number);
+  if (!src || !out || size.length !== 2 || !size[0] || !size[1]) {
+    console.error('\n  node scripts/narrative-ink.mjs cutout <src.png> <out.webp> --size WxH\n');
+    process.exit(2);
+  }
+  const b = await browser();
+  const page = await b.newPage();
+  const url = await page.evaluate(async ({ data, UNMIX, W, H }) => {
+    const unmix = (0, eval)(UNMIX);
+    const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+    const cw = img.naturalWidth, ch = img.naturalHeight;
+    const c = document.createElement('canvas'); c.width = cw; c.height = ch;
+    const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+    const { x0, y0, x1, y1 } = unmix(g, cw, ch);
+    const w = x1 - x0 + 1, h = y1 - y0 + 1;
+    const o = document.createElement('canvas'); o.width = W; o.height = H;
+    const og = o.getContext('2d'); og.imageSmoothingQuality = 'high';
+    const s = Math.min(W * 0.94 / w, H * 0.94 / h);
+    og.drawImage(c, x0, y0, w, h, (W - w * s) / 2, (H - h * s) / 2, w * s, h * s);
+    return o.toDataURL('image/webp', 0.85);
+  }, { data: fs.readFileSync(src).toString('base64'), UNMIX, W: size[0], H: size[1] });
+  fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+  fs.writeFileSync(out, Buffer.from(url.split(',')[1], 'base64'));
+  console.log(`  ${out}  ${size.join('x')}  ${Math.round(fs.statSync(out).size / 1024)} KB`);
+  await b.close();
+}
+
 if (cmd === 'palette') await palette();
 else if (cmd === 'shots') await shots();
 else if (cmd === 'manifest') manifest(argv);
 else if (cmd === 'tone') await tone();
 else if (cmd === 'export') await exportOne();
 else if (cmd === 'icons') await icons();
+else if (cmd === 'cutout') await cutout();
 else {
   console.error('\n  node scripts/narrative-ink.mjs palette <file-or-dir>... --chapter N');
   console.error('  node scripts/narrative-ink.mjs shots <page.html> [--out dir] [--label name]');
