@@ -22,7 +22,8 @@
  * SHOTS loads a page from this tree at 390, 768 and 1440, scrolls it once so
  * every lazy picture decodes, and writes a full-page PNG per width plus a
  * report.json: each picture's file size against the box it renders in at 2x,
- * whether its file's ratio matches its width/height attributes, its alt, and
+ * whether its file's ratio matches its width/height attributes and the box
+ * it is actually drawn in (a slot's aspect-ratio can stretch it), its alt, and
  * whether the page scrolls sideways. Run it before and after a swap, with
  * --label before and --label after, and compare the two folders.
  *
@@ -160,6 +161,12 @@ async function shots() {
           rendered: [Math.round(box.width), Math.round(box.height)],
           ratioOk: aw && ah ? Math.abs(aw / ah - i.naturalWidth / i.naturalHeight) < 0.01 : false,
           sharpAt2x: i.naturalWidth >= Math.round(box.width) * 2,
+          /* The slot can set its own ratio (aspect-ratio with object-fit:
+             fill), and then a file that agrees with its attributes is still
+             drawn stretched. Compare the box the reader sees with the file. */
+          stretch: box.height && i.naturalHeight
+            ? (box.width / box.height) / (i.naturalWidth / i.naturalHeight) - 1 : 0,
+          fit: getComputedStyle(i).objectFit,
         };
       }),
     }));
@@ -173,6 +180,7 @@ async function shots() {
       if (!im.loaded) flag.push(`${n} did not load`);
       if (im.alt === null) flag.push(`${n} has no alt attribute`);
       if (!im.ratioOk) flag.push(`${n} file is ${im.natural.join('x')}, attributes say ${im.attrs.join('x')}`);
+      if (im.loaded && im.fit === 'fill' && Math.abs(im.stretch) > 0.01) flag.push(`${n} is drawn ${im.stretch > 0 ? 'wider' : 'taller'} than the file by ${Math.abs(Math.round(im.stretch * 100))}%: the slot's ratio is not the picture's`);
       if (im.loaded && !im.sharpAt2x && im.rendered[0] > 0) flag.push(`${n} renders ${im.rendered[0]}px wide, file ${im.natural[0]}px: soft at 2x`);
     }
     findings += flag.length;

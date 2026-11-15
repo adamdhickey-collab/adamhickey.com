@@ -7,7 +7,7 @@ replacement is in [NARRATIVE_INK_BRIEFS.md](NARRATIVE_INK_BRIEFS.md).
 
 **104 placements of 100 files**: 28 panorama,
 20 supporting, 56 icon.
-0 in the new hand, 3 waiting on the
+3 in the new hand, 0 waiting on the
 Chapter 1 pilot bundle, 101 briefed and waiting on the pilot's approval.
 
 **Preserve.** None of these placements is a product screenshot or a
@@ -34,9 +34,9 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-changes-when-you-design-the-task-instead-of-the-app.webp` | shift-hero-art | 1600x900, 111 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | pilot: awaiting bundle -> `chapter1-lesson1-hero.webp` | `""`<br>*empty: the title beside it says what the lesson is* |
-| `what-changes-when-you-design-the-task-instead-of-the-app-scene.webp` | writing-scene | 1600x900, 91 KB | A panorama: 1920x1080 (16:9), on paper | pilot: awaiting bundle -> `chapter1-lesson1-dispatcher.webp` | An illustration of a dispatcher at three monitors, a desk phone held against her shoulder, copying a number from one screen onto a notepad.<br>*required: who, doing what, and the detail the caption points at* |
-| `what-changes-when-you-design-the-task-instead-of-the-app-idea.webp` | shift-concept-art | 1200x800, 20 KB | B supporting: 1200x800 (3:2), on paper | pilot: awaiting bundle -> `chapter1-lesson1-human-decision.webp` | Three separate app cards, a truck, a clock, and a list, threaded by one ribbon that ends at a check mark.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 289 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-dispatcher.webp` | writing-scene | 1200x675, 203 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | A dispatcher reviews truck routes, driving hours, and orders on three separate computer monitors.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 133 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 

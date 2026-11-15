@@ -5,28 +5,37 @@ The pilot's pictures arrive as a separate bundle,
 yet. Nothing in the lesson points at a path under
 `img/writing/shift/narrative-ink/` until the files are in the repository.
 
-**Status, 2026-11-14:** the bundle was not found on the working Mac (Downloads,
-Desktop, Documents, iCloud Drive, the temp folders, a Spotlight search for its
-name and for `apply-lesson1.py`). The lesson is unchanged. Everything that does
-not need the pictures is done: the spec, the manifest, the briefs, the two
-checks, and "before" screenshots of the lesson at 390, 768, and 1440.
+**Status, 2026-11-14: installed.** The bundle's installer ran dry, then
+applied, on this branch. Lesson 1 now shows the three pilot pictures. What was
+done to them, and what is still open:
 
-## Where to put the bundle
+| Picture | As shipped in the bundle | As committed | Why |
+| --- | --- | --- | --- |
+| `chapter1-lesson1-hero.webp` | 1600x900, 457 KB | 1600x900, 289 KB | Re-encoded at WebP quality 0.7; no visible loss at 1:1 on the finest hatching. Alt set back to `""`, the series rule for a hero beside its title. |
+| `chapter1-lesson1-dispatcher.webp` | 1200x675, 299 KB | 1200x675, 203 KB | Re-encoded at 0.7. |
+| `chapter1-lesson1-human-decision.webp` | 1200x675 (16:9), 295 KB | 960x640 (3:2), 133 KB | Cropped to the slot's ratio, 94 px off each side, so it is no longer drawn 16 percent too tall; then scaled and re-encoded. The dispatcher, the board, the agent, and both buttons are inside the crop. |
 
-```
-~/Downloads/shift_chapter1_illustration_pilot_v2.zip
-```
+Page picture weight: 222 KB before, 1,051 KB as shipped, 625 KB as committed.
 
-Unpack it into its own empty folder outside the repository, and run its
-installer against this branch's worktree, dry run first:
+**Open, for review:**
 
-```bash
-mkdir -p ~/Downloads/shift-pilot && unzip -o ~/Downloads/shift_chapter1_illustration_pilot_v2.zip -d ~/Downloads/shift-pilot
-python3 -I ~/Downloads/shift-pilot/apply-lesson1.py --repo /Users/adamhickey/Projects/adamhickey-narrative-ink --dry-run
-```
-
-Read the installer and its dry-run diff before `--apply`. Then resolve the two
-mismatches below before committing.
+1. **The scene is soft on a 2x screen** at 768 and 1440 (1200 px file in a
+   620 and 832 px slot). Needs a 1920x1080 export from the master; the bundle
+   has none.
+2. **The hero carries its paper**, so it sits on the sage ground as a pale,
+   square-cornered rectangle where the old hero was transparent. Either
+   knock the paper out at the source or accept the plate and give the slot's
+   pictures a consistent treatment across the series; that second choice is
+   a stylesheet decision, not made here.
+3. **Two things in the art break the spec as written**: a humanoid robot
+   stands for the agent in the hero and the concept, and the dispatcher's
+   jacket carries a wave pattern from the reference prints. Either the
+   pictures change or section 1's "Never" list does, before the series
+   copies them.
+4. **The six icons fail the palette check**: 13 to 32 percent of their
+   pixels are a yellower green than sage `#657D60`. They are in the library
+   (`chapter1-icon-*.webp` and `@512.png` masters) and on no page; correct
+   their hue before any placement.
 
 ## Exact image mapping
 
