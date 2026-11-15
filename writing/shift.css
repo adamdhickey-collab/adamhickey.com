@@ -178,8 +178,7 @@
    A lesson undoes that and instead lets every figure take the wide column
    from the essay's own left edge, under the text it explains. */
 .writing-progress ~ main.shift-lesson .writing-measure > .writing-figure,
-.writing-progress ~ main.shift-lesson .writing-measure > .writing-pull,
-.writing-progress ~ main.shift-lesson .writing-measure > .writing-scene {
+.writing-progress ~ main.shift-lesson .writing-measure > .writing-pull {
   float: none;
   clear: none;
   width: auto;
@@ -213,11 +212,6 @@
   background: linear-gradient(var(--shift-ground), var(--shift-ground)) no-repeat 0 0 / 100% 100%;
   color: var(--color-charcoal);
 }
-/* The dek's one marked phrase. The hero already sits on the chapter's
-   ground, so the mark there is the page's white: the same highlighter,
-   read against the ground it is on. It does not draw on; it is above the
-   fold and shift.js builds only the marks in the essay column. */
-.shift-lesson .case-hero .build-dek mark { background: var(--color-white); }
 
 /* ---- The diagram: one app at a time, then the whole task ---- */
 .shift-diagram { display: grid; gap: var(--space-md); }
@@ -394,6 +388,7 @@
 }
 .shift-lesson .writing-flow small { color: var(--color-charcoal); }
 @media (min-width: 640px) {
+  .shift-lesson .writing-flow small { font-size: var(--text-sm); }
   .shift-lesson .writing-flow { border-bottom: 0; }
   .shift-lesson .writing-measure .writing-flow li { padding-bottom: 0; }
   .shift-lesson .writing-measure .writing-flow .writing-flow-mark::before { border-color: var(--shift-ink); }
@@ -438,6 +433,11 @@
   font-size: var(--text-sm);
   color: var(--color-white);
 }
+.shift-q-text { flex: 1; }
+/* The site's disclosure mark, at the end of the row: a question is a
+   control that opens its answer, and the card alone did not say so. */
+.shift-q .disclosure-chev { color: var(--shift-ink); }
+.shift-q[open] .disclosure-chev { transform: rotate(0deg); }
 .shift-q summary:hover { color: var(--shift-ink); }
 .shift-q summary:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 .writing-measure .shift-q p {
@@ -513,54 +513,17 @@
 .shift-mosaic a:hover { scale: var(--motion-lift); box-shadow: var(--shadow-card); }
 .shift-mosaic a:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
 
-/* Start here: lesson 1, large, on its chapter's ground. */
-.container.case-narrow > .shift-start { max-width: none; }
-.shift-start {
-  display: grid;
-  gap: var(--space-xl);
-  align-items: center;
-  padding: var(--space-xl);
-  background: var(--shift-ground);
-  border-radius: var(--radius-xl);
-  text-decoration: none;
-  transition: box-shadow var(--motion-move) var(--ease);
-}
-.shift-start-text { display: grid; gap: var(--space-sm); justify-items: start; }
-.shift-start .shift-card-title {
-  font-family: var(--font-serif);
-  font-size: var(--type-subsection);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-heading);
-}
-.shift-start:hover { box-shadow: var(--shadow-card-raised); }
-.shift-start:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
-.shift-go {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin-top: var(--space-xs);
-  padding: var(--space-xs) var(--space-lg);
-  border-radius: var(--radius-pill);
-  background: var(--shift-ink);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-white);
-}
-/* No drawing here: chapter 1's band, just below, carries the compass, and
-   the same picture twice in one screen reads as a mistake. */
-.shift-start .shift-go { justify-self: start; }
-@media (min-width: 64rem) {
-  .shift-start { grid-template-columns: minmax(0, 1fr) auto; padding: var(--space-2xl) var(--space-3xl); gap: var(--space-3xl); }
-  .shift-start .shift-go { justify-self: end; }
-}
+/* The way in: one button under the facts (2026-11-15). A "Start here"
+   card for lesson 1 sat over chapter 1, whose first row is lesson 1, so
+   the same lesson was the next thing twice in one screen. */
+.shift-begin { margin: var(--space-xl) 0 0; }
 
 /* The chapters: one band each, the drawing beside its three lessons. */
 .container.case-narrow > .shift-chapters { max-width: none; }
 .shift-chapters {
   display: grid;
   gap: var(--space-2xl);
-  margin: var(--space-section) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -815,12 +778,32 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-step { width: var(--space-4xl); height: var(--space-4xl); }
   .shift-strip a { height: var(--space-4xl); }
 }
-/* On a phone the twelve segments share whatever the arrows leave. */
-.shift-jump { width: 100%; }
-.shift-jump .shift-strip { flex: 1; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+/* Under 64rem the arrows ride the label's row and the twelve segments
+   take the whole row under it. Squeezed between the arrows, a segment was
+   14px wide on a phone, under the 24px WCAG 2.5.8 floor, with neighbours
+   closer than that (2026-11-15). Across the full row each is 28px or more,
+   its bar inset so the run still reads as twelve. */
+@media (max-width: 63.999rem) {
+  .shift-lesson .shift-series {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: var(--space-sm);
+  }
+  .shift-lesson .shift-series .shift-jump { display: contents; }
+  .shift-lesson .shift-series-label { grid-column: 1; grid-row: 1; }
+  .shift-lesson .shift-series .shift-step:first-child { grid-column: 2; grid-row: 1; }
+  .shift-lesson .shift-series .shift-step:last-child { grid-column: 3; grid-row: 1; }
+  .shift-lesson .shift-series .shift-strip {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0;
+  }
+  .shift-lesson .shift-strip a { padding-inline: calc(var(--space-2xs) / 2); }
+}
 @media (min-width: 64rem) {
-  .shift-jump { width: auto; }
-  .shift-jump .shift-strip { flex: none; grid-template-columns: repeat(12, var(--space-2xl)); }
+  .shift-jump .shift-strip { grid-template-columns: repeat(12, var(--space-2xl)); }
 }
 
 /* ---- A chapter band: its name on a row of its own, then the drawing
@@ -836,7 +819,28 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-ui);
-  color: var(--color-muted-gray);
+  color: var(--color-charcoal);
+}
+/* The emblem is the chapter's mark, not its picture: the hero's mosaic
+   already shows the four large, so in the band each is small, over the
+   line that says what the chapter is (2026-11-15). Full width, each one
+   was the same drawing twice on a page and 700px of a phone. */
+.shift-chapter .shift-chapter-art { width: 10rem; }
+
+/* On a phone a white card inside the band narrowed each title to a
+   quarter of the screen and four lines. Under 48rem the rows sit on the
+   band itself, a hairline between them: the band is the surface, a row is
+   a line of it. */
+@media (max-width: 47.999rem) {
+  .shift-cards { gap: 0; }
+  .shift-card {
+    padding: var(--space-md) 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+  .shift-cards li + li .shift-card { border-top: 1px solid var(--rule-card); }
+  a.shift-card:hover { box-shadow: none; }
 }
 @media (min-width: 64rem) {
   .shift-chapter {
@@ -854,39 +858,14 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .case-overview .shift-chapter-label::before { content: none; }
 
 /* ======================================================================
-   PICTURES IN THE LESSONS (2026-11-14, the second pass)
-   The first build carried one chapter drawing in each hero and nothing
-   drawn in the body, so twelve lessons read as the same three rows over
-   and over (owner: "too many repeated patterns"). Each lesson now carries
-   two pictures in the site's two drawing hands, in the chapter's hue:
-     a scene    the person in the lesson's story, in the editorial hand of
-                the cockpit's dispatcher (.writing-scene, wide, framed)
-     a concept  the lesson's idea as one object, in the thin-line hand of
-                the cockpit's decisions, set three ways so no two lessons
-                in a row look alike: a picture beside its line
-                (.shift-concept), two pictures side by side (.shift-pair),
-                or a small drawing leading each row of a stack or a list of
-                steps (.has-art), in place of a number.
-   Every drawing sits on white, with an edge and the resting shadow, the
-   rule the hero drawings already keep. No drawing carries a word: every
-   label is the page's own text. */
+   PICTURES IN THE LESSONS
+   One drawing per lesson: the hero. The body is the argument and the
+   figures built in code; the scene and concept drawings that sat between
+   its paragraphs came out on 2026-11-15 (owner: the pictures were louder
+   than a three-minute read), each concept's one line kept as a paragraph.
+   What stays drawn in the body is small and inside a code figure: a pair's
+   two pictures, and the icon that leads a row (.has-art). */
 
-/* The scene: wide from 64rem like every figure, framed like the hero. */
-@media (min-width: 64rem) {
-  .writing-progress ~ main.shift-lesson .writing-measure > .writing-scene { width: var(--col-wide); }
-}
-.shift-lesson .writing-scene img {
-  border: 1px solid var(--rule-card);
-  box-shadow: var(--shadow-card);
-}
-
-/* The concept: the drawing on a white card, its one line beside it. */
-.shift-concept-body {
-  display: grid;
-  gap: var(--space-lg);
-  align-items: center;
-}
-.shift-concept-art,
 .shift-pair-art {
   display: block;
   width: 100%;
@@ -896,18 +875,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
-}
-.writing-measure .shift-concept-line {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  color: var(--shift-ink);
-  text-wrap: balance;
-}
-@media (min-width: 48rem) {
-  .shift-concept-body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-2xl); }
-  .writing-measure .shift-concept-line { font-size: var(--text-2xl); }
 }
 
 /* The pair: two drawings, each over a one-line label. */
