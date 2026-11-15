@@ -358,6 +358,15 @@ an `h4` in a section whose heading is an `h3`, or it is a `<p class="...">`
 that is not a heading at all. Sizes come from the ladder; the ladder comes
 from the document outline.
 
+**The short sage rule belongs to a heading that opens a section on the
+page's ground, never to a heading on a card.** `.case-overview h2::before`
+draws a 64 by 4px bar over an `h2` to mark where a chapter opens. A card
+already says where it starts with its own fill and edge, so a heading
+inside one stands alone: no bar over "Check yourself" on a lesson
+(`.shift-check`), and none over "What I built" on the Agent Review write-up
+(`.glance-head`). A new card that carries a section heading turns the bar
+off in its own stylesheet, the way those two do.
+
 ### One hero
 
 **Every detail page opens the same three lines, since 2026-10-29**: the
@@ -1040,5 +1049,7 @@ they really render.
 10. Tracked capitals are for a kicker or a field label. A name over a group
     of things is a heading, in the serif; the homepage's two Selected work
     group heads are the one exception, by name.
-11. Update this file in the same commit as the code. A specimen that ships
+11. A heading on a card takes no sage rule over it. The rule marks a
+    section opening on the page's ground; the card's edge does that job.
+12. Update this file in the same commit as the code. A specimen that ships
     later is fiction.
