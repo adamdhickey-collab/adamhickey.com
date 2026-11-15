@@ -7,8 +7,8 @@ replacement is in [NARRATIVE_INK_BRIEFS.md](NARRATIVE_INK_BRIEFS.md).
 
 **104 placements of 100 files**: 28 panorama,
 20 supporting, 56 icon.
-41 in the new hand, 0 waiting on the
-Chapter 1 pilot bundle, 63 briefed and waiting on the pilot's approval.
+76 in the new hand, 0 waiting on the
+Chapter 1 pilot bundle, 28 briefed and waiting on the pilot's approval.
 
 **Preserve.** None of these placements is a product screenshot or a
 diagram drawn as a picture. Every figure that carries labels, steps, or
@@ -21,14 +21,14 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter-1.webp` | shift-chapter-art | 640x360, 11 KB | B supporting: 1280x720 (16:9), alpha | brief written | `""`<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-2.webp` | shift-chapter-art | 640x360, 24 KB | B supporting: 1280x720 (16:9), alpha | brief written | `""`<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-3.webp` | shift-chapter-art | 640x360, 7 KB | B supporting: 1280x720 (16:9), alpha | brief written | `""`<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-4.webp` | shift-chapter-art | 640x360, 14 KB | B supporting: 1280x720 (16:9), alpha | brief written | `""`<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-1.webp` | shift-chapter-art | 640x360, 11 KB | B supporting: 1280x720 (16:9), alpha | brief written | A large sage drafting compass, its legs opened wide, drawing an arc too big for the frame.<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-2.webp` | shift-chapter-art | 640x360, 24 KB | B supporting: 1280x720 (16:9), alpha | brief written | A large slate blue pocket watch, open at the back, its gears meshed inside, some yellow, some rose.<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-3.webp` | shift-chapter-art | 640x360, 7 KB | B supporting: 1280x720 (16:9), alpha | brief written | A large terracotta clipboard, its sheet showing three ticked boxes and a fourth, yellow, still empty.<br>*required on the chapter band; empty on the mosaic tile* |
-| `chapter-4.webp` | shift-chapter-art | 640x360, 14 KB | B supporting: 1280x720 (16:9), alpha | brief written | A large plum toolbox, its lid open, with a yellow screwdriver, a wrench, a pencil, and rose pliers inside.<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter1-emblem.webp` | shift-chapter-art | 1360x765, 76 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | `""`<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter2-emblem.webp` | shift-chapter-art | 1360x765, 274 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | `""`<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter3-emblem.webp` | shift-chapter-art | 1360x765, 126 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | `""`<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter4-emblem.webp` | shift-chapter-art | 1360x765, 310 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | `""`<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter1-emblem.webp` | shift-chapter-art | 1360x765, 76 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | An engraved drafting compass, its legs opened wide, drawing a sage arc too big for the frame.<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter2-emblem.webp` | shift-chapter-art | 1360x765, 274 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | An engraved pocket watch, open at the back, its gears meshed inside, with a slate blue case.<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter3-emblem.webp` | shift-chapter-art | 1360x765, 126 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | An engraved terracotta clipboard, its sheet showing three ticked boxes and a fourth still empty.<br>*required on the chapter band; empty on the mosaic tile* |
+| `chapter4-emblem.webp` | shift-chapter-art | 1360x765, 310 KB | B supporting: 1280x720 (16:9), alpha | narrative-ink | An engraved plum toolbox, its lid open, with a screwdriver, a wrench, a pencil, and pliers inside.<br>*required on the chapter band; empty on the mosaic tile* |
 
 ## Lesson 1, chapter 1: what-changes-when-you-design-the-task-instead-of-the-app.html
 
@@ -43,12 +43,12 @@ is. Only the drawings in the rows below change.
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
 | `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 290 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter1-icon-map.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-map.webp` | shift-stage-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-magnifier.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-handtruck.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-oilcan.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-oilcan.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-lesson2-wrong-thing.webp` | shift-concept-art | 960x640, 109 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | Four identical, perfectly made boxes on a conveyor belt, moving toward a sign whose arrow points back the way they came, while a worker looks on.<br>*required: the object and the state that carries the idea* |
 | `chapter1-lesson2-dispatch-floor.webp` | writing-scene | 1664x936, 333 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a busy dispatch floor where a designer with a notebook leans in to listen to two dispatchers in headsets, a rolled-up map sticking unused out of her bag.<br>*required: who, doing what, and the detail the caption points at* |
 
@@ -57,25 +57,25 @@ is. Only the drawings in the rows below change.
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
 | `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 292 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 25 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-lesson3-corkboard.webp` | writing-scene | 1664x936, 296 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer in a star-patterned shirt, seen from the side, pinning one more index card to a corkboard already covered in neat rows of cards.<br>*required: who, doing what, and the detail the caption points at* |
-| `chapter1-icon-frame.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-model.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-icon-blueprint.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-frame.webp` | shift-stage-art | 256x256, 28 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-model.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-blueprint.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-lesson3-done-mark.webp` | shift-concept-art | 960x640, 73 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A rounded card lying on a ruler, its edge exactly on one marked line, a pencil beside it.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 4, chapter 2: what-is-an-ai-agent-actually-made-of.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson4-hero.webp` | shift-hero-art | 1600x900, 306 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-books.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-toolbox.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-loop.webp` | shift-stack-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-lesson4-hero.webp` | shift-hero-art | 1600x900, 265 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-icon-brain.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-books.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-plug.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-toolbox.webp` | shift-stack-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-loop.webp` | shift-stack-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-lesson4-kitchen-table.webp` | writing-scene | 1664x936, 375 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a person at a kitchen table, hands clasped, leaning toward a laptop where one highlighted row among many has stopped everything.<br>*required: who, doing what, and the detail the caption points at* |
 
 ## Lesson 5, chapter 2: what-should-you-never-do-when-building-an-agent.html
@@ -84,64 +84,64 @@ is. Only the drawings in the rows below change.
 | --- | --- | --- | --- | --- | --- |
 | `chapter2-lesson5-hero.webp` | shift-hero-art | 1600x900, 409 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter2-lesson5-bookkeeper.webp` | writing-scene | 1664x936, 383 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a bakery bookkeeper in a headset holding an invoice, looking uncertainly at a screen showing one large check mark.<br>*required: who, doing what, and the detail the caption points at* |
-| `chapter2-icon-envelope.webp` | shift-stage-art | 256x256, 7 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-cardreader.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-clipped-pages.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-lever.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-spike.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-cardfile.webp` | shift-stack-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter2-icon-valve.webp` | shift-stack-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-envelope.webp` | shift-stage-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-cardreader.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-clipped-pages.webp` | shift-stage-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-lever.webp` | shift-stack-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-spike.webp` | shift-stack-art | 256x256, 11 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-cardfile.webp` | shift-stack-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter2-icon-valve.webp` | shift-stack-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter2-lesson5-one-stamp.webp` | shift-concept-art | 960x640, 118 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A rubber stamp on its ink pad beside three receipts in a row, only the first one stamped with a check.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 6, chapter 2: why-does-designing-with-ai-feel-slower-than-it-should.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter2-lesson6-hero.webp` | shift-hero-art | 1600x900, 471 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter2-lesson6-printout.webp` | writing-scene | 1664x936, 359 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer typing at a desk while a long printout pours from the printer across the floor and out the door, beside one small sketch on a card.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter2-lesson6-hero.webp` | shift-hero-art | 1600x900, 403 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter2-lesson6-printout.webp` | writing-scene | 1664x936, 332 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer typing at a desk while a long printout pours from the printer across the floor and out the door, beside one small sketch on a card.<br>*required: who, doing what, and the detail the caption points at* |
 | `chapter2-lesson6-fanfold.webp` | shift-concept-art | 960x640, 98 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A tall stack of fan-folded printout spilling across the ground, beside one tiny card with a simple sketch on it.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 7, chapter 3: what-does-a-requirements-doc-need-once-the-product-is-ai.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-does-a-requirements-doc-need-once-the-product-is-ai.webp` | shift-hero-art | 1600x900, 41 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `icon-prd-discovery.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-prd-design-doc.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-prd-develop.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-prd-ship.webp` | shift-stack-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `what-does-a-requirements-doc-need-once-the-product-is-ai-scene.webp` | writing-scene | 1600x900, 158 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of three colleagues at a meeting table, one sliding a single new page onto a short printed document.<br>*required: who, doing what, and the detail the caption points at* |
-| `what-does-a-requirements-doc-need-once-the-product-is-ai-pair-1.webp` | shift-pair-art | 720x480, 9 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | A tall form on a clipboard with many empty fields and checkboxes.<br>*required: the state, not the label again* |
-| `what-does-a-requirements-doc-need-once-the-product-is-ai-pair-2.webp` | shift-pair-art | 720x480, 12 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | A short menu card with three items, one of them circled.<br>*required: the state, not the label again* |
+| `chapter3-lesson7-hero.webp` | shift-hero-art | 1600x900, 386 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-icon-discovery.webp` | shift-stack-art | 256x256, 24 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-design-doc.webp` | shift-stack-art | 256x256, 27 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-develop.webp` | shift-stack-art | 256x256, 33 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-ship.webp` | shift-stack-art | 256x256, 45 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-lesson7-meeting.webp` | writing-scene | 1664x936, 389 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of three colleagues at a meeting table, one sliding a single new page toward a short printed document.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter3-lesson7-pair-form.webp` | shift-pair-art | 960x640, 60 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | narrative-ink | A tall form on a clipboard, a long column of empty boxes and blank lines.<br>*required: the state, not the label again* |
+| `chapter3-lesson7-pair-menu.webp` | shift-pair-art | 960x640, 53 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | narrative-ink | A short menu card with three items, one of them circled.<br>*required: the state, not the label again* |
 
 ## Lesson 8, chapter 3: how-do-you-run-a-design-sprint-for-an-ai-product.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-how-do-you-run-a-design-sprint-for-an-ai-product.webp` | shift-hero-art | 1600x900, 55 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `how-do-you-run-a-design-sprint-for-an-ai-product-scene.webp` | writing-scene | 1600x900, 106 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a workshop where a facilitator runs a strip of tape down a wall of sticky notes while two teammates watch.<br>*required: who, doing what, and the detail the caption points at* |
-| `icon-sprint-problem.webp` | shift-stage-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-data.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-role.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-decisions.webp` | shift-stage-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-patterns.webp` | shift-stage-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-trust.webp` | shift-stage-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-metrics.webp` | shift-stage-art | 240x240, 4 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-sprint-feedback.webp` | shift-stage-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `how-do-you-run-a-design-sprint-for-an-ai-product-idea.webp` | shift-concept-art | 1200x800, 36 KB | B supporting: 1200x800 (3:2), on paper | brief written | A wall of sticky notes split by a strip of tape: a truck card with a light bulb on one side, a single key on the other.<br>*required: the object and the state that carries the idea* |
+| `chapter3-lesson8-hero.webp` | shift-hero-art | 1600x900, 309 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson8-tape.webp` | writing-scene | 1664x936, 194 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a facilitator running a strip of tape down a wall of sticky notes while two teammates watch.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter3-icon-problem.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-data.webp` | shift-stage-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-role.webp` | shift-stage-art | 256x256, 17 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-decisions.webp` | shift-stage-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-patterns.webp` | shift-stage-art | 256x256, 13 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-trust.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-metrics.webp` | shift-stage-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-feedback.webp` | shift-stage-art | 256x256, 18 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-lesson8-boundary.webp` | shift-concept-art | 960x640, 50 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A wall of sticky notes split by a strip of tape: a truck card with a light bulb on one side, a single key on the other.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 9, chapter 3: why-didnt-more-ai-answers-bring-more-clarity.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-why-didnt-more-ai-answers-bring-more-clarity.webp` | shift-hero-art | 1600x900, 56 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `why-didnt-more-ai-answers-bring-more-clarity-scene.webp` | writing-scene | 1600x900, 130 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a parent at a kitchen table in the evening, laptop pushed aside, laying printed pages out side by side.<br>*required: who, doing what, and the detail the caption points at* |
-| `why-didnt-more-ai-answers-bring-more-clarity-pair-1.webp` | shift-pair-art | 720x480, 38 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | A tangled ball of thread with loose ends.<br>*required: the state, not the label again* |
-| `why-didnt-more-ai-answers-bring-more-clarity-pair-2.webp` | shift-pair-art | 720x480, 9 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | The same thread laid out in straight lines that meet in one knot.<br>*required: the state, not the label again* |
-| `icon-research-gather.webp` | shift-stage-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-research-stop.webp` | shift-stage-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-research-lay-out.webp` | shift-stage-art | 240x240, 4 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-research-decide.webp` | shift-stage-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
+| `chapter3-lesson9-hero.webp` | shift-hero-art | 1600x900, 167 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter3-lesson9-kitchen-table.webp` | writing-scene | 1664x936, 266 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a parent at a kitchen table in the evening, laptop pushed aside, laying printed pages out side by side.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter3-lesson9-pair-tangle.webp` | shift-pair-art | 960x640, 79 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | narrative-ink | A tangled ball of thread with loose ends.<br>*required: the state, not the label again* |
+| `chapter3-lesson9-pair-knot.webp` | shift-pair-art | 960x640, 62 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | narrative-ink | The same thread laid out in straight lines that meet in one knot.<br>*required: the state, not the label again* |
+| `chapter3-icon-gather.webp` | shift-stage-art | 256x256, 38 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-stop.webp` | shift-stage-art | 256x256, 29 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-lay-out.webp` | shift-stage-art | 256x256, 19 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter3-icon-decide.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 
 ## Lesson 10, chapter 4: who-sets-the-rules-when-research-uses-digital-twins.html
 

@@ -101,6 +101,25 @@ picture is held to:
 - **The office is this decade's.** Thin widescreen (16:9) monitors,
   keyboards and mice, headsets. No desk phones, coiled cords, or squarish
   screens. People at a desk type; they do not write on notepads.
+- **Printout is dot-matrix fan-fold.** Any long strip of printed paper is
+  tractor-feed paper: a row of round holes down both edges, a perforated
+  crease at regular intervals, short hatched lines of print. It drops
+  straight from the printer to the floor, piles in a flat zigzag where it
+  lands, and runs on lying flat.
+- **People are different people.** A group drawn in one prompt comes back
+  as clones: the same curls, jumper, jeans, and stance. Describe each
+  person separately: age, height, build, hair, glasses or beard, clothes,
+  and what their hands are doing.
+- **Nothing crosses a body.** An object in front of a torso reshapes it.
+  Leave open paper between a person and the thing they work on.
+- **Simple beats full.** A hero that needs study at 650 px is the wrong
+  hero. Few large elements and open paper; the cutaway building of Lesson
+  4 was replaced by five gears on a bench for this reason.
+- **An object alone stands on the page's ground.** Icons, chapter emblems,
+  and spot figures are cut to a transparent ground, every bit of paper
+  included: the gap inside a handle is ground too. No white tile, plate,
+  hairline, or shadow goes behind one, so the row or card under it is
+  always a light ground the ink reads on, never charcoal.
 - **Patterned cloth is the signature.** The owner singled out the
   dispatcher's wave-patterned jacket as the thing to carry through every
   picture; see "Signature patterns" below.
@@ -385,6 +404,11 @@ Sources (the PNGs the generator returns) live in
    cuts a 3 x 2 sheet into six, clears the paper around each object to
    alpha, and writes the 512 px PNG master and the 256 px WebP. It fails if
    an object reaches its cell's edge.
+   The paper goes to alpha everywhere, not only around the object: neutral
+   pixels are read as charcoal over paper and un-mixed, colored pixels are
+   the accent and stay solid. For one object rather than a sheet of six
+   (a chapter emblem, a spot figure), `cutout <src.png> <out.webp> --size
+   WxH` does the same and sets the trimmed object at 94% of the frame.
 5. **Check the art.** `palette img/writing/shift/narrative-ink/chapter-N
    --chapter N` passes.
 6. **Swap.** In the lesson, change only `src` (and its `?v=`), `width`,
