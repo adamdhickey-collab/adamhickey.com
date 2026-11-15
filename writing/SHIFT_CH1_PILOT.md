@@ -83,6 +83,18 @@ five teammates came back as clones.
   watch, clipboard, toolbox) and cut out with the new `cutout` command:
   they stand on the chapter's ground with no plate, edge, or shadow.
 
+**Chapter 4 is complete in the new hand** (2026-11-15, plum `#7A5A78`).
+Lessons 10, 11, and 12: a hero and a scene each, the mirror and the dials
+concepts, and eighteen icons on three sheets (sixteen placed; a mannequin
+and a dial are spares), all in
+`img/writing/shift/narrative-ink/chapter-4/`. Patterns: thunder fret (10),
+pine bark (11), dot grid (12). Two heroes left their briefs for the rules
+the owner set that day: Lesson 11's cutaway apartment block became one
+person at a stove with the neighbors' windows beyond, and Lesson 12's thin
+lines from the founder to the people she knows were dropped; the three
+people are simply out on the street. All twelve lessons are now in one
+hand.
+
 **Still open, by design or by nature:**
 
 1. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
@@ -92,7 +104,6 @@ five teammates came back as clones.
    below 0.7, which starts to soften the linework.
 3. **The share cards** still show the old chapter emblems
    (`chapter-N-wide.webp`, through `og.mjs`). The landing's are redrawn.
-4. **Chapter 4** (Lessons 10 to 12) is still in the old hand.
 
 ## Exact image mapping
 

@@ -152,7 +152,9 @@ the one place the print tradition's ornament is welcome.
 | Basket weave | "a woven basket pattern of short crossing strokes" | Chapter 3 |
 | Key fret | "a continuous angular key or fret meander" | Chapter 3 |
 | Tortoise hexagon | "nested hexagons, like a honeycomb with a smaller hexagon inside each cell" | Chapter 3 |
-| Thunder spiral, pine bark, and dot grid | written when Chapter 4 is drawn | Chapter 4 |
+| Thunder fret | "small square spirals like a thunder-fret" | Lesson 10, the researcher |
+| Pine bark | "rows of small overlapping curved scales, like pine bark" | Lesson 11 |
+| Dot grid | "a grid of small dots" | Lesson 12, the founder |
 
 A pattern is added by editing a finished picture ("one change: this person
 now wears..."), which holds the composition better than asking for it up
