@@ -186,7 +186,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter-1-wide.webp` | og | 1600x900, 33 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
-| `chapter-2-wide.webp` | og | 1600x900, 72 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
-| `chapter-3-wide.webp` | og | 1600x900, 21 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
-| `chapter-4-wide.webp` | og | 1600x900, 42 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
+| `chapter-1-wide.webp` | og | 1000x1000, 52 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
+| `chapter-2-wide.webp` | og | 1000x1000, 301 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
+| `chapter-3-wide.webp` | og | 1000x1000, 199 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
+| `chapter-4-wide.webp` | og | 1000x1000, 344 KB | A panorama: 1600x900 (16:9), on paper | brief written | `""`<br>*n/a: rendered into the card* |
