@@ -102,8 +102,9 @@ hand.
 2. **Weight.** About 770 to 890 KB of pictures a lesson, against about 220
    before. Hatching does not compress; the only lever left is quality
    below 0.7, which starts to soften the linework.
-3. **The share cards** still show the old chapter emblems
-   (`chapter-N-wide.webp`, through `og.mjs`). The landing's are redrawn.
+3. **The share cards** carry the new emblems since 2026-11-15: the four
+   `chapter-N-wide.webp` files are square cut-outs of the landing's emblems,
+   and the thirteen Writing cards were re-rendered by `og.mjs` at `?v=2`.
 
 ## Exact image mapping
 
