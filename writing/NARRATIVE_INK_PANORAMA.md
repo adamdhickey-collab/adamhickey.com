@@ -48,8 +48,9 @@ lesson's argument picks the scene; the technique never does.
   rose, no skin or wood tones. Skin and wood are paper and hatching.
 - Flat vector illustration, painterly gradients, glossy 3-D, photorealism,
   pastel fills.
-- Japanese cultural motifs used as decoration: no torii, kimono, pagodas,
-  Mount Fuji, cherry blossom, or wave crests. The technique is borrowed; the
+- Japanese cultural motifs used as scenery: no torii, kimono, pagodas,
+  Mount Fuji, or cherry blossom. Patterned cloth is the exception, and it
+  is the signature (below). The technique is borrowed; the
   world is a contemporary office, kitchen, workshop, or screen.
 - Glowing brains, circuit faces, or sparkles as shorthand for AI, and no
   robot as decoration. Where a picture needs the agent as a character, it
@@ -71,6 +72,13 @@ picture is held to:
   "exactly two arms and two hands, each attached at its own shoulder," and
   every foreground figure is zoomed in on and counted before a picture is
   saved. A picture that fails is regenerated, not patched.
+- **Bodies are ordinary and believable.** Natural proportions, a realistic
+  waist, hands the right way round. A figure reaching for something is
+  drawn from the side, not from behind: a rear view of a raised arm is
+  where hands come out backwards. An arm with nothing to do is hidden
+  behind the body, not left hanging.
+- **Things are drawn whole.** A window frame has all its sides; nothing
+  fades out or stops where the generator lost interest.
 - **Asymmetrical, and balanced.** Nothing dead center and upright, and no
   mirror symmetry; but nothing oversized or cramped into a corner either.
   The weight is spread across the frame with open paper around the main
@@ -83,7 +91,44 @@ picture is held to:
 - **The office is this decade's.** Thin widescreen (16:9) monitors,
   keyboards and mice, headsets. No desk phones, coiled cords, or squarish
   screens. People at a desk type; they do not write on notepads.
-- **Plain clothing**, simple hatching, no decorative patterns.
+- **Patterned cloth is the signature.** The owner singled out the
+  dispatcher's wave-patterned jacket as the thing to carry through every
+  picture; see "Signature patterns" below.
+
+### Signature patterns
+
+One person in each picture, the one the lesson is about, wears a garment of
+richly patterned cloth, drawn in fine engraved ink lines that follow the
+folds. Everyone else wears plain hatching, so the pattern is also how the
+eye finds the main figure in a crowd. This is the series' signature, and
+the one place the print tradition's ornament is welcome.
+
+- **One pattern per lesson's main figure**, the same in that lesson's hero,
+  scene, and concept, so the reader recognizes the person across the page.
+- **Ink only.** A pattern is charcoal line on paper; it never carries the
+  accent.
+- **Geometric and textile**, never pictorial: no flowers, animals, crests,
+  or lettering.
+- **The set so far**, each named in the prompt by its description, not by a
+  cultural name:
+
+| Pattern | Prompt wording | Worn by |
+| --- | --- | --- |
+| Wave scale | "a traditional overlapping wave-scale pattern of small concentric arcs, like fish scales" | Lesson 1, the dispatcher |
+| Herringbone | "a bold herringbone weave of small zigzag chevrons" | Lesson 2, the designer |
+| Star lattice | "a geometric lattice of small six-pointed stars built from fine triangles, like a quilted star grid" | Lesson 3, the designer |
+| Interlocking rings | "interlocking circles forming four-petal shapes, like overlapping rings" | Lesson 4 |
+| Diamond lattice | "a fine lattice of nested diamonds" | Lesson 5 |
+| Arrow fletching | "rows of small arrow-feather shapes, alternating direction" | Lesson 6 |
+| Basket weave | "a woven basket pattern of short crossing strokes" | Chapter 3 |
+| Key fret | "a continuous angular key or fret meander" | Chapter 3 |
+| Tortoise hexagon | "nested hexagons, like a honeycomb with a smaller hexagon inside each cell" | Chapter 3 |
+| Thunder spiral, pine bark, and dot grid | written when Chapter 4 is drawn | Chapter 4 |
+
+A pattern is added by editing a finished picture ("one change: this person
+now wears..."), which holds the composition better than asking for it up
+front. Check the result against the source: an edit can pull in another
+picture from the same chat.
 
 ## 2. Color
 
@@ -278,7 +323,8 @@ Anatomy must be correct: every person has exactly two arms and two hands,
 each arm attached at its own shoulder; no person holds more than one object
 per hand. Asymmetrical but balanced, nothing dead center, nothing cramped
 into a corner. Modern equipment: thin widescreen monitors, keyboards,
-headsets. Plain clothing.
+headsets. The main figure wears the lesson's signature pattern; everyone
+else wears plain hatching.
 Wide landscape, 16:9. {SCENE: the people, the place, the moment from the brief}.
 Foreground: {focal figure and action}. Middle: {the system around them}.
 Far: {the crowd or repeated objects}. The accent marks only {the one thing}.

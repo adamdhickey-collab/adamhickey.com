@@ -36,8 +36,13 @@ palette check. The three lessons are clean in `shots` at 390, 768, and 1440.
   `shift-hero-art--plate`, a new rule in `writing/shift.css`: the card
   radius, a hairline, and the resting shadow, so the plate reads as a
   framed card on the sage ground, like the scene and the term cards.
-- **The wave-pattern jacket.** Lesson 1's hero and concept were edited to
-  plain hatching; nothing else in either picture moved.
+- **The wave-pattern jacket, kept and extended.** It was edited out, and
+  the owner asked for it back: it is now the series' signature. Lesson 1's
+  dispatcher wears the wave scale in all three pictures, Lesson 2's
+  designer a herringbone, Lesson 3's a star lattice. Lesson 3's scene was
+  redrawn in side view after its rear view came back with awkward arms, a
+  narrow waist, and a window frame that stopped short, and then its idle
+  arm was hidden behind her.
 - **The off-hue pilot icons.** Toned with everything else.
 
 **Still open, by design or by nature:**

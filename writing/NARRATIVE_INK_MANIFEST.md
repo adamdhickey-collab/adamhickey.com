@@ -34,15 +34,15 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 280 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 321 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, typing on a keyboard. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
-| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 170 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 294 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 286 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, typing on a keyboard. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 175 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 323 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 290 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-map.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -50,17 +50,17 @@ is. Only the drawings in the rows below change.
 | `chapter1-icon-handtruck.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-oilcan.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-lesson2-wrong-thing.webp` | shift-concept-art | 960x640, 109 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | Four identical, perfectly made boxes on a conveyor belt, moving toward a sign whose arrow points back the way they came, while a worker looks on.<br>*required: the object and the state that carries the idea* |
-| `chapter1-lesson2-dispatch-floor.webp` | writing-scene | 1664x936, 373 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a busy dispatch floor where a designer with a notebook leans in to listen to two dispatchers in headsets, a rolled-up map sticking unused out of her bag.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson2-dispatch-floor.webp` | writing-scene | 1664x936, 333 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a busy dispatch floor where a designer with a notebook leans in to listen to two dispatchers in headsets, a rolled-up map sticking unused out of her bag.<br>*required: who, doing what, and the detail the caption points at* |
 
 ## Lesson 3, chapter 1: how-do-you-write-design-quality-down-so-an-agent-can-use-it.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 325 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 292 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
-| `chapter1-lesson3-corkboard.webp` | writing-scene | 1664x936, 346 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer pinning one more index card to a corkboard already covered in neat rows of cards.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson3-corkboard.webp` | writing-scene | 1664x936, 296 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer in a star-patterned shirt, seen from the side, pinning one more index card to a corkboard already covered in neat rows of cards.<br>*required: who, doing what, and the detail the caption points at* |
 | `chapter1-icon-frame.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-model.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-blueprint.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
