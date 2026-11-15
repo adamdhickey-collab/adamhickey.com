@@ -51,9 +51,11 @@ lesson's argument picks the scene; the technique never does.
 - Japanese cultural motifs used as decoration: no torii, kimono, pagodas,
   Mount Fuji, cherry blossom, or wave crests. The technique is borrowed; the
   world is a contemporary office, kitchen, workshop, or screen.
-- Robots, glowing brains, circuit faces, or sparkles as shorthand for AI.
-  An agent is shown by what it does: a stack it gathered, a question it
-  stopped on, a line it will not cross.
+- Glowing brains, circuit faces, or sparkles as shorthand for AI, and no
+  robot as decoration. Where a picture needs the agent as a character, it
+  is one small plain figure doing a specific job the lesson describes
+  (carrying evidence to a board, stopping at a line), never the focal mass
+  and never the one deciding. The Lesson 1 concept is the model.
 - Words, numbers, logos, or legible UI text in the drawing. Every label is
   the page's own text (the existing rule in `writing/shift.css`). Screens
   carry hatched bars and blocks, not copy.
@@ -241,7 +243,7 @@ bare paper between the layers. One accent color only, {ACCENT_NAME}
 {ACCENT_HEX}, used sparingly as flat hatched fills on {ACCENT_ROLE}.
 No other colors: no red, no yellow, no skin or wood tones. No words, letters,
 numbers, logos, or legible screen text anywhere. No Japanese cultural motifs,
-no robots, no glowing brains.
+no glowing brains, no robot unless the brief names one.
 ```
 
 **Panorama (hero, scene, share)**

@@ -5,37 +5,40 @@ The pilot's pictures arrive as a separate bundle,
 yet. Nothing in the lesson points at a path under
 `img/writing/shift/narrative-ink/` until the files are in the repository.
 
-**Status, 2026-11-14: installed.** The bundle's installer ran dry, then
-applied, on this branch. Lesson 1 now shows the three pilot pictures. What was
-done to them, and what is still open:
+**Status, 2026-11-14: installed, then redrawn once on review.** The bundle's
+installer ran dry, then applied, on this branch. The owner reviewed the three
+on the page and asked for changes, and all three were regenerated in ChatGPT
+from the bundle's hero as the style reference. The bundle's originals are in
+this branch's history at fd5a55fc.
 
-| Picture | As shipped in the bundle | As committed | Why |
-| --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | 1600x900, 457 KB | 1600x900, 289 KB | Re-encoded at WebP quality 0.7; no visible loss at 1:1 on the finest hatching. Alt set back to `""`, the series rule for a hero beside its title. |
-| `chapter1-lesson1-dispatcher.webp` | 1200x675, 299 KB | 1200x675, 203 KB | Re-encoded at 0.7. |
-| `chapter1-lesson1-human-decision.webp` | 1200x675 (16:9), 295 KB | 960x640 (3:2), 133 KB | Cropped to the slot's ratio, 94 px off each side, so it is no longer drawn 16 percent too tall; then scaled and re-encoded. The dispatcher, the board, the agent, and both buttons are inside the crop. |
+| Picture | Review note | Now |
+| --- | --- | --- |
+| `chapter1-lesson1-hero.webp` | Compass dead center and upright; the middle empty | 1600x900. The compass is tilted, planted in the left hillside, and drawing a sage arc that people walk along from the app screens to the task spiral, over a faint circular grid. No robot. |
+| `chapter1-lesson1-dispatcher.webp` | Same symmetry as the hero; the sun and paths out of the monitor read as odd; no clear step on from the hero | 1664x936, a new picture. The dispatcher sits lower left, phone on her shoulder, writing on a notepad; a highway, a clock with resting drivers, and a warehouse float apart, joined only by three threads to her pen. Sharp at 2x in the 832 px slot. |
+| `chapter1-lesson1-human-decision.webp` | Good, but she had a third arm at her chin | 960x640, drawn at 3:2. The hand at her chin is gone; nothing else changed. |
 
-Page picture weight: 222 KB before, 1,051 KB as shipped, 625 KB as committed.
+All three pass the palette check, and `narrative-ink.mjs shots` is clean at
+390, 768, and 1440. Page picture weight: 222 KB before the pilot, 826 KB now,
+at WebP quality 0.7.
 
 **Open, for review:**
 
-1. **The scene is soft on a 2x screen** at 768 and 1440 (1200 px file in a
-   620 and 832 px slot). Needs a 1920x1080 export from the master; the bundle
-   has none.
-2. **The hero carries its paper**, so it sits on the sage ground as a pale,
-   square-cornered rectangle where the old hero was transparent. Either
-   knock the paper out at the source or accept the plate and give the slot's
-   pictures a consistent treatment across the series; that second choice is
-   a stylesheet decision, not made here.
-3. **Two things in the art break the spec as written**: a humanoid robot
-   stands for the agent in the hero and the concept, and the dispatcher's
-   jacket carries a wave pattern from the reference prints. Either the
-   pictures change or section 1's "Never" list does, before the series
-   copies them.
+1. **The hero and the concept carry their paper**, so the hero sits on the
+   sage ground as a pale, square-cornered rectangle where the old hero was
+   transparent. Knock the paper out at the source, or decide the plate is
+   the look and treat every hero the same way; the second is a stylesheet
+   decision, not made here.
+2. **The dispatcher's jacket keeps the wave pattern** from the reference
+   prints in the hero and the concept, which section 1's "Never" list
+   rules out. The new scene draws her in plain hatching.
+3. **The scene has no night sky**, so it is lighter than the other two.
+   It reads as the same hand; say if it should match.
 4. **The six icons fail the palette check**: 13 to 32 percent of their
    pixels are a yellower green than sage `#657D60`. They are in the library
    (`chapter1-icon-*.webp` and `@512.png` masters) and on no page; correct
    their hue before any placement.
+5. **Weight.** Hatching compresses poorly: a lesson in this hand carries
+   about four times the picture bytes it did.
 
 ## Exact image mapping
 
