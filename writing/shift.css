@@ -101,8 +101,6 @@
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
 }
 .shift-series {
   display: flex;
@@ -704,9 +702,10 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-stages li.is-gap { border-color: var(--shift-fill); }
 
 /* A drawing's cream ground melted into the soft and 24% grounds around it
-   (owner, 2026-11-14). Every drawing carries an edge and a resting shadow,
-   so it reads as a picture set on the band, never as a patch of it. */
-.shift-hero-art,
+   (owner, 2026-11-14). The landing's drawings carry an edge and a resting
+   shadow, so each reads as a picture set on the band, never as a patch of
+   it. A lesson's hero drawing is cut to a transparent ground instead and
+   stands on the chapter's ground with no frame (owner, 2026-11-14). */
 .shift-chapter-art,
 .shift-mosaic img {
   border: 1px solid var(--rule-card);
@@ -950,4 +949,25 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 @media (min-width: 40rem) {
   .shift-stack.has-art li { grid-template-columns: var(--space-2xl) 11rem minmax(0, 1fr) var(--space-4xl); }
   .shift-stack.has-art .shift-stack-art { grid-column: 4; grid-row: 1; width: var(--space-4xl); }
+}
+
+/* A list of steps with a drawing on each row: the drawing leads the row,
+   on a transparent ground, so it sits on the white rows and on the
+   chapter's ground of the row the point turns on alike. */
+.shift-stage-art {
+  display: block;
+  width: var(--space-3xl);
+  height: auto;
+  aspect-ratio: 1;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.shift-stages.has-art li { grid-template-columns: var(--space-3xl) minmax(0, 1fr); }
+.shift-stages.has-art .shift-stage-name,
+.shift-stages.has-art .shift-stage-note { grid-column: 2; }
+@media (min-width: 40rem) {
+  .shift-stages.has-art li { grid-template-columns: var(--space-4xl) 8rem minmax(0, 1fr); }
+  .shift-stages.has-art .shift-stage-art { grid-row: 1; width: var(--space-4xl); }
+  .shift-stages.has-art .shift-stage-name { grid-column: 2; }
+  .shift-stages.has-art .shift-stage-note { grid-column: 3; }
 }
