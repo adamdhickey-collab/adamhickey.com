@@ -865,7 +865,9 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
                 the cockpit's decisions, set three ways so no two lessons
                 in a row look alike: a picture beside its line
                 (.shift-concept), two pictures side by side (.shift-pair),
-                or a small drawing on each row of a stack (.has-art).
+                or a small drawing leading each row of a list of steps
+                (.shift-stages.has-art). A numbered stack takes no
+                drawing: the number already marks the row.
    Every drawing sits on white, with an edge and the resting shadow, the
    rule the hero drawings already keep. No drawing carries a word: every
    label is the page's own text. */
@@ -930,25 +932,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-pair-label strong { color: var(--shift-ink); font-weight: var(--weight-semibold); }
 @media (min-width: 40rem) {
   .shift-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* A stack with a drawing on each row: the drawing takes the row's end. */
-.shift-stack-art {
-  display: block;
-  width: var(--space-2xl);
-  height: auto;
-  aspect-ratio: 1;
-  grid-column: 3;
-  grid-row: 1 / span 2;
-  justify-self: end;
-  /* White under the drawing, so it reads on the charcoal row too. */
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-}
-.shift-stack.has-art li { grid-template-columns: var(--space-2xl) minmax(0, 1fr) var(--space-2xl); }
-@media (min-width: 40rem) {
-  .shift-stack.has-art li { grid-template-columns: var(--space-2xl) 11rem minmax(0, 1fr) var(--space-4xl); }
-  .shift-stack.has-art .shift-stack-art { grid-column: 4; grid-row: 1; width: var(--space-4xl); }
 }
 
 /* A list of steps with a drawing on each row: the drawing leads the row,
