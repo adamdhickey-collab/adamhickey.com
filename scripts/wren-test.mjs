@@ -40,7 +40,7 @@ async function run(name, body, opts = {}) {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
-  await page.goto(`${origin}/${PAGE}`, { waitUntil: 'load' });
+  await page.goto(`${origin}/${PAGE}${opts.query || ''}`, { waitUntil: 'load' });
   const failures = [];
   const t = {
     page,
@@ -511,6 +511,32 @@ await run('at a phone’s width the rows are cards with their column names, and 
   await t.includes('Ready to match to invoice');
   t.ok(await t.page.$eval('[data-wren] .wr-frame', (f) => f.scrollWidth <= f.clientWidth + 1), 'the record does not scroll sideways');
 }, { viewport: { width: 375, height: 800 } });
+
+await run('without ?test=1 the list has no New payment', async (t) => {
+  await t.on('list');
+  t.ok(!(await t.has('[data-new-payment]')), 'the button is not drawn for a reader');
+  t.ok(await t.page.evaluate(() => window.wrenTest === undefined), 'nothing is logged for a reader');
+});
+
+await run('with ?test=1 New payment issues nothing, says so, and counts each press', async (t) => {
+  await t.on('list');
+  t.ok(await t.has('[data-new-payment]'), 'the button is on the list');
+  await t.excludes('Nothing was issued');
+  await t.press('[data-new-payment]');
+  await t.includes('Nothing was issued. New payments are switched off in this test.');
+  t.ok((await t.status()).includes('Nothing was issued'), 'the live region says so');
+  t.ok((await t.rows()) === 5, `still five payments, saw ${await t.rows()}`);
+  t.ok(await t.page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-new-payment')), 'focus stays on the button');
+  await t.press('[data-open="sunrise-0921"]');
+  await t.on('detail');
+  t.ok(!(await t.has('[data-new-payment]')), 'the record has no New payment');
+  await t.press('[data-back]');
+  await t.excludes('Nothing was issued', 'the list after a record');
+  await t.press('[data-new-payment]');
+  t.ok((await t.page.getAttribute('[data-wren]', 'data-new-payment-presses')) === '2', 'two presses counted on the root');
+  const log = await t.page.evaluate(() => window.wrenTest.presses);
+  t.ok(log.length === 2 && log[0].lastOpened === null && log[1].lastOpened === 'sunrise-0921', `the log says which record came before each press: ${JSON.stringify(log)}`);
+}, { query: '?test=1' });
 
 server.close();
 await browser.close();
