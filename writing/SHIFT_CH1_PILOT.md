@@ -7,18 +7,18 @@ yet. Nothing in the lesson points at a path under
 
 **Status, 2026-11-14: installed, then redrawn once on review.** The bundle's
 installer ran dry, then applied, on this branch. The owner reviewed the three
-on the page twice and asked for changes, and all three were regenerated in ChatGPT
+on the page three times and asked for changes, and all three were regenerated in ChatGPT
 from the bundle's hero as the style reference. The bundle's originals are in
 this branch's history at fd5a55fc.
 
 | Picture | Review note | Now |
 | --- | --- | --- |
 | `chapter1-lesson1-hero.webp` | Round one: compass dead center and upright, the middle empty. Round two: the redrawn compass too large, cramped in the corner, its tip like a claw | 1600x900. A slim compass about a quarter of the frame's height stands upper left of center on the sage arc it is drawing, a plain pencil lead on one leg, open paper around it. People walk the arc from the app screens to the task spiral, over a faint circular grid. No robot. |
-| `chapter1-lesson1-dispatcher.webp` | Round one: same symmetry as the hero, the sun and paths out of the monitor read as odd. Round two: no lines from the notepad, widescreen monitors, a headset instead of a phone | 1664x936, a new picture. The dispatcher sits lower left in a headset at three 16:9 monitors, writing on a notepad; a highway, a clock with resting drivers, and a warehouse float apart above her, joined by nothing but her. Sharp at 2x in the 832 px slot. |
+| `chapter1-lesson1-dispatcher.webp` | Round one: same symmetry as the hero, the sun and paths out of the monitor read as odd. Round two: no lines from the notepad, widescreen monitors, a headset instead of a phone. Round three: typing on a keyboard, not writing | 1664x936, a new picture. The dispatcher sits lower left in a headset at three 16:9 monitors, typing on a keyboard; a highway, a clock with resting drivers, and a warehouse float apart above her, joined by nothing but her. Sharp at 2x in the 832 px slot. |
 | `chapter1-lesson1-human-decision.webp` | Good, but she had a third arm at her chin | 960x640, drawn at 3:2. The hand at her chin is gone; nothing else changed. |
 
 All three pass the palette check, and `narrative-ink.mjs shots` is clean at
-390, 768, and 1440. Page picture weight: 222 KB before the pilot, 786 KB now,
+390, 768, and 1440. Page picture weight: 222 KB before the pilot, 779 KB now,
 at WebP quality 0.7.
 
 **Open, for review:**

@@ -35,7 +35,7 @@ is. Only the drawings in the rows below change.
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
 | `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 293 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
-| `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 328 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, writing on a notepad. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 321 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, typing on a keyboard. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
 | `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 165 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
