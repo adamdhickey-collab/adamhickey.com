@@ -7,8 +7,8 @@ replacement is in [NARRATIVE_INK_BRIEFS.md](NARRATIVE_INK_BRIEFS.md).
 
 **104 placements of 100 files**: 28 panorama,
 20 supporting, 56 icon.
-3 in the new hand, 0 waiting on the
-Chapter 1 pilot bundle, 101 briefed and waiting on the pilot's approval.
+21 in the new hand, 0 waiting on the
+Chapter 1 pilot bundle, 83 briefed and waiting on the pilot's approval.
 
 **Preserve.** None of these placements is a product screenshot or a
 diagram drawn as a picture. Every figure that carries labels, steps, or
@@ -34,37 +34,37 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 293 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 294 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 321 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, typing on a keyboard. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
-| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 165 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 175 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-is-ux-for-when-agents-build-the-software.webp` | shift-hero-art | 1600x900, 49 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `icon-ux-plan.webp` | shift-stage-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-ux-design.webp` | shift-stage-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-ux-build.webp` | shift-stage-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-ux-test.webp` | shift-stage-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-ux-deploy.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-ux-maintain.webp` | shift-stage-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `what-is-ux-for-when-agents-build-the-software-idea.webp` | shift-concept-art | 1200x800, 18 KB | B supporting: 1200x800 (3:2), on paper | brief written | Four identical, perfectly made boxes on a conveyor belt, moving toward a sign that points back the way they came.<br>*required: the object and the state that carries the idea* |
-| `what-is-ux-for-when-agents-build-the-software-scene.webp` | writing-scene | 1600x900, 130 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a busy dispatch floor where a designer with a notebook listens to two dispatchers, a rolled-up map under one arm.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 323 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-icon-map.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-magnifier.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-handtruck.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-oilcan.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-lesson2-wrong-thing.webp` | shift-concept-art | 960x640, 109 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | Four identical, perfectly made boxes on a conveyor belt, moving toward a sign whose arrow points back the way they came, while a worker looks on.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson2-dispatch-floor.webp` | writing-scene | 1664x936, 373 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a busy dispatch floor where a designer with a notebook leans in to listen to two dispatchers in headsets, a rolled-up map sticking unused out of her bag.<br>*required: who, doing what, and the detail the caption points at* |
 
 ## Lesson 3, chapter 1: how-do-you-write-design-quality-down-so-an-agent-can-use-it.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-how-do-you-write-design-quality-down-so-an-agent-can-use-it.webp` | shift-hero-art | 1600x900, 21 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
-| `icon-quality-system.webp` | shift-stack-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-quality-checks.webp` | shift-stack-art | 240x240, 10 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-quality-done.webp` | shift-stack-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `how-do-you-write-design-quality-down-so-an-agent-can-use-it-scene.webp` | writing-scene | 1600x900, 131 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a designer pinning one more index card to a corkboard already covered in neat rows of cards.<br>*required: who, doing what, and the detail the caption points at* |
-| `icon-failure-caption.webp` | shift-stage-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-failure-prototype.webp` | shift-stage-art | 240x240, 12 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `icon-failure-specs.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
-| `how-do-you-write-design-quality-down-so-an-agent-can-use-it-idea.webp` | shift-concept-art | 1200x800, 13 KB | B supporting: 1200x800 (3:2), on paper | brief written | A rounded card lying on a ruler, its edge exactly on a marked line, with a check mark where the two meet.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 325 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-lesson3-corkboard.webp` | writing-scene | 1664x936, 346 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a designer pinning one more index card to a corkboard already covered in neat rows of cards.<br>*required: who, doing what, and the detail the caption points at* |
+| `chapter1-icon-frame.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-model.webp` | shift-stage-art | 256x256, 14 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-icon-blueprint.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
+| `chapter1-lesson3-done-mark.webp` | shift-concept-art | 960x640, 73 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | A rounded card lying on a ruler, its edge exactly on one marked line, a pencil beside it.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 4, chapter 2: what-is-an-ai-agent-actually-made-of.html
 

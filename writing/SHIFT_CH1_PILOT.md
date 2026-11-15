@@ -21,24 +21,29 @@ All three pass the palette check, and `narrative-ink.mjs shots` is clean at
 390, 768, and 1440. Page picture weight: 222 KB before the pilot, 779 KB now,
 at WebP quality 0.7.
 
+**Chapter 1 is complete in the new hand.** After Lesson 1 was approved as
+the model, Lessons 2 and 3 were drawn in the same chat: a hero, a scene, and
+a concept each, and twelve icons on two sheets (six stages in Lesson 2; the
+stack and the three failures in Lesson 3). Two scenes came back with a third
+arm and were regenerated with simpler poses; that became the first review
+rule in the spec. Every source was toned to the exact sage before export,
+the six pilot icons included, so all 45 files in `chapter-1/` pass the
+palette check. The three lessons are clean in `shots` at 390, 768, and 1440.
+
 **Open, for review:**
 
-1. **The hero and the concept carry their paper**, so the hero sits on the
-   sage ground as a pale, square-cornered rectangle where the old hero was
-   transparent. Knock the paper out at the source, or decide the plate is
-   the look and treat every hero the same way; the second is a stylesheet
-   decision, not made here.
-2. **The dispatcher's jacket keeps the wave pattern** from the reference
-   prints in the hero and the concept, which section 1's "Never" list
-   rules out. The new scene draws her in plain hatching.
-3. **The scene has no night sky**, so it is lighter than the other two.
-   It reads as the same hand; say if it should match.
-4. **The six icons fail the palette check**: 13 to 32 percent of their
-   pixels are a yellower green than sage `#657D60`. They are in the library
-   (`chapter1-icon-*.webp` and `@512.png` masters) and on no page; correct
-   their hue before any placement.
-5. **Weight.** Hatching compresses poorly: a lesson in this hand carries
-   about four times the picture bytes it did.
+1. **Heroes carry their paper**, so each sits on the sage ground as a pale,
+   square-cornered rectangle where the old heroes were transparent. Knock
+   the paper out at the source, or decide the plate is the look; the second
+   is a stylesheet decision, not made here.
+2. **The wave-pattern jacket** from the reference prints is still in
+   Lesson 1's hero and concept. Lessons 2 and 3 draw plain clothing.
+3. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
+   seedling) are toned and in the library, and still on no page.
+4. **Weight.** About 800 to 880 KB of pictures a lesson, against about 220
+   before.
+5. **The landing and the share cards** still show the old chapter emblem,
+   by design: all four chapters change there together.
 
 ## Exact image mapping
 

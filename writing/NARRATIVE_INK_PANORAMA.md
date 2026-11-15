@@ -62,6 +62,29 @@ lesson's argument picks the scene; the technique never does.
 - An invented Dispatch Cockpit, Agent Review, or After Send screen drawn as
   if it were a screenshot.
 
+**From the owner's review of Chapter 1** (2026-11-14), which every later
+picture is held to:
+
+- **Count the arms.** A generator adds a limb whenever a figure is given
+  more to do than two hands can. No figure holds more than one thing in
+  each hand; anything else goes on the desk or in a bag. Every prompt says
+  "exactly two arms and two hands, each attached at its own shoulder," and
+  every foreground figure is zoomed in on and counted before a picture is
+  saved. A picture that fails is regenerated, not patched.
+- **Asymmetrical, and balanced.** Nothing dead center and upright, and no
+  mirror symmetry; but nothing oversized or cramped into a corner either.
+  The weight is spread across the frame with open paper around the main
+  object.
+- **No connecting lines, suns, or rays.** Threads, glowing lights, and paths
+  drawn between things to explain how they relate read as odd. The
+  composition shows the relation; the caption says it.
+- **Tools are plain and gentle.** A drawing instrument looks like one: slim,
+  simple, a blunt pencil lead. No hooks, claws, blades, or heavy joints.
+- **The office is this decade's.** Thin widescreen (16:9) monitors,
+  keyboards and mice, headsets. No desk phones, coiled cords, or squarish
+  screens. People at a desk type; they do not write on notepads.
+- **Plain clothing**, simple hatching, no decorative patterns.
+
 ## 2. Color
 
 The chapter hues are interface colors declared with measured rows in
@@ -250,7 +273,12 @@ no glowing brains, no robot unless the brief names one.
 
 ```
 {STYLE BLOCK}
-16:9, 1920 x 1080. {SCENE: the people, the place, the moment from the brief}.
+Anatomy must be correct: every person has exactly two arms and two hands,
+each arm attached at its own shoulder; no person holds more than one object
+per hand. Asymmetrical but balanced, nothing dead center, nothing cramped
+into a corner. Modern equipment: thin widescreen monitors, keyboards,
+headsets. Plain clothing.
+Wide landscape, 16:9. {SCENE: the people, the place, the moment from the brief}.
 Foreground: {focal figure and action}. Middle: {the system around them}.
 Far: {the crowd or repeated objects}. The accent marks only {the one thing}.
 Leave at least a quarter of the frame as open paper. The focal figure must
@@ -281,30 +309,41 @@ must stay recognizable at 48 pixels.
 
 ## 7. Export and integration
 
-1. **Cut and size.** Slice sheets into tiles at one shared scale
-   (`scripts/illustrate.mjs` and `scripts/draw.mjs take` already do this for
-   the old set; give them the export sizes above). Panoramas to 1920 x 1080
-   for scenes, 1600 x 900 for heroes and share cards; concepts to 1200 x
-   800; pairs to 960 x 640; icons to 512 master, 256 web.
-2. **Ground.** Heroes, emblems, and icons: knock the paper out to alpha.
-   Scenes, concepts, pairs, and share cards: keep the paper.
-3. **Encode.** WebP through Chromium, the site's one encoder (see
-   `asset-swap-encoding` in the project notes): quality 82 for panoramas, 85
-   for supporting, lossless or 90 for icons. Budgets: hero 180 KB, scene 240
-   KB, concept 90 KB, pair 60 KB, icon 15 KB. Hatching is expensive to
-   compress; if a file is over budget, lower quality before lowering size.
-4. **Check the art.** `node scripts/narrative-ink.mjs palette
-   img/writing/shift/narrative-ink/chapter-N --chapter N` passes.
-5. **Swap.** In the lesson, change only `src` (and its `?v=`), `width`,
+Sources (the PNGs the generator returns) live in
+`img/inbox/narrative-ink/src/`, out of the tree. Every step is one command of
+`scripts/narrative-ink.mjs`.
+
+1. **Check the drawing by eye** against section 9, arms first.
+2. **Tone the source.** `tone <source.png>... --chapter N` turns every green
+   (or blue, or plum) near the accent to exactly the chapter's hue, caps its
+   saturation at the accent's, and pulls tan paper back to neutral.
+   Lightness is untouched. A generator's "sage" drifts yellow one day and
+   blue the next; this is what makes twelve lessons one color.
+3. **Export.** `export <source.png> <out.webp> --size WxH`: 1600x900 for a
+   hero or share card, 1664x936 or larger for a scene, 960x640 for a concept
+   or pair half. Quality 0.7 by default, which shows no loss at 1:1 on the
+   finest hatching. The command refuses a source whose shape is not the
+   slot's; crop the source, never the slot.
+4. **Cut icons.** `icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f`
+   cuts a 3 x 2 sheet into six, clears the paper around each object to
+   alpha, and writes the 512 px PNG master and the 256 px WebP. It fails if
+   an object reaches its cell's edge.
+5. **Check the art.** `palette img/writing/shift/narrative-ink/chapter-N
+   --chapter N` passes.
+6. **Swap.** In the lesson, change only `src` (and its `?v=`), `width`,
    `height`, and `alt`. Keep `class`, `loading`, `decoding`, and every
-   caption.
-6. **Check the page.** Before the swap, `node scripts/narrative-ink.mjs
-   shots <page> --label before`; after it, `--label after`; compare the two
-   folders. Then the repository's own checks: the fast six, `readtime.mjs`
-   (alt text is part of what a read time counts), and `resting.mjs` and
-   `states.mjs` scoped to the page, at the same counts as before.
-7. **Regenerate the manifest.** `node scripts/narrative-ink.mjs manifest`;
-   the status column moves in the same commit.
+   caption. Bump `?v=` whenever the bytes at a path change.
+7. **Check the page.** `shots <page> --label before` ahead of the swap and
+   `--label after` behind it; compare the two folders. Then the repository's
+   own checks: the fast six, `readtime.mjs` (alt text is part of what a read
+   time counts), and `resting.mjs` and `states.mjs` scoped to the page.
+8. **Regenerate the manifest.** `manifest`; the status column moves in the
+   same commit.
+
+Weights, as measured on Chapter 1: a hero about 300 KB, a scene 320 to 375
+KB, a concept 75 to 175 KB, an icon 10 to 17 KB. Hatching compresses
+poorly, so a lesson in this hand carries about four times the picture bytes
+it did. Every picture below the hero is lazy-loaded.
 
 A swap that touches only files under `img/` and the `src`, `width`, and
 `height` of the tags pointing at them can take the asset carve-out in
@@ -339,6 +378,8 @@ open side by side.
 
 **Per picture**
 
+- [ ] Every figure has two arms and two hands, each where it belongs;
+      checked zoomed in, one figure at a time.
 - [ ] Shows the brief's subject, and the caption and alt beside it are
       still true.
 - [ ] `palette --chapter N` passes: neutral plus the chapter's accent only.

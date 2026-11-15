@@ -4,6 +4,24 @@
  *   node scripts/narrative-ink.mjs palette <file-or-dir>... --chapter N
  *   node scripts/narrative-ink.mjs shots <page> [--out dir] [--label name]
  *   node scripts/narrative-ink.mjs manifest [--check]
+ *   node scripts/narrative-ink.mjs tone <source.png>... --chapter N
+ *   node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]
+ *   node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f
+ *
+ * EXPORT scales a toned source to its slot's size and encodes it in
+ * Chromium, the site's one WebP encoder. ICONS cuts a 3 x 2 sheet into six:
+ * the paper around each object is cleared to alpha by a flood fill from the
+ * cell's edges (paper inside the object stays), the object is trimmed and
+ * centered at 80% of the square, and each is written twice, a 512 px PNG
+ * master and the 256 px WebP the page loads, as chapterN-icon-<name>.
+ *
+ * TONE rewrites source PNGs in place, before they are cut and encoded. A
+ * generator asked for sage returns a green near it, yellower one day and
+ * bluer the next, and paper that leans tan. Every pixel whose hue is within
+ * 60 degrees of the chapter's accent is turned to exactly that hue, its
+ * saturation capped at the accent's own; every other colored pixel is
+ * pulled back to a near-neutral. Lightness is never touched, so the drawing
+ * is the same drawing. PNG only: toning a WebP would encode it twice.
  *
  * MANIFEST rebuilds img/writing/shift/narrative-ink/manifest.json and
  * writing/NARRATIVE_INK_MANIFEST.md from every picture the series uses; the
@@ -195,12 +213,150 @@ async function shots() {
   process.exit(findings ? 1 : 0);
 }
 
+async function tone() {
+  const ch = Number(opt('--chapter'));
+  if (!ACCENTS[ch] || !positional.length || positional.some((f) => !/\.png$/i.test(f))) {
+    console.error('\n  node scripts/narrative-ink.mjs tone <source.png>... --chapter 1|2|3|4\n');
+    process.exit(2);
+  }
+  const b = await browser();
+  const page = await b.newPage();
+  const hex = ACCENTS[ch];
+  const [ar, ag, ab] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const amax = Math.max(ar, ag, ab), amin = Math.min(ar, ag, ab);
+  const accent = { h: hue(hex), s: (amax - amin) / (1 - Math.abs(amax + amin - 1)) };
+  console.log(`\n  tone, chapter ${ch} (${NAMES[ch]} ${hex})\n`);
+  for (const f of positional) {
+    const out = await page.evaluate(async ({ data, accent }) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+      const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+      const id = g.getImageData(0, 0, c.width, c.height), d = id.data;
+      const hsl2rgb = (h, s, l) => { const k = (n) => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
+        const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1)); return [f(0), f(8), f(4)]; };
+      let turned = 0, calmed = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        const r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255;
+        const max = Math.max(r, gg, b), min = Math.min(r, gg, b), chroma = max - min;
+        if (chroma < 0.05) continue;
+        const l = (max + min) / 2, s = chroma / (1 - Math.abs(2 * l - 1) || 1);
+        let h = max === r ? ((gg - b) / chroma) % 6 : max === gg ? (b - r) / chroma + 2 : (r - gg) / chroma + 4;
+        h = (h * 60 + 360) % 360;
+        const dist = Math.min(Math.abs(h - accent.h), 360 - Math.abs(h - accent.h));
+        let rgb;
+        if (dist <= 60 && chroma >= 0.08) { rgb = hsl2rgb(accent.h, Math.min(s, accent.s * 1.1), l); turned++; }
+        else if (chroma > 0.06) { rgb = hsl2rgb(h, s * 0.06 / chroma, l); calmed++; }
+        else continue;
+        d[i] = Math.round(rgb[0] * 255); d[i + 1] = Math.round(rgb[1] * 255); d[i + 2] = Math.round(rgb[2] * 255);
+      }
+      g.putImageData(id, 0, 0);
+      return { url: c.toDataURL('image/png'), turned, calmed, n: d.length / 4 };
+    }, { data: fs.readFileSync(f).toString('base64'), accent });
+    fs.writeFileSync(f, Buffer.from(out.url.split(',')[1], 'base64'));
+    console.log(`  ${path.basename(f)}  ${(100 * out.turned / out.n).toFixed(1)}% turned to the accent, ${(100 * out.calmed / out.n).toFixed(1)}% calmed`);
+  }
+  await b.close();
+  console.log('');
+}
+
+async function exportOne() {
+  const [src, out] = positional;
+  const size = /^(\d+)x(\d+)$/.exec(opt('--size') || '');
+  if (!src || !out || !size) {
+    console.error('\n  node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]\n');
+    process.exit(2);
+  }
+  const b = await browser();
+  const page = await b.newPage();
+  const r = await page.evaluate(async ({ data, w, h, q }) => {
+    const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+    g.drawImage(img, 0, 0, w, h);
+    return { url: c.toDataURL('image/webp', q), from: [img.naturalWidth, img.naturalHeight] };
+  }, { data: fs.readFileSync(src).toString('base64'), w: +size[1], h: +size[2], q: Number(opt('--quality') || 0.7) });
+  const drift = Math.abs(r.from[0] / r.from[1] - size[1] / size[2]);
+  if (drift > 0.01) { console.error(`\n  ${src} is ${r.from.join('x')}; ${size[0]} is a different shape. Crop the source first.\n`); await b.close(); process.exit(1); }
+  fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+  fs.writeFileSync(out, Buffer.from(r.url.split(',')[1], 'base64'));
+  console.log(`  ${out}  ${size[0]}  ${Math.round(fs.statSync(out).size / 1024)} KB`);
+  await b.close();
+}
+
+async function icons() {
+  const [sheet, outDir] = positional;
+  const ch = Number(opt('--chapter'));
+  const names = (opt('--names') || '').split(',').filter(Boolean);
+  if (!sheet || !outDir || !ACCENTS[ch] || names.length !== 6) {
+    console.error('\n  node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f\n');
+    process.exit(2);
+  }
+  const b = await browser();
+  const page = await b.newPage();
+  const res = await page.evaluate(async ({ data }) => {
+    const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+    const cw = Math.floor(img.naturalWidth / 3), ch = Math.floor(img.naturalHeight / 2), out = [];
+    for (let k = 0; k < 6; k++) {
+      const c = document.createElement('canvas'); c.width = cw; c.height = ch;
+      const g = c.getContext('2d'); g.drawImage(img, -(k % 3) * cw, -Math.floor(k / 3) * ch);
+      const id = g.getImageData(0, 0, cw, ch), d = id.data, bg = [d[0], d[1], d[2]];
+      const paper = (q) => Math.abs(d[q * 4] - bg[0]) + Math.abs(d[q * 4 + 1] - bg[1]) + Math.abs(d[q * 4 + 2] - bg[2]) < 60;
+      const seen = new Uint8Array(cw * ch), stack = [];
+      for (let x = 0; x < cw; x++) stack.push(x, x + (ch - 1) * cw);
+      for (let y = 0; y < ch; y++) stack.push(y * cw, y * cw + cw - 1);
+      while (stack.length) {
+        const q = stack.pop(); if (seen[q] || !paper(q)) continue; seen[q] = 1;
+        const x = q % cw, y = (q / cw) | 0;
+        if (x > 0) stack.push(q - 1); if (x < cw - 1) stack.push(q + 1);
+        if (y > 0) stack.push(q - cw); if (y < ch - 1) stack.push(q + cw);
+      }
+      let x0 = cw, y0 = ch, x1 = 0, y1 = 0;
+      for (let q = 0; q < cw * ch; q++) {
+        const x = q % cw, y = (q / cw) | 0;
+        if (seen[q]) { d[q * 4 + 3] = 0; continue; }
+        if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+        /* one soft pixel at the cut, so the edge is not a staircase */
+        if ((x > 0 && seen[q - 1]) || (x < cw - 1 && seen[q + 1]) || (y > 0 && seen[q - cw]) || (y < ch - 1 && seen[q + cw])) d[q * 4 + 3] = 150;
+      }
+      g.putImageData(id, 0, 0);
+      const w = x1 - x0 + 1, h = y1 - y0 + 1;
+      const make = (S) => {
+        const o = document.createElement('canvas'); o.width = o.height = S;
+        const og = o.getContext('2d'); og.imageSmoothingQuality = 'high';
+        const s = S * 0.8 / Math.max(w, h);
+        og.drawImage(c, x0, y0, w, h, (S - w * s) / 2, (S - h * s) / 2, w * s, h * s);
+        return o;
+      };
+      out.push({ png: make(512).toDataURL('image/png'), webp: make(256).toDataURL('image/webp', 0.9),
+                 touches: x0 === 0 || y0 === 0 || x1 === cw - 1 || y1 === ch - 1 });
+    }
+    return out;
+  }, { data: fs.readFileSync(sheet).toString('base64') });
+  fs.mkdirSync(outDir, { recursive: true });
+  let bad = 0;
+  res.forEach((r, i) => {
+    const base = path.join(outDir, `chapter${ch}-icon-${names[i]}`);
+    fs.writeFileSync(`${base}@512.png`, Buffer.from(r.png.split(',')[1], 'base64'));
+    fs.writeFileSync(`${base}.webp`, Buffer.from(r.webp.split(',')[1], 'base64'));
+    if (r.touches) bad++;
+    console.log(`  ${r.touches ? '✗' : '✓'} ${path.basename(base)}.webp${r.touches ? '  the object reaches its cell edge: it crossed into a neighbor, or the sheet is not an even 3 x 2' : ''}`);
+  });
+  await b.close();
+  process.exit(bad ? 1 : 0);
+}
+
 if (cmd === 'palette') await palette();
 else if (cmd === 'shots') await shots();
 else if (cmd === 'manifest') manifest(argv);
+else if (cmd === 'tone') await tone();
+else if (cmd === 'export') await exportOne();
+else if (cmd === 'icons') await icons();
 else {
   console.error('\n  node scripts/narrative-ink.mjs palette <file-or-dir>... --chapter N');
   console.error('  node scripts/narrative-ink.mjs shots <page.html> [--out dir] [--label name]');
-  console.error('  node scripts/narrative-ink.mjs manifest [--check]\n');
+  console.error('  node scripts/narrative-ink.mjs manifest [--check]');
+  console.error('  node scripts/narrative-ink.mjs tone <source.png>... --chapter N');
+  console.error('  node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]');
+  console.error('  node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f\n');
   process.exit(2);
 }
