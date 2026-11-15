@@ -90,8 +90,11 @@ for (const f of articles) {
   main = main.replace(/[ \t]*<!-- keys:start -->[\s\S]*?<!-- keys:end -->\n/, '');
   if (/class="writing-recap"/.test(main)) fault(f, 'an article carries no recap; take the "In one breath" aside out');
 
-  const minutes = (src.match(/<p class="case-kicker">Writing &middot; (\d+) min read<\/p>/) || [])[1];
-  if (!minutes) fault(f, 'no "Writing · N min read" kicker to take the minutes from');
+  /* A Shift lesson's kicker names its place in the series instead of the
+     family: "Lesson N of 12 · M min read" (2026-11-15), one line where the
+     series label and "Writing · M min read" said it twice. */
+  const minutes = (src.match(/<p class="case-kicker">(?:Writing|Lesson \d+ of \d+) &middot; (\d+) min read<\/p>/) || [])[1];
+  if (!minutes) fault(f, 'no "Writing · N min read" or "Lesson N of 12 · N min read" kicker to take the minutes from');
   minutesOf.set(basename(f, '.html'), minutes);
 
   const next = src.slice(0, mainStart) + main + src.slice(mainEnd);
