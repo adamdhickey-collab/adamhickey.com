@@ -280,7 +280,7 @@
   list-style: none;
 }
 /* Matched to the article's list rule (.writing-measure li), which would
-   otherwise take the rows' inset away and leave the numbers on the edge. */
+   otherwise take the rows' inset away and leave the drawings on the edge. */
 .writing-measure .shift-stack li,
 .writing-measure .shift-stages li { margin: 0; }
 .writing-measure .shift-stack li { padding: var(--space-lg) var(--space-xl); }
@@ -296,18 +296,19 @@
   border: 1px solid var(--rule-card);
   border-radius: var(--radius-xl);
 }
-.shift-stack li { grid-template-columns: var(--space-2xl) minmax(0, 1fr); }
-.shift-stack-num {
-  display: inline-grid;
-  place-items: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
-  border-radius: var(--radius-pill);
-  background: var(--shift-ink);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-white);
+.shift-stack li { grid-template-columns: var(--space-3xl) minmax(0, 1fr); }
+/* The drawing leads the row where a number used to: it marks the row, and a
+   number beside it would say the same thing twice. White under it, so it
+   reads on the charcoal row too. */
+.shift-stack-art {
+  display: block;
+  width: var(--space-3xl);
+  height: auto;
+  aspect-ratio: 1;
+  grid-row: 1 / span 2;
+  align-self: start;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
 }
 .shift-stack-name {
   font-family: var(--font-sans);
@@ -321,6 +322,12 @@
   font-weight: var(--weight-regular);
   color: var(--color-muted-gray);
 }
+/* A figure the row carries, where a number is a quantity rather than a
+   place in line: a stage's section count, under its subtitle. */
+.shift-stack-name .shift-stack-count {
+  font-weight: var(--weight-semibold);
+  color: var(--shift-ink);
+}
 .shift-stack-q {
   grid-column: 2;
   font-family: var(--font-sans);
@@ -329,12 +336,13 @@
   color: var(--color-charcoal);
 }
 .shift-stack li.is-mark { background: var(--color-charcoal); border-color: var(--color-charcoal); }
-.shift-stack li.is-mark .shift-stack-num { background: var(--color-white); color: var(--color-charcoal); }
 .shift-stack li.is-mark .shift-stack-name,
 .shift-stack li.is-mark .shift-stack-q { color: var(--ink-on-dark); }
 .shift-stack li.is-mark .shift-stack-name small { color: var(--ink-on-dark-muted); }
+.shift-stack li.is-mark .shift-stack-name .shift-stack-count { color: var(--ink-on-dark); }
 @media (min-width: 40rem) {
-  .shift-stack li { grid-template-columns: var(--space-2xl) 11rem minmax(0, 1fr); }
+  .shift-stack li { grid-template-columns: var(--space-4xl) 11rem minmax(0, 1fr); }
+  .shift-stack-art { grid-row: 1; align-self: center; width: var(--space-4xl); }
   .shift-stack-q { grid-column: auto; font-size: var(--text-base); }
 }
 
@@ -865,9 +873,8 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
                 the cockpit's decisions, set three ways so no two lessons
                 in a row look alike: a picture beside its line
                 (.shift-concept), two pictures side by side (.shift-pair),
-                or a small drawing leading each row of a list of steps
-                (.shift-stages.has-art). A numbered stack takes no
-                drawing: the number already marks the row.
+                or a small drawing leading each row of a stack or a list of
+                steps (.has-art), in place of a number.
    Every drawing sits on white, with an edge and the resting shadow, the
    rule the hero drawings already keep. No drawing carries a word: every
    label is the page's own text. */
