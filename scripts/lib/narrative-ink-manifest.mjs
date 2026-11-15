@@ -42,7 +42,7 @@ const CHAPTERS = { 1: 'The job is changing (sage)', 2: 'Inside the agent (slate)
    the rendered maximum at 2x, measured by `narrative-ink.mjs shots`, rounded
    up to a size a generator returns cleanly. */
 const SLOTS = {
-  'shift-hero-art':    { level: 'A panorama', export: '1600x900 (16:9), paper knocked out to alpha', purpose: 'Lesson hero beside the title, on the chapter ground', alt: 'empty: the title beside it says what the lesson is' },
+  'shift-hero-art':    { level: 'A panorama', export: '1600x900 (16:9), on paper, framed by shift-hero-art--plate', purpose: 'Lesson hero beside the title, on the chapter ground', alt: 'empty: the title beside it says what the lesson is' },
   'writing-scene':     { level: 'A panorama', export: '1920x1080 (16:9), on paper', purpose: 'The person in the lesson\'s story, framed, wide column', alt: 'required: who, doing what, and the detail the caption points at' },
   'shift-concept-art': { level: 'B supporting', export: '1200x800 (3:2), on paper', purpose: 'The lesson\'s idea as one object, beside its concept line', alt: 'required: the object and the state that carries the idea' },
   'shift-pair-art':    { level: 'B supporting', export: '960x640 (3:2) each, drawn as one sheet', purpose: 'Two states side by side, each over a one-line label', alt: 'required: the state, not the label again' },

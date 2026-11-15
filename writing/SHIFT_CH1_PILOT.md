@@ -30,20 +30,25 @@ rule in the spec. Every source was toned to the exact sage before export,
 the six pilot icons included, so all 45 files in `chapter-1/` pass the
 palette check. The three lessons are clean in `shots` at 390, 768, and 1440.
 
-**Open, for review:**
+**Closed on 2026-11-14, after "fix open":**
 
-1. **Heroes carry their paper**, so each sits on the sage ground as a pale,
-   square-cornered rectangle where the old heroes were transparent. Knock
-   the paper out at the source, or decide the plate is the look; the second
-   is a stylesheet decision, not made here.
-2. **The wave-pattern jacket** from the reference prints is still in
-   Lesson 1's hero and concept. Lessons 2 and 3 draw plain clothing.
-3. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
-   seedling) are toned and in the library, and still on no page.
-4. **Weight.** About 800 to 880 KB of pictures a lesson, against about 220
-   before.
-5. **The landing and the share cards** still show the old chapter emblem,
-   by design: all four chapters change there together.
+- **The heroes' pale rectangle.** The three heroes carry
+  `shift-hero-art--plate`, a new rule in `writing/shift.css`: the card
+  radius, a hairline, and the resting shadow, so the plate reads as a
+  framed card on the sage ground, like the scene and the term cards.
+- **The wave-pattern jacket.** Lesson 1's hero and concept were edited to
+  plain hatching; nothing else in either picture moved.
+- **The off-hue pilot icons.** Toned with everything else.
+
+**Still open, by design or by nature:**
+
+1. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
+   seedling) are in the library and on no page.
+2. **Weight.** About 770 to 890 KB of pictures a lesson, against about 220
+   before. Hatching does not compress; the only lever left is quality
+   below 0.7, which starts to soften the linework.
+3. **The landing and the share cards** still show the old chapter emblem:
+   all four chapters change there together.
 
 ## Exact image mapping
 
@@ -51,7 +56,7 @@ In `writing/what-changes-when-you-design-the-task-instead-of-the-app.html`:
 
 | Slot | Current file | Pilot file | Pilot size | Slot needs |
 | --- | --- | --- | --- | --- |
-| `.shift-hero-art` | `lesson-what-changes-when-you-design-the-task-instead-of-the-app.webp`, 1600x900, alpha | `chapter1-lesson1-hero.webp` | 1600x900 | 16:9, at least 1426 wide, **paper knocked out to alpha** |
+| `.shift-hero-art` | `lesson-what-changes-when-you-design-the-task-instead-of-the-app.webp`, 1600x900, alpha | `chapter1-lesson1-hero.webp` | 1600x900 | 16:9, at least 1426 wide, framed by `shift-hero-art--plate` |
 | `.writing-scene` | `what-changes-when-you-design-the-task-instead-of-the-app-scene.webp`, 1600x900 | `chapter1-lesson1-dispatcher.webp` | 1200x675 | 16:9, **at least 1664 wide** |
 | `.shift-concept-art` | `what-changes-when-you-design-the-task-instead-of-the-app-idea.webp`, 1200x800 | `chapter1-lesson1-human-decision.webp` | 1200x675 | **3:2**, at least 880 wide |
 

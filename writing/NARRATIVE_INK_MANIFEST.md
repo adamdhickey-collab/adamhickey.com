@@ -34,15 +34,15 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 294 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson1-hero.webp` | shift-hero-art | 1600x900, 280 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-lesson1-dispatcher.webp` | writing-scene | 1664x936, 321 KB | A panorama: 1920x1080 (16:9), on paper | narrative-ink | An engraved drawing of a dispatcher in a headset at three monitors, typing on a keyboard. Above her float three separate scenes: trucks on a highway, drivers resting by a large clock, and a warehouse.<br>*required: who, doing what, and the detail the caption points at* |
-| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 175 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
+| `chapter1-lesson1-human-decision.webp` | shift-concept-art | 960x640, 170 KB | B supporting: 1200x800 (3:2), on paper | narrative-ink | An illustrated agent gathers route, time, and warehouse evidence for a dispatcher, who can approve or decline.<br>*required: the object and the state that carries the idea* |
 
 ## Lesson 2, chapter 1: what-is-ux-for-when-agents-build-the-software.html
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 323 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson2-hero.webp` | shift-hero-art | 1600x900, 323 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-map.webp` | shift-stage-art | 256x256, 15 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-pencil.webp` | shift-stage-art | 256x256, 20 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-wrench.webp` | shift-stage-art | 256x256, 12 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -56,7 +56,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 325 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
+| `chapter1-lesson3-hero.webp` | shift-hero-art | 1600x900, 325 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | narrative-ink | `""`<br>*empty: the title beside it says what the lesson is* |
 | `chapter1-icon-rulebook.webp` | shift-stack-art | 256x256, 16 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-clipboard.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
 | `chapter1-icon-flag.webp` | shift-stack-art | 256x256, 10 KB | C icon: 512x512 source, 256x256 web, alpha | narrative-ink | `""`<br>*empty: the row names it* |
@@ -70,7 +70,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-is-an-ai-agent-actually-made-of.webp` | shift-hero-art | 1600x900, 44 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-what-is-an-ai-agent-actually-made-of.webp` | shift-hero-art | 1600x900, 44 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `icon-brain.webp` | shift-stack-art | 240x240, 6 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-books.webp` | shift-stack-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-plug.webp` | shift-stack-art | 240x240, 4 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -82,7 +82,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-should-you-never-do-when-building-an-agent.webp` | shift-hero-art | 1600x900, 42 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-what-should-you-never-do-when-building-an-agent.webp` | shift-hero-art | 1600x900, 42 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `what-should-you-never-do-when-building-an-agent-scene.webp` | writing-scene | 1600x900, 125 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a bakery bookkeeper on the phone holding an invoice, looking uncertainly at a screen showing one large check mark.<br>*required: who, doing what, and the detail the caption points at* |
 | `icon-paid-issued.webp` | shift-stage-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-paid-charged.webp` | shift-stage-art | 240x240, 10 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -97,7 +97,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-why-does-designing-with-ai-feel-slower-than-it-should.webp` | shift-hero-art | 1600x900, 53 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-why-does-designing-with-ai-feel-slower-than-it-should.webp` | shift-hero-art | 1600x900, 53 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `why-does-designing-with-ai-feel-slower-than-it-should-scene.webp` | writing-scene | 1600x900, 117 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a designer at a laptop, a long printout of instructions spilling off the desk onto the floor beside one small sketch on a card.<br>*required: who, doing what, and the detail the caption points at* |
 | `why-does-designing-with-ai-feel-slower-than-it-should-idea.webp` | shift-concept-art | 1200x800, 28 KB | B supporting: 1200x800 (3:2), on paper | brief written | A small speech bubble unrolling an enormous paper scroll, beside a tiny drawing card.<br>*required: the object and the state that carries the idea* |
 
@@ -105,7 +105,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-does-a-requirements-doc-need-once-the-product-is-ai.webp` | shift-hero-art | 1600x900, 41 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-what-does-a-requirements-doc-need-once-the-product-is-ai.webp` | shift-hero-art | 1600x900, 41 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `icon-prd-discovery.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-prd-design-doc.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-prd-develop.webp` | shift-stack-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -118,7 +118,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-how-do-you-run-a-design-sprint-for-an-ai-product.webp` | shift-hero-art | 1600x900, 55 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-how-do-you-run-a-design-sprint-for-an-ai-product.webp` | shift-hero-art | 1600x900, 55 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `how-do-you-run-a-design-sprint-for-an-ai-product-scene.webp` | writing-scene | 1600x900, 106 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a workshop where a facilitator runs a strip of tape down a wall of sticky notes while two teammates watch.<br>*required: who, doing what, and the detail the caption points at* |
 | `icon-sprint-problem.webp` | shift-stage-art | 240x240, 9 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-sprint-data.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -134,7 +134,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-why-didnt-more-ai-answers-bring-more-clarity.webp` | shift-hero-art | 1600x900, 56 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-why-didnt-more-ai-answers-bring-more-clarity.webp` | shift-hero-art | 1600x900, 56 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `why-didnt-more-ai-answers-bring-more-clarity-scene.webp` | writing-scene | 1600x900, 130 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a parent at a kitchen table in the evening, laptop pushed aside, laying printed pages out side by side.<br>*required: who, doing what, and the detail the caption points at* |
 | `why-didnt-more-ai-answers-bring-more-clarity-pair-1.webp` | shift-pair-art | 720x480, 38 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | A tangled ball of thread with loose ends.<br>*required: the state, not the label again* |
 | `why-didnt-more-ai-answers-bring-more-clarity-pair-2.webp` | shift-pair-art | 720x480, 9 KB | B supporting: 960x640 (3:2) each, drawn as one sheet | brief written | The same thread laid out in straight lines that meet in one knot.<br>*required: the state, not the label again* |
@@ -147,7 +147,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-who-sets-the-rules-when-research-uses-digital-twins.webp` | shift-hero-art | 1600x900, 52 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-who-sets-the-rules-when-research-uses-digital-twins.webp` | shift-hero-art | 1600x900, 52 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `icon-twin-deadline.webp` | shift-stack-art | 240x240, 10 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-twin-demo.webp` | shift-stack-art | 240x240, 5 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-twin-budget.webp` | shift-stack-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -159,7 +159,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-makes-onboarding-in-an-ai-app-feel-personal.webp` | shift-hero-art | 1600x900, 53 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-what-makes-onboarding-in-an-ai-app-feel-personal.webp` | shift-hero-art | 1600x900, 53 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `icon-scale.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-gauge.webp` | shift-stage-art | 240x240, 8 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-coins.webp` | shift-stage-art | 240x240, 11 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
@@ -173,7 +173,7 @@ is. Only the drawings in the rows below change.
 
 | Picture | Slot | Now | Level and export | Status | Alt |
 | --- | --- | --- | --- | --- | --- |
-| `lesson-what-should-come-first-when-you-redesign-an-ai-product.webp` | shift-hero-art | 1600x900, 54 KB | A panorama: 1600x900 (16:9), paper knocked out to alpha | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
+| `lesson-what-should-come-first-when-you-redesign-an-ai-product.webp` | shift-hero-art | 1600x900, 54 KB | A panorama: 1600x900 (16:9), on paper, framed by shift-hero-art--plate | brief written | `""`<br>*empty: the title beside it says what the lesson is* |
 | `what-should-come-first-when-you-redesign-an-ai-product-scene.webp` | writing-scene | 1600x900, 172 KB | A panorama: 1920x1080 (16:9), on paper | brief written | An illustration of a founder alone at a caf&eacute; table with a phone showing a few faces, a notebook, and a friend waving through the window.<br>*required: who, doing what, and the detail the caption points at* |
 | `icon-scissors.webp` | shift-stack-art | 240x240, 7 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |
 | `icon-puzzle.webp` | shift-stack-art | 240x240, 4 KB | C icon: 512x512 source, 256x256 web, alpha | brief written | `""`<br>*empty: the row names it* |

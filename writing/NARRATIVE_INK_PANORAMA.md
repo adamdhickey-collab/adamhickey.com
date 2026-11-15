@@ -125,7 +125,7 @@ Rules:
 
 | Level | Slots (`writing/shift.css`) | Largest render, CSS px | Export | Ground | Accent |
 | --- | --- | --- | --- | --- | --- |
-| **A. Panorama** | `.shift-hero-art` | 713 x 401 (at 768) | **1600 x 900** WebP | paper knocked out to alpha, so the ink sits on `--shift-ground` | 1 to 3 small regions |
+| **A. Panorama** | `.shift-hero-art.shift-hero-art--plate` | 713 x 401 (at 768) | **1600 x 900** WebP | warm paper to every edge; the modifier frames it on `--shift-ground` | 1 to 3 small regions |
 | **A. Panorama** | `.writing-scene` | 832 x 469 (from 64rem) | **1920 x 1080** WebP | warm paper, framed by the slot's edge and shadow | one figure or object |
 | **A. Panorama** | share card, `og.mjs` | 1600 x 900 in the card | **1600 x 900** WebP | warm paper | 1 to 3 small regions |
 | **B. Supporting** | `.shift-concept-art` | 440 x 294 | **1200 x 800** WebP, 3:2 | warm paper on the slot's white card | the one thing the concept line names |
@@ -153,10 +153,11 @@ picture.
 - **The 342 px test.** On a phone, a hero is 342 px wide. Downscale to 342
   and look: the focal figure and the accent must still read as a shape. If
   the picture turns to grey noise, cut the crowd, not the focal mass.
-- The hero is transparent: knock the paper out to alpha after export, so the
-  chapter ground shows through the open space, the way the heroes on `main`
-  have sat since #1189. A paper rectangle on a tinted ground reads as a
-  pasted-in card.
+- The hero is a full plate, paper to every edge, and its `<img>` carries
+  `shift-hero-art--plate`, which gives it the card radius, a hairline, and
+  the resting shadow, the frame the scene has. A bare plate on the tinted
+  ground reads as a pasted-in rectangle. The transparent heroes of the
+  lessons not yet redrawn keep the bare class.
 - The scene is the lesson's story with the people in it. It keeps the
   subject its caption and alt already describe, so the page's words stay
   true.
@@ -392,14 +393,16 @@ open side by side.
       (supporting), 70 percent fill (icons).
 - [ ] The 342 px test (heroes), the 48 px test (icons).
 - [ ] Exact export size and ratio for its slot; within its byte budget.
-- [ ] Ground correct: alpha for hero, emblem, and icon; paper for the rest.
+- [ ] Ground correct: alpha for emblem and icon; paper for the rest, and
+      the hero's tag carries `shift-hero-art--plate`.
 
 **Per page** (`narrative-ink.mjs shots` at 390, 768, and 1440)
 
 - [ ] Every picture loads; none soft at 2x; file ratio matches its
       attributes.
 - [ ] No sideways scroll at any width.
-- [ ] The hero sits on the chapter ground with no visible rectangle.
+- [ ] The hero sits on the chapter ground as a framed plate: rounded,
+      hairline, resting shadow.
 - [ ] The scene's frame, the concept card, and the pair cards look exactly
       as they did before; only the drawing inside changed.
 - [ ] Total picture weight within 10 percent of the page's before.
