@@ -201,11 +201,11 @@ Rules:
 
 | Level | Slots (`writing/shift.css`) | Largest render, CSS px | Export | Ground | Accent |
 | --- | --- | --- | --- | --- | --- |
-| **A. Panorama** | `.shift-hero-art.shift-hero-art--plate` | 713 x 401 (at 768) | **1600 x 900** WebP | warm paper to every edge; the modifier frames it on `--shift-ground` | 1 to 3 small regions |
+| **A. Panorama** | `.shift-hero-art` | 806 x 453 (at 1440), the window's width below 64rem | **1600 x 900** WebP, through `bleed` | paper lifted to white, top and inner edges dissolved; multiplied onto `--shift-ground` | 1 to 3 small regions |
 | **A. Panorama** | `.writing-scene` | 832 x 469 (from 64rem) | **1920 x 1080** WebP | warm paper, framed by the slot's edge and shadow | one figure or object |
 | **A. Panorama** | share card, `og.mjs` | 1600 x 900 in the card | **1600 x 900** WebP | warm paper | 1 to 3 small regions |
 | **B. Supporting** | `.shift-concept-art` | 440 x 294 | **1200 x 800** WebP, 3:2 | warm paper on the slot's white card | the one thing the concept line names |
-| **B. Supporting** | `.shift-pair-art` | 381 x 254 | **960 x 640** WebP each, 3:2 | warm paper | the circled, joined, or chosen part only |
+| **B. Supporting** | `.shift-pair-art` | 381 x 254 | **960 x 640** WebP each, 3:2, through `bleed` | paper lifted to white; multiplied onto its card | the circled, joined, or chosen part only |
 | **B. Supporting** | `.shift-chapter-art`, `.shift-mosaic` | 640 x 360 tile | **1280 x 720** WebP | alpha | the emblem's working part |
 | **C. Icon** | `.shift-stage-art`, `.shift-stack-art` | 48 x 48 (40 at 390) | **512 x 512** master PNG, **256 x 256** WebP | alpha (the stack slot draws white under it) | one shape at most |
 
@@ -229,11 +229,17 @@ picture.
 - **The 342 px test.** On a phone, a hero is 342 px wide. Downscale to 342
   and look: the focal figure and the accent must still read as a shape. If
   the picture turns to grey noise, cut the crowd, not the focal mass.
-- The hero is a full plate, paper to every edge, and its `<img>` carries
-  `shift-hero-art--plate`, which gives it the card radius, a hairline, and
-  the resting shadow, the frame the scene has. A bare plate on the tinted
-  ground reads as a pasted-in rectangle. The transparent heroes of the
-  lessons not yet redrawn keep the bare class.
+- The hero is drawn as a full plate and comes off it on export (owner,
+  2026-11-15: a framed plate felt "trapped in a rectangle"). `node
+  scripts/narrative-ink.mjs bleed` lifts the paper to white and dissolves
+  the top and left edges the way an engraved vignette ends; the page
+  multiplies the file onto the chapter ground, runs it off the right edge
+  of the window, and stands it on the band's bottom edge. So compose for
+  that: the focal figure in the right two thirds, running off the right or
+  bottom edge if anything does; nothing that matters in the top-left
+  quarter, where the title sits; no figure cut by the left edge. Mirror a
+  finished drawing with `--flip` only when no hand in it holds a tool:
+  a mirrored pencil is in the wrong hand (Lesson 10 was redrawn for this).
 - The scene is the lesson's story with the people in it. It keeps the
   subject its caption and alt already describe, so the page's words stay
   true.
@@ -475,8 +481,8 @@ open side by side.
       (supporting), 70 percent fill (icons).
 - [ ] The 342 px test (heroes), the 48 px test (icons).
 - [ ] Exact export size and ratio for its slot; within its byte budget.
-- [ ] Ground correct: alpha for emblem and icon; paper for the rest, and
-      the hero's tag carries `shift-hero-art--plate`.
+- [ ] Ground correct: alpha for emblem and icon; paper lifted to white by
+      `bleed` for a hero and a pair's picture.
 
 **Per page** (`narrative-ink.mjs shots` at 390, 768, and 1440)
 
