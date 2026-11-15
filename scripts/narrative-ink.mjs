@@ -19,8 +19,9 @@
  * generator asked for sage returns a green near it, yellower one day and
  * bluer the next, and paper that leans tan. Every pixel whose hue is within
  * 60 degrees of the chapter's accent is turned to exactly that hue, its
- * saturation capped at the accent's own; every other colored pixel is
- * pulled back to a near-neutral. Lightness is never touched, so the drawing
+ * saturation capped at the accent's own; every other colored pixel, and
+ * every very light one (paper leans tan, which sits beside terracotta on
+ * the wheel), is pulled back to a near-neutral. Lightness is never touched, so the drawing
  * is the same drawing. PNG only: toning a WebP would encode it twice.
  *
  * MANIFEST rebuilds img/writing/shift/narrative-ink/manifest.json and
@@ -244,7 +245,7 @@ async function tone() {
         h = (h * 60 + 360) % 360;
         const dist = Math.min(Math.abs(h - accent.h), 360 - Math.abs(h - accent.h));
         let rgb;
-        if (dist <= 60 && chroma >= 0.08) { rgb = hsl2rgb(accent.h, Math.min(s, accent.s * 1.1), l); turned++; }
+        if (dist <= 60 && chroma >= 0.08 && l <= 0.84) { rgb = hsl2rgb(accent.h, Math.min(s, accent.s * 1.1), l); turned++; }
         else if (chroma > 0.06) { rgb = hsl2rgb(h, s * 0.06 / chroma, l); calmed++; }
         else continue;
         d[i] = Math.round(rgb[0] * 255); d[i + 1] = Math.round(rgb[1] * 255); d[i + 2] = Math.round(rgb[2] * 255);

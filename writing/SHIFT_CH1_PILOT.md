@@ -57,6 +57,18 @@ hero's place; Lesson 6's concept, a roll of paper that read as a toilet
 roll, became a stack of fan-folded printout. Lesson 5's icon sheet came out
 a little flatter than Lesson 4's.
 
+**Chapter 3 is started and paused** (2026-11-14, terracotta `#C0714E`).
+ChatGPT's image allowance for the account ran out after Lesson 7's hero;
+the notice said it resets on 2026-11-15 at 3:02 PM. Lesson 7's hero is
+drawn and kept as a source in `img/inbox/narrative-ink/src3/` (not in the
+tree, not on the page): the archive wall of drawers with four pulled open,
+and a team at four folders, basket-weave pattern on the main figure. Still
+to draw for Chapter 3: Lesson 7's scene, pair, and four icons; Lesson 8's
+hero, scene, concept, and eight icons; Lesson 9's hero, scene, pair, and
+four icons. Patterns planned: basket weave (7), key fret (8), nested
+hexagons (9). `tone` now treats very light pixels as paper, because tan
+paper sits next to terracotta on the color wheel.
+
 **Still open, by design or by nature:**
 
 1. **The six pilot icons** (binoculars, signpost, compass, blocks, chart,
