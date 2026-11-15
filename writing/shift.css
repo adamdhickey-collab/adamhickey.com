@@ -298,7 +298,7 @@
 .shift-stack li { grid-template-columns: var(--space-3xl) minmax(0, 1fr); }
 /* The drawing leads the row where a number used to: it marks the row, and a
    number beside it would say the same thing twice. It is ink on a clear
-   ground with no tile under it, so every row it sits on is a light one. */
+   ground with no tile under it, so on a marked row it is reversed too. */
 /* The row's name is the semibold, as a stage's name is: it is the largest
    line in the row, and at regular weight it read thinner than its size. */
 .shift-stack-name { font-weight: var(--weight-semibold); }
@@ -321,10 +321,18 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-/* The marked row is the chapter's ground, not charcoal: the drawing is
-   charcoal ink and has to read on it without a white tile behind. */
-.shift-stack li.is-mark { background: var(--shift-ground); }
-.shift-stack li.is-mark .shift-stack-name small { color: var(--shift-ink); }
+/* The marked row is the chapter's ink with its words reversed out in
+   white (COLOR.md section 2: white sits on the ink, never on the fill). */
+.shift-stack li.is-mark { background: var(--shift-ink); border-color: var(--shift-ink); }
+.shift-stack li.is-mark .shift-stack-name,
+.shift-stack li.is-mark .shift-stack-name small,
+.shift-stack li.is-mark .shift-stack-q { color: var(--color-white); }
+/* The drawing on a marked row is the same file, reversed by the browser:
+   invert turns its charcoal line light, the half turn of hue puts its one
+   accent back in the chapter's color, and the lift takes the line the rest
+   of the way to the white of the words beside it. */
+.shift-stack li.is-mark .shift-stack-art,
+.shift-stages li.is-gap .shift-stage-art { filter: invert(1) hue-rotate(180deg) brightness(1.15); }
 @media (min-width: 40rem) {
   .shift-stack li { grid-template-columns: var(--space-4xl) 11rem minmax(0, 1fr); }
   .shift-stack-art { grid-row: 1; align-self: center; width: var(--space-4xl); }
@@ -344,9 +352,11 @@
   line-height: var(--leading-ui);
   color: var(--color-charcoal);
 }
-/* A stage the point turns on: the chapter's ground, its ink on the note. */
-.shift-stages li.is-gap { background: var(--shift-ground); border-color: var(--shift-ground); }
-.shift-stages li.is-gap .shift-stage-note { font-weight: var(--weight-semibold); color: var(--shift-ink); }
+/* A stage the point turns on: the chapter's ink, like a stack's marked
+   row, with its name and note reversed out in white. */
+.shift-stages li.is-gap { background: var(--shift-ink); border-color: var(--shift-ink); }
+.shift-stages li.is-gap .shift-stage-name { color: var(--color-white); }
+.shift-stages li.is-gap .shift-stage-note { font-weight: var(--weight-semibold); color: var(--color-white); }
 @media (min-width: 40rem) {
   .shift-stages li { grid-template-columns: 8rem minmax(0, 1fr); }
   .shift-stage-note { font-size: var(--text-base); }
@@ -657,7 +667,6 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
 .shift-lesson .writing-figure .writing-split > div,
 .shift-check,
 .shift-q { border: 1px solid var(--rule-card); }
-.shift-stages li.is-gap { border-color: var(--rule-card); }
 .shift-lesson .writing-measure .shift-check a { color: var(--shift-ink); text-decoration-color: currentColor; }
 
 /* Cards on a chapter ground take the chapter's own fill as their edge: the
@@ -665,8 +674,7 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    reads at 2.8-4.2:1 on its ground while making the page more its color. */
 .shift-terms dl > div,
 .shift-lesson .writing-figure .writing-split > div,
-.shift-q,
-.shift-stages li.is-gap { border-color: var(--shift-fill); }
+.shift-q { border-color: var(--shift-fill); }
 
 /* The landing's emblems are cut to a transparent ground, like a lesson's
    icons: each is ink and one accent standing straight on its chapter's
