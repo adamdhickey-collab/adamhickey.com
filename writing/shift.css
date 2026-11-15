@@ -102,17 +102,6 @@
   height: auto;
   aspect-ratio: 16 / 9;
 }
-/* A Narrative Ink hero is a full plate, paper to every edge, where the
-   first heroes were one object on a transparent ground. Left bare, the
-   plate sits on the chapter ground as a pale square-cornered rectangle, so
-   it takes the frame the scene below it has: the card radius, a hairline,
-   and the resting shadow. The modifier goes on the <img> with the plate;
-   a transparent hero keeps the bare class. */
-.shift-hero-art--plate {
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-}
 .shift-series {
   display: flex;
   flex-wrap: wrap;
@@ -873,15 +862,15 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
    What stays drawn in the body is small and inside a code figure: a pair's
    two pictures, and the icon that leads a row (.has-art). */
 
+/* A pair's picture is printed on its card, not set in a second card inside
+   it (2026-11-15, with the heroes): bleed lifts the paper to white, and
+   multiply lets the card's own ground through. */
 .shift-pair-art {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
-  background: var(--color-white);
-  border: 1px solid var(--rule-card);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
+  mix-blend-mode: multiply;
 }
 
 /* The pair: two drawings, each over a one-line label. */
@@ -926,4 +915,50 @@ a.shift-card:focus-visible { outline: 2px solid var(--color-focus-ring); outline
   .shift-stages.has-art .shift-stage-art { grid-row: 1; width: var(--space-4xl); }
   .shift-stages.has-art .shift-stage-name { grid-column: 2; }
   .shift-stages.has-art .shift-stage-note { grid-column: 3; }
+}
+
+/* ---- A lesson's hero: the drawing off its plate ----
+   The hero drawings were full plates in a card, a rectangle beside the
+   title (owner, 2026-11-15: "trapped in a rectangle"). Each is now printed
+   on the chapter ground itself: scripts/narrative-ink.mjs bleed lifts the
+   paper to white and dissolves the top and inner edges, and multiply lets
+   the ground through everywhere there is no ink. From 64rem the drawing is
+   the hero's backdrop, running off the right edge of the window and
+   standing on the band's bottom edge, with the title over its faded side;
+   below that it runs edge to edge under the title. The three terms follow
+   on white. The landing keeps its own hero (.shift-landing). */
+.shift-lesson .case-hero {
+  --shift-art: min(56vw, 58rem);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-bottom: 0;
+}
+.shift-lesson .case-hero > .container { position: relative; z-index: 1; }
+.shift-lesson .shift-hero-grid { display: block; }
+.shift-lesson .shift-hero-art {
+  margin-top: var(--space-lg);
+  mix-blend-mode: multiply;
+}
+.shift-terms-band { padding-top: var(--space-2xl); }
+.shift-terms-band .shift-terms { margin: 0; }
+.shift-terms-band .shift-terms dl > div { background: var(--shift-soft); }
+@media (min-width: 64rem) {
+  .shift-lesson .case-hero > .container {
+    min-height: calc(var(--shift-art) * 9 / 16 + var(--space-3xl));
+    padding-bottom: var(--space-4xl);
+  }
+  /* The text column ends where the drawing begins: 54vw + 50% is the
+     drawing's right overhang and the window's middle, measured from the
+     container's own left edge. */
+  .shift-lesson .case-hero .case-title { max-width: calc(54vw + 50% - var(--shift-art) - var(--space-md)); }
+  .shift-lesson .case-hero .build-dek { max-width: min(27rem, 54vw + 50% - var(--shift-art) - var(--space-md)); }
+  .shift-lesson .shift-hero-art {
+    position: absolute;
+    right: -4vw;
+    bottom: 0;
+    z-index: 0;
+    width: var(--shift-art);
+    margin: 0;
+  }
 }

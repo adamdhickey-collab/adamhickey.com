@@ -8,6 +8,7 @@
  *   node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]
  *   node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f
  *   node scripts/narrative-ink.mjs cutout <src.png> <out.webp> --size WxH
+ *   node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]
  *
  * EXPORT scales a toned source to its slot's size and encodes it in
  * Chromium, the site's one WebP encoder. ICONS cuts a 3 x 2 sheet into six:
@@ -15,6 +16,15 @@
  * sits on any light ground with no tile behind it; the object is trimmed and
  * centered at 80% of the square, and each is written twice, a 512 px PNG
  * master and the 256 px WebP the page loads, as chapterN-icon-<name>.
+ *
+ * BLEED takes a full plate off its rectangle, for a lesson's hero. The paper
+ * is lifted to pure white, so the page can print the drawing on a chapter
+ * ground with mix-blend-mode: multiply and no plate shows; then each edge
+ * named in --fade is dissolved, the ink thinning out in lumps and grain the
+ * way an engraved vignette ends, over --left of the width and --top of the
+ * height. The edges not named are the ones the page runs off its own edge.
+ * --flip mirrors the picture first; never flip one where a hand holds a tool.
+ * The file has no alpha: white is what multiply reads as nothing.
  *
  * TONE rewrites source PNGs in place, before they are cut and encoded. A
  * generator asked for sage returns a green near it, yellower one day and
@@ -405,6 +415,71 @@ async function cutout() {
   await b.close();
 }
 
+/* BLEED: see the header. The dissolve is two octaves of value noise bending
+   a ramp in from each faded edge, then a two-pixel grain that drops ink out
+   before it greys, so the edge ends in specks rather than in a soft blur. */
+async function bleed() {
+  const [src, out] = positional;
+  const size = /^(\d+)x(\d+)$/.exec(opt('--size') || '');
+  if (!src || !out || !size) {
+    console.error('\n  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]\n');
+    process.exit(2);
+  }
+  const fade = (opt('--fade') ?? 'left,top').split(',').filter((e) => ['left', 'right', 'top', 'bottom'].includes(e));
+  const b = await browser();
+  const page = await b.newPage();
+  const r = await page.evaluate(async ({ data, W, H, flip, fade, fl, ft, q }) => {
+    const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+    if (flip) { g.translate(W, 0); g.scale(-1, 1); }
+    g.drawImage(img, 0, 0, W, H); g.setTransform(1, 0, 0, 1, 0, 0);
+    const id = g.getImageData(0, 0, W, H), d = id.data;
+    const hist = new Map();
+    for (let i = 0; i < d.length; i += 20) {
+      if (d[i] + d[i + 1] + d[i + 2] < 600) continue;
+      const k = (d[i] >> 2) << 12 | (d[i + 1] >> 2) << 6 | (d[i + 2] >> 2);
+      hist.set(k, (hist.get(k) || 0) + 1);
+    }
+    const top = [...hist.entries()].sort((x, y) => y[1] - x[1])[0][0];
+    const bg = [(top >> 12) * 4 + 2, ((top >> 6) & 63) * 4 + 2, (top & 63) * 4 + 2];
+    const rnd = (x, y) => { const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n); };
+    const vn = (x, y) => {
+      const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi;
+      const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
+      return (rnd(xi, yi) * (1 - sx) + rnd(xi + 1, yi) * sx) * (1 - sy) + (rnd(xi, yi + 1) * (1 - sx) + rnd(xi + 1, yi + 1) * sx) * sy;
+    };
+    const ss = (e0, e1, x) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
+    const FL = W * fl, FT = H * ft, S1 = W / 9, S2 = W / 28;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const p = (y * W + x) * 4;
+      let keep = 1;
+      if (fade.length) {
+        const n = vn(x / S1, y / S1) * 0.65 + vn(x / S2 + 9, y / S2 + 4) * 0.35;
+        let m = 1;
+        for (const e of fade) {
+          const t = e === 'left' ? x / FL : e === 'right' ? (W - x) / FL : e === 'top' ? y / FT : (H - y) / FT;
+          m = Math.min(m, t + (n - 0.5) * 1.1);
+        }
+        m = ss(0.12, 0.95, m);
+        if (m < 1) keep = ss(0, 1, m * 1.6 - rnd(x >> 1, y >> 1) * (1 - m) * 1.3);
+      }
+      for (let k = 0; k < 3; k++) {
+        const v = Math.min(255, d[p + k] * 255 / (bg[k] * 0.955));
+        d[p + k] = 255 - (255 - v) * keep;
+      }
+    }
+    g.putImageData(id, 0, 0);
+    return { url: c.toDataURL('image/webp', q), from: [img.naturalWidth, img.naturalHeight], bg };
+  }, { data: fs.readFileSync(src).toString('base64'), W: +size[1], H: +size[2], flip: argv.includes('--flip'), fade,
+       fl: Number(opt('--left') || 0.2), ft: Number(opt('--top') || 0.24), q: Number(opt('--quality') || 0.8) });
+  if (Math.abs(r.from[0] / r.from[1] - size[1] / size[2]) > 0.01) { console.error(`\n  ${src} is ${r.from.join('x')}; ${size[0]} is a different shape. Crop the source first.\n`); await b.close(); process.exit(1); }
+  fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+  fs.writeFileSync(out, Buffer.from(r.url.split(',')[1], 'base64'));
+  console.log(`  ${out}  ${size[0]}  paper ${r.bg.join(',')}  ${Math.round(fs.statSync(out).size / 1024)} KB`);
+  await b.close();
+}
+
 if (cmd === 'palette') await palette();
 else if (cmd === 'shots') await shots();
 else if (cmd === 'manifest') manifest(argv);
@@ -412,12 +487,14 @@ else if (cmd === 'tone') await tone();
 else if (cmd === 'export') await exportOne();
 else if (cmd === 'icons') await icons();
 else if (cmd === 'cutout') await cutout();
+else if (cmd === 'bleed') await bleed();
 else {
   console.error('\n  node scripts/narrative-ink.mjs palette <file-or-dir>... --chapter N');
   console.error('  node scripts/narrative-ink.mjs shots <page.html> [--out dir] [--label name]');
   console.error('  node scripts/narrative-ink.mjs manifest [--check]');
   console.error('  node scripts/narrative-ink.mjs tone <source.png>... --chapter N');
   console.error('  node scripts/narrative-ink.mjs export <source.png> <out.webp> --size WxH [--quality 0.7]');
-  console.error('  node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f\n');
+  console.error('  node scripts/narrative-ink.mjs icons <sheet.png> <outDir> --chapter N --names a,b,c,d,e,f');
+  console.error('  node scripts/narrative-ink.mjs bleed <src.png> <out.webp> --size WxH [--flip] [--fade left,top] [--left 0.2] [--top 0.24]\n');
   process.exit(2);
 }
