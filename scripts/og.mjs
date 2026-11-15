@@ -97,19 +97,19 @@ const CARDS = {
      drawing, the picture beside its title on the page, so a card in a feed
      already looks like the page it leads to; the kicker says where in the
      series it sits. The index takes the first chapter's compass. */
-  'writing': { kicker: 'Adam Hickey', title: 'The Shift in Product Design', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/chapter-1-wide.webp' },
-  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/chapter-1-wide.webp' },
-  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/chapter-1-wide.webp' },
-  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/chapter-1-wide.webp' },
-  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'What is an AI agent actually made of?', image: 'img/writing/shift/chapter-2-wide.webp' },
-  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'What should you never do when building an agent?', image: 'img/writing/shift/chapter-2-wide.webp' },
-  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Why does designing with AI feel slower than it should?', image: 'img/writing/shift/chapter-2-wide.webp' },
-  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'What does a requirements doc need once the product is AI?', image: 'img/writing/shift/chapter-3-wide.webp' },
-  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'How do you run a design sprint for an AI product?', image: 'img/writing/shift/chapter-3-wide.webp' },
-  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'Why didn’t more AI answers bring more clarity?', image: 'img/writing/shift/chapter-3-wide.webp' },
-  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Who sets the rules when research uses digital twins?', image: 'img/writing/shift/chapter-4-wide.webp' },
-  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'What makes onboarding in an AI app feel personal?', image: 'img/writing/shift/chapter-4-wide.webp' },
-  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'What should come first when you redesign an AI product?', image: 'img/writing/shift/chapter-4-wide.webp' },
+  'writing': { kicker: 'Adam Hickey', title: 'The Shift in Product Design', sub: 'Twelve short lessons on designing products with AI agents', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
+  'what-changes-when-you-design-the-task-instead-of-the-app': { kicker: 'The Shift · lesson 1 of 12', title: 'What changes when you design the task instead of the app?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
+  'what-is-ux-for-when-agents-build-the-software': { kicker: 'The Shift · lesson 2 of 12', title: 'What is UX for when agents build the software?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
+  'how-do-you-write-design-quality-down-so-an-agent-can-use-it': { kicker: 'The Shift · lesson 3 of 12', title: 'How do you write design quality down so an agent can use it?', image: 'img/writing/shift/chapter-1-wide.webp', bare: true },
+  'what-is-an-ai-agent-actually-made-of': { kicker: 'The Shift · lesson 4 of 12', title: 'What is an AI agent actually made of?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
+  'what-should-you-never-do-when-building-an-agent': { kicker: 'The Shift · lesson 5 of 12', title: 'What should you never do when building an agent?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
+  'why-does-designing-with-ai-feel-slower-than-it-should': { kicker: 'The Shift · lesson 6 of 12', title: 'Why does designing with AI feel slower than it should?', image: 'img/writing/shift/chapter-2-wide.webp', bare: true },
+  'what-does-a-requirements-doc-need-once-the-product-is-ai': { kicker: 'The Shift · lesson 7 of 12', title: 'What does a requirements doc need once the product is AI?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
+  'how-do-you-run-a-design-sprint-for-an-ai-product': { kicker: 'The Shift · lesson 8 of 12', title: 'How do you run a design sprint for an AI product?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
+  'why-didnt-more-ai-answers-bring-more-clarity': { kicker: 'The Shift · lesson 9 of 12', title: 'Why didn’t more AI answers bring more clarity?', image: 'img/writing/shift/chapter-3-wide.webp', bare: true },
+  'who-sets-the-rules-when-research-uses-digital-twins': { kicker: 'The Shift · lesson 10 of 12', title: 'Who sets the rules when research uses digital twins?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
+  'what-makes-onboarding-in-an-ai-app-feel-personal': { kicker: 'The Shift · lesson 11 of 12', title: 'What makes onboarding in an AI app feel personal?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
+  'what-should-come-first-when-you-redesign-an-ai-product': { kicker: 'The Shift · lesson 12 of 12', title: 'What should come first when you redesign an AI product?', image: 'img/writing/shift/chapter-4-wide.webp', bare: true },
 };
 
 const css = (c) => c.match(/--color-[a-z-]+:\s*[^;]+/g).reduce((o, l) => { const [k, v] = l.split(/:\s*/); o[k] = v.trim(); return o; }, {});
@@ -139,11 +139,14 @@ function html(card) {
   .foot { margin-top: auto; padding-top: 24px; border-top: 1px solid ${C['--color-rule']}; display: flex; justify-content: space-between; align-items: baseline; }
   .name { font-size: 28px; }
   .where { font-family: Montserrat, system-ui, sans-serif; font-weight: 500; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: ${C['--color-muted-gray']}; }
-  .frame { align-self: center; width: 420px; height: 420px; border-radius: 18px; overflow: hidden; background: ${C['--color-white']}; box-shadow: 0 1px 0 ${C['--color-rule']}, 0 24px 48px -24px rgba(37,37,37,.35); }
+  /* A \`bare\` card's picture is a cut-out on a transparent ground: it
+     stands on the card's own warm ground, whole, with no white plate,
+     corner, or shadow behind it (owner, 2026-11-15). */
+  .frame { align-self: center; width: 420px; height: 420px; ${card.bare ? '' : `border-radius: 18px; overflow: hidden; background: ${C['--color-white']}; box-shadow: 0 1px 0 ${C['--color-rule']}, 0 24px 48px -24px rgba(37,37,37,.35);`} }
   /* A card may name where its square sits on the picture (\`position\`),
      for a drawing whose point is off-centre; the agent article's ochre
      card was cut in half by the centred square. */
-  .frame img { width: 100%; height: 100%; object-fit: cover; object-position: ${card.position || 'top center'}; display: block; }
+  .frame img { width: 100%; height: 100%; object-fit: ${card.bare ? 'contain' : 'cover'}; object-position: ${card.bare ? 'center' : card.position || 'top center'}; display: block; }
 </style></head><body>
   ${onHero ? '<div class="hero"></div>' : ''}
   <div class="card">
